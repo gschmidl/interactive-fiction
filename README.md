@@ -1,5 +1,8 @@
 # Interactive Fiction
 
+## Enchanted Forest (Tandy Color Computer 3) (1982)
+Fixed version of the one found on CoCo Archive - variables renamed, draw code repaired.
+
 ## Flodnar (Tandy Color Computer 3) (1984)
 OCR'd from the Second Rainbow Book of Adventures, previously unavailable, this is the second tape required to play Kragnor/Flodnar.
 BASIC source included.
