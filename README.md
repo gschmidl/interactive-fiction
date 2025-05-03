@@ -2,7 +2,7 @@
 
 ## Enchanted Forest (Tandy Color Computer 3) (1982)
 Fixed version of the one found on CoCo Archive - variables renamed, draw code repaired.
-Or run the BASIC version directly on a CoCo 1 with no disk module (e.g. `xroar -m coco -no-machine-cart -run ENCHANT.BAS`
+Or run the BASIC version directly on a CoCo 1 with no disk module (e.g. `xroar -m coco -no-machine-cart -run ENCHANT.BAS`)
 
 ## Flodnar (Tandy Color Computer 3) (1984)
 OCR'd from the Second Rainbow Book of Adventures, previously unavailable, this is the second tape required to play Kragnor/Flodnar.
