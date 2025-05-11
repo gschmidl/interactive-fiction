@@ -21,4 +21,4 @@ Discovered on a compilation disk.
 Discovered as source code and compiled in Apple II Pascal.
 
 ## Stowaway (Tandy Color Computer 3) (1984)
-OCR'd from the Second Rainbow Book of Adventures, previously unavailable.
+OCR'd from the Second Rainbow Book of Adventures, previously unavailable. Use PCLEAR1 before CLOAD to free up enough memory.
