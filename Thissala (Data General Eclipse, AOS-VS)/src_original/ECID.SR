@@ -1,0 +1,43 @@
+;*       Copyright (C) Data General Corporation, 1980 - 1994          *;
+;*       All rights reserved.                                         *;
+;*       Licensed material -- property of Data General Corporation    *;
+;*                                                                    *;
+;*       This software is made available solely pursuant to the       *;
+;*       terms of a DGC license agreement which governs its use.      *;
+
+
+	.TITL	ECID	; ECLIPSE COMMERCIAL INSTRUCTION DEFINITIONS
+
+.DIAC	LDI=	103650
+.DIAC	STI=	123650
+.DUSR	LDIX=	143650
+.DUSR	STIX=	147650
+.DUSR	EDIT=	173650
+.DUSR	LSN=	177650
+
+;	EDIT OPCODES
+
+.DUSR	DEND=	0
+.DUSR	DNDF=	1
+.DUSR	DSTK=	2
+.DUSR	DDTK=	3
+.DUSR	DSSZ=	4
+.DUSR	DSSO=	5
+.DUSR	DSTZ=	6
+.DUSR	DMVO=	7
+.DUSR	DMVN=	10
+.DUSR	DSTO=	11
+.DUSR	DINT=	12
+.DUSR	DAPT=	13
+.DUSR	DMVC=	14
+.DUSR	DMVA=	15
+.DUSR	DINS=	16
+.DUSR	DAPS=	17
+.DUSR	DINC=	20
+.DUSR	DICI=	21
+.DUSR	DADI=	22
+.DUSR	DASI=	23
+.DUSR	DMVF=	24
+.DUSR	DIMC=	25
+.DUSR	DMVS=	26
+.DUSR	DAPU=	27

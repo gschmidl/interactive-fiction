@@ -1,0 +1,168 @@
+
+
+Connected to the HP 2100 simulator 
+
+
+CI.01> ADVEN
+ 
+ Initializing data files and such...
+ 
+ Welcome to Adventure!!  Would you like instructions?
+ 
+>NO
+ You are standing at the end of a road before a small brick building.
+ Around you is a forest.  A small stream flows out of the building and 
+ down a gully. 
+ 
+>IN
+ You are inside a building, a well house for a large spring. 
+ 
+ There are some keys on the ground here. 
+ 
+ There is a shiny brass lamp nearby. 
+ 
+ There is food here. 
+ 
+ There is a bottle of water here.
+ 
+>GET KEYS
+ Okay
+ 
+>GET LAMP
+ Okay
+ 
+>XYZZY
+ It is now pitch dark.  If you proceed you will likely fall into a pit.
+ 
+>ON
+ Your lamp is now on.
+ 
+>E
+ You are crawling over cobbles in a low passage.  There is a dim light 
+ at the east end of the passage. 
+ 
+ There is a small wicker cage discarded nearby.
+ 
+>E
+ You are in a small chamber beneath a 3x3 steel grate to the surface.
+ A low crawl over cobbles leads inward to the west.
+ 
+ The grate is locked.
+ 
+>GET CAGE
+ I DON'T SEE ANY CAGE. 
+ 
+>W
+ You're in cobble crawl. 
+ 
+ There is a small wicker cage discarded nearby.
+ 
+>GET ROD
+ I DON'T SEE ANY ROD . 
+ 
+>W
+ You are in a debris room filled with stuff washed in from the surface.
+ A low wide passage with cobbles becomes plugged with mud and debris 
+ here, but an awkward canyon leads upward and west.  A note on the wall
+ says "Magic Word XYZZY".
+ 
+ A three foot black rod with a rusty star on an end lies nearby. 
+ 
+>DROP ROD
+ You aren't carrying it! 
+ 
+>CATCH BIRD
+ I DON'T SEE ANY BIRD. 
+ 
+>GET ROD
+ Okay
+ 
+>W
+ You are in an awkward sloping east/west canyon. 
+ 
+>D
+ You're in debris room.
+ 
+>W
+ You are in an awkward sloping east/west canyon. 
+ 
+>GET SILVER
+ I DON'T SEE ANY SILVER. 
+ 
+>E
+ You're in debris room.
+ 
+>E
+ You're in cobble crawl. 
+ 
+ There is a small wicker cage discarded nearby.
+ 
+>U
+ There is no way to go that direction. 
+ 
+ You're in cobble crawl. 
+ 
+ There is a small wicker cage discarded nearby.
+ 
+>E
+ You're below the grate. 
+ 
+ The grate is locked.
+ 
+>PLUGH
+ Nothing happens.
+ 
+ You're below the grate. 
+ 
+ The grate is locked.
+ 
+>DROP SILVER
+ I DON'T SEE ANY SILVER. 
+ 
+>DROP KEYS
+ Okay
+ 
+>INVENTORY
+ You are currently holding the following:
+ Brass lantern 
+ Black rod 
+ 
+>SCORE
+ IF YOU WERE TO QUIT NOW, YOU WOULD SCORE  32 OUT OF A POSSIBLE 385.
+ Do you indeed wish to quit now? 
+ 
+>PLUGH
+ 
+ PLEASE ANSWER THE QUESTION.
+ Do you indeed wish to quit now? 
+ 
+>OFF
+ 
+ PLEASE ANSWER THE QUESTION.
+ Do you indeed wish to quit now? 
+ 
+>E
+ 
+ PLEASE ANSWER THE QUESTION.
+ Do you indeed wish to quit now? 
+ 
+>E
+ 
+ PLEASE ANSWER THE QUESTION.
+ Do you indeed wish to quit now? 
+ 
+>QUIT
+ 
+ PLEASE ANSWER THE QUESTION.
+ Do you indeed wish to quit now? 
+ 
+>Y
+ Okay
+ 
+ YOU SCORED  32 OUT OF A POSSIBLE 385,USING   27 TURNS.
+ 
+ You are obviously a rank amateur.  Better luck next time. 
+ 
+ TO ACHIEVE THE NEXT HIGHER RATING, YOU NEED  4 MORE POINTS.
+ 
+S= 1 COMMAND ?

@@ -1,0 +1,71 @@
+zk_system : env_files, zk$main.exe
+	purge
+
+env_files : zk$lex_def.pen, zk$parse_def.pen, zk$parse_obj_def.pen, -
+zk$ast_def.pen, zk$action_def.pen, zk$routines_def.pen, zk$wizard_def.pen, -
+zk$object_def.pen, zk$init_def.pen
+	! Environment files compiled
+
+zk$main.exe : zk$text.obj, zk$desc.obj, zk$obj.obj, zk$room.obj, -
+zk$main.obj, zk$parse.obj, zk$lex.obj, zk$ast.obj, zk$parse_obj.obj, -
+zk$action.obj, zk$routines.obj, zk$wizard.obj, zk$object.obj, zk$init.obj
+	run zk$link_time
+	link/map=zk$main/exec=zk$main zk$link_time/opt, zk$version_x/opt
+
+zk$main.obj : zk$main.pas, zk$def.pen, zk$context_def.pen
+	pascal zk$main
+zk$parse.obj : zk$parse.pas, zk$def.pen
+	pascal zk$parse
+zk$parse_obj.obj : zk$parse_obj.pas, zk$def.pen, zk$obj.pen
+	pascal zk$parse_obj
+zk$lex.obj : zk$lex.pas, zk$def.pen
+	pascal zk$lex
+zk$ast.obj : zk$ast.pas, zk$def.pen, zk$context_def.pen, zk$obj.pen
+	pascal zk$ast
+zk$action.obj : zk$action.pas, zk$context_def.pen, zk$room.pen, zk$obj.pen
+	pascal zk$action
+zk$object.obj : zk$object.pas, zk$context_def.pen, zk$room.pen, zk$obj.pen
+	pascal zk$object
+zk$routines.obj : zk$routines.pas, zk$context_def.pen, zk$obj.pen, zk$room.pen
+	pascal zk$routines
+zk$wizard.obj : zk$wizard.pas, zk$context_def.pen, zk$obj.pen, zk$room.pen
+	pascal zk$wizard
+zk$init.obj : zk$init.pas, zk$context_def.pen, zk$obj.pen, zk$room.pen
+	pascal zk$init
+
+zk$lex_def.pen : zk$lex_def.pas, zk$def.pen
+	pascal/noobject/env zk$lex_def
+zk$parse_def.pen : zk$parse_def.pas, zk$def.pen
+	pascal/noobject/env zk$parse_def
+zk$parse_obj_def.pen : zk$parse_obj_def.pas, zk$def.pen
+	pascal/noobject/env zk$parse_obj_def
+zk$ast_def.pen : zk$ast_def.pas, zk$def.pen, zk$context_def.pen
+	pascal/noobject/env zk$ast_def
+zk$action_def.pen : zk$action_def.pas, zk$context_def.pen
+	pascal/noobject/env zk$action_def
+zk$object_def.pen : zk$object_def.pas, zk$context_def.pen
+	pascal/noobject/env zk$object_def
+zk$routines_def.pen : zk$routines_def.pas, zk$context_def.pen
+	pascal/noobject/env zk$routines_def
+zk$wizard_def.pen : zk$wizard_def.pas, zk$context_def.pen
+	pascal/noobject/env zk$wizard_def
+zk$init_def.pen : zk$init_def.pas, zk$context_def.pen
+	pascal/noobject/env zk$init_def
+
+zk$context_def.pen : zk$context_def.pas, zk$room.pen
+	pascal/noobject/env zk$context_def
+zk$def.pen : zk$def.pas
+	pascal/noobject/env zk$def
+
+zk$room.obj, zk$room.pen : zk$room.room
+	ifc compile room zk$room
+	pascal/noobject/env zk$room
+zk$obj.obj, zk$obj.pen : zk$obj.object
+	ifc compile object zk$obj
+	pascal/noobject/env zk$obj
+zk$desc.obj : zk$desc.message
+	ifc compile message zk$desc
+	pascal/noobject/env zk$desc
+zk$text.obj : zk$text.message
+	ifc compile message zk$text
+	pascal/noobject/env zk$text

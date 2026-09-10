@@ -1,0 +1,17 @@
+  
+        LEN=FMPWRITE(?
+  "ADV1"    warning 58 detected at line 621 column 19 
+  
+ Module ADV1              No errors     Prog:  1963    Blank common: none 
+ FTN7X  6200/941021        1 warnings   Save:  none    Local EMA:    none 
+  
+  Error Directory 
+  
+  Number  Explanation 
+  
+  
+    58    Function used as subroutine or has alternate returns. 
+  
+ Module MORE              No errors     Prog:   434    Blank common: none 
+ FTN7X  6200/941021       No warnings   Save:  none    Local EMA:    none 
+  

@@ -1,0 +1,1335 @@
+
+
+
+
+
+
+
+
+			    Documentation changes for:
+
+                AOS/VS Link and Library Editor (LFE) User's Manual
+
+                            Part Number 093-000245-02
+
+
+
+
+	This file (pathname :UTIL:093_000245_02) contains replacement
+	pages and/or point pages that affect the following pages of
+	your manual:
+
+		  2-2			  2-11
+		  2-6	     		  2-12
+		  2-7        		  4-7
+		  2-8        		* 7-1
+		  2-9			  7-14
+		  2-10
+
+	This third revision of 093_000245_02 was updated on January 26,
+	1990.  Items appearing here since the last revision are easy
+	to identify:  in the list above, asterisks (*) mark pages with
+	changes printed in this file for the first time.  And, in the
+	margin of pages that follow, change bars (|) mark the new
+	material.
+
+	For example, this revision of 093_000245_02 contains a change to
+	page 7-1 of its parent manual.  You are seeing this change for
+	the first time, and bars appear next to it.
+
+	To keep your manual current, you should print this file and
+	punch holes to fit your binder.  Then, add replacement pages
+	and point pages, or just add point pages, next to the original
+	(typeset) pages.
+
+
+
+
+
+
+
+
+
+
+
+
+	Copyright (c) Data General Corporation, 1980 - 1990
+	All Rights Reserved
+	Licensed Material - Property of Data General Corporation
+	AOS/VS Link and Library File Editor User's Manual, 093-000245-02
+	Documentation Changes, Revision 3  		       26-JAN-90
+
+
+			Library Files
+
+	You can also use the names of library files in the Link command
+	line.  A library file is a series of object modules preceded by
+	a library start block and terminated by a library end block.
+	The AOS/VS Library File Editor utility, described in Chapters
+	6 and 7, creates, edits, and analyzes library files.
+
+	Before linking a library module into the .PR file, Link tests
+	to see if the module is needed, as follows:
+
+	o  Does the module contain a forced load flag?  (This flag
+	   forces Link to include the module in the .PR file.)  If
+	   so, link it to the .PR file.  If not, proceed to the next
+	   test.
+
+	o  Does the module satisfy any outstanding (unresolved)
+	   external symbols used in the other modules in the command
+|	   line?  If so link it to the .PR file; otherwise proceed to
+|	   the next test.
+
+|	o  Does the module contain a common partition with the ENTS
+|	   attribute for which there is an outstanding external?  If so,
+|	   link it to the .PR file.
+
+	The assembly language pseudo-op .FORC generates a forced load
+	flag.  For more information on this pseudo-op, refer to the
+	AOS/VS Macroassembler (MASM) Reference Manual.
+
+	The System Libraries
+
+	At the end of its first pass, Link automatically scans the
+	appropriate system library to resolve any outstanding external
+	symbols used in the object modules.  The system libraries,
+	URT32.LB for 32-bit programs and URT16.LB for 16-bit programs,
+	contain routines written to satisfy user requirements at
+	runtime.  The system libraries usually reside in the utilities
+	directory (:UTIL), although you can place them in your working
+	directory or in any directory in your search list.  (Unless
+	your working directory or a search list directory contains the
+	system library, Link will be unable to find it.)
+
+	The switch sequence /SYS=n, shown in Table 2-1, governs which
+	system library Link will scan.  URT32.LB is the default system
+	library.  Link scans this library when you omit the /SYS
+	sequence or when you use the form /SYS=VS32.  When you use the
+	/SYS=VS16 switch sequence, Link scans URT16.LB for the proper
+	runtime modules.
+
+	The system library for programs running under AOS is URT.LB.  Link
+	scans this library when you use the /SYS=AOS switch sequence.
+
+	------                        ------                          ------
+	093-000245 Licensed Material-Property of Data General Corp.    2-2
+	AOS/VS Link and Library File Editor User's Manual, 093-000245-02
+	Documentation Changes, Revision 3  		       26-JAN-90
+
+
+	To suppress the system library scan entirely, use the /NSLS
+	function switch in the command line.
+
+	The system libraries contain the following default error
+	handling routines: SFALT, the default stack fault handler;
+	CFALT, the commercial instruction fault handler; FFALT, the
+	floating-point instruction fault handler; and IFALT, the
+	fixed-point instruction fault handler.  Unless you define your
+	own fault handlers, Link includes these routines in the program
+	file.  If you define alternate error handlers, label those
+	routines with the appropriate names (i.e., SFALT, FFALT,
+	CFALT, IFALT), and declare them as entry symbols in the
+	appropriate module(s).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	------                        ------                          ------
+	093-000245 Licensed Material-Property of Data General Corp.    2-2.1
+	AOS/VS Link and Library File Editor User's Manual, 093-000245-02
+	Documentation Changes, Revision 3  		       26-JAN-90
+
+
+		Table 2-1.  Link Function Switches and Switch Sequences
+
+                ----------------------------------------------------------------
+                Switch or               Description
+                Switch Sequence
+                ----------------------------------------------------------------
+
+                /ALPHABETIC             Produces an alphabetically sorted list
+                                        of all symbols and their values.  You
+                                        must use /L or /L=pathname with this
+                                        switch.
+       
+                /BUILDSYSTEM            Produces an AOS system (.SY) or other
+                                        system program file.  You must use
+					/SYSTEM= with this switch.  When cross-
+                                        linking for RDOS (/SYS=RDOS),
+					/BUILDSYSTEM creates an RDOS system
+					program file, eliminating the need for
+					the MKABS conversion.
+
+                /CHANNELS=n             Generates the symbol ?CHAN which some
+                                        languages use as a channel directive to
+                                        set the number of available I/O
+                                        channels.  When you use this switch in
+                                        combination with /SYS=RDOS or /SYS=RTOS,
+                                        Link places n in offset USTCH of the
+                                        User Status Table (UST).  If you use the
+                                        /SYS=RDOS or /SYS=RTOS switch without
+                                        /CHANNEL=n, Link puts the default value
+                                        10 (octal) in offset USTCH.
+       
+                /COMOVR                 Directs Link to use an alternative
+                                        memory allocation scheme compatible with
+                                        other Data General 16-bit linkers and
+                                        binders.  You can use this switch only
+                                        when linking modules for execution under
+                                        16-bit systems.
+       
+                /DEBUG                  Directs Link to create a .DL file if any
+                                        object module in the Link command line
+                                        contains one or more debugger lines
+                                        blocks or lines title blocks.  This
+                                        switch also directs Link to create a .DS
+                                        file if any object module line contains
+                                        one or more debugger symbols blocks.
+                                        (See Chapter 4 for details on object
+                                        blocks.)  /DEBUG causes Link to emit the
+                                        external symbol DEBUG before the
+                                        beginning of pass one, and to place the
+                                        value of that symbol in offset USTDA in
+                                        the User Status Table (UST).
+       
+                ----------------------------------------------------------------
+								(continues)
+
+	------                        ------                          ------
+	093-000245 Licensed Material-Property of Data General Corp.    2-6
+	AOS/VS Link and Library File Editor User's Manual, 093-000245-02
+	Documentation Changes, Revision 3  		       26-JAN-90
+
+
+		Table 2-1.  Link Function Switches and Switch Sequences
+
+                ----------------------------------------------------------------
+                Switch or               Description
+                Switch Sequence
+                ----------------------------------------------------------------
+
+	|	/DECOMPR_BSS		Do not compress bss data when cross-
+	|				linking for DG/UX (/SYSTEM=DGUX).
+	|				(Compressing bss data is the default.)
+
+                /E=pathname             Appends Link errors to pathname.
+                                        Without this switch, Link errors go to
+                                        @OUTPUT.
+       
+                /ELEMENTSIZE=n          Directs Link to set the file element
+                                        size of the output program and overlay
+                                        file to n.  The default value is 32.
+	|	/EOF_FATAL		Terminate Link with a fatal error if
+	|				an input file read error occurs.
+
+                /ERRORCOUNT=n           Terminates Link with a fatal error if
+                                        more than n Link errors occur.  The
+                                        default value is 1024.
+       
+                /HEXADECIMAL            Converts all numbers in Link output
+                                        listings and error files from the
+                                        default (octal) to hexadecimal.
+       
+	|	/INCREMENTAL		Produces an output file that can be
+	|				used as an input file in subsequent
+	|				links.  This file consists of a header
+	|				followed by the object modules to be
+	|				linked.
+
+                /KTOP=n                 Limits the logical address space for the
+                                        output file to n (decimal) pages (where
+                                        1 page = 2000 (octal) addresses).  The
+                                        default value of n is 512 (decimal) for
+                                        32-bit systems and 32 (decimal) for
+                                        16-bit systems.
+       
+                /L                      Sends Link information to @LIST.  By
+                                        default, this information includes the
+                                        titles of all input object modules (and
+                                        their revision numbers) and the values
+                                        of the basic memory parameters.  Link
+                                        also sends error messages to this file.
+       
+                ----------------------------------------------------------------
+       
+								(continued)
+
+
+
+	------                        ------                          ------
+	093-000245 Licensed Material-Property of Data General Corp.    2-7
+	AOS/VS Link and Library File Editor User's Manual, 093-000245-02
+	Documentation Changes, Revision 3  		       26-JAN-90
+
+
+		Table 2-1.  Link Function Switches and Switch Sequences
+
+                ----------------------------------------------------------------
+                Switch or               Description
+                Switch Sequence
+                ----------------------------------------------------------------
+
+                /L=pathname             Same as /L except that Link information
+                                        goes to pathname rather than @LIST.
+       
+                /LOCAL                  Directs Link to place local symbols
+                                        (defined in local symbols blocks) from
+                                        all object modules into the output
+                                        symbol table.  This switch does not
+                                        affect the .PR file; however, it may
+                                        simplify debugging.
+
+                /MAP                    Directs Link to produce a list of all
+                                        default and user-defined partitions and
+                                        send it to the list file.  You must use
+                                        /L or /L=pathname with this switch.
+       
+                /MODMAP                 Directs Link to produce a more detailed
+                                        version of the MAP (see /MAP above).
+                                        The MODMAP lists each module's
+                                        contributions to all default and
+                                        user-defined normal partitions.  You
+                                        must use /L or /L=pathname with this
+                                        switch.
+       
+                /MODSYM                 Directs Link to produce a list of each
+                                        module's entry symbols and send it to
+                                        the list file.  You must use /L or
+                                        /L=pathname with this switch.
+       
+                /MTOP=n                 Sets the logical address space for the
+                                        output program to n megabytes.  The
+                                        default value of n is 1.  You can use
+                                        this switch only when linking for 32-bit
+                                        systems.
+       
+                /N                      Suppresses the creation of Link output
+                                        files, but does not suppress Link output
+                                        listings (i.e., information stored with
+                                        /L, /L=pathname, or /E).  This switch is
+                                        useful when you are not ready to execute
+                                        or debug a program, but you want to know
+                                        how Link will allocate space in the .PR
+                                        file.  
+       
+       
+                ----------------------------------------------------------------
+       
+								(continued)
+
+	------                        ------                          ------
+	093-000245 Licensed Material-Property of Data General Corp.    2-8
+	AOS/VS Link and Library File Editor User's Manual, 093-000245-02
+	Documentation Changes, Revision 3  		       26-JAN-90
+
+
+		Table 2-1.  Link Function Switches and Switch Sequences
+
+                ----------------------------------------------------------------
+                Switch or               Description
+                Switch Sequence
+                ----------------------------------------------------------------
+
+                /NBOT=n                 Changes the lowest NREL address from
+                                        00400 (octal) (the default address) to n
+                                        (decimal).
+       
+                                        Note:   A program file with an NBOT
+                                                other than 400 (octal) will not
+                                                be executable under AOS/VS.
+
+                /NRC                    Directs Link to convert all resource
+                                        calls into EJSR instructions (see
+                                        "Resource Resolution" in Chapter 5).
+                                        You can use this switch only when
+                                        linking for 16-bit systems.
+       
+                /NRP                    Directs Link to convert certain resource
+                                        calls in overlays with EJSR
+                                        instructions.  You can use this switch
+                                        when linking 16-bit programs for AOS or
+                                        AOS/VS (i.e., /SYS=AOS or /SYS=VS16
+                                        only).
+       
+                /NSLS                   Suppresses Link from scanning the
+                                        appropriate system library.  If you do
+                                        not use this switch, Link automatically
+                                        scans either URT32.LB or URT16.LB.
+       
+                /NTOP=n                 Sets the highest logical address
+                                        (highest address in NREL) in the .PR
+                                        file to n.  The default value is 1777777
+                                        (octal) for 32-bit systems and 77777
+                                        (octal) for 16-bit systems.
+       
+                /NUMERIC                Produces a list of all symbols sorted by
+                                        their numeric values.  You must use /L
+                                        or /L=pathname with this switch.
+                                        (/ALPHA provides the same information
+                                        sorted alphabetically.)
+       
+                /O=filename             Forces Link to name your output program
+                                        file filename.PR.  Without this switch,
+                                        Link uses the first argument in the
+                                        command line as the root filename for
+                                        output files.
+       
+                ----------------------------------------------------------------
+       
+								(continued)
+
+	------                        ------                          ------
+	093-000245 Licensed Material-Property of Data General Corp.    2-9
+	AOS/VS Link and Library File Editor User's Manual, 093-000245-02
+	Documentation Changes, Revision 3  		       26-JAN-90
+
+
+		Table 2-1.  Link Function Switches and Switch Sequences
+
+                ----------------------------------------------------------------
+                Switch or               Description
+                Switch Sequence
+                ----------------------------------------------------------------
+
+                /OBPRINT                Directs Link to produce an octal dump of
+                                        every object block, on a
+                                        module-by-module basis, and send it to
+                                        the list file.  This switch is useful
+                                        for examining object block structure;
+                                        however, it usually generates much
+                                        output.  You must use /L or /L=pathname
+                                        with this switch.
+
+                OVERWRITE               Suppresses overwrite error messages.
+                                        Without this switch, Link sends out an
+                                        error message if it overwrites an
+                                        address.  (See Chapter 3 for more
+                                        information on the
+                                        overwrite-with-message attribute.)
+       
+                /PADDING=n              Directs Link to increase the size of the
+                                        output program file to a multiple of 2
+                                        (n); where n is an integer from 0
+                                        through 10.  Link will pad the program
+                                        file so that it ends on a power-of-2
+                                        memory boundary.  The default value for
+                                        n is 10.
+       
+	|	/PID_SIZE=<n>		Set the AOS/VS program type to A (Small-
+	|				pid), B (Hybrid) or C (Anypid). Program
+	|				type A has a PID range of 1-255 and
+	|				knows of no PIDs higher than 255.
+	|				Program type B has a PID range of 1-255,
+	|				but can also know of PIDs in the range
+	|				255-32767.  Program type C has a PID
+	|				range of 1-32767.  (AOS/VS only)
+
+                /PRSYM                  Directs Link to create a symbol table in
+                                        the output program file.  You can use
+                                        this switch only when linking for 16-bit
+                                        systems.
+       
+                /REVISION=w[.x[.y[.z]]] Sets the revision number of the output
+                                        program file to w.x.y.z; where w, x, y,
+                                        and z each represents an integer from 0
+                                        through 255 (decimal). x, y, and z are
+                                        optional.
+       
+                ----------------------------------------------------------------
+								(continued)
+
+
+	------                        ------                          ------
+	093-000245 Licensed Material-Property of Data General Corp.    2-10
+	AOS/VS Link and Library File Editor User's Manual, 093-000245-02
+	Documentation Changes, Revision 3  		       26-JAN-90
+
+
+		Table 2-1.  Link Function Switches and Switch Sequences
+
+                ----------------------------------------------------------------
+                Switch or               Description
+                Switch Sequence
+                ----------------------------------------------------------------
+
+                /RING=n                 Sets ring n as the ring in which the
+                                        program file will execute.  n must be an
+                                        integer from 0 through 7.  Ordinarily,
+                                        the default value for n is 7.  However,
+                                        if you set the /UDF switch the default
+                                        value for n becomes 0.
+       
+                /SBOT=n                 Sets the lowest address in shared NREL
+                                        to n.
+       
+                /SRES=n                 Reserves n shared pages (1 page =2000
+                                        (octal) words) of memory, starting at
+                                        the lower boundary of shared NREL
+                                        (?SBOT), for program use.  Link reserves
+                                        n shared pages in addition to the
+                                        existing shared pages in the shared
+                                        partitions.  You can set n from 1 to the
+                                        number of pages in the program.
+       
+                /STACKSIZE=n            Directs Link to create an initial
+                                        default stack of n words.  If you do not
+                                        use this switch, Link creates a default
+                                        stack of 60 words (30 double words) for
+                                        a 32-bit program or 30 words for a
+                                        16-bit program.
+       
+                                        NOTE:   Because Link does not build a
+                                                stack for RDOS or RTOS program
+                                                files, you cannot use this
+                                                switch in a command line that
+                                                contains either /SYS=RDOS or
+                                                /SYS=RTOS.
+       
+                /STATISTICS             Directs Link to report the following
+                                        link statistics:
+                                                elapsed time
+                                                CPU time
+                                                number of input files
+                                                number of modules
+                                                number of symbols
+                                                modules/elapsed second
+                                                modules/CPU second
+       
+                ----------------------------------------------------------------
+								(continued)
+
+
+
+	------                        ------                          ------
+	093-000245 Licensed Material-Property of Data General Corp.    2-11
+	AOS/VS Link and Library File Editor User's Manual, 093-000245-02
+	Documentation Changes, Revision 3  		       26-JAN-90
+
+
+		Table 2-1.  Link Function Switches and Switch Sequences
+
+                ----------------------------------------------------------------
+                Switch or               Description
+                Switch Sequence
+                ----------------------------------------------------------------
+
+                /SUPST                  Suppresses Link's creation of the symbol
+                                        table (.ST) file.  .ST files are useful
+                                        during debugging, but they do not affect
+                                        program execution.
+
+                /SYSTEM=n               Directs Link to build a program file
+                                        that will execute under the operating
+                                        system or mode of AOS/VS (VS16 or VS32)
+                                        specified by n.  By default Link will
+                                        build a 32-bit program file for AOS/VS.
+                                        You can use this switch to build the
+                                        following types of program files:
+       
+                                        /SYS=AOS        16-bit programs that
+                                                        execute under AOS.  (See
+                                                        Chapter 5 for more
+                                                        information on linking
+                                                        16-bit programs for
+                                                        AOS).
+       
+                                        /SYS=DGUX       32-bit programs that
+                                                        execute under DG/UX.
+                                                        (See appendix C for more
+                                                        information in linking
+                                                        32-bit program for
+                                                        DG/UX.)
+       
+                                        /SYS=MPAOS      16-bit programs that
+                                                        execute under MP/AOS.
+                                                        (See Chapter 5 for more
+                                                        information on linking
+                                                        16-bit programs for
+                                                        MP/AOS.)
+       
+                                        /SYS=RDOS       16-bit programs that
+                                                        execute under RDOS or
+                                                        SOS.  (See Appendix A
+                                                        for more information on
+                                                        linking 16-bit programs
+                                                        for RDOS.)
+       
+                ----------------------------------------------------------------
+       
+								(continued)
+
+
+
+
+	------                        ------                          ------
+	093-000245 Licensed Material-Property of Data General Corp.    2-12
+	AOS/VS Link and Library File Editor User's Manual, 093-000245-02
+	Documentation Changes, Revision 3  		       26-JAN-90
+
+
+		Table 2-1.  Link Function Switches and Switch Sequences
+
+                ----------------------------------------------------------------
+                Switch or               Description
+                Switch Sequence
+                ----------------------------------------------------------------
+
+                /SYSTEM=n, continued	/SYS=RTOS       16-bit programs that
+                                                        execute under RTOS or
+                                                        DOS.  (See Appendix A
+                                                        for more information on
+                                                        linking 16-bit programs
+                                                        for RTOS.)
+
+       
+					/SYS=VS16       16-bit programs that
+                                                        execute under AOS/VS.
+                                                        (See Chapter 5 for more
+                                                        information on linking
+                                                        16-bit programs for
+                                                        AOS/VS.)
+       
+                                        /SYS=VS32       32-bit programs that
+                                                        execute under AOS/VS.
+       
+                                        Note:   Since AOS/VS is the development
+                                                environment for the AOS/RT32
+                                                (Real-Time 32-Bit) operating
+                                                system, you can link programs to
+                                                execute under AOS/RT32 with the
+                                                /SYS=VS32 switch, or by default
+                                                with no /SYSTEM=n switch.
+       
+                /TASKS=n                Informs Link that the .PR file will
+                                        contain n potential tasks.  (Task
+                                        specification affects construction of
+                                        the system tables.)  If you use this
+                                        switch and the object modules already
+                                        contain task blocks, Link compares n and
+                                        the information in the task blocks, and
+                                        takes the maximum task specification.
+       
+                /TEMP=pathname pointer  Sends Link's temporary files to the
+                                        directory specified by the pathname
+                                        pointer.  Link creates and deletes
+                                        several files during the course of
+                                        linking.  By default, Link stores these
+                                        temporary files in your working
+                                        directory.  This switch forces Link to
+                                        create these files in a different
+                                        directory.
+
+                ----------------------------------------------------------------
+								(continued)
+
+	------                        ------                          ------
+	093-000245 Licensed Material-Property of Data General Corp.    2-13
+	AOS/VS Link and Library File Editor User's Manual, 093-000245-02
+	Documentation Changes, Revision 3  		       26-JAN-90
+
+
+		Table 2-1.  Link Function Switches and Switch Sequences
+
+                ----------------------------------------------------------------
+                Switch or               Description
+                Switch Sequence
+                ----------------------------------------------------------------
+
+                                        NOTE:   This switch has no effect on
+                                                AOS/VS Link; it is implemented
+                                                only for compatibility with AOS
+                                                Link.
+
+                /UDF                    Directs Link to build a nonexecutable
+                                        user data file (UDF).  A UDF file is a
+                                        program file without system tables, a
+                                        stack, or any routines from the system
+                                        library.  Link builds each UDF file from
+                                        location 0 to ?NTOP.  It also constructs
+                                        a symbol table (.ST file) for each UDF
+                                        file.
+       
+                /ULAST=n                Directs Link to place the contents of
+                                        partition n in the highest unshared
+                                        portion of the .PR file (directly before
+                                        the default stack).  n must be the name
+                                        of a predefined partition (UC, UD, etc.)
+                                        or user-defined partition.  If it is
+                                        neither, Link ignores the switch and
+                                        returns an error message.  The default
+                                        for n is UC (unshared code).
+       
+                /UNUSEDSIZE=n           Sets the lowest shared NREL address to
+                                        NMAX+n.
+       
+                /UNX                    Sets the output program file type to
+                                        UNX. A UNX type file executes under
+                                        MV/UX.  The default file type for output
+                                        program files is PRV (16- or 32-bit
+                                        programs for use under AOS/VS).
+       
+                /V                      Directs Link to report the full pathname
+                                        of all input .OB files and library
+                                        files.  Without this switch, Link
+                                        reports only the titles of input object
+                                        modules.  You must use /L or /L=pathname
+                                        with this switch.
+       
+       
+       
+                ----------------------------------------------------------------
+
+								(continued)
+
+
+
+	------                        ------                          ------
+	093-000245 Licensed Material-Property of Data General Corp.    2-14
+	AOS/VS Link and Library File Editor User's Manual, 093-000245-02
+	Documentation Changes, Revision 3  		       26-JAN-90
+
+
+		Table 2-1.  Link Function Switches and Switch Sequences
+
+                ----------------------------------------------------------------
+                Switch or               Description
+                Switch Sequence
+                ----------------------------------------------------------------
+
+                /WRL                    Replaces certain resources calls in
+                                        overlays with EJSR or EJMP
+                                        instructions.  You can use this switch
+                                        with /SYS=AOS, /SYS=MPAOS, or /SYS=VS16
+                                        only.  (See "Resource Call Optimization"
+                                        in Chapter 5.)
+
+                /XREF                   Directs Link to report every reference
+                                        to each user-defined symbol, on a symbol
+                                        by symbol basis.  You must use /L or /L
+                                        =pathname with this switch.
+       
+                /ZBOT=n                 Sets the lowest ZREL address (?ZBOT) to
+                                        n.  Ordinarily, the default value for n
+                                        is 50 (octal).  However, if you set the
+                                        /UDF switch the default value for n
+                                        becomes 0.
+
+              { ZR   {ZR                Diverts all contributions destined for
+              { LD   {LD                the default partition on the left side
+              { UD = {UD                of the equal sign into the default
+              { UC   {UC                partition on the right side of the equal
+              { SD   {SD                sign.  For example, /UC=SD diverts all
+              { SC   {SC                contributions to the predefined Unshared
+                                        Code (UC) partition into the predefined
+                                        Shared Data (SD) partition.  You can use
+                                        these switches in any combination to
+                                        change the attributes of the predefined
+                                        partitions from the Link command line.
+       
+                                        NOTE:   Do not use the same partition on
+                                                both sides of the equal sign.
+                                                For instance, /ZR=ZR generates
+                                                an error.
+       
+       
+                ----------------------------------------------------------------
+       
+								(concluded)
+
+
+
+
+
+
+
+
+
+	------                        ------                          ------
+	093-000245 Licensed Material-Property of Data General Corp.    2-15
+	AOS/VS Link and Library File Editor User's Manual, 093-000245-02
+	Documentation Changes, Revision 3  		       26-JAN-90
+
+
+		Table 2-2 describes switches that modify individual command
+		line elements (e.g., input files, partitions, etc.).
+
+		Table 2-2.  Link Function Switches and Switch Sequences
+
+                ----------------------------------------------------------------
+                Switch or               Description
+                Switch Sequence
+                ----------------------------------------------------------------
+
+	|	<x>/ADDRESS=<n>		Locate partition or common area <x> at
+	|				absolute address <n>.
+
+                /ALIGNMENT=n            Aligns the relocation base of a 
+                (Append to a partition  partition specified in the command line
+                name)                   on a power of 2 (2n) word boundary,
+                                        where n is an integer between 0 and 10
+                                        (decimal) inclusive.  You can append
+                                        this switch to any labeled common symbol
+                                        or named partition in the command line.
+                                        (An alignment factor of 0 is the default
+                                        and means the partition in word
+                                        aligned.)
+       
+                /CLI                    Directs Link to read filenames as a CLI-
+                (Append to a filename)  format file, taking arguments from it
+                                        one at a time until the file is
+                                        exhausted.  For more information, see
+                                        "The /CLI Argument Switch" section
+                                        earlier in this chapter.
+       
+                /DEBUG                  Directs Link to include in the .DS and
+                (Append to an object    .DL output files, any debugger symbols
+                module)                 blocks data, debugger lines blocks data,
+                                        and lines title blocks data contained in
+                                        an object file.  ( See Chapter 4 for
+                                        details on object blocks.)
+       
+                /FORCE                  Forces Link to include all modules from
+                (Append to a library    a library (.LB) file into the .PR file.
+                file)                   Without the /FORCE switch, Link includes
+                                        only those modules that satisfy
+                                        unresolved external symbols.
+       
+                /LOCAL                  Directs Link to place a module's local
+                (Append to an object    symbols (defined in local symbols
+                module)                 blocks) into the output symbol table.
+                                        This switch does not affect the .PR
+                                        file; however, it may simplify
+                                        debugging.
+       
+                ----------------------------------------------------------------
+       
+								(continues)
+
+	------                        ------                          ------
+	093-000245 Licensed Material-Property of Data General Corp.    2-16
+	AOS/VS Link and Library File Editor User's Manual, 093-000245-02
+	Documentation Changes, Revision 3  		       26-JAN-90
+
+
+		Table 2-2.  Link Function Switches and Switch Sequences
+
+                ----------------------------------------------------------------
+                Switch or               Description
+                Switch Sequence
+                ----------------------------------------------------------------
+
+                /MAIN                   Directs Link to create entry (ENT) 
+                (Append to an object    symbol .MAIN and sets the value of this
+                Module)                 symbol to this object module's starting
+                                        address.  For example:
+       
+                                        ) X LINK ONE.BO TWO.OB/MAIN
+       
+                                        If Link sets TWO.OB's starting address
+                                        to 16000000567 (octal) in the .PR file,
+                                        Link also sets the value of .MAIN to
+                                        16000000567.
+       
+                /MULTIPLE               Directs Link to make as many passes, 
+                (Append to a library    linking modules from a library file,
+                file)                   as necessary to satisfy unresolved
+                                        external symbols.  Without the /MULTIPLE
+                                        stitch, Link makes only one pass over
+                                        any library file.
+       
+                /OVERWRITE              Cancels the overwrite-with-message    
+                (Append to an object    attribute for a module.  (This switch
+                module)                 is the local equivalent of the /OVER
+                                        function switch; see Table 2-1.)
+       
+                /SHARED                 Changes a partition's unshared attribute
+                (Append to a partition  to shared, and places the partition
+                name)                   in shared NREL of the output program
+                                        file.
+       
+                /START                  Directs Link to take the starting 
+                (Append to an object    address of the .PR file.  Without this
+                module)                 switch, Link takes the starting address
+                                        of the last object module it encounters
+                                        as the starting address of the .PR file.
+
+	|	<x>/UNKNOWN		Create the external symbol <x>.
+
+	|	<x>/UNSHARED		Place partition or common area <x> in
+	|				the unshared section of the output
+	|				program file.
+
+       
+                ----------------------------------------------------------------
+       
+								(continued)
+
+
+
+	------                        ------                          ------
+	093-000245 Licensed Material-Property of Data General Corp.    2-17
+	AOS/VS Link and Library File Editor User's Manual, 093-000245-02
+	Documentation Changes, Revision 3  		       26-JAN-90
+
+
+		Table 2-2.  Link Function Switches and Switch Sequences
+
+                ----------------------------------------------------------------
+                Switch or               Description
+                Switch Sequence
+                ----------------------------------------------------------------
+
+                /VALUE=n                Defines a symbol as an accumulating
+                (Append to a symbol     symbol (ASYM) and assigns the value n 
+                name)                   to it.  n may be either a numeric
+                                        constant or a symbol name.  If n is a
+                                        symbol name, Link assigns its value to
+                                        the accumulating symbol you are
+                                        initializing.
+       
+                                        If an object module specified in the
+                                        command line defines a symbol Y as an
+                                        ASYM type symbol having the value x,
+                                        Link resets the value of Y to x+n.
+       
+                                        For example, suppose that object module
+                                        TEST defined a symbol Y having value 100
+                                        (octal).  Assume that Y has symbol type
+                                        ASYM.  If you issue the command
+       
+                                        ) X LINK Y/VAL=40R8 Test.OB
+       
+                                        Link redefines Y as an accumulating
+                                        symbol and assigns the value 140 (140
+                                        (octal) = 100 (octal) + 40 (octal) to
+                                        it.  If TEST.OB had not defined Y, then
+                                        teh switch would have created Y,
+                                        assigned it symbol type ASYM, and set
+                                        its value to 40 (octal).  IF TEST.OB
+                                        defined Y with a symbol type other than
+                                        ASYM, this switch would have caused a
+                                        MULTIPLY DEFINED SYMBOL ERROR.
+
+               {ZR   {ZR                Diverts one module's contributions
+               {LD   {LD                destined for the default partition on
+               {UD = {UD                the left side of the equal sign into
+               {UC   {UC                the default partition on the right side
+               {SD   {SD                of the equal sign.  For example, /UC=SD
+               {SC   {SC                puts the module's contributions to the
+                                        predefined Unshared Code (UC) partition
+                                        into the predefiend Shared Data (SD)
+                                        partition of the output program file.
+                                        You can use these switches in any
+                                        combination to change the attributes of
+                (Append to an object    the predefined partitions in a single
+                module)                 object module.
+       
+                ----------------------------------------------------------------
+								(continued)
+
+	------                        ------                          ------
+	093-000245 Licensed Material-Property of Data General Corp.    2-18
+	AOS/VS Link and Library File Editor User's Manual, 093-000245-02
+	Documentation Changes, Revision 3  		       26-JAN-90
+
+
+		Table 2-2.  Link Function Switches and Switch Sequences
+
+                ----------------------------------------------------------------
+                Switch or               Description
+                Switch Sequence
+                ----------------------------------------------------------------
+
+                                        Note:   These argument switches override
+                                                any conflicting function
+                                                switches.  For example,
+       
+                                                ) X LINK/SC=UC A/SC=UD
+       
+                                                assigns the unshared, data
+                                                attributes to all shared, code
+                                                partitions in module A, despite
+                                                the /SC=UC function switch
+                                                sequence.  When using these
+                                                switches as arguments switches,
+                                                you can enter the same partition
+                                                on both sides of the equal sign
+                                                (e.g., /ZR=ZR is a valid
+                                                argument switch).
+       
+                ----------------------------------------------------------------
+       
+								(concluded)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	------                        ------                          ------
+	093-000245 Licensed Material-Property of Data General Corp.    2-19
+	AOS/VS Link and Library File Editor User's Manual, 093-000245-02
+	Documentation Changes, Revision 3  		       26-JAN-90
+
+                     |0                    7  8                         15|
+	             |----------------------------------------------------|
+	header     { |    reserved ( =0)    |       block type (23)       |
+	           { |----------------------------------------------------|
+	           { |                sequence number                     |
+	           { |----------------------------------------------------|
+	           { |                 block length                       |
+	             |----------------------------------------------------|
+	             |         number of partition descriptors            |
+	             |----------------------------------------------------|
+
+                     |0  1   2       5  6  7        10  11  12  13  14  15|
+	             |----------------------------------------------------|
+|                   {| | NE |reserved  | N| alignment |  W | L | NB| U | C|
+|	            {| |----|( =0)(bits|--| factor    |-------------------|
+|	partition   {| | E  |0 and 2-5)| Z|(bits 7-10)| W/O| S | CB| S | D|
+	description {|----------------------------------------------------|
+	            {|   reserved ( =0)      |   length of partition name |
+	            {|----------------------------------------------------|
+	            {|           partition length (high-order bits)       |
+	            {|----------------------------------------------------|
+	            {|           partition length (low-order bits)        |
+	            {|----------------------------------------------------|
+	            {|                                                    |
+	            {|----------------------------------------------------|
+	            {~                           .                        ~
+	            {~                           .
+	            {~                           .                        ~
+	            {|----------------------------------------------------|
+	             |                   partition name                   |
+	             |                           .                        |
+	             |                           .                        |
+	             |                                                    |
+	             |----------------------------------------------------|
+	             ~                                                    ~
+			Key:
+			---
+|			NE   (bit 1)  =0   if NOENTS
+|			E    (bit 1)  =1   if ENTS
+
+			N    (bit 6)  =0   if partition is NREL
+			Z    (bit 6)  =1   if partition is ZREL
+
+			W    (bit 11) =0   if overwrite-with-message attribute
+			W/O  (bit 11) =1   if overwrite-with-message attribute
+
+			L    (bit 12) =0   if long NREL attribute
+			S    (bit 12) =1   if short NREL attribute
+
+			NB   (bit 13) =0   if normal base attribute
+			CB   (bit 13) =1   if common base attribute
+
+
+	------                        ------                          ------
+	093-000245 Licensed Material-Property of Data General Corp.    4-7
+	AOS/VS Link and Library File Editor User's Manual, 093-000245-02
+	Documentation Changes, Revision 3  		       26-JAN-90
+
+
+
+			Key:
+			---
+			U    (bit 14) =0   if unshared attribute
+			S    (bit 14) =1   if shared attribute
+
+			C    (bit 15) =0   if code attribute
+			D    (bit 15) =1   if data attribute
+
+			
+		Figure 4-5.  Partition Definition Block
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	------                        ------                          ------
+	093-000245 Licensed Material-Property of Data General Corp.    4-7.1
+	AOS/VS Link and Library File Editor User's Manual, 093-000245-02
+	Documentation Changes, Revision 3  		       26-JAN-90
+
+
+
+				Chapter 7
+
+			Using the Library File Editor
+
+
+
+	You invoke the Library File Editor by typing the AOS/VS CLI command
+	XEQ (abbreviated X) followed by LFE and the appropriate function
+	letter(s) and arguments(s).  The basic format of the LFE command line is
+
+	X[EQ] LFE[fswitch] function-letter argument...[argswitch]
+
+	where:
+
+	fswitch		is one or more of the legal function switches for
+			the LFE command.
+
+	function-letter	is the LFE command.
+
+	argument	is one or more arguments.  (Depending on the function,
+			an argument can be the name of a library or the name of
+			an object module.)
+
+	argswitch	is one or more of the legal argument switches for the
+			function-letter.
+
+	To pass arguments to the X LFE command you can
+
+	o  enter the arguments directly on the command line
+
+	o  invoke a macro file containing the arguments
+
+	o  invoke a CLI-format text file containing the arguments, and append
+	   the /CLI switch to the text filename.
+
+|	NOTES:	The /CLI switch is useful when the 16-bit CLI is unable to
+		expand a macro file due to insufficient memory.  When using
+		the /CLI switch, remember that your text file must adhere
+		to CLI command syntax (i.e., separate arguments with spaces,
+		tabs, or commas and use an ampersand (&) to continue a line).
+		Refer to Chapter 2 for more information on the /CLI switch.
+
+|		You must use the switch /DATE_TIME (fswitch) to store each
+|		module's Time Last Modified in the library header symbol table.
+|		Then, use the T function-letter (X LFE T) to list the module
+|		date/time stamps. (Before AOS/VS Revision 7.65, date/time stamps
+|		were not stored. AOS/VS Revision 7.65 and 7.66 and AOS/VS II
+|		stored date/time stamps by default.)
+
+
+
+	------                        ------                          ------
+	093-000245 Licensed Material-Property of Data General Corp.     7-1
+	AOS/VS Link and Library File Editor User's Manual, 093-000245-02
+	Documentation Changes, Revision 3  		       26-JAN-90
+
+	-----------------------------------------------------------------------
+          T	Lists the title of each object module in a library, and
+		certain library start block information.
+	-----------------------------------------------------------------------
+
+	Format Options
+
+	X[EQ] LFE[/L[=listfile]][/fswitch...]  T library...
+
+	X[EQ] LFE[/fswitch...]  T [listfile/L] library...
+
+	where:
+
+	/L[=listfile]	send the analysis to listfile.  If you do not specify
+	or		a listfile, LFE sends the output to @LIST.  If you do
+	listfle/L 	not include /L on the command line, LFE sends the
+			output to @OUTPUT.
+
+	fswitch		is one or more of the following switches:
+
+			/F		puts the analysis of each libarary on
+					a separate page in the list file.
+
+			/DECIMAL	sets the listing radix to 10.  The
+					default output radix is 8.
+
+			/HEX		sets the listing radix to 16.  the
+					default output radix is 8.
+
+	library		is the name of one or more library files for which
+			you want object module titles and information.
+	
+	Description
+
+	The T (title) function-letter lists the following information:
+
+	o  the title of every object module in the library
+
+	o  the object descriptor address of every object module (LFE builds
+	   an object descriptor into the library start block for each object
+	   module in the library.  Refer to Chapter 6 for the structure of
+	   the library start and end blocks.)
+
+	o  the starting position of every object module's title block
+
+	o  the size (in words) of every object module
+
+|	o  the time last modified of every object module (stored as the second
+|	   symbol entry in the module descriptor in the library header)
+
+	o  an asterisk in front of any object module in which the forced
+	   flag is set
+
+	------                        ------                          ------
+	093-000245 Licensed Material-Property of Data General Corp.    7-14
+	AOS/VS Link and Library File Editor User's Manual, 093-000245-02
+	Documentation Changes, Revision 3  		       26-JAN-90
+
+
+	The function-letter A produces a much more detailed analysis of a
+	library than function-letter T, but T is faster.  LFE must scan an
+	entire library start block to produce the full analysis A; however,
+	LFE scans only the library start block to produce the title analysis
+	T.
+
+	Examples
+
+	1.  ) X LFE/L=FAST T MATH.LB CALC.LB <NL>
+
+	2.  ) X LFE T FAST/L MATH.LB CALC.LB <NL>
+
+	3.  ) X LFE/HEX/F T TRIG GEOM INTEGRAL <NL>
+
+	Examples 1 and 2 are functionally identical.  Both command lines
+	produce title analyses of libraries MATH.LB and CALC.LB.
+
+	Example 3 produces title analyses of libraries TRIG.LB, GEOM.LB,
+	and INTEGRAL.LB.  Because of the /HEX switch, the listing will be
+	in base 16; the /F switch ensures that the title analysis of each
+	library starts on a fresh page.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	------                        ------                          ------
+	093-000245 Licensed Material-Property of Data General Corp.   7-14.1
+
+
+
+
+
+
+
+
+
+
+		**********************************************************
+		*                                                        *
+		*       End of Documentation Changes for "AOS/VS Link    *
+		*       and Library File Editor (LFE) User's Manual"     *
+		*          (093-000245-02), Revision 3, 26-JAN-90.       *
+		*                                                        *
+		**********************************************************

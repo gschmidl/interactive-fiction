@@ -1,0 +1,261 @@
+=== 1. The Mars spine: ship -> Viking -> boulder -> airlock -> domed city ===
+
+        M A R T I A N   A D V E N T U R E   --   r e c o v e r e d
+
+  Waterloo, Honeywell 6000, 1978-79.  Brad Templeton, with the
+  adventure definition language by Mark Niemiec.
+
+  The game was never finished and the archive holds only part of it.
+  What is here is real: every word of game text below came out of the
+  1978-79 files.  Lines beginning '--' and commands beginning '*' are
+  this program talking, not the archive.
+
+  1  Mars        the desert, the airlock and the domed city.
+                 76 reachable rooms, real map.  No objects survive.
+  2  Deimos      63 room descriptions with no map.  A reader.
+  3  Math        the Math building, in Mark's adventure language.
+                 15 rooms, real puzzle logic, fully playable.
+  4  Notes       what survived, what did not.
+  q  quit
+
+  -fix is off.  It repairs the authors' own bugs -- the dark start,
+  the lamp verb, the missing 'south', read falling into teleport, and
+  the two typos that make the Math building's puzzle unwinnable.
+  Without it you get all of them exactly as they were written.
+
+choose> Welcome to the game of Mars.
+Instructions are in jmc/mars/expl
+To stop type  'quit'
+-- jmc/mars/expl was not backed up.  Type *notes for what is missing.
+
+It is now quite dark, should you proceed, you may die
+-- light is an uninitialised extern in the B source, so it starts at 0 and the game opens in the dark on a sunlit desert.  Type 'lamp', or run with -fix.  (Said once; the original says the line above every turn, and so does this.)
+> It already was
+Your light is nowon
+> You are standing on the floor of the Martian desert, just outside of your
+ship.  Rippling pink dunes, littered with small rocks and gowned in a
+shimmering veil of wind-blown dust, recede majestically to the horizon
+in all directions.
+> You are on the rolling Martian desert.  The ground slopes precipitously
+in some places, is flat in others, and everywhere is covered
+by the omnipresent shards of broken rock.  A shallow fog lies
+sheltered from the thin, stinging wind on the bottom of a
+nearby crater.
+> You are on the desert
+> You are standing on deep sand by the remains of the Viking I lander.
+The machine, one of its legs weathered off, is toppled over on its
+side and is partly covered with pink
+windblown dust.  The land rises to the west, in which direction
+rests a boulder the size of a car.
+> You are standing beside the east side of a boulder the size
+of a large car.  It is red with a pink surface patina, and a hole almost
+exactly four inches wide, perfectly straight and parallel to the
+ground runs through it at eye level.  To the east and below
+lie the remains of an old Viking lander.
+> You are at the west side of the boulder.  There is a large flashing neon
+sign on this side of the rock, proclaiming,
+"GREETINGS---THE SENTIENT LIFE FORMS OF MARS WELCOME YOU".
+Under the sign is the word "Airlock", with a glowing arrow pointing to a metal
+hatch set into the ground.
+There is a four-inch wide hole boring *straight* through the rock along
+an east-west path.  Peering into the hole, you see that it sights directly
+towards your ship.
+> You are at the top of the Martian airlock complex, with the metal hatch
+a few feet above your head and a set of wide metal stairs winding down
+the sides of a tubular vertical shaft beneath you.
+> You are in the middle of the airlock, standing on a set of
+winding steps.  A circular shaft disappears in the distance above and
+below you.  The walls are slightly luminous.
+> You are at the bottom of the airlock complex.  A curving stairway winds
+up a wide tube above you, vanishing in the distance.
+There is a broad metal hatch in the floor beneath you.
+> You are in a ten-foot diameter spherical bubble whose walls are made
+entirely of a totally transparent substance.  Outside of the bubble
+is a breathtaking sight.  You stop to take a breath.
+The chamber is perched on top of a three-mile high tower overlooking
+a giant lighted cavern.  The cavern is in the shape of an upper
+hemisphere, and you are at the apex of the sweeping rock walls.
+Miles below, the floor is taken up with a city of slender, delicate
+structures shining with all the colours of the spectrum, and then some.
+Fragile domes, thrusting spires, every conceivable form of architecture
+is represented someplace in the city limits.  Although everything here
+seems to be in perfect repair, there is nothing moving but you , anywhere
+in the entire vast dome.
+The tower you are on is in itself awe-inspiring.  A mile below,
+two wide ramps spiral out from the sides and into the city.  Strangely, 
+everything's sense of immensity is not dwarfed by your own dizzying
+height, or by the huge space enclosing it all.
+There is an antigrav dropshaft in the floor beside you, and a large
+metal hatch in the ceiling above.
+> You are at a level midway down the central Tower.  Wide archways lead
+to the Tower's east and west sides, and dropshafts are in the
+floor and ceiling.
+> You are at the bottom of the central Tower, which soars needle-thin
+to immense heights above you.  It is supported by impossibly thin
+buttresses and slender pylons, resting in the surface of a wide, open
+plaza.  Broad roads lead in the cardinal directions, and dropshafts
+lead into the tower and down into the plaza.
+> You are on the north Radial, between Ring One and the Tower
+-- no long description for this room was ever written; that is the short one from jmc/mars/snames.
+> There is no way to go that direction
+You are on the north Radial, between Ring One and the Tower
+-- no long description for this room was ever written; that is the short one from jmc/mars/snames.
+> 
+choose> 
+=== 2a. The four B-engine bugs, exactly as written ===
+
+        M A R T I A N   A D V E N T U R E   --   r e c o v e r e d
+
+  Waterloo, Honeywell 6000, 1978-79.  Brad Templeton, with the
+  adventure definition language by Mark Niemiec.
+
+  The game was never finished and the archive holds only part of it.
+  What is here is real: every word of game text below came out of the
+  1978-79 files.  Lines beginning '--' and commands beginning '*' are
+  this program talking, not the archive.
+
+  1  Mars        the desert, the airlock and the domed city.
+                 76 reachable rooms, real map.  No objects survive.
+  2  Deimos      63 room descriptions with no map.  A reader.
+  3  Math        the Math building, in Mark's adventure language.
+                 15 rooms, real puzzle logic, fully playable.
+  4  Notes       what survived, what did not.
+  q  quit
+
+  -fix is off.  It repairs the authors' own bugs -- the dark start,
+  the lamp verb, the missing 'south', read falling into teleport, and
+  the two typos that make the Math building's puzzle unwinnable.
+  Without it you get all of them exactly as they were written.
+
+choose> Welcome to the game of Mars.
+Instructions are in jmc/mars/expl
+To stop type  'quit'
+-- jmc/mars/expl was not backed up.  Type *notes for what is missing.
+
+It is now quite dark, should you proceed, you may die
+-- light is an uninitialised extern in the B source, so it starts at 0 and the game opens in the dark on a sunlit desert.  Type 'lamp', or run with -fix.  (Said once; the original says the line above every turn, and so does this.)
+> -- the truncated source has no case for that word, so the original would have silently ignored it.
+> I can't read that, it's all Old High Martian to me!
+You are not carrying the transmitter
+It is now quite dark, should you proceed, you may die
+> Your light is nowoff
+> 
+choose> 
+=== 2b. The same four commands with -fix ===
+
+        M A R T I A N   A D V E N T U R E   --   r e c o v e r e d
+
+  Waterloo, Honeywell 6000, 1978-79.  Brad Templeton, with the
+  adventure definition language by Mark Niemiec.
+
+  The game was never finished and the archive holds only part of it.
+  What is here is real: every word of game text below came out of the
+  1978-79 files.  Lines beginning '--' and commands beginning '*' are
+  this program talking, not the archive.
+
+  1  Mars        the desert, the airlock and the domed city.
+                 76 reachable rooms, real map.  No objects survive.
+  2  Deimos      63 room descriptions with no map.  A reader.
+  3  Math        the Math building, in Mark's adventure language.
+                 15 rooms, real puzzle logic, fully playable.
+  4  Notes       what survived, what did not.
+  q  quit
+
+  -fix is ON.  It repairs the authors' own bugs -- the dark start,
+  the lamp verb, the missing 'south', read falling into teleport, and
+  the two typos that make the Math building's puzzle unwinnable.
+  Without it you get all of them exactly as they were written.
+
+choose> Welcome to the game of Mars.
+Instructions are in jmc/mars/expl
+To stop type  'quit'
+-- jmc/mars/expl was not backed up.  Type *notes for what is missing.
+
+You are in room 256.
+-- nothing about this room survives -- it has no entry in snames, lnames or goto.  The map points here anyway.
+> There is no way to go that direction
+You are in room 256.
+-- nothing about this room survives -- it has no entry in snames, lnames or goto.  The map points here anyway.
+> I can't read that, it's all Old High Martian to me!
+You are in room 256.
+-- nothing about this room survives -- it has no entry in snames, lnames or goto.  The map points here anyway.
+> Your light is now off
+> Your light is now on
+> 
+choose> 
+=== 3. The MIDJET puzzle in the adventure language, with -fix ===
+
+        M A R T I A N   A D V E N T U R E   --   r e c o v e r e d
+
+  Waterloo, Honeywell 6000, 1978-79.  Brad Templeton, with the
+  adventure definition language by Mark Niemiec.
+
+  The game was never finished and the archive holds only part of it.
+  What is here is real: every word of game text below came out of the
+  1978-79 files.  Lines beginning '--' and commands beginning '*' are
+  this program talking, not the archive.
+
+  1  Mars        the desert, the airlock and the domed city.
+                 76 reachable rooms, real map.  No objects survive.
+  2  Deimos      63 room descriptions with no map.  A reader.
+  3  Math        the Math building, in Mark's adventure language.
+                 15 rooms, real puzzle logic, fully playable.
+  4  Notes       what survived, what did not.
+  q  quit
+
+  -fix is ON.  It repairs the authors' own bugs -- the dark start,
+  the lamp verb, the missing 'south', read falling into teleport, and
+  the two typos that make the Math building's puzzle unwinnable.
+  Without it you get all of them exactly as they were written.
+
+choose> -- The Math building, from jmc/mars/math.v2.txt.
+-- Type *notes for what the source does and does not contain,
+-- *verbs for the words this room understands, *quit to leave.
+
+You are standing before a large, tall, oddly shaped grey cement
+building, with unusual block and window structures.  Inside the door,
+there is a stairway up, and a ramp going down.  To the southeast is
+a small path.
+
+> You are inside a large foyer in the computer building of the
+university.  Before you is a large glass wall , beyond which lies
+a two story room painted bright red.  Inside the room are all sorts
+of archaic machines.  This section is probably a museum of early
+computer technology.
+
+> You are in a room filled with long rows of computer terminals,
+with a window onto the red room.  The terminal closest to you reads,
+in low base martian printed several times to fill the whole screen:
+'RUN IS IN QUEUE POSITION 14'
+The terminal next to it is prompting '!USERID'.
+A sign on the wall reads 'Martian Interactive Debug Job Entry Terminal'
+
+> The terminal prompts '!FILE'
+You are at MIDJET
+
+> Are you a hack? That does not matter, anyone can crash MIDJET!!
+The system has gone down and your terminal is not responding.
+suddenly a robot comes from behind a box in the red room and
+moves to a terminal marked '11/45 console'.  It then scurries
+out the door beneath you
+You are at MIDJET
+
+> You are in computer foyer, before red room
+
+> You are before a large cement building.
+
+> You are in an empty hallway at the base of a ramp.  It is
+a wide hallway, with shut red doors all along it.  Through a window
+you can see a large red room containing ancient computer machinery.
+There is a door into the room to the west, and a corner to the east
+
+> You are inside the large red room.  Large black boxes are all
+about the room with various labels and flashing lights.  The door
+you came in is the only one that is unlocked.  On the other side
+of the big machine in the centre, it looks like one of the panels
+is open.
+
+> You are behind the large box, in front of the open panel
+
+> 
+choose> 

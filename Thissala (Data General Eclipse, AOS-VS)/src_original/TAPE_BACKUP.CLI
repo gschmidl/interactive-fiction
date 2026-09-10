@@ -1,0 +1,39 @@
+push
+prompt pop
+[!nequal,%0/LABELED%,];COMMENT START LABELED
+ [!nequal,%0/PERSONAL%,];COMMENT START PERSONAL
+  X/S/1=IGNORE DUMP_II%0/BUFFERSIZE%/SMI/MAXCAPACITY/RETAIN=0%0/V/L%&
+	@LMT:VOL01:BACKUP %1-%
+ [!else];COMMENT END PERSONAL/ START SYSTEMWIDE
+  superuser on
+  dir :
+  delete/2=ignore  =?LAST_BACKUP.TMP
+  write/l==?LAST_BACKUP.TMP   [!DATE]:[!TIME]
+  [!nequal,%0/I%,];COMMENT START INCREMENTAL
+    string [=LAST_BACKUP]
+  [!end];COMMENT END INCREMENTAL
+  X/S/1=IGNORE DUMP_II%0/BUFFERSIZE%/SMI/MAXCAPACITY/RETAIN=0%0/V/L%&
+[!nequal,%0/I%,]/AFTER/TLM=[!string][!end]&
+	@LMT:VOL01:BACKUP    &
+	    #\HELP\NET\PAGE\PER\PMGR\PROC\QUEUE\SWAP\SYSGEN&
+\UTIL\?+.BRK\+.ED\?+.JOB\+.LS\?+.TMP NET:NETGEN:+ SYSGEN:+.<CSF SSF>
+ [!end];COMMENT END SYSTEMWIDE
+[!else];COMMENT END LABELED/ START UNLABELED
+  X/S/1=IGNORE DUMP_II%0/BUFFERSIZE%%0/V/L% %1% %2-%
+  rewind %1%
+[!end];COMMENT END UNLABELED
+PAUSE 5
+[!nequal,([!string]),()];COMMENT START DUMP FAILED
+  bye/abort [!string] dump failed
+[!else]
+  write,,,,,,,,,[!read [!ascii 234 220 210 226]Press NEW LINE to continue.,]
+[!end];COMMENT END DUMP FAILED
+[!equal,%0/PERSONAL%,];COMMENT START SYSTEMWIDE
+ [!nequal,%0/LABELED%,];COMMENT START LABELED
+  permanence/2=ignore  =LAST_BACKUP.BU  OFF
+  delete/2=ignore  =LAST_BACKUP.BU
+  rename/2=ignore  LAST_BACKUP  LAST_BACKUP.BU
+  rename/2=ignore  ?LAST_BACKUP.TMP  LAST_BACKUP
+ [!end];COMMENT END LABELED
+[!end];COMMENT END SYSTEMWIDE
+pop

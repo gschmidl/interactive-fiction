@@ -1,0 +1,100 @@
+ slange foran meg.": GO TO 1451
+1500 GO SUB 2: LET v=2400: LET s
+t=1900
+1510 CLS : PRINT "0st er det en
+d0r.Vest er det endverg."
+1520 GO SUB 10: GO SUB 20: GO TO
+ 1520
+1600 GO SUB 2: LET v=1200: LET s
+t=2000
+1605 CLS : PRINT "0st er det en
+svart d0r."
+1610 GO SUB 10
+1620 GO SUB 20: GO TO 1620
+1700 GO SUB 2: LET st=1355
+1710 CLS : PRINT "Jeg er inne i
+hytta"
+1711 IF o(1)<>0 THEN LET o(1)=li
+nje
+1712 IF o(3)<>0 THEN LET o(3)=li
+nje
+1713 IF o(4)<>0 THEN LET o(4)=li
+nje
+1720 GO SUB 10
+1730 GO SUB 20
+1740 GO TO 1730
+1800 GO SUB 2: LET s=2100: LET s
+t=1453
+1810 CLS : PRINT "Jeg ser en kis
+te.Inni kisten er det en stokk":
+ IF o(6)<>0 THEN LET o(6)=linje
+1812 GO SUB 10
+1814 GO SUB 20
+1820 IF a$="TA" THEN LET linje=1
+830
+1821 GO TO 1814
+1830 CLS : PRINT "Jeg ser en kis
+te"
+1831 GO SUB 10
+1832 GO SUB 20: GO TO 1832
+1900 IF o(4)<>0 THEN PRINT "Jeg
+har ikke n0kkel": GO TO 1520
+1901 GO SUB 8500
+1905 GO SUB 2: LET v=1500: LET o
+=2200
+1910 CLS : PRINT "Jeg ser en dig
+er stige foran    meg.Den gaar h
+elt opp i skyene"
+1912 GO SUB 10
+1913 GO SUB 20: GO TO 1913
+2000 IF o(4)<>0 THEN PRINT "Jeg
+har ikke n0kkel": LET linje=1600
+: GO TO 1620
+2001 GO SUB 2: LET v=1600: LET n
+=2300
+2002 CLS : PRINT "Jeg er i en la
+ng gang."
+2010 GO SUB 10
+2020 GO SUB 20: GO TO 2020
+2100 GO SUB 2: LET n=1800: LET s
+t=1000
+2110 CLS : PRINT "Jeg ser en dig
+er hund foran meg.Den angriper m
+eg.": INPUT "Hva skal jeg bruke
+mot den?"' LINE p$
+2111 IF p$<>"FAKKEL" THEN PRINT
+"Den drepte meg.": GO TO 9900
+2120 IF o(9)<>0 THEN PRINT "Jeg
+har ikke fakkel.Den spiste  hode
+t mitt": GO TO 9900
+2130 PRINT "Den hoppet mot meg o
+g beit meg ihanda.Jeg heiv fakke
+len inn i   magen paa den.Den br
+ente bort.": LET o(9)=1: LET lin
+je=2180
+2140 GO SUB 10
+2150 GO SUB 20: GO TO 2150
+2180 CLS : PRINT "Jeg ser en d0d
+ hund foran meg.": GO TO 2140
+2200 GO SUB 2: LET ne=1901: LET
+n=2500
+2201 CLS : PRINT "Foran meg er d
+et et digert      slott. Det er
+saa stort at det  bare kan bo en
+ kjempe der."
+2210 GO SUB 10
+2220 GO SUB 20: GO TO 2220
+2300 GO SUB 2: CLS : PRINT "Jeg
+vandret mange mil foer jeg  saa
+en grotte.Nysjerrig som jeg er g
+ikk jeg inn i den,men det   skul
+le jeg ikke ha gjort.Der vardet
+fullt av vampyr flaggermusersom
+sugde ut alt blodet mitt.": GO T
+O 9900
+2400 GO SUB 2: LET st=1500: LET
+v=2600: LET n=2700
+2401 CLS : PRINT "Jeg ser en dve
+rg.Han sier at hankan selge meg
+en stokk for 100  kroner."
+2410 GO SUB 10

@@ -1,0 +1,102 @@
+: INPUT LINE p$: IF p$<>"5" THEN
+ PRINT "GALT.HAN DREPTE MEG.": G
+O TO 9900
+5355 IF a=4 THEN PRINT "RIKTIG":
+ LET linje=6000: GO TO linje
+5360 PRINT "Per er 44 aar gammel
+.Han er     dobbelt saa gammel s
+om Paal var da Per var saa gamme
+l som Paal  er naa.Hvor gammel b
+lir Paal    neste aar?": INPUT L
+INE p$: IF p$<>"34" THEN PRINT "
+GALT.HAN DREPTE MEG.": GO TO 990
+0
+5365 PRINT "RIKTIG": LET linje=6
+000: GO TO linje
+5400 GO SUB 2: LET s=4700: LET n
+=5600: LET st=5700
+5405 CLS : PRINT "Jeg er fortsat
+t paa denne lange sletta."
+5410 GO SUB 10
+5420 GO SUB 20: GO TO 5420
+5500 CLS : PRINT "Jeg falt oppi
+en felle.Der      sultet jeg ihj
+el.": GO TO 9900
+5600 LET s=5400: LET n=6100: LET
+ v=5800: LET st=5900
+5605 CLS : PRINT "Jeg er fortsat
+t paa denne lange sletta,men det
+ ser ut som den   snart er slutt
+."
+5610 GO SUB 10
+5620 GO SUB 20: GO TO 5620
+5700 CLS : PRINT "Jeg moette en
+gjeng mordere som drepte meg.":
+GO TO 9900
+5800 CLS : PRINT "Jeg kom midt i
+ en orkan,der jeg ble blaast til
+ himmels.": GO TO 9900
+5900 CLS : PRINT "Jeg doede av s
+ult.": GO TO 9900
+6000 IF o(12)<>0 THEN PRINT "Han
+ fulgte meg hjem,og drepte   meg
+ der.": GO TO 9900
+6005 CLS : PRINT "Han fulgte meg
+ hjem,der jeg     levde resten a
+v livet mitt."'; FLASH 1;"Du kla
+rte det."
+6010 FOR n=1 TO 20: FOR f=0 TO 5
+0 STEP n: OUT 160,n: OUT 320,f:
+BEEP .005,f: OUT 320,n: NEXT f:
+NEXT n
+6020 GO TO 9990
+6100 GO SUB 2: LET s=5600: LET s
+t=6200
+6105 CLS : PRINT "Jeg er paa slu
+tten av denne     lange sletta."
+6110 IF o(8)<>0 THEN LET o(8)=li
+nje
+6120 GO SUB 10
+6130 GO SUB 20: GO TO 6130
+6200 GO SUB 2: LET st=6300: LET
+v=6100
+6205 CLS : PRINT "Jeg kom inn i
+en diamantgruve.  Der overrasket
+ jeg noen tyver.  De angrep meg.
+Hva skal jeg brukemot dem?": INP
+UT LINE p$: IF p$<>"SPADE" THEN
+PRINT "De drepte meg.": GO TO 99
+00
+6210 IF o(8)<>0 THEN PRINT "De d
+repte meg.": GO TO 9900
+6220 PRINT "Jeg slo spaden i hod
+et paa den  foerste,saa han besv
+imte.Da kom eierne av gruven.De
+tok tyvene  med seg."
+6230 GO SUB 10
+6240 GO SUB 20: GO TO 6240
+6300 CLS : PRINT "Jeg kom inn i
+en ny gruve.Der   var det ogsaa
+tyver.De var blittadvart saa de
+drepte meg.": GO TO 9900
+8500 INK 9: CLS : PLOT 50,10: DR
+AW 30,140: PLOT 85,10: DRAW 20,1
+40: PLOT 53,20: DRAW 33,0: PLOT
+56,40: DRAW 33,0: PLOT 59,55: DR
+AW 31,0
+8501 PLOT 62,70: DRAW 30,0: PLOT
+ 65,85: DRAW 29,0: PLOT 70,100:
+DRAW 27,0: PLOT 73,115: DRAW 26,
+0: PLOT 75,130: DRAW 26,0: PLOT
+79,145: DRAW 24,0
+8502 INK 5: PLOT 10,160: DRAW 30
+,-10,2.5: DRAW 15,10: PLOT 10,16
+0: DRAW 45,0,-PI/2:
+8505 PLOT 125,150: DRAW 10,-10,2
+: DRAW 15,5,3: DRAW 10,5,1.5
+8597 PLOT 125,150: DRAW 10,4,-2.
+5: DRAW 25,-4,-3: INK 9: PAUSE 0
+: RETURN
+9000 LET o(15)=linje: SAVE "K-CO
+DE "+STR$ linje DATA o()
+9005 LET ver=9400

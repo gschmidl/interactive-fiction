@@ -1,0 +1,130 @@
+Most of the code was from Rev_2240/F060...
+
+     H P 1 0 0 0   I N T E R N A T I O N A L   U S E R S   G R O U P
+         C O N T R I B U T E D   S O F T W A R E   L I B R A R Y
+                            C S L / 1 0 0 0 
+  
+                        PROGRAM SUBMISSION FORM 
+  
+ Program Name................: ADVEN
+         Title...............: Adventure game for the HP1000
+         File Names..........: 1. Submission file.
+                               2. &ADV01
+                               3. &ADV03
+                               4. &ADVX2
+                               5. &ADVY2
+                               6. &ADV04
+                               7. &ADV05
+                               8. LADVEN
+                               9. ^ADVEN
+                              10. *ADVEN
+                              11. #ADVXX
+                              12. #ADVYY
+                              13. #ADVZZ
+         Operating System....: RTE-IVB
+         Language(s).........: FTN4 
+    External Support Req'd...:
+    If Re-submission, Reason.:
+ Contributor's Name..........:
+               Company.......:
+               Street........:
+               City..........:
+               State.........:
+               Country.......:
+               Zip Code......:
+               Phone Number..:
+ Program Abstract............:
+  
+COMPILING, LOADING, AND RUNNING "ADVENTURE" ON THE HP COMPUTER
+  
+                                                  Beasley, 14 Feb. 1979 
+  
+      The program ADVENTURE, written in Fortran for a PDP-11, has been
+modified at Haystack Observatory for use on HP 1000 series computers. 
+It will run in a 16-page partition under RTE-III or RTE-IV, but it
+requires the newer version of Fortran supplied with the RTE-IV system 
+for compilation.  The program consists of a main program with named 
+common and three program segments.  The main program acts primarily 
+as an executive for controlling the segments. 
+      Segment 1 is found in file &ADV03.  It is the same as the INIT
+subroutine in the original version, except for modifications needed 
+to replace the DEC disc I/O subroutines with HP's.  This segment will 
+access three files:  The first is #ADVZZ, and contains the data base
+which goes along with the program.  The second is #ADVXX, and is a
+modified data base file which will be accessed by the rest of the 
+program.  The third file is #ADVYY, which contains a copy of the
+common area after initialization.  When the program runs, it will 
+create files #ADVXX and #ADVYY only if it doesn't find them;  otherwise 
+it will just read them, which is much faster. 
+      Segments 2 & 3 are the original subroutine MAIN.  It was only broken
+up for program size reasons.
+  
+COMPILING:
+      It is necessary to compile six files before loading the program:
+1)    &ADV01--ADVEN, the main (executive) program.
+2)    &ADV03--ADV1, the initialization segment. 
+3)    &ADVX2--ADV2, program segment 2 
+4)    &ADVY2--ADV3, program segment 3 
+5)    &ADV04--Subroutines 
+6)    &ADV05--More subroutines
+  
+These may be compiled using transfer file COMPAD, which will then 
+transfer control to loader file LADVEN. (COMPAND CHANGED TO CADVEN)?? 
+  
+LOADING:
+      Because of the complicated segmentation structure, a loader file
+(LADVEN) is used to load the relocatable files.  It will also purge 
+any type 6 files on cartridge 3 with the same names as the main 
+program or its segments, and will then create new type 6 files. 
+In this way it is not necessary to tie up ID segments or reload 
+the program each time.
+  
+RUNNING:
+      To run the program, RU,ADVEN will do it all.  Right now, Modem
+logical units 13 and 14 are prevented from using the program. 
+  
+DISCS:
+      The program expects all of its files to be on disc cartridge 50.
+If you want to change this for any reason, it is necessary to change
+parameter ICR which is set in a data statement at the beginning 
+of ADV1 in file &ADV03.  The program must then be recompiled and
+reloaded.  NOTE:  You may also have to change cartridge designations
+in the CADVEN file, and also in the SADVEN file used for SAVEM. 
+  
+  
+ Additional Documentation....:
+  
+---------------------------------------------------
+
+Comments by WTN...
+
+To permit compiling without COMPC the sources have been broken up into
+all its component pieces...
+
+&ADV01 = adv01.ftn
+&ADVX2 = advx2.ftn
+&ADVY2 = advy2.ftn repaired from same file in Rev_2433/I011
+&ADV03 = adv03.ftn modified for cart 3 and section 7 field mods
+&ADV04 = advf4.ftn advg4.ftn adv14.asm adv24.asm
+         adv34.asm adv44.asm adv54.asm adv64.asm
+&ADV05 = adv05.ftn adv15.asm adv25.asm
+#ADVZZ modified to add ,999 to empty 3rd fields in section 7
+The ,999 mods were inspired by similar fixes in Rev_2730/L158.
+
+To use the existing link commands in ^ADVEN the split files must be
+individually compiled and assembled then the individual relocateables
+recombined using commands like...
+
+  LG,5
+  MR,file1
+  MR,file2
+  MR,etc ...
+  SA,LG,combinedfile
+
+The ^ADVEN and LADVEN files must be edited to reflect proper cartridge
+numbers, combine/name the relocateables to what it expects or modify.
+Also.. the iof.asm irp.asm linkret.asm narg.asm susp.asm files have
+to be assembled and combined using LG etc commands then at the
+beginning of the link procedure add a LI,file (whatever saved as).
+These are from the "Haystack" library, don't recall which version.
+

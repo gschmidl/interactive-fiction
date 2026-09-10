@@ -1,0 +1,292 @@
+  Adventure for Univac 1100 series ASCII FORTRAN
+option e,on
+option f,on
+option r,on
+1 Introduction
+ Adventure is an epic computer game in which the computer acts as your
+ hands, eyes, and other senses while you explore a mysterious cave.
+ Inside the cave are many treasures you can retrieve, as well as
+ numerous hazards you must avoid.  It's fairly addictive, and
+ quite difficult and time-consuming to get a perfect score.
+
+ Adventure was originally devised by
+ Willie Crowther at Stanford University, and later enhanced by Don Woods,
+ also at Stanford.  It has been implemented on many mini- and large-scale
+ computers, and was converted from DEC FORTRAN to Univac FORTRAN-V
+ by Elliot S. Itkin and others at the University of Maryland
+ Computer Science Center.  UOM's Univac version was used as the base
+ for this Univac ASCII FORTRAN version, for which Duff Kurland
+ of Information Systems Design, Santa Clara, CA is responsible.
+
+ Beware!!!
+
+ News of the availability of this game spreads like wildfire, and
+ it has a tendency to "take over" a computer center for a month or two.
+
+ Another word of advice:  Although you now have access to the
+ game's database, and the source code, the game will be much more
+ enjoyable if you refrain from detailed study of these items.
+1 Revision history
+2 December, 1979
+ This version is more complete than the previous one.  Some of the dead
+ ends now lead to new sections of the cave, and a 50 foot coil of rope
+ adds a new dimension to the game.
+ Two new treasures were added at this time.
+
+ The original source of these revisions is unknown, although I suspect
+ that they are again traceable to Stanford.  I obtained them from
+ Bob Elman of Four Phase Systems.
+
+ Additional local changes have been made in the area of the maze
+ of different passages.  Once a player became good at the old game,
+ he had no more need for this maze since the fresh batteries would
+ not be needed from the vending machine.  So, we added yet another
+ treasure and new rooms here to hide it in.  The maximum score is now 400.
+2 January, 1980
+ Several features first implemented in the Cave program have
+ been retro-fitted to Adventure:
+
+    . "All wrong" wizard mode for privileged users.
+    . Multiple-command input lines ("IN. GET LAMP. OUT")
+    . Multiple objects per action verb ("GET LAMP,KEYS")
+    . Command string repetition ("AGAIN")
+    . Blank lines ignored
+    . Unsolicited "YES" or "NO" get special message.
+2 August, 1980
+ In this version, the code has been modified to take advantage of
+ new features in FTN level 9R1.  The UPPER, LOWER, and A5TOA1 subroutines
+ have been eliminated in favor of the UPPERC, LOWERC, and TRMLEN
+ intrinsic functions, respectively.  The GETIN subroutine was reworked, also.
+2 April, 1981
+ A few minor bugs were fixed in this version:
+
+column 4
+ - The clam and the oyster were inadvertently confused in one set of
+   messages.
+ - "Inventory" now indents "bird in cage" under "wicker cage"
+   if the bird is actually being carried.  (This required swapping
+   the "cage" and "steps" vocabulary entries.)
+ - If the Hall of the Mountain King was entered from the West or
+   Southwest while the snake was still there, attempts to deal with
+   the snake (explicitly) resulted in "I see no snake here".
+column 2
+1 Run-time environment
+2 D-bank initialization
+ If your system has execute-only file capability, it might be prudent
+ to place the absolute program in such a file.  It is
+ executed via @XQT <file>.ADVENTURE .  Once loaded, it checks to
+ see if the user (userid, not runid) had suspended a previous game.
+ This is determined by trying to assign the user's D-bank save file.
+ The user's userid is taken as the qualifier, while the filename is
+ configurable (MASM definition element "DEFS").  If the file
+ exists, the first three words are read to pick up the time and
+ date of the Adventure absolute program which was used,
+ the time and date of the suspension, and the D-bank storage
+ limits at the time of the suspension.  If the same absolute is
+ being executed now, the user is asked whether he wants to continue
+ the saved game.  If so, an MCORE$ is done to the proper D-bank
+ limits, and the D-bank is restored from the user's file.  The user
+ has the option of letting Adventure then delete the save file.
+
+ If the game is not being continued following a suspension,
+ Adventure then tries to
+ assign its master D-bank save file.  The qualifier and filename are
+ configurable, and may be found in MASM definition element "DEFS".
+ If this file exists, its 3-word header is read
+ to determine if the current absolute's time and date of collection
+ match those of the saved program.  If so, the D-bank is
+ restored from the file just as described for the user's save file.
+ If not, nothing more is read from the file, and the database
+ must be supplied as described below.
+ "@ASG,AI" is used to assign this file, to force it to be freed
+ at program termination.  (This feature was implemented by Univac in
+ Exec level 36R1B).
+
+ If neither the user's save file nor the master save file exists,
+ Adventure assumes it is being executed in initial startup mode.
+ In this mode, the database is read from card images (using unit 8).
+ Thus, to initially set up the program, do:
+
+          @ASG,T    DATA.
+          @USE      8.,DATA.
+          @DATA,IQ  DATA.          . don't forget the Q!
+          @ADD,D    TPF$.DATA      . don't forget the D!
+          @END
+          @XQT      ADVENTURE
+
+ The program will print "Initializing...", and when all the
+ data has been read successfully, it will print "Init done".
+ The user may then check out the program normally, but no copy
+ of the D-bank will be made unless "magic mode" is used (see below).
+
+ Note that if any changes are made to the program itself,
+ the database card images must be re-read.
+ If only the database is being changed, and the absolute is the
+ same as before, the I option may be used (@XQT,I ADVENTURE) to
+ refrain from restoring the D-bank from the save file, and force
+ the reading of the database card images from file 8.
+3 Save file attributes
+ The program currently uses an
+ equipment type of "F40" in its CSF$ request when cataloguing
+ the D-bank save files.  The master D-bank save file is catalogued "public"
+ with read/write keys so that the program may get to it when
+ executed by various users.
+ If your operating system enforces privacy in a manner unlike that of
+ standard Univac Exec-8, you may wish to change the privacy of
+ the master file such that any user may read
+ it, but only wizards need be able to write in it.
+
+ The program's vocabulary is forced through a minimal hashing
+ scheme prior to being saved in the D-bank arrays.  This is done
+ simply to frustrate attempts to circumvent the cave's mystery.
+2 Cave Hours
+ The cave may be closed during "prime time", in which case only
+ wizards can play.  Short demonstration games are permitted
+ during this time, however.
+2 Magic mode
+ This information is intended for use only by the person responsible
+ for maintaining Adventure at a particular site.  This person must
+ know the game's current "magic word", as well as its current
+ "magic number".
+
+ "Magic mode" is Adventure's maintenance mode of operation.
+ In this mode, the program maintainer ("wizard") may modify the cave
+ hours, set the maximum length of a demonstratin game, etc.
+ In order to begin this mode of operation, the command "MAGIC MODE"
+ must be entered as the very first move of the game (when you
+ are at the end of the road).  The following dialogue will ensue:
+
+     Are you a wizard?               <yes>
+     Prove it!  Say the magic word!  <current magic word>
+     That is not what I thought it was.  Do you
+        know what I thought it was?  <no>
+     (random 5-letter word typed by program)
+     <derived 5-letter word entered by wizard, based on
+        algorithm involivng above random word, current time,
+        and current "magic number".>
+     Oh dear, you really ARE a wizard...
+
+ and now you are in magic mode.  The hard part is calculating the
+ proper response to the random challenge.  See routine "WIZARD"
+ and decipher the algorithm.  Routine "POOF" contains the initial
+ definitions for the magic word, magic number, and other items.
+ Outlined below are the items you can change while in magic mode.
+ Once you have answered all the relevant questions, the master save
+ file will be catalogued, the program's D-bank will be saved in it,
+ and the program will exit.
+
+ A utility program called "MAGIC" has been supplied with this version
+ of Adventure.  It requests the current magic number, and calculates
+ what the necessary 5-letter response will be for magic mode entry.
+3 Cave hours
+ This version of Adventure supports two classes of users:
+ paying customers, and in-house users.  Each class may be assigned
+ "prime time" hours during which the cave is closed except for
+ short demonstration games.
+ Within each user class, weekdays, weekends, and holidays may
+ be given differing hours.
+
+ The program will ask you if you want to see the current hours.
+ If you answer affirmatively, the cave hours for each class of
+ user are displayed.
+
+ The program will then ask if you want to change the hours.
+ If you answer affirmatively, you will be prompted for the
+ necessary information for each user class.
+3 Holidays
+ If you wish to schedule a holiday, this may be done by specifying
+ how many days hence the holiday is to begin, how many days long
+ it is, and what it is to be called.  The program prompts you for
+ this information.
+3 Length of short game
+ The maximum number of moves permitted in a demonstration game
+ (during hours when the cave is closed) may be changed.  The standard
+ value is 30.
+3 Magic word
+ The current magic word (the one you used when the program said
+ "Prove it! Say the magic word!") may be altered, if desired.
+3 Magic number
+ The current magic number (used in the random challenge algorithm)
+ may be altered, if desired.
+3 Latency for restart
+ When a player suspends a game, that game may not be resumed until
+ a sufficient amount of time has passed.  This discourages use of
+ the suspend facility as a means of holding your current score
+ and position when you are about to try something that might
+ adversely affect them, like getting yourself killed.
+ The standard value is 90 minutes.
+3 Message of the day
+ A multi-line message may be entered, if desired.  This message will be
+ printed each time a game begins.
+1 Generation notes
+ This version of Adventure was generated using PDP level 12, MASM
+ level 3R1, FTN level 9R1, and MAP level 30R1, under Exec level 36R1B.
+2 File names
+ MASM definition element "DEFS" defines filename used for all D-bank
+ save files, and the qualifier used for the master save file.
+ These values may be changed for test versions of the program, etc.
+ If they are changed, however, elements "INITDB", "SAVEDB", and "SAVEMA"
+ must be re-assembled.
+
+ The master save file is expected to have read/write keys as defined
+ in element "SAVEMA".
+
+ The cell ACCTNR (in "INITDB") defines the qualifier to be used for
+ the user's save file.  This is currently based on the user's userid,
+ which is obtained via ER INFO$.
+
+ As shipped, the program uses ADV$$*ADV$$/READKY/WRITKY for the master
+ save file, and <userid>*ADV$$ for the user save file.
+ If the shipped version is to be used as-is, the master file should
+ be catalogued with the above name, and copied from tape in the
+ following manner:
+
+          @CAT,P    ADV$$*ADV$$/READKY/WRITKY,F40///200
+          @COPY,G   TAPE.,TEMP.
+2 User classes (paying vs. in-house)
+ The MASM subroutine "GETCLS" is responsible for determining
+ which classification each player belongs to.  This routine will
+ probably require modification at each site.  Class 1 is for
+ "paying customers", for whom the cave is normally open all the time.
+ Class 2 is for "in-house users", for whom the cave would normally
+ be closed during business hours.
+
+ MASM definition element "DEFS" contains a configuration parameter
+ called "ISD".  If set to zero, all users will be assumed to be
+ of class 1 (customer).  If nonzero, ER MCT$ will be used to
+ verify that the program is being run at ISD:  if so, a special
+ local ER ("PROP$") will be called for billing purposes
+ if the user's account indicates he's not an ISD Systems Dept. user.
+
+ When Adventure is generated at another site, tag "ISD" should be
+ set to zero, or "PROP$" will appear as an undefined symbol.  The
+ program should not actually reference it, however, because of the
+ MCT check.
+ (The MCT check is coded for Exec level 35R1 and beyond).
+1 Pitfalls
+ The following is a list of the known "odd" features used by
+ this program.  Some of them may not work on all levels of
+ the operating system.
+2 @ASG,I
+ The D-bank save files created by "magic mode" and the "SUSPEND"
+ command are assigned with the "I" option to force a free of the
+ file at program termination.  This is a security feature, and
+ relies on the support code for it which Univac implemented in
+ Exec level 36R1B.  To our knowledge, no bad effects will be noticed
+ if this option is used on previous Exec levels.
+2 ER BANK$ storage limits retrieval
+ The D-bank save files created by "magic mode" and the "SUSPEND"
+ command contain the D-bank storage limits as retrieved by ER BANK$.
+ The limits are used to determine how much to write to the save file,
+ and are saved in the file so that an ER MCORE$ to the proper size
+ may be performed when the D-bank is initialized from the save file.
+ Prior to Exec level 35, ER BANK$ returned improper information
+ conerning the upper storage limit:  rather than returning
+ the highest address of the last core block, it returned the
+ first address of the last core block (0151000 instead of 0151777,
+ for example).  If an attempt is made to execute this program on an
+ Exec earlier than level 35, all sorts of errors may occur
+ unless the ER BANK$ is fixed, or the code in MASM elements
+ SAVEDB and SAVEMA is modified to cope with the old-style
+ informatin returned by ER BANK$.
+roman on

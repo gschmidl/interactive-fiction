@@ -1,0 +1,3 @@
+      dimension ktab(tabsiz)
+      character*5 atab(tabsiz)
+      common /voccom/ ktab,atab

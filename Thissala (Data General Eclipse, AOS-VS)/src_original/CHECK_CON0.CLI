@@ -1,0 +1,5 @@
+[!equal,%2%,lnk]
+  string %2%
+[!else]
+  string/k
+[!end]

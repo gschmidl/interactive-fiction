@@ -1,0 +1,20 @@
+       SUBROUTINE CIAO
+
+C  EXITS, AFTER ISSUING REMINDER TO SAVE NEW CORE IMAGE.  USED WHEN SUSPENDING
+C  AND WHEN CREATING NEW VERSION VIA MAGIC MODE.  ON SOME SYSTEMS, THE CORE
+C  IMAGE IS LOST ONCE THE PROGRAM EXITS.  IF SO, SET K=31 INSTEAD OF 32.
+
+       IMPLICIT INTEGER (A-Z)
+       character*5  wd1, wd2
+       character*12 wd1x, wd2x
+C
+C DATA THIS TO 33 FOR UNIVAC 1100 SERIES SYSTEMS
+C
+       DATA K/33/                                                       ESI
+
+       CALL MSPEAK (K)
+       IF (K.EQ.31) CALL GETIN (wd1,wd1x,wd2,wd2x)
+       IF (K.EQ.33) CALL SAVEMA                                         ESI
+       IF (K.EQ.33) CALL MSPEAK (34)                                    ESI
+       STOP
+       END

@@ -1,0 +1,2040 @@
+.comment  File:  WARPDOC.data.detroit    21 September 1986
+.comment
+.comment  Purpose:  This file contains the User Manual
+.comment            for WARP version 38
+.comment  remember 65-column limit for examples !!!
+.comment
+.comment  To obtain a copy of this document do the following:
+.comment
+.comment       :FILE INFILE=WARPDOC.data.detroit
+.comment       :FILE OUTPUT;DEV=LP;CCTL
+.comment       :RUN PROSE.QLIB.ROBELLE
+.comment
+.comment select one of these .out commands; comment out the rest.
+.out(lpt e+ s7).mar(r65).comment For Lineprinter devices
+.com.out(las 30 e+ c1 r- s8).mar(r65).comment For LaserJet devices
+.com.out(lpt q+ w80).mar(r78).comment helpcomp;parm=1
+.comment This document has an index; entries in the index are
+.comment created via .inx <string> and the format of the index
+.comment is governed by .sortindex.
+.comment See end of document for .sortindex command!
+.par(f` p5 s1 u3).comment Automatic .skip 1.page 5 for new sections
+.com.opt(j4).comment For final draft on lp, use j3 and hyphenate
+.com.opt(j3) is the default, so commenting out the above line
+.comment results in "nice" output (with imbedded spaces reduced).
+.include warpdoc1.data.detroit
+.inp(u~ b@ h\ e& t# f|).com underline,blank,hyphen,escape,tab,font)
+.for([ // l55 //]).comment Unnumbered preface pages
+.com l55 for LP, l63 for booklet
+
+.opt(l- r- f-).skip 10.com This centers the text.
+
+
+|3WARP|
+
+|3User Manual|
+
+
+.skip 2
+WARP version v38, created 3/21/1985
+
+Documentation created 9/21/1986
+.skip 8
+
+.font 5.com Switch to Courier, fixed pitch
+.inp(h f )
+.inx banner
+@____________________________________________________________ @
+@|                                                          | @
+@|            W E L C O M E   T O   W A R P !               | @
+@|                                                          | @
+@|      The paradoxical world of Warp awaits you with       | @
+@|           intrigue, suspense, and adventure!             | @
+@|                                                          | @
+@|  Please sit back and relax while I assemble the world.   | @
+@|                                                          | @
+@|                   Brought to you by                      | @
+@|             * Rob Lucke and Bill Frolik *                | @
+@|                                                          | @
+@---------------------------obie----------------------------- @
+@@//|| |                  //|| |                  //|| |      @
+@// || |     \/\/        // || |         \/\/    // || |      @
+//  || |      ||        //  || |          ||    //  || |      @
+VVvwWWvWWWwVVvVVwWWwwVVvvWWwwwWWVvVwwVwwVVwwWWvwWVvwVwvVWvvvwVV
+.font 0.com Switch back to TMS Roman medium, proportional.
+.inp
+.opt.com Go back to the options that were previously in effect (l+ r+ f+)
+.font 2.com Switch to TMS Roman italics, proportional
+.page.for([// l55 / #33 pr:3 /]).com 55 or 63
+.font 0.com Switch back to TMS Roman medium, proportional
+
+.skip 3
+.font 2.com Switch to italics
+.mar(l+10 r-10).com Squeeze both margins in by ten characters
+.opt(l- r- f-)
+Preface
+.opt
+
+This is an `unauthorized biography' of sorts, in the sense that
+it was produced without the knowledge or consent of the
+authors of Warp, who are Bill Frolik and Rob Lucke.
+
+The Warp game has been floating around the HP 3000 user community
+for about five years.
+The game has never actually been officially released; every copy that
+currently exists is an unauthorized pirate version,
+.inx pirate versions
+unless the user
+received it directly from one of the authors.
+This is true even for the copy distributed by the INTEREX users group
+on their B0 Contributed Software Library tape.
+.inx INTEREX
+.inx B0 CSL tape
+.inx Contributed Software Library
+
+Almost all of the information in this doc\u\ment comes from the game itself.
+WARP is wonderfully self-documented, with built-in help on many topics.
+This made the pro\duc\tion of this document a very easy task.
+
+This documented originally started out as an exercise in learning the
+ins and out of the Prose
+.inx Prose text formatter
+text formatter for producing manuals.
+Warp just happened to be the subject matter that I chose.  As such,
+this document was never intended to be the definitive word on Warp.
+However, now that the task is done, I will keep the document up to date.
+Users who have corrections or additions to this doc\u\ment
+.inx additions to this document
+may send these
+to me in writing at the address which appears below.
+
+I have intentionally tried to not include much information which
+would make the game too easy, or would cause it to not be any fun to play.
+.skip 2
+.opt(l- r- f-)
+Disclaimer
+.inx disclaimer
+.opt
+
+Neither I nor Robelle Consulting have any connection with the authors.
+We do not distribute the software.
+
+.opt(l- r+ f-).com Right justify the following text
+Michael Shumko
+Robelle Consulting Ltd.
+8648 Armstrong Road, R.R. &#6
+Langley, B.C.   V3A 4P9
+.opt
+.mar.com Put the margins back to what they were before
+.font 0.com Switch back to TMS Roman medium
+.page
+
+.skip 6
+.opt(l- r- f-)
+|3WARP|
+
+|3User Manual|
+.skip 3
+|3Contents|
+.opt
+.skip 2
+.mar(l+4)
+  |1Page|#13|1Topic|
+
+  1#13Welcome to WARP
+  1 #15Descriptions
+  1 #15Command Structure
+  1 #15Moving Around
+  2 #15What I Can Understand
+  2 #15When I Don't Understand
+  2 #15Some Helpful Commands
+  2 #15Your Name
+  3 #15About The Game
+
+  4#13Built-in Help
+
+  16#13Enabled Mode
+  16#15Becoming Enabled
+
+  17#13Enabled Help
+
+  22#13Other Stuff
+  22 #15Object Of The Game
+  22 #15Treasures
+  23 #15Puzzles
+  23 #15Ways To Die
+  24 #15Phone Numbers
+  25 #15The Inquisition
+  25 #15Other Sources of Information
+
+  26 #13Miscellaneous Info
+
+     #13Appendices
+
+  28 #15A#20Dictionary
+
+  33 #15B#20Installation
+
+  36 #13Index
+.mar
+.page.count 1
+.com 55 lines or 63 lines
+.for([ T #26 s:40 // l55 / #33 "-" pn:1 "-" /]
++    [ s #26 t:40 // l55 / #33 "-" pn:1 "-" /])
+
+.skip 3
+.tit.sub
+.tit |2Welcome to WARP|
+.opt(l- r- f-)
+|3Welcome to WARP|
+.opt.skip 2
+
+WARP is a fairly involved game to play.  You, the player, will be
+presented a variety of descriptions of your immediate sur\round\ings
+in the game scenario.  Using your own intuition, creativity and
+judgement, you must explore the area in search of various treasures.
+Along the way, you will solve certain puzzles.  If you are unfamiliar
+with Computer Fantasy Sim\u\la\tions, just follow these easy steps ...
+
+.sub |1Descriptions|
+`|1Descriptions|
+
+You are about to enter a massive fantasy land.
+For each place you visit, I will give you a short
+description of where you are, what objects (if any)
+are in the vicinity, and any other information that
+may be of use.
+
+.sub |1Command Structure|
+`|1Command Structure|
+
+I understand (almost) any kind of English command,
+so if there's something you want done, just ask me to
+do it for you (I'll be your eyes and hands).
+Commands, in general, look something like:
+
+       VERB OBJECT(S) PREPOSITION OBJECT
+
+The verb
+.inx verbs
+is required (except in special cases ... more
+on that later), and an object of a verb can be a variety
+of things, such as BOOK, or LARGE RED BOOK, or BOOK AND
+LAMP, to name a few.  Adjectives
+.inx adjectives
+are required for
+certain objects (such as the BLACK BUTTON and the
+RED BUTTON, in order to differentiate them), and multiple
+objects
+.inx multiple objects
+can be listed by concatenating them with AND's
+or commas (or nothing at all, if you want).
+Articles
+.inx articles
+(a, an, the, that) are ignored if they're present.
+Also, you can specify ALL if you want to refer to all
+objects present, or ALL BUT OBJECT(S) if you want to
+refer to everything except certain things.
+
+Prepositions
+.inx prepositions
+include things like FROM, INTO, TO, etc...
+and always require one object.
+
+.sub |1Moving Around|
+`|1Moving Around|
+
+To go somewhere, just tell me the compass direction
+.inx compass directions
+.inx directions
+that
+you want to head toward.  For example, you can say things
+like GO WEST or WEST or even easier W.  If you
+forget where you are, just say LOOK (or just L.)
+
+.sub |1What I Can Understand|
+`|1What I Can Understand|
+
+I will try my best to make sense out of what you type
+for commands, and will let you know (usually in a very
+blatant way) if I don't understand.  For example,
+I have no trouble at all with things like ...
+
+  >Go north.
+  >Get the lamp and the wrench from the toolbox.
+
+&... or even more complicated sentences, such as ...
+.inx complicated sentences
+
+  >Go west and get everything but the lamp from the toolbox.
+  >Backtrack 2 moves.  Next, inspect the peg and fountain.
+
+&... but I have to question such things like ...
+
+  >Garble the furble framlicht bonzagaberry.
+  >How can you be in two places at once?
+  >Get everything from the toolbox except the wrench.
+
+Note the last one: prepositional phrases
+.inx prepositional phrases
+must have ONLY one
+object, and be the LAST thing in the sentence.
+
+.sub |1When I Don't Understand|
+`|1When I Don't Understand|
+
+If you get flustered because I don't seem to understand
+what you're trying to say, be patient.  My vocabulary
+isn't anywhere near as large as yours (I assume), but
+should be complete enough that you can get your message
+across if you just rephrase or try other words.
+
+.sub |1Some Helpful Commands|
+`|1Some Helpful Commands|
+
+Typing INVENTORY will tell you what you are carrying;
+HEALTH or DIAGNOSE will give you a quick check-up.
+SCORE reports your current progress, and QUIT will get
+you out of the game.   For more detailed information,
+you can type HELP and select a subtopic.
+
+.sub |1Your Name|
+`|1Your Name|
+.inx your name
+.inx name
+
+Please note:  When WARP asks you for your name, it is
+important that you choose a response and use it
+consistently.  USE THE SAME NAME ALL THE TIME.  Certain
+things in the game depend upon your name, and to use a
+different name each time will virtually guarantee that
+you will be disappointed in the future.
+
+.sub |1About The Game|
+`|1About The Game|
+
+The game of WARP has been painstakingly designed to be
+chal\leng\ing for even the most sophisticated and demanding
+puzzle en\thu\si\asts.  Some of the puzzles will be quite
+obvious, while most are elusively subtle.  For example,
+placing items of value in the curator's case is not all
+that obvious.
+
+Because of the nature of the game, the authors will
+constantly be striving to provide you with new and
+better puzzles to test your cunning (and your patience),
+so don't be surprised if things change slightly from
+time to time.
+
+Any bugs or suggestions for improvement will gladly be
+con\sid\ered. Please document the circumstances and
+results of any bugs and give them to the authors.
+Correspondence to Bill Frolik or Rob Lucke,
+Hewlett-Packard Co.,
+1000 NE Circle Blvd., Cor\val\lis, OR  97330.
+
+.font 2
+Note:
+As of summer 1986, Rob was no longer with Hewlett-Packard.
+Correspondence for Rob may be sent to:
+13680 NW Overton, Portland, OR  97229.
+Written correspondence only.
+Bill is still with HP in Corvallis.
+.font 0
+.page
+.sub
+.tit
+
+.skip 3
+.tit |2Built-in Help|
+.opt(l- r- f-)
+|3Built-in Help|
+.opt.skip 2
+
+Warp has its own online help facility.
+.inx online help
+Help is available on the following topics:
+
+.opt(l+ r- f-).com Left justify the following text
+  #3Add        #16Again      #29Always     #42Backtrack  #55Brief
+  #3Clear      #16Control-y  #29Counter    #42Create     #55Declare
+  #3Define     #16Delete     #29Diagnose   #42Die        #55Do
+  #3Echo       #16End        #29Execute    #42Exit       #55General
+  #3Health     #16Help       #29Holidays   #42Hours      #55If
+  #3Inventory  #16List       #29Load       #42Logfile    #55Macro
+  #3Mumble     #16Never      #29Oops       #42Quit       #55Repeat
+  #3Restart    #16Restore    #29Return     #42Save       #55Say
+  #3Score      #16Sethours   #29Show       #42Stop       #55Subtract
+  #3Superbrief #16Tell       #29Verbose    #42Warp
+.opt
+
+Just type HELP <topicname>.
+
+.sub |1Add|
+`|1Add|
+
+The ADD command lets you add some value to the counter.
+For example, if the counter currently is set to 15, typing
+ADD 9 would increment it to 24.  Simply typing ADD without
+a number increments the counter by one.  INC is synonymous
+.inx incrementing the counter
+with ADD.  (Type HELP COUNTER for more information.)
+
+.sub |1Again|
+`|1Again|
+
+Typing AGAIN (or R) lets you repeat your most recent
+.inx redo, as in repeat
+command.  Additionally, you can specify a repeat count
+as in AGAIN 4, if you wanted to repeat your last command four
+more times.  Some special commands like SAVE and RESTORE are
+not repeatable.
+
+.sub |1Always|
+`|1Always|
+
+The ALWAYS command lets you perpetuate macros.  If you type:
+.inx perpetual macros
+
+    ALWAYS <macro name &#1> <parameter &#1> <parameter &#2> ...
+
+the macro you specify will be executed at the end of each typed-in
+command.  A perpetuated macro will not be executed at the end of each
+command within another executing macro; it will only be run after each
+manually entered non-macro-executing command.
+
+For example, if you typed the following bunch of commands:
+
+    >ALWAYS MAC1 KNIFE
+    >ALWAYS MAC2 BEAR GUARD
+    >GO NORTH.MAC3.S.SCORE
+
+the perpetual commands "MAC1 KNIFE" and "MAC2 BEAR GUARD" would be
+executed after the commands "GO NORTH", "S", and "SCORE".  They would
+not be executed after "MAC3", since that typed-in command runs another
+macro.
+
+.sub |1Backtrack|
+`|1Backtrack|
+
+The BACKTRACK command
+.inx moving backwards
+.inx backing up
+allows you to do the reverse of the
+previous moves you have made (up to 20).  RETURN, BACK, B and
+BACKTRACK all do the same thing.  Example:   type
+"BACKTRACK 4" to reverse the previous four moves.  BACKTRACK
+will work only if the inverse move is legal (i.e., it won't allow
+you to back through walls).  And yes, backtracked moves are logged,
+so that it is possible to backtrack a backtrack and return to
+the same place you started.
+
+.sub |1Brief|
+`|1Brief|
+
+The BRIEF command suppresses long room descriptions only after
+you have visited the room at least once.  A description of all
+items in the room (if there are any) is still provided.
+(This is the mode in which Warp starts out.)
+See also Superbrief and Verbose.
+
+.sub |1Clear|
+`|1Clear|
+
+The CLEAR command homes up and clears the crt screen.
+
+.sub |1Control-Y|
+`|1Control-Y|
+.inx control-y
+
+If you accidently find yourself running a macro that you
+didn't want to run, or see millions of lines of output flooding
+your screen, you can usually abort any macros and flush any
+output by typing control-Y (hold down the CNTL key, and press Y.)
+
+.sub |1Counter|
+`|1Counter|
+.inx counter
+.inx general-purpose counter
+.inx user-defined counter
+
+The COUNTER is a general-purpose register made available to you,
+the player, for whatever use you may find.  Possible applications
+might be in controlling perpetual macros (type HELP ALWAYS or
+HELP NEVER for information on perpetual macros), performing certain
+feats only a limited number of times, or simply for keeping count
+of something.  The LOAD, ADD, INC, SUBTRACT, and DEC commands
+let you manipulate the counter.  The COUNTER command shows you
+what the counter currently contains.
+
+.sub |1Create|
+`|1Create|
+.inx creating macros
+
+CREATE, DEFINE, and DECLARE are all synonomous commands for
+creating your own macros (type HELP MACRO if you don't know
+what a macro is.)  The general format is CREATE <macroname>,
+where <macroname> is whatever you want to call your macro (10
+char\ac\ters maximum.)  You will then see an equals sign (=)
+prompting you to type in your macro (currently limited to one
+line) just as you would type in a normal command line.
+To run a macro, type DO <macroname>, or <macroname> if the
+name is normally not a Warp-recognized word.  The LIST comand
+will tell you what macros you have, or list out a particular
+macro.
+
+.sub |1Declare|
+`|1Declare|
+
+Same as CREATE.  Type HELP CREATE for further information.
+
+.sub |1Define|
+`|1Define|
+
+Same as CREATE.  Type HELP CREATE for further information.
+
+.sub |1Delete|
+`|1Delete|
+.inx deleting macros
+.inx purging macros
+
+DELETE <macroname> lets you delete any macro which is currently
+defined.  (For information on macros, type HELP MACRO.)
+
+.sub |1Diagnose|
+`|1Diagnose|
+
+DIAGNOSE and HEALTH are identical commands for determining your
+current state of being in the game.  If you're at your peak
+strength, you're 100% healthy.  If you're 0% healthy, you're
+probably dead.
+
+.sub |1Die|
+`|1Die|
+
+Commits suicide by terminating the program (see QUIT).
+
+.sub |1Do|
+`|1Do|
+
+Type DO <macroname> to run a specific macro.  (The word DO is not
+needed if the macro has a name that is not normally recognized
+by Warp.)  If an error occurs while running the macro, any or
+all macros currently in progress will abort and you will be prompted
+for the next command.  For more information, type HELP MACRO.
+
+.sub |1Echo|
+`|1Echo|
+
+If you type ECHO OFF, most of the output to your terminal will
+be suppressed (though not all of it.)  ECHO ON resumes output.
+If you add the word MACRO anywhere after the initial word ECHO,
+you can turn on or off the printing of commands during macro
+execution.
+
+.sub |1End|
+`|1End|
+
+Terminates WARP.
+
+.sub |1Execute|
+`|1Execute|
+
+Synonomous with DO.  Type HELP DO for more information.
+
+.sub |1Exit|
+`|1Exit|
+
+Terminates WARP.
+
+.sub |1Health|
+`|1Health|
+
+Same as DIAGNOSE.  Type HELP DIAGNOSE for more information.
+
+.sub |1Help|
+`|1Help|
+
+You can't be serious.  If you're that far gone, you don't need
+me, you need a psychiatrist.
+
+.sub |1Holidays|
+`|1Holidays|
+
+Type HOLIDAYS to find out what holidays Warp knows about.
+
+.opt(l+ r- f-)
+.font 5
+>HOLIDAYS
+Warpian National Holidays include:
+   January 1
+   April 1
+   May 31
+   June 9
+   June 19
+   July 4
+   November 27
+   December 25
+
+There is room for 2 more holidays.
+.opt
+.font 0
+
+.sub |1Hours|
+`|1Hours|
+.inx time restrictions
+.inx prime time
+
+Type HOURS to find out during what parts of the day Warp
+can be played.
+
+.sub |1If|
+`|1If|
+
+The IF command allows you to conditionally execute some other command.
+For the average player, this is probably a rather esoteric feature of
+Warp and is perhaps better off left unused.  For the adventurous and
+creative, however, it may provide some interesting uses.
+The syntax of the IF command follows one of the forms:
+
+     IF [NOT] <CONDITION> <OBJECT LIST>
+     IF [NOT] <RELATION>
+
+The word NOT is optional and may be included to negate the condition
+being checked.  The <CONDITION> or <RELATION> must be one of the following:
+
+ #5----Conditions----  #30----Relations----
+ #5HAVE (or POSSESS)   #30<  #34(Less than zero)
+ #5SEE (or VISIBLE)    #30<= #34(Less than or equal to zero)
+ #5OPENED              #30=  #34(Equal to zero)
+ #5CLOSED              #30>= #34(Greater than or equal to zero)
+ #5WEARING             #30>  #34(Greater than zero)
+                       #30<> #34(Not equal to zero)
+
+while the <OBJECT LIST> is any ordinary group of specific objects.
+
+If the condition, when applied to the entire object list, evaluates
+as being true, then nothing unusual happens and execution continues
+with the next command.  If the condition turns out to be false,
+however, the next single command will be skipped.  For example,
+
+     >IF SEE BEAR.LOOK AT BEAR.GO NORTH
+
+would check if the bear is visible and, if it is, describe it.
+In any event, the player would then move north.
+
+Since the word "THEN" is a command delimiter, the previous example
+could be stated as,
+
+     >IF SEE THE BEAR THEN LOOK AT IT.  GO NORTH.
+
+"IF" is parsed just like any other verb; it can take on multiple
+objects, but they must be specific (you can't use ALL or ALL BUT.)
+
+     >IF NOT SEE PEG AND FOUNTAIN THEN FARKLEBUNS
+
+Note that the single command that gets executed if the condition is
+true may be a macro call.  This can lead to all sorts of interesting
+things if IF commands themselves are used inside macros.
+
+     >DEFINE GUNDOWN
+     (Define Gundown)
+     =SHOOT &@1.IF SEE &@1 THEN GUNDOWN &@1
+
+This violent but illustrative example makes it possible for the user
+to "machine gun" an object, with the maximum repetition limited by
+the macro nesting depth limit.  (Type HELP MACRO for an further help
+concerning nesting, definition, and parameter passing via "&@" symbols.)
+
+If the relational form of the IF command is used, the general-\purpose
+player-available counter is checked against zero.  If the specified
+relationship is true (i.e., equal to zero, greater than zero, etc.),
+the next command is executed.  Note that this form of the IF command
+requires no objects (if you specify any objects anyway, they will be
+ignored.)
+
+.sub |1Inventory|
+`|1Inventory|
+
+Type INVENTORY (or I, or INVEN, or INVENT) to get a current list
+of stuff you are carrying.
+
+.sub |1List|
+`|1List|
+
+LIST will print out a list of currently defined macros.  To list
+any particular macro, type LIST <macroname>.
+
+.sub |1Load|
+`|1Load|
+
+The LOAD command lets you load a value into the counter (type HELP
+COUNTER for more information on the general-\purpose coun\ter.)
+To load a 7 into the counter, for example, you would simply type
+
+    >LOAD 7
+
+.sub |1Logfile|
+`|1Logfile|
+
+If you want, you can set up a file called `WARPLOG' in which all
+initial start-ups, restarts, restores, deaths, and quits are recorded.
+The file must be manually built in the same group and account as the
+Warp database files:
+
+  :BUILD WARPLOG; REC=-80,16,F,ASCII; CIR; DISC=100
+
+for example, would set up a logfile 100 records long, though you can
+use DISC=<any convenient size> if you prefer.  The important things are:
+
+.mar(l+4)
+.par(s0 u4)
+`1.@@The file must be in the same group and account as the database files.
+`2.@@The file must be released so that any player can write into it.
+`3.@@The file must be named WARPLOG.
+`4.@@The file must be CIRCULAR (specify "CIR" in the BUILD command.)
+`5.@@The file must have 80-byte fixed-length ascii records.
+.par.mar
+
+The file must be circular because Warp makes no checks against writing
+past the end of the file; circular files are not supported on early
+versions of MPE.  You could use an ordinary file, but Warp may die a
+violent death if the end-of-file is encountered.
+
+Note that if WARPLOG is not found or cannot be accessed, logging is
+not performed.
+
+.sub |1Macro|
+`|1Macro|
+
+A macro is a set of commands that can be summoned by referring
+to a single name, that is, a macro name.  This is especially
+useful in situations where a long line of text is used over
+and over, such as might be the case while operating a vehicle or
+opening a combination safe.  For example, suppose you want to move
+from Place A to Place B using the following sequence of moves:
+
+     >N.N.E.NW.S.S.S.N.N.E.U.D.D
+
+You could, if you wanted, retype that line every time you wanted
+to make the trip.  If you plan to make the trip often, however, you
+might find it easier to define the moves as a single macro and then
+simply call up that macro each time you needed it.  The same example
+might then become
+
+     >DEFINE ATOB
+     (Define Atob)
+     =N.N.E.NW.S.S.S.N.N.E.U.D.D
+     (Atob defined)
+
+To actually do the moves, you would then type
+
+     >DO ATOB
+or   >ATOB
+
+each time you want to go from Place A to Place B.  If the macro has a
+unique name (i.e., one that is not normally understood by Warp), you can
+run it by just typing its name.  In any case you can run a macro by
+typing "DO <macroname>".
+
+Sometimes you may want to execute commands which are almost, but not
+quite, the same.  This may be the case when handling certain objects
+where the way the object is handled is always the same, but the object
+itself may be different each time.  In this case, you can add parameters
+to your macros:
+
+     >DEFINE CHECK
+     (Define Check)
+     =OPEN THE &@1 THEN LOOK IN IT
+     (Check defined)
+
+The "&@1" is a placeholder for another word that you specify when you
+run the macro.  By typing:
+
+     >CHECK TOOLBOX
+
+you expand the macro into the following command
+
+     >OPEN THE TOOLBOX THEN LOOK IN IT
+
+You can have up to nine such placeholders, "&@1" through "&@9".  The
+number fol\low\ing the "&@" specifies the word position fol\low\ing the
+macro name from which the replacement word will be taken
+(position-dependant parameters).
+
+If you want to define more than one macro, you can do so with one
+DEFINE command.  Just list the names of all the macros you want to
+declare after the word DEFINE, and you will be prompted one at a time
+for the commands of each macro:
+
+     >DEFINE BOZO THE CLONE
+     (Define Bozo)
+     =ECHO MACRO OFF.W.N.N.E.ECHO MACRO ON
+     (Bozo defined)
+     (Define The)
+     =TELL THE CURATOR "HELLO SAILOR"
+     (The defined)
+     (Define Clone)
+     =PUT &@1 IN &@2.CLOSE &@2.RUB &@2.OPEN IT
+     (Clone defined)
+
+Note that it is not possible to define a macro with a blank name.
+
+You can have up to 20 macros, each up to one line long.  LIST will
+list currently defined macro names, while LIST <macroname> will list
+out a particular macro definition.  DEFINE and DELETE are used to
+create and destroy macros.
+
+Macros may also be nested or be executed recursively.  That is,
+one macro may DO another macro, or it may even DO itself.
+Macros may be nested up to 5 levels deep.
+
+Any of the commands that normally terminate WARP (i.e., QUIT or
+END) may be used to terminate a macro and "pop back" to the
+previous macro or user command level.  This is not necessary, however,
+as when an executing macro runs out of commands, it automatically
+pops back to the previous command level.
+
+.sub |1Mumble|
+`|1Mumble|
+
+Oh, that's just my way of telling you I don't understand a word.
+
+.sub |1Never|
+`|1Never|
+.inx perpetual macros
+
+The NEVER command cancels perpetuated macros.  If you type:
+
+    NEVER <macro name &#1> <macro name &#2> <...>
+
+the perpetuality of the specified macros will be turned off.
+Type HELP ALWAYS for information about perpetuated macros.
+
+.sub |1Oops|
+`|1Oops|
+.inx redo, as in oops
+
+If I mumble a word, it may be because you misspelled what you
+had intended to type.  To save yourself a lot of retyping, you
+can say OOPS <Correct spelling> to correct the word.  For example,
+consider the following conversation:
+
+    >GET EVERYWHING BUT THE LAMS FROM THE TOOLBOX
+    Mumble "EVERYWHING"?
+    >OOPS EVERYTHING
+    Mumble "LAMS"?
+    >OOPS LAMP
+    Rope taken
+    Knife taken
+
+OOPS allows you to correct mumbled words at your discretion.
+Also note that multiple OOPSing on the same command is allowed.
+Synonyms of OOPS are OPPS and O.
+
+.sub |1Quit|
+`|1Quit|
+
+Terminates WARP.
+
+.sub |1Repeat|
+`|1Repeat|
+
+Same as AGAIN or R.  Type HELP AGAIN for more information.
+
+.sub |1Restart|
+`|1Restart|
+
+If you get in a bind and want to start the game over from the
+very beginning, type RESTART.  This has the same effect as exiting
+from the program and then re-running WARP.
+
+.sub |1Restore|
+`|1Restore|
+
+By typing RESTORE, you can reset your current game to any previously
+saved state, as long as a previous game was saved in an appropriate
+savefile using the SAVE command.  Type HELP SAVE for information
+regarding savefiles.  If you type RESTORE <save\file name>, the
+restored game will be loaded from the specified savefile.  If you
+type RESTORE, the game comes from a temporary savefile
+that will disappear when you quit WARP.  RESUME is
+synonymous with RESTORE.
+
+.sub |1Return|
+`|1Return|
+
+Same as BACKTRACK.  Type HELP BACKTRACK for more information.
+
+.sub |1Save|
+`|1Save|
+
+You may save the present state of your game by typing the SAVE
+command.  Unless you specify a savefile, your game will be put
+in a temporary savefile that only has room for a single game.  If
+you quit WARP, the temporary savefile will disappear into thin
+air.
+
+Permanent savefiles are easily made by simply specifying the
+name of the file after the SAVE command.  Note that you must
+have savefile capability (SF) on the group and account you
+are using!  If the file already exists, the SAVE will overwrite
+it; if the file already exists in another group or account, the
+SAVE will overwrite it only if it has been released or you have
+write access to that group.
+
+PLEASE NOTE:
+.mar(l+3)
+"WARPSAVE" is a reserved file name that is used when you do not
+specify a name.  You should not explicitly specify WARPSAVE as
+your savefile!
+.break
+If you specify a file in another group or account, you will have
+to include periods in the filename.  Warp parses file\names from
+your command string in a special way so as to not mistake these
+periods as command separators; therefore, you should not put
+additional commands on the same line following a SAVE command!
+The program can easily get confused when this happens!  For
+example, it is okay to say
+
+         GET ALL.SAVE BONZO.USER.PUTZ
+
+but there will be problems with
+
+         GET ALL.SAVE BONZO.USER.PUTZ.GO NORTH.SCORE.
+.mar
+
+.sub |1Say|
+`|1Say|
+
+Sure, I talk too!  Type SAY "<phrase>" to try it out!  (The quotes
+are required.)
+
+.sub |1Score|
+`|1Score|
+
+Type SCORE to find out how poorly you're doing.
+
+.sub |1Sethours|
+`|1Sethours|
+.inx time restrictions
+.inx prime time
+
+The sethours command allows the local Warpmaster to change the valid
+playing hours for Warp.  (This may be done only if you possess the correct
+ASCII password.)  The syntax for this command is:
+
+     SETHOURS <OLDTOKEN> <H1> <H2> <H3> <H4> [NEWTOKEN]
+
+where H1, H2, H3 and H4 are hours represented in 24-hour format and
+NEWTOKEN, and OLDTOKEN are ASCII tokens.  Note that Warping will be
+prevented in the intervals H1 to H2 and H3 to H4 inclusive.  To
+completely disable time checking, all hours should be set to one value
+such as 1200. OLDTOKEN is the 10 character ASCII key given when the
+hours were last set.  NEWTOKEN may be used to force the new key to a
+specific value, otherwise, Warp will generate a new key and tell you
+what it is.  OLDTOKEN must be correctly specified for the change to
+take effect.
+
+.font 2
+Warning: In all versions of the game that I have seen, this command
+causes the program to abort with a messy PASCAL PUT error.
+.font 0
+.inx abort
+
+.sub |1Show|
+`|1Show|
+
+Same as LIST.  Type HELP LIST for more information.
+
+.sub |1Stop|
+`|1Stop|
+
+The STOP command forces the parser to prompt you for a new command.
+Any macros that were executing, regardless of nesting depth, are aborted
+and any remaining unexecuted commands in your command buffer are flushed.
+
+.sub |1Subtract|
+`|1Subtract|
+
+The SUBTRACT command allows you to subtract some value from the counter
+(type HELP COUNTER for more information on the counter itself).
+If the counter contains 47, and you type >SUBTRACT 19, the counter will
+be decremented to 28.  If you specify no number, the counter will be
+decremented by one.  DEC is synonymous with SUBTRACT.
+.inx decrementing the counter
+
+.sub |1Superbrief|
+`|1Superbrief|
+
+Superbrief mode suppresses the printing of all full room
+de\scrip\tions.  Very useful if you're in a hurry.
+Synonym: SB.
+
+.sub |1Tell|
+`|1Tell|
+.inx talking
+
+This command allows you to tell specific objects in Warp whatever
+is on your mind.   Type `TELL <Object> "<Message>"' to try it out.
+(Like SAY, the double quotes are important!  Also, note that there
+is a fine line of distinction between TELL and SAY, such that with
+TELL you are talking at something, whereas SAY just lets you mouth
+off into the wind.)
+
+.sub |1Verbose|
+`|1Verbose|
+
+Verbose mode forces the printing of the full room description
+every time you enter a room.
+
+.sub |1Warp|
+`|1Warp|
+.par(f` u2).mar(l+2)
+`|1WARP| &\`wo(e)rp&\@@|2n|@@1: a series of yarns crossed by
+the woof@@2: a mental twist or ab\er\ra\tion@@3: a
+computer fantasy simulation of adventure and intrigue
+@&~@@|2vt|@@1: to de\plete weight by ex\pung\ance of existance
+@2: to become warped
+.mar.par
+.page.sub
+.tit
+
+.skip 3
+.title |2Enabled Mode|
+.opt(l- r- f-)
+|3Enabled Mode|
+.opt.skip 2
+
+Enabled mode, also known as God mode, allows the player to debug
+various aspects of the game.  It offers more commands with fewer
+restrictions.
+
+Enabled mode is for debugging the game.  It is ~not~ a `better' way
+of playing the game.  In fact, you cannot play the game properly when
+enabled, as certain checks are bypassed.
+
+The enabled command prompt is "*" instead of ">".
+
+.sub |1Becoming Enabled|
+`|1Becoming Enabled|
+
+Enabled mode can be acquired in a number of ways.  The most
+legitimate way is to completely solve the game.  As a reward you will
+be given a phrase which, when uttered, will put you into enabled
+mode.
+
+The second, less legal method requires running the program with the
+DEBUG parameter, and changing the appropriate program vari\ables to
+allow enabled operation.  For the version dis\trib\u\ted on the B0
+library tape, v38 compiled 2/10/1983, you set a one-time breakpoint
+at location 3.2674.  When the program breaks, modify locations DB+156
+and DB+157 to contain %400, then resume ex\e\cu\tion.  You are now
+enabled.  For a later version, also labelled v38 but with a compile
+date of 3/21/1985, the breakpoint should be 31.245, and the variables
+are at DB+157 and DB+160.
+
+A very early version didn't require these tricks.  You only had to
+say |2"Twas Brillig And The Slithy Toves"| and you were in!  This is
+.inx Lewis Carroll
+.inx Jabberwocky
+no longer the case.  I think there may be now be a phrase which looks
+like |2"Pity Not This Lonely Monster"|, but I haven't figured it out
+yet.  This may be the phrase which only operates after you have
+solved the endgame.
+
+A third method of becoming enabled involves first becoming enabled
+using one of the preceding methods, then saving your enabled game in
+a file.  Upon resuming this game, you are once again in enabled mode.
+.page.sub
+.tit
+
+.skip 3
+.title |2Enabled Help|
+.opt(l- r- f-)
+|3Enabled Help|
+.opt.skip 2
+
+In addition to the regular HELP available to all players, enabled
+mode provides help on the following additional topics:
+
+.opt(l+ r- f-)
+  #3Altname    #16Buffers    #29Change     #42Debug      #55Dictionary
+  #3Disable    #16Find       #29Goto       #42Keyword    #55Locate
+  #3Pitroom    #16Report     #29Set        #42Setholiday #55Status
+  #3Weight
+.opt
+
+.sub |1Altname|
+`|1Altname|
+
+Type ALTNAME if you want to change your username.  This is useful
+if you wish to access someone else's savefile, or change your
+endgame incantation.  If the name you wish to assume contains 10 or
+less characters, you can specify it on the same line as the ALTNAME
+command:   >ALTNAME FRIBBLE   would change your name to FRIBBLE.
+
+.sub |1Buffers|
+`|1Buffers|
+
+Commands in WARP pass through a double-buffer so that OOPS,
+AGAIN, and partial command buildup may exist.  Also, there
+are several separate input buffers for processing type-in
+and macros.  To see buffer contents while WARP is running,
+type DEBUG BUGBUFS.
+
+.sub |1Change|
+`|1Change|
+
+CHANGE allows you to change most of the attributes associated
+with any noun.  See SET for details.
+
+.sub |1Debug|
+`|1Debug|
+
+This command sets the debug flags in various routines in the
+main program.  The command syntax is DEBUG <debug list> where
+<debug list>::=(debug token) (debug token) ... For a list of
+debug tokens type `DEBUG'.
+
+Type ON or OFF in command string to set debug mode for subsequently
+specified options.
+
+The debug tokens are:
+
+.opt(l+ r- f-)
+  #3Alphadec   #16Backtrack  #29Blankbufs  #42Bus        #55Canhandle
+  #3Combuf     #16Compile    #29Counter    #42Defmac     #55Delmac
+  #3Describe   #16End        #29Error      #42Execute    #55Fetch
+  #3Flush      #16Forcepromp #29Getbuff    #42Getcomm    #55Getput
+  #3Gettoken   #16Handle     #29Initbufs   #42Inpbuf     #55Listmac
+  #3Logtoken   #16Lookup     #29Macronum   #42Moveto     #55Newholiday
+  #3Newhours   #16Oops       #29Otherstuff #42Printnoun  #55Push
+  #3Qualify    #16Random     #29Rebuild    #42Replace    #55Restore
+  #3Save       #16Savemove   #29Ship       #42Stacks     #55Swapbufs
+  #3Torpedo    #16Transfer   #29Visible    #42Wander     #55Weight
+  #3Worderror
+.opt
+
+.sub |1Dictionary|
+`|1Dictionary|
+
+The DICTIONARY (or DICT) command lets you list dictionary
+entries for specific word groups.  You can say DICTIONARY
+with nothing after it to get a listing of available groups,
+or DICTIONARY NOUNS VERBS to get a list of all understood
+nouns and verbs, for example.
+
+The word groups are:
+
+.opt(l+ r- f-)
+  #3Adjectives #16Articles   #29Conjuncts  #42Directions #55Exclusives
+  #3Ifs        #16Inclusives #29Nouns      #42Plurals    #55Preps
+  #3Rconds     #16Specials   #29Synonyms   #42Vconds     #55Verbs
+.opt
+
+.sub |1Disable|
+`|1Disable|
+
+Type DISABLE to fall from the rank of god to that of a mere mortal.
+
+.sub |1Find|
+`|1Find|
+
+FIND allows you to locate any item in the game and get a brief
+description of where it is without suffering through all of the
+information listed by the REPORT command.
+
+.sub |1Goto|
+`|1Goto|
+
+The GOTO command allows you to move immediately to a specific
+room.  The format is GOTO <room number>, where the room number
+is in the range of 1 to the maximum number of rooms allowed.
+You can find out which rooms are associated with which room
+numbers by using the LIST ROOMS command. It is also possible to goto
+the location of a specific object.  The syntax for this command
+is GOTO <itemname>.
+
+.sub |1Keyword|
+`|1Keyword|
+
+The keyword command gives you the ability to see the magic token
+used to incant into the Endgame.  Also listed is the token used
+for becoming enabled (along with the proper phrase).  The keywords are
+a perversion of your user name.
+
+.sub |1List|
+`|1List|
+
+The LIST command is more powerful in enabled mode than in normal user
+mode.  You may list any of the following items:
+CELLS, COUNTERS, HOLIDAYS, HOURS,
+LINKS, MACROS, NOUNS, ROOMS, PUZZLES or TREASURES.
+
+.sub |1Locate|
+`|1Locate|
+
+LOCATE is the same as the FIND command.
+
+.sub |1Pitroom|
+`|1Pitroom|
+
+The PITROOM command allows you to predict where the pit in the
+endgame will appear.  Which "Corridor of Vines" room it will
+be found in is determined by the first two characters of your
+user name.
+
+.sub |1Report|
+`|1Report|
+
+The REPORT command lets you get information about objects.
+By typing REPORT <Object list ...> you will be given all
+pertinent information, such as noun number, weight, power,
+value, location, etc, about each item in the list.
+
+Example:
+
+.font 5
+ *REPORT FOUNTAIN
+
+ ***** Fountain, number 35, entry 88 *****
+ Location:          Central Plaza.
+  [Room 1, locale 0]
+ Weight:            0
+   (content limit): 5
+ Power:             0
+ State of being:    Inanimate, exists
+ Open/closed:       Open, cannot be closed
+ Not wearable;
+ Not handlable; Not Lockable;
+.font 0
+
+.sub |1Set|
+`|1Set|
+
+The SET command lets you modify most of the attributes of any
+noun.  This provides a convenient means of, for example, moving
+objects from place to place without physically touching them, or
+changing the point value of an object, or altering its weight or
+existance.  Type SET with nothing after it to get a list of
+possible options.  You can also use the SET command to alter
+the states of the various counters used in Warp.  The LIST
+COUNTERS command will give you the current counter values and
+their meanings.
+
+WARNING: This command is ~VERY~ powerful, and, if misused, can
+abort the program!  Synonymous with SET are the commands FORCE,
+ALTER, CHANGE and CH.
+
+.opt(l+ r- f-)
+The command must be followed by
+
+  <[ADJECTIVE] NOUNNAME> or <NOUNNUMBER>
+
+and then one or more of the following:
+
+  LOC <integer>        #24WT <integer>
+  POWER <integer>      #24STATE <0 to 100>
+  CONTAIN <integer>    #24OPEN <0 or 1>
+  VALUE <integer>      #24PUSH <integer>
+  GET <0 or 1>         #24EXISTS <YES or NO>
+  WEAR <integer>       #24SEEN <YES or NO>
+  ATTACH <integer>     #24ADJ <integer>
+
+or command may be followed by
+
+  COUNTER <counter number> <new value>
+  ALIVE <YES or NO>
+  SCORE <integer>
+  LINK <room #> <link #> <integer>
+  CELL <x-coord> <y-coord> <integer>
+  WASENABLED <YES or NO>
+  HOURS <key> <h1> <h2> <h3> <h4> [<newkey>]
+  HOLIDAY <new month> <new date>
+  HOLIDAY <old mon> <old day> <new mon> <new day>
+.opt
+
+.sub |1Setholiday|
+`|1Setholiday|
+
+The setholiday command allows you to add, delete, or change an entry
+in the Warpian National Holidays list.  The syntax for the command is:
+
+     SETHOLIDAY <M1> <D1> [<M2> <D2>]
+
+where Mx is a month name (at least the first three characters) and
+Dx is a day of the month.  If the optional M2 and D2 are specified,
+the current list is searched for M1 and D1, which, if found, are
+overwritten by M2 and D2.  To delete an entry, specify M2 as `XXX'.
+For example,
+
+     #6SETHOLIDAY JULY 17         #32Declares July 17 as a holiday
+     #6SETHOLIDAY JULY 17 MAY 19  #32Replaces July 17 with May 19
+     #6SETHOLIDAY MAY 19 XXX 99   #32Deletes May 19 from the list.
+
+.font 2
+Warning: In all versions of the game that I have seen, this command
+causes the program to abort with a messy PASCAL PUT error.
+.font 0
+.inx abort
+
+.sub |1Status|
+`|1Status|
+
+The STATUS command reports to you various information about the Warp
+dictionary, such as how many nouns there are, etc ...
+
+.sub |1Weight|
+`|1Weight|
+
+WEIGHT or WT can be used to report the weight of your current
+inventory.
+.page.sub
+.tit
+
+.skip 3
+.tit |2Other Stuff|
+.opt(l- r- f-)
+`|3Other Stuff|
+.opt.skip 2
+
+This section contains some of the most helpful information in this
+manual, such as what treasures are to be found, and what puzzles
+must be solved.
+
+.sub |1Object Of The Game|
+`|1Object Of The Game|
+
+Good question.
+
+.sub |1Treasures|
+`|1Treasures|
+
+These are the treasures to be found in Warp, with their respective
+point values.  You only get half the points when the object is in your
+possession.  You get the whole point value only when the object is
+safely stashed in the curator's display case.
+
+.opt(l+ r- f-)
+Platinum Apple [15]     #35Astrolabe [20]
+Koala Bear [19]         #35Railroad Bond [20]
+Golden Bullion [35]     #35Expensive Camera [25]
+Carpet [30]             #35Chalice [20]
+Nautical Chart [10]     #35Silver Coins [15]
+Silver Cross [20]       #35Jeweled Dagger [20]
+Crystal Decanter [20]   #35Yellow Diamond [20]
+Ebony Diamond [20]      #35Jade Egg [15]
+Green Emerald [20]      #35Red Emerald [20]
+Blue Emerald [20]       #35Silver Flute [20]
+Golden Globe [20]       #35Leeverite [1]
+Ruby Lense [20]         #35Holy Mackeral [15]
+Treasure Map [15]       #35Golden Matador [20]
+Memoirs [20]            #35Black Opal [20]
+Painting [20]           #35Large Pearl [20]
+Shiny Quarter [5]       #35Silver Ring [20]
+Scarab Ring [10]        #35Mink Slippers [10]
+Crystal Sphere [10]     #35Green Stamp [10]
+Tablet [20]             #35Devil's Trident [15]
+Ivory Tusk [20]         #35Uranium [20]
+Egyptian Urn [25]       #35Patagonian Vase [20]
+Deadly Warponium [15]   #35Digital Watch [20]
+Silk Web [20]
+.opt
+
+Total of all treasures: 815 points.
+
+.sub |1Puzzles|
+`|1Puzzles|
+
+The puzzles for which points are awarded are listed below.
+Note that there are more puzzles to be solved than those listed here.
+These are just the ones that you get points for solving.  For example,
+you don't get points for using the trampoline to get the platinum
+apple, even though this is a kind of puzzle.  (You do get 15 points
+for the apple itself.)
+On the other hand,
+some of the puzzles listed don't seem like puzzles at all,
+since they're not particularly devious.  Travelling to the island is
+an example of this.  Nonetheless, points are awarded as a kind of
+incentive, just to keep you interested, and to let you know that you're
+on the right track.
+
+Puzzles are worth different point values.
+Mostly they seem to be 20 points apiece.
+
+.opt(l+ r- f-)
+  Used the hole
+  Got past the security guard
+  Sailed to the island
+  Successfully turned on the fountain
+  Operated the elevator safely
+  Turned off the Reverse Room
+  Boarded the bus
+  Scared off the ugly
+  Got out of jail using the hole
+  Sent mail
+  Opened the Mayan Disc
+  Buried the corpse
+  Warped an item
+  Summoned the Warpmaster
+  Reached the burial chamber in the pyramid
+  Took picture in the Hall of Arches
+  Visited Below Decks on the boat
+  Made the curator shut up
+  Started the boat engine
+.opt
+
+.sub |1Ways To Die|
+`|1Ways To Die|
+
+There are quite a number of ways to end your life in Warp.
+These are listed below.  Each one of these has a grisly
+description of the event associated with it.  I will leave
+the discovery of each of these literary gems as an exercise to
+the adventurous player.
+
+After you have died, there is a way to be reincarnated.
+Warp will allow you up to two new lives per game.  However, since you
+lose whatever objects you were carrying at the time of your demise,
+there doesn't seem to be too much point to coming back from the dead.
+To add insult to injury, dying costs 10 points.
+
+These short descriptions will be logged in the WARPLOG file:
+
+.opt(l+ r- f-)
+shot by guard         #35eaten by shark
+hit by bus            #35met Kilroy
+eaten in cave         #35broke rope
+U238 radiation        #35fried by U238
+ate hole              #35poisoned
+elevator fall         #35wrong button
+falling rock          #35too many blows
+buried in sand        #35drowned in hole
+bear claw             #35mugger knife
+plummet               #35heat stroke
+froze                 #35lightning
+suffocated            #35drowned at sea
+well shaft            #35hit by subway
+gorilla               #35swam into cliff
+boat hit rocks        #35poison dart
+huge boulder          #35fell in pit
+swimming pool
+.opt
+
+.sub |1Phone Numbers|
+`|1Phone Numbers|
+
+There are a few different places in the
+game where phone numbers appear, and indeed,
+there is a phone booth at the bus stop where these numbers may be
+dialed.
+
+.mar(l+3)
+|1555-1212|
+.mar(l+3)
+"Using the CLUE hotline costs one point."
+.mar
+
+|1333-CLUE / 333-2583|   (one point per call)
+.mar(l+3)
+A female voice answers, "When in doubt, wave it!"
+.break
+"The bear does not like the ball polisher."
+.break
+A gravelly voice: "Don't attack the curator!"
+.break
+"Have you tried torpedoing the Ugly?"
+.break
+A male voice answers, "Don't go west."
+.break
+A low voice: "The cop cannot be killed."
+.break
+"Don't mess with the secretary."
+.break
+A deep voice answers, "The Scarab Ring can help
+you find things you have lost."
+.break
+"Programmers like reading material."
+.break
+"Ships in WARP may be sunk by reefs."
+.break
+A female voice answers, "When in doubt, rub it!"
+.break
+"Getting into the engine room is tricky."
+.mar
+
+|1333-HINT / 333-4468|
+.mar(l+3)
+A professorial voice answers,
+"The weight of an object is proportional to its existance.  If one could
+make an object nonexistant by, say, sending it into another dimension,
+then, if the time dimension is the same, the object would exist in a
+weightless, nonexistant state.  Consider the Klein bottle ..."
+>CLICK<
+.mar
+
+|1333-WARP / 333-9277|
+.mar(l+3)
+"This is the Warp City Bus report.  The bus is now
+passing through Main Street.
+It should arrive at your location in 25 moves."
+.mar
+
+|1333-GAME / 333-4263|
+.mar(l+3)
+A recording answers,
+"Thank you for calling Warptari.
+"We would like to commend you on selecting one of
+our many fine games for your enjoyment; one mere
+quarter, you no doubt feel, is a small price to pay
+for the thrill of victory, or the agony of defeat!
+For your future gaming desires, might we suggest ..."
+(I hung up for you; you really don't want to listen
+to this drivel, do you?)
+.mar
+
+|1333-9999|
+.mar(l+3)
+"Fire one ..."
+.mar
+
+|10|
+.mar(l+3)
+"I'm sorry, Warp has no operator."
+.mar
+.mar
+
+.sub |1The Inquisition|
+`|1The Inquisition|
+
+Before being allowed into the endgame,
+the Oracle will ask you a few questions.
+You must prove that you have achieved true enlightenment.
+The questions are listed below; the answers are to be found in the game
+itself, or in an encyclopedia.
+
+.opt(l+ r- f-)
+1.  Where was the dent in the Chevy made?
+2.  In what kind of tree does the koala bear make its home?
+3.  What can be seen from Deception Point?
+4.  What is the shape of the Warpian world?
+5.  What size is the metric crescent wrench?
+6.  What type of item may be Warped?
+7.  What is J.R Warper's first name?
+8.  What country is the lama native to?
+.opt
+
+.sub |1Other Sources of Information|
+`|1Other Sources of Information|
+
+There are other sources for information about Warp.  Here are two:
+
+Richard Roemer at HealthPlus Of Michigan has produced a neat map
+using MacDraw and the Mac laser printer.  You may get a copy of his map by
+writing at this address:
+
+    HealthPlus of Michigan - JBI
+    Attention:  Richard Roemer
+    G-4488 West Bristol Road, Bldg. 1
+    Flint, Michigan  48507
+
+
+Another potential source of information is |2The Forum|, a free
+bulletin board for HP 3000 users.  One of the many board topics is
+Games, which may be used as a clearing house for questions, answers,
+ideas, Warp info, etc.  The Forum is run by Ed Sharpe.  You can
+contact Ed at The Computer Exchange, (602) 861-1388, to get your own
+access code and password.
+.page
+.sub
+.tit
+
+.skip 3
+.tit |2Miscellaneous Info|
+.opt(l- r- f-)
+`|3Miscellaneous Info|
+.opt.skip 2
+
+Bill Frolik (pron.@Froe-lick) and Rob Lucke (pron.@Lucky)
+wrote Warp in their spare time, while working for Hewlett-Packard
+in Corvallis, Oregon.
+It took over two years, off and on, eight hours a day.
+
+Warp was conceived when they saw what was available in other `adventure'
+games.
+At the time, Zork, also known in the HP 3000 world as Dungeon, was the
+smartest thing around for understanding English.
+Bill and Rob decided that they could do a better job.
+Warp is the successful result.
+Warp is smarter, and is a lot more fun.
+
+Warp is made up of over
+16000 lines of Pascal source,
+4000 lines of database description, plus
+numerous utility programs.
+Quite understandably, the source is jealously
+guarded from prying eyes.
+The version of Pascal used is non-extended, which makes it quite
+transportable.
+The game has been made to run on HP 3000, 1000, 9000 and another micro.
+
+At one time the authors thought to market the game.
+This no longer seems to be the case.
+(The Warp program sometimes seen advertised in microcomputer magazines is
+another program en\tire\ly, which by coincidence just happens to have
+the same name.)
+
+Warp has not changed in over two years.
+Bill and Rob are `all warped out'.
+What started out as both a challenge to
+produce a smarter parser than Zork and as an exercise in
+AI, has become a bit of a chore, frankly.
+Bug reports and enhancement requests are no longer dispatched with any
+great urgency.
+Possibly the distribution of this document will rekindle interest in the
+game, both on the part of the authors and other `Warpers'.
+
+Warp, in its verious versions, has appeared on computers all around the
+world.
+Rob even got a letter from Germany, where users were playing the game
+with the aid of an English-German dictionary.
+They wanted to know whether a German version was available.
+(It is not.  As German has the verb at the end of the sentence,
+and other syntactic differences,
+the parser is not equipped to handle it, even if the database were
+translated.)
+Rob has a rather warped sense of humor, and is an incorrigible punster.
+One would imagine that his best work was lost in translation.
+
+The Warpian National Holidays include regular holidays, the authors
+birthdays, and of course, April Fool's day.
+
+The highest reported score to date is just one point shy of the
+1215 required to complete the regular part of the game.
+Rich Roemer has about 1000, and I've got a trifling 600 or so.
+.page.sub
+.tit
+
+.skip 3
+.title |2Appendix A - Dictionary|
+.opt(l- r- f-)
+|3Appendix A|
+
+|3Dictionary|
+.opt.skip 2
+
+Warp has quite an extensive vocabulary.  Every word that Warp
+understands is listed in this appendix.
+Anything else will produce a `mumble'.
+You can also find out
+what words are understood by asking the professor questions.  He
+will respond in sentences made up of random words from Warp's
+vocabulary.  The only drawback is that the professor quickly gets
+thirsty from all his talking.  To relieve his parched throat he gets
+himself a Coke from the vending machine.  Once he has done so, you
+are prevented from ever getting the printout.
+
+  There are 137 specials
+            110 verbs
+            242 nouns
+            20 directions
+            107 adjectives
+            2 alls
+            4 buts
+            2 conjunctions
+            15 prepositions
+            4 articles
+            65 helps
+            28 plurals
+            15 words
+            40 synonyms
+            20 macros
+            51 debugs
+            2 terminators
+  for a total vocabulary of 864 words
+
+The `15 words' refers to the 15 word types which are listed below.
+The 20 macros are listed in the `Enabled Mode' section,
+as are the 51 Debug types.
+
+.sub |1Specials|
+`|1Specials|
+
+  #3Add        #16Again      #29Alter      #42Altname    #55Always
+  #3Answer     #16Ask        #29B          #42Back       #55Backtrack
+  #3Backward   #16Backwards  #29Brief      #42Bugs       #55Call
+  #3Can't      #16Ch         #29Change     #42Clear      #55Comment
+  #3Could      #16Couldn't   #29Counter    #42Create     #55Dammit
+  #3Damn       #16Debug      #29Dec        #42Declare    #55Define
+  #3Delete     #16Diagnose   #29Dial       #42Dict       #55Dictionary
+  #3Did        #16Didn't     #29Die        #42Dig        #55Disable
+  #3Disembark  #16Do         #29Does       #42Doesn't    #55Echo
+  #3Enable     #16End        #29Esrever    #42Execute    #55Exit
+  #3Fee        #16Fie        #29Foe        #42Foo        #55Force
+  #3Fuck       #16Fum        #29Goto       #42Gripe      #55Haven't
+  #3Health     #16Hell       #29Help       #42Holidays   #55Hours
+  #3How        #16I          #29Inc        #42Incant     #55Inventory
+  #3Is         #16Isn't      #29Keep       #42Keyword    #55L
+  #3Leave      #16List       #29Listen     #42Load       #55Mumble
+  #3Never      #16No         #29O          #42Oops       #55Opps
+  #3Pitroom    #16Plover     #29Plugh      #42Points     #55Pray
+  #3Quit       #16R          #29Redo       #42Repeat     #55Reply
+  #3Restart    #16Restore    #29Resume     #42Return     #55Save
+  #3Say        #16Sb         #29Score      #42Set        #55Setholiday
+  #3Sethours   #16Shit       #29Show       #42Status     #55Stop
+  #3Subtract   #16Super      #29Superb     #42Superbrief #55Tell
+  #3Temple     #16Terminate  #29Ulysses    #42V          #55Vb
+  #3Verbose    #16Wait       #29Weight     #42Were       #55Weren't
+  #3What       #16When       #29Where      #42Which      #55Who
+  #3Why        #16Will       #29Won't      #42Wt         #55Xyzzy
+  #3Y2         #16Yes
+
+.sub |1Verbs|
+`|1Verbs|
+
+  #3Affix      #16Attach     #29Attack     #42Bite       #55Board
+  #3Break      #16Burn       #29Check      #42Chew       #55Chomp
+  #3Climb      #16Close      #29Connect    #42Cram       #55Crush
+  #3Cut        #16Depress    #29Destroy    #42Detach     #55Devour
+  #3Disconnect #16Don        #29Dorp       #42Drink      #55Drop
+  #3Eat        #16Enter      #29Extinguish #42Fasten     #55Fill
+  #3Find       #16Flip       #29Gaze       #42Get        #55Give
+  #3Glue       #16Go         #29Grab       #42Hit        #55Hoist
+  #3Ignite     #16Inspect    #29Jump       #42Kick       #55Kill
+  #3Kiss       #16Leap       #29Lick       #42Light      #55Locate
+  #3Lock       #16Look       #29Lower      #42Munch      #55Murder
+  #3Open       #16Paste      #29Peel       #42Pet        #55Play
+  #3Pour       #16Press      #29Punch      #42Push       #55Put
+  #3Raise      #16Read       #29Register   #42Remove     #55Report
+  #3Revolve    #16Ride       #29Rotate     #42Rub        #55Run
+  #3Save       #16Scribble   #29Shoot      #42Shut       #55Sit
+  #3Slam       #16Slice      #29Smooch     #42Snuff      #55Spill
+  #3Spin       #16Spring     #29Stab       #42Stand      #55Stare
+  #3Steal      #16Step       #29Stick      #42Stomp      #55Store
+  #3Stuff      #16Suck       #29Swim       #42Take       #55Throw
+  #3Tie        #16Turn       #29Twist      #42Unlock     #55Untie
+  #3Walk       #16Wander     #29Wave       #42Wear       #55Write
+
+.sub |1Nouns|
+`|1Nouns|
+
+  #3Airtank    #16Apple      #29Astrolabe  #42Badge      #55Bag
+  #3Ball       #16Ball       #29Balm       #42Banana     #55Battery
+  #3Beach      #16Bear       #29Bench      #42Boardwalk  #55Boat
+  #3Bond       #16Book       #29Book       #42Bottle     #55Box
+  #3Box        #16Brick      #29Bucket     #42Bullion    #55Bunk
+  #3Bus        #16Button     #29Button     #42Button     #55Button
+  #3Button     #16Button     #29Button     #42Button     #55Button
+  #3Cabinet    #16Cable      #29Cable      #42Cage       #55Camera
+  #3Can        #16Cannister  #29Card       #42Carpet     #55Case
+  #3Casket     #16Cathedral  #29Chalice    #42Chart      #55Chest
+  #3Chevy      #16Clam       #29Cleft      #42Clock      #55Closet
+  #3Coins      #16Corpse     #29Coupon     #42Crank      #55Cross
+  #3Cube       #16Curator    #29Dagger     #42Decanter   #55Dent
+  #3Depression #16Desert     #29Desk       #42Diamond    #55Diamond
+  #3Disc       #16Doctor     #29Door       #42Door       #55Dust
+  #3Egg        #16Emerald    #29Emerald    #42Emerald    #55Engine
+  #3Envelope   #16Fence      #29Film       #42Fins       #55Flute
+  #3Fog        #16Forest     #29Fountain   #42Fountain   #55Fountain
+  #3Framastat  #16Galleon    #29Galleon    #42Game       #55Gate
+  #3Globe      #16Glovebox   #29Gloves     #42Glow       #55Gorilla
+  #3Gorilla    #16Grate      #29Grave      #42Guard      #55Gun
+  #3Hardhat    #16Hole       #29Hole       #42Hook       #55Hook
+  #3Hook       #16Hook       #29Hook       #42House      #55Keys
+  #3Knife      #16Knob       #29Knob       #42Ladder     #55Ladder
+  #3Lamp       #16Leeverite  #29Lense      #42Lever      #55Lizard
+  #3Machine    #16Mackeral   #29Magazine   #42Mailbox    #55Map
+  #3Mask       #16Mast       #29Matador    #42Memoirs    #55Message
+  #3Mugger     #16Mummy      #29Newspaper  #42Newsstand  #55Note
+  #3Notepad    #16Nothing    #29Obelisk    #42Ocean      #55Opal
+  #3Oracle     #16Package    #29Painting   #42Park       #55Pass
+  #3Pearl      #16Pedestal   #29Pedestal   #42Peg        #55Peg
+  #3Pencil     #16Phone      #29Picture    #42Pill       #55Pill
+  #3Pill       #16Pipe       #29Pit        #42Plaque     #55Plate
+  #3Plaza      #16Policeman  #29Polisher   #42Pool       #55Portrait
+  #3Poster     #16President  #29Printout   #42Professor  #55Pyramid
+  #3Quarter    #16Reef       #29Ring       #42Ring       #55River
+  #3Rope       #16Rope       #29Safe       #42Sail       #55Sand
+  #3Scale      #16Scalpel    #29Scepter    #42Scotch     #55Secretary
+  #3Shards     #16Shipwreck  #29Shovel     #42Shovel     #55Shrubbery
+  #3Sign       #16Sign       #29Skeleton   #42Slippers   #55Sphere
+  #3Sphere     #16Spider     #29Stamp      #42Stamp      #55Statue
+  #3Storm      #16Street     #29Subway     #42Switch     #55Switch
+  #3Switch     #16Tablet     #29Tar        #42Tiles      #55Tombstone
+  #3Toolbox    #16Torpedo    #29Trampoline #42Tree       #55Tree
+  #3Tree       #16Trident    #29Tub        #42Tusk       #55Ugly
+  #3Unit       #16Unit       #29Uranium    #42Urn        #55Valve
+  #3Vase       #16Vendor     #29Warpasaur  #42Warpmaster #55Warponium
+  #3Watch      #16Water      #29Web        #42Well       #55Wetsuit
+  #3Wrapper    #16Wrench
+
+.sub |1Directions|
+`|1Directions|
+
+  #3D          #16Down       #29E          #42East       #55N
+  #3Ne         #16North      #29Northeast  #42Northwest  #55Nw
+  #3S          #16Se         #29South      #42Southeast  #55Southwest
+  #3Sw         #16U          #29Up         #42W          #55West
+
+.sub |1Adjectives|
+`|1Adjectives|
+
+  #3&63        #16Absolutely #29Bank       #42Bathing    #55Big
+  #3Black      #16Blue       #29Broken     #42Bronze     #55Coke
+  #3Computer   #16Control    #29Crystal    #42Curator's  #55Damned
+  #3Dead       #16Deadly     #29Devil's    #42Digital    #55Display
+  #3Dull       #16Ebony      #29Egyptian   #42Elliptical #55Expensive
+  #3Fig        #16Fucking    #29Funerary   #42Glass      #55Gold
+  #3Golden     #16Granite    #29Green      #42Grungy     #55Hairy
+  #3Highway    #16Holy       #29Id         #42Iron       #55Ivory
+  #3Jade       #16Jeweled    #29Junction   #42Knurled    #55Koala
+  #3Large      #16Lead       #29Little     #42Long       #55Mad
+  #3Metal      #16Mink       #29Monitor    #42Naked      #55Name
+  #3Nautical   #16News       #29Patagonian #42Peeled     #55Pine
+  #3Plastic    #16Platinum   #29Postage    #42Power      #55Ragged
+  #3Raging     #16Railroad   #29Red        #42Redwood    #55Rocker
+  #3Round      #16Ruby       #29Ruined     #42Rusty      #55Sandstone
+  #3Scarab     #16Security   #29Shiny      #42Short      #55Silk
+  #3Silver     #16Small      #29Sordid     #42Spanish    #55Square
+  #3Starter    #16Steel      #29Stone      #42Sunken     #55Swimming
+  #3Ticket     #16Tiny       #29Transit    #42Trash      #55Treasure
+  #3Triangular #16Tv         #29Uprooted   #42Vault      #55Video
+  #3Vintage    #16Wall       #29White      #42Wise       #55Wooden
+  #3Worthless  #16Yellow
+
+.sub |1Inclusives|
+`|1Inclusives|
+
+  #3All        #16Everything
+
+.sub |1Exclusives|
+`|1Exclusives|
+
+  #3But        #16Except     #29Excluding  #42Ignoring
+
+.sub |1Conjuncts|
+`|1Conjuncts|
+
+  #3And        #16Or
+
+.sub |1Preps|
+`|1Preps|
+
+  #3At         #16Atop       #29From       #42In         #55Inside
+  #3Into       #16On         #29Out        #42Over       #55Through
+  #3Thru       #16To         #29Under      #42Upon       #55With
+
+.sub |1Articles|
+`|1Articles|
+
+  #3A          #16An         #29That       #42The
+
+.sub |1Plurals|
+`|1Plurals|
+
+  #3Balls      #16Boxes      #29Buttons    #42Cables     #55Containers
+  #3Diamonds   #16Doors      #29Emeralds   #42Fountains  #55Galleons
+  #3Gorillas   #16Holes      #29Hooks      #42Knobs      #55Pedestals
+  #3Pegs       #16People     #29Pills      #42Rings      #55Ropes
+  #3Shovels    #16Signs      #29Spheres    #42Stamps     #55Stones
+  #3Switches   #16Trees      #29Units
+
+.sub |1Synonyms|
+`|1Synonyms|
+
+  #3Alcohol    #16Ape        #29Batmobile  #42Batteries  #55Booze
+  #3Bush       #16Calendar   #29Car        #42Church     #55Cop
+  #3Disk       #16Doc        #29Facemask   #42Flask      #55Grass
+  #3Gready     #16Guy        #29Hat        #42Individual #55It
+  #3Itself     #16Lawn       #29Lens       #42Liquor     #55Lowrider
+  #3Mag        #16Monkey     #29Pad        #42Paper      #55Rug
+  #3Sea        #16Ship       #29Sidewalk   #42Tanks      #55Telephone
+  #3Them       #16Tube       #29Warpasauru #42Wm         #55Woods
+
+.sub |1Vconds|
+`|1Vconds|
+
+  #3Carrying   #16Closed     #29Have       #42Holding    #55Opened
+  #3Possess    #16See        #29Toting     #42Visible    #55Wearing
+
+.sub |1Rconds|
+`|1Rconds|
+
+  #3<          #16<=         #29<>         #42=          #55Eq
+  #3Ge         #16Geq        #29Gt         #42Le         #55Leq
+  #3Lt         #16Neg        #29Neq        #42Nge        #55Ngt
+  #3Nle        #16Nlt        #29Nzero      #42Pos        #55Zero
+
+.sub |1Ifs|
+`|1Ifs|
+
+  #3Assuming   #16If         #29Ifn        #42Unless
+.page.sub
+.tit
+
+.skip 3
+.title |2Appendix B|
+.opt(l- r- f-)
+|3Appendix B|
+
+.sub |1Installation|
+|3Installation|
+.opt.skip 2
+
+These are the installation instructions which come with the most
+widely distributed version of Warp, on the B0 INTEREX CSL tape.
+.skip 2
+.font 5
+.opt(l+ r- f-)
+INSTALLING WARP ON AN HP-3000
+
+If your system does not have HP-Pascal 3000 you will need
+the Pascal SL (Segmented runtime Library) which is the file
+WARPSL.  It must be renamed SL so that it can be accessed.
+
+[1] Purge any and all previous versions of Warp.  This means
+    getting rid of old versions of WARP, WARPDATA, WARPEXE,
+    WARPSPL, WARPSAVE, and any other WARPfiles that you have.
+
+[2] Mount the tape on a 1600 bpi tape drive on your system and
+    run the RESTORE utility program.  It will display the
+    following message at your terminal:
+
+RESTORE (Nov  6,  1979) TYPE 'HELP' FOR INFO
+THERE IS A TAPE REQUEST AT THE CONSOLE FOR 'username'
+
+    At the console the following message should appear:
+
+?16:54/&#S330/46/LDEV&# FOR "username" ON TAPE (NUM)?
+             ^ your pin&#
+
+    Respond <ctl A>, then
+=REPLY46,7
+
+    This assumes the tape unit is &#7.
+
+[3] RESTORE will print a list of what is contained on the tape.
+    It should contain the following files:
+
+            1. WARP         (Executable program)
+            2. WARPADAT     (ASCII database file)
+            3. WARPBDAT     (Binary database file)
+            4. WARPDOC      (This file)
+
+    When the restore display shows the file numbers, enter the
+    numbers of the files that you want: <1,2,3,...>.
+
+    and reply "NO" when asked if you want to continue searching.
+
+    As mentioned before, you will need the SL file if you do not
+    have supported Pascal/3000 on your system.
+
+[4] Insure that both WARPADAT and WARPBDAT are in the same group.
+    They must reside in one of the following groups:
+
+                      1. Current session's group.account
+                      2. PUB.GAMES
+                      3. GAMES.SYS
+                      4. PUB.SYS
+
+    When you run the program, these are the first four places it
+    looks for the database files.  If it does not find them there,
+    it prompts the user for other places to look.
+
+[5] If you had to load the SL (i.e., you have no Pascal/3000),
+    the program has a couple of other restrictions:
+
+         1. When you run Warp, you must be logged on
+            in the same group in which the SL resides.
+         2. You must run the program with the command
+                     :RUN WARP;LIB=G
+            which tells the system to search the current
+            group for the proper SL.
+
+[6] Ready, try it out.
+
+                  :RUN WARP (or :RUN WARP;LIB=G)
+
+    If all is correct, it should clear the screen and ask you
+    "What is your name?".
+
+    If not, you've got a problem.  Check that you followed all
+    of the above instructions, starting over if you have to.
+    If you STILL can't get it to run, let us know:
+
+              Rob Lucke /or/ Bill Frolik
+              HP Corvallis
+              Corvallis, OR 97330
+              (503) 757-2000
+
+[7] When the program fires up properly, you may set the hours
+    of operation which are initially unrestricted.  To change
+    the hours enter the following commands after you have
+    arrived on the streets of warpdom:
+
+        >SETHOURS {oldpassword} h1 h2 h3 h4 {newpassword}
+
+    Where:
+
+          oldpassword is originally WARP
+          newpassword at your discression, may be the same.
+
+          If no newpassword is given one will be returned.
+
+          h1 = start of morning work period (e.g., 0830)
+          h2 = end of morning work period (e.g., 1200)
+          h3 = start of afternoon work period (e.g., 1300)
+          h4 = end of afternoon work period (e.g., 1700)
+
+    Note that the hours must be in 24-hour format, and that
+    Warping will be disallowed from h1 to h2, and from h3 to h4.
+
+    If you want to eliminate the timecheck and allow Warping at
+    all hours, make all four hours identical (h1=h2=h3=h4=0).
+
+[8] Happy Warping!
+
+                                     01 Nov 82
+                                      Bill Frolik && Rob Lucke
+.opt
+.font 0
+.skip 2
+These instructions are four years old and could bear a little updating.
+
+The RESTORE utility described in points [2] and [3] above appears to be
+the contributed RESTORE program which allows you to restore file into
+your logon group.  The MPE V RESTORE command now has a LOCAL option which
+performs the same function.
+
+The PASCAL runtime library is now included as a standard part of the
+MPE operating system.  However, it may not be that same as the one
+that Warp was compiled for.  This may explain the program aborts
+which occur when the SETHOLIDAY and SETHOURS commands are used.
+
+If you don't install Warp in one of the standard groups as listed in
+point [4] above, you may type file commands for the files WARPADAT,
+WARPBDAT and WARPLOG, pointing them to the proper group and account.
+This will prevent the users from always having to supply the group
+and account names every time they run the program.
+These may be put in a user-defined command (UDC):
+
+Example:
+
+.font 5
+    WARP
+    OPTION NOLIST
+    FILE WARPADAT=WARPADAT.GAMES.UTIL
+    FILE WARPBDAT=WARPBDAT.GAMES.UTIL
+    FILE WARPLOG =WARPLOG.GAMES.UTIL
+    RUN WARP.GAMES.UTIL
+    ***
+.font 0
+.page.sub |1Index|
+.tit |2WARP User Manual|
+
+.skip 3
+.opt(l- r-f-)
+|3Index|
+.opt.skip 2
+.sortindex (c+ f. m14 p48 l3 r0)

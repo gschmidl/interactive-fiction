@@ -1,0 +1,29 @@
+superuser on
+[!equal,[:util:aosvs_model],3900]
+  comment VS model 3900
+  acl/k/2=ignore :2.inpipe
+[!end]
+[!nequal,[!pathname :system_id.cli],]
+  sysid [:system_id.cli]
+[!else]
+  [!nequal,[!pathname :util:aosvs_model],]
+    sysid AOS/VS,Model,[:util:aosvs_model]
+  [!end]
+[!end]
+searchlist :<,util>
+[!nequal,[!pathname :queue],]
+  xeq/s/1=warning/2=warning  qcmp/yes
+  [!nequal,[!string],]
+    del/1=ign/2=ign :queue:<queues jobs>
+    xeq/s/1=warning/2=warning  qcmp/yes
+  [!end]
+[!end]
+process/ioc=@con0/default/directory=@/name=exec/dump/calls=32&
+	:util:exec/suppress
+wait_for_port @exec
+control @exec prompts off
+control @exec silence
+control @exec enable @con0
+[!nequal,[!pathname :up.cli],]
+  up
+[!end]

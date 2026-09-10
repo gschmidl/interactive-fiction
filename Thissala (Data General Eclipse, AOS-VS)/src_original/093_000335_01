@@ -1,0 +1,427 @@
+
+
+
+
+
+
+
+                        Documentation changes for:
+
+
+                          AOS/VS System Concepts
+
+                         Part Number 093-000335-01
+
+
+
+        This file (pathname :UTIL:093_000335_01) contains information
+        that affects the following pages of your manual:
+
+		* 2-49
+                  3-15                            8-3
+                  3-16				  8-5
+                  4-2                             9-2
+                  4-18				  9-5
+		  7-6
+
+        This twelth revision of 093_000335_01 was updated November 10,
+        1993.  In addition to changes to the page marked above with an
+	asterisk (*), note that changes to pages in Appendix A of the
+	manual have been removed from this file because all of the
+	documentation about SYSLOG record formats is now in Appendix B
+	of the manual AOS/VS, AOS/VS II, and AOS/RT32 System Call
+	Dictionary, ?R Through ?Z.
+
+
+
+
+
+
+
+
+
+
+        To keep your manual current, you should print this file, punch
+	holes to fit your binder, and insert the pages into your manual.
+
+
+
+
+
+
+
+
+
+
+        Copyright (c) Data General Corporation, 1980 - 1993
+        All Rights Reserved
+        Licensed Material - Property of Data General Corporation
+
+
+        AOS/VS System Concepts, 093-000335-01                 10-Nov-93
+        Documentation Changes, Revision 12
+
+
+        On page 2-49, the third bulleted paragraph should be
+			replaced by the following paragraph
+
+
+		o  Keep highly sensitive material on tape (or diskette)
+		   and store it in a secure place.  There are always
+		   privileged users on the system who can gain access
+		   to your files.  The chapter's section on "Protecting
+		   Files" describes how to copy files to tape.
+	|	   If you no longer need the information on a tape or
+	|	   diskette, and you want to prevent someone else from
+	|	   reading the information, a bulk eraser must be used.
+	|	   AOS/VS does not have a secure mechanism for sratching
+	|	   tapes or diskettes before they are re-used by
+	|	   someone else.
+
+
+        AOS/VS System Concepts, 093-000335-01                 10-Nov-93
+        Documentation Changes, Revision 12
+
+
+        On page 3-15, the last paragraph should read:
+
+        |       A process that has the Superuser privilege can pass the
+        |       privilege to its sons. If the father is in Superuser mode
+        |       when it issues ?PROC, its sons will initially be created in
+        |       Superuser mode. These son processes can in turn issue the
+        |       ?SUSER system call to turn on Superuser mode. Once a process
+        |       has turned on Superuser mode, it remains in that state until
+        |       it issues a second, complementary ?SUSER system call to turn
+        |       it off.
+
+
+        AOS/VS System Concepts, 093-000335-01                 10-Nov-93
+        Documentation Changes, Revision 12
+
+
+        On page 3-16, the last paragraph of "Superprocess Mode" should read:
+
+        |       A process with the Superprocess privilege can also pass the
+        |       privilege to its sons. If the father is in Superprocess mode
+        |       when it issues ?PROC, its sons will initially be created in
+        |       Superprocess mode.  A process remains in Superprocess mode
+        |       until it issues a second, complementary ?SUPROC system call
+        |       to turn off Superprocess mode.
+
+
+        AOS/VS System Concepts, 093-000335-01                 10-Nov-93
+        Documentation Changes, Revision 12
+
+
+        On page 4-2, add the following section.
+
+	|	AOS/VS II Disk File Structures
+	|
+	|	The AOS/VS II file system structures are different from
+	|	those of AOS/VS.  For information about these structures,
+	|	see the descriptions of ?CREATE and ?XCREATE in the manual
+	|	"AOS/VS, AOS/VS II, and AOS/RT32 System Call Dictionary."
+	|	See especially pages in the second volume (?A Through ?Q,
+	|	093-000542).  See also pages in the Disk Jockey chapter of
+	|	the manual "Installing, Starting, and Stopping AOS/VS II"
+	|	(093-000539) which describe creating primary data element
+	|	size, Secondary data element size, Number of primary
+	|	elements, etc.  See also the discussion of the CLI commands
+	|	CREATE and FILESTATUS in the manual "Using the CLI (AOS/VS
+	|	and AOS/VS II) (093-000646).
+
+
+        AOS/VS System Concepts, 093-000335-01                 10-Nov-93
+        Documentation Changes, Revision 12
+
+
+        On page 4-18, insert the following three pages before "File Creation
+        and Management Sample Programs".  Next is the first of the three
+        pages.
+
+
+                Using Logical Disk Mirroring for High Availability
+                ==================================================
+
+                If your system uses model 6236- 6239-, or 6580-class disks
+		you can use hardware mirroring to make the data on your
+	|	system highly available.  Otherwise, with any disks of any
+	|	type, you can use software mirroring.  Logical disk mirroring
+	|	makes this data highly available by allowing controller
+	|	microcode or AOS/VS II itself to maintain two logically
+		identical copies of a mirrored LD.  Should a copy of this
+                LDU go out of service (for backup) or go bad (suffer a
+		hardware error), AOS/VS II will continue to run on the good
+		image.
+
+                Logical disk mirroring may or may not have a performance cost.
+                Because each LDU image is logically -- not physically --
+                identical to the other, the system must write all data
+                separately to each LD image.  However, the system also
+                optimizes each read by reading from the disk where the
+		read/write head is closer to the data.  Since the ratio of
+		reads to writes is specific to each application, there is no
+		way to figure the performance cost of logical disk mirroring.
+
+	|	For more information about mirroring, see the manual
+	|	"Managing AOS/VS II."
+
+
+                What Mirroring Requires
+                -----------------------
+
+                Hardware and software logical disk mirroring requires that
+		you make the following the same for each LD image:
+
+                o  LD name
+
+                o  Bad block table entries
+
+                o  Sizes and addresses of the remap and diagnostic areas
+
+                The LD unique IDs, however, must be different.
+
+		Again, only hardware mirroring requires that the images
+		be on the models listed above.
+
+
+        AOS/VS System Concepts, 093-000335-01                 10-Nov-93
+        Documentation Changes, Revision 12
+
+
+                Starting Mirroring
+                ------------------
+
+                The way that you start mirroring depends on the state of the
+                LD images.  The LD images can be in either of two states:
+                they can be "synchronized" -- the images are the same, or
+                "unsynchronized" -- the images differ.
+
+
+                Starting a Mirror Using Synchronized LDs
+                ----------------------------------------
+
+                If the LD images are synchronized, you start mirroring by
+                issuing the ?XINIT system call.  Should you specify
+                unsynchronized LD images in the ?XINIT system call packet,
+                AOS/VS II will return an error.
+
+
+                Starting a Mirror Using Unsynchronized LDs
+                ------------------------------------------
+
+                If the LD images are unsynchronized, you start mirroring in
+                two steps.  The first step is to issue the ?XINIT system call,
+                specifying the "override error conditions" option, and
+                initialize the "good" LD image.  We describe how to determine
+                which LD image is good when we describe how to get status
+                information about LD images later in this chapter.
+
+                The second step is to synchronize the uninitialized LD image
+                with the initialized LD image.  To synchronize the LD images,
+                you must issue the ?MIRROR system call.
+
+                The synchronization of LD images may take only a few minutes
+                or may take much longer, depending on the amount of data
+                that AOS/VS II must copy from one image to the other.
+                Synchronization can take up to two hours for a 354 Mbyte
+                disk, and up to three-and-a half hours for a 592 Mbyte disk.
+	|	With Model 6580 disks, however, synchronization using hard-
+	|	ware mirroring is only minutes.  While synchronization is
+		going on, normal system activity does too: AOS/VS II writes
+		to both disks, but reads from only the "good" disk.
+
+
+        AOS/VS System Concepts, 093-000335-01                 10-Nov-93
+        Documentation Changes, Revision 12
+
+
+        On page 4-18, continue inserting three pages.  Next is the last
+        of the three pages.
+
+
+                Stopping Mirroring
+                ------------------
+
+                To stop mirroring -- you will need to do this before
+                backing up a mirrored LD -- issue the ?RELEASE system call.
+
+                Should one of the disks containing an LD image suffer a
+                hardware error, AOS/VS II automatically stops mirroring for
+                you.  AOS/VS "breaks" the mirror by removing the "bad"
+                image, while still allowing you to run on the good image.
+                AOS/VS, in turn, sends messages to the error file and the
+                system console indicating that it has broken the mirror.
+
+	|	Getting Mirror Status Information
+                ---------------------------------
+
+	|	AOS/VS II Release 1.00 does not include the AOS/VS program
+	|	:UTIL:MIRRORINFO.PR.  DGC will provide a mechanism in a
+	|	future release to get mirror status information.  In the
+	|	meantime, you can get status information when you initialize
+	|	a mirror.  The return from the INITIALIZE command indicates
+	|	whether the images are synchronized or not.
+
+
+        AOS/VS System Concepts, 093-000335-01                 10-Nov-93
+        Documentation Changes, Revision 12
+
+
+        On Page 7-6, substitute the following paragraph for the third
+        paragraph on the page:
+
+		It is possible to initialize a single common inner-ring
+		stack for all tasks in the process.  To do this, set the
+		stack pointer within the segment image so that it contains
+		the same value as the stack limit.  Then, at ?RINGLD time,
+		AOS/VS initializes all the stacks within the inner ring so
+	|	that the stack pointer, stack limit, and stack base are
+	|	the same.  This causes a stack fault the first time the
+	|	ring is accessed.  You must write a stack-fault handler
+	|	routine to set up the proper stack for the initialization
+	|	stack.  You can then use subsequent ?TASK calls to
+	|	initialize the remaining task stacks.
+
+
+        AOS/VS System Concepts, 093-000335-01                 10-Nov-93
+        Documentation Changes, Revision 12
+
+
+        On Page 8-3, add the following paragraph to the bottom of the
+        page:
+
+        |       You can also use the ?ISPLIT system call to determine the
+        |       identity of a calling process.  After the ?IREC system call
+        |       has completed, you can find out the process that issued
+        |       ?ISEND or ?IS.R by loading the origin global port number
+        |       from the ?IREC packet (offset ?IOPH) into AC0.  Then, issue
+        |       the ?ISPLIT system call. After ?ISPLIT finishes, AC1 will
+        |       contain the PID of the sending process.
+
+
+        AOS/VS System Concepts, 093-000335-01                 10-Nov-93
+        Documentation Changes, Revision 12
+
+
+        On Page 8-5, replace the ?IREC header in Figure 8-1 with the
+        following:
+
+
+        |           0                      15 16                    31
+        |          |-------------------------|------------------------|
+        |   ?ISFL  |     System flags        |     User flags         |  ?IUFL
+        |          |-------------------------+------------------------|
+        |   ?IOPH  |               Origin port number                 |
+        |          |-------------------------+------------------------|
+        |   ?IDPN  | Destination port number |     Message length     |  ?ILTH
+        |          |                         |       (in words)       |
+        |          |-------------------------+------------------------|
+        |   ?IPTR  |               Message buffer address             |
+        |          |--------------------------------------------------|
+        |
+        |           ?IPLTH packet length
+
+
+        AOS/VS System Concepts, 093-000335-01                 10-Nov-93
+        Documentation Changes, Revision 12
+
+
+        On page 9-2, replace the section Why Use Process Connections? with
+	the following section.
+		
+			Why Use Process Connections?
+
+		When you create a customer/server relationship between
+		processes, you can use the server process to perform cerain
+		functions on behalf of its customer processes.  Typically, a
+		server process performs general routines that customer
+		processes can access.  For example, you can create a server
+		process to build files or perform I/O.
+
+		Connection management allows servers to move bytes to and from
+		their customers' buffers.
+
+	|	Connection management is also useful for double process
+	|	connections (peer-to-peer applications) which communicate via
+	|	the IPC system calls.  Connection management can ensure global
+	|	port numbers remain unique until the connection is explicitly
+	|	broken.  With the connection management obituary messages,
+	|	processes can be notified when peer processes have terminated.
+	|	For more information on IPC calls, see Chapter 8.
+
+
+        AOS/VS System Concepts, 093-000335-01                 10-Nov-93
+        Documentation Changes, Revision 12
+
+
+        On Page 9-5, replace the Obituary Message Formats section with
+	the following section.
+
+		Obituary Message Formats
+
+		The format of the obituary message that AOS/VS sends
+		differs depending on the type of process receiving the
+		obituary message. AOS/VS sends obituary messages in a
+		different format to A-type procecesses (executing
+		smallPID programs) than it does to B- or C-type
+		processes (executing hybrid or anyPID programs,
+		respectively).
+
+		To A-type processes, AOS/VS sends obituary messages that
+		give
+
+		o The PID of the disconnected process in the second
+		  word of the obituary message (bits 8 through 15 of
+		  the ?IUFL offset).
+
+		o The connection bit map in the last word of the
+		  obituary message (for 32-bit processes -- bits 8
+	|	  through 15 of the ?IPTL offset; for 16-bit processes
+		  -- bits 8 through 15 of the ?IPTR offset).
+
+		To B- or C-type processes, which require a larger PID
+		field, AOS/VS sends obituary messages that give
+
+		o The PID of the disconnected process in the last word
+		  of the obituary message (for 32-bit processes -- all
+	|	  16 bits of the ?IPTL offset; for 16-bit processes --
+		  all 16 bits of the ?IPTR offset).
+
+		o The connection bit map in the second word of the
+		  obituary message (bits 8 through 15 of the ?IUFL
+		  offset).
+
+
+        AOS/VS System Concepts, 093-000335-01                 10-Nov-93
+        Documentation Changes, Revision 12
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                *********************************************************
+                *                                                       *
+                *       End of Documentation Changes for "AOS/VS        *
+                *     System Concepts," 093-000335-01, Revision 12,     *
+                *                       10-Nov-93                       *
+                *                                                       *
+                *********************************************************

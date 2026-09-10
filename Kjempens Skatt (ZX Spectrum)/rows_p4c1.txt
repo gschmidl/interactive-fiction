@@ -1,0 +1,100 @@
+over,eller proeve aa hoppe over(
+S/H)": INPUT LINE p$
+4110 IF p$="S" THEN PRINT "Jeg h
+oppet til tauet.Da jeg var komme
+t halveis over,roek tauet.": GO
+TO 9900
+4115 IF p$<>"H" THEN GO TO linje
+4120 PRINT "Jeg klarte saa vidt
+aa hoppe    over.Jeg er paa den
+andre siden.": LET linje=4150
+4130 GO SUB 10
+4140 GO SUB 20
+4150 CLS : PRINT "Jeg er paa nor
+dsiden av en      kloeft.Paa and
+re siden staar    ulvene.": GO S
+UB 2: LET s=4000: LET n=4700: LE
+T v=4800: GO TO 4130
+4200 GO SUB 2: LET s=3350: LET n
+=4900
+4205 CLS : PRINT "Jeg er i en gr
+otte.Det kom ulverbak meg.Hva sk
+al jeg bruke mot  dem?": INPUT L
+INE p$
+4209 IF p$<>"KORS" THEN PRINT "D
+e drepte meg.": GO TO 9900
+4210 IF o(11)<>0 THEN LET p$="":
+ GO TO 4209
+4215 PRINT "Jeg kylte korset gje
+nnom magen  paa lederulven.De an
+dre flyktet.": LET linje=4250
+4220 GO SUB 10
+4230 GO SUB 20: GO TO 4230
+4250 GO SUB 2: LET n=4900: LET s
+=3350
+4260 CLS : PRINT "Jeg er i en gr
+otte.": GO TO 4220
+4300 CLS : PRINT "Jeg gikk en st
+und foer jeg ble  angrepet av ul
+ver.De drepte meg.": GO TO 9900
+4400 GO SUB 2: LET s=3400
+4405 CLS : PRINT "Jeg er i skatt
+kammeret til      kjempen.": IF
+o(12)<>0 THEN LET o(12)=linje
+4410 GO SUB 10
+4420 GO SUB 20: GO TO 4420
+4500 CLS : PRINT "Vaktene kom et
+ter meg og drepte meg.": GO TO 9
+900
+4600 GO SUB 2: LET n=5000: LET s
+t=5100
+4605 CLS : PRINT "Jeg er nedenfo
+r vinduet.Jeg tok tauet."
+4610 GO SUB 10
+4620 GO SUB 20: GO TO 4620
+4700 LET s=4150: LET n=5400: LET
+ st=5500
+4705 CLS : PRINT "Jeg kom ut paa
+ en lang slette."
+4710 GO SUB 10
+4720 GO SUB 20: GO TO 4720
+4800 CLS : PRINT "Jeg kom til en
+ sump som jeg saa vidt klarte aa
+ komme meg over.  Men jeg fikk e
+n sjelden sykdom. Heldigvis saa
+var det et sykehusher,men de vil
+le bare hjelpe megom de fikk tau
+et.Skal jeg gi demdet?(J/N)": IN
+PUT LINE p$
+4805 IF p$="N" OR o(14)<>0 THEN
+PRINT "De drepte meg.": GO TO 99
+00
+4810 IF p$<>"J" THEN GO TO linje
+4815 PRINT "De satte en sproeyte
+ paa meg.   Jeg besvimte nesten.
+Jeg hoerte  at de sa i bakgrunne
+n~Ha nei,vi tok gal sproeyte paa
+ han her    ogsaa~.": GO TO 9900
+4900 GO SUB 2: LET s=4200
+4905 CLS : PRINT "Jeg kom i en s
+tor sal.Der var   det en diamant
+.": IF o(7)<>0 THEN LET o(7)=lin
+je
+4910 GO SUB 10
+4920 GO SUB 20: GO TO 4920
+5000 GO SUB 2: LET s=4600: LET s
+t=5200
+5005 CLS : PRINT "Jeg ser en pre
+ktig hest foran   meg."
+5009 LET b=0
+5010 GO SUB 10
+5015 GO SUB 20
+5020 IF a$="RI" AND b=0 THEN PRI
+NT "Jeg satte meg oppaa den.Den
+for i galopp rett mot en elv,der
+ denslengte meg av.": GO TO 9900
+5025 IF a$="GI" THEN LET b=1: PR
+INT "Gi hav?": INPUT LINE p$: IF
+ p$<>"MAT" THEN PRINT "Den spark
+et meg opp saa hoeyt atjeg aldri
+ kom ned igjen.": GO TO 9900

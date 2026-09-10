@@ -1,0 +1,196 @@
+
+
+  ABSTRACT (20 Dec 81)
+
+    *PROG NAME ... ADVENT
+    *CONTRIBUTOR:
+      -AUTHOR .... Don Woods
+      -COMPANY ... Stanford University
+      -STREET ....
+      -PLACE ..... Stanford, CA 94305
+      -PHONE ..... (415)-497-1658  or  (415)-497-2273
+
+    *CLASS ....... 820  Advanced Games
+    *CATEGORY ....  01  PROGRAM
+    *SYSTEM ......  2A  HP3000 Series II, under MPE II-A
+    *MIT ......... 1737
+    *RATING ...... Works as documented
+    *LANGUAGE .... FORTRAN
+    *FILES:
+      #DATA ...... 01
+      #DOC ....... 01
+      #PUB ....... 01
+      #SOURCE .... 01
+
+    *ABST TITLE .. The Adventure Game (dwarfs, caves and treasures)
+
+    *ABST BODY ... This is a game of exploration patterned after the
+                   Hobbit.  Explore the forest and cave to find the
+                   treasures and try to get them safely home.  It has
+                   built-in restrictions on use during business hours
+                   and can be suspended for later play.
+
+  This game has been renamed to fit the users lib naming conventions.
+  The name changes from the MAINLIB account are as follows:
+
+      ADVENT .PUB    = ADVENTP  - Program file
+      ADVENT .SOURCE = ADVENTS  - Fortran source file
+      ADVENT .DATA   = ADVDATA  - Data file forms ADVCOMS, ADVLINS
+      ADVENT .DOC    = ADVDOC   - Combined dcoumentation file
+
+  The easiest way to prepare this program for use is to copy files
+  That ADVENT nneds into your own GROUP and ACCOUNT. Copy:
+  ADVENT.PUB to ADVENT, ADVENT.DATA to ADVDATA, Then :RUN ADVENT.
+  this will cause the file ADVLINS to be created during the
+  INITIALIZATION Process.
+
+  Otherwise it is best to copy the source file ADVENT.SOURCE to
+  ADVENTS and modify and compile it by using the command
+  :FORTPREP ADVENTS.  When the program is compiled, the command
+  :SAVE$OLDPASS,ADVENTP makes the program ready to run.  Copy
+  file ADVENT.DATA to ADVDATA and :RUN ADVENTP.  This will create
+  files ADVCOMS and ADVLINS through the initialization routines.
+
+  Keep the source and data files from all players until they have
+  finished the game.  If you peek at the answers it is no fun!
+  Of course you should not look either unless you aren't a player.
+
+  Other authors of this game are: Willie Crowthers, PARC-MAXC
+  and Gary Palter, MIT-MULTICS.
+ 1
+  USER'S GUIDE TO ADVENTURE
+
+  1.     Files on tape from which the program is produced:
+
+       * ADVENTS - adventure source
+       * ADVDATA - initialization data
+       * ADVDOC  - these directions
+
+         The following comprise the running program:
+
+       * ADVENTP - adventure program file
+       * ADVCOMS - adventure data file of game status
+       * ADVLINS - adventure data file of ADV-dialog
+
+  2.     Things you may want to change
+
+         The COMMAND intrinsic is called to issue :FILE commands
+         which locate the data files.  You may wish to specify these
+         with qualified names of a different group and/or account.
+         A comment line in the source is provided for these mods.
+         Using EDIT3000, command /lq16/17 to access the file equations.
+         You will see the MODIFY command followed by the line numbers
+         of the change locations.  If you are using an HP terminal
+         with an enter key, position the cursor on the line in
+         question and enter it.
+
+  3.     After modifying the source, you can stream the job file
+         shown below to create the program file ADVENTP.
+
+  4.     To initialize the adventure program, first issue the file
+         command :FILE FTN01=ADVDATA,OLD
+         Then :RUN ADVENTP
+
+  5.     To change game parameters at a later date, give the restore
+         command with no ADVSAVE file in the group.  This will get
+         you into the WIZARD sequence which follows.  (You may also
+         say MAGIC MODE at restore time to get into WIZARD sequence.)
+
+         It will come back and say:
+
+         OPEN FAILED
+         INITIALIZING.....              << long wait >>
+         TABLE SPACE USED
+           9712 OF   9800 WORDS OF MESSAGES
+            742 OF    750 TRAVEL OPTIONS
+            297 OF    300 VOCABULARY WORDS
+            140 OF    150 LOCATIONS
+             53 OF    100 OBJECTS
+             31 OF     35 ACTION VERBS
+            201 OF    205 RTEXT MESSAGES
+             10 OF     12 CLASS MESSAGES
+              9 OF     20 HINTS
+             32 OF     35 MAGIC MESSAGES
+
+1        ARE YOU A WIZARD?
+         yes
+         PROVE IT.  SAY THE MAGIC WORD.
+         dwarf
+         THAT'S NOT WHAT I THOUGHT IT WAS. DID YOU KNOW...
+         no
+         6206627402 (random octal string)
+         dwarg      (Shift the 5th character +1 in the alphabet)
+
+         YOU REALLY *ARE* A WIZARD.  SORRY TO HAVE BOTHERED YOU...
+
+         DO YOU WISH TO SEE THE HOURS?
+         yes
+                  MON - FRI    0 00 TO  8 00
+                              12 00 TO 13 00
+                              17 00 TO 24 00
+                  SAT & SUN    OPEN ALL DAY
+                  H0LIDAYS     OPEN ALL DAY
+
+         THE NEXT HOLIDAY WILL BE IN  4 DAYS, NAMELY CHRISTMAS
+
+         DO YOU WISH TO CHANGE THE HOURS?
+         no
+
+
+         DO YOU WISH TO (RE)SCHEDULE THE NEXT HOLIDAY?
+         no
+         LENGTH OF SHORT GAME (NULL TO LEAVE AT  30)
+
+         NEW MAGIC WORD (NULL TO LEAVE UNCHANGED)
+         If you change the magic word, use only a five letter word.
+         Otherwise the second response is undefined. <dwarf-dwarg>
+
+         LATENCY FOR RESTART (NULL TO LEAVE AT  45)
+
+         DO YOU WISH TO CHANGE THE MESSAGE OF THE DAY?
+         yes
+
+         ENTER MESSAGE LIMITING LINES TO 70 CHARACTERS.  TERMINATE
+         THE MESSAGE WITH A LINE CONTAINING A SINGLE PERIOD (.) AS ITS
+         FIRST AND ONLY CHARACTER.
+         message
+         .
+
+         THE NEW VERSION HAS BEEN SAVED, THANK YOU...
+         INITIALIZATION COMPLETED.
+         ADVENTURE (20 DEC 81)
+
+         WELCOME TO ADVENTURE..  WOULD YOU LIKE INSTRUCTIONS?
+
+         ... and thus the game is under way ...
+
+         The initialization process has created ADVCOMS and ADVLINS
+         from ADVDATA which is used only during this process.
+
+         Character set encoding table:  ( e.g. A=34, _=64 )
+
+         b["#$%&'()*+,-./0123456789:;<=>?
+         @ABCDEFGHIJKLMNOPQRSTUVWXYZ{`}!_
+
+  5.     Assuming proper security declarations on ADVENTP (X),
+         ADVCOMS (R), ADVLINS (R), and (R,X) capability in the
+         group and account level, the program can be run by:
+         :RUN ADVENTP.group.acct
+1
+  REMEMBER...
+  Please be careful with the source.  Do not let people who are
+  learning the game have access to either the source or the data
+  file ADVDATA so that the adventure is not lost.
+
+  -----------------------------------------------------------------
+
+  JOB FILE:
+
+  !JOB ADVJOB,usrename.account[,group]
+  !FORTPREP ADVENTS
+  !PURGE ADVENTP
+  !SAVE$OLDPASS,ADVENTP
+  !ALTSEC ADVENTP;(X,R:ANY;W,A,L:GU)
+  !ALTSEC ADVCOMS;(R:ANY;W,X,A,L:GU)
+  !ALTSEC ADVLINS;(R:ANY;W,X,A,L:GU)
+  !EOJ

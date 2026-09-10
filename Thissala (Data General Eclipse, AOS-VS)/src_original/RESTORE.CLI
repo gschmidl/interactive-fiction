@@ -1,0 +1,110 @@
+[!equal,1,2]
+comment This macro restores files from either a full or incremental
+comment labeled diskette backup. To restore into the root directory,
+comment the macro requires the process that runs it to be PID 2.
+push
+prompt pop
+comment Check for at least one argument.
+[!equal,%1%,]
+  write
+  write This macro requires at least one argument: the volid of the
+  write first diskette in the fileset. The volid used by the FULL_BACKUP
+  write macro is FULL01 and the first volid used by the INC_BACKUP macro
+  write is INC01. After the volid argument, you can specify one or more
+  write templates. If you omit templates, all files in the fileset will
+  write be restored.
+  write Run the macro via  ,, %0% ,, volid ,, {template} ...,,
+  write when ready.
+  write
+[!else]
+  string ok_to_proceed
+  comment Check for the root directory -- if so the PID must be 002.
+  class(1 2) ignore
+  [!equal,[!directory],:]
+    [!UEQ,[!pid],002]
+      superuser on
+    [!else]
+      string non_master
+    [!end]
+  [!else]
+    comment Not in the root - check for write access. If we can
+    comment create and read from a file, assume we have needed
+    comment access.
+    permanence =?[!pid].[!username].tmp off
+    delete =?[!pid].[!username].tmp
+    write/l==?[!pid].[!username].tmp test
+    string [=?[!pid].[!username].tmp]
+    delete =?[!pid].[!username].tmp
+    [!equal,[!string],test]
+      string ok_to_proceed
+    [!else]
+      string no_access
+    [!end]
+  [!end]
+  comment If it's not ok to proceed, describe error and stop.
+  [!nequal,[!string],ok_to_proceed]
+    [!equal,[!string],non_master]
+      Write Only the master CLI can restore the root directory.
+    [!else]
+      [!equal,[!string],no_access]
+	write
+	write Error - [!username] does not have write access to
+	write [!directory].
+	write ,,,,,,,,,You need Superuser on to restore this
+	write directory.
+	write
+      [!end]
+    [!end]
+    pop
+  [!else]
+    comment Check if CLI operator mode is on. If not, stop with
+    comment message.
+    permanence =?[!pid].[!username].tmp off
+    delete =?[!pid].[!username].tmp
+    operator/l==?[!pid].[!username].tmp
+    string [=?[!pid].[!username].tmp]
+    delete =?[!pid].[!username].tmp
+    [!nequal,([!string]),(OFF)]
+      comment Operator mode is on -- proceed.
+      class1 error
+      class2 warning
+      write
+      write ** Restoration within directory [!DIRECTORY] at [!TIME]
+      write on [!DATE] **
+      write
+      write Please insert the first diskette of the backup fileset
+      write in the primary -- right -- unit.
+      write
+      write Later, you'll insert diskettes in the same order in which
+      write these diskettes were originally backed up.
+      write
+      write ,,,,,,,,, -- Beginning file restoration --
+      comment  Restore the fileset, using the supplied volid, filename
+      comment  BACKUP, and any supplied template(s).
+      [!UEQ,[!pid],002]
+        acl @dpj10 op,oware
+      [!end]
+      LOAD/V/RECENT%0/L%     @LFD:%1%:BACKUP   &
+           [!equal,%2%,]#[!else]%2-%[!end]
+      write
+      write ** Restoration of [!DIRECTORY] complete at [!TIME] **
+      write
+      [!UEQ,[!pid],002]
+        acl @dpj10 +,ware
+      [!end]
+    [!else]
+      write Operator mode is not on.
+      write Turn OPERATOR ON and retry the command.
+    [!end]
+  [!end]
+[!end]
+[!else]
+  write This macro is nonexecutable. You can make it executable by
+  write changing the 2 to a 1 in line 1 -- make both numbers 1.
+  write
+  write Backup is very important. Before using the edited macro
+  write for backup you should understand how it works.
+  write Please test this macro. Use FULL_BACKUP and INC_BACKUP
+  write to back up some files. Then try restoring files using
+  write this macro before relying on this macro set routinely.
+[!end]

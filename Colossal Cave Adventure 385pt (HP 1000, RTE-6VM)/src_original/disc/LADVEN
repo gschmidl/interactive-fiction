@@ -1,0 +1,20 @@
+:**,This is the loader file for ADVENTURE!
+:OF,ADVEN 
+:OF,ADV1
+:OF,ADV2
+:OF,ADV3
+:PU,ADVEN:AD:3
+:PU,ADV1:AD:3 
+:PU,ADV2:AD:3 
+:PU,ADV3:AD:3 
+:RU,LOADR,^ADVEN::80,%ADV01,0G
+:SP,ADVEN:AD:3
+:SP,ADV1:AD:3 
+:SP,ADV2:AD:3 
+:SP,ADV3:AD:3 
+:OF,ADVEN 
+:OF,ADV1
+:OF,ADV2
+:OF,ADV3
+:**,Loading of Adventure is complete. 
+:TR 

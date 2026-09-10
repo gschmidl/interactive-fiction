@@ -1,0 +1,478 @@
+WEIRD WOOD II - GAME TEXT IN SCREEN CASE
+========================================
+Every string literal in the listing, with letter case inverted back to
+what the C64 actually displayed.  Line number, then the string(s).
+Multi-space runs are the author padding to the 40-column screen width.
+
+12     please insert data disk & press return
+15     ww 47
+22     p
+100      WEIRD WOOD II
+104    ww 43
+111    It's very dark in here.
+114    This room does not exist.
+115    ww 40
+131    ww 41
+134     water
+135     ruby
+140    ww 42
+157    ww 48
+180     or
+185    (The Goblin Strikes Back)
+192    The light is getting brighter.
+198    Ok.
+216    a
+217    narthex
+217    Look it up cretin!
+222    teleport
+223    possess
+224    find
+225    room
+225    You are in room
+226    new
+227    locate
+228    cheat
+230    mortal
+245    How many times?
+255    times
+276    ?syntax  error in 14702
+278    ready.
+280    list
+280    lI
+280    10 sys(2076)
+282    list
+282    lI
+284    run
+284    ?undef'd statement error
+286    Fooled you!!
+293    I am unable to find 
+297    There is 
+297     in room
+298    I am unable to possess 
+330    You can't go that way!
+332    You can't get in with out a pass.
+337    The lift can go no farther.
+339    You have just fallen to your death!
+340    I'm sorry but that room hasn't been     built yet!
+341    The wall is too high.
+344    You have just fallen in the river!
+362    A fierce orc blocks the way!
+371    Have you considered all the possibilites
+372    that down might offer you?
+373     top 
+374    Ok, I'm only doing this because I like
+375    your robot.
+377     ground 
+379    This is the
+379    floor.
+384    Suddenly an alarm bell rings and a dwarfappears before you, 
+385    You will have to   drop all metal objects before you can   continue.
+386     he says.
+394    Suddenly an orc leaps in front of you
+395    So you have come back have you.
+395     he    says.
+396    You have just walked into a closed door.
+397    As you try to do that the dragon attacksyou!
+434    door
+448    There isn't a 
+448     door.
+455    door
+466    I can't see a door.
+469    Which door?
+485     what?
+495    I don't see 
+495     here.
+496    guv
+496    gov
+497    Dear me, that's not how we spell
+580    the
+580    go
+580    and
+580    once
+593    Recursion is not my strong point!
+594    into
+594    in
+595    onto
+595    on
+605    it
+605    him
+630    a
+635    an
+640    that
+660    ww
+660    ,s,r
+774     years for 
+875    I'm bored lets try 
+890    lie down
+890    enter bed
+890    enter couch
+905    For your breach of regulations you have been sent to
+910     solitary confinement!!
+920    You are transferred to your cell.
+940    As you try to do that a small dwarf
+942    jumps out and stops you.
+950    Marvin says, 
+951    Brain the size of a planetand I have to play this silly game.
+952    I think I should tell you how depressed I am!
+953    I have this terrible pain down my left side.
+954    Life! Don't talk to me    about life.
+955    You are a depressingly    stupid human.
+1000   You already have 
+1000   , idiot!!
+1001   an up
+1002   The rope is tied on the far bank.
+1003   an all
+1005   I don't think 
+1005    will like that!
+1007   You can't take 
+1008   You can't carry any more.
+1010   Taken.
+2000   Dropped.
+2000   an all
+2001   You don't have 
+2002   throw
+2004   You missed.
+2006   Ok.
+2006   Splash!
+2485   The rope catches the top of the wall andholds firm.
+2930   Dropped.
+2933    is pleased with   your honesty.
+3003   on
+3011   The
+3011    looks normal to me.
+3017   on
+3018   There is nothing 
+3018    the 
+3061   ww
+3061   ,s,r
+3070   You can just make out a name tab on the
+3071   Mouldy garments. The tab reads 'Prisoner
+3080   table.
+3080   on
+3090   bed.
+3090   on
+3091   couch.
+3095   There is 
+3095    the 
+3097   There is a ghastly figure lying on the  bed.
+3098   There is nothing 
+3098    the 
+3100   closed.
+3100   open.
+3101   The door is 
+3190   The desk is closed.
+3191   in
+3191   desk
+3210   shelves.
+3210   on
+3300   hole.
+3300   in
+3310   bookcase.
+3310   in
+3520   The boat is half full of water, and
+3521   doesn't look very safe.
+3540   Under the sausage roll someone has
+3541   scratched 'TRY ROOM 477'.
+3552   ]  SECURITY PASS   ]
+3554   ] Admit the bearer ]
+3556   ] Dongle Underhill ]
+3557   ]  Parish Council  ]
+3570   The bottle is empty.
+3572   The bottle is full of water.
+3610   The chart lists the navigation
+3611   co-ordinates for a number of star
+3612   systems. Sol is listed as 8181
+3620   The number 6510 is written on top of thechip.
+3900   The computer screen displays the message
+3902   ON THE SURFACE
+3902   IN FLIGHT
+4000   You are carrying
+4030   Nothing.
+5014   As you open the torch a battery falls   out.
+5020   You can't open 
+5100   The door is locked!
+5104   Ok.
+5106     , strange the guard must have left thedoor unlocked!
+5190   The desk is locked!
+5192   As you open the desk you find a widget.
+5494   As you open the calculator a battery
+5498   falls out.
+6010   You can't close 
+6190   The desk is closed stupid!
+7000   You have a score of
+7020   out of 1,000
+7025   Why don't you take up crochet instead?
+7800   th
+7802    1st
+7802    2nd
+7802    3rd
+7808   in
+7808   moves. This gives you a rating
+7809   ww 44
+7810   of
+7810    rate 
+8001   a cup
+8003   I don't think 
+8003    will like that!
+8004   You can't move 
+8010   Moving 
+8040   As you move the vaulting horse to one
+8041   side you find a passageway leading down.
+8065   The sign slowly moves to one side to    reveal a hole.
+8130   The computer doesn't respond.
+8136   ship.
+8300   Nothing happens.
+9008   Lighting 
+9010   Strange it doesn't appear to be working!
+9011   The battery is flat!
+9013   lit
+10008  You can't turn off 
+10010  off
+10019  The lamp is 
+10019   stupid!
+11000  QUIT
+11000  q
+11000  Q
+11001  yyyn
+11005  Do you really want to quit? 
+11010  y
+11105  Are you absolutely sure? 
+11110  y
+11205  Have you thought about this? 
+11210  y
+11305  You aren't just saying that are you? 
+11310  y
+11310  Oh goody lets carry on then!
+11400  Okay then it's your loss not mine.
+11905  Lucky you are a wizard!!
+11907  You appear to be dead. A shame really asyou were doing so well.
+11909  s0:ww 45
+11909  c0:ww 45=0:ww 44
+11910  You have just been run down by an
+11911  Intercity 125!
+11990  Then why on Earth did you type 
+11995  you brainless moron?
+12010  ing about 
+13004  wait
+13004  Time passes...
+13009  I don't see 
+13009   here.
+13010  What should I do with 
+13025  guv
+13025  gov
+13110  Stop mucking about!
+13130  e
+13140  t
+13140  t
+13145  ing 
+14002  You must specify a second object.
+14012  in
+14022  You can't put 
+14080  on
+14080  under
+14090  on
+14091  under
+14300  in
+14300  on
+14301  on
+14470  in
+14471  Ok. Now please input the three digit    co-ordinate.
+14475  The
+14475   disappears in a flash of
+14476  light.
+14490  in
+15005  Ugh, I don't think so!!
+15115  Ok.
+15115  Yuk!! That tasted awful.
+15120  What, and get my fingers sticky?
+15121  Yummy delicious!!
+15170  Ok.
+16010  Don't be silly!
+16582  The bottle is empty.
+16586  Mmmm, that was good.
+17010  You can't unlock 
+17106  The door isn't locked.
+17107  The key doesn't fit.
+17108  Without a key?
+17190  The desk is unlocked cretin!
+18010  You can't lock 
+18190  The desk is locked idiot!
+19006  Five more turns have been added to your sentence.
+19011  How long have you had this desire to    kill 
+19012  Trying to kill 
+19012   is a sign
+19012  of mental disorder!
+19013  That does it, you obviously need help.
+19014  Two orcs dressed in white coats rush
+19015  towards you, one plunges a needle into
+19016  your arm. You try to fight them off but
+19017  everything starts to go diz z  y   !
+19371  NO WAY. You must be joking, do you
+19372  expect to kill it with your bare hands? 
+19373  y
+19373  yes
+19375  Ok. here goes then.
+19376  The dragon has just killed you!
+19377  Well what did you expect?
+19591  A valiant, but futile atempt!
+19593  The 
+19593   parries your thrust!!
+19594  A good thrust, but not good enough!
+19596  You succeed in driving the 
+19596   off!
+19597  You badly hurt the 
+19597  , and he flees
+19598  for his very life!!
+19599  With a single stroke, you decapitate    your foe!!!
+20010  You can't enter 
+20090  You are lying down in a nice comfortablebed.
+20091  Ok.
+20096  A doctor rushes in, pops a pill in your mouth and rushes out again.
+20100  Ok.
+20220  You are lying down on a nice comfortablecouch.
+21010  You can't exit 
+22001  You need to be holding 
+22001   to do that.
+22010  Wearing 
+23010  You can't play 
+23360  Ok.
+23361  Ugh!! If you play adventures anything
+23362  like you play 
+23362   then we are in big trouble!
+23366  Suddenly a trap door opens beneath you  and you fall through!
+23564  Do you want instructions (y or n)
+23566  y
+23580  shot number
+23586  you can only shoot stars try again
+23600  you win in
+23600  shots
+23604  you lose
+23610  want to shoot more stars (y or n)?
+23614  y
+23617    You had
+23617  game
+23617  s
+23618    and lost.
+23620   and won
+23620  time
+23620  s
+23624        Your lowest score was
+23628  You took
+23628  shots more than the best
+23628  possible score.
+23630  Good shooting you're getting close.
+23631  Ok smart alec so you've played before.
+23633  Before you do that you notice that there
+23634  is a small card stuck inside the works  of the game.
+23674   * shooting  stars *
+23678  ww 14
+23688  n
+23758      Press 
+23758  space
+23758   to continue
+23764  y
+23764  n
+24010  You can't build 
+24470  Not here.
+24471  You already have.
+24473  There is something missing!
+24474  With my bare hands?
+24475  Ok.
+25010  Kinky!
+25170  Ok.
+26010  Pushing 
+26490  The calculator isn't on.
+26492  c
+26492  c
+26496  mr
+26497  mi
+26498  c
+26503  c
+26509  c
+26510  c
+26512  E
+27001  You have nothing to cut with.
+27010  Cutting 
+27500  wire
+27500  Which one?
+27510  blue
+27520  As you do that an alarm goes off!
+28010  Tying 
+28483  The rope is now securely tied.
+28521  The boat is tied you dope!
+29010  The
+29010   isn't tied.
+30010  You can't row 
+30520  What with?
+30521  The boat is tied to the bank!
+30522  Ok.
+31000  What with?
+31005  Lassoing 
+31011  With amazing skill you deftly lasso the stump!
+32004  I'm sorry, I can't remember any more newwords.
+32005  That's a new word, what does it mean?
+32007  Ok, I will forget it.
+32020  Thanks, I will remember that!
+32110  No such word in user vocabulary.
+33000  Ok, here goes then.
+33010  Smashing 
+34002  please
+34005  Not available to ordinary prisoners.
+34010  Ok.
+34010  Finished.
+34011  Not available from solitary cofinement!
+34015  @0:ww 45,s,w
+34050  ww 0,l,
+34100  please
+34101  Not available from solitary cofinement!
+34105  Not available to ordinary prisoners.
+34110  Ok.
+34111  0:ww 45,s,r
+34150  ww 0,l,
+35010  You can't fill 
+35010  o$(oj)
+35010  :goto199
+35570  The bottle is all ready full, idiot!
+35572  with water
+36010  You can't fill 
+36010  o$(oj)
+36010  :goto199
+36570  The bottle is all ready empty, idiot!
+36572  The water slowly trickles out onto the  ground.
+37000  Don't be silly!
+37002  Brrrr! The water is far too cold!
+37004  The current is too swift.
+37006  The river is too wide.
+37008  In a sink????
+37010  No way!! The water is probably full of
+37011  cholera bacilli.
+38004  Wash your mouth out!
+38010  Temper temper.
+38020  Dear me! I expected better of you!
+38030  Yes it's got a dirty word trap.
+39004  You are in tip top condition.
+39006  You are VERY close to death.
+39008  You are
+39008  % fit.
+40000  If you need help you are playing the
+40001  wrong game. I will tell you this much
+40002  however, I understand the following     words:
+60005  You feel thirsty.
+60010  Your lamp is getting dimmer!
+60012  Your lamp is very dim now!
+60014  Your lamp has just gone out!
+60025  You don't feel too well.
+60031  You have just died of food poisoning!!
+60032  You have just died of thirst!!
+60033  You have just collapsed from exhaustion!!
+60034  You have just died from hunger!!
+60036  A voice booms out:-
+60036   FIVE TURNS TILL ROLLCALL!!
+60037  A voice booms out 'Rollcall'
+60040  The orc overpowers you, and you are taken prisoner!
+60042  From somewhere close behind you can hearthe sound of pursuit.
+60046  A guard has just walked in, and left yousome food on a tray.
+60050  You feel a pang of hunger.
+60055  You are feeling very weak.
+60060  The guard has just walked out again.
+60063  You hear a siren in the distance.

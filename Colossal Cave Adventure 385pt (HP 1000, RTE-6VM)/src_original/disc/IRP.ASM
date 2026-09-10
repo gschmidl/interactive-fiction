@@ -1,0 +1,113 @@
+ASMB,R
+      HED <RESTORE ID SEGMENT FROM TYPE 6 FILE> 
+      NAM IRP,7 Restore ID seg   ARW 810112 
+      ENT IRP 
+      EXT .ENTR,.XFER,EXEC,RMPAR,NARG 
+* 
+*     FUNCTION IRP(NAM,NUNAM,IERR,LUMESS,[ICR]) 
+* 
+*     SCHEDULES PROGRAM RP TO RESTORE ID SEGMENT FROM TYPE 6 FILE 
+*     "NAM" WITH EXECUTABLE NAME "NUNAM". IF NUNAM(1)=0, PROGRAM
+*     IS RESTORED WITH WITH NAME "NAM". 
+*     The cartref upon which the Type 6 file resides may be specified in
+*     optional parameter ICR.  If ICR is not specified or ICR=0, all
+*     cartridges upon which Type 6 files may legally reside are searched. 
+*     A-REG RETURNS ERROR CODE IERR (=0 FOR SUCCESSFUL RESTORE, 
+*     STANDARD FMGR ERROR CODES OTHERWISE). 
+*     ERROR MESSAGES ARE WRITTEN ON LUMESS (OR SYSTEM CONSOLE IF
+*     LUMESS=0).  IF LUMESS<0, ALL ERROR MESSAGES ARE SUPPRESSED. 
+*     NOTE:PROGRAM RP MUST HAVE A CURRENT ID SEGMENT AND
+*          IS PREFERABLY INSTALLED AS A PERMANENT PROGRAM.
+*          IF, FOR ANY REASON, PROGRAM RP IS NOT EXECUTABLE, IERR 
+*          RETURNS =14 SO THAT CALLING PROGRAM IS AFFECTED IN A BENIGN
+*          WAY IF PROGRAM RP IS NOT INSTALLED ON THE SYSTEM; NO ERROR 
+*          MESSAGE IS PRINTED IN THIS CASE. 
+* 
+*     ARW 770523
+* 
+*     MODIFICATION RECORD:
+*     WHEN   WHO  WHAT
+*     780319 ARW  MODIFY TO PRINT ERROR MESSAGE ON ANY LU.
+*     780612 ARW  RETURN WITH IERR=14 IF PROGRAM RP NOT EXECUTABLE
+*     790208 ARW  MODIFY TO USE RMPAR FOR RTE-IV COMPATIBILITY
+*     810112 ARW  Add optional parameter ICR to make compatible with
+*                 RTE-IVB Rev 2026 and later
+* 
+NAM   BSS 1 
+NUNAM BSS 1 
+IERR  BSS 1 
+MESS  BSS 1 
+ICR   BSS 1 
+IRP   NOP 
+      JSB .ENTR 
+      DEF NAM 
+      JSB NARG      Get # of calling arguments
+      NOP 
+      NOP 
+*     JCR=0 
+*     IF (NARG(IDUM) .GT. 4) JCR=ICR
+      CLB 
+      STB JCR 
+      ADA =D-5
+      SSA           ICR specified?
+      JMP *+3        No.
+      LDB ICR,I      Yes. Get it. 
+      STB JCR 
+*     DO 100 I=1,3
+*100  NAMX(I+1)=NAM(I)
+      LDA NAM 
+      LDB NAMXX 
+      INB 
+      JSB .XFER 
+*     DO 110 I=1,3
+*110  NAM(I+5)=NUNAM(I) 
+      LDA NUNAM 
+      INB 
+      JSB .XFER 
+*     IBUFL=-16 
+*     IF (NUNAM .EQ. 0) IBUFL=-8
+      LDB =D-16 
+      LDA NUNAM,I 
+      SZA,RSS 
+      BRS 
+      STB IBUFL 
+*     SCHEDULE PROGRAM RP 
+*     CALL EXEC(100000B+23,IPROG,0,0,0,JCR,LUMESS,NAMX,IBUFL) 
+      JSB EXEC
+      DEF ERR 
+      DEF CODE
+      DEF PROG
+      DEF ZERO
+      DEF ZERO
+      DEF ZERO
+      DEF JCR 
+      DEF MESS,I
+NAMXX DEF NAMX
+      DEF IBUFL 
+*FOLLOWING INSTRUCTION EXECUTED ONLY IF ERROR IN EXEC(23,..) CALL 
+ERR   JMP ERR14 
+*     CALL RMPAR(IPAR)
+*     IERR=IPAR 
+*     IRP=IPAR
+      JSB RMPAR 
+      DEF *+2 
+      DEF IPAR
+      LDA IPAR
+      STA IERR,I
+      JMP IRP,I 
+* 
+*PROGRAM RP NOT EXECUTABLE. RETURN WITH IERR=14 
+ERR14 LDA =D14
+      STA IERR,I
+      JMP IRP,I 
+* 
+PROG  ASC 3,RP
+NAMX  ASC 8,,,      , 
+IBUFL BSS 1 
+JCR   BSS 1 
+IPAR  BSS 5 
+ZERO  OCT 0 
+CODE  OCT 100027
+A     EQU 0 
+B     EQU 1 
+      END 

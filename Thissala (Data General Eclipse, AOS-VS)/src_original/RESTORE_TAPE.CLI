@@ -1,0 +1,121 @@
+[!EQUAL,1,2]
+[!equal,comment,]
+This macro restores files from either a full or an incremental backup
+(done by the FULL_DUMP or INC_DUMP macros), in batch. The macro expects
+the tape volume IDs to be of the form FULLnn or INCRnn, as created by
+the backup macros. The default is INCRnn.  The macro accepts pathname
+arguments, so you can use it to restore individual files. To work, the
+macro requires a basic system file structure, which you can restore
+using your system SYSTAPE tape if needed.
+
+The tape fileset name used for the restoration is ROOT. The macro also
+explains how to specify a backup to a second fileset (like UDD), if you
+have backed up files to filesets other than ROOT.
+
+To execute the macro, the person acting as system operator must go to a
+user terminal, log on as a Superuser (like OP), and type the macro name.
+Tape mounts and CONTROL @EXEC MOUNTED commands at the system console
+will be needed. The most efficient course is to restore the last
+incremental backup first, then proceed backwards though most recent full
+backup.
+
+The command and pseudomacro syntax used is explained in the manual
+Using the CLI.[!end]
+
+[!equal,comment,] Make sure EXEC operator mode is on. [!end]
+
+[!nequal,(ON),([!operator])]
+  write Error - Operator is not on. Please go to the system console and
+  write type [!read CONTROL @EXEC OPERATOR ON NEW LINE. Return here and
+  write press NEW LINE.]
+[!end]
+
+write The default restoration assumes you are restoring from incremental
+write backup tapes -- with volume IDs INCR00 and INCR01 and INCR02 and
+write so on. If you want to restore a full backup -- with volume IDs
+write FULL00 and FULL01 and FULL02 and so on -- you must specify FULL.
+write
+write  For incremental press NEW LINE.
+string [!read For full type FULL and press NEW LINE. ]
+write
+
+delete/2=ignore  :UDD:[!username]:?DUMP_TYPE.TMP
+[!equal,([!string]),(FULL)]
+  write ,, *** Restoring full backup. Need volume IDs FULL01 FULL01 etc. ***
+  write/l=:UDD:[!username]:?DUMP_TYPE.TMP  FULL
+[!else]
+  write  *** Restoring incremental backup. Need volume IDs INCR01 INCR01 etc. ***
+  write/l=:UDD:[!username]:?DUMP_TYPE.TMP  INCR
+[!end]
+
+[!equal,comment,] Get person's name and write to file :RESTORERS_NAME.[!end]
+push
+superuser on
+dir  :
+delete/2=ignore   :RESTORERS_NAME
+write
+write/l=:RESTORERS_NAME    [!read  Please type your name: ]
+pop
+dir/i
+
+[!equal comment,] Post the needed mount and dump commands in batch.[!end]
+qbatch/m/operator
+superuser  on
+dir  :
+
+[!equal,comment,] Issue a mount command for 10 labeled tape volumes. The
+volids depend on the choice above -- INCRnn or FULLnn. (First, to
+prevent problems, delete any linkname of the name MYTAPE in the user's
+directory.) [!end]
+
+delete/2=ignore   :udd:[!username]:MYTAPE
+string  [:UDD:[!username]:?DUMP_TYPE.TMP]
+
+mount/extend/volid=[!string]00/volid=[!string]01/volid=[!string]02&
+/volid=[!string]03/volid=[!string]04/volid=[!string]05/volid=[!string]06&
+/volid=[!string]07/volid=[!string]08/volid=[!string]09   MYTAPE   &
+Please mount the correct tape volume.
+
+[!equal,comment,] Now load from the labeled tape file. If the person
+included pathname arguments 1-n, include them in the load command line.
+If he/she omitted arguments, restore the entire backup.
+
+The fileset name used here is ROOT. It does not include any directory
+that was excluded from ROOT in the backup macros. If you have a backup
+fileset separate from ROOT, you must load it separately, by fileset
+name. Use the syntax shown in the mount and load commands above, with
+your own custom volid names and fileset name. If the backup file
+includes any nonmaster LDUs, be sure they're initialized before you load
+from the backup tape. (Otherwise, the load command will recreate the
+dump file directory on the master LDU.)
+
+The listing file (/l) in batch is the line printer. [!end]
+
+write/l  This is an [!string] restoration of directory [!dir] started
+write/l  at [!date]:[!time] by [RESTORERS_NAME]
+
+load_ii/v/l/buffersize=8192/recent   &
+     :udd:[!username]:MYTAPE:ROOT    &
+     %1-%
+
+dismount MYTAPE  [!string] restoration of directory [!dir] is done.
+pause 5
+send 2 ,, Check the printer -- file [!username].OUTPUT.n -- for errors.
+send 2 ,, A list of files restored is printed in file [!username].LIST.n
+send 2 ,, Don't forget to restore the other backups, if this applies.
+delete/2=ignore  :UDD:[!username]:?DUMP_TYPE.TMP
+
+[!equal,comment,]  The following paren is needed for qbatch/m syntax.
+[!end]
+)
+[!ELSE]
+  write This macro is nonexecutable. To make it executable you must use
+  write a text editor to change the 2 in line 1 to 1 -- both numbers
+  write must be 1.
+  write
+  write Backup is very important. Before using the edited macro
+  write for backup you should understand how it works. Please test this
+  write macro. Back up some files using FULL_DUMP and INC_DUMP. Then
+  write restore files using this macro before relying on the macro set
+  write routinely.
+[!END]

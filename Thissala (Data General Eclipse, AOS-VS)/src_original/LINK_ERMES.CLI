@@ -1,0 +1,16 @@
+delete/1=ignore/2=ignore ermes.<pr st er> ermes
+string/k
+
+xeq/s link/udf/ring=0/nbot=32768/o==ermes/e==ermes.er/supst%/%&
+  <sys z cli32 speed pln x pl1 dgl clre link sed c xyzzy masm&
+  f77 lang_rt>ermes pl1ermes16 %-%
+
+[!nequal,([!string]),()]
+   string ** Error on %0%. Error is: [!string] **
+   write [!string]
+   type ermes.er
+[!else]
+   delete/2=ignore ermes.er
+   rename ermes<.pr,>
+   acl ermes + re
+[!end]

@@ -1,0 +1,713 @@
+
+
+
+
+
+
+
+ 			    Documentation changes for:
+
+
+		       Using the CLI (AOS/VS and AOS/VS II)
+
+		  	    Part Number 093-000646-01
+
+
+
+
+	This file (pathname :UTIL:093_000646_01) contains information
+	that affects the following pages of your manual:
+
+          1-2				* 5-225
+          4-13 and 4-14			  5-326
+          5-6				* 5-328
+	* 5-56				* 5-342
+	* 5-80
+	* 5-81
+          5-93
+
+	This third revision of file 093_000646_01 was updated on
+        June 7, 1994.
+
+	The asterisk (*) indicates that the change is printed in this
+	file for the first time.
+
+	For all pages in this file, change bars (|) in the left margin
+	mark material that differs from what is in the printed manual.
+
+	To keep your manual current, print this file, punch holes to fit
+	your binder, and insert the pages into your manual.
+
+
+	NOTE:	The Help files for CLI commands, macros, and pseudo-
+		macros, operating system utility Help topic files, and
+		EXEC Help files work with the BROWSE utility. Refer to
+                pages in this file for further information.
+
+                Also, please note that the Help files may be more up to date
+                than the manual and include information not contained in the
+                documentation changes file.  Differences between the manual
+                and the Help file may be extensive, as with CLI.CMD.SYSLOG.
+                In cases of conflict, the Help file information supersedes
+                the information in the manual.
+
+
+
+	Copyright (c) Data General Corporation, 1980 - 1994.
+	All Rights Reserved
+	Licensed Material - Property of Data General Corporation
+
+	Using the CLI (AOS/VS and AOS/VS II), 093-000646-01	07-Jun-94
+	Documentation Changes, Revision 3
+
+	Page 1-2
+
+                Two CLIs (CLI16 and CLI32)
+
+                Your operating system arrived with two CLIs: CLI16 (a
+                16-bit program) and CLI32 (a 32-bit program).  The CLI32
+                offers features not found in CLI16, including the commands
+                GROUPLIST and HISTORY, pseudomacros !INDEX and !SUBSTRING,
+                and enhanced tools for macros.  However, in most cases, the
+                two CLIs behave exactly the same way.
+
+                The CLI that runs as your user process was selected by your
+                system manager when he or she edited your user profile.
+                In most cases, you can run either CLI under your initial
+                CLI process by typing XEQ :CLI16 or XEQ :CLI32 and pressing
+                NEW LINE.
+
+                You can tell which CLI is running by typing
+
+                ) WRITE [!CLI] <NL>
+                CLIn
+
+                The response, CLI32 or CLI16, tells which CLI is running.
+
+
+                Getting Help
+
+                If you are in doubt about a CLI command, pseudomacro,
+                system utility, or a related topic, you can ask the CLI
+                to display an explanation of the item.
+
+                To list the topics for which help is available, give the
+                command
+
+                ) HELP <NL>
+
+                To get help for one of the listed topics, type HELP followed
+                by the topic name (which is preceded by an asterisk).
+                For example, the command
+
+                ) HELP *NEWLINE <NL>
+
+                displays information about the NEW LINE key and its use.
+
+        |       To list the commands or pseudomacros for which help is
+        |       available, give the command
+        |
+        |       ) HELP *COMMANDS <NL>
+        |              or
+        |       ) HELP *PSEUDO-MACROS <NL>
+
+	Using the CLI (AOS/VS and AOS/VS II), 093-000646-01	07-Jun-94
+	Documentation Changes, Revision 3
+
+	Page 1-2.1
+
+        |       To list the switches you can use with one of the commands
+        |       or pseudomacros, type
+        |
+        |       ) HELP command-name <NL>
+        |              or
+        |       ) HELP !pseudomacro-name <NL>
+        |
+        |       To display an explanation of the command or pseudomacro, use
+        |       HELP/V, HELPV, or HELPB in place of HELP.  HELP/V or
+        |       HELPV scrolls through the text in forward direction only.
+        |       HELPB - available only in CLI32 - lets you view the help
+        |       text using the features of the BROWSE utility.
+        |
+        |       Refer to Chapter 5 for more information on the HELP command
+        |       and the BROWSE utility.
+
+
+
+	Using the CLI (AOS/VS and AOS/VS II), 093-000646-01	07-Jun-94
+	Documentation Changes, Revision 3
+
+	Page 4-13
+
+
+                Using Parentheses and Brackets in Macros
+
+                Parentheses in macro calls work just as they do in commands.
+                That is, they cause the macro to repeat once for each item
+                enclosed.  If you group macro arguments within parentheses,
+                the CLI treats the group as a single argument when resolving
+                dummy arguments; this is sometimes called indirection.  Thus,
+                you can use parentheses to supply more than one value for
+                a single dummy argument.
+
+                For example, suppose the macro ASM.CLI contains the
+                following lines.
+
+                XEQ MASM/L=%1%.LS %1%
+                QPRINT %1%.LS
+
+                If you call the macro with the command
+
+                ) ASM (FILEA,FILEB,FILEC) <NL>
+
+                the CLI expands the command to
+
+                ASM FILEA
+                ASM FILEB
+                ASM FILEC
+
+                which results in the following sequence of commands:
+
+                XEQ MASM/L=FILEA.LS FILEA
+                QPRINT FILEA.LS
+
+                XEQ MASM/L=FILEB.LS FILEB
+                QPRINT FILEB.LS
+
+                XEQ MASM/L=FILEC.LS FILEC
+                QPRINT FILEC.LS
+
+                The dummy argument %1% in ASM.CLI takes only one actual
+                argument, but the parentheses in the command line cause
+                the macro to execute three times.  Each time, one of the
+                arguments enclosed in parentheses in the command line is
+                used for dummy argument %1%.
+
+
+                Using Parentheses with the !FILENAMES Pseudomacro
+
+                Occasionally, you will want to work with a group or
+                sequence of filenames at once.  By enclosing individual
+                !FILENAMES pseudomacro arguments within parentheses,
+                you can supply multiple file lists for the operation to be
+                executed.
+
+	Using the CLI (AOS/VS and AOS/VS II), 093-000646-01	07-Jun-94
+	Documentation Changes, Revision 3
+
+	Page 4-14
+
+
+                Suppose you have a macro that converts your current year's
+                work for the start of a new calendar year.  You want to
+                re-use the files in a particular directory from the previous
+                year, but you want the filenames to reflect the current year.
+        |       You can rename all files that end in ".92" so that they end
+        |       in ".93" instead, using the following command line within
+        |       the macro:
+        |
+        |       RENAME ([!FILENAMES/NOEQUAL +.92]) ([!ENAME &
+        |       [!FILENAMES/NOEQUAL +.92]]).93 <NL>
+
+                Or, suppose you need to show the length of every file in a
+                particular directory; you could accomplish this using a command
+                line in your macro such as this:
+
+        |       WRITE ([!FILENAMES/NOEQUAL +]) ([!SIZE [!FILENAMES +]])
+
+                This technique is useful with any command that has restrictions
+        |       on the number of arguments allowed or the use of template
+        |       characters.  See the RENAME and TAR_VS command descriptions
+                in Chapter 5 for other practical examples of how !FILEMAMES
+                works in a parenthetical expression.
+
+
+                Using Square Brackets to Specify a File's Contents
+
+                When you surround a filename with square brackets, the CLI
+                uses the contents of the file rather than the filename.
+
+                When you type
+
+                ) TDP <NL>
+
+                the CLI looks for the file TDP.CLI (or TDP, then TDP.PR if
+                it does not find TDP.CLI), and tries to execute the contents
+                of that file.  Here you are implicitly calling the macro.
+                The CLI will respond identically if you type
+
+                ) [TDP] <NL>
+
+                The bracket syntax enables you to execute a macro that has
+                the same name as a CLI command (or an abbreviation of the
+                command name). If you try to execute a macro called TI.CLI
+                by typing
+
+                ) TI <NL>
+
+                the CLI executes the TIME command (because it looks for a
+                matching CLI command before it looks for a matching macro).
+
+	Using the CLI (AOS/VS and AOS/VS II), 093-000646-01	07-Jun-94
+	Documentation Changes, Revision 3
+
+	Page 4-14.1
+
+                If, however, you type
+
+                ) [TI] <NL>
+
+                the CLI knows you are referring to a file (not a command)
+                and will execute TI.CLI.
+
+                With brackets, moreover, you can use the contents of a file
+                as an argument to a macro or command.  Suppose a file called
+                MYFILES contained the following text.
+
+                FILEA,FILEB,FILEC,FILED
+
+                If you type
+
+                ) QPRINT  [MYFILES] <NL>
+
+                the CLI expands the command line to
+
+                QPRINT FILEA,FILEB,FILEC,FILED
+
+                and therefore outputs the four files to the line printer.
+
+
+	Using the CLI (AOS/VS and AOS/VS II), 093-000646-01	07-Jun-94
+	Documentation Changes, Revision 3
+
+	Page 5-6
+
+                Getting Help
+
+                If in doubt about a CLI command, pseudomacro, or macro,
+                you can ask the CLI to display an explanation of the item.
+
+                To display very brief help for a command, type HELP followed
+                by the item's name.  For example
+
+                ) HELP DELETE <NL>
+
+                The resulting display reports whether the DELETE command
+                accepts or requires arguments, and lists the switches you
+                can use with the command.
+
+                Often, though, you'll need more verbose help.  Then
+                you can either add the /V switch to the HELP command
+        |       (HELP/V TIME) or use the HELPV macro (HELPV TIME).  The
+        |       HELPV macro works the same way as the HELP/V command.
+        |
+        |       For help with macros or utility programs, type HELP,
+        |       HELP/V, or HELPV followed by the item's name prefixed
+        |       with an asterisk (HELP/V *BROWSE).  For help with
+        |       pseudomacros, prefix the item's name with an exclamation
+        |       point (HELPV !END).
+        |
+        |       If you are using CLI32, you can use the HELPB and XHELPB
+        |       macros that let you display help information through the
+        |       BROWSE utility.
+        |
+	|       For CLI commands, macros, or pseudomacros, the format is
+        |
+        |       HELPB  {command      }
+        |              {*topic       }
+        |              {!pseudomacro }
+        |
+        |       For EXEC commands, the format is
+        |
+        |       XHELPB  [command]
+        |
+        |
+        |       When you use HELPB or XHELPB, only the first screen
+        |       displays initially.  You can use Next Screen (F4) and
+        |       Previous Screen (F3) to view the information a screen at a
+        |       time.  Use the up- or downarrow keys to display an additional
+        |       line (or lines if you hold down the key) in either direction.
+        |       Press Cancel/Exit (F11) or BREAK/ESC to exit.  For more
+        |       information, refer to the description of the BROWSE utility
+        |       in this chapter, or type HELPB *BROWSE.
+
+
+
+
+	Using the CLI (AOS/VS and AOS/VS II), 093-000646-01	07-Jun-94
+	Documentation Changes, Revision 3
+
+
+	Page 5-56     Replace the bottom half of the page with the following:
+	------------------------------------------------------------------------
+
+
+
+	Why Use It?
+
+	You can use the CHAIN command to execute another program without
+	returning to the CLI.  You will find this command useful if, for
+	example, your system is approaching its maximum number of processes,
+	or if you have already created your allotted number of son processes.
+
+	Chaining to another program can release the system resources that
+	were being used by your CLI process.
+
+	CHAIN Command Switches
+
+	The section "Universal CLI Switches," earlier in this chapter,
+	describes switches /1, /2, /L, /L=pathname, and /Q, which you can
+	use with all commands.  That section also explains the CLI32
+     |  switches /ESTR= and /STR=.
+
+	/D	      Starts the new process in the assembly language debugger.
+
+	/DEBUG        (CLI32 only).  Same as /D.
+
+     |  /GROUPLIST    (CLI32 only).  Passes the current group list to the new
+     |                               program.  If this switch is missing, the
+     |                               initial group list is passed.
+
+
+	CHAIN Example
+
+	) CHAIN  MYPROG
+
+	This program replaces the current CLI process by overwriting it with
+	MYPROG.PR.  When you exit MYPROG, you either return to the process that
+	executed the CLI, or if the CLI were a son of the EXEC process, you are
+	logged off the system.
+
+
+	Using the CLI (AOS/VS and AOS/VS II), 093-000646-01	07-Jun-94
+	Documentation Changes, Revision 3
+
+	Page 5-80	Replace the page with the following:
+	------------------------------------------------------------------------
+
+
+
+	CLEARDEVICE
+     |     Initiates Dump/Reboot of an IAC controller or engine, or simulates
+     |     a CTRL-Q (X-ON) from a device, or sends a break sequence to a device.
+        ________________________________________________________________________
+
+	Format
+
+	CLEARDEVICE/switch device
+
+     |  Depending on the switch you use, the command initiates Dump/Reboot of an
+     |  IAC controller or engine, or simulates a CTRL-Q (X-ON) from the
+        specified device, or sends a break character to the device.  The device
+        argument must be the name of a console line; for example @CON12.
+
+        *  No Templates.
+
+	*  No argument switches.
+
+     |  *  Requirement:  /RCNTL and /RENG require SYSTEMMANAGER privilege
+     |                   or PID 2, and are for AOS/VS II only;
+     |                   /RXON and /SBREAK require that you either
+     |                   be logged onto the terminal device, or you have
+     |                   SYSTEMMANAGER privilege, or you are PID 2.
+
+
+        Why Use It?
+
+     |  The /RCNTL or /RENG switch can be used when you want to initiate a
+     |  Dump/Reboot of an IAC controller or engine.  Refer to the manual
+     |  "Managing AOS/VS and AOS/VS II", part number 093-000541, for more
+     |  information; see section "Operator Initiated IAC Reboot" in the
+     |  chapter titled "Improving System Availability".
+     |
+     |  The /RXON switch can be used to simulate receipt of a CTRL-Q character
+     |  from a device that is using CTRL-S (X-OFF) and CTRL-Q (X-ON) characters
+     |  for flow control.  For example, a printer attached to a console line is
+     |  normally configured to use X-OFF/X-ON flow control.  If this printer
+     |  goes off-line while in the X-OFF state, it may not work properly when
+     |  the printer comes back on-line.  If the system does not resume sending
+     |  data to the printer because it is waiting for an X-ON character, the
+     |  CLEARDEVICE/RXON command may be used to clear this state.
+     |
+     |  The /SBREAK switch can be used to send a break sequence to a device.
+        Some types of communications hardware require you to send a break
+        sequence before you can gain access to the device.
+
+	Using the CLI (AOS/VS and AOS/VS II), 093-000646-01	07-Jun-94
+	Documentation Changes, Revision 3
+
+	Page 5-81	Replace the page with the following:
+	------------------------------------------------------------------------
+
+	
+
+	CLEARDEVICE Command Switches
+	
+	The section "Universal CLI Switches," earlier in this chapter, describes
+	switches /1, /2, /L, /L=pathname, and /Q, which you can use with all
+	commands.  This section also explains the CLI32 switch /STR=.
+
+     |  /RCNTL   Initiates Dump/Reboot of controller associated with the device.
+     |               (AOS/VS II only)
+     |
+     |  /RENG    Initiates Dump/Reboot of engine associated with the device.
+     |               (AOS/VS II only)
+     |
+	/RXON    Simulates a CTRL-Q (X-ON) character from the device (printer).
+
+	/SBREAK  Sends a break signal to an IAC device.
+
+
+	CLEARDEVICE Example
+
+	You type the following command.
+
+	) QPRINT/QUEUE=LQP/COPIES=10  MYFILE
+	
+	The letter-quality printer begins to print.  Then it exhausts its paper
+	supply and goes off line.
+
+	The system operator replenishes the paper, puts the printer back on
+	line; and then goes to system console and uses the CONTROL command to
+	discover the printer devicename.  The operator then uses the
+	CLEARDEVICE command to clear the device and allow the printer to resume
+	printing.  Dialog at the system console follows.
+
+	) CONTROL @EXEC SPOOLSTATUS LQP
+	LQP being porocessed by @CON3
+	From EXEC ...
+	
+	) CLEARDEVICE/RXON  @CON3
+
+	Using the CLI (AOS/VS and AOS/VS II), 093-000646-01	07-Jun-94
+	Documentation Changes, Revision 3
+
+	Page 5-93
+	
+                COPY    Command
+
+                Copies one or more files to a destination file.
+
+                Format
+
+                COPY  destination-file  sourcefile  [...]
+
+                This command copies the source file(s) - in the order
+                specified -  to the destination file.  The destination file
+                may be a disk file, peripheral device file (such as a
+                magnetic tape file), or printer queue (such as @LPT).  It
+                cannot be a directory file.
+
+                Depending on your use of command switches, you can create
+                the destination file, append to an existing file, or
+                replace an existing file.  If the second or subsequent
+                source file does not exist, the CLI issues a warning
+                message and continues copying until it has copied all the
+                files you specified.
+
+                o No templates.
+
+                o No argument switches.
+
+                o Requirement: Standard.
+
+                o See also: MOVE, DUMP, LOAD/LOAD_II and, for AOS/VS II,
+                  RENAME.
+
+                Why Use It?
+
+                Use the COPY command to add text to a file or build one
+                large file from smaller ones.  With it, you can duplicate
+                the contents of a diskette or tape file onto a disk file,
+                or vice versa.  The command will also duplicate a file
+                within a directory.  Because it copies the contents of a
+                file, without the name, creation date, and so on, you
+                might want to use it instead of the MOVE command.
+
+        |       The COPY command does not copy the time-date created, or
+        |       User Data Area (UDA) of the source file(s); if the CLI
+        |       creates a new file, the file has the current date-time
+        |       created and copies the ACL from the first source file.
+        |       If you want to retain the existing date-time created, use
+        |       MOVE, not COPY.
+
+
+                In AOS/VS II, if you want to relocate the original file
+                to a different directory on the same LDU (instead of creating
+                a copy there), you can use the RENAME command to change
+                the pathname of the file.
+
+	Using the CLI (AOS/VS and AOS/VS II), 093-000646-01	07-Jun-94
+	Documentation Changes, Revision 3
+
+	Page 5-93.1
+
+
+                COPY Command Switches
+
+                The section "Universal CLI Switches," earlier in this
+                chapter, describes switches /1, /2, /L, /L=pathname, and
+                /Q, which you can use with all commands.  That section also
+                explains the CLI32 switches /STR= and /ESTR=.  Note that
+                /STR= does not work as usual - it returns null -  with the
+                COPY and TYPE commands.
+
+                /A  Appends the source file(s) to an existing destination file.
+
+                /APPEND       (CLI32 only.)  Same as /A.
+
+
+	Using the CLI (AOS/VS and AOS/VS II), 093-000646-01	07-Jun-94
+	Documentation Changes, Revision 3
+
+
+
+	Page 5-225   Replace the "Loading Microcode" section with the following:
+	------------------------------------------------------------------------
+
+
+
+
+	Loading Microcode
+
+     |  If you omit the /EXISTING and /MCODEFILE switches, the system will first
+     |  determine whether the processor supports the loading of microcode after
+     |  power-up.  If so, AOS/VS loads a default microcode file based on the
+     |  CPUID of the job processor.  Otherwise, AOS/VS uses the microcode that
+     |  was loaded on the job processor during power-up of the system.
+     |
+     |  The following systems load microcode at power-up time only, and do not
+     |  allow loading of microcode with the JPINIT command:
+     |  MV/25000, MV/30000, MV/35000, MV/40000, and MV/60000.
+     |
+     |  The /EXISTING switch may be used to specify use of the microcode that
+     |  is already loaded into the job processor.  This switch is not necessary
+     |  for those systems which only load microcode at power-up time.
+     |
+     |  The /MCODEFILE=pathname switch may be used to specify loading a specific
+     |  microcode file (other than the default).  The value of this switch
+     |  is the pathname of the microcode file you want to load.
+
+	Using the CLI (AOS/VS and AOS/VS II), 093-000646-01	07-Jun-94
+	Documentation Changes, Revision 3
+
+	Page 5-326  	Correct the description of the PROCESS switch
+			/IOC=consolename.
+
+
+	 	/IOC=consolename
+	 		Assigns consolename as the generic @INPUT, @OUTPUT, and
+	 		@CONSOLE names for the new process.  This works only if
+	|		the console is not already assigned to another process.
+	|		This is intended for use with consoles which are not
+	|		enabled by EXEC.
+
+
+	Using the CLI (AOS/VS and AOS/VS II), 093-000646-01	07-Jun-94
+	Documentation Changes, Revision 3
+
+
+	Page 5-328  	Replace the list of PROCESS switches at the top of
+			the page with the following list which includes
+	                the /SYSTEMMANAGER switch.
+	------------------------------------------------------------------------
+
+
+	PROCESS (continued)
+
+	/SUPERPROCESS    Allows the new process to enter Superprocess mode.
+
+	/SUPERUSER       Allows the new process to enter Superuser mode.
+
+     |  /SYSTEMMANAGER   Allows the new process to enter SystemManager mode.
+
+	/UNLIMITEDSONS   Allows the new process the option of creating an
+	                 unlimited number of son processes.  If you omit /SONS,
+	                 /SONS=n, and /UNLIMITEDSONS, the default is zero.
+
+	/USERNAME=name   Makes name the new process's username; the default is
+	                 your username.  The default ACL is username,OWARE.
+
+	/WSMAX=pagenum   Specifies the maximum number of pages allowed in main
+	                 memory at one time; the default is dynamically set by
+	                 the system.
+
+	/WSMIN=pagenum   Specifies the minimum number of pages that must be in
+	                 main memory; the default is dynamically set by the
+	                 system.
+
+	Using the CLI (AOS/VS and AOS/VS II), 093-000646-01	07-Jun-94
+	Documentation Changes, Revision 3
+
+	Page 5-342  	Replace the page with the following:
+	------------------------------------------------------------------------
+
+	QDISPLAY                                                         Command
+	  Displays queue information.
+	________________________________________________________________________
+
+	Format
+
+	QDISPLAY  [hostname]
+
+	This command displays information about the queues on your system.  If
+	your system is running the XODIAC/XTS Resource Management Agent (RMA),
+	you can supply a hostname argument to obtain information about the
+	queues on that host.
+
+	The output from this command shows the queue name, queue type, and
+	status for each queue.  See the examples for the output format.
+
+	QDISPLAY works only when EXEC is running.
+
+	QDISPLAY can tell you if the printer is available, how many jobs precede
+	yours, the sequence number of your request or batch job and the status
+	of your request or job.  (See QBATCH, QCANCEL, QFTA, QPLOT, QPRINT,
+	QSNA, and QSUBMIT commands.)
+
+	The display uses the following codes to describe individual jobs.
+
+	Code	Meaning
+
+	*	The job is active (being printed, plotted, and so on).
+	+	The job is awaiting a response from the system operator.
+	A	An unexpired /AFTER switch is in effect.
+	B	A /BINARY switch is in effect.
+	C	The job was canceled (via QCANCEL) by its owner.
+     |  D	A /DELETE switch is in effect.
+	E	The job is being held by the system operator.
+	F	The job was canceled by the system operator.
+	G	A /NORESTART switch is in effect.
+	H	The job is being held (via /HOLD or QHOLD) by its owner.
+     |  I	IPC notify is in effect.
+     |  L	/FOLDLONGLINES switch is in effect.
+	N	A /NOTIFY switch is in effect.
+	O	An /OPERATOR switch is in effect.
+     |  P	Pend option was specified.
+	R	The system restarted the job following a system failure.
+	S	The job was submitted by a Superuser.
+     |  T	A /TITLES switch is in effect.
+     |  X	A /PASSTHRU switch is in effect.
+
+	*  No Templates.
+	*  No argument switches.
+	*  Requirement:  Standard.
+	*  See also:  QCANCEL, QFTA, QMODIFY, QPLOT, QPRINT, QSNA, QSUBMIT.
+
+
+
+
+
+
+
+
+
+
+
+
+
+		+-----------------------------------------------------+
+		|	   End of Documentation Changes for           |
+		|	"Using the CLI (AOS/VS and AOS/VS II"         |
+		|		Revision 3, 07-Jun-94                 |
+		+-----------------------------------------------------+

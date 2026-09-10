@@ -1,0 +1,504 @@
+UNDERG.TXT — message fields, reconstructed from the scans
+=========================================================
+
+Format: <index><TAB><text of that 73-byte field>
+
+Each index addresses ONE 73-byte field, as FNR$(A%) in UNDERG.BAS does:
+  record A%\7 + 1  (512-byte blocks), field A% MOD 7, 73 bytes, CVT$$ trimmed.
+Long messages therefore span CONSECUTIVE indices and the game prints them with
+  &FNR$(Z%); FOR Z%= X% TO Y%
+so field text often breaks mid-word. That is faithful, not an error.
+
+"@" is the item-name placeholder (author's own term). In the byte-offset
+printouts (07192619/20) it was accidentally printed as the literal string
+"Password:" by a stale variable; it is restored to "@" here.
+
+Sources (all V2): 07192616 (fields 0-43), 07192615 (15-139),
+07192617 (170-223), 07192614 (267-443). Where two printouts overlap they
+agree exactly — 07192616 and 07192615 both give 15-43 identically.
+Gaps where no indexed printout survives are marked  ### GAP ###.
+
+NOT used as a source: 07192619/07192620 and 07192613. Those are a LATER
+revision (the unfinished V3): they reword messages ("full of chemical
+pollutants and unsafe to drink" vs V2's "polluted and unfit to drink"),
+correct spellings (Entrance vs V2's Enterance), add rooms V2 has no trace of
+(Spectre's Room, a demon, an "Underground Command Interpreter"), and replace
+V2's one-message-per-object text with "@" templates ("There is a @ here.").
+Their field numbering is therefore NOT V2's, and filling V2 indices from them
+would be invention rather than recovery.
+
+
+0	There are gold nuggets here!
+1	There are deposits of gold buried in the ground!
+2	There is a silver hammer here!
+3	There is a large emerald here!
+4	There is an ivory chess set here!
+5	There is a silver trophy here!
+6	There is a fortune in money here!
+7	There is a solid gold garbage can here!
+8	There is silver here!
+9	There is a solid gold record here!
+10	There are rare coins here!
+11	There are rare jewels here!
+12	There is a jewel-encrusted wand here!
+13	There is a gold pet's dish here!
+14	There is a coil of platinum wire here!
+15	There is a golden key here!
+16	There is a pile of uranium on the ground!
+17	There is a solid gold telescope here!
+18	There is a flashlight here.
+19	There is a rock here.
+20	There is a laser pistol here.
+21	There are rare stamps here!
+22	There is a small glass bottle here.
+23	There is water inside the bottle.
+24	There is a flashlight shining here.
+25	There is a robot here. It does not appear to be friendly.
+26	There is a box here, with a button, marked "Spaceship Remote Control".
+27	The north wall of this room is a giant computer.
+28	The remains of a melted computer occupy the north wall.
+29	There is a radiation-proof container here.
+30	There is a pair of astronauts' gloves here.
+31	There is a penny here.
+32	There is a cart here. It's wheels are stuck in the bog.
+33	There is an ancient statue here!
+34	There is a miniature sun shining here.
+35	There is a pair of sunglasses here.
+36	There is a lever on the wall.
+37	There is a small wooden flute here.
+38	A bone, probably from an old skeleton, is here.
+39	There is an old piece of cheese here.
+40	There is a black pearl here!
+41	A Gnome, who apparently hates humans, is here.
+42	A Dwarf guards the way into his city.
+43	There is a message written here.
+44	There is a locked safe here.
+45	There is an open safe here.
+46	There is an old piece of cheese here.
+47	Welcome to UNDERGROUND. Type HELP for instructions.
+48	Please answer "YES" or "NO", "Y" or "N".
+49	I can't see a thing.
+50	There is a hungry rat here.
+51	There is a smelly, dead rat here.
+52	There is a hungry cat here, sleeping in the corner of the room.
+53	There is an old watchdog lying here.
+54	There is a woman standing here.
+55	Sitting on the chest is a woman.
+56	An oaken chest, which belongs to a woman, is here.
+57	The woman's chest is here. it is open.
+58	There is a savage-looking tiger here.
+59	The north wall of this room looks vulnerable to laser fire.
+60	The floor of this room is covered by a sheet of ice.
+61	There is a lump of coal here.
+62	It isn't here.
+63	I don't know what that means.
+64	What about it?
+65	The dog barks, and the Gnomes all awaken, all carrying knives.
+66	You are somehow paralyzed by the woman
+67	As you leave, you are intercepted by a deadly knife.
+68	The monster, who is on a strict mineral diet, pauses for a moment.
+69	It finally decides to eat you. However, you leave a bad taste in it's
+70	mouth and give it bad breath. To clean it's mouth it eats the entire
+71	cave. Fortunately the cave is magically protected, so it will be back
+72	next time. Hopefully you will not.
+73	The robot blocks your way.
+74	The robot's laser misses you by an inch.
+75	The robot's laser strikes you. You are disintegrated.
+76	The ice is too slippery for you to move on.
+77	Some force blocks this exit.
+78	You can't get past the tiger without becoming it's dinner.
+### GAP ### fields 79-80 fall in the tear between 07192615 p1 and p2
+79	[text missing]
+80	[text missing]
+81	The door is closed.
+82	I wouldn't advise you to drown yourself.
+83	You can't get up the ramp.
+84	The barrel's spinning motion keeps you from moving that way.
+85	You cannot reach the hole.
+86	You are outside on the surface of the strange planet. It's atmosphere
+87	is composed of several gases, all of which are poisonous.
+88	This passage has been somehow blocked.
+89	You are INSIDE an active volcano. The eruptions cause you to lose
+90	your footing, fall, and die.
+91	The woman decides to get rid of you for your tresspassing in her home.
+92	The roof of this room caves in, burying you under tons of rubble.
+93	The floor under you turns to bog, and you drown in it.
+94	Five hundred Gnomes appear in the room and throw knives at you.
+95	A trap door opens in the floor. You fall to your death.
+96	A spaceship, appearing out of nowhere, lands on top of you.
+97	There is a loud explosion here, and you are destroyed.
+98	There is a loud explosion below you.
+99	You cannot get the gold out of the ground.
+100	Don't be stupid.
+101	Don't be funny.
+102	Are you crazy?
+103	You are carrying:
+104	Are you sure you want to quit now?
+105	Hut-Hut-Hike!
+106	The safe of the Gnomes slides open. There is silver inside!
+107	A trap door opens below you, and you fall into a pit of boiling lava.
+108	As you die, you hear a deep, dark, dank voice saying "MORON..."
+109	A A A A A a a a a a . . .                    <splat>
+110	Nothing happens.
+111	Does this room look like a toilet?
+112	There is a flushing sound, and water sprays from the sides of the room.
+113	I can't help you. You'll have to get there yourself.
+114	Swearing is not allowed in this game. What the hell is wrong with you?
+115	The cheese tastes strange. Evidently it is poisoned.
+116	The water in this game is polluted and unfit to drink.
+117	[text missing]
+# Field 117 is the EAT-THE-PILL message: 8900 IF T%=36% THEN &FNR$(117%):
+# GOTO 16300, and object 36 is the white pill (vocabulary PILL,436). 16300/16400
+# are SYS("^E") and SYS("^NBYE/F"), so eating the pill prints this line and then
+# force-logs you out — a one-shot joke ending.
+# The only V2 printout of it (07192615 p2) was hit by line noise during the
+# data-entry session and reads: yYour'e inn @tl<f& 9
+# Undoubling the echoed characters gives a start of "You're in " and the rest is
+# unrecoverable. It is NOT elsewhere:
+#   - V1 has no pill at all. Its whole EAT/DRINK chain is
+#     2280 IF T%=19% ... "polluted and unfit to drink" / 2290 IF T%=29% THEN 3030
+#     ELSE "Don't be funny." — water and cheese only, no pill object exists.
+#   - V3 reworked the pill into a lasting mechanic instead of an instant logout
+#     ("You notice that your thoughts are somewhat muddled.", "Your thoughts are
+#     getting very sluggish.", "You have become a human vegetable.", "Your
+#     thoughts have cleared up."), so it has no single equivalent line.
+# Left blank deliberately rather than invented.
+118	The cart rolls into the bog. An ancient statue flies out!
+119	The rock hits the gnome on the head, and both go down the cliff.
+120	There is no room for another saved game in this account.
+121	The laser blast misses it's target.
+122	The rock bounces harmlessly off the robot's metallic body.
+123	The dwarf dodges the rock, and quickly throws his weapon, killing you.
+124	S.P.C.A. and Humane Society regulations clearly prohibit such action.
+125	The rock hits the woman in the head, but she is only stunned.
+126	She is now very angry at you.
+127	Your surroundings seem to fade...
+128	A woman appears in a cloud of smoke. She says,
+129	"Come back when you learn to read signs".
+130	"Your flashlight is getting low on power. I will restore it, but it
+131	will cost you 50 points. You have 3 turns in which to decide."
+132	"Your time is up," says the woman.
+133	Do you want the flashlight restored?
+134	The woman touches your flashlight, and it seems to glow more brightly.
+135	The woman disappears in a cloud of smoke.
+136	The well materializes back over the hole.
+137	The Dwarf, who loves coal, takes yours and leaves.
+138	The rat eats the cheese and immediately dies.
+139	The dog takes the bone, and walks away
+### GAP ### fields 140-169 not covered by any indexed printout
+140	[text missing]
+141	[text missing]
+142	[text missing]
+143	[text missing]
+144	[text missing]
+145	[text missing]
+146	[text missing]
+147	[text missing]
+148	[text missing]
+149	[text missing]
+150	[text missing]
+151	[text missing]
+152	[text missing]
+153	[text missing]
+154	[text missing]
+155	[text missing]
+156	[text missing]
+157	[text missing]
+158	[text missing]
+159	[text missing]
+160	[text missing]
+161	[text missing]
+162	[text missing]
+163	[text missing]
+164	[text missing]
+165	[text missing]
+166	[text missing]
+167	[text missing]
+168	[text missing]
+169	[text missing]
+170	             "GNOME ME" BY GERRY AND THE GNOMES
+171	I suggest you LOOK to see what is written on it.
+172	        In god we trust.        Liberty.            1979.
+173	The safe of the Gnomes is near----    The combination is 2-7-36
+174	        WATER:      NO DEPOSIT      NO RETURN
+175	There is a hole on the ground.
+176	The jewels are inside a green globe.
+177	There is nothing written on it.
+178	Your flashlight is running out of power.
+179	Your flashlight has run out of power.
+180	You can't carry so many things at once.
+181	A giant green monster guards the stairwell!!
+182	The vault is open.
+183	The vault is closed.
+184	You are on a path near a small building. The air here smells of
+185	lake water. The path winds north into a dense forest, which surrounds
+186	you on all sides.
+187	You're outside building.
+188	You are in a one room building, with stairs going down.
+189	You are in the basement of the building. To the north is a great door
+190	which appears to be locked from the other side. Stairs lead up.
+191	You're in basement.
+192	You are on a path which here bends from south to west. The forest
+193	around you obscures any view of the building.
+194	You're on path.
+195	The path here goes into a dark cave tunnel. It exits to the south.
+196	You're at cave enterance.
+197	You are in a dense forest, with trees all around.
+198	You are in a dense forest. To your west is the exit to a cave, with a
+199	steep ramp which would be impossible to climb up.
+200	You're at cave exit.
+201	You are on the southwest shore of a small lake. The smell of
+202	lake water is stronger here. The lake is surrounded by a forest.
+203	You're at lake shore.
+204	You are in a dense forest, with trees all around.
+205	You are in a dense forest. To your west is the exit to a cave, with a
+206	steep ramp which would be impossible to climb up.
+207	You're at cave exit.
+208	You are on the southwest shore of a small lake. The smell of
+209	lake water is stronger here. The lake is surrounded by a forest.
+210	The floor of this room is a sheet of ice.
+211	There is a small white pill here.
+212	There is a green ring here.
+213	There is a glowing green ring here.
+214	There is a book here, entitled "Computer Chess".
+215	There is another adventurer in the far corner of the room.
+216	There is an empty barrel fastened to the floor.
+217	The floor of this room is a sheet of ice.
+218	There is a small white pill here.
+219	There is a green ring here.
+220	There is a glowing green ring here.
+221	There is There is a book here, entitled "Computer Chess".
+222	There is another adventurer in the far corner of the room.
+223	There is an empty barrel fastened to the floor.   [INFERRED — see note]
+# Fields 210-216 repeat verbatim as 217-223 (a deliberate duplicate block in
+# the data). 216-222 are read directly from 07192617; 223 is the last line of
+# that sheet and is cut off, but the 7-field repeat fixes it as a copy of 216.
+# Note 214 and 221 both genuinely read "There is There is a book here" — the
+# author circled it on the printout as an error but it is what the file says.
+### GAP ### fields 224-266 not covered by any V2 indexed printout
+224	[text missing]
+225	[text missing]
+226	[text missing]
+227	[text missing]
+228	[text missing]
+229	[text missing]
+230	[text missing]
+231	[text missing]
+232	[text missing]
+233	[text missing]
+234	[text missing]
+235	[text missing]
+236	[text missing]
+237	[text missing]
+238	[text missing]
+239	[text missing]
+240	[text missing]
+241	[text missing]
+242	[text missing]
+243	[text missing]
+244	[text missing]
+245	[text missing]
+246	[text missing]
+247	[text missing]
+248	[text missing]
+249	[text missing]
+250	[text missing]
+251	[text missing]
+252	[text missing]
+253	[text missing]
+254	[text missing]
+255	[text missing]
+256	[text missing]
+257	[text missing]
+258	[text missing]
+259	[text missing]
+260	[text missing]
+261	[text missing]
+262	[text missing]
+263	[text missing]
+264	[text missing]
+265	[text missing]
+266	[text missing]
+267	I don't know of any such game.
+268	You're in forest.
+269	You are in a small clear area inside the forest. There is a hole in the
+270	ground going down into a cave passage.
+271	You're at hole in the ground.
+272	You are at the bottom of the hole in the ground. A passage goes SW
+273	You are in a very wide room with an exit north. White chemicals cover
+274	the walls, filling the room with a blinding white light.
+275	You're in light room.
+276	You are on an observation platform overlooking the surrounding coun
+277	tryside. The platform is smooth rock, making it impossible to climb d
+278	own. A dense forest and a small lake are seen. In the center of the for
+279	est is a small building. Stairs lead down back into the cave.
+280	You're on observation platform.
+281	You are in a spaceship lit by flashing red and blue lights on it's
+282	walls. There is a control panel marked "MANUAL" which is utterly
+283	destroyed. An open door leads out.
+284	You're in spaceship.
+285	You are in a dark north-south tunnel.
+286	You are in a room at the junction of three tunnels, which go north
+287	south, east-west, and NE-SW.
+288	You're at junction of tunnels.
+289	You are in an east-west tunnel with stairs going up.
+290	You are at an enterance to an ancient coal mine. A dark mine shaft goes
+291	down. It would appear to be climbable.
+292	You're at mine enterance.
+293	You're in the mine. The floor is a grating. The shaft goes up and down.
+294	You are in a small, dark room at the bottom of the mine shaft. The
+295	ground contains deposits of carbide (coal).
+296	You are in a small room with stairs going north, south, and up.
+297	You're in carbide room.
+298	This is a room which was once the control room for an ancient
+299	spaceport. Star maps, navagational equipment and other techno-
+300	logically advanced devices cover the wall. Exits are SE and west.
+301	You're in control room.
+302	This room was once the waiting room for passengers of the
+303	ancient spaceport. There are exits NE, north, and west.
+304	You're in waiting room.
+305	You're in what was the observatory for the ancient cities.
+306	You are standing on a launching area for spaceships.
+307	You are on a strange planet, in a small building. A door goes out.
+308	You are in a diagonal (NE-SW) passage.
+309	You are at the top of a smooth, steep metal ramp. A dim light may be
+310	seen at the bottom of the ramp. There are also exits E, NE, N, and S.
+311	You're at top of ramp.
+312	You are at the edge of a large bog. A passage goes NE.
+313	You are standing north of a large, wooden door.
+314	You are in an elevator with the door at the south end.
+315	You are in a north-south passage which has a dead end at the north end.
+316	You are in a large room with a large stairwell ascending.
+317	This room has the shape of a sphere,with holes in all major directions.
+318	You are in a maze of twisty little passages, all alike.
+319	You are in an extremely dark room. Clouds of black smoke
+320	obscure your vision, but you can see a hole going down.
+321	You are standing west of an empty-barrel shaped room.
+322	You are in a large empty barrel.
+323	You are east of the empty barrel room. A passage goes NE.
+324	You are at the east end of a long cylindrical room. A passage
+325	leads off to the north, another to the east.
+326	You are in a former recording studio for Gnome Records L.T.D.
+327	You're at east end of cylindrical room.
+328	You are at the west end of the cylindrical room.
+329	There is a hole in the ceiling high above you.
+330	You are south of the gate to the City of Gnome. There is a steep
+331	cliff on your left.
+332	You're at Gnome gate.
+333	You're in the city of Gnome. Exits go north and south.
+334	You are in one of the closets in the city of Gnome.
+335	This is the Alaska room. The temperature here is a balmy
+336	40 degrees below zero ( 233.16 Kelvin).
+337	You're in Alaska room.
+338	You are in a room with exits south and SE.
+339	This room has exits N and NW.
+340	You are on a passage walking along the side of a mountain. Far below,
+341	you can see some ancient buildings.
+342	The path here exits from southeast to south.
+343	You are on a passage going SE to E, overlooking an active volcano.
+344	This room has exits east and west.
+345	This room has exits north and south.
+346	You are in what used to be a garbage dump for the ancient cities,
+347	although the garbage has long ago been eaten by rats.
+348	You're in garbage dump.
+349	You are in a hall with doors east, west, and south.
+350	You are in the city of the Dwarfs, with buildings too small to enter.
+351	You are south of a great door, probably built by dwarfs.
+352	You are in a short passage going east-west. An intersecting
+353	passage goes north, and to the south is a door locked from the other
+354	side.
+355	You are at the enterance to a large, beautiful ancient city. The
+356	buildings are remarkably well-kept, considering that they have bee
+357	[not legible on the scan — bottom of 07192614 p3 / top of p4]
+358	city goins north, and the city is on your south.
+359	You're at city enterance.
+360	This was once the post office for the ancient city.
+361	This was once the drug store for the ancient city.
+362	You are in a perfectly square room, with passages in all directions.
+363	There is nothing here.
+364	The path along the side of the mountain which you are on becomes
+365	increasingly narrow here. There is a sign here which says "DETOUR"
+366	with an arrow pointing to a southward path which goes into the
+367	mountainside. The path you are on continues east-west.
+368	You're at detour enterance.
+369	You are walking along a newly-constructed passage which goes north
+370	west along the side of a mountain. The western end of the path looks
+371	extremely narrow.
+372	You're on newly-constructed passage.
+373	You are at a relatively wide area on the mountainside. From the looks
+374	of things, this would appear to be the site of a construction project
+375	which never got finished. The finished path exits east, but an old
+376	narrow path continues west.
+377	You're at construction site.
+378	The narrow path ends here.
+379	You are in a low cavern with stairs going down and a northern exit.
+380	You are in a large and beautiful ancient city. To your east,northeast,
+381	west and southwest are enterable buildings. To the other directions
+382	are roads.  Written on a sign on the  northwest road is,
+383	"YOU MUST HAVE AT LEAST 380 POINTS TO COME THIS WAY!
+384	You're in city.
+385	You are at the bottom of the mountain. You can see a path along
+386	[not legible on the scan — bottom of 07192614 p4 / top of p5]
+387	You're at bottom of mountain.
+388	You are in a low area, surrounded by high cliffs. A set of stairs
+389	leads up, and a passage goes east.
+390	You're at bottom of stairs.
+391	You are standing on the north edge of a giant chasm. There is a
+392	passage which goes east to west, as well as stairs which go down.
+393	You're at the north side of the chasm.
+394	You are in a wide room adjoining a north-south passage.
+395	You are in a small room with exits to the north and west.
+396	You are in a medium-sized room. The walls are all painted yellow.
+397	The room intersects with an east-west passage.
+398	You're in yellow room.
+399	You are in a room which is completely painted green (obviously,
+400	the variety of dwarfs which inhabit this city have bad color sense
+401	and worse taste). Two passages from the west and south meet to form
+402	one going northeast.
+403	You're in green room.
+404	You are in a round room, with walls of white porcelain. The only
+405	exit is a hole in the ground, which slants downward. The ceiling
+406	of the room is apparently too high to be seen.
+407	You're in porcelain room.
+408	You are at the end of a short passage. There is a well here, in which
+409	the bottom can not be seen. Written here is, "KILL THE MORON!!!!!"
+410	You're at well top.
+411	You are at the far side of the volcano, on an east-west passage.
+412	You are at the south end of the city. A sign here says, "SPACE
+413	WARP ENTERANCE". Space warps were used in this city for transportation
+414	before more efficient methods were developed. On your south is the
+415	space warp.
+416	You are at the space warp enterance.
+417	You have entered what appears to be home for one of the inhabitants
+418	of the ancient city. The room is unfurnished; evidently the furniture
+419	is stored somewhere until needed. The exit is east.
+420	You're in woman's home.
+421	You are standing west of the vault of the ancient city, where it's
+422	most valuable treasure is kept.
+423	You're at vault.
+424	You are on the north side of a large chasm, on an east-west passage.
+425	You are in a narrow, winding passage which exits west and east.
+426	You are in a room where everything seems to go backwards. The exits
+427	to this room are on the north and southwest, apparently.
+428	You're in backwards room.
+429	You are in a very wide room with exits northeast and southwest.
+430	You are in a small square room with exits on the SW and NE corners.
+431	You are at the top of the stairwell. This room is somehow positioned
+432	so that all of the cave is visible from here, but this room cannot
+433	be seen from inside the cave. Sunlight pours in from above, indi-
+434	cating that this room is somewhere above ground.
+435	From this room you can see a forest, with both a lake and a building
+436	inside. There is an enterance into a cave, and in the cave there
+437	are the remains of three cities, one deserted, the other populated
+438	by short beings. Above the cities there is a mine, and to the west
+439	the ancient spaceport.
+440	The sorceress is standing here. She says to you, "One such as you who
+441	has solved the mysteries of this game, is surely fit to be the kings
+442	(at least)." As she speaks, the people in the ancient city rise up
+443	from the ground and from the objects lying around the cave. You be
+### GAP ### fields 444-446 — 07192614 p6 is torn off after 443.
+### The game needs them: 16500 &fnr$(X%); for X%=431% to 446%
+### The text is present in the byte-offset dumps (07192619 p14 / 07192620 p15-16)
+444	[text missing]
+445	[text missing]
+446	[text missing]

@@ -1,0 +1,73 @@
+   1 GO TO 9500
+   2 LET n=0: LET s=0: LET st=0:
+ LET v=0: LET o=0: LET ne=0: RET
+URN
+  10 PRINT '"Jeg kan gaa:";("Nor
+d," AND n<>0);("S0r," AND s<>0);
+("0st," AND st<>0);("Vest," AND
+v<>0);("Opp," AND o<>0);("Ned,"
+AND ne<>0);CHR$ 8;" "
+  11 PRINT "Jeg kan se:"'
+  12 LET in=0: FOR z=1 TO 14: IF
+ o(z)=linje THEN PRINT o$(z): LE
+T in=1
+  13 NEXT z: IF in=0 THEN PRINT
+"Ingenting"
+  14 RETURN
+  20 INPUT "Hva naa? "; LINE z$
+  21 IF z$="N" AND n<>0 THEN LET
+ linje=n: GO TO linje
+  22 IF z$="S" AND s<>0 THEN LET
+ linje=s: GO TO linje
+  23 IF z$="0" AND st<>0 THEN LE
+T linje=st: GO TO linje
+  24 IF z$="V" AND v<>0 THEN LET
+ linje=v: GO TO linje
+  25 IF z$="O" AND o<>0 THEN LET
+ linje=o: GO TO linje
+  26 IF z$="NE" AND ne<>0 THEN L
+ET linje=ne: GO TO linje
+  27 IF z$="SE" THEN GO TO linje
+  28 IF z$="I" THEN GO TO 900
+  29 IF z$="N" OR z$="S" OR z$="
+V" OR z$="0" OR z$="O" OR z$="NE
+" THEN PRINT "Jeg kan ikke gaa d
+en veien": GO TO 20
+  30 IF z$=" STOP " OR z$="STOP"
+ THEN GO TO 9995
+  31 IF z$="SAVE" THEN GO TO 900
+0
+  32 IF z$="LOAD" THEN GO TO 925
+0
+  33 LET a$="": LET b$="": FOR z
+=1 TO LEN z$
+  34 IF z$(z)=" " THEN LET a$=z$
+( TO z-1): LET b$=z$(z+1 TO ): G
+O TO 40
+  35 NEXT z: PRINT "Jeg forstaar
+ ikke hva det betyr": GO TO 20
+  40 IF a$<>"TA" THEN RETURN
+  45 GO TO 100
+  50 FOR z=1 TO 14: IF b$=o$(q,
+TO LEN b$) THEN GO TO 60
+  55 NEXT z: PRINT "Hva?": GO TO
+ 20
+  60 LET o(z)=linje: PRINT "O.K.
+": GO TO 20
+ 100 FOR z=1 TO 14: IF b$=o$(z,
+TO LEN b$) THEN GO TO 120
+ 110 NEXT z: PRINT "Hva?": GO TO
+ 20
+ 120 IF o(z)<>linje THEN PRINT "
+Jeg ser ikke ";b$;" her": GO TO
+20
+ 130 LET o(z)=0: PRINT "O.K.": G
+O TO 20
+ 900 PRINT "Jeg har :"'
+ 910 LET fo=0: FOR z=1 TO 14: IF
+ o(z)=0 THEN PRINT ;o$(z): LET f
+o=1
+ 920 NEXT z: IF fo=0 THEN PRINT
+"Ingenting"
+ 930 GO TO 20
+1000 GO SUB 2: LET n=1100: LET s

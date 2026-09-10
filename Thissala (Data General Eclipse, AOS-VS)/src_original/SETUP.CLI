@@ -1,0 +1,6 @@
+SEARCHLIST :UTIL : [!SEARCHLIST]
+DEFACL [!USERNAME],OWARE +,E
+COMMENT Now see if the user has defined his/her own setup macro
+[!nequal,[!pathname :udd:[!username]:setup.cli],]
+	:udd:[!username]:setup
+[!end]

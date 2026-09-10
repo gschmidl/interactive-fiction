@@ -1,0 +1,98 @@
++ àX¯Ø       )      –                      #cÿÿADVEN 'OUTERBLOCK'ÿðADV01.FTN::ADVEN
+I âJÍ˜    
+LMISC2     hMISCM      –ABBCM  	    dPTXCM  
+   'PLACM     …VOCCM      ALPHS      BLKCM      DCBCM     TXTCM 
+s à‚œ    
+ ADVEN     ÿÿ .NFOP     ÿÿ .NFCL     ÿÿ .NFIN     ÿÿ .FFOP     ÿÿ .FFCL     ÿÿ .FFIN     ÿÿ .FFCN     ÿÿ .DNOP     ÿÿ .DNCL     ÿÿ .DNIN     ÿÿ .DNCN     ÿÿ .DSOP     ÿÿ .DSCL     ÿÿ .DSIN     ÿÿ .DSCN 
+ áÊ  EXEC  .FION   SEGLD   RMPAR 
+ àÀŒ     		  ADV1  AD  V2  ADV3    
+B àÀö    
+   '    ª     ×`   ×p   ¡        	 Š`  ( $       	     !  	`  A(  '  (  
+ á@¤.X   
+
+
+% àX ï       v                             #cÿÿ VOCAB ÿðADV01.FTN::ADVEN
+ âBÃB    TXTCM     …VOCCM 
+ à¾Y    VOCAB   
+ áÊ°  .ENTR   MOD   BUG 
+y àÀ-\    @@             Š p `  „ˆˆ( Np n` @ oˆà P t( Rà € h H oè€p k‚  r€Ð   kˆ( J` @ q à Ð  ˆh H pèØ    ˆ( ]8   8 nŠ( '     R    ˆ u ð à ( Y ¨ 
+ àÀù     
+
+  (" KEYWO  RD = ",2  A2) 
+% àÀÌš    Y¡¡     ]     sˆ` @ oà ð €„à ( i h€ rð 
+ àÀôü    
+  (" VOCAB  : WORD "  ,I5,1X,2  A2) 
+ àÀ…    i  ( X
+ àÀš_    oª    ÿÿ   W   +è   ÿÿ 
+ á@ÉWè
+
+$ àX®l       /                             #cÿÿ BUG ÿðADV01.FTN::ADVEN
+ àl    BUG   
+ á†›  .EIO.   .IIO.   .DTA.   .ENTR   .EXIT 
+  àÀ           „ à h .   - (€€` -@ 
+( àÀ7`       (" FATAL   ERROR "  ,I3,", C  ONSULT Y  OUR LOCA  L WIZARD  ."/)
+
+ àÀó    +  
+	 àÀâ    .    
+ á@´ßÓŸ
+
+7 àXË                                    #cÿÿ/MISC2/  Named common area for Adventure. ÿðADV01.FTN::ADVEN
+
+ âA¿=    
+LMISC2 
+ á@kŠA
+
+7 àXË                                    #cÿÿ/MISCM/  Named common area for Adventure. ÿðADV01.FTN::ADVEN
+
+ âAÓZ    hMISCM 
+ á@¹žy
+
+7 àXÄ                                    #cÿÿ/ABBCM/  Named common area for Adventure. ÿðADV01.FTN::ADVEN
+
+ âA³‚     –ABBCM 
+ á@XÄw„
+
+7 àXÖ'                                    #cÿÿ/PTXCM/  Named common area for Adventure. ÿðADV01.FTN::ADVEN
+
+ âAØc     dPTXCM 
+ á@Ê®Š
+
+7 àXÎ                                    #cÿÿ/PLACM/  Named common area for Adventure. ÿðADV01.FTN::ADVEN
+
+ âAÃ    'PLACM 
+ á@ro‘/
+
+7 àXÑ                                    #cÿÿ/VOCCM/  Named common area for Adventure. ÿðADV01.FTN::ADVEN
+
+ âAÌ    …VOCCM 
+ á@~Ù™
+
+7 àXÓ                                    #cÿÿ/ALPHS/  Named common area for Adventure. ÿðADV01.FTN::ADVEN
+
+ âAÇ     ALPHS 
+ á@{aš!
+
+7 àXÎ                                    #cÿÿ/BLKCM/  Named common area for Adventure. ÿðADV01.FTN::ADVEN
+
+ âA¼ý     BLKCM 
+ á@lI‹	
+
+7 àXÅ                                    #cÿÿ/DCBCM/  Named common area for Adventure. ÿðADV01.FTN::ADVEN
+
+ âA¶ƒ 	    DCBCM 
+ á@\È{ˆ
+
+7 àXÚ'                                    #cÿÿ/TXTCM/  Named common area for Adventure. ÿðADV01.FTN::ADVEN
+
+ âAÙ 
+   TXTCM 
+ á@”r³2
+
+$ àXÅy       ,                             #cÿÿ RANDÿðADV01.FTN::ADVEN
+ à£    RAND  
+ á   .FMP  EXEC  .ENTR   IFIX  FLOAT   RANDM 
+	 àÀáÇ        
+> àÀ÷´       A     €€` ( „p   +ˆ  `  0 p  ˆŠ` 0 p        ‰  '„Aà  'Hˆp ` ¨ 
+	 àÀáø    +   
+ á@%ED
+

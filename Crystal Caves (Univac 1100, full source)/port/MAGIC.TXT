@@ -1,0 +1,60 @@
+
+C     This program helps determine Adventure's magic word.
+
+      implicit integer (a-z)
+      dimension val(5), fdword(2)
+      character*5 word1, word2
+      data fdblnk/o050505050505/
+
+      print 2
+2     format (' What is the magic number?')
+      read 3, magnm
+3     format ()
+      call datime(d,t)
+      t1 = t
+      d1 = d
+      pass = 1
+500   t = (t/10) * 10
+      T = T * 2 + 1
+      fdword(1) = fdblnk
+      DO 15 Y=1,5
+      X = 79 + MOD(D,5)
+      D = D/5
+      DO 12 Z=1,X
+12    T = MOD(T*1027,1048576)
+      VAL(Y) = (T*26) / 1048576 + 1
+15    fdword(1) = fdword(1) + shift(val(y),36-6*y)
+      i = 1
+      call ffdasc(i,fdword(1),word1)
+      if (pass .eq. 2) go to 16
+      CALL DATIME(D,T)
+      go to 17
+16    d = d1
+      t = t1
+17    T = (T/60) * 40 + (T/10) * 10
+      D = MAGNM
+      fdword(1) = fdblnk
+      DO 19 Y=1,5
+      Z = MOD(Y,5) + 1
+      X = MOD (IABS (vAL(Y) - VAL(Z)) * MOD(D,10) + MOD(T,10),26) + 1
+      T = T/10
+      D = D/10
+19    fdword(1) = fdword(1) + shift(x,36-6*y)
+      i = 1
+      call ffdasc(i,fdword(1),word2)
+      goto (100,200), pass
+100   t = mod(t1,10)
+      t = 10 - t
+      if (t1.ge.((60*23)+50)) d1 = d1 + 1
+      d = d1
+      print 18, t, word1, word2
+18    format (' For ',I2,' minutes, challenge = ',A5,'  response = ',A5)
+      pass = 2
+      t1 = t1 + 10
+      t = t1
+      goto 500
+
+200   print 20, word1, word2
+20    format ('     After that, challenge = ',A5,'  response = ',A5)
+      stop
+      end

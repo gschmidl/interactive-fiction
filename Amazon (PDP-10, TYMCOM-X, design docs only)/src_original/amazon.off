@@ -1,0 +1,235 @@
+;	AMAZON	-  ITEM DESCRIPTORS
+;
+;ITEM CONTROL BLOCK OFFSETS
+
+	IT$TYP==0			;ITEM TYPE WORD
+	IT$CTL==1			;CONTROL ITEM
+	IT$IDP==2			;IDENTIFICATION POINTER
+	IT$LOC==3			;LOCATION POINTER
+
+;	+-------------------------------------------------------+
+;	!		TY$OBJ  or  TY$CMD			!
+;	+-+-+-+-+-------------------+---------------------------+
+;	!S!G!C!O!                   !		CT$ADR		!
+;	+-+-+-+-+-------------------+---------------------------+
+;	!	ID$STA		    !		ID$ADR		!
+;	+---------------------------+---------------------------+
+;	!		Item number of Location			!
+;	+-------------------------------------------------------+
+;
+
+;Item types:
+
+	TY$OBJ==0			;  TYPE = OBJECT / CONTAINER
+	TY$CMD==1			;  TYPE = COMMAND
+
+;Control bits:
+
+	CT$BIT==776B7			;CONTROL BITS (S-G-C-O)
+
+	CT$SLF==3B1			;  SELF-CONTROL		0-3
+	CT$GRP==3B3			;  GROUP-CONTROL	0-3
+	CT$CMP==3B5			;  COMPUTER-CONTROL	0-3
+	CT$OTH==3B7			;  OTHER-CONTROL	0-3
+
+	CT$ADR==777777			;ADDRESS OF CONTROL LOGIC COMMANDS
+
+;Identification Pointers:
+
+	ID$STA==777777B17		;ADDRESS OF STATISTICS BLOCK
+	ID$ADR==777777B35		;ADDRESS OF USER ID BLOCK
+
+;IDENTIFICATION POINTER LIST BLOCK
+;
+
+	IDP$BH==0			;BLOCK HEADER FOR ID POINTERS
+	IDP$BK==1			;BASE FOR KEY'ED ID POINTERS
+
+;	+---------------------------+---------------------------+
+;	!	BH$LEN		    !		BH$IDX		!
+;	+---------------------------+---------------------------+
+;	!	BK$KEY (0)	    !		BK$ADR (0)	!
+;	+---------------------------+---------------------------+
+;			.			.		!
+;			.			.
+;	!		.	    !		.
+;	+---------------------------+---------------------------+
+;	!	BK$KEY (...)	    !		BK$ADR (...)	!
+;	+---------------------------+---------------------------+
+;	!		.			.
+;			.			.
+;			.	    !		.		!
+;	+---------------------------+---------------------------+
+;	!	BK$KEY (n)	    !		BK$ADR (n)	!
+;	+---------------------------+---------------------------+
+;
+
+;Identification Block Header word:
+
+	BH$LEN==777777B17		;NEGATIVE BLOCK LENGTH -1
+	BH$IDX==777777B35		;INDEX INTO BASE FOR ID POINTERS
+
+;Identification Block Key'ed Pointer word:
+
+	BK$KEY==777777B17		;KEYS FOR ACCESS
+
+	KY$STR==1B0			;  SET IF STRENGTH OF N > REQUIRED
+	KY$INT==1B1			;  SET IF INTELLIGENCE OF N >
+	KY$WIS==1B2			;  SET IF WISDOM OF N > REQUIRED
+	KY$CON==1B3			;  SET IF CONSTITUTION OF N >
+	KY$SIZ==1B4			;  SET IF SIZE OF N >
+	KY$AGI==1B5			;  SET IF AGILITY OF N >
+	KY$DEX==1B6			;  SET IF DEXTERITY OF N >
+	KY$CHA==1B7			;  SET IF CHARISMA OF N >
+
+	KY$LVL==37B12			;  LEVEL OF PERSON REQUIRED
+	KY$AMT==37B17			;  AMOUNT OF DESIRED ITEM REQUIRED
+
+	BK$ADR==777777B35		;POINTER TO ID PACKET
+;IDENTIFICATION BLOCK
+;
+
+	ID$NAM==0			;NAME OF ITEM (LONG,,SHORT)
+	ID$CAP==1			;CAPABILITIES POINTERS
+
+;	+---------------------------+---------------------------+
+;	!	NAM$LG		    !		NAM$SM		!
+;	+---------------------------+---------------------------+
+;	!	CAP$AT		    !		CAP$CD		!
+;	+---------------------------+---------------------------+
+;
+
+;Name word:
+
+	NAM$LG==777777B17		;  POINTER TO LONG ID NAME
+	NAM$SM==777777B35		;  POINTER TO SHORT ID NAME
+
+;Capabilities word:
+
+	CAP$AT==777777B17		;  POINTER TO ATTRIBUTES BLOCK
+	CAP$CD==777777B35		;  POINTER TO CONTENTS DESCRIPTOR
+;CONTENTS DESCRIPTOR BLOCK
+;
+
+	CD$CAP==0			;CAPACITY (MAX CAPACITY,,VALUE)
+	CD$ATT==1			;ATTRIBUTES,,WEIGHT
+	CD$CUR==2			;CURRENT LOAD
+	CD$LOA==3			;LIST LENGTH,,LIST ADDRESS
+
+;	+---------------------------+---------------------------+
+;	!	CON$MX		    !		CON$VL		!
+;	+---------------------------+---------------------------+
+;	!	CON$AT		    !		CON$WT		!
+;	+---------------------------+---------------------------+
+;	!		Current load of Objects			!
+;	+-------------------------------------------------------+
+;	!	CON$LL		    !		CON$AD		!
+;	+-------------------------------------------------------+
+;
+
+;Capacity word:
+
+	CON$MX==777777B17		;(LH)MAXIMUM CAPACITY, 0 IF NONE
+	CON$VL==777777B35		;(RH) $PRICE OR $VALUE
+
+;Attributes word:
+
+	CON$AT==777777B17		;(LH) OBJECT ATTRIBUTES
+
+	CON$WT==777777B35		;(RH) WEIGHT
+;PERSONAL ATTRIBUTES BLOCK
+;
+
+	AT$PRM==0			;PRIME REQUISITES & ABILITIES
+	AT$PHY==1			;PHYSICAL CHARACTERISTICS
+	AT$LNG==2			;LANGUAGES UNDERSTOOD 0-35
+	AT$HTS==3			;HIT CHARACTERISTICS
+	AT$EXP==4			;EXPERIENCE POINTS
+
+;	+-------+-------+-------+-------+-------+---------------+
+;	!  STR  !  INT  !  WIS  !  CHA  !  FLT  !		!
+;	+-------+-------+-------+-------+-------+---------------+
+;	!  CON  !  SIZ  !  AGI  !  DEX  !			!
+;	+-------+-------+-------+-------+-----------------------+
+;	!	Known Languages - 1 bit each  ( 0-35 )		!
+;	+------------+--------------+--------------+------------+
+;	!	     !    AT$DIE    !   AT$HIT    !   AT$HPL	!
+;	+------------+--------------+-------------+-------------+
+;	!		Total Experience Points			!
+;	+-------------------------------------------------------+
+;
+
+;Prime requisites:
+
+	AT$STR==37B4			;STRENGTH
+	AT$INT==37B9			;INTELLEGENCE
+	AT$WIS==37B14			;WISDOM
+	AT$CHA==37B19			;CHARISMA
+	AT$FLT==37B24			;FLOATING ABILITY (BOUYANCY)
+
+;Physical characteristics:
+
+	AT$CON==37B4			;CONSTITUTION
+	AT$SIZ==37B9			;SIZE
+	AT$AGI==37B14			;AGILITY
+	AT$DEX==37B19			;DEXTERITY
+
+;Languages
+
+;Hit characteristics:
+
+	AT$DIE==777B17			;NUMBER OF HIT DIE
+	AT$HIT==777B26			;HIT POINTS
+	AT$HPL==777B35			;HIT POINTS LEFT
+
+;INSTRUCTION SET FOR VERB DESCRIPTIONS
+;
+;	Note:  There will be 8 registers: 0,1,2,3,4,5,6,7.
+;
+
+;PLAYER TYPES		THIS PAGE IS OUTMODED -- HERE FOR HISTORICAL NOW.
+
+;
+
+	P$MAGI==1B0		;MAGIC USER
+	P$CLER==1B1		;CLERIC
+	P$FIGH==1B2		;FIGHTING MAN
+	P$THIE==1B3		;THIEF
+	P$DWAR==1B4		;DWARF
+	P$ELF==1B5		;ELF
+	P$HOBB==1B6		;HOBBIT
+	P$PALA==1B7		;PALADIN
+	P$PLAN==1B8		;PLANT
+
+	P$GNOM==1B10		;GNOME
+	P$KOBO==1B11		;KOBOLDS
+	P$GOBL==1B12		;GOBLIN
+	P$ORC==1B13		;ORC
+	P$HOBG==1B14		;HOBGOBLIN
+	P$GNOL==1B15		;GNOLL
+	P$CYCL==1B16		;CYCLOPS
+	P$PHAN==1B17		;PHANTOM
+	P$DRAG==1B18		;DRAGON
+	P$DINO==1B19		;DINOSAUR
+
+	P$TROL==1B20		;TROLL
+	P$FAIR==1B21		;FAIRY
+	P$GRUE==1B22		;GRUE
+	P$WITC==1B23		;WITCH
+	P$SPIR==1B24		;SPIRIT
+	P$HUMA==1B25		;HUMAN
+	P$PRIN==1B26		;PRINCE
+	P$PRSS==1B27		;PRINCESS
+	P$GOD==1B28		;GOD
+	P$GODD==1B29		;GODDESS
+
+	P$ANIM==1B30		;ANIMAL
+	P$FOWL==1B31		;FLYING BEAST
+	P$SERP==1B32		;SERPENT
+	P$FISH==1B33		;FISH
+	P$MALE==1B34		;MALE, BOY, MAN
+	P$GIRL==1B35		;GIRL, WOMAN, FEMALE
+
+;DRUID, DOG, WOLF, BIRD, FROG, DRAGONFLY, CAT, LEAPORD, MONKEY, HORSE
+;FRUIT, RABBIT, PETER-PAN, SHADOW, PANDORA'S BOX, WENDY'S BOX, FAIRY RING
+;VAMPIRE, BAT, HONEYSUCKLE, BUTTERFLY, RAT, MOUSE

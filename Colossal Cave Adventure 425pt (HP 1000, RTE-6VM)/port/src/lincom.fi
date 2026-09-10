@@ -1,0 +1,6 @@
+C 
+      INTEGER*2 LINES 
+C 
+      COMMON /LINCOM/ LINES(28000)
+C 
+

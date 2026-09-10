@@ -1,0 +1,115 @@
+          AXR$
+          $include  'defs'            . get configuration parameters
+.
+. Univac 1100 series MASM (Meta Assembler) routine to return user class
+. number (1 for customer, 2 for in-house user at ISD).
+.
+. If configuration parameter ISD is zero, or if the program is
+. found not to be running at ISD, all users will be treated as
+. class 1 (customer).
+.
+.                                       Duff Kurland, September 1979
+.
+.
+.        CALL GETCLS(I)
+.
+.
+$(1)      .
+getcls*   .
+          s         a0,a2             . save A0
+          l,u       a0,acct           . load buffer address
+          l         a1,(2,023)        . get account number
+          er        pct$              . obtain user's account number
+          $if       isd               .
+          sz        siteid            . clear siteid word
+          l,u       a0,mctpkt         . set for ER MCT$
+          er        mct$              . read system id table from MCT
+          l,h1      a0,siteid         . get first 3 chars of siteid
+          te,u      a0,'ISD'          . are we at ISD ?
+          j         skprop            . no, don't do ER PROP$
+          s         a0,itsisd         . yes, set ISD flag
+          l         a0,acct           . yes, get first word of account nbr
+          tne       a0,systems        . systems dept account ?
+          j         skprop            . yes, skip ER PROP$
+          l         a0,(propl,prop)   . get pkt length, address
+          er        prop$             . issue billing log entry
+skprop    .
+          $endf     isd               .
+          l,u       a0,1              . assume customer class
+          $if       isd               .
+          tnz       itsisd            . are we at ISD ?
+          j         havcls            . no, assume class 1
+          l         a1,acct           . get 1st word of account
+          ssl       a1,12             . get rid of T3
+          tne       a1,inhouse        . inhouse user?
+          l,u       a0,2              . yes, load inhouse class
+havcls    .
+          $endf     isd               .
+          tz,s1     0,x11             . called from ASCII FORTRAN ?
+          j         tdftn             . yes
+          L         A1,0,X11          . no (FORTRAN-V) - get addr of argument
+          S         A0,0,A1           . store user class in user's argument
+          J         2,X11             . return to FORTRAN-V program
+tdftn     .
+          l         a1,0,a2           . get addr of argument
+          s         a0,0,a1           . store user class in user's argument
+          j         0,x11             . return to FTN program
+.
+$(0)      .
+acct      res       2                 . account buffer
+inhouse   '@@0001'                    . inhouse accounts begin with 0001
+.
+          $if       isd               .
+systems   '0001SY'                    . systems dept customer # and division
+prop      +         1                 . ER PROP$ function 1
+          'SYSCV2'                    . program name for ER PROP$
+propl     equ       $-prop            . length of packet
+itsisd    +         0                 . nonzero if running at ISD
+mctpkt    +         10,mctbuf         . packet to read MCT system id table
+          +         7,0               .
+          +         0                 .
+mctbuf    res       7                 . system id table buffer
+siteid    equ       mctbuf+4          . system site id
+          $endf     isd               .
+.
+/.
+.         PRIVIL  --  Check for privileged adventurer
+.
+.         This subroutine of one argument checks to see if the
+.         current user is one of "the privileged few" who can be a
+.         wizard by answering everything wrong!  It returns a LOGICAL
+.         value indicating whether this user is permitted to be a
+.         wizard with wrong answers.
+.
+.         The calling sequence is:
+.
+.         LOGICAL WRONG
+.         CALL PRIVIL(WRONG)
+.
+          axr$
+$(1)      .
+privil*   .
+          sa        a0,a2               save argument list address
+          dl        a0,acct             get account number from GETCLS
+          lr,u      r1,tablel           get table length
+          lx        x10,(2,-2)          initialize index
+search    .
+          se        a0,table+2,*x10     is he a good guy?
+          j         nogood              no
+          te        a1,table+1,x10      maybe.  check 2nd word
+          j         search              nope.  keep searching
+          la,u      a0,1                good guy:  get a .TRUE. value
+          j         return              return to caller
+nogood    .
+          la,u      a0,0                get a .FALSE. value
+return    .
+          l         a1,0,a2             get address of first argument
+          s         a0,0,a1             set logical value
+          j         0,x11               return to caller
+.
+$(0)      .
+table     .                             table of good guys
+          '0001SYDUFF'
+tablel    equ       ($-table)/2
+.
+          END

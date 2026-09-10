@@ -1,0 +1,157 @@
+ Page 1   FTN.              Opts: 77/LYI         Mon, Sep 29, 2025, 11:43 AM  
+                                                  AIOSUB.FTN::ADVEN425
+  
+     2 $EMA /TRVCOM/, /LINCOM/, /VOCCOM/
+     3 C======================================================================C 
+     4 C                                                                      C 
+     5 C REVISION LIST:                                                       C 
+     6 C                                                                      C 
+     7 C --DATE-- --BY-- -- D E S C R I P T I O N --                          C 
+     8 C                                                                      C 
+     9 C  3/07/81 AW     -ORIGINAL VERSION-                                   C 
+    10 C  12/12/86 JLA   -RTE-A VERSION-                                      C 
+    11 C  2/10/87 JLA    -EXPANDED CAVE AND OTHER GOODIES                     C 
+    12 C  7/13/87 JLA    -FIXED SCORING, DATA BASE & OTHER BUGS               C 
+    13 C                                                                      C 
+    14 C======================================================================C 
+    15 C
+    16 C  I/O ROUTINES (SPEK, PSPEK, RSPEK, GETIN, ECHO, YES, SAVE, RESTORE)
+    17 C
+    18 C
+    19       SUBROUTINE SPEK(WORD),Print a Message <250929.1142>
+    20 C
+    21 C  PRINT THE MESSAGE IN WORD N OF LINES ARRAY. 
+    22 C  PRECEED IT WITH A BLANK LINE UNLESS BLKLIN IS FALSE.
+    23 C
+    24       IMPLICIT NONE
+    25 C
+    26       INTEGER*2 WORD,I,N,L,PNT,OLDPNT
+    27 C
+    28 $INCLUDE ALPHAS.INCL 
+     1+C
+     2+      INTEGER*2 BLANK,EOF,CYE,CY,CNO,CN,CPO,CUR,CWE,CST,CEN,CTE
+     3+C
+     4+      COMMON /ALPHAS/ BLANK,EOF,CYE,CY,CNO,CN,CPO,CUR,CWE,CST,CEN,CTE
+     5+C
+    29 $INCLUDE IOCCOM.INCL 
+     1+C
+     2+      LOGICAL*2 BLKLIN,NOINPT,RESTART,WIZARD 
+     3+C
+     4+      INTEGER*2 CRT,LU 
+     5+C
+     6+      REAL*4 REVISION
+     7+C
+     8+      COMMON /IOCCOM/ CRT,LU,BLKLIN,NOINPT,REVISION,RESTART,WIZARD 
+     9+C
+    30 $INCLUDE LINCOM.INCL 
+     1+C
+     2+      INTEGER*2 LINES
+     3+C
+     4+      COMMON /LINCOM/ LINES(28000) 
+     5+C
+    31 C
+    32       N=WORD 
+    33 D     WRITE(CRT,1000) N
+    34 D1000 FORMAT("Subroutine 'SPEK' entered with N = ",I5) 
+    35       IF(N.EQ.0) RETURN
+    36       IF(BLKLIN.AND.NOINPT) WRITE(CRT,'(" ")') 
+    37       NOINPT=.TRUE.
+1 
+ Page 2   SPEK              Opts: 77/LYI         Mon, Sep 29, 2025, 11:43 AM  
+                                                  AIOSUB.FTN::ADVEN425
+  
+    38       PNT=LINES(N) 
+    39       OLDPNT = PNT 
+    40  1010 N=N+1
+    41       L=LINES(N)+N 
+    42       IF(LINES(N).LT.1 .OR. LINES(N).GT.44) CALL BUG(28) 
+    43       N=N+1
+    44       IF(LINES(N).NE.EOF) WRITE(CRT,1020) (LINES(I),I=N,L) 
+    45       N=L+1
+    46       PNT=LINES(N) 
+    47       IF(PNT .EQ. OLDPNT) GO TO 1010 
+    48  1020 FORMAT(44A2) 
+    49       RETURN 
+    50       END
+  
+ Module SPEK              No errors     Prog:   143    Blank common: none 
+ FTN7X  6200/941021       No warnings   Save:  none    Local EMA:    none 
+  
+1 
+ Page 3   FTN.              Opts: 77/LYI         Mon, Sep 29, 2025, 11:43 AM  
+                                                  AIOSUB.FTN::ADVEN425
+  
+    51 $EMA /TRVCOM/, /LINCOM/, /VOCCOM/
+    52       SUBROUTINE PSPEK(MSG,SKIP),Skip and Print Message <250929.1142>
+    53 C
+    54 C  FIND THE SKIP+1ST MESSAGE FOR OBJECT MSG AND PRINT IT.
+    55 C  MSG SHOULD BE THE INDEX OF THE OBJECT.
+    56 C  (INVEN+N+1 MESSAGE IS PROP=N MESSAGE).
+    57 C
+    58       IMPLICIT NONE
+    59 C
+    60 $INCLUDE TXTCOM.INCL 
+     1+C
+     2+      INTEGER*2 ASCVAR,MAXWORD,LTEXT,STEXT,RTEXT 
+     3+      INTEGER*2 PTEXT,MTEXT
+     4+C
+     5+      COMMON /TXTCOM/ ASCVAR,MAXWORD,PTEXT(100),MTEXT(35), 
+     6+     &                LTEXT(150),STEXT(150),RTEXT(230) 
+     7+C
+    61 $INCLUDE LINCOM.INCL 
+     1+C
+     2+      INTEGER*2 LINES
+     3+C
+     4+      COMMON /LINCOM/ LINES(28000) 
+     5+C
+    62 $INCLUDE IOCCOM.INCL 
+     1+C
+     2+      LOGICAL*2 BLKLIN,NOINPT,RESTART,WIZARD 
+     3+C
+     4+      INTEGER*2 CRT,LU 
+     5+C
+     6+      REAL*4 REVISION
+     7+C
+     8+      COMMON /IOCCOM/ CRT,LU,BLKLIN,NOINPT,REVISION,RESTART,WIZARD 
+     9+C
+    63 C
+    64       INTEGER*2 I,J,L,M,MSG,SKIP,PNT,OLDPNT
+    65 C
+    66 D     WRITE(CRT,1000) MSG,SKIP 
+    67 D1000 FORMAT("Subroutine 'PSPEK' entered with MSG = ",I5,
+    68 D    &  "    SKIP = ",I5)
+    69       M=PTEXT(MSG) 
+    70       IF(SKIP.LT.0) GO TO 1020 
+    71       OLDPNT=MSG 
+    72       DO I=1,SKIP+1
+    73  1010   M=M+1
+    74         M=LINES(M)+M+1 
+    75         PNT=LINES(M) 
+    76         L=LINES(M+1) 
+    77         IF(L.LT.1 .OR. L.GT.44) CALL BUG(28) 
+    78 D       WRITE(CRT,2000) M,PNT,(LINES(J),J=M+2,M+L+1) 
+    79 D2000   FORMAT("PSPEK: M=",I6,"  PNT=",I6,2X,44A2) 
+    80         IF(PNT .EQ. OLDPNT) GO TO 1010 
+    81         OLDPNT=PNT 
+    82       ENDDO
+    83 C
+    84  1020 CALL SPEK(M) 
+1 
+ Page 4   PSPEK             Opts: 77/LYI         Mon, Sep 29, 2025, 11:43 AM  
+                                                  AIOSUB.FTN::ADVEN425
+  
+    85 C
+    86       RETURN 
+    87       END
+  
+ Module PSPEK             No errors     Prog:    95    Blank common: none 
+ FTN7X  6200/941021       No warnings   Save:  none    Local EMA:    none 
+  
+1 
+ Page 5                     Opts: 77/LYI         Mon, Sep 29, 2025, 11:43 AM  
+                                                  AIOSUB.FTN::ADVEN425
+  
+    88       SUBROUTINE RSPEK(I),Print Random Message <250929.1142> 
+    89 C
+    90 C  PRINT THE I-TH "RANDOM" MESSAGE (SECTION 6 OF DATABASE).
+    91 C

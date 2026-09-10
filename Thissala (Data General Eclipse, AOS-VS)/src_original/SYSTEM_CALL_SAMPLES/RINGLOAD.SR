@@ -1,0 +1,104 @@
+;*       Copyright (C) Data General Corporation, 1980 - 1994          *;
+;*       All rights reserved.                                         *;
+;*       Licensed material -- property of Data General Corporation    *;
+;*                                                                    *;
+;*       This software is made available solely pursuant to the       *;
+;*       terms of a DGC license agreement which governs its use.      *;
+; This program, RINGLOAD, loads program INRING
+;    into an inner ring, then calls INRING via
+;    LCALL. The inner ring can be 4, 5, or 6,
+;    depending on the Link switch used on INRING.
+;    RINGLOAD assumes that INRING.PR, linked from
+;    INRING and GATE.ARRAY exists.
+
+        .TITLE  RINGLOAD
+        .ENT    RINGLOAD
+        .NREL           ; Default unshared code.
+
+; Open terminal, ?RINGLD program.
+
+RINGLOAD: ?OPEN CONSOLE ; Open terminal for I/O.
+        WBR     ERROR   ; Error, process it.
+        ?WRITE  CONSOLE ; Write "About to.." message.
+        WBR     ERROR   ; Error, process it.
+
+        XLEFB   0, PNAME*2 ; Byte pointer to INRING name.
+        ?RINGLD         ; Load INRING.
+        WBR     ERROR   ; Error, process it.
+
+; Do LCALL.  Real format is
+;
+;       LCALL displ index arg-count.
+;
+; Like a system call, LCALL has a single-word error return
+;    location and double-word good return location:
+;
+;       LCALL  displ  index  arg-count
+;       error return     (single-word)
+;       normal return    (double-word)
+
+        LCALL   INRING,0,0      ; Call it, index, argument count zero.
+        WBR     INERROR         ; Report INRING error.
+
+        ; Back from INRING. Depart with message for CLI.
+
+        XLEFB   0, MES2*2       ;  Byte pointer to farewell message.
+        XWSTA   0, CONSOLE+?IBAD ; Put in I/O packet.
+        ?WRITE  CONSOLE         ; Write message.
+        WBR     ERROR           ; Error, process it.
+        WSUB    2, 2            ; Set for good return.
+        WBR     BYE             ; Done, give message and depart.
+
+        ; Inner program and current program error handlers.
+
+INERROR: LLEFB  0, INMES*2      ; Get "Inner prog" error message byte ptr.
+        LWSTA   0, CONSOLE+?IBAD ; Put in I/O packet.
+        ?WRITE  CONSOLE         ; Write to terminal.
+        WBR     ERROR           ; Write error.
+ERROR:  WLDAI   ?RFEC+?RFCF+?RFER,  2  ; Error flags.
+BYE:    ?RETURN                 ; To CLI.
+        WBR     ERROR           ; Return error.
+
+        ; Definition of inner program ring bracket and gate.
+        ;    The system uses this, not program name (INRING)
+        ;    to access gate and inner program.
+
+INRING = 5S3+0                  ; Ring 5 + 1st gate.
+
+        ; Messages. A .NOLOC 1 follows.
+
+        .NOLOC  1
+
+PNAME:  .TXT "INRING.PR"
+
+MES1:   .TXT  "I'm RINGLOAD, about to ?RINGLD
+ program INRING.<12>"
+
+MES2:   .TXT "<212>I'm RINGLOAD, back from
+ INRING, terminating.<12>"
+
+INMES:  .TXT  "<212>Error in inner ring program.<12>"
+
+        .NOLOC  0   ; Resume listing all.
+
+        ; Open and I/O packet -- needed for I/O.
+        .ENABLE WORD ; Most entries =16 bits.
+CONSOLE: .BLK   ?IBLT           ; Packet length.
+        .LOC    CONSOLE+?ISTI
+        ?ICRF+?RTDS+?OFIO       ; Data-sensitive records, Input/Output.
+        .LOC    CONSOLE+?IMRS
+         -1                     ; Memory block size, default to 2048.
+        .LOC    CONSOLE+?IBAD
+        .DWORD  MES1*2          ; 2-word byte pointer to text/buffer.
+        .LOC    CONSOLE+?IRCL   
+        120.                    ; Maximum record length of 120 chars.
+        .LOC    CONSOLE+?IFNP
+        .DWORD  CON*2           ; 2-word byte pointer to filename.
+        .LOC    CONSOLE+?IDEL
+        .DWORD  -1              ; Data sensitive delimitertable add; none.
+        .LOC    CONSOLE+?IBLT   ; Default others to 0.
+        ; End of console I/O packet.
+
+CON:    .TXT  "@CONSOLE"
+
+        .END    RINGLOAD

@@ -1,0 +1,190 @@
+;*       Copyright (C) Data General Corporation, 1980 - 1994          *;
+;*       All rights reserved.                                         *;
+;*       Licensed material -- property of Data General Corporation    *;
+;*                                                                    *;
+;*       This software is made available solely pursuant to the       *;
+;*       terms of a DGC license agreement which governs its use.      *;
+
+
+	.TITLE	SKIPS
+
+.MACRO	WUSLE
+**	WUSGE	^2,^1
+%
+.MACRO	WUSLT
+**	WUSGT	^2,^1
+%
+.MACRO	WEQZ
+**	WSEQ	^1,^1
+%
+.MACRO	WNEZ
+**	WSNE	^1,^1
+%
+.MACRO	WLEZ
+**	WSLE	^1,^1
+%
+.MACRO	WGTZ
+**	WSGT	^1,^1
+%
+.MACRO	WLTZ
+**	WSLT	^1,^1
+%
+.MACRO	WGEZ
+**	WSGE	^1,^1
+%
+.MACRO	WNEM1
+**	WSNEI	-1,^1
+%
+.MACRO	WEQM1
+**	WSEQI	-1,^1
+%
+.DUNR	NOP=	MOVZ#	0,0,SNC
+
+.DUNS	SKIP=	MOVZ#	0,0,SZC
+
+.MACRO	SEQZ
+**		MOV#	^1,^1,SZR	;SKIP IF AC =  0
+%
+.MACRO	SNEZ
+**		MOV#	^1,^1,SNR	;SKIP IF AC <> 0
+%
+.MACRO	SLEZ
+**		ADDO#	^1,^1,SEZ	;SKIP IF AC <= 0
+%
+.MACRO	SGTZ
+**		ADDO#	^1,^1,SBN	;SKIP IF AC >  0
+%
+.MACRO	SLTZ
+**		MOVL#	^1,^1,SNC	;SKIP IF AC <  0
+%
+.MACRO	SGEZ
+**		MOVL#	^1,^1,SZC	;SKIP IF AC >= 0
+%
+
+	;SPECIAL UNSIGNED INTEGER COMPARISONS
+
+.MACRO	USLE1
+**		MOVZR#	^1,^1,SZR	;SKIP IF AC = 0 OR 1
+%
+
+.MACRO	USGT1
+**		MOVZR#	^1,^1,SNR	;SKIP IF AC > 1
+%
+	;INTEGER COMPARISONS TO MINUS 1
+
+.MACRO	SEQM1
+**		COM#	^1,^1,SZR	;SKIP IF AC = -1
+%
+.MACRO	SNEM1
+**		COM#	^1,^1,SNR	;SKIP IF AC <> -1
+%
+
+;	INSTRUCTION DEFINITIONS FOR THE INTRINSIC (IIS) AND
+;	GRAPHIC (GIS) INSTRUCTION SET.
+;	NOTES AND WARNINGS: THE INDEX MODE (1) MAY NOT BE CHANGED IN
+;	IN THESE INSTRUCTIONS, NOR MAY THE INDIRECT (@) FLAG BE USED.
+
+	.MACRO	.DLOR
+**		.MACRO	 ^1
+**		.EXTL	?^1
+**		^2	?^1,1,^3
+_%
+%
+	.DLMI	..IIS=	103171
+	.DLMI	..GIS=	103151
+
+	.DLOR	WFSINS	..IIS	 1
+	.DLOR	WFSIND	..IIS	 2
+	.DLOR	WFCOSS	..IIS	 3
+	.DLOR	WFCOSD	..IIS	 4
+	.DLOR	WFTANS	..IIS	 5
+	.DLOR	WFTAND	..IIS	 6
+	.DLOR	WFASINS	..IIS	 7
+	.DLOR	WFASIND	..IIS	10
+	.DLOR	WFACOSS	..IIS	11
+	.DLOR	WFACOSD	..IIS	12
+	.DLOR	WFATANS	..IIS	13
+	.DLOR	WFATAND	..IIS	14
+	.DLOR	WFATN2S	..IIS	15
+	.DLOR	WFATN2D	..IIS	16
+	.DLOR	WFEXPS	..IIS	17
+	.DLOR	WFEXPD	..IIS	20
+	.DLOR	WFSQRS	..IIS	21
+	.DLOR	WFSQRD	..IIS	22
+	.DLOR	WFPWRS	..IIS	23
+	.DLOR	WFPWRD	..IIS	24
+	.DLOR	WFLNGS	..IIS	25
+	.DLOR	WFLNGD	..IIS	26
+	.DLOR	WFLOGS	..IIS	27
+	.DLOR	WFLOGD	..IIS	30
+	.DLOR	WFLG2S	..IIS	31
+	.DLOR	WFLG2D	..IIS	32
+	.DLOR	WFPOLYS	..IIS	33
+	.DLOR	WFPOLYD	..IIS	34
+
+	.DLOR	RDPIXEL	..GIS	 0
+	.DLOR	WRPIXEL	..GIS	 1
+	.DLOR	RDPAL	..GIS	 2
+	.DLOR	WRPAL	..GIS	 3
+	.DLOR	LINESEG	..GIS	 4
+	.DLOR	BITBLT	..GIS	 5
+	.DLOR	CHARBLT	..GIS	 6
+	.DLOR	PFORMS	..GIS	 7
+
+
+;	INSTRUCTION DEFINITIONS FOR GRAPHIC INSTRUCTION SET II (GIS II).
+
+
+.PUSH .RDX
+.RDX 8.
+
+; GIS II main opcode
+;
+.DLMI GISII = 107151
+.RDX .POP
+
+; GIS II Privileged subopcodes
+;
+.MACRO WGLFORM
+        GISII ^1,1,16.
+%
+.MACRO WGPFORMS
+        GISII ^1,1,17.
+%
+.MACRO WGRDPAL
+        GISII ^1,1,18.
+%
+.MACRO WGLDCURS
+        GISII ^1,1,28.
+%
+
+; GIS II Unprivileged subopcodes
+;
+.MACRO WGWRPAL
+        GISII ^1,1,19.
+%
+.MACRO WGRDPIXL
+        GISII ^1,1,20.
+%
+.MACRO WGWRPIXL
+        GISII ^1,1,21.
+%
+.MACRO  WGRFLOOD
+        GISII ^1,1,22.
+%
+.MACRO  WGPLINE
+        GISII ^1,1,23.
+%
+.MACRO  WGBITBLT
+        GISII ^1,1,24.
+%
+.MACRO  WGCHRBLT
+        GISII ^1,1,25.
+%
+.MACRO  WGRDATTR
+        GISII ^1,1,26.
+%
+.MACRO  WGWRATTR
+        GISII ^1,1,27.
+%
+	.EOF

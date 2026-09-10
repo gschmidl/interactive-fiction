@@ -1,0 +1,43 @@
+push
+  prompt pop
+[!equal,comment,] This macro runs SPRED -- then SPEED -- to report the
+PID-size type of a program.[!end]
+
+[!equal,(%1%),()]
+  write
+  string [!read Please type program pathname -- with .PR suffix.,,,]
+[!else]
+  string %1%
+[!end]
+[!equal,([!pathname [!string]]),()]
+  write
+  write File [!string] not found. Please try again. Include the .PR suffix.
+  write
+  [!else]
+  [!equal,comment,] Set string to produce compact command lines, then
+  delete temporary files. [!end]
+
+  push
+  string  :udd:[!username]:
+
+  delete/2=ignore  [!string]?SPRED.<INPUT OUTPUT>.TMP  [!string]?SPEED.TMP
+  write/l=[!string]?SPRED.INPUT.TMP   [!string/p]
+  write/l=[!string]?SPRED.INPUT.TMP   6
+  write/l=[!string]?SPRED.INPUT.TMP
+  write/l=[!string]?SPRED.INPUT.TMP  BYE
+
+  create/2=ignore  [!string]?SPRED.OUTPUT.TMP
+  process/def/input=[!string]?SPRED.INPUT.TMP/output=&
+[!string]?SPRED.OUTPUT.TMP/block       spred
+
+  [!equal,comment,] Now run SPEED to edit the (verbose) SPRED output file.[!end]
+
+  write/l=[!string]?SPEED.TMP   AAAJ@S!PID-size type:!L-300K1L300Kfuh!
+  process/def/block/input=[!string]?SPEED.TMP/output=@null   &
+     speed    [!string]?SPRED.OUTPUT.TMP
+  type  [!string]?SPRED.OUTPUT.TMP
+
+  [!equal,comment,] Clean up by deleting temporary files.[!end]
+  delete/2=ignore  [!string]?SPRED.<INPUT OUTPUT>.TMP  [!string]?SPEED.TMP
+[!end]
+pop

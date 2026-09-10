@@ -1,0 +1,2 @@
+      dimension ptext(objsiz)
+      common /ptxcom/ ptext

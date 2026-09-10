@@ -1,0 +1,107 @@
+       SUBROUTINE MOVE(OBJECT,WHERE)
+
+C  PLACE ANY OBJECT ANYWHERE BY PICKING IT UP AND DROPPING IT. MAY ALREADY BE
+C  TOTING, IN WHICH CASE THE CARRY IS A NO-OP. MUSTN'T PICK UP OBJECTS WHICH
+C  ARE NOT AT ANY LOC, SINCE CARRY WANTS TO REMOVE OBJECTS FROM ATLOC CHAINS.
+
+      include defs                      @ define parameters
+      include compla,list               @ define PLACOM common block
+
+       IF(OBJECT.GT.100)GOTO 1
+       FROM=PLACE(OBJECT)
+       GOTO 2
+1      FROM=FIXED(OBJECT-100)
+2      IF(FROM.GT.0.AND.FROM.LE.300)CALL CARRY(OBJECT,FROM)
+       CALL DROP(OBJECT,WHERE)
+       RETURN
+       END
+
+
+
+       SUBROUTINE CARRY(OBJECT,WHERE)
+
+C  START TOTING AN OBJECT, REMOVING IT FROM THE LIST OF THINGS AT ITS FORMER
+C  LOCATION.  INCR HOLDNG UNLESS IT WAS ALREADY BEING TOTED.  IF OBJECT>100
+C  (MOVING     FIXED    SECOND LOC), DON'T CHANGE PLACE OR HOLDNG.
+
+      include defs                      @ define parameters
+      include compla,list               @ define PLACOM common block
+
+       IF(OBJECT.GT.100)GOTO 5
+       IF(PLACE(OBJECT).EQ.-1)RETURN
+       PLACE(OBJECT)=-1
+       HOLDNG=HOLDNG+1
+5      IF(ATLOC(WHERE).NE.OBJECT)GOTO 6
+       ATLOC(WHERE)=LINK(OBJECT)
+       RETURN
+6      TEMP=ATLOC(WHERE)
+7      IF(LINK(TEMP).EQ.OBJECT)GOTO 8
+       TEMP=LINK(TEMP)
+       GOTO 7
+8      LINK(TEMP)=LINK(OBJECT)
+       RETURN
+       END
+
+
+
+       SUBROUTINE DROP(OBJECT,WHERE)
+
+C  PLACE AN OBJECT AT A GIVEN LOC, PREFIXING IT ONTO THE ATLOC LIST.  DECR
+C  HOLDNG IF THE OBJECT WAS BEING TOTED.
+
+      include defs                      @ define parameters
+      include compla,list               @ define PLACOM common block
+
+       IF(OBJECT.GT.100)GOTO 1
+       IF(PLACE(OBJECT).EQ.-1)HOLDNG=HOLDNG-1
+       PLACE(OBJECT)=WHERE
+       GOTO 2
+1      FIXED(OBJECT-100)=WHERE
+2      IF(WHERE.LE.0)RETURN
+       LINK(OBJECT)=ATLOC(WHERE)
+       ATLOC(WHERE)=OBJECT
+       RETURN
+       END
+
+
+
+       SUBROUTINE DSTROY(OBJECT)
+
+C  Permanently eliminate OBJECT by moving it to a non-existent location.
+
+       IMPLICIT INTEGER(A-Z)
+
+       CALL MOVE(OBJECT,0)
+       RETURN
+       END
+
+
+
+       SUBROUTINE JUGGLE(OBJECT)
+
+C  JUGGLE AN OBJECT BY PICKING IT UP AND PUTTING IT DOWN AGAIN, THE PURPOSE
+C  BEING TO GET THE OBJECT TO THE FRONT OF THE CHAIN OF THINGS AT ITS LOC.
+
+      include defs                      @ define parameters
+      include compla,list               @ define PLACOM common block
+
+       I=PLACE(OBJECT)
+       J=FIXED(OBJECT)
+       CALL MOVE(OBJECT,I)
+       CALL MOVE(OBJECT+100,J)
+       RETURN
+       END
+
+
+
+       INTEGER FUNCTION PUT(OBJECT,WHERE,PVAL)
+
+C  PUT IS THE SAME AS MOVE, EXCEPT IT RETURNS A VALUE USED TO SET UP THE
+C  NEGATED PROP VALUES FOR THE REPOSITORY OBJECTS.
+
+       IMPLICIT INTEGER(A-Z)
+
+       CALL MOVE(OBJECT,WHERE)
+       PUT=(-1)-PVAL
+       RETURN
+       END

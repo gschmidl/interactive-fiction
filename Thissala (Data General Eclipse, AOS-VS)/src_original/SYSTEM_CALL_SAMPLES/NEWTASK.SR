@@ -1,0 +1,116 @@
+;*       Copyright (C) Data General Corporation, 1980 - 1994          *;
+;*       All rights reserved.                                         *;
+;*       Licensed material -- property of Data General Corporation    *;
+;*                                                                    *;
+;*       This software is made available solely pursuant to the       *;
+;*       terms of a DGC license agreement which governs its use.      *;
+; This program, NEWTASK, has the initial task
+;    create a new task with priority 1 and ID 2.
+;    The initial task opens the terminal, creates
+;    the new task, announces its death, gets its
+;    priority/ID, and kills itself. The new task
+;    gets control, writes a message, and ?RETURNs.
+;    (The last task cannot kill itself with a task
+;    call.) The program shows calls ?TASK, ?MYTID,
+;    and ?IDKIL.
+
+        .TITLE  NEWTASK
+        .ENT    NEWTASK
+        .TSK    2        ; 2 tasks.
+        .NREL            ; Unshared.
+
+        ; Open terminal, create new task, kill self.
+
+NEWTASK: ?OPEN  CONSOLE  ; For input and output.
+        WBR     ERROR    ; Error, process it.
+        ?TASK   TPACKET  ; Create new task,
+                         ;    ID of 2, priority of 1.
+        WBR     ERROR    ; Error, process it.
+        ?WRITE  CONSOLE  ; Write swan song ...
+        WBR     ERROR    ; Error, process it.
+        ?MYTID           ; Get ID (AC0), priority (AC1).
+        WBR     ERROR    ; Error, process it.
+        WMOV    0, 1     ; Move ID into AC1 ...
+        ?IDKIL           ;     ... and die.
+        WBR     ERROR    ; Error on ?IDKIL.
+
+        ; New task is now the only task.
+
+NTASK:  XLEFB   0, NMSG*2 ; Get byte pointer to message.
+        XWSTA   0, CONSOLE+?IBAD ; Put in I/O packet.
+        ?WRITE  CONSOLE  ; Write message.
+        WBR     ERROR    ; Error, process it.
+        WSUB    2, 2     ; Set AC2 for good return.
+        WBR     BYE      ; Go and return.
+
+        ; Error handler.
+
+ERROR:  NLDAI   ?RFEC+?RFCF+?RFER,  2  ; Error flags.
+BYE:    ?RETURN          ; To CLI.
+        WBR     ERROR    ; Return error.
+
+        ; Open and I/O packet for terminal.
+
+        .ENABLE WORD ; Most entries = 16 bits.
+
+CONSOLE: .BLK   ?IBLT    ; Packet length.
+        .LOC    CONSOLE+?ISTI
+        ?ICRF+?RTDS+?OFIO ; Data-sensitive records, I/O.
+        .LOC    CONSOLE+?IMRS
+         -1              ; Memory block size, default to 2048.
+        .LOC    CONSOLE+?IBAD
+        .DWORD  ITEXT*2  ; 2-word byte pointer to text/buffer.
+        .LOC    CONSOLE+?IRCL   
+        120.             ; Maximum record length of 120 characters.
+        .LOC    CONSOLE+?IFNP
+        .DWORD  CON*2    ; 2-word byte pointer to filename.
+        .LOC    CONSOLE+?IDEL
+        .DWORD  -1       ; Data-sensitive delimiter table address; none.
+        .LOC    CONSOLE+?IBLT ; End of I/O packet.
+
+        ; Filename and messages.  .NOLOC 1 follows.
+
+        .NOLOC  1
+CON:    .TXT  "@CONSOLE"
+
+ITEXT:  .TXT  "I'm the default task. Have opened
+ @CONSOLE and am about to ?IDKIL myself.<12>"
+
+NMSG:   .TXT  "I'm the new task, about to ?RETURN.<12>"
+        .NOLOC  0        ; Resume listing all.
+
+        ; ?TASK packet for new task.
+
+TPACKET:  .BLK  ?DSLTH   ; Short packet length.
+        .LOC    TPACKET+?DLNK
+        1                ; Any nonzero value for short packet.
+        .LOC    TPACKET+?DLNL
+        0                ; Low order bits of ?DLNK, reserved.
+        .LOC    TPACKET+?DLNKB
+        .DWORD  0        ; ?DLNKB, ?DLNKBL are reserved.
+        .LOC    TPACKET+?DPRI
+        1                ; Priority is 1 (initial task's
+                         ;    priority is 0).
+        .LOC    TPACKET+?DID
+        2                ; ID is 2 (initial task's ID is 1).
+        .LOC    TPACKET+?DPC
+         .DWORD NTASK    ; Task's starting address.
+        .LOC    TPACKET+?DAC2
+        .DWORD  0        ; No message for the new task.
+        .LOC    TPACKET+?DSTB
+        .DWORD  STACK    ; Stack address is STACK.
+        .LOC    TPACKET+?DSFLT
+        -1               ; Stack fault handler; default.
+        .LOC    TPACKET+?DSSZ
+        .DWORD  60.      ; Stack size is 60. words.
+        .LOC    TPACKET+?DFLGS
+        0                ; Flag word, reserved.
+        .LOC    TPACKET+?DRES
+        0                ; Reserved.
+        .LOC    TPACKET+?DNUM
+        1                ; Number of tasks is 1.
+        .LOC    TPACKET+?DSLTH ; End of ?TASK packet.
+
+STACK:  .BLK    60.      ; 60. word stack for task.
+
+        .END    NEWTASK

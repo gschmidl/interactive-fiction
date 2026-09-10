@@ -1,0 +1,79 @@
+ /* Native Linux replacements for the MVS/TSO-specific external      */
+ /* routines used by the Adventure PL/I engine (TREAD/TWRITE/WHISPER */
+ /* were originally WYLBUR/TSO terminal I/O; CLRSCRN/DECDATE were    */
+ /* assembler; RANDU was Fortran; R062A10/WARNMSG were MVS dynamic   */
+ /* allocation and broadcast-message helpers with no standalone      */
+ /* equivalent).                                                     */
+
+ /* TREAD mirrors the TREAD CSECT of the WELLPUT assembler module    */
+ /* (tapecave/DECDATE.txt): TPUT the prompt if there is one, TGET a  */
+ /* line of up to 133 bytes, then                                    */
+ /*        GOTRTN   OC    0(133,R2),BLANKS   UPPER CASE THIS SUCKER  */
+ /* i.e. OR the whole buffer with X'40', which in EBCDIC folds a-z   */
+ /* to A-Z and leaves digits and punctuation alone.  The ASCII       */
+ /* equivalent of that fold is done with TRANSLATE below; without it */
+ /* the game only understands commands typed in capitals.            */
+ /* CCODE returns the 3270 PF-key number; there is none here, so it  */
+ /* is always 0 (a plain <ENTER>, which the engine treats as "just   */
+ /* text").  End of file on stdin has no mainframe counterpart (TGET */
+ /* on a dropped line loops forever in GETIN), so it ends the        */
+ /* process rather than spinning.                                    */
+
+ TREAD: PROCEDURE(PROMPT, PROMPTLEN, MSGAREA, OUTLEN, CCODE);
+   DCL PROMPT    CHAR(133);
+   DCL PROMPTLEN FIXED BIN(31);
+   DCL MSGAREA   CHAR(133);
+   DCL OUTLEN    FIXED BIN(31);
+   DCL CCODE     FIXED BIN(31);
+   DCL SYSCALL ENTRY RETURNS(FIXED BIN(31))
+                 OPTIONS(ASM LINKAGE(SYSTEM)) EXT('_pli_Syscall');
+   DCL (ADDR,TRANSLATE) BUILTIN;
+   DCL CH CHAR(1);
+   DCL RC FIXED BIN(31);
+   DCL I FIXED BIN(31);
+   DCL EOFHIT BIT(1);
+   DCL DONE BIT(1);
+   DCL NL CHAR(1) STATIC INIT('0A'X);
+   DCL UPPER CHAR(26) STATIC INIT('ABCDEFGHIJKLMNOPQRSTUVWXYZ');
+   DCL LOWER CHAR(26) STATIC INIT('abcdefghijklmnopqrstuvwxyz');
+
+   IF PROMPTLEN > 0 THEN
+     RC = SYSCALL(4, 1, ADDR(PROMPT), PROMPTLEN);
+
+   MSGAREA = ' ';
+   I = 0;
+   EOFHIT = '0'B;
+   DONE = '0'B;
+ /* The loop is driven by DONE rather than by LEAVE on purpose.  Iron */
+ /* Spring PL/I 1.4.1 mis-handles a LEAVE that sits inside a nested   */
+ /* non-iterative "DO; ... END;" block: instead of leaving the        */
+ /* enclosing iterative loop, as PL/I defines, it leaves only the     */
+ /* inner block, so the LEAVE is a no-op.  Written the obvious way -  */
+ /*     IF RC <= 0 THEN DO; EOFHIT = '1'B; LEAVE; END;                */
+ /* - this loop spun forever on read() returning 0, and the game hung */
+ /* at end of file instead of exiting.                                */
+   DO WHILE(^DONE);
+     RC = SYSCALL(3, 0, ADDR(CH), 1);
+     IF RC <= 0
+     THEN DO;
+       EOFHIT = '1'B;
+       DONE = '1'B;
+       END;
+     ELSE IF CH = '0A'X
+     THEN DONE = '1'B;
+     ELSE IF CH ^= '0D'X
+     THEN IF I < 133 THEN DO;
+         I = I + 1;
+         SUBSTR(MSGAREA,I,1) = CH;
+         END;
+     END;
+
+   IF EOFHIT & I = 0 THEN DO;             /* terminal went away */
+     RC = SYSCALL(4, 1, ADDR(NL), 1);
+     RC = SYSCALL(1, 0);                  /* _exit(0) */
+     END;
+
+   MSGAREA = TRANSLATE(MSGAREA, UPPER, LOWER);
+   OUTLEN = I;
+   CCODE = 0;
+   END TREAD;

@@ -1,0 +1,96 @@
+push
+prompt pop
+string ok_to_proceed
+comment Check for the root directory -- if so, turn superuser on.
+class(1 2) ignore
+[!equal,[!directory],:]
+  superuser on
+[!else]
+  comment Not in the root - check for write access. If we can create
+  comment and read from a file, assume we have needed access.
+  permanence =?[!pid].[!username].tmp off
+  delete =?[!pid].[!username].tmp
+  write/l==?[!pid].[!username].tmp test
+  string [=?[!pid].[!username].tmp]
+  delete =?[!pid].[!username].tmp
+  [!equal,[!string],test]
+    string ok_to_proceed
+  [!else]
+    string no_access
+  [!end]
+[!end]
+comment If it's not ok to proceed, describe error and stop.
+[!nequal,[!string],ok_to_proceed]
+  [!equal,[!string],no_access]
+    write
+    write Error - [!username] does not have write access to [!directory].
+    write ,,,,,,,,,You cannot back up this directory.
+    write
+  [!end]
+[!else]
+  comment Check if CLI operator mode is on. If not, turn it on.
+  permanence =?[!pid].[!username].tmp off
+  delete =?[!pid].[!username].tmp
+  operator/l==?[!pid].[!username].tmp
+  string [=?[!pid].[!username].tmp]
+  delete =?[!pid].[!username].tmp
+  [!equal,([!string]),(OFF)]
+    OPERATOR/LABEL ON
+  [!end]
+  comment Operator mode is on -- proceed.
+  class1 error
+  class2 warning
+  write
+  [!equal,[!directory],:]
+    [!equal,%0/I%,]
+      write ** Full backup from directory [!DIRECTORY] at [!TIME] on [!DATE] **
+    [!else]
+      write ** Incremental backup from directory [!DIRECTORY] at [!TIME] on [!DATE] **
+      string [=LAST_BACKUP]
+      write
+      write This backup will dump all files created or modified since [!string].
+    [!end]
+  [!else]
+    write ** Backup from directory [!DIRECTORY] at [!TIME] on [!DATE] **
+  [!end]
+  write
+  write Please insert the first diskette to receive backup material.
+  write
+  write This diskette and any others used for backup will be
+  write overwritten -- so don't use diskettes that have material you
+  write want to keep.
+  write
+  write Please number the paper label of each diskette as it is filled so
+  write that -- if needed -- the diskettes can be restored in the correct order.
+  write
+  write ,,,,,,,,,,,,,,,,,,,,  -- Beginning file backup --
+  [!equal,[!directory],:]
+    [!equal,%0/T%,]
+      DUMP/RETAIN=0%0/V/L%[!nequal,%0/I%,]/AFTER/TLM=[!string][!end]&
+	@LFD:VOL01:BACKUP    &
+	    #\HELP\NET\PAGE\PATCH\PER\PROC\QUEUE\SWAP\SWAP.SWAP\SYSGEN&
+\UTIL\?+.BRK\+.ED\?+.JOB\+.LS\?+.TMP   NET:NETGEN:+
+    [!else]
+      DUMP/RETAIN=0%0/V/L% @LFD:VOL01:BACKUP +
+    [!end]
+    write
+    [!equal,%0/I%,]
+      write ** Full backup of [!DIRECTORY] complete at [!TIME] **
+    [!else]
+      write ** Incremental backup of [!DIRECTORY] complete at [!TIME] **
+    [!end]
+    permanence/2=ignore  =LAST_BACKUP.BU  OFF
+    delete/2=ignore  =LAST_BACKUP.BU
+    rename/2=ignore  LAST_BACKUP  LAST_BACKUP.BU
+    write/l==LAST_BACKUP   [!DATE]:[!TIME]
+
+    write
+    write This backup has created the file LAST_BACKUP in this directory
+    write for future backups. Don't delete this file.
+  [!else]
+    DUMP/RETAIN=0%0/V/L%    @LFD:VOL01:BACKUP %1-%
+    write
+    write ** Backup of [!DIRECTORY] complete at [!TIME] **
+  [!end]
+[!end]
+pop

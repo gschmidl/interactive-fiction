@@ -1,0 +1,288 @@
+[This article was originally published in Casus Belli, no. 11, pp. 8–10]
+
+Pour les utilisateurs de ZX 81 Sinclair avec extension 16 K
+
+Opération "Sescuballi"
+
+DANS la nuit sans lune, seuls quelques éclairages blafards font émerger de l'obscurité l'austère bâtisse. Juché sur l'un des murs d'enceinte, vous vous apprêtez à hisser votre sac d'équipement, quand soudain, un aboiement ponctue les ténèbres. "Cette maudite patrouille est en avance!" pensez-vous, et vous n'avez que le temps de vous glisser à terre dans l'enceinte interdite, abandonnant votre coûteux et sophistiqué matériel d'espionnage...
+
+Désormais, vos seuls instruments seront vos mains et votre cerveau. Rien n'est perdu! La patrouille passée, vous vous dirigez vers la porte dont un "contact" vous a révélé le système d'ouverture. Un coup d'œil à votre montre; aurez-vous le temps de récupérer ces fichus microfilms ?
+
+Avant toute chose, ce jeu est conçu pour être accepté par un 2 X 81, avec extension 16 K; donc, si vous possédez un autre ordinateur individuel, et que vous connaissez la programmation, vous ne devriez pas avoir de problèmes de convertions.
+
+La réalisation se déroule en quatre étapes:
+
+1. — Entrez le programme 1 en respectant les numéros de lignes.
+
+2. — Démarrez ce programme par <RUN>, il vous demandera combien il y a de codes/conditions, vous répondez <80>, puis à chaque numéro qui s'inscrira, vous entrez les 9 caractères (voir tableau A); pour les codes/vocabulaire, vous répondrez <60>, vous entrez les 6 caractères de chaque numéro du tableau B. Pour les codes/salles, vous entrez <81>, puis les 6 caractères de chaque salle (voir tableau C).
+
+A la fin, vous pourrez préparer une cassette pour enregistrer ce programme, il pourrait servir pour un prochain jeu préparé par nos soins.
+
+3. — A la fin de la sauvegarde, le programme se liste tout seul; vous entrerez alors le programme 2 par-des-sus le premier. Tous vos codes, entrés par le programme 1, seront présents sur le programme 2 de jeu...
+
+... A la condition de ne jamais faire <RUN>...
+
+4. — Quand tout le programme est entré (OUF!...), NON, ne jouez pas encore... FAITES <GOTO 8900> il se sauvegardera tout seul (vous remarquerez plus tard, qu'à la ligne 8970, le l de "Sescuballi" a changé, normal, cela permettra quand plus tard vous ferez LOAD "SESCUBALLI" de démarrer le jeu directement... Si vous voulez faire un double (pour votre copain) et si vous n'avez touché à aucune porte, vous répondrez "OUT" à "Que faites-vous".
+
+Début de partie :
+
+L'écran vous demande "Que faites-vous".
+Vous répondez : "OUVRE".
+
+L'écran : "Quoi donc ?"
+Vous : "PORTE".
+
+L'écran : "Quelle direction ?"
+
+Attention, n'hésitez pas... l'horloge tourne, et à 22 h 10 les gardiens du bureau des services secrets vous tomberont dessus... Et alors tant pis pour les microfilms. Vous aviez pourtant le code secret du coffre en tête...
+
+Vous décidez : "NORD".
+
+Il vous répond : "D'ACCORD".
+
+Tiens, un courant d'air a éteint votre bougie.
+
+PROGRAMMES
+
+[See separate listing]
+
+Tableau A
+--------------------------------
+TABLEAU CODES/CONDITIONS (80)
+
+1 = ST0000999
+2 = I10000412
+3 = I20000416
+4 = I30000408
+5 = I3I100412
+6 = I3I200416
+7 = I40000408
+8 = I4I100412
+9 = I4I200416
+10 = I50000408
+11 = I5I100412
+12 = I5I200416
+13 = A10000409
+14 = A1D100425
+15 = A1D200425
+16 = A1D300425
+17 = A1D400425
+18 = A20000408
+19 = A2I200416
+20 = A2I300408
+21 = A2I312416
+22 = P10000408
+23 = P1Q100426
+24 = P1Q200426
+25 = P1Q300426
+26 = P1Q400426
+27 = P1Q500426
+28 = P1Q600426
+29 = P1Q700410
+30 = P1X100410
+31 = P1X200410
+32 = P1I100412
+33 = P1I200417
+34 = P1Q800423
+35 = P20000408
+36 = P2Q100427
+37 = P2Q200427
+38 = P2Q300427
+39 = P2Q400427
+40 = P2Q500427
+41 = P2Q600427
+42 = P2Q700417
+43 = P30000408
+44 = P3Q100428
+45 = P3Q200428
+46 = P3Q300428
+47 = P3Q400428
+48 = P3Q500428
+49 = P3Q600428
+50 = P3Q700417
+51 = P3X100410
+52 = P3X200410
+53 = O10000408
+54 = O1X100409
+55 = O1X200461
+56 = O1Q300475
+57 = O1X1D1429
+58 = O1X1D2429
+59 = O1X1D3429
+60 = O1X1D4429
+61 = O20000408
+62 = O2X100409
+63 = O2X1D1429
+64 = O2X1D2429
+65 = O2X1D3429
+66 = O2X1D4429
+67 = O2Q300411
+68 = O30000408
+69 = O3X100417
+70 = O3X200410
+71 = W10000408
+72 = W1Q100418
+73 = W1Q200418
+74 = W1W100419
+75 = W1X100417
+76 = W1X200410
+77 = W1Q300424
+78 = W20000408
+79 = W2Q100422
+80 = W2Q200422
+--------------------------------
+
+Tableau B
+--------------------------------
+TABLEAU CODES/VOCABULAIRE (60)
+
+1= X1PORT
+2= X2COFF
+3= D1NORD
+4= D2SUD
+5= D3EST
+6= D4OUES
+7= Q1BOUG
+8= Q1CHAN
+9= Q2BRIQ
+10= Q3LIVR
+11= Q3PAPI
+12= Q4TROM
+13= Q5PASS
+14= Q6CLEF
+15= Q6CLE
+16= Q7MICR
+17= Q7FILM
+18= Q7DOSS
+19= Q8LAMP
+20= I1RECA
+21= I1INFO
+22= I1INVE
+23= I2RIEN
+24= I2REST
+25= I3ATTE
+26= I4APPE
+27= I5DEMA
+28= A1ALLE
+29= A1VAIS
+30= A1ENTR
+31= A1AVAN
+32= A1RETO
+33= A1REVI
+34= A1REVE
+35= A2FAIR
+36= A2FAIS
+37= P1PREN
+38= P1EMPO
+39= P1SAIS
+40= P1SOUL
+41= P2POSE
+42= P3JETE
+43= P3JETT
+44= P3LANC
+45= P3LAIS
+46= O1OUVR
+47= O2FERM
+48= O2CLAQ
+49= O3FORC
+50= O3ENFO
+51= O3CASS
+52= W1ALLU
+53= W1BRUL
+54= W2ETEI
+55= STSTOP
+56= STFIN
+57= STOUT
+58= STARRE
+59= STCORR
+60= STREPO
+--------------------------------
+
+Tableau C
+--------------------------------
+TABLEAU CODES/SALLES (61)
+
+1/ 011016
+2/ 023100
+3/ 021300
+4/ 001114
+5/ 011110
+6/ 001110
+7/ 023104
+8/ 001300
+9/ 010116
+10/ 130000
+11/ 210000
+12/ 202000
+13/ 032213
+14/ 100212
+15/ 032000
+16/ 211201
+17/ 002100
+18/ 130200
+19/ 312004
+20/ 121201
+21/ 022100
+22/ 300215
+23/ 002000
+24/ 302203
+25/ 120200
+26/ 022010
+27/ 310200
+28/ 110010
+29/ 203000
+30/ 220303
+31/ 022013
+32/ 032211
+33/ 020213
+34/ 203015
+35/ 220313
+36/ 110014
+37/ 111010
+38/ 020112
+39/ 203000
+40/ 220310
+41/ 330017
+42/ 223010
+43/ 020300
+44/ 201012
+45/ 110110
+46/ 110014
+47/ 223013
+48/ 020315
+49/ 202013
+50/ 302211
+51/ 200213
+52/ 223003
+53/ 020300
+54/ 110010
+55/ 132000
+56/ 200210
+57/ 212000
+58/ 032203
+59/ 000200
+60/ 032015
+61/ 201000
+62/ 212101
+63/ 140204
+64/ 312000
+65/ 001200
+66/ 122101
+67/ 300200
+68/ 012012
+69/ 302213
+70/ 020210
+71/ 120000
+72/ 310000
+73/ 101016
+74/ 003100
+75/ 201304
+76/ 001110
+77/ 101110
+78/ 001114
+79/ 203100
+80/ 201300
+81/ 100116
+--------------------------------
+
+[See separate listing]

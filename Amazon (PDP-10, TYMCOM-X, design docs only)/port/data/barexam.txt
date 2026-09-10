@@ -1,0 +1,217 @@
+AMAZON -- the 36 Bar Exam questions (room 10)
+=============================================
+
+  ####  RECONSTRUCTED CONTENT -- NOT FROM THE TAPES  ####
+
+Two lines in ROOMS (22-Sep-77) are all that survives of these tables:
+
+    room  1:  "You must answer a riddle to leave (the way you came in)
+               ....there are 36 different riddles."
+    room 10:  "....*The bartender asks you a question.
+               (There are 36 different questions)"
+
+and AMAZON.TXT (09-Sep-79) gives the machinery that indexed them:
+
+    (READ   (DISPLAY  RIDTXT(RIDDLE)))
+    (ANSWER (EQUAL (RIDCOD(RIDDLE) INTEXT) ...))
+
+RIDTXT and RIDCOD themselves were never written to any file that survives.
+The 36 items below were written for the Windows port so that the room is
+playable.  They are drawn only from AMAZON's own material -- every answer is
+a room, object or creature named in ROOMS or OBJECT.TYP -- and nothing is
+borrowed from any other game.
+
+This file is the plain-text copy of the table in port/src/riddles.c.  If the
+originals are ever recovered, replace both and nothing else has to change.
+
+----------------------------------------------------------------------
+ 1.  Counsellor.  Who is the only one here who can arrest a person
+     and request a fine?
+
+     ANSWER: POLICEMAN
+
+----------------------------------------------------------------------
+ 2.  What must a prisoner have before he can get out of the Jail?
+
+     ANSWER: LAWYER
+
+----------------------------------------------------------------------
+ 3.  Whom must that lawyer find before the prisoner goes free?
+
+     ANSWER: JUDGE
+
+----------------------------------------------------------------------
+ 4.  Name the book that belongs to the lawyers and the police and is
+     necessary to get out of Jail.
+
+     ANSWER: LAWBOOK
+
+----------------------------------------------------------------------
+ 5.  A prisoner may not leave the Jail except when taken where?
+
+     ANSWER: COURT
+
+----------------------------------------------------------------------
+ 6.  What garment does the figure behind the bench wear?
+
+     ANSWER: ROBE
+
+----------------------------------------------------------------------
+ 7.  What is in that figure's hand?
+
+     ANSWER: GAVEL
+
+----------------------------------------------------------------------
+ 8.  Besides the Bench and the Jury box, name one of the two other
+     furnishings of the Court Room.
+
+     ANSWER: DESK
+
+----------------------------------------------------------------------
+ 9.  Where does a man go who has been found GUILTY by the court?
+
+     ANSWER: EXECUTION
+
+----------------------------------------------------------------------
+10.  After an execution, when may the condemned and his cohorts come
+     back into the valley?
+
+     ANSWER: TOMORROW
+
+----------------------------------------------------------------------
+11.  If the policeman catches you with the stolen rental vehicle,
+     where do you go?
+
+     ANSWER: JAIL
+
+----------------------------------------------------------------------
+12.  Who took that vehicle from the rental agency?
+
+     ANSWER: ROBBERS
+
+----------------------------------------------------------------------
+13.  What does the sign in this tavern read, before the list of
+     names?  Give the first word.
+
+     ANSWER: EXAMINERS
+
+----------------------------------------------------------------------
+14.  What document qualifies a person as a lawyer?
+
+     ANSWER: DIPLOMA
+
+----------------------------------------------------------------------
+15.  How many different questions are in this examination?
+
+     ANSWER: 36
+
+----------------------------------------------------------------------
+16.  Who serves the drinks in this establishment?
+
+     ANSWER: TROLL
+
+----------------------------------------------------------------------
+17.  What is the court jester's name?
+
+     ANSWER: TONTO
+
+----------------------------------------------------------------------
+18.  Who is that jester's friend, the one who drops silver bullets?
+
+     ANSWER: RANGER
+
+----------------------------------------------------------------------
+19.  What is the only thing that will kill a vampire, apart from that
+     same gentleman?
+
+     ANSWER: SILVER
+
+----------------------------------------------------------------------
+20.  The Phantom gives out a token for helping him.  What is it
+     called?  One word.
+
+     ANSWER: GOOD-MARK
+
+----------------------------------------------------------------------
+21.  Who must have that token before he will let you pass?
+
+     ANSWER: WOLF
+
+----------------------------------------------------------------------
+22.  What animal is the wicked witch allergic to being splashed with?
+
+     ANSWER: WATER
+
+----------------------------------------------------------------------
+23.  What may a witch be tied up with?
+
+     ANSWER: WEBS
+
+----------------------------------------------------------------------
+24.  Name the ruler of the jungle animals.
+
+     ANSWER: TARZAN
+
+----------------------------------------------------------------------
+25.  If you kill one of his animals, what must you then do with it?
+
+     ANSWER: EAT
+
+----------------------------------------------------------------------
+26.  Who lives in the tree-house and is expecting a child?
+
+     ANSWER: JANE
+
+----------------------------------------------------------------------
+27.  The baby found floating in a basket has a name.  What is it?
+
+     ANSWER: MOSES
+
+----------------------------------------------------------------------
+28.  Whose laboratory do the white mice belong in?
+
+     ANSWER: LIVINGSTON
+
+----------------------------------------------------------------------
+29.  Who owns the wingless monkey?
+
+     ANSWER: TARZAN
+
+----------------------------------------------------------------------
+30.  Who owns the winged one?
+
+     ANSWER: WITCH
+
+----------------------------------------------------------------------
+31.  A boy rescues people from the pirate ship.  Where does he live?
+     Answer with the name of the land.
+
+     ANSWER: NEVER-NEVER
+
+----------------------------------------------------------------------
+32.  What two things is Captain Hook afraid of?  Name either one.
+
+     ANSWER: CLOCKS
+
+----------------------------------------------------------------------
+33.  Within what circle is a wizard powerless?  Two words, run
+     together, or just the second.
+
+     ANSWER: RING
+
+----------------------------------------------------------------------
+34.  What is written on the cake?
+
+     ANSWER: EAT-ME
+
+----------------------------------------------------------------------
+35.  What is written on the urn?
+
+     ANSWER: DRINK-ME
+
+----------------------------------------------------------------------
+36.  Last question, counsellor.  The wizard's diary gives a magic
+     word.  What is it?
+
+     ANSWER: AMAZON
+

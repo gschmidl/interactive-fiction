@@ -1,0 +1,1784 @@
+;*       Copyright (C) Data General Corporation, 1980 - 1994          *;
+;*       All rights reserved.                                         *;
+;*       Licensed material -- property of Data General Corporation    *;
+;*                                                                    *;
+;*       This software is made available solely pursuant to the       *;
+;*       terms of a DGC license agreement which governs its use.      *;
+
+
+                 .TITL   PARU_LONG
+
+;==================================================;
+; AOS/VS 32-bit user parameter definition file for
+;        32 character names.
+;==================================================;
+
+;======================================================================
+; Symbol definition requirements are the following:
+;
+; 1) All symbols of the form ?<symbol name> are reserved for
+;    defining parameters used jointly by the operating
+;    system and user assembled programs.
+;
+; 2) Parameter names will have a common prefix:
+;    ? + <1..5 character system call prefix> + . + <field name>
+;
+; 3) <1..5 character system call prefix> =
+;     prefix + _ + prefix common to this packet
+;
+;     ex: ?WIN_PKT.PKT_ID , WIN_PKT = <1..5 character system call prefix>
+;
+; 3) All symbols in this parameter file are 32 character unique.
+;    This file contains the 'long' names.
+;
+; 4) All symbols are case sensitive and should be in uppercase
+;     unless lower case has a specific meaning.
+;
+; 5) All symbols of the form ERxxx are reserved for defining
+;    operating system error codes and should be in PARU.32.SR.
+;
+; 6) All symbols of the form USTxx are reserved for defining
+;    the user status table and should be in PARU.32.SR.
+;
+;======================================================================
+
+
+;======================================================================
+;===                       Packet ID List                           ===
+;======================================================================
+
+;     A packet ID is a number which will uniquely identify a packet or
+;     a subpacket to the system. All newly defined system calls have
+;     packet ids associated with the main packet and each subpacket, if
+;     any.
+;
+;     A new Packet ID name should be in the following format:
+;
+;       ?<pkt id name>_PKTID
+;
+;       Example:
+;               For the ?WINDOW system call -  ?WIN_PKT_PKTID
+
+;       ?WINDOW Packet IDs
+
+.DUSR   ?WIN_PKT_PKTID          =       (426*200000)+(0.*400)+0
+.DUSR   ?WIN_CRE_PKTID_REV1     =       (426*200000)+(1.*400)+1
+.DUSR   ?WIN_GTITLE_PKTID       =       (426*200000)+(2.*400)+0
+.DUSR   ?WIN_STITLE_PKTID       =       (426*200000)+(3.*400)+0
+.DUSR   ?WIN_DPORT_PKTID        =       (426*200000)+(4.*400)+0
+.DUSR   ?WIN_STATUS_PKTID_REV1  =       (426*200000)+(5.*400)+1
+.DUSR   ?WIN_SINT_PKTID         =       (426*200000)+(6.*400)+0
+.DUSR   ?WIN_GINT_PKTID         =       (426*200000)+(7.*400)+0
+.DUSR   ?WIN_RTN_DEVWINDS_PKTID =       (426*200000)+(8.*400)+0
+.DUSR   ?WIN_RTN_DEVWINDS_WIND_BUF_PKTID =  (426*200000)+(9.*400)+0
+.DUSR   ?WIN_RTN_GRPWINDS_PKTID =       (426*200000)+(10.*400)+0
+.DUSR   ?WIN_RTN_GRPWINDS_WIND_BUF_PKTID =  (426*200000)+(11.*400)+0
+.DUSR   ?WIN_DEVSTAT_PKTID_REV1 =       (426*200000)+(12.*400)+1
+
+
+;       ?PTRDEVICE  Packet IDs
+
+.DUSR   ?PTRDEV_PKTID           =       (432*200000)+(0.*400)+0
+.DUSR   ?PTRDEV_SET_EVTS_PKTID  =       (432*200000)+(1.*400)+0
+.DUSR   ?PTRDEV_SET_DELTA_PKTID =       (432*200000)+(2.*400)+0
+.DUSR   ?PTRDEV_LEVENT_PKTID    =       (432*200000)+(3.*400)+0
+.DUSR   ?PTRDEV_SET_PTR_PKTID   =       (432*200000)+(4.*400)+0
+.DUSR   ?PTRDEV_GSTATUS_PKTID_REV1 =    (432*200000)+(5.*400)+1
+.DUSR   ?PTRDEV_GEN_EVENT_PKTID  =      (432*200000)+(6.*400)+0
+.DUSR   ?PTRDEV_GET_LOC_PKTID   =       (432*200000)+(7.*400)+0
+.DUSR   ?PTRDEV_GET_TABLOC_PKTID =      (432*200000)+(8.*400)+0
+
+;       ?GRAPHICS Packet IDs
+
+.DUSR   ?GRAPH_PKTID                    =       (434*200000)+(0.*400)+0
+.DUSR   ?GRAPH_OPEN_PKTID               =       (434*200000)+(1.*400)+0
+.DUSR   ?GRAPH_CRE_PKTID_REV1           =       (434*200000)+(2.*400)+1
+.DUSR   ?GRAPH_PIXSTAT_PKTID            =       (434*200000)+(3.*400)+0
+.DUSR   ?GRAPH_RDPAL_PKTID              =       (434*200000)+(4.*400)+0
+.DUSR   ?GRAPH_RDPAL_ARRAY_PKTID        =       (434*200000)+(5.*400)+0
+.DUSR   ?GRAPH_WRPAL_PKTID              =       (434*200000)+(6.*400)+0
+.DUSR   ?GRAPH_WRPAL_ARRAY_PKTID        =       (434*200000)+(7.*400)+0
+.DUSR   ?GRAPH_SET_CLIP_PKTID           =       (434*200000)+(8.*400)+0
+.DUSR   ?GRAPH_MAP_PMAP_PKTID           =       (434*200000)+(9.*400)+0
+.DUSR   ?GRAPH_SET_ORG_PKTID            =       (434*200000)+(10.*400)+0
+.DUSR   ?GRAPH_GET_ORG_PKTID            =       (434*200000)+(11.*400)+0
+
+; DEFINE PACKET ID'S FOR MULTI-PROCESSOR SYSTEM CALL PACKETS
+
+;       ?JPINIT PACKET ID
+
+.DUSR   ?JPI_PKT_PKTID          =       (553*200000)+(0.*400)+0
+
+
+;       ?JPREL PACKET ID
+
+.DUSR   ?JPR_PKT_PKTID          =       (554*200000)+(0.*400)+0
+
+
+;       ?JPMOV PACKET ID
+
+.DUSR   ?JPM_PKT_PKTID          =       (555*200000)+(0.*400)+0
+
+
+;       ?JPSTAT PACKET ID
+
+.DUSR   ?JPS_PKT_PKTID          =       (556*200000)+(0.*400)+0
+.DUSR   ?JPS_GEN_PKTID          =       (556*200000)+(1.*400)+0
+.DUSR   ?JPS_SPEC_PKTID         =       (556*200000)+(2.*400)+0
+
+
+;       ?LPCRE PACKET ID
+
+.DUSR   ?LPC_PKT_PKTID          =       (557*200000)+(0.*400)+0
+
+
+;       ?LPDEL PACKET ID
+
+.DUSR   ?LPD_PKT_PKTID          =       (560*200000)+(0.*400)+0
+
+
+;       ?LPSTAT PACKET ID
+
+.DUSR   ?LPS_PKT_PKTID          =       (561*200000)+(0.*400)+0
+.DUSR   ?LPS_GEN_PKTID          =       (561*200000)+(1.*400)+0
+.DUSR   ?LPS_SPEC_PKTID         =       (561*200000)+(2.*400)+0
+
+
+;       ?LPCLASS PACKET ID
+
+.DUSR   ?LPCL_PKT_PKTID         =       (562*200000)+(0.*400)+0
+
+
+;       ?CLASS PACKET ID
+
+.DUSR   ?CL_PKT_PKTID           =       (563*200000)+(0.*400)+0
+
+
+;       ?CMATRIX PACKET ID
+
+.DUSR   ?CMAT_PKT_PKTID         =       (564*200000)+(0.*400)+0
+
+
+;       ?PCLASS PACKET ID
+
+.DUSR   ?PCL_PKT_PKTID          =       (565*200000)+(0.*400)+0
+
+
+;       ?CLSTAT PACKET ID
+
+.DUSR   ?CLST_PKT_PKTID         =       (566*200000)+(0.*400)+0
+.DUSR   ?CLST_AOSVS_PKTID       =       (566*200000)+(1.*400)+0
+
+
+;       ?LOCALITY PACKET ID
+
+.DUSR   ?LOC_PKT_PKTID          =       (567*200000)+(0.*400)+0
+
+;       ?CLSCHED  PACKET ID
+
+.DUSR   ?CLS_PKT_PKTID          =       (570*200000)+(0.*400)+0
+
+
+; DEFINE PACKET IDS FOR ?MIRROR AND ?XINIT CALLS
+
+;       ?XINIT PACKET ID
+
+.DUSR   ?XINIT_PKT_PKTID        =       (571*200000)+(0.*400)+0
+
+;       ?XINIT PHYSICAL UNIT LIST SUBPACKET ID
+
+.DUSR   ?XINIT_PUL_PKTID        =       (571*200000)+(1.*400)+0
+
+
+;       ?MIRROR PACKET ID
+
+.DUSR   ?MIRROR_PKT_PKTID       =       (572*200000)+(0.*400)+0
+
+;       ?MIRROR PHYSICAL UNIT LIST SUBPACKET ID
+
+.DUSR   ?MIRROR_PUL_PKTID       =       (572*200000)+(1.*400)+0
+
+;       ?SYSPRV SYSTEM PRIVILEGES SYSTEM CALL PACKET ID.
+
+.DUSR   ?SYSPRV_PKT_PKTID       =       (573*200000)+(0.*400)+0
+
+;       ?MAPDV MAP DEVICE SYSTEM CALL PACKET ID.
+
+.DUSR   ?MAPDV_PKT_PKTID        =       (574*200000)+(0.*400)+0
+
+;       ?SCMGT sub packet ID
+
+.DUSR   ?SCMGT_PKTID_REV1       =       (302S15.+1S23.+1)
+
+;       ?WSCNTL Packet IDs
+
+.DUSR   ?WSCNTL_PKTID           =       (4330S15.+0S23.+0)
+.DUSR   ?WSCNTL_MM_PKTID        =       (4330S15.+1S23.+0)
+
+
+;=======================================================================
+;===             ?WINDOW - Issue window commands to the system       ===
+;===                                                                 ===
+;===              Packet Definition, related flags & function codes  ===
+;=======================================================================
+
+;=================================================
+;            ?WINDOW Main Packet Definitions
+;=================================================
+
+.DUSR   ?WIN_PKT.PKT_ID       = 0                       ; Packet rev num
+.DUSR   ?WIN_PKT.FUNC         = ?WIN_PKT.PKT_ID+2       ; Window function code
+.DUSR   ?WIN_PKT.CHAN_NUM     = ?WIN_PKT.FUNC+1         ; Window channel number
+.DUSR   ?WIN_PKT.FLAGS        = ?WIN_PKT.CHAN_NUM+1     ; Flags
+.DUSR   ?WIN_PKT.PATH         = ?WIN_PKT.FLAGS+2        ; B(Window pathname)
+.DUSR   ?WIN_PKT.PATH_BUF_LEN = ?WIN_PKT.PATH+2         ; Pathname buffer size
+.DUSR   ?WIN_PKT.PATH_LEN     = ?WIN_PKT.PATH_BUF_LEN+1 ; Return pathname len
+.DUSR   ?WIN_PKT.WIND_ID      = ?WIN_PKT.PATH_LEN+1     ; Window ID number
+.DUSR   ?WIN_PKT.SUBPKT       = ?WIN_PKT.WIND_ID+2      ; W(Window subpacket)
+
+.DUSR   ?WIN_PKT_LEN          = ?WIN_PKT.SUBPKT+2       ; Main window packet
+                                                        ; length
+
+;=====================================================
+;       ?WIN_PKT.FUNCTION Window function codes
+;=====================================================
+
+.DUSR   ?WIN_CREATE_WINDOW      = 1.    ;Create a window
+.DUSR   ?WIN_DELETE_WINDOW      = 2.    ;Delete a window
+.DUSR   ?WIN_UPFRONT_WINDOW     = 3.    ;Make a window upfront
+.DUSR   ?WIN_OUTBACK_WINDOW     = 4.    ;Make a window outback
+.DUSR   ?WIN_HIDE_WINDOW        = 5.    ;Make a window invisible
+.DUSR   ?WIN_UNHIDE_WINDOW      = 6.    ;Unhide window
+.DUSR   ?WIN_GET_TITLE          = 7.    ;Retrieve the window title
+.DUSR   ?WIN_SET_TITLE          = 8.    ;Set the window title
+.DUSR   ?WIN_DEFINE_PORTS       = 9.    ;Define the windowing ports
+.DUSR   ?WIN_GET_WINDOW_NAME    = 10.   ;Retrieve window name
+.DUSR   ?WIN_GET_WINDOW_ID      = 11.   ;Retrieve window id
+.DUSR   ?WIN_WINDOW_STATUS      = 12.   ;Retrieve status of a window
+.DUSR   ?WIN_UPFRONT_GROUP      = 13.   ;Make an application active
+.DUSR   ?WIN_OUTBACK_GROUP      = 14.   ;Make an application inactive
+.DUSR   ?WIN_HIDE_GROUP         = 15.   ;Make windows invisible
+.DUSR   ?WIN_UNHIDE_GROUP       = 16.   ;Unhide group
+.DUSR   ?WIN_ENABLE_KEYBOARD    = 17.   ;Enable keyboard
+.DUSR   ?WIN_DISABLE_KEYBOARD   = 18.   ;Disable keyboard
+.DUSR   ?WIN_SET_USER_INTERFACE = 19.   ;Change the operator interface
+.DUSR   ?WIN_GET_USER_INTERFACE = 20.   ;Return operator interface status
+.DUSR   ?WIN_SUSPEND_GROUP      = 21.   ;Suspend group
+.DUSR   ?WIN_UNSUSPEND_GROUP    = 22.   ;Unsuspend group
+.DUSR   ?WIN_PERMANENCE_ON      = 23.   ;Window Permance on
+.DUSR   ?WIN_PERMANENCE_OFF     = 24.   ;Window Permance off
+.DUSR   ?WIN_RETURN_DEVICE_WINDOWS = 25.;Return all windows on consoles.
+.DUSR   ?WIN_RETURN_GROUP_WINDOWS = 26.  ;Return all windows in group
+.DUSR   ?WIN_SUSPEND_WINDOW     = 27.   ;Suspend Window
+.DUSR   ?WIN_UNSUSPEND_WINDOW   = 28.   ;Unsuspend Window
+.DUSR   ?WIN_DEVICE_STATUS      = 29.   ;Get physical device status
+
+.DUSR   ?WIN_FUNC_MIN           = ?WIN_CREATE_WINDOW    ; Minimum func.
+.DUSR   ?WIN_FUNC_MAX           = ?WIN_DEVICE_STATUS+2   ;Maximum Function
+
+
+
+;=====================================================
+;       ?WIN_PKT.FLAGS    Window flags
+;=====================================================
+
+.DUSR   ?WIN_PKT.FLAGS.IN_PATH     = 0.            ; Window pathname
+.DUSR   ?WIN_PKT.FLAGS.IN_WIND_ID  = 1.            ; Window Id
+.DUSR   ?WIN_PKT.FLAGS.IN_CHAN     = 2.              ; Channel
+
+
+
+;===============================================
+;       Create a window Subpacket Definition
+;===============================================
+
+.DUSR   ?WIN_CRE.PKT_ID         = 0                      ; Packet ID
+.DUSR   ?WIN_CRE.FLAGS          = ?WIN_CRE.PKT_ID+2      ; Flags
+.DUSR   ?WIN_CRE.VT_TYPE        = ?WIN_CRE.FLAGS+2       ; Physical console type.DUSR   ?WIN_CRE.VT_SZ.X        = ?WIN_e.DUSR   ?WIN_CRE.VT_SZ.Y        = ?WIN_CRE.VT_SZ.X+2     ;y coord. of vt size
+.DUSR   ?WIN_CRE.TITLE          = ?WIN_CRE.VT_SZ.Y+2     ;B(window title)
+.DUSR   ?WIN_CRE.TITLE_BUF_LEN  = ?WIN_CRE.TITLE+2       ;Size of title buff.
+.DUSR   ?WIN_CRE.PIXEL_DEPTH    = ?WIN_CRE.TITLE_BUF_LEN+1 ;pixel depth
+.DUSR   ?WIN_CRE.INPUT_BUF_SZ   = ?WIN_CRE.PIXEL_DEPTH+1 ; Input buffer size
+.DUSR   ?WIN_CRE.WNAME_BUF_LEN  = ?WIN_CRE.INPUT_BUF_SZ+1;Size of window buff.
+.DUSR   ?WIN_CRE.WNAME          = ?WIN_CRE.WNAME_BUF_LEN+1; Window name
+.DUSR   ?WIN_CRE.PAL_TYPE       = ?WIN_CRE.WNAME+2        ; palette type
+.DUSR   ?WIN_CRE.BORDER_TYPE    = ?WIN_CRE.PAL_TYPE+2     ; border type
+.DUSR   ?WIN_CRE.RSV            = ?WIN_CRE.BORDER_TYPE+1  ; Reserved
+.DUSR   ?WIN_CRE.VIEW_ORG.X     = ?WIN_CRE.RSV+1      ;View origin (x)
+.DUSR   ?WIN_CRE.VIEW_ORG.Y     = ?WIN_CRE.VIEW_ORG.X+2 ;View origin (y)
+
+.DUSR   ?WIN_CRE_LEN_REV1       = ?WIN_CRE.VIEW_ORG.Y+2  ;rev 1 pkt len
+
+;===============================================
+;    ?WIN_CRE.VT_TYPE  , Physical console types
+;===============================================
+
+.DUSR   ?WIN_VT_TYPE_DEFAULT    = 0.    ;system default
+.DUSR   ?WIN_VT_TYPE_D460       = 1.    ;D460 terminal
+.DUSR   ?WIN_VT_TYPE_PIXMAP     = 2.    ;pixel map
+.DUSR   ?WIN_VT_TYPE_PHYSICAL   = 3.    ;physical window
+
+;===============================================
+;    ?WIN_CRE.PAL_TYPE  , PALLETTE TYPES
+;===============================================
+
+.DUSR   ?WIN_PALETTE_TYPE_DEFAULT       = 0.    ;system default
+.DUSR   ?WIN_PALETTE_TYPE_USER          = 2.    ;user defined
+.DUSR   ?WIN_PALETTE_TYPE_SYSTEM        = 3.    ;share system color pal.
+.DUSR   ?WIN_PALETTE_TYPE_SHARED        = 4.    ;share brother windows
+
+;===============================================
+;    ?WIN_CRE.BORDER_TYPE  , BORDER TYPES
+;===============================================
+
+.DUSR   ?WIN_BORDER_TYPE_DEFAULT        = 0.    ;system default
+.DUSR   ?WIN_BORDER_TYPE_NONE           = 1.    ;no border
+.DUSR   ?WIN_BORDER_TYPE_LINE           = 2.    ;line border
+.DUSR   ?WIN_BORDER_TYPE_TITLE          = 3.    ;title border
+.DUSR   ?WIN_BORDER_TYPE_INTELLIGENT    = 4.    ;intelligent border
+
+
+;==============================================
+;    ?WIN_CRE.FLAGS , Flags word
+;==============================================
+
+.DUSR   ?WIN_CRE.FLAGS.NEW_GRP  = 0.                    ; New group is created
+.DUSR   ?WIN_CRE.FLAGS.VT_SZ_X  = 1.                    ; Specify X coordinate
+.DUSR   ?WIN_CRE.FLAGS.VT_SZ_Y  = 2.                    ; Specify Y coordinate
+.DUSR   ?WIN_CRE.FLAGS.INPUT_BUF_SZ = 31.               ; Specify input buffer size
+.DUSR   ?WIN_CRE.FLAGS.PIXEL_DEPTH = 3.                 ; Specify pixel depth
+.DUSR   ?WIN_CRE.FLAGS.CREATE_SON  = 4.                 ; Create a son window
+.DUSR   ?WIN_CRE.FLAGS.VIEW_ORG_X  = 5.                 ; spec view org x
+.DUSR   ?WIN_CRE.FLAGS.VIEW_ORG_Y  = 6.                 ; spec view org y
+.DUSR   ?WIN_CRE.FLAGS.UNHIDE_WINDOW  = 7.              ; Unhide the window
+
+
+;===============================================
+;       Get  window title Subpacket Definition
+;===============================================
+
+.DUSR   ?WIN_GTITLE.PKT_ID        = 0                        ; Packet ID
+.DUSR   ?WIN_GTITLE.TITLE         = ?WIN_GTITLE.PKT_ID+2     ; B(Title string)
+.DUSR   ?WIN_GTITLE.TITLE_BUF_LEN = ?WIN_GTITLE.TITLE+2      ; Size of B(title)
+.DUSR   ?WIN_GTITLE.TITLE_LEN     = ?WIN_GTITLE.TITLE_BUF_LEN+1; Return size of B(title)
+
+.DUSR   ?WIN_GTITLE_LEN           = ?WIN_GTITLE.TITLE_LEN+1     ;Packet length
+
+
+;===============================================
+;       Set window title Subpacket Definition
+;===============================================
+
+.DUSR   ?WIN_STITLE.PKT_ID        = 0                     ; Packet ID
+.DUSR   ?WIN_STITLE.TITLE         = ?WIN_STITLE.PKT_ID+2  ; B(Title string)
+.DUSR   ?WIN_STITLE.TITLE_BUF_LEN = ?WIN_STITLE.TITLE+2   ; Size of B(title)
+.DUSR   ?WIN_STITLE.RSV           = ?WIN_STITLE.TITLE_BUF_LEN+1;Size of return buf
+
+.DUSR   ?WIN_STITLE_LEN           = ?WIN_STITLE.RSV+1      ; Packet length
+
+
+;===============================================
+;       Define ports Subpacket Definition
+;===============================================
+
+.DUSR   ?WIN_DPORT.PKT_ID         = 0                           ; Packet ID
+.DUSR   ?WIN_DPORT.FLAGS          = ?WIN_DPORT.PKT_ID+2         ; Flags word
+.DUSR   ?WIN_DPORT.VIEW_ORG.X     = ?WIN_DPORT.FLAGS+2          ; x, view origin.DUSR   ?WIN_DPORT.VIEW_ORG.Y     = ?WIe.DUSR   ?WIN_DPORT.SCAN_SZ.Y      = ?WIN_DPORT.SCAN_SZ.X+2      ;y,view size
+
+.DUSR   ?WIN_DPORT_LEN            = ?WIN_DPORT.SCAN_SZ.Y+2      ;Packet length
+
+;===============================================
+;       Window Define ports Flags word def.
+;===============================================
+
+.DUSR   ?WIN_DPORT.FLAGS.VIEW_ORG_X =       0.
+.DUSR   ?WIN_DPORT.FLAGS.VIEW_ORG_Y =       1.
+.DUSR   ?WIN_DPORT.FLAGS.SCAN_ORG_X =       2.
+.DUSR   ?WIN_DPORT.FLAGS.SCAN_ORG_Y =       3.
+.DUSR   ?WIN_DPORT.FLAGS.SCAN_SZ_X  =       4.
+.DUSR   ?WIN_DPORT.FLAGS.SCAN_SZ_Y  =       5.
+
+
+
+;===============================================
+;       Window status Subpacket Definition
+;===============================================
+
+.DUSR   ?WIN_STATUS.PKT_ID         = 0                          ; Packet ID
+.DUSR   ?WIN_STATUS.FLAGS          =?WIN_STATUS.PKT_ID+2        ;Flags
+.DUSR   ?WIN_STATUS.VIEW_ORG.X     = ?WIN_STATUS.FLAGS+2        ; x, view origin.DUSR   ?WIN_STATUS.VIEW_ORG.Y     = ?We.DUSR   ?WIN_STATUS.VIEW_SZ.Y      = ?WIN_STATUS.VIEW_SZ.X+2    ;y,view size
+.DUSR   ?WIN_STATUS.SCAN_ORG.X     = ?WIN_STATUS.VIEW_SZ.Y+2    ; x, scan origin.DUSR   ?WIN_STATUS.SCAN_ORG.Y     = ?We.DUSR   ?WIN_STATUS.SCAN_SZ.Y      = ?WIN_STATUS.SCAN_SZ.X+2    ;y,view size
+.DUSR   ?WIN_STATUS.WIND_ORG.X     = ?WIN_STATUS.SCAN_SZ.Y+2    ; x, scan origin.DUSR   ?WIN_STATUS.WIND_ORG.Y     = ?We.DUSR   ?WIN_STATUS.WIND_SZ.Y      = ?WIN_STATUS.WIND_SZ.X+2    ;y,view size
+.DUSR   ?WIN_STATUS.VT_SZ.X        = ?WIN_STATUS.WIND_SZ.Y+2    ;x, vt size
+.DUSR   ?WIN_STATUS.VT_SZ.Y        = ?WIN_STATUS.VT_SZ.X+2      ;y, vt size
+.DUSR   ?WIN_STATUS.VT_TYPE        = ?WIN_STATUS.VT_SZ.Y+2      ;VT type
+.DUSR   ?WIN_STATUS.PIXEL_DEPTH    = ?WIN_STATUS.VT_TYPE+2      ;pixel depth
+.DUSR   ?WIN_STATUS.INPUT_BUF_SZ   = ?WIN_STATUS.PIXEL_DEPTH+1  ;input buffer size
+.DUSR   ?WIN_STATUS.PAL_TYPE       = ?WIN_STATUS.INPUT_BUF_SZ+1 ;palette type
+
+.DUSR   ?WIN_STATUS_LEN_REV1       = ?WIN_STATUS.PAL_TYPE+2    ; Packet Length
+
+
+;===============================================
+;    ?WIN_STATUS.FLAGS , Window states
+;===============================================
+
+.DUSR   ?WIN_STATUS.FLAGS.GRP_HIDDEN  = 0.      ;Group  is invisible
+.DUSR   ?WIN_STATUS.FLAGS.WIND_HIDDEN  = 1.     ;Window is invisible
+.DUSR   ?WIN_STATUS.FLAGS.GRP_SUSPENDED = 2.    ;Group is suspended
+.DUSR   ?WIN_STATUS.FLAGS.WIND_SUSPENDED = 3.   ;Window is suspended
+.DUSR   ?WIN_STATUS.FLAGS.KEYB_ENABLED = 4.     ;Keyboard is enabled
+.DUSR   ?WIN_STATUS.FLAGS.PERM_ON       = 31.   ;Permanence on
+
+;===============================================
+;       Window set operator interface Definition  ?WIN_SET_OPER_INTERFACE
+;===============================================
+
+.DUSR   ?WIN_SINT.PKT_ID                = 0                     ; Packet ID
+.DUSR   ?WIN_SINT.FLAGS                 = ?WIN_SINT.PKT_ID+2    ; Flagsword
+.DUSR   ?WIN_SINT.BORDER_TYPE           = ?WIN_SINT.FLAGS+2     ; Border Type
+.DUSR   ?WIN_SINT.RSV                   = ?WIN_SINT.BORDER_TYPE+1 ;reserved
+.DUSR   ?WIN_SINT_LEN                   = ?WIN_SINT.RSV+1
+
+;===============================================
+;       ?WIN_SINT.FLAGS defined
+;===============================================
+
+.DUSR   ?WIN_SINT.FLAGS.MOVE_X          = 0.            ;move along x axis.
+.DUSR   ?WIN_SINT.FLAGS.MOVE_Y          = 1.            ;move along y axis.
+.DUSR   ?WIN_SINT.FLAGS.SZ_X            = 2.            ;change size x axis
+.DUSR   ?WIN_SINT.FLAGS.SZ_Y            = 3.            ;change size y axis
+.DUSR   ?WIN_SINT.FLAGS.SCROLL_X        = 4.            ;scroll along x axis
+.DUSR   ?WIN_SINT.FLAGS.SCROLL_Y        = 5.            ;scroll along y axis
+.DUSR   ?WIN_SINT.FLAGS.ELEVATORS       = 6.            ;update elevator
+.DUSR   ?WIN_SINT.FLAGS.FULL_REV        = 7.            ;make window full size
+.DUSR   ?WIN_SINT.FLAGS.HELP            = 8.            ;place a help icon on window
+.DUSR   ?WIN_SINT.FLAGS.WIRE_BRDRS      = 9.            ;borders cannot be offscreen
+
+
+;===============================================
+;       Window get operator status Definition  ?WIN_GET_OPER_STATUS
+;===============================================
+
+.DUSR   ?WIN_GINT.PKT_ID                = 0                     ; Packet ID
+.DUSR   ?WIN_GINT.FLAGS                 = ?WIN_GINT.PKT_ID+2    ; Flagsword
+.DUSR   ?WIN_GINT.BORDER_TYPE           = ?WIN_GINT.FLAGS+2     ; Border Type
+.DUSR   ?WIN_GINT.RSV                   = ?WIN_GINT.BORDER_TYPE+1 ;reserved
+.DUSR   ?WIN_GINT_LEN                   = ?WIN_GINT.RSV+1
+
+;===============================================
+;       ?WIN_GINT.FLAGS defined
+;===============================================
+
+.DUSR   ?WIN_GINT.FLAGS.MOVE_X          = 0.            ;move along x axis.
+.DUSR   ?WIN_GINT.FLAGS.MOVE_Y          = 1.            ;move along y axis.
+.DUSR   ?WIN_GINT.FLAGS.SZ_X            = 2.            ;change size x axis
+.DUSR   ?WIN_GINT.FLAGS.SZ_Y            = 3.            ;change size y axis
+.DUSR   ?WIN_GINT.FLAGS.SCROLL_X        = 4.            ;scroll along x axis
+.DUSR   ?WIN_GINT.FLAGS.SCROLL_Y        = 5.            ;scroll along y axis
+.DUSR   ?WIN_GINT.FLAGS.ELEVATORS       = 6.            ;update elevator
+.DUSR   ?WIN_GINT.FLAGS.FULL_REV        = 7.            ;make window full size
+.DUSR   ?WIN_GINT.FLAGS.HELP            = 8.            ;place a help icon on window
+.DUSR   ?WIN_GINT.FLAGS.WIRE_BRDRS      = 9.            ;borders cannot be offscreen
+
+
+
+;===============================================
+;       ?WIN_RETURN_CONSOLE_WINDOWS function
+;===============================================
+
+.DUSR   ?WIN_RTN_DEVWINDS.PKT_ID            = 0                             ;Packet ID
+.DUSR   ?WIN_RTN_DEVWINDS.ARRAY_PKT_ID      = ?WIN_RTN_DEVWINDS.PKT_ID+2        ;Array Pkt ID
+.DUSR   ?WIN_RTN_DEVWINDS.I_NUM_WINDS       = ?WIN_RTN_DEVWINDS.ARRAY_PKT_ID+2  ;Input # winds
+.DUSR   ?WIN_RTN_DEVWINDS.O_NUM_WINDS       = ?WIN_RTN_DEVWINDS.I_NUM_WINDS+2   ;Output # winds
+.DUSR   ?WIN_RTN_DEVWINDS.WIND_BUF          = ?WIN_RTN_DEVWINDS.O_NUM_WINDS+2   ;A(window buf)
+.DUSR   ?WIN_RTN_DEVWINDS_LEN               = ?WIN_RTN_DEVWINDS.WIND_BUF+2
+
+;===============================================
+;       ?WIN_RTN_DEVWINDS.WIND_BUF offsets
+;===============================================
+
+.DUSR   ?WIN_WIND_BUF.WIND_ID           = 0
+.DUSR   ?WIN_WIND_BUF_LEN               = ?WIN_WIND_BUF.WIND_ID+2
+
+;===============================================
+;       ?WIN_RETURN_GROUP_WINDOWS function
+;===============================================
+
+.DUSR   ?WIN_RTN_GRPWINDS.PKT_ID            = 0                             ;Packet ID
+.DUSR   ?WIN_RTN_GRPWINDS.ARRAY_PKT_ID      = ?WIN_RTN_GRPWINDS.PKT_ID+2        ;Array Pkt ID
+.DUSR   ?WIN_RTN_GRPWINDS.I_NUM_WINDS       = ?WIN_RTN_GRPWINDS.ARRAY_PKT_ID+2  ;Input # winds
+.DUSR   ?WIN_RTN_GRPWINDS.O_NUM_WINDS       = ?WIN_RTN_GRPWINDS.I_NUM_WINDS+2   ;Output # winds
+.DUSR   ?WIN_RTN_GRPWINDS.WIND_BUF          = ?WIN_RTN_GRPWINDS.O_NUM_WINDS+2   ;A(window buf)
+.DUSR   ?WIN_RTN_GRPWINDS_LEN               = ?WIN_RTN_GRPWINDS.WIND_BUF+2
+
+
+;=====================================================
+;       Get Physical Device Status   ?WIN_DEVICE_STATUS
+;=====================================================
+
+.DUSR   ?WIN_DEVSTAT.PKT_ID          = 0                            ; Packet ID
+.DUSR   ?WIN_DEVSTAT.SZ.X            = ?WIN_DEVSTAT.PKT_ID+2     ; x coord.
+.DUSR   ?WIN_DEVSTAT.SZ.Y            = ?WIN_DEVSTAT.SZ.X+2       ; y coordelev.
+.DUSR   ?WIN_DEVSTAT.PIXEL_DEPTH    = ?WIN_DEVSTAT.SZ.Y+2        ; event typeelev.
+.DUSR   ?WIN_DEVSTAT.RSV             = ?WIN_DEVSTAT.PIXEL_DEPTH+1;elev loc.
+.DUSR   ?WIN_DEVSTAT.LANG_ID         = ?WIN_DEVSTAT.RSV+1 ;Language id
+.DUSR   ?WIN_DEVSTAT.PTR_TYPE        = ?WIN_DEVSTAT.LANG_ID+1; Pointer type
+.DUSR   ?WIN_DEVSTAT_LEN_REV1        = ?WIN_DEVSTAT.PTR_TYPE+1
+
+
+;===============================================
+;       ?WIN_DEVSTAT.LANG_ID values
+;===============================================
+
+.DUSR   WIN_LANG_ID_NONE         = 0. ;No language ID.
+.DUSR   WIN_LANG_ID_SWISS_FRENCH = 19. ;The language id is Swiss/French.
+.DUSR   WIN_LANG_ID_SWISS_GERMAN = 20. ;The language id is Swiss/German.
+.DUSR   WIN_LANG_ID_CANADA_ENGLISH = 21. ;The language id is Canadian/English.
+.DUSR   WIN_LANG_ID_KATAKANA = 22. ;The language id is Katakana.
+.DUSR   WIN_LANG_ID_ITALIAN = 23.  ;The language id is Italian
+.DUSR   WIN_LANG_ID_CANADA_FRENCH = 24. ;The language id is Canadian/French.
+.DUSR   WIN_LANG_ID_US = 25. ;The language id is United States
+.DUSR   WIN_LANG_ID_UK = 26. ;The language id is United Kingdom.
+.DUSR   WIN_LANG_ID_FRENCH = 27. ;The language id is French.
+.DUSR   WIN_LANG_ID_GERMAN = 28. ;The language id is German.
+.DUSR   WIN_LANG_ID_SWEDISH_FINNISH = 29. ;The language id is Swedish/Finnish
+.DUSR   WIN_LANG_ID_SPANISH = 30.         ;The language id is Spanish
+.DUSR   WIN_LANG_ID_DANISH_NORWEGIAN = 31. ;The language id is Danish/Norwegian
+
+
+;===============================================
+;       ?WIN_DEVSTAT.PTR_TYPE values
+;===============================================
+
+.DUSR   WIN_PTR_TYPE_NONE     = 0. ; no pointer device
+.DUSR   WIN_PTR_TYPE_RELATIVE = 1. ; pointer device is in relative mode.
+.DUSR   WIN_PTR_TYPE_ABSOLUTE = 2. ; pointer device is in absolute mode.
+
+;=======================================================================
+;===             ?PTRDEVICE - Issue pointer device commands to the system
+;===                                                                 ===
+;===              Packet Definition, related flags & function codes  ===
+;=======================================================================
+
+;=================================================
+;            ?PTRDEVICE Main Packet Definitions
+;=================================================
+
+.DUSR   ?PTRDEV_PKT.PKT_ID            = 0                     ; Packet Id
+.DUSR   ?PTRDEV_PKT.FUNC              = ?PTRDEV_PKT.PKT_ID+2; Function code
+.DUSR   ?PTRDEV_PKT.CHAN_NUM          = ?PTRDEV_PKT.FUNC+1  ; channel number
+.DUSR   ?PTRDEV_PKT.FLAGS             = ?PTRDEV_PKT.CHAN_NUM+1; flags word
+.DUSR   ?PTRDEV_PKT.PATH              = ?PTRDEV_PKT.FLAGS+2   ; BP(window pathname)
+.DUSR   ?PTRDEV_PKT.PATH_BUF_LEN      = ?PTRDEV_PKT.PATH+2    ; Size of pathname.DUSR   ?PTRDEV_PKT.PATH_LEN          =e.DUSR   ?PTRDEV_PKT.WIND_ID           = ?PTRDEV_PKT.PATH_LEN+1; Window ID
+.DUSR   ?PTRDEV_PKT.SUBPKT            = ?PTRDEV_PKT.WIND_ID+2 ; W(subpacket)
+
+.DUSR   ?PTRDEV_PKT_LEN               = ?PTRDEV_PKT.SUBPKT+2; Length of ?PTRDEV packet
+
+;=====================================================
+;       ?PTRDEV_PKT.FUNC        function codes
+;=====================================================
+
+.DUSR   ?PTRDEV_SET_EVENTS            = 1.            ; Receive all pointer events
+.DUSR   ?PTRDEV_SET_DELTA             = 2.            ; Alter delta value of pointer device
+.DUSR   ?PTRDEV_LAST_EVENT            = 3.            ; Report last event of pointer
+.DUSR   ?PTRDEV_SET_POINTER           = 4.            ; Set pointer
+.DUSR   ?PTRDEV_GET_PTR_STATUS        = 5.            ; Return status of pointer device
+.DUSR   ?PTRDEV_GENERATE_EVENT        = 6.            ; Mouse input call
+.DUSR   ?PTRDEV_GET_PTR_LOCATION      = 7.            ; Read current pointer location
+.DUSR   ?PTRDEV_GET_TABLET_LOCATION   = 8.            ; Read ptr loc in abs coords
+
+
+
+.DUSR   ?PTRDEV_FUNC_MIN              = ?PTRDEV_SET_EVENTS
+.DUSR   ?PTRDEV_FUNC_MAX              = ?PTRDEV_GET_TABLET_LOCATION
+
+;=====================================================
+;       ?PTRDEV_PKT.FLAGS       flags word
+;=====================================================
+
+.DUSR   ?PTRDEV_PKT.FLAGS.IN_PATH     = 0.            ; Window pathname
+.DUSR   ?PTRDEV_PKT.FLAGS.IN_WIND_ID  = 1.            ; Window Id
+.DUSR   ?PTRDEV_PKT.FLAGS.IN_CHAN     = 2.              ; Channel
+
+;===============================================
+;       Set Pointer Events Subpacket Definitions
+;===============================================
+
+.DUSR   ?PTRDEV_SET_EVTS.PKT_ID         =  0                    ; Packet Id
+.DUSR   ?PTRDEV_SET_EVTS.EVTS           = ?PTRDEV_SET_EVTS.PKT_ID+2;Events
+.DUSR   ?PTRDEV_SET_EVTS.BTNS           = ?PTRDEV_SET_EVTS.EVTS+2
+.DUSR   ?PTRDEV_SET_EVTS_LEN            = ?PTRDEV_SET_EVTS.BTNS+2
+
+;=====================================================
+;       ?PTRDEV_SET_EVTS.EVTS  events defined
+;=====================================================
+
+.DUSR   ?PTRDEV_SET_EVTS.EVTS.MOVEMENT = 0.
+.DUSR   ?PTRDEV_SET_EVTS.EVTS.BTN_DOWN = 1.
+.DUSR   ?PTRDEV_SET_EVTS.EVTS.BTN_UP   = 2.
+.DUSR   ?PTRDEV_SET_EVTS.EVTS.WINDOW   = 3.
+.DUSR   ?PTRDEV_SET_EVTS.EVTS.DBL_CLICK= 4.
+.DUSR   ?PTRDEV_SET_EVTS.EVTS.TAB_MOVEMENT  = 5.
+.DUSR   ?PTRDEV_SET_EVTS.EVTS.TAB_BTN_DOWN  = 6.
+.DUSR   ?PTRDEV_SET_EVTS.EVTS.TAB_BTN_UP    = 7.
+.DUSR   ?PTRDEV_SET_EVTS.EVTS.TAB_DBL_CLICK = 8.
+
+;=====================================================
+;       ?PTRDEV_SET_EVTS.BTNS  events defined
+;=====================================================
+
+.DUSR   ?PTRDEV_SET_EVTS.BTNS.ONE      = 1.
+.DUSR   ?PTRDEV_SET_EVTS.BTNS.TWO      = 2.
+.DUSR   ?PTRDEV_SET_EVTS.BTNS.THREE    = 3.
+
+
+;===============================================
+;       Set Delta  Subpacket Definitions
+;===============================================
+
+.DUSR   ?PTRDEV_SET_DELTA.PKT_ID        =  0                    ; Packet Id
+.DUSR   ?PTRDEV_SET_DELTA.FLAGS         = ?PTRDEV_SET_DELTA.PKT_ID+2;Events
+.DUSR   ?PTRDEV_SET_DELTA.DELTA.X               = ?PTRDEV_SET_DELTA.FLAGS+2 ;delta , x
+.DUSR   ?PTRDEV_SET_DELTA.DELTA.Y               = ?PTRDEV_SET_DELTA.DELTA.X+2     ;delta , y
+
+.DUSR   ?PTRDEV_SET_DELTA_LEN           = ?PTRDEV_SET_DELTA.DELTA.Y+2
+
+;=====================================================
+;       ?PTRDEV_SET_DELTA.FLAGS flags word
+;=====================================================
+
+.DUSR   ?PTRDEV_SET_DELTA.FLAGS.X      = 0.
+.DUSR   ?PTRDEV_SET_DELTA.FLAGS.Y      = 1.
+
+
+;===============================================
+;       Last Events  Subpacket Definitions
+;===============================================
+
+.DUSR   ?PTRDEV_LEVENT.PKT_ID          =  0                    ; Packet Id
+.DUSR   ?PTRDEV_LEVENT.PTR_LOC.X       = ?PTRDEV_LEVENT.PKT_ID+2  ; x loc.
+.DUSR   ?PTRDEV_LEVENT.PTR_LOC.Y       = ?PTRDEV_LEVENT.PTR_LOC.X+2 ; y loc.
+.DUSR   ?PTRDEV_LEVENT.BTN             = ?PTRDEV_LEVENT.PTR_LOC.Y+2 ;button
+.DUSR   ?PTRDEV_LEVENT.EVTS            = ?PTRDEV_LEVENT.BTN+1   ;events
+.DUSR   ?PTRDEV_LEVENT_LEN             = ?PTRDEV_LEVENT.EVTS+1
+
+;=====================================================
+;       ?PTRDEV_LEVENT.EVTS    events defined
+;=====================================================
+
+.DUSR   ?PTRDEV_EVENTS_MOVEMENT = 0.
+.DUSR   ?PTRDEV_EVENTS_BTN_DOWN = 1.
+.DUSR   ?PTRDEV_EVENTS_BTN_UP   = 2.
+.DUSR   ?PTRDEV_EVENTS_ENTER_WINDOW = 3.
+.DUSR   ?PTRDEV_EVENTS_EXIT_WINDOW = 4.
+.DUSR   ?PTRDEV_EVENTS_ACTIVATION = 5.
+.DUSR   ?PTRDEV_EVENTS_DEACTIVATION = 6.
+.DUSR   ?PTRDEV_EVENTS_DBL_CLICK= 7.
+.DUSR   ?PTRDEV_EVENTS_TAB_MOVEMENT  = 8.
+.DUSR   ?PTRDEV_EVENTS_TAB_BTN_DOWN  = 9.
+.DUSR   ?PTRDEV_EVENTS_TAB_BTN_UP    = 10.
+.DUSR   ?PTRDEV_EVENTS_TAB_DBL_CLICK = 11.
+
+
+;===============================================
+;       Set Cursor  Subpacket Definitions
+;===============================================
+
+.DUSR   ?PTRDEV_SET_PTR.PKT_ID          =  0                    ; Packet Id
+.DUSR   ?PTRDEV_SET_PTR.FLAGS           = ?PTRDEV_SET_PTR.PKT_ID+2 ;flagsword
+.DUSR   ?PTRDEV_SET_PTR.SHAPE           = ?PTRDEV_SET_PTR.FLAGS+2  ;PTRsor type
+.DUSR   ?PTRDEV_SET_PTR.STATE           = ?PTRDEV_SET_PTR.SHAPE+1   ;PTRsor state
+.DUSR   ?PTRDEV_SET_PTR_LEN             = ?PTRDEV_SET_PTR.STATE+1  ;length of pkt
+
+;=====================================================
+;       ?PTRDEV_SET_PTR.FLAGS
+;=====================================================
+
+.DUSR   ?PTRDEV_SET_PTR.FLAGS.SHAPE    = 0.
+.DUSR   ?PTRDEV_SET_PTR.FLAGS.STATE    = 1.
+
+
+;=====================================================
+;       PTRsor Types Defined
+;=====================================================
+
+.DUSR   ?PTRDEV_PTR_SHAPE_DEFAULT       = 0.
+.DUSR   ?PTRDEV_PTR_SHAPE_ARROW        = 1.
+.DUSR   ?PTRDEV_PTR_SHAPE_FINGER        = 2.
+.DUSR   ?PTRDEV_PTR_SHAPE_SXHAIR        = 3.
+.DUSR   ?PTRDEV_PTR_SHAPE_FXHAIR        = 4.
+.DUSR   ?PTRDEV_PTR_SHAPE_HOURGLASS     = 5.
+
+;=====================================================
+;       Cursor States Defined
+;=====================================================
+
+.DUSR   ?PTRDEV_PTR_STATE_ENABLE       = 0.
+.DUSR   ?PTRDEV_PTR_STATE_DISABLE      = 1.
+.DUSR   ?PTRDEV_PTR_STATE_DIGITIZED    = 2.
+
+
+;===============================================
+;       Get Cursor Status  Subpacket Definitions
+;===============================================
+
+.DUSR   ?PTRDEV_GSTATUS.PKT_ID          =  0                    ; Packet Id
+.DUSR   ?PTRDEV_GSTATUS.DELTA.X         = ?PTRDEV_GSTATUS.PKT_ID+2 ;x delta
+.DUSR   ?PTRDEV_GSTATUS.DELTA.Y         = ?PTRDEV_GSTATUS.DELTA.X+2;y delta
+.DUSR   ?PTRDEV_GSTATUS.EVTS            = ?PTRDEV_GSTATUS.DELTA.Y+2;events
+.DUSR   ?PTRDEV_GSTATUS.BTNS            = ?PTRDEV_GSTATUS.EVTS+2
+.DUSR   ?PTRDEV_GSTATUS.PTR_SHAPE       = ?PTRDEV_GSTATUS.BTNS+2 ; cursor type
+.DUSR   ?PTRDEV_GSTATUS.PTR_STATE       = ?PTRDEV_GSTATUS.PTR_SHAPE+1 ; PTRsor state
+.DUSR   ?PTRDEV_GSTATUS_LEN_REV1        = ?PTRDEV_GSTATUS.PTR_STATE+1 ;length of packet
+
+;=====================================================
+;       ?PTRDEV_GSTATUS.EVTS   events defined
+;=====================================================
+
+.DUSR   ?PTRDEV_GSTATUS.EVTS.MOVEMENT = 0.
+.DUSR   ?PTRDEV_GSTATUS.EVTS.BTN_DOWN = 1
+.DUSR   ?PTRDEV_GSTATUS.EVTS.BTN_UP   = 2.
+.DUSR   ?PTRDEV_GSTATUS.EVTS.WINDOW   = 3.
+.DUSR   ?PTRDEV_GSTATUS.EVTS.DBL_CLICK= 4.
+.DUSR   ?PTRDEV_GSTATUS.EVTS.TAB_MOVEMENT  = 5.
+.DUSR   ?PTRDEV_GSTATUS.EVTS.TAB_BTN_DOWN  = 6.
+.DUSR   ?PTRDEV_GSTATUS.EVTS.TAB_BTN_UP    = 7.
+.DUSR   ?PTRDEV_GSTATUS.EVTS.TAB_DBL_CLICK = 8.
+
+;=====================================================
+;       ?PTRDEV_GSTATUS.BTNS  events defined
+;=====================================================
+
+.DUSR   ?PTRDEV_GSTATUS.BTNS.ONE      = 1.
+.DUSR   ?PTRDEV_GSTATUS.BTNS.TWO      = 2.
+.DUSR   ?PTRDEV_GSTATUS.BTNS.THREE    = 3.
+
+
+;===============================================
+;       Input  Subpacket Definitions
+;===============================================
+
+.DUSR   ?PTRDEV_GEN_EVENT.PKT_ID        =  0                    ; Packet Id
+.DUSR   ?PTRDEV_GEN_EVENT.FLAGS         = ?PTRDEV_GEN_EVENT.PKT_ID+2 ; Flags
+.DUSR   ?PTRDEV_GEN_EVENT.EVENT         = ?PTRDEV_GEN_EVENT.FLAGS+2  ; Event
+.DUSR   ?PTRDEV_GEN_EVENT.BUTTON        = ?PTRDEV_GEN_EVENT.EVENT+1  ; Button
+.DUSR   ?PTRDEV_GEN_EVENT.POS.X = ?PTRDEV_GEN_EVENT.BUTTON+1 ; pos., x
+.DUSR   ?PTRDEV_GEN_EVENT.POS.Y = ?PTRDEV_GEN_EVENT.POS.X+2      ; pos., y
+
+.DUSR   ?PTRDEV_GEN_EVENT_LEN           = ?PTRDEV_GEN_EVENT.POS.Y+2
+
+;=====================================================
+;       ?PTRDEV_GEN_EVENT.FLAGS flags word
+;=====================================================
+
+.DUSR   ?PTRDEV_GEN_EVENT.FLAGS.X      = 0.
+.DUSR   ?PTRDEV_GEN_EVENT.FLAGS.Y      = 1.
+.DUSR   ?PTRDEV_GEN_EVENT.FLAGS.VIRTUAL = 2.
+.DUSR   ?PTRDEV_GEN_EVENT.FLAGS.PHYSICAL = 3.
+
+;=====================================================
+;       ?PTRDEV_GET_PTR_LOCATION packet definition
+;=====================================================
+
+.DUSR   ?PTRDEV_GET_LOC.PKT_ID  = 0.
+.DUSR   ?PTRDEV_GET_LOC.LOC.X   = ?PTRDEV_GET_LOC.PKT_ID+2.
+.DUSR   ?PTRDEV_GET_LOC.LOC.Y   = ?PTRDEV_GET_LOC.LOC.X+2.
+.DUSR   ?PTRDEV_GET_LOC.BTNS    = ?PTRDEV_GET_LOC.LOC.Y+2.
+.DUSR   ?PTRDEV_GET_LOC_LEN     = ?PTRDEV_GET_LOC.BTNS+2.
+
+;=====================================================
+;       ?PTRDEV_GET_TABLET_LOCATION packet definition
+;=====================================================
+
+.DUSR   ?PTRDEV_GET_TABLOC.PKT_ID  = 0.
+.DUSR   ?PTRDEV_GET_TABLOC.LOC.X   = ?PTRDEV_GET_TABLOC.PKT_ID+2.
+.DUSR   ?PTRDEV_GET_TABLOC.LOC.Y   = ?PTRDEV_GET_TABLOC.LOC.X+2.
+.DUSR   ?PTRDEV_GET_TABLOC.BTNS    = ?PTRDEV_GET_TABLOC.LOC.Y+2.
+.DUSR   ?PTRDEV_GET_TABLOC_LEN     = ?PTRDEV_GET_TABLOC.BTNS+2.
+
+
+;=======================================================================
+;===             ?GRAPH - Perform graphics operations on pixel maps  ===
+;===                                                                 ===
+;===              Packet Definition, related flags & function codes  ===
+;=======================================================================
+
+;=================================================
+;            ?GRAPH Main Packet Definitions
+;=================================================
+
+.DUSR   ?GRAPH_PKT.PKT_ID            = 0                     ; Packet Id
+.DUSR   ?GRAPH_PKT.FUNC              = ?GRAPH_PKT.PKT_ID+2   ; Function code
+.DUSR   ?GRAPH_PKT.RSV               = ?GRAPH_PKT.FUNC+1     ; reserved
+.DUSR   ?GRAPH_PKT.PIXMAP_ID         = ?GRAPH_PKT.RSV+1      ; Pixel Map ID
+.DUSR   ?GRAPH_PKT.SUBPKT            = ?GRAPH_PKT.PIXMAP_ID+2 ; W(subpacket)
+
+.DUSR   ?GRAPH_PKT_LEN               = ?GRAPH_PKT.SUBPKT+2; Length of ?GRAPH packet
+
+;=====================================================
+;       ?GRAPH_PKT.FUNC        function codes
+;=====================================================
+
+.DUSR   ?GRAPH_OPEN_WINDOW_PIXELMAP     = 1.            ; Open graphics window
+.DUSR   ?GRAPH_CREATE_MEMORY_PIXELMAP   = 2.            ; Create pixelmap
+.DUSR   ?GRAPH_PIXELMAP_STATUS          = 3.            ; Get pixelmap status
+.DUSR   ?GRAPH_CLOSE_PIXELMAP           = 4.            ; Close pixelmap
+.DUSR   ?GRAPH_READ_PALETTE             = 5.            ; Read palette
+.DUSR   ?GRAPH_WRITE_PALETTE            = 6.            ; Write palette
+.DUSR   ?GRAPH_SET_CLIP_RECTANGLE       = 7.            ; Set Clip rectangle
+.DUSR   ?GRAPH_MAP_PIXELMAP             = 8.            ; Map pixelmap
+.DUSR   ?GRAPH_UNMAP_PIXELMAP           = 9.            ; Unmap pixelmap
+.DUSR   ?GRAPH_SET_DRAW_ORIGIN          = 10.           ; Set draw origin
+.DUSR   ?GRAPH_GET_DRAW_ORIGIN          = 11.           ; Get draw origin
+
+.DUSR   ?GRAPH_FUNC_MIN                 = ?GRAPH_OPEN_WINDOW_PIXELMAP
+.DUSR   ?GRAPH_FUNC_MAX                 = ?GRAPH_GET_DRAW_ORIGIN
+
+
+
+;===============================================
+;       Open graphics window  Subpacket Definitions.
+;===============================================
+
+.DUSR   ?GRAPH_OPEN.PKT_ID               =  0                      ; Packet Id
+.DUSR   ?GRAPH_OPEN.RSV                  = ?GRAPH_OPEN.PKT_ID+2     ;Flags
+.DUSR   ?GRAPH_OPEN.CHAN_NUM             = ?GRAPH_OPEN.RSV+1       ;ret. len
+.DUSR   ?GRAPH_OPEN.FLAGS                = ?GRAPH_OPEN.CHAN_NUM+1  ;flagsword
+.DUSR   ?GRAPH_OPEN.PATH                 = ?GRAPH_OPEN.FLAGS+2     ;pathname
+.DUSR   ?GRAPH_OPEN.PATH_BUF_LEN         = ?GRAPH_OPEN.PATH+2      ;len of pathname
+.DUSR   ?GRAPH_OPEN.PATH_LEN             = ?GRAPH_OPEN.PATH_BUF_LEN+1
+.DUSR   ?GRAPH_OPEN.WIND_ID              = ?GRAPH_OPEN.PATH_LEN+1  ;window ID
+.DUSR   ?GRAPH_OPEN_LEN                  = ?GRAPH_OPEN.WIND_ID+2
+
+;===============================================
+;       ?GRAPH_OPEN.FLAGS defined
+;===============================================
+
+.DUSR   ?GRAPH_OPEN.FLAGS.IN_PATH       = 0.
+.DUSR   ?GRAPH_OPEN.FLAGS.IN_WIND_ID    = 1.
+.DUSR   ?GRAPH_OPEN.FLAGS.IN_CHAN       = 2.
+.DUSR   ?GRAPH_OPEN.FLAGS.READ_ONLY     = 4.
+
+;===============================================
+;       Create pixel map Subpacket Definitions.
+;===============================================
+
+.DUSR   ?GRAPH_CRE.PKT_ID               =  0                      ; Packet Id
+.DUSR   ?GRAPH_CRE.PIXMAP_SZ.X          = ?GRAPH_CRE.PKT_ID+2  ;Width of pixel map
+.DUSR   ?GRAPH_CRE.PIXMAP_SZ.Y          = ?GRAPH_CRE.PIXMAP_SZ.X+2;Heigth of pixelmap
+.DUSR   ?GRAPH_CRE.PIXEL_DEPTH          = ?GRAPH_CRE.PIXMAP_SZ.Y+2
+.DUSR   ?GRAPH_CRE_LEN_REV1             = ?GRAPH_CRE.PIXEL_DEPTH+2
+
+;=====================================================
+;       ?GRAPH_PIXELMAP_STATUS subpacket
+;=====================================================
+
+.DUSR   ?GRAPH_PIXSTAT.PKT_ID      = 0.                             ;Packet ID
+.DUSR   ?GRAPH_PIXSTAT.SZ.X        = ?GRAPH_PIXSTAT.PKT_ID+2    ;x coord, size
+.DUSR   ?GRAPH_PIXSTAT.SZ.Y        = ?GRAPH_PIXSTAT.SZ.X+2      ;Y coord, size
+.DUSR   ?GRAPH_PIXSTAT.PIXEL_DEPTH = ?GRAPH_PIXSTAT.SZ.Y+2      ; Pixel Depth
+.DUSR   ?GRAPH_PIXSTAT.CLIP_ORG.X  = ?GRAPH_PIXSTAT.PIXEL_DEPTH+2
+.DUSR   ?GRAPH_PIXSTAT.CLIP_ORG.Y  = ?GRAPH_PIXSTAT.CLIP_ORG.X+2
+.DUSR   ?GRAPH_PIXSTAT.CLIP_SZ.X   = ?GRAPH_PIXSTAT.CLIP_ORG.Y+2
+.DUSR   ?GRAPH_PIXSTAT.CLIP_SZ.Y   = ?GRAPH_PIXSTAT.CLIP_SZ.X+2
+.DUSR   ?GRAPH_PIXSTAT.CLIP_STATE  = ?GRAPH_PIXSTAT.CLIP_SZ.Y+2
+.DUSR   ?GRAPH_PIXSTAT.RSV         = ?GRAPH_PIXSTAT.CLIP_STATE+1
+.DUSR   ?GRAPH_PIXSTAT_LEN         = ?GRAPH_PIXSTAT.RSV+1
+
+;=====================================================
+;       ?GRAPH_PIXSTAT.CLIP_STATE fields
+;=====================================================
+
+.DUSR   ?GRAPH_CLIP_STATE_ENABLE        = 0.
+.DUSR   ?GRAPH_CLIP_STATE_DISABLE       = 1.
+
+
+;=====================================================
+;       ?GRAPH_READ_PALETTE subpacket
+;=====================================================
+
+.DUSR   ?GRAPH_RDPAL.PKT_ID            = 0                             ;Packet Id
+.DUSR   ?GRAPH_RDPAL.ARRAY_PKT_ID      = ?GRAPH_RDPAL.PKT_ID+2
+.DUSR   ?GRAPH_RDPAL.FIRST_PAL_INDEX   = ?GRAPH_RDPAL.ARRAY_PKT_ID+2 ;First palette entry
+.DUSR   ?GRAPH_RDPAL.ENTRY_CNT         = ?GRAPH_RDPAL.FIRST_PAL_INDEX+2;palette entry count
+.DUSR   ?GRAPH_RDPAL.PH0_ARRAY         = ?GRAPH_RDPAL.ENTRY_CNT+2     ;phase 0 array
+.DUSR   ?GRAPH_RDPAL.PH1_ARRAY         = ?GRAPH_RDPAL.PH0_ARRAY+2     ;phase 1 array
+.DUSR   ?GRAPH_RDPAL_LEN               = ?GRAPH_RDPAL.PH1_ARRAY+2
+
+;=====================================================
+;       ?GRAPH_RSPAL.(PH0 PH1)_ARRAY palette contents
+;=====================================================
+
+.DUSR   ?GRAPH_PALETTE.RED             = 0                     ;red level
+.DUSR   ?GRAPH_PALETTE.GREEN           = ?GRAPH_PALETTE.RED+2 ;green level
+.DUSR   ?GRAPH_PALETTE.BLUE            = ?GRAPH_PALETTE.GREEN+2 ;blue level
+.DUSR   ?GRAPH_PALETTE.GREY            = ?GRAPH_PALETTE.BLUE+2 ;grey level
+.DUSR   ?GRAPH_PALETTE_LEN             = ?GRAPH_PALETTE.GREY+2
+
+;=====================================================
+;       ?GRAPH_WRITE_PALETTE subpacket
+;=====================================================
+
+.DUSR   ?GRAPH_WRPAL.PKT_ID            = 0                             ;Packet Id
+.DUSR   ?GRAPH_WRPAL.ARRAY_PKT_ID      = ?GRAPH_WRPAL.PKT_ID+2
+.DUSR   ?GRAPH_WRPAL.FIRST_PAL_INDEX   = ?GRAPH_WRPAL.ARRAY_PKT_ID+2  ;First palette entry
+.DUSR   ?GRAPH_WRPAL.ENTRY_CNT         = ?GRAPH_WRPAL.FIRST_PAL_INDEX+2;palette entry count
+.DUSR   ?GRAPH_WRPAL.PH0_ARRAY         = ?GRAPH_WRPAL.ENTRY_CNT+2     ;phase 0 array
+.DUSR   ?GRAPH_WRPAL.PH1_ARRAY         = ?GRAPH_WRPAL.PH0_ARRAY+2     ;phase 1 array
+.DUSR   ?GRAPH_WRPAL_LEN               = ?GRAPH_WRPAL.PH1_ARRAY+2
+
+
+;=====================================================
+;       ?GRAPH_SET_CLIP_RECT subpacket
+;=====================================================
+
+.DUSR   ?GRAPH_SET_CLIP.PKT_ID      = 0.                             ;Packet ID
+.DUSR   ?GRAPH_SET_CLIP.FLAGS       = ?GRAPH_SET_CLIP.PKT_ID+2    ;flags
+.DUSR   ?GRAPH_SET_CLIP.ORG.X       = ?GRAPH_SET_CLIP.FLAGS+2
+.DUSR   ?GRAPH_SET_CLIP.ORG.Y       = ?GRAPH_SET_CLIP.ORG.X+2
+.DUSR   ?GRAPH_SET_CLIP.SZ.X        = ?GRAPH_SET_CLIP.ORG.Y+2
+.DUSR   ?GRAPH_SET_CLIP.SZ.Y        = ?GRAPH_SET_CLIP.SZ.X+2
+.DUSR   ?GRAPH_SET_CLIP.STATE       = ?GRAPH_SET_CLIP.SZ.Y+2
+.DUSR   ?GRAPH_SET_CLIP.RSV         = ?GRAPH_SET_CLIP.STATE+1
+.DUSR   ?GRAPH_SET_CLIP_LEN         = ?GRAPH_SET_CLIP.RSV+1
+
+;===============================================
+;       ?GRAPH_SET_CLIP.FLAGS  defined
+;===============================================
+
+.DUSR   ?GRAPH_SET_CLIP.FLAGS.ORG_X          = 0.
+.DUSR   ?GRAPH_SET_CLIP.FLAGS.ORG_Y          = 1.
+.DUSR   ?GRAPH_SET_CLIP.FLAGS.SZ_X           = 2.
+.DUSR   ?GRAPH_SET_CLIP.FLAGS.SZ_Y           = 3.
+.DUSR   ?GRAPH_SET_CLIP.FLAGS.STATE          = 4.
+;=====================================================
+;       ?GRAPH_MAP_PIXELMAP  subpacket
+;=====================================================
+
+.DUSR   ?GRAPH_MAP_PMAP.PKT_ID      = 0.                             ;Packet ID
+.DUSR   ?GRAPH_MAP_PMAP.ADDR        = ?GRAPH_MAP_PMAP.PKT_ID+2
+.DUSR   ?GRAPH_MAP_PMAP.PITCH_X     = ?GRAPH_MAP_PMAP.ADDR+2
+.DUSR   ?GRAPH_MAP_PMAP.PITCH_Y     = ?GRAPH_MAP_PMAP.PITCH_X+2
+.DUSR   ?GRAPH_MAP_PMAP.FORMAT      = ?GRAPH_MAP_PMAP.PITCH_Y+2
+.DUSR   ?GRAPH_MAP_PMAP_LEN         = ?GRAPH_MAP_PMAP.FORMAT+2
+
+;=====================================================
+;       ?GRAPH_SET_DRAW_ORIGIN subpacket
+;=====================================================
+
+.DUSR   ?GRAPH_SET_ORG.PKT_ID       = 0.
+.DUSR   ?GRAPH_SET_ORG.ORG.X        = ?GRAPH_SET_ORG.PKT_ID+2
+.DUSR   ?GRAPH_SET_ORG.ORG.Y        = ?GRAPH_SET_ORG.ORG.X+2
+.DUSR   ?GRAPH_SET_ORG_LEN          = ?GRAPH_SET_ORG.ORG.Y+2
+
+;=====================================================
+;       ?GRAPH_GET_DRAW_ORIGIN subpacket
+;=====================================================
+
+.DUSR   ?GRAPH_GET_ORG.PKT_ID       = 0.
+.DUSR   ?GRAPH_GET_ORG.ORG.X        = ?GRAPH_GET_ORG.PKT_ID+2
+.DUSR   ?GRAPH_GET_ORG.ORG.Y        = ?GRAPH_GET_ORG.ORG.X+2
+.DUSR   ?GRAPH_GET_ORG_LEN          = ?GRAPH_GET_ORG.ORG.Y+2
+
+
+;**********************************************************************
+;       PARAMETERS FOR THE AOS/VS MULTIPROCESSOR SYSTEM CALLS
+;**********************************************************************
+
+;=======================================================================
+;       VS/MP PARAMETERS GENERAL TO SEVERAL CALLS
+;=======================================================================
+
+.DUSR   ?JPID_MIN       = 0.                    ;Minimum JPID value
+.DUSR   ?JPID_MAX       = 15.                   ;Maximum JPID value
+
+.DUSR   ?LPID_MIN       = 0.                    ;Minimum LPID value
+.DUSR   ?LPID_MAX       = 15.                   ;Maximum LPID value
+
+.DUSR   ?CLASS_ID_MIN   = 0.                    ;Minimum Class ID
+.DUSR   ?CLASS_ID_MAX   = 15.                   ;Maximum Class ID
+.DUSR   ?CLASS_COUNT    = 16.                   ;Number of classes
+
+.DUSR   ?USER_LOC_MIN   = 0.                    ;Minimum user locality
+.DUSR   ?USER_LOC_MAX   = 15.                   ;Maximum user locality
+.DUSR   ?PROG_LOC_MIN   = 0.                    ;Min program locality
+.DUSR   ?PROG_LOC_MAX   = 15.                   ;Max program locality
+
+;=======================================================================
+;                       ?JPINIT PACKET
+;=======================================================================
+
+.DUSR   ?JPI_PKT.PKT_ID =0                      ;Packet ID
+.DUSR   ?JPI_PKT.FUNC   =?JPI_PKT.PKT_ID+2      ;Unused
+.DUSR   ?JPI_PKT.FLAGS  =?JPI_PKT.FUNC+1        ;Flags
+.DUSR   ?JPI_PKT.JPID   =?JPI_PKT.FLAGS+1       ;JPID
+.DUSR   ?JPI_PKT.LPID   =?JPI_PKT.JPID+1        ;LPID
+.DUSR   ?JPI_PKT.UC_OPTS=?JPI_PKT.LPID+1        ;U-code options
+.DUSR   ?JPI_PKT.UC_NAME=?JPI_PKT.UC_OPTS+1     ;U-code BP
+.DUSR   ?JPI_PKT.UC_SZ  =?JPI_PKT.UC_NAME+2     ;U-code string size
+
+.DUSR   ?JPI_PKT_LEN    =?JPI_PKT.UC_SZ+1       ;Packet length
+
+;?JPI_PKT.FLAGS BIT DEFINITIONS
+
+.DUSR   ?JPI_PKT.FLAGS_IN_UC    = 0.            ;U-code BP provided
+.DUSR   ?JPI_PKT.FLAGS_EX_UC    = 1.            ;Use existing U-code
+
+;?JPI_PKT.FLAGS BIT POINTERS
+
+.DUSR   ?JPI_PKT.BPFLAGS_IN_UC =(?JPI_PKT.FLAGS*16.)+?JPI_PKT.FLAGS_IN_UC
+                                                ;U-code BP supplied
+
+.DUSR   ?JPI_PKT.BPFLAGS_EX_UC =(?JPI_PKT.FLAGS*16.)+?JPI_PKT.FLAGS_EX_UC
+                                                ;Use existing u-code
+
+;=======================================================================
+;                       ?JPREL PACKET
+;=======================================================================
+
+.DUSR   ?JPR_PKT.PKT_ID =0                      ;Packet ID
+.DUSR   ?JPR_PKT.FUNC   =?JPR_PKT.PKT_ID+2      ;Unused
+.DUSR   ?JPR_PKT.FLAGS  =?JPR_PKT.FUNC+1        ;Flags
+.DUSR   ?JPR_PKT.JPID   =?JPR_PKT.FLAGS+1       ;JPID
+
+.DUSR   ?JPR_PKT_LEN    =?JPR_PKT.JPID+1        ;Packet length
+
+;?JPR_PKT.FLAGS BIT DEFINITIONS
+
+.DUSR   ?JPR_PKT.FLAGS_LJPID    = 0.            ;Return an error if JP
+                                                ;is last on on LP
+
+;?JPR_PKT.FLAGS BIT POINTERS
+
+.DUSR   ?JPR_PKT.BPFLAGS_IN_UC =(?JPR_PKT.FLAGS*16.)+?JPR_PKT.FLAGS_LJPID
+                                                ;Last JP on LP error
+
+;=======================================================================
+;                       ?JPMOV PACKET
+;=======================================================================
+
+.DUSR   ?JPM_PKT.PKT_ID =0                      ;Packet ID
+.DUSR   ?JPM_PKT.FUNC   =?JPM_PKT.PKT_ID+2      ;Unused
+.DUSR   ?JPM_PKT.FLAGS  =?JPM_PKT.FUNC+1        ;Flags
+.DUSR   ?JPM_PKT.JPID   =?JPM_PKT.FLAGS+1       ;JPID
+.DUSR   ?JPM_PKT.LPID   =?JPM_PKT.JPID+1        ;LPID to move to
+
+.DUSR   ?JPM_PKT_LEN    =?JPM_PKT.LPID+1        ;Packet length
+
+;?JPM_PKT.FLAGS BIT DEFINITIONS
+
+.DUSR   ?JPM_PKT.FLAGS_LJPID    = 0.            ;Return an error if JP
+                                                ;is last on on LP
+
+;?JPM_PKT.FLAGS BIT POINTERS
+
+.DUSR   ?JPM_PKT.BPFLAGS_LJPID =(?JPM_PKT.FLAGS*16.)+?JPM_PKT.FLAGS_LJPID
+                                                ;Last JP on LP error
+
+;=======================================================================
+;                       ?JPSTAT PACKET
+;=======================================================================
+
+.DUSR   ?JPS_PKT.PKT_ID =0                      ;Packet ID
+.DUSR   ?JPS_PKT.FUNC   =?JPS_PKT.PKT_ID+2      ;Function code
+.DUSR   ?JPS_PKT.SUBPKT =?JPS_PKT.FUNC+1        ;W(subpacket)
+
+.DUSR   ?JPS_PKT_LEN    =?JPS_PKT.SUBPKT+2      ;Packet length
+
+;?JPSTAT SUBPACKET CODES (?JPS_PKT.FUNC)
+
+.DUSR   ?JPS_GEN        = 0.                    ;General status packet
+.DUSR   ?JPS_SPEC       = 1.                    ;Specific status packet
+
+.DUSR   ?JPS_FUNC_MIN   = ?JPS_GEN              ;Minimum function code
+.DUSR   ?JPS_FUNC_MAX   = ?JPS_SPEC             ;Maximum function code
+
+;?JPSTAT GENERAL SUBPACKET (?JPS_GEN)
+
+.DUSR   ?JPS_GEN.PKT_ID =0                      ;Packet ID
+.DUSR   ?JPS_GEN.JPCNT  =?JPS_GEN.PKT_ID+2      ;Number of JPs init'ed
+.DUSR   ?JPS_GEN.JPMAP  =?JPS_GEN.JPCNT+1       ;Bit map of init'ed JPs
+
+.DUSR   ?JPS_GEN_LEN    =?JPS_GEN.JPMAP+2       ;Subpacket length
+
+;?JPSTAT SPECIFIC SUBPACKET (?JPS_SPEC)
+
+.DUSR   ?JPS_SPEC.PKT_ID=0                      ;Packet ID
+.DUSR   ?JPS_SPEC.JPID  =?JPS_SPEC.PKT_ID+2     ;JPID
+.DUSR   ?JPS_SPEC.STATE =?JPS_SPEC.JPID+1       ;JP's state
+.DUSR   ?JPS_SPEC.STATUS=?JPS_SPEC.STATE+1      ;JP's status bits
+.DUSR   ?JPS_SPEC.MODEL =?JPS_SPEC.STATUS+2     ;JP model number
+.DUSR   ?JPS_SPEC.UC_REV=?JPS_SPEC.MODEL+1      ;JP u-code rev #
+.DUSR   ?JPS_SPEC.FLAGS =?JPS_SPEC.UC_REV+1     ;Flag bits
+.DUSR   ?JPS_SPEC.LPID  =?JPS_SPEC.FLAGS+1      ;Associated LPID
+
+.DUSR   ?JPS_SPEC_LEN   =?JPS_SPEC.LPID+1       ;Subpacket length
+
+;?JPS_SPEC.FLAGS BIT DEFINITIONS
+
+.DUSR   ?JPS_SPEC.FLAGS_MOM     = 0.            ;JP is mother processor
+.DUSR   ?JPS_SPEC.FLAGS_SYSTSK  = 1.            ;JP running system task
+
+;?JPS_SPEC.FLAGS BIT POINTERS
+
+.DUSR   ?JPS_SPEC.BPFLAGS_MOM  = (?JPS_SPEC.FLAGS*16.)+?JPS_SPEC.FLAGS_MOM
+                                                ;JP is mother
+
+.DUSR   ?JPS_SPEC.BPFLAGS_SYSTSK =(?JPS_SPEC.FLAGS*16.)+?JPS_SPEC.FLAGS_SYSTSK
+                                                ;JP running systsk
+
+;=======================================================================
+;                       ?LPCRE PACKET
+;=======================================================================
+
+.DUSR   ?LPC_PKT.PKT_ID =0                      ;Packet ID
+.DUSR   ?LPC_PKT.FUNC   =?LPC_PKT.PKT_ID+2      ;Unused
+.DUSR   ?LPC_PKT.LPID   =?LPC_PKT.FUNC+1        ;LPID
+
+.DUSR   ?LPC_PKT_LEN    =?LPC_PKT.LPID+1        ;Packet length
+
+;=======================================================================
+;                       ?LPDEL PACKET
+;=======================================================================
+
+.DUSR   ?LPD_PKT.PKT_ID =0                      ;Packet ID
+.DUSR   ?LPD_PKT.FUNC   =?LPD_PKT.PKT_ID+2      ;Unused
+.DUSR   ?LPD_PKT.LPID   =?LPD_PKT.FUNC+1        ;LPID
+
+.DUSR   ?LPD_PKT_LEN    =?LPD_PKT.LPID+1        ;Packet length
+
+;=======================================================================
+;                       ?LPSTAT PACKET
+;=======================================================================
+
+.DUSR   ?LPS_PKT.PKT_ID =0                      ;Packet ID
+.DUSR   ?LPS_PKT.FUNC   =?LPS_PKT.PKT_ID+2      ;Function code
+.DUSR   ?LPS_PKT.SUBPKT =?LPS_PKT.FUNC+1        ;W(subpacket)
+
+.DUSR   ?LPS_PKT_LEN    =?LPS_PKT.SUBPKT+2      ;Packet length
+
+;?LPSTAT SUBPACKET CODES (?LPS_PKT.FUNC)
+
+.DUSR   ?LPS_GEN        = 0.                    ;General status packet
+.DUSR   ?LPS_SPEC       = 1.                    ;Specific status packet
+
+.DUSR   ?LPS_FUNC_MIN   = ?LPS_GEN              ;Minimum function code
+.DUSR   ?LPS_FUNC_MAX   = ?LPS_SPEC             ;Maximum function code
+
+;?LPSTAT GENERAL SUBPACKET (?LPS_GEN)
+
+.DUSR   ?LPS_GEN.PKT_ID =0                      ;Packet ID
+.DUSR   ?LPS_GEN.LPCNT  =?LPS_GEN.PKT_ID+2      ;Number of LPs
+.DUSR   ?LPS_GEN.LPMAP  =?LPS_GEN.LPCNT+1       ;Bit map of LPs
+
+.DUSR   ?LPS_GEN_LEN    =?LPS_GEN.LPMAP+2       ;Subpacket length
+
+;?LPSTAT SPECIFIC SUBPACKET (?LPS_SPEC)
+
+.DUSR   ?LPS_SPEC.PKT_ID=0                      ;Packet ID
+.DUSR   ?LPS_SPEC.LPID  =?LPS_SPEC.PKT_ID+2     ;LPID
+.DUSR   ?LPS_SPEC.JPCNT =?LPS_SPEC.LPID+1       ;# JPs attached
+.DUSR   ?LPS_SPEC.JPMAP =?LPS_SPEC.JPCNT+1      ;Bit map of attached JPs
+
+.DUSR   ?LPS_SPEC_LEN   =?LPS_SPEC.JPMAP+2      ;Subpacket length
+
+;=======================================================================
+;                       ?LPCLASS PACKET
+;=======================================================================
+
+.DUSR   ?LPCL_PKT.PKT_ID=0                      ;Packet ID
+.DUSR   ?LPCL_PKT.FUNC  =?LPCL_PKT.PKT_ID+2     ;Unused
+.DUSR   ?LPCL_PKT.GETSET=?LPCL_PKT.FUNC+1       ;Get/Set code
+.DUSR   ?LPCL_PKT.LPID  =?LPCL_PKT.GETSET+1     ;LPID
+.DUSR   ?LPCL_PKT.TIME  =?LPCL_PKT.LPID+1       ;Time interval
+.DUSR   ?LPCL_PKT.BASE  =?LPCL_PKT.TIME+1       ;Base for the 16. class
+                                                ;declarations
+.DUSR   ?LPCL_PKT_LEN   =?LPCL_PKT.BASE+?CLASS_COUNT
+                                ;Packet length is the base plus
+                                ;?CLASS_COUNT hier/perc pairs
+
+;MAXIMUM AND MINIMUM TIME INTERVAL VALUES (IN TENTHS OF A SECOND).
+
+.DUSR   ?LPCL_PKT.TIME_MIN = 1.         ;Time interval minimum
+.DUSR   ?LPCL_PKT.TIME_MAX = 100.       ;Time interval maximum
+
+;DEFAULT TIME INTERVAL VALUE (IN TENTHS OF A SECOND).  THIS IS THE
+;TIME INTERVAL THAT AOS/VS ASSIGNS BY DEFAULT AT LP CREATE TIME.
+
+.DUSR   ?LPCL_PKT.TIME_DEF = 40.        ;Default interval = 4 seconds
+
+;HIERARCHICAL LEVEL / CLASS PERCENTAGE MASKS
+;HIERARCHICAL LEVEL DECLARATIONS AND CLASS PERCENTAGES ARE PACKED INTO
+;BYTES OF THE SAME WORD.  HIERARCHICAL CLASS APPEARS IN THE FIRST (LEFT)
+;CLASS PERCENTAGE IS IN THE SECOND (RIGHT) BYTE. YOU MAY ONLY DELCARE
+;ONE OF THESE FOR EACH CLASS.
+
+.DUSR   ?LPCL_PKT.HLMASK=177400         ;Hierarchical level (left byte)
+.DUSR   ?LPCL_PKT.PCMASK=000377         ;Class percentage (right byte)
+
+;MAXIMUM AND MINIMUM VALUES FOR HIERARCHICAL LEVEL AND CLASS PERCENTAGE.
+
+.DUSR   ?LPCL_PKT.HL_MIN        = 1.    ;Minimum hierarchical level
+.DUSR   ?LPCL_PKT.HL_MAX        = 16.   ;Maximum hierarchical level
+
+.DUSR   ?LPCL_PKT.PCNT_MIN      = 1.    ;Minimum class percentage
+.DUSR   ?LPCL_PKT.PCNT_MAX      = 100.  ;Maximum class percentage
+
+;GET/SET CODES (FOR ?LPCLASS OFFSET ?LPCL_PKT.GETSET)
+
+.DUSR   ?LPCL_GET       = 0.                    ;GET the class values
+.DUSR   ?LPCL_SET       = 1.                    ;SET the class values
+
+;=======================================================================
+;                       ?CLASS PACKET
+;=======================================================================
+
+.DUSR   ?CL_PKT.PKT_ID  =0                      ;Packet ID
+.DUSR   ?CL_PKT.FUNC    =?CL_PKT.PKT_ID+2       ;Unused
+.DUSR   ?CL_PKT.GETSET  =?CL_PKT.FUNC+1         ;Get/Set code
+.DUSR   ?CL_PKT.CLMAP   =?CL_PKT.GETSET+1       ;Class bit map
+
+
+;LENGTH OF MAIN PACKET
+
+.DUSR   ?CL_PKT_LEN     =?CL_PKT.CLMAP+1
+
+
+
+;GET/SET CODES (FOR ?CLASS OFFSET ?CL_PKT.GETSET)
+
+.DUSR   ?CL_GET = 0.                            ;GET the class names
+.DUSR   ?CL_SET = 1.                            ;SET the class names
+
+;=======================================================================
+;                       ?CMATRIX PACKET
+;=======================================================================
+
+.DUSR   ?CMAT_PKT.PKT_ID=0                      ;Packet ID
+.DUSR   ?CMAT_PKT.FUNC  =?CMAT_PKT.PKT_ID+2     ;Unused
+.DUSR   ?CMAT_PKT.GETSET=?CMAT_PKT.FUNC+1       ;Get/Set code
+.DUSR   ?CMAT_PKT.COUNT =?CMAT_PKT.GETSET+1     ;Number of class cells
+.DUSR   ?CMAT_PKT.MATRIX=?CMAT_PKT.COUNT+1      ;W(cell matrix)
+
+.DUSR   ?CMAT_PKT_LEN   =?CMAT_PKT.MATRIX+2     ;Packet length
+
+;MATRIX CELL DEFINITIONS.
+;A SERIES OF THESE CELL DEFINITIONS ARE POINTED TO BY ?CMATRIX
+;OFFSET ?CMAT_PKT.MATRIX.  THE NUMBER OF CELLS SUPPLIED SHOULD
+;BE SPECIFIED IN OFFSET ?CMAT_PKT.COUNT.
+
+.DUSR   ?CMAT_CELL.LOC  =0                      ;User/Program localities
+.DUSR   ?CMAT_CELL.CLASS=?CMAT_CELL.LOC+1       ;Class ID value
+
+.DUSR   ?CMAT_CELL_LEN  =?CMAT_CELL.CLASS+1     ;Length of each cell
+
+.DUSR   ?CMAT_CELL_MAX  =256.                   ;Maximum number of cells
+
+;USER/PROGRAM LOCALITY MASKS.
+;USER LOCALITY AND PROGRAM LOCALITY ARE PACKED INTO BYTES OF THE
+;SAME WORD (?CMAT_CELL.LOC).  USER LOCALITY IS IN THE FIRST (LEFT)
+;BYTE; PROGRAM LOCALITY IS IN THE SECOND (RIGHT) BYTE.
+
+.DUSR   ?CMAT_CELL.LOC_UMASK=177400             ;User locality mask
+                                                ;(left byte)
+.DUSR   ?CMAT_CELL.LOC_PMASK=000377             ;Program locality mask
+                                                ;(right byte)
+
+;GET/SET CODES (FOR ?CMATRIX OFFSET ?CMAT_PKT.GETSET)
+
+.DUSR   ?CMAT_GET       = 0.                    ;GET class matrix values
+.DUSR   ?CMAT_SET       = 1.                    ;SET class matrix values
+
+;=======================================================================
+;                       ?PCLASS PACKET
+;=======================================================================
+
+.DUSR   ?PCL_PKT.PKT_ID    =0                   ;Packet ID
+.DUSR   ?PCL_PKT.FUNC      =?PCL_PKT.PKT_ID+2   ;Unused
+.DUSR   ?PCL_PKT.PCODE     =?PCL_PKT.FUNC+1     ;Pid/Pname code
+.DUSR   ?PCL_PKT.PID       =?PCL_PKT.PCODE+1    ;Pid or -1
+.DUSR   ?PCL_PKT.PNAME     =?PCL_PKT.PID+1      ;BP to processname
+.DUSR   ?PCL_PKT.PSUPPLIED =?PCL_PKT.PNAME+2    ;Length of processname
+.DUSR   ?PCL_PKT.USER_LOC  =?PCL_PKT.PSUPPLIED+1;User locality
+.DUSR   ?PCL_PKT.PROG_LOC  =?PCL_PKT.USER_LOC+1 ;Program locality
+.DUSR   ?PCL_PKT.CLASS_ID  =?PCL_PKT.PROG_LOC+1 ;Class ID
+
+.DUSR   ?PCL_PKT_LEN       =?PCL_PKT.CLASS_ID+1 ;Packet length
+
+;PID/PNAME CODES (FOR ?PCLASS OFFSET ?PCL_PKT.PCODE)
+
+.DUSR   ?PCL_PID        = 0.                    ;PID supplied
+.DUSR   ?PCL_PNAME      = 1.                    ;PNAME supplied
+
+;=======================================================================
+;                       ?CLSCHED PACKET
+;=======================================================================
+
+.DUSR   ?CLS_PKT.PKT_ID =0                      ;Packet ID
+.DUSR   ?CLS_PKT.FUNC   =?CLS_PKT.PKT_ID+2      ;Unused
+.DUSR   ?CLS_PKT.GETSET =?CLS_PKT.FUNC+1        ;Get/Set code
+.DUSR   ?CLS_PKT.FLAVOR =?CLS_PKT.GETSET+1      ;Accum/Class sched code
+.DUSR   ?CLS_PKT.LPMAP  =?CLS_PKT.FLAVOR+1      ;LP class sched map
+
+.DUSR   ?CLS_PKT_LEN    =?CLS_PKT.LPMAP+2       ;Packet length
+
+;VALUES FOR THE LP CLASS SCHED MAP (?CLS_PKT.LPMAP) TO ENABLE/DISABLE
+;SCHEDULING OR STATISTICS ACCUMULATION FOR ALL LPs AT ONCE.
+;THAT IS, THE FOLLOWING VALUES HAVE BITS SET SET/CLEARED FOR LPs
+;RANGING FROM 0 THROUGHT THE MAXIMUM NUMBER OF LPs.
+
+.DUSR   ?CLS_PKT.LPMAP_ENABLE  = 37777600000    ;Enable all LPs
+.DUSR   ?CLS_PKT.LPMAP_DISABLE = 0              ;Disable all LPs
+
+;GET/SET CODES (FOR ?CLSCHED OFFSET ?CLS_PKT.GETSET)
+
+.DUSR   ?CLS_GET        = 0.                    ;GET scheduling mode
+.DUSR   ?CLS_SET        = 1.                    ;SET scheduling mode
+
+;CLASS SCHEDULING/ACCUMULATION CODES (FOR ?CLSCHED
+;OFFSET (?CLS_PKT.FLAVOR)
+
+.DUSR   ?CLS_SCHED      = 1.                    ;Class scheduling
+.DUSR   ?CLS_ACC        = 2.                    ;Accumulate statistics
+
+;=======================================================================
+;                       ?CLSTAT PACKET
+;=======================================================================
+
+;NOTE THAT ALL TIME VALUES IN THE ?CLSTAT MAIN PACKET AND SUBPACKET
+;ARE FOUR (4) WORDS IN LENGTH.
+
+.DUSR   ?CLST_PKT.PKT_ID=0                      ;Packet ID
+.DUSR   ?CLST_PKT.FUNC  =?CLST_PKT.PKT_ID+2     ;Function code
+.DUSR   ?CLST_PKT.LPID  =?CLST_PKT.FUNC+1       ;Supplied LPID
+.DUSR   ?CLST_PKT.INTERVALS =?CLST_PKT.LPID+1   ;# of time intervals
+.DUSR   ?CLST_PKT.TOTAL =?CLST_PKT.INTERVALS+2  ;Total usage by this LP
+.DUSR   ?CLST_PKT.USER  =?CLST_PKT.TOTAL+4      ;Total for Rings 1-7
+.DUSR   ?CLST_PKT.USER_MOM=?CLST_PKT.USER+4     ;"MOM ONLY" for Rngs 1-7
+.DUSR   ?CLST_PKT.CLASS =?CLST_PKT.USER_MOM+4   ;Table of CPU time usage
+                                                ;per class
+.DUSR   ?CLST_PKT.SUBPKT=?CLST_PKT.CLASS+(?CLASS_COUNT*4)
+                                                ;W(subpacket)
+
+.DUSR   ?CLST_PKT_LEN   =?CLST_PKT.SUBPKT+2     ;Packet length
+
+;?CLSTAT SUBPACKET CODES (?CLST_PKT.FUNC)
+
+.DUSR   ?CLST_NONE      = 1.                    ;No subpacket supplied
+.DUSR   ?CLST_AOSVS     = 2.                    ;AOS/VS subpacket
+
+.DUSR   ?CLST_FUNC_MIN  = ?CLST_NONE            ;Minimum function code
+.DUSR   ?CLST_FUNC_MAX  = ?CLST_AOSVS           ;Maximum function code
+
+;?CLSTTAT AOS/VS SUBPACKET (FUNCTION CODE ?CLST_AOSVS)
+
+.DUSR   ?CLST_AOSVS.PKT_ID      =0                      ;Packet ID
+.DUSR   ?CLST_AOSVS.SYSTEM      =?CLST_AOSVS.PKT_ID+2   ;# sys PIT wraps
+.DUSR   ?CLST_AOSVS.COREM       =?CLST_AOSVS.SYSTEM+4   ;Core manager
+.DUSR   ?CLST_AOSVS.SYSMGR      =?CLST_AOSVS.COREM+4    ;System manager
+.DUSR   ?CLST_AOSVS.DISK        =?CLST_AOSVS.SYSMGR+4   ;Disk manager
+.DUSR   ?CLST_AOSVS.SYSCALLS    =?CLST_AOSVS.DISK+4     ;System calls
+.DUSR   ?CLST_AOSVS.SYSCALLS_MOM=?CLST_AOSVS.SYSCALLS+4 ;"MOM ONLY" Sys calls
+.DUSR   ?CLST_AOSVS.DAEMON      =?CLST_AOSVS.SYSCALLS_MOM+4;Daemon calls
+.DUSR   ?CLST_AOSVS.IDLE        =?CLST_AOSVS.DAEMON+4   ;Idle loop
+.DUSR   ?CLST_AOSVS.INT         =?CLST_AOSVS.IDLE+4     ;Interrupt level
+.DUSR   ?CLST_AOSVS.RESIDUE     =?CLST_AOSVS.INT+4      ;Sys sub-slice
+                                                        ;residue
+
+.DUSR   ?CLST_AOSVS_LEN =?CLST_AOSVS.RESIDUE+4  ;Subpacket length
+
+;=======================================================================
+;                       ?LOCALITY PACKET
+;=======================================================================
+
+.DUSR   ?LOC_PKT.PKT_ID =0                      ;Packet ID
+.DUSR   ?LOC_PKT.FUNC   =?LOC_PKT.PKT_ID+2      ;Unused
+.DUSR   ?LOC_PKT.PCODE  =?LOC_PKT.FUNC+1        ;Pid/Pname code
+.DUSR   ?LOC_PKT.PID    =?LOC_PKT.PCODE+1       ;Pid or -1
+.DUSR   ?LOC_PKT.PNAME  =?LOC_PKT.PID+1         ;BP to processname
+.DUSR   ?LOC_PKT.STRLEN =?LOC_PKT.PNAME+2       ;Length of pname string
+.DUSR   ?LOC_PKT.ULOC   =?LOC_PKT.STRLEN+1      ;New user locality
+
+.DUSR   ?LOC_PKT_LEN    =?LOC_PKT.ULOC+1        ;Packet length
+
+;PID/PNAME CODES (FOR ?LOCALITY OFFSET ?LOC_PKT.PCODE)
+
+.DUSR   ?LOC_PID        = 0.                    ;PID supplied
+.DUSR   ?LOC_PNAME      = 1.                    ;PNAME supplied
+
+
+
+;=======================================================================
+;                       ?SYSPRV PACKET
+;=======================================================================
+
+.DUSR   ?SYSPRV_PKT.PKT_ID =0                   ;Packet ID
+.DUSR   ?SYSPRV_PKT.FUNC   =?SYSPRV_PKT.PKT_ID+2;Function Code
+.DUSR   ?SYSPRV_PKT.FLAGS  =?SYSPRV_PKT.FUNC+1  ;Flags word
+.DUSR   ?SYSPRV_PKT.MODE   =?SYSPRV_PKT.FLAGS+1 ;Mode Value
+.DUSR   ?SYSPRV_PKT.SUBPKT =?SYSPRV_PKT.MODE+1  ;W(subpacket)
+                                                ;<not used>
+
+.DUSR   ?SYSPRV_PKT_LEN    =?SYSPRV_PKT.SUBPKT+2;Length of packet
+
+;FUNCTION VALUES (?SYSPRV_PKT.FUNC)
+
+.DUSR   ?SYSPRV_GET             = 1     ;Get privilege status
+.DUSR   ?SYSPRV_ENTER           = 2     ;Enter a privileged mode
+.DUSR   ?SYSPRV_ENTER_EXCL      = 3     ;Enter a priv mode exclusively
+.DUSR   ?SYSPRV_LEAVE           = 4     ;Leave a privileged mode
+
+.DUSR   ?SYSPRV_FUNC_MIN        = ?SYSPRV_GET   ;Minimum legal function
+.DUSR   ?SYSPRV_FUNC_MAX        = ?SYSPRV_LEAVE ;Maximum legal function
+
+;MODE VALUES (?SYSPRV_PKT.MODE)
+
+.DUSR   ?SYSPRV_SUSER           = 1     ;Superuser mode
+.DUSR   ?SYSPRV_SPROCESS        = 2     ;Superprocess mode
+.DUSR   ?SYSPRV_SYSMGR          = 3     ;System manager mode
+
+.DUSR   ?SYSPRV_MODE_MIN        = ?SYSPRV_SUSER ;Minimum legal mode
+.DUSR   ?SYSPRV_MODE_MAX        = ?SYSPRV_SYSMGR;Maximum legal mode
+
+;FLAG WORD BITS (BITS IN ?SYSPRV_PKT.FLAGS)
+
+.DUSR   ?SYSPRV.FLAGS.CALLER       = 0  ;Caller has privelege on
+.DUSR   ?SYSPRV.FLAGS.CALLER_EXCL  = 1  ;Caller has priv on exclusively
+.DUSR   ?SYSPRV.FLAGS.OTHERS       = 2  ;Others have privilege on
+.DUSR   ?SYSPRV.FLAGS.OTHERS_EXCL  = 3  ;Others have priv on exclusively
+
+;FLAG WORD BIT POINTERS (BITS IN ?SYSPRV_PKT.FLAGS)
+
+.DUSR   ?SYSPRV.BPFLAGS.CALLER=(?SYSPRV_PKT.FLAGS*16.)+?SYSPRV.FLAGS.CALLER
+.DUSR   ?SYSPRV.BPFLAGS.CALLER_EXCL=(?SYSPRV_PKT.FLAGS*16.)+?SYSPRV.FLAGS.CALLER_EXCL
+.DUSR   ?SYSPRV.BPFLAGS.OTHERS=(?SYSPRV_PKT.FLAGS*16.)+?SYSPRV.FLAGS.OTHERS
+.DUSR   ?SYSPRV.BPFLAGS.OTHERS_EXCL=(?SYSPRV_PKT.FLAGS*16.)+?SYSPRV.FLAGS.OTHERS_EXCL
+
+
+;=======================================================================
+;                       ?XINIT PACKET
+;=======================================================================
+
+.DUSR   ?XINIT_PKT.PKT_ID =0                    ;Packet ID
+.DUSR   ?XINIT_PKT.FUNC   =?XINIT_PKT.PKT_ID+2  ;Function Code
+.DUSR   ?XINIT_PKT.RES    =?XINIT_PKT.FUNC+1    ;Reserved
+.DUSR   ?XINIT_PKT.OPTIONS=?XINIT_PKT.RES+1     ;Option Bits
+.DUSR   ?XINIT_PKT.DIR    =?XINIT_PKT.OPTIONS+2 ;BP to Target Dir
+.DUSR   ?XINIT_PKT.LDNAME =?XINIT_PKT.DIR+2     ;BP to returned LDU name
+.DUSR   ?XINIT_PKT.COUNT  =?XINIT_PKT.LDNAME+2  ;LDID/PUL Count
+.DUSR   ?XINIT_PKT.LDID1  =?XINIT_PKT.COUNT+2   ;Reserved
+.DUSR   ?XINIT_PKT.PUL1   =?XINIT_PKT.LDID1+2   ;WP to 1st PUL Subpacket
+.DUSR   ?XINIT_PKT.LDID2  =?XINIT_PKT.PUL1+2    ;Reserved
+.DUSR   ?XINIT_PKT.PUL2   =?XINIT_PKT.LDID2+2   ;WP to 2nd PUL Subpacket
+.DUSR   ?XINIT_PKT.LDID3  =?XINIT_PKT.PUL2+2    ;Reserved
+.DUSR   ?XINIT_PKT.PUL3   =?XINIT_PKT.LDID3+2   ;WP to 3rd PUL Subpacket
+
+.DUSR   ?XINIT_PKT_LEN    =?XINIT_PKT.PUL3+2    ;Packet length
+
+; FUNCTION CODES (FOR ?XINIT OFFSET ?XINIT_PKT.FUNC)
+
+.DUSR   ?XINIT_WORKING_DIR=1                    ;Graft LDU into working
+                                                ;directory
+.DUSR   ?XINIT_ROOT       =2                    ;Graft LDU into root
+.DUSR   ?XINIT_TARGET_DIR =3                    ;Graft LDU into
+                                                ;specified directory
+
+; OPTION BITS (FOR ?XINIT OFFSET ?XINIT_PKT.OPTIONS)
+
+.DUSR   ?XINIT_OVERRIDE   =1B0                  ;Override incomplete
+                                                ;mirror error condition
+.DUSR   ?XINIT_FIXUP_REC  =1B1                  ;Fixup recommended
+                                                ; (returned)
+.DUSR   ?XINIT_TRESPASS =1S20.                  ;Trespass on a device
+
+; MAX NUMBER OF IMAGES SUPPORTED (FOR ?XINIT OFFSET ?XINIT_PKT.COUNT)
+
+.DUSR   ?XINIT_MAXIMAGES  =2                    ; 2 images max.
+
+
+;=======================================================================
+;                       ?MIRROR PACKET
+;=======================================================================
+
+.DUSR   ?MIRROR_PKT.PKT_ID =0                   ;Packet ID
+.DUSR   ?MIRROR_PKT.FUNC   =?MIRROR_PKT.PKT_ID+2;Function Code
+.DUSR   ?MIRROR_PKT.RES    =?MIRROR_PKT.FUNC+1  ;Reserved
+.DUSR   ?MIRROR_PKT.OPTIONS=?MIRROR_PKT.RES+1   ;Option Bits
+.DUSR   ?MIRROR_PKT.LDNAME =?MIRROR_PKT.OPTIONS+2 ;BP to LDU pathname
+.DUSR   ?MIRROR_PKT.LDID   =?MIRROR_PKT.LDNAME+2;Reserved
+.DUSR   ?MIRROR_PKT.PUL    =?MIRROR_PKT.LDID+2  ;WP to PUL Subpacket
+
+.DUSR   ?MIRROR_PKT_LEN    =?MIRROR_PKT.PUL+2   ;Packet length
+
+; FUNCTION CODES (FOR ?MIRROR OFFSET ?MIRROR_PKT.FUNC)
+
+.DUSR   ?MIRROR_SYNCHRONIZE =1                  ;Synchronize the mirror
+
+; OPTION BITS (FOR ?MIRROR OFFSET ?MIRROR_PKT.OPTIONS)
+
+.DUSR   ?MIRROR_OVERRIDE   =1B0                 ;Override out of phase
+                                                ;error condition
+.DUSR   ?MIRROR_SYNC_WAIT  =1B1                 ;Wait for sync to
+                                                ;complete
+
+
+;=======================================================================
+;               ?XINIT/?MIRROR PHYSICAL UNIT LIST SUBPACKET
+;=======================================================================
+
+.DUSR   ?PUL_PKT.PKT_ID    =0                   ;Packet ID
+.DUSR   ?PUL_PKT.COUNT     =?PUL_PKT.PKT_ID+2   ;# of Names Specified
+.DUSR   ?PUL_PKT.ULN1      =?PUL_PKT.COUNT+2    ;1st Physical Unit Name
+.DUSR   ?PUL_PKT.ULN2      =?PUL_PKT.ULN1+2     ;2nd Physical Unit Name
+.DUSR   ?PUL_PKT.ULN3      =?PUL_PKT.ULN2+2     ;3rd Physical Unit Name
+.DUSR   ?PUL_PKT.ULN4      =?PUL_PKT.ULN3+2     ;4th Physical Unit Name
+.DUSR   ?PUL_PKT.ULN5      =?PUL_PKT.ULN4+2     ;5th Physical Unit Name
+.DUSR   ?PUL_PKT.ULN6      =?PUL_PKT.ULN5+2     ;6th Physical Unit Name
+.DUSR   ?PUL_PKT.ULN7      =?PUL_PKT.ULN6+2     ;7th Physical Unit Name
+.DUSR   ?PUL_PKT.ULN8      =?PUL_PKT.ULN7+2     ;8th Physical Unit Name
+
+.DUSR   ?PUL_PKT_LEN       =?PUL_PKT.ULN8+2     ;Subpacket length
+
+; MAX NUMBER OF UNIT NAMES SUPPORTED (FOR OFFSET ?PUL_PKT.COUNT)
+
+.DUSR   ?PUL_MAX_NAMES     =8.                  ;Max # unit names
+
+;=======================================================================
+;                       ?MPHIST PACKET
+;=======================================================================
+
+.DUSR   ?MPH_PKT.PKT_ID         = 0                     ;Packet ID
+.DUSR   ?MPH_PKT.FUNC           = ?MPH_PKT.PKT_ID+2     ;Unused
+.DUSR   ?MPH_PKT.PCODE          = ?MPH_PKT.FUNC+1       ;Pid/Pname code
+.DUSR   ?MPH_PKT.PID            = ?MPH_PKT.PCODE+1      ;Pid or -1
+.DUSR   ?MPH_PKT.FILLER         = ?MPH_PKT.PID+1        ;Alignment word
+.DUSR   ?MPH_PKT.PNAME          = ?MPH_PKT.FILLER+1     ;BP to processname
+.DUSR   ?MPH_PKT.PSUPPLIED      = ?MPH_PKT.PNAME+2       ;Supplied pname length
+.DUSR   ?MPH_PKT.PRETURNED      = ?MPH_PKT.PSUPPLIED+1  ;Returned pname length
+.DUSR   ?MPH_PKT.HWST           = ?MPH_PKT.PRETURNED+1  ;Start of area
+.DUSR   ?MPH_PKT.HWEND          = ?MPH_PKT.HWST+2       ;End of area
+.DUSR   ?MPH_PKT.HWWDS          = ?MPH_PKT.HWEND+2      ;Size of bucket
+.DUSR   ?MPH_PKT.JP0            = ?MPH_PKT.HWWDS+2      ;JP0 array address (or 0)
+.DUSR   ?MPH_PKT.JP1            = ?MPH_PKT.JP0+2        ;JP1 array address (or 0)
+.DUSR   ?MPH_PKT.JP2            = ?MPH_PKT.JP1+2        ;JP2 array address (or 0)
+.DUSR   ?MPH_PKT.JP3            = ?MPH_PKT.JP2+2        ;JP3 array address (or 0)
+.DUSR   ?MPH_PKT.JP4            = ?MPH_PKT.JP3+2        ;JP4 array address (or 0)
+.DUSR   ?MPH_PKT.JP5            = ?MPH_PKT.JP4+2        ;JP5 array address (or 0)
+.DUSR   ?MPH_PKT.JP6            = ?MPH_PKT.JP5+2        ;JP6 array address (or 0)
+.DUSR   ?MPH_PKT.JP7            = ?MPH_PKT.JP6+2        ;JP7 array address (or 0)
+.DUSR   ?MPH_PKT.JP8            = ?MPH_PKT.JP7+2        ;JP8 array address (or 0)
+.DUSR   ?MPH_PKT.JP9            = ?MPH_PKT.JP8+2        ;JP9 array address (or 0)
+.DUSR   ?MPH_PKT.JP10           = ?MPH_PKT.JP9+2        ;JP10 array address (or 0)
+.DUSR   ?MPH_PKT.JP11           = ?MPH_PKT.JP10+2       ;JP11 array address (or 0)
+.DUSR   ?MPH_PKT.JP12           = ?MPH_PKT.JP11+2       ;JP12 array address (or 0)
+.DUSR   ?MPH_PKT.JP13           = ?MPH_PKT.JP12+2       ;JP13 array address (or 0)
+.DUSR   ?MPH_PKT.JP14           = ?MPH_PKT.JP13+2       ;JP14 array address (or 0)
+.DUSR   ?MPH_PKT.JP15           = ?MPH_PKT.JP14+2       ;JP15 array address (or 0)
+
+.DUSR   ?MPH_PKT_LEN            = ?MPH_PKT.JP15+2       ;Packet length
+
+;PID/PNAME CODES (FOR ?MPHIST OFFSET ?MPH_PKT.PCODE)
+
+.DUSR   ?MPH_PID                = 0                     ;PID supplied
+.DUSR   ?MPH_PNAME              = 1                     ;PNAME supplied
+
+;DEFINE ARRAY OFFSETS FOR HISTOGRAM
+;ARRAY CONSISTS OF FIXED PREFACE CONTAINING GLOBAL INFO
+;FOLLOWED BY THE ACTUAL HISTOGRAM ARRAY
+
+.DUSR   ?MPHIST_HTTH            = 0                     ;Total intervals
+.DUSR   ?MPHIST_HPRH            = 2                     ;Intervals within target proc,
+                                                        ;but out of range
+.DUSR   ?MPHIST_HAPH            = 4                     ;Intervals in another proc
+.DUSR   ?MPHIST_HSBH            = 6                     ;Intervals within system,
+                                                        ;but not idle loop
+.DUSR   ?MPHIST_HSIH            = 10                    ;Intervals in idle loop
+.DUSR   ?MPHIST_HARAY           = 12                    ;Array start
+
+;DEFINE PACKET ID FOR ?MPHIST CALL
+
+.DUSR   ?MPHIST_PKT_PKTID       = (575*200000)+(0.*400)+0
+
+
+
+;=======================================================================
+;                       ?GUHPI PACKET
+;=======================================================================
+
+.DUSR   ?GUHPI_PKT.PKT_ID         = 0                       ; Packet ID
+.DUSR   ?GUHPI_PKT.FUNC           = ?GUHPI_PKT.PKT_ID+2     ; Function (resrvd)
+.DUSR   ?GUHPI_PKT.FLAGS          = ?GUHPI_PKT.FUNC+1       ; Flags (reserved)
+.DUSR   ?GUHPI_PKT.BP_TO_BUF      = ?GUHPI_PKT.FLAGS+1      ; BP to unique ID
+.DUSR   ?GUHPI_PKT.LEN_OF_BUF     = ?GUHPI_PKT.BP_TO_BUF+2  ; buffer byte length.DUSR   ?GUHPI_PKT.LEN_RET        = ?GUn
+
+.DUSR   ?GUHPI_PKT_LEN            = ?GUHPI_PKT.LEN_RET+1    ; Packet length
+
+
+;
+; Define ?GUHPI packet ID
+;
+
+.DUSR   ?GUHPI_PKT_PKTID       = (601*200000)+(0.*400)+0
+
+;=======================================================================
+;                       ?RTODC PACKET
+;=======================================================================
+
+?RTODC_PKT.PKT_ID      =0                       ; "?RTODC_PKT_PKTID"
+?RTODC_PKT.FUNC        =?RTODC_PKT.PKT_ID+2     ; Reserved (must be zero)
+?RTODC_PKT.RSV         =?RTODC_PKT.FUNC+1       ; Reserved (must be zero)
+?RTODC_PKT.LOCAL.HIGH  =?RTODC_PKT.RSV+1        ; High 32 bits...
+?RTODC_PKT.LOCAL.LOW   =?RTODC_PKT.LOCAL.HIGH+2 ; Low  32 bits...
+                                ; ...of conversion from RTOD value to
+                                ; to local time and date (64-bit value)
+?RTODC_PKT.UTC.HIGH    =?RTODC_PKT.LOCAL.LOW+2  ; High 32 bits...
+?RTODC_PKT.UTC.LOW     =?RTODC_PKT.UTC.HIGH+2   ; Low  32 bits...
+                                ; ...of conversion from RTOD value to
+                                ; to Universal Time and date (64-bit value)
+?RTODC_PKT.ZONE_HOUR   =?RTODC_PKT.UTC.LOW+2    ; Time zone offset hours
+?RTODC_PKT.ZONE_MINUTE =?RTODC_PKT.ZONE_HOUR+1  ; Time zone offset minutes
+?RTODC_PKT_LEN         =?RTODC_PKT.ZONE_MINUTE+1; Packet length
+
+;=======================================================================
+;                       ?TIME PACKET
+;=======================================================================
+;       Used by ?NTIME and ?GTIME system calls
+
+?TIME_PKT.PKT_ID        =0                      ; "?TIME_PKT_PKTID"
+?TIME_PKT.FUNC          =?TIME_PKT.PKT_ID+2     ; Local/UTC selector
+?TIME_PKT.RSV           =?TIME_PKT.FUNC+1       ; Reserved (must be zero)
+?TIME_PKT.YEAR          =?TIME_PKT.RSV+1        ; Year
+?TIME_PKT.MONTH         =?TIME_PKT.YEAR+1       ; Month
+?TIME_PKT.DAY           =?TIME_PKT.MONTH+1      ; Day
+?TIME_PKT.HOUR          =?TIME_PKT.DAY+1        ; Hour
+?TIME_PKT.MINUTE        =?TIME_PKT.HOUR+1       ; Minute
+?TIME_PKT.SECOND        =?TIME_PKT.MINUTE+1     ; Second
+?TIME_PKT.ZONE_HOUR     =?TIME_PKT.SECOND+1     ; Time zone offset hours
+?TIME_PKT.ZONE_MINUTE   =?TIME_PKT.ZONE_HOUR+1  ; Time zone offset minutes
+?TIME_PKT_LEN           =?TIME_PKT.ZONE_MINUTE+1; Packet length
+
+; Time value selections for ?TIME_PKT.FUNC
+
+?TIME_PKT_LOCAL         =0                      ; Values are local time
+?TIME_PKT_UTC           =1                      ; Values are Universal Time
+
+;       ?RTODC GET RTOD CONVERSIONS SYSTEM CALL PACKET ID
+
+.DUSR   ?RTODC_PKT_PKTID        =       (603*200000)+(0.*400)+0
+
+;       ?NTIME SET TIME AND DATE SYSTEM CALL PACKET ID
+;       ?GTIME GET TIME AND DATE SYSTEM CALL PACKET ID
+
+.DUSR   ?TIME_PKT_PKTID         =       (604*200000)+(0.*400)+0
+
+
+
+
+;**********************************************************************
+;*  New Screen Management Packet
+;*  for use with either ?READ or ?WRITE.
+;*********************************************************************
+
+; Packet Offsets
+
+?SCMGT.PKT_ID           =0              ; packet ID
+?SCMGT.FLAGS            =?SCMGT.PKT_ID+2; Flags Word (IN)
+?SCMGT.STATUS           =?SCMGT.FLAGS+2 ; Status Word (OUT)
+?SCMGT.ESEP_IN          =?SCMGT.STATUS+2; Byte-relative Cursor Pos (IN)
+?SCMGT.ESEP_OUT         =?SCMGT.ESEP_IN+1
+                                        ; Byte-relative Cursor Pos
+                                        ; (OUT)
+?SCMGT.ESCR_IN.COL      =?SCMGT.ESEP_OUT+1
+                                        ; Initial Cursor Col Position
+                                        ; (IN)
+?SCMGT.ESCR_IN.ROW      =?SCMGT.ESCR_IN.COL+1
+                                        ; Initial Cursor Row
+                                        ; Position (IN)
+?SCMGT.ESCR_OUT.COL     =?SCMGT.ESCR_IN.ROW+1
+                                        ; Returned Cursor Column Position
+                                        ; (OUT)
+?SCMGT.ESCR_OUT.ROW     =?SCMGT.ESCR_OUT.COL+1
+                                        ; Returned Row column
+                                        ; Position (OUT)
+
+?SCMGT_LEN_REV1         =?SCMGT.ESCR_OUT.ROW+1
+                                        ; Packet length
+
+; Flags
+; NOTE:  Bits 5.,9. and 10. are reserved to make the options ESSE
+; through ESBB bit compatible with the old screen management flags
+; word
+
+?SCMGT.FLAGS.ESSE       =0.             ; Enable Screenedit
+?SCMGT.FLAGS.ESRD       =1.             ; Predisplay Read Buffer
+?SCMGT.FLAGS.ESNR       =2.             ; Flush Input Ring Buffer
+?SCMGT.FLAGS.ESED       =3.             ; Do Not Echo Delimiters
+?SCMGT.FLAGS.ESCP       =4.             ; Set Cursor Position
+;RESERVED               =5.             ; ?ESDD in old packet
+?SCMGT.FLAGS.ESRP       =6.             ; Return Cursor Position
+?SCMGT.FLAGS.ESNE       =7.             ; No Echo
+?SCMGT.FLAGS.ESGT       =8.             ; Get Typed-ahead Input
+;RESERVED               =9.             ; ?ESBE in old packet
+;RESERVED               =10.            ; ?ESPE in old packet
+?SCMGT.FLAGS.ESBB       =11.            ; No Echo On Predisplay
+?SCMGT.FLAGS.ESUG       =12.            ; Get Typed-ahead (unpended)
+?SCMGT.FLAGS.ESIM       =13.            ; Start In Insert Mode
+;RESERVED=              =14.
+;RESERVED=              =15.
+?SCMGT.FLAGS.ESLT       =16.            ; Left Arrow Autoterm
+?SCMGT.FLAGS.ESNC       =17.            ; Normal Carriage Return
+?SCMGT.FLAGS.ESNP       =18.            ; Nulls As Placeholders
+
+
+; Bits 19. to 31. are reserved for future use.
+
+; Status
+; NOTE:  Bits 0. to 4. and 6. to 8. are reserved to make the status
+; bits ESDD through ESPE bit compatible with the old screen management
+; flags word
+
+
+; BITS 0. TO 4. ARE RESERVED
+?SCMGT.STATUS.ESDD      =5.             ; Function Key Delimiter
+; BITS 6. TO 8. ARE RESERVED
+?SCMGT.STATUS.ESBE      =9.             ; Buffer Empty on Get
+                                        ; typed-ahead
+?SCMGT.STATUS.ESPE      =10.            ; Pointer Event Delimiter
+?SCMGT.STATUS.ESII      =11.            ; Read Ended In Insert Mode
+?SCMGT.STATUS.ESMI      =12.            ; Read Buffer Modified
+
+; Bits 13. to 31. are reserved for future use.
+
+
+;=====================================================================
+;===    ?WSCNTL         - Working Set Control                      ===
+;=====================================================================
+
+; Define parameters for the sub-functions (for WSCNTL_PKT.FUNC):
+
+.DUSR ?WSCNTL_GET_LIMITS = 1    ; Get current WSMAX/WSMIN limits
+.DUSR ?WSCNTL_SET_LIMITS = 2    ; Set new WSMAX/WSMIN limits
+
+; And to keep old users consistent:
+
+.DUSR ?WSCNTL_NEW_LIMITS = ?WSCNTL_SET_LIMITS
+
+; Main packet
+
+?WSCNTL_PKT.PKTID = 0                    ; Std packet identifier
+?WSCNTL_PKT.FUNC  = ?WSCNTL_PKT.PKTID+2  ; Std function code
+?WSCNTL_PKT.RSVD  = ?WSCNTL_PKT.FUNC+1   ; Unused (reserved)
+?WSCNTL_PKT.SUBPKT = ?WSCNTL_PKT.RSVD+1   ; Ptr to function specific data
+?WSCNTL_PKT_LEN   = ?WSCNTL_PKT.SUBPKT+2 ; Length of this packet
+
+; Secondary packet for getting/setting working set max & min
+
+?WSCNTL_MM_PKT.PKTID = 0                    ; Std sub-packet ID
+?WSCNTL_MM_PKT.MIN  = ?WSCNTL_MM_PKT.PKTID+2 ; Value for working set minimum
+?WSCNTL_MM_PKT.MAX  = ?WSCNTL_MM_PKT.MIN+2 ; Value for working set maximum
+?WSCNTL_MM_PKT_LEN  = ?WSCNTL_MM_PKT.MAX+2 ; Length of this packet
+
+        .EOF                    ; OF PARU_LONG.SR
+
+)

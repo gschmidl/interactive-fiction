@@ -1,0 +1,98 @@
+[inherit('[-.env]typedef')]
+module ifc$obj_def;
+
+[external(ifc$open_object)] procedure $open_object(
+	object_filename : varying[$u1] of char);
+	extern;
+
+[external(ifc$close_object)] procedure $close_object;
+	extern;
+
+[external(ifc$write_hdr_mhd)] procedure $write_hdr_mhd(
+	module_name : varying[$u1] of char;
+	module_version : varying[$u2] of char);
+	extern;
+
+[external(ifc$write_hdr_lnm)] procedure $write_hdr_lnm(
+	language_name : packed array[$l1..$u1:integer] of char);
+	extern;
+
+[external(ifc$write_gsd_psc)] procedure $write_gsd_psc(
+	psect_name : varying[$u1] of char);
+	extern;
+
+[external(ifc$write_gsd_sym)] procedure $write_gsd_sym(
+	symbol_name : varying[$u1] of char);
+	extern;
+
+[external(ifc$write_gsd_sym_ref)] procedure $write_gsd_sym_ref(
+	symbol_name : varying[$u1] of char);
+	extern;
+
+[external(ifc$write_gsd_sym_ref_abs)] procedure $write_gsd_sym_ref_abs(
+	symbol_name : varying[$u1] of char);
+	extern;
+
+[external(ifc$write_gsd_sym_def)] procedure $write_gsd_sym_def(
+	symbol_name : varying[$u1] of char;
+	value : unsigned);
+	extern;
+
+[external(ifc$write_tir_sta_pb)] procedure $write_tir_sta_pb;
+	extern;
+
+[external(ifc$write_tir_ctl_setrb)] procedure $write_tir_ctl_setrb;
+	extern;
+
+[external(ifc$write_tir_sta_gbl)] procedure $write_tir_sta_gbl(
+	symbol : varying[$u1] of char);
+	extern;
+
+[external(ifc$write_tir_sto_pidr)] procedure $write_tir_sto_pidr;
+	extern;
+
+[external(ifc$write_tir_sto_ld)] procedure $write_tir_sto_ld;
+	extern;
+
+[external(ifc$write_tir_sti_msg)] procedure $write_tir_sti_msg(
+	fao_count : unsigned;
+	attributes : unsigned;
+	data : varying[$u1] of char);
+	extern;
+
+[external(ifc$write_tir_sti_room)] procedure $write_tir_sti_room(
+	free : unsigned;
+	class : integer;
+	link : packed array[$l1..$u1:integer] of $ubyte);
+	extern;
+
+[external(ifc$write_tir_sti_object)] procedure $write_tir_sti_object(
+	free : unsigned;
+	flags : unsigned;
+	count : unsigned;
+	var initial : varying[$u1] of char;
+	var info : packed array[$l2..$u2:integer] of $ubyte);
+	extern;
+
+[external(ifc$write_tir_sti_l)] procedure $write_tir_sti_l(
+	value : unsigned);
+	extern;
+
+[external(ifc$write_tir_sti_char)] procedure $write_tir_sti_char(
+	character : char);
+	extern;
+
+[external(ifc$write_tir_sti_str)] procedure $write_tir_sti_str(
+	data : varying[$u1] of char);
+	extern;
+
+[external(ifc$write_tir_sti_end)] procedure $write_tir_sti_end;
+	extern;
+
+[external(ifc$write_tir_sto_usb)] procedure $write_tir_sto_usb;
+	extern;
+
+[external(ifc$write_eom)] procedure $write_eom;
+	extern;
+
+end.

@@ -1,0 +1,405 @@
+
+
+
+
+
+
+
+
+                        Documentation changes for:
+
+
+                    Learning to Use Your AOS/VS System
+
+                        Part Number 069-000031-02
+
+
+
+	This file (filename :UTIL:069_000031_02) contains replacement
+	pages and/or point pages that affect the following pages of
+	your manual:
+
+	  2-7
+	  2-39
+	* 2-49
+	  3-15
+	  3-27
+
+	This fourth revision of 069_000031_02 was updated on
+	March 21, 1994.
+
+	The asterisk (*) indicates that the change is printed in this
+	file for the first time.
+
+	For all pages in this file, change bars (|) in the left column
+	mark material that differs from what is in the printed manual.
+
+	To keep your manual current, print this file, punch holes to fit
+	your binder, and insert the pages into your manual.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	Copyright (C) Data General Corporation, 1981 - 1994
+	All Rights Reserved
+	Licensed Material - Property of Data General Corporation
+
+
+	Learning to use Your AOS/VS System, 069-000031-02	21-MAR-94
+	Documentation Changes, Revision 4
+
+
+	Replace page 2-7 with this page and the next page:
+	-----------------------------------------------------------------------
+
+
+	A good password includes a mixture of letters, numbers, and symbolic
+	characters and is longer than six characters.  One way to build good,
+	memorable passwords is to combine nonsense syllables like ang, fof, or
+	lal.  A password such as ANG..FOF is difficult for someone to guess.
+
+	For example, suppose Alexis has an initial password DEFENDER, which
+	the system manager assigned.  After learning to log on and off the
+	system, Alexis chooses a truly private password such as SAN..TOR.
+	To change DEFENDER to SAN..TOR, Alexis does the following:
+
+	Alexis starts logging on by pressing the New Line key:
+
+	... Press NEW LINE to begin logging on ...
+
+	<NL>
+
+	AOS/VS displays its banner and prompts for username and password.
+	Alexis types the usual username/password combination of Alexis and
+	DEFENDER.  However, instead of pressing the New Line key after
+	DEFENDER, Alexis presses the Erase Page key:
+
+	... EXEC n date ...
+	Username:  Alexis <NL>
+	Password:  defender (which doesn't echo) <Erase Page>
+
+	And AOS/VS prompts for the new password, which Alexis types
+
+    |   Enter your new password:   san..tor (which doesn't echo) <NL>
+    |
+    |   To help keep the password secure and secret, the system will not echo
+    |   (display) any keystrokes Alexis enters in response to the "Enter your
+    |   new password" prompt.  Instead of showing what Alexis typed, the system
+    |   asks Alexis to confirm the new password by password by typing it again:
+    |
+    |           Reenter new password for validation:
+    |
+    |   Alexis types SAN..TOR after the "Reenter..." prompt, again without
+    |   seeing the entry displayed on the terminal.
+    |
+    |   If you make a mistake while typing the password a second time, AOS/VS
+    |   will display a "does not match" message; then it will ask for the new
+    |   password and validation again.  AOS/VS will let you try five times to
+    |   specify and validate a new password.  If it does not receive a valid
+    |   pair in five tries, it informs you that the old password will remain
+    |   in effect with the following message:
+    |
+    |           --Password not changed--
+
+
+	Learning to use Your AOS/VS System, 069-000031-02	21-MAR-94
+	Documentation Changes, Revision 4
+
+
+	Replacement page for 2-7, continued:
+	-----------------------------------------------------------------------
+
+
+    |   AOS/VS will then log you on, without changing your password.
+    |
+    |   Since Alexis' two new password entries match, the system then confirms
+    |	The new password,
+    |
+    |   --New password in effect--
+    |   Most recent logon...
+	
+	and logs Alexis on the system.
+
+	From this time on, Alexis's logon code is ALEXIS/SAN..TOR.  The new
+	password remains in effect until Alexis changes it again.  (If
+	connected by a network to other computers, Alexis must also change
+	the old password to the new one on those systems.)
+
+	If you forget your password or username, see your system manager.
+
+
+	Summary
+
+	In this section you prepared a terminal for the upcoming session
+	with AOS/VS; you noted the features of your computer keyboard and
+	became familiar with username/password pairs.  You now know how to
+	log on and off the sytem, and how to change your password.  You also
+	have some idea of how to maintain the privacy of your account.
+
+
+				Getting Your Bearings
+
+	As mentioned earlier, the CLI is the command language (or interactive
+	monitor) for AOS/VS.  You use its commands to gain access to all the
+	programs and services available under AOS/VS.  Some CLI commands,
+	such as the ones we look at in this section, orient you to AOS/VS.
+	They provide you with such general information as the time of day,
+	the date, and your location within the system.
+
+
+	Learning to Use Your AOS/VS System, 069-000031-02	21-MAR-94
+	Documentation Changes, Revision 4
+
+
+	On page 2-39, delete the last sentence and insert the following:
+	-----------------------------------------------------------------------
+
+
+    |   With AOS/VS, a file's permanence does not affect its parent
+    |   directory; you can delete a directory whose files have permanence
+    |   set.  AOS/VS II, on the other hand, will not not let you delete a
+    |   directory if a file anywhere within it has permanence set on.
+
+
+
+
+	Learning to use Your AOS/VS System, 069-000031-02	21-MAR-94
+	Documentation Changes, Revision 4
+
+
+	Replace page 2-49 with this page and the next page:
+	-----------------------------------------------------------------------
+
+
+	Depending on the type of site you have, you'll want to make some or
+	all of the following practices second nature:
+
+	o  Keep your password secret.  Passwords are the most important line
+	   of defense.  Regardless of the formality or informality of your
+	   system, never share your password with another user.  If for some
+	   reason you feel your password is publicly known, change it
+	   immediately.  Choose passwords that are obscure -- avoid obvious
+	   ones such as your children's names or your initials or your hobbies.
+	   Every few months, it's a good idea to change your password,
+	   just to ensure privacy.  The first section of the session,
+	   "Taking the First Steps" describes how to create and update
+	   passwords.
+
+	o  If you're logged on, don't leave your terminal unattended for
+	   long periods of time.  Anyone could tamper with your files or gain
+	   access to other directories in the system, where harm could occur.
+
+	o  Keep highly sensitive material on tape (or diskette) and store
+	   it in a secure place.  There are always privileged users on the
+	   system who can gain access to your files.  The chapter's section
+	   on "Protecting Files" describes how to copy files to tape.
+
+	o  Set the ACLs of files and directories carefully.  In some cases,
+	   you won't want anyone to access a file; in other, you'll want to
+	   provide a path to a file.  Refer to the "Protecting Files" section
+    |      for guidelines on setting ACLs.  Since AOS/VS uses the access in
+    |      the first match, place the more specific usernames before the
+    |      more general ones.  For example, the ACL "+,RE,USER1,OWARE" will
+    |      give USER1 "RE" access.  But, the ACL "USER1,OWARE,+,RE" will
+    |      give USER1 "OWARE" access.
+
+	o  Keep an accurate default ACL.  Since this is the ACL assigned
+	   all new files and directories, update it as your work groups
+	   change.  Chapter 3 describes how to set your default ACL.
+
+	o  Protect critical files by making them permanent.  This way they
+	   can't be carelessly or maliciously deleted.
+
+	o  Be observant of what goes on around you.  Notice the dates and
+	   times of prvious logons or file modifications.  Each time you log
+	   on, the system displays the time your last computing session began.
+	   If the report is erroneous, speak to your system manager.  Someone
+	   might be using your account.
+
+
+
+	Learning to use Your AOS/VS System, 069-000031-02	21-MAR-94
+	Documentation Changes, Revision 4
+
+
+	Replacement page for 2-49, continued:
+	-----------------------------------------------------------------------
+
+
+	o  If you're responsible for a directory, keep a sharp eye out for any
+	   changes.  Notice the last time files were modified; and, if you see
+	   any peculiar activity, notify the system manager.  Also set the
+	   directory ACL shrewdly -- perhaps giving Owner (and therefore
+	   delete privileges) only to yourself.  You must beware of a Trojan
+	   Horse:  a perpetrator who gets into your directory and substitutes
+	   an .OB or a .PR file for one of yours or modifies one of your files.
+	   If such an intrusion occurs, when you run the program, it can
+	   perform maliciously:  the program can read sensitive information
+	   and record it in another directory.  If you suspect such behavior,
+	   set up a log file and monitor the program and speak to your
+    |      system manager.  Also, be aware that AOS/VS maintains an audit
+    |      record of all security relevant events, which can be used to
+    |      track the cause of such an intrusion.
+
+    |   o  Be aware that the AOS/VS object reuse policy for magnetic media
+    |      is not automatic (as with disk elements and memory pages).
+    |      Make sure that sensitive information on tapes is manually
+    |      degaussed by the operator when the information is not longer needed.
+
+	All these preventive measures will ensure that your AOS/VS system is
+	secure from accidental or malicious intrusion.
+
+
+				What's Next?
+
+	Chapter 3 provides a more detailed description of each CLI command
+	that the session introduced.  Chapter 16 is a guide to documentation
+	on AOS/VS products; it will show you where to turn for further
+	information.
+
+	Next, you might turn to the text editing session in Chapter 4.
+	Or begin exploring one of the language chapters, which show how to
+	develop and run a program under AOS/VS.
+
+				End of Chapter
+
+
+	Learning to Use Your AOS/VS System, 069-000031-02	21-MAR-94
+	Documentation Changes, Revision 4
+
+
+	Replace page 3-13 with this page and the next page:
+	-----------------------------------------------------------------------
+
+
+	-----------------------------------------------------------------------
+	DEFACL
+	  Sets or displays the default Access Control List.
+	-----------------------------------------------------------------------
+
+	Format
+
+	DEFACL[/switches]  [username,privilege] ...
+
+	The DEFACL command sets or displays the default ACL, the access
+	automatically assigned to your new files and directories.  Usually
+	the default is USERNAME,OWARE.  The system manager sets up the
+	default ACL in a system log-on macro.  You can set your own default
+	ACL in a personal log-on macro.
+
+	Without an argument the DEFACL command displays the current default
+	ACL.  You can set a new default by including one or more
+	username,privilege arguments with the command.  ACL privileges include
+	five types of access, Owner, Write, Append, Read, and Execute.  The
+	ACL command, described earlier, gives a detailed explanation of each
+	access privilege.
+
+	Why Use It?
+
+	Sometimes you'll want to provide limited access to files or directories.
+	By resetting the default ACL, you can automatically grant access to
+	others.  For example, you might want to assign Execute access to all
+	files and directories (allowing others to use the directory name in a
+	pathname or execute a program file).  And you might want to give
+	colleagues Read access to files and directories, so they can use the
+	FILESTATUS command or see the contents of a file.  You rarely want to
+	give Write access, because people could delete, rename, or modify
+	files unconditionally.
+
+	Many systems have a logon macro that's executed for each user when he
+	or she logs on.  If this macro is present in your initial user
+	directory, you can use a text editor to insert a DEFACL command in
+        this macro.  Then the default ACL you specify will be assigned
+    |   automatically in the future.  Your logon macro should be no longer
+    |   than 512 characters.
+
+	Switches
+
+	/D	Return to the system default ACL, USERNAME/OWARE.
+
+
+
+
+
+	Learning to use Your AOS/VS System, 069-000031-02	21-MAR-94
+	Documentation Changes, Revision 4
+
+
+	Replacement page for 3-13, continued:
+	-----------------------------------------------------------------------
+
+
+	Examples
+
+	) defacl <NL>
+	ALEXIS,OWARE
+
+	The preceding command displays the current default: USERNAME,OWARE.
+
+
+	) defacl Alexis,oware project+,re +,e <NL>
+
+	This command maintains Alexis as owner of all new files and directories,
+	but extends Read and Execute privileges to any new user whose username
+	begins with PROJECT.  Furthermore, it gives all (+) system users
+	Execute access to new files and directories.
+
+	For as long as this default ACL is assigned to files and directories,
+	all system users can use these directory names in a pathname or
+	execute the program files.  Furthermore, users whose usernames begin
+	with PROJECT will have Read access to these files and directories,
+	allowing them to see the contents of file or get a complete listing
+	of files within a directory.
+
+
+	Learning to Use Your AOS/VS System, 069-000031-02	21-MAR-94
+	Documentation Changes, Revision 4
+
+
+ 	On page 3-27, replace the first paragraph with the following,
+	to clarify the difference between AOS/VS and AOS/VS II.
+	-----------------------------------------------------------------------
+
+
+	The Permanence attribute, if on, prevents any directory or
+	non-directory file from being deleted by any user.
+    |   With AOS/VS, a file's permanence does not affect its parent
+    |   directory; you can delete a directory whose files have permanence
+    |   set.  AOS/VS II, on the other hand, will not not let you delete a
+    |   directory if a file anywhere within it has permanence set on.
+	You must have Owner access to delete a file.
+
+
+
+
+
+
+
+
+
+
+
+
+
+		**********************************************************
+		*                                                        *
+		*       End of Documentation Changes for "Learning       *
+		*       to Use Your AOS/VS System" (069-000031-02),      *
+		*                   Revision 4, 21-MAR-94.               *
+		*                                                        *
+		**********************************************************

@@ -1,0 +1,31 @@
+ /* Native Linux replacements for the MVS/TSO-specific external      */
+ /* routines used by the Adventure PL/I engine (TREAD/TWRITE/WHISPER */
+ /* were originally WYLBUR/TSO terminal I/O; CLRSCRN/DECDATE were    */
+ /* assembler; RANDU was Fortran; R062A10/WARNMSG were MVS dynamic   */
+ /* allocation and broadcast-message helpers with no standalone      */
+ /* equivalent).                                                     */
+
+ DECDATE: PROCEDURE(YYDDD);
+   DCL YYDDD FIXED DEC(5);
+   DCL D CHAR(6);
+   DCL (DATE,MOD) BUILTIN;
+   DCL YY FIXED BIN(31);
+   DCL MM FIXED BIN(31);
+   DCL DD FIXED BIN(31);
+   DCL DOY FIXED BIN(31);
+   DCL FULLYEAR FIXED BIN(31);
+   DCL LEAP BIT(1);
+   DCL MDAYS(12) FIXED BIN(31) STATIC INIT
+       (0,31,59,90,120,151,181,212,243,273,304,334);
+
+   D = DATE();
+   YY = SUBSTR(D,1,2);
+   MM = SUBSTR(D,3,2);
+   DD = SUBSTR(D,5,2);
+   FULLYEAR = 2000 + YY;
+   LEAP = (MOD(FULLYEAR,4)=0 & MOD(FULLYEAR,100)^=0) | MOD(FULLYEAR,400)=0;
+   DOY = MDAYS(MM) + DD;
+   IF MM > 2 & LEAP THEN DOY = DOY + 1;
+   YYDDD = YY * 1000 + DOY;
+   END DECDATE;
+

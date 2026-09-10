@@ -1,0 +1,20 @@
+push
+prompt pop
+[!nequal,%0/LABELED%,];COMMENT START LABELED
+  [!equal,%0/PERSONAL%,]
+    superuser on
+    dir :
+  [!end];COMMENT START SYSTEMWIDE
+  X/S/1=IGNORE LOAD_II/MAXCAPACITY/SMI%0/V/L%%0/RECENT/DELETE% &
+	@LMT:VOL01:BACKUP %1-%
+[!else];COMMENT END LABELED/START UNLABELED
+  X/S/1=IGNORE LOAD_II%0/V/L%%0/RECENT/DELETE% %1% %2-%
+  rewind %1%
+[!end];COMMENT END UNLABELED
+PAUSE 5
+[!nequal,([!string]),()]
+  bye/abort [!string] load failed
+[!else]
+  write [!read [!ascii 234 220 210 226]Press NEW LINE to continue.,]
+[!end]
+pop

@@ -1,0 +1,256 @@
+                         AOS/VS Software Trouble Report
+
+    Use this form to report one problem with AOS/VS or its documentation.
+    For help in filling out this form, see Chapter 12 in the manual "Managing
+    AOS/VS and AOS/VS II" (093-000541).  In North America, send the completed
+    form to the address shown on the last page.  Elsewhere, send it to your
+    Data General representative.  In North America, if your contract permits,
+    you can call the Customer Support Center at 1-800-DG-HELPS.  We suggest
+    filling out as much of this form as you can beforehand.  To print
+    additional copies of this form, use the pathname :UTIL:STR_FORM_AOSVS.
+
+    Your name: ______________________________ Telephone number: _______________
+
+    Company: ________________________________ Today's date: ___________________
+
+    Address: ________________________________
+
+             ________________________________
+
+             ________________________________
+
+             ________________________________ Originator ID No.: ______________
+
+
+    What kind of problem are you reporting:
+
+    ___ Request for enhancement  ___ Documentation error   ___ Question
+
+    ___ System/program failure   ___ Software error        ___ Other
+
+    Frequency:
+
+    ___ Frequent   ___ Occasional     ___ Erratic     ___ Reproducible
+
+    Severity:
+
+    ___ Severe     ___ Moderate       ___ Not critical
+
+
+    What revision of AOS/VS are you running? __________________________________
+
+    What program or module do you think is causing the problem? _______________
+
+    What is the problem?  Please summarize below:
+
+    ___________________________________________________________________________
+
+    ___________________________________________________________________________
+
+    ___________________________________________________________________________
+
+    NOTE: For documentation errors, please specify the manual title, its part
+	  number, and page number, or the Help file name or topic.  You can
+          photocopy the page in question.
+
+    If the problem is a documentation error or a question, you are finished
+    filling out this form; otherwise, please continue.
+		      AOS/VS Software Trouble Report, Page 2
+
+    Other related software running on your system:
+
+    _____________________________________________ Revision: ___________________
+
+    _____________________________________________ Revision: ___________________
+
+    _____________________________________________ Revision: ___________________
+
+    _____________________________________________ Revision: ___________________
+
+    CPU Model: ____________ Memory size: ________ Microcode Revision: _________
+
+    Peripherals: ______________________________________________________________
+
+    ___________________________________________________________________________
+
+    ___________________________________________________________________________
+
+    Peripheral microcode revision: ____________________________________________
+
+    Which patches have you applied?  Are any of these special patches?
+
+    ___________________________________________________________________________
+
+    ___________________________________________________________________________
+
+    Is any software non-standard? _____________________________________________
+
+    Are you using any non-DG hardware? ________________________________________
+
+    Have you made any recent changes to your system? __________________________
+
+    ___________________________________________________________________________
+
+    ___________________________________________________________________________
+
+    Give a detailed description of the problem below.  Please include the date
+    and time the problem occurred, what you think caused the problem, steps we
+    can follow to reproduce the problem, and any other pertinent information.
+    Continue on another sheet of paper if necessary.
+
+    ___________________________________________________________________________
+
+    ___________________________________________________________________________
+
+    ___________________________________________________________________________
+
+    ___________________________________________________________________________
+
+    ___________________________________________________________________________
+
+    ___________________________________________________________________________
+
+    ___________________________________________________________________________
+		      AOS/VS Software Trouble Report, Page 3
+
+    For system panics or hangs, record the information below.  After ESD copies
+    the system dump file to file 0 of the tape, use the COPY command to copy
+    the system symbol table file to file 1.
+
+    AOS/VS PANIC
+
+       Fatal Error Number: _______________  JP value (if multi-processor): ___
+
+       Val1: ___________ Val2: ___________  Val3: __________  Val4: __________
+
+       Val5: ___________ Val6: ___________  Val7: __________  Val8: __________
+
+       Val9: ___________ Val10:___________  Val11:__________  Val12 __________
+
+
+    AOS/VS HANG
+
+      Type the break sequence, HALT <NL>, . <NL>, and CONTINUE <NL> three
+      times.  If PC values differ, repeat the sequence; we provide space for
+      eight runs.  If HALT prints status information, you may omit the .
+      command.  You may omit leading zeros when transcribing information.
+
+               AC0           AC1           AC2           AC3           PC
+
+      First run:
+
+      JP0: ____________  ____________  ____________  ____________  ____________
+
+      JP1: ____________  ____________  ____________  ____________  ____________
+
+      Second run:
+
+      JP0: ____________  ____________  ____________  ____________  ____________
+
+      JP1: ____________  ____________  ____________  ____________  ____________
+
+      Third run:
+
+      JP0: ____________  ____________  ____________  ____________  ____________
+
+      JP1: ____________  ____________  ____________  ____________  ____________
+
+      Fourth run:
+
+      JP0: ____________  ____________  ____________  ____________  ____________
+
+      JP1: ____________  ____________  ____________  ____________  ____________
+
+      Fifth run:
+
+      JP0: ____________  ____________  ____________  ____________  ____________
+
+      JP1: ____________  ____________  ____________  ____________  ____________
+		      AOS/VS Software Trouble Report, Page 4
+
+      Sixth run:
+
+      JP0: ____________  ____________  ____________  ____________  ____________
+
+      JP1: ____________  ____________  ____________  ____________  ____________
+
+      Seventh run:
+
+      JP0: ____________  ____________  ____________  ____________  ____________
+
+      JP1: ____________  ____________  ____________  ____________  ____________
+
+      Eighth run:
+
+      JP0: ____________  ____________  ____________  ____________  ____________
+
+      JP1: ____________  ____________  ____________  ____________  ____________
+
+
+    AOS/VS Process Trap or User Process Trap
+
+      Name of the process: ____________________________________________________
+
+      Trap type: ________________________  PC:   ____________
+
+      AC 0: ___________ AC 1: ___________  AC 2: ___________  AC 3: ___________
+
+      Carry (C): __________
+
+      IMPORTANT:  Use DUMP_II to dump the .BRK or .MDM file to tape.
+		      AOS/VS Software Trouble Report, Page 5
+
+    If a process produces call traceback information:
+
+      Name of the process: ___________________________________________________
+
+      Error number: ___________
+
+      from fp: ____________  pc: _____________________________________________
+
+      from fp: ____________  pc: _____________________________________________
+
+      from fp: ____________  pc: _____________________________________________
+
+      from fp: ____________  pc: _____________________________________________
+
+      from fp: ____________  pc: _____________________________________________
+
+      from fp: ____________  pc: _____________________________________________
+
+      from fp: ____________  pc: _____________________________________________
+
+      from fp: ____________  pc: _____________________________________________
+
+      from fp: ____________  pc: _____________________________________________
+
+      from fp: ____________  pc: _____________________________________________
+
+      from fp: ____________  pc: _____________________________________________
+
+      from fp: ____________  pc: _____________________________________________
+
+      from fp: ____________  pc: _____________________________________________
+
+      from fp: ____________  pc: _____________________________________________
+
+      Error message: _________________________________________________________
+
+
+ 			    Attachments and Quantity
+
+    ___ None          ___ Console output      ___ Listings  ___ Manual page(s)
+    ___ Diskette      ___ Reel-to-reel tape   ___ Cartridge tape
+    ___ Other (specify): ______________________________________________________
+    
+    Please label attachments with your name, your company's name, the contents
+    and format of the media, the Originator ID No. (if you assigned one), and
+    "# of #" (e.g. "1 of 2").
+
+    In North America, send to:
+
+			Data General Corporation
+    			1626 Jeurgens Court
+			Norcross, Georgia 30093
+
+			Attention: STR Administrator

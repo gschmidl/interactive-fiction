@@ -1,0 +1,22 @@
+.
+. Configuratin parameters for assembly language portion
+. of ADVENTURE program.
+.
+          $DEF      .                 SIGNIFY DEFINITION MODE ASSEMBLY
+          $LEVEL    0,1,0             MAKE TAGS EXTERNALLY DEFINED
+.
+. The paramters QUALIFIER and FILENAME define the name of the ADVENTURE
+. master D-bank save file.  FILENAME is also used for the user's save
+. file (when the user says SUSPEND), but here his user-id is used as
+. the qualifier.
+.
+qualifier equ       'CAVE$'
+filename  equ       'CAVE$'
+.
+. The parameter ISD, if set to one, will cause the program to
+. determine whether it is actually being run at ISD, and perform
+. special functions desired here.
+.
+isd       equ       1
+.
+          end       .

@@ -1,0 +1,5 @@
+push
+prompt pop
+directory/i
+XEQ SMI%0/T%
+pop

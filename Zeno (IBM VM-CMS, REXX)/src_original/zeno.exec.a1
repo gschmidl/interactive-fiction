@@ -1,0 +1,2594 @@
+ /* ZENO 1.1A An investigation of the limits to REX
+ &EXIT
+    If you are reading this to find out how to win - STOP!!!
+    Dave Mitchell (ZENO at WINVNB - now zenoshrdlu at gmail.com
+    originally written Jan-Feb 1983 - edited for BREXX 2021
+    The sharp-eyed reader may notice a singular lack of comments.
+    Choose one of the following explanations:
+      the author wants to be secretive
+      the EXEC got too big, so they were taken out
+      there never were any because the code is self-documenting
+      the author doesn't know how it works either!
+ 
+  To run this EXEC you need: REX Version 3 or later
+                             EXECIO and IOS3270
+  STACKIO can be used instead of EXECIO - just change the next line */
+  iomodule = 'EXECIO'
+ 
+  signal on syntax
+  arg opt
+  if find(opt,'?')^= 0 | find(opt,'HELP')^= 0 then
+    do
+      say 'ZENO is an interactive problem-solving experience'
+      say 'type ZENO to try it'
+      say
+      exit
+    end
+  call constinit
+RESTART:
+  call varinit
+  do forever
+    alien_act = '#'
+    call alien
+    robot_eye = objectlist(room.@robot)
+    call clock
+    call statchk
+    tt = time()
+    robot_ear = '#'
+    human_act = '#'
+    interpret 'call' environment
+  end
+ 
+ROOM:
+    call roomdesc
+    actlines = ''
+    'IOS3270 ZENO IOS3270 * ;ROOM (NOCLEAR NOQUIT'
+    commsg = ''
+    if iosd = 'QUIT' then
+      call getout
+    else if iosd = 'HELP' then
+      call book 'BKHE'
+    else if iosd = 'REPT' then
+      do
+        roomcom = getline(comstack,comstackptr)
+        comstackptr = min(comstacklines,comstackptr+1)
+      end
+    else
+      do
+        command1 = strip(roomcom)
+        comstackptr = 1
+        comstacklines = comstacklines + 1
+        comstack = '#' command1 comstack
+        roomcom = ''
+        actor = @hero
+        call analyse command1
+     end
+   return
+ 
+GETOUT:
+  msglist = status.status
+  do i = 1 to statdeep
+    if msglist ^= '' then
+      msglist = 0 msglist
+    statmsg.i = ''
+    do while (word(msglist,1) = 0) & (words(msglist) > 1)
+      k = word(msglist,2)
+      statmsg.i = statmsg.i msg.k
+      msglist = delword(msglist,1,2)
+    end
+  end
+  if status = @ok then
+    continue = 'or press PF12 to continue'
+  else
+    continue = ''
+  'IOS3270 ZENO IOS3270 ;FINALE (NOQUIT NOCLEAR'
+  if iosd = 'QUIT' then
+    do
+       exit
+    end
+  else if iosd = 'CONT' then return
+  signal  RESTART
+ 
+ANALYSE:  parse arg c1 crest
+  upper c1
+  if c1 = '' then nop
+  else if abbrev('QUIT',c1,1) then call getout
+  else if c1 = 'SAVE' then call savedata word(crest,1)
+  else if c1 = 'RESTORE' then call loaddata word(crest,1)
+  else if c1 = 'SUBSET' then call subset
+  else if c1 = 'SAY' then call say
+  else call analycom c1 crest
+  return
+ 
+SUBSET:
+  say 'You are now in CMS Subset - RETURN will get you back'
+  'SUBSET'
+  return
+ 
+SAY:
+  if room.@hero = room.@robot then
+    robot_ear = translate(crest)
+  msg.898 = crest
+  actlines = actlines 897 0 898
+  return
+ 
+ANALYCOM:  parse upper arg command
+  nc = words(command)
+  room = room.actor
+  do i = 1 to nc
+    com4 = substr(word(command,i),1,4)
+    if ^datatype(com4,'N') then
+      do
+        objects = contents.room
+        if room.actor = room.@hero then
+          objects = objects carried.@hero
+        if room.actor = room.@robot then
+          objects = objects carried.@robot
+        if room.actor = room.@alien then
+          objects = objects carried.@alien
+        v = find(objects,com4)
+        if v ^= 0 then
+          leave i
+      end
+  end
+  if (i > nc) then
+    if (actor = @hero) then
+      do
+        commsg = "I don't understand"
+        timenow = timenow - 1
+      end
+    else
+      nop
+  else
+    do
+      if (room.@hero = room.@robot) & (actor = @hero) then
+        human_act = com4
+      if (room.@alien = room.@robot) & (actor = @alien) then
+        alien_act = com4
+      interpret 'call' strip(com4)||'obj'
+    end
+  return
+ 
+ALIEOBJ:
+  if state.@alienobj ^= @ok then return
+  if actor = @hero then
+    status = @alienated
+  else
+    do
+      if present(room) then
+        if actor = @robot then
+          do
+            actlines = actlines sname.@robot 0 809
+            state.@alienobj = @broke
+          end
+        else
+          actlines = actlines sname.actor 0 810
+    end
+  return
+ 
+ 
+NOTEOBJ:
+  if actor ^= @hero then
+    if present(room.actor) then
+      if find(carried.@hero,'NOTE') = 0 then
+        actlines = actlines sname.actor 0 801
+      else
+        do
+          actlines = actlines sname.actor 0 811
+          nn = find(carried.@hero,'NOTE')
+          carried.@hero = delword(carried.@hero,nn,2)
+          call addob 'NOTE' @noteobj room.@hero
+        end
+    else nop
+  else
+    do
+      carried.@hero = 'NOTE' delob('NOTE',room.@hero) carried.@hero
+      actlines = actlines 134
+      call book 'BKNB'
+    end
+  return
+ 
+SUITOBJ:
+  if actor ^= @hero then
+    actlines = actlines sname.actor 0 130
+  else if insuit then
+    do
+       rh = room.@hero
+       rt = @tranroom
+      if (room.@hero - @tranroom) > 0 then
+   /*   if inship(room.@hero) = 0  then */
+         do
+            actlines = actlines 131A
+            return
+         end
+      insuit = 0
+      xx = find(carried.@hero,'SUIT')
+      carried.@hero = delword(carried.@hero,xx,2)
+      call addob 'SUIT' @suitobj room.@hero
+      actlines = actlines 131
+    end
+  else
+    do
+      insuit = 1
+      carried.@hero = carried.@hero 'SUIT' delob('SUIT',room.@hero)
+      actlines = actlines 132
+    end
+  return
+ 
+BLASOBJ:
+  if actor ^= @alien then
+    do
+      if actor = @hero then
+        status = @blasted
+      else if present(room.@alien) then
+        actlines = actlines sname.actor 0 166
+      else nop
+    end
+  else
+    do
+      if present(room) then
+        status = @blasted
+      else if room.@robot = room.@alien then
+        state.@robotobj = @blasted
+      else
+        do
+          if findob('$NS$',room.room) = '' then
+            call addob '$NS$' @nastyobj room.room
+          nobs = words(contents.room)%2
+          robj = random(1,nobs)
+          if find(@keepobjs,word(contents.room,robj*2-1)) = 0 then
+            contents.room = delword(contents.room,robj*2-1,2)
+        end
+    end
+  return
+ 
+SHUTOBJ:
+  if actor = @hero then
+    status = @shuttled
+  else if present(room.actor) then
+    actlines = actlines sname.actor 0 153
+  state.@shutobj = @scuttled
+  return
+ 
+LASEOBJ:
+  if actor = @hero then
+    status = @burntl
+  else if actor = @robot then
+    do
+      if room.@alien = room.@robot then
+        do
+          state.@alienobj = @burntl
+          if present(room.@robot) then
+            actlines = actlines sname.@robot 0 818
+        end
+      else if present(room.@robot) then
+        status = @lasered
+    end
+  return
+ 
+WINDOBJ:
+  if present(room) then
+    if state.@windobj = @ok then
+      if actor = @hero then
+        status = @defenestrated1
+      else
+        do
+          status.@defenestrated2 = sname.actor 0 122 0 119 120
+          status = @defenestrated2
+        end
+     else
+        status = @meteored
+  state.@windobj = @broke
+  shipair = -2
+  return
+ 
+DESKOBJ:
+  if actor = @robot then
+    if room.@hero = @footstair then
+      actlines = actlines sname.@robot 0 826 826A
+    else nop
+  else if actor ^= @hero then
+    if room.@hero = @footstair then
+      do
+        actlines = actlines sname.actor 0 825
+        mt_mode = @off
+        state.@mtsign = @off
+      end
+    else if room.@hero = @tranroom then
+      do
+        actlines = actlines sname.actor 0 824
+        room.@hero = @footstair
+        environment = 'ROOM'
+      end
+    else nop
+  else
+    do
+      environment = 'MTRANS'
+      room.@hero = @tranroom
+    end
+  return
+ 
+ 
+ROBOOBJ:
+  if actor = @hero then
+    if state.@robotobj ^= @ok then
+     do
+       actlines = actlines 167 167A
+       state.@robotobj = @ok
+     end
+    else
+      status = @burnt
+  else
+    do
+      aobj = word(actorobjs,actor)
+      if present(room) then
+        if actor = @robot then
+          do
+            actlines = actlines sname.@robot 0 805
+            state.aobj = @burnt
+          end
+        else
+          do
+            actlines = actlines sname.actor 0 808
+            state.aobj = @broke
+          end
+    end
+  return
+ 
+BOOKOBJ:
+  call readobject 'BOOK' 802
+  return
+ 
+LEAFOBJ:
+  call readobject 'LEAF' 822
+  return
+ 
+PAPEOBJ:
+  call readobject 'PAPE' 823
+  return
+ 
+READOBJECT:
+  arg readob readmsg
+  if actor ^= @hero & present(room) then
+    do
+      actlines = actlines sname.actor 0 821A 0 readmsg 0 821B
+      return
+    end
+  else if actor = @hero then
+    do
+      bk = findob(readob,room)
+      call book bookname.bk
+    end
+  else nop
+  return
+ 
+BUTTOBJ:
+  lift_button = @on
+  if actor = @hero then
+    actlines = actlines 200
+  else if present(@lift) then
+    actlines = actlines sname.actor 0 201
+  return
+ 
+COMPOBJ:
+  if actor ^= @hero then
+    do
+      if connect & present(room) then
+        actlines = actlines sname.actor 0 812
+      else if present(room) then
+        actlines = actlines sname.actor 0 803
+      else nop
+      if actor = @alien then
+        do
+          call cpsayhi 'Gort, Klaatu barada nicto?'
+          call cpsay 'Zyxurwli krebsylr'
+          call alarm 820
+        end
+    end
+  else
+    if insuit then
+      actlines = actlines 133 133A
+    else
+      environment = 'COMPUTER COMPUTER'
+  return
+ 
+TERMOBJ:
+  term = termname.room
+  tstate = value(term)
+  if actor ^= @hero then
+    do
+      if connect & present(room) then
+        actlines = actlines sname.actor 0 813
+      else if present(room) then
+        actlines = actlines sname.actor 0 804
+      interpret term ' = @disab'
+    end
+  else if tstate  = @enab then
+    environment = 'COMPUTER TERMINAL'
+  else
+    commsg = 'The terminal is' tstate
+  return
+ 
+LIFTOBJ:
+  if (lift_door = @open) & (room.actor = liftexit) then
+    call moveactor @lift liftexit,107,108,111
+  else if (lift_door ^= @open) & (actor = @hero) then
+    commsg = 'The lift door is shut'
+  else nop
+  return
+ 
+ROOMOBJ:
+  if lift_door = @open then
+    call moveactor liftexit @lift,109,110,112
+  else if (actor = @hero) then
+    commsg = ''
+  else nop
+  return
+ 
+DOOROBJ:
+  if room = @hangar then
+    do
+      if shield = @down then
+        do
+          call moveactor @space @hangar,831,832,833
+          state.@sview = 0
+        end
+      else if actor = @hero then
+        status = @shielded
+      else if (actor = @robot) & (room.@hero = room.@robot) then
+        actlines = actlines sname.@robot 0 830
+    end
+  else if room = @lift then
+    call roomobj
+  else
+    call liftobj
+  return
+ 
+BOTTOBJ:
+  if actor ^= @hero then
+    if room.actor = room.@hero then
+      actlines = actlines sname.actor 0 827
+    else nop
+  else if insuit then
+    do
+      actlines = actlines 139
+      suitair = @suitmax
+    end
+  else
+    actlines = actlines 140
+  return
+ 
+STAIOBJ:
+  if room = @store then
+    call moveactor @stairs @store,141,142,143
+  else
+    call moveactor @stairs @footstair,144,145,146
+  return
+ 
+HATCOBJ:
+  if room = @hangar then
+    call moveactor @airlock @hangar,136,137,138
+  else
+    do
+      call moveactor @hangar @airlock,136,137,138
+      if actor = @hero & ^insuit then
+        status = @decompressed
+    end
+  return
+ 
+UPOBJ:
+  if room = @footstair then
+    call moveactor @stairs @footstair,144,145,146
+  else
+    call moveactor @store @stairs,147,145,146
+  return
+ 
+DOWNOBJ:
+  if room = @store then
+    call moveactor @stairs @store,141,142,143
+  else
+    call moveactor @footstair @stairs,148,142,143
+  return
+ 
+NEAROBJ:
+  call moveactor @near @far,1,1,1
+  call alarm 814
+  alert_level = 1
+  return
+ 
+SHIEOBJ:
+  if shield = @up then
+    do
+      energy = max(0,energy-10)
+      call alarm 815
+      alert_level = 2
+    end
+  else
+    do
+      call moveactor @hangar @near,1,1,162 163
+      call alarm 816
+      alert_level = 3
+    end
+  return
+ 
+GLUROBJ:
+$NS$OBJ:
+$SV$OBJ:
+  return
+ 
+MTRANS:
+  call roomdesc
+  actlines = ''
+  call mtsetup
+  'IOS3270 ZENO IOS3270 * ;TRANS (NOCLEAR NOQUIT'
+  commsg = ''
+  if iosd = 'QUIT' then
+    do
+      environment = 'ROOM'
+      room.@hero = @footstair
+    end
+  else if iosd = 'HELP' then
+    call book 'BKTR'
+  else
+    call mtcheck
+  return
+ 
+MTSETUP:
+  mtn = findclock('TRANSMIT')
+  if mtn = 0 then
+    do
+      mtform = '?'; mtto = '?'; mttime = '?'
+      mtold = ''
+    end
+  else
+    do
+      mtold = space(clock.mtn,1)
+      parse var mtold mttime . mtfrom mtto
+    end
+  return
+ 
+MTCHECK:
+  mtnew = 'TRANSMIT' mtfrom mtto
+  if space(mttime mtnew,1) ^= mtold then
+    if mt_mode ^= @manual then
+      mtmsg = 'Input ignored - status is' mt_mode
+    else
+      do
+        if mttime = 'CANCEL' then
+          do
+            if mtn = 0 then mtmsg = 'Nothing to cancel'
+            else
+              do
+                call updclock mtn
+                mtmsg = 'Transmission cancelled'
+              end
+          end
+        else if ^datatype(mttime,'W') then
+          mtmsg = 'Activation time not whole number'
+        else if mttime <= timenow then
+          mtmsg = 'Activation time not in future'
+        else if mtn = 0 then
+          do
+            call addclock mttime-timenow mtnew
+            mtmsg = 'Transmission scheduled'
+          end
+        else
+          do
+            call updclock mtn mttime-timenow mtnew
+            mtmsg = 'Transmission rescheduled'
+          end
+      end
+  return
+ 
+COMPUTER:  arg ctype
+  connect = 1
+  if ctype = 'COMPUTER' then
+    clogo = 'COMPUZZ COMPUTER MODEL 3'
+  else
+    clogo = 'COMPUZZ TERMINAL MODEL 9'
+  call vdushow
+  'IOS3270 ZENO IOS3270 * ;COMPUTER (NOCLEAR NOQUIT'
+  if iosd = 'QUIT' then
+    do
+      connect = 0
+      environment = 'ROOM'
+    end
+  else if iosd = 'REPT' then
+    do
+      vducom = getline(comstack,comstackptr)
+      comstackptr = min(comstacklines,comstackptr+1)
+    end
+  else
+    do
+      if iosd = 'HELP' then
+        vducom = 'HELP'
+      command1 = strip(vducom)
+      comstackptr = 1
+      comstacklines = comstacklines + 1
+      comstack = '#' command1 comstack
+      call cpmsg ''
+      call cpsayhi command1
+      vducom = ''
+      call canalyse ctype command1
+    end
+  return
+ 
+CANALYSE: arg ctype c1 crest
+  if ctype = 'COMPUTER' then
+    c2 = c1
+  else
+    c2 = 'ILLEGAL'
+  if vdufull then call vdumtbuff
+  if c1 = '' then nop
+  else if find(files.disk,c1) ^= 0 then call run c1 crest
+  else if abbrev('DIRECTORY',c1) then call dir crest
+  else if abbrev('LIST',c1) then call dir crest
+  else if abbrev('CATALOG',c1) then call dir crest
+  else if abbrev('EDIT',c2) then call edit crest
+  else if abbrev('ERASE',c2,3) then call erase crest
+  else if abbrev('ACTIVE',c1) then call active crest
+  else if abbrev('TYPE',c1) then call type crest
+  else if abbrev('CANCEL',c2,3) then call cancel crest
+  else if abbrev('CLEAR',c1) then call clear crest
+  else if abbrev('TELL',c1,3) then call tell crest
+  else if abbrev('RUN',c1) then call run crest
+  else if abbrev('DISK',c1) then call disk crest
+  else if abbrev('MSG',c1) then call msg crest
+  else
+    do
+      if inpwait = '' then
+        do
+          call cpmsg 'Unknown COMPUZZ' ctype 'Command'
+          timenow = timenow - 1
+        end
+      else
+        do; c2 = '('inpwait')' c2
+          call tell c2 crest
+        end
+    end
+  return
+ 
+RUN: arg fn rest;
+  if fn = '?' then
+    do
+      call cpsay '"RUN prog" has the same effect as "prog"'
+      return
+    end
+  fnv = addprog(fn)
+  call addclock 0 'RUNLINE' fn fnv 1
+  return
+ 
+RUNLINE:  parse arg pfn pvn pno
+  if trace = @on then
+    call cpsay '>> Trace:' pfn pvn 'Line:' pno
+  ify = 1
+  ipfn = '$'pfn
+  version = pvn
+  if ^exists('file.disk.ipfn') then
+    pnext = -1
+  else if ^exists('file.disk.ipfn.pno') then
+    pnext = -2
+  else
+    do
+      pline = file.disk.ipfn.pno
+      if word(pline,2) = ':' then
+        pline = subword(pline,3)
+      parse var pline com rest
+      upper com
+      runtime = 0
+      pnext = pno + 1
+      if com = 'IF' then
+        do
+          parse var rest '(' ifexpr ')' com rest
+          upper com
+          if ifexpr = '' then
+            pnext = -3
+          else
+            ify = eval(ipfn pvn ifexpr)
+        end
+    end
+  if pnext > 0 & ify = 1 then
+    call runcom com rest
+  if pnext < 0 then
+    do
+      errno = 900 - pnext
+      call cpmsg msg.errno
+      call cpmsg 'Abend' errno 'in' pfn pvn 'line' pno
+      call delprog pfn pvn
+      if pfn ^= 'ERROR' then
+        call dotell '(ERROR)' errno pfn pvn pno
+    end
+  else if ((file.disk.ipfn - pnext) < 0) | pnext = 0 then
+    call delprog pfn pvn
+  else
+    call addclock runtime 'RUNLINE' pfn pvn pnext
+  return
+ 
+RUNCOM:
+  if com = 'INTERPRET' then
+    do;
+      pline = vartrans(ipfn pvn rest)
+      parse var pline com rest
+      upper com
+    end
+  select
+    when com = '' | com = '*' then return
+    when com = 'END' then
+      pnext = 0
+    when com = 'ABEND' then
+      do
+        call cpsay vartrans(ipfn pvn rest)
+        pnext = -98
+      end
+    when com = 'SAY' then
+      do
+        saym = vartrans(ipfn pvn rest)
+        call cpsay saym
+      end
+    when com = 'RUN' then
+      do
+        rfn = vartrans(ipfn pvn word(rest,1))
+        upper rfn
+        if find(files.disk,rfn) = 0 then
+          pnext = -4
+        else
+          do
+            fnv = addprog(rfn)
+            call addclock 0 'RUNLINE' rfn fnv 1
+          end
+      end
+    when com = 'GO' then
+      do
+        if rest = '' then
+          pnext = -5
+        else
+          do
+            rlab = vartrans(ipfn pvn word(rest,1))
+            upper rlab
+            x = find(lab.disk.ipfn,rlab)
+            if x = 0 then
+              pnext = -6
+            else if datatype(rlab) = 'NUM' then
+              pnext = -23
+            else
+              pnext = word(lab.disk.ipfn,x+1)
+          end
+      end
+    when com = 'WAIT' then
+      do
+        parse var rest w1 wrest
+        upper w1
+        if w1 ^= 'FOR' & w1 ^= 'UNTIL' then
+          do
+            wrest = rest
+            w1 = 'FOR'
+          end
+        w2 = eval(ipfn pvn wrest)
+        if w1 = 'FOR' then
+          do
+            if badint(w2) then
+              pnext = -7
+            else
+              runtime = w2
+          end
+        else
+          do
+            if w2 ^= 1 then
+              do
+                runtime = 1
+                pnext = pno
+              end
+          end
+      end
+    when com = 'SET' then
+      call doset
+    when com = 'VARS' then
+      do
+        if rest = '' then
+          pnext = -12
+        else
+          call dodef '$'pfn pvn rest
+      end
+    when com = 'PULL' then
+      do
+        upper rest
+        if rest = '' then
+          pnext = -13
+        else if badvar(ipfn pvn rest) then
+          pnext = -14
+        else
+          do
+            z = inpavail(ipfn pvn)
+            if z = '#' then
+              do
+                runtime = 1
+                pnext = pno
+                call addinp pfn pvn
+              end
+            else
+              do;
+                parse var rest svar rest
+                do while svar ^= ''
+                  isvar = '$'svar
+                  if rest = '' then
+                    var.ipfn.pvn.isvar = z
+                  else
+                    do
+                      if z ^= '' then
+                        do
+                          var.ipfn.pvn.isvar = word(z,1)
+                          z = subword(z,2)
+                        end
+                       else
+                         var.ipfn.pvn.isvar = ''
+                    end
+                  parse var rest svar rest
+                end
+                call delinp(pfn pvn)
+              end
+          end
+      end
+    when com = 'TELL' then
+      do
+        parse var rest a1 '(' tpfn tvn ')' trest
+        if a1 ^= '' then
+          pnext = -15
+        else if tpfn = '' then
+          pnext = -16
+        else if trest = '' then
+          pnext = -17
+        else
+          do
+            z = dotell('(' tpfn tvn ')' vartrans(ipfn pvn rest))
+            if z ^= 0 then
+              pnext = -17 - z
+          end
+      end
+    when com = 'CALL' then
+      do
+        upper rest
+        if rest = '' then
+          pnext = -21
+        else
+          do
+            rest = strip(vartrans(ipfn pvn rest))
+            if find(okcalls,word(rest,1)) = 0 then
+               pnext = -22
+             else
+               call addclock 0 rest
+          end
+      end
+    otherwise
+      do ;  /* could it be a SET without the SET ? */
+        rest = com rest
+        parse var rest z1 '=' z2
+        if words(z1) = 1 & words(z2) ^= 0 then
+          call doset
+        else
+          pnext = -99
+      end
+   end
+   return
+ 
+TELL: arg trest
+  if trest = '?' then
+    do
+      call cpsay 'format is: TELL <program <version>> text'
+      call cpsay 'passes "text" to program'
+      return
+    end
+  if substr(trest,1,1) ^= '(' then
+    trest = '( )' trest
+  ok = dotell(trest)
+  if ok=0 then nop
+  else
+    do
+      tmsg = 917 + ok
+      call cpmsg msg.tmsg
+    end
+  return
+ 
+DOTELL: procedure expose inpwait inp. running
+  parse arg '(' pfn vn ')' rest
+  upper pfn
+  ok = 0
+  if pfn = '' then
+    if inpwait = '' then
+      ok = 1
+    else
+      do
+        pfn = word(inpwait,1)
+        vn = word(inpwait,2)
+      end
+  else
+    do
+      if vn = '' then
+        do
+          x = find(running,pfn)
+          if x = 0 then
+            ok = 2
+          else
+            vn = word(running,x+1)
+        end
+      x = find(running,space(pfn vn,1))
+      if x = 0 then
+        ok = 3
+    end
+  if ok = 0 then
+    do
+      ipfn = '$'pfn
+      if exists('inp.ipfn.vn') then
+        inp.ipfn.vn = inp.ipfn.vn rest '#'
+      else
+        inp.ipfn.vn = rest '#'
+    end
+  return ok
+ 
+DOSET:  parse var rest svar '=' sexpr
+  upper svar
+  svar = strip(svar)
+  if words(svar) ^= 1 then
+    pnext = -8
+  else if sexpr = '' then
+    pnext = -9
+  else
+    do
+      varlist = var.ipfn.pvn gvarlistw
+      ln = words(var.ipfn.pvn)
+      z = find(varlist,svar)
+      if z = 0 then
+        pnext = -10
+      else
+        do
+          y = eval(ipfn pvn sexpr)
+          isvar = '$'svar
+          if z > ln then
+            do
+              if exists('val.isvar') then
+                do
+                  parse var val.isvar isrt isvals
+                  if isvals = '' | find(isvals,y) ^= 0 then
+                    do
+                      if value(svar) ^= y then
+                        do
+                          interpret svar '=y'
+                          interpret 'call' svar 'y'
+                          runtime = isrt
+                        end
+                    end
+                  else
+                    pnext = -11
+                end
+              else
+                interpret svar '=y'
+            end
+           else
+             var.ipfn.pvn.isvar = y
+        end
+    end
+  return
+ 
+BADVAR: procedure expose var.
+  arg ipfn pvn rest
+  do i = 1 to words(rest)
+    w = word(rest,i)
+    if find(var.ipfn.pvn,w) = 0 then return 1
+  end
+  return 0
+ 
+ADDINP: procedure expose inpwait
+  arg fn vn
+  x = find(inpwait,fn vn)
+  if x = 0 then
+    inpwait = inpwait fn vn
+  return
+ 
+DELINP: procedure expose inpwait
+  arg fn vn
+  x = find(inpwait,fn vn)
+  if x ^= 0 then
+    inpwait = delword(inpwait,x,2)
+  return
+ 
+INPAVAIL: procedure expose inp.
+  arg ipfn vn
+  if exists('inp.ipfn.vn') then
+    do
+      z1 = index(inp.ipfn.vn,'#')
+      if (z1 > 0) then
+        do
+          z = substr(inp.ipfn.vn,1,z1-1)
+          inp.ipfn.vn = substr(inp.ipfn.vn,z1+1)
+          if inp.ipfn.vn = '' then
+            drop inp.ipfn.vn
+          return z
+        end
+    end
+  return '#'
+ 
+DODEF: procedure expose var.
+  arg pn vn rest
+  drop var.pn.vn.
+  var.pn.vn = rest
+  do i = 1 to words(rest)
+    x = '$'word(rest,i)
+    var.pn.vn.x = 0
+  end
+  return
+ 
+EDIT: arg fn rest
+  tt = time()
+  if ^connect then return
+  if fn = '' | fn = '?' then
+    do
+      call book 'BKED'
+      return
+    end
+  if datatype(fn) = 'NUM' then
+    do
+      call cpmsg 'Filenames must not be numeric'
+      return
+    end
+  if length(fn) > 16 then
+    fn = substr(fn,1,16)
+  ifn = '$'fn
+  if find(files.disk,fn) = 0 then
+    if words(files.disk) > disklim then
+      do
+        call cpmsg 'No more room on disk' disk '- erase to make space'
+        return
+      end
+    else
+      do
+        files.disk = files.disk fn
+        file.disk.ifn = 0
+        lab.disk.ifn = ''
+      end
+  if warnrun(fn) then
+    emsg = 'Warning: program' fn 'is running'
+  buffer = ftobuff(ifn,disk)
+  if editrtn(fn) = 0 then
+    call bufftof ifn
+  if file.disk.ifn = 0 then
+    do
+      call cpmsg 'File' fn 'is empty - has been erased'
+      call erase fn
+    end
+  return
+ 
+FTOBUFF: procedure expose file. buffwide
+  arg ifn , tdisk
+  buff = ''
+  do i = 1 to file.tdisk.ifn
+    buff = buff||left(file.tdisk.ifn.i,buffwide)
+  end
+  return buff
+ 
+BUFFTOF: procedure expose file. disk buffer buffwide lab.
+  arg ifn
+  n = length(buffer)%buffwide
+  nl = 0
+  lab.disk.ifn = ''
+  do i = 1 to n
+    line = substr(buffer,buffwide*(i-1)+1,buffwide)
+    if line ^= '' then
+      do
+        nl = nl + 1
+        file.disk.ifn.nl = line
+        if word(line,2) = ':' then
+          do
+            labx = word(line,1)
+            upper labx
+            lab.disk.ifn = lab.disk.ifn labx nl
+          end
+      end
+  end
+  file.disk.ifn = nl
+  return
+ 
+EDITRTN: procedure expose buffer buffwide vduline. vdulc. vdudeep ,
+        files. file. disks disk head books book. timenow emsg
+  arg fn;
+  eheadx =  'CED V3 File='fn 'Recs='
+  curl = 1;
+  more = 1
+  eblankl = copies(' ',buffwide)
+  do while more = 1
+    nl = bufftoscr()
+    tt = time()
+    ehead = eheadx||nl
+    'IOS3270 ZENO IOS3270 * ;EDITOR ( 0025 NOCLEAR NOQUIT'
+    emsg = ''
+    curl = scrtobuff();
+    ecom = strip(ecom)
+    if iosd = 'NXT' then
+      ecom = ecom'#'vdudeep - 1
+    else if iosd = 'PRV' then
+      ecom = ecom'#'1 - vdudeep
+    else if iosd = 'HELP' then
+      call book 'BKED'
+    else if iosk ^= 'ENTER' then
+      ecom = ecom'#'iosd
+    more = doecom(ecom)
+  end
+  return more
+ 
+BUFFTOSCR: procedure expose buffer buffwide vdudeep curl ,
+                     vduline. vdulc. eblankl
+  nl = length(buffer)%buffwide
+  do i = 1 to vdudeep
+    if curl + i > nl + 1 then
+      do
+        if curl + i  = nl + 2 then
+            vdulc.i = 'EOF'
+        else
+            vdulc.i = ''
+        vduline.i = eblankl
+      end
+    else
+      do
+        vduline.i = substr(buffer,buffwide*(curl+i-2)+1,buffwide)
+        vdulc.i  = curl + i - 1
+      end
+  end
+  buffer = delstr(buffer,buffwide*(curl-1)+1,buffwide*vdudeep)
+  return nl
+ 
+SCRTOBUFF: procedure expose curl vdudeep vdulc. vduline. buffer ,
+           buffwide eblankl
+  ncurl = curl
+  buffbit = ''
+  extra = 0
+  do i = 1 to vdudeep
+    parse value parselc(vdulc.i) with lcomn lcomc
+    if lcomc = '' then lcomc = ' '
+    upper lcomc
+    if lcomc = 'D' then
+      do
+        extra = lcomn - (vdudeep - i + 1)
+        i = i + lcomn - 1
+      end
+    else
+      do
+        line = vduline.i
+        if line ^= '' then
+          buffbit = buffbit||left(line,buffwide)
+        if lcomc = '/' then
+          ncurl = curl + i - 1
+        else if lcomc = '"' then
+          buffbit = buffbit||copies(left(line,buffwide),lcomn)
+        else if lcomc = 'A' then
+          buffbit = buffbit||copies(eblankl,lcomn)
+      end
+  end
+  if extra > 0 then
+    buffer = delstr(buffer,buffwide*(curl-1)+1,buffwide*extra)
+  buffer = insert(buffbit,buffer,buffwide*(curl-1))
+  return ncurl
+ 
+DOECOM:   parse arg ecom '#' enext
+  more = 1
+  do while (ecom enext ^= '') & (more = 1) & (emsg = '')
+    elines = length(buffer)%buffwide
+    if substr(ecom,1,1) = '/' then
+      ecom = 'LOCATE' substr(ecom,2)
+    parse var ecom ecom1 erest
+    upper ecom
+    parse var ecom ecom1 ecom2 ecom3
+    select
+      when ecom1 = '' then nop
+      when substr(ecom1,1,1) = ':' then
+        do
+          ii = substr(ecom1,2)
+          if ^badint(ii) then
+            curl = max(min(ii,elines),1)
+          else
+            emsg = 'Bad line number target'
+        end
+      when ^badint(ecom1) then
+        curl = max(min(curl + ecom1,elines),1)
+      when abbrev('GET',ecom1,2) then
+        do
+          if ecom2 = '' then
+            emsg = 'Get what?'
+          else
+            do
+              if ecom3 = '' then ecom3 = disk
+              if find(disks,ecom3) = 0 then
+                emsg = 'No such disk'
+              else
+                do
+                  if find(files.ecom3,ecom2)^= 0 then
+                    buffer =,
+                     insert(ftobuff('$'ecom2,ecom3),buffer,buffwide*curl)
+                  else
+                    emsg = 'File' ecom2 'is not on disk' ecom3
+                end
+            end
+        end
+      when abbrev('FILE',ecom1,2) then
+        more = 0
+      when abbrev('QUIT',ecom1) then
+        more = -1
+      when abbrev('TOP',ecom1) then
+        curl = 1
+      when abbrev('BOTTOM',ecom1) then
+        curl = elines
+      when abbrev('INPUT',ecom1) then
+        do
+          if erest = '' then
+            inbuff = copies(eblankl,vdudeep)
+          else
+            inbuff = left(erest,buffwide)
+          buffer = insert(inbuff,buffer,buffwide*curl)
+        end
+      when abbrev('LOCATE',ecom1) then
+        do
+          if erest = '' then
+            emsg = 'Locate what?'
+          else
+            do
+              targ = index(buffer,erest,buffwide*curl+1)
+              if targ = 0 then emsg = 'Not found'
+              else curl = targ%buffwide + 1
+            end
+        end
+      when abbrev('DELETE',ecom1,3) then
+        do
+          if ecom2 = '' then ecom2 = 1
+          if ecom2 = '*' then ecom2 = elines
+          if badint(ecom2) then
+            emsg = 'Bad delete parm'
+          else if ecom2 < 1 then
+            emsg = 'Bad delete parm'
+          else
+            buffer = delstr(buffer,buffwide*(curl-1)+1,ecom2*buffwide)
+        end
+      otherwise
+        emsg = 'Unknown edit command'
+    end
+    if emsg = '' then
+      parse var enext ecom '#' enext
+    else
+      ecom = ecom'#'enext
+  end
+  return more
+ 
+PARSELC: procedure
+  arg lcom
+  i = verify(lcom,'0123456789')
+  if i = 0 then return lcom
+  else if i = 1 then ln = 1
+  else ln = substr(lcom,1,i-1)
+  return ln substr(lcom,i,1)
+ 
+EVAL:  parse arg evpn evvn opa oper opb
+  opa = vartrans(evpn evvn opa)
+  opb = vartrans(evpn evvn opb)
+  oper = vartrans(evpn evvn oper)
+  if opb = '' then return strip(opa oper)
+  if oper = '.' then
+    do
+      if badint(opa) then return strip(opa oper opb)
+      else
+        do
+          if opa = 0 then return words(opb)
+          else if opa > 0 then return word(opb,opa)
+          else return delword(opb,0-opa,1)
+        end
+    end
+  if oper = '=' then return strip(opa = opb)
+  if oper = '\=' then return strip(opa ^= opb)
+  if oper = '||' then return strip(opa||opb)
+  if badnum(opa opb) then return strip(a oper opb)
+  if find('+ - * / > < ^= >= <=',oper) = 0 then
+    return strip(opa oper opb)
+  interpret 'opx=' opa oper opb
+  return strip(opx)
+ 
+VARTRANS:   parse arg ipfn pvn instr
+  if instr = '' then return ''
+  outstr = ''
+  varlist = var.ipfn.pvn gvarlist
+  vn = words(var.ipfn.pvn)
+  do vi = 1 to words(instr)
+    vw = word(instr,vi)
+    vx = find(varlist,vw)
+    if vx ^= 0 then
+      do
+        if vx > vn then
+          do
+            if vx = vn + 1 then vw = random()
+            else
+              interpret 'vw=' vw
+          end
+        else
+          do
+            vw = '$'vw
+            vw = var.ipfn.pvn.vw
+          end
+      end
+    else
+      nop
+    outstr = outstr vw
+  end
+  return outstr
+ 
+TYPE: arg afn
+  if afn = '?' | afn = '' then
+    call cpsay 'The TYPE command types a file on the console'
+  else
+    do
+      if find(files.disk,afn) = 0 then
+        call cpmsg 'File' afn 'does not exist'
+      else
+        do
+          iafn = '$'afn
+          do i = 1 to file.disk.iafn
+            call cpsay file.disk.iafn.i
+          end
+        end
+    end
+  return
+ 
+LIST:
+DIR: arg opt
+  if opt ^= '' then
+    do
+      call cpsay 'The LIST command tells you the name and size'
+      call cpsay 'of each file on the current disk'
+      call cpsay 'DIRECTORY and CATALOG have the same effect'
+    end
+  else
+    do
+      if words(files.disk) = 0 then
+        call cpmsg 'There are no files on disk' disk
+      else
+        do
+           call cpsay '   Directory of Disk' disk
+           call cpsay 'Name             NRECS'
+           nf = words(files.disk)
+           do i = 1 to nf
+             ifn = '$'word(files.disk,i)
+             nr = file.disk.ifn
+             call cpsay substr(ifn,2,17) nr
+           end
+           call cpsay nf*100%disklim '% full'
+        end
+    end
+  return
+ 
+ACTIVE: arg opt;
+  if opt ^= '' then
+    call cpsay 'ACTIVE tells you which programs are running'
+  else
+    do
+      if running = '' then
+        call cpmsg 'There are no programs running'
+      else
+        do;
+          call cpsay 'Name             Vn Nln Dly'
+          x = words(running)
+          do i = 1 to x-1 by 2
+            cn = findclock('RUNLINE' subword(running,i,2))
+            parse var clock.cn nlt . spn svn nl .
+            if find(inpwait,spn svn) ^= 0 then
+              iw = 'Waiting for Input'
+            else
+              iw = ''
+            call cpsay left(spn,16) format(svn,2) ,
+                 format(nl,3) format(nlt-timenow,3) iw
+          end
+        end
+    end
+  return
+ 
+CANCEL: arg opt
+  if opt = '' | opt = '?' then
+    call cpsay 'CANCEL cancels a program which is running'
+  else
+    do
+      x = find(running,opt)
+      if x = 0 then call cpmsg 'No such program is running'
+      else
+        do
+          call delprog opt
+          k = findclock('RUNLINE' opt)
+          if k ^= 0 then
+            do
+              drop clock.k
+              clocks = delword(clocks,find(clocks,k),1)
+              call cpmsg 'Program' opt 'cancelled'
+            end
+          else
+            signal  SYNTAX
+        end
+    end
+  return
+ 
+ADDPROG:  procedure expose running var.
+  arg apn
+  x = word(running,words(running)-find(reverse(running),reverse(apn))+2)
+  if x = '' then x = 0
+  avn = x + 1
+  running = running apn x+1
+  iapn = '$'apn
+  drop var.iapn.avn
+  return avn
+ 
+DELPROG: procedure expose running var. inpwait
+  arg apn
+  k = find(running,apn)
+  if k = 0 then return
+  avn = word(running,k+1)
+  iapn = '$'apn
+  drop var.iapn.avn
+  running = delword(running,k,2)
+  call delinp apn avn
+  return
+ 
+ERASE: arg afn
+  if afn = '' | afn = '?' then
+    do
+      call cpsay '"ERASE prog" erases the file "prog" from the disk'
+      return
+    end
+  x = find(files.disk,afn)
+  if x = 0 then
+    call cpmsg 'Program' afn 'does not exist'
+  else
+    do
+      if warnrun(afn) then
+        call cpmsg 'Warning: program' afn ' is running'
+      files.disk = delword(files.disk,x,1)
+      iafn = '$'afn
+      drop file.disk.iafn file.disk.iafn. lab.disk.iafn.
+    end
+  return
+ 
+DISK: arg adsk
+  if adsk = '?' then
+    do
+      call cpsay '"DISK" without an argument lists the names of'
+      call cpsay 'disks currently on-line'
+      call cpsay
+      call cpsay '"DISK disk" makes "disk" the current disk to be'
+      call cpsay 'searched when looking for programs'
+      call cpsay 'Take care doing this while programs are running'
+      return
+    end
+  if adsk = '' then
+    call cpsay 'Disks:' disks
+  else
+    do
+      if running ^= '' then
+        call cpmsg "Programs are running - take care"
+      if find(disks,adsk) ^= 0 then
+        disk = adsk
+      else
+        call cpmsg 'No such disk'
+    end
+  return
+ 
+WARNRUN: parse arg pfn
+  return find(running,pfn) ^= 0
+ 
+CPMSG: parse arg str
+  if (vdumsg ^= '') & (word(vdumsg,1) ^= '*') & ^vdufull then
+    do
+      call cpsay vdumsg
+      vdumsg = ''
+    end
+  vdumsg = str
+  return
+ 
+CPSAYHI: parse arg msg
+  call cpsay hi||msg
+  return
+ 
+CPSAY: parse arg msg
+  if vducnt >= vduseen + vdudeep then
+    do
+      vdufull = 1
+      call cpmsg '* More output waiting'
+      vdubuff = vdubuff||left(msg,vduwide)
+    end
+  else
+    do
+      vduscreen = substr(vduscreen,vduwide+1)||left(msg,vduwide)
+      vducnt = vducnt + 1
+    end
+  return
+ 
+CLEAR: arg opt
+  if opt = '?' then
+    call cpmsg 'CLEAR clears the VDU screen'
+  else
+    do
+      call vduclear
+      call vdumtbuff
+    end
+  return
+ 
+VDUCLEAR:
+  vduscreen = copies(' ',vdusize)
+  return
+ 
+VDUSHOW:
+  do i = 1 to vdudeep
+    vduline.i = substr(vduscreen,vduwide*(i-1)+1,vduwide)
+    if substr(vduline.i,1,2) = hi then
+      vduline.i = vduline.i||lo||'  |'/* this is a nasty fiddle ! */
+  end
+  vduseen = vducnt
+  return
+ 
+VDUMTBUFF:
+  do forever
+    if vdubuff = '' then leave
+    if vducnt >= vduseen + vdudeep then leave
+    call cpsay substr(vdubuff,1,vduwide)
+    vdubuff = substr(vdubuff,vduwide+1)
+  end
+  if vdubuff = '' then vdufull = 0
+  return
+ 
+CLOCK:
+  timenow = timenow + 1
+  cend = words(clocks) < 1
+  ci = 1
+  cci = 0
+  do while ^ cend
+     clockno = word(clocks,ci)
+     parse var clock.clockno trigger timeproc timeparms
+     if timenow >= trigger then
+       do
+         if timeproc = 'RUNLINE' then
+           do
+             cci = cci + 1
+             if cci > clocklim then
+               do
+                 call cpmsg 'System Overload - purging tasks'
+                 call delprog subword(timeparms,1,2)
+                 cend = 1
+               end
+             else
+               interpret 'call' timeproc 'timeparms'
+           end
+         else
+           interpret 'call' timeproc 'timeparms'
+         drop clock.clockno
+         clocks = delword(clocks,ci,1)
+       end
+     else
+       ci = ci + 1
+     if ci > words(clocks) then
+       cend = 1
+  end
+  sysl = cci + words(running) + words(inpwait)
+  return
+ 
+FINDCLOCK:   procedure expose clocks clock.
+  arg str
+  nw = words(str)
+  if nw = 0 then return 0
+  nc = words(clocks)
+  if nc = 0 then return 0
+  tx = space(str,1)
+  do i = 1 to nc
+    cn = word(clocks,i)
+    ty = space(subword(clock.cn,2,nw),1)
+    if tx = ty then return cn
+  end
+  return 0
+ 
+ADDCLOCK:   procedure expose timenow curclk clocks clock.
+  arg incr str
+  curclk = curclk + 1
+  clocks = clocks curclk
+  clock.curclk = timenow + incr  str
+  return
+ 
+UPDCLOCK:  procedure expose clocks clock
+  arg cn incr cnew
+  xx = find(clocks,cn)
+  if xx = 0 then return
+  if cnew = '' then
+    do
+      clocks = delword(clocks,xx,1)
+      drop clock.cn
+    end
+  else
+    clock.cn = timenow + incr cnew
+  return
+ 
+ROBOT: parse arg rcom
+  if state.@robotobj ^= @ok then
+    if present(room.@robot) then
+      actlines = actlines sname.@robot 0 806
+    else nop
+  else
+    do
+      actor = @robot
+      call analycom rcom
+    end
+  robot = 'ROBOT'
+  return
+ 
+ROBOT_VOICE:
+  if room.@hero = room.@robot then
+    do
+      if state.@robotobj ^= @ok then
+        actlines = actlines 895 0 894
+      else
+        do
+          msg.899 = robot_voice
+          actlines = actlines 895 0 899
+        end
+    end
+  robot_voice = 'ROBOT_VOICE'
+  return
+ 
+ALIEN:
+  if timenow < @alienstarttime then return
+  actor = @alien
+  if state.@alienobj = @ok then
+    do
+      room = room.@alien
+      possible = contents.room carried.@robot carried.@hero
+      if inship(room) & random() > 750 then
+        possible = possible carried.@alien
+      call analycom word(possible,random(1,words(possible)))
+    end
+  if aliengone then
+    do
+      call moveactor @far room.@alien,1,128 129,1
+      aliengone = 0
+      alert_level = 0
+      state.@alienobj = @ok
+      call vmsg 600 + random(1,@vmsgs)
+    end
+  else if state.@alienobj ^= @ok then
+    aliengone = 1
+  else if room.@alien = @space then
+    call moveactor @near @space, 1,55,1
+  return
+ 
+LIFT_DOOR:
+  if lift_door = @open then
+    liftair = shipair
+  state.@liftdoorobj = lift_door
+  dn = findob('DOOR',liftexit)
+  state.dn = lift_door
+  if present(@lift) | present(liftexit) then
+    if lift_door = @close then
+      actlines = actlines 202
+    else
+      actlines = actlines 203
+  return
+ 
+LIFT_FLOOR:
+  if lift_door = @open then
+    do
+      if room.@hero = @lift then
+        status = @squashed
+      else if room.@hero = liftexit then
+        actlines = actlines 164
+      else nop
+    end
+  else
+    do
+      if present(@lift) then
+        actlines = actlines 204
+      else nop
+      liftexit = liftexit.lift_floor
+    end
+  return
+ 
+MT_MODE:
+  state.@mtsign = mt_mode
+  return
+ 
+MT_BEAM:
+  if mt_mode = @auto then
+    call transmit mt_beam
+  mt_beam = 0
+  return
+ 
+PROBE:
+  position = word(coordinates,room.@robot)
+  human_here = (room.@robot = room.@hero)
+  alien_here = (room.@robot = room.@alien)
+  if room.@robot = @lift then
+    air_here = (liftair > 0)
+  else if inship(room.@robot) then
+    air_here = (shipair > 0)
+  else
+    air_here = 0
+  probe = @off
+  return
+ 
+SHIELD:
+  state.@hview = shield
+  return
+ 
+TRACE:
+LIFT_BUTTON:
+AIR_PUMP:
+INTRUDER_ALARM:
+TERMINAL1:
+TERMINAL2:
+  return
+ 
+TRANSMIT:  arg mtfrom mtto
+  if mtfrom = '' | mtto = '' then
+    return
+  mtsource = find(coordinates,mtfrom)
+  mttarget = find(coordinates,mtto)
+  if mtsource = @tranroom | mttarget = @tranroom then
+    do
+      status = @transmuted
+      return
+    end
+  do actor = 0 to actornum
+    if room.actor = mtsource then
+      call moveactor mttarget mtsource, 54,55,56
+  end
+  return
+ 
+AIR:
+  if @windobj ^= @broke then
+    do
+     tsa=shipair+(2*(air_pump=@on)-inship(room.@hero))*(@windobj^=@broke)
+      shipair = min(max(tsa,0),@airmax)
+    end
+  if lift_door = @close then
+    liftair = max(liftair-2*(room.@hero = @lift),0)
+  else
+    liftair = shipair
+  suitair = min(max(suitair + 1 - 2*insuit,0),@suitmax)
+  if status ^= @ok then return
+  if insuit then airq = suitair
+  else if inship(room.@hero) then airq = shipair
+  else
+    do
+      status = @spaced
+      return
+    end
+  if airq < 2 & insuit then
+    if room.@hero = @space then
+      status = @suffocinspace
+    else
+      status = @suffocinsuit
+  else if airq < 2 & room.@hero = @lift & lift_door = @close then
+    status = @suffocinlift
+  else if airq < 2 then
+    status = @suffoc
+  else if airq < 0 then
+    status = @vacuumed
+  air_quality = 11 - min(airq%2,10)
+  if connect & (air_quality > 2) & (status = @ok) then
+    commsg = 'The air here is not too good'
+  return
+ 
+ENERGY:
+  energy = energy-(air_pump=@on)-6*(shield=@up)-(mt_mode^=@off)+2
+  energy = max(0,energy)
+  if energy < 15 then
+    do
+      if shield = @up then call alarm 817
+      shield = @down
+      state.@hview = @down
+      if mt_mode ^= @off then call alarm 817A
+      mt_mode = @off
+      state.@mtsign = @off
+    end
+  return
+ 
+ALARM:
+  if intruder_alarm = @off then return
+  parse arg almsg
+  call cpsayhi msg.895 msg.almsg
+  if present(room.@robot) then
+    actlines = actlines 895 0 almsg
+  return
+ 
+POWER_SURGE:
+  shield = @down
+  state.@hview = @down
+  air_pump = @off
+  intruder_alert = @off
+  terminal1 = @disab
+  call alarm 819
+  call addclock random(80,140) 'POWER_SURGE'
+  return
+ 
+PHOTON:
+  arg ph
+  if ph = 'W' then
+    do
+      call alarm 828; call alarm 829
+      call addclock 45 'PHOTON S'
+      return
+    end
+  photontime = photontime + 1
+  if photontime > @photonmax then return
+  if inship(room.@hero) then
+    do
+      if photontime = 1 then
+        status = @photoned1
+      else
+        status = @photoned2
+    end
+  call addclock 1 'PHOTON S'
+  return
+ 
+VMSG: arg vmsg
+  call cpsayhi 'MSG at' timenow msg.vmsg
+  return
+ 
+MSG: arg mdest mtext
+  call cpsay 'MSG at' timenow 'sent to' mdest
+  return
+ 
+STATCHK:
+  call air
+  call energy
+  if actlines ^= '' & connect then
+    do
+      environment = 'ROOM'
+      connect = 0
+      actlines = 807 actlines
+    end
+  if room.@hero = @space then
+    do
+      state.@sview = state.@sview + 1
+      if state.@sview > 4 then
+        do
+          do actor = 0 to actornum
+           if room.actor = @space then
+             call moveactor @moon @space,205,1,206
+          end
+          state.@sview = 4
+        end
+    end
+  if limbotime > @limbomax then
+    status = @limboed
+  if glurktime > @glurkmax then
+    status = @glurked
+  if room.@hero = @limbo then
+    limbotime = limbotime + 1
+  if room.@hero = room.@glurk then
+    glurktime = glurktime + 1
+  if status = @ok then return
+  else
+    do forever
+      call getout
+    end
+ 
+BADNUM: procedure
+  parse arg nums
+  do j = 1 to words(nums)
+    if ^datatype(word(nums,j),'N') then return 1
+  end
+  return 0
+ 
+BADINT: procedure
+  parse arg nums
+  do j = 1 to words(nums)
+    if ^datatype(word(nums,j),'W') then return 1
+  end
+  return 0
+ 
+EXISTS: arg obj
+  return symbol(obj) = 'VAR'
+ 
+OBJECTLIST: procedure expose contents. carried. @hero @alien
+  arg room
+  oblist = 'LASE'
+  do i = 1 to words(contents.room)%2
+    oblist = oblist word(contents.room,i*2-1)
+  end
+  if room = room.@hero then
+    do i = 1 to words(carried.@hero)%2
+      oblist = oblist word(carried.@hero,i*2-1)
+    end
+  if room = room.@alien then
+    do i = 1 to words(carried.@alien)%2
+      oblist = oblist word(carried.@alien,i*2-1)
+    end
+  return oblist
+ 
+INSHIP: arg osr
+  if (osr > @limbo) & (osr < @hangar) then return 1
+  else return 0
+ 
+ACTORNAME: procedure expose actornames
+  arg num
+  return word(actornames,num+1)
+ 
+GETLINE: procedure
+  arg lines, num
+  x = locate('#',lines,num)
+  y = locate('#',lines,num+1)
+  return substr(lines,x+1,y-x-1)
+ 
+LOCATE: arg delim,instring, repl
+  start = 1
+  do i = 1 to repl
+     j = pos(delim,instring,start)
+     if start = 0 then return 0
+     start = j + 1
+  end
+  return j
+ 
+MOVEACTOR:  arg target source,udesc,aldesc,aadesc
+  room.actor = target
+  if actor = @hero then
+    actlines = actlines udesc
+  else
+    do
+      aname = actorname(actor)
+      call addob aname delob(aname,source) target
+      if present(source) then
+        actlines = actlines sname.actor 0 aldesc
+      else if present(target) then
+        actlines = actlines sname.actor 0 aadesc
+      else nop
+    end
+  return
+ 
+PRESENT: procedure expose room. @hero
+  arg room
+  return (room = room.@hero)
+ 
+FINDOB: procedure expose contents.
+  arg name , room
+  name = strip(name); room = strip(room)
+  x = find(contents.room,name)
+  if x = 0 then return ''
+  return word(contents.room,x+1)
+ 
+DELOB: procedure expose contents.
+  arg name , room
+  name = strip(name); room = strip(room)
+  x = find(contents.room,name)
+  if x = 0 then return ''
+  num = word(contents.room,x+1)
+  contents.room = delword(contents.room,x,2)
+  return num
+ 
+ADDOB: procedure expose contents.
+  arg name number room .
+  contents.room = contents.room name number
+  return
+ 
+BOOK:
+  procedure expose books book. commsg notes note. nbkline. head timenow
+  arg bknm pno
+  curbook = bknm
+  pagelist = book.curbook.0
+  lastpage = word(pagelist,words(pagelist))
+  if pno = '' | datatype(pno,'W') = 0 then
+    curpage = 0
+  else
+    curpage = pno
+  nbdeep = 16
+  bktitle1 = book.curbook.1
+  bktitle2 = book.curbook.2
+  do forever
+     curpage = max(min(curpage,lastpage),0)
+     tt = time()
+     ocurpage = curpage
+     if find(pagelist,curpage) = 0 then
+       if curpage = 0 then
+         bkpg = ';BKNC'
+       else if curpage = 1 then
+         bkpg = ';BKNI'
+       else
+         bkpg = ';BKNE'
+     else
+       bkpg = ';'curbook||curpage
+     if curpage = 0 then
+       do
+         bkti = ';BKTIOFF';  bkpf = ';BKPFF'
+       end
+     else if curpage = lastpage then
+       do
+         bkti = ';BKTION';   bkpf = ';BKPFL'
+       end
+     else
+       do
+         bkti = ';BKTION';   bkpf = ';BKPFM'
+       end
+     if (curbook = 'BKNB') & (ocurpage ^= 0) then
+       call setnotes
+    'IOS3270 ZENO IOS3270 * ;BOOK (NOCLEAR NOQUIT'
+     if curpage = '' then curpage = ocurpage
+     if (curbook = 'BKNB') & (ocurpage ^=0 ) then
+       call getnotes
+     bookmsg = ''
+     if iosk = 'ENTER' then iosd = command
+     if iosd = 'QUIT' then
+       do
+         book.curbook.2 = bktitle2
+         return
+       end
+     else if badint(curpage) then
+       do
+         curpage = ocurpage
+         bookmsg = 'Invalid Page Number'
+       end
+     else if iosd = 'NDX' then
+       curpage = 1
+     else if iosd = 'NXT' then
+       curpage = curpage + 1
+     else if iosd = 'PRV' then
+       curpage = curpage - 1
+     else if iosd = 'HELP' then
+      bookmsg = "You mean you can't read a book!"
+     else
+       nop
+     if curpage < 0 then
+       bookmsg = 'this is the first page'
+     if curpage > lastpage then
+       bookmsg = 'this is the last page'
+   end
+ 
+SETNOTES:
+  do i = 1 to nbdeep
+    ntm = i + (ocurpage-1)*nbdeep
+    if find(notes,ntm) ^= 0 then
+      nbkline.i = note.ntm
+    else
+      nbkline.i = ''
+  end
+  return
+ 
+GETNOTES:
+  do i = 1 to nbdeep
+    ntm = i + (ocurpage-1)*nbdeep
+    ntx = find(notes,ntm)
+    if nbkline.i ^= '' then
+      do
+        if ntx = 0 then
+          notes = notes ntm
+        note.ntm = nbkline.i
+      end
+    else if ntx ^= 0 then
+      do
+        notes = delword(notes,ntx,1)
+        drop note.ntm
+      end
+  end
+  return
+ 
+SYNTAX:
+  if loading = '1' then
+    do
+      say 'Something has gone wrong trying to set things up'
+      say 'Initial loading failed'
+      exit
+    end
+  say "Due to your careless meddling, terrible things have happened"
+  say "You have probably damaged things beyond repair!"
+  say "The test is over - you have failed - begone!"
+  say
+  say "By the way, you might like to tell Dave Mitchell about this"
+  say "Error" rc "occurred at line" sigl
+  exit
+ 
+ROOMDESC:
+  dlines = airqual.air_quality
+  aroom = room.@hero
+  dlines = actlines bline dlines descr.aroom
+  no = words(contents.aroom)
+  do oo = 2 to no by 2
+    object = word(contents.aroom,oo)
+    if exists('state.object') then
+      oname = object'.'state.object
+    else
+      oname = object
+    dlines = dlines desco.oname
+  end
+  if insuit then dlines = dlines @suitline
+  if find(carried.@hero,'NOTE') ^= 0 then dlines = dlines @noteline
+  call describe dlines
+  return
+ 
+DESCRIBE: procedure expose rmsg. msg. roomdeep
+  arg msglist
+  x = find(msglist,'1')
+  do while x ^= 0
+    msglist = delword(msglist,x,1)
+    x = find(msglist,'1')
+  end
+  do i = 1 to roomdeep
+    if msglist ^= '' then
+      msglist = 0 msglist
+    rmsg.i = ''
+    do while (word(msglist,1) = 0) & (words(msglist) > 1)
+      k = word(msglist,2)
+      rmsg.i = rmsg.i msg.k
+      msglist = delword(msglist,1,2)
+    end
+  end
+  if msglist ^= '' then rmsg.roomdeep = "Too much to say - too little" ,
+    "room to say it!!"
+  return
+ 
+ 
+CONSTINIT:
+  @hero = 0; @robot = 1; @alien = 2; @glurk = 3
+  actornum =  @glurk
+  actornames = 'HERO ROBO ALIE GLUR'
+  @robotobj = 13
+  @alienobj = 15
+  @glurkobj = 96
+  actorobjs  = @robotobj @alienobj @glurkobj
+  @keepobjs = 'ALIE BLAS GLUR $SV$'
+  @windobj = 16
+  @liftdoorobj = 5
+  @ok =             0
+  @suffoc =         1
+  @suffocinlift =   2
+  @burnt =          3
+  @burntl =         4
+  @lasered =        5
+  @defenestrated1 = 6
+  @defenestrated2 = 7
+  @vacuumed =       8
+  @broke  =         9
+  @alienated =     10
+  @spaced =        11
+  @decompressed =  12
+  @shuttled     =  13
+  @scuttled     =  14
+  @suffocinsuit =  15
+  @blasted      =  16
+  @limboed      =  17
+  @glurked      =  18
+  @squashed     =  19
+  @meteored     =  20
+  @photoned1    =  21
+  @photoned2    =  22
+  @shielded     =  23
+  @suffocinspace=  24
+  @transmuted   =  25
+ 
+  @open   = 'OPEN';  @close = 'CLOSE'
+  @on     = 'ON';    @off = 'OFF'
+  @enab = 'ENABLED'; @disab = 'DISABLED'
+  @onoff    = @on @off
+  @manual = 'MANUAL';@auto = 'AUTO';
+  @up = 'UP';        @down = 'DOWN'
+  @suitline = 114
+  @noteline = 115
+  @noteobj = 7
+  @suitobj = 17
+  @shutobj = 31
+  @nastyobj = 34
+  @mtsign = 36
+  @hview  = 39
+  @sview  = 40
+  @far         = 90
+  @near        = 85
+  @moon        = 11
+  @space       = 10
+  @hangar      = 9
+  @tranroom    = 8
+  @airlock     = 7
+  @footstair   = 6
+  @stairs      = 5
+  @store       = 4
+  @observatory = 3
+  @lift        = 2
+  @comproom    = 1
+  @limbo       = 0
+ 
+  liftexit.1 = @comproom
+  liftexit.2 = @observatory
+  liftexit.3 = @store
+  liftexit.4 = @airlock
+ 
+  @vmsgs = 10
+  @airmax = 25; @suitmax = 40
+  @limbomax = 12
+  @glurkmax = 4
+  @photonmax = 6
+  @alienstarttime = 42
+ 
+  status.@ok       = 100
+  status.@suffoc   = 101
+  status.@suffocinlift  = 102
+  status.@squashed = 103 104 105
+  status.@burnt    = 106
+  status.@burntl   = 113
+  status.@lasered  = 116 117
+  status.@defenestrated1 = 118 0 119 120
+/*  status.@defenestrated2 is set when it happens - see windobj */
+  status.@meteored = 123 124
+  status.@vacuumed = 125 126
+  status.@alienated= 127
+  status.@spaced = 135
+  status.@decompressed = 149 150
+  status.@shuttled  = 154 155
+  status.@suffocinsuit = 121
+  status.@blasted = 165
+  status.@limboed = 168 168A
+  status.@glurked = 169 169A
+  status.@photoned1 = 171 172
+  status.@photoned2 = 171A 172
+  status.@shielded  = 173 173A
+  status.@suffocinspace =175 175A
+  status.@transmuted= 174 174A 174B 174C
+ 
+  airqual.1 = 1
+  airqual.2 = 2
+  airqual.3 = 3
+  airqual.4 = 4
+  airqual.5 = 5
+  airqual.6 = 6
+  airqual.7 = 7
+  airqual.8 = 8
+  airqual.9 = 9
+  airqual.10 = 10
+ 
+  descr.@limbo = 57
+  descr.@comproom = 11 12
+  descr.@lift = 13 14 15 16
+  descr.@observatory = 17 18 18A
+  descr.@store = 30
+  descr.@far = 1
+  descr.@near = 1
+  descr.@hangar = 44 45 59 59A
+  descr.@airlock = 42 43
+  descr.@tranroom = 48
+  descr.@footstair = 41 49 50 0
+  descr.@stairs = 40
+  descr.@space = 62
+  descr.@moon  = 66
+  coordinates = '84-212 46-975 565-23 690-34 54-367 89-021 385-34' ,
+                '76-421 17-400 20-615 95-461'
+ 
+  desco.1 = 1
+  desco.2 = 19
+  desco.3.@open = 22
+  desco.3.@close = 20 21
+  desco.4 = 1
+  desco.@liftdoorobj.@open  = 23
+  desco.@liftdoorobj.@close = 24
+  desco.6 = 1
+  desco.7 = 25
+  desco.8 = 1
+  desco.9 = 1
+  desco.10.@open = 22
+  desco.10.@close = 20 21
+  desco.11 = 27
+  desco.12 = 1
+  desco.@robotobj.@ok = 28 28A 28B 28C 31
+  desco.@robotobj.@burnt = 29 31
+  desco.@robotobj.@blasted = 46 46A 31
+  desco.14 =  1
+  desco.@alienobj.@ok = 26
+  desco.@alienobj.@burntl = 32
+  desco.@alienobj.@broke  = 36 37
+  desco.@windobj.@ok = 33
+  desco.@windobj.@broke = 34 35
+  desco.@suitobj = 38
+  desco.18 = 1
+  desco.19.@open = 22
+  desco.19.@close = 20 21
+  desco.20 = 1
+  desco.21 = 1
+  desco.22 = 1
+  desco.23 = 39
+  desco.24 = 1
+  desco.25 = 1
+  desco.26 = 1
+  desco.27 = 39
+  desco.28.@open = 22
+  desco.28.@close = 20 21
+  desco.29 = 1
+  desco.30 = 1
+  desco.@shutobj.@ok = 156 157
+  desco.@shutobj.@scuttled = 151
+  desco.33 = 158
+  desco.@nastyobj = 159 160 161
+  desco.35 = 47
+  desco.@mtsign.@off = 51
+  desco.@mtsign.@manual = 52
+  desco.@mtsign.@auto = 53
+  desco.37 = 1
+  desco.38 = 58
+  desco.@hview.@up = 60 60A
+  desco.@hview.@down  = 61 61A
+  desco.@sview.1      = 62A 62B 62C
+  desco.@sview.2      = 63A 63B
+  desco.@sview.3      = 64A 64B
+  desco.@sview.4      = 65A
+  desco.@glurkobj = 170 170A
+ 
+  sname.@hero = 700
+  sname.@robot = 701
+  sname.@alien = 702
+  sname.@glurk = 703
+ 
+  bookname.2 = 'BKUG'
+  bookname.7 = 'BKNB'
+  bookname.11 = 'BKPM 16'
+  bookname.33 = 'BKEX 1'
+  bookname.35 = 'BKRB 22'
+ 
+  termname.@observatory = 'TERMINAL1'
+  termname.@hangar = 'TERMINAL2'
+  emsg = ''; commsg = ''
+  hi = '1DE8'x; lo = '1D60'X
+  bline = 99
+  roomdeep = 20 /* was 20 */
+  statdeep = 16 /* was 16 */
+  disklim = 25
+  vdudeep = 12 /* was 12 */
+  vduwide = 60
+  vdusize = vduwide*vdudeep
+  vduscreen = copies(' ',vdusize)
+  blankline = copies(' ',vduwide)
+  buffwide = 60
+  gvarlistr = 'RANDOM TIMENOW VERSION AIR_QUALITY ENERGY ROBOT_EAR',
+              'HUMAN_HERE ALIEN_HERE AIR_HERE POSITION ROBOT_EYE',
+              'ALERT_LEVEL HUMAN_ACT ROBOT_ACT'
+  gvarlistw = 'AIR_PUMP INTRUDER_ALARM TERMINAL1 TERMINAL2 TRACE' ,
+              'SHIELD LIFT_BUTTON LIFT_DOOR LIFT_FLOOR' ,
+              'ROBOT ROBOT_VOICE PROBE' ,
+              'MT_MODE MT_BEAM' ,
+              'GV0 GV1 GV2 GV3 GV4 GV5 GV6 GV7 GV8 GV9'
+  gvarlist  = gvarlistr gvarlistw
+ 
+  val.$lift_floor = 1 1 2 3 4
+  val.$lift_door = 0 @open @close
+  val.$lift_button = 0 @onoff
+  val.$trace = 0 @onoff
+  val.$air_pump = 0 @onoff
+  val.$shield = 1 @up @down
+  val.$intruder_alarm = 0 @onoff
+  val.$terminal1 = 0 @enab @disab
+  val.$terminal1 = 0 @enab @disab
+  val.$robot_voice = 1
+  val.$robot_ear = 0
+  val.$robot = 1
+  val.$probe = 0 @onoff
+  val.$mt_mode = 0 @off @auto @manual
+  val.$mt_beam = 1
+  head =  date(W) 'MOVE '
+  okcalls = 'EDIT LIST DIR TYPE ACTIVE CLEAR'
+  return
+ 
+VARINIT:
+  actlines = ''
+  environment = 'ROOM'
+  contents.@limbo  = 'GLUR 96'
+  contents.@comproom = 'COMP 1 BOOK 2 DOOR 3 LIFT 4'
+  contents.@lift = 'DOOR 5 BUTT 6 NOTE 7 ROOM 8'
+  contents.@observatory ='TERM 9 DOOR 10 BOOK 11 LIFT 12 ROBO 13' ,
+     'WIND 16'
+  contents.@store = 'DOWN 14 SUIT 17 LIFT 18 DOOR 19 STAI 20'
+  contents.@stairs= 'UP 21 DOWN 22 BOTT 23 PAPE 35'
+  contents.@footstair = 'UP 24 STAI 25 DESK 36'
+  contents.@airlock = 'HATC 26 BOTT 27 DOOR 28 LIFT 29'
+  contents.@hangar = 'HATC 30 SHUT 31 LEAF 33 TERM 38 DOOR 39'
+  contents.@tranroom = ''
+  contents.@space = '$SV$ 40'
+  contents.@moon  = ''
+  contents.@near = 'SHIE 97'
+  contents.@far = 'ALIE 15 NEAR 98'
+  state.3 = @open
+  state.5 = @open
+  state.10 = @close
+  state.19 = @close
+  state.28 = @close
+  state.@windobj = @ok
+  state.@robotobj = @ok
+  state.@alienobj = @ok
+  state.@shutobj = @ok
+  state.@mtsign = @off
+  state.@hview  = @down
+  state.@sview  = 1
+ 
+  carried.@robot = 'LASE 37'
+  carried.@hero = ''
+  carried.@alien = 'BLAS 32'
+  room.@hero = @comproom
+  room.@robot = @observatory
+  room.@alien = @far
+  room.@glurk = @limbo
+  trace = @off
+  status = @ok
+  limbotime = 0; glurktime = 0; photontime = 0
+  air_pump = @off
+  mt_status = @off
+  mt_beam = 0
+  air_quality = 1
+  alert_level = 0
+  shield = @down
+  probe = @off
+  shipair = @airmax; liftair = shipair; suitair = @suitmax
+  insuit = 0
+  inspace = 0
+  intruder_alarm = @off
+  terminal1 = @disab
+  terminal2 = @enab
+ 
+  aliengone = 0
+  lift_door = @open
+  lift_floor = 1
+  liftexit = liftexit.lift_floor
+  human_here = 0; alien_here = 0; air_here = 0
+  position = 0
+  air = 1
+  energy = 100
+  connect = 0
+  tt = time()
+  clocklim = 100; clocks = ''; curclk = 0
+  timenow = 0
+  sysl = 0
+  running = ''
+  inpwait = ''
+  vdumsg = blankline
+  vdubuff= ''; vducnt = 1; vdufull = 0
+  vduseen = vdudeep
+  comstack = '##'; comstackptr = 1; comstacklines = 1
+ 
+  call vduclear
+  'IOS3270 ZENO IOS3270 * ;INTRO (NOREAD'
+  loading = 1
+  call loaddata 'ZENO INITDATA'
+  loading = 0
+  call addclock 99 'POWER_SURGE'
+  call addclock 200 'PHOTON S'
+  call addclock 24 'VMSG' 600
+  return
+ 
+SAVEDATA: procedure expose disks disk files. file. lab. books book. ,
+                           notes note. commsg iomodule
+  arg fn ft;
+  if fn = '' then
+    fn = 'ZENO'
+  else
+    fn = substr(word(fn,1),1,8)
+  if ft = '' then
+    ft = 'ZENODATA'
+  'STATE' fn ft 'A'
+  if rc = 0 then 'ERASE' fn ft 'A'
+  call delstack
+  bl = ' '
+ 
+  queue '*' time() date(W) date(E)
+  queue bl disk
+ 
+  nd = words(disks)
+  do i = 1 to nd
+    cd = word(disks,i)
+    queue '$ DISK' cd
+    nf = words(files.cd)
+    do j = 1 to nf
+      cf = word(files.cd,j)
+      queue '$ FILE' cf
+      cf = 'FILE.'cd'.$'cf
+      cfn = value(cf)
+      do k = 1 to cfn
+        cfl = cf'.'k
+        cr = value(cfl)
+        queue bl cr
+      end
+    end
+  end
+ 
+  nb = words(books)
+  do i = 1 to nb
+    cb = word(books,i)
+    queue '$ BOOK' cb
+    do j = 0 to 2
+      queue bl book.cb.j
+    end
+  end
+  queue '$ NOTE'
+  nn = words(notes)
+  do i = 1 to nn
+    cn = word(notes,i)
+    queue bl cn note.cn
+  end
+ 
+  queue '$ EOF'
+  nrecs = queued()
+  iomodule nrecs 'DISKW' fn ft 'A 1 V 255 (FINIS'
+  if rc ^= 0 then commsg = 'Bad Save'
+  return
+ 
+LOADDATA: procedure expose  disks disk files. file. lab. books book. ,
+                            notes note. msg. commsg curclk iomodule
+  arg fn ft
+  if fn = '' then
+    fn = 'ZENO'
+  else
+    fn = substr(word(fn,1),1,8)
+  if ft = '' then
+    ft = 'ZENODATA'
+  'STATE' fn ft '*'
+  if rc ^= 0 then
+    do
+      commsg = "Can't restore from" fn "- return code" rc
+      return
+    end
+ 
+  call delstack
+  drop files. file. lab. book. note.
+  iomodule '* DISKR' fn ft '* 1 (FINIS'
+  call readrec /* heading */
+  call readrec
+  disk = strip(line)
+  call readrec
+ 
+  disks = ''
+  do while t2 = 'DISK'
+    cd = t3
+    disks = disks cd
+    files.cd = ''
+    call readrec
+    do while t2 = 'FILE'
+      cf = cd'.$'t3
+      files.cd = files.cd t3
+      nr = 0
+      lab.cf = ''
+      call readrec
+      do while t1 ^= '$'
+        nr = nr + 1
+        file.cf.nr = line
+        if t2 = ':' then
+          lab.cf = lab.cf t1 nr
+        call readrec
+      end
+      file.cf = nr
+    end
+  end
+ 
+  books = ''
+  do while t2 = 'BOOK'
+    cb = t3
+    books = books cb
+    do i = 0 to 2
+      call readrec
+      book.cb.i = line
+    end
+    call readrec
+  end
+ 
+  notes = ''
+  call readrec
+  do while t1 ^= '$'
+    notes = notes t1
+    note.t1 = subword(line,2)
+    call readrec
+  end
+ 
+  if ft = 'INITDATA' & curclk = 0 then
+    do
+      call readrec
+      do while t1 ^= '$'
+        msg.t1 = subword(line,2)
+        call readrec
+      end
+    end
+ 
+  call delstack
+  return
+ 
+DELSTACK:
+  do while queued() > 0
+    pull junk
+  end
+  return
+ 
+READREC:
+  parse pull line
+  parse upper var line t1 t2 t3 trest
+  return

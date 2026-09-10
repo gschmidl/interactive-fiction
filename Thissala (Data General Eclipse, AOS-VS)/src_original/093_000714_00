@@ -1,0 +1,199 @@
+
+
+
+
+
+
+
+
+
+
+
+
+                        Documentation changes for:
+
+
+		Supplement I to Managing AOS/VS and AOS/VS II
+
+
+                         Part Number 093-000714-00
+
+
+
+        This file (pathname :UTIL:093_000714_00) contains information
+        that affects the following pages of your manual:
+
+	* 3-1
+	  3-22
+	* 3-60
+
+        This first revision of 093_000714_00 was created on May 17,
+	1991.  It incorporates some of the changes appearing in the
+	documentation-changes file 093_000541_01, and documents other
+	changes to EXEC.  In the list above, asterisks (*) mark pages
+	with changes printed in this file for the first time.  For all
+	pages in this file, change bars (|) in the left margin mark
+	material that differs from what is in the printed manual.
+
+        To keep your manual current, you should do either of the
+        following:
+
+        o  Mark the affected pages of your manual so that you will know
+           to refer to this file for additional information.
+
+        o  Print this file, punch holes to fit your binder, and insert
+           the pages into your manual.
+
+
+
+
+
+
+
+
+
+
+        Copyright (c) Data General Corporation, 1980 - 1991
+        All Rights Reserved
+        Licensed Material - Property of Data General Corporation
+
+
+	Supplement I to Managing AOS/VS and AOS/VS II	       17-May-91
+	Documentation Changes, Revision 1
+
+
+	Page 3-1
+
+					    Chapter 3
+				Managing User Processes with EXEC
+
+	|	NOTE:	The screen display -- but not the content -- of the EXEC
+	|		program's MOUNT processing function differs from what
+	|		appears in the manual (pages 3-29 - 3-37, 3-67 - 3-68,
+	|		3-97 - 3-99, 3-100 - 3-101, and 3-115).
+        |
+	|		The MOUNT processing commands are the CLI MOUNT and
+	|		DISMOUNT commands and the CONTROL @EXEC MOUNTED,
+	|		DISMOUNTED, and MOUNTSTATUS commands.
+	|
+	|		If you want information about these changes, type
+	|		HELP/V MOUNT and DISMOUNT for the CLI MOUNT and DISMOUNT
+	|		commands, and XHELP/V followed by the MOUNTED,
+	|		DISMOUNTED, and MOUNTSTATUS commands.
+
+
+	Supplement I to Managing AOS/VS and AOS/VS II	       17-May-91
+	Documentation Changes, Revision 1
+
+
+	Page 3-22
+
+		The QUEUE Cleanup Program
+
+		EXEC stores all the temporary files used in managing queues in
+		directory :QUEUE. The queue cleanup program, QCMP.PR, is a
+		utility that scans :QUEUE and deletes unused files. QCMP can
+	|	delete all files/directories that are not currently related to
+	|	any queue or queued job -- so don't let anyone use directory
+		:QUEUE for file storage.
+
+	|	You can run QCMP while EXEC is running, but to prevent deleting
+	|	temporary files unnecessarily, make sure that all queues are
+	|	closed. Or run QCMP as part of the UP macro before EXEC is
+	|	brought up. You can execute QCMP at any time via the form
+
+		XEQ QCMP[/YES][/L[=pathname]]
+
+		The /YES switch tells QCMP to delete unused files; otherwise
+		QCMP asks for confirmation before it deletes them. /L[=pathname]
+		sends output to the @LIST file or the file named in pathname if
+		you include =pathname. If you omit /L, output goes to the system
+		console.
+
+		QCMP scans the :QUEUE directory. Then if you omitted the
+		/YES switch, it asks
+
+		May QCMP delete unused files in :QUEUE?
+
+		Type YES and press NEW LINE if you want to delete unused files;
+		type NO and press NEW LINE if you do not. If you type YES or
+		used the /YES switch, QCMP displays either
+
+		No unused files in :QUEUE to delete.
+
+		or
+
+		Deleted following unused file(s):
+
+		... (filenames deleted) ...
+
+		Note that QCMP deletes user files in :QUEUE.
+
+		If you type NO to the QCMP query, QCMP reports
+
+		Would have deleted the following unused file(s):
+
+		... (filenames) ...
+
+		When QCMP finishes, it returns you to the CLI.
+
+	093-000714						   3-22
+
+
+	Supplement I to Managing AOS/VS and AOS/VS II	       17-May-91
+	Documentation Changes, Revision 1
+
+
+	Page 3-60  Substitute the following format section, which
+	documents the value of /STREAMS=n:
+
+		CREATE
+
+		Creates a queue (opposite of DELETE).
+
+		Format
+
+		CX  CREATE  [/STREAMS=n]  queue-type queuename
+
+		where
+
+		/STREAMS=n	indicates the number of streams you're
+				creating for this queue (the default is
+	|			1 and the range is 1 through 10). This
+				switch is valid only for batch queues.
+
+		queue-type	specifies the type of queue you're
+				creating.
+
+		queuename	is the name of the new queue.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                *********************************************************
+                *                                                       *
+                *   End of Documentation Changes for Supplement I to    *
+                *   Managing AOS/VS and AOS/VS II, 093-000714-00,       *
+		*   		Revision 1, 17-May-91                   *
+                *                                                       *
+                *********************************************************

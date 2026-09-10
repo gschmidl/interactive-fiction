@@ -1,0 +1,9 @@
+ /* Native Linux replacements for the MVS/TSO-specific external      */
+ /* routines used by the Adventure PL/I engine (TREAD/TWRITE/WHISPER */
+ /* were originally WYLBUR/TSO terminal I/O; CLRSCRN/DECDATE were    */
+ /* assembler; RANDU was Fortran; R062A10/WARNMSG were MVS dynamic   */
+ /* allocation and broadcast-message helpers with no standalone      */
+ /* equivalent).                                                     */
+
+ WHISPER: PROCEDURE;
+   END WHISPER;

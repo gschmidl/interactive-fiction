@@ -1,0 +1,14 @@
+  
+  "ADV2"    warning 6 detected at line 928
+  
+  "ADV2"    warning 6 detected at line 935
+  
+ Module ADV2              No errors     Prog:  3634    Blank common: none 
+ FTN7X  6200/941021        2 warnings   Save:  none    Local EMA:    none 
+  
+  Error Directory 
+  
+  Number  Explanation 
+  
+  
+     6    Transfer of control into a loop or IF-THEN-ELSE block.

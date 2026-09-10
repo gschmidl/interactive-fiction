@@ -1,0 +1,1183 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			Documentation changes for:
+
+
+		AOS/VS Debugger and File Editor User's Manual
+
+		  	Part Number 093-000246-01
+
+
+
+
+	This file (pathname :UTIL:093_000246_01) contains inforation
+	that affects the following pages of your manual.
+	new appendixes:
+
+	  2-3     Chapter 11      Appendix D      Appendix E
+
+
+
+	This fourth revision of 093_000246_01 was updated on February 4,
+	1993 to correct some formatting errors.
+
+	For all pages in this file, change bars (|) in the left margin
+	mark material that differs from what is in the printed manual.
+
+	To keep your manual current, print this file, punch holes to fit
+	your binder, and insert the pages into your manual.
+
+
+
+
+
+
+
+
+
+	Copyright (c) Data General Corporation, 1980 - 1993.
+	All Rights Reserved
+	Licensed Material - Property of Data General Corporation
+
+	AOS/VS Debugger and File Editor User's Manual		4-Feb-93
+	Documentation Changes, Revision 4
+
+
+	Add the following warning to the bottom of page 2-3:
+
+	|	WARNING:	When debugging a multi-tasked program
+	|			that does console reads, be careful
+	|			not to type ahead when you are at a
+	|			breakpoint.  If you do type ahead,
+	|			the characters may be read by the
+	|			other task that has the console read
+	|			posted.
+
+	AOS/VS Debugger and File Editor User's Manual		4-Feb-93
+	Documentation Changes, Revision 4
+
+
+        Insert the following new chapter between pages 10-6 and A-1
+
+			Chapter 11 -- The AOS/VS Patch Utility
+
+
+                The AOS/VS Patch  Utility  (PATCH)  allows  you  to  check,
+                enter, and install patches in all AOS/VS data files.  PATCH
+                is generally used to modify  both  16-  and  32-bit  AOS/VS
+                program files, but in a manner which is somewhat  different
+                from the File Editor Utility (FED).  PATCH allows a develo-
+                per to create a file -- the patchfile -- which  contains  a
+                list of patch lines.  Each of these patch lines will affect
+                a single location, one 16-bit word, in the  file  which  is
+                being patched -- the  target  file.   Certain  features  of
+                PATCH give flexibility to the  developer  which  cannot  be
+                achieved with FED.  Among these  features  are  conditional
+                and relocatable patching which will be discussed later.
+
+
+                             PATCH Operating Procedures
+
+                CLI Command Line
+
+                The CLI command format to execute PATCH is:
+
+	|	XEQ PATCH/T=targetfile/P=patchfile/function [/filespec]
+
+                where:
+
+                targetfile    is the file to be patched. This switch is
+                              required.
+
+                patchfile     is the file that contains the patch lines.
+                              This switch is required.
+
+                function      is a switch that  tells  PATCH  what you
+                              want to do.  Either /C, /E, /I, or /Y is
+                              required.  More than one function switch
+                              is not allowed.
+
+                filespec      is a switch  that  defines either the
+                              symbol table file or the patch history file.
+                              This switch is optional. /S and /L can both
+                              present in a single command line.
+
+                                 Switches to PATCH
+
+                All specifications to PATCH are done through switches. (See
+	|	Table 1, below, for a complete list of the PATCH switches.)
+                Each PATCH switch has a descriptive full name that you  can
+                abbreviate to a single letter.  The order of switches in  a
+                command line does not matter.
+
+									11-1
+
+	AOS/VS Debugger and File Editor User's Manual		4-Feb-93
+	Documentation Changes, Revision 4
+
+
+                          Table 1.  Summary of PATCH Switches
+
+                ========================================================
+                /CHECK
+                CHECKs the patch file      | X PATCH/P=X.PATCHES/T=X.PR/C
+                for correct patch syntax.  |
+                CHECK does not perform any | checks the syntax of the
+                action on the target file. | patches in X.PATCHES
+                ---------------------------------------------------------
+                /ENTER
+                Allows you to ENTER patch  | X PATCH/P=X.PATCHES/T=X.PR/E
+                command lines interactively|
+                It creates the patch file  | checks patch comand lines as
+                if it doesn't already exist| you enter them interactive-
+                otherwise it appends patch | ly.  Patches will be entered
+                commands to the existing   | into X.PATCHES.
+                patch file.  An EOF (^D)   |
+                terminates input.  ENTER   |
+                does not perform any action|
+                on the target file.        |
+                --------------------------------------------------------
+                /INSTALL
+
+                INSTALLs patches in the    | X PATCH/P=X.PATCHES/T=X.PR/I
+                target file using the patch|
+                commands in the patch file.| installs patches ( in
+                If patches will apply cor- | X.PATCHES) in X.PR. The
+                rectly, the user will be   | user is prompted before
+                prompted before patches are| the patches are actually
+                actually applied. If there | applied.
+                are patch lines with errors|
+                patches will not install.  |
+                --------------------------------------------------------
+                /LISTFILE=
+                                           | X PATCH/P=X.PATCH/T=X.PR/I
+                Directs the patch  history |        /L=X.PATCH_HISTORY
+                file to the file that you  |
+                specify. The patch history | uses X.PATCH_HISTORY as the
+                file will maintain a record| patch history file. If /L
+                of applied patches. You    | wasn't specified, PATCH
+                cannot list to the null    | would have used X.PR.PH
+                file.                      | instead.
+                --------------------------------------------------------
+	|	/NOOPT
+        |
+	|	Disables the optimization  | X PATCH/N/P=X.PATCH/T=X.PR
+	|	feature.  PATCH evaluates  |
+	|	conditions even when false,|
+	|	computes symbols it has    |
+	|	seen before, and displays  |
+	|	false conditions on the    |
+	|	screen.                    |
+									11-2
+
+	AOS/VS Debugger and File Editor User's Manual		4-Feb-93
+	Documentation Changes, Revision 4
+
+
+                --------------------------------------------------------
+                /PATCHFILE=
+                Defines the patch file.    | X PATCH/T=X.PR/I/P=X.PATCHES
+                This switch is required.   |
+                                           | uses X.PATCHES as the patch
+                                           | file.
+
+                --------------------------------------------------------
+                /SYMBOLFILE=
+                                           | X PATCH/T=X.PR/P=X.PATCHES/I
+                Defines the symbol table   |        /S=ANOTHER.ST
+                file.                      |
+                                           | uses ANOTHER.ST as the symbol
+                                           | table. If /S wasn't specified
+                                           | PATCH would have used X.ST.
+                --------------------------------------------------------
+                /TARGETFILE=
+        
+                Defines the target file,   | X PATCH/P=X.PATCHES/I/T=X.PR
+                and implicitly the symbol  |
+                table and overlay file.    | uses X.PR as the target file
+                This switch is required.   | to be patched.
+                --------------------------------------------------------
+                /YES
+                This is the same as /I with| X PATCH/T=X.PR/P=X.PATCHES/Y
+                one exception. Where the   |
+                user is sometimes asked the| installs patches in X.PR
+                question 'Do you want this | without asking for confirm-
+                patch installed?', the     | ation from the  user. It will
+                answer is assumed to be 'y'| only install if there are no
+                This switch allows you to  | errors encountered.
+                run PATCH in batch mode.   |
+                --------------------------------------------------------
+
+                If PATCH cannot find a symbol table, it returns the
+                following error message:
+
+                          SYMBOLS ARE ILLEGAL IN THIS SESSION
+
+                ========================================================
+
+                /S= is always  optional.   If  symbol  table  file  is  not
+                explicitly specified, then the  default  file  name  for  a
+                symbol table file is generated by stripping  any  ".PR"  or
+                ".SY" extension from the target file name, if it  has  one,
+                and appending ".ST".
+
+                You can only use /L(=) with /I or /Y. If you specify  /L(=)
+                with /C or /E , PATCH does not produce a history  file  and
+                does not return an error message.  The /L(=) switch  cannot
+                have @NULL as its argument.
+
+									11-3
+
+	AOS/VS Debugger and File Editor User's Manual		4-Feb-93
+	Documentation Changes, Revision 4
+
+
+                               Filenaming Conventions
+
+                PATCH generates the overlay and symbol table  filenames  by
+                stripping any .PR or .SY extensions from  the  target  file
+                and appending .OL and .ST, respectively. You can explicitly
+                specify the symbol table filename by using the /S= switch.
+
+                PATCH names the patch history file by appending .PH to  the
+                filename of the target  file,  including  any  .PR  or  .SY
+                extension.
+
+                In the following examples, the commands on the  left  cause
+                PATCH to use the filenames indicated below each example:
+
+                Example 1:
+                    X PATCH/P=PATCHFILE/I/T=TARGET
+                    X PATCH/P=PATCHFILE/I/T=TARGET.PR
+
+                Symbol table filename = TARGET.ST
+                Overlay filename = TARGET.OL
+        
+                Patch  history filename = TARGET.PH,
+                and TARGET.PR.PH respectively.
+
+                Example 2:
+                    X PATCH/P=PATCHFILE/I/T=TARGET/S=MYSYM
+
+                Symbol table filename = MYSYM
+                Target file = TARGET
+
+
+                   Important Information about Installing Patches
+
+	|	AOS/VS provides automatic patching of system files via the
+	|	Update tool.  You should use the Update tool to  patch the
+	|	system files, but if you are curious about which files are
+	|	patched, the pathnames of the files (and associated symbol
+	|	table files, see the document :UPDATE:UPDATE.DOC, the text
+	|	of the patch files themselves, and the update script files
+	|	that are part of the update themselves.
+
+
+                                Writing Patch Files
+
+                A developer can create a patch file  by  using  the  /ENTER
+                switch or by  using  a  text  editor.   The  /ENTER  switch
+                provides an interactive check of patch lines  as  they  are
+                entered.  For example, if you use an illegal expression  in
+                a line, PATCH will inform you after you finish  typing  the
+                line.  A patch file can contain up to 2000 patch lines.
+
+
+									11-4
+
+	AOS/VS Debugger and File Editor User's Manual		4-Feb-93
+	Documentation Changes, Revision 4
+
+
+                Examples of patch files can be found in the appendices.
+
+                Patch Line Format
+
+                        PATCH is a line processor.  A line  is  up  to  255
+                        characters  terminated  by  either  a  newline,   a
+                        carriage return, or a form feed.   Non-empty  lines
+                        which end with an EOF will cause an error.
+        
+                        There are 2 command line formats.
+
+                        1.  Comment Format
+
+                        2.  Command Format
+
+
+                        Comment Format
+
+                        PATCH allows you to make comments that appear  only
+                        in the @OUTPUT file and  the  patch  history  file.
+                        These comments must be in the following format:
+
+                                ;yourcomment
+
+                        The first non-blank character  of  a  comment  line
+                        must be a semicolon.
+
+
+                        Command Format
+
+                        Each patch line can be up to  255  characters  ter-
+                        minated by NEW LINE, CR (carriage return), or  FORM
+                        FEED.   PATCH  reports  any  non-empty  line   that
+                        terminates in EOF as an error.
+
+                        There are two types of patch lines: Non-update  and
+                        update commands.
+
+
+                        Non-update commands
+
+                        A non-update command has a percent sign (%) as  its
+                        first character.  Non-update commands do not modify
+                        any  file.   Instead,  they  set   up   the   patch
+                        environment.  The non-update commands are:
+
+                        * %PROGRAM - This command indicates that  you  want
+                        the target file to be in program format.  (This  is
+                        the default command.)
+
+
+
+									11-5
+
+	AOS/VS Debugger and File Editor User's Manual		4-Feb-93
+	Documentation Changes, Revision 4
+
+
+                        * %OVERLAY - This command indicates that  you  want
+                        to patch the overlay file that is  associated  with
+                        the target file.  (Use  this  command  with  16-ibt
+                        program files only.)
+
+                        * %USERFILE -  This  command  patches  that  target
+                        file, which is a user data file.
+
+                        * %AOSVS - This command patches that  target  file,
+                        which is an AOS/VS system file.
+
+                        When you issue  a  non-update  command,  subsequent
+                        update commands will be applied  in  the  mode  you
+                        have  specified.   If  you  specify  %OVERLAY,  the
+                        overlay  file  for  the  current  program  will  be
+                        modified.  You can issue a new command at any point
+                        in a patch.  If  you  do  not  issue  a  non-update
+                        command,  PATCH  assumes  the  default   non-update
+                        command, %PROGRAM.  You can  abbreviate  non-update
+                        commands, as long as  the  abbrevia-  tions  remain
+                        unique.
+
+
+			Update Commands
+
+			Update commands  modify  16-bit words.   An  update
+			command  defines  the  32-bit logical address  of a
+			word,  the  word's  current contents, the  proposed
+			contents,  and an optional condition that, if false
+			(zero), prevents the patch line from being applied.
+			If there is no condition, the default is true. (Any
+			non-zero conditional is true.)
+
+                        The format for update commands is:
+
+                                location/old/new/<condition>/
+
+                        where:
+
+                        location (required)
+                        is where you want the patch to occur.  Location can
+                        be any legal  PATCH  expression  (except  null  and
+                        period(.)) that maps to an address within the file.
+                        (You cannot append to the target file.)
+
+                        old (required)
+                        is the current (pre-patch)  contents  of  location.
+                        Old can be any legal PATCH expression.
+
+
+
+
+									11-6
+
+	AOS/VS Debugger and File Editor User's Manual		4-Feb-93
+	Documentation Changes, Revision 4
+
+
+                        new (required)
+                        is the proposed contents of location.  New  can  be
+                        any legal PATCH expression.
+
+                        condition (optional)
+                        allows you to decide under what  circumstances  you
+                        want to apply  the  patch.   You  do  not  need  to
+                        specify a condition if you always want to apply the
+                        patch.  If PATCH evaluates the  condition  and  the
+                        result is  nonzero  (true),  then  it  applies  the
+                        patch; if the result is zero (false), then it  does
+                        not apply the patch.  Condition can  be  any  legal
+                        PATCH  expression.   You  do  not  have  to  define
+                        symbols.  PATCH treats any undefined  symbol  as  a
+                        symbol equal to zero (false).  This allows  you  to
+                        write patches that  PATCH  only  applies  when  the
+                        symbol exists.
+
+                        / (A separator is required)
+                        can be any one of  the  following  separators  that
+                        delimits the end of a field and instructs PATCH how
+                        to evaluate that field:
+
+                        / (Slash)
+                        Expression has a 16-bit result.  (Do not use  slash
+                        with the null expression.)
+
+                        \ (backslash)
+                        Expression has a doubleword result.   (do  not  use
+                        backslash with the null expression.)
+
+                        tab
+                        Expression has a 16-bit result.
+
+                        space
+                        Expression has a 16-bit result.
+
+                        No arguments to either type of commands are legal.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+									11-7
+
+	AOS/VS Debugger and File Editor User's Manual		4-Feb-93
+	Documentation Changes, Revision 4
+
+
+                PATCH Expressions
+
+                        Every field can  contain  an  expression  --  PATCH
+                        accepts all of  the  debugger  expressions.   Also,
+                        PATCH accepts all of the debugger operators  except
+                        for:
+
+                                o Close bracket (])
+
+                                o Period (.) in the location field
+
+                        You can use hatch (^) in place of period (.) in the
+                        location field.  (See "Symbolic Expressions"  below
+                        for more information on hatch.)
+
+                        Assembly language instructions  and  floating-point
+                        constants  are  special  expressions.    You   must
+                        enclose them in brackets, "[]" or "{}" in order  to
+                        prevent PATCH from confusing  their  contents  with
+                        separators  and   operators   (see   "Instructions"
+                        below).
+
+
+                        Null Expressions
+
+                        The null expression is an empty field  (except  for
+                        tabs and spaces) enclosed in brackets ([]).
+
+                        When you specify an old or new field that  is  more
+                        than one  word  long,  PATCH  uses  only  the  most
+                        significant word.  Then, when you  issue  the  next
+                        update  command,  PATCH  expects  to  find  a  null
+                        expression in the same field.  PATCH then  replaces
+                        the null expression with the next most  significant
+                        word.  If PATCH finds too many or not  enough  null
+                        expressions in subsequent patch lines,  it  reports
+                        an error.
+
+                        It is an error to use  a  null  expression  in  the
+                        location field.  Null expressions in the  condition
+                        field default to true.
+
+
+
+
+
+
+
+
+
+
+
+									11-8
+
+	AOS/VS Debugger and File Editor User's Manual		4-Feb-93
+	Documentation Changes, Revision 4
+
+
+                        Symbolic Expressions
+
+                        PATCH  supports  all  debugger  symbols,  including
+                        integers, decimal integers,  and  program  symbols.
+                        However, PATCH treats  assembly  language  instruc-
+                        tions and floating-point numbers as special expres-
+                        sions (see "Instructions" below).
+
+                        A hatch (^) symbol in the patch line  causes  PATCH
+                        to replace the hatch with the string from the  same
+                        field in the previous update command.  For example:
+
+                        location           old           new            con
+                        LABEL+2            10            5
+                        ^+1                ^+6           ^+2
+
+                        In this case, the second patch line  is  equivalent
+                        to:
+
+                        LABEL+2+1          10+6          5+2
+
+                        The values in the  old  and  new  fields  from  the
+                        previous  update  command  must  have   single-word
+                        values.   Patch  lines  with  double-word   results
+                        require that a null expression  follow  the  second
+                        word.
+
+                        Note that if you  use  a  symbol  in  the  previous
+                        update command, it will be  re-evaluated  when  the
+                        hatch is expanded.  For  example,  the  symbol  "."
+                        used in  the  old  field  of  the  previous  update
+                        command will have a new value  when  the  hatch  is
+                        expanded on the current line.
+
+
+                        Indirect Expressions
+
+                        To perform indirection, use one  of  the  following
+                        unary operators:
+
+                        @ resolves a single-word value at the location that
+                        you indicate.
+
+                        # resolves double-word value at the  location  that
+                        you indicate.
+
+                        Both  operators  have  precedence  over  all  other
+                        operators, except parenthesis.
+
+									11-9
+
+	AOS/VS Debugger and File Editor User's Manual		4-Feb-93
+	Documentation Changes, Revision 4
+
+
+
+                        For example,
+
+                        @X+1 finds the 16-bit contents of X in  the  target
+                        file and adds 1.
+
+                        @(x+1) finds the 16-bit contents of location x+1.
+
+                        #Y*2 finds the 32-bit contents of Y and  multiplies
+                        by 2.
+
+                        @@X finds the 16-bit contents of  the  16-bit  con-
+                        tents of X.
+
+                        When performing indirection,  PATCH  will  use  the
+                        most recent value of a target location.  Therefore,
+                        if you have modified "X" previously in  your  patch
+                        file, then PATCH will use the modified  value  when
+                        it resolves indirection.
+
+                        Note that if you use  the  "#"  sign  in  a  normal
+                        instruction  (i.e.,  "[XJMP  #LOCTN]")  PATCH  will
+                        abort with an error "CHANNEL NOT  OPEN."   Using  a
+                        "#" in an instruction is only allowed  in  instruc-
+                        tions   surrounded   by   curly   brackets.     See
+                        "Instructions" below.
+
+
+                Instructions
+
+                Assembly language instructions  can  be  specified  in  two
+                ways.  If an instruction is surrounded with square brackets
+                (i.e., "[XJMP PSPACE+23]"), then it is  assembled  verbatim
+                -- no special actions are taken by PATCH  to  evaluate  the
+                instruction before it is assembled.
+
+                If an instruction is surrounded with curly brackets  (i.e.,
+                "{LJMP #PSPACE}"), then special action will be taken if  an
+                "@" or a "#" is found in the instruction.  Within the curly
+                brackets, any occurrence of these two symbols indicates  to
+                PATCH that an indirect expression is being flagged.   PATCH
+                will process  the  expression  before  the  instruction  is
+                assembled (see "Indirect Expressions" above).
+
+                Note that indirect memory reference instructions (i.e. "LDA
+                1,@ADDR") and no-load instructions (i.e.,  "SUB#  1,2,SNR")
+                cannot be assembled in the  curly  bracket  syntax  because
+                PATCH gives special meaning to "@" and "#".
+
+
+
+
+									11-10
+
+	AOS/VS Debugger and File Editor User's Manual		4-Feb-93
+	Documentation Changes, Revision 4
+
+
+                Writing Relocatable Patches
+
+                Often a developer will want to place several patches into a
+                single patch file.  When this is done, the  developer  must
+                keep track of where his patch is being installed  into  the
+                program file.  If a developer needs to put the  patch  into
+                reserved patch space (PSPACE), then it is  likely  that  he
+                will need to put a  branch  instruction  somewhere  in  the
+                normal code in order to activate the patch.  The  developer
+                should use the curly bracket instruction syntax  to  accom-
+                plish this branch.
+
+                The curly bracket instruction syntax can  be  used  if  the
+                first two words of PSPACE are reserved for  use  by  PATCH.
+                These two words should always  contain  a  pointer  to  the
+                first free word of patch space.  Initially, the  first  two
+                words of PSPACE should contain the address PSPACE+2.  After
+                each patch is installed into PSPACE, the address in  PSPACE
+                should  be  updated  to  point  to  the  first  free  patch
+                location.
+
+                By maintaining PSPACE in this fashion, the  developer  need
+                not concern himself with the actual location of a patch  in
+                PSPACE; when a patch's location  needs  to  be  known,  the
+                developer can reference the address located  in  the  first
+                double-word of PSPACE.  For example, the instruction  {LJMP
+                #PSPACE} could be used as a branch  instruction  to  invoke
+                the patch.  When PATCH assembles the instruction,  it  will
+                look at the first double-word of  PSPACE,  and  PATCH  will
+                treat it as the target address  of  the  LJMP  instruction.
+                Note that the resulting instruction will be a branch to the
+                first location of the current patch's reserved patch space.
+
+                In order to specify the location fields for the patch lines
+                which will go in PSPACE, the developer  can  use  "#PSPACE"
+                for the first line and "^+1" for  successive  lines.   This
+                way, the patch will  be  installed  sequentially,  starting
+                from the first free location.
+
+                Patches which are written this way are position-independent
+                because they do not have any  special  offsets  coded  into
+                their instructions.  Several  advantages  arise  from  this
+                method.  First, a patch can  be  modified  by  a  developer
+                without affecting other patches in the patch file.  Even if
+                a patch grows or shrinks, other patches will  be  relocated
+                accordingly.  Second, a patch can be  moved  around  within
+                the patch file without any problem.  And finally, a  condi-
+                tional patch will not waste patch space  in  a  program  to
+                which it does not apply, because  the  developer  will  not
+                need to leave a hole to accomodate it.  Appendix B contains
+                an example patch file with relocatable patches.
+        
+
+									11-11
+
+	AOS/VS Debugger and File Editor User's Manual		4-Feb-93
+	Documentation Changes, Revision 4
+
+        Insert Appendix D after Appendix C
+
+                            Appendix D -- Sample Patches
+
+                ;The following sample has been taken from a patch
+                ;file for the AOS/VS EXEC utility.  Comments have
+                ;been added in order to explain various things.
+                ;The added comments are in lower case.
+                ;AOS/VS 1.30 :UTIL:EXEC.OL PATCH #1; 02 JUL 1981
+                ;ALLOWS SUBMISSION OF JOBS TO HAMLET-TYPE QUEUES
+                ;FIXED IN AOS/VS 1.40
+
+                ;LOCATION       OLD VALUE               NEW VALUE
+
+                ;The overlay file, EXEC.OL, will be patched here.  The
+                ;non-update command "%OVERLAY" will cause this.
+
+                %OVERLAY
+
+                ;The locations specified here are numeric rather than
+                ;symbolic.  The reason is that overlay symbols do not
+                ;specify the correct locations in the .OL file.
+
+                30527           20151            [JMP 30575]
+                30575           0                [LDA 3,41]
+                30576           0                [LDA 0,4,3]
+                30577           0                [LEF 1,5]
+                30600           0                [SUB# 0,1,SNR]
+                30601           0                [JMP 30614]
+                30602           0                [LDA 0,151]
+                30603           0                [STA 0,7,2]
+                30604           0                [LDA 0,153]
+                30605           0                [STA 0,10,2]
+                30606           0                [LDA 0,155]
+                30607           0                [STA 0,11,2]
+                30610           0                [LDA 0,157]
+                30611           0                [STA 0,12,2]
+                30612           0                [EJMP 30537]
+                30613           0                     []
+                30614           0                [LDA 0,152]
+                30615           0                [STA 0,7,2]
+                30616           0                [LDA 0,154]
+                30617           0                [STA 0,10,2]
+                30620           0                [LDA 0,156]
+                30621           0                [STA 0,11,2]
+                30622           0                [LDA 0,160]
+                30623           0                [STA 0,12,2]
+                30624           0                [EJMP 30537]
+                30625           0                     []
+
+                ;AOS/VS 1.30 :UTIL:EXEC.OL PATCH #2; 02 JUL 81
+                ;DIRECTS EXEC TO VALIDATE MAG. TAPE VOLIDS
+									D-1
+
+	AOS/VS Debugger and File Editor User's Manual		4-Feb-93
+	Documentation Changes, Revision 4
+
+
+                ;FIXED IN AOS/VS 1.40
+
+                ;LOCATION       OLD VALUE        NEW VALUE
+
+                ;Note, this patch is also to the overlay file.
+
+                33057           60042            60020
+
+                ;AOS/VS 1.30    :UTIL:EXEC.PR         PATCH #3; 30 DEC 81
+                ;PREVENTS EXEC FROM ERRONEOUSLY ABORTING ON ^C^B
+                ;INTERUPTS SINCE EXEC NEVER OWNS A PROCESS CONSOLE. IF
+                ;THE PMGR INCORRECTLY ASSIGNS A PROCESS CONSOLE TO EXEC,
+                ;A USER AT THAT CONSOLE WOULD HAVE PREVIOUSLY BEEN ABLE
+                ;TO TERMINATE EXEC.  THAT CONSOLE MAY STILL, HOWEVER,
+                ;REMAIN IN A "HUNG" STATE.
+                ;FIXED IN AOS/VS REV. 1.50
+                ;:UTIL:EXEC.PR
+                ;LOCATION       OLD VALUE        NEW VALUE
+
+                ;The following patch is to be applied to the program
+                ;file, EXEC.PR. The non-update command
+                ;"%PROGRAM" will allow this.
+
+                %PROGRAM
+
+                ;Note that the location fields in this patch are
+                ;symbolic, as are the addresses in the instructions.
+                ;This is possible because the symbols are correct
+                ;offsets in the program file.
+
+                ;The first and second patch lines demonstrate a
+                ;multi-word instruction.  Note the use of the null
+                ;expressions in the second patch line.  These
+                ;are required.
+
+                EXEC+10         [EJMP LDGO]      [EJMP ?ZMAX]
+                EXEC+11             []               []
+                ?ZMAX           0                [JSR @17]
+                ?ZMAX+1         0                 212
+                ?ZMAX+2         0                 SERROR
+                ?ZMAX+3         0                [EJMP LDGO]
+                ?ZMAX+4         0                    []
+
+
+
+                              [End of Appendix D]
+
+
+
+
+
+
+									D-2
+
+	AOS/VS Debugger and File Editor User's Manual		4-Feb-93
+	Documentation Changes, Revision 4
+
+
+
+        Insert Appendix E after the new Appendix D
+
+                                    Appendix E
+
+                               Relocatable Patches
+
+
+                ;The following patches are taken from a patch file for
+                ;the AOSVS system.  These patches have been modified
+                ;to demonstrate relocatable patching. Please see the
+                ;section entitled "Writing Relocatable Patches" in order
+                ;to understand the patches.  The location SPATCH
+                ;corresponds to the location PSPACE used in that section.
+                ;Comments describing relocation will be in lower case.
+                ;Notice that the positions of the patches within the file
+                ;do not matter.
+
+                ;The non-update command "%AOSVS" causes PATCH to assume
+                ;that you are patching an AOS/VS system file.
+
+                %AOSVS
+
+                ;The following two patch lines will initialize the
+                ;two-word pointer in SPATCH.  The specified old value
+                ;field will allow the patch to be installed no matter
+                ;what was originally in the first double-word of SPATCH.
+
+                SPATCH       #SPATCH\      SPATCH+2\
+                ^+1          []            []
+
+                ;
+                ;-------------------------------------------------------
+                ; AOS/VS 5.00 SYSTEM PATCH #5;   3 JUL 84    UPDATE 5.01
+                ; MODULES : PROC3.SR,
+                ; FIX PROBLEM ON ABORTING PROCS AND NOT HAVING THE
+                ; CORRECT PTBL FOR HOTPSI POOL
+                ; FIXED IN AOS/VS 6.00.
+                ;-------------------------------------------------------
+
+                ;The following few patch lines demonstrate a branch from
+                ;the normal program space into the patch space.  Note
+                ;the use of the curly bracket syntax.
+
+                PDLSW.P+227  [XWLDA 2,5,3]        {LJMP #SPATCH}
+                ^+1          []                   []
+                ^+1          [XJSR PSWIPE.P+154]  []
+                ^+1          []                   [NOP]
+
+
+
+
+									E-1
+
+	AOS/VS Debugger and File Editor User's Manual		4-Feb-93
+	Documentation Changes, Revision 4
+
+
+                PSWIPE.P+165 [XWLDA 3,PSIBEG+2,0] [XWLDA 2,37777777764,3]
+                ^+1          []                   []
+                ^+1          [XNLDA 1,4,3]        [XWLDA 3,PSIBEG+2,0]
+                ^+1          []                   []
+                ^+1          [XWLDA 2,CC.W,0]     [XNLDA 1,4,3]
+                ^+1	         []                   []
+                ^+1          [XWLDA 2,24,2]       [NOP]
+                ^+1          []                   [NOP]
+
+                PSWIPE.P+253 [XWLDA 3,CC.W,0]     [LDAFP 3]
+                ^+1          []                   [XWLDA 3,37777777764,3]
+                ^+1          [XWLDA 3,24,3]       []
+                ^+1          []                   [NOP]
+
+                ;The following few lines show the region which is to be
+                ;placed in reserved patch space (the SPATCH block). Note
+                ;the way in which the location fields are specified.
+                ;Also, notice the WBR instruction with the curly bracket
+                ;syntax.  The same goal could have been accomplished
+                ;with a "[WBR .+4]" instruction, but by doing it this way
+                ;attention is called to the fact that it is a relocatable
+                ;expression. When branching is done within reserved
+                ;patch space, it is best to do it in this fashion.
+
+                #SPATCH      0                    [XWLDA 2,5,3]
+                ^+1          0                    []
+                ^+1          0                    [XWLDA 3,37777777774,3]
+                ^+1          0                    []
+                ^+1          0                    [WPSH 3,3]
+                ^+1          0                    [LJSR PSWIPE.P+154]
+                ^+1          0                    []
+                ^+1          0                    []
+                ^+1          0                    {WBR #SPATCH+14}
+                ^+1          0                    [LJMP PDLSW.P+234]
+                ^+1          0                    []
+                ^+1          0                    []
+
+                #SPATCH+14   0                    [LJMP PDLSW.P+233]
+                ^+1          0                    []
+                ^+1          0                    []
+
+                ;The following two lines will insure that the double-word
+                ;pointer gets readjusted so that the next patch can apply
+                ;correctly. Notice that the current pointer is being
+                ;incremented by 17(base 8). This number is the size of
+                ;patch which has just been installed into SPATCH. Patch
+                ;lines like these must occur in any patch which modifies
+                ;the reserved patch space.
+
+                SPATCH       #SPATCH\             #SPATCH+17\
+                ^+1          []                   []
+
+									E-2
+
+	AOS/VS Debugger and File Editor User's Manual		4-Feb-93
+	Documentation Changes, Revision 4
+
+                ;-------------------------------------------------------
+                ; AOS/VS 5.00 SYSTEM PATCH #11;   23 JUL 84 UPDATE 5.01
+                ; MODULE:  PGFLT.SR
+                ; FIXES A DESIGN BUG IN THE NEW 'FAST FAULT' WHERE
+                ; 'N_T_RUN.W' WAS NOT CHECKED PRIOR TO EXECUTING THE
+                ; FAULT.
+                ; FIXED IN AOS/VS 6.00
+                ;-------------------------------------------------------
+
+                ;The following lines cause the branch from normal program
+                ;space into reserved patch space.
+        
+                NPGFLT+546   [XLEF 1,SSOVF,0]     {LPSHJ	#SPATCH}
+                ^+1          []                   []
+                ^+1          [XNSTA 1,14,0]       []
+                ^+1          []                   [NOP]
+
+                ;Again, note the way that the location fields are
+                ;specified. The curly bracket XLIF instruction is written
+                ;this way so that it can be relocatedd.
+
+                #SPATCH      0                    [XLEF 1,SSOVF,0]
+                ^+1          0                    []
+                ^+1          0                    [XNSTA 1,14,0]
+                ^+1          0                    []
+                ^+1          0                    [XWLDA 0,N_T_RUN.]
+                ^+1          0                    []
+                ^+1          0                    [WSNE 0,0]
+                ^+1          0                    [WPOPJ]
+                ^+1          0                    [XWADI 1,RESFLT.W]
+                ^+1          0                    []
+                ^+1          0                    [XWLDA 3,CC.W]
+                ^+1          0                    []
+                ^+1          0                    [LPSHJ FIXCB]
+                ^+1          0                    []
+                ^+1          0                    []
+                ^+1          0                    {XLEF 3,#SPATCH+34}
+                ^+1          0                    []
+                ^+1          0                    [WSSVR 0]
+                ^+1          0                    []
+                ^+1          0                    [XWLDA 3,CC.W]
+                ^+1          0                    []
+                ^+1          0                    [LDAFP 0]
+                ^+1          0                    [XWSTA 0,14,3]
+                ^+1          0                    []
+                ^+1          0                    [WMOV 3,1]
+                ^+1          0                    [LJMP SMON3]
+                ^+1          0                    []
+                ^+1          0                    []
+
+                #SPATCH+34   0                    [WPOPJ]
+
+
+									E-3
+
+	AOS/VS Debugger and File Editor User's Manual		4-Feb-93
+	Documentation Changes, Revision 4
+
+
+                ;The following lines update the pointer at SPATCH.  The
+                ;size of the patch was 35(base 8) words.
+
+                SPATCH       #SPATCH\             #SPATCH+35\
+                ^+1          []                   []
+
+                ;-------------------------------------------------------
+                ; AOS/VS 5.00 SYSTEM PATCH #14; 30 JUL 84    UPDATE 5.01
+                ; MODULE: ACPRV.SR
+                ; FIX REPORTING OF ACCESS PRIVILEGES WHEN ACCESS
+                ; PRIVILEGES HAVE BEEN DISABLED.
+                ; FIXED IN AOS/VS 6.00.
+                ;-------------------------------------------------------
+                ;
+        
+                ;The following patch visits reserved patch space twice.
+                ;The developer needed to branch into patch space on two
+                ;different occasions.
+
+                PESTAC.P+301 [XWSTA   0,-10,3]    {LJMP   #SPATCH}
+                ^+1          []                   []
+                ^+1          [XNISZ   12,3]       []
+                ^+1          []                   [NOP]
+                ;
+                #SPATCH      0                    [NLDAI  ACCESS,1]
+                ^+1          0                    []
+                ^+1          0                    [COM#   1,1,SZR]
+                ^+1          0                    {WBR    #SPATCH+6}
+                ^+1          0                    [NLDAI  37,0]
+                ^+1          0                    []
+                #SPATCH+6    0                    [XWSTA  0,-10,3]
+                ^+1          0                    []
+                ^+1          0                    [XNISZ  12,3]
+                ^+1          0                    []
+                ^+1          0                    {WBR    #SPATCH+16}
+                ^+1          0                    [LJMP   PESTAC.P+327]
+                ^+1          0                    []
+                ^+1          0                    []
+                #SPATCH+16   0                    [LJMP   PESTAC.P+307]
+                ^+1          0                    []
+                ^+1          0                    []
+                ;
+                PESTAC.P+1025 [NLDAI              ACCESS,1] [NOP]
+                ^+1          []                   [NOP]
+                ^+1          [WSEQ 1,1]           [NOP]
+                ^+1          [WBR PESTAC.P+1040]  [NOP]
+                ;
+                PESTAC.P+1034 [NLDAI              ACCESS,1] [NOP]
+                ^+1          []                   [NOP]
+                ^+1          [COM# 1,1,SZR]       [NOP]
+
+
+									E-4
+
+	AOS/VS Debugger and File Editor User's Manual		4-Feb-93
+	Documentation Changes, Revision 4
+
+                ;The following is the second visit to patch space. This
+                ;time, the developer continues to use new patch space.
+
+                PESTAC.P+1066 [XWLDA 2,CC.W]      {LJMP   #SPATCH+21}
+                ^+1           []                  []
+                ^+1           [XWLDA 2,12,2]      []
+                ^+1           []                  [NOP]
+                ;
+                #SPATCH+21    0                   [NLDAI  ACCESS,2]
+                ^+1           0                   []
+                ^+1           0                   [COM#   2,2,SZR]
+                ^+1           0                   {WBR    #SPATCH+27}
+                ^+1           0                   [NLDAI  37,0]
+                ^+1           0                   []
+                #SPATCH+27    0                   [XWLDA  2,CC.W]
+                ^+1           0                   []
+                ^+1           0                   [XWLDA  2,12,2]
+                ^+1           0                   []
+                ^+1           0                   [LJMP   PESTAC.P+1072]
+                ^+1           0                   []
+                ^+1           0                   []
+                ;
+                ;The following updates the pointer at SPATCH.  The size
+                ;of the patch was 36(base 8) words.
+
+                SPATCH        #SPATCH\            #SPATCH+36\
+                ^+1           []                  []
+
+                ;-------------------------------------------------------
+                ; AOS/VS 5.00 SYSTEM PATCH #15; 03 AUG 84	UPDATE 5.01
+                ; MODULES:  UNICORN.SR, DPMDR.SR
+                ; INSURES THAT THE FILE SIZE SPECIFIED IN ?GOPEN PACKET
+                ; IS CORRECT AFTER FLOPPY DENSITY MATCHING.
+                ; FIXED IN AOS/VS 6.00
+                ;-------------------------------------------------------
+
+                ;This patch is a conditional patch.  It will only install
+                ;in an AOS/VS system which has a DPJ disk generated.  If
+                ;the system being patched does not have DPJIS defined,
+                ;the patch will not install, and it will not take up any
+                ;patch space!
+
+                UCNIU+2       [XWISZ 0 3]     {LJMP #SPATCH}  DPJIS
+                ^+1           []              []              DPJIS
+                ^+1           [WRTN]          []              DPJIS
+                ;
+                #SPATCH       0               [WPSH 2 2]      DPJIS
+                ^+1           0               [WMOV 2 1]      DPJIS
+                ^+1           0               [LJSR RECAL]    DPJIS
+                ^+1           0               []              DPJIS
+                ^+1           0               []              DPJIS
+                ^+1           0               {WBR #SPATCH+16} DPJIS
+                ^+1           0               [WPOP 2 2]      DPJIS
+
+									E-5
+
+	AOS/VS Debugger and File Editor User's Manual		4-Feb-93
+	Documentation Changes, Revision 4
+
+
+                ^+1           0               [WSUB 0 0]      DPJIS
+                ^+1           0               [XNSTA 0 21 2]  DPJIS
+                ^+1           0               []              DPJIS
+                ^+1           0               [XNSTA 0 17 2]  DPJIS
+                ^+1           0               []              DPJIS
+                ^+1           0               [XWISZ 0 3]     DPJIS
+                ^+1           0               []              DPJIS
+                ^+1           0               [WRTN]          DPJIS
+                ^+1           0               [WPOP 2 2]      DPJIS
+                ^+1           0               [WRTN]          DPJIS
+
+                ;Note that the update to the pointer should be
+                ;conditional. If it isn't, then space will be wasted. In
+                ;this patch, the developer updates the pointer before the
+                ;patch is complete. This way he can start addressing new
+                ;patch space withou remembering the offsets from the
+                ;offsets from the previous usage.  This patch, like the
+                ;previous one visits patch space twice, except that the
+                ;condition changes in the middle of the patch. Because
+                ;of this, it is crucial that the pointer gets updated
+                ;at the right time.
+
+                SPATCH        #SPATCH\        #SPATCH+21\     DPJIS
+                ^+1           []              []              DPJIS
+                ;
+                DPMIS+1755    [XWISZ 0 3]     {LJMP #SPATCH}  DPMIS
+                ^+1           []              []              DPMIS
+                ^+1           [WRTN]          []              DPMIS
+                ;
+                #SPATCH       0               [XWLDA 2 -4 3]  DPMIS
+                ^+1           0               []              DPMIS
+                ^+1           0               [NLDAI 1210 0]  DPMIS
+                ^+1           0               []              DPMIS
+                ^+1           0               [WSNB 2 0]      DPMIS
+                ^+1           0               {WBR #SPATCH+12} DPMIS
+                ^+1           0               [NLDAI 1317 0]  DPMIS
+                ^+1           0               []              DPMIS
+                ^+1           0               [XWSTA 0 5 2]   DPMIS
+                ^+1           0               []              DPMIS
+                ^+1           0               [XWISZ 0 3]     DPMIS
+                ^+1           0               []              DPMIS
+                ^+1           0               [WRTN]          DPMIS
+                ;
+                SPATCH        #SPATCH\        #SPATCH+15\     DPMIS
+                ^+1           []              []              DPMIS
+
+
+				End of Appendix E
+
+									E-6
+
+
+
+
+
+
+
+
+
+		+-----------------------------------------------------+
+		| End of Documentation Changes for "Debugger and File |
+		|  Editor User's Manual, 093-000246-01, Revision 4,   |
+		|                     4-Feb-93                        |
+		+-----------------------------------------------------+

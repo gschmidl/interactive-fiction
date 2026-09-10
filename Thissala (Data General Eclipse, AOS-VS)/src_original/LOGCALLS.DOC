@@ -1,0 +1,793 @@
+                LOGCALLS - System Call Logging Utility, Rev. 1               Page 1
+        Chapter 1: Introduction                                         1-1
+
+
+
+
+
+
+
+
+
+                             CHAPTER 1 - Introduction
+
+
+
+        Under AOS/VS via the ?LOGC  system  call,  a  user  may  receive  a
+        detailed log of all system calls issued either by or on  behalf  of
+        the calling process.  Under AOS/VS, all system calls go through the
+        system, including task calls, resource calls, etc.   The  log  pro-
+        duced by ?LOGC may also include system calls made by the system  on
+        behalf of a user system request (e.g., a ?SEND causes the system to
+        use the IPC mechanism to transfer the message to the target).   The
+        log produced by this call is written to disk  in  a  pre-determined
+        format.
+
+        The LOGCALLS utility is  designed  to  read  this  logfile  and  to
+        generate a report  file  containing  the  interpreted  ?LOGC  data.
+        Through the specification of user-defined  parameters,  the  report
+        may be tailored to the user's needs.
+
+             LOGCALLS support includes the following:
+
+              * Support for 16-bit and 32-bit processes.
+
+              * For each system call issued, a  summary  report  indicating
+                the frequency of call issuance from each of rings 3, 4,  5,
+                6, and 7.  Totals for all calls are provided.
+
+              * Mnemonic representations of all system calls.
+
+              * Full user-ring support.  User rings 4, 5, 6, and 7 are  all
+                fully supported.
+
+
+             LOGCALLS optionally provides the following:
+
+              * A report detailing the calls issued by all tasks.
+
+              * Reports detailing the calls issued by each task.
+
+              * A report detailing the calls issued by a particular task.
+
+              * Symbolic representations for  all  logical  addresses  from
+                which the system calls were issued.
+
+              * Full ring 3 (AGENT) support.  System calls  issued  by  the
+                AGENT on behalf of the user will be reported.
+
+
+
+        Data General Corporation                       Company Confidential
+                LOGCALLS - System Call Logging Utility, Rev. 1               Page 2
+        Chapter 1: Introduction                                         1-2
+
+
+
+        The generated report file consists of a report header followed by a
+        chart of all system calls in chronological  order  of  issue.   For
+        each system call, this chart supplies the system call mnemonic  and
+        octal representation, the accumulator values (AC0,AC1  &  AC2)  and
+        program counter at system call issuance, the task ID  and  the  TCB
+        number (indicating the order in which the tasks were  initialized).
+        By user  request,  the  symbolic  representations  of  all  program
+        counters can also be provided.
+
+
+
+                                 [End of Chapter 1]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        Data General Corporation                       Company Confidential
+                LOGCALLS - System Call Logging Utility, Rev. 1               Page 3
+        Chapter 2: Operating Procedures                                 2-1
+
+
+
+
+
+
+
+
+
+                         CHAPTER 2 - Operating Procedures
+
+
+
+        LOGCALLS may be invoked by the following command line:
+
+                XEQ LOGCALLS[<switches>]
+
+        User parameters to LOGCALLS are specified as switches  on  argument
+        zero in the command line.  Unique abbreviations and both upper  and
+        lower cases are acceptable.   Switches  may  be  grouped  into  two
+        catagories: those that control the i/o to and from the utility, and
+        those that internally  control  the  generation  of  reports.   All
+        switches are optional except for the /I= and the /O= switches.
+
+        The following switches control the i/o to and from the utility.
+
+        /I=pathname
+                        Read the data from file PATHNAME.  This  file  must
+                        be a datafile created by the ?LOGC supervisor call.
+                        This switch is required.
+
+        /O=pathname
+                        Write the generated report to file PATHNAME.   This
+                        file  must  not  already  exist.   This  switch  is
+                        required.
+
+        /ST
+                        Access the default symbol table file when determin-
+                        ing symbolic  representations  of  ring  7  logical
+                        addresses.    The   default   filename   is   <root
+                        pathname>.ST.
+
+        /ST=pathname
+                        Access the specified file PATHNAME when determining
+                        symbolic  representations   of   ring   7   logical
+                        addresses.
+
+        /R7ST
+                        Same as /ST.  Provided for conformity to  the  rest
+                        of the symbol table switches.
+
+        /R7ST=pathname
+                        Same as /ST=pathname.  Provided for  conformity  to
+                        the rest of the symbol table switches.
+
+
+
+
+        Data General Corporation                       Company Confidential
+                LOGCALLS - System Call Logging Utility, Rev. 1               Page 4
+        Chapter 2: Operating Procedures                                 2-2
+
+
+
+        /R6ST=pathname
+                        Access the specified file PATHNAME when determining
+                        symbolic  representations   of   ring   6   logical
+                        addresses.  There is no default pathname.
+
+        /R5ST=pathname
+                        Access the specified file PATHNAME when determining
+                        symbolic  representations   of   ring   5   logical
+                        addresses.  There is no default pathname.
+
+        /R4ST=pathname
+                        Access the specified file PATHNAME when determining
+                        symbolic  representations   of   ring   4   logical
+                        addresses.  There is no default pathname.
+
+        /R3ST
+                        Access the default AGENT  symbol  table  file  when
+                        determining symbolic representations of AGENT (ring
+                        3) logical addresses.  The default is :AGENT.ST.
+
+        /R3ST=pathname
+                        Access the specified file PATHNAME when determining
+                        symbolic representations of AGENT (ring 3)  logical
+                        addresses.
+
+        The  following  switches  internally  control  the  generation   of
+        reports.
+
+        /ALL
+                        Produce a comprehensive report of all calls made by
+                        all tasks.
+
+        /EACH
+                        Produce task-specific reports for each task.   This
+                        would be  equivalent  to  specifying  the  "/TASK="
+                        switch for every task.
+
+        /LAST=n
+                        For all reports generated, reference only the  last
+                        "n" system call entries in the datafile.  If "n" is
+                        zero, no  reports  will  be  produced;  if  "n"  is
+                        greater than  the  total  number  of  entries,  all
+                        system calls will be reported.  This  switch  makes
+                        it easy to examine the last few system calls  in  a
+                        very large data file.  Note that the Summary Report
+                        is unaffected by this switch.
+
+        /NOSYS
+                        Do NOT log system  calls  made  by  the  system  on
+                        behalf of the user.  When processing a system  call
+                        requested by the user, the system  will  frequently
+                        issue additional system  calls  on  behalf  of  the
+                        user; this is a normal and necessary feature of the
+
+
+        Data General Corporation                       Company Confidential
+                LOGCALLS - System Call Logging Utility, Rev. 1               Page 5
+        Chapter 2: Operating Procedures                                 2-3
+
+
+
+                        processing of some system calls.  By default, these
+                        calls issued by the system will be logged;  in  the
+                        report they will be prefixed by a  "*"  instead  of
+                        the usual "?".
+
+        /TASK=n
+                        Produce a report of those system calls executed  by
+                        or on behalf of the task with the ID "n".  This TID
+                        value for all tasks is available to the user in the
+                        all-task report.
+
+
+
+                                 [End of Chapter 2]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        Data General Corporation                       Company Confidential
+                LOGCALLS - System Call Logging Utility, Rev. 1               Page 6
+        Chapter 3: Output Format                                        3-1
+
+
+
+
+
+
+
+
+
+                             CHAPTER 3 - Output Format
+
+
+
+        LOGCALLS produces a report file consisting of a  header,  a  system
+        call summary chart, and a report or reports for each of  the  /ALL,
+        /EACH and  /TASK=  switches  selected.   These  three  modules  are
+        described in more detail below.
+
+        ______        Header
+
+        The header contains the following information:
+
+        	+   Target Process name
+        	+   Target Program pathname
+        	+   Ring 7 Symbol File name  (if specified)
+        	+   Ring 6 Symbol File name  (if specified)
+        	+   Ring 5 Symbol File name  (if specified)
+        	+   Ring 4 Symbol File name  (if specified)
+        	+   Ring 3 Symbol File name  (if specified)
+        	+   Date/Time of ?LOGC initialization
+
+        ______________        Summary Report
+
+        The summary report of system calls is analyzed by system  call  and
+        by protection ring, and contains the following information for each
+        call issued:
+
+        	+   System call mnemonic
+        	+   System call octal value
+        	+   Count of system call issued in Ring 3
+        	+   Count of system call issued in Ring 4
+        	+   Count of system call issued in Ring 5
+        	+   Count of system call issued in Ring 6
+        	+   Count of system call issued in Ring 7
+        	+   Total count of system call issued from all rings
+
+        The following information on all calls is also provided:
+
+        	+   Total system calls issued from Ring 3
+        	+   Total system calls issued from Ring 4
+        	+   Total system calls issued from Ring 5
+        	+   Total system calls issued from Ring 6
+        	+   Total system calls issued from Ring 7
+        	+   Total system calls issued from all rings
+
+
+
+
+        Data General Corporation                       Company Confidential
+                LOGCALLS - System Call Logging Utility, Rev. 1               Page 7
+        Chapter 3: Output Format                                        3-2
+
+
+
+        __________________        Detailed Report(s)
+
+        Detailed information concerning each  system  call  issued  may  be
+        requested by specifying  the  optional  switches  /ALL,  /EACH,  or
+        /TASK=.  The system calls are listed in chronological order of time
+        of issuance.  For  each  issuance,  the  following  information  is
+        provided:
+
+        	+   System call mnemonic
+        	+   System call octal value
+        	+   Accumulator 0 value @ call issuance
+        	+   Accumulator 1 value @ call issuance
+        	+   Accumulator 2 value @ call issuance
+        	+   Program Counter     @ call issuance
+        	+   Task ID of task issuing call
+        	+   TCB number (indicating order of task initialization)
+        	+   Symbolic representation of the Program Counter (optional)
+
+
+
+                                 [End of Chapter 3]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        Data General Corporation                       Company Confidential
+                LOGCALLS - System Call Logging Utility, Rev. 1               Page 8
+        Chapter 4: General Notes                                        4-1
+
+
+
+
+
+
+
+
+
+                             CHAPTER 4 - General Notes
+
+
+
+
+              * The format of the report file is designed to fit within  80
+                columns if no symbolic representations are  requested.   If
+                symbolics are requested and if the symbol table file(s) can
+                be accessed, the report width will exceed 80 columns.
+
+              * The AGENT and user program symbol table files are  accessed
+                independently; the  user  specifications  may  legitimately
+                call for access to one symbol table file  and  not  others.
+                Alternatively, symbol table files for all the rings  3,  4,
+                5, 6 and 7 may be opened.  Access to  a  particular  symbol
+                table file is not a prerequisite for  specification;  if  a
+                specified symbol table file is never accessed (if no system
+                calls were issued from that ring), then  the  specification
+                will effectively be a no-op.
+
+              * The ?LOGC  system  call  provides  the  option  of  setting
+                "forced output" on the logging of system  call  data.   The
+                LOGCALLS utility uses this  functionality  to  ensure  that
+                system call data will be written out to the datafile before
+                the system call is  processed.   Consequently,  should  the
+                user process abruptly terminate,  whether  through  a  user
+                ring trap, a system ring 3 AGENT trap, or an  AOS/VS  fault
+                or system panic, the datafile will  correctly  reflect  the
+                system call sequence up to and including  the  last  system
+                call issued.
+
+
+
+                                 [End of Chapter 4]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        Data General Corporation                       Company Confidential
+                LOGCALLS - System Call Logging Utility, Rev. 1               Page 9
+        Chapter 5: Examples                                             5-1
+
+
+
+
+
+
+
+
+
+                               CHAPTER 5 - Examples
+
+
+
+        Examples of each of the three  output  modules  -  Header,  Summary
+        Report and Detailed Report - are provided in the appendices.  These
+        three modules are the complete product of a single report file.
+
+
+
+                                 [End of Chapter 5]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        Data General Corporation                       Company Confidential
+                LOGCALLS - System Call Logging Utility, Rev. 1              Page 10
+        Appendix A: Example - Header                                    A-1
+
+
+
+
+
+
+
+
+
+                           APPENDIX A - Example - Header
+
+
+
+
+
+
+
+
+        The following example has been edited to fit in this document.  All
+        changes were cosmetic: no functionality has been removed.
+
+
+
+        System Call Logger -- Revision 01.10.00.00  01-Jul-81 12:11:05 PM
+
+
+
+
+
+        Process name:        BRINT:053
+        Program pathname:    :UDD:BRINT:SHP_VS:SHP_VS.PR  (32-Bit Process)
+
+        Ring 7 Symbol File:  	SHP_VS.ST
+        Ring 6 Symbol File:  	SHP_VS6.ST
+        Ring 5 Symbol File:  	SHP_VS5.ST
+        Ring 4 Symbol File:  	SHP_VS4.ST
+        Ring 3 Symbol File:  	:AGENT.ST
+
+        Date/Time of ?LOGCALL initialization:	    01-Jul-81	12:06:17 PM
+
+
+
+                                [End of Appendix A]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        Data General Corporation                       Company Confidential
+                LOGCALLS - System Call Logging Utility, Rev. 1              Page 11
+        Appendix B: Example - Summary Report                            B-1
+
+
+
+
+
+
+
+
+
+                       APPENDIX B - Example - Summary Report
+
+
+
+
+
+
+
+
+        The following example has been edited to fit in this document.  All
+        changes were cosmetic: no functionality has been removed.
+
+
+
+        Mnemonic   Call #   Ring 3  Ring 4  Ring 5  Ring 6  Ring 7    Total
+        --------   ------   ------  ------  ------  ------  ------   ------
+
+         ?MEM           3        0       2       2       2       2        8
+         ?MEMI         14        0       1       1       1       1        4
+         ?ILKUP        27        2       0       0       0       0        2
+         ?SSHPT        44        0       1       1       1       1        4
+         ?RPAGE        45        0       1       0       0       0        1
+         ?GOPEN        56        4       0       0       0       0        4
+         ?GCLOSE       57        2       0       0       0       0        2
+         ?SPAGE        60        0       1       0       2       0        3
+         ?SOPEN        63        0       0       0       0       5        5
+         ?GSHPT        73        0       1       1       1       1        4
+         ?FSTAT        77        0       0       0       0       2        2
+         ?PNAME       116        0       0       0       0       1        1
+         ?IS.R        142        6       0       0       0       0        6
+         ?RINGLD      264        0       0       0       0       3        3
+         ?OPEN        300        0       0       0       0       2        2
+         ?READ        302        0       0       0       0       1        1
+         ?WRITE       303        0       0       0       0       1        1
+         ?TASK        500        0       0       0       0       2        2
+         ?MYTID       521        0       0       0       0       5        5
+
+        Ring Totals:            14       7       5       7      27       60
+
+
+
+                                [End of Appendix B]
+
+
+
+
+
+
+
+        Data General Corporation                       Company Confidential
+                LOGCALLS - System Call Logging Utility, Rev. 1              Page 12
+        Appendix C: Example - Detailed Report                           C-1
+
+
+
+
+
+
+
+
+
+                      APPENDIX C - Example - Detailed Report
+
+
+
+
+
+
+
+
+        The following example has been edited  to  fit  in  this  document.
+        Specifically, the columns for "Ac1" and "Ac2"  have  been  removed.
+        These columns are identical to the "Ac0" column.
+
+
+
+        Mnemonic Call     Ac0         PC      TID TCB Ring PC - Symbolic
+        -------- ---- ----------- ----------- --- --- ---- ---------------
+        ?PNAME    116 00000000000 16001766172   1   1  (7) P.INIT+33
+        ?FSTAT     77 34000017732 16001766211   1   1  (7) P.INIT+52
+        ?FSTAT     77 34000020060 16001766235   1   1  (7) P.INIT+76
+        ?MEM        3 00000000001 16001766276   1   1  (7) P.INIT+137
+        ?MEMI      14 00000000001 16001766321   1   1  (7) P.INIT+162
+        ?MEM        3 00000000001 16001766331   1   1  (7) P.INIT+172
+        ?GSHPT     73 00000000762 16001766350   1   1  (7) P.INIT+211
+        ?SSHPT     44 00000000007 16001766377   1   1  (7) P.INIT+240
+        ?RINGLD   264 34003744130 16001766565   1   1  (7) P.INIT+426
+        ?RINGLD   264 34003744114 16001766577   1   1  (7) P.INIT+440
+        ?RINGLD   264 34003744100 16001766611   1   1  (7) P.INIT+452
+        ?MEM        3 34003744100 14001774054   1   1  (6)   INIT+4
+        ?MEMI      14 00000000001 14001774077   1   1  (6)   INIT+27
+        ?MEM        3 00000000001 14001774107   1   1  (6)   INIT+37
+        ?GSHPT     73 00000000766 14001774125   1   1  (6)   INIT+55
+        ?SSHPT     44 00000000010 14001774160   1   1  (6)   INIT+110
+        ?MEM        3 34003744100 12001774054   1   1  (5)     INIT+4
+        ?MEMI      14 00000000001 12001774077   1   1  (5)     INIT+27
+        ?MEM        3 00000000001 12001774107   1   1  (5)     INIT+37
+        ?GSHPT     73 00000000766 12001774125   1   1  (5)     INIT+55
+        ?SSHPT     44 00000000010 12001774160   1   1  (5)     INIT+110
+        ?MEM        3 34003744100 10001774054   1   1  (4)	 INIT+4
+        ?MEMI      14 00000000001 10001774077   1   1  (4)	 INIT+27
+        ?MEM        3 00000000001 10001774107   1   1  (4)	 INIT+37
+        ?GSHPT     73 00000000766 10001774125   1   1  (4)	 INIT+55
+        ?SSHPT     44 00000000010 10001774160   1   1  (4)	 INIT+110
+        ?TASK     500 00000003724 16001766721   1   1  (7) P.INIT+562
+        ?OPEN     300 00000000005 16001770437   1   1  (7) P.READ+4
+        *GOPEN     56 34003744160 06001633557   1   1  (3)	   AOPEN+570
+        ?MYTID    521 00000000000 16001767160   6   6  (7) P.MAIN+2
+
+
+        Data General Corporation                       Company Confidential
+                LOGCALLS - System Call Logging Utility, Rev. 1              Page 13
+        Appendix C: Example - Detailed Report                           C-2
+
+
+
+
+
+        ?SOPEN     63 34000017732 16001767261   6   6  (7) P.MAIN+103
+        ?MYTID    521 00000000000 16001767160   5   5  (7) P.MAIN+2
+        ?SOPEN     63 34000020060 16001767261   5   5  (7) P.MAIN+103
+        *GCLOSE    57 00000000003 06001635320   1   1  (3)	   OPERBAD+500
+        *GOPEN     56 14000052226 06001635367   1   1  (3)	   OPERBAD+547
+        ?MYTID    521 00000000000 16001767160   4   4  (7) P.MAIN+2
+        ?SOPEN     63 34000017732 16001767261   4   4  (7) P.MAIN+103
+        ?MYTID    521 00000000000 16001767160   3   3  (7) P.MAIN+2
+        ?SOPEN     63 34000020060 16001767261   3   3  (7) P.MAIN+103
+        ?MYTID    521 00000000000 16001767160   2   2  (7) P.MAIN+2
+        ?SOPEN     63 34000017732 16001767261   2   2  (7) P.MAIN+103
+        *ILKUP     27 14003472202 06001635060   1   1  (3)	   OPERBAD+240
+        *IS.R     142 00000000001 06001635111   1   1  (3)	   OPERBAD+271
+        *IS.R     142 00000004200 06001635233   1   1  (3)	   OPERBAD+413
+        ?TASK     500 00000000005 16001770451   1   1  (7) P.READ+16
+        ?OPEN     300 36000012575 16001775763   1   1  (7) AINB+26
+        *GOPEN     56 34000025276 06001633557   1   1  (3)	   AOPEN+570
+        ?WRITE    303 00000000000 16001771033  50   7  (7) P.DISP0+157
+        *IS.R     142 37777777777 06001600550  50   7  (3)	   .PIO+627
+        ?SPAGE     60 10001642000 10001774773   6   6  (4)	 P.SPAGE+141
+        *GCLOSE    57 00000000003 06001635320   1   1  (3)	   OPERBAD+500
+        *GOPEN     56 14000052210 06001635367   1   1  (3)	   OPERBAD+547
+        *ILKUP     27 14003472202 06001635060   1   1  (3)	   OPERBAD+240
+        *IS.R     142 00000000001 06001635111   1   1  (3)	   OPERBAD+271
+        *IS.R     142 00000004100 06001635233   1   1  (3)	   OPERBAD+413
+        ?READ     302 36000012575 16001775767   1   1  (7) AINB+32
+        *IS.R     142 00000000000 06001600550   1   1  (3)	   .PIO+627
+        ?RPAGE     45 10000212000 10001775646   5   5  (4)	 P.RPAGE+7
+        ?SPAGE     60 14001214000 14001774773   4   4  (6)   P.SPAGE+141
+        ?SPAGE     60 14000064000 14001774773   3   3  (6)   P.SPAGE+141
+
+
+
+                                [End of Appendix C]
+
+
+
+                 [End of "LOGCALLS - System Call Logging Utility"]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        Data General Corporation                       Company Confidential

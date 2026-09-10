@@ -1,0 +1,89 @@
+defs   proc
+      implicit integer (a-z)
+
+C  Array size parameters for Adventure
+
+      parameter linsiz = 12900          @ words of message text
+      parameter trvsiz = 840            @ travel options
+      parameter tabsiz = 340            @ vocabulary words
+      parameter locsiz = 160            @ locations
+      parameter objsiz = 100            @ objects (must currently = 100)
+      parameter objsi2 = objsiz*2       @ twice the number of objexts
+      parameter vrbsiz = 40             @ action verbs
+      parameter rtxsiz = 220            @ random messages
+      parameter levsiz = 12             @ player proficiency levels
+      parameter hntsiz = 20             @ hints, less 3
+      parameter magsiz = 35             @ magic messages
+
+C  There are also limits which cannot be exceeded due to the structure
+C  of the database (e.g., the vocabulary uses N/1000 to determine word
+C  type, so there can't be more than 1000 words).  These upper limits
+C  are:
+
+C     1000 non-synonymous vocabulary words
+C     300 locations
+C     100 objects
+
+ end
+comabb proc
+
+C  The ABBCOM common block is used in MAIN, MAINT
+
+      common /ABBCOM/ abb
+      dimension abb(locsiz)
+ end
+comblk proc
+
+C  The BLKCOM common block is used in GETIN, MAIN, MAINT, RSPEAK, SPEAK
+
+      common /BLKCOM/ blklin, mltcmd, samvrb
+      logical blklin, mltcmd, samvrb
+ end
+commtx proc
+
+C  The MTXCOM common block is used in MAIN, MSPEAK
+
+      common /MTXCOM/ mtext
+      dimension MTEXT(magsiz)
+ end
+compla proc
+
+C  The PLACOM common block is used in CARRY, DROP, JUGGLE, MAIN, MOVE
+
+      common /PLACOM/ atloc,place,fixed,link,holdng
+      dimension atloc(locsiz), place(objsiz), fixed(objsiz),
+     1 link(objsi2)
+ end
+comptx proc
+
+C  The PTXCOM common block is used in MAIN, PSPEAK
+
+      common /PTXCOM/ ptext
+      dimension ptext(objsiz)
+ end
+comtxt proc
+
+C  The TXTCOM common block is used in MAIN, PSPEAK, RSPEAK, SPEAK
+
+      common /TXTCOM/ rtext, lines, rmsgx
+      dimension rtext(rtxsiz), lines(linsiz)
+      logical rmsgx(rtxsiz)
+ end
+comvoc proc
+
+C  The VOCCOM common block is used in MAIN, VOCAB
+
+      common /VOCCOM/ ktab,atab
+      dimension ktab(tabsiz)
+      character*5 atab(tabsiz)
+ end
+comwiz proc
+
+C  The WIZCOM common block is used in HOURS, MAIN, MAINT, NEWHRS, POOF,
+C                                     START, WIZARD
+
+      common /WIZCOM/ wkday,wkend,holid,hbegin,hend,hname,short,magic,
+     1 magnm,latncy,saved,savet,setup
+      dimension wkday(2),wkend(2),holid(2)
+      character*5 hname(4), magic
+ end

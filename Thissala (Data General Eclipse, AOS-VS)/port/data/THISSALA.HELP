@@ -1,0 +1,115 @@
+
+Note: This file can be accessed under the CLI by typing (or printing)
+	'THISSALA.HELP'
+
+BUGS FIXED / FEATURES ADDED IN REVISION 0.60
+
+1)  New puzzles, new objects, new commands
+
+2)  LOOK IN or LOOK INTO has been implemented
+
+3)  Revision 0.60 has been rehosted to AOS/VS.  The THISSALA macro
+    will automatically start up the correct game
+
+4)  The monster are again wondering the different sections.  They
+    will attack, but with no strength as of now.  There was a bug
+    reported that I believe is now fixed.  This should prove or dis-
+    prove this.
+
+BUGS FIXED / FEATURES ADDED IN REVISION 0.55
+============================================
+
+1)  Some early developed puzzles have been completed, and some
+    early objects have had their attributes brought up to date
+
+2)  The RECALL command has been greatly modified and should now
+    work correctly (Note that old games will not recall across
+    new revisions
+
+3)  The monsters have been moved away until a decision has been reached
+    concerning how to handle POWER and COOR.
+
+
+BUGS FIXED / FEATURES ADDED IN REVISION 0.54
+============================================
+
+1)  THISSALA now supports non-ansi and non-screenedit terminals.  If
+    the terminal read fails using screenedit I/O, THISSALA will retry
+    the I/O using a standard read
+
+2)  THISSALA now has this help file to help you with
+
+
+COMMAND SUMMARY
+===============
+
+THISSALA  briefly describe the game
+
+BRIEF     normal mode
+BUG       submit a bug report (see RECOMMEND) (B is a valid abbr)
+CLI       proc up a CLI son process and block
+INVENT    report player's objects  (I and INV are valid abbreviations)
+LOOK <IN> return expanded room descriptor or describe the interior of
+          an object  (L is a valid abbreviation)
+RTOD      return the real time of day
+SCORE     report score    (SC is a valid abbreviation)
+TIME      return the internal game time of day (TI is a valid abbr.)
+VERBOSE   alway return full room descriptor
+
+STATUS    return current player information
+-------------------------------------------
+
+	STATUS<NL>
+
+	Power:     xxxx
+	Coor:	   xxxx
+	Magic:     xxxx
+	Wisdom:    xxxx
+	Knowledge: xxxx
+
+LOG	  turn on/off logging
+-----------------------------
+
+	LOG<NL>
+	Filename: <logfile_name>
+
+	 or
+
+	LOG<NL>
+
+RECOMMEND recommend a sentence or word for addition to vocab 
+------------------------------------------------------------
+          (R is a valid abbreviation).  The easiest way to use this
+          is upon typing a sentence which contains an unknown word,
+          type ^A (recover the sentence), ^H (position to beginning)
+          ^E (insert) R<space> ^E (end insert) <NL>.  This will enter
+          the entire sentence into the recommendations file.  Thanks.
+
+SAVE      save a game
+---------------------
+
+	SAVE<NL>
+	Filename: <game_name>
+	Game saved
+
+RECALL    recall a game
+-----------------------
+
+	RECALL<NL>
+	Filename: <game_name>
+	Game recalled
+ 
+
+Collectives
+-----------
+
+The constructions ALL / EVERYTHING / BUT / EXCEPT work for the TAKE and
+DROP commands (and their synonyms), as does multiple objects, allowing 
+constructs like:
+ 
+TAKE EVERYTHING EXCEPT THE BILL AND THE SHOVEL.
+ 
+            and
+
+PICK UP ALL BUT THE BIRD
+

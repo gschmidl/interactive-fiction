@@ -1,0 +1,61 @@
+ifc_system : env_files, ifc_rtl, ifc.exe
+	purge
+
+env_files : ifc$msg_def.pen, ifc$lex_def.pen, ifc$obj_def.pen, -
+ifc$room_def.pen, ifc$message_def.pen, ifc$object_def.pen
+	! IFC Environment files compiled
+
+ifc_rtl : ifc$rtl_def.pen, ifc$rtl_macro.obj, ifc$rtl_pascal.obj, -
+ifc$rtl_screen.obj
+	! Run-time system environment and library compiled
+
+ifc.exe : ifc.obj, ifc$msg.obj, ifc$cld.obj, ifc$lex.obj, ifc$obj.obj, -
+ifc$message.obj, ifc$room.obj, ifc$object.obj
+	link ifc, ifc$msg, ifc$cld, ifc$lex, ifc$obj, ifc$message, -
+ifc$room, ifc$object
+
+ifc.obj : ifc.pas
+	pascal ifc
+ifc$lex.obj : ifc$lex.pas, ifc$def.pen
+	pascal ifc$lex
+ifc$obj.obj : ifc$obj.pas
+	pascal ifc$obj
+ifc$message.obj : ifc$message.pas, ifc$def.pen
+	pascal ifc$message
+ifc$room.obj : ifc$room.pas, ifc$def.pen
+	pascal ifc$room
+ifc$object.obj : ifc$object.pas, ifc$def.pen
+	pascal ifc$object
+ifc$cld.obj : ifc$cld.cld
+	set comm/obj ifc$cld
+ifc$msg.obj : ifc$msg.msg
+	message/obj ifc$msg
+	library/replace/object ifc$rtl ifc$msg
+
+ifc$rtl_macro.obj : ifc$rtl_macro.mar
+	macro ifc$rtl_macro
+	library/replace/object ifc$rtl ifc$rtl_macro
+ifc$rtl_pascal.obj : ifc$rtl_pascal.pas
+	pascal/nodebug/nocheck/opt ifc$rtl_pascal
+	library/replace/object ifc$rtl ifc$rtl_pascal
+ifc$rtl_screen.obj : ifc$rtl_screen.pas
+	pascal/nodebug/nocheck/opt ifc$rtl_screen
+	library/replace/object ifc$rtl ifc$rtl_screen
+
+ifc$msg_def.pen : ifc$msg_def.pas
+	pascal/noobj/env ifc$msg_def
+ifc$lex_def.pen : ifc$lex_def.pas, ifc$def.pen
+	pascal/noobj/env ifc$lex_def
+ifc$obj_def.pen : ifc$obj_def.pas
+	pascal/noobj/env ifc$obj_def
+ifc$message_def.pen : ifc$message_def.pas
+	pascal/noobj/env ifc$message_def
+ifc$room_def.pen : ifc$room_def.pas
+	pascal/noobj/env ifc$room_def
+ifc$object_def.pen : ifc$object_def.pas
+	pascal/noobj/env ifc$object_def
+ifc$rtl_def.pen : ifc$rtl_def.pas
+	pascal/noobject/env ifc$rtl_def
+
+ifc$def.pen : ifc$def.pas
+	pascal/noobj/env ifc$def

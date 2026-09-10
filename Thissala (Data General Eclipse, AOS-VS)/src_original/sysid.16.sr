@@ -1,0 +1,475 @@
+;*       Copyright (C) Data General Corporation, 1980 - 1994          *;
+;*       All rights reserved.                                         *;
+;*       Licensed material -- property of Data General Corporation    *;
+;*                                                                    *;
+;*       This software is made available solely pursuant to the       *;
+;*       terms of a DGC license agreement which governs its use.      *;
+
+
+
+        ;==================================;
+        ; AOS/VS - SYSTEM CALL DEFINITIONS ;
+        ;==================================;
+
+        .TITL   SYSID.16
+
+
+
+; FIRST WORD OF ALL SYSTEM CALLS
+.DUSR   ?SYST=  JSR     @17
+
+
+
+;
+; SYSTEM CALL DEFINITION MACROS
+;
+
+        .MACRO  ?SCL1
+        ?=^2                    ;FOR PLN PARAMETERS
+        .MACRO  ^1              ;DEFINE A SYSTEM CALL MACRO
+**      .PUSH   .NOMAC
+**      .NOMAC  ?XCALL
+        .PUSH   .RDX            ;RADIX PROTECTION FOR SYSTEM CALLS
+        .RDX    8
+        ?SYST
+        ^2
+        .RDX    .POP
+**      .NOMAC  .POP
+_%
+%
+        .MACRO  ?SCL2
+        ?=^2                    ;FOR PLN PARAMETERS
+        .MACRO  ^1
+**      .PUSH   .NOLOC
+        .NOLOC  1
+        .PUSH   .NOMAC
+        .NOMAC  ?XCALL
+        .DO     .ARGCT==1       ;ARG SPECIFIED?
+        ELEF    2,_^1
+        .ENDC
+        .PUSH   .RDX            ;RADIX PROTECTION FOR SYSTEM CALLS
+        .RDX    8
+        ?SYST
+        ^2
+        .RDX    .POP
+        .NOMAC  .POP
+**      .NOLOC  .POP
+_%
+%
+
+; RESOURCE CALL DEFINITION MACROS
+
+        .MACRO  ?RCL1
+        .MACRO  ?^1
+**      .PUSH   .NOLOC
+        .NOLOC  1
+        .PUSH   .NOMAC
+        .NOMAC  ?XCALL
+        .DO     .ARGCT==0
+        .^1
+        0
+        .ENDC
+        .DO     .ARGCT==1
+        _.EXTN  _^1
+        .^1     _^1
+        .TARG   ^2 _^1
+        .ENDC
+        .NOMAC  .POP
+**      .NOLOC  .POP
+_%
+%
+
+;   TASK CALL DEFINITION MACRO (FOR 16 BIT TASK CALLS
+;                                IN THE USER RING AGENT WART)
+
+        .MACRO  ?TCL1
+        .MACRO  ^1
+**      .PUSH   .NOMAC
+**      .NOMAC  ?XCALL
+        .EXTN   ^2
+        EJSR    ^2,0
+**      .NOMAC  .POP
+_%
+%
+
+
+; SUPPRESS EXPANSION OF DEFINITION MACROS
+
+        .PUSH   .NOMAC
+        .NOMAC  1
+
+; DEFAULT TO SUPPRESS EXPANSION OF CALL MACROS
+
+.DUSR   ?XCALL= 1
+
+;
+; SYSTEM CALLS
+;
+
+
+?SCL2   ?CREATE 0               ;CREATE FILE
+?SCL2   ?DELETE 1               ;DELETE FILE
+?SCL2   ?RENAME 2               ;RENAME A FILE
+?SCL1   ?MEM    3               ;RETURN MEMORY LIMITS
+?SCL1   ?GCHN   4               ;CHANGE THE CURRENT PROGRAM
+?SCL2   ?PSTAT  5               ;PROCESS STATUS
+?SCL1   ?DPMGR  6               ;DEFINE PERIPHERAL MANAGER
+?SCL2   ?RDB    7               ;READ A PHYSICAL BLOCK
+;               10              ;- RESERVED FOR ?RDB
+?SCL2   ?WRB    11              ;WRITE A PHYSICAL BLOCK
+;               12              ;- RESERVED FOR ?WRB
+?SCL2   ?GPROC  13              ;CREATE A PROCESS
+?SCL1   ?MEMI   14              ;ALLOCATE MEMORY
+?SCL1   ?DELAY  15              ;SUSPEND FOR A TIME PERIOD
+?SCL1   ?INTWT  16              ;WAIT FOR A CONSOLE INTERRUPT
+;               17              ;- UNUSED
+;               20              ;- UNUSED
+?SCL1   ?MBTU   21              ;MOVE BYTES TO PROCESS
+;               22              ;- RESERVED FOR ?MBTU
+?SCL1   ?MBFU   23              ;MOVE BYTES FROM PROCESS
+;               24              ;- RESERVED FOR ?MBFU
+?SCL2   ?ISEND  25              ;SEND AN IPC MESSAGE
+?SCL2   ?IREC   26              ;RECEIVE AN IPC MESSAGE
+?SCL1   ?ILKUP  27              ;LOOK UP AN IPC NAME
+?SCL2   ?RUNTM  30              ;GET RUNTIME STATISTICS
+?SCL1   ?TABT   31              ;ABORT A TASK CALL
+;               32              ;- UNUSED
+?SCL1   ?CTYPE  33              ;CHANGE PROCESS TYPE
+?SCL2   ?BLKIO  34              ;BLOCK I/O
+;               35              ;- RESERVED FOR ?BLKIO
+?SCL1   ?GTOD   36              ;GET TIME OF DAY
+?SCL1   ?STOD   37              ;SET TIME OF DAY
+?SCL1   ?SDAY   40              ;SET DATE
+?SCL1   ?GDAY   41              ;GET DATE
+?SCL1   ?IDEF   42              ;DEFINE A USER DEVICE
+?SCL1   ?IRMV   43              ;REMOVE A USER DEFINED DEVICE
+?SCL1   ?SSHPT  44              ;SET SHARED PARTITION
+?SCL1   ?RPAGE  45              ;RELEASE A SHARED PAGE
+?SCL1   ?ODIS   46              ;DISABLE CONSOLE INTERRUPTS
+?SCL1   ?OEBL   47              ;ENABLE CONSOLE INTERRUPTS
+?SCL1   ?DEBL   50              ;ENABLE DEVICE ACCESS
+?SCL1   ?DDIS   51              ;DISABLE DEVICE ACCESS
+?SCL1   ?STMAP  52              ;SET DCH MAP FOR USER DEVICE
+?SCL1   ?SUPROC 53              ;CHANGE SUPERPROCESS STATUS
+?SCL1   ?ABTC   54              ;ABORT A SYSTEM CALL
+?SCL1   ?GTERM  55              ;TERMINATE A PROCESS
+?SCL2   ?GOPEN  56              ;OPEN (FOR GHOST USE)
+?SCL1   ?GCLOSE 57              ;CLOSE (FOR GHOST USE)
+?SCL2   ?SPAGE  60              ;INCLUDE A SHARED PAGE
+;               61              ;- RESERVED FOR ?CXINFO
+?SCL1   ?CISND  62              ;ENABLE CONSOLE INTERRUPT SENDING
+?SCL2   ?SOPEN  63              ;SHARED OPEN OF A FILE
+?SCL1   ?GPORT  64              ;GET A PORT'S OWNER
+?SCL1   ?TPORT  65              ;TRANSLATE A PORT NUMBER
+?SCL1   ?BLKPR  66              ;BLOCK A PROCESS
+?SCL1   ?UBLPR  67              ;UNBLOCK A PROCESS
+?SCL1   ?PRIPR  70              ;CHANGE A PROCESS PRIORITY
+;?SCL1  ?SGNL   71              ;SIGNAL THE SYSTEM
+?SCL1   ?GUNM   72              ;GET A PROCESS'S USER NAME
+?SCL1   ?GSHPT  73              ;GET SHARED PARTITION VALUES
+?SCL1   ?GHRZ   74              ;GET CLOCK FREQ
+?SCL1   ?DIR    75              ;CHANGE WORKING DIRECTORY
+?SCL2   ?INIT   76              ;INITIALIZE AN LDU OR MTV
+?SCL2   ?FSTAT  77              ;GET FILE STATUS
+?SCL1   ?RLSE   100             ;RELEASE AN LDU OR MTV
+?SCL1   ?RELEASE 100            ;RELEASE AN LDU OR MTV
+?SCL1   ?SLIST  101             ;SET SEARCH LIST
+?SCL1   ?GLIST  102             ;GET SEARCH LIST
+?SCL1   ?SYLOG  103             ;MANIPULATE SYSTEM LOG
+?SCL1   ?GBIAS  104             ;GET BIAS FACTOR
+?SCL1   ?SBIAS  105             ;SET BIAS FACTOR
+?SCL1   ?IHIST  106             ;INIT HISTOGRAM
+?SCL1   ?KHIST  107             ;KILL HISTOGRAM
+?SCL1   ?GNAME  111             ;GET FULL PATHNAME
+?SCL1   ?GCPN   112             ;GET CONSOLE PORT NUMBER
+?SCL1   ?SUSER  113             ;CHANGE SUPERUSER STATUS
+?SCL2   ?SACL   114             ;SET A FILE'S ACL
+?SCL2   ?GACL   115             ;GET A FILE'S ACL
+?SCL1   ?PNAME  116             ;PROCESS NAME <-> PID
+;               117             ;- UNUSED
+?SCL1   ?FLUSH  120             ;FLUSH A SHARED PAGE TO DISK
+?SCL1   ?GTACP  122             ;GET ACP'S FOR A FILE
+?SCL1   ?GLINK  124             ;GET CONTENTS OF A LINK ENTRY
+?SCL1   ?GPRNM  125             ;GET A PROCESS' PROGRAM NAME
+?SCL1   ?LOGEV  126             ;LOG AN EVENT IN SYSTEM LOG
+?SCL1   ?DADID  127             ;GET A PROCESS' FATHER'S PID
+?SCL2   ?CPMAX  130             ;SET CONTROL POINT DIR MAX SIZE
+?SCL2   ?GNFN   131             ;GET NEXT FILE NAME FROM DIR
+;               132             ;- UNUSED
+?SCL2   ?RDUDA  133             ;READ USER DATA AREA
+?SCL2   ?WRUDA  134             ;WRITE USER DATA AREA
+?SCL2   ?CRUDA  135             ;CREATE USER DATA AREA
+;               135             ;- UNUSED
+;               136             ;- UNUSED
+;               137             ;- UNUSED
+?SCL2   ?ENBRK  140             ;ENABLE BREAK FILES
+?SCL2   ?SATR   141             ;SET FILE ATTRIBUTES
+?SCL2   ?IS.R   142             ;IPC SEND/RECEIVE
+?SCL2   ?BRKFL  143             ;BREAK FILE
+?SCL1   ?SEBL   144             ;ENABLE A SYNCHRONOUS LINE
+?SCL1   ?SDBL   145             ;DISABLE A SYNCHRONOUS LINE
+?SCL1   ?SSND   146             ;START A SEND ON A SYNC LINE
+?SCL1   ?SRCV   147             ;START A RECV ON A SYNC LINE
+?SCL1   ?SDPOL  150             ;DEFINE A POLL/SELECT LIST FOR A
+                                ;MULTI-DROP SYNC LINE
+?SCL1   ?SERT   151             ;ENABLE REL. TERM. FOR POLLING
+?SCL1   ?SDRT   152             ;DISABLE REL. TERM. FOR POLLING
+?SCL1   ?SGES   153             ;GET SYNC LINE ERROR STATISTICS
+;               154             ;- UNUSED
+;               155             ;- UNUSED
+;               156             ;- UNUSED
+?SCL2   ?SINFO  157             ;GET SYSTEM INFORMATION
+;               160             ;- UNUSED
+?SCL1   ?SCLOSE 161             ;CLOSE A SHARED FILE
+?SCL1   ?CGNAM  163             ;GET PATHNAME FROM CHANNEL #
+?SCL2   ?SSID   164             ;SET SYSTEM IDENTIFIER
+?SCL2   ?GSID   165             ;GET SYSTEM IDENTIFIER
+?SCL1   ?DACL   166             ;USER DEFAULT ACL
+?SCL1   ?CON    167             ;CONNECT TO A SERVER
+?SCL1   ?DCON   170             ;DISCONNECT FROM A SERVER
+?SCL1   ?SERVE  171             ;BECOME A SERVER
+?SCL1   ?RESIGN 172             ;RESIGN AS A SERVER
+?SCL2   ?MBTC   173             ;MOVE BYTES TO CUSTOMER
+?SCL2   ?MBFC   174             ;MOVE BYTES FROM CUSTOMER
+?SCL1   ?PCNX   175             ;PASS A SERVER CONNECTION
+?SCL1   ?DRCON  176             ;BREAK A RING CONNECTION
+?SCL1   ?VRCUST 177             ;VERIFY A RING CUSTOMER
+?SCL1   ?PRCNX  200             ;PASS A RING CONNECTION
+?SCL1   ?AWIRE  201             ;WIRE AGENT FOR RESIDENT PROCESSES
+?SCL1   ?RNAME  202             ;HOST ID FROM PATHNAME
+?SCL2   ?RSEND  203             ;SERVER ?ISEND
+?SCL1   ?ITIME  204             ;RETURN TIME IN INTERNAL FORMAT
+?SCL1   ?GFNAME 205             ;SERVER PATHNAME RESOLUTION
+?SCL1   ?HNAME  206             ;<LOCAL, REMOTE><HOST NAME, HOST ID>
+?SCL1   ?RPORT  207             ;GLOBAL PORT FROM LOCAL PORT AND PID
+?SCL1   ?KIOFF  212             ;DISABLE KEYBOARD INTERRUPTS
+?SCL1   ?KION   213             ;ENABLE KEYBOARD INTERRUPTS
+?SCL1   ?KWAIT  214             ;WAIT FOR KEYBOARD INTERRUPT
+?SCL1   ?KINTR  215             ;SERVER KEYBOARD INTERRUPT FUNCTION
+?SCL1   ?VCUST  216             ;VERIFY CUSTOMER STATUS
+?SCL1   ?CTERM  217             ;TERMINATE A CUSTOMER
+;               220
+;               221
+;               222
+;               223
+;               224
+?SCL1   ?BNAME  225
+?SCL2   ?PRDB   226             ; PERFORM PHYSICAL BLOCK READ
+?SCL2   ?PWRB   227             ; PERFORM PHYSICAL BLOCK WRITE
+;               230             ;- UNUSED BY AOS/VS
+;               231             ;- UNUSED BY AOS/VS
+?SCL1   ?UPDATE 232             ; FLUSH FILE DESCRIPTOR INFORMATION
+?SCL2   ?ROPEN  233             ;RESERVED OPEN (AGENT ONLY)
+?SCL1   ?RCLOSE 234             ;RESERVED CLOSE (AGENT ONLY)
+?SCL2   ?SWST   235             ;START WORKING SET TRACE
+?SCL1   ?KWST   236             ;STOP WORKING SET TRACE
+?SCL2   ?ALLOCATE 237           ;ALLOCATE DISK FILE ELEMENTS
+?SCL2   ?SOPPF  240             ;OPEN OF SHARED PROTECTED FILE
+?SCL2   ?PMTPF  241             ;PERMIT ACCESS TO PROTECTED FILE
+;               242             ;- RESERVED FOR AOS
+?SCL1   ?ISPLIT 243             ;RETURN PID, LOCAL PORT, RING
+?SCL1   ?IMERGE 244             ;RETURN GLOBAL PORT WITH RING
+?SCL1   ?SIGNL  245             ;SIGNAL A TASK OR PROCESS
+?SCL1   ?WTSIG  246             ;WAIT FOR A SIGNAL
+?SCL1   ?SIGWT  247             ;SIGNAL TASK AND WAIT FOR SIGNAL
+;       ?RNGST  250             ;32 BIT CALL
+?SCL1   ?RNGPR  251             ;GET PATHNAME FROM RING ADDRESS
+;       ?VALAD  252             ;32 BIT CALL
+;               253             ;RESERVED FOR FAULT PSEUDO CALL
+;       ?GMEM   254             ;32 BIT CALL?
+;       ?LMAP   255             ;32 BIT CALL
+;       ?EXPO   256             ;32 BIT CALL
+;       ?POKE   257             ;32 BIT CALL
+;       ?PEEK   260             ;32 BIT CALL
+;       ?WIRE   261             ;32 BIT CALL
+;       ?UNWIRE 262             ;32 BIT CALL
+;       ?WDELAY 263             ;32 BIT CALL
+?SCL1   ?RINGLD 264             ;RING LOAD
+?SCL1   ?LEFE   265             ;ENABLE LEF MODE
+?SCL1   ?LEFD   266             ;DISABLE LEF MODE
+?SCL1   ?LEFS   267             ;SAMPLE LEF MODE
+;               270             ;- RESERVED BY AGENT
+;               271             ;- RESERVED BY AGENT
+;               272             ;- RESERVED BY AGENT
+;               273             ;- RESERVED BY AGENT
+;               274             ;- RESERVED BY AGENT
+?SCL2   ?GTRUNC 275             ; TRUNCATE A DISK FILE
+?SCL1   ?ESFF   276             ;ENTIRE SHARED FILE FLUSH
+?SCL2   ?DVSTT  277             ;GET DEVICE STATISTICS
+;
+;   NOTE: 277 IS THE LAST SYSTEM CALL BEFORE AGENT CALLS
+;
+
+;
+; RESOURCE CALL DEFINITIONS
+;
+
+?RCL1   KCALL   0               ;DEFINE ?KCALL
+?RCL1   RCALL   1               ;DEFINE ?RCALL
+?RCL1   RCHAIN  2               ;DEFINE ?RCHAIN
+
+;
+; AGENT CALL PARAMETERS
+;
+
+?SCL2   ?OPEN   300             ;AGENT OPEN
+?SCL2   ?CLOSE  301             ;AGENT CLOSE
+?SCL2   ?READ   302             ;AGENT READ
+?SCL2   ?WRITE  303             ;AGENT WRITE
+?SCL1   ?TERM   304             ;AGENT TERM
+?SCL1   ?CHAIN  305             ;AGENT CHAIN
+?SCL2   ?GPOS   306             ;AGENT GET POSITION
+?SCL2   ?GTMES  307             ;AGENT GET MESSAGE
+?SCL1   ?RETURN 310             ;AGENT RETURN
+?SCL1   ?ERMSG  311             ;AGENT ERMESSAGE
+?SCL1   ?GCHR   312             ;AGENT GET CHARACTERISTICS
+?SCL1   ?SCHR   313             ;AGENT SET CHARACTERISTICS
+?SCL1   ?ASSIGN 314             ;AGENT ASSIGN
+?SCL1   ?DEASSIGN 315           ;AGENT DEASSIGN
+?SCL1   ?SEND   316             ;AGENT SEND
+?SCL1   ?ENQUE  317             ;AGENT ENQUE
+?SCL1   ?LABEL  320             ;AGENT INIT A LABELED MAG TAPE
+?SCL1   ?GABORT 321             ;AGENT ABORT REQUEST
+?SCL2   ?SPOS   322             ;AGENT SET POSITION
+?SCL1   ?OVOPN  323             ;AGENT OVERLAY OPEN
+?SCL1   ?CKVOL  324             ;AGENT VOLID CHECKING
+?SCL1   ?OPER   325             ;AGENT OPERATOR CALL
+?SCL2   ?PROC   326             ;AGENT PROC CALL
+?SCL2   ?EXEC   330             ;AGENT EXEC CALL
+?SCL1   ?CTOD   331             ;AGENT CTOD CALL
+?SCL1   ?CDAY   332             ;AGENT CDAY CALL
+?SCL1   ?UIDSTAT 333            ;AGENT TCB STATISTICS W/UNIQUE ID
+?SCL1   ?FDAY   334             ;AGENT CONVERT TO SYSTEM DATE
+?SCL1   ?FTOD   335             ;AGENT CONVERT TO SYSTEM TIME
+?SCL1   ?RECREATE 336           ;AGENT RECREATE CALL
+?SCL1   ?ERPR   337             ;AGENT ESTABLISH EDITREAD PROGRAM
+?SCL2   ?FEOV   340             ;FORCED END OF VOLUME (LABELED TAPE)
+?SCL2   ?LTFUNC  341            ;VOLUME STATUS (LABELED TAPE)
+?SCL1   ?DEBUG  342             ;ENTER DEBUGGER
+;?SCL1  ?DEBU   342             ;ENTER DEBUGGER
+?SCL2   ?UIDOST 343             ;RETURN STATUS FROM PREVIOUS LEVEL
+?SCL1   ?NOBRK  344             ;CLEAR BREAK POINTS
+?SCL1   ?NOBR   344             ;CLEAR BREAK POINTS
+?SCL1   ?SYSD   345             ;ENTER AOS DUMP ANALYZER
+?SCL1   ?FEDIT  346             ;ENTER FILE EDITOR
+?SCL1   ?FEDI   346             ;ENTER FILE EDITOR
+?SCL1   ?SPGI   347             ;SPAGE INTERCEPTOR
+?SCL1   ?RPGI   350             ;RPAGE INTERCEPTOR
+?SCL1   ?GTNA   351             ;GET NAME
+?SCL1   ?GTSV   352             ;GET SYMBOL NAME
+;       ?FEDF   353             ;32-bit only call
+?SCL1   ?WHIST  354             ;INIT WIDE HISTOGRAM
+
+?SCL1   ?TMSG    355            ;DEFINE TERM MESSAGE FORMAT
+?SCL2   ?SONS    356            ;GET PROCESS'S SONS
+?SCL2   ?PIDS    357            ;INFO ON NUMBER PROCESSES
+?SCL2   ?GPID    360            ;GET NEXT PID IN USE
+?SCL2   ?PROFILE 361            ;ACCESS PROFILE INFORMATION
+?SCL2   ?CRYPT   362            ;DATA ENCRYPT/DECRYPT
+?SCL2   ?PWDCRYP 363            ;PASSWORD ENCRYPTION
+;?SCL1  ?FVPID  364             ;Reserved
+;?SCL1  ?MUPID  365             ;Reserved
+;?SCL1  ?GNHOST 366             ;Reserved
+?SCL1   ?STOM   400             ;SET TIME
+?SCL1   ?SDLM   401             ;SET DELIMITER TABLE
+?SCL1   ?MTUS   402             ;MOVE BYTES TO 16 BIT USER
+                                ;   FROM 32 BIT USER
+?SCL1   ?MFUS   403             ;MOVE BYTES FROM 16 BIT USER
+                                ;   TO 32 BIT USER
+?SCL1   ?MTCS   404             ;MOVE BYTES TO 32 BIT CUSTOMER
+                                ;   FROM 16 BIT SERVER
+?SCL1   ?MFCS   405             ;MOVE BYTES FROM 32 BIT
+                                ;   CUSTOMER TO 16 BIT SERVER
+;               406             ;- RESERVED FOR 32 BIT ONLY
+                                ;  ?RESCHED CALL
+?SCL1   ?GRNAME 407             ;GET RESOLVED FULL PATHNAME
+?SCL2   ?SERMSG 410             ;SPECIAL 16 BIT ONLY ?ERMSG
+                                ;   EXPANDED MESSAGE CODE CALL
+?SCL1   ?TRUNCATE 411           ;TRUNCATE A DISK OR MAG TAPE FILE
+?SCL1   ?LOGCALLS 412           ;START OR STOP LOGGING SYSTEM CALLS
+?SCL1   ?GECHR  415             ;EXTENDED GET CHARACTERISTICS CALL
+?SCL1   ?MDUMP  414             ;MEMORY DUMP
+?SCL1   ?SECHR  416             ;EXTENDED SET CHARACTERISTICS CALL
+?SCL1   ?NRINT  417             ;
+?SCL1   ?NSINT  420             ;
+?SCL1   ?GVPID  421             ;GET A VIRTUAL PID
+?SCL1   ?TPID   422             ;TRANSLATE A VIRTUAL PID
+?SCL2   ?VALI   423             ;AGENT VALIDATION ROUTINE INTERFACE
+;       ?MAPB   424             ;32 BIT ONLY
+?SCL1   ?CLRDV  425             ;CLEAR DEVICE
+;               426             ;32-bit only
+?SCL2   ?FLOCK  427             ;File element lock
+?SCL2   ?FUNLOCK 430            ;File element unlock
+;               431             ;32-bit only
+;               432             ;32-bit only
+;               433             ;32-bit only
+
+;               440-470         ;Reserved
+
+?SCL2   ?OPEX   471             ; Issue CX request to EXEC
+
+;
+;USER RUNTIME CALLS
+;
+
+?SCL2   ?TLOCK  476             ;PROTECT A TASK FROM REDIRECTION
+?SCL1   ?TUNLOCK 477            ;RELEASE REDIRECTION PROTECTION
+?SCL2   ?TASK   500             ;DEFINE A TASK
+?SCL1   ?IQTSK  501             ;DEFINE A QTASK MANAGER
+?SCL1   ?SUS    502             ;SUSPEND CALLER
+?SCL1   ?PRI    503             ;CHANGE CALLER'S PRIORITY
+?SCL1   ?KILL   504             ;KILL CALLER
+?SCL1   ?KILAD  505             ;DEFINE KILL PROC ADDRESS
+?SCL1   ?PRRDY  506             ;READY BY PRIORITY
+?SCL1   ?PRSUS  507             ;SUSPEND BY PRIORITY
+?SCL1   ?PRKIL  510             ;KILL BY PRIORITY
+?SCL1   ?IDSTAT 511             ;STATUS BY ID (16 BIT CALL)
+?SCL1   ?IDRDY  512             ;READY BY ID
+?SCL1   ?IDSUS  513             ;SUSPEND BY ID
+?SCL1   ?IDKIL  514             ;KILL BY ID
+?SCL1   ?IDPRI  515             ;CHANGE PRIORITY BY ID
+?SCL1   ?IDGOTO 516             ;FORCE A TASK TO NEW PC BY ID
+?SCL1   ?UIDCALL 517            ;SOFTWARE INTERRUPT
+?SCL1   ?TIDSTAT 520            ;STATUS BY ID (32 BIT CALL)
+?SCL1   ?MYTID  521             ;GET ID AND PRIORITY
+?SCL1   ?RECNW  522             ;RECEIVE WITH NO WAIT
+?SCL1   ?XMT    523             ;XMIT A TASK MESSAGE
+?SCL1   ?XMTW   524             ;XMIT A TASK AND WAIT FOR RECEIPT
+?SCL1   ?REC    525             ;RECEIVE A TASK MESSAGE
+?SCL1   ?ERSCH  526             ;ENABLE TASK RESCHEDULING
+?SCL1   ?DRSCH  527             ;DISABLE TASK RESCHEDULING
+?SCL1   ?TRCON  530             ;READ FROM CONTROLLING CONSOLE
+?SCL1   ?UIDRTN 531             ;RETURN FROM SOFTWARE INTERRUPT
+?SCL1   ?DQTSK  532             ;DEQUE A QUEUED TASK
+?SCL1   ?OVLOD  533             ;LOAD AN OVERLAY
+?SCL1   ?OVEX   534             ;EXIT FROM AND RELEASE OVERLAY
+?SCL1   ?OVREL  535             ;RELEASE OVERLAY
+?SCL1   ?OVKIL  536             ;RELEASE OVERLAY AND ?KILL CALLER
+?TCL1   ?IXMT   .IXMT           ;SEND MESSAGE FROM INTERRUPT ROUTINE
+?SCL1   ?IMSG   540             ;RECEIVE MESSAGE FROM INTERRUPT ROUTINE
+?TCL1   ?IXIT   .IXIT           ;EXIT FROM USER I/O INTERRUPT ROUTINE
+?SCL1   ?IFPU   542             ;INITIALIZE FLOATING POINT UNIT
+?SCL1   ?GCRB   543             ;GET CURRENT RESOURCE BASE
+?TCL1   ?UNWIND    .UNWI        ;UNWIND A ROUTINE
+?TCL1   ?WALKBACK  .WALK        ;WALKBACK THROUGH CALL
+;               546             ;- RESERVED FOR TCBINFO (32 BIT ONLY)
+?SCL1   ?IESS   547             ;INITIALIZE EXTENDED STATE
+?SCL1   ?DFRSCH 550             ;DISABLE TASK RESCHEDULING AND RETURN
+                                ;  PREVIOUS RESCHEDULING STATUS
+;               551             ;- RESERVED
+;               552             ;- RESERVED
+?SCL2   ?JPINIT 553             ;INITIALIZE A JOB PROCESSOR
+?SCL2   ?JPREL  554             ;RELEASE A JOB PROCESSOR
+;               555-566         ;- RESERVED
+?SCL2   ?LOCALITY 567           ;CHANGE USER LOCALITY
+;               570             ;-RESERVED
+?SCL2   ?XINIT  571             ;INITIALIZE AN LDU
+?SCL2   ?MIRROR 572             ;MIRROR AN LDU
+?SCL2   ?SYSPRV 573             ;TURN A PRIVILEGE ON/OFF
+
+
+; RESTORE OLD VALUE OF .NOMAC
+
+        .NOMAC  .POP
+
+)

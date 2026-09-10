@@ -1,0 +1,251 @@
+          AXR$                        .
+          $include  'defs'            . define qualifier and filename
+.
+. This is an assembly language routine written in Univac 1100 series
+. MASM (Meta Assembler) language.  This routine initializes the D-bank.
+.
+. First, we check to see if there is a file named <user id>*<filename>
+. in existance.  If so, we tell the user about it, and ask him if he wants
+. to recover the previous game.  If he does, we read it into the D-bank.
+. If the user's file doesn't exist, or he doesnt't want to recover the old
+. game, the mast file '<qualifier>*<filename>' is assigned and read into
+. the D-bank.  If that file does not exist, then the program should have the
+. '8' file assigned.
+.
+. These files are all word addressable drum (either actual or simulated).
+. (I have found no need for this.  They're now sector-addressable - DK)
+.
+. These routines were written by Elliot S. Itkin of
+. the University of Maryland CSC Systems staff, and were
+. converted to upper/lower case ASCII and MASM by Duff Kurland,
+. of Information Systems Design, Inc.
+.
+. A HANDY PROC FIRST
+. THIS PROC DOES AN INFO$ FOR US.
+. IT IS CALLED:
+.
+.       I$NFO  <FUNC>,<WORDS NEEDED TO HOLD INFO>,<PLACE TO PUT INFO>
+.
+.
+P         PROC                        .
+I$NFO*    NAME                        .
+          J         THERE             . SKIP CREATION OF THE TABLE
+TABLE     +         P(1,1),0,0        . FIRST WORD OF INFO$ PACKET TABLE
+          +         P(1,2),P(1,3)     . SECOND WORD OF TABLE
+PKT       +         2,TABLE           . THE PACKET THAT IS PUT INTO A0
+THERE     L         A0,PKT            . GET PACKET
+          ER        INFO$             . DO IT
+          TZ,S4     TABLE             . IS STATUS ZERO?
+          ER        ERR$              . NO, ERROR OFF
+          END                         . OF PROC I$NFO
+INITDB*.
+          S         X11,SAVX11        . FIRST SAVE X11
+          I$NFO     USRID$,2,ACCTNR   . GET USER ID (ACCT NR AT UOM)
+          er        opt$              . get @XQT options
+          tep,u     a0,1*/('z'-'i')   . is the I option set?
+          j         return            . yes, read data from file 8
+.
+. CREATE THE @ASG,A IMAGE OF '@ASG,A <USER ID>*<FILENAME>'
+.
+          E$DIT     EDPKT             . OPEN EDITING
+          E$MSG     ASGM              . START ASG MESSAGE
+          E$FD2     ACCTNR            . INSERT ACCOUNT NUMBER
+          E$MSGR                      . CONTINUE TO END OF @ASG IMAGE
+          E$DITX                      . END EDITING
+          L,U       A0,LINE           . PREP FOR CSF$
+          ER        CSF$              . '@ASG,A <USER ID>*<FILENAME> . '
+          JN        A0,INIT10         . WE DIDN'T GET THE FILE, TRY MASTER FILE
+.
+. WE GOT THE FILE. PUT USE NAME ON IT AND CHECK TO SEE IF CURRENT
+. ABSOLUTE EXECUTED IT.
+. IF OKAY, ASK IF HE WANTS TO RECOVER IT.
+. THE FORMAT OF THE FILE IS A WORD ADDRESSABLE DRUM WITH
+. THE FIRST WORD BEING AN ABSOLUTE ID AND
+. THE SECOND WORD BEING A TDATE$ WORD OF THE TIME IT WAS SAVED
+. AND AFTER THAT THE REST IS A DBANK FOR THE PROGRAM.
+.
+          L         A0,('@USE $')     .
+          S         A0,LINE           . PUT USE NAME OF $ ON FILE
+          L,U       A0,','            . GET A COMMA
+          S,S1      A0,LINE+1         . PUT AWAY
+          L,U       A0,LINE           . GET @USE IMAGE
+          ER        CSF$              . AND DO IT
+.
+. READ THE FIRST 3 WORDS OF THE FILE.  TELL HIM WE'VE FOUND IT AND
+. FIND OUT IF IT IS OKAY.
+. ASK HIM IF HE WANTS TO RECOVER.
+.
+          I$OW      FIRSTPKT          . READ FIRST 3 WORDS OF FILE
+          tz,s1     firstpkt+3        . did that go ok?
+          er        eabt$             . no
+          L         A0,AID            . GET ABSOLUTE ID
+          TE        A0,FIRST          . IS IT THE SAME?
+          J         INIT05            . NO GOOD, TELL HIM AND TRY MASTER FILE
+.
+. AT THIS POINT THE FILE IS OKAY, ASK ABOUT RECOVERY.
+.
+          a$edit    aedpkt            . OPEN EDITING
+          a$emsg    MSG               . INSERT THE MSG
+          a$eday3   SECOND            . INSERT THE DAY PORTION
+          a$emsgr                     . CONTINUE
+          a$etime   SECOND            . INSERT THE TIME PORTION
+          a$emsgr                     . FINISH UP THE MESSAGE
+          a$editx                     . END EDITING
+INIT01    a$print   aedpcw            . PRINT THE MESSAGE
+          a$print   QUEST             . ASK HIM IF HE WANTS TO RECOVER
+          L         A0,(EOF,BUF)      . GET ACW FOR READ$
+          ER        READ$             . READ RESPONSE
+          L,S1      A0,BUF            . GET FIRST LETTER OF RESPONSE
+          TNE,U     A0,'Y'            . WAS IT A YES?
+          J         YES               . YES IT WAS
+          TNE,U     A0,'N'            . WAS IT A NO?
+          J         NO                . YES IT WAS
+          J         INIT01            . IT WASN'T EITHER, TRY AGAIN
+.
+. THE FILE THAT WAS SAVED HAS HAD THE ABSOLUTE CHANGED FROM UNDER IT.
+. TELL HIM WE CAN'T RECOVER AND TRY MASTER FILE
+.
+INIT05.
+          a$print   CANTREC           . TELL HIM WE CAN'T RECOVER
+          J         NO                . TREAT AS A NO TO THE QUERY
+.
+. HE SAID YES, RESTORE THIS GAME
+.
+YES.
+          lxi,u     a0,4              . load D-bank BDI
+          lxm,h1    a0,third          . load required upper limit
+          er        mcore$            . expand D-bank
+          l,h1      a0,third          . get last D-bank address
+          an,h2     a0,third          . calculate size of D-bank
+          a,u       a0,1              .
+          s,h1      a0,dbankpkt+4     . set in I/O packet
+          l,h2      a0,third          . get D-bank start address
+          s,h2      a0,dbankpkt+4     . set in I/O packet
+          I$OW      DBANKPKT          . INITIALIZE THE DBANK
+          tz,s1     dbankpkt+3        . did that go ok?
+          er        eabt$             . no
+          L,U       A0,FREFIL         . FREE THE FILE AND DELETE IT
+          ER        CSF$              . '@FREE $ . '
+          J         RETURN            . TO CALLER
+.
+. HE SAID NO, FREE THE FILE AND TRY THE MASTER FILE
+.
+NO.
+.
+. FIND OUT FIRST IF HE WANTS THE FILE DELETED OR NOT
+.
+          ascii
+          L,U       A0,TREADPKT       . GET TREAD PKT FOR QUESTION
+          ER        atread$           . DO A TREAD TO FIND OUT
+          L,U       A0,,A0            . ZERO UPPER A0
+          JZ        A0,NO             . IF NO RESPONSE, TRY AGAIN.
+          L         A0,BUF            . GET FIRST LETTER OF RESPONSE
+          ssl       a0,9*3            .
+          te,u      a0,'y'            .
+          TNE,U     A0,'Y'            . DID HE SAY 'YES', DELETE IT?
+          J         NO001             . YES HE DID
+          te,u      a0,'n'            .
+          TNE,U     A0,'N'            . DID HE SAY 'NO', DON'T DELETE IT?
+          J         NO002             . HE SAID NO, DON'T DELETE IT.
+          J         NO                . HE SAID NEITHER, TRY AGAIN
+          fieldata
+.
+. COME HERE TO DELETE FILE
+.
+NO001.
+          L,U       A0,FRDFIL         . DELETE FILE
+          J         NO003             . FINISH UP
+.
+. COME HERE IF WE DON'T DELETE FILE
+.
+NO002.
+          L,U       A0,FREFIL         . DON'T DELETE FILE, JUST FREE IT.
+          J         NO003             . FINISH UP
+.
+. NOW COME HERE, FREE THE FILE AND FINISH UP
+.
+NO003.
+          ER        CSF$              . '@FREE[,D] $ . '
+          J         INIT10            . USE THE MASTER FILE
+.
+. ATTEMPT TO ASSIGN THE MASTER FILE.  IF SUCCESSFUL COPY IT INTO
+. THE DBANK, IF NOT JUST RETURN AND HE BETTER HAVE FILE '8'
+. ASSIGNED.
+.
+INIT10.
+          L,U       A0,MASG           .
+          ER        CSF$              . ATTEMPT TO ASSIGN IT
+          JN        A0,RETURN         . WE DIDN'T GET IT, USE FILE '8'
+.
+. WE GOT THE MASTER FILE, PUT A USE NAME OF '$' ON IT
+.
+          L         A0,('@USE $')     .
+          S         A0,MASG           . PUT AWAY
+          L,U       A0,','            .
+          S,S1      A0,MASG+1         . PUT AWAY THE COMMA
+          L,U       A0,MASG           .
+          ER        CSF$              . '@USE $,<QUALIFIER>*<FILENAME>
+          I$OW      FIRSTPKT          . READ FIRST TO CHECK AID OF FILE
+          tz,s1     firstpkt+3        . did that go ok?
+          er        eabt$             . no
+          L         A0,AID            . GET ABSOLUTE ID
+          TE        A0,FIRST          . IS IT THE SAME?
+          J         INIT15            . NO, JUST FREE FILE AND RETURN
+          lxi,u     a0,4              . load D-bank BDI
+          lxm,h1    a0,third          . load required upper limit
+          er        mcore$            . expand D-bank
+          l,h1      a0,third          . get last D-bank address
+          an,h2     a0,third          . calculate size of D-bank
+          a,u       a0,1              .
+          s,h1      a0,dbankpkt+4     . set in I/O packet
+          l,h2      a0,third          . get D-bank start address
+          s,h2      a0,dbankpkt+4     . set in I/O packet
+          I$OW      DBANKPKT          . READ IT IN
+          tz,s1     dbankpkt+3        . did that go ok?
+          er        eabt$             . no
+INIT15    L,U       A0,FREFIL         . ALL FINISHED, FREE IT
+          ER        CSF$              .
+          J         RETURN            .
+.
+. RETURN TO FORTRAN
+.
+RETURN.
+          L         X11,SAVX11        . RESTORE X11
+          tz,s1     0,x11             . called from ASCII FORTRAN (FTN) ?
+          j         returnftn         . yes
+          J         1,X11             . no, return to FORTRAN-V
+returnftn .
+          j         0,x11             return to FTN program
+.
+. DATA FOR INITDB
+.
+FIRST     +         0                 . time/date of absolute
+SECOND    +         0                 . time/date of save
+third     +         0                 . D-bank storage limits
+FIRSTPKT  I$OD      '$',R$  3,FIRST  0.
+DBANKPKT  I$OD      '$',R$  0,0  3 .
+SAVX11    RES       1                 . FOR HOLD X11
+AID*      +         d$ate,t$ime       . PUT TIME AND DATE OF COLLECTION HERE
+ASGM      '@ASG,A &*':filename:' . &' . THE USER'S SAVE FILE
+FREFIL    '@FREE $ . '                . FOR FREE'ING THE FILE '$'
+MASG      '@ASG,AI ':qualifier:'*':filename:'/READKY . '
+FRDFIL    '@FREE,D $ . '              . FOR DELETING USER SAVE FILE
+ACCTNR*   RES       2                 . FOR HOLDING THE USER ID OF PLAYER
+EDPKT*    E$PKT     22,LINE           . Fieldata editor packet
+LINE*     RES       22                . Fieldata output line
+          ascii
+aedpkt*   a$epkt    33,aline          . ASCII editor packet
+aline*    res       33                . ASCII output line
+prt       form      12,6,18           . PRINT$/APRINT$ control word format
+aedpcw    prt       1,$-aline,aline   . for printing ASCII results of editing
+CRM       'Can''t recover saved cave due to change in absolute' . CAN'T RECOVER
+cantrec   prt       1,$-crm,crm       . CANT RECOVER PCW
+MSG       'Previous game found. Saved on & at &.&'
+MSG2      'Play it (Y,N)?'
+QUEST     prt       1,$-msg2,msg2     . print cw
+BUF       RES       33                . ATREAD$ input buffer
+msg3      'Should I delete the save file for you (Y,N)? '
+treadpkt  prt       1,$-msg3,msg3     . print cw for ATREAD$
+          +         EOF,BUF           . read cw for ATREAD$
+EOF       ER        ABORT$            . ABORT EXECUTION BECAUSE OF EOF READ
+          END                         .

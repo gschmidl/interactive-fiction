@@ -1,0 +1,100 @@
+ o(11)=0: GO TO 3007
+3100 CLS : PRINT "Jeg gikk ned t
+rappa.Jeg kom inn i vinkjelleren
+ til kjempen.Jeg  drakk litt vin
+,og litt til,og   litt til,foer
+jeg falt og slo   hodet mot en s
+piss bordkant.": GO TO 9900
+3200 CLS : PRINT "Jeg kom inn i
+et maskineri.Der  fant jeg en fl
+aske med noe blaatstoff oppi.Jeg
+ kom til a soele  det paa en mas
+kin.Den ble       levende.Den ho
+ppet oppaa meg,saajeg ble tom fo
+r luft.": GO TO 9900
+3300 GO SUB 2: LET v=2700
+3305 CLS : PRINT "Jeg kom til en
+ innsjoe full av  pirajaer.Paa a
+ndre siden er det en baat."
+3307 GO SUB 10
+3309 GO SUB 20
+3310 IF a$="KAST" THEN GO TO 332
+0
+3311 IF a$="SV0M" THEN PRINT "Je
+g proevde og svoemme over,men pi
+rajane spiste meg opp.": GO TO 9
+900
+3312 GO TO 3309
+3320 IF o(14)<>0 THEN PRINT "Jeg
+ har ikke tau.": GO TO 3309
+3322 PRINT "Jeg kastet tauet ove
+r.Det festetseg i baaten.Jeg dro
+ inn tauet, og hoppet oppi baate
+n.Jeg seiltetil den andre siden.
+": LET linje=3350: GO SUB 2
+3325 LET n=4200: LET s=3300: LET
+ st=4300
+3330 GO SUB 10
+3340 GO SUB 20
+3350 GO SUB 2: LET n=4200: LET s
+=3600: LET st=4300
+3351 CLS : PRINT "Jeg er paa den
+ andre siden av   innsjoen.Nord
+er det en grotte."
+3360 GO TO 3330
+3400 LET s=2800: LET n=4400: LET
+ v=4500
+3405 CLS : PRINT "Jeg er i en ga
+ng.Foran meg er   det et vindu.P
+lutselig dukket   det mange vakt
+er fram."
+3407 GO SUB 10
+3409 GO SUB 20
+3410 IF b$="TAU" THEN LET linje=
+4600: GO TO linje
+3414 PRINT "Vaktene drepte meg."
+: GO TO 9900
+3500 CLS : PRINT "Jeg kom inn i
+et rom som var    lite til kjemp
+er aa vaere.      Plutselig ble
+det kaldt.For sentfant jeg ut at
+ jeg var kommet i kjoeleskapet t
+il kjempen.": GO TO 9900
+3600 CLS : PRINT "Jeg datt oppi
+lekegrinda til    babykjempen.De
+r ble jeg brukt   som rangle.":
+GO TO 9900
+3700 CLS : PRINT "Jeg datt utfor
+ et stup.": GO TO 9900
+3800 GO SUB 2: LET st=2900
+3805 CLS : PRINT "Jeg klatret op
+p paa fjelltoppen."
+3806 IF o(14)<>0 THEN LET o(14)=
+linje
+3807 IF o(10)<>0 THEN LET o(10)=
+linje
+3810 GO SUB 10
+3820 GO SUB 20: GO TO 3820
+3900 GO SUB 2: LET v=3000: LET s
+=1500
+3905 CLS : PRINT "Jeg kom en pla
+ss der de hadde   fest.Jeg fikk
+en pil og bue. "
+3909 LET o(2)=0
+3910 GO SUB 10
+3920 GO SUB 20: GO TO 3920
+4000 GO SUB 2: LET n=4100: LET s
+=3000
+4005 CLS : PRINT "Jeg moette noe
+n folk som ga meg et kors."
+4010 LET o(11)=0
+4020 GO SUB 10
+4030 GO SUB 20
+4100 GO SUB 2: LET s=4000: LET n
+=4700: LET v=4800
+4105 CLS : PRINT "Jeg kom til en
+ eng.Jeg hoerte   uling bak meg.
+Det var ulver.Jeg sprang,og spra
+ng,foer jeg kom   til en kloeft.
+Det hang et tau   fra et tre der
+.Skal jeg proeve  aa slenge meg

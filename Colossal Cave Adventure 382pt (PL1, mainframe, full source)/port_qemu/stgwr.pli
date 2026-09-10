@@ -1,0 +1,28 @@
+ /* STGWR - positioned write of one 4800-byte STORAGE record.        */
+ /* Works around Iron Spring PL/I 1.4.1's REWRITE being hard-stubbed */
+ /* to "signal condition(UNIMPLEMENTED)" for every file organization */
+ /* (lib/source/ior.pli, file_op, when(12)). Bypasses PL/I's own     */
+ /* FILE abstraction entirely: opens STORAGE by raw filename, seeks  */
+ /* to (RECNUM-1)*4800, writes the 4800-byte buffer, closes.         */
+ /* RECNUM is 1-based, matching the count of sequential READs        */
+ /* already done against STORAGE via the normal PL/I FILE mechanism. */
+
+ STGWR: PROCEDURE(RECNUM, BUFPTR);
+   DCL RECNUM FIXED BIN(31);
+   DCL BUFPTR POINTER;
+   DCL BUF CHAR(4800) BASED(BUFPTR);
+   DCL SYSCALL ENTRY RETURNS(FIXED BIN(31))
+                 OPTIONS(ASM LINKAGE(SYSTEM)) EXT('_pli_Syscall');
+   DCL (ADDR) BUILTIN;
+   DCL FNAME CHAR(8) STATIC INIT('STORAGE' || '00'X);
+   DCL FD FIXED BIN(31);
+   DCL OFFSET FIXED BIN(31);
+   DCL RC FIXED BIN(31);
+
+   FD = SYSCALL(5, ADDR(FNAME), 2, 0);          /* open(STORAGE, O_RDWR) */
+   IF FD < 0 THEN RETURN;
+   OFFSET = (RECNUM - 1) * 4800;
+   RC = SYSCALL(19, FD, OFFSET, 0);             /* lseek(fd, offset, SEEK_SET) */
+   RC = SYSCALL(4, FD, BUFPTR, 4800);           /* write(fd, buf, 4800) */
+   RC = SYSCALL(6, FD);                         /* close(fd) */
+   END STGWR;

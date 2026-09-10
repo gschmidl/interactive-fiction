@@ -1,0 +1,175 @@
+      SUBROUTINE GETIN (WORD1, WORD1X, WORD2, WORD2X)
+
+C  Get a command from the adventurer.  Snarf out the first word, pad it
+C  with blanks, and return the first five characters in WORD1.  The full
+C  word (up to 12 characters) will be returned in WORD1X,
+C  in case we need to print out the whole word in an error
+C  message.  Any number of blanks may follow the first word of a
+C  command.  If a second word appears, it is returned in WORD2
+C  and WORD2X in a similar manner, else WORD2 is set to blanks.
+
+C  All leading blanks in a command are ignored.  A command is
+C  terminated by a comma, a period, or the end of the line.
+
+C  If a command ends with a period, the current image will be held
+C  for the next GETIN call, and will be scanned starting with the
+C  character after the period (unless the caller has set MLTCMD
+C  false).  If a period is immediately preceded by a blank, the
+C  rest of the image will be ignored.  This all permits commands
+C  such as "IN.  GET LAMP.  OUT     . comment " .
+
+C  If a command ends with a comma, SAMVRB will be set when
+C  scanning the next part of the image, to cope with commands
+C  such as "GET LAMP,KEYS" .
+
+C  An input image consisting of just "AGAIN", "DITTO", etc., will
+C  result in resubmission of the previous input image.
+
+      IMPLICIT INTEGER (A-Z)
+      include comblk                    @ define BLKCOM common block
+      parameter dbgoff=1                @ =0 to turn on debug code
+      parameter insize=80
+      CHARACTER*80 INP, INP2
+      CHARACTER*5  WORD1, WORD2, TMPWRD
+      CHARACTER*12 WORD1X, WORD2X
+      CHARACTER*1  CHAR/' '/, BLANK/' '/, COMMA/','/, PERIOD/'.'/
+      CHARACTER*1  TMPCHR, LCHAR
+
+      WORD1  = '     '                  @
+      WORD2  = '     '                  @
+      WORD1X = '            '           @
+      WORD2X = '            '           @
+      GO TO 12                          @ start with original MLTCMD
+10    MLTCMD = .FALSE.                  @ set to read new image
+
+12    IF (.NOT. MLTCMD) THEN            @ if new image to be read...
+        IF (BLKLIN) PRINT 15            @ maybe print blank line
+15      FORMAT ()                       @
+        READ (5,1000,END=9999) INP      @ read new image
+1000    FORMAT (A80)                    @
+        NXTCHR = 0                      @ reset character pointer
+        MLTCMD = .TRUE.                 @ multiple commands possible
+        INP = LOWERC (INP)              @ convert input to lower case
+      END IF
+      I = NXTCHR + 1                    @ set pointer to first character
+
+C  Check for "AGAIN", which repeats previous command string.
+
+      IF (NXTCHR .EQ. 0) THEN           @ if we just read the image
+        TMPWRD = SUBSTR (INP, I, 5)     @ snarf up first 5 chars
+        if (tmpwrd .eq. 'again' .or. tmpwrd .eq. 'repea' .or.
+     1      tmpwrd .eq. 'ditto' .or. tmpwrd .eq. '"    ' .or.
+     2      tmpwrd .eq. '''''   ') then
+          INP = INP2                    @ want to repeat last image
+        ELSE
+          INP2 = INP                    @ use new one & save it
+        END IF
+      END IF
+
+C  Extract the first word.  If NXTCHR is nonzero, we're in the middle of
+C  an earlier input image:  a comma or period as the first character
+C  at this point indicates a multiple command line, and we continue with
+C  it.  Anything else indicates end of the image, and we get another.
+
+      SAMVRB = .FALSE.                  @ initialize "same verb" flag
+      IF (NXTCHR .NE. 0) THEN           @ if in middle of image...
+        TMPCHR = SUBSTR (INP,NXTCHR,1)  @ extract next character
+        IF (TMPCHR .NE. COMMA .AND. TMPCHR .NE. PERIOD) THEN
+          GO TO 10                      @ end of image.  get another
+        ELSE                            @
+          IF (TMPCHR .EQ. COMMA) THEN   @ if first char is comma
+            SAMVRB = .TRUE.             @ flag "use previous verb"
+          END IF                        @
+        END IF                          @
+      END IF                            @
+
+      CALL GATHER (WORD1X, 12)          @ get first word
+      WORD1 = SUBSTR (WORD1X, 1, 5)     @ keep first five chars
+      GO TO (111,222,333), ST           @ delimiter: char, blank, end
+
+C  Long first word:  skip until blank or end.
+
+111   ST = GCHAR (I)                    @ look for a char
+      GO TO (111,222,333), ST           @ skip until blank or end
+
+C  Extract second word.
+
+222   CALL GATHER (WORD2X, 12)          @ get second word
+      WORD2 = SUBSTR (WORD2X, 1, 5)     @ keep first five chars
+333   CONTINUE                          @
+
+      DELETE 891,DBGOFF,1
+      PRINT 890, TRMLEN(WORD1X), WORD1X, WORD1,
+     1           TRMLEN(WORD2X), WORD2X, WORD2
+890   FORMAT (' GETIN: ',I2,1X,A12,' - ',A5,/,' ',7X,I2,1X,A12,' - ',A5)
+891   CONTINUE
+
+      IF (NXTCHR .NE. 0 .AND. WORD1 .EQ. '     ') THEN
+        GO TO 10                        @ read another image
+      END IF
+      RETURN                            @
+
+9999  print 9998                        @ EOF encountered
+9998  format (/' But, but, ... ok, goodbye.')
+      stop                              @ terminate program abruptly
+
+
+C  Subroutine to collect N chars in one word
+C  Stops on end of input, blank or got N chars
+
+      SUBROUTINE GATHER (WHERE, N)
+      CHARACTER*12 WHERE
+
+C  Skip leading blanks
+
+200   ST = GCHAR (I)                    @ look for a char
+      GO TO (300,200,999), ST           @ char, blank, end
+300   I = I - 1                         @ back up character pointer
+
+      L = 1                             @ initialize character count
+      DO 500 M=1,N                      @
+      ST = GCHAR (I)                    @ look for a char
+      IF (ST .NE. 1) GO TO 999          @ jump if blank or end
+      SUBSTR (WHERE, L, 1) = CHAR       @ store new character in result
+      IF (L .NE. N) GO TO 400           @ jump if 'where' not filled yet
+
+C  If we filled 'where' and next char is blank
+C  return blank status in ST
+
+      OST = ST                          @ save status
+      ST = GCHAR (I)                    @ peek at next char
+      I = I - 1                         @ reset character pointer
+      IF (ST .NE. 2) ST = OST           @ if not end, use old status
+      GO TO 999                         @ all done
+
+400   L = L + 1                         @ bump character count
+500   CONTINUE                          @
+
+999   RETURN                            @ return value in 'where'
+
+C  Subroutine to get next character from image
+C  Returns char in 'char'
+C  Returns status  1=got char
+C                  2=got blank
+C                  3=end of input
+
+      FUNCTION GCHAR (II)
+
+      GCHAR = 3                         @ assume end of image status
+      IF (II .GT. INSIZE) RETURN        @ if bad char pointer, exit
+      LCHAR = CHAR                      @ save last character
+      CHAR = SUBSTR (INP, II, 1)        @ extract char from input
+      NXTCHR = II                       @
+      II = II + 1                       @ bump character pointer
+      IF (CHAR .EQ. BLANK) THEN         @ jump if char is a blank
+        GCHAR = 2                       @ indicate blank character
+      ELSE
+        IF (CHAR .EQ. PERIOD .OR. CHAR .EQ. COMMA) THEN
+          IF (LCHAR .EQ. BLANK) MLTCMD = .FALSE.
+        ELSE
+          GCHAR = 1                     @ indicate normal character
+        END IF
+      END IF
+      RETURN
+
+      END

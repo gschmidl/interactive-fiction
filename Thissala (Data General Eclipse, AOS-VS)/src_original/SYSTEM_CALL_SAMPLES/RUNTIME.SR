@@ -1,0 +1,145 @@
+;*       Copyright (C) Data General Corporation, 1980 - 1994          *;
+;*       All rights reserved.                                         *;
+;*       Licensed material -- property of Data General Corporation    *;
+;*                                                                    *;
+;*       This software is made available solely pursuant to the       *;
+;*       terms of a DGC license agreement which governs its use.      *;
+; This routine gets and displays two runtime statistics
+;    on a process. It opens the terminal, issues ?RUNTM,
+;    converts and displays the statistics. It gets its
+;    own statistics, but you can have it get any process's
+;    statistics by passing the process's filename.PR or
+;    PID. To use it as a subroutine, start with proper Save,
+;    and end with proper Return.
+
+        .TITLE  RUNTIME
+        .ENT    RUNTIME, CONVERT
+        .NREL
+
+        ; Open terminal for I/O.
+
+RUNTIME:?OPEN   CONSOLE ; Open for input and output,
+                        ;    with start message.
+        WBR     ERROR   ; Error, handle it.
+        ?WRITE  CONSOLE ; Write initial message.
+        WBR     ERROR   ; Error, handle it.
+ 
+        ; Call ?RUNTM to get statistics. (For other process'
+        ; statistics, put name or PID in AC0 and -1 or 0 in AC1.)
+
+LOOP:   NLDAI   -1, 0    ; Check self.
+        ?RUNTM  RPKT     ; Get statistics in packet.
+        WBR     ERROR    ; Error, process it.
+        XWLDA   1, MSECS ; Get milliseconds from RPKT.
+        XLEFB   2, MSECMSG*2    ; Millisecond message byte address.
+        XJSR    CONVERT  ; Convert milliseconds to ASCII
+                         ;    decimal digits, put them in message.
+        XLEFB   0,MSECMSG*2     ; Message done, get byte pointer.
+        XWSTA   0,CONSOLE+?IBAD ; Put in I/O packet.
+        ?WRITE  CONSOLE  ; Write milliseconds message.
+        WBR     ERROR    ; Error, process it.
+
+        XWLDA   1,PSECS  ; Get page-seconds from RPKT.
+        XLEFB   2, PSECMSG*2    ; Page-seconds message byte address.
+        XJSR    CONVERT  ; Convert value to ASCII
+                         ;    decimal digits, put them in message.
+        XLEFB   0,PSECMSG*2     ; Message done, get byte pointer.
+        XWSTA   0,CONSOLE+?IBAD ; Put in I/O packet.
+        ?WRITE  CONSOLE  ; Write page-seconds message.
+        WBR     ERROR    ; Error, process it.
+
+        ; See if user wants to stop.
+
+        XLEFB   0, BUF*2 ; Byte pointer to I/O buffer.
+        XWSTA   0,CONSOLE+?IBAD ; Put in I/O packet.
+        ?READ   CONSOLE  ; Read for terminator.
+        WBR     ERROR    ; Process error.
+        NLDAI   'ST', 0  ; Put 'ST' in AC0.
+        XNLDA   1, BUF   ; Put first word of buffer in AC1.
+        WSNE    0,1      ; Skip if first word not 'ST'.
+        WBR     BYE      ; Good bye.
+        WBR     LOOP     ; Do it all again.
+
+        ;  Error handler and return.
+
+ERROR:  NLDAI   ?RFEC+?RFCF+?RFER,  2  ; Error flags.
+BYE:    WSUB    2,2             ; Good return flgs.
+        ?RETURN                 ; To father.
+        WBR     ERROR           ; Return error.
+
+        ; Open and I/O packet for console.
+
+        .ENABLE WORD
+        ; Use WORD for rest of program.
+
+CONSOLE: .BLK   ?IBLT           ; Packet length.
+        .LOC    CONSOLE+?ISTI
+        ?ICRF+?RTDS+?OFIO       ; Data-sensitive records, Input/Output.
+        .LOC    CONSOLE+?IMRS
+         -1                     ; Memory block size, default to 2048.
+        .LOC    CONSOLE+?IBAD
+        .DWORD  ITEXT*2         ; 2-word byte pointer to text/buffer.
+        .LOC    CONSOLE+?IRCL   
+        120.                    ; Maximum record length of 120 chars.
+        .LOC    CONSOLE+?IFNP
+        .DWORD  CON*2           ; 2-word byte pointer to filename.
+        .LOC    CONSOLE+?IDEL
+        .DWORD  -1              ; Data-sensitive delimiter table
+                                ;    address; default to NUL, NL, FF, CR.
+        .LOC    CONSOLE+?IBLT   ; Default others to 0.
+
+        ; End of console I/O packet.
+
+        ; Filename, start message, buffer.  A .NOLOC 1 follows ...
+        .NOLOC  1               ; ... to save listing space.
+CON:    .TXT "@CONSOLE"         ; Use generic name.
+
+ITEXT:  .TXT "I give runtime statistics on a process.
+ Type ST[New Line] to return to father.<212><12>"
+
+BUF:    .BLK (BUF-CON)*2        ; Use number of bytes in message.
+        .NOLOC  0               ; Resume listing.
+
+        ; Messages to include converted statistics. .NOLOC here ...
+        .NOLOC  1               ; ... to save listing space.
+MSECMSG: .TXT "        Milliseconds elapsed.<12>"
+
+PSECMSG: .TXT "        Page-seconds used. Type
+ ST[New Line] to stop, other char to loop.<212><12>"
+        .NOLOC  0
+
+        ; ?RUNTM Packet.
+
+RPKT:   .BLK    ?GRLTH          ; Length of packet.
+SECS:   .LOC    RPKT+?GRRH
+        .DWORD  0               ; System returns elapsed time in seconds.
+MSECS:  .LOC    RPKT+?GRCH
+        .DWORD  0               ; System returns CPU time in milliseconds.
+IO:     .LOC    RPKT+?GRIH
+        .DWORD  0               ; System returns I/O usage.
+PSECS:  .LOC    RPKT+?GRPH
+        .DWORD  0               ; System returns CPU time in page-seconds.
+        .LOC    RPKT+?GRLTH     ; End of packet.
+
+; Convert routine converts binary value to decimal and puts it in text
+;    string. Enter with AC1 containing value, AC2 containing byte
+;    address of text message.
+
+CONVERT: WSSVS  0               ; Save return.
+        WMOV    2,3             ; Use AC3 for byte pointer shifting.
+        WADI    3,3             ; Add integer 3 to byte address.
+        NLDAI   10., 2          ; Put 10. in AC2.
+DLOOP:  WSUB    0,0             ; Zero AC0 (high-order part
+                                ;    of dividend). AC1 still has
+                                ;    low order part of dividend.
+        WDIVS                   ; Divide by 10., put quotient
+                                ;    in AC1, remainder in AC0.
+        IORI    60,0            ; OR in 60 for ASCII number.
+        WSTB    3, 0            ; Store AC0-byte (bits 24-31)
+                                ;    in byte address of AC3.
+        WSBI    1, 3            ; Decrement the byte address.
+        MOV     1,1,SNR         ; Did quotient go to 0?
+        WRTN                    ; Yes, done, return to caller.
+        WBR     DLOOP           ; No, do another digit.
+
+        .END    RUNTIME

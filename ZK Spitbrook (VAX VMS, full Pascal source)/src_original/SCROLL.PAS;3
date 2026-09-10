@@ -1,0 +1,93 @@
+program scroll;
+
+type	$uword = [word] 0..(2**16)-1;
+
+[external(lib$signal)] procedure $signal(
+	%immed args : [list] unsigned);
+	extern;
+
+[external(smg$create_pasteboard)] function $create_pasteboard(
+	var new_pasteboard_id : unsigned;
+	%stdescr output_device : packed array[$l1..$u1:integer]
+					of char := %immed 0;
+	var pb_rows : unsigned := %immed 0;
+	var pb_columns : unsigned := %immed 0;
+	preserve_screen_flag : unsigned := %immed 0) : unsigned;
+	extern;
+
+[external(smg$create_virtual_display)] function $create_virtual_display(
+	num_rows : unsigned;
+	new_columns : unsigned;
+	var new_display_id : unsigned;
+	display_attributes : unsigned := %immed 0;
+	video_attributes : unsigned := %immed 0;
+	char_set : unsigned := %immed 0) : unsigned;
+	extern;
+
+[external(smg$paste_virtual_display)] function $paste_virtual_display(
+	display_id : unsigned;
+	pasteboard_id : unsigned;
+	pasteboard_row : unsigned;
+	pasteboard_column : unsigned) : unsigned;
+	extern;
+
+[external(smg$put_chars)] function $put_chars(
+	display_id : unsigned;
+	text_line : varying[$u1] of char;
+	line_number : integer := %immed 0;
+	column_number : integer := %immed 0;
+	erase_flag : unsigned := %immed 0;
+	rendition_set : unsigned := %immed 0;
+	complement_set : unsigned := %immed 0;
+	char_set : unsigned := %immed 0) : unsigned;
+	extern;
+
+[external(smg$create_virtual_keyboard)] function $create_virtual_keyboard(
+	var keyboard_id : unsigned;
+	filespec : varying[$u1] of char := %immed 0;
+	default_filespec : varying[$u2] of char := %immed 0;
+	var result_filespec : varying[$u3] of char := %immed 0) : unsigned;
+	extern;
+
+[external(smg$read_string)] function $read_string(
+	keyboard_id : unsigned;
+	var received_text : varying[$u1] of char;
+	prompt_string : varying[$u2] of char := %immed 0;
+	max_length : unsigned := %immed 0;
+	modifiers : unsigned := %immed 0;
+	timeout : unsigned := %immed 0;
+	terminator_set : packed array[$l3..$u3:integer] of char := %immed 0;
+	var received_string_length : $uword := %immed 0;
+	terminator_code : $uword := %immed 0;
+	display_id : unsigned := %immed 0) : unsigned;
+	extern;
+
+var	return, terminal, screen, status_line, scroll_area : unsigned;
+	buffer : varying[80] of char;
+begin
+	return:=$create_pasteboard(screen);
+	if (not odd(return)) then $signal(return);
+
+	return:=$create_virtual_keyboard(terminal);
+	if (not odd(return)) then $signal(return);
+
+	return:=$create_virtual_display(1, 80, status_line);
+	if (not odd(return)) then $signal(return);
+
+	return:=$create_virtual_display(23, 80, scroll_area);
+	if (not odd(return)) then $signal(return);
+
+	return:=$paste_virtual_display(status_line, screen, 1, 1);
+	if (not odd(return)) then $signal(return);
+
+	return:=$paste_virtual_display(scroll_area, screen, 2, 1);
+	if (not odd(return)) then $signal(return);
+
+	return:=$put_chars(status_line, 'This is the status line');
+	if (not odd(return)) then $signal(return);
+
+	return:=$read_string(terminal, buffer, '> ',,,,,,,scroll_area);
+	while (odd(return)) do
+		return:=$read_string(terminal, buffer, '> ',,,,,,,scroll_area);
+
+end.	

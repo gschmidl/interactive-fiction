@@ -1,0 +1,24 @@
+          AXR$
+.
+. Univac 1100 series MASM (Meta Assembler) routine to give current time
+. and date to FORTRAN program in TDATE$ format.
+.
+.        CALL TDATE(I)
+.
+. See FORTRAN subroutine DATIME for details of bit meanings.
+.
+$(1)      .
+tdate*    .
+          s         a0,a2             . save A0
+          er        tdate$            . obtain current time and date in A0
+          tz,s1     0,x11             . called from ASCII FORTRAN ?
+          j         tdftn             . yes
+          L         A1,0,X11          . no (FORTRAN-V) - get addr of argument
+          S         A0,0,A1           . store time and date in user's argument
+          J         2,X11             . return to FORTRAN-V program
+tdftn     .
+          l         a1,0,a2           . get addr of argument
+          s         a0,0,a1           . store time and date in user's argument
+          j         0,x11             . return to FTN program
+.
+          END

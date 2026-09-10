@@ -1,0 +1,42 @@
+       SUBROUTINE MOTD(ALTER)
+
+C  HANDLES MESSAGE OF THE DAY. IF ALTER IS TRUE, READ A NEW MESSAGE FROM THE
+C  WIZARD.  ELSE PRINT THE CURRENT ONE.  MESSAGE IS INITIALLY NULL.
+
+       IMPLICIT INTEGER(A-Z)
+       LOGICAL ALTER
+       DIMENSION MSG(125)                                               DK
+       DATA MSG/125*-1/,blankw/O040040040040/                           DK
+
+       IF(ALTER)GOTO 50
+
+       K=1
+10     IF(MSG(K).LT.0)RETURN
+      ISDSUB=K+1
+      ISDSU1=MSG(K)-1
+       PRINT 20,(MSG(I),I=ISDSUB,ISDSU1)
+20     FORMAT(' ',18A4)                                                 DK
+       K=MSG(K)
+       GOTO 10
+
+50     M=1
+       CALL MSPEAK(23)
+55    ISDSUB=M+1
+      ISDSU1=M+18                                                       DK
+       READ 56,(MSG(I),I=ISDSUB,ISDSU1),K
+56     FORMAT(19A4)                                                     DK
+       IF(K.EQ.blankw)GOTO 60                                           DK
+       CALL MSPEAK(24)
+       GOTO 55
+60     DO 62 I=1,18                                                     DK
+       K=M+19-I                                                         DK
+       IF(MSG(K).NE.blankw)GOTO 65                                      DK
+62     CONTINUE
+       GOTO 90
+65     MSG(M)=K+1
+       M=K+1
+       IF(M+18.LT.125)GOTO 55                                           DK
+       CALL MSPEAK(25)
+90     MSG(M)=-1
+       RETURN
+       END

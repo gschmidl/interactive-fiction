@@ -1,0 +1,44 @@
+       LOGICAL FUNCTION YES(X,Y,Z)
+
+C  Call YESX (below) with messages from Section 6.
+
+       IMPLICIT INTEGER(A-Z)
+       EXTERNAL RSPEAK
+       EXTERNAL MSPEAK
+       LOGICAL YESM,YESX
+
+       YES = YESX(X,Y,Z,RSPEAK)
+       goto 100
+
+       ENTRY yesm(x,y,z)
+
+C  Call YESX (below) with messages from Section 12.
+
+       yesm = yesx(x,y,z,mspeak)
+100    RETURN
+
+       LOGICAL FUNCTION YESX(X,Y,Z,SPK)
+
+C  Print message X, wait for yes/no reply.  If yes, print Y and return
+C  TRUE.  If no, print Z and return FALSE.  SPK is either RSPEAK or
+C  MSPEAK.
+
+       IMPLICIT INTEGER(A-Z)
+       character*5  wd1, wd2
+       character*12 wd1x, wd2x
+
+1      IF (X.NE.0) CALL SPK(X)
+       call getin (wd1, wd1x, wd2, wd2x)
+       IF (WD1 .EQ. 'yes' .OR. WD1 .EQ. 'y') GOTO 10
+       IF (WD1 .EQ. 'no'  .OR. WD1 .EQ. 'n') GOTO 20
+       PRINT 9
+9      FORMAT (/' Please answer the question.')
+       GOTO 1
+10     YESX = .TRUE.
+       IF (Y.NE.0) CALL SPK(Y)
+       RETURN
+20     YESX = .FALSE.
+       IF (Z.NE.0) CALL SPK(Z)
+       RETURN
+
+       END

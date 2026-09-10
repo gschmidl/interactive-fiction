@@ -1,0 +1,19 @@
+Aug 31, 2026  16:33     /* Native Linux replacements for the MVS/TSO-specific external      */                          
+1.4.1                                               Source Listing                                           Page 1     
+    1  /* Native Linux replacements for the MVS/TSO-specific external      */
+    2  /* routines used by the Adventure PL/I engine (TREAD/TWRITE/WHISPER */
+    3  /* were originally WYLBUR/TSO terminal I/O; CLRSCRN/DECDATE were    */
+    4  /* assembler; RANDU was Fortran; R062A10/WARNMSG were MVS dynamic   */
+    5  /* allocation and broadcast-message helpers with no standalone      */
+    6  /* equivalent).                                                     */
+    7 
+    8  ITIME: PROCEDURE(T);
+    9    DCL T FIXED BIN(31);
+   10    DCL CLK CHAR(9);
+   11    DCL (TIME) BUILTIN;
+   12    CLK = TIME();
+   13    T = MOD(CLK, 512);
+   14    END ITIME;
+   15 
+
+End of compilation. 

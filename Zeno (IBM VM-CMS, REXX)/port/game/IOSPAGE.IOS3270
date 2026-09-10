@@ -1,0 +1,16 @@
+. eupdate: Do not modify this file. It was built by the EUPDATE procedure.
+. eupdate: The source file was: IOSPAGEI 0IOS3270 B1
+. eupdate: Built by Bert Wijnen - 10097371 at UITHONE
+. eupdate: Date: 11/25/83 - Time: 08:46:33 - CET
+;first
+.bcf % % quit % % % % < % % % %
+PF^                3=quit                          8=forw
+;middle
+.bcf % % quit % % % back < % % % %
+PF^                3=quit                  7=back  8=forw
+;last
+.bcf % % quit % % % back % % % % %
+PF^                3=quit                  7=back
+;only
+.bcf % % quit % % % % % % % % %
+PF^                3=quit

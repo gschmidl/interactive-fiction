@@ -1,0 +1,324 @@
+ 10:56 am  Sep  9, 2025 
+ * link module adven
+ rel adv01
+   ADVEN   VOCAB   BUG   /MISC2/   /MISCM/   /ABBCM/   /PTXCM/   /PLACM/    
+   /VOCCM/   /ALPHS/   /BLKCM/   /DCBCM/   /TXTCM/   RAND   
+ se all 
+   RANDM    
+ * link module adv1:
+ rel adv03
+   ADV1  MORE   
+ se all 
+   MOVEQ   NSRTQ   CLRQ  IPOSQ   MOVQQ   PUTQ  JASCQ   LCO   DROP  ISHFT    
+ * link module adv2:
+ rel advx2
+   ADV2   
+ se all 
+   SPEK  PSPEK   RSPEK   GETIN   YES   YESX  MOVEQ   DLETQ   NSRTQ   CLRQ   
+   IPOSQ   MOVQQ   PUTQ  JASCQ   LCO   A5TO1   DSTRY   JUGGL   MOVE  PUT    
+   CARRY   DROP  ISHFT    
+ * link module adv3:
+ rel advy2
+   ADV3   
+ se all 
+   SPEK  PSPEK   RSPEK   GETIN   YES   YESX  MOVEQ   DLETQ   NSRTQ   CLRQ   
+   IPOSQ   MOVQQ   PUTQ  JASCQ   LCO   A5TO1   DSTRY   JUGGL   MOVE   
+   CARRY   DROP  SUSP   
+ en 
+ Warning 141:  RPL value replaced: .DNCL
+ Warning 141:  RPL value replaced: .DNCN
+ Warning 141:  RPL value replaced: .DNIN
+ Warning 141:  RPL value replaced: .DNOP
+ Warning 141:  RPL value replaced: .DSCL
+ Warning 141:  RPL value replaced: .DSCN
+ Warning 141:  RPL value replaced: .DSIN
+ Warning 141:  RPL value replaced: .DSOP
+ Warning 141:  RPL value replaced: .DNCL
+   .PACK   RMPAR   SEGLD   .LWAS   COR.A   IDGET   LOGLU   XREIO   PNAME    
+   MOD     .DFER   .ENTR   .EIO.   .IIO.   .FMIN   .FMCN   .FMCV   .FMFP    
+   .FMIO   .FMUI   .FMO?   .FMER   .MPEN   .FMGB   .IOER   ER0.T   PAU.E    
+   ER0.E   .IOCL   .IOCM   .OPN?   .FION   .UFMP   .EXIT    
+   FMPACCESSDISC   FMPBLOCKSLEFT   FMPBUFFERBASE   FMPEXTENTBASE    
+   FMPEXTENTSIZE   FMPGETDATA  FMPGETLENWORD   FMPBUFFERSIZE   FMPOPEN    
+   FMPCLOSE  FMPPURGE  FMPREAD   FMPWRITE  FMPDOTYPE012  FMPMOVEDATA    
+   FMPUPDATERECORD   FMPSETRELPOS  FMPSETWORD  FMPPOST   FMPONESTRING   
+   FMPASKDDOT  FMPDISCOFFSET   FMPDISCDIFF   MOVEWORDS   DCBOPEN    
+   DISCWORD  FMPSTARTEVENT   FMPENDEVENT    
+ Warning 141:  RPL value replaced: .DNCL
+ Warning 141:  RPL value replaced: .DNCN
+ Warning 141:  RPL value replaced: .DNIN
+ Warning 141:  RPL value replaced: .DNOP
+ Warning 141:  RPL value replaced: .DSCL
+ Warning 141:  RPL value replaced: .DSCN
+ Warning 141:  RPL value replaced: .DSIN
+ Warning 141:  RPL value replaced: .DSOP
+   OVRD.   CLOSE   R/W$  .BFSZ   .OFLG   .DBTS   SYSRQ    
+ Warning 139:  Duplicate entry point: CLRQ
+   .DMOD   MXMNI   .DADS   .DMP    .DDI    .DNG    .DCO    .DIN    .DDE     
+   .CPM    CODE    .FIO.   .FMLD   .IDLP   .ARTN   .SST     
+   FMPACCESSDISC   FMPBLOCKSLEFT   FMPBUFFERBASE   FMPEXTENTBASE    
+   FMPEXTENTSIZE   FMPGETDATA  FMPGETLENWORD   FMPBUFFERSIZE    
+   FMPSETPOSITION  FMPPOSITION   FMPPOSTEOF  FMPREAD   FMPDOTYPE012   
+   FMPMOVEDATA   FMPUPDATERECORD   FMPSETRELPOS  FMPSETWORD  FMPPOST    
+   FMPASKDDOT  FMPDISCOFFSET   FMPDISCDIFF   MOVEWORDS   DCBOPEN    
+   DISCWORD  FMPSTARTEVENT   FMPENDEVENT    
+ Warning 141:  RPL value replaced: .DNCL
+ Warning 141:  RPL value replaced: .DNCN
+ Warning 141:  RPL value replaced: .DNIN
+ Warning 141:  RPL value replaced: .DNOP
+ Warning 141:  RPL value replaced: .DSCL
+ Warning 141:  RPL value replaced: .DSCN
+ Warning 141:  RPL value replaced: .DSIN
+ Warning 141:  RPL value replaced: .DSOP
+   OVRD.   .DMOD   MXMNI   .DADS   .DMP    .DDI    .DNG    .DCO    .DIN     
+   .DDE    .DIS    .CPM    CODE    .IDLP   .ARTN    
+   FMPACCESSDISC   FMPBLOCKSLEFT   FMPBUFFERBASE   FMPEXTENTBASE    
+   FMPEXTENTSIZE   FMPGETDATA  FMPGETLENWORD   FMPBUFFERSIZE    
+   FMPSETPOSITION  FMPPOSITION   FMPPOSTEOF  FMPREAD   FMPDOTYPE012   
+   FMPMOVEDATA   FMPUPDATERECORD   FMPSETRELPOS  FMPSETWORD  FMPPOST    
+   FMPASKDDOT  FMPDISCOFFSET   FMPDISCDIFF   MOVEWORDS   DCBOPEN    
+   DISCWORD  FMPSTARTEVENT   FMPENDEVENT    
+ Warning 141:  RPL value replaced: .DNCL
+ Warning 141:  RPL value replaced: .DNCN
+ Warning 141:  RPL value replaced: .DNIN
+ Warning 141:  RPL value replaced: .DNOP
+ Warning 141:  RPL value replaced: .DSCL
+ Warning 141:  RPL value replaced: .DSCN
+ Warning 141:  RPL value replaced: .DSIN
+ Warning 141:  RPL value replaced: .DSOP
+   OVRD.   TMVAL   .DMOD   MXMNI   .ISH    .DADS   .DMP    .DDI    .DNG     
+   .DCO    .DIN    .DDE    .DIS    .CPM    CODE    .IDLP   .ARTN    
+ Purging old file: ADVEN.RUN::ADVEN:6:286:128 
+ Load map:
+   ADVEN              10012    41. 'OUTERBLOCK' 
+   VOCAB              10063   118.  
+   BUG                10251    47.  
+   /MISC2/            10330     0.  Named common area for Adventure.  
+   /MISCM/            10330     0.  Named common area for Adventure.  
+   /ABBCM/            10330     0.  Named common area for Adventure.  
+   /PTXCM/            10330     0.  Named common area for Adventure.  
+   /PLACM/            10330     0.  Named common area for Adventure.  
+   /VOCCM/            10330     0.  Named common area for Adventure.  
+   /ALPHS/            10330     0.  Named common area for Adventure.  
+   /BLKCM/            10330     0.  Named common area for Adventure.  
+   /DCBCM/            10330     0.  Named common area for Adventure.  
+   /TXTCM/            10330     0.  Named common area for Adventure.  
+   RAND               10330    44.  
+   RANDM              10404    59.    
+   .PACK              10477    73. 92084-1X076 REV.2121 750701  
+   RMPAR              10610    25. 92084-1X069 REV.2121 811001  
+   SEGLD              10641   145. 92084-1X049 REV.5000 <860826.1024> 
+   .LWAS              11062     1. 92084-1X411 REV.2121 810717  
+   COR.A              11063    17. 92084-1X009 REV.2121 770621  
+   IDGET              11104    51. 92084-1X029 REV.2121 790314  
+   LOGLU              11167    46. 92084-1X027 REV.2121 790228  
+   XREIO              11245   105. 92084-1X923 REV.5000 840228  
+   PNAME              11416    38. 92084-1X075 REV.2121 800801  
+   MOD                11464    24. 24998-1X107 REV.2001 751101  
+   .DFER              11514    30. 24998-1X199 REV.2001 790523  
+   .ENTR              11552    56. 24998-1X192 REV.2001 750701  
+   .EIO.              11642    43. 24998-1X329 REV.2226 820503  
+   .IIO.              11715   129. 24998-1X343 REV.2326 821213  
+   .FMIN              12116   197. 24998-1X344 REV.5010 880304  
+   .FMCN              12423    50. 24998-1X345 REV.2226 820107  
+   .FMCV              12505   692. 24998-1X333 REV.5010 880301  
+   .FMFP              13771   687. 24998-1X346 REV.2540 850927  
+   .FMIO              15250   155. 24998-1X348 REV.5010 880915  
+   .FMUI              15503   607. 24998-1X349 REV.2540 850820  
+   .FMO?              16642    50. 24998-1X351 REV.2140 810415  
+   .FMER              16724    13. 24998-1X352 REV.2440 841127  
+   .MPEN              16741    50. 24998-1X611 REV.2440 841127  
+   .FMGB              17023   178. 24998-1X353 REV.2440 841115  
+   .IOER              17305   109. 24998-1X321 REV.5000 850927  
+   ER0.T              17462     1. 24998-1X321 REV.2540 850927  
+   PAU.E              17463     2. 24998-1X254 REV.2540 850927  
+   ER0.E              17465     2. 24998-1X249 REV.2540 850927  
+   .IOCL              17467     7. 24998-1X305 REV.5000 860619  
+   .IOCM              17476    36. 24998-1X327 REV.2101 801007  
+   .OPN?              17542    20. 24998-1X325 REV.2101 800803  
+   .FION              17566    24. 24998-1X355 REV.2326 830406  
+   .UFMP              17616    15. 24998-1X296 REV.2326 830406  
+   .EXIT              17635    41. 24998-1X320 REV.2440 <841029.1814> 
+   ABBCM              17706   150. named common 
+   PLACM              20134   551. named common 
+   BLKCM              21203     2. named common 
+   MISCM              21205   872. named common 
+   DCBCM              22755   144. named common 
+   VOCCM              23175   901. named common 
+   MISC2              25002  2636. named common 
+   ALPHS              32116    12. named common 
+   PTXCM              32132   100. named common 
+   TXTCM              32276   258. named common 
+ Overlay ADV1 
+   ADV1               32740  1963. 'INIT SUBROUTINE'  
+   MORE               36613   434.  
+   MOVEQ              37475   112.  
+   NSRTQ              37655   160.  
+   CLRQ               40115    31.  
+   IPOSQ              40154    90. ARW 4/77   
+   MOVQQ              40306    24. ARW 6/76   
+   PUTQ               40336    13. ARW 6/76 
+   JASCQ              40353    12. ARW 6/76   
+   LCO                40367     7. ARW 6/76   
+   DROP               40376    54.  
+   ISHFT              40464    19. ZERO-FILL LEFT SHIFTER   BGL   
+   FMPACCESSDISC      40507   185. 92077-1X503 REV.6000 920325  
+   FMPBLOCKSLEFT      41000    30. 92077-1X503 REV.2326 830728  
+   FMPBUFFERBASE      41036    37. 92077-1X503 REV.2326 830728  
+   FMPEXTENTBASE      41103    26. 92077-1X503 REV.6200 931122  
+   FMPEXTENTSIZE      41135    37. 92077-1X503 REV.2326 830728  
+   FMPGETDATA         41202    58. 92077-1X503 REV.2326 830728  
+   FMPGETLENWORD      41274    36. 92077-1X503 REV.2326 830728  
+   FMPBUFFERSIZE      41340    29. 92077-1X503 REV.2326 830728  
+   FMPOPEN            41375    90. 92570-1X106 REV.2326 830728  
+   FMPCLOSE           41527    64. 92570-1X106 REV.6000 900926  
+   FMPPURGE           41627    13. 92570-1X106 REV.2326 830728  
+   FMPREAD            41644   169. 92570-1X106 REV.6200 950215  
+   FMPWRITE           42115   157. 92570-1X106 REV.6200 950215  
+   FMPDOTYPE012       42352   279. 92570-1X106 REV.5010 880712  
+   FMPMOVEDATA        43001   239. 92570-1X106 REV.5010 880308  
+   FMPUPDATERECORD    43360    16. 92570-1X106 REV.2326 830728  
+   FMPSETRELPOS       43400    72. 92570-1X106 REV.5010 880712  
+   FMPSETWORD         43510   281. 92570-1X106 REV.6200 941021  
+   FMPPOST            44141    49. 92570-1X106 REV.2326 830728  
+   FMPONESTRING       44222    31. 92570-1X106 REV.2326 830728  
+   FMPASKDDOT         44261   142. 92570-1X106 REV.6000 920225  
+   FMPDISCOFFSET      44477    25. 92570-1X236 REV.6200 941026  
+   FMPDISCDIFF        44530    36. 92570-1X236 REV.6200 941216  
+   MOVEWORDS          44574    12. 92570-1X236 REV.2326 830407  
+   DCBOPEN            44610    15. 92084-1Y014 REV.2340 830809  
+   DISCWORD           44627     5. 92084-1Y014 REV.2340 830809  
+   FMPSTARTEVENT      44634     3. 92084-1Y014 REV.2440 841016  
+   FMPENDEVENT        44637     3. 92084-1Y014 REV.2440 841016  
+   OVRD.              44642     1. 92077-1X482 REV.2340 830218  
+   CLOSE              44643   153. 92077-1X536 REV.2340 830819  
+   R/W$               45074    78. 92077-1X532 REV.2340 830217  
+   .BFSZ              45212    61. 92077-1X658 REV.2340 830226  
+   .OFLG              45307     3. 92084-1Y010 REV.2340 830628  
+   .DBTS              45312     4. 92084-1Y010 REV.2340 830628  
+   SYSRQ              45316    60. 92084-1X002 REV.2121 810831  
+   .DMOD              45412    16. 24998-1X269 REV.2101 800303  
+   MXMNI              45432    72. 24998-1X109 REV.2001 750701  
+   .DADS              45542    72. 24998-1X036 REV.2001 780818  
+   .DMP               45652   102. 24998-1X045 REV.2001 780818  
+   .DDI               46020   193. 24998-1X040 REV.2001 781021  
+   .DNG               46321     8. 24998-1X046 REV.2001 780818  
+   .DCO               46331    41. 24998-1X037 REV.2001 790417  
+   .DIN               46402     6. 24998-1X042 REV.2001 780818  
+   .DDE               46410    10. 24998-1X039 REV.2001 780818  
+   .CPM               46422    28. 24998-1X505 REV.2140 810802  
+   CODE               46456    32. 24998-1X335 REV.2140 810519  
+   .FIO.              46516    33. 24998-1X330 REV.2140 810414  
+   .FMLD              46557   616. 24998-1X347 REV.5010 880301  
+   .IDLP              47727    40. 24998-1X506 REV.2301 821007  
+   .ARTN              47777    14. 24998-1X291 REV.2101 800303  
+   .SST               50015    78. 24998-1X336 REV.2140 810812  
+   FMPBUFFER          50133    64. named common 
+   FMPREGS            50233     2. named common 
+ Overlay ADV2 
+   ADV2               32740  3634. 'MAIN SUBROUTINE'  
+   SPEK               42022   236.  
+   PSPEK              42376   150.  
+   RSPEK              42624    17.  
+   GETIN              42645   216.  
+   YES                43175    16.  
+   YESX               43215   102.  
+   MOVEQ              43363   112.  
+   DLETQ              43543    65.  
+   NSRTQ              43644   160.  
+   CLRQ               44104    31.  
+   IPOSQ              44143    90. ARW 4/77   
+   MOVQQ              44275    24. ARW 6/76   
+   PUTQ               44325    13. ARW 6/76 
+   JASCQ              44342    12. ARW 6/76   
+   LCO                44356     7. ARW 6/76   
+   A5TO1              44365    75.  
+   DSTRY              44500    11.  
+   JUGGL              44513    31.  
+   MOVE               44552    50.  
+   PUT                44634    16.  
+   CARRY              44654    68.  
+   DROP               44760    54.  
+   ISHFT              45046    19. ZERO-FILL LEFT SHIFTER   BGL   
+   FMPACCESSDISC      45071   185. 92077-1X503 REV.6000 920325  
+   FMPBLOCKSLEFT      45362    30. 92077-1X503 REV.2326 830728  
+   FMPBUFFERBASE      45420    37. 92077-1X503 REV.2326 830728  
+   FMPEXTENTBASE      45465    26. 92077-1X503 REV.6200 931122  
+   FMPEXTENTSIZE      45517    37. 92077-1X503 REV.2326 830728  
+   FMPGETDATA         45564    58. 92077-1X503 REV.2326 830728  
+   FMPGETLENWORD      45656    36. 92077-1X503 REV.2326 830728  
+   FMPBUFFERSIZE      45722    29. 92077-1X503 REV.2326 830728  
+   FMPSETPOSITION     45757   370. 92570-1X106 REV.6200 940131  
+   FMPPOSITION        46541   113. 92570-1X106 REV.6200 940131  
+   FMPPOSTEOF         46722    46. 92570-1X106 REV.2326 830728  
+   FMPREAD            47000   169. 92570-1X106 REV.6200 950215  
+   FMPDOTYPE012       47251   279. 92570-1X106 REV.5010 880712  
+   FMPMOVEDATA        47700   239. 92570-1X106 REV.5010 880308  
+   FMPUPDATERECORD    50257    16. 92570-1X106 REV.2326 830728  
+   FMPSETRELPOS       50277    72. 92570-1X106 REV.5010 880712  
+   FMPSETWORD         50407   281. 92570-1X106 REV.6200 941021  
+   FMPPOST            51040    49. 92570-1X106 REV.2326 830728  
+   FMPASKDDOT         51121   142. 92570-1X106 REV.6000 920225  
+   FMPDISCOFFSET      51337    25. 92570-1X236 REV.6200 941026  
+   FMPDISCDIFF        51370    36. 92570-1X236 REV.6200 941216  
+   MOVEWORDS          51434    12. 92570-1X236 REV.2326 830407  
+   DCBOPEN            51450    15. 92084-1Y014 REV.2340 830809  
+   DISCWORD           51467     5. 92084-1Y014 REV.2340 830809  
+   FMPSTARTEVENT      51474     3. 92084-1Y014 REV.2440 841016  
+   FMPENDEVENT        51477     3. 92084-1Y014 REV.2440 841016  
+   OVRD.              51502     1. 92077-1X482 REV.2340 830218  
+   .DMOD              51503    16. 24998-1X269 REV.2101 800303  
+   MXMNI              51523    72. 24998-1X109 REV.2001 750701  
+   .DADS              51633    72. 24998-1X036 REV.2001 780818  
+   .DMP               51743   102. 24998-1X045 REV.2001 780818  
+   .DDI               52111   193. 24998-1X040 REV.2001 781021  
+   .DNG               52412     8. 24998-1X046 REV.2001 780818  
+   .DCO               52422    41. 24998-1X037 REV.2001 790417  
+   .DIN               52473     6. 24998-1X042 REV.2001 780818  
+   .DDE               52501    10. 24998-1X039 REV.2001 780818  
+   .DIS               52513    24. 24998-1X044 REV.2001 780818  
+   .CPM               52543    28. 24998-1X505 REV.2140 810802  
+   CODE               52577    32. 24998-1X335 REV.2140 810519  
+   .IDLP              52637    40. 24998-1X506 REV.2301 821007  
+   .ARTN              52707    14. 24998-1X291 REV.2101 800303  
+   FMPBUFFER          52725    64. named common 
+   FMPREGS            53025     2. named common 
+ Overlay ADV3 
+   ADV3               32740  3610.  'EXIT SUBROUTINE' 
+   SPEK               41772   236.  
+   PSPEK              42346   150.  
+   RSPEK              42574    17.  
+   GETIN              42615   216.  
+   YES                43145    16.  
+   YESX               43165   102.  
+   MOVEQ              43333   112.  
+   DLETQ              43513    65.  
+   NSRTQ              43614   160.  
+   CLRQ               44054    31.  
+   IPOSQ              44113    90. ARW 4/77   
+   MOVQQ              44245    24. ARW 6/76   
+   PUTQ               44275    13. ARW 6/76 
+   JASCQ              44312    12. ARW 6/76   
+   LCO                44326     7. ARW 6/76   
+   A5TO1              44335    75.  
+   DSTRY              44450    11.  
+   JUGGL              44463    31.  
+   MOVE               44522    50.  
+   CARRY              44604    68.  
+   DROP               44710    54.  
+   SUSP               44776    78. Self-suspend routine   ARW 790306  
+   FMPACCESSDISC      45114   185. 92077-1X503 REV.6000 920325  
+   FMPBLOCKSLEFT      45405    30. 92077-1X503 REV.2326 830728  
+   FMPBUFFERBASE      45443    37. 92077-1X503 REV.2326 830728  
+   FMPEXTENTBASE      45510    26. 92077-1X503 REV.6200 931122  
+   FMPEXTENTSIZE      45542    37. 92077-1X503 REV.2326 830728  
+   FMPGETDATA         45607    58. 92077-1X503 REV.2326 830728  
+   FMPGETLENWORD      45701    36. 92077-1X503 REV.2326 830728  
+   FMPBUFFERSIZE      45745    29. 92077-1X503 REV.2326 830728  
+   FMPSETPOSITION     46002   370. 92570-1X106 REV.6200 940131  
+   FMPPOSITION        46564   113. 92570-1X106 REV.6200 940131  
+   FMPPOSTEOF         46745    46. 92570-1X106 REV.2326 830728  
+   FMPREAD            47023   169. 92570-1X106 REV.6200 950215  
+   FMPDOTYPE012       47274   279. 92570-1X106 REV.5010 880712  
+   FMPMOVEDATA        47723   239. 92570-1X106 REV.5010 880308  
+   FMPUPDATE                                                    

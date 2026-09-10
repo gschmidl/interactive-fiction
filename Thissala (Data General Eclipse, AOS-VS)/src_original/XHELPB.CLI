@@ -1,0 +1,39 @@
+COMMENT  this macro functions the same as XHELP.CLI except that
+COMMENT  it uses BROWSE to look at HELP files
+
+push;prompt pop
+
+[!nequal cli32 [!cli]]
+write ERROR:,,XHELPB requires CLI32
+[!else]
+
+[!equal () (%1%)]
+x :util:browse/f/mode=2 [!path :help]:cli.tpc.exec
+[!else]
+
+string/name=file/k
+
+COMMENT  look for an exact match using the name as an abbreviation;
+
+[!equal,1,[!filenames/count  [!pathname :help]:exec.%1%-]]
+string/name=file [!f [!pathname :help]:exec.%1%-]
+[!end]
+
+COMMENT  look for an exact match using just the name
+
+[!equal,1,[!filenames/count  [!pathname :help]:exec.%1%]]
+string/name=file [!f [!pathname :help]:exec.%1%]
+[!end]
+
+
+[!nequal () ([!string/name=file])]
+x :util:browse/f/mode=2 [!string/name=file]
+[!else]
+xhelp %1%
+[!end]
+
+
+[!end]
+
+[!end]
+pop

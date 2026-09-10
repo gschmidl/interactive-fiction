@@ -1,0 +1,1628 @@
+;*       Copyright (C) Data General Corporation, 1980 - 1994          *;
+;*       All rights reserved.                                         *;
+;*       Licensed material -- property of Data General Corporation    *;
+;*                                                                    *;
+;*       This software is made available solely pursuant to the       *;
+;*       terms of a DGC license agreement which governs its use.      *;
+
+
+        ;==================================;
+        ; AOS/VS - SYSTEM CALL DEFINITIONS  ;
+        ;==================================;
+
+        .TITL   SYSID.32
+        .ENABLE DWORD                   ;32. BIT CONSTRUCTS
+
+.DUSR   LOSYSCALL = 0
+.DUSR   HISYSCALL = 614
+
+
+
+
+        .MACRO  ?SYST
+**      .PUSH   .NOMAC
+**      .NOMAC  ?XCALL
+        .PUSH   .RDX            ;RADIX PROTECTION FOR SYSTEM CALLS
+        .RDX    8
+        XJSR    @6              ;REPLACES OLD JSR @17
+        .RDX    .POP
+**      .NOMAC  .POP
+%
+
+
+
+;
+; SYSTEM CALL DEFINITION MACROS
+; IF A SYSTEM CALL HAS A PACKET WHICH MAY BE SPECIFIED AS AN ARGUMENT
+; TO THE CALL, USE ?SCL2. THIS WILL MOVE THE ARGUMENT TO AC2 IF NECESSARY.
+; IF THERE CAN BE NO ARGUMENT TO THE CALL, USE ?SCL1.
+;
+
+        .MACRO  ?SCL1
+        ?=^2                    ;FOR PLN PARAMETERS
+        .MACRO  ^1              ;DEFINE A SYSTEM CALL MACRO
+**      .PUSH   .NOMAC
+**      .NOMAC  ?XCALL
+        .PUSH   .RDX            ;RADIX PROTECTION FOR SYSTEM CALLS
+        .RDX    8
+        ?SYST
+        .WORD ^2
+        .RDX    .POP
+**      .NOMAC  .POP
+_%
+%
+        .MACRO  ?SCL2
+        ?=^2                    ;FOR PLN PARAMETERS
+        .MACRO  ^1
+**      .PUSH   .NOLOC
+        .NOLOC  1
+        .PUSH   .NOMAC
+        .NOMAC  ?XCALL
+        .DO     .ARGCT==1       ;ARG SPECIFIED?
+        LLEF    2,_^1
+        .ENDC
+        .PUSH   .RDX            ;RADIX PROTECTION FOR SYSTEM CALLS
+        .RDX    8
+        ?SYST
+        .WORD ^2
+        .RDX    .POP
+        .NOMAC  .POP
+**      .NOLOC  .POP
+_%
+%
+
+
+
+; SUPPRESS EXPANSION OF DEFINITION MACROS
+
+        .PUSH   .NOMAC
+        .NOMAC  1
+
+; DEFAULT TO SUPPRESS EXPANSION OF CALL MACROS
+
+.DUSR   ?XCALL= 1
+;
+; SYSTEM CALLS
+;
+;When you add a new system call, you must delcare a 4-letter unique
+; version as well.  (i.e. ?CREATE and ?CREA)
+;
+;All new system calls require a "?." symbol and a 4-letter unique "?."
+;symbol. (i.e. ?.CREATE and ?.CREA)
+;
+;If the system call is a kernal call, then a "?0" symbol and a 4-letter
+; unique "?0" symbol must be declared as well.
+; (i.e. ?0SYSPRV and ?0SYSP)
+
+
+
+
+.ENABLE WORD                    ;16. BIT QUANTITIES
+
+?SCL2   ?CREATE 0               ;CREATE FILE
+?SCL2   ?CREA   0               ;CREATE FILE
+?SCL2   ?DELETE 1               ;DELETE FILE
+?SCL2   ?DELE   1               ;DELETE FILE
+?SCL2   ?RENAME 2               ;RENAME A FILE
+?SCL2   ?RENA   2               ;RENAME A FILE
+?SCL1   ?MEM    3               ;RETURN MEMORY LIMITS
+?SCL1   ?GCHN   4               ;CHANGE THE CURRENT PROGRAM
+?SCL2   ?PSTAT  5               ;PROCESS STATUS
+?SCL2   ?PSTA   5               ;PROCESS STATUS
+?SCL1   ?DPMGR  6               ;DEFINE PERIPHERAL MANAGER
+?SCL1   ?DPMG   6               ;DEFINE PERIPHERAL MANAGER
+?SCL2   ?RDB    7               ;READ A PHYSICAL BLOCK
+;               10              ;- RESERVED FOR ?RDB
+?SCL2   ?WRB    11              ;WRITE A PHYSICAL BLOCK
+;               12              ;- RESERVED FOR ?WRB
+?SCL2   ?GPROC  13              ;CREATE A PROCESS
+?SCL2   ?GPRO   13              ;CREATE A PROCESS
+?SCL1   ?MEMI   14              ;ALLOCATE MEMORY
+;?SCL1  ?DELAY  15              ;SUSPEND FOR A TIME PERIOD
+;?SCL1  ?DELA   15              ;SUSPEND FOR A TIME PERIOD
+?SCL1   ?INTWT  16              ;WAIT FOR A CONSOLE INTERRUPT
+?SCL1   ?INTW   16              ;WAIT FOR A CONSOLE INTERRUPT
+;               17              ;- RESERVED
+;               20              ;- RESERVED
+?SCL1   ?MBTU   21              ;MOVE BYTES TO PROCESS
+;               22              ;- RESERVED FOR ?MBTU
+?SCL1   ?MBFU   23              ;MOVE BYTES FROM PROCESS
+;               24              ;- RESERVED FOR ?MBFU
+?SCL2   ?ISEND  25              ;SEND AN IPC MESSAGE
+?SCL2   ?ISEN   25              ;SEND AN IPC MESSAGE
+?SCL2   ?IREC   26              ;RECEIVE AN IPC MESSAGE
+?SCL1   ?ILKUP  27              ;LOOK UP AN IPC NAME
+?SCL1   ?ILKU   27              ;LOOK UP AN IPC NAME
+?SCL2   ?RUNTM  30              ;GET RUNTIME STATISTICS
+?SCL2   ?RUNT   30              ;GET RUNTIME STATISTICS
+?SCL1   ?TABT   31              ;ABORT A TASK CALL
+;               32              ;- UNUSED
+?SCL1   ?CTYPE  33              ;CHANGE PROCESS TYPE
+?SCL1   ?CTYP   33              ;CHANGE PROCESS TYPE
+?SCL2   ?BLKIO  34              ;BLOCK I/O
+?SCL2   ?BLKI   34              ;BLOCK I/O
+;               35              ;- RESERVED FOR ?BLKIO
+?SCL1   ?GTOD   36              ;GET TIME OF DAY
+?SCL1   ?STOD   37              ;SET TIME OF DAY
+?SCL1   ?SDAY   40              ;SET DATE
+?SCL1   ?GDAY   41              ;GET DATE
+?SCL1   ?IDEF   42              ;DEFINE A USER DEVICE
+?SCL1   ?IRMV   43              ;REMOVE A USER DEFINED DEVICE
+?SCL1   ?SSHPT  44              ;SET SHARED PARTITION
+?SCL1   ?SSHP   44              ;SET SHARED PARTITION
+?SCL1   ?RPAGE  45              ;RELEASE A SHARED PAGE
+?SCL1   ?RPAG   45              ;RELEASE A SHARED PAGE
+?SCL1   ?ODIS   46              ;DISABLE CONSOLE INTERRUPTS
+?SCL1   ?OEBL   47              ;ENABLE CONSOLE INTERRUPTS
+?SCL1   ?DEBL   50              ;ENABLE DEVICE ACCESS
+?SCL1   ?DDIS   51              ;DISABLE DEVICE ACCESS
+?SCL1   ?STMAP  52              ;SET DCH MAP FOR USER DEVICE
+?SCL1   ?STMA   52              ;SET DCH MAP FOR USER DEVICE
+?SCL1   ?SUPROC 53              ;CHANGE SUPERPROCESS STATUS
+?SCL1   ?SUPR   53              ;CHANGE SUPERPROCESS STATUS
+?SCL1   ?ABTC   54              ;ABORT A SYSTEM CALL
+?SCL1   ?GTERM  55              ;TERMINATE A PROCESS
+?SCL1   ?GTER   55              ;TERMINATE A PROCESS
+?SCL2   ?GOPEN  56              ;OPEN (FOR GHOST USE)
+?SCL2   ?GOPE   56              ;OPEN (FOR GHOST USE)
+?SCL1   ?GCLOSE 57              ;CLOSE (FOR GHOST USE)
+?SCL1   ?GCLO   57              ;CLOSE (FOR GHOST USE)
+?SCL2   ?SPAGE  60              ;INCLUDE A SHARED PAGE
+?SCL2   ?SPAG   60              ;INCLUDE A SHARED PAGE
+?SCL2   ?CXINFO 61              ;AGENT/KERNAL CONTEXT BLOCK INTERFACE
+?SCL2   ?CXIN   61              ;AGENT/KERNAL CONTEXT BLOCK INTERFACE
+?SCL1   ?CISND  62              ;ENABLE CONSOLE INTERRUPT SENDING
+?SCL1   ?CISN   62              ;ENABLE CONSOLE INTERRUPT SENDING
+?SCL2   ?SOPEN  63              ;SHARED OPEN OF A FILE
+?SCL2   ?SOPE   63              ;SHARED OPEN OF A FILE
+?SCL1   ?GPORT  64              ;GET A PORT'S OWNER
+?SCL1   ?GPOR   64              ;GET A PORT'S OWNER
+?SCL1   ?TPORT  65              ;TRANSLATE A PORT NUMBER
+?SCL1   ?TPOR   65              ;TRANSLATE A PORT NUMBER
+?SCL1   ?BLKPR  66              ;BLOCK A PROCESS
+?SCL1   ?BLKP   66              ;BLOCK A PROCESS
+?SCL1   ?UBLPR  67              ;UNBLOCK A PROCESS
+?SCL1   ?UBLP   67              ;UNBLOCK A PROCESS
+?SCL1   ?PRIPR  70              ;CHANGE A PROCESS PRIORITY
+?SCL1   ?PRIP   70              ;CHANGE A PROCESS PRIORITY
+?SCL1   ?SGNL   71              ;SIGNAL THE SYSTEM
+?SCL1   ?GUNM   72              ;GET A PROCESS'S USER NAME
+?SCL1   ?GSHPT  73              ;GET SHARED PARTITION VALUES
+?SCL1   ?GSHP   73              ;GET SHARED PARTITION VALUES
+?SCL1   ?GHRZ   74              ;GET CLOCK FREQ
+?SCL1   ?DIR    75              ;CHANGE WORKING DIRECTORY
+?SCL2   ?INIT   76              ;INITIALIZE AN LDU OR MTV
+?SCL2   ?FSTAT  77              ;GET FILE STATUS
+?SCL2   ?FSTA   77              ;GET FILE STATUS
+?SCL1   ?RLSE   100             ;RELEASE AN LDU OR MTV
+?SCL1   ?RELEASE 100            ;RELEASE AN LDU OR MTV
+?SCL1   ?RELE   100             ;RELEASE AN LDU OR MTV
+?SCL1   ?SLIST  101             ;SET SEARCH LIST
+?SCL1   ?SLIS   101             ;SET SEARCH LIST
+?SCL1   ?GLIST  102             ;GET SEARCH LIST
+?SCL1   ?GLIS   102             ;GET SEARCH LIST
+?SCL1   ?SYLOG  103             ;MANIPULATE SYSTEM LOG
+?SCL1   ?SYLO   103             ;MANIPULATE SYSTEM LOG
+?SCL1   ?GBIAS  104             ;GET BIAS FACTOR
+?SCL1   ?GBIA   104             ;GET BIAS FACTOR
+?SCL1   ?SBIAS  105             ;SET BIAS FACTOR
+?SCL1   ?SBIA   105             ;SET BIAS FACTOR
+?SCL2   ?IHIST  106             ;INIT HISTOGRAM
+?SCL2   ?IHIS   106             ;INIT HISTOGRAM
+?SCL1   ?KHIST  107             ;KILL HISTOGRAM
+?SCL1   ?KHIS   107             ;KILL HISTOGRAM
+?SCL1   ?GNAME  111             ;GET FULL PATHNAME
+?SCL1   ?GNAM   111             ;GET FULL PATHNAME
+?SCL1   ?GCPN   112             ;GET CONSOLE PORT NUMBER
+?SCL1   ?SUSER  113             ;CHANGE SUPERUSER STATUS
+?SCL1   ?SUSE   113             ;CHANGE SUPERUSER STATUS
+?SCL2   ?SACL   114             ;SET A FILE'S ACL
+?SCL2   ?GACL   115             ;GET A FILE'S ACL
+?SCL1   ?PNAME  116             ;PROCESS NAME <-> PID
+?SCL1   ?PNAM   116             ;PROCESS NAME <-> PID
+;               117             ;- UNUSED
+?SCL1   ?FLUSH  120             ;FLUSH A SHARED PAGE TO DISK
+?SCL1   ?FLUS   120             ;FLUSH A SHARED PAGE TO DISK
+?SCL1   ?GTACP  122             ;GET ACP'S FOR A FILE
+?SCL1   ?GTAC   122             ;GET ACP'S FOR A FILE
+?SCL1   ?GLINK  124             ;GET CONTENTS OF A LINK ENTRY
+?SCL1   ?GLIN   124             ;GET CONTENTS OF A LINK ENTRY
+?SCL1   ?GPRNM  125             ;GET A PROCESS' PROGRAM NAME
+?SCL1   ?GPRN   125             ;GET A PROCESS' PROGRAM NAME
+?SCL1   ?LOGEV  126             ;LOG AN EVENT IN SYSTEM LOG
+?SCL1   ?LOGE   126             ;LOG AN EVENT IN SYSTEM LOG
+?SCL1   ?DADID  127             ;GET A PROCESS' FATHER'S PID
+?SCL1   ?DADI   127             ;GET A PROCESS' FATHER'S PID
+?SCL2   ?CPMAX  130             ;SET CONTROL POINT DIR MAX SIZE
+?SCL2   ?CPMA   130             ;SET CONTROL POINT DIR MAX SIZE
+?SCL2   ?GNFN   131             ;GET NEXT FILE NAME FROM DIR
+;               132             ;- UNUSED
+?SCL2   ?RDUDA  133             ;READ USER DATA AREA
+?SCL2   ?RDUD   133             ;READ USER DATA AREA
+?SCL2   ?WRUDA  134             ;WRITE USER DATA AREA
+?SCL2   ?WRUD   134             ;WRITE USER DATA AREA
+?SCL2   ?CRUDA  135             ;CREATE USER DATA AREA
+?SCL2   ?CRUD   135             ;CREATE USER DATA AREA
+;               136             ;- UNUSED
+;               137             ;- UNUSED
+?SCL2   ?ENBRK  140             ;ENABLE BREAKFILE
+?SCL2   ?ENBR   140             ;ENABLE BREAKFILE
+?SCL2   ?SATR   141             ;SET FILE ATTRIBUTES
+?SCL2   ?IS.R   142             ;IPC SEND/RECEIVE
+?SCL2   ?BRKFL  143             ;BREAK FILE
+?SCL2   ?BRKF   143             ;BREAK FILE
+?SCL1   ?SEBL   144             ;ENABLE A SYNCHRONOUS LINE
+?SCL1   ?SDBL   145             ;DISABLE A SYNCHRONOUS LINE
+?SCL1   ?SSND   146             ;START A SEND ON A SYNC LINE
+?SCL1   ?SRCV   147             ;START A RECV ON A SYNC LINE
+?SCL1   ?SDPOL  150             ;DEFINE A POLL/SELECT LIST FOR A
+?SCL1   ?SDPO   150             ;DEFINE A POLL/SELECT LIST FOR A
+                                ;MULTI-DROP SYNC LINE
+?SCL1   ?SERT   151             ;ENABLE REL. TERM. FOR POLLING
+?SCL1   ?SDRT   152             ;DISABLE REL. TERM. FOR POLLING
+?SCL1   ?SGES   153             ;GET SYNC LINE ERROR STATISTICS
+;               154             ;- UNUSED
+;               155             ;- UNUSED
+;               156             ;- UNUSED
+?SCL2   ?SINFO  157             ;GET SYSTEM INFORMATION
+?SCL2   ?SINF   157             ;GET SYSTEM INFORMATION
+;               160             ;- UNUSED
+?SCL1   ?SCLOSE 161             ;CLOSE A SHARED FILE
+?SCL1   ?SCLO   161             ;CLOSE A SHARED FILE
+?SCL2   ?MAPR   162             ;MAP A REGION
+?SCL1   ?CGNAM  163             ;GET PATHNAME FROM CHANNEL #
+?SCL1   ?CGNA   163             ;GET PATHNAME FROM CHANNEL #
+?SCL2   ?SSID   164             ;SET SYSTEM IDENTIFIER
+?SCL2   ?GSID   165             ;GET SYSTEM IDENTIFIER
+?SCL1   ?DACL   166             ;USER DEFAULT ACL
+?SCL1   ?CON    167             ;CONNECT TO A SERVER
+?SCL1   ?DCON   170             ;DISCONNECT FROM A SERVER
+?SCL1   ?SERVE  171             ;BECOME A SERVER
+?SCL1   ?SERV   171             ;BECOME A SERVER
+?SCL1   ?RESIGN 172             ;RESIGN AS A SERVER
+?SCL1   ?RESI   172             ;RESIGN AS A SERVER
+?SCL2   ?MBTC   173             ;MOVE BYTES TO CUSTOMER
+?SCL2   ?MBFC   174             ;MOVE BYTES FROM CUSTOMER
+?SCL1   ?PCNX   175             ;PASS A SERVER CONNECTION
+?SCL1   ?DRCON  176             ;BREAK A RING CONNECTION
+?SCL1   ?DRCO   176             ;BREAK A RING CONNECTION
+?SCL1   ?VRCUST 177             ;VERIFY A RING CUSTOMER
+?SCL1   ?VRCU   177             ;VERIFY A RING CUSTOMER
+?SCL1   ?PRCNX  200             ;PASS A RING CONNECTION
+?SCL1   ?PRCN   200             ;PASS A RING CONNECTION
+?SCL1   ?AWIRE  201             ;WIRE THE AGENT FOR RESIDENT PROCESSES
+?SCL1   ?AWIR   201             ;WIRE THE AGENT FOR RESIDENT PROCESSES
+?SCL1   ?RNAME  202             ;HOST ID FROM PATHNAME
+?SCL1   ?RNAM   202             ;HOST ID FROM PATHNAME
+?SCL2   ?RSEND  203             ;SERVER ?ISEND
+?SCL2   ?RSEN   203             ;SERVER ?ISEND
+?SCL1   ?ITIME  204             ;RETURN TIME IN INTERNAL FORMAT
+?SCL1   ?ITIM   204             ;RETURN TIME IN INTERNAL FORMAT
+?SCL1   ?GFNAME 205             ;SERVER PATHNAME RESOLUTION
+?SCL1   ?GFNA   205             ;SERVER PATHNAME RESOLUTION
+?SCL1   ?HNAME  206             ;<LOCAL, REMOTE><HOST NAME, HOST ID>
+?SCL1   ?HNAM   206             ;<LOCAL, REMOTE><HOST NAME, HOST ID>
+?SCL1   ?RPORT  207             ;GLOBAL PORT FROM LOCAL PORT AND PID
+?SCL1   ?RPOR   207             ;GLOBAL PORT FROM LOCAL PORT AND PID
+;               210             ;- UNUSED
+;               211             ;- UNUSED
+?SCL1   ?KIOFF  212             ;DISABLE KEYBOARD INTERRUPTS
+?SCL1   ?KIOF   212             ;DISABLE KEYBOARD INTERRUPTS
+?SCL1   ?KION   213             ;ENABLE KEYBOARD INTERRUPTS
+?SCL1   ?KWAIT  214             ;WAIT FOR KEYBOARD INTERRUPT
+?SCL1   ?KWAI   214             ;WAIT FOR KEYBOARD INTERRUPT
+?SCL1   ?KINTR  215             ;SERVER KEYBOARD INTERRUPT FUNCTION
+?SCL1   ?KINT   215             ;SERVER KEYBOARD INTERRUPT FUNC
+?SCL1   ?VCUST  216             ;VERIFY CUSTOMER STATUS
+?SCL1   ?VCUS   216             ;VERIFY CUSTOMER STATUS
+?SCL1   ?CTERM  217             ;TERMINATE A CUSTOMER
+?SCL1   ?CTER   217             ;TERMINATE A CUSTOMER
+;               220             ;- ?
+;               221             ;- ?
+;               222             ;- ?
+;               223             ;- ?
+;               224             ;- ?
+?SCL1   ?BNAME  225             ;DETERMINE IF LOCAL OR REMOTE HOST
+?SCL1   ?BNAM   225             ;DETERMINE IF LOCAL OR REMOTE HOST
+?SCL2   ?PRDB   226             ; PERFORM PHYSICAL BLOCK READ
+?SCL2   ?PWRB   227             ; PERFORM PHYSICAL BLOCK WRITE
+;               230             ;- UNUSED BY AOS/VS
+;               231             ;- UNUSED BY AOS/VS
+?SCL1   ?UPDATE 232             ;FLUSH FILE DESCRIPTOR
+?SCL1   ?UPDA   232             ;FLUSH FILE DESCRIPTOR
+?SCL2   ?ROPEN  233             ;RESERVED OPEN (AGENT ONLY)
+?SCL2   ?ROPE   233             ;RESERVED OPEN (AGENT ONLY)
+?SCL1   ?RCLOSE 234             ;RESERVED CLOSE (AGENT ONLY)
+?SCL1   ?RCLO   234             ;RESERVED CLOSE (AGENT ONLY)
+?SCL2   ?SWST   235             ;START WORKING SET TRACE
+?SCL1   ?KWST   236             ;KILL WORKING SET TRACE
+?SCL2   ?ALLOCATE 237           ;ALLOCATE DISK FILE ELEMENTS
+?SCL2   ?ALLOC  237             ;ALLOCATE DISK FILE ELEMENTS
+?SCL2   ?SOPPF  240             ;OPEN A SHARED PROTECTED FILE
+?SCL2   ?SOPP   240             ;OPEN A SHARED PROTECTED FILE
+?SCL2   ?PMTPF  241             ;PERMIT ACCESS TO A PROTECTED FILE
+?SCL2   ?PMTP   241             ;PERMIT ACCESS TO A PROTECTED FILE
+;               242             ;- RESERVED FOR AOS
+?SCL1   ?ISPLIT 243             ;RETURN PID, LOCAL PORT, RING
+?SCL1   ?ISPL   243             ;RETURN PID, LOCAL PORT, RING
+?SCL1   ?IMERGE 244             ;RETURN GLOBAL PORT WITH RING
+?SCL1   ?IMER   244             ;RETURN GLOBAL PORT WITH RING
+?SCL1   ?SIGNL  245             ;SIGNAL a process
+?SCL1   ?SIGN   245             ;SIGNAL a process
+.XPNG   ?SIGNL
+.XPNG   ?SIGN
+        .MACRO  ?SIGNL
+**      LCALL   ?SCSIGNL,0      ;Call kernel gate for ?SIGNL
+%
+        .MACRO  ?SIGN
+**      LCALL   ?SCSIGNL,0      ;Call kernel gate for ?SIGNL
+%
+?SCL1   ?WTSIG  246             ;WAIT FOR A ?SIGNL
+?SCL1   ?WTSI   246             ;WAIT FOR A ?SIGNL
+?SCL1   ?SIGWT  247             ;?SIGNL A TASK, THEN WAIT FOR ?SIGNL
+?SCL1   ?SGNW   247             ;?SIGNL A TASK, THEN WAIT FOR ?SIGNL
+?SCL1   ?RNGST  250             ;RESTRICT RING LOADING
+?SCL1   ?RNGPR  251             ;GET PATHNAME FROM LOGICAL ADDRESS
+?SCL1   ?VALAD  252             ;INNER RING SERVER VALIDATE
+;               253             ;- reserved for fault pseudo call
+?SCL1   ?GMEM   254             ;GET SYSTEM AVAILABLE PAGES
+?SCL1   ?LMAP   255             ;MAP A SYSTEM PAGE
+?SCL2   ?EXPO   256             ;SET/CLEAR/CHECK EXECUTE PROTECTION
+?SCL1   ?POKE   257             ;USER DEB CHANGE C(LOCATION)
+?SCL1   ?PEEK   260             ;USER DEB EXAMINE C(LOCATION)
+?SCL1   ?WIRE   261             ;PROCESS WIRE PAGE
+?SCL1   ?UNWIRE 262             ;PROCESS UNWIRE PAGE
+?SCL1   ?UNWI   262             ;PROCESS UNWIRE PAGE
+?SCL1   ?WDELAY 263             ;WIDE DELAY
+?SCL1   ?WDEL   263             ;WIDE DELAY
+?SCL1   ?RINGLD 264             ;RING LOAD
+?SCL1   ?RING   264             ;RING LOAD
+?SCL1   ?LEFE   265             ;ENABLE LEF MODE
+?SCL1   ?LEFD   266             ;DISABLE LEF MODE
+?SCL1   ?LEFS   267             ;SAMPLE LEF MODE
+;               270             ;- RESERVED BY AGENT
+;               271             ;- RESERVED BY AGENT
+;               272             ;- RESERVED BY AGENT
+;               273             ;- RESERVED BY AGENT
+;               274             ;- RESERVED BY AGENT
+?SCL2   ?GTRUNC 275             ;TRUNCATE A DISK FILE
+?SCL2   ?GTRU   275             ;TRUNCATE A DISK FILE
+?SCL1   ?ESFF   276             ; FLUSH SHARED FILE
+?SCL2   ?DVSTT  277             ;GET DEVICE STATISTICS
+?SCL2   ?DVST   277             ;GET DEVICE STATISTICS
+;
+;   NOTE: 277 IS THE LAST SYSTEM CALL CODE BEFORE THE AGENT'S CODES
+;
+
+;
+; AGENT CALL PARAMETERS
+
+?SCL2   ?OPEN   300             ;AGENT OPEN
+?SCL2   ?CLOSE  301             ;AGENT CLOSE
+?SCL2   ?CLOS   301             ;AGENT CLOSE
+?SCL2   ?READ   302             ;AGENT READ
+?SCL2   ?WRITE  303             ;AGENT WRITE
+?SCL2   ?WRIT   303             ;AGENT WRITE
+?SCL1   ?TERM   304             ;AGENT TERM
+?SCL1   ?CHAIN  305             ;AGENT CHAIN
+?SCL1   ?CHAI   305             ;AGENT CHAIN
+?SCL2   ?GPOS   306             ;AGENT GET POSITION
+?SCL2   ?GTMES  307             ;AGENT GET MESSAGE
+?SCL2   ?GTME   307             ;AGENT GET MESSAGE
+?SCL1   ?RETURN 310             ;AGENT RETURN
+?SCL1   ?RETU   310             ;AGENT RETURN
+?SCL1   ?ERMSG  311             ;AGENT ERMESSAGE
+?SCL1   ?ERMS   311             ;AGENT ERMESSAGE
+?SCL1   ?GCHR   312             ;AGENT GET CHARACTERISTICS
+?SCL1   ?SCHR   313             ;AGENT SET CHARACTERISTICS
+?SCL1   ?ASSIGN 314             ;AGENT ASSIGN
+?SCL1   ?ASSI   314             ;AGENT ASSIGN
+?SCL1   ?DEASSIGN 315           ;AGENT DEASSIGN
+?SCL1   ?DEAS   315             ;AGENT DEASSIGN
+?SCL1   ?SEND   316             ;AGENT SEND
+?SCL1   ?ENQUE  317             ;AGENT ENQUE
+?SCL1   ?ENQU   317             ;AGENT ENQUE
+?SCL1   ?LABEL  320             ;AGENT INIT A LABELED MAG TAPE
+?SCL1   ?LABE   320             ;AGENT INIT A LABELED MAG TAPE
+?SCL1   ?GABORT 321             ;AGENT ABORT REQUEST
+?SCL1   ?GABO   321             ;AGENT ABORT REQUEST
+?SCL2   ?SPOS   322             ;AGENT SET POSITION
+?SCL1   ?OVOPN  323             ;AGENT OVERLAY OPEN
+?SCL1   ?OVOP   323             ;AGENT OVERLAY OPEN
+?SCL1   ?CKVOL  324             ;AGENT VOLID CHECKING
+?SCL1   ?CKVO   324             ;AGENT VOLID CHECKING
+?SCL1   ?OPER   325             ;AGENT OPERATOR CALL
+?SCL2   ?PROC   326             ;AGENT PROC CALL
+?SCL2   ?EXEC   330             ;AGENT EXEC CALL
+?SCL1   ?CTOD   331             ;AGENT CTOD CALL
+?SCL1   ?CDAY   332             ;AGENT CDAY CALL
+?SCL1   ?UIDSTAT 333            ;AGENT TCB STATISTICS W/ UNIQUE ID
+?SCL1   ?UIDS   333             ;AGENT TCB STATISTICS W/ UNIQUE ID
+?SCL1   ?FDAY   334             ;AGENT CONVERT TO SYSTEM DATE
+?SCL1   ?FTOD   335             ;AGENT CONVERT TO SYSTEM TIME
+?SCL1   ?RECREATE 336           ;AGENT RECREATE CALL
+?SCL1   ?RECR   336             ;AGENT RECREATE CALL
+?SCL1   ?ERPR   337             ;AGENT ESTABLISH EDITREAD PROGRAM
+?SCL2   ?FEOV   340             ;FORCED END OF VOLUME (LABELED TAPE)
+?SCL2   ?LTFUNC  341            ;VOLUME STATUS (LABELED TAPE)
+?SCL1   ?DEBUG  342             ;ENTER DEBUGGER
+?SCL1   ?DEBU   342             ;ENTER DEBUGGER
+?SCL2   ?UIDOST 343             ;RETURN STATUS FROM PREVIOUS LEVEL
+?SCL2   ?UIDO   343             ;RETURN STATUS FROM PREVIOUS LEVEL
+?SCL1   ?NOBRK  344             ;CLEAR BREAK POINTS
+?SCL1   ?NOBR   344             ;CLEAR BREAK POINTS
+?SCL1   ?SYSD   345             ;ENTER AOS DUMP ANALYZER
+?SCL1   ?FEDIT  346             ;ENTER FILE EDITOR
+?SCL1   ?FEDI   346             ;ENTER FILE EDITOR
+?SCL1   ?SPGI   347             ;SPAGE INTERCEPTOR
+?SCL1   ?RPGI   350             ;RPAGE INTERCEPTOR
+?SCL1   ?GTNAM  351             ;GET NAME
+?SCL1   ?GTNA   351             ;GET NAME
+?SCL1   ?GTSVL  352             ;GET SYMBOL NAME
+?SCL1   ?GTSV   352             ;GET SYMBOL NAME
+?SCL2   ?FEDFUNC 353            ;User interface for FED functions
+?SCL2   ?FEDF   353             ;User interface for FED functions
+?SCL2   ?WHIS   354             ;WIDE HISTOGRAM
+?SCL2   ?WHIST  354             ;WIDE HISTOGRAM
+
+?SCL1   ?TMSG   355             ;DEFINE TERM MESSGE FORMAT
+?SCL2   ?SONS   356             ;GET PROCESS'S SONS
+?SCL2   ?PIDS   357             ;INFO ON NUMBER PROCESSES
+?SCL2   ?GPID   360             ;GET NEXT PID IN USE
+?SCL2   ?PROF   361             ;ACCESS PROFILE INFORMATION
+?SCL2   ?PROFILE 361            ;ACCESS PROFILE INFORMATION
+?SCL2   ?CRYPT  362             ;DATA ENCRYPT/DECRYPT
+?SCL2   ?CRYP   362             ;DATA ENCRYPT/DECRYPT
+?SCL2   ?PWDCRYP 363            ;PASSWORD ENCRYPTION
+?SCL2   ?PWDC   363             ;PASSWORD ENCRYPTION
+;?SCL1  ?FVPID  364             ;Reserved
+;?SCL1  ?MUPID  365             ;Reserved
+;?SCL1  ?GNHOST 366             ;Reserved
+?SCL1   ?STOM   400             ;SET TIME
+?SCL1   ?SDLM   401             ;SET DELIMITER TABLE
+;               402             ;- RESERVED FOR 16 BITTERS
+;               404             ;- RESERVED FOR 16 BITTERS
+;               405             ;- RESERVED FOR 16 BITTERS
+?SCL1   ?RESCHED 406            ;RESCHEDULE THIS PROCESS
+?SCL1   ?RESC   406             ;RESCHEDULE THIS PROCESS
+?SCL1   ?GRNAME 407             ;GET RESOLVED FULL PATHNAME
+?SCL1   ?GRNA   407             ;GET RESOLVED FULL PATHNAME
+?SCL1   ?TRUNCATE 411           ;TRUNCATE A DISK OR MAG TAPE FILE
+?SCL1   ?TRUN   411             ;TRUNCATE A DISK OR TAPE FILE
+?SCL1   ?LOGCALLS 412           ;START OR STOP LOGGING SYSTEM CALLS
+?SCL1   ?LOGC   412             ;START OR STOP LOGGING SYS CALLS
+?SCL1   ?GDLM   413             ;GET DELIMITER TABLE
+?SCL1   ?MDUMP  414             ;MEMORY DUMP
+?SCL1   ?MDUM   414             ;MEMORY DUMP
+?SCL1   ?GECHR  415             ;EXTENDED GET CHARACTERISTICS CALL
+?SCL1   ?SECHR  416             ;EXTENDED SET CHARACTERISTICS CALL
+?SCL1   ?NRINT  417             ;NETWORK: RECEIVE INTERRUPT
+?SCL1   ?NRIN   417             ;NETWORK: RECEIVE INTERRUPT
+?SCL1   ?NSINT  420             ;NETWORK: SEND INTERRUPT
+?SCL1   ?NSIN   420             ;NETWORK: SEND INTERRUPT
+?SCL1   ?GVPID  421             ;GET VIRTUAL PID
+?SCL1   ?GVPI   421             ;GET VIRTUAL PID
+?SCL1   ?TPID   422             ;TRANSLATE VIRTUAL PID
+?SCL2   ?VALIDAT 423            ;AGENT VALIDATION ROUTINE INTERFACE
+?SCL2   ?MAPBM  424             ;MAP BITMAP MEMORY
+?SCL2   ?MAPB   424             ;MAP BITMAP MEMORY
+?SCL1   ?CLRDV  425             ;CLEAR DEVICE
+?SCL1   ?CLRD   425             ;CLEAR DEVICE
+?SCL2   ?WINDOW 426             ;Issue Window commands
+?SCL2   ?WIND   426             ;Issue Window commands
+?SCL2   ?FLOC   427             ;Lock elements in a file
+?SCL2   ?FLOCK  427             ;Lock elements in a file
+?SCL2   ?FUNLOCK 430            ;Unlock elements in a file
+?SCL2   ?FUNL   430             ;Unlock elements in a file
+?SCL2   ?WINMGR 431             ;Issue window manager commands
+?SCL2   ?WINM   431             ;Issue window manager commands
+?SCL2   ?PTRDEVICE 432          ;Issue 'pointing' device commands
+?SCL2   ?PTRDEV  432            ;Issue 'pointing' device commands
+?SCL2   ?PTRD   432             ;Issue 'pointing' device commands
+?SCL2   ?PMGR   433             ;Issue PMGR requests (reserved)
+?SCL2   ?GRAPHICS  434             ;Issue Graphics operations on a window
+?SCL2   ?GRAP   434             ;Issue Graphics operations on a window
+
+;               440-447         ;Reserved
+
+?SCL2 ?VTFCREATE  450           ;Create a VTF timer (AOS/RT32 ONLY)
+?SCL2 ?VTFKILL    451           ;Kill a VTF timer (AOS/RT32 ONLY)
+?SCL1 ?WTVSIG     452           ;Wait for signal from VTF (AOS/RT32 ONLY)
+?SCL1 ?WTVERR     453           ;Wait for error from VTF (AOS/RT32 ONLY)
+?SCL2 ?VTFMODIFY  454           ;Modify existing VTF timer (AOS/RT32 ONLY)
+?SCL1   ?FIDEF  455             ;Fast IDEF (AOS/RT32 ONLY)
+?SCL1   ?FIDE   455             ;Fast IDEF (AOS/RT32 ONLY)
+?SCL1   ?FIXMT  456             ;Fast device IXMT (AOS/RT32 ONLY)
+?SCL1   ?FIXM   456             ;Fast device IXMT (AOS/RT32 ONLY)
+?SCL1 ?VTFSUS     457           ; Suspend VTF timer (AOS/RT32 ONLY)
+?SCL1 ?VTFXIT     460           ; Exit VTF i-level routine (AOS/RT32 ONLY)
+
+;               461-470         ;Reserved
+
+?SCL2   ?OPEX   471             ; Issue CX requests to EXEC
+
+;USER RUNTIME CALLS
+
+?SCL2   ?TLOCK  476             ;PROTECT THIS TASK FROM REDIRECTION
+?SCL1   ?TUNLOCK 477            ;RELEASE TASK REDIRECTION PROTECTION
+?SCL2   ?TASK   500             ;DEFINE A TASK
+?SCL1   ?IQTSK  501             ;DEFINE A QTASK MANAGER
+?SCL1   ?IQTS   501             ;DEFINE A QTASK MANAGER
+?SCL1   ?SUS    502             ;SUSPEND CALLER
+?SCL1   ?PRI    503             ;CHANGE CALLER'S PRIORITY
+?SCL1   ?KILL   504             ;KILL CALLER
+?SCL1   ?KILAD  505             ;DEFINE KILL PROC ADDRESS
+?SCL1   ?KILA   505             ;DEFINE KILL PROC ADDRESS
+?SCL1   ?PRRDY  506             ;READY BY PRIORITY
+?SCL1   ?PRRD   506             ;READY BY PRIORITY
+?SCL1   ?PRSUS  507             ;SUSPEND BY PRIORITY
+?SCL1   ?PRSU   507             ;SUSPEND BY PRIORITY
+?SCL1   ?PRKIL  510             ;KILL BY PRIORITY
+?SCL1   ?PRKI   510             ;KILL BY PRIORITY
+?SCL1   ?IDSTAT 511             ;STATUS BY ID (16 BIT CALL)
+?SCL1   ?IDST   511             ;STATUS BY ID (16 BIT CALL)
+?SCL1   ?IDRDY  512             ;READY BY ID
+?SCL1   ?IDRD   512             ;READY BY ID
+?SCL1   ?IDSUS  513             ;SUSPEND BY ID
+?SCL1   ?IDSU   513             ;SUSPEND BY ID
+?SCL1   ?IDKIL  514             ;KILL BY ID
+?SCL1   ?IDKI   514             ;KILL BY ID
+?SCL1   ?IDPRI  515             ;CHANGE PRIORITY BY ID
+?SCL1   ?IDPR   515             ;CHANGE PRIORITY BY ID
+?SCL1   ?IDGOTO 516             ;FORCE A TASK TO NEW PC BY ID
+?SCL1   ?IDGO   516             ;FORCE A TASK TO NEW PC BY ID
+?SCL1   ?UIDCALL 517            ;SOFTWARE INTERRUPT
+?SCL1   ?UIDC   517             ;SOFTWARE INTERRUPT
+?SCL1   ?TIDSTAT 520            ;STATUS BY ID (32 BIT CALL)
+?SCL1   ?TIDS   520             ;STATUS BY ID (32 BIT)
+?SCL1   ?MYTID  521             ;GET ID AND PRIORITY
+?SCL1   ?MYTI   521             ;GET ID AND PRIORITY
+?SCL1   ?RECNW  522             ;RECEIVE WITH NO WAIT
+?SCL1   ?RECN   522             ;RECEIVE WITH NO WAIT
+?SCL1   ?XMT    523             ;XMIT A TASK MESSAGE
+?SCL1   ?XMTW   524             ;XMIT A TASK AND WAIT FOR RECEIPT
+?SCL1   ?REC    525             ;RECEIVE A TASK MESSAGE
+?SCL1   ?ERSCH  526             ;ENABLE TASK RESCHEDULING
+?SCL1   ?ERSC   526             ;ENABLE TASK RESCHEDULING
+?SCL1   ?DRSCH  527             ;DISABLE TASK RESCHEDULING
+?SCL1   ?DRSC   527             ;DISABLE TASK RESCHEDULING
+?SCL1   ?TRCON  530             ;READ FROM CONTROLLING CONSOLE
+?SCL1   ?TRCO   530             ;READ FROM CONTROLLING CONSOLE
+?SCL1   ?UIDRTN 531             ;RETURN FROM SOFTWARE INTERRUPT
+?SCL1   ?UIDR   531             ;RETURN FROM SOFTWARE INTERRUPT
+?SCL1   ?DQTSK  532             ;DEQUE A QUEUED TASK
+?SCL1   ?DQTS   532             ;DEQUE A QUEUED TASK
+;       ?OVLOD  533             ;16 BIT ONLY
+;       ?OVEX   534             ;16 BIT ONLY
+;       ?OVREL  535             ;16 BIT ONLY
+;       ?OVKIL  536             ;16 BIT ONLY
+
+        .MACRO  ?IXMT           ;(537) XMIT MESSAGE FROM INTERRUPT
+**      .EXTL   ?AGIM           ; ROUTINE
+**      LCALL   ?AGIM,0         ;GO DIRECTLY TO THE AGENT
+%
+
+?SCL1   ?IMSG   540             ;RECEIVE MESSAGE FROM INTERRUPT ROUTINE
+
+        .MACRO  ?IXIT           ;(541) EXIT FROM USER I/O
+**      .EXTL   ?SCIX           ; INTERRUPT ROUTINE
+**      LCALL   ?SCIX,0         ;GO DIRECTLY TO THE KERNAL
+%
+?SCL1   ?IFPU   542             ;INITIALIZE FLOATING POINT UNIT
+;?SCL1  ?GCRB   543             ;GET CURRENT RESOURCE BASE (16 BIT CALL)
+;       ?UNWI   544             ;16 bit only
+;       ?WALK   545             ;16 bit only
+?SCL1   ?TCBINFO 546            ;RETURN INFORMATION IN TCB TO CALLER
+?SCL1   ?TCBI    546            ;RETURN INFORMATION IN TCB TO CALLER
+;       ?IESS   547             ;16 bit only
+?SCL1   ?DFRSCH 550             ;DISABLE TASK RESCHEDULING AND RETURN
+                                ;  PREVIOUS RESCHEDULING STATUS
+?SCL1   ?DFRS   550             ;DISABLE TASK RESCHEDULING AND RETURN
+                                ;  PREVIOUS RESCHEDULING STATUS
+;               551             ;- RESERVED FOR AGENT
+;               552             ;- RESERVED FOR AGENT
+?SCL2   ?JPINIT 553             ;INITIALIZE A JP
+?SCL2   ?JPIN   553             ;INITIALIZE A JP
+?SCL2   ?JPREL  554             ;RELEASE A JP
+?SCL2   ?JPRE   554             ;RELEASE A JP
+?SCL2   ?JPMOV  555             ;MOVE A JP TO A NEW LP
+?SCL2   ?JPMO   555             ;MOVE A JP TO A NEW LP
+?SCL2   ?JPSTAT 556             ;JP STATUS CALL
+?SCL2   ?JPST   556             ;JP STATUS CALL
+?SCL2   ?LPCREA 557             ;CREATE AN LP
+?SCL2   ?LPCR   557             ;CREATE AN LP
+?SCL2   ?LPDELE 560             ;DELETE AN LP
+?SCL2   ?LPDE   560             ;DELETE AN LP
+?SCL2   ?LPSTAT 561             ;LP STATUS CALL
+?SCL2   ?LPST   561             ;LP STATUS CALL
+?SCL2   ?LPCLASS 562            ;GET/SET LP CLASS ASSIGNMENTS
+?SCL2   ?LPCL    562            ;GET/SET LP CLASS ASSIGNMENTS
+?SCL2   ?CLASS   563            ;GET/SET CLASS IDS AND NAMES
+?SCL2   ?CLAS    563            ;GET/SET CLASS IDS AND NAMES
+?SCL2   ?CMATRIX 564            ;GET/SET CLASS MATRIX
+?SCL2   ?CMAT    564            ;GET/SET CLASS MATRIX
+?SCL2   ?PCLASS  565            ;GET A PROCESS'S CLASS & LOCALITY
+?SCL2   ?PCLA    565            ;GET A PROCESS'S CLASS & LOCALITY
+?SCL2   ?CLSTAT  566            ;RETURN CLASS STATISTICS
+?SCL2   ?CLST    566            ;RETURN CLASS STATISTICS
+?SCL2   ?LOCALITY 567           ;CHANGE USER LOCALITY
+?SCL2   ?LOCA     567           ;CHANGE USER LOCALITY
+?SCL2   ?CLSCHED 570            ;ENABLE/DISABLE CLASS SCHEDULING
+?SCL2   ?CLSC    570            ;ENABLE/DISABLE CLASS SCHEDULING
+?SCL2   ?XINIT   571            ;INITIALIZE AN LDU
+?SCL2   ?XINI    571            ;INITIALIZE AN LDU
+?SCL2   ?MIRROR  572            ;MIRROR AN LDU
+?SCL2   ?MIRR    572            ;MIRROR AN LDU
+?SCL2   ?SYSPRV 573             ;TURN A PRIVILEGE ON/OFF
+?SCL2   ?SYSP   573             ;TURN A PRIVILEGE ON/OFF
+?SCL2   ?MAPDV  574             ;MAP A DEVICE INTO LOGICAL MEMORY
+?SCL2   ?MAPD   574             ;MAP A DEVICE IN LOGICAL MEMORY
+?SCL2   ?MPHIST 575             ;MP HISTOGRAM
+?SCL2   ?MPHI   575             ;MP HISTOGRAM
+?SCL2   ?XPSTAT 576             ;EXTENDED PROCESS STATUS
+?SCL2   ?XPST   576             ;DITTO
+?SCL2   ?ASSOC  577             ;ASSOCIATE
+?SCL2   ?ASSO   577             ;DITTO
+?SCL2   ?DISSOC 600             ;DISSOCIATE
+?SCL2   ?DISS   600             ;DISSOCIATE
+?SCL2   ?GUHPI  601             ;GET UNIQUE HDW PROCESSOR ID
+?SCL2   ?GUHP   601             ;GET UNIQUE HDW PROCESSOR ID
+?SCL2   ?LNID   602             ;RESERVED FOR NDG
+?SCL2   ?RTODC  603             ;GET RTOD CONVERSIONS
+?SCL2   ?RTOD   603             ;GET RTOD CONVERSIONS
+?SCL2   ?NTIME  604             ;SET NEW TIME AND DATE
+?SCL2   ?NTIM   604             ;SET NEW TIME AND DATE
+?SCL2   ?GTIME  605             ;GET TIME AND DATE
+?SCL2   ?GTIM   605             ;GET TIME AND DATE
+?SCL2   ?QNET   606             ;NETWORK REQUEST
+;?SCL2  ?XCREATE 607            ;CREATE FILE            (VS II only)
+;?SCL2  ?XCRE   607             ;CREATE FILE            (VS II only)
+;?SCL2  ?XFSTAT 610             ;GET FILE STATUS        (VS II only)
+;?SCL2  ?XFST   610             ;GET FILE STATUS        (VS II only)
+;?SCL2  ?MRCDEF 611             ;DEFINE MRC SERVICE     (VS II only)
+;?SCL2  ?MRCD   611             ;DEFINE MRC SERVICE     (VS II only)
+;?SCL2  ?QMRC   612             ;MOVE MRC DATA          (VS II only)
+;?SCL2  ?DIAG   613             ;DIAGNOSTIC REQUEST     (VS II only)
+?SCL2   ?WSCNTL 614             ;WORKING SET CONTROL
+?SCL2   ?WSCN   614             ;WORKING SET CONTROL
+
+;
+;       SYSTEM CALL VALUES
+;
+
+.DUSR   ?.CREATE        =0              ;CREATE FILE
+.DUSR   ?.CREA          =0              ;CREATE FILE
+.DUSR   ?.DELETE        =1              ;DELETE FILE
+.DUSR   ?.DELE          =1              ;DELETE FILE
+.DUSR   ?.RENAME        =2              ;RENAME A FILE
+.DUSR   ?.RENA          =2              ;RENAME A FILE
+.DUSR   ?.MEM           =3              ;RETURN MEMORY LIMITS
+.DUSR   ?.GCHN  =4              ;CHANGE THE CURRENT PROGRAM
+.DUSR   ?.PSTAT =5              ;PROCESS STATUS
+.DUSR   ?.PSTA  =5              ;PROCESS STATUS
+.DUSR   ?.DPMGR =6              ;DEFINE PERIPHERAL MANAGER
+.DUSR   ?.DPMG  =6              ;DEFINE PERIPHERAL MANAGER
+.DUSR   ?.RDB   =7              ;READ A PHYSICAL BLOCK
+.DUSR   ?.WRB   =11             ;WRITE A PHYSICAL BLOCK
+.DUSR   ?.GPROC =13             ;CREATE A PROCESS
+.DUSR   ?.GPRO  =13             ;CREATE A PROCESS
+.DUSR   ?.MEMI  =14             ;ALLOCATE MEMORY
+.DUSR   ?.DELA  =15             ;SUSPEND FOR A TIME PERIOD
+                                ; (16 BIT CALL ONLY)
+.DUSR   ?.INTWT =16             ;WAIT FOR A CONSOLE INTERRUPT
+.DUSR   ?.INTW  =16             ;WAIT FOR A CONSOLE INTERRUPT
+.DUSR   ?.MBTU  =21             ;MOVE BYTES TO PROCESS
+.DUSR   ?.MBFU  =23             ;MOVE BYTES FROM PROCESS
+.DUSR   ?.ISEND =25             ;SEND AN IPC MESSAGE
+.DUSR   ?.ISEN  =25             ;SEND AN IPC MESSAGE
+.DUSR   ?.IREC  =26             ;RECEIVE AN IPC MESSAGE
+.DUSR   ?.ILKUP =27             ;LOOK UP AN IPC NAME
+.DUSR   ?.ILKU  =27             ;LOOK UP AN IPC NAME
+.DUSR   ?.RUNTM =30             ;GET RUNTIME STATISTICS
+.DUSR   ?.RUNT  =30             ;GET RUNTIME STATISTICS
+.DUSR   ?.TABT  =31             ;ABORT A TASK CALL
+.DUSR   ?.CTYPE =33             ;CHANGE PROCESS TYPE
+.DUSR   ?.CTYP  =33             ;CHANGE PROCESS TYPE
+.DUSR   ?.BLKIO =34             ;BLOCK I/O
+.DUSR   ?.BLKI  =34             ;BLOCK I/O
+.DUSR   ?.GTOD  =36             ;GET TIME OF DAY
+.DUSR   ?.STOD  =37             ;SET TIME OF DAY
+.DUSR   ?.SDAY  =40             ;SET DATE
+.DUSR   ?.GDAY  =41             ;GET DATE
+.DUSR   ?.IDEF  =42             ;DEFINE A USER DEVICE
+.DUSR   ?.IRMV  =43             ;REMOVE A USER DEFINED DEVICE
+.DUSR   ?.SSHPT =44             ;SET SHARED PARTITION
+.DUSR   ?.SSHP  =44             ;SET SHARED PARTITION
+.DUSR   ?.RPAGE =45             ;RELEASE A SHARED PAGE
+.DUSR   ?.RPAG  =45             ;RELEASE A SHARED PAGE
+.DUSR   ?.ODIS  =46             ;DISABLE CONSOLE INTERRUPTS
+.DUSR   ?.OEBL  =47             ;ENABLE CONSOLE INTERRUPTS
+.DUSR   ?.DEBL  =50             ;ENABLE DEVICE ACCESS
+.DUSR   ?.DDIS  =51             ;DISABLE DEVICE ACCESS
+.DUSR   ?.STMAP =52             ;SET DCH MAP FOR USER DEVICE
+.DUSR   ?.STMA  =52             ;SET DCH MAP FOR USER DEVICE
+.DUSR   ?.SUPROC=53             ;CHANGE SUPERPROCESS STATUS
+.DUSR   ?.SUPR  =53             ;CHANGE SUPERPROCESS STATUS
+.DUSR   ?.ABTC  =54             ;ABORT A SYSTEM CALL
+.DUSR   ?.GTERM =55             ;TERMINATE A PROCESS
+.DUSR   ?.GTER  =55             ;TERMINATE A PROCESS
+.DUSR   ?.GOPEN =56             ;OPEN (FOR AGENT USE)
+.DUSR   ?.GOPE  =56             ;OPEN (FOR AGENT USE)
+.DUSR   ?.GCLOSE=57             ;CLOSE (FOR AGENT USE)
+.DUSR   ?.GCLO  =57             ;CLOSE (FOR AGENT USE)
+.DUSR   ?.SPAGE =60             ;INCLUDE A SHARED PAGE
+.DUSR   ?.SPAG  =60             ;INCLUDE A SHARED PAGE
+.DUSR   ?.CXINFO=61             ;AGENT/KERNAL CX BLOCK INTERFACE
+.DUSR   ?.CXIN  =61             ;AGENT/KERNAL CX BLOCK INTERFACE
+.DUSR   ?.CISND =62             ;ENABLE CONSOLE INTERRUPT SENDING
+.DUSR   ?.CISN  =62             ;ENABLE CONSOLE INTERRUPT SENDING
+.DUSR   ?.SOPEN =63             ;SHARED OPEN OF A FILE
+.DUSR   ?.SOPE  =63             ;SHARED OPEN OF A FILE
+.DUSR   ?.GPORT =64             ;GET A PORT'S OWNER
+.DUSR   ?.GPOR  =64             ;GET A PORT'S OWNER
+.DUSR   ?.TPORT =65             ;TRANSLATE A PORT NUMBER
+.DUSR   ?.TPOR  =65             ;TRANSLATE A PORT NUMBER
+.DUSR   ?.BLKPR =66             ;BLOCK A PROCESS
+.DUSR   ?.BLKP  =66             ;BLOCK A PROCESS
+.DUSR   ?.UBLPR =67             ;UNBLOCK A PROCESS
+.DUSR   ?.UBLP  =67             ;UNBLOCK A PROCESS
+.DUSR   ?.PRIPR =70             ;CHANGE A PROCESS PRIORITY
+.DUSR   ?.PRIP  =70             ;CHANGE A PROCESS PRIORITY
+.DUSR   ?.SGNL  =71             ;SIGNAL THE SYSTEM
+.DUSR   ?.GUNM  =72             ;GET A PROCESS'S USER NAME
+.DUSR   ?.GSHPT =73             ;GET SHARED PARTITION VALUES
+.DUSR   ?.GSHP  =73             ;GET SHARED PARTITION VALUES
+.DUSR   ?.GHRZ  =74             ;GET CLOCK FREQ
+.DUSR   ?.DIR   =75             ;CHANGE WORKING DIRECTORY
+.DUSR   ?.INIT  =76             ;INITIALIZE AN LDU OR MTV
+.DUSR   ?.FSTAT =77             ;GET FILE STATUS
+.DUSR   ?.FSTA  =77             ;GET FILE STATUS
+.DUSR   ?.RLSE  =100            ;RELEASE AN LDU OR MTV
+.DUSR   ?.RELEASE=100           ;RELEASE AN LDU OR MTV
+.DUSR   ?.RELE  =100            ;RELEASE AN LDU OR MTV
+.DUSR   ?.SLIST =101            ;SET SEARCH LIST
+.DUSR   ?.SLIS  =101            ;SET SEARCH LIST
+.DUSR   ?.GLIST =102            ;GET SEARCH LIST
+.DUSR   ?.GLIS  =102            ;GET SEARCH LIST
+.DUSR   ?.SYLOG =103            ;MANIPULATE SYSTEM LOG
+.DUSR   ?.SYLO  =103            ;MANIPULATE SYSTEM LOG
+.DUSR   ?.GBIAS =104            ;GET BIAS FACTOR
+.DUSR   ?.GBIA  =104            ;GET BIAS FACTOR
+.DUSR   ?.SBIAS =105            ;SET BIAS FACTOR
+.DUSR   ?.SBIA  =105            ;SET BIAS FACTOR
+.DUSR   ?.IHIST =106            ;INIT HISTOGRAM
+.DUSR   ?.IHIS  =106            ;INIT HISTOGRAM
+.DUSR   ?.KHIST =107            ;KILL HISTOGRAM
+.DUSR   ?.KHIS  =107            ;KILL HISTOGRAM
+.DUSR   ?.GNAME =111            ;GET FULL PATHNAME
+.DUSR   ?.GNAM  =111            ;GET FULL PATHNAME
+.DUSR   ?.GCPN  =112            ;GET CONSOLE PORT NUMBER
+.DUSR   ?.SUSER =113            ;CHANGE SUPERUSER STATUS
+.DUSR   ?.SUSE  =113            ;CHANGE SUPERUSER STATUS
+.DUSR   ?.SACL  =114            ;SET A FILE'S ACL
+.DUSR   ?.GACL  =115            ;GET A FILE'S ACL
+.DUSR   ?.PNAME =116            ;PROCESS NAME <-> PID
+.DUSR   ?.PNAM  =116            ;PROCESS NAME <-> PID
+.DUSR   ?.FLUSH =120            ;FLUSH A SHARED PAGE TO DISK
+.DUSR   ?.FLUS  =120            ;FLUSH A SHARED PAGE TO DISK
+.DUSR   ?.GTACP =122            ;GET ACP'S FOR A FILE
+.DUSR   ?.GTAC  =122            ;GET ACP'S FOR A FILE
+.DUSR   ?.GLINK =124            ;GET CONTENTS OF A LINK ENTRY
+.DUSR   ?.GLIN  =124            ;GET CONTENTS OF A LINK ENTRY
+.DUSR   ?.GPRNM =125            ;GET A PROCESS' PROGRAM NAME
+.DUSR   ?.GPRN  =125            ;GET A PROCESS' PROGRAM NAME
+.DUSR   ?.LOGEV =126            ;LOG AN EVENT IN SYSTEM LOG
+.DUSR   ?.LOGE  =126            ;LOG AN EVENT IN SYSTEM LOG
+.DUSR   ?.DADID =127            ;GET A PROCESS' FATHER'S PID
+.DUSR   ?.DADI  =127            ;GET A PROCESS' FATHER'S PID
+.DUSR   ?.CPMAX =130            ;SET CONTROL POINT DIR MAX SIZE
+.DUSR   ?.CPMA  =130            ;SET CONTROL POINT DIR MAX SIZE
+.DUSR   ?.GNFN  =131            ;GET NEXT FILE NAME FROM DIR
+.DUSR   ?.RDUDA =133            ;READ USER DATA AREA
+.DUSR   ?.RDUD  =133            ;READ USER DATA AREA
+.DUSR   ?.WRUDA =134            ;WRITE USER DATA AREA
+.DUSR   ?.WRUD  =134            ;WRITE USER DATA AREA
+.DUSR   ?.CRUDA =135            ;CREATE USER DATA AREA
+.DUSR   ?.CRUD  =135            ;CREATE USER DATA AREA
+.DUSR   ?.ENBRK =140            ;ENABLE BREAKFILES
+.DUSR   ?.ENBR  =140            ;ENABLE BREAKFILES
+.DUSR   ?.SATR  =141            ;SET FILE ATTRIBUTES
+.DUSR   ?.IS.R  =142            ;IPC SEND/RECEIVE
+.DUSR   ?.BRKFL =143            ;BREAK FILE
+.DUSR   ?.BRKF  =143            ;BREAK FILE
+.DUSR   ?.SEBL  =144            ;ENABLE A SYNCHRONOUS LINE
+.DUSR   ?.SDBL  =145            ;DISABLE A SYNCHRONOUS LINE
+.DUSR   ?.SSND  =146            ;START A SEND ON A SYNC LINE
+.DUSR   ?.SRCV  =147            ;START A RECV ON A SYNC LINE
+.DUSR   ?.SDPOL =150            ;DEFINE A POLL/SELECT LIST FOR A
+.DUSR   ?.SDPO  =150            ;DEFINE A POLL/SELECT LIST FOR A
+.DUSR   ?.SERT  =151            ;ENABLE REL. TERM. FOR POLLING
+.DUSR   ?.SDRT  =152            ;DISABLE REL. TERM. FOR POLLING
+.DUSR   ?.SGES  =153            ;GET SYNC LINE ERROR STATISTICS
+.DUSR   ?.SINFO =157            ;GET SYSTEM INFORMATION
+.DUSR   ?.SINF  =157            ;GET SYSTEM INFORMATION
+.DUSR   ?.SCLOSE=161            ;CLOSE A SHARED FILE
+.DUSR   ?.SCLO  =161            ;CLOSE A SHARED FILE
+.DUSR   ?.MAPR  =162            ;MAP REGION
+.DUSR   ?.CGNAM =163            ;GET PATHNAME FROM CHANNEL #
+.DUSR   ?.CGNA  =163            ;GET PATHNAME FROM CHANNEL #
+.DUSR   ?.SSID  =164            ;SET SYSTEM IDENTIFIER
+.DUSR   ?.GSID  =165            ;GET SYSTEM IDENTIFIER
+.DUSR   ?.DACL  =166            ;USER DEFAULT ACL
+.DUSR   ?.CON   =167            ;CONNECT TO A SERVER
+.DUSR   ?.DCON  =170            ;DISCONNECT FROM A SERVER
+.DUSR   ?.SERVE =171            ;BECOME A SERVER
+.DUSR   ?.SERV  =171            ;BECOME A SERVER
+.DUSR   ?.RESIGN=172            ;RESIGN AS A SERVER
+.DUSR   ?.RESI  =172            ;RESIGN AS A SERVER
+.DUSR   ?.MBTC  =173            ;MOVE BYTES TO CUSTOMER
+.DUSR   ?.MBFC  =174            ;MOVE BYTES FROM CUSTOMER
+.DUSR   ?.PCNX  =175            ;PASS A SERVER CONNECTION
+.DUSR   ?.DRCO  =176            ;BREAK A RING CONNECTION
+.DUSR   ?.DRCON =176            ;BREAK A RING CONNECTION
+.DUSR   ?.VRCUST=177            ;VERIFY A RING CONNECTION
+.DUSR   ?.VRCU  =177            ;VERIFY A RING CONNECTION
+.DUSR   ?.PRCNX =200            ;PASS A RING CONNECTION(KERNEL ?PCNX)
+.DUSR   ?.PRCN  =200            ;PASS A RING CONNECTION(KERNEL ?PCNX)
+.DUSR   ?.AWIRE =201            ;WIRE AGENT FOR RESIDENT PROCESSES
+.DUSR   ?.AWIR  =201            ;WIRE AGENT FOR RESIDENT PROCESSES
+.DUSR   ?.RNAME =202            ;HOST FROM PATHNAME
+.DUSR   ?.RNAM  =202            ;HOST FROM PATHNAME
+.DUSR   ?.RSEND =203            ;SERVER ?ISEND
+.DUSR   ?.RSEN  =203            ;SERVER ?ISEND
+.DUSR   ?.ITIME =204            ;RETURN TIME IN INTERNAL FORMAT
+.DUSR   ?.ITIM  =204            ;RETURN TIME IN INTERNAL FORMAT
+.DUSR   ?.GFNAME=205            ;SERVER PATHNAME RESOLUTION
+.DUSR   ?.GFNA  =205            ;SERVER PATHNAME RESOLUTION
+.DUSR   ?.HNAME =206            ;<LOCAL, REMOTE><HOST NAME, HOST ID>
+.DUSR   ?.HNAM  =206            ;<LOCAL, REMOTE><HOST NAME, HOST ID>
+.DUSR   ?.RPORT =207            ;GLOBAL PORT FROM LOCAL PORT AND PID
+.DUSR   ?.RPOR  =207            ;GLOBAL PORT FROM LOCAL PORT AND PID
+.DUSR   ?.KIOFF =212            ;DISABLE KEYBOARD INTERRUPTS
+.DUSR   ?.KIOF  =212            ;DISABLE KEYBOARD INTERRUPTS
+.DUSR   ?.KION  =213            ;ENABLE KEYBOARD INTERRUPTS
+.DUSR   ?.KWAIT =214            ;WAIT FOR KEYBOARD INTERRUPT
+.DUSR   ?.KWAI  =214            ;WAIT FOR KEYBOARD INTERRUPT
+.DUSR   ?.KINTR =215            ;SERVER KEYBOARD INTERRUPT FUNCTION
+.DUSR   ?.KINT  =215            ;SERVER KEYBOARD INTERRUPT FUNCTION
+.DUSR   ?.VCUST =216            ;VERIFY CUSTOMER STATUS
+.DUSR   ?.VCUS  =216            ;VERIFY CUSTOMER STATUS
+.DUSR   ?.CTERM =217            ;TERMINATE A CUSTOMER
+.DUSR   ?.CTER  =217            ;TERMINATE A CUSTOMER
+.DUSR   ?.BNAME =225            ;DETERMINE IF LOCAL OR REMOTE HOST
+.DUSR   ?.BNAM  =225            ;DETERMINE IF LOCAL OR REMOTE HOST
+.DUSR   ?.PRDB  =226            ;PERFORM A PHYSICAL BLOCK READ
+.DUSR   ?.PWRB  =227            ;PERFORM A PHYSICAL BLOCK WRITE
+.DUSR   ?.UPDATE=232            ;FLUSH FILE DESCRIPTOR INFORMATION
+.DUSR   ?.UPDA  =232            ;FLUSH FILE DESCRIPTOR INFORMATION
+.DUSR   ?.ROPEN =233            ;RESERVED OPEN (AGENT ONLY)
+.DUSR   ?.ROPE  =233            ;RESERVED OPEN (AGENT ONLY)
+.DUSR   ?.RCLOSE=234            ;RESERVED CLOSE (AGENT ONLY)
+.DUSR   ?.RCLO  =234            ;RESERVED CLOSE (AGENT ONLY)
+.DUSR   ?.SWST  =235            ;RESERVED
+.DUSR   ?.KWST  =236            ;RESERVED
+.DUSR   ?.ALLOCATE=237          ;ALLOCATE DISK FILE ELEMENTS
+.DUSR   ?.ALLO  =237            ;ALLOCATE DISK FILE ELEMENTS
+.DUSR   ?.SOPPF =240            ;OPEN A SHARED PROTECTED FILE
+.DUSR   ?.SOPP  =240            ;OPEN A SHARED PROTECTED FILE
+.DUSR   ?.PMTPF =241            ;PERMIT ACCESS TO A PROTECTED FILE
+.DUSR   ?.PMTP  =241            ;PERMIT ACCESS TO A PROTECTED FILE
+.DUSR   ?.ISPLIT=243            ;RETURN PID, LOCAL PORT, RING
+.DUSR   ?.ISPL  =243            ;RETURN PID, LOCAL PORT, RING
+.DUSR   ?.IMERGE=244            ;RETURN GLOBAL PORT WITH RING
+.DUSR   ?.IMER  =244            ;RETURN GLOBAL PORT WITH RING
+.DUSR   ?.SIGNL =245            ;SIGNAL A TASK OR PROCESS
+.DUSR   ?.SIGN  =245            ;SIGNAL A TASK OR PROCESS
+.DUSR   ?.WTSIG =246            ;WAIT FOR A ?SGNL
+.DUSR   ?.WTSI  =246            ;WAIT FOR A ?SGNL
+.DUSR   ?.SIGWT =247            ;SGNL A TASK, THEN WAIT FOR A ?SGNL
+.DUSR   ?.SIGW  =247            ;SGNL A TASK, THEN WAIT FOR A ?SGNL
+.DUSR   ?.RNGST =250            ;RESTRICT RING LOADING
+.DUSR   ?.RNGS  =250            ;RESTRICT RING LOADING
+.DUSR   ?.RNGPR =251            ;GET PATHNAME FROM LOGICAL ADDRESS
+.DUSR   ?.RNGP  =251            ;GET PATHNAME FROM LOGICAL ADDRESS
+.DUSR   ?.VALA  =252            ;INNER RING SERVER VALIDATE
+.DUSR   ?.FLTSC =253            ;PAGE FAULT PSEUDO SYSTEM CALL
+.DUSR   ?.FLTS  =253            ;PAGE FAULT PSEUDO SYSTEM CALL
+.DUSR   ?.GMEM  =254            ;GET AVAILABLE PAGES
+.DUSR   ?.LMAP  =255            ;MAP A SYSTEM PAGE
+.DUSR   ?.EXPO  =256            ;SET/CLEAR/CHECK EXECUTE PROTECTION
+.DUSR   ?.POKE  =257            ;USER DEB CHANGE C(LOCATION)
+.DUSR   ?.PEEK  =260            ;USER DEB EXAMINE C(LOCATION)
+.DUSR   ?.WIRE  =261            ;PROCESS WIRE CALL
+.DUSR   ?.UNWIRE=262            ;PROCESS UNWIRE PAGE
+.DUSR   ?.UWIR  =262            ;PROCESS UNWIRE PAGE
+.DUSR   ?.WDELAY=263            ;WIDE DELAY
+.DUSR   ?.WDEL  =263            ;WIDE DELAY
+.DUSR   ?.RINGLD=264            ;RING LOAD
+.DUSR   ?.RGLD  =264            ;RING LOAD
+.DUSR   ?.LEFE  =265            ;ENABLE LEF MODE
+.DUSR   ?.LEFD  =266            ;DISABLE LEF MODE
+.DUSR   ?.LEFS  =267            ;SAMPLE LEF MODE
+.DUSR   ?.KCL   =270            ;KCALL
+.DUSR   ?.KCM   =271            ;KCALM
+.DUSR   ?.RCL   =272            ;RCALL
+.DUSR   ?.RCM   =273            ;RCALM
+.DUSR   ?.RCHA  =274            ;RCHAIN
+.DUSR   ?.GTRUNC=275            ;TRUNCATE A DISK FILE
+.DUSR   ?.GTRU  =275            ;TRUNCATE A DISK FILE
+.DUSR   ?.ESFF  =276            ; FLUSH SHARED FILE
+.DUSR   ?.DVSTT =277            ;GET DEVICE STATISTICS
+.DUSR   ?.DVST  =277            ;GET DEVICE STATISTICS
+.DUSR   ?.OPEN  =300            ;AGENT OPEN
+.DUSR   ?.CLOSE =301            ;AGENT CLOSE
+.DUSR   ?.CLOS  =301            ;AGENT CLOSE
+.DUSR   ?.READ  =302            ;AGENT READ
+.DUSR   ?.WRITE =303            ;AGENT WRITE
+.DUSR   ?.WRIT  =303            ;AGENT WRITE
+.DUSR   ?.TERM  =304            ;AGENT TERM
+.DUSR   ?.CHAIN =305            ;AGENT CHAIN
+.DUSR   ?.CHAI  =305            ;AGENT CHAIN
+.DUSR   ?.GPOS  =306            ;AGENT GET POSITION
+.DUSR   ?.GTMES =307            ;AGENT GET MESSAGE
+.DUSR   ?.GTME  =307            ;AGENT GET MESSAGE
+.DUSR   ?.RETURN=310            ;AGENT RETURN
+.DUSR   ?.RETU  =310            ;AGENT RETURN
+.DUSR   ?.ERMSG =311            ;AGENT ERMESSAGE
+.DUSR   ?.ERMS  =311            ;AGENT ERMESSAGE
+.DUSR   ?.GCHR  =312            ;AGENT GET CHARACTERISTICS
+.DUSR   ?.SCHR  =313            ;AGENT SET CHARACTERISTICS
+.DUSR   ?.ASSIGN=314            ;AGENT ASSIGN
+.DUSR   ?.ASSI  =314            ;AGENT ASSIGN
+.DUSR   ?.DEASSIGN=315          ;AGENT DEASSIGN
+.DUSR   ?.DEAS  =315            ;AGENT DEASSIGN
+.DUSR   ?.SEND  =316            ;AGENT SEND
+.DUSR   ?.ENQUE =317            ;AGENT ENQUE
+.DUSR   ?.ENQU  =317            ;AGENT ENQUE
+.DUSR   ?.LABEL =320            ;AGENT LABEL
+.DUSR   ?.LABL  =320            ;AGENT LABEL
+.DUSR   ?.GABORT=321            ;AGENT ABORT REQUEST
+.DUSR   ?.GABO  =321            ;AGENT ABORT REQUEST
+.DUSR   ?.SPOS  =322            ;AGENT SET POSITION
+.DUSR   ?.OVOPN =323            ;AGENT OVERLAY OPEN
+.DUSR   ?.OVOP  =323            ;AGENT OVERLAY OPEN
+.DUSR   ?.CKVOL =324            ;AGENT VOLID CHECKING
+.DUSR   ?.CKVO  =324            ;AGENT VOLID CHECKING
+.DUSR   ?.OPER  =325            ;AGENT OPERATOR CALL
+.DUSR   ?.PROC  =326            ;AGENT PROC CALL
+.DUSR   ?.LOPE  =327            ;LABELLED TAPE OPEN
+                                ; (16 BIT CALL ONLY)
+.DUSR   ?.EXEC  =330            ;AGENT EXEC CALL
+.DUSR   ?.CTOD  =331            ;AGENT CTOD CALL
+.DUSR   ?.CDAY  =332            ;AGENT CDAY CALL
+.DUSR   ?.UIDSTAT=333           ;AGENT TCB STATISTICS W/ UNIQUE ID
+.DUSR   ?.UIDS  =333            ;AGENT TCB STATISTICS W/ UNIQUE ID
+.DUSR   ?.FDAY  =334            ;AGENT CONVERT TO SYSTEM DATE
+.DUSR   ?.FTOD  =335            ;AGENT CONVERT TO SYSTEM TIME
+.DUSR   ?.RECREATE=336          ;AGENT RECREATE CALL
+.DUSR   ?.RECR  =336            ;AGENT RECREATE CALL
+.DUSR   ?.ERPR  =337            ;AGENT ESTABLISH EDITREAD PROGRAM
+.DUSR   ?.FEOV  =340            ;FORCED END OF VOLUME (LABELLED TAPE)
+.DUSR   ?.LTFUNC =341           ;LABELED TAPE FUNCTIONS
+.DUSR   ?.LTFU  =341            ;LABELED TAPE FUNCTIONS
+.DUSR   ?.DEBUG =342            ;ENTER DEBUGGER
+.DUSR   ?.DEBU  =342            ;ENTER DEBUGGER
+.DUSR   ?.UIDOST=343            ;RETURN STATUS FROM PREVIOUS LEVEL
+.DUSR   ?.UIDO  =343            ;RETURN STATUS FROM PREVIOUS LEVEL
+.DUSR   ?.NOBRK =344            ;CLEAR BREAK POINTS
+.DUSR   ?.NOBR  =344            ;CLEAR BREAK POINTS
+.DUSR   ?.SYSD  =345            ;ENTER AOS DUMP ANALYZER
+.DUSR   ?.FEDIT =346            ;ENTER FILE EDITOR
+.DUSR   ?.FEDI  =346            ;ENTER FILE EDITOR
+.DUSR   ?.SPGI  =347            ;SPAGE INTERCEPTOR
+.DUSR   ?.RPGI  =350            ;RPAGE INTERCEPTOR
+.DUSR   ?.GTNA  =351            ;GET NAME
+.DUSR   ?.GTSV  =352            ;GET SYMBOL NAME
+.DUSR   ?.FEDFUNC=353           ;USER INTERFACE TO FED FUNCTIONS
+.DUSR   ?.FEDF  =353            ;USER INTERFACE TO FED FUNCTIONS
+.DUSR   ?.WHIST =354            ;WIDE HISTOGRAM
+.DUSR   ?.WHIS  =354            ;WIDE HISTOGRAM
+.DUSR   ?.TMSG  =355            ;TERM MESSAGE FORMAT
+.DUSR   ?.SONS  =356            ;GET SONS OF A PROCESS
+.DUSR   ?.PIDS  =357            ;GET INFO ON PIDS FOR A HOST
+.DUSR   ?.GPID  =360            ;FOR A HOST, RETURN NEXT PID IN USE
+.DUSR   ?.PROF  =361            ;ACCESS PROFILE INFORMATION
+.DUSR   ?.PROFILE = 361         ;ACCESS PROFILE INFORMATION
+.DUSR   ?.CRYPT =362            ;DATA ENCRYPTION/DECRYPTION
+.DUSR   ?.CRYP  =362            ;DATA ENCRYPTION/DECRYPTION
+.DUSR   ?.PWDCRYP = 363         ;PASSWORD ENCRYPTION
+.DUSR   ?.PWDC  =363            ;PASSWORD ENCRYPTION
+;.DUSR  ?.FVPID =364            ;Reserved
+;.DUSR  ?.MUPID =365            ;Reserved
+;.DUSR  ?.GNHOST =366           ;Reserved
+.DUSR   ?.STOM  =400            ;SET TIME
+.DUSR   ?.SDLM  =401            ;SET DELIMITER TABLE
+.DUSR   ?.MTUS  =402            ;MOVE BYTES TO 16 BIT USER
+                                ; FROM 32 BIT USER
+.DUSR   ?.MFUS  =403            ;MOVE BYTES FROM 16 BIT USER
+                                ; TO 32 BIT USER
+.DUSR   ?.MTCS  =404            ;MOVE BYTES TO 32 BIT CUSTOMER
+                                ; FROM 16 BIT SERVER
+.DUSR   ?.MFCS  =405            ;MOVE BYTES FROM 32 BIT CUSTOMER
+                                ; TO 16 BIT SERVER
+.DUSR   ?.RESC  =406            ;RESCHEDULE THIS PROCESS
+.DUSR   ?.GRNA  =407            ;GET RESOLVED FULL PATHNAME
+.DUSR   ?.SERM  =410            ;?ERMSG FOR 16 BIT CALLS ONLY
+.DUSR   ?.TRUN  =411            ;TRUNCATE
+.DUSR   ?.LOGC  =412            ;LOG SYSTEM CALLS
+.DUSR   ?.GDLM  =413            ;GET DELIMITER TABLE
+.DUSR   ?.MDUM  =414            ;MEMORY DUMP
+.DUSR   ?.GECH  =415            ;EXTENDED GET CHARACTERISTICS
+.DUSR   ?.SECH  =416            ;EXTENDED SET CHARACTERISTICS
+.DUSR   ?.NRINT =417            ;
+.DUSR   ?.NRIN  =417            ;
+.DUSR   ?.NSINT =420            ;
+.DUSR   ?.NSIN  =420            ;
+.DUSR   ?.GVPID =421            ;GET VIRTUAL PID
+.DUSR   ?.GVPI  =421            ;GET VIRTUAL PID
+.DUSR   ?.TPID  =422            ;TRANSLATE VIRTUAL PID
+.DUSR   ?.VALIDA =423           ;AGENT VALIDATION ROUTINE INTERFACE
+.DUSR   ?.VALI  =423            ;AGENT VALIDATION ROUTINE INTERFACE
+.DUSR   ?.MAPBM =424            ;MAP BITMAP AREA
+.DUSR   ?.MAPB  =424            ;MAP BITMAP AREA
+.DUSR   ?.CLRDV =425            ;CLEAR DEVICE
+.DUSR   ?.CLRD  =425            ;CLEAR DEVICE
+.DUSR   ?.WINDOW=426            ;WINDOW
+.DUSR   ?.WIND  =426            ;WINDOW
+.DUSR   ?.FLOCK =427            ;File element locking
+.DUSR   ?.FLOC  =427            ;File element locking
+.DUSR   ?.FUNLOCK =430          ;File element unlocking
+.DUSR   ?.FUNL  =430            ;File element unlocking
+.DUSR   ?.WINMGR =431           ;Window manager
+.DUSR   ?.WINM   =431           ;Window manager
+.DUSR   ?.PTRDEVICE =432        ;'Pointing' device commands
+.DUSR   ?.PTRDEV    =432        ;'Pointing' device commands
+.DUSR   ?.PTRD      =432        ;'Pointing' device commands
+.DUSR   ?.PMGR      =433        ;Issue PMGR requests (reserved)
+.DUSR   ?.GRAPHICS  =434        ;Issue graphics operations on a window
+.DUSR   ?.GRAP      =434        ;Issue graphics operations on a window
+
+;       440-454         Reserved
+
+.DUSR   ?.FIDEF =455            ;Fast IDEF (AOS/RT32 ONLY)
+.DUSR   ?.FIDE  =455            ;Fast IDEF (AOS/RT32 ONLY)
+.DUSR   ?.FIXMT =456            ;Fast device IXMT (AOS/RT32 ONLY)
+.DUSR   ?.FIXM  =456            ;Fast device IXMT (AOS/RT32 ONLY)
+
+;       457-470         Reserved
+
+.DUSR   ?.OPEX  = 471           ; CX (control @EXEC) requests
+.DUSR   ?.TLOCK =476            ;PROTECT THIS TASK FROM REDIRECTION
+.DUSR   ?.TLOC  =476            ;PROTECT THIS TASK FROM REDIRECTION
+.DUSR   ?.TUNLOCK =477          ;RELEASE REDIRECTION PROTECTION
+.DUSR   ?.TUNL  =477            ;RELEASE REDIRECTION PROTECTION
+.DUSR   ?.TASK  =500            ;DEFINE A TASK
+.DUSR   ?.IQTSK =501            ;DEFINE A QTASK MANAGER
+.DUSR   ?.IQTS  =501            ;DEFINE A QTASK MANAGER
+.DUSR   ?.SUS   =502            ;SUSPEND CALLER
+.DUSR   ?.PRI   =503            ;CHANGE CALLER'S PRIORITY
+.DUSR   ?.KILL  =504            ;KILL CALLER
+.DUSR   ?.KILAD =505            ;DEFINE KILL PROC ADDRESS
+.DUSR   ?.KILA  =505            ;DEFINE KILL PROC ADDRESS
+.DUSR   ?.PRRDY =506            ;READY BY PRIORITY
+.DUSR   ?.PRRD  =506            ;READY BY PRIORITY
+.DUSR   ?.PRSUS =507            ;SUSPEND BY PRIORITY
+.DUSR   ?.PRSU  =507            ;SUSPEND BY PRIORITY
+.DUSR   ?.PRKIL =510            ;KILL BY PRIORITY
+.DUSR   ?.PRKI  =510            ;KILL BY PRIORITY
+.DUSR   ?.IDSTAT=511            ;STATUS BY ID (16 BIT CALL)
+.DUSR   ?.IDST  =511            ;STATUS BY ID (16 BIT CALL)
+.DUSR   ?.IDRDY =512            ;READY BY ID
+.DUSR   ?.IDRD  =512            ;READY BY ID
+.DUSR   ?.IDSUS =513            ;SUSPEND BY ID
+.DUSR   ?.IDSU  =513            ;SUSPEND BY ID
+.DUSR   ?.IDKIL =514            ;KILL BY ID
+.DUSR   ?.IDKI  =514            ;KILL BY ID
+.DUSR   ?.IDPRI =515            ;CHANGE PRIORITY BY ID
+.DUSR   ?.IDPR  =515            ;CHANGE PRIORITY BY ID
+.DUSR   ?.IDGOTO=516            ;FORCE A TASK TO NEW PC BY ID
+.DUSR   ?.IDGO  =516            ;FORCE A TASK TO NEW PC BY ID
+.DUSR   ?.UIDCALL=517           ;SOFTWARE INTERRUPT
+.DUSR   ?.UIDC= 517             ;SOFTWARE INTERRUPT
+.DUSR   ?.TIDSTAT=520           ;STATUS BY ID (32 BIT CALL)
+.DUSR   ?.TIDS  =520            ;STATUS BY ID (32 BIT CALL)
+.DUSR   ?.MYTID =521            ;GET ID AND PRIORITY
+.DUSR   ?.MYTI  =521            ;GET ID AND PRIORITY
+.DUSR   ?.RECNW =522            ;RECEIVE WITH NO WAIT
+.DUSR   ?.RECN  =522            ;RECEIVE WITH NO WAIT
+.DUSR   ?.XMT   =523            ;XMIT A TASK MESSAGE
+.DUSR   ?.XMTW  =524            ;XMIT A TASK AND WAIT FOR RECEIPT
+.DUSR   ?.REC   =525            ;RECEIVE A TASK MESSAGE
+.DUSR   ?.ERSCH =526            ;ENABLE TASK RESCHEDULING
+.DUSR   ?.ERSC  =526            ;ENABLE TASK RESCHEDULING
+.DUSR   ?.DRSCH =527            ;DISABLE TASK RESCHEDULING
+.DUSR   ?.DRSC  =527            ;DISABLE TASK RESCHEDULING
+.DUSR   ?.TRCON =530            ;READ FROM CONTROLLING CONSOLE
+.DUSR   ?.TRCO  =530            ;READ FROM CONTROLLING CONSOLE
+.DUSR   ?.UIDRTN=531            ;RETURN FROM SOFTWARE INTERRUPT
+.DUSR   ?.UIDR=531              ;RETURN FROM SOFTWARE INTERRUPT
+.DUSR   ?.DQTSK =532            ;DEQUE A QUEUED TASK
+.DUSR   ?.DQTS  =532            ;DEQUE A QUEUED TASK
+.DUSR   ?.OVLO  =533            ;LOAD AN OVERLAY (16 BIT CALL ONLY)
+.DUSR   ?.OVEX  =534            ;EXIT FROM AND RELEASE OVERLAY
+                                ; (16 BIT CALL ONLY)
+.DUSR   ?.OVRE  =535            ;RELEASE OVERLAY (16 BIT CALL ONLY)
+.DUSR   ?.OVKI  =536            ;RELEASE OVERLAY AND ?KILL CALLER
+                                ; (16 BIT CALL ONLY)
+.DUSR   ?.IMSG  =540            ;RECEIVE MESSAGE FROM INTERRUPT ROUTINE
+.DUSR   ?.IFPU  =542            ;INITIALIZE FLOATING POINT UNIT
+.DUSR   ?.GCRB  =543            ;GET CURRENT RESOURCE BASE (16 BIT CALL)
+.DUSR   ?.TCB1  =544            ;TCB16INFO
+.DUSR   ?.TCBINFO =546          ;RETURN INFORMATION IN TCB TO CALLER
+.DUSR   ?.TCBI    =546          ;RETURN INFORMATION IN TCB TO CALLER
+.DUSR   ?.IESS  =547            ;INITIALIZE EXTENDED STATE SAVE
+                                ; AREA (16 BIT CALL)
+.DUSR   ?.DFRSCH=550            ;DISABLE TASK RESCHEDULING AND RETURN
+                                ;  PREVIOUS RESCHEDULING STATUS
+.DUSR   ?.DFRS  =550            ;DISABLE TASK RESCHEDULING AND RETURN
+                                ;  PREVIOUS RESCHEDULING STATUS
+;               =551            ;- RESERVED
+;               =552            ;- RESERVED
+.DUSR   ?.JPINIT=553            ;INITIALIZE A JP
+.DUSR   ?.JPIN  =553            ;INITIALIZE A JP
+.DUSR   ?.JPREL =554            ;RELEASE A JP
+.DUSR   ?.JPRE  =554            ;RELEASE A JP
+.DUSR   ?.JPMOV =555            ;MOVE A JP TO A NEW LP
+.DUSR   ?.JPMO  =555            ;MOVE A JP TO A NEW LP
+.DUSR   ?.JPSTAT=556            ;JP STATUS CALL
+.DUSR   ?.JPST  =556            ;JP STATUS CALL
+.DUSR   ?.LPCREA =557           ;CREATE AN LP
+.DUSR   ?.LPCR  =557            ;CREATE AN LP
+.DUSR   ?.LPDELE =560           ;DELETE AN LP
+.DUSR   ?.LPDE  =560            ;DELETE AN LP
+.DUSR   ?.LPSTAT=561            ;LP STATUS CALL
+.DUSR   ?.LPST  =561            ;LP STATUS CALL
+.DUSR   ?.LPCLASS=562           ;GET/SET LP CLASS ASSIGNMENTS
+.DUSR   ?.LPCL   =562           ;GET/SET LP CLASS ASSIGNMENTS
+.DUSR   ?.CLASS  =563           ;GET/SET CLASS IDS AND NAMES
+.DUSR   ?.CLAS   =563           ;GET/SET CLASS IDS AND NAMES
+.DUSR   ?.CMATRIX=564           ;GET/SET CLASS MATRIX
+.DUSR   ?.CMAT   =564           ;GET/SET CLASS MATRIX
+.DUSR   ?.PCLASS =565           ;GET A PROCESS'S CLASS & LOCALITY
+.DUSR   ?.PCLA   =565           ;GET A PROCESS'S CLASS & LOCALITY
+.DUSR   ?.CLSTAT =566           ;RETURN CLASS STATISTICS
+.DUSR   ?.CLST   =566           ;RETURN CLASS STATISTICS
+.DUSR   ?.LOCALITY=567          ;CHANGE USER LOCALITY
+.DUSR   ?.LOCA    =567          ;CHANGE USER LOCALITY
+.DUSR   ?.CLSCHED=570           ;ENABLE/DISABLE CLASS SCHEDULING
+.DUSR   ?.CLSC   =570           ;ENABLE/DISABLE CLASS SCHEDULING
+.DUSR   ?.XINIT  =571           ;INITIALIZE AN LDU
+.DUSR   ?.XINI   =571           ;INITIALIZE AN LDU
+.DUSR   ?.MIRROR =572           ;MIRROR AN LDU
+.DUSR   ?.MIRR   =572           ;MIRROR AN LDU
+.DUSR   ?.SYSPRV =573           ;TURN A PRIVILEGE ON/OFF
+.DUSR   ?.SYSP   =573           ;TURN A PRIVILEGE ON/OFF
+.DUSR   ?.MAPDV  =574           ;MAP A DEVICE IN LOGICAL MEMORY
+.DUSR   ?.MAPD   =574           ;MAP A DEVICE INTO LOGICAL MEMORY
+.DUSR   ?.MPHIST =575           ;MP HISTOGRAM
+.DUSR   ?.MPHI   =575           ;MP HISTOGRAM
+.DUSR   ?.XPSTAT =576           ;EXTENDED PROCESS STATUS
+.DUSR   ?.XPST   =576           ;DITTO
+.DUSR   ?.ASSOC  =577           ;ASSOCIATE
+.DUSR   ?.ASSO   =577           ;DITTO
+.DUSR   ?.DISSOC =600           ;DISSOCIATE
+.DUSR   ?.DISS   =600           ;DISSOCIATE
+.DUSR   ?.GUHPI  =601           ;GET UNIQUE HDW PROCESSOR ID
+.DUSR   ?.GUHP   =601           ;GET UNIQUE HDW PROCESSOR ID
+.DUSR   ?.LNID   =602           ;RESERVED FOR NDG
+.DUSR   ?.RTODC  =603           ;GET RTOD CONVERSIONS
+.DUSR   ?.RTOD   =603           ;GET RTOD CONVERSIONS
+.DUSR   ?.NTIME  =604           ;SET NEW TIME AND DATE
+.DUSR   ?.NTIM   =604           ;SET NEW TIME AND DATE
+.DUSR   ?.GTIME  =605           ;GET TIME AND DATE
+.DUSR   ?.GTIM   =605           ;GET TIME AND DATE
+.DUSR   ?.QNET   =606           ;NETWORK REQUEST
+;.DUSR  ?.XCREATE=607           ;CREATE FILE            (VS II only)
+;.DUSR  ?.XCRE   =607           ;CREATE FILE            (VS II only)
+;.DUSR  ?.XFSTAT =610           ;GET FILE STATUS        (VS II only)
+;.DUSR  ?.XFST   =610           ;GET FILE STATUS        (VS II only)
+;.DUSR  ?.MRCDEF =611           ;DEFINE MRC SERVICE     (VS II only)
+;.DUSR  ?.MRCD   =611           ;DEFINE MRC SERVICE     (VS II only)
+;.DUSR  ?.QMRC   =612           ;MOVE MRC DATA          (VS II only)
+;.DUSR  ?.DIAG   =613           ;DIAGNOSTIC REQUEST     (VS II only)
+.DUSR   ?.WSCNTL =614           ;WORKING SET CONTROL
+.DUSR   ?.WSCN   =614           ;WORKING SET CONTROL
+
+;As of revision 6.00 of AOS/VS the system call numbers that are used
+;when entering the Agent will be different than those system call
+;numbers used when calling the Kernel.
+ 
+;When defining a new system call which relies on the kernel for
+;processing, an additional symbol must be defined to represent the
+;system call number as the kernel sees it. The kernel calls begin at
+;4000(8) and continue sequentially. This means that there is no longer
+;a one-to-one correspondence between kernel and agent system call
+;numbers. The kernel system call symbols differ from agent system call
+;symbols in the fact that the "." is replaced by a "0". Please see the
+;definition of the ?SONS system call for an example.
+
+;The new numbering scheme for kernel calls start at 4300. The existing
+;system calls from 0-277 have been redefined using the new scheme for
+;consistency with new symbols. These symbols should only be used when
+;making LCALLs to the kernel. (For Agent and PMGR that is usually
+;through the SYCA and SYCA1 mechanisms.)
+
+.DUSR   ?0CREATE=4000           ;CREATE FILE
+.DUSR   ?0CREA  =4000           ;CREATE FILE
+.DUSR   ?0DELETE=4001           ;DELETE FILE
+.DUSR   ?0DELE  =4001           ;DELETE FILE
+.DUSR   ?0RENAME=4002           ;RENAME A FILE
+.DUSR   ?0RENA  =4002           ;RENAME A FILE
+.DUSR   ?0MEM   =4003           ;RETURN MEMORY LIMITS
+.DUSR   ?0GCHN  =4004           ;CHANGE THE CURRENT PROGRAM
+.DUSR   ?0PSTAT =4005           ;PROCESS STATUS
+.DUSR   ?0PSTA  =4005           ;PROCESS STATUS
+.DUSR   ?0DPMGR =4006           ;DEFINE PERIPHERAL MANAGER
+.DUSR   ?0DPMG  =4006           ;DEFINE PERIPHERAL MANAGER
+.DUSR   ?0RDB   =4007           ;READ A PHYSICAL BLOCK
+.DUSR   ?0WRB   =4011           ;WRITE A PHYSICAL BLOCK
+.DUSR   ?0GPROC =4013           ;CREATE A PROCESS
+.DUSR   ?0GPRO  =4013           ;CREATE A PROCESS
+.DUSR   ?0MEMI  =4014           ;ALLOCATE MEMORY
+.DUSR   ?0DELA  =4015           ;SUSPEND FOR A TIME PERIOD
+                                ; (16 BIT CALL ONLY)
+.DUSR   ?0INTWT =4016           ;WAIT FOR A CONSOLE INTERRUPT
+.DUSR   ?0INTW  =4016           ;WAIT FOR A CONSOLE INTERRUPT
+.DUSR   ?0MBTU  =4021           ;MOVE BYTES TO PROCESS
+.DUSR   ?0MBFU  =4023           ;MOVE BYTES FROM PROCESS
+.DUSR   ?0ISEND =4025           ;SEND AN IPC MESSAGE
+.DUSR   ?0ISEN  =4025           ;SEND AN IPC MESSAGE
+.DUSR   ?0IREC  =4026           ;RECEIVE AN IPC MESSAGE
+.DUSR   ?0ILKUP =4027           ;LOOK UP AN IPC NAME
+.DUSR   ?0ILKU  =4027           ;LOOK UP AN IPC NAME
+.DUSR   ?0RUNTM =4030           ;GET RUNTIME STATISTICS
+.DUSR   ?0RUNT  =4030           ;GET RUNTIME STATISTICS
+.DUSR   ?0TABT  =4031           ;ABORT A TASK CALL
+.DUSR   ?0CTYPE =4033           ;CHANGE PROCESS TYPE
+.DUSR   ?0CTYP  =4033           ;CHANGE PROCESS TYPE
+.DUSR   ?0BLKIO =4034           ;BLOCK I/O
+.DUSR   ?0BLKI  =4034           ;BLOCK I/O
+.DUSR   ?0GTOD  =4036           ;GET TIME OF DAY
+.DUSR   ?0STOD  =4037           ;SET TIME OF DAY
+.DUSR   ?0SDAY  =4040           ;SET DATE
+.DUSR   ?0GDAY  =4041           ;GET DATE
+.DUSR   ?0IDEF  =4042           ;DEFINE A USER DEVICE
+.DUSR   ?0IRMV  =4043           ;REMOVE A USER DEFINED DEVICE
+.DUSR   ?0SSHPT =4044           ;SET SHARED PARTITION
+.DUSR   ?0SSHP  =4044           ;SET SHARED PARTITION
+.DUSR   ?0RPAGE =4045           ;RELEASE A SHARED PAGE
+.DUSR   ?0RPAG  =4045           ;RELEASE A SHARED PAGE
+.DUSR   ?0ODIS  =4046           ;DISABLE CONSOLE INTERRUPTS
+.DUSR   ?0OEBL  =4047           ;ENABLE CONSOLE INTERRUPTS
+.DUSR   ?0DEBL  =4050           ;ENABLE DEVICE ACCESS
+.DUSR   ?0DDIS  =4051           ;DISABLE DEVICE ACCESS
+.DUSR   ?0STMAP =4052           ;SET DCH MAP FOR USER DEVICE
+.DUSR   ?0STMA  =4052           ;SET DCH MAP FOR USER DEVICE
+.DUSR   ?0SUPROC=4053           ;CHANGE SUPERPROCESS STATUS
+.DUSR   ?0SUPR  =4053           ;CHANGE SUPERPROCESS STATUS
+.DUSR   ?0ABTC  =4054           ;ABORT A SYSTEM CALL
+.DUSR   ?0GTERM =4055           ;TERMINATE A PROCESS
+.DUSR   ?0GTER  =4055           ;TERMINATE A PROCESS
+.DUSR   ?0GOPEN =4056           ;OPEN (FOR AGENT USE)
+.DUSR   ?0GOPE  =4056           ;OPEN (FOR AGENT USE)
+.DUSR   ?0GCLOSE=4057           ;CLOSE (FOR AGENT USE)
+.DUSR   ?0GCLO  =4057           ;CLOSE (FOR AGENT USE)
+.DUSR   ?0SPAGE =4060           ;INCLUDE A SHARED PAGE
+.DUSR   ?0SPAG  =4060           ;INCLUDE A SHARED PAGE
+.DUSR   ?0CXINFO=4061           ;AGENT/KERNAL CX BLOCK INTERFACE
+.DUSR   ?0CXIN  =4061           ;AGENT/KERNAL CX BLOCK INTERFACE
+.DUSR   ?0CISND =4062           ;ENABLE CONSOLE INTERRUPT SENDING
+.DUSR   ?0CISN  =4062           ;ENABLE CONSOLE INTERRUPT SENDING
+.DUSR   ?0SOPEN =4063           ;SHARED OPEN OF A FILE
+.DUSR   ?0SOPE  =4063           ;SHARED OPEN OF A FILE
+.DUSR   ?0GPORT =4064           ;GET A PORT'S OWNER
+.DUSR   ?0GPOR  =4064           ;GET A PORT'S OWNER
+.DUSR   ?0TPORT =4065           ;TRANSLATE A PORT NUMBER
+.DUSR   ?0TPOR  =4065           ;TRANSLATE A PORT NUMBER
+.DUSR   ?0BLKPR =4066           ;BLOCK A PROCESS
+.DUSR   ?0BLKP  =4066           ;BLOCK A PROCESS
+.DUSR   ?0UBLPR =4067           ;UNBLOCK A PROCESS
+.DUSR   ?0UBLP  =4067           ;UNBLOCK A PROCESS
+.DUSR   ?0PRIPR =4070           ;CHANGE A PROCESS PRIORITY
+.DUSR   ?0PRIP  =4070           ;CHANGE A PROCESS PRIORITY
+.DUSR   ?0SGNL  =4071           ;SIGNAL THE SYSTEM
+.DUSR   ?0GUNM  =4072           ;GET A PROCESS'S USER NAME
+.DUSR   ?0GSHPT =4073           ;GET SHARED PARTITION VALUES
+.DUSR   ?0GSHP  =4073           ;GET SHARED PARTITION VALUES
+.DUSR   ?0GHRZ  =4074           ;GET CLOCK FREQ
+.DUSR   ?0DIR   =4075           ;CHANGE WORKING DIRECTORY
+.DUSR   ?0INIT  =4076           ;INITIALIZE AN LDU OR MTV
+.DUSR   ?0FSTAT =4077           ;GET FILE STATUS
+.DUSR   ?0FSTA  =4077           ;GET FILE STATUS
+.DUSR   ?0RLSE  =4100           ;RELEASE AN LDU OR MTV
+.DUSR   ?0RELEASE=4100          ;RELEASE AN LDU OR MTV
+.DUSR   ?0RELE  =4100           ;RELEASE AN LDU OR MTV
+.DUSR   ?0SLIST =4101           ;SET SEARCH LIST
+.DUSR   ?0SLIS  =4101           ;SET SEARCH LIST
+.DUSR   ?0GLIST =4102           ;GET SEARCH LIST
+.DUSR   ?0GLIS  =4102           ;GET SEARCH LIST
+.DUSR   ?0SYLOG =4103           ;MANIPULATE SYSTEM LOG
+.DUSR   ?0SYLO  =4103           ;MANIPULATE SYSTEM LOG
+.DUSR   ?0GBIAS =4104           ;GET BIAS FACTOR
+.DUSR   ?0GBIA  =4104           ;GET BIAS FACTOR
+.DUSR   ?0SBIAS =4105           ;SET BIAS FACTOR
+.DUSR   ?0SBIA  =4105           ;SET BIAS FACTOR
+.DUSR   ?0IHIST =4106           ;INIT HISTOGRAM
+.DUSR   ?0IHIS  =4106           ;INIT HISTOGRAM
+.DUSR   ?0KHIST =4107           ;KILL HISTOGRAM
+.DUSR   ?0KHIS  =4107           ;KILL HISTOGRAM
+.DUSR   ?0GNAME =4111           ;GET FULL PATHNAME
+.DUSR   ?0GNAM  =4111           ;GET FULL PATHNAME
+.DUSR   ?0GCPN  =4112           ;GET CONSOLE PORT NUMBER
+.DUSR   ?0SUSER =4113           ;CHANGE SUPERUSER STATUS
+.DUSR   ?0SUSE  =4113           ;CHANGE SUPERUSER STATUS
+.DUSR   ?0SACL  =4114           ;SET A FILE'S ACL
+.DUSR   ?0GACL  =4115           ;GET A FILE'S ACL
+.DUSR   ?0PNAME =4116           ;PROCESS NAME <-> PID
+.DUSR   ?0PNAM  =4116           ;PROCESS NAME <-> PID
+.DUSR   ?0FLUSH =4120           ;FLUSH A SHARED PAGE TO DISK
+.DUSR   ?0FLUS  =4120           ;FLUSH A SHARED PAGE TO DISK
+.DUSR   ?0GTACP =4122           ;GET ACP'S FOR A FILE
+.DUSR   ?0GTAC  =4122           ;GET ACP'S FOR A FILE
+.DUSR   ?0GLINK =4124           ;GET CONTENTS OF A LINK ENTRY
+.DUSR   ?0GLIN  =4124           ;GET CONTENTS OF A LINK ENTRY
+.DUSR   ?0GPRNM =4125           ;GET A PROCESS' PROGRAM NAME
+.DUSR   ?0GPRN  =4125           ;GET A PROCESS' PROGRAM NAME
+.DUSR   ?0LOGEV =4126           ;LOG AN EVENT IN SYSTEM LOG
+.DUSR   ?0LOGE  =4126           ;LOG AN EVENT IN SYSTEM LOG
+.DUSR   ?0DADID =4127           ;GET A PROCESS' FATHER'S PID
+.DUSR   ?0DADI  =4127           ;GET A PROCESS' FATHER'S PID
+.DUSR   ?0CPMAX =4130           ;SET CONTROL POINT DIR MAX SIZE
+.DUSR   ?0CPMA  =4130           ;SET CONTROL POINT DIR MAX SIZE
+.DUSR   ?0GNFN  =4131           ;GET NEXT FILE NAME FROM DIR
+.DUSR   ?0RDUDA =4133           ;READ USER DATA AREA
+.DUSR   ?0RDUD  =4133           ;READ USER DATA AREA
+.DUSR   ?0WRUDA =4134           ;WRITE USER DATA AREA
+.DUSR   ?0WRUD  =4134           ;WRITE USER DATA AREA
+.DUSR   ?0CRUDA =4135           ;CREATE USER DATA AREA
+.DUSR   ?0CRUD  =4135           ;CREATE USER DATA AREA
+.DUSR   ?0ENBRK =4140           ;ENABLE BREAKFILES
+.DUSR   ?0ENBR  =4140           ;ENABLE BREAKFILES
+.DUSR   ?0SATR  =4141           ;SET FILE ATTRIBUTES
+.DUSR   ?0IS.R  =4142           ;IPC SEND/RECEIVE
+.DUSR   ?0BRKFL =4143           ;BREAK FILE
+.DUSR   ?0BRKF  =4143           ;BREAK FILE
+.DUSR   ?0SEBL  =4144           ;ENABLE A SYNCHRONOUS LINE
+.DUSR   ?0SDBL  =4145           ;DISABLE A SYNCHRONOUS LINE
+.DUSR   ?0SSND  =4146           ;START A SEND ON A SYNC LINE
+.DUSR   ?0SRCV  =4147           ;START A RECV ON A SYNC LINE
+.DUSR   ?0SDPOL =4150           ;DEFINE A POLL/SELECT LIST FOR A
+.DUSR   ?0SDPO  =4150           ;DEFINE A POLL/SELECT LIST FOR A
+.DUSR   ?0SERT  =4151           ;ENABLE REL. TERM. FOR POLLING
+.DUSR   ?0SDRT  =4152           ;DISABLE REL. TERM. FOR POLLING
+.DUSR   ?0SGES  =4153           ;GET SYNC LINE ERROR STATISTICS
+.DUSR   ?0SINFO =4157           ;GET SYSTEM INFORMATION
+.DUSR   ?0SINF  =4157           ;GET SYSTEM INFORMATION
+.DUSR   ?0SCLOSE=4161           ;CLOSE A SHARED FILE
+.DUSR   ?0SCLO  =4161           ;CLOSE A SHARED FILE
+.DUSR   ?0MAPR  =4162           ;MAP REGION
+.DUSR   ?0CGNAM =4163           ;GET PATHNAME FROM CHANNEL #
+.DUSR   ?0CGNA  =4163           ;GET PATHNAME FROM CHANNEL #
+.DUSR   ?0SSID  =4164           ;SET SYSTEM IDENTIFIER
+.DUSR   ?0GSID  =4165           ;GET SYSTEM IDENTIFIER
+.DUSR   ?0DACL  =4166           ;USER DEFAULT ACL
+.DUSR   ?0CON   =4167           ;CONNECT TO A SERVER
+.DUSR   ?0DCON  =4170           ;DISCONNECT FROM A SERVER
+.DUSR   ?0SERVE =4171           ;BECOME A SERVER
+.DUSR   ?0SERV  =4171           ;BECOME A SERVER
+.DUSR   ?0RESIGN=4172           ;RESIGN AS A SERVER
+.DUSR   ?0RESI  =4172           ;RESIGN AS A SERVER
+.DUSR   ?0MBTC  =4173           ;MOVE BYTES TO CUSTOMER
+.DUSR   ?0MBFC  =4174           ;MOVE BYTES FROM CUSTOMER
+.DUSR   ?0PCNX  =4175           ;PASS A SERVER CONNECTION
+.DUSR   ?0DRCO  =4176           ;BREAK A RING CONNECTION
+.DUSR   ?0DRCON =4176           ;BREAK A RING CONNECTION
+.DUSR   ?0VRCUST=4177           ;VERIFY A RING CONNECTION
+.DUSR   ?0VRCU  =4177           ;VERIFY A RING CONNECTION
+.DUSR   ?0PRCNX =4200           ;PASS A RING CONNECTION(KERNEL ?PCNX)
+.DUSR   ?0PRCN  =4200           ;PASS A RING CONNECTION(KERNEL ?PCNX)
+.DUSR   ?0AWIRE =4201           ;WIRE AGENT FOR RESIDENT PROCESSES
+.DUSR   ?0AWIR  =4201           ;WIRE AGENT FOR RESIDENT PROCESSES
+.DUSR   ?0RNAME =4202           ;HOST FROM PATHNAME
+.DUSR   ?0RNAM  =4202           ;HOST FROM PATHNAME
+.DUSR   ?0RSEND =4203           ;SERVER ?ISEND
+.DUSR   ?0RSEN  =4203           ;SERVER ?ISEND
+.DUSR   ?0ITIME =4204           ;RETURN TIME IN INTERNAL FORMAT
+.DUSR   ?0ITIM  =4204           ;RETURN TIME IN INTERNAL FORMAT
+.DUSR   ?0GFNAME=4205           ;SERVER PATHNAME RESOLUTION
+.DUSR   ?0GFNA  =4205           ;SERVER PATHNAME RESOLUTION
+.DUSR   ?0HNAME =4206           ;<LOCAL, REMOTE><HOST NAME, HOST ID>
+.DUSR   ?0HNAM  =4206           ;<LOCAL, REMOTE><HOST NAME, HOST ID>
+.DUSR   ?0RPORT =4207           ;GLOBAL PORT FROM LOCAL PORT AND PID
+.DUSR   ?0RPOR  =4207           ;GLOBAL PORT FROM LOCAL PORT AND PID
+.DUSR   ?0KIOFF =4212           ;DISABLE KEYBOARD INTERRUPTS
+.DUSR   ?0KIOF  =4212           ;DISABLE KEYBOARD INTERRUPTS
+.DUSR   ?0KION  =4213           ;ENABLE KEYBOARD INTERRUPTS
+.DUSR   ?0KWAIT =4214           ;WAIT FOR KEYBOARD INTERRUPT
+.DUSR   ?0KWAI  =4214           ;WAIT FOR KEYBOARD INTERRUPT
+.DUSR   ?0KINTR =4215           ;SERVER KEYBOARD INTERRUPT FUNCTION
+.DUSR   ?0KINT  =4215           ;SERVER KEYBOARD INTERRUPT FUNCTION
+.DUSR   ?0VCUST =4216           ;VERIFY CUSTOMER STATUS
+.DUSR   ?0VCUS  =4216           ;VERIFY CUSTOMER STATUS
+.DUSR   ?0CTERM =4217           ;TERMINATE A CUSTOMER
+.DUSR   ?0CTER  =4217           ;TERMINATE A CUSTOMER
+.DUSR   ?0BNAME =4225           ;DETERMINE IF LOCAL OR REMOTE HOST
+.DUSR   ?0BNAM  =4225           ;DETERMINE IF LOCAL OR REMOTE HOST
+.DUSR   ?0PRDB  =4226           ;PERFORM A PHYSICAL BLOCK READ
+.DUSR   ?0PWRB  =4227           ;PERFORM A PHYSICAL BLOCK WRITE
+.DUSR   ?0UPDATE=4232           ;FLUSH FILE DESCRIPTOR INFORMATION
+.DUSR   ?0UPDA  =4232           ;FLUSH FILE DESCRIPTOR INFORMATION
+.DUSR   ?0ROPEN =4233           ;RESERVED OPEN (AGENT ONLY)
+.DUSR   ?0ROPE  =4233           ;RESERVED OPEN (AGENT ONLY)
+.DUSR   ?0RCLOSE=4234           ;RESERVED CLOSE (AGENT ONLY)
+.DUSR   ?0RCLO  =4234           ;RESERVED CLOSE (AGENT ONLY)
+.DUSR   ?0SWST  =4235           ;RESERVED
+.DUSR   ?0KWST  =4236           ;RESERVED
+.DUSR   ?0ALLOCATE=4237         ;ALLOCATE DISK FILE ELEMENTS
+.DUSR   ?0ALLO  =4237           ;ALLOCATE DISK FILE ELEMENTS
+.DUSR   ?0SOPPF =4240           ;OPEN A SHARED PROTECTED FILE
+.DUSR   ?0SOPP  =4240           ;OPEN A SHARED PROTECTED FILE
+.DUSR   ?0PMTPF =4241           ;PERMIT ACCESS TO A PROTECTED FILE
+.DUSR   ?0PMTP  =4241           ;PERMIT ACCESS TO A PROTECTED FILE
+.DUSR   ?0ISPLIT=4243           ;RETURN PID, LOCAL PORT, RING
+.DUSR   ?0ISPL  =4243           ;RETURN PID, LOCAL PORT, RING
+.DUSR   ?0IMERGE=4244           ;RETURN GLOBAL PORT WITH RING
+.DUSR   ?0IMER  =4244           ;RETURN GLOBAL PORT WITH RING
+.DUSR   ?0SIGNL =4245           ;SIGNAL A TASK OR PROCESS
+.DUSR   ?0SIGN  =4245           ;SIGNAL A TASK OR PROCESS
+.DUSR   ?0WTSIG =4246           ;WAIT FOR A ?SGNL
+.DUSR   ?0WTSI  =4246           ;WAIT FOR A ?SGNL
+.DUSR   ?0SIGWT =4247           ;SGNL A TASK, THEN WAIT FOR A ?SGNL
+.DUSR   ?0SIGW  =4247           ;SGNL A TASK, THEN WAIT FOR A ?SGNL
+.DUSR   ?0RNGST =4250           ;RESTRICT RING LOADING
+.DUSR   ?0RNGS  =4250           ;RESTRICT RING LOADING
+.DUSR   ?0RNGPR =4251           ;GET PATHNAME FROM LOGICAL ADDRESS
+.DUSR   ?0RNGP  =4251           ;GET PATHNAME FROM LOGICAL ADDRESS
+.DUSR   ?0VALA  =4252           ;INNER RING SERVER VALIDATE
+.DUSR   ?0FLTSC =4253           ;PAGE FAULT PSEUDO SYSTEM CALL
+.DUSR   ?0FLTS  =4253           ;PAGE FAULT PSEUDO SYSTEM CALL
+.DUSR   ?0GMEM  =4254           ;GET AVAILABLE PAGES
+.DUSR   ?0LMAP  =4255           ;MAP A SYSTEM PAGE
+.DUSR   ?0EXPO  =4256           ;SET/CLEAR/CHECK EXECUTE PROTECTION
+.DUSR   ?0POKE  =4257           ;USER DEB CHANGE C(LOCATION)
+.DUSR   ?0PEEK  =4260           ;USER DEB EXAMINE C(LOCATION)
+.DUSR   ?0WIRE  =4261           ;PROCESS WIRE CALL
+.DUSR   ?0UNWIRE=4262           ;PROCESS UNWIRE PAGE
+.DUSR   ?0UWIR  =4262           ;PROCESS UNWIRE PAGE
+.DUSR   ?0WDELAY=4263           ;WIDE DELAY
+.DUSR   ?0WDEL  =4263           ;WIDE DELAY
+.DUSR   ?0RINGLD=4264           ;RING LOAD
+.DUSR   ?0RGLD  =4264           ;RING LOAD
+.DUSR   ?0LEFE  =4265           ;ENABLE LEF MODE
+.DUSR   ?0LEFD  =4266           ;DISABLE LEF MODE
+.DUSR   ?0LEFS  =4267           ;SAMPLE LEF MODE
+                                ;270 - Not a Kernel call
+                                ;271 - Not a Kernel call
+    .DUSR ?0LD_FORM=0271        ; For LOAD_FORM statistics
+                                ;272 - Not a Kernel call
+    .DUSR ?0PG_FORM=0272        ; For PURGE_FORM statistics
+                                ;273 - Not a Kernel call
+    .DUSR ?0LD_CURS=0273        ; For LOAD_CURSOR statistics
+                                ;274 - Not a Kernel call
+.DUSR   ?0GTRUNC=4275           ;TRUNCATE A DISK FILE
+.DUSR   ?0GTRU  =4275           ;TRUNCATE A DISK FILE
+.DUSR   ?0ESFF  =4276           ; FLUSH SHARED FILE
+.DUSR   ?0DVSTT =4277           ;GET DEVICE STATISTICS
+.DUSR   ?0DVST  =4277           ;GET DEVICE STATISTICS
+.DUSR   ?0TMSG  =4300           ;DEFINE TERM MESSAGE FORMAT
+.DUSR   ?0SONS  =4301           ;GET PROCESS'S SONS
+.DUSR   ?0PIDS  =4302           ;INFO ON NUMBER PROCESSES
+.DUSR   ?0GPID  =4303           ;GET NEXT PID IN USE
+.DUSR   ?0FLOCK =4304           ;File element locking
+.DUSR   ?0FLOC  =4304           ;File element locking
+.DUSR   ?0FUNLOCK = 4305        ;File element unlocking
+.DUSR   ?0FUNL    = 4305        ;File element unlocking
+.DUSR   ?0JPINIT=4306           ;INITIALIZE A JP
+.DUSR   ?0JPIN  =4306           ;INITIALIZE A JP
+.DUSR   ?0JPREL =4307           ;RELEASE A JP
+.DUSR   ?0JPRE  =4307           ;RELEASE A JP
+.DUSR   ?0JPMOV =4310           ;MOVE A JP TO A NEW LP
+.DUSR   ?0JPMO  =4310           ;MOVE A JP TO A NEW LP
+.DUSR   ?0JPSTAT=4311           ;JP STATUS CALL
+.DUSR   ?0JPST  =4311           ;JP STATUS CALL
+.DUSR   ?0LPCREA=4312           ;CREATE AN LP
+.DUSR   ?0LPCR  =4312           ;CREATE AN LP
+.DUSR   ?0LPDELE=4313           ;DELETE AN LP
+.DUSR   ?0LPDE  =4313           ;DELETE AN LP
+.DUSR   ?0LPSTAT=4314           ;LP STATUS CALL
+.DUSR   ?0LPST  =4314           ;LP STATUS CALL
+.DUSR   ?0LPCLASS=4315          ;GET/SET LP CLASS ASSIGNMENTS
+.DUSR   ?0LPCL   =4315          ;GET/SET LP CLASS ASSIGNMENTS
+.DUSR   ?0CLASS  =4316          ;GET/SET CLASS IDS AND NAMES
+.DUSR   ?0CLAS   =4316          ;GET/SET CLASS IDS AND NAMES
+.DUSR   ?0CMATRIX=4317          ;GET/SET CLASS MATRIX
+.DUSR   ?0CMAT   =4317          ;GET/SET CLASS MATRIX
+.DUSR   ?0PCLASS =4320          ;GET A PROCESS'S CLASS & LOCALITY
+.DUSR   ?0PCLA   =4320          ;GET A PROCESS'S CLASS & LOCALITY
+.DUSR   ?0CLSTAT =4321          ;RETURN CLASS STATISTICS
+.DUSR   ?0CLST   =4321          ;RETURN CLASS STATISTICS
+.DUSR   ?0LOCALITY=4322         ;CHANGE USER LOCALITY
+.DUSR   ?0LOCA    =4322         ;CHANGE USER LOCALITY
+.DUSR   ?0CLSCHED=4323          ;ENABLE/DISABLE CLASS SCHEDULING
+.DUSR   ?0CLSC   =4323          ;ENABLE/DISABLE CLASS SCHEDULING
+.DUSR   ?0XINIT  =4324          ;INITIALIZE AN LDU
+.DUSR   ?0XINI   =4324          ;INITIALIZE AN LDU
+.DUSR   ?0MIRROR =4325          ;MIRROR AN LDU
+.DUSR   ?0MIRR   =4325          ;MIRROR AN LDU
+.DUSR   ?0AFH    =4326          ;ARM FAULT HANDLER
+.DUSR   ?0PALETTE=4327          ;CONTROL GIS PALETTE
+.DUSR   ?0PALE   =4327          ;CONTROL GIS PALETTE
+.DUSR   ?0WSCNTL =4330          ;WORKING SET CONTROL
+.DUSR   ?0WSCN   =4330          ;WORKING SET CONTROL
+.DUSR   ?0SYSPRV =4331          ;TURN A PRIVILEGE ON/OFF
+.DUSR   ?0SYSP   =4331          ;TURN A PRIVILEGE ON/OFF
+.DUSR   ?0MAPDV  =4332          ;MAP A DEVICE INTO LOGICAL MEMORY
+.DUSR   ?0MAPD   =4332          ;MAP A DEVICE INTO LOGICAL MEMORY
+.DUSR   ?0MPHIST =4333          ;MP HISTOGRAM
+.DUSR   ?0MPHI   =4333          ;MP HISTOGRAM
+.DUSR   ?0OPON   =4334          ;OPERATOR ON
+.DUSR   ?0OPOFF  =4335          ;OPERATOR OFF
+.DUSR   ?0OPOF   =4335          ;OPERATOR OFF
+.DUSR   ?0OPSEND =4336          ;OPERATOR SEND
+.DUSR   ?0OPSE   =4336          ;OPERATOR SEND
+.DUSR   ?0OPREC  =4337          ;OPERATOR RECEIVE
+.DUSR   ?0OPRE   =4337          ;OPERATOR RECEIVE
+.DUSR   ?0OPRESP =4340          ;OPERATOR RESPOND
+.DUSR   ?0OPRS   =4340          ;OPERATOR RESPOND
+.DUSR   ?0XPSTAT =4341          ;EXTENDED PROCESS STATUS
+.DUSR   ?0XPST   =4341          ;DITTO
+.DUSR   ?0GUHPI  =4342          ;GET UNIQUE HDW PROCESSOR ID
+.DUSR   ?0GUHP   =4342          ;DITTO
+.DUSR   ?0OPINFO =4343          ;OPERATOR INFORMATION
+.DUSR   ?0OPIN   =4343          ;OPERATOR INFORMATION
+.DUSR   ?0LNID   =4344          ;RESERVED FOR NDG
+
+
+;Following calls added to support RING 0 Terminal Services
+;
+; Note: Must be unique to 8 chars  ex. ?0TSCLOSE
+;                    Must also define  ?0TSCLOS
+
+.DUSR   ?0TSOPEN        =4345   ; TS OPEN
+.DUSR   ?0TSCLOSE       =4346   ; TS CLOSE
+.DUSR   ?0TSCLOS        =4346   ; TS CLOSE
+.DUSR   ?0TSREAD        =4347   ; TS READ
+.DUSR   ?0TSWRITE       =4350   ; TS WRITE
+.DUSR   ?0TSWRIT        =4350   ; TS WRITE
+.DUSR   ?0TSASSIGN      =4351   ; TS ASSIGN CONSOLE
+.DUSR   ?0TSASSI        =4351   ; TS ASSIGN CONSOLE
+.DUSR   ?0TSDEASSIGN    =4352   ; TS DEASSIGN CONSOLE
+.DUSR   ?0TSDEAS        =4352   ; TS DEASSIGN CONSOLE
+.DUSR   ?0TSCLRDV       =4353   ; TS CLEAR DEVICE
+.DUSR   ?0TSCLRD        =4353   ; TS CLEAR DEVICE
+.DUSR   ?0TSSTOM        =4354   ; TS SET TIMEOUT WORD
+.DUSR   ?0TSSDCHR       =4355   ; TS SET DEVICE CHARACTERISTICS
+.DUSR   ?0TSSDCH        =4355   ; TS SET DEVICE CHARACTERISTICS
+.DUSR   ?0TSGDCHR       =4356   ; TS GET DEVICE CHARACTERISTICS
+.DUSR   ?0TSGDCH        =4356   ; TS GET DEVICE CHARACTERISTICS
+.DUSR   ?0TSSDLM        =4357   ; TS SET DELIMITER TABLE
+.DUSR   ?0TSGDLM        =4360   ; TS GET DELIMITER TABLE
+.DUSR   ?0TSERPR        =4361   ; TS ESTABLISH EDIT READ PROGRAM
+.DUSR   ?0TSSEND        =4362   ; TS SEND TO A CONSOLE
+.DUSR   ?0TSPSEND       =4363   ; TS PSEND(UNPENDED)
+.DUSR   ?0TSPSEN        =4363   ; TS PSEND(UNPENDED)
+.DUSR   ?0TSPREC        =4364   ; TS PREC
+
+.DUSR   ?0RTODC         =4365   ; Return RTOD Conversion Constants
+.DUSR   ?0NTIME         =4366   ; Set New Time and Date
+.DUSR   ?0GTIME         =4367   ; Get Time and Date
+
+;More RING 0 TS calls
+
+.DUSR   ?0TSISEND       =4370   ; TS ISEND
+.DUSR   ?0TSISEN        =4370   ; TS ISEND
+.DUSR   ?0TSIS.R        =4371   ; TS IS.R
+
+;R0CK call
+
+.DUSR   ?0QNET          =4372   ; NETWORK REQUEST
+
+;Kernel gate definitions for ring 7 usage
+
+.DUSR   ?SCSIGNL= 10            ;Kernel gate for ?SIGNL
+
+
+
+; RESTORE OLD VALUE OF .NOMAC
+
+        .NOMAC  .POP

@@ -1,0 +1,10 @@
+@free     isd*adventure.
+@exonly,n isd*adventure.
+@use      a.,isd*adventure.
+@asg,ax   a.
+@copy,a   cave,a.
+@copy,a   a.adventure,a.
+@pack     a.
+@exonly   a.
+@free     a.
+@lbl      copied.

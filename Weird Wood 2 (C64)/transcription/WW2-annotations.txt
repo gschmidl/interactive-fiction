@@ -1,0 +1,222 @@
+WEIRD WOOD II - HANDWRITTEN ANNOTATIONS
+=======================================
+Everything written by hand on the two PDFs, page by page.  The annotator was
+working through the listing in order to re-implement / port it: they label the
+verb handlers with the verb name, note which .DAT file each GOSUB 650 pulls
+in, flag bugs, and sketch replacement code.
+
+Readings are best-effort; genuinely illegible words are marked <?>.
+
+
+pdf "1987 ww2 original.pdf"
+---------------------------
+
+PAGE 1 (lines 5-215)
+  top right, red:  "PROBLEMS IN RED"
+  top right, pen:  "Weird Wood II   (21 May 1987)"
+        (the second word is written over an earlier attempt; the printed
+         title in line 100 settles it as "wood")
+  red, near line 20:  "53242"  and  "43,0"
+  line 103 struck through; above it: "Input#1, CR$, NL$, Q$, CU$, LU%,
+        LC(A), WT(O)"  - i.e. read these from the chained file instead
+  lines 134/135 struck through, margin: "altered!"
+  right margin, lines 187-197: "(error flag) -1 if error", "EF -1 -> 0",
+        "CF -1 -> 0", "colours?", "(a? o?)"
+
+PAGE 2 (lines 216-360)
+  "make rubbish char into graphics X ..."
+  "zf=1 -> 199 / zf=2 reserved / zf=3 -> 216 / zf=4 -> 200"
+        (a status-flag scheme for the port's command dispatcher)
+  by line 278:  "LINE INPUT!!"   "WW 100"
+  right margin, string constants being catalogued:
+        "Door / As you open th<?>"           -> Z3$..Z6$
+        "<?> lamp is"                        -> Z7$
+        "You have just w<?>"                 -> Z8$
+        "A voice booms at"                   -> Z9$
+  by lines 330-338: "518", "LIFT."
+  by line 342: "OR C<?>"
+  by line 343: "SK=10", "NZ$", "ps letter"
+  by line 362: "Dwarf", "Dragon"
+
+PAGE 3 (lines 362-531)
+  "WW 106", "WW 107", "WW 108"
+  by line 432: "BUG!"
+  by line 455: "256: gosub 40: return in a.",  "int(OJ + 0.5)"
+  by line 476: "Branches Eliza."
+  by line 480: "Look, Inventory, Quit, Jump, Run/Swim, Fuck, Health, Help"
+        "SINGLE WORDS", "BUILD trinity/twatty", "DRINK water", "exempt"
+  by lines 500-503: a table "Verb | GOTO / n m | 000"
+
+PAGE 4 (lines 535-772)
+  by line 610: "shooting stars. / screwdriver / bottle."
+  by lines 660-675, a rewrite of the text-file reader:
+        "ROPEN#1, WW+str$(A) / Input#1 A$ regardless letter /
+         for each letter: gosub decode / if # then 680 / if @ - /
+         if $ - / ?A$; :Next;? / goto."
+  by line 715: "get numbers", "N=(RM-1)*13+1"
+  by lines 722-729, a rewrite of the room reader:
+        "N=(RM-1)*13+1 / Input#1 (N),A$,B$,C$ ... / for I=1 to 21 step 2 /
+         A1=ASC(mid$(A$,I,1)) / A2=ASC(mid$(A$,I+1,1)) / A=A2*256+A1-1600 /
+         if A><?> / N=N+3 (N),A$ ..."
+  by line 730: "This room does not exist"
+  by line 732: "characters/descriptions", "REPLACE.", "CR:"
+  by lines 764-770, boxed: "770 IF T%(9,1)>0 and LC%(58)<?> then LC%(58)=<?>"
+        with "And LC%(58)<>Bottle -57" and "Water?"
+  by line 771: "if skeleton not in your room", "finish."
+
+PAGE 5 (lines 774-1005)
+  by lines 793-796: "CU$?  <space>*  4 etc",  "240 x 28 = <?>"
+  by lines 817-819: "colours", "Lower Case", "Delete", "paper", "N$(90)! Ruby"
+  by lines 824-836: "Delete", "Return", "Space", "Control", "(33)"
+  by line 860: "(32)", "Needs altering!", "chr$(29) Backspace"
+  by lines 885-890: "AN UMBRELLA", "A UMBRELLA", "IN", "109", "110"
+  by line 950: "480 Ropen#90, WW 90 ;for <?> to", "162"
+  by line 1000: "file?", "GET/TAKE"
+
+PAGE 6 (lines 1007-3017)
+  by line 1925, boxed: "WWASC compiled 22/11/87.  Working - No errors
+                        NO LOADING NAMES
+                        NO INSTRUCTIONS FOR $ GAME
+                        TEXT MESSAGES."
+  by line 2004: "876 0940 for a=1 to 10 if T(A,0)=0 then <?>   NO."
+  by line 2007: "20094 0844.  If HN>0 then T$(90)=T%(9<?>)   RS."
+  by line 2480: "23678 / 17107  ) undefined."
+                "17017/17018/17018 undefined."
+        (both of those line numbers DO exist in the listing; presumably
+         notes from an earlier, incomplete pass)
+  by line 3000: "LOOK"
+  by line 3005: "examine matter", "put battery in calculator",
+                "you can't put a battery <?>", "off torch - the lamp is off!"
+
+PAGE 7 (lines 3018-4010)
+  by line 3500: "boat."
+  by line 3550: "A = 87. 79", "WW 87.79.", "WW <?>"
+  by line 3576: "MID$(B$,B+1)", "= Right$(B$,(B+1))", "len(B$)"
+  by line 3600: "calc"
+  by line 3995: "INC.",  "B+1 -> End"    (a fix for the word-wrap routine)
+
+PAGE 8 (lines 4020-8300)
+  by line 4050: "Open"
+  by line 5104: "29 = F 207 / 46 = A 183 / = 196"
+  by line 5190: "Open"
+  by line 5494: "180"
+  by line 6000: "Close."
+  by line 7000: "Score.",  "WW 73"
+  by line 7802: "R$(10)"
+  by line 7950: "Quit 11000"
+  by line 8000: "MOVE", "a cup"
+  by line 8003: "to WW 70 / needs 34011. / draws WW 66 / Dead 11905 - WW 72"
+  by line 8010: "EF=1 if wizard.",  "11909 <?> draws WW60"
+  by line 8136: "WW 9",  "TR = TR + 35.  LK = 2 <?>"
+
+PAGE 9 (lines 8301-14002)
+  by line 9000: "light",  "Side 1 WW 110"
+  by line 10000: "unlight?",  "Side 1 WW 111"
+  by line 11005: "0910."
+  by line 11400: "WW 61 end"
+  by line 11909: "copy WW46 -> WW45",  "prg WW 50",  "Load in <?>"
+  by line 12000: "flag1 = 9? WW46 save.   flag1 = m  WW45 load in"
+
+PAGE 10 (lines 14003-18190)   [scanned at 2x resolution]
+  by line 15000: "Eat",  "WW 112."
+  by line 16000: "Drink"
+  by line 16580: "or T%(9,1) > 0"
+  by line 17000: "Unlock"
+  by line 18000: "Lock"
+  by line 18001, arrowed: "BUG   lock desk"
+        (18001 reads IFOJ=10THEN18190; object 10 is the door and object 19
+         is the desk, so this should almost certainly be IFOJ=19)
+
+PAGE 11 (lines 18191-23360)
+  by line 19000: "kill"
+  by line 19017: "WW 102."
+  by line 19370: "sword.",  "WW 103",  "WW 104"
+  by line 20000: "Enter."
+  by line 20096: "WW 105"
+  by line 21000: "Exit"
+  by line 22000: "Wear"
+  by line 23000: "Play"
+
+PAGE 12 (lines 23361-23684)
+  by line 23588: "5 4 6 9 <?>", "14"
+  by line 23598: "ZF=1 : goto 199!",  "ZF=2 : ?"
+  by line 23632: "chained bit" (?)
+  by line 23640: "def seg = &hb800", "<?> ascii <?>"
+  by line 23658: "poke 0, ascii / poke 1, colour / etc...", "(P(i)-1024+90)*2"
+  by line 23664: "poke (P(I)...)"
+  by line 23674: "Reverse."
+
+PAGE 13 (lines 23686-27520)
+  by line 24472: a small sketch (map?), "118", "121", "120", "A<?>"
+  by line 26000: "Push.",  "89",  "A(100)"
+  by line 26495: "<?>alic in cauldron (30/100)",  "?",  "3-1 <?>"
+  by line 26504: "Drop garlic <?>",  "1920<?>1"
+  by line 27000: "Cut",  "This is a test",  "WW 16"
+
+PAGE 14 (lines 28000-34120)
+  by line 28000: "Tie",  "WW 115",  "WW 114"
+  by line 29000: "untie"
+  by line 30000: "Row",  "Z1$ what with?",  "WW 113"
+  by line 31000: "Lassoo",  "WW 114"
+  by line 32004: "Sore head / again. / the governor / the desk /
+                  Sore blisters / BROKEN GLASS / MARVIN / HORN OF PLENTY /
+                  WATER."
+  by lines 32300-32310: the letters "P", "N", "H", "O" written against the
+        ASC() constants 80/78/72/79 - the annotator decoding them
+  by line 33000: "Smash",  "8199 that would <?>"
+  by line 34000: "SAVE"
+  by line 34030: "33100   36 D0 ED 47 / 62 208 237 71"
+  by line 34100: "Load.",  "LOAD/SAVE  WW 89 / WW 81",
+                 "ZF=1 : goto 199",  "ZF=3 : goto 200"
+  by line 34111: "WW 80"
+
+PAGE 15 (lines 34130-60046)
+  by line 34132: "colours"
+  by line 35000: "Fill"
+  by line 35570: "err!",  "WW 116"
+  by line 36570: "err!",  "WW 117"
+        (36000/36010 is the EMPTY handler but prints "yOU CAN'T FILL";
+         and 35570/36570 set A$ then GOTO199 without ever printing A$)
+  by line 36572: "empty bottle"
+  by line 37000: "Drink. Swim?",  "WW 119",  "WW 118"
+  by line 39000: "Health",  "WW 115."
+  by line 40000: "Help"
+
+PAGE 16 (lines 60047-60075)
+  by line 60050: "HT / HU  H.g<?>"
+  by line 60065: "MARVIN!"
+  by line 60067: "CHIP? -"
+        (60067 reads IFLC%(62)=0THEN60067 - an infinite loop; object 62 is
+         the chip.  Presumably meant to be 60070.)
+  by line 60070: "Wizard completed."
+  after "READY.": "if 90 - still prints line."
+  lower down: "(10) Diamond / (40) Diamond."   (reading uncertain)
+
+
+pdf "1987 ww2 original 2.pdf"
+-----------------------------
+
+PAGE 1 - the object table.  See WW2-objects.txt.
+
+PAGE 2 - reverse of the object sheet; notes in red, plus show-through of
+         page 1.  This is the "PROBLEMS IN RED" list: every place the
+         program masks a packed byte out of WT%() or T%().
+
+    448:  T(5,1) and I   (2^(K-1)).
+    460:  (T(5,1) and I) = I.
+    762   (T(7,1) and 8) = 8
+    763   (T(7,1) and 1) = 1
+    728   T(7,1) and 4 = 4
+    1008  WT+(WT(OJ) And 255) > 10
+    1010  WT+(WT(OJ) and 255)
+    1921  WT+(WT(OJ) and 255)
+    2007  WT-(WT(OJ) and 127)
+    2912  WT+(WT(OJ) and 255)
+    4010  WT+(WT(OJ) and 127)
+    SCORE WW73 =  WT(A) and 32640     (twice)
+
+    also, written sideways: "How many portions" / "Disk Decoding."
+    and some scratch multiplication (126 x 316 ...).
+
+    ALL TWELVE of these agree exactly with the transcribed listing, which is
+    a useful independent check on those lines.

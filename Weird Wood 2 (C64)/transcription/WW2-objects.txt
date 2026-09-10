@@ -1,0 +1,97 @@
+WEIRD WOOD II - OBJECT TABLE  (PDF "1987 ww2 original 2.pdf", page 1)
+=====================================================================
+Printed list of the 66 objects, giving each object's "in room" description
+(the text O$(n) / the room-listing line).  Entries with no printed text are
+scenery objects that have no free-standing description; the name shown in
+[brackets] is the annotator's handwritten label.
+
+Case is AS PRINTED.  The printer inverts letter case (see WW2-OCR-notes.md),
+so "tHERE IS A TORCH HERE." displays on the C64 as "There is a torch here."
+
+Column 2 = handwritten line number of that object's EXAMINE handler in the
+BASIC listing, where the annotator wrote one.
+
+ #  handler  description as printed
+--- -------  ----------------------------------------------------------------
+  1   3009   tHERE IS A TORCH HERE.                      [hw: "PRINT."]
+  2   3020   iN ONE CORNER STANDS A ROBOT.               [hw: "WW 16.DAT"]
+  3          tHERE IS A BATTERY ON THE FLOOR
+  4          [Horse]
+  5          tHERE IS A BAR OF GOLD ON THE GROUND.
+  6   3060   [Sign]                                      [hw: "WW <?>.DAT"]
+  7   3070   tHERE IS A MOULDY SKELETON ON THE FLOOR.    [hw: "PRISONER ROUTINE"]
+  8          [Table]
+  9          [Bed]
+ 10   3100   [Door]
+ 11   3010   tHERE IS AN OLD STALE SANDWICH ON THE   GROUND.
+ 12   3002   tHERE IS SOME FOOD HERE.
+ 13   3006   tHERE IS A LARGE DIAMOND ON THE FLOOR.
+ 14   3005   tHERE IS A TRAY HERE.
+ 15   3011   tHERE IS A KNIFE HERE.
+ 16   3004   tHERE IS A FORK HERE.
+ 17          a DWARF GUARD STANDS IN FRONT OF YOU.
+ 18          [Governor]
+ 19   3190   [Desk]
+ 20          tHERE IS A PLATINUM PYRAMID HERE, EIGHT INCHES ON A SIDE!
+ 21   3210   [Shelves]
+ 22          [Couch]
+ 23          tHERE IS A LIBRARY TICKET HERE.
+ 24          tHERE IS A PHYLACTERY ON THE GROUND.
+ 25          tHERE IS A WIDGET HERE.
+ 26          tHERE IS A CIRCUIT BOARD HERE.
+ 27          tHERE IS A PHOTON DRIVER HERE.
+ 28          tHERE IS A TACHYON CONVERTER HERE.
+ 29          tHERE IS A LUXON GENERATOR HERE.
+ 30          iN ONE WALL THERE IS A HOLE.
+ 31          [Bookcase]
+ 32          a LARGE RUBY LIES ON THE FLOOR.
+ 33          tHERE IS A MANUAL ON THE FLOOR.
+ 34          tHERE IS A SAPPHIRE HERE.
+ 35   3301   tHERE IS A PAIR OF SUNGLASSES ON THE    FLOOR.
+                                            [hw: "Peril Sensitive"]
+ 36          [Organ]
+ 37   3302   [Dragon]
+ 38          tHERE IS AN EBONY CARVING IN THE ROOM.
+ 39          cORNUCOPIA, THE hORN OF pLENTY IS HERE.
+ 40          tHERE IS A GOLDEN HARP HERE.
+ 41          yOU SEE THE pHIAL OF gALADRIEL
+ 42          tHERE IS A PAIR OF PLIERS ON THE FLOOR.
+ 43          tHERE IS A SPANNER ON THE FLOOR.
+ 44          tHERE IS AN EMERALD HERE.
+ 45          tHERE IS A SCREWDRIVER ON THE FLOOR.
+ 46          tHERE IS A KEY HERE.
+ 47   3303   tHERE IS A MATTER TRANSMITTER IN ONE    CORNER.
+                             [hw: "There is a space to put things into."]
+ 48          tHERE IS A ROPE HERE.
+ 49          tHERE IS A CALCULATOR HERE.
+ 50          [control panel]
+ 51          tHERE IS A SWORD HERE.
+ 52          tHERE IS A LEAKY BOAT TIED TO THE BANK.
+ 53          tHERE IS A PAIR OF OARS HERE.
+ 54          tHERE IS A SAUSAGE ROLL ON THE FLOOR.
+ 55          tHERE IS A CARD LYING HERE.                 [hw: "?CARD?"]
+ 56   3540   tHERE IS A sHOOTING sTARS GAME HERE.
+ 57   3550   tHERE IS A BOTTLE HERE.
+ 58          [Water]
+ 59   3570   bEFORE YOU STANDS A FIERCE ORC. oNE OF  THE PRISON GUARDS BY THE LOOK OF IT.
+ 60   3600   tHERE IS A NEWSPAPER HERE.
+ 61   3610   tO ONE SIDE LIES A CHART.
+ 62   3620   a CHIP IS PLUGGED INTO THE FLOOR.
+ 63          tO ONE SIDE LIES A SILVER INGOT.
+ 64          tHERE IS SOME BROKEN GLASS HERE.
+ 65          tHERE IS A BEAUTIFUL CRYSTAL CHALICE    HERE.
+ 66   3304   tHERE IS A WAND ON THE FLOOR.
+                    [hw: "It doesn't do anything, it only provides light."]
+
+NOTE ON THE HANDWRITTEN HANDLER NUMBERS
+---------------------------------------
+For objects 56-62 the handwritten numbers agree exactly with line 3314 of the
+listing (ONOJ-59GOTO3600,3610,3620 -> objects 60/61/62).
+For objects 50-57 the annotator's numbers sit about two rows low.  The listing
+itself is self-consistent and is confirmed by the text it prints:
+    3313 ONOJ-49GOTO3500,3008,3520,3008,3540,3550,3008,3570
+      obj 50 control panel -> 3500 (reads WW 8.DAT, the security-control panel)
+      obj 52 boat          -> 3520 ("tHE BOAT IS HALF FULL OF WATER...")
+      obj 54 sausage roll  -> 3540 ("uNDER THE SAUSAGE ROLL ... 'try room 477'")
+      obj 55 card          -> 3550 (prints the security-pass box)
+      obj 57 bottle        -> 3570 ("tHE BOTTLE IS EMPTY.")

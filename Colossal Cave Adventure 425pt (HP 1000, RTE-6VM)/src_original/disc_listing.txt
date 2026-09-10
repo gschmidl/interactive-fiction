@@ -1,0 +1,656 @@
+[RTE_6]  blk=000034
+  %DVM72                start=000064 blk=10    words=1193    recs=29     
+  %DSCHD                start=00006e blk=1     words=93      recs=5      
+  %PVM00                start=000070 blk=2     words=219     recs=8      
+  %DVM00                start=000072 blk=30    words=3825    recs=88     
+  %DDV05                start=000090 blk=15    words=1830    recs=43     
+  %DDV12                start=0000a0 blk=4     words=395     recs=11     
+  %$DVTB                start=0000a4 blk=1     words=74      recs=5      
+  %DVN00                start=0000a6 blk=28    words=3581    recs=82     
+  %$DVTN                start=0000c2 blk=1     words=74      recs=5      
+  %DVT00                start=0000c4 blk=30    words=3727    recs=86     
+  %DDT05                start=0000e2 blk=6     words=671     recs=17     
+  $VLB6A                start=0000e8 blk=36    words=4584    recs=256    
+  $VLB6B                start=00010c blk=152   words=19336   recs=636    
+  %DECAR                start=0001a4 blk=144   words=18422   recs=623    
+  %EXER                 start=000234 blk=308   words=39394   recs=602    
+  %EXER1                start=000368 blk=245   words=31357   recs=365    
+  #EXER1                start=00045e blk=2     words=149     recs=11     
+  #EXER                 start=000460 blk=2     words=152     recs=11     
+  $FDSLB                start=000462 blk=44    words=5545    recs=160    
+  $MATH                 start=00048e blk=421   words=53769   recs=2564   
+  $FLIB                 start=000634 blk=117   words=14872   recs=507    
+  $FOLDF                start=0006aa blk=56    words=7046    recs=242    
+  $FNEWF                start=0006e2 blk=69    words=8704    recs=168    
+  %SRQ*P                start=000728 blk=2     words=129     recs=5      
+  %DVA13                start=00072a blk=3     words=374     recs=10     
+  %TVLIB                start=00072e blk=16    words=2020    recs=60     
+  %TVVER                start=00073e blk=39    words=4941    recs=112    
+  %DVA12                start=000766 blk=9     words=1030    recs=24     
+  %0DV05                start=000770 blk=17    words=2089    recs=49     
+  %ATRAN                start=000782 blk=12    words=1435    recs=56     
+  %MACRO                start=00078e blk=50    words=6338    recs=123    
+  %MACR0                start=0007c0 blk=38    words=4742    recs=49     
+  %MACR1                start=0007e6 blk=217   words=27774   recs=485    
+  %MACR2                start=0008c0 blk=164   words=20968   recs=355    
+  %MACR3                start=000964 blk=236   words=30122   recs=529    
+  %MACR4                start=000a50 blk=15    words=1906    recs=41     
+  %MACR5                start=000a60 blk=14    words=1748    recs=32     
+  %MACR6                start=000a6e blk=66    words=8358    recs=166    
+  %MACR7                start=000ab0 blk=12    words=1411    recs=18     
+  %OLDRE                start=000abc blk=28    words=3471    recs=37     
+  %MACRL                start=000ad8 blk=93    words=11776   recs=126    
+  %MACRE                start=000b36 blk=62    words=7928    recs=64     
+  #OLDRE                start=000b74 blk=1     words=38      recs=4      
+  #MACRO                start=000b76 blk=2     words=167     recs=18     
+  &CDSONOFF             start=000b78 blk=216   words=27631   recs=1509   
+  %LP31                 start=000cd4 blk=10    words=1238    recs=36     
+  %DVB12                start=000cde blk=17    words=2139    recs=50     
+  %MSAFD                start=000cf0 blk=29    words=3618    recs=85     
+  %4PVMP                start=000d0e blk=2     words=184     recs=6      
+  %4AUTR                start=000d10 blk=6     words=728     recs=27     
+  %ACCTS                start=000d16 blk=55    words=6959    recs=268    
+  !MTLDR                start=000d4e blk=2     words=129     recs=2      
+  %FORMT                start=000d50 blk=49    words=6242    recs=140    
+  &4AUTR                start=000d82 blk=33    words=4181    recs=203    
+  $RSLIB                start=000da4 blk=23    words=2892    recs=93     
+  $ACCLB                start=000dbc blk=361   words=46106   recs=1452   
+  %SAVER                start=000f26 blk=140   words=17853   recs=499    
+  %READR                start=000fb2 blk=108   words=13696   recs=409    
+  %DVC12                start=00101e blk=20    words=2472    recs=57     
+  %DVD12                start=001032 blk=20    words=2472    recs=57     
+  $ED1K6                start=001046 blk=78    words=9856    recs=238    
+  %EDIT                 start=001094 blk=570   words=72933   recs=1420   
+  %ED000                start=0012ce blk=36    words=4480    recs=54     
+  #ED1K6                start=0012f2 blk=2     words=178     recs=19     
+  XFMP             LIB  start=00139a blk=231   words=29440   recs=723    
+  %LINDX                start=001482 blk=170   words=21746   recs=428    
+  MONITOR6         REL  start=00152c blk=233   words=29736   recs=890    
+  CALLS            REL  start=001616 blk=63    words=7982    recs=138    
+  %PRINT                start=001656 blk=64    words=8141    recs=161    
+  %PRIN0                start=001696 blk=82    words=10389   recs=237    
+  %FFL                  start=0016e8 blk=5     words=565     recs=30     
+  %MODEM                start=0016ee blk=19    words=2426    recs=66     
+  MERGE            REL  start=001702 blk=40    words=5107    recs=92     
+  %CI                   start=00172a blk=153   words=19581   recs=247    
+  FREES            REL  start=0017c4 blk=33    words=4103    recs=47     
+  %FSCON                start=0017e6 blk=101   words=12806   recs=227    
+  %TRFAS                start=00184c blk=41    words=5226    recs=113    
+  %LIF                  start=001876 blk=237   words=30303   recs=504    
+  LI               REL  start=001964 blk=143   words=18248   recs=323    
+  %PR000                start=0019f4 blk=18    words=2258    recs=20     
+  %IS                   start=001a06 blk=20    words=2453    recs=43     
+  %CKTRM                start=001a1a blk=6     words=640     recs=10     
+  FREES            C000 start=001a20 blk=4     words=464     recs=6      
+  %FORMC                start=001a24 blk=149   words=18976   recs=284    
+  %FC000                start=001aba blk=34    words=4253    recs=36     
+  SPORT            REL  start=001adc blk=7     words=791     recs=10     
+  ASK              REL  start=001ae4 blk=6     words=719     recs=10     
+  LI               R000 start=001aea blk=17    words=2091    recs=19     
+  MERGE            R000 start=001afc blk=4     words=434     recs=6      
+  SCOM             REL  start=001b00 blk=146   words=18573   recs=385    
+  SCOM             C000 start=001b92 blk=8     words=1024    recs=8      binary
+  LI_VMA           REL  start=001b9a blk=22    words=2782    recs=70     
+  FREES            LOD  start=001bb0 blk=2     words=146     recs=12     
+  #FSCON                start=001bb2 blk=1     words=119     recs=12     
+  MERGE            LOD  start=001bb4 blk=2     words=209     recs=17     
+  #LIF                  start=001bb6 blk=1     words=50      recs=6      
+  #FORMC                start=001bb8 blk=2     words=220     recs=18     
+  LI               LOD  start=001bba blk=5     words=613     recs=38     
+  #IS                   start=001bc0 blk=1     words=88      recs=8      
+  #CIX6                 start=001bc2 blk=2     words=250     recs=18     
+  MONITOR          LOD  start=001bc4 blk=3     words=292     recs=14     
+  SPORT            LOD  start=001bc8 blk=2     words=154     recs=8      
+  CALLS            LOD  start=001bca blk=1     words=48      recs=6      
+  &FFL                  start=001bcc blk=13    words=1545    recs=83     
+  %PATH                 start=001bda blk=27    words=3454    recs=40     
+  $SYLB6                start=001bf6 blk=235   words=30052   recs=827    
+  $EMCLB                start=001ce2 blk=20    words=2453    recs=95     
+  %BMPG1                start=001cf6 blk=385   words=49247   recs=1284   
+  %BMPG3                start=001e78 blk=345   words=44147   recs=994    
+  %INDXR                start=001fd2 blk=55    words=6937    recs=117    
+  %RT6GN                start=00200a blk=343   words=43798   recs=417    
+  %SSTCH                start=002162 blk=121   words=15474   recs=147    
+  %DRREL                start=0021dc blk=102   words=13023   recs=225    
+  %DRRPL                start=002242 blk=180   words=22968   recs=413    
+  %$CNFG                start=0022f6 blk=96    words=12232   recs=112    
+  %$LDR                 start=002356 blk=167   words=21269   recs=244    
+  %BMPG2                start=0023fe blk=573   words=73247   recs=1670   
+  $MLSLB                start=00263c blk=12    words=1412    recs=43     
+  $VCLIB                start=002648 blk=20    words=2456    recs=94     
+  %SXREF                start=00265c blk=64    words=8145    recs=226    
+  $RBLIB                start=00269c blk=275   words=35072   recs=552    
+  %DBUGR                start=0027b0 blk=114   words=14479   recs=161    
+  %SMON1                start=002822 blk=115   words=14699   recs=183    
+  %SMON2                start=002896 blk=15    words=1852    recs=46     
+  %NSESN                start=0028a6 blk=4     words=480     recs=16     
+  %CR6S1                start=0028aa blk=110   words=14078   recs=141    
+  %CR6S2                start=002918 blk=104   words=13236   recs=170    
+  %CR6S3                start=002980 blk=155   words=19813   recs=199    
+  %SPOL1                start=002a1c blk=120   words=15254   recs=330    
+  %SPOL2                start=002a94 blk=91    words=11548   recs=144    
+  %6MTM                 start=002af0 blk=11    words=1371    recs=21     
+  %HELP                 start=002afc blk=7     words=795     recs=14     
+  $UTLIB                start=002b04 blk=12    words=1482    recs=58     
+  %SGMTR                start=002b10 blk=43    words=5416    recs=132    
+  $6FCLB                start=002b3c blk=37    words=4608    recs=55     
+  $IB6A                 start=002b62 blk=19    words=2369    recs=70     
+  $LDRLN                start=002b76 blk=130   words=16512   recs=233    
+  BCKUP            LIB  start=002bf8 blk=405   words=51839   recs=986    
+  BEGGT            LIB  start=002d8e blk=46    words=5787    recs=127    
+  $DTCLB                start=002dbc blk=84    words=10685   recs=362    
+  %CSERR                start=002e10 blk=6     words=713     recs=18     
+  %FCM6                 start=002e16 blk=36    words=4604    recs=124    
+  ONLIN            LIB  start=002e3a blk=6     words=655     recs=29     
+  $DSCLB                start=002e40 blk=60    words=7597    recs=307    
+  %MLLDB                start=002e7c blk=72    words=9146    recs=118    
+  %MLLDA                start=002ec4 blk=39    words=4985    recs=58     
+  %LINKA                start=002eec blk=233   words=29789   recs=1017   
+  $FMP6                 start=002fd6 blk=1699  words=217344  recs=4692   
+  $R6GNL                start=00367a blk=160   words=20352   recs=220    
+  $PRINT                start=00371a blk=58    words=7296    recs=176    
+  $SGMLB                start=003754 blk=242   words=30848   recs=536    
+  $FCL1                 start=003846 blk=380   words=48512   recs=1148   
+  $FCL2                 start=0039c2 blk=170   words=21632   recs=637    
+  $FST6                 start=003a6c blk=24    words=2944    recs=78     
+  %DVR12                start=003a84 blk=7     words=804     recs=20     
+  %FC0                  start=003a8c blk=122   words=15542   recs=396    
+  %FC1                  start=003b06 blk=11    words=1284    recs=29     
+  %FC2                  start=003b12 blk=32    words=3983    recs=89     
+  %FC3                  start=003b32 blk=46    words=5779    recs=123    
+  %FC4                  start=003b60 blk=8     words=904     recs=29     
+  %FC5                  start=003b68 blk=43    words=5439    recs=109    
+  %FC6                  start=003b94 blk=5     words=518     recs=17     
+  %DVS23                start=003b9a blk=23    words=2909    recs=66     
+  %6DP43                start=003bb2 blk=6     words=709     recs=18     
+  %LUPRN                start=003bb8 blk=117   words=14894   recs=200    
+  CMD              REL  start=003c2e blk=72    words=9175    recs=138    
+  GENIX            REL  start=003c76 blk=59    words=7538    recs=116    
+  KEYS             REL  start=003cb2 blk=68    words=8685    recs=168    
+  KYDMP            REL  start=003cf6 blk=7     words=867     recs=12     
+  DV800_0          REL  start=003cfe blk=35    words=4417    recs=75     
+  DV800_1          REL  start=003d22 blk=43    words=5481    recs=83     
+  DVC00            REL  start=003d4e blk=15    words=1853    recs=17     
+  WHOSD            REL  start=003d5e blk=51    words=6489    recs=100    
+  FSTP             REL  start=003d92 blk=132   words=16808   recs=373    
+  %LGTAT                start=003e16 blk=18    words=2292    recs=31     
+  %MLLDR                start=003e28 blk=52    words=6585    recs=56     
+  %M*LIB                start=003e5c blk=53    words=6781    recs=56     
+  %COMPL                start=003e92 blk=28    words=3466    recs=32     
+  %CLOAD                start=003eae blk=33    words=4176    recs=39     
+  %WHZAT                start=003ed0 blk=50    words=6331    recs=54     
+  %T5IDM                start=003f02 blk=36    words=4557    recs=40     
+  %READT                start=003f26 blk=43    words=5447    recs=72     
+  %WRITT                start=003f52 blk=35    words=4455    recs=70     
+  %6DV37                start=003f76 blk=28    words=3463    recs=81     
+  %6DA37                start=003f92 blk=20    words=2507    recs=59     
+  %$TA32                start=003fa6 blk=1     words=83      recs=4      
+  %$TB32                start=003fa8 blk=1     words=84      recs=4      
+  %DVA05                start=003faa blk=29    words=3686    recs=84     
+[HP1000_INFO]  blk=00624c
+  SRB                   start=00627c blk=642   words=82093   recs=4203   
+  COMMUNICATOR62   LST  start=0064fe blk=3354  words=429303  recs=21170  
+[MAPS]  blk=007218
+  LINK             MAP  start=007f7c blk=144   words=17340   recs=558    IRREG got=214
+  LINDX            MAP  start=007f94 blk=48    words=5898    recs=196    IRREG got=103
+  ASK              MAP  start=007fac blk=24    words=1100    recs=40     
+  CLOSE            MAP  start=007fc4 blk=24    words=1459    recs=52     
+  FOWN             MAP  start=007ff0 blk=72    words=7017    recs=216    IRREG got=185
+  FPACK            MAP  start=008034 blk=72    words=8074    recs=255    IRREG got=103
+  FREES            MAP  start=00804c blk=48    words=3750    recs=116    IRREG got=90
+  FSCON            MAP  start=00810c blk=48    words=3590    recs=124    IRREG got=104
+  FVERI            MAP  start=008210 blk=72    words=8977    recs=283    IRREG got=100
+  MPACK            MAP  start=008228 blk=144   words=15038   recs=466    IRREG got=105
+  PRINT            MAP  start=008240 blk=72    words=8997    recs=274    
+  PRIN0            MAP  start=008288 blk=72    words=8930    recs=274    IRREG got=93
+  DL               MAP  start=0083a8 blk=72    words=8039    recs=246    
+  IS               MAP  start=0083f0 blk=24    words=714     recs=25     
+  LI               MAP  start=008798 blk=96    words=9842    recs=294    IRREG got=92
+  PATH             MAP  start=0087b0 blk=48    words=3715    recs=118    
+  WHOSD            MAP  start=0087e0 blk=72    words=7875    recs=243    IRREG got=96
+  RT6GN            MAP  start=00883c blk=48    words=5332    recs=167    IRREG got=91
+  SWTCH            MAP  start=008992 blk=48    words=4734    recs=144    IRREG got=92
+  KEYS             MAP  start=0089aa blk=48    words=3136    recs=101    
+  KYDMP            MAP  start=0089da blk=24    words=2423    recs=80     
+  LUPRN            MAP  start=0089f2 blk=48    words=4231    recs=127    IRREG got=93
+  SPORT            MAP  start=008a1a blk=24    words=2734    recs=82     
+  CMNDO            MAP  start=008e94 blk=48    words=5394    recs=166    
+  CLOAD            MAP  start=008ec4 blk=48    words=5511    recs=170    
+  COMPL            MAP  start=008fbe blk=48    words=5315    recs=164    
+  DRREL            MAP  start=008fee blk=48    words=3172    recs=114    
+  DRRPL            MAP  start=009036 blk=48    words=3408    recs=122    
+  EDIT             MAP  start=009066 blk=144   words=13586   recs=399    IRREG got=88
+  INDXR            MAP  start=00953c blk=48    words=4480    recs=140    IRREG got=95
+  MACRO            MAP  start=009554 blk=144   words=16893   recs=467    IRREG got=338
+  SGMTR            MAP  start=009924 blk=96    words=11918   recs=387    
+  SXREF            MAP  start=009a1a blk=72    words=7895    recs=284    IRREG got=120
+  MERGE            MAP  start=009a32 blk=72    words=6856    recs=210    IRREG got=95
+  OLDRE            MAP  start=009a4a blk=48    words=3135    recs=99     
+  SCOM             MAP  start=009a7a blk=48    words=5982    recs=185    IRREG got=96
+  WC               MAP  start=009a92 blk=72    words=6569    recs=202    
+  GENIX            MAP  start=009ada blk=72    words=6468    recs=184    IRREG got=81
+  CMD              MAP  start=009dfc blk=48    words=4800    recs=141    IRREG got=86
+  HELP             MAP  start=009e14 blk=48    words=3833    recs=121    
+  CALLS            MAP  start=009e44 blk=48    words=5283    recs=162    
+  CALLM            MAP  start=009e8c blk=48    words=4148    recs=129    
+  FC               MAP  start=009f50 blk=384   words=40384   recs=1056   IRREG got=82
+  FST              MAP  start=00a11a blk=384   words=41296   recs=1272   IRREG got=564
+  FSTP             MAP  start=00a690 blk=48    words=5436    recs=172    
+  LIF              MAP  start=00a6c0 blk=72    words=7040    recs=209    IRREG got=178
+  PCOPY            MAP  start=00ad18 blk=48    words=5315    recs=168    IRREG got=99
+  PRSTR            MAP  start=00ad30 blk=72    words=6490    recs=200    IRREG got=98
+  PSAVE            MAP  start=00ad48 blk=48    words=6055    recs=187    
+  PSPAR            MAP  start=00ad78 blk=48    words=5503    recs=175    
+  READR            MAP  start=00add8 blk=48    words=3325    recs=119    IRREG got=107
+  READT            MAP  start=00ae20 blk=24    words=2488    recs=89     
+  SAVER            MAP  start=00aeb8 blk=48    words=3854    recs=129    
+  TF               MAP  start=00aee8 blk=24    words=1382    recs=66     
+  WRITT            MAP  start=00af00 blk=24    words=1570    recs=61     
+  FORMC            MAP  start=00afac blk=48    words=3693    recs=119    IRREG got=95
+  FORMT            MAP  start=00b0c2 blk=24    words=1781    recs=64     
+[SYSTEM]  blk=007248
+  SNAP             SNP  start=007eec blk=144   words=16384   recs=139    IRREG got=1
+  EDIT             HLP  start=009496 blk=165   words=21026   recs=902    
+  MACRO6000        ERR  start=00973e blk=63    words=8064    recs=212    IRREG got=0
+  CMD              HLP  start=00a992 blk=212   words=27136   recs=212    binary
+  HELP             HLP  start=00a2e6 blk=422   words=54016   recs=422    binary
+  SNAP             ORG  start=00c4d6 blk=144   words=16384   recs=139    
+  SNAP             SNP  start=00c566 blk=144   words=16384   recs=139    
+[PROGRAMS]  blk=007278
+  LINK             RUN  start=008414 blk=441   words=56448   recs=441    binary
+  LINDX            RUN  start=00812c blk=204   words=26112   recs=204    binary
+  ASK              RUN  start=008024 blk=15    words=1920    recs=15     binary
+  CLOSE            RUN  start=007fdc blk=19    words=2432    recs=19     binary
+  FOWN             RUN  start=008646 blk=150   words=19200   recs=150    binary
+  FPACK            RUN  start=0086dc blk=187   words=23936   recs=187    binary
+  FREES            RUN  start=008064 blk=63    words=8064    recs=63     binary
+  FSCON            RUN  start=008330 blk=92    words=11776   recs=92     binary
+  FVERI            RUN  start=0088b8 blk=218   words=27904   recs=218    binary
+  MPACK            RUN  start=008c92 blk=423   words=54144   recs=423    binary
+  PRINT            RUN  start=008ab2 blk=198   words=25344   recs=198    binary
+  PRIN0            RUN  start=008b78 blk=206   words=26368   recs=206    binary
+  DL               RUN  start=008efa blk=195   words=24960   recs=195    binary
+  IS               RUN  start=0087f8 blk=20    words=2560    recs=20     binary
+  PATH             RUN  start=008e3a blk=89    words=11392   recs=89     binary
+  WHOSD            RUN  start=00907e blk=180   words=23040   recs=180    binary
+  RT6GN            RUN  start=0091f2 blk=423   words=54144   recs=423    binary
+  SWTCH            RUN  start=00939a blk=251   words=32128   recs=251    binary
+  KEYS             RUN  start=008c46 blk=70    words=8960    recs=70     binary
+  KYDMP            RUN  start=008a82 blk=37    words=4736    recs=37     binary
+  LUPRN            RUN  start=009132 blk=114   words=14592   recs=114    binary
+  SPORT            RUN  start=008a32 blk=44    words=5632    recs=44     binary
+  CMNDO            RUN  start=009676 blk=200   words=25600   recs=200    binary
+  CLOAD            RUN  start=0095b6 blk=159   words=20352   recs=159    binary
+  COMPL            RUN  start=00979e blk=152   words=19456   recs=152    binary
+  DRREL            RUN  start=009836 blk=125   words=16000   recs=125    binary
+  DRRPL            RUN  start=0098b4 blk=112   words=14336   recs=112    binary
+  EDIT             RUN  start=00ab18 blk=424   words=54272   recs=424    binary
+  INDXR            RUN  start=009984 blk=149   words=19072   recs=149    binary
+  MACRO            RUN  start=00c0ee blk=720   words=92160   recs=720    binary
+  SGMTR            RUN  start=009c2e blk=414   words=52992   recs=414    binary
+  SXREF            RUN  start=00a48c blk=358   words=45824   recs=358    binary
+  MERGE            RUN  start=009ebc blk=147   words=18816   recs=147    binary
+  OLDRE            RUN  start=009bca blk=75    words=9600    recs=75     binary
+  SCOM             RUN  start=00a5f2 blk=158   words=20224   recs=158    binary
+  WC               RUN  start=00a7b0 blk=211   words=27008   recs=211    binary
+  GENIX            RUN  start=00a884 blk=169   words=21632   recs=169    binary
+  CMD              RUN  start=00a6f0 blk=116   words=14848   recs=116    binary
+  HELP             RUN  start=00aa66 blk=79    words=10112   recs=79     binary
+  CALLS            RUN  start=00aab6 blk=92    words=11776   recs=92     binary
+  CALLM            RUN  start=00a92e blk=72    words=9216    recs=72     binary
+  FC               RUN  start=00b656 blk=760   words=97280   recs=760    binary
+  FST              RUN  start=00bce2 blk=1036  words=132608  recs=1036   binary
+  FSTP             RUN  start=00ae40 blk=119   words=15232   recs=119    binary
+  LIF              RUN  start=00a030 blk=233   words=29824   recs=233    binary
+  PCOPY            RUN  start=00af18 blk=118   words=15104   recs=118    binary
+  PRSTR            RUN  start=00afd8 blk=186   words=23808   recs=186    binary
+  PSAVE            RUN  start=00b43a blk=160   words=20480   recs=160    binary
+  PSPAR            RUN  start=00b182 blk=116   words=14848   recs=116    binary
+  READR            RUN  start=00b4fe blk=152   words=19456   recs=152    binary
+  READT            RUN  start=00b39a blk=160   words=20480   recs=160    binary
+  SAVER            RUN  start=009f7c blk=179   words=22912   recs=179    binary
+  WRITT            RUN  start=00b994 blk=108   words=13824   recs=108    binary
+  FORMC            RUN  start=00ba00 blk=237   words=30336   recs=237    binary
+  FORMT            RUN  start=00b13a blk=64    words=8192    recs=64     binary
+  LI               RUN  start=00a1ba blk=229   words=29312   recs=229    binary
+  FTN7X            RUN  start=00cfea blk=792   words=101376  recs=792    binary
+[LIBRARIES]  blk=0072a8
+  $FMP6            LIB  start=007398 blk=1699  words=217344  recs=4692   
+  PASCAL           LIB  start=007a3c blk=587   words=75008   recs=1613   
+  PASCAL_FMGR      LIB  start=007c88 blk=583   words=74496   recs=1594   
+  PASCAL_ERR       REL  start=007ed0 blk=9     words=1063    recs=16     
+  SHSLB            LIB  start=007eda blk=18    words=2176    recs=60     
+  $FNEWF           LIB  start=00a2a0 blk=69    words=8704    recs=168    
+[HELP]  blk=0072d8
+  MACRO                 start=008aa8 blk=10    words=1231    recs=54     
+  CI                    start=008124 blk=5     words=606     recs=23     
+  CD                    start=008c8c blk=5     words=519     recs=36     
+  CL                    start=008020 blk=2     words=170     recs=8      
+  CO                    start=00b0da blk=27    words=3336    recs=131    
+  CR                    start=00966e blk=8     words=1008    recs=46     
+  CRDIR                 start=009c16 blk=11    words=1342    recs=45     
+  DC                    start=00838c blk=4     words=421     recs=20     
+  FREES                 start=00b0f6 blk=26    words=3287    recs=136    
+  FVERI                 start=009c22 blk=12    words=1514    recs=63     
+  LI                    start=00b110 blk=41    words=5225    recs=225    
+  MERGE                 start=00afc4 blk=19    words=2320    recs=95     
+  MO                    start=00a1aa blk=10    words=1175    recs=49     
+  OWNER                 start=00b1f6 blk=16    words=1933    recs=68     
+  PRINT                 start=00b206 blk=23    words=2917    recs=124    
+  PU                    start=009f68 blk=11    words=1360    recs=56     
+  RN                    start=008ef4 blk=6     words=742     recs=31     
+  TR                    start=00b22a blk=17    words=2076    recs=84     
+  UNPU                  start=0091ec blk=6     words=758     recs=30     
+  VS                    start=008854 blk=4     words=486     recs=26     
+  WD                    start=00b23c blk=10    words=1166    recs=44     
+  XQ                    start=009796 blk=4     words=499     recs=23     
+  ECHO                  start=009f74 blk=3     words=379     recs=16     
+  IF                    start=00a1b4 blk=5     words=634     recs=33     
+  IS                    start=00ab12 blk=6     words=745     recs=40     
+  SET                   start=009f78 blk=4     words=415     recs=25     
+  UNSET                 start=008022 blk=2     words=158     recs=8      
+  WHILE                 start=00ae38 blk=7     words=875     recs=39     
+  ASK                   start=00b246 blk=15    words=1844    recs=70     
+  SCOM                  start=00b380 blk=26    words=3291    recs=146    
+  MPACK                 start=00b94e blk=34    words=4289    recs=195    
+  STACK                 start=00b970 blk=26    words=3266    recs=137    
+  POLL                  start=00b17a blk=8     words=900     recs=40     
+  PWD                   start=00812a blk=1     words=104     recs=7      
+  PATH                  start=00baee blk=22    words=2745    recs=124    
+  AG                    start=00b256 blk=5     words=550     recs=23     
+  AS                    start=00a7ac blk=4     words=439     recs=19     
+  BL                    start=00b21e blk=6     words=762     recs=35     
+  BR                    start=00a98e blk=4     words=419     recs=18     
+  CN                    start=00b4f8 blk=6     words=670     recs=29     
+  CU                    start=00b25c blk=4     words=455     recs=20     
+  DN                    start=00b98a blk=5     words=562     recs=26     
+  EQ                    start=00bb04 blk=6     words=730     recs=47     
+  EX                    start=00b990 blk=3     words=377     recs=21     
+  FPACK                 start=00bb0a blk=33    words=4169    recs=167    
+  GO                    start=00bb2c blk=5     words=518     recs=23     
+  HE                    start=00bb32 blk=6     words=649     recs=25     
+  IN                    start=00bb38 blk=7     words=833     recs=37     
+  IT                    start=00bb40 blk=9     words=1126    recs=47     
+  LINDX                 start=00bb4a blk=15    words=1796    recs=78     
+  LINK                  start=00bb5a blk=15    words=1898    recs=79     
+  LU                    start=00bb6a blk=7     words=868     recs=49     
+  MC                    start=00bb72 blk=7     words=825     recs=34     
+  OF                    start=00bb7a blk=4     words=499     recs=22     
+  ON                    start=00bb7e blk=6     words=691     recs=29     
+  PR                    start=00bb84 blk=4     words=456     recs=22     
+  PROT                  start=00bb88 blk=16    words=1973    recs=85     
+  QU                    start=00bb98 blk=7     words=841     recs=48     
+  RP                    start=00bba0 blk=5     words=546     recs=23     
+  RU                    start=00bba6 blk=14    words=1746    recs=70     
+  SL                    start=00bbb4 blk=7     words=867     recs=44     
+  SS                    start=00bbbc blk=4     words=485     recs=21     
+  ST                    start=00bbc0 blk=8     words=1019    recs=63     
+  SZ                    start=00bbc8 blk=5     words=548     recs=23     
+  TI                    start=00bbce blk=3     words=321     recs=21     
+  TM                    start=00bbd2 blk=5     words=533     recs=25     
+  TO                    start=00bbd8 blk=8     words=1020    recs=40     
+  UL                    start=0095b4 blk=2     words=245     recs=14     
+  UP                    start=00bbe0 blk=3     words=293     recs=14     
+  UR                    start=00bbe4 blk=3     words=360     recs=17     
+  WH                    start=00b4f2 blk=6     words=695     recs=29     
+  WS                    start=00b224 blk=5     words=512     recs=23     
+  DL                    start=00bbe8 blk=34    words=4321    recs=169    
+  MASK                  start=00bc0a blk=43    words=5385    recs=214    
+  CLOSE                 start=00bc36 blk=4     words=403     recs=20     
+  WHOSD                 start=00bc3a blk=15    words=1832    recs=86     
+  FOWN                  start=00bc4a blk=15    words=1919    recs=83     
+  CALLS                 start=00bc5a blk=36    words=4584    recs=198    
+  CALLM                 start=00bc7e blk=14    words=1777    recs=92     
+  WC                    start=00bc8c blk=14    words=1748    recs=86     
+[SCRATCH]  blk=007308
+  FST7B3D0F061E2        start=00d302 blk=500   words=64000   recs=250    IRREG got=0
+[CATALOGS]  blk=007338
+  SCOM             C000 start=0080a4 blk=8     words=1024    recs=8      binary
+[CMDFILES]  blk=007368
+[TMP]  blk=00c3be
+  SNAP             SNP  start=00c446 blk=144   words=16384   recs=139    
+[ADVEN]  blk=00e40e
+  #ADVZZ                start=00e55e blk=384   words=42069   recs=1856   
+  ^ADVEN                start=00e082 blk=2     words=140     recs=20     
+  ADV01            FTN  start=00e456 blk=48    words=5808    recs=268    
+  ADV05            FTN  start=00e6de blk=48    words=4549    recs=262    
+  ADVF4            FTN  start=00e70e blk=48    words=4373    recs=261    
+  ADV14            ASM  start=00e0e2 blk=13    words=1541    recs=120    
+  ADV15            ASM  start=00e0c4 blk=6     words=699     recs=71     
+  ADV24            ASM  start=00e0f0 blk=5     words=549     recs=41     
+  ADV25            ASM  start=00e0b0 blk=3     words=374     recs=28     
+  ADV34            ASM  start=00e0fe blk=5     words=540     recs=38     
+  ADV44            ASM  start=00e104 blk=4     words=389     recs=27     
+  ADV54            ASM  start=00e108 blk=3     words=336     recs=24     
+  ADV64            ASM  start=00e0ca blk=2     words=182     recs=17     
+  ADVG4            FTN  start=00e73e blk=96    words=12010   recs=744    
+  ADVX2            FTN  start=00e892 blk=192   words=23162   recs=1154   IRREG got=964
+  ADVY2            FTN  start=00ea3c blk=192   words=19705   recs=1032   
+  ADV01            LST  start=00c3be blk=8     words=656     recs=31     IRREG got=1
+  IOF              ASM  start=00e10c blk=10    words=1152    recs=80     
+  IRP              ASM  start=00e116 blk=14    words=1685    recs=113    
+  LADVEN                start=00e0f6 blk=2     words=187     recs=20     
+  LINKRET          ASM  start=00e124 blk=4     words=487     recs=37     
+  NARG             ASM  start=00e130 blk=11    words=1380    recs=66     
+  SUBMIT           TXT  start=00e3ae blk=23    words=2892    recs=130    
+  SUSP             ASM  start=00e14a blk=14    words=1735    recs=122    
+  COMPILE          CMD  start=00e13c blk=8     words=687     recs=60     
+  ADV01            REL  start=00c3d6 blk=16    words=1842    recs=77     IRREG got=921
+  ADV03            LST  start=00c3e6 blk=4     words=280     recs=17     IRREG got=140
+  ADV03            REL  start=00c3fe blk=48    words=5022    recs=73     IRREG got=0
+  ADV05            LST  start=00c446 blk=8     words=840     recs=40     IRREG got=18
+  ADV05            REL  start=00c49a blk=20    words=2109    recs=84     IRREG got=17
+  ADV14            REL  start=00c44e blk=2     words=248     recs=7      IRREG got=2
+  ADV14            LST  start=00c4ae blk=1     words=101     recs=7      IRREG got=1
+  ADV15            REL  start=00c450 blk=2     words=177     recs=5      IRREG got=2
+  ADV15            LST  start=00c4b0 blk=13    words=1602    recs=89     IRREG got=13
+  ADV24            REL  start=00c452 blk=2     words=133     recs=6      IRREG got=2
+  ADV24            LST  start=00c4be blk=1     words=101     recs=7      IRREG got=1
+  ADV25            REL  start=00c4c0 blk=1     words=119     recs=5      IRREG got=1
+  ADV25            LST  start=00c5ba blk=1     words=101     recs=7      IRREG got=1
+  ADV34            REL  start=00c4c2 blk=1     words=112     recs=5      IRREG got=1
+  ADV34            LST  start=00c5bc blk=1     words=101     recs=7      IRREG got=1
+  ADV44            REL  start=00c4c4 blk=1     words=95      recs=5      IRREG got=1
+  ADV44            LST  start=00c5be blk=1     words=101     recs=7      IRREG got=1
+  ADV54            REL  start=00c4c6 blk=1     words=98      recs=5      IRREG got=0
+  ADV54            LST  start=00c5c0 blk=1     words=101     recs=7      IRREG got=1
+  ADV64            REL  start=00c4c8 blk=1     words=89      recs=5      IRREG got=0
+  ADV64            LST  start=00c5c2 blk=1     words=100     recs=7      IRREG got=1
+  ADVF4            LST  start=00c4ca blk=4     words=504     recs=24     IRREG got=0
+  ADVF4            REL  start=00c4fa blk=16    words=1992    recs=66     IRREG got=16
+  ADVG4            LST  start=00c50a blk=20    words=2316    recs=118    IRREG got=19
+  ADVG4            REL  start=00c522 blk=48    words=5683    recs=192    IRREG got=45
+  ADVX2            LST  start=00c53a blk=4     words=203     recs=14     IRREG got=2
+  ADVX2            REL  start=00c552 blk=72    words=8320    recs=94     IRREG got=4
+  ADVY2            LST  start=00c582 blk=4     words=84      recs=4      IRREG got=1
+  ADVY2            REL  start=00c59a blk=72    words=8397    recs=88     IRREG got=66
+  IOF              REL  start=00c5c4 blk=2     words=172     recs=6      IRREG got=2
+  IOF              LST  start=00c63c blk=1     words=100     recs=7      IRREG got=0
+  IRP              REL  start=00c5c6 blk=2     words=211     recs=6      IRREG got=2
+  IRP              LST  start=00c5de blk=1     words=101     recs=7      IRREG got=1
+  LINKRET          REL  start=00c5e0 blk=1     words=125     recs=5      IRREG got=1
+  LINKRET          LST  start=00c5f8 blk=7     words=835     recs=43     IRREG got=0
+  NARG             REL  start=00c600 blk=1     words=118     recs=4      IRREG got=1
+  ADVEN            MAP  start=00ec4c blk=144   words=10417   recs=364    IRREG got=324
+  ADVEN            RUN  start=00c6e4 blk=286   words=36608   recs=286    binary
+  LINKIT           LOD  start=00e2e4 blk=1     words=115     recs=16     
+  ALL              LIB  start=00c416 blk=144   words=12288   recs=378    IRREG got=189
+  #ADVXX                start=00f09c blk=344   words=44032   recs=1000   IRREG got=0
+  LINKIT           CMD  start=00e2e6 blk=8     words=77      recs=11     
+  #ADVYY                start=00ec94 blk=44    words=5632    recs=1      IRREG got=351
+  MERGEIT          CIN  start=00e9ba blk=1     words=109     recs=16     
+  NARG             LST  start=00c618 blk=1     words=100     recs=7      IRREG got=0
+  SUSP             REL  start=00c61a blk=2     words=226     recs=5      IRREG got=0
+  SUSP             LST  start=00c684 blk=24    words=2982    recs=138    IRREG got=1
+  ALL              REL  start=00c90c blk=92    words=11731   recs=423    IRREG got=0
+  CI               STK  start=00ed3c blk=24    words=52      recs=8      
+  LX7B3790C4C32         start=00c454 blk=24    words=640     recs=23     IRREG got=5
+  ALL              REL  start=00c880 blk=92    words=11731   recs=423    IRREG got=0
+  ADV03            GUT  start=00f1f4 blk=288   words=21640   recs=1011   
+  ADV05            GUT  start=00ef90 blk=48    words=4549    recs=262    
+  ADVF4            GUT  start=00efc0 blk=48    words=4812    recs=280    
+  ADVG4            GUT  start=00f314 blk=96    words=12010   recs=744    
+  ADVX2            GUT  start=00f374 blk=192   words=23284   recs=1163   
+  ADVY2            GUT  start=00f5c8 blk=192   words=19715   recs=1033   
+  ADV03            FTN  start=00e9a2 blk=192   words=18614   recs=890    IRREG got=124
+[ADVEN425]  blk=007eec
+  ADVENTURE        SBMT start=007f60 blk=18    words=2236    recs=91     
+  ADVENT           FTN  start=00c3ee blk=13    words=1640    recs=94     
+  ADVENT           REL  start=007f72 blk=8     words=967     recs=39     
+  AINIT            FTN  start=00c5f6 blk=51    words=6402    recs=293    
+  AINIT            REL  start=00c3fc blk=9     words=1050    recs=19     
+  AMAIN            FTN  start=00c878 blk=261   words=33312   recs=1889   
+  AMAIN            REL  start=00c62a blk=117   words=14853   recs=140    
+  ASUB             FTN  start=00c97e blk=87    words=11042   recs=727    
+  ASUB             REL  start=00c6a0 blk=53    words=6733    recs=153    
+  AIOSUB           FTN  start=00c9d6 blk=109   words=13923   recs=999    
+  AIOSUB           REL  start=00ca44 blk=87    words=10994   recs=267    
+  ABUILD           FTN  start=00ca9c blk=144   words=18427   recs=1013   
+  ABUILD           REL  start=00cb2c blk=63    words=7979    recs=151    
+  ALPHAS           INCL start=007f7a blk=1     words=80      recs=5      
+  ARYCOM           INCL start=00c406 blk=1     words=88      recs=6      
+  IOCCOM           INCL start=00c408 blk=1     words=100     recs=9      
+  LINCOM           INCL start=00c40a blk=1     words=41      recs=5      
+  MAGCOM           INCL start=00c40c blk=1     words=109     recs=6      
+  MISCOM           INCL start=00c40e blk=8     words=999     recs=37     
+  PLACOM           INCL start=00c6d6 blk=1     words=69      recs=4      
+  TRVCOM           INCL start=00c6d8 blk=1     words=67      recs=5      
+  TXTCOM           INCL start=00c6da blk=1     words=111     recs=7      
+  VOCCOM           INCL start=00c6dc blk=1     words=55      recs=5      
+  ADVENT           LOD  start=00c6de blk=1     words=109     recs=12     
+  ABUILD           LOD  start=00c6e0 blk=1     words=79      recs=8      
+  ADVENTURE        TXT  start=00cb6c blk=290   words=37113   recs=2043   
+  ADVENTURE        DOC  start=00cc8e blk=35    words=4450    recs=186    
+  MESSAGE          TXT  start=00c6e2 blk=2     words=164     recs=5      
+  CHEAT            TXT  start=00ccb2 blk=24    words=3006    recs=157    
+  ADVENT           RUN  start=00d692 blk=236   words=30208   recs=236    binary
+  ABUILD           RUN  start=00cdb6 blk=202   words=25856   recs=202    binary
+  ADVENTURE        DAT  start=00ce80 blk=291   words=37160   recs=711    
+  ADVENT           MAP  start=00cfa4 blk=52    words=6570    recs=203    
+  FST              IN   start=00c802 blk=1     words=40      recs=7      
+  AIOSUB           LST  start=007f1c blk=288   words=29203   recs=1574   IRREG got=157
+%DVM72                start=000064 blk=10    words=1193    recs=29     
+%DSCHD                start=00006e blk=1     words=93      recs=5      
+%PVM00                start=000070 blk=2     words=219     recs=8      
+%DVM00                start=000072 blk=30    words=3825    recs=88     
+%DDV05                start=000090 blk=15    words=1830    recs=43     
+%DDV12                start=0000a0 blk=4     words=395     recs=11     
+%$DVTB                start=0000a4 blk=1     words=74      recs=5      
+%DVN00                start=0000a6 blk=28    words=3581    recs=82     
+%$DVTN                start=0000c2 blk=1     words=74      recs=5      
+%DVT00                start=0000c4 blk=30    words=3727    recs=86     
+%DDT05                start=0000e2 blk=6     words=671     recs=17     
+$VLB6A                start=0000e8 blk=36    words=4584    recs=256    
+$VLB6B                start=00010c blk=152   words=19336   recs=636    
+%DECAR                start=0001a4 blk=144   words=18422   recs=623    
+%EXER                 start=000234 blk=308   words=39394   recs=602    
+%EXER1                start=000368 blk=245   words=31357   recs=365    
+#EXER1                start=00045e blk=2     words=149     recs=11     
+#EXER                 start=000460 blk=2     words=152     recs=11     
+$FDSLB                start=000462 blk=44    words=5545    recs=160    
+$MATH                 start=00048e blk=421   words=53769   recs=2564   
+$FLIB                 start=000634 blk=117   words=14872   recs=507    
+$FOLDF                start=0006aa blk=56    words=7046    recs=242    
+$FNEWF                start=0006e2 blk=69    words=8704    recs=168    
+%SRQ*P                start=000728 blk=2     words=129     recs=5      
+%DVA13                start=00072a blk=3     words=374     recs=10     
+%TVLIB                start=00072e blk=16    words=2020    recs=60     
+%TVVER                start=00073e blk=39    words=4941    recs=112    
+%DVA12                start=000766 blk=9     words=1030    recs=24     
+%0DV05                start=000770 blk=17    words=2089    recs=49     
+%ATRAN                start=000782 blk=12    words=1435    recs=56     
+%MACRO                start=00078e blk=50    words=6338    recs=123    
+%MACR0                start=0007c0 blk=38    words=4742    recs=49     
+%MACR1                start=0007e6 blk=217   words=27774   recs=485    
+%MACR2                start=0008c0 blk=164   words=20968   recs=355    
+%MACR3                start=000964 blk=236   words=30122   recs=529    
+%MACR4                start=000a50 blk=15    words=1906    recs=41     
+%MACR5                start=000a60 blk=14    words=1748    recs=32     
+%MACR6                start=000a6e blk=66    words=8358    recs=166    
+%MACR7                start=000ab0 blk=12    words=1411    recs=18     
+%OLDRE                start=000abc blk=28    words=3471    recs=37     
+%MACRL                start=000ad8 blk=93    words=11776   recs=126    
+%MACRE                start=000b36 blk=62    words=7928    recs=64     
+#OLDRE                start=000b74 blk=1     words=38      recs=4      
+#MACRO                start=000b76 blk=2     words=167     recs=18     
+&CDSONOFF             start=000b78 blk=216   words=27631   recs=1509   
+%LP31                 start=000cd4 blk=10    words=1238    recs=36     
+%DVB12                start=000cde blk=17    words=2139    recs=50     
+%MSAFD                start=000cf0 blk=29    words=3618    recs=85     
+%4PVMP                start=000d0e blk=2     words=184     recs=6      
+%4AUTR                start=000d10 blk=6     words=728     recs=27     
+%ACCTS                start=000d16 blk=55    words=6959    recs=268    
+!MTLDR                start=000d4e blk=2     words=129     recs=2      
+%FORMT                start=000d50 blk=49    words=6242    recs=140    
+&4AUTR                start=000d82 blk=33    words=4181    recs=203    
+$RSLIB                start=000da4 blk=23    words=2892    recs=93     
+$ACCLB                start=000dbc blk=361   words=46106   recs=1452   
+%SAVER                start=000f26 blk=140   words=17853   recs=499    
+%READR                start=000fb2 blk=108   words=13696   recs=409    
+%DVC12                start=00101e blk=20    words=2472    recs=57     
+%DVD12                start=001032 blk=20    words=2472    recs=57     
+$ED1K6                start=001046 blk=78    words=9856    recs=238    
+%EDIT                 start=001094 blk=570   words=72933   recs=1420   
+%ED000                start=0012ce blk=36    words=4480    recs=54     
+#ED1K6                start=0012f2 blk=2     words=178     recs=19     
+XFMP             LIB  start=00139a blk=231   words=29440   recs=723    
+%LINDX                start=001482 blk=170   words=21746   recs=428    
+MONITOR6         REL  start=00152c blk=233   words=29736   recs=890    
+CALLS            REL  start=001616 blk=63    words=7982    recs=138    
+%PRINT                start=001656 blk=64    words=8141    recs=161    
+%PRIN0                start=001696 blk=82    words=10389   recs=237    
+%FFL                  start=0016e8 blk=5     words=565     recs=30     
+%MODEM                start=0016ee blk=19    words=2426    recs=66     
+MERGE            REL  start=001702 blk=40    words=5107    recs=92     
+%CI                   start=00172a blk=153   words=19581   recs=247    
+FREES            REL  start=0017c4 blk=33    words=4103    recs=47     
+%FSCON                start=0017e6 blk=101   words=12806   recs=227    
+%TRFAS                start=00184c blk=41    words=5226    recs=113    
+%LIF                  start=001876 blk=237   words=30303   recs=504    
+LI               REL  start=001964 blk=143   words=18248   recs=323    
+%PR000                start=0019f4 blk=18    words=2258    recs=20     
+%IS                   start=001a06 blk=20    words=2453    recs=43     
+%CKTRM                start=001a1a blk=6     words=640     recs=10     
+FREES            C000 start=001a20 blk=4     words=464     recs=6      
+%FORMC                start=001a24 blk=149   words=18976   recs=284    
+%FC000                start=001aba blk=34    words=4253    recs=36     
+SPORT            REL  start=001adc blk=7     words=791     recs=10     
+ASK              REL  start=001ae4 blk=6     words=719     recs=10     
+LI               R000 start=001aea blk=17    words=2091    recs=19     
+MERGE            R000 start=001afc blk=4     words=434     recs=6      
+SCOM             REL  start=001b00 blk=146   words=18573   recs=385    
+SCOM             C000 start=001b92 blk=8     words=1024    recs=8      binary
+LI_VMA           REL  start=001b9a blk=22    words=2782    recs=70     
+FREES            LOD  start=001bb0 blk=2     words=146     recs=12     
+#FSCON                start=001bb2 blk=1     words=119     recs=12     
+MERGE            LOD  start=001bb4 blk=2     words=209     recs=17     
+#LIF                  start=001bb6 blk=1     words=50      recs=6      
+#FORMC                start=001bb8 blk=2     words=220     recs=18     
+LI               LOD  start=001bba blk=5     words=613     recs=38     
+#IS                   start=001bc0 blk=1     words=88      recs=8      
+#CIX6                 start=001bc2 blk=2     words=250     recs=18     
+MONITOR          LOD  start=001bc4 blk=3     words=292     recs=14     
+SPORT            LOD  start=001bc8 blk=2     words=154     recs=8      
+CALLS            LOD  start=001bca blk=1     words=48      recs=6      
+&FFL                  start=001bcc blk=13    words=1545    recs=83     
+%PATH                 start=001bda blk=27    words=3454    recs=40     
+$SYLB6                start=001bf6 blk=235   words=30052   recs=827    
+$EMCLB                start=001ce2 blk=20    words=2453    recs=95     
+%BMPG1                start=001cf6 blk=385   words=49247   recs=1284   
+%BMPG3                start=001e78 blk=345   words=44147   recs=994    
+%INDXR                start=001fd2 blk=55    words=6937    recs=117    
+%RT6GN                start=00200a blk=343   words=43798   recs=417    
+%SSTCH                start=002162 blk=121   words=15474   recs=147    
+%DRREL                start=0021dc blk=102   words=13023   recs=225    
+%DRRPL                start=002242 blk=180   words=22968   recs=413    
+%$CNFG                start=0022f6 blk=96    words=12232   recs=112    
+%$LDR                 start=002356 blk=167   words=21269   recs=244    
+%BMPG2                start=0023fe blk=573   words=73247   recs=1670   
+$MLSLB                start=00263c blk=12    words=1412    recs=43     
+$VCLIB                start=002648 blk=20    words=2456    recs=94     
+%SXREF                start=00265c blk=64    words=8145    recs=226    
+$RBLIB                start=00269c blk=275   words=35072   recs=552    
+%DBUGR                start=0027b0 blk=114   words=14479   recs=161    
+%SMON1                start=002822 blk=115   words=14699   recs=183    
+%SMON2                start=002896 blk=15    words=1852    recs=46     
+%NSESN                start=0028a6 blk=4     words=480     recs=16     

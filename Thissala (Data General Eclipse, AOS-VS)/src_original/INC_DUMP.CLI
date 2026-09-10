@@ -1,0 +1,136 @@
+[!EQUAL,1,2]
+[!equal,comment,]
+This macro does an incremental backup of the entire system, excluding
+system directories and files, to labeled tape, in batch. It also sets up
+the labeled tape volume IDs to be used. The tape volume IDs are INCRnn,
+where nn is the sequence number of the tape in the backup.
+
+The tape fileset name used for the backup is ROOT. The macro also
+explains how to specify a backup to a second fileset (like UDD), if your
+system is large enough to make a second tape fileset worthwhile.
+
+This template used for the backup includes DG-supplied directories. You
+can restore these from your system SYSTAPE and from backups produced by
+this macro.
+
+A file named LAST_DUMP_DATE is needed in the root directory to start
+things off. If it doesn't exist when you run this macro, the macro will
+recommend recovery steps and stop.
+
+To execute the macro, the person acting as system operator must go to a
+user terminal, log on as a Superuser (like OP), and type the macro name.
+The macro will then lead him/her through the procedure. Tape mounts
+and CONTROL @EXEC MOUNTED commands at the system console will be needed.
+
+The command and pseudomacro syntax used is explained in the manual
+Using the CLI.[!end]
+
+[!equal,comment,] Make sure EXEC operator mode is on. [!end]
+
+[!nequal,(ON),([!operator])]
+  write Error - Operator is not on. Please go to the system console and
+  write type [!read CONTROL @EXEC OPERATOR ON newline. Return here and
+  write press NEW LINE]
+[!end]
+
+[!equal,comment,]  Check for file LAST_DUMP_DATE. If it doesn't exist,
+skip to end, give recovery advice, and stop. [!end]
+
+push
+dir  :
+superuser  on
+
+[!nequal,([!filenames LAST_DUMP_DATE]),()]
+  [!equal,([!filenames DATE_DUMP_STARTED]),()]
+        write  This backup will back up all copyable files created or
+        write  modified since [LAST_DUMP_DATE]
+	write/l=DATE_DUMP_STARTED   [!date]:[!time]
+  [!else]
+        write The last incremental backup was started at [DATE_DUMP_STARTED]
+  [!end]
+
+  write
+  write  *** ,, Incremental backup of directory [!dir] on [!date]:[!time] ,, ***
+  write
+
+  [!equal,comment,] Get person's name and write to file
+  :DUMPERS_NAME.[!end]
+  delete/2=ignore  :DUMPERS_NAME
+  write/l=:DUMPERS_NAME  [!read  Please type your name: ]
+
+  pop
+  dir/i
+  [!equal comment,] Post the needed mount and dump commands in batch.[!end]
+  qbatch/m/operator
+  superuser  on
+  dir  :
+
+  [!equal,comment,] Issue a mount command for 10 labeled tape volumes. The
+  volids for incremental backup are INCR00, INCR01, etc. (First, to prevent
+  problems, delete any linkname of the name MYTAPE in user's directory.)
+  [!end]
+
+  delete/2=ignore :udd:[!username]:MYTAPE
+
+  mount/extend/volid=incr00/volid=incr01/volid=incr02/volid=incr03&
+/volid=incr04/volid=incr05/volid=incr06/volid=incr07/volid=incr08&
+/volid=incr09  MYTAPE   Please mount the longest tape you can.
+
+  [!equal,comment,] Now back up to the labeled tape file. The fileset name
+  used here is ROOT. The template does not exclude UDD or any nonmaster
+  LDUs. If you want a backup separate from ROOT (like UDD), exclude the
+  directory(s) via the dump template. Then insert a "mount/volid=dirnn"
+  and "dump ...   dir:#" command after the  dismount command. For example,
+  to exclude UDD from the ROOT dump and include it in a separate backup:
+  1. Add the text   \UDD:#   to the ROOT dump template.
+  2. Add commands   mount/volid=UDD00/vol=UDD01... MYTAPE Please   and
+                    dump  ... MYTAPE:UDD  UDD:#\+.BRK\+.ED\+.LS
+     after the dismount command.
+
+  The listing file (/l) in batch is the line printer. [!end]
+
+  write/l  This is an incremental backup of directory [!dir] started at
+  write/l  [!date]:[!time] by [DUMPERS_NAME]
+  string [LAST_DUMP_DATE]
+  write/l  It backs up all files created or modified since [!string]
+
+  dump_II/v/l/buffersize=8192/retain=0/after/tlm=[!string]   &
+      :UDD:[!username]:MYTAPE:ROOT    &
+     #\NET\PAGE\PER\PROC\QUEUE\SWAP\SWAP.SWAP\SYSGEN&
+\?+.BRK\+.ED\?+JOB\+.LS\?+.TMP   NET:NETGEN:+
+
+  dismount MYTAPE  Incremental backup of directory [!dir] is done.
+  pause 5
+  send 2 ,, Check the printer -- file [!username].OUTPUT.n -- for errors.
+  send 2 ,, A list of files backed up is printed in file [!username].LIST.n
+
+  [!equal,comment,] Delete and rename file LAST_DUMP_DATE... but do it
+  only if file DATE_DUMP_STARTED exists. This prevents LAST_DUMP_DATE
+  from being deleted if the batch job was aborted. The terminating
+  paren is needed for qbatch/m syntax. [!end]
+
+  [!nequal,([!filenames DATE_DUMP_STARTED]),()]
+     delete/2=ignore  LAST_DUMP_DATE
+     rename/2=ignore  DATE_DUMP_STARTED  LAST_DUMP_DATE
+  [!end]
+)
+[!else]
+     write Error - File LAST_DUMP_DATE doesn't exist! Cannot do incremental
+     write backup  without it. Suggest full backup. If you can remember the
+     write date of the last backup -- full or incremental -- create a
+     write file named LAST_DUMP_DATE containing this date and retry %0%
+     write The form of the date is dd-mmm-yy -- for example
+     write 09-MAY-85
+     pop
+[!end]
+[!ELSE]
+  write This macro is nonexecutable. To make it executable you must use
+  write a text editor to change the 2 in line 1 to 1 -- both numbers
+  write must be 1.
+  write
+  write Backup is very important. Before using the edited macro
+  write for backup you should understand how it works. Please test this
+  write macro. Use FULL_DUMP and this macro to back up files. Then try
+  write restoring files using the RESTORE_TAPE macro -- before relying
+  write on this macro routinely.
+[!END]

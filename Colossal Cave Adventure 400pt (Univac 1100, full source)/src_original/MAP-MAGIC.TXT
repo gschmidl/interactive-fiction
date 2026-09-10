@@ -1,0 +1,7 @@
+.
+.         MAP symbolics for MAGIC utility program.
+.
+LIB       ALTLIB*FTN.
+NOT       MAIN
+IN        MAGIC
+END

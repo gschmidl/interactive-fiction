@@ -1,0 +1,21 @@
+set CPU 1000-E,256K
+set CPU IDLE
+set ALL DISABLED
+set tbg  enabled, sc=11
+set da   enabled, sc=12
+set msc  enabled, sc=13
+set baci enabled, sc=15
+set tty  enabled, sc=16
+set ptr  enabled, sc=17
+set ptp  enabled, sc=20
+set lpt  enabled, sc=21
+set MSC 13183A
+set console DEL=177
+set TTY0 UC
+set TTY1 7P
+set DA0 enabled, 7920H
+set DA1 enabled, 7920H
+attach DA0 hp7920-advent.disc
+restore adv.sta
+set console telnet=2326
+cont

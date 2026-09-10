@@ -1,0 +1,70 @@
+Aug 31, 2026  16:33     /* Native Linux replacements for the MVS/TSO-specific external      */                          
+1.4.1                                               Source Listing                                           Page 1     
+    1  /* Native Linux replacements for the MVS/TSO-specific external      */
+    2  /* routines used by the Adventure PL/I engine (TREAD/TWRITE/WHISPER */
+    3  /* were originally WYLBUR/TSO terminal I/O; CLRSCRN/DECDATE were    */
+    4  /* assembler; RANDU was Fortran; R062A10/WARNMSG were MVS dynamic   */
+    5  /* allocation and broadcast-message helpers with no standalone      */
+    6  /* equivalent).                                                     */
+    7 
+    8  /* TWRITE mirrors the TWRITE CSECT of the WELLPUT assembler module  */
+    9  /* (tapecave/DECDATE.txt): one TPUT of MSGLEN bytes.                */
+   10  /*                                                                  */
+   11  /* The one addition is the code-page step.  The game database is    */
+   12  /* single-byte, exactly as it was on the mainframe: the decoder     */
+   13  /* maps EBCDIC cp037 to the matching Latin-1 byte, which keeps      */
+   14  /* every record exactly 80 columns wide (the engine calls BUG(0)    */
+   15  /* if a section-text card has anything in columns 79-80).  Four     */
+   16  /* bytes in the whole database fall outside ASCII - X'4A', a cent   */
+   17  /* sign, in the "FEE FIE FOE FOO" and "WITT CONSTRUCTION COMPANY"   */
+   18  /* signs, and X'5F', a logical not, in the wizard help text for the */
+   19  /* SCAN "not DEMO" subcommand.  A 3270 turned those bytes into      */
+   20  /* glyphs at the terminal, not in the dataset; this does the same   */
+   21  /* for a UTF-8 terminal by encoding bytes >= X'80' on the way out.  */
+   22  /* Set XLATE8 to '0'B for raw Latin-1 output instead.               */
+   23 
+   24  TWRITE: PROCEDURE(MSG, MSGLEN, CCODE);
+   25    DCL MSG    CHAR(133);
+   26    DCL MSGLEN FIXED BIN(31);
+   27    DCL CCODE  FIXED BIN(31);
+   28    DCL SYSCALL ENTRY RETURNS(FIXED BIN(31))
+   29                  OPTIONS(ASM LINKAGE(SYSTEM)) EXT('_pli_Syscall');
+   30    DCL (ADDR,MOD) BUILTIN;
+   31    DCL XLATE8 BIT(1) STATIC INIT('1'B);
+   32    DCL OUTBUF CHAR(267);
+   33    DCL (I,N,V,B1,B2) FIXED BIN(31);
+   34    DCL RC FIXED BIN(31);
+   35    DCL CH CHAR(1);
+   36    DCL CHV FIXED BIN(7) BASED(ADDR(CH));
+   37 
+   38    N = 0;
+   39    DO I = 1 TO MSGLEN;
+   40      CH = SUBSTR(MSG,I,1);
+   41      V = CHV;
+   42      IF V < 0 THEN V = V + 256;
+   43      IF V < 128 | ^XLATE8
+   44      THEN DO;
+   45        N = N + 1;
+   46        SUBSTR(OUTBUF,N,1) = CH;
+   47        END;
+   48      ELSE DO;                    /* U+0080..U+00FF -> two UTF-8 bytes */
+   49        IF V < 192 THEN B1 = 194;
+   50                   ELSE B1 = 195;
+   51        B2 = 128 + MOD(V,64);
+   52        CHV = B1 - 256;
+   53        N = N + 1;
+   54        SUBSTR(OUTBUF,N,1) = CH;
+   55        CHV = B2 - 256;
+   56        N = N + 1;
+   57        SUBSTR(OUTBUF,N,1) = CH;
+   58        END;
+Aug 31, 2026  16:33     /* Native Linux replacements for the MVS/TSO-specific external      */                          
+1.4.1                                               Source Listing                                           Page 2     
+   59      END;
+   60    N = N + 1;
+   61    SUBSTR(OUTBUF,N,1) = '0A'X;
+   62    RC = SYSCALL(4, 1, ADDR(OUTBUF), N);
+   63    CCODE = 0;
+   64    END TWRITE;
+
+End of compilation. 

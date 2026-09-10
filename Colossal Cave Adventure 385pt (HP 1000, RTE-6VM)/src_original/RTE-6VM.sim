@@ -1,0 +1,86 @@
+; Simulation configuration for running RTE-6/VM 7920H system disc
+
+
+; Configure the CPU.
+
+set CPU 1000-E,256K
+set CPU IDLE
+
+; Configure the I/O card cage select codes (slot numbers).
+;
+; SC 10 = ** unused** 12791A Firmware Expansion Module (or 12966A BACI on M-Series)
+; SC 11 = 12539C Time Base Generator
+; SC 12 = 12821A Disc Interface
+; SC 13 = 13181A/13183A Magnetic Tape Interface (data card)
+; SC 14 = 13181A/13183A Magnetic Tape Interface (control card)
+; SC 15 = 12966A Buffered Asynchronous Communications Interface
+; SC 16 = 12880A CRT or 12531C TTY Interface
+; SC 17 = 12597A Duplex Register Interface with 2748B Paper Tape Reader
+; SC 20 = 12597A Duplex Register Interface with 2895B Paper Tape Punch
+
+set ALL DISABLED
+
+; set mpx  enabled, sc=10
+set tbg  enabled, sc=11
+set da   enabled, sc=12
+set msc  enabled, sc=13
+set baci enabled, sc=15
+set tty  enabled, sc=16
+set ptr  enabled, sc=17
+set ptp  enabled, sc=20
+set lpt  enabled, sc=21
+
+; Configure the simulation environment.
+;
+;  - MS tape drive as 13183A interface (7970E drives).
+;  - console DELETE character as ASCII DEL.
+;  - TTY keyboard as upper-case.
+;  - TTY display as 7-bit, non-printing characters suppressed.
+;  - DA ICD disc units 0 and 1 as 7920H 50 MB drives.
+
+set MSC 13183A
+
+set console DEL=177
+
+set TTY0 UC
+set TTY1 7P
+
+set DA0 enabled, 7920H
+set DA1 enabled, 7920H
+
+; If the BACI is used for the system console, attach it to a Telnet port and
+; start the Telnet client now.  The client must be running before SIMH
+; attempts to output to it, or an error will occur.  Note that the client
+; must output CR (not CRLF) for ENTER, and that CAPS LOCK will be required,
+; as RTE does not accept lowercase commands.
+
+;attach BACI 1050
+
+; Attach the RTE-6/VM system disc to the 7920H on unit 0.
+
+attach DA0 hp7920-advent.disc
+
+show cpu iocage
+
+; Report that the system is starting.
+
+echo
+echo Booting the system.
+echo
+echo The character delete key is BACKSPACE.
+echo The line delete key is DEL.
+echo
+
+; Bootstrap the system.
+
+deposit S 0
+break "SET TIME" delay 10 milliseconds
+boot DA0
+
+reply " "
+
+; Set the system time.
+
+go until "*" ; reply "TM,%DATE_YYYY%,%DATE_JJJ%,%TIME_HH%,%TIME_MM%,%TIME_SS%\r"
+go
+

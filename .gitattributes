@@ -1,0 +1,13 @@
+# Preservation archive — store and check out every file byte for byte.
+#
+# No end-of-line translation anywhere.  Tape and printer-listing sources
+# carry meaningful CRLF/CR, ports are verified by byte-exact comparison,
+# and several "text" files are really 36-bit words, EBCDIC, or PETSCII.
+# Without this line, anyone cloning with core.autocrlf=true (the common
+# Git-for-Windows default) would silently get rewritten line endings.
+* -text
+
+# Git LFS is deliberately NOT configured.  .gitignore keeps every
+# multi-hundred-MB emulator disk image out of the repository, so nothing
+# tracked here needs it.  Do not re-add filter=lfs lines without
+# checking what they would pull in.

@@ -1,0 +1,63 @@
+[!equal,%0/%,]
+  [!equal,,%1%]
+    COMMENT  XHELP without arguments:  display list of EXEC help-topics
+    help  *EXEC
+  [!else]
+    COMMENT  Call XHELP/1 with arguments:
+    COMMENT    %1%   user-supplied abbreviation
+    COMMENT    %2-%  matching filenames, if any
+    push;  prompt pop
+    directory  :help
+    string  [!filenames exec.%1%-]
+    directory/p
+    %0\%/1,%1%,[!string]
+    pop
+  [!end]
+[!end]
+
+
+[!equal,%0/%,/1]
+  [!equal,,%2%]    ;COMMENT  If no matching topics,...
+    write  %1%,,,,- UNKNOWN
+  [!else]
+    [!equal,,%3%]  ;COMMENT  If unique abbreviation,...
+      type  clear_screen.cli
+      directory  :help
+      type  %2%
+      pause  1
+    [!else]        ;COMMENT  Non-unique.  Check for an exact match
+      var0  0      ;COMMENT  Var0=1 means exact match found
+      %0\%/2  %1%  (%2-%)
+      [!equal,[!var0],0]
+        write  Possibilities are:
+        write
+        COMMENT  Display topic-names by excising "=EXEC." from file pathnames
+        %0\%/3  (%2-%)
+      [!end]
+    [!end]
+  [!end]
+[!end]
+
+
+[!equal,%0/%,/2]
+  [!equal,[!var0],0]
+    [!equal,=exec.%1%,%2%]  ;COMMENT  If exact match found,
+      var0  1               ;COMMENT     flag it, and
+      %0\%/1  %1%  %2%      ;COMMENT     display help-topic
+    [!end]
+  [!end]
+[!end]
+
+[!equal,%0/%,/3]
+  %0\%/4  [!explode %1%]
+[!end]
+
+
+[!equal,%0/%,/4]
+  write  %7%%8%%9%%10%%11%%12%%13%%14%%15%%16%%17%%18%%19%%20%%21%%22%%23%%24%
+[!end]
+
+
+[!equal,%0/%,/v]
+  %0\%  %1%
+[!end]

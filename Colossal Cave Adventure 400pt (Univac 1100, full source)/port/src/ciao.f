@@ -1,0 +1,17 @@
+       SUBROUTINE CIAO
+
+C  EXITS, AFTER ISSUING REMINDER TO SAVE NEW CORE IMAGE.  USED WHEN SUSPENDING
+C  AND WHEN CREATING NEW VERSION VIA MAGIC MODE.
+
+       IMPLICIT INTEGER (A-Z)
+       character*5  wd1, wd2
+       character*12 wd1x, wd2x
+C
+       DATA K/33/
+
+       CALL MSPEAK (K)
+       IF (K.EQ.31) CALL GETIN (wd1,wd1x,wd2,wd2x)
+       IF (K.EQ.33) CALL SAVEMA
+       IF (K.EQ.33) CALL MSPEAK (34)
+       STOP
+       END

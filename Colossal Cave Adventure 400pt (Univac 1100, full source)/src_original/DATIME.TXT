@@ -1,0 +1,53 @@
+       SUBROUTINE DATIME(D,T)
+
+C  RETURN THE DATE AND TIME IN D AND T.  D IS NUMBER OF DAYS SINCE 01-JAN-77,
+C  I.E. IF TODAY WAS 01-JAN-77 THIS ROUTINE WOULD RETURN D=0.
+C  T IS MINUTES PAST MIDNIGHT.
+C
+C  This routine will probably have to be rewriteen for each op system
+C  under which this program runs.  This is Univac 1100 version.
+C  (D Kurland, ISD 12/12/78)
+C
+
+       IMPLICIT INTEGER(A-Z)
+       DIMENSION HATH(12)                                               CBC
+       DATA HATH/31,28,31,30,31,30,31,31,30,31,30,31/
+       parameter dbgoff=1               @ =0 to turn on debug code      DK
+       define fld(a,b,c) = bits(c,a+1,b)                                DK
+
+      CALL TDATE(I)
+
+C
+C  OPERATING SYSTEM REQUEST TDATE$ RETURNS IN WORD I:
+C
+C  (BITS NUMBERED FROM LEFT 00-35)
+C
+C  BITS 00-05   =   MONTH, FROM 1 TO 12
+C  BITS 06-11   =   DAY, FROM 1 TO 31
+C  BITS 12-17   =   YEAR (MODULO 1964) 0 = 1964
+C  BITS 18-35   =   TIME, SECONDS SINCE MIDNIGHT
+C
+       YEAR = FLD(12,6,I)+64-77                                         CBC
+       MONTH = FLD(0,6,I)                                               CBC
+       D=FLD(6,6,I)                                                     ESI
+       DO 1 MON=1,12
+       IF(MON.EQ.MONTH)GOTO 2
+1      D=D+HATH(MON)
+       CALL BUG(28)
+
+2      D=D+YEAR*365+YEAR/4
+       IF(MOD(YEAR,4).EQ.3.AND.MON.GT.2)D=D+1
+       T=FLD(18,18,I)/60                                                CBC
+C
+C  SINCE THIS ROUTINE HAS SO FAR CALCULATED 01-JAN-77 IS
+C  D=1 WE MUST SUBTRACT ONE FOR THAT  (ESI)
+C
+       D = D - 1
+
+       delete 101,dbgoff,1                                              DK
+       PRINT 100,T,D                                                    CBC
+100    FORMAT(' DATIME: Time: ',I4,' Date: ',I4)                        CBC
+101    continue                                                         DK
+
+       RETURN
+       END

@@ -1,0 +1,6 @@
+C 
+      INTEGER*2 PLAC,FIXD,PROP,KEY,COND,ABB 
+C 
+      COMMON /ARYCOM/ PLAC(100),FIXD(100),PROP(100),
+     &                KEY(150),COND(150),ABB(150) 
+C 

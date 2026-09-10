@@ -1,0 +1,312 @@
+[inherit('[-.env]typedef', 'sys$library:starlet')]
+module ifc$object_routines;
+
+type	$longword = [unsafe, long] packed record
+			case integer of
+			1 : (long : unsigned);
+			2 : (word0, word1 : $uword);
+			3 : (byte0, byte1, byte2, byte3 : $ubyte);
+			end;
+
+var	object_file : text;
+	byte_count : $longword;
+
+[global]procedure ifc$open_object(
+	object_filename : varying[$u1] of char);
+begin
+	open(object_file, object_filename, history:=new,
+		carriage_control:=none);
+	rewrite(object_file);
+	byte_count.long:=0;
+end;
+
+[global]procedure ifc$close_object;
+begin
+	close(object_file);
+end;
+
+[global]procedure ifc$write_hdr_mhd(
+	module_name : varying[$u1] of char;
+	module_version : varying[$u2] of char);
+
+var	timebuf : varying[23] of char;
+begin
+	$asctim(,timebuf.body); timebuf.length:=17;
+
+	writeln(object_file,
+		chr(obj$c_hdr),
+		chr(mhd$c_mhd),
+		chr(obj$c_strlvl),
+		chr(132),
+		chr(0),
+		chr(module_name.length),
+		module_name,
+		chr(module_version.length),
+		module_version,
+		timebuf,
+		'                 ');
+end;
+
+[global]procedure ifc$write_hdr_lnm(
+	language_name : packed array[$l1..$u1:integer] of char);
+begin
+	writeln(object_file,
+		chr(obj$c_hdr),
+		chr(mhd$c_lnm),
+		language_name);
+end;
+
+[global]procedure ifc$write_gsd_psc(psect_name : varying[$u1] of char);
+begin
+	writeln(object_file,
+		chr(obj$c_gsd),
+		chr(gsd$c_psc),
+		chr(9),
+		chr(gps$m_pic+gps$m_rel+gps$m_gbl+gps$m_shr+gps$m_rd),
+		chr(0),
+		chr(byte_count.byte0),
+		chr(byte_count.byte1),
+		chr(byte_count.byte2),
+		chr(byte_count.byte3),
+		chr(psect_name.length),
+		psect_name);
+end;
+
+[global]procedure ifc$write_gsd_sym(symbol_name : varying[$u1] of char);
+begin
+	writeln(object_file,
+		chr(obj$c_gsd),
+		chr(gsd$c_sym),
+		chr(dsc$k_dtype_t),
+		chr(gsy$m_def+gsy$m_rel),
+		chr(0),
+		chr(0),
+		chr(byte_count.byte0),
+		chr(byte_count.byte1),
+		chr(byte_count.byte2),
+		chr(byte_count.byte3),
+		chr(symbol_name.length),
+		symbol_name);
+end;
+
+[global]procedure ifc$write_gsd_sym_ref(
+	symbol_name : varying[$u1] of char);
+begin
+	writeln(object_file,
+		chr(obj$c_gsd),
+		chr(gsd$c_sym),
+ 		chr(dsc$k_dtype_t),
+		chr(gsy$m_rel),
+		chr(0),
+		chr(symbol_name.length),
+		symbol_name);
+end;
+
+[global]procedure ifc$write_gsd_sym_ref_abs(
+	symbol_name : varying[$u1] of char);
+begin
+	writeln(object_file,
+		chr(obj$c_gsd),
+		chr(gsd$c_sym),
+ 		chr(dsc$k_dtype_t),
+		chr(0),
+		chr(0),
+		chr(symbol_name.length),
+		symbol_name);
+end;
+
+[global]procedure ifc$write_gsd_sym_def(
+	symbol_name : varying[$u1] of char;
+	value : $longword);
+begin
+	writeln(object_file,
+		chr(obj$c_gsd),
+		chr(gsd$c_sym),
+		chr(dsc$k_dtype_t),
+		chr(gsy$m_def),
+		chr(0),
+		chr(0),
+		chr(value.byte0),
+		chr(value.byte1),
+		chr(value.byte2),
+		chr(value.byte3),
+		chr(symbol_name.length),
+		symbol_name);
+end;
+
+[global]procedure ifc$write_tir_sta_pb;
+begin
+	writeln(object_file,
+		chr(obj$c_tir),
+		chr(tir$c_sta_pb),
+		chr(0),
+		chr(0));
+end;
+
+[global]procedure ifc$write_tir_ctl_setrb;
+begin
+	writeln(object_file,
+		chr(obj$c_tir),
+		chr(tir$c_ctl_setrb));
+end;
+
+[global] procedure ifc$write_tir_sta_gbl(
+	symbol : varying[$u1] of char);
+begin
+	writeln(object_file,
+		chr(obj$c_tir),
+		chr(tir$c_sta_gbl),
+		chr(symbol.length),
+		symbol);
+end;
+
+[global] procedure ifc$write_tir_sto_pidr;
+begin
+	writeln(object_file,
+		chr(obj$c_tir),
+		chr(tir$c_sto_pidr));
+	byte_count.long:=byte_count.long + 4;
+end;
+
+[global] procedure ifc$write_tir_sto_ld;
+begin
+	writeln(object_file,
+		chr(obj$c_tir),
+		chr(tir$c_sto_ld));
+	byte_count.long:=byte_count.long + 4;
+end;
+
+[global]procedure ifc$write_tir_sti_msg(
+	fao_count : $longword;
+	attributes : $longword;
+	data : varying[$u1] of char);
+begin
+	writeln(object_file,
+		chr(obj$c_tir),
+		chr(256-(data.length+3)),
+		chr(data.length),
+		chr(fao_count.byte0),
+		chr(attributes.byte0),
+		data);
+	byte_count.long:=byte_count.long + data.length + 3;
+end;
+
+[global] procedure ifc$write_tir_sti_room(
+	free : $longword;
+	class : $longword;
+	link : packed array[$l1..$u1:integer] of $ubyte);
+begin
+	writeln(object_file,
+		chr(obj$c_tir),
+		chr(241),
+		chr(free.byte0), chr(free.byte1),
+		chr(class.byte0),
+		chr(link[1]), chr(link[2]), chr(link[3]), chr(link[4]),
+		chr(link[5]), chr(link[6]), chr(link[7]), chr(link[8]),
+		chr(link[9]), chr(link[10]), chr(link[11]), chr(link[12]) );
+	byte_count.long:=byte_count.long + 15;
+end;
+
+[global] procedure ifc$write_tir_sti_object(
+	free : $longword;
+	flags : $longword;
+	count : $longword;
+	var initial : varying[$u1] of char;
+	var info : packed array[$l2..$u2:integer] of $ubyte);
+begin
+	if (initial.length<>0) then
+	  begin
+		ifc$write_gsd_sym_ref_abs(initial);
+		ifc$write_tir_sta_gbl(initial);
+		writeln(object_file,
+			chr(obj$c_tir),
+			chr(251),
+			chr(free.byte0), chr(free.byte1),
+			chr(flags.byte0),
+			chr(flags.byte1),
+			chr(count.byte0),
+			chr(tir$c_sto_usb),
+			chr(241),
+			chr(info[02]), chr(info[03]), chr(info[04]),
+			chr(info[05]), chr(info[06]), chr(info[07]),
+			chr(info[08]), chr(info[09]), chr(info[10]),
+			chr(info[11]), chr(info[12]), chr(info[13]),
+			chr(info[14]), chr(info[15]), chr(info[16]));
+	  end
+	else
+		writeln(object_file,
+			chr(obj$c_tir),
+			chr(235),
+			chr(free.byte0), chr(free.byte1),
+			chr(flags.byte0),
+			chr(flags.byte1),
+			chr(count.byte0),
+			chr(info[01]), chr(info[02]), chr(info[03]),
+			chr(info[04]), chr(info[05]), chr(info[06]),
+			chr(info[07]), chr(info[08]), chr(info[09]),
+			chr(info[10]), chr(info[11]), chr(info[12]),
+			chr(info[13]), chr(info[14]), chr(info[15]),
+			chr(info[16]));
+
+	byte_count.long:=byte_count.long + 21;
+end;
+
+[global] procedure ifc$write_tir_sto_usb;
+begin
+	writeln(object_file,
+		chr(obj$c_tir),
+		chr(tir$c_sto_usb));
+	byte_count.long:=byte_count.long + 1;
+end;
+
+[global] procedure ifc$write_tir_sti_end;
+begin
+	writeln(object_file,
+		chr(obj$c_tir),
+		chr(254),
+		chr(0),
+		chr(0));
+	byte_count.long:=byte_count.long + 2;
+end;
+
+[global] procedure ifc$write_tir_sti_l(
+	value : $longword);
+begin
+	writeln(object_file,
+		chr(obj$c_tir),
+		chr(252),
+		chr(value.byte0),
+		chr(value.byte1),
+		chr(value.byte2),
+		chr(value.byte3));
+	byte_count.long:=byte_count.long + 4;
+end;
+
+[global] procedure ifc$write_tir_sti_str(
+	data : varying[$u1] of char);
+begin
+	writeln(object_file,
+		chr(obj$c_tir),
+		chr(256-(data.length+1)),
+		chr(data.length),
+		data);
+	byte_count.long:=byte_count.long + data.length + 1;
+end;
+
+[global] procedure ifc$write_tir_sti_char(character : char);
+begin
+	writeln(object_file,
+		chr(obj$c_tir),
+		chr(255),
+		character);
+	byte_count.long:=byte_count.long + 1;
+end;
+
+[global]procedure ifc$write_eom;
+begin
+	writeln(object_file,
+		chr(obj$c_eom),
+		chr(eom$c_success));
+end;
+
+end.

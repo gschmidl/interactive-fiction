@@ -1,0 +1,62 @@
+          AXR$                        .
+          $include  'defs'            . define qualifier and filename
+.
+. This routine is caled when the player gives a SAVE, PAUSE,
+. or SUSPEND command to save his game.
+. We copy the entire D-bank into a word addressable drum that we catalogue
+. and assign after first setting the first word to the TDATE$ word.
+.
+SAVEDB*.
+          S         X11,SAVX11        . SAVE X11
+          E$DIT     EDPKT             . OPEN EDITING
+          E$MSG     USE               . PUT USE NAME OF $
+          E$FD2     ACCTNR            . PUT HIS user id IN SO THAT WE CAN PUT $
+          E$MSGR                      . ONTO FILE <user id>*<filename>
+          E$DITX                      . END EDITING
+          L,U       A0,LINE           . GET LINE
+          ER        CSF$              . DO IT
+          L,U       A0,CAT            . ATTEMPT CAT
+          ER        CSF$              .
+          L,U       A0,ASG            . ASSIGN FILE
+          ER        CSF$              .
+          ER        TDATE$            . GET TDATE WORD SO WE KNOW WHEN HE DID TH
+          S         A0,SECOND         . SAVE IT
+          L         A0,AID            . GET AID
+          S         A0,FIRST          . PUT AWAY
+          l         a0,(1*/17+1,4)    . get D-bank storage limits
+          er        bank$             .
+          s         a0,third          . store to be written to file
+          I$OW      FIRSTPKT          . WRITE OUT FIRST 3 WORDS
+          tz,s1     firstpkt+3        . did that go ok?
+          er        eabt$             . no
+          I$OW      FIRSTPKT          . WRITE OUT FIRST 3 WORDS
+          tz,s1     firstpkt+3        . did that go ok?
+          er        eabt$             . no
+          l,h1      a0,third          . get D-bank upper limit
+          an,h2     a0,third          . calculate length of D-bank
+          a,u       a0,1              .
+          s,h1      a0,dbankpkt+4     . set in acw
+          l,h2      a0,third          . get D-bank start address
+          s,h2      a0,dbankpkt+4     . set as buffer address
+          I$OW      DBANKPKT          . WRITE OUT DBANK
+          tz,s1     dbankpkt+3        . did that go ok?
+          er        eabt$             . no
+          L         X11,SAVX11        . RESTORE X11
+          tz,s1     0,x11             . called from ASCII FORTRAN (FTN) ?
+          j         rtnftn            . yes
+          J         1,X11             . no, return to FORTRAN-V program
+rtnftn    .
+          j         0,x11             . return to FTN program
+.
+. DATA FOR SAVEDB (EDPKT, ACCTNR, AND LINE ARE DEFINED IN ELEMENT INITDB)
+.
+SAVX11    RES       1                 .
+USE       '@USE $,&*':filename:' . &'
+CAT       '@CAT $.,F40///200 . '
+ASG       '@ASG,AX $ . '
+FIRST     RES       1                 .
+SECOND    RES       1                 .
+third     res       1
+FIRSTPKT  I$OD      '$',W$  3,FIRST  0  .
+DBANKPKT  I$OD      '$',W$  0,0  3  .
+          END                         .

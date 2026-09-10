@@ -1,0 +1,53 @@
+C  GAMECOM holds every piece of live game state that used to live as
+C  plain local variables/arrays of the Univac main program (which, in
+C  the original, were saved/restored across SUSPEND/RESTART as a raw
+C  memory-image "D-bank" dump by the INITDB/SAVEDB assembler routines).
+C  This port's INITDB/SAVEDB/SAVEMA replacements (savefile.f) are
+C  ordinary external Fortran subroutines, so this state has to live in
+C  a named COMMON block instead of as MAIN's local variables, in order
+C  for those routines to reach it with a plain WRITE/READ.  Any file
+C  that needs to survive a SUSPEND/RESTORE should include this file
+C  (after declaring IMPLICIT INTEGER(A-Z)).
+
+      dimension travel(trvsiz,2)
+      dimension rtravl(rctrvl,4)
+      logical ctravl(rctrvl)
+      dimension ltext(locsiz), stext(locsiz), key(locsiz), cond(locsiz)
+      dimension plac(objsiz), fixd(objsiz), prop(objsiz), iprop(objsiz)
+      dimension actspk(vrbsiz)
+      dimension ctext(levsiz), cval(levsiz)
+      dimension hintlc(hntsiz), hints(hntsiz,4)
+      dimension dloc(17), odloc(17), itk(20)
+      logical dseen(17), hinted(hntsiz)
+      character*5  wd1, wd2, tk(20)
+      character*12 wd1x, wd2x
+      character*1  chr, star
+
+      LOGICAL WZDARK,LMWARN,CLOSNG,PANIC,BONUS,
+     1        CLOSED,GAVEUP,SCORNG,DEMO,YEA
+
+      common /gamecom/
+     1 a, a1, a2, a4, a5, abbnum, attack, axe, back, balrog,
+     1 banish, batter, bear, boat, bottle, bridge, cape, carpet,
+     1 chain, chest, chloc, class, climb, clock1, clock2, clsses,
+     1 cola, column, compas, crap, crown, cup, daltlc, dam,
+     1 descrb, detail, dflag, djinn, dkill, door, down, dragon,
+     1 drop, dtotal, dwarf, enter, erope1, erope2, find, food,
+     1 gate, giant, hammer, harp, helm, hint, hntmax, hope, i1,
+     1 i12, i2, i3, i4, i5, i7, i9, idol, ii, inorth, invent,
+     1 jewlry, k, k2, keg, keys, knfloc, knife, kobold, kq, lamp,
+     1 limit, linuse, ll, lock, maxart, maxcre, maxdie, maxdwr,
+     1 maxmon, maxtrs, maxwpn, medal, minart, mincre, mindwr,
+     1 minmon, mintrs, minwpn, mirror, misfor, mncomp, mxcomp,
+     1 mxscor, newloc, null, numdie, oldlc2, oldloc, oldvrb, orb,
+     1 orc, out, rctrvs, rick, ring, rope, rope2, ruby, rugrop,
+     1 sand, say, scept, score, scroll, scrwup, sears, searsl,
+     1 sect, self, shelf, shower, skeltn, spice, spider, spk,
+     1 stick, stone, sword, tabndx, take, tally, tally2, throne,
+     1 throw, toad, tomb, touch, trvs, turns, unicrn, up, vend,
+     1 verb, wallet, water, wine, x, z, loc, obj,
+     1 wzdark,lmwarn,closng,panic,bonus,closed,gaveup,scorng,demo,yea,
+     1 travel, rtravl, ctravl, ltext, stext, key, cond,
+     1 plac, fixd, prop, iprop, actspk, ctext, cval, hintlc, hints,
+     1 dloc, odloc, itk, dseen, hinted, wd1, wd2, tk, wd1x, wd2x,
+     1 chr, star

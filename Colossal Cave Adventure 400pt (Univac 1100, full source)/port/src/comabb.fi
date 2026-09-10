@@ -1,0 +1,2 @@
+      dimension abb(locsiz)
+      common /abbcom/ abb

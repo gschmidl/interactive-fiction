@@ -1,0 +1,5 @@
+host/1=ignore/2=ignore%/%&
+  [!nequal,(),(%1%)][!nequal,(%1%),([!hid])]%1%[!end][!end]
+runtime%/%&
+  [!nequal,(),(%1%)][!nequal,(%1%),([!hid])]%1%:[!end][!end]1
+who/2=ignore%/% [!pids]

@@ -1,0 +1,65 @@
+          AXR$                        .
+          $include  'defs'            . define qualifier and filename
+.
+. This routine is used only by the wizard.
+. We save the D-bank into <qualifier>*<filename>, the master file.SE
+. We must get exclusive use of it first.
+.
+SAVEMA*.
+          L,U       A0,USE            . PUT USE NAME ONTO FILE
+          ER        CSF$              . DO
+          L,U       A0,CAT            . CAT THE FILE
+          ER        CSF$              .
+ASGIT     L,U       A0,ASG            . TRY TO EXCLUSIVELY ASSIGN THE FILE
+          ER        CSF$              . DO IT
+          JP        A0,WRITE          . IF WE GOT IT, WRITE INTO IT
+.
+. WE CAN'T GET EXCLUSIVE USE OF FILE, TRY AGAIN AFTER A TEN SECOND
+. WAIT
+.
+          L,U       A1,10000          . WAIT TEN SECONDS
+          ER        TWAIT$            . WAIT
+          J         ASGIT             .
+.
+. WE GOT THE FILE, WRITE OUT THE DBANK
+.
+WRITE.
+          L         A0,AID            . GET ABSOLUTE ID
+          S         A0,FIRST          . PUT AWAY
+          ER        TDATE$            . GET CURRENT DATE
+          S         A0,SECOND         . PUT THIS AWAY, TOO
+          l         a0,(1*/17+1,4)    . get D-bank storage limits
+          er        bank$             .
+          s         a0,third          . store to be written to file
+          I$OW      FIRSTPKT          . WRITE OUT FIRST 3 WORDS
+          tz,s1     firstpkt+3        . did that go ok?
+          er        eabt$             . no
+          l,h1      a0,third          . get D-bank upper limit
+          an,h2     a0,third          . calculate length of D-bank
+          a,u       a0,1              .
+          s,h1      a0,dbankpkt+4     . set in acw
+          l,h2      a0,third          . get D-bank start address
+          s,h2      a0,dbankpkt+4     . set as buffer address
+          I$OW      DBANKPKT          . WRITE OUT DBANK
+          tz,s1     dbankpkt+3        . did that go ok?
+          er        eabt$             . no
+          L,U       A0,FREE           . FREE THE FILE
+          ER        CSF$              .
+          tz,s1     0,x11             . caled from ASCII FORTAN (FTN) ?
+          j         rtnftn            . yes
+          J         1,X11             . no, return to FORTRAN-V program
+rtnftn    .
+          j         0,x11             . return to FTN program
+.
+. DATA
+.
+USE       '@USE $,':qualifier:'*':filename:' . '
+CAT       '@CAT,P $/READKY/WRITKY.,F40///200 . '
+ASG       '@ASG,AXI $/READKY/WRITKY . '
+FREE      '@FREE $ . '
+DBANKPKT  I$OD      '$',W$  0,0  3
+FIRST     RES       1                 . time/date of absolute
+SECOND    RES       1                 . time/date of save
+third     res       1                 . D-bank storage limits
+FIRSTPKT  I$OD      '$',W$  3,FIRST 0 .
+          END                         .

@@ -1,0 +1,122 @@
+[!EQUAL,1,2]
+[!equal,comment,]  This macro checks the amount of space left for log file
+SYSLOG. It requires the log file to be in a control point directory, on
+the master LDU or other LDU, in one of the following directory arrangements.
+            :                 :                       :
+       +--------+   ========================   ===============
+       |log file|   |CPD (or LDU) directory|   |LDU directory|
+       +--------+   ========================   ===============
+                              |                       |
+                         +--------+            ===============
+                         |log file|            |CPD directory|
+                         +--------+            ===============
+                                                      |
+                                                 +--------+
+                                                 |log file|
+                                                 +--------+
+
+To run this macro, a CLI process needs Superuser privilege. It also
+needs E access to the log directory and its parent directory (if any).
+
+On startup, if this is the first check, set up needed files to be used
+while the macro runs. Use VAR9 as an indicator: a VAR9 value of 99999
+means the CHECK_SPACE files are ready. [!end]
+
+[!nequal [!var9],99999]
+   permanence/2=ignore :UDD:[!username]:??CHECK_DIR   off
+   delete/2=ignore  :UDD:[!username]:??CHECK_DIR
+   create/max=100   :UDD:[!username]:??CHECK_DIR
+   permanence   :UDD:[!username]:??CHECK_DIR   on
+   write/l=:UDD:[!user]:??CHECK_DIR:ARG2.CLI [!ascii 045]2[!ascii 045][!ascii 046]
+   write/l=:UDD:[!user]:??CHECK_DIR:ARG6.CLI [!ascii 045]6[!ascii 045][!ascii 046]
+   [!equal,comment,] Set VAR0 to danger threshold of disk space. Original
+                     figure is 5,000 blocks for a check each 30 minutes.[!end]
+   var0  5000
+   [!equal,comment,] Turn Superuser on to check the pathname and type of
+                     the log file. Then turn it off. [!end]
+   superuser  on
+   pathname/2=abort/l=:udd:[!username]:??CHECK_DIR:?CHECK_SPACE_PATH.TMP :SYSLOG
+   files/nh/type/l=:UDD:[!username]:??CHECK_DIR:?CHECK_SPACE.TMP  :SYSLOG
+   superuser  off
+   string   [:UDD:[!username]:??CHECK_DIR:?CHECK_SPACE.TMP]
+   string   [:UDD:[!username]:??CHECK_DIR:ARG2 [!string]]
+   [!equal,comment,]  The string has the SYSLOG file type, LNK or LOG. Use
+                      VAR8 value of 88888 to signify LNK. [!end]
+   [!equal [!string],LNK]
+      VAR8  88888
+   [!end]
+
+   [!equal,comment,] Set variable VAR9 to show that setup is done. [!end]
+   var9  99999
+[!end]
+
+[!equal,comment,]  Ready to go. See if SYSLOG is a link -- VAR8 is 88888.[!end]
+[!nequal [!var8],88888]
+   [!equal,comment,]  SYSLOG is a not a link -- log file's in the root. [!end]
+   delete/2=ignore  :UDD:[!username]:??CHECK_DIR:?CHECK_SPACE.TMP
+   space/l=:UDD:[!username]:??CHECK_DIR:?CHECK_SPACE.TMP   :
+   string  [:UDD:[!username]:??CHECK_DIR:?CHECK_SPACE.TMP]
+   var1  [:UDD:[!username]:??CHECK_DIR:ARG6 [!string]]
+   [!equal,comment,] Set VAR2 high enough to keep it out of the way. This
+   lets us use the same check routine regardless of log file directory.[!end]
+   var2  4000000000
+[!else]
+   [!equal,comment,]  SYSLOG is a link. Get the name of the real log
+   file directory and parent directory.
+
+   First, get name of log file directory -- from pathname file. [!end]
+
+   string  [:UDD:[!username]:??CHECK_DIR:?CHECK_SPACE_PATH.TMP]
+   string  [!edirectory   [!string]]
+   delete/2=ignore   :UDD:[!username]:??CHECK_DIR:?CHECK_SPACE.TMP
+   space/2=abort/l=:UDD:[!username]:??CHECK_DIR:?CHECK_SPACE.TMP   [!string]
+   string   [:UDD:[!username]:??CHECK_DIR:?CHECK_SPACE.TMP]
+
+   [!equal,comment,]   Extract space remaining from SPACE string. [!end]
+   var1   [:UDD:[!username]:??CHECK_DIR:ARG6 [!string]]
+
+   [!equal,comment,]
+   Second, get name of log file parent directory -- from pathname file. [!end]
+
+   string  [:UDD:[!username]:??CHECK_DIR:?CHECK_SPACE_PATH.TMP]
+   string  [!edirectory [!edirectory  [!string]]]
+   delete/2=ignore     :UDD:[!username]:??CHECK_DIR:?CHECK_SPACE.TMP
+   space/2=abort/l=:UDD:[!username]:??CHECK_DIR:?CHECK_SPACE.TMP  [!string]
+   string   [:UDD:[!username]:??CHECK_DIR:?CHECK_SPACE.TMP]
+
+   [!equal,comment,] Again, extract space remaining from SPACE string.[!end]
+   var2   [:UDD:[!username]:??CHECK_DIR:ARG6 [!string]]
+
+[!end]
+[!equal,comment,] Disk space figures are in VAR1 and VAR2. Compare them to
+the threshold. Notify -- twice -- if lower figure is below threshold. [!end]
+[!ult [!var1] [!var0]]
+   send 2  [!ascii 214]
+   send 2 [!ascii 212] [!ascii 207]
+   send 2 [!ascii 216] *** Warning -- Low Disk Space *** [!ascii 217]
+   send 2 ,,, On [!date] at [!time]
+   send 2 [!ascii 212]
+   send 2 Space left in log directory is [!var1]. Threshold is [!var0].
+   pause 5
+   send 2  [!ascii 207] [!ascii 212]
+   send 2 [!ascii 216] *** Warning -- Low Disk Space *** [!ascii 217]
+[!else]
+   [!ult [!var2] [!var0]]
+      send 2 [!ascii 212] [!ascii 207]
+      send 2  [!ascii 214]
+      send 2 [!ascii 216] *** Warning -- Low Disk Space *** [!ascii 217]
+      send 2 [!ascii 212]
+      send 2 Space left in log directory PARENT directory is [!var1].
+      send 2 The threshold is [!var0].
+      pause 5
+      send 2 [!ascii 212]
+      send 2 [!ascii 216] *** Warning -- Low Disk Space *** [!ascii 217]
+   [!end]
+[!end]
+[!equal,comment,]  Pause 30 minutes -- 1800 seconds, and call this macro again.[!end]
+pause  1800
+%0%
+[!ELSE]
+write This macro is nonexecutable. To make it executable you must use a
+write text editor to change the 2 in line 1 to 1 -- both numbers must be 1.
+[!END]

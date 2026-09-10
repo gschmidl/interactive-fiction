@@ -1,0 +1,79 @@
+      SUBROUTINE SPEAK(N)
+C
+C  PRINT THE MESSAGE WHICH STARTS AT LINES(N).  PRECEDE IT WITH A BLANK
+C  LINE UNLESS BLKLIN IS FALSE.
+C
+      include defs                      @
+      include comtxt                    @
+      include comblk                    @
+      character*1 spacng                @ double space first line
+      data ignorm/'>$< '/,spacng/' '/   @
+C
+      IF (N.EQ.0) RETURN
+      IF (LINES(N+1).EQ.ignorm) RETURN
+      IF (BLKLIN) spacng = '0'
+    2 FORMAT()
+      K=N
+   10 L=IABS(LINES(K))-1
+      IF (L-K) 50,30,15
+   15 K=K+1
+      IF (L-K.GT.17) GOTO 50
+      WRITE(6,20) spacng, (LINES(I),I=K,L)
+   20 FORMAT(A1,18A4)
+      spacng = ' '                      @ single space line 2 on
+      GOTO 40
+C
+   30 WRITE(6,2)
+   40 K=L+1
+      IF (LINES(K).GE.0) GOTO 10
+      RETURN
+   50 CALL BUG(29)
+      END
+
+
+      SUBROUTINE MSPEAK(I)
+C
+C  PRINT THE I-TH "MAGIC" MESSAGE (SECTION 12 OF DATABASE).
+C
+      include defs                      @
+      include commtx                    @
+C
+      IF (I.NE.0) CALL SPEAK(MTEXT(I))
+      RETURN
+      END
+
+
+      SUBROUTINE PSPEAK(MSG,SKIP)
+C
+C  FIND THE SKIP+1ST MESSAGE FROM MSG AND PRINT IT.
+C  MSG SHOULD BE THE INDEX OF THE INVENTORY MESSAGE FOR OBJECT.
+C  (INVEN+N+1 MESSAGE IS PROP=N MESSAGE).
+C
+      include defs                      @
+      include comtxt                    @
+      include comptx                    @
+C
+      M=PTEXT(MSG)
+      IF (SKIP.LT.0) GOTO 9
+      DO 3 I=0,SKIP
+    1 M=IABS(LINES(M))
+      IF (LINES(M).GE.0) GOTO 1
+    3 CONTINUE
+    9 CALL SPEAK(M)
+      RETURN
+      END
+
+
+      SUBROUTINE RSPEAK(I)
+C
+C  PRINT THE I-TH "RANDOM" MESSAGE (SECTION 6 OF DATABASE).
+C
+      include defs                      @
+      include comtxt                    @
+      include comblk                    @
+C
+      if (rmsgx(i)) mltcmd = .false.
+      if (i .eq. 54) blklin = .false.   @ no skip before 'ok'
+      IF (I.NE.0) CALL SPEAK(RTEXT(I))
+      RETURN
+      END
