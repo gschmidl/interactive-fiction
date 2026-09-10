@@ -1,0 +1,164 @@
+Changes made to Dave Mitchell's ZENO EXEC for the default,
+playable build.  Run Zeno.exe -original for the untouched one.
+Regenerate this file with src/makefix.py.
+
+1. Survive a REXX error instead of ending the session.
+
+   SIGNAL ON SYNTAX is armed once, at line 18, and never disarmed, so any
+   interpreter error anywhere ended the whole game with "Due to your
+   careless meddling...".  The commonest way to provoke one is a SIMPL/E
+   expression that divides by zero: EVAL hands it straight to INTERPRET
+   at line 1286, REXX raises error 42, and the session is over.
+
+   Two changes make that survivable.  A RESUME: label goes in just after
+   RESTART:, so the trap can re-enter the main loop with the world intact;
+   and the handler cancels whatever program was executing, using the
+   author's own abend path (CPMSG, DELPROG, and a TELL to the ERROR
+   trapper), so the same faulty line cannot fire again on the next tick.
+   RUNLINE sets ZRUN while it is running a program line, which is how the
+   handler knows a program was to blame.  The handler also drops the clock
+   entry that was firing: CLOCK removes it only after the call returns
+   normally, so without this the same faulty line is re-dispatched on
+   every tick and the game live-locks.
+
+   The trap has to be re-armed by hand: SIGNAL ON is turned off while it
+   is being handled.
+
+2. EVAL: guard division by zero.
+
+   The other guards in EVAL already return an expression unevaluated when
+   it cannot be worked out; a zero divisor now does the same.  This keeps
+   the commonest crash from reaching the trap at all.
+
+3. EVAL: 'a' should be 'opa'.
+
+   When either operand of a SIMPL/E comparison is not numeric, this line
+   returns the letter A in place of the left operand, so that e.g.
+   IF (ANS = KILL) compares 'A' against 'KILL'.  Every other return in
+   the routine uses opa.  A plain typo.
+
+4. SAVE: stop indenting the file by two columns every time.
+
+   SAVEDATA wrote each record as `queue bl cr` with bl = ' ', which puts a
+   blank and the separator blank in front of the data.  LOADDATA assigned
+   the record straight back, so every save/restore cycle indented every
+   program line and every book title by two more columns - after three
+   round trips the LIFT program is six columns further right than it was.
+
+   The prefix is dropped instead of compensated for in the reader, because
+   ZENO INITDATA - which LOADDATA also reads - has no such prefix, and
+   plenty of its lines start with real blanks that must be kept.  Save
+   files now have exactly the shape of the shipped data file.  A save
+   written by -original will still load two columns wide, and vice versa.
+
+--- ZENO.EXEC
++++ ZENOFIX.EXEC
+@@ -27,6 +27,7 @@
+   call constinit
+ RESTART:
+   call varinit
++RESUME:
+   do forever
+     alien_act = '#'
+     call alien
+@@ -659,6 +660,7 @@
+   return
+  
+ RUNLINE:  parse arg pfn pvn pno
++  zrun = 1
+   if trace = @on then
+     call cpsay '>> Trace:' pfn pvn 'Line:' pno
+   ify = 1
+@@ -702,6 +704,7 @@
+     call delprog pfn pvn
+   else
+     call addclock runtime 'RUNLINE' pfn pvn pnext
++  zrun = 0
+   return
+  
+ RUNCOM:
+@@ -1280,7 +1283,8 @@
+   if oper = '=' then return strip(opa = opb)
+   if oper = '\=' then return strip(opa ^= opb)
+   if oper = '||' then return strip(opa||opb)
+-  if badnum(opa opb) then return strip(a oper opb)
++  if oper = '/' & opb = 0 then return strip(opa oper opb)
++  if badnum(opa opb) then return strip(opa oper opb)
+   if find('+ - * / > < ^= >= <=',oper) = 0 then
+     return strip(opa oper opb)
+   interpret 'opx=' opa oper opb
+@@ -2070,13 +2074,32 @@
+       say 'Initial loading failed'
+       exit
+     end
+-  say "Due to your careless meddling, terrible things have happened"
+-  say "You have probably damaged things beyond repair!"
+-  say "The test is over - you have failed - begone!"
+-  say
+-  say "By the way, you might like to tell Dave Mitchell about this"
+-  say "Error" rc "occurred at line" sigl
+-  exit
++  zerr = rc; zline = sigl
++  signal on syntax
++  if symbol('ZRUN') = 'VAR' then
++    if zrun = 1 then
++      do
++        zrun = 0
++        call cpmsg 'REXX error' zerr 'in' pfn pvn 'line' pno
++        call cpmsg 'Abend 997 in' pfn pvn 'line' pno
++        call delprog pfn pvn
++        if pfn ^= 'ERROR' then
++          call dotell '(ERROR)' 997 pfn pvn pno
++      end
++  if symbol('CLOCKNO') = 'VAR' then
++    do
++      zx = find(clocks,clockno)
++      if zx ^= 0 then
++        do
++          clocks = delword(clocks,zx,1)
++          drop clock.clockno
++        end
++    end
++  commsg = 'Something went wrong (error' zerr 'at line' zline') - carrying on'
++  actlines = ''
++  if find('ROOM MTRANS COMPUTER',word(environment,1)) = 0 then
++    environment = 'ROOM'
++  signal RESUME
+  
+ ROOMDESC:
+   dlines = airqual.air_quality
+@@ -2463,7 +2486,7 @@
+   bl = ' '
+  
+   queue '*' time() date(W) date(E)
+-  queue bl disk
++  queue disk
+  
+   nd = words(disks)
+   do i = 1 to nd
+@@ -2478,7 +2501,7 @@
+       do k = 1 to cfn
+         cfl = cf'.'k
+         cr = value(cfl)
+-        queue bl cr
++        queue cr
+       end
+     end
+   end
+@@ -2488,14 +2511,14 @@
+     cb = word(books,i)
+     queue '$ BOOK' cb
+     do j = 0 to 2
+-      queue bl book.cb.j
++      queue book.cb.j
+     end
+   end
+   queue '$ NOTE'
+   nn = words(notes)
+   do i = 1 to nn
+     cn = word(notes,i)
+-    queue bl cn note.cn
++    queue cn note.cn
+   end
+  
+   queue '$ EOF'

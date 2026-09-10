@@ -1,0 +1,35 @@
+/*
+ * Is the player a wizard?
+ */
+iswizard() {
+	auto n, i, j, v[6];
+
+	if(wizard != 0)
+		return(wizard);
+
+	while(yes("Are you a wizard ?\n"));
+	if(!true)
+		return(0);
+
+	putnum(n = rand(100000));
+	putchar('\n');
+	for(i=0; i<5; ++i) {
+		v[i] = n%10;
+		n /= 10;
+	}
+	for(i=0; i<5; ++i)
+		for(j=i+1; j<5; ++j)
+			v[j] = (v[j]+v[i]) % 10;
+	for(i=n=0; i<5; ++i)
+		n = n*10 + v[i];
+
+	do {
+		putstr("Prove it! Say the magic word!\n. ");
+	} while(getstr() == 0);
+	if(getarg(0)!=Number || getnum(0)!=n) {
+		return(putstr("Foo! You are nothing but a charlatan!\n"));
+	} else {
+		putstr("Oh my! You really ARE a wizard!\n");
+		return(wizard = 1);
+	}
+}

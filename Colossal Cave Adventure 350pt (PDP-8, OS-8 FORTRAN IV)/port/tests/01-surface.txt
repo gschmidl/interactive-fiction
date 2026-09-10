@@ -1,0 +1,20 @@
+# a walk over the surface and into the cave: no random events
+no
+in
+take lamp
+take keys
+take food
+take bottle
+inventory
+out
+s
+s
+s
+unlock grate
+open grate
+d
+w
+xyzzy
+score
+quit
+y

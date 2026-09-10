@@ -1,0 +1,182 @@
+New Adventure -- walkable map
+Mark D. Niemiec, University of Waterloo, 1979 (Copyright (C) 1979).
+
+The engine and the object code are lost; this walks the 162 recovered
+locations only.  Nothing here is invented -- "src" shows you the
+original F source behind anything the walker will not simulate.
+Type "help" for commands.
+
+== ROAD_BTM ==
+You are standing at the end of a road before a small brick building, Around
+you is a forest. A small stream flows out of the building and down a gully.
+There are some bushes to the north.
+
+ROAD_BTM> exits
+  W U ROAD HILL -> ROAD_TOP
+  E BUILD IN -> WELL_HOUSE
+  N BUSHES -> ORCH_BUSH
+  S VALLEY DOWNSTREAM (DEPRESSION) (GRATE) -> STREAM_VALLEY
+  NW SE NE SW FOREST -> -FOREST_1
+
+ROAD_BTM> e
+
+== WELL_HOUSE ==
+You are inside a building, a well house for a large spring.
+
+WELL_HOUSE> w
+
+== ROAD_BTM ==
+You are standing at the end of a road before a small brick building, Around
+you is a forest. A small stream flows out of the building and down a gully.
+There are some bushes to the north.
+
+ROAD_BTM> s
+
+== STREAM_VALLEY ==
+You are in a valley in the forest beside a stream tumbling along a rocky
+bed.
+
+STREAM_VALLEY> exits
+  N BUILD UPSTREAM -> ROAD_BTM
+  E W U FOREST -> -FOREST_1
+  DOWNSTREAM D W S SLIT (DEPRESSION) (GRATE) -> SLIT_2IN
+
+STREAM_VALLEY> d
+
+== SLIT_2IN ==
+At your feet all the water of the stream splashes into a 2-inch slit in the
+rock. Downstream the streambed is bare rock.
+
+SLIT_2IN> go ABOVE_GRATE
+
+== ABOVE_GRATE ==
+You are in a 20-foot depression floored with bare dirt. Set into the dirt is
+a strong steel grate mounted in concrete. A dry streambed leads into the
+depression
+
+ABOVE_GRATE> exits
+  D IN -> guarded (BELOW_GRATE)
+  E W S FOREST -> -FOREST_1
+  N VALLEY (BUILD) (ROAD) (HILL) -> SLIT_2IN
+  D IN GRATE -> BELOW_GRATE
+
+ABOVE_GRATE> d
+  [guarded: this exit depends on game state the walker does not
+   model.  loc.f says:]
+    | switch(.GRATE) {
+    | default:
+    | 	"You can't go through a locked steel grate!\n";
+    | 1:
+    | 	"You can't go through a closed steel grate!\n";
+    | 2:
+    | 	BELOW_GRATE;
+    | }
+  ["force" to go anyway]
+
+ABOVE_GRATE> force
+  [forced -- the original would have tested the condition above]
+
+== BELOW_GRATE ==
+You are in a small chamber beneath a 3x3 steel grate to the surface. A small
+passage leads downwards to the east.
+
+BELOW_GRATE> exits
+  U OUT -> guarded (ABOVE_GRATE)
+  U DEPRESSION OUT -> ABOVE_GRATE
+  E D -> GRATE_E
+
+BELOW_GRATE> path CAVE_TOP
+  8 steps: BELOW_GRATE -> GRATE_E -> BALL_RM -> CAVE_WW -> CAVE_W -> CAVE_BTM -> CAVE_LO -> CAVE_HI -> CAVE_TOP
+
+BELOW_GRATE> go TREE_FRONT
+
+== TREE_FRONT ==
+There is a plateau to the west, and a grove to the east.
+
+TREE_FRONT> e
+
+== TREE_4 ==
+You are in a grove of beautiful mallorn trees.
+
+TREE_4> exits
+  W OUT -> TREE_FRONT
+  N -> TREE_0
+  NE -> TREE_1
+  E -> TREE_5
+  S -> TREE_8
+  SE -> TREE_9
+  U CLIMB -> TREET_4
+
+TREE_4> u
+
+== TREET_4 ==
+You are at the top of a large mallorn tree.
+
+TREET_4> exits
+  D OUT -> TREE_4
+
+TREET_4> d
+
+== TREE_4 ==
+You are in a grove of beautiful mallorn trees.
+
+TREE_4> go STONE_DOOR
+
+== STONE_DOOR ==   (no LIGHT in Furnish)
+  [Look depends on game state; loc.f says:]
+    | if(.STONE_DOOR)
+    | 	"The way east is through an open door\n";
+    | else
+    | 	"The way east is barred by what appears to be a solid stone wall.
+    | 	There is a message written high up on the wall.\n";
+
+STONE_DOOR> read
+The message reads, 'Speak, friend, and enter.'
+
+STONE_DOOR> e
+  [guarded: this exit depends on game state the walker does not
+   model.  loc.f says:]
+    | if(.STONE_DOOR)
+    | 	STATUE_RM;
+    | else
+    | 	"There is no way to go in that direction.\n";
+  ["force" to go anyway]
+
+STONE_DOOR> acts
+  Look       (code)
+  FRIEND     (code)
+
+STONE_DOOR> src FRIEND
+    | if(.STONE_DOOR ^= 1)
+    | 	"A door opens in the wall.\n";
+    | else
+    | 	"The door vanishes, leaving a wall of solid rock.\n";
+
+STONE_DOOR> reach
+  from ROAD_BTM using unguarded exits: 150 of 162 locations
+    unreached: FOREST_2
+    unreached: TREE_MID
+    unreached: TREE_TOP
+    unreached: BEDCHAMBER
+    unreached: BED_RM
+    unreached: ISLAND
+    unreached: SEA
+    unreached: REPOS_NW
+    unreached: REPOS_SE
+    unreached: REPOS_NE
+    unreached: REPOS_SW
+    unreached: REPOS_ELEV
+  counting guarded exits too: 155 of 162
+    still unreached: ISLAND
+    still unreached: SEA
+    still unreached: REPOS_NW
+    still unreached: REPOS_SE
+    still unreached: REPOS_NE
+    still unreached: REPOS_SW
+    still unreached: REPOS_ELEV
+  (locexec() is not the only way in: ISLAND and SEA are entered
+   from vehexec()'s RAFT block in loc.f, and the REPOS_* rooms
+   from endgame() in adv.f.)
+
+STONE_DOOR> quit
+

@@ -1,0 +1,90 @@
+AMAZON -- map of the valley
+===========================
+
+No surviving file records a single room connection; ROOMS is a flat list of
+21 rooms.  Every exit below is reconstructed -- see RECONSTRUCTION.md 3.2 for
+which ones have a textual basis and which are free invention.
+
+Direction codes are CMDLIB.SAI's:
+    N=0  NE=1  E=2  SE=3  S=4  SW=5  W=6  NW=7  U=8  D=9
+
+
+                      SURFACE (daylight)
+                      ------------------
+
+                            4 Top of Cliff
+                            |  \
+                          D |   \ catapult + paper airplane
+                            |    \  (across the Amazon river)
+        13 Entrance --N-- 16 Skull cave       8 The Shipyard
+        to Skull Cave       |                    |
+            |             D |                  N |
+          E |               |                    |
+            |          20 Shadow Room         9 Wendy's Room
+       12 Elm Grove      /     \
+        /   |   \      W|       |E
+     N/   S |    \E     |       |
+      |     |     \   1 Riddle  2 Amazon Room
+ 15 Marsh   |      \      Room
+      |     |       \
+    N |     |     18 WIld Honeysuckle field
+      |     |       /   |    \
+ 14 Swamp---+      W|  S |     \E
+      |            |    |       \
+      +--N-- 19 Amazon River Bank    3 Equipment Shop
+                                          |
+                                        N |
+                      VILLAGE             |
+                      -------          10 Bar Room
+                                       /  |  \  \
+                                    N/  E |  U\  \S
+                                    /     |    \  \
+                          21 Padded Cell  |  11 Broom  3 Equipment Shop
+                                 |        |     Closet
+                               W |      5 Jail    | W
+                                 |        | N     |
+                          17 Witch's Castle     17 Witch's Castle
+                                 |        |
+                                 |     6 Court Room
+                                 |        | D  (only after sentencing)
+                            15 Marsh   7 Execution Chamber
+
+
+Exit table
+----------
+                    N     NE  E     SE  S     SW  W     NW  U     D
+ 1 Riddle Room      -     -   -     -   -     -   -     -   -     -   (*)
+ 2 Amazon Room      -     -   -     -   -     -   20    -   -     -
+ 3 Equipment Shop   10    -   -     -   -     -   18    -   -     -
+ 4 Top of Cliff     -     -   -     -   12    -   -     -   -     19
+ 5 Jail             6     -   -     -   -     -   10    -   -     -
+ 6 Court Room       -     -   -     -   5     -   -     -   -     7  (**)
+ 7 Execution Chmbr  -     -   -     -   -     -   -     -   -     -
+ 8 The Shipyard     9     -   -     -   19    -   -     -   -     -  (***)
+ 9 Wendy's Room     -     -   -     -   8     -   -     -   -     -
+10 Bar Room         21    -   5     -   3     -   -     -   11    -
+11 Broom Closet     -     -   -     -   -     -   17    -   -     10
+12 Elm Grove        15    -   18    -   19    -   13    -   -     -
+13 Entr. Skull Cave 16    -   12    -   -     -   -     -   -     -
+14 Swamp            19    -   18    -   15    -   -     -   -     -
+15 Marsh            14    -   17    -   12    -   -     -   -     -
+16 Skull cave       -     -   -     -   13    -   -     -   -     20 (+)
+17 Witch's Castle   21    -   11    -   -     -   15    -   -     10
+18 WIld Honeysuckle 12    -   3     -   14    -   19    -   -     -
+19 Amazon Rvr Bank  12    -   18    -   14    -   -     -   4     -
+20 Shadow Room      -     -   2     -   -     -   1     -   16    -
+21 Padded Cell      -     -   -     -   10    -   17    -   -     -
+
+  (*)   ROOMS: "You must answer a riddle to leave (the way you came in)".
+        Answer correctly and any direction takes you back where you came from.
+  (**)  Barred unless the court has sentenced you.
+  (***) Needs the life-raft, or a FLOATING ability of 12 or more.
+  (+)   The Wolf blocks this until you carry the Phantom's GOOD-MARK.
+
+Rooms 8 and 9 are on the far bank of the Amazon and are reached ONLY by
+LAUNCHing the paper airplane from the Top of Cliff.  Take the parachute or
+the life-raft: "Nice to take a parachute, life-raft in case you miss".
+
+Rooms 1, 2, 16 and 20 are the cave system and have no daylight.  You need
+the flashlight (with batteries) or the oil lamp (with the pan of oil and the
+matches) before you go down, or the Grue will have you.

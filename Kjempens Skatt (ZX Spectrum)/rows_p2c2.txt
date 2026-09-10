@@ -1,0 +1,100 @@
+2411 GO SUB 20
+2420 IF a$="KJ0P" OR a$="GI" THE
+N GO TO 2430
+2421 GO TO 2411
+2430 IF o(3)<>0 THEN PRINT "Jeg
+har ikke 100 kroner.": GO TO 241
+1
+2440 PRINT "Jeg sa at jeg ville
+kjoepe den, saa jeg ga han 100 k
+roner,og hanga meg en stokk.": L
+ET o(6)=0: LET o(3)=1
+2450 GO SUB 20: GO SUB 10
+2500 GO SUB 2: LET s=2200: LET n
+=2800: LET v=2900: LET st=3000:
+LET ne=3100
+2502 CLS : PRINT "Jeg staar fora
+n doera til       slottet.Doera
+er laast.Det gaar en trapp ned.
+ Det ser veldig   moerkt ut der.
+Vest er det noen  hoeye fjell.0s
+t er det en fager jomfru."
+2510 GO SUB 10
+2520 GO SUB 20: GO TO 2520
+2600 CLS : PRINT "Jeg gikk en st
+und,saa kom jeg   til en trapp.J
+eg klatret opp.Jegkom til en sta
+gs Will West by,  De holdt akkur
+at paa med en     duell.Jeg kom
+midt imellom      kulene.": GO T
+O 9900
+2700 GO SUB 2: LET s=2400: LET n
+=3200: LET st=3300
+2702 CLS : PRINT "Jeg kom inn i
+en butikk.Der     har de et tilb
+ud paa et kors.Detkoster bare 10
+0 kroner."
+2710 GO SUB 10
+2720 GO SUB 20
+2722 IF a$="GI" OR a$="KJ0P" THE
+N GO TO 2730
+2723 GO TO 2720
+2730 IF o(3)=0 THEN PRINT "Jeg k
+joepte den.": LET o(3)=1: LET o(
+11)=0: GO TO 2720
+2740 PRINT "Jeg har ikke 100 kro
+ner": GO TO 2720
+2800 IF o(10)<>0 THEN PRINT "Jeg
+ har ikke dirk": LET linje=2500:
+ GO TO 2520
+2801 GO SUB 2: LET s=2500: LET n
+=3400: LET v=3500: LET st=3600
+2803 CLS : PRINT "Jeg kom inn i
+soverommet til    kjempen.Der la
+a kona hans og    snorket.Jeg sn
+ublet i en kost   som stod der.K
+ona vaaknet og    gikk til angre
+p paa meg.": INPUT "Hva skal jeg
+ bruke mot henne"' LINE q$
+2805 IF q$="PIL OG BUE" AND o(2)
+=0 THEN PRINT "Jeg skjoet en pil
+ rett i hjertetpaa henne.Den spi
+ddet henne,men pilen smuldret op
+p,saa jeg heiv buen inn i peisen
+.": LET linje=2850: GO TO linje
+2810 PRINT "Jeg angrep henne med
+ ";q$;'"men hun drepte meg.": GO
+ TO 9900
+2850 LET linje=2870: GO SUB 10
+2860 GO SUB 20: GO TO 2860
+2870 GO SUB 2: LET s=2500: LET n
+=3400: LET v=3500: LET st=3600:
+CLS : PRINT "Jeg er i soverommet
+ til kjempen.Kona  hans ligger d
+oed paa      golvet.": GO TO 285
+0
+2900 GO SUB 2: LET st=2500: LET
+n=3700: LET v=3800
+2902 CLS : PRINT "Jeg er i noen
+hoeye fjell.0st erinngangen til
+slottet.Vest er   det en hoey.fj
+elltopp.Det ser utsom det ligger
+ noe paa den      fjelltoppen."
+2910 GO SUB 10
+2920 GO SUB 20: GO TO 2920
+3000 GO SUB 2: LET v=2500: LET s
+t=3900: LET n=4000
+3002 CLS : PRINT "Jeg ser en fag
+er jomfru.Hun sierat hun kan gi
+meg mat i bytte   for en stokk."
+3005 GO SUB 10
+3007 GO SUB 20
+3010 IF a$="GI" THEN GO TO 3020
+3015 GO TO 3007
+3020 IF o(6)<>0 THEN PRINT "Jeg
+har ikke stokk.": GO TO 3007
+3025 PRINT "Jeg sa at jeg ville
+gjoere       byttehandelen,og ga
+hun stokken.Hun ga meg maten.Hun
+ ga meg et  kors ogsaa."
+3030 LET o(6)=1: LET o(5)=0: LET

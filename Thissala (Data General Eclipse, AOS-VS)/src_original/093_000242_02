@@ -1,0 +1,1652 @@
+
+
+
+
+
+
+
+
+			    Documentation changes for:
+
+                  AOS/VS Macroassembler (MASM) Reference Manual
+
+                            Part Number 093-000242-02
+
+
+
+
+	This file (pathname :UTIL:093_000242_02) contains information
+	that affects the following pages of your manual:
+
+               * 2-12
+               * 2-13
+		 2-16			 8-3
+		 3-4			 8-8
+		 6-1	     		 B-1
+		 6-11       		 B-3
+		 7-5        		 C-6
+		 7-61			 C-7
+		 7-101        		 C-8
+		 7-102      		 C-9
+		 7-103
+
+	This third revision of 093_000242_02 was updated May 20, 1994.
+
+	The asterisk (*) indicates that the change is printed in this
+	file for the first time.
+
+	For all pages in this file, change bars (|) in the left column
+	mark material that differs from what is in the printed manual.
+
+	To keep your manual current, print this file, punch holes to fit
+	your binder, and insert the pages into your manual.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	Copyright (c) Data General Corporation, 1980 - 1994
+	All Rights Reserved
+	Licensed Material - Property of Data General Corporation
+	AOS/VS Macroassembler (MASM) Reference Manual, 093-000242-02
+	Documentation Changes, Revision 3  		   20-May-94
+
+
+
+	Page 2-12	Replace Table 2-5 with the following table:
+	----------------------------------------------------------------------
+
+
+
+	Table 2-5  Sample Integer-Generating Expressions
+
+	----------------------------------
+	Source 		Octal Value
+	==================================
+
+	"A		101
+	'AB'		40502
+	'BA'		41101
+	"		0
+	"+5-2		3
+	'B'+5		41005
+     |  'A'		40400
+	"A+'A'		40501
+	'AA'   		40501
+	'AABCD'		40501
+
+
+
+	AOS/VS Macroassembler (MASM) Reference Manual, 093-000242-02
+	Documentation Changes, Revision 3  		   20-May-94
+
+
+
+	Page 2-13	Replace the paragraphs in the middle of the page
+			with the following:
+	------------------------------------------------------------------------
+
+
+
+	The Macrosassembler represents the mantissa as a 24-bit binary fraction.
+	You may view the mantissa as six 4-bit hexadecimal digits.  The range
+	of the mantissa's magnitude is
+
+     |          -1                           -6
+     |        16    <=  mantissa  <=  (1 - 16  )
+
+	You can obtain the negative form of a floating-point number by using
+	the unary negate operator.  This has the effect of complementing bit 0
+	(i.e., from 0 to 1, or from 1 to 0).  The exponent and mantissa
+	remain the same.
+
+	The magnitude of a floating-point constant is
+
+     |          -1     -64                                          -6      63
+     |        16   * 16     <=  floating-point constant  <=  (1 - 16  ) * 16
+
+	which is approximately
+
+	              -79                                          75
+	      5.4 * 10     <=  floating-oint constant  <=  7.2 * 10
+
+	AOS/VS Macroassembler (MASM) Reference Manual, 093-000242-02
+	Documentation Changes, Revision 3  		   20-May-94
+
+
+
+	The following strings are illegal symbols; the first two strings
+	do not begin with a letter, period, question mark, or dollar
+	sign, and the third string contains an illegal character (i.e., %).
+
+		12.3		4BIT		SIZE%50
+
+	By default, the Macroassembler does not distinguish between upper-
+	case and lowercase letters.  For example, the Macroassembler inter-
+	prets the symbol 'START' the same as the symbol 'start'.
+
+	You can direct the Macroassembler to distinguish between upper-
+	case and lowercase letters by using the /ULC switch on the MASM
+	command line.  We define all pseudo-ops, MV/Family 32-bit instruc-
+	tion mnemonics, system calls, and system parameters in uppercase
+	letters.  Thus if you use the /ULC switch, be sure to enter these
+	symbols in uppercase.
+
+	Also by default, MASM recognizes the first eight characters of a
+	symbol.  If you use longer symbols, MASM ignores the excess charac-
+	ters but does not return an error.  Thus, the Macroassembler does
+	not differentiate among the following three symbols (for symbol
+	length equal to 8):
+
+		ASSEMBLY1		ASSEMBLY2	ASSEMBLY_PROGRAM
+
+	To override the symbol length default value of 8, use the /SYMBOL=
+	switch when building your permanent symbol file.  You can use this
+	switch to set the symbol length to any number of characters from
+|	5 to 255 (as described in Table 8-1 and under "Symbol Length" in
+	Chapter 8).
+
+	If you include the underscore character in a symbol that appears in
+	a macro definition, precede that underscore character with another
+	underscore (i.e., inside a macro, use A__B to represent the symbol
+|	A_B.  Or use ESC "| to change the escape character from an under-
+|	score to a vertical bar.)  "Macro Definition" in Chapter 5 provides
+	more information on this subject.
+
+	If the /$ command-line switch is set, the meaning of the "$"
+	character is changed so that it is no longer a valid symbol name
+	character.  Instead, it is replaced with a three-digit character
+	string wherever it occurs.  A unique number is assigned to each
+	macro call, and this character string is a representation of that
+	number.  This number may be used for generating unique symbol names
+	inside of macros.  See the section "Generated Numbers and Symbols"
+	in Chapter 5.
+
+
+
+
+
+
+
+	------                        ------                         ------
+	093-000242 Licensed Material-Property of Data General Corp.    2-16
+	AOS/VS Macroassembler (MASM) Reference Manual, 093-000242-02
+	Documentation Changes, Revision 3  		   20-May-94
+
+
+
+    Symbol Types
+
+	The Macroassembler recognizes four classes of symbols:
+
+	o numeric symbols
+	o instruction symbols
+	o macro symbols
+	o pseudo-op symbols
+
+      Numeric Symbols
+
+	Numeric symbols have a specific numeric value.  Because of this
+	value, numeric symbols can be used in arithmetic expressions.  A
+	label is an example of a numeric symbol.  The numeric value of a
+	label is the address with which it is associated.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	------                        ------                           ------
+	093-000242 Licensed Material-Property of Data General Corp.    2-16.1
+	AOS/VS Macroassembler (MASM) Reference Manual, 093-000242-02
+	Documentation Changes, Revision 3  		   20-May-94
+
+
+     Symbol Tables
+
+	The Macroassembler software defines all pseudo-ops and all in-
+	structions in the ECLIPSE MV/Family instruction set in the per-
+	manent symbol table.  Thus, from the outset, the MASM can recog-
+	nize all pseudo-op and instruction symbols in your source module.
+
+	Upon executing MASM, the Macroassembler automatically creates a
+	temporary symbol table.  Initially, this table does not contain any
+	information.  However, when you define a symbol (such as a label,
+	a macro, etc.) in your source code, the symbol is put into the
+	temporary symbol table unless there is already a symbol with the
+	same name in either the permanent of the temporary table.  Thus,
+	by the end of the assembly process, this table will contain a
+	definition for each symbol in your program, except pseudo-ops and
+	MV/Family 32-bit instruction mnemonics.
+
+	When the Macroassembler encounters a symbol in your program, it
+	first checks to make sure the symbol is valid (i.e., conforms to
+	the rules for legal symbols presented in Chapter 2).  MASM
+	returns an error if the symbol is not legal.
+
+	If the symbol is valid, the Macroassembler looks for its definition
+	in the permanent symbol table.  When looking up symbols in the perma-
+	nent symbol table, MASM uses only the first eight characters of the
+	name.  In addition, MASM accepts all pseudo-op names in either upper-
+	or lowercase.  If MASM finds the symbol in the permanent table (i.e.,
+	the symbol is a pseudo-op or instruction), the assembler does not
+	have to check any other tables for that symbol's definition.
+
+	If the permanent symbol table does not contain a definition for the
+	symbol, the Macroassembler checks the temporary symbol table.  When
+	looking up or adding symbols to the temporary symbol table, MASM uses
+	only the first eight characters of the name.  All names are case-
+	insensitive, by default.  You can change to case-sensitive by using
+	the /ULC switch, and you can change the 8-character recognition limit
+|	to a number between 5 and 255 by using the /SYMBOLS=<n> switch.
+
+	If the Macroassembler does not find a symbol's definition in either
+	of the tables or in the current source statement, it enters that
+	symbol in the temporary table and flags it as undefined.  MASM
+	then moves on to the next symbol in your source.
+
+	Note that the Macroassembler may not find a symbol's definition
+	the first time that symbol appears in your source.  This is because
+	of forward references (see the beginning of this chapter).
+
+	If, during pass two, the Macroassembler encounters a symbol that is
+	not defined in either table, MASM returns an error when it tries to
+	substitute a value for that symbol.  If you indicate that a separate-
+	ly assembled module defines a symbol (i.e., with an inter-module
+	communication pseudo-op), the Macroassembler does not return an error.
+	(Chapter 6 contains more on inter-module communication.)
+
+	------                        ------                        ------
+	093-000242 Licensed Material-Property of Data General Corp.    3-4
+	AOS/VS Macroassembler (MASM) Reference Manual, 093-000242-02
+	Documentation Changes, Revision 3  		   20-May-94
+
+
+
+	Chapter 6
+	-----------------------------------------------------------------------
+	Types of Pseudo-ops
+
+		Pseudo-ops direct the action of the macroassembler, rather than
+		the user program.  Pseudo-ops can generally be divided into one
+		of the following categories:
+
+		* location pseudo-ops
+
+		* file termination pseudo-ops
+
+		* conditional assembly pseudo-ops
+
+		* macro assembly pseudo-ops
+
+		* data formatting pseudo-ops
+
+		* literal pseudo-ops
+
+		* inter-module communication pseudo-ops
+
+		* listing control pseudo-ops
+
+		* stack control pseudo-ops
+
+		* radix control pseudo-ops
+
+		* text string pseudo-ops
+
+		* symbol table pseudo-ops
+
+	|	* debugger block pseudo-ops
+
+		* miscellaneous pseudo-ops
+
+		The following sections of this chapter describe each of these
+		categories and the pseudo-ops in those categories.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	------                        ------                        ------
+	093-000242 Licensed Material-Property of Data General Corp.    6-1
+	AOS/VS Macroassembler (MASM) Reference Manual, 093-000242-02
+	Documentation Changes, Revision 3  		   20-May-94
+
+
+
+	|	Debugger Block Pseudo-ops
+	|
+	|	The pseudo-ops in this category define start and end of the
+	|	three types of debugger blocks: debugger lines, debugger symbols
+	|	and lines title.
+	|
+	|
+	|	Table 6-12.1.  Debugger Block Pseudo-ops
+	|
+	|	----------------------------------------------------------------
+	|
+	|	Pseudo-op  Directive  Value  Description
+	|
+	|	================================================================
+	|
+	|	.BEGDL        X              Start debugger lines block
+	|	.ENDDL        X              End debugger lines block
+	|
+	|	.BEGDS        X              Start debugger symbols block
+	|	.ENDDS        X              End debugger symbols block
+	|
+	|	.BEGLT        X              Start lines title block
+	|	.ENDLT        X              End lines title block
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	------                        ------                           ------
+	093-000242 Licensed Material-Property of Data General Corp.    6-11.1
+	AOS/VS Macroassembler (MASM) Reference Manual, 093-000242-02
+	Documentation Changes, Revision 3  		   20-May-94
+
+
+
+	|	----------------------------------------------------------------
+	|	Begin a debugger lines block                            .BEGDL
+	|	----------------------------------------------------------------
+	|
+	|	Purpose
+	|
+	|	The .BEGDL pseudo-op marks the start of a debugger lines
+	|	block.  .BEGDL causes the data and relocations from all
+	|	statements between .BEGDL and .ENDDL to be written to a
+	|	debugger lines block.
+	|
+	|	Debugger lines, debugger symbols and/or lines title blocks
+	|	cannot be nested in any manner.
+	|
+	|
+	|	Example
+	|
+	|		.BEGDL
+ 	|		.
+	|		.
+ 	|		<debugger lines data>
+ 	|		.
+	|		.
+	|		.ENDDL
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	------                        ------                          ------
+	093-000242 Licensed Material-Property of Data General Corp.    7-5.1
+	AOS/VS Macroassembler (MASM) Reference Manual, 093-000242-02
+	Documentation Changes, Revision 3  		   20-May-94
+
+
+
+	|	----------------------------------------------------------------
+	|	Begin a debugger symbols block                          .BEGDS
+	|	----------------------------------------------------------------
+	|
+	|	Purpose
+	|
+	|	The .BEGDS pseudo-op marks the start of a debugger symbols
+	|	block.  .BEGDS causes the data and relocations from all
+	|	statements between .BEGDS and .ENDDS to be written to a
+	|	debugger symbols block.
+	|
+	|	Debugger lines, debugger symbols and/or lines title blocks
+	|	cannot be nested in any manner.
+	|
+	|
+	|	Example
+	|
+	|		.BEGDS
+ 	|		.
+	|		.
+ 	|		<debugger symbols data>
+ 	|		.
+	|		.
+	|		.ENDDS
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	------                        ------                          ------
+	093-000242 Licensed Material-Property of Data General Corp.    7-5.2
+	AOS/VS Macroassembler (MASM) Reference Manual, 093-000242-02
+	Documentation Changes, Revision 3  		   20-May-94
+
+
+
+	|	----------------------------------------------------------------
+	|	Begin a lines title block                               .BEGLT
+	|	----------------------------------------------------------------
+	|
+	|	Purpose
+	|
+	|	The .BEGLT pseudo-op marks the start of a lines title block.
+	|	.BEGLT causes the data and relocations from all statements
+	|	between .BEGLT and .ENDLT to be written to a lines title block.
+	|
+	|	Debugger lines, debugger symbols and/or lines title blocks
+	|	cannot be nested in any manner.
+	|
+	|
+	|	Example
+	|
+	|		.BEGLT
+ 	|		.
+	|		.
+ 	|		<lines title data>
+ 	|		.
+	|		.
+	|		.ENDLT
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	------                        ------                          ------
+	093-000242 Licensed Material-Property of Data General Corp.    7-5.3
+	AOS/VS Macroassembler (MASM) Reference Manual, 093-000242-02
+	Documentation Changes, Revision 3  		   20-May-94
+
+
+
+	|	----------------------------------------------------------------
+	|	End a debugger lines block                              .ENDDL
+	|	----------------------------------------------------------------
+	|
+	|	Purpose
+	|
+	|	The .ENDDL pseudo-op marks the end of a debugger lines
+	|	block.  Data and relocations from all statements between
+	|	.BEGDL and .ENDDL are written to a debugger lines block.
+	|
+	|	Debugger lines, debugger symbols and/or lines title blocks
+	|	cannot be nested in any manner.
+	|
+	|
+	|	Example
+	|
+	|		.BEGDL
+ 	|		.
+	|		.
+ 	|		<debugger lines data>
+ 	|		.
+	|		.
+	|		.ENDDL
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	------                        ------                          ------
+	093-000242 Licensed Material-Property of Data General Corp.   7-61.1
+	AOS/VS Macroassembler (MASM) Reference Manual, 093-000242-02
+	Documentation Changes, Revision 3  		   20-May-94
+
+
+
+	|	----------------------------------------------------------------
+	|	End a debugger symbols block                            .ENDDS
+	|	----------------------------------------------------------------
+	|
+	|	Purpose
+	|
+	|	The .ENDDS pseudo-op marks the end of a debugger symbols
+	|	block.  Data and relocations from all statements between
+	|	.BEGDS and .ENDDS are written to a debugger symbols block.
+	|
+	|	Debugger lines, debugger symbols and/or lines title blocks
+	|	cannot be nested in any manner.
+	|
+	|
+	|	Example
+	|
+	|		.BEGDS
+ 	|		.
+	|		.
+ 	|		<debugger symbols data>
+ 	|		.
+	|		.
+	|		.ENDDS
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	------                        ------                          ------
+	093-000242 Licensed Material-Property of Data General Corp.   7-61.2
+	AOS/VS Macroassembler (MASM) Reference Manual, 093-000242-02
+	Documentation Changes, Revision 3  		   20-May-94
+
+
+
+	|	----------------------------------------------------------------
+	|	End a lines title block                                 .ENDLT
+	|	----------------------------------------------------------------
+	|
+	|	Purpose
+	|
+	|	The .ENDLT pseudo-op marks the end of a lines title block.
+	|	Data and relocations from all statements between .BEGLT and
+	|	.ENDLT are written to a lines title block.
+	|
+	|	Debugger lines, debugger symbols and/or lines title blocks
+	|	cannot be nested in any manner.
+	|
+	|
+	|	Example
+	|
+	|		.BEGLT
+ 	|		.
+	|		.
+ 	|		<lines title data>
+ 	|		.
+	|		.
+	|		.ENDLT
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	------                        ------                          ------
+	093-000242 Licensed Material-Property of Data General Corp.   7-61.3
+	AOS/VS Macroassembler (MASM) Reference Manual, 093-000242-02
+	Documentation Changes, Revision 3  		   20-May-94
+
+
+
+	 	----------------------------------------------------------------
+	 	Create a named relocatable memory partition               .PART
+	 	----------------------------------------------------------------
+	 
+	 	Syntax
+	 
+	 	   .PART numeric-symbol[ attribute]
+	 
+	 	Purpose
+	 
+	 	   Use the .PART pseudo-op to create a relocatable memory
+	 	   partition, i.e., a contiguous portion of memory with a name
+	 	   and attributes.  All code and data that follow .PART, up to
+	 	   the next .LOC, .GLOC, .NREL, .PART or .ZREL pseudo-op, will
+	 	   reside in that partition.
+	 
+	 	   The assembler also makes available a number of predefined
+		   relocatable partitions through the .NREL and .ZREL pseudo-
+		   ops.  These are unnamed, and are always the same.  The
+		   .PART pseudo-op permits the creation of partitions with
+		   name numeric-symbol, and with a user-defined combination
+		   of attributes.  The attributes are:
+
+			NREL or ZREL
+			LONG or SHORT
+			UNSHARED or SHARED
+			CODE or DATA
+			NORM or COMM
+			GLOBAL or LOCAL
+			MESS or NOMESS
+	|		NOENTS or ENTS
+
+		   In addition, you can specify the alignment of the partition
+		   as an attribute.
+
+		   Table 7-4 describes the various attribute arguments.
+		   Specify the desired attributes after the partition name
+		   in the .PART statement.  If an attribute and its converse
+		   are both omitted, MASM uses the default for that attribute.
+		   The defaults are:
+
+			NREL, LONG, UNSHARED, CODE, NORM, GLOBAL, MESS, ALIGN=0,
+	|		NOENTS
+
+
+
+
+
+
+
+
+
+
+	------                        ------                        ------
+	093-000242 Licensed Material-Property of Data General Corp.  7-101
+	AOS/VS Macroassembler (MASM) Reference Manual, 093-000242-02
+	Documentation Changes, Revision 3  		   20-May-94
+
+
+
+	.PART (continued)
+
+		Table 7-4.  .PART Attribute Arguments
+
+		--------------------------------------------------------------
+		  Attribute		Description
+		--------------------------------------------------------------
+
+		  NREL or ZREL		An NREL partition is normally allocated
+					memory space by Link at address 400(8)
+					and above.  A ZREL partition is normal-
+					ly allocated below address 400(8).
+
+		  LONG or SHORT		A long partition can reside anywhere in
+					memory.  A short partition is confined
+					to memory addresses below 100000(8).
+
+		  UNSHARED or SHARED	An unshared partition can be read;
+					executed, or written to and modified.
+					A shared partition is write-protected;
+					it can not be modified.  AOS/VS places
+					all shared partitions at higher
+					addresses than unshared partitions.
+
+		  CODE or DATA		A code partition can contain either
+					code or data.  A data partition normally
+					contains only data.
+
+		  NORM or COMM		If two modules have code or data in the
+					same normal partition, that code or data
+					will be allocated sequential addresses
+					in memory.  If two modules have code or
+					data in the same common partition, that
+					code or data will overlay each other at
+					the same addresses.
+
+		  GLOBAL or LOCAL	A global partition's name is visible to
+					all other separately compiled modules.
+					Thus all global partitions with the
+					same name are the same partition.  A
+					local partition's name is not visible
+					to other modules.  Therefore, that
+					partition can be referred to by only
+					that module.
+
+		  MESS or NOMESS	Normally, Link reports an error message
+					when two modules' data overwrite each
+					other.  This Link warning message can be
+					suppressed with NOMESS.
+
+
+
+
+	------                        ------                        ------
+	093-000242 Licensed Material-Property of Data General Corp.  7-102
+	AOS/VS Macroassembler (MASM) Reference Manual, 093-000242-02
+	Documentation Changes, Revision 3  		   20-May-94
+
+
+
+	.PART (continued)
+
+		Table 7-4.  .PART Attribute Arguments
+
+		--------------------------------------------------------------
+		  Attribute		Description
+		--------------------------------------------------------------
+
+		  ALIGN=n		Any partition can be aligned to a parti-
+					cular memory boundary, e.g., double-word
+					alignment, block alignment or page
+					alignment.  This alignment, n, is given
+					as a power of two, and the partition's
+					address will be a multiple of 2*n.
+
+	|	  NOENTS or ENTS	ENTS is an attribute for common
+	|				partitions only.  ENTS causes LFE to
+	|				put the common partition name in the
+	|				library symbol table header.  Link will
+	|				then link in the module containing the
+	|				common partition if there is an out-
+	|				standing external reference to it.  In
+	|				short, this allows modules which only
+	|				contain data (in user-defined common
+	|				partitions) and no code entry points
+	|				to be linked from libraries.
+		--------------------------------------------------------------
+
+		If you leave a .PART partition at one point in an assembly
+		and you want to place more data in that partition at a later
+		point, use a new .PART statement with the same partition name.
+
+		If you want to place code or data from separately assembled
+		modules into the same partition (see example, next page), use
+		another .PART statement with the same partition name.
+		(Obviously, these separately assembled partitions must not have
+		the LOCAL attribute.)  When you link these modules together, the
+		code or data from both is placed in partition TJ.  If the
+		partitions have the COMM attribute, the code or data from each
+		module is placed on top of each other.  Otherwise, it is placed
+		consecutively in the partition.
+
+
+
+
+
+
+
+
+
+
+
+
+	------                        ------                          ------
+	093-000242 Licensed Material-Property of Data General Corp.  7-102.1
+	AOS/VS Macroassembler (MASM) Reference Manual, 093-000242-02
+	Documentation Changes, Revision 3  		   20-May-94
+
+
+
+	.PART (continued)
+
+		If a partition is given different attributes in two .PART
+		statements, MASM and LINK attempt to resolve the attributes
+		and report an error if they cannot be resolved.  The attributes
+		are resolved as follows:
+
+			NREL or ZREL		Resolved in favor of ZREL
+			LONG or SHORT		Resolved in favor of SHORT
+			UNSHARED or SHARED	An error is reported
+			CODE or DATA		An error is reported
+			NORM or COMM		An error is reported
+			GLOBAL or LOCAL		An error is reported
+			MESS or NOMESS		Resolved in favor of NOMESS
+			Align differences	Resolved in favor of the
+						higher alignment
+	|		NOENTS or ENTS		Resolved in favor of ENTS
+
+
+		Example
+
+			.PART   TJ   ALIGN=1,SHORT
+			.
+			.			  ; This is code in partition TJ
+			.ZREL
+			.
+			.                         ; This is code in ZREL
+			.PART   TJ   ALIGN=1,SHORT
+			.
+			.                         ; This is also code in
+			.                         ; partition TJ
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	------                        ------                        ------
+	093-000242 Licensed Material-Property of Data General Corp.  7-103
+	AOS/VS Macroassembler (MASM) Reference Manual, 093-000242-02
+	Documentation Changes, Revision 3  		   20-May-94
+
+
+
+	Table 8-1  MASM Function Switches
+	-----------------------------------------------------------------------
+	  Function Switch	Action
+	-----------------------------------------------------------------------
+
+	  /16			Create a 16-bit object file that can be linked
+				into a 16-bit process.  By default, AOS/VS MASM
+				generates a 32-bit object.  This switch changes
+				the structure of the object file and sets the
+				default data size size to 1 word, the same as
+				.ENABLE WORD pseudo-op.
+
+	  /$			Treat $ as a special character.  By default,
+				$ is treated like an alphabetic character.
+				Setting this switch causes $ to be expanded
+				instead to a number unique to each macro call.
+
+	  /CPL=<n>		Set the number of characters per line on the
+				listing and error file.  <n> may be between
+				80 and 136, inclusive.  The default number of
+				characters per line is 80.
+
+	  /E[=<filename>]	Append the error listing to <filename>.  If
+				this switch is omitted, errors are appended to
+				@OUTPUT.  If the argument to this is omitted,
+				and there is a listing file, the error file
+				is suppressed.
+
+	  /ERRORCOUNT=<n>	Terminate MASM with a fatal error if more than
+				<n> errors occur.  The default is 1024
+				(decimal).
+
+	  /FF			If necessary to produce an even number of
+				listing pages, append an extra form feed to
+				the listing.
+
+	  /HASH=<n>		Set the hash frame size of the symbol table.
+				Set this switch only if /MAKEIN is also set.
+
+	  /L[=<filename>]	Append a MASM listing to <filename>, or to
+				@LIST, if <filename> is absent.
+
+	  /LOCAL		Include local (nonglobal) user-defined symbols
+				in the object file, as well as global symbols.
+				When the /LOCAL switch is also used on Link,
+				the local symbols can be used in debugging.
+
+	-----------------------------------------------------------------------
+								(continues)
+
+
+
+
+	------                        ------                        ------
+	093-000242 Licensed Material-Property of Data General Corp.    8-3
+	AOS/VS Macroassembler (MASM) Reference Manual, 093-000242-02
+	Documentation Changes, Revision 3  		   20-May-94
+
+
+
+	Table 8-1  MASM Function Switches
+	-----------------------------------------------------------------------
+	  Function Switch	Action
+	-----------------------------------------------------------------------
+
+	  /LPP=<n>		Make each page of the listing <n> lines long.
+				The default is 60 lines per page.
+
+	  /MAKEIN		(For use of Data General MASM support personnel)
+
+	  /MAKEPS		Create a permanent symbol file for use with
+				MASM.  The symbol table will have the name
+				MASM.PS, or <filename>.PS, if you use the
+				/PS=<filename> switch.  No previous PS file is
+				read, and no object file is created.  MASM makes
+				only one pass, and a listing may be generated.
+
+	  /MULTIPLE		Report an error if symbols defined in equate
+				statements have been previously defined with a
+				different value in the same assembly.
+
+	  /N			Do not generate an object file.
+
+	  /NOPS			Do not use a PS file with this assembly.
+
+	  /O=<filename>		Name the object file <filename>.OB.  By default,
+				the object file is either named after the first
+				source file, or with the .OB pseudo-op.
+
+	  /PS=<filename>	Use <filename>.PS as the PS file, rather than
+				the default, MASM.PS.
+
+	  /STATISTICS		Include elapsed and CPU time statistics in the
+				listing (this switch requires you use the
+				/L switch).
+
+	  /SYMBOLS=<n>		Set the number of symbol names that MASM
+				recognizes.  The number <n> may be between 5 and
+	|			255 characters.  The default is 8 characters.
+
+	  /ULC			Treat uppercase and lowercase symbol names as
+				distinct.  By default, "a" and "A" are the same
+				symbol name.  Note that instruction and pseudo-
+				op names must be given in uppercase if the
+				/ULC switch is used.
+
+	  /W			Where there is a choice, use absolute (index
+				mode 0) addressing, instead of PC-relative
+				(index mode 1).  This switch is functionally
+				equivalent to the .ENABLE ABS pseudo-op.
+	-----------------------------------------------------------------------
+								(continues)
+
+	------                        ------                        ------
+	093-000242 Licensed Material-Property of Data General Corp.  8-3.1
+	AOS/VS Macroassembler (MASM) Reference Manual, 093-000242-02
+	Documentation Changes, Revision 3  		   20-May-94
+
+
+
+	The above command line directs the Macroassembler to copy all
+	symbol definitions in sourcefile into disk file filename.  If
+	filename exists before the assembly, the Macroassembler deletes
+	that file before creating your permanent symbol file.
+
+     Specifying a Permanent Symbol File for an Assembly
+
+	After you build a permanent symbol file, you may use that file
+	during the assembly of your source modules.  Specify a particu-
+	lar symbol file by using the /PS= switch in the MASM command
+	line.  The Macroassembler then uses that permanent symbol file
+	to resolve the symbols in your source module.  For example:
+
+	) XEQ MASM/PS=A.PS SOURCEFILE <NL>
+
+	The Macroassembler uses file A.PS as the permanent symbol file
+	when resolving symbols in SOURCEFILE (as described earlier in
+	this chapter).
+
+	If you do not use the /PS= switch to specify a permanent symbol
+	file, the Macroassembler uses file MASM.PS, if it is available.
+
+     Permanent Symbol File Size
+
+	The permanent symbol file can include up to 32,767. symbols and
+	their definitions.  This figure assumes that you do not include
+	any macro definition strings.  The more macro text you place in
+	the file, the smaller the amount of space available for symbol
+	definitions.
+
+	Increasing symbol length does not decrease the number of symbols
+	you can define.  The following section describes symbol length
+	in depth.
+
+     Symbol Length
+
+	The permanent symbol file specifies how many characters the
+	Macroassembler should use to resolve the symbols in your source
+	programs.  Thus, the Macroassembler views the following three
+	symbols as identical (if the symbol length is 8 characters):
+
+		LOCATION1	LOCATION2	LOCATION_START
+
+	To alter the symbol length for an assembly, include the
+	/SYMBOL=switch in the MASM  command line when building your
+	permanent symbol file.  Using /SYMBOL=, you may indicate any
+|	symbol length from 5 to 255 characters, inclusive.  For example,
+
+	) XEQ MASM/MAKEPS/PS=MASM25.PS/SYMBOL=25 SOURCE1 <NL>
+
+
+
+
+	------                        ------                        ----
+	093-000242 Licensed Material-Property of Data General Corp.  8-8
+	AOS/VS Macroassembler (MASM) Reference Manual, 093-000242-02
+	Documentation Changes, Revision 3  		   20-May-94
+
+
+
+	This command directs the Macroassembler to create a permanent
+	symbol file and store it in MASM25.PS.  This file will contain
+	all the symbol definitions in file SOURCE1 and will identify
+	those symbols according to their first 25 characters.  Thus,
+	each time you specify MASM25.PS as the permanent symbol file,
+	MASM will resolve symbols according to their first 25
+	characters.  For example:
+
+	) XEQ MASM/PS=MASM25.PS SOURCE2 <NL>
+
+	This command directs the Macroassembler to use file MASM25.PS
+	as the permanent symbol file.  The Macroassembler will identify
+	the symbols in source file SOURCE2 according to their first 25
+	characters, as specified in the permanent symbol file.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	------                        ------                        ------
+	093-000242 Licensed Material-Property of Data General Corp.  8-8.1
+	AOS/VS Macroassembler (MASM) Reference Manual, 093-000242-02
+	Documentation Changes, Revision 3  		   20-May-94
+
+
+	Appendix B
+	-------------------------------------------------------------------
+	Pseudo-Op Summary
+
+	Table B-1 lists and describes the AOS/VS Macroassembler pseudo-ops.
+	Each entry in the table indicates whether that pseudo-op can function
+	as an assembler directive and/or a value symbol.  For more information,
+	refer to the following sections of this manual:
+
+	o  Chapter 7 contains a complete description of each pseudo-op.
+
+	o  Chapter 6 describes the various categories of pseudo-ops.
+
+	o  "Permanent Symbols" and "Pseudo-ops" in Chapter 2 describe the
+	   properties of pseudo-op mnemonics and also explain the difference
+	   between assemble directives and value symbols.
+
+	o  "Symbol Interpretation" in Chapter 3 explains how the Macroassembler
+	   resolves pseudo-ops that appear in your program.
+
+	Table B-1  Pseudo-Op Summary
+
+	-------------------------------------------------------------------
+	           Assembler  Value
+	Pseudo-op  Directive  Symbol  Description
+	===================================================================
+
+	  . (period)            X     Current value of location counter
+	  .ALIGN       X              Align location to a memory boundary
+	  .ARGC,                X     Number of arguments passed to a macro
+	    .ARGCT
+	  .ASYM        X              Define an accumulating symbol
+
+	| .BEGDL       X              Start a debugger lines block
+	| .BEGDS       X              Start a debugger symbols block
+	| .BEGLT       X              Start a lines title block
+	  .BLK         X              Reserve a block of data words
+
+	  .CALL        X              Create data word with call relocation
+	  .COMM        X              Define a named common symbol
+	  .CSIZ,       X              Set size of unnamed common area
+	    .CSIZE
+
+	  .DALC        X              Define an ALC (ADD) instruction
+	  .DCMR        X              Define ELDB-format instructions
+	  .DEMR        X              Define EJMP-format instructions
+	  .DERA        X              Define ELEF-format instructions
+	  .DEUR        X              Define SAVE-format instructions
+	  .DFLM        X              Define FAMS-format instructions
+	  .DFLS        X              Define FSST-format instructions
+
+	-------------------------------------------------------------------
+	                                                       (continues)
+
+	------                        ------                        ------
+	093-000242 Licensed Material-Property of Data General Corp.    B-1
+	AOS/VS Macroassembler (MASM) Reference Manual, 093-000242-02
+	Documentation Changes, Revision 3  		   20-May-94
+
+
+	Table B-1  Pseudo-Op Summary
+
+	-------------------------------------------------------------------
+	           Assembler  Value
+	Pseudo-op  Directive  Symbol  Description
+	===================================================================
+
+	  .DXOP        X              Define XOP-format instruction
+	  .DXRA        X              Define XLEF-format instruction
+
+	  .EJEC,       X              Begin a new page of the listing
+	    .EJECT
+	  .ELSE        X              Reverse sense of conditional assembly
+	  .ENABLE      X              Control defaults
+	  .END         X              Terminate assembly
+	  .ENDC        X              Terminate conditional assembly
+	| .ENDDL       X              End a debugger lines block
+	| .ENDDS       X              End a debugger symbols block
+	| .ENDLT       X              End a debugger title block
+	  .ENT         X              Define a global entry symbol
+	  .ENTO        X              Define an overlay entry symbol
+	  .EOF         X              Explicit end-of-file marker
+	  .EOT         X              Explicit end-of-file marker
+	  .ERROR       X              Report a user-defined error message
+	| .ESC         X        X     Macro escape character
+	  .EXTC        X              Define a chain-link external
+	  .EXTD        X              Define 8-bit address external
+	  .EXTDA       X              Define 8-bit address external
+	  .EXTDAN      X              Define 8-bit address of one word
+	  .EXTDAW      X              Define 8-bit address of two words
+	  .EXTDD       X              Define 8-bit data external
+	  .EXTG        X              Define 32-bit data external
+	  .EXTL        X              Define 32-bit address external
+	  .EXTLA       X              Define 32-bit address external
+	  .EXTLAN      X              Define 32-bit address of one word
+	  .EXTLAW      X              Define 32-bit address of two words
+	  .EXTLD       X              Define 32-bit data external
+	  .EXTN        X              Define 16-bit address external
+	  .EXTNA       X              Define 16-bit address external
+	  .EXTNAN      X              Define 16-bit address of one word
+	  .EXTNAW      X              Define 16-bit address of two words
+	  .EXTND       X              Define 16-bit data external
+	  .EXTU        X              Make all undefined symbols external
+
+	  .FORC,       X              Set library force-load flag
+	    .FORCE
+
+	  .GADD        X              Create data word with word relocation
+	  .GATE        X              Create gate entry with ring field
+	  .GLOC        X              Place data relative to location
+	  .GOTO        X              Jump ahead in conditional assembly
+
+	-------------------------------------------------------------------
+	                                                       (continued)
+	------                        ------                        ------
+	093-000242 Licensed Material-Property of Data General Corp.    B-3
+	AOS/VS Macroassembler (MASM) Reference Manual, 093-000242-02
+	Documentation Changes, Revision 3  		   20-May-94
+
+
+	Table C-2  Assembly Errors
+
+	-------------------------------------------------------------------
+           Error Message                Description
+	===================================================================
+           MISMATCHED PARENTHESIS IN    Parentheses must be properly nested and
+           AN EXPRESSION                balanced in expressions.  Space, tab or
+                                        any other break character cannot appear
+                                        in the middle of an expression.
+       
+           OPERAND OF THE B OPERATOR    The second operand of the shift 
+           IS OUT OF RANGE              operator, B, must be within its
+                                        appropriate range (must be between 0 and
+                                        15 decimal).
+       
+           OPERAND OF THE S OPERATOR    The second operand of the shift
+           IS OUT OF RANGE              operator, S, must be within appropriate
+                                        range (must be between 0 and 31
+                                        decimal).
+       
+           PARTITION ATTRIBUTES         The partition attribute keywords given 
+           CONFLICT WITH PREVIOUSLY     on one partition definition differ with
+           DEFINED ATTRIBUTES           those given on another definition of the
+                                        same partition in the same assembly.
+                                        Some attributes can be resolved without
+                                        error, e.g., SHORT and LONG, but MASM
+                                        reports an error for SHARED-UNSHARED and
+                                        DATA-CODE attribute conflicts.
+       
+           POSSIBLE SKIP AT END OF      MASM generally knows when an instruction
+           PARTITION                    could possibly attempt to skip the word
+                                        following the instruction.  If the word
+                                        directly following the instruction is
+           POSSIBLE SKIP INTO DATA       not a one-word data item, MASM reports
+                                        that an instruction is skipping either
+                                        into a two-, three-, or four-word 
+           POSSIBLE SKIP INTO           instruction, into a two-word data item,
+           INSTRUCTION                   or into a .TXT pseudo-op.  This error
+                                        is also reported when the last 
+           POSSIBLE SKIP INTO TEXT      instruction in a partition skips.
+       
+           STACK IS EMPTY               Either the .POP and/or .TOP value
+                                        pseudo-op was used at a point in the
+                                        assembly process when no elements were
+                                        pushed onto the stack.
+       
+           SYMBOL IS MULTIPLY DEFINED   A new definition of a symbol is in
+                                        conflict with a previous definition.
+                                        The previous definition may be in the
+                                        same source, in the .PS file, or in
+                                        MASM's permanent table if instructions
+                                        and pseudo-ops. 
+	-------------------------------------------------------------------
+								(continued)
+	------                        ------                        ------
+	093-000242 Licensed Material-Property of Data General Corp.    C-6
+	AOS/VS Macroassembler (MASM) Reference Manual, 093-000242-02
+	Documentation Changes, Revision 3  		   20-May-94
+
+
+	Table C-2  Assembly Errors
+
+	-------------------------------------------------------------------
+           Error Message                Description
+	===================================================================
+           SYMBOL IS UNDEFINED          An expression refers to a symbol which
+                                        is not defined in this module, the PS
+                                        file, or the permanent table.
+       
+           SYMBOL MAY NOT BE AN ENTRY   A macro, external or permanent
+                                        instruction symbol cannot be a .ENT,
+                                        .PENT or .ASYM.
+       
+           SYMBOL MUST BE AN EXTERNAL   The .CALL, .TARG and other pseudo-ops
+                                        accept as an argument a symbol, and that
+                                        symbol must be an external for the call
+                                        to be resolved correctly.
+       
+           SYMBOL TABLE IS FULL,        As of this writing, MASM's symbol table
+           FILE <filename>              has room for approximately 32,767 
+           (See Note 1.)                symbols.  If this limit is exceeded,
+                                        MASM aborts with this error.  Note that
+                                        macro symbol definitions use
+                                        significantly more symbol table space
+                                        than other symbols.  Eliminating
+                                        unnecessary text from macros may
+                                        eliminate symbol table overflow.
+       
+           SYMBOL TYPE CONFLICT         A symbol cannot be an external and an
+                                        entry, or an external and macro, etc.
+       
+           SYNTAX ERROR IN A CONSTANT   A constant, decimal constant or
+                                        floating-point constant contained an
+                                        unexpected character, for example, 45Z4.
+       
+           SYNTAX ERROR IN AN           An expression was not formed correctly.
+           EXPRESSION                   An operand may be missing (4++5), or an
+                                        operator may be missing (LDA 4+,3).
+                                        Note that MASM expressions cannot
+                                        contain spaces, e.g., 4 + 5 is not
+                                        legal.
+
+	|  THE ENTS PARTITION           Only common partitions can have the
+	|  ATTRIBUTE REQUIRES THE       ENTS attribute.
+	|  COMM ATTRIBUTE
+	
+	|  THERE IS AN UNTERMINATED     .BEGDL must be terminated with .ENDDL.
+	|  DEBUGGER LINES BLOCK
+	
+	|  THERE IS AN UNTERMINATED     .BEGDS must be terminated with .ENDDS.
+	|  DEBUGGER SYMBOLS BLOCK
+
+	-------------------------------------------------------------------
+								(continued)
+	------                        ------                        ------
+	093-000242 Licensed Material-Property of Data General Corp.    C-7
+	AOS/VS Macroassembler (MASM) Reference Manual, 093-000242-02
+	Documentation Changes, Revision 3  		   20-May-94
+
+
+	Table C-2  Assembly Errors
+
+	-------------------------------------------------------------------
+           Error Message                Description
+	===================================================================
+       
+	|  THERE IS AN UNTERMINATED     .BEGLT must be terminated with .ENDLT.
+	|  LINES TITLE BLOCK
+	
+	|  THERE IS NO DEBUGGER LINES    A .BEGDL must precede an .ENDDL.
+	|  BLOCK TO TERMINATE
+	
+	|  THERE IS NO DEBUGGER SYMBOLS  A .BEGDS must precede an .ENDDS.
+	|  BLOCK TO TERMINATE
+	
+      	|  THERE IS NO LINES TITLE       A .BEGLT must precede an .ENDLT.
+	|  BLOCK TO TERMINATE
+	
+           TOO MANY ARGUMENTS TO A      A macro cannot be called with more than
+           MACRO                        64 arguments.
+       
+           UNKNOWN .ENABLE PSEUDO-OP    This pseudo-op, .ENABLE accepts
+           ARGUMENT                     additional keyword arguments controlling
+                                        its operation.  The arguments must be in
+                                        uppercase if case-sensitive assembly is
+                                        being done.
+       
+           UNKNOWN .PART PSEUDO-OP      The pseudo-op, .PART, accepts
+           ARGUMENT                     additional keyword arguments controlling
+					its operation.  The arguments must be in
+                                        upper case if case-sensitive assembly is
+                                        being done.
+
+           UNTERMINATED CONDITIONAL     A conditional part of an assembly begun
+                                        with a .DO or .IFx must be explicitly
+                                        terminated with a .ENDC before the end
+                                        of either the macro or the file that the
+                                        conditional assembly began in.
+       
+           UNTERMINATED MACRO CALL      Actual macro arguments on a macro call
+                                        can be passed inside of square brackets,
+                                        and can extend over several lines.
+                                        However, if a [ is seen but no ] is seen
+                                        by the end of the input file, MASM
+                                        reports an error.
+       
+           UNTERMINATED .TXT            The argument to .TXT must be a text     
+           PSEUDO-OP ARGUMENT           string which must begin and end with the
+                                        same character.  MASM reports an error
+                                        if it reaches the end of the input file
+                                        without finding a closing text
+                                        delimiter.
+	-------------------------------------------------------------------
+								(continued)
+	------                        ------                        ------
+	093-000242 Licensed Material-Property of Data General Corp.    C-8
+	AOS/VS Macroassembler (MASM) Reference Manual, 093-000242-02
+	Documentation Changes, Revision 3  		   20-May-94
+
+
+	Table C-2  Assembly Errors
+
+	-------------------------------------------------------------------
+           Error Message                Description
+	===================================================================
+           USER ERROR                   This error is reported whenever the
+                                        .ERROR pseudo-op is seen.
+       
+           .LMIT PSEUDO-OP IS NOT       The .LMIT pseudo-ops is permitted with
+           SUPPORTED                    MASM16 and some other Data General
+                                        macroassemblers, but not with AOS/VS
+                                        MASM.
+
+           .XPNG OF A PSEUDO-OP         .XPNG can remove instructions, but not
+                                        pseudo-ops, from the permanent table of
+                                        instructions and pseudo-ops.
+       
+           <name> PSEUDO-OP ARGUMENT    Arguments to .REV and .TSK must be in
+           VALUE IS OUT OF RANGE        the range 0-255 (decimal) for MASM to
+                                        format them correctly in the object
+                                        file.  The .RDX pseudo-op accepts 2-20
+                                        (decimal), while .RDXO accepts 8-20
+                                        (decimal).  .ALIGN and .PART's ALIGN=
+                                        attribute accept 0-10 (decimal).
+       
+           <name> PSEUDO-OP ARGUMENT    The numeric arguments to the .BLK, 
+           VALUE MUST BE NON-NEGATIVE   .COMM, .CSIZE, and .DO pseudo-ops must
+                                        be zero or greater.
+       
+           <name> PSEUDO-OP DOES NOT    Many pseudo-ops do not accept 
+           ACCEPT ARGUMENTS             arguments, e.g., no text may appear
+                                        after them on the line (except for
+                                        comments).
+       
+           <name> PSEUDO-OP MAY NOT     Some pseudo-ops return values when 
+           BE USED IN AN EXPRESSION     used in an expression, e.g., .MCALL or
+                                        .RDX.  Others, like .MACRO or .NREL, do
+                                        not.
+       
+           <name> PSEUDO-OP REQUIRES    Many pseudo-ops, including .ENABLE,
+           ARGUMENT(S)                  .ENTO, .REV, .PART, and .COMM require at
+                                        least one argument, and will accept
+                                        more.
+       
+	-------------------------------------------------------------------
+								(concluded)
+	Note 1. FATAL ERROR.
+
+	Note 2. AOS/VS SYSTEM ERROR.
+
+	Note 3. MASM INTERNAL ERROR. If this error persists, and there are no
+		other user errors, please report it to your system manager or
+		the appropriate Data General MASM support personnel.
+
+	------                        ------                        ------
+	093-000242 Licensed Material-Property of Data General Corp.    C-9
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		**********************************************************
+		*                                                        *
+		*        End of Documentation Changes for "AOS/VS        *
+		*        Macroassembler (MASM) Reference Manual,"        *
+		*        (093-000242-02), Revision 3, 20-May-94.         *
+		*                                                        *
+		**********************************************************

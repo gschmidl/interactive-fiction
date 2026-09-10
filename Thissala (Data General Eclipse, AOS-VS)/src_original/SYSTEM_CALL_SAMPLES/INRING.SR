@@ -1,0 +1,97 @@
+;*       Copyright (C) Data General Corporation, 1980 - 1994          *;
+;*       All rights reserved.                                         *;
+;*       Licensed material -- property of Data General Corporation    *;
+;*                                                                    *;
+;*       This software is made available solely pursuant to the       *;
+;*       terms of a DGC license agreement which governs its use.      *;
+; This program, INRING, is loaded by program
+;    RINGLOAD, then called via LCALL. This program
+;    saves the return address, opens the terminal,
+;    writes  messages, invokes the debugger (so
+;    that you can look around in inner ring). Then,
+;    after you type ESC-R, it returns to RINGLOAD in
+;    ring 7. All code is shared except for I/O packet.
+;
+; This program must be linked with module GATE.ARRAY.
+;    It can be executed in ring 4, 5, or 6 depending on
+;    three things: the LCALL name definition in the
+;    calling program, the gate defined in GATE.ARRAY,
+;    and the Link switch used on this program. Here, the
+;    caller RINGLOAD defines the name as gate 5 (5S3);
+;    GATE.ARRAY defines gate 5; and the Link command
+;    used is    X LINK/RING=5 INRING GATE.ARRAY.
+
+        .TITLE  INRING
+        .ENT    INRING
+        .NREL   1        ; Shared code (SC). Can be up
+                         ;    to 1,024,000 bytes.
+
+        ; Save return, open terminal, write message, go into
+        ;    the debugger.
+
+INRING: WSAVR   0        ; Save frame (4 ACs, PC in AC3)
+        ?OPEN   CONSOLE  ; Open console for I/O.
+        WBR     ERTN     ; Error, process it.
+        ?WRITE  CONSOLE  ; Write message from ring 5.
+        WBR     ERTN     ; Error, process it.
+        ?DEBUG           ; Go into the debugger.
+        WBR     ERTN     ; Error, process it.
+        LLEFB   0, MES2*2 ; Get byte pointer to return message.
+        LWSTA   0, CONSOLE+?IBAD ; Put in I/O packet.
+        ?WRITE  CONSOLE  ; Write another message.
+        WBR     ERTN     ; Error, process it.
+
+        ; Done. Ready for good return to caller.
+
+        LDAFP   3        ; Frame pointer in AC3.
+        XWISZ   0, 3     ; Increment return address for good
+                         ;    return to LCALLer.
+        WRTN             ; Return to caller.
+
+        ; INRING error handler. Returns error to the outer ring
+        ;    caller, not to the CLI.
+
+ERTN:   LDAFP   3        ; Get the frame pointer.
+        LWSTA   0, ?OAC0, 3 ; Put error code (AC0)
+                         ;       in saved frame's AC0.
+                         ; In frame, ?OAC0 is offset of old AC0.
+        WRTN             ; Return to LCALLer's error return
+
+        ; Text messages.  .NOLOC 1 follows.
+        .NOLOC  1
+MES1:   .TXT  "I'm INRING, in inner ring. About
+ to ?DEBUG. Type ESC R to proceed.<212><12>"
+
+MES2:   .TXT  "<212><212>From INRING -- about
+ to WRTN.<12>"
+        .NOLOC  0        ; Resume listing all.
+
+        .NREL            ; Must use unshared for packet because
+                         ;    program and system write into it.
+
+        ; Open and I/O packet for @CONSOLE.
+
+        .ENABLE WORD     ; Most entries = 16 bits.
+CONSOLE: .BLK   ?IBLT    ; Packet length.
+        .LOC    CONSOLE+?ISTI
+        ?ICRF+?RTDS+?OFIO ; Data-sensitive records, Input/Output.
+        .LOC    CONSOLE+?IMRS
+         -1              ; Memory block size, default to 2048.
+        .LOC    CONSOLE+?IBAD
+        .DWORD  MES1*2   ; 2-word byte pointer to text/buffer.
+        .LOC    CONSOLE+?IRCL   
+        120.             ; Maximum record length of 120 characters.
+        .LOC    CONSOLE+?IFNP
+        .DWORD  CON*2    ; 2-word byte pointer to filename.
+        .LOC    CONSOLE+?IDEL
+        .DWORD  -1       ; Data-sensitive delimitertable address; default.
+        .LOC    CONSOLE+?IBLT ; Default others to 0.
+        ; End of console I/O packet.
+
+        ; Filename. A .NOLOC 1 follows.
+
+        .NOLOC  1
+CON:    .TXT  "@CONSOLE"
+        .NOLOC  0        ; Resume listing all.
+
+        .END    INRING

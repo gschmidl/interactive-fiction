@@ -1,0 +1,155 @@
+. eupdate: Do not modify this file. It was built by the EUPDATE procedure.
+. eupdate: The source file was: IOS3270I 0IOS3270 A1
+. eupdate: Built by Theo W.H. Alkema - 40901880 at UITHONE
+. eupdate: Date: 02/07/89 - Time: 18:05:03 - CET
+.mjx set Norm col=yel
+IOS3270 online help quide. Refer to PDOM SB11-8419 for details.
+.sti iospage ;first
+.hv Off
+IOS3270 <fn <ft <fm>>> <;sl1 <;el1 <;sl2 ...>>> <(options <)>>
+.sh
+Options:
+.cjx set Norm col=tur, Ctl ¢ col=blu typ=hig) ali=att ali
+¢Alarm    Sound audible alarm on first display.
+¢Bind-n   Shift output n columns to the right.
+¢FOr-n    Process n input records. Used with STEM option.
+¢FRom-n   Start reading at input record n. Used with STEM option.
+¢Hndext   Handle external interrupts (in-storage interface only).
+¢HNDInt   Handle I/O interrupts (in-storage interface only).
+¢Keepfile-(fn-<ft-<fm>><)>  Optional keep fileid.
+¢Lib-ln   Use ln IOSLIB * as input; fn = member name.
+¢LIFo     Stack input LIFO.
+¢Noclear  Do not clear the screen on entry.
+¢NOKeep   Do not insert keep.
+¢NOQuit   Ignore quit in special fields.
+¢NOWait   Do not wait for input, immediate exit after display.
+¢Pa1------<EXIT|IGNORE> (&IOSK=PA1 if EXIT)
+¢PA2------<EXIT|SUBSET> (&IOSK=PA2 if EXIT)
+¢Query    screen. Sets &IOSD: www hhh <HIG> <COL> <PSS>
+¢Stem-----symbol Get input from array symbol, ala EXECIO.
+¢Time-n   Display max. n seconds. &IOSK=TIME if expired.
+¢Update   Update an existing fullscreen.
+¢Version  Returns 'IOS3270 Vv.w Rr.plc.loc mm/dd/yy' in &IOSD.
+¢rrcc<c>  Cursor address; row, column.
+¢00cc<c>  Cursor at cc'th input field.
+.jx set Norm col=yel
+.pi iospage ;middle
+.hcjx set Norm col=tur
+Return codes:
+   ¢0  all fine; variables may have been set
+   ¢1  specified input not found
+   ¢2  no (graphic) console / disconnect
+   ¢3  console i/o error
+   ¢4  quit found in an input-, lightpen- of PFkey field.
+   ¢5  insufficient storage for initialization
+  ¢50  input stacked
+ ¢142  the screen was in use by CP while trying to modify it
+¢1xxx  xxx is return code from FSREAD reading input file
+.phce¦
+Function characters:
+¢A   . . . . . . . . . . . . . .¦alarm
+¢B   . . . . . . . . . . . . . .¦bottom title (intensified)
+¢C   . . . . . . . . . . . . . .¦field definition characters in input
+¢D *|fn <ft <fm>> <(recno>   . .¦define alternate fileid
+¢Ex  . . . . . . . . . . . . . .¦define ending delimiter x
+¢F<2> <func1 ... <funcn>>  . . .¦set PFkey functions 1-12 <13-24>
+¢G   . . . . . . . . . . . . . .¦reserved.
+¢H<n<n>>   . . . . . . . . . . .¦intensify next line(s)
+¢I <IOS3270 parameters>  . . . .¦imbed
+¢J< %$^#¢@!._|>  . . . . . . . .¦redefine field definition characters
+¢JX Set  . . . . . . . . . . . .¦extended define; see next panel
+¢K<(&keepid)>  . . . . . . . . .¦save input fields
+¢L<->n<n>  . . . . . . . . . . .¦skip to line <->n<n>
+¢M   . . . . . . . . . . . . . .¦maximum screen size to be used
+¢N   . . . . . . . . . . . . . .¦do not edit input field data
+¢O x   . . . . . . . . . . . . .¦define omission character x
+¢P   . . . . . . . . . . . . . .¦page (screen) eject
+¢Q   . . . . . . . . . . . . . .¦as .R, allow for input- lightpen fields
+¢R   . . . . . . . . . . . . . .¦read stack or another file
+¢S   . . . . . . . . . . . . . .¦space a line
+¢T   . . . . . . . . . . . . . .¦end/reset top title(s)
+¢U   . . . . . . . . . . . . . .¦reserved.
+¢V Off | v1 d1 ... <vn dn> . . .¦set variables
+¢W   . . . . . . . . . . . . . .¦force write to file (.d)
+¢X   . . . . . . . . . . . . . .¦force stack
+¢Y   . . . . . . . . . . . . . .¦pass input fields on PFkey usage
+¢Z   . . . . . . . . . . . . . .¦clear bottom two lines' input fields
+¢&vname. . . . . . . . . . . . .¦replace line by value of &vname
+.pe h
+ .jx syntax:
+.s
+ .jx Set Ctlchar c        OFF | optionA Type= Scope= Dynamic
+         High-intensity   OFF | optionA ,
+         Normal-intensity OFF | optionA ,
+.jx set Ctl @ hil=bli, Ctl # hil=rev, Ctl $ hil=und
+.jx set Mask
+               $
+         Mask <1|n> <Reuse>
+.sc
+optionA:
+.scjx Set Norm Ali=Att com
+¢Highlight= @Blink Default#Reverse $Underscore
+.jx set Ctl @ col=gre, Ctl # col=pin, Ctl $ col=red, Ctl * col=tur
+.cjx set Ctl \ col=blu, Ctl ¦ col=whi, Ctl " col=yel
+ 
+¢Color=     \Blue Default@Green #Pink $Red *Turquoise ¦White "Yellow
+¢PSid=      c<-comments> | nnn<-comments>
+¢Align=     <(> Attributes Align | Off | Compress ,
+                Variables  Align | Off | Float   <)>
+¢Etmode=    <(> Default | No | Yes <)>
+ 
+¢Type=      <(> Detectable Escape High-intensity Invisible
+                Nulls NUMeric Skip Tab Unprotected <)>
+ 
+¢Scope=     <(> Character <)>
+ 
+ 
+.jx Set Norm Ali=Att off
+.pch
+IOSDYNAT EXEC calling format:
+ Interpret iosdynat(Arg1; <Arg2>; <Arg3>; <Arg4 <... ;Argn>>)
+ 
+¢Arg1 defines the affected field(s).
+      Format: Ctl<,name>
+ 
+¢Arg2 defines a dynamic field attribute or a function.
+      Format: Ctla | 'RESET' | 'DROP'
+ 
+¢Arg3 defines the cursor position within the field.
+      Format: n
+ 
+¢Arg4-n define character attributes.
+      Format: Parm1 <... <;Parmn>>
+      ¢Parmx: Ctlc <,start <,length>>
+.ph
+Initial field definition characters:
+.scjx set Ctl " off
+¢.j-%$^#¢@!.              " " = leave as-is, "&" = reset.
+    |||||||||'-input, autoskip.
+    ||||||||'-'fill' character for input fields.
+    |||||||'-variable place holder.
+    ||||||'-pen select, intensify.
+    |||||'-pen select.
+    ||||'-input, non display.
+    |||'-input, intensify, autoskip.
+    ||'-input, intensify.
+    |'-input.
+    '-intensify.
+.pe h
+Variables set on return to caller:
+.sc
+¢&IOSK - ENTER; PEN; PFnn; PA1; PA2; TIME
+¢&IOSC - cursor position: rrccc
+¢&IOSD - PFkey/lightpen value; blanks
+.sh
+Specials:
+.sc
+ Value | Field type     | Function
+-------+----------------+------------------------------------
+¢QUIT  | any            | Immediate exit RC=4
+¢BACK  | PFkey/lightpen | Back 1 page
+.c ¢COPY  | PFkey/lightpen | Copy screen to IOS3270 SCREENS
+¢<     | PFkey/lightpen | Null input (simulate ENTER; no data)
+¢>     | PFkey/lightpen | Exit (pass characters after '>'
+.jx set Norm col=yel
+.i iospage ;last

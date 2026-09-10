@@ -1,0 +1,20 @@
+Aug 31, 2026  16:33     /* Native Linux replacements for the MVS/TSO-specific external      */                          
+1.4.1                                               Source Listing                                           Page 1     
+    1  /* Native Linux replacements for the MVS/TSO-specific external      */
+    2  /* routines used by the Adventure PL/I engine (TREAD/TWRITE/WHISPER */
+    3  /* were originally WYLBUR/TSO terminal I/O; CLRSCRN/DECDATE were    */
+    4  /* assembler; RANDU was Fortran; R062A10/WARNMSG were MVS dynamic   */
+    5  /* allocation and broadcast-message helpers with no standalone      */
+    6  /* equivalent).                                                     */
+    7 
+    8  CLRSCRN: PROCEDURE;
+    9    DCL SYSCALL ENTRY RETURNS(FIXED BIN(31))
+   10                  OPTIONS(ASM LINKAGE(SYSTEM)) EXT('_pli_Syscall');
+   11    DCL (ADDR) BUILTIN;
+   12    DCL SEQ CHAR(7) STATIC INIT('1B'X || '[2J' || '1B'X || '[H');
+   13    DCL RC FIXED BIN(31);
+   14    RC = SYSCALL(4, 1, ADDR(SEQ), 7);
+   15    END CLRSCRN;
+   16 
+
+End of compilation. 

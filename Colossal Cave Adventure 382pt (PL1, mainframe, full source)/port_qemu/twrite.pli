@@ -1,0 +1,64 @@
+ /* Native Linux replacements for the MVS/TSO-specific external      */
+ /* routines used by the Adventure PL/I engine (TREAD/TWRITE/WHISPER */
+ /* were originally WYLBUR/TSO terminal I/O; CLRSCRN/DECDATE were    */
+ /* assembler; RANDU was Fortran; R062A10/WARNMSG were MVS dynamic   */
+ /* allocation and broadcast-message helpers with no standalone      */
+ /* equivalent).                                                     */
+
+ /* TWRITE mirrors the TWRITE CSECT of the WELLPUT assembler module  */
+ /* (tapecave/DECDATE.txt): one TPUT of MSGLEN bytes.                */
+ /*                                                                  */
+ /* The one addition is the code-page step.  The game database is    */
+ /* single-byte, exactly as it was on the mainframe: the decoder     */
+ /* maps EBCDIC cp037 to the matching Latin-1 byte, which keeps      */
+ /* every record exactly 80 columns wide (the engine calls BUG(0)    */
+ /* if a section-text card has anything in columns 79-80).  Four     */
+ /* bytes in the whole database fall outside ASCII - X'4A', a cent   */
+ /* sign, in the "FEE FIE FOE FOO" and "WITT CONSTRUCTION COMPANY"   */
+ /* signs, and X'5F', a logical not, in the wizard help text for the */
+ /* SCAN "not DEMO" subcommand.  A 3270 turned those bytes into      */
+ /* glyphs at the terminal, not in the dataset; this does the same   */
+ /* for a UTF-8 terminal by encoding bytes >= X'80' on the way out.  */
+ /* Set XLATE8 to '0'B for raw Latin-1 output instead.               */
+
+ TWRITE: PROCEDURE(MSG, MSGLEN, CCODE);
+   DCL MSG    CHAR(133);
+   DCL MSGLEN FIXED BIN(31);
+   DCL CCODE  FIXED BIN(31);
+   DCL SYSCALL ENTRY RETURNS(FIXED BIN(31))
+                 OPTIONS(ASM LINKAGE(SYSTEM)) EXT('_pli_Syscall');
+   DCL (ADDR,MOD) BUILTIN;
+   DCL XLATE8 BIT(1) STATIC INIT('1'B);
+   DCL OUTBUF CHAR(267);
+   DCL (I,N,V,B1,B2) FIXED BIN(31);
+   DCL RC FIXED BIN(31);
+   DCL CH CHAR(1);
+   DCL CHV FIXED BIN(7) BASED(ADDR(CH));
+
+   N = 0;
+   DO I = 1 TO MSGLEN;
+     CH = SUBSTR(MSG,I,1);
+     V = CHV;
+     IF V < 0 THEN V = V + 256;
+     IF V < 128 | ^XLATE8
+     THEN DO;
+       N = N + 1;
+       SUBSTR(OUTBUF,N,1) = CH;
+       END;
+     ELSE DO;                    /* U+0080..U+00FF -> two UTF-8 bytes */
+       IF V < 192 THEN B1 = 194;
+                  ELSE B1 = 195;
+       B2 = 128 + MOD(V,64);
+       CHV = B1 - 256;
+       N = N + 1;
+       SUBSTR(OUTBUF,N,1) = CH;
+       CHV = B2 - 256;
+       N = N + 1;
+       SUBSTR(OUTBUF,N,1) = CH;
+       END;
+     END;
+   N = N + 1;
+   SUBSTR(OUTBUF,N,1) = '0A'X;
+   RC = SYSCALL(4, 1, ADDR(OUTBUF), N);
+   CCODE = 0;
+   END TWRITE;

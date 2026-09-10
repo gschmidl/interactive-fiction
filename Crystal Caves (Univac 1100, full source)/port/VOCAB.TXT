@@ -1,0 +1,59 @@
+       INTEGER FUNCTION VOCAB(ID,NUMB)
+
+C  LOOK UP ID IN THE VOCABULARY (ATAB) AND RETURN ITS  DEFNUMBION  (KTAB), OR
+C  -1 IF NOT FOUND.  IF NUMB IS POSITIVE, THIS IS AN NUMBIALISATION CALL SETTING
+C  UP A KEYWORD VARIABLE, AND NOT FINDING IT CONSTITUTES A BUG.  IT ALSO MEANS
+C  THAT ONLY KTAB VALUES WHICH TAKEN OVER 1000 EQUAL NUMB MAY BE CONSIDERED.
+C  (THUS       STEPS   , WHICH IS A MOTION VERB AS WELL AS AN OBJECT, MAY BE LOC
+C  AS AN OBJECT.)  AND IT ALSO MEANS THE KTAB VALUE IS TAKEN MOD 1000.
+
+      include defs                      @ define parameters
+      include comvoc                    @ define VOCCOM common block
+c
+      parameter dbgoff=1                @ =0 to turn on debug code      DK
+      character*5 id, hashed                                            DK
+
+       hashed = id                                                      DK
+       call hash(hashed)                                                DK
+
+       delete 20,dbgoff,1                                               DK
+       print 10, id, numb, hashed                                       DK
+10     format (' VOCAB: ID=',A5,' NUMB=',I6,' HASHED=',A5)              DK
+20     continue                                                         DK
+
+       DO 1 I=1,TABSIZ
+       IF(KTAB(I).EQ.-1)GOTO 2
+       IF(NUMB.GE.0.AND.KTAB(I)/1000.NE.NUMB)GOTO 1
+       if (atab(i).eq.hashed) goto 3                                    DK
+1      CONTINUE
+       CALL BUG(21)
+
+2      VOCAB=-1
+       IF((NUMB.GE.0).AND.(NUMB.LE.2)) CALL BUG (5)
+       RETURN
+
+3      VOCAB=KTAB(I)
+       IF(NUMB.GE.0)VOCAB=MOD(VOCAB,1000)
+       RETURN
+       END
+
+
+C      Vocabulary hashing subroutine
+
+       subroutine hash(word)
+
+       implicit integer (a-z)
+       character*5 word
+       character*27 alph1, alph2
+       data alph1/' abcdefghijklmnopqrstuvwxyz'/
+       data alph2/'fjaqnbwsgcxkrud yohtlezupim'/
+
+       do 20 i=1,5
+       do 10 j=1,27
+       if (substr(word,i,1) .eq. substr(alph1,j,1)) goto 15
+10     continue
+       goto 20
+15     substr(word,i,1) = substr(alph2,j,1)
+20     continue
+       return
+       end

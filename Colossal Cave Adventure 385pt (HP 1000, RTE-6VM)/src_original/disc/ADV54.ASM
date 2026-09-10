@@ -1,0 +1,24 @@
+ASMB,R
+      HED     <STRING FUNCTION JASCQ(XQ,I)> 
+      NAM     JASCQ,7  ARW 6/76 
+      ENT     JASCQ 
+      EXT     .ENTR 
+* 
+*     FUNCTION JASCQ(XQ,I)
+* 
+*     RETURNS ASCII VALUE OF I-th CHARACTER IN STRING XQ. 
+*     I MAY BE ANY VALUE POSITIVE OR NEGATIVE.
+*     THE LENGTH OF THE STRING IS NEITHER CHECKED NOR CHANGED.
+* 
+PRAM  BSS     2 
+JASCQ NOP 
+      JSB     .ENTR 
+      DEF     PRAM
+      LDB     PRAM      *SET UP CHARACTER ADDRESS 
+      RBL 
+      ADB     =B1 
+      ADB     PRAM+1,I
+      LBT               *LOAD BYTE INTO A-REGISTER
+      JMP     JASCQ,I 
+      END 
+      $END

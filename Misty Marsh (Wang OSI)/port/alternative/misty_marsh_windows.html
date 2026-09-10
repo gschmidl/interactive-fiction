@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Misty Marsh — Wang OSI restoration</title>
+<style>
+  :root { color-scheme: dark; font-family: Consolas, "Courier New", monospace; }
+  body { margin:0; background:#101410; color:#d8ead3; }
+  main { max-width:900px; margin:0 auto; min-height:100vh; padding:28px 22px 48px; box-sizing:border-box; }
+  h1 { font-size:22px; letter-spacing:.08em; margin:0 0 6px; }
+  .sub { opacity:.72; margin-bottom:22px; }
+  #screen { white-space:pre-wrap; line-height:1.48; border:1px solid #435343; padding:18px; min-height:410px; background:#0b0e0b; overflow-wrap:anywhere; }
+  .prompt { margin-top:14px; display:flex; gap:8px; }
+  input { flex:1; min-width:0; font:inherit; padding:11px 12px; background:#050705; color:#f0fff0; border:1px solid #657765; outline:none; }
+  button { font:inherit; padding:11px 15px; cursor:pointer; background:#263126; color:#fff; border:1px solid #657765; }
+  #status { margin-top:12px; font-size:13px; opacity:.72; }
+  details { margin-top:16px; opacity:.8; }
+</style>
+</head>
+<body><main>
+<h1>MISTY MARSH</h1>
+<div class="sub">Restored from a Wang OIS/WP game image · ENTER = EXECUTE</div>
+<div id="screen"></div>
+<div class="prompt"><input id="cmd" autocomplete="off" autofocus aria-label="command"><button id="go">EXECUTE</button></div>
+<div id="status"></div>
+<details><summary>Restoration notes</summary><p>This is a clean-room gameplay port reconstructed from the text and branch data recoverable from the supplied Wang image. Wang-specific document/glossary mechanics were replaced with a normal command interface. The original image contains duplicated/variant records and some damaged compiler-era score state; this port preserves the recovered scenes, puzzles, inventory dependencies, fatal branches, and a 100-point treasure score.</p></details>
+</main>
+<script>
+(() => {
+const out=document.querySelector('#screen'), input=document.querySelector('#cmd'), status=document.querySelector('#status');
+let S={state:'instructions',score:0,inventory:new Set(['compass','knife','matches','excelsior','lures','fishline','ham','bourbon']),doors:new Set(),treasures:new Set(),healed:false,magicUsed:false};
+const T={
+intro:`MISTY MARSH IS OPEN!!\n\nWould you like instructions?\n\ny/n + EXECUTE`,
+instructions:`You are on a fishing trip deep in the Louisiana bayous. Near your location is Misty Marsh, where there is treasure to be found, but where pain and death are also frequent.\n\nUsing y for YES and n for NO, plus action words and object words, you will progress through the game. You will be guessing at first, but as surroundings and events become familiar, you will be able to make shrewd decisions based on your experience.\n\nMaximum point score = 100.\n\nThis glossary has been condensed to keep players from cheating. DO NOT, under any circumstances, Verify this glossary. You will erase it.\n\nHit EXECUTE to begin the game.`,
+start:`From your boat in the bayou, you glimpse a dull green light flickering through the boughs of a huge eucalyptus tree on the shore nearby. Rowing to shore, you secure your boat to a sturdy log and hop off. You have in your possession:\n\nOne compass\nOne hunting knife with a six-inch blade\nMatches and excelsior\nHooks, lures, and fishing line\nOne can of Deviled Ham and a pint of bourbon.\n\nThe green light rises off the ground and splits in two. One half slowly turns ochre and floats off to the left; the other remains green and heads right.\n\nChoose r or l`,
+trowel:`You find yourself slogging through a very wet bog. Gradually you come to high ground, where the green light hovers over a small clearing. The remains of a campfire seem very recent here. Your foot touches a protruberance in the ground: a small trowel, stuck point down in the earth.\n\nk - kick it\np - pick it up\nl - leave it alone\n\nWhich?`,
+pit:`You kick it alright, but your overeagerness dislodges the dirt around the trowel, and the ground around your feet gives way, plunging you into a deep pit. The walls are slimy, and your ankle is broken from the fall. There is some wood at the foot of the pit, so you fashion a rude splint from the wood and your belt. You stand up, though, and your pants fall down.\n\nSurely you have something with you to secure the wood to your leg?\n\n1st letter only`,
+dig:`Of course! The fishline! Your splint is in place, but your ankle still hurts like hell. Now you must find a way out of here.\n\nUsing a three-letter action word (lower case), explain how you will leave the pit.`,
+torch:`That's right - DIG!!\n\nUsing your knife, you begin to move the earth around the bottom and sides of the pit. On one side, the earth seems very loose... it looks as though there is an old tunnel opening up! However, it is very dark in there. Surely you'll need a torch. You grab a stick of wood, but you'll need something flammable (along with your matches) to get it going.\n\nBut what? 1st letter only`,
+spray:`Although it takes some trying (and uses up half your bourbon), you get the torch going. You crawl along and eventually come to an open space. On the ground there is a rusted can which looks like an aerosol hair spray can. There is vaguely runic writing and an etching of a small, froggy-looking creature beaming happily and emanating rays.\n\nYou might consider using this can for something, but once you expel its contents, it will be empty.\n\nDirect the spray using a five-letter word. One guess.`,
+atrium:`The tunnel twists and turns and eventually widens into a large chamber with no ceiling. Pine boughs far above create a dappled light effect. You are in a circular atrium, with seven oaken doors around you, labelled 1 to 7.\n\nChoose a door from 1-7.`,
+leftfork:`You follow the ochre light for about 100 yards and come to another fork in the path. The ochre light circles above you for a moment, then flies up and away behind you.\n\nYou must choose your direction again. r or l`,
+safety:`You wiggle along until you find yourself in the bottom of a pit. It is strangely dry outside, so you clamber up and find a clearing surrounded by pine trees. A sign stuck in the ground says "SAFETY" in large red letters, with arrows pointing toward paths east and west.\n\nWhich way will you go? e or w`,
+lure:`You follow a crude path along a murky stream and squeeze through a narrow crevice between two huge boulders. Before you is an insect-like creature the size of an English Sheepdog. Its wings resemble steel; its body is green and transparent; its eyes are black and menacing. In its mouth is an enormous metal hook, whose barbs rotate down toward you.\n\nUsing an action word and an object word (five letters each), explain in two steps how you will ward off your almost certain demise.\n\nFirst action?`,
+shack:`The path continues for perhaps one-half mile. Before you is a dilapidated fishing shack. On the porch stands a rusted 1935 Coke machine; a grizzled old-timer with a corncob pipe sits in a rocking chair.\n\nThe possibility exists that you could approach the old-timer. Will you? y/n`,
+finalfork:`You proceed down an incline and wade through muck until another fork is before you: to the right, where the ground is pure white sand, or to the left, where there is more marsh.\n\nr or l`
+};
+function show(text){out.textContent=text; out.scrollTop=out.scrollHeight; updateStatus();}
+function append(text){out.textContent += `\n\n${text}`; out.scrollTop=out.scrollHeight; updateStatus();}
+function updateStatus(){status.textContent=`Score: ${S.score}/100 · Inventory: ${[...S.inventory].join(', ')||'none'} · Treasures: ${[...S.treasures].join(', ')||'none'}`;}
+function norm(v){return v.trim();}
+function treasure(name){if(!S.treasures.has(name)){S.treasures.add(name); S.score=Math.min(100,S.score+20);} }
+function gameOver(text, forcedScore=null){if(forcedScore!==null)S.score=forcedScore; show(`${text}\n\nYour score = ${S.score}\n\nGame's over!\n\nType restart to play again.`); S.state='over';}
+function gotoAtrium(prefix=''){S.state='atrium'; show((prefix?prefix+'\n\n':'')+T.atrium);}
+function continueAfterSpray(){gotoAtrium();}
+function door(n){
+ if(S.doors.has(n) && n!==4){show(`Why bother going in there? You've explored behind that door already!\n\n${T.atrium}`);return;}
+ S.doors.add(n);
+ if(n===1){S.state='machine';show(`You open the door and find a room ablaze with fluorescent lights. Across the room is a massive steel door with a sign:\n\n!!WARNING!!\nTHIS IS THE MACHINE ROOM. DO NOT OPEN DOOR!\nThe salt marsh air will destroy your workstation!\n\nDo you dare ignore this warning and open the door? y/n`);}
+ else if(n===2){S.state='solidus';show(`You are in a room whose floor, walls and ceiling are panelled in rosewood. Painted on the wall is the word "SOLIDUS" in foot-high letters.\n\nWhat will you do?`);}
+ else if(n===3){S.state='silk';show(`You are in a room with cloth walls whose ceiling rises beyond the light of your torch. A voice intones:\n\nTHE TREASURE IS YOURS FOR THE MAGIC WORD\n\nIf you have been paying attention, you may have seen the magic word already. Speak it, and the treasure is yours.`);}
+ else if(n===5){S.state='baboon';show(`There is a huge baboon sitting on the floor crying. To your amazement he talks: "Help me! I'm lost and I want to get back to the North Marsh! Do you have a compass to help me find my way home? If you do, I'll tell you where the Sapphire Baboon is!"\n\nWill you give it to the baboon? y/n`);}
+ else if(n===6){S.state='slug1';show(`You enter a room where the stench is unbearable. Every movement is slowed to one-quarter time. In front of you sits a giant slug the size of an Indian elephant. Slime is everywhere, but the floor is also completely covered with thick, damp straw. The slug slowly slides toward you.\n\nUsing the first letters of objects, tell me in two steps how you will kill this monster.\n\nFirst step?`);}
+ else if(n===7){S.state='founder';show(`Standing behind the door is a little man holding a scythe. He asks you to tell him his name. Correct, and he hands over his solid-platinum scythe. Wrong, and he decapitates you.\n\nEnter the little man's name in UPPER CASE. Name = 6 letters`);}
+ else if(n===4){S.state='exitmagic';show(`This door yawns open to reveal a seemingly endless passage. A wooden cart stands in the foyer. Suddenly the door slams shut behind you. A sign reads:\n\n!!THE MAGIC WORD WILL TELEPORT YOUR TREASURES TO THIS ROOM!!\n\nWhat do you suppose you should say now?`);}
+}
+function command(raw){let v=norm(raw), l=v.toLowerCase(); if(!v && !['instructions_wait','spray_wait'].includes(S.state)) return;
+ if(l==='restart'){S={state:'instructions',score:0,inventory:new Set(['compass','knife','matches','excelsior','lures','fishline','ham','bourbon']),doors:new Set(),treasures:new Set(),healed:false,magicUsed:false};show(T.intro);return;}
+ switch(S.state){
+ case'instructions': if(l==='y'){S.state='instructions_wait';show(T.instructions)} else if(l==='n'){S.state='start';show(T.start)} else append('Choose y or n.'); break;
+ case'instructions_wait': S.state='start';show(T.start);break;
+ case'start': if(l==='r'){S.state='trowel';show(T.trowel)} else if(l==='l'){S.state='leftfork';show(T.leftfork)} else append('Choose r or l.');break;
+ case'leftfork': if(l==='r')gameOver(`ARRRRRRRRRRGH!!!!\n\nIt's quicksand! You writhe in agony as the slimy ooze smothers you to death.`,0); else if(l==='l'){S.state='safety';show(T.safety)} else append('r or l');break;
+ case'safety': if(l==='e')gameOver(`You walk perhaps ten feet and are instantly blown to bits by a deranged World War I veteran, who has been hiding in the Marsh since 1919. He takes your treasures and rolls your corpse into the marsh.`,S.score); else if(l==='w'){S.state='lure1';show(T.lure)} else append('e or w');break;
+ case'trowel': if(l==='k'){S.state='splint';show(T.pit)} else if(l==='p')gameOver(`You take two steps, trip over a rock, fall forward and impale yourself on the sharp trowel. You are dead.`,0); else if(l==='l')gameOver(`You stand for a moment, and the green light swoops down, picks up the trowel, and deftly flings it at you, pinning you to a pine tree and killing you instantly. It seems the light—a rare air-borne anemone—was hungry.`,0); else append('Choose k, p, or l.');break;
+ case'splint': if(l.startsWith('f')){S.state='dig';show(T.dig)} else append(`You can't make a splint out of that! Try again.`);break;
+ case'dig': if(l==='dig'){S.state='torch';show(T.torch)} else append(`Nice guess, but no cigar. It won't work. Try again.`);break;
+ case'torch': if(l.startsWith('b')){S.inventory.delete('bourbon');S.inventory.add('half-bourbon');S.state='spray';show(T.spray)} else append(`You'll get it eventually. Try again.`);break;
+ case'spray': if(l==='ankle'){S.healed=true;show(`You guessed shrewdly! The spray was a 4th Century Elvish Healing Potion, and immediately heals the break in your ankle.\n\nHit EXECUTE to continue.`)} else show(`Wrong guess. You have wasted the can's contents.\n\nYou get back on your hands and knees and crawl forward.\n\nHit EXECUTE to continue.`);S.state='spray_wait';break;
+ case'spray_wait':continueAfterSpray();break;
+ case'atrium': if(/^[1-7]$/.test(l))door(Number(l));else append('Choose a door from 1-7.');break;
+ case'machine': if(l==='y')gameOver(`Some warnings in this game should not be ignored. Perhaps you learned your lesson when your workstation went off on its own!\n\nFool!`,-100); else if(l==='n')gotoAtrium('Okay. You leave the machine room alone.'); else append('Answer y/n');break;
+ case'solidus': if(v==='&' || l==='ampersand'){treasure('gold dust');gotoAtrium(`On the floor has appeared a small rosewood box. Upon opening it, you find it full of pure gold dust! The box weighs 65 pounds.\n\nGood work.`)} else gotoAtrium(`You're back in Atrium.\n\nAnswer = &`);break;
+ case'silk': if(l==='pazux'){treasure('rare silk');gotoAtrium(`Spread out on the floor before you is a fortune in rare, costly silk! You gather it up.\n\nGood for you!`)} else gotoAtrium(`Wrong word. So solly!`);break;
+ case'founder': if(v==='ANWANG'){S.inventory.add('scythe');treasure('platinum scythe');gotoAtrium(`How did you ever know the man was Our Founder? You now possess a solid platinum scythe.\n\nNot bad!`)} else gameOver(`Dolt! You must think to prevail in Misty Marsh! Your headless carcass now lies in the atrium.`,S.score);break;
+ case'baboon': if(l==='n')gotoAtrium(`You deny the baboon your compass and shut the door. His wails echo loudly through the atrium.`); else if(l==='y'){S.inventory.delete('compass');S.state='baboon_item';show(`The baboon snatches the compass and gestures toward a cubbyhole in the wall, barred by a stout hickory block. He then scurries away.\n\nIf you think you have something that might remove the block, enter its name (or first five letters).`)} else append('Answer y/n');break;
+ case'baboon_item': if(l.startsWith('scy')){if(S.inventory.has('scythe')){treasure('sapphire baboon');gotoAtrium(`Getting the scythe was a good idea, was it not? You now possess a foot-high, solid sapphire baboon.\n\nClever!`)}else gotoAtrium(`Sorry. You don't have the scythe yet. You'll have to tell the little yellow man his name first.`)} else gotoAtrium(`Sorry, it's not strong enough.`);break;
+ case'slug1': if(l.startsWith('e')){S.state='slug2';show(`Yes! . . . . . . . And?\n\nSecond Step?`)}else {S.state='slug_last';show(`Wrong. Don't forget your movements are slowed by one quarter. The slug is almost upon you now!\n\nLook out! One last first-letter guess:`)}break;
+ case'slug_last': if(l.startsWith('m')){S.inventory.delete('matches');S.inventory.delete('excelsior');gotoAtrium(`The matches and excelsior light the straw, and you escape the Slug Room as the beast is engulfed in flames. You can hear it bubbling and popping behind door #6.`)} else gameOver(`The slug engulfs you in its slime. Your death is too sordid to contemplate.`,S.score);break;
+ case'slug2': if(l.startsWith('m')){S.inventory.delete('matches');S.inventory.delete('excelsior');gotoAtrium(`The matches and excelsior light the straw, and you escape the Slug Room as the beast is engulfed in flames. You can hear it bubbling and popping behind door #6.`)} else gameOver(`Wrong again. The slug engulfs you in its slime. Your death is too sordid to contemplate.`,S.score);break;
+ case'exitmagic': if(l==='aboko'){S.magicUsed=true;S.state='passage';show(`All your treasures are now in the little wooden cart. You remembered!\n\nHit EXECUTE to move down the passageway.`)} else {S.state='passage';show(`Sorry. Magic words can only be used once—then they're powerless. You'll have to leave the atrium treasureless.\n\nHit EXECUTE to move down the passageway.`)}break;
+ case'passage': S.state='shack';show(`The passageway continues for perhaps half an hour. Moving aside thick willow branches, you go outside, back into the marsh.\n\n${T.shack}`);break;
+ case'lure1': if(l==='throw'){S.state='lure2';show(`What are you going to throw?\n\nFive letters`)}else gameOver(`No way. You made a delicious meal for our strange friend—a little greasy perhaps, but delicious.`,S.score);break;
+ case'lure2': if(l==='lures'){S.state='shack';show(`Clever you! It was indeed a Lure Monster in mating season. The Monster scoops your lures and flies straight up and out of sight with a grating buzzsaw noise.\n\nAh, entomology!\n\n${T.shack}`)}else gameOver(`No way. You made a delicious meal for our strange friend.`,S.score);break;
+ case'shack': if(l==='y'){S.state='geezer';show(`You exchange pleasantries with the man and he asks you inside. After a moment, the geezer's nose begins to twitch. He wants something you have with you, and he wants it now! He offers to give you "Sompin' valable" if you fork over what he desires.\n\nWhat do you think he wants? 1st letter only!`)} else if(l==='n'){S.state='aftershack';show(`You pass the shack and follow the well worn path toward a peninsula. There is no turning back.\n\nHit EXECUTE to continue.`)} else append('Answer y/n');break;
+ case'geezer': if(l.startsWith('b') && (S.inventory.has('bourbon')||S.inventory.has('half-bourbon'))){S.inventory.delete('bourbon');S.inventory.delete('half-bourbon');S.inventory.add('stegosaurus');treasure('stegosaurus');S.state='aftershack';show(`The old coot grabs the bourbon and swallows it in one gulp. He tosses you a package wrapped in oilcloth, then disappears into thin air.\n\nThe package contains a large brown egg. It cracks open, and into your hand crawls a newborn stegosaurus, believed extinct since the Mesozoic era. It crawls into your pocket and falls asleep.\n\nHit EXECUTE to continue.`)}else gameOver(`Sorry. The geezer is quite displeased with your offer. In a rage he tears a rusted harpoon from the wall and drives it through your forehead.`,S.score);break;
+ case'aftershack': if(S.doors.size===0){gotoAtrium(`You part willow branches and find a long torch-lit passage. Eventually it opens into another entrance to the seven-door atrium.`)} else {S.state='finalfork';show(T.finalfork)}break;
+ case'finalfork': if(l==='r')gameOver(`ARRRRRRRRRRGH!!!!\n\nIt's quicksand! You writhe in agony as the slimy ooze smothers you to death.`,S.score); else if(l==='l'){if(S.score>=100)gameOver(`OH FRABJOUS DAY!!\n\nYou have chosen the path back to the water, where your boat is a most welcome sight!\n\nYou have perfected this game. Congratulations!!`,100);else gameOver(`OH FRABJOUS DAY!!\n\nYou have chosen the path back to the water, where your boat is a most welcome sight!`,S.score)} else append('r or l');break;
+ case'over': append(`Type restart to play again.`);break;
+ }
+}
+document.querySelector('#go').onclick=()=>{command(input.value);input.value='';input.focus();};
+input.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();document.querySelector('#go').click();}});
+show(T.intro);
+})();
+</script></body></html>

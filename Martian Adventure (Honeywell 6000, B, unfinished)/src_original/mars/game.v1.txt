@@ -1,0 +1,212 @@
+/* insert the file of external definitions here*/
+%jmc/mars/exter
+main(){
+ extrn ind,inr,loca,inven,roombits,rvec,shd,treasures;
+ auto c,cn;
+ printf("Welcome to the game of Mars.*nInstructions are in jmc/mars/expl*n");
+ printf("To stop type  'quit'*n");
+ ind=open("jmc/mars/desc","rb");
+ inr=open("jmc/mars/rooms","rb");
+ srand(tick());
+ r=256;
+ or=robot=0;
+topofloop:
+ if(r!=or)groom(r);
+ if(!light){
+	printf("It is now quite dark, should you proceed, you may die");
+	goto midloop;
+ }
+ if(roombits[(r-1)/36]<<(r-1)%36&01)printf("%s*n",shd);
+	else prlon();
+ inlo=open(trehere,"rs");
+ while(c=getchar())printf("%s*n",treasures(3*c));
+ close(inlo);
+ if (robot)rbot();
+ if(alien)printf("Beelzebub is with you.*n");
+midloop:prompt("> ");
+ com=geta();
+ if (!com)goto midloop;
+ po=0;
+ teew:if(r>490)goto spmove;
+ or=r;
+sw:switch(com){
+	case'd':case'down':po++;
+	case'up':case'u':po++;
+	case'nw':po++;
+	case'west':case'w':po++;
+	case'sw':po++;
+	case's':po++;
+	case'se':po++;
+	case'east':case'e':po++;
+	case'ne':po++;
+	case'nort':case'n':po++;
+		q=char(rvec,po);
+		if(q){
+			r=q;
+			if(!light&&!rand()&07)goto death;
+		}
+		else printf("There is no way to go that direction*n");
+		goto topofloop;
+	case'look':prlon();
+		goto topofloop;
+	case'inve':q=1;
+		printf("You are currently holding the following:*n");
+		while(c=char(inven,q++))printf("%s*n",treasures[3*c]);
+		goto topofloop;
+	case'take':case'get':
+		try:arg=geta();
+		if(length(inven)==9){
+			printf("You can't carry any more.  You had better*n");
+			printf("take inventory and drop something.*n");
+			goto midloop;
+		}
+		if(!arg&&length(trehere)!=1){
+			printf("Get what?");
+			goto try;
+		}
+		if(length(trehere)==1)cn=char(trehere,1);
+			else cn=scant(arg);
+		if(!any(cn,trehere)){
+			printf("I see none of that here.*n");
+			goto midloop;
+		}
+		if(any(cn,inven)){
+			printf("Your are already holding it.*n");
+			goto midloop;
+		}
+		if(cn>300){
+			printf("Don't be ridiculous!*n");
+			goto midloop;
+		}
+		if(cn<285){
+			open(inven,"as");
+			putchar(cn);
+			close();
+			treasures[cn*3+2]=0;
+			lchar(trehere,any(cn,trehere),511);
+			printf("OK*n");
+		}
+		else switch(cn){
+			case280:;
+			/* put case treasurenum: things to be checked or done */
+			/* on a take, and a break;*/
+		}
+		goto midloop;
+	case'drop':case'rele':
+		try1:arg=geta();
+		if(!arg){
+			printf("Drop what? ");
+			goto try1;
+		}
+		cn=scant(arg);
+		if(!(c=any(cn,inven))){
+			printf("You are not holding it.*n");
+			goto midloop;
+		}
+		while(lchar(inven,c++,char(inven,c)));
+		treasures[3*cn+2]=r;
+		open(trehere,"as");
+		putchar(cn);
+		close();
+		printf("OK*n");
+		goto midloop;
+	case'ligh':case'lamp':case'flas':
+		arg=geta();
+		if(!arg)if(light)light=0;
+		else light=1;
+		else if(arg=='on');
+		if(light)printf("It already was*n");
+		else light=1;
+		if(arg=='off')if(light)light=0;
+		else printf("It already was*n");
+		printf("Your light is now");
+		if(light)printf("on*n");
+		else printf("off*n");
+		goto midloop;
+	case'read':
+		aga:arg=geta();
+		if(!arg){
+			printf("Read what? ");
+			goto aga;
+		}
+		cn=scant(arg);
+		if(cn>no.things){
+			printf("I don't understand that*n");
+			goto topofloop;
+		}
+		if(arg=='dict'){
+			if(any(cn,inven)){
+				printf("That is very interesting*n");
+				printf("I now understand the ancient languages of Mars*n");
+			}
+			else printf("You aren't carrying it");
+			goto topofloop;
+		}
+		if(dict)
+			if(cn==magn){
+				if(!any(cn,inven)){
+					printf("You don't have a magazine*n");
+					goto midloop;
+				}
+				printf("%s*n",hints[hintcount++]);
+				goto topofloop;
+			}
+			else printf("Sorry, no more information.  Try 'look'*n");
+		else printf("I can't read that, it's all Old High Martian to me!*n");
+	case'mt':case'tele':case'zap':
+		if(!any(mtno,inven)){
+			printf("You are not carrying the transmitter*N");
+			goto topofloop;
+		}
+		if(r>255){
+			for(cn=0;r==qmrs[cn]||cn==no.qmrs;cn++);
+			if(cn>=no.qmrs)break;
+			r=qmrf[cn];
+		Printf("ZAP!!*n");
+			goto topofloop;
+		}
+		printf("Transporter activated--");
+		switch(rand()<<18 &0777){
+			case 301:: 512:
+				if((r%256)<200)r=random(199);
+				else r=200+random(99);
+				printf("ZAP!!*n");
+				goto topofloop;
+			case 151:: 300:
+				printf("Nothing happens..*n");
+				goto topofloop;
+			case 0:: 150:
+				r=(r%256)>199?marobn:demrobn;
+		}
+	case'swim':printf("I don't know how!*n");
+		goto topofloop;
+	case'lear':printf("I am incapable of learning*n");
+		goto topofloop;
+	case'say':printf("OK, ");
+		while(putchar(getchar));
+		goto topofloop;
+	case'eat':
+		if(any(foodnum,inven)){
+			printf("OK*nYou fool, It was poisoned!! Only your MT*n");
+			printf("save you now and purify  your body!*n");
+			goto death;
+		}
+		else printf("You don't have any food.  Whew!!*n");
+		goto topofloop;
+	case'walk':
+		com=geta();
+		goto sw;
+	case'drin':
+		printf("I wouldn't advise drinking the Martian water*n");
+		goto topofloop;
+	case'kill':case'atta':case'dest':
+		arg=geta();
+		switch(arg){
+			case'alie':
+				if(!alien){
+					printf("He is not here*n");
+					goto topofloop;
+				}
+				if(!charge)printf("Your rifle is not charged*n");
+				else {
+					printf("Beelzebub is now a smouldering mass on the floor!*n");

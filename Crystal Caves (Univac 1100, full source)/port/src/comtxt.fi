@@ -1,0 +1,5 @@
+      dimension rtext(rtxsiz), lines(linsiz)
+      logical rmsgx(rtxsiz)
+      character*4 clines(linsiz)
+      equivalence (lines(1), clines(1))
+      common /txtcom/ rtext, rmsgx, lines

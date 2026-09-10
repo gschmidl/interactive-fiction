@@ -1,0 +1,121 @@
+[!equal,1,2]
+comment This macro does a full labeled diskette backup from the
+comment working directory. To do a full system backup, it requires
+comment the process that runs it to be PID 2.
+push
+prompt pop
+comment Check for arguments -- none is allowed.
+[!nequal,%1-%,]
+  write
+  write This macro backs up copyable files in and below [!DIRECTORY] --
+  write excluding DG-supplied files in the root and excluding
+  write directories HELP,,PATCH,,and,,UTIL.
+  write It doesn't allow arguments. Please try again via ,, %0% ,,
+  write when ready.
+  write
+[!else]
+  string ok_to_proceed
+  comment Check for the root directory -- if so the PID must be 002.
+  class(1 2) ignore
+  [!equal,[!directory],:]
+    [!UEQ,[!pid],002]
+      superuser on
+    [!else]
+      string non_master
+    [!end]
+  [!else]
+    comment Not in the root - check for write access. If we can create
+    comment and read from a file, assume we have needed access.
+    permanence =?[!pid].[!username].tmp off
+    delete =?[!pid].[!username].tmp
+    write/l==?[!pid].[!username].tmp test
+    string [=?[!pid].[!username].tmp]
+    delete =?[!pid].[!username].tmp
+    [!equal,[!string],test]
+      string ok_to_proceed
+    [!else]
+      string no_access
+    [!end]
+  [!end]
+  comment If it's not ok to proceed, describe error and stop.
+  [!nequal,[!string],ok_to_proceed]
+    [!equal,[!string],non_master]
+      Write Only the master CLI can back up from the root.
+    [!else]
+      [!equal,[!string],no_access]
+	write
+	write Error - [!username] does not have write access to
+	write [!directory].
+	write ,,,,,,,,,You cannot back up this directory.
+	write
+      [!end]
+    [!end]
+    pop
+  [!else]
+    comment Check if CLI operator mode is on. If not, stop with message.
+    permanence =?[!pid].[!username].tmp off
+    delete =?[!pid].[!username].tmp
+    operator/l==?[!pid].[!username].tmp
+    string [=?[!pid].[!username].tmp]
+    delete =?[!pid].[!username].tmp
+    [!nequal,([!string]),(OFF)]
+      comment Operator mode is on -- proceed.
+      class1 error
+      class2 warning
+      write
+      write ** Full backup from directory [!DIRECTORY] at
+      write [!TIME] on [!DATE] **
+      write
+      write Please insert the first diskette to receive backup material
+      write in the primary -- rightmost -- unit. The default first-volid
+      write for full backups is FULL01. The 16-bit CLI can label
+      write diskettes if needed. The first diskette and any others used
+      write for backup will be overwritten -- so don't use diskettes
+      write that have material you want to keep.
+      write
+      write Please number the paper label of each diskette as it is
+      write filled so that -- if needed -- the diskettes can be restored
+      write in correct order.
+      write
+      write ,,,,,,,,,,,,,,,,,,,,  -- Beginning file backup --
+      [!equal,[!directory],:]
+        comment Backup from root directory. Set diskette unit ACL
+        comment for exclusive access, then do the backup and reset ACL.
+        acl   @dpj10   op, oware
+        DUMP/RETAIN=0/V%0/L%    @LFD:FULL01:BACKUP    &
+	    #\HELP\NET\PATCH\SYSGEN\UTIL\SWAP\PAGE\PER\PROC\QUEUE&
+\SWAP.SWAP\?+.BRK\+.ED\?+.JOB\+.LS\?+.TMP   NET:NETGEN:+
+        comment  Note: If you want to back up files in HELP, SYSGEN, or
+        comment  UTIL, insert the pathname(s) in the macro BEFORE the
+	comment  #\HELP... exclusion. For example, the template
+	comment  UTIL:MYDATA+ before & in the DUMP command line will
+        comment  back up all :UTIL:MYDATA+ files.
+        acl @dpj10 +,ware
+      [!else]
+        DUMP/RETAIN=0/V%0/L%    @LFD:FULL01:BACKUP  #
+      [!end]
+      write
+      write ** Full backup of [!DIRECTORY] complete at [!TIME] **
+      permanence/2=ignore  =LAST_BACKUP.BU  OFF
+      delete/2=ignore  =LAST_BACKUP.BU
+      rename/2=ignore  LAST_BACKUP  LAST_BACKUP.BU
+      write/l==LAST_BACKUP   [!DATE]:[!TIME]
+
+      write
+      write This backup has created file LAST_BACKUP in this directory
+      write for future backups. Don't delete this file.
+    [!else]
+      write Operator mode is not on. Turn OPERATOR ON and retry the
+      write command.
+    [!end]
+  [!end]
+[!end]
+[!else]
+  write This macro is nonexecutable. You can make it executable by
+  write changing the 2 to a 1 in line 1 -- make both numbers 1.
+  write
+  write Backup is very important. Before using the edited macro
+  write for backup you should understand how it works. Please test this
+  write macro. Use it to back up files. Then try restoring files using
+  write the RESTORE macro -- before relying on this macro routinely.
+[!end]

@@ -1,0 +1,16 @@
+ec
+op lb
+ll adven.map
+* link module adven
+rel adv01
+se all
+* link module adv1:
+rel adv03
+se all
+* link module adv2:
+rel advx2
+se all
+* link module adv3:
+rel advy2
+se all
+en

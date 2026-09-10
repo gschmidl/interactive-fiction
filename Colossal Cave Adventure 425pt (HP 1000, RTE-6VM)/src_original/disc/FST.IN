@@ -1,0 +1,7 @@
+MT 8
+TAR A
+backup @.ftn
+backup @.lod
+backup @.incl
+GO
+EX

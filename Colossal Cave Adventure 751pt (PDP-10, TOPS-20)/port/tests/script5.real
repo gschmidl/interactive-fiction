@@ -1,0 +1,57 @@
+R GAME:ADVENTURE
+
+-- ADVENTURE < 6.1/ 3>, 14-Jan-82  --
+
+The best player since 17-Apr-84 is MIMI, achieving a score       
+of  92 points in  235 turns on  6-Oct-84.
+
+Welcome to ADVENTURE!!  Would you like instructions?   
+
+NO
+
+You are standing at the end of a road before a small brick building.  
+Around you is a forest.  A small stream flows out of the building and 
+down a gully.  
+
+HOURS
+
+OTE: Open/Closed hours are disabled at LOTS.
+
+Colossal Cave is open to regular adventurers at the following hours:  
+
+
+Note: Open/Closed hours disabled at LOTS
+         MON - FRI:   0:00 to 10:00
+                     17:00 to 24:00
+         SAT - SUN:  Open all day
+         HOLIDAYS:   Open all day
+
+MAINT
+
+I don't understand the word MAINT. 
+
+INFO
+
+I don't understand the word INFO. 
+
+GRIPE
+
+
+Limit each line to 70 chars.  End with a blank line.   
+NO
+GERBIL
+SEED 12345
+SCORE
+IN
+READ POSTER
+OPEN SAFE
+TAKE ALL
+OUT
+DOWN
+DOWN
+SOUTH
+OPEN GRATE
+TAKE BAG
+OPEN BAG
+QUIT
+YES

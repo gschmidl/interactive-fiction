@@ -1,0 +1,6 @@
+push;prompt pop pop pop
+proc/block/def/ioc/calls=32 plot %1%
+wr
+wr [!read Press NEWLINE to return to games menu ...,]
+wr [!as 222 214]
+pop/1=ig/2=ig

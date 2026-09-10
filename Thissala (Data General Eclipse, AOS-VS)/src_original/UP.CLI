@@ -1,0 +1,120 @@
+COMMENT  UP.CLI
+
+COMMENT  Check if the two arguments are equal.  If so, the macro is executable.
+[!equal,1,2]
+
+  COMMENT  Check to see if the process is PID 2.
+  [!ueq,2,[!pid]]
+
+    COMMENT  to system manager:  Start SYSLOG and set system ID, SYSID, here.
+
+    COMMENT  Set search list, dir to the root directory, push an
+    COMMENT  environment level, and turn Superuser on.
+    searchlist  :util  :
+    directory   :
+    push
+    prompt      pop
+    superuser   on
+
+    COMMENT  Set up and start a CLI log file to help track UP errors.
+    write
+    write    Starting log file UP.LOG. Type this file to track any error.
+    delete/2=ignore       :UP.LOG
+    create/elementsize=8  :UP.LOG
+    logfile               :UP.LOG
+
+    COMMENT  Set tape unit ACLs.
+    acl      @MT-  +,ware
+    COMMENT  to system manager:  Set diskette unit ACLs to +,WARE here.
+
+    COMMENT  to system manager:  Set default characteristics of console
+    COMMENT                      lines as needed here, via
+    COMMENT                      CHARACTERISTICS/DEFAULT  @CONn  commands.
+
+    COMMENT  to system manager:  Initialize other LDUs, if you have them, here.
+    COMMENT  to system manager:  Set ACLs on newly initialized LDUs, if desired.
+
+    COMMENT  to system manager:  Initialize all job processors, if more than one
+    COMMENT                    by removing 'COMMENT' for EACH JP in the system:
+    COMMENT          JPINITIALIZE/2=WARNING 0
+    COMMENT          JPINITIALIZE/2=WARNING 1
+    COMMENT          JPINITIALIZE/2=WARNING 2
+    COMMENT          JPINITIALIZE/2=WARNING 3
+
+
+    COMMENT  Run QCMP to delete unofficial files from queue directory.
+    write    Running QCMP to delete unofficial files from directory :QUEUE.
+    xeq/1=warning/2=warning      QCMP/yes
+
+    COMMENT  Create EXEC process.
+    write
+    write    Starting EXEC.
+    process/default/directory=@/name=EXEC  EXEC
+    WAIT_FOR_PORT  @EXEC
+
+    COMMENT  Tell EXEC to start batch output queues.
+    COMMENT  to system manager:  Correct the string for your printer, if needed.
+
+    string   @LPB
+
+    write
+    write    Starting batch output queues.
+    control  @EXEC  start  BATCH_OUTPUT  [!string]
+    control  @EXEC  start  BATCH_LIST    [!string]
+
+    COMMENT  Start default print queue and continue printer.
+    write
+    write    Starting default print queue and continuing printer.
+    control  @EXEC  start  LPT           [!string]
+    control  @EXEC  continue             [!string]
+
+    COMMENT  to system manager:  Tell EXEC to start any other printers here.
+
+    COMMENT  to system manager:  Start any network software here.
+    COMMENT  to system manager:  Start any local data management software,
+    COMMENT                      like INFOS II, DG/DBMS, or DG/SQL here.
+    COMMENT  to system manager:  Start CEO, if present, here.
+
+    COMMENT  to system manager:  Start your own applications, if any, here.
+
+    COMMENT  Tell EXEC to open the mount queue.
+    control  @EXEC  open  MOUNTQ
+
+    COMMENT  Tell EXEC to continue batch stream 1.
+    COMMENT  to system manager:  You can set batch stream qpriorities here and
+    COMMENT                      start streams other than 1 here, if you want.
+    write
+    write    Continuing batch stream.
+    control  @EXEC  continue  1
+
+    COMMENT  Tell EXEC to enable all consoles.
+    write
+    control  @EXEC  enable/all
+
+    COMMENT  Return to original environment.  Set up informative prompt.
+    checkterms
+    pop
+    prompt   time   checkterms
+
+    COMMENT  to system manager:  For a secure system console, execute :LOCK_CLI
+    COMMENT                      next, instead of :CLI.
+
+    execute  :CLI
+
+  [!else]
+    write  *Error*
+    write  %0\% runs only from the master CLI -- PID 2.,,Your PID is [!pid].
+    write  Required arguments:,,None
+    write  Optional switches:,,,None
+  [!end]
+
+[!else]
+  write    This macro is executable only if -- in its first !EQUAL command --
+  write    the numbers are the same.  To make the macro executable
+  write    use a text editor to make the numbers equal. For example
+  write    make them both 1.
+  write
+  write    We suggest that you keep the executable macro in the root
+  write    directory. This will provide easy access on startup.
+  write    You can move it there via the command ,, MOVE/V/R : UP.CLI
+[!end]

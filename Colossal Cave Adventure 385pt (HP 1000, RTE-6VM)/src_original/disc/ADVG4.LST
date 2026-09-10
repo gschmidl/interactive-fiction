@@ -1,0 +1,118 @@
+  
+ Module READQ             No errors     Prog:   147    Blank common: none 
+ FTN7X  6200/941021       No warnings   Save:  none    Local EMA:    none 
+  
+  
+ Module WRITQ             No errors     Prog:    51    Blank common: none 
+ FTN7X  6200/941021       No warnings   Save:  none    Local EMA:    none 
+  
+  
+ Module MOVEQ             No errors     Prog:   112    Blank common: none 
+ FTN7X  6200/941021       No warnings   Save:  none    Local EMA:    none 
+  
+  
+ Module SEGQ              No errors     Prog:    71    Blank common: none 
+ FTN7X  6200/941021       No warnings   Save:  none    Local EMA:    none 
+  
+  
+ Module DLETQ             No errors     Prog:    65    Blank common: none 
+ FTN7X  6200/941021       No warnings   Save:  none    Local EMA:    none 
+  
+  
+ Module NSRTQ             No errors     Prog:   160    Blank common: none 
+ FTN7X  6200/941021       No warnings   Save:  none    Local EMA:    none 
+  
+  
+ Module CLRQ              No errors     Prog:    31    Blank common: none 
+ FTN7X  6200/941021       No warnings   Save:  none    Local EMA:    none 
+  
+  
+ Module ANDQ              No errors     Prog:    30    Blank common: none 
+ FTN7X  6200/941021       No warnings   Save:  none    Local EMA:    none 
+  
+  
+ Module IXQ               No errors     Prog:    98    Blank common: none 
+ FTN7X  6200/941021       No warnings   Save:  none    Local EMA:    none 
+  
+  
+ Module NBLQ              No errors     Prog:    69    Blank common: none 
+ FTN7X  6200/941021       No warnings   Save:  none    Local EMA:    none 
+  
+  
+ Module NFNBQ             No errors     Prog:    77    Blank common: none 
+ FTN7X  6200/941021       No warnings   Save:  none    Local EMA:    none 
+  
+  
+ Module EQUAT             No errors     Prog:    17    Blank common: none 
+ FTN7X  6200/941021       No warnings   Save:  none    Local EMA:    none 
+  
+  
+ Module KMPRQ             No errors     Prog:    31    Blank common: none 
+ FTN7X  6200/941021       No warnings   Save:  none    Local EMA:    none 
+  
+  
+ Module LTRMQ             No errors     Prog:    30    Blank common: none 
+ FTN7X  6200/941021       No warnings   Save:  none    Local EMA:    none 
+  
+  
+ Module LENQ              No errors     Prog:    14    Blank common: none 
+ FTN7X  6200/941021       No warnings   Save:  none    Local EMA:    none 
+  
+  
+ Module CHARQ             No errors     Prog:    15    Blank common: none 
+ FTN7X  6200/941021       No warnings   Save:  none    Local EMA:    none 
+  
+  
+ Module NULLQ             No errors     Prog:     8    Blank common: none 
+ FTN7X  6200/941021       No warnings   Save:  none    Local EMA:    none 
+  
+  
+ Module KSTRQ             No errors     Prog:   159    Blank common: none 
+ FTN7X  6200/941021       No warnings   Save:  none    Local EMA:    none 
+  
+  
+ Module ISTRQ             No errors     Prog:    97    Blank common: none 
+ FTN7X  6200/941021       No warnings   Save:  none    Local EMA:    none 
+  
+  
+        DATA NQ/1/? 
+  "KVALQ"    warning 71 detected at line 555 column 16
+  
+ Module KVALQ             No errors     Prog:   215    Blank common: none 
+ FTN7X  6200/941021        1 warnings   Save:  none    Local EMA:    none 
+  
+  Error Directory 
+  
+  Number  Explanation 
+  
+  
+    71    Too many/few constants, or illegal repeat count.
+  
+        DATA NQ/1/? 
+  "IVALQ"    warning 71 detected at line 606 column 16
+  
+ Module IVALQ             No errors     Prog:   200    Blank common: none 
+ FTN7X  6200/941021        1 warnings   Save:  none    Local EMA:    none 
+  
+  Error Directory 
+  
+  Number  Explanation 
+  
+  
+    71    Too many/few constants, or illegal repeat count.
+  
+ Module IASCQ             No errors     Prog:    34    Blank common: none 
+ FTN7X  6200/941021       No warnings   Save:  none    Local EMA:    none 
+  
+  
+ Module UNPKQ             No errors     Prog:    41    Blank common: none 
+ FTN7X  6200/941021       No warnings   Save:  none    Local EMA:    none 
+  
+  
+ Module PACKQ             No errors     Prog:    43    Blank common: none 
+ FTN7X  6200/941021       No warnings   Save:  none    Local EMA:    none 
+  
+  
+ Module IPRSQ             No errors     Prog:    92    Blank common: none 
+ FTN7X  6200/941021       No warnings   Save:  none    Local EMA:    none 
+  

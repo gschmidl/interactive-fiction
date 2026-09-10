@@ -1,0 +1,27 @@
+[!equal,(%1%),()]
+write
+write "%0%.cli" requires at least one argument.
+write
+write -- Argument 1 is a PORT NAME
+write -- Argument 2 is a TIME TO WAIT value and is OPTIONAL
+write
+write If Argument 2 is provided, then STRING will contain:
+write Argument 1 if the PORT NAME appears before TIME TO WAIT
+write or a NULL otherwise.
+[!else]
+        pause 1
+        [!equal (%2%),()]
+                [!equal,([!filename %1%]),()]
+                        %0-%
+                [!end]
+        [!else]
+                string/k
+                [!equal,([!filename %1%]),()]
+                        [!ugt %2%,0]
+                        %0% %1% [!usub,%2%,1]
+                        [!end]
+                [!else]
+			string %1%
+		[!end]
+	[!end]
+[!end]

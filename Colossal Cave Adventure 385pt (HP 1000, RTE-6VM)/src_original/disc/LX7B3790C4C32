@@ -1,0 +1,7 @@
+                                                                                                                                                                                                                                                            
+~ é V_  A5TO1   A LANDQ   +  BUG   P ; CARRY   J xCHARQ   (  )CLRQ   % )DLETQ    N  DROP  L aDSTRY   F L EQUAT   $  GETIN        $IASCQ   5 ]  IOF   T  IPOSQ   ; EIPRSQ   9 )   IRP   U I !  
+~ é Bh  ISHFT   S &ISTRQ   , M  
+  ) 2IVALQ   2 2   /IXQ    4    $ JASCQ   @ JUGGL   G / KMPRQ   %  KSTRQ   ) H    ) 2KVALQ   . s   / LCO   @ s LENQ  ' ! LINK  W LTRMQ   &   /MOVE  H L   I !  
+~ é sÜ MOVEQ    R     ) MOVQQ   > B NARG  X NBLQ    M  # /NFNBQ   " *  )NSRTQ        NULLQ   ( nPACKQ   8  )PSPEK    0 0PUT   J   PUTQ  ? 2RAND  N / + RANDM   Q uREADQ    D  RETRN   W    I !  
+~ é €c 
+RSPEK     0SEGQ      SPEK     SUSP  Y  TRIMQ   = =UNPKQ   6 p VOCAB   C C WRITQ      )YES    + . 7YESX     0 0PUT   J   PUTQ  ? 2RAND  N / + RANDM   Q uREADQ    D  RETRN   W    I !  

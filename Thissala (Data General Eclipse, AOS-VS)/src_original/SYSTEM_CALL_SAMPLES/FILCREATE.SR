@@ -1,0 +1,109 @@
+;*       Copyright (C) Data General Corporation, 1980 - 1994          *;
+;*       All rights reserved.                                         *;
+;*       Licensed material -- property of Data General Corporation    *;
+;*                                                                    *;
+;*       This software is made available solely pursuant to the       *;
+;*       terms of a DGC license agreement which governs its use.      *;
+; This program opens the terminal and asks for a
+;    filename. It then creates the file (deleting it
+;    first if it exists) with an ACL of OWR. (An IPC
+;    ?CREATE example occurs in programs SPEAK and HEAR.)
+
+        .TITLE  FILCREATE
+        .ENT    FILCREATE
+        .NREL
+
+FILCREATE: ?OPEN CONSOLE ; For input and output
+        WBR     ERROR    ; Error, process it.
+        ?WRITE  CONSOLE  ; Ask for filename.
+        WBR     ERROR    ; Error, process it.
+        XLEFB   0,BUF*2  ; Get buffer byte pointer.
+        XWSTA   0,CONSOLE+?IBAD ; Put in I/O packet.
+        ?READ   CONSOLE  ; Read filename.
+        WBR     ERROR    ; Error, process it.
+
+CREATE: ?CREATE CPKT     ; Create file (AC0 still has
+                         ;    byte pointer to the name).
+        WBR     TEST     ; Error, check for ERNAE.
+        ?WRITE  CONSOLE  ; Done, confirm name.
+        WBR     ERROR    ; Error, process it.
+        XLEFB   0, TMES*2 ; Get confirmation message byte pointer.
+        XWSTA   0,CONSOLE+?IBAD ; Put it in I/O packet.
+        ?WRITE  CONSOLE  ; Write confirmation message.
+        WBR     ERROR    ; Error, process it.
+        WSUB    2,2      ; Good return flags.
+        ?RETURN          ; Good bye.
+        WBR     ERROR    ; Return error.
+
+TEST:   WLDAI   ERNAE, 2 ; Code = 'already exists'.
+        WSEQ    2,0      ; Skip if error is ERNAE.
+        WBR     ERROR    ; Other error, process it.
+        XLEFB   0, BUF*2 ; Get buffer byte pointer.
+        ?DELETE          ; Delete the file.
+        WBR     ERROR    ; Error, process it.
+        WBR     CREATE   ; Go and create the file.
+
+ERROR:  WLDAI   ?RFEC+?RFCF+?RFER,  2  ; Error flags.
+        ?RETURN          ; To CLI.
+        WBR     ERROR    ; Return error.
+
+        ; Create Packet.
+
+        .ENABLE WORD ; Most entries = 16 bits.
+
+CPKT:   .BLK    ?CLTH    ; Packet length.
+        .LOC    CPKT+?CFTYP
+        ?ORDS*400+?FUDF  ; Data sensitive records, left byte
+                         ;    (format mnemonic must always be *400)
+                         ;    + User Data File.
+        .LOC    CPKT+?CCPS
+        0                ; Fixed record length; ignored here.
+        .LOC    CPKT+?CTIM
+        .DWORD  -1       ; Default to current time.
+        .LOC    CPKT+?CACP
+        .DWORD  ACL*2    ; 2-word byte pointer to ACL.
+        .LOC    CPKT+?CDEH
+        0                ; Reserved for system.
+        .LOC    CPKT+?CDEL
+        -1               ; Default element size.
+        .LOC    CPKT+?CMIL
+        -1               ; Default number of index levels.
+        .LOC    CPKT+?CLTH ; Default others.
+        ; End of Create packet.
+
+ACL:    .TXT "DOCUMENT<0><?FACO+?FACW+?FACR><0>"
+        ; Use your own username instead of DOCUMENT.
+
+        ; Open and I/O packet -- needed for I/O.
+
+CONSOLE: .BLK   ?IBLT    ; Packet length.
+        .LOC    CONSOLE+?ISTI
+        ?ICRF+?RTDS+?OFIO ; Data-sensitive records, Input/Output.
+        .LOC    CONSOLE+?IMRS
+         -1              ; Memory block size, default to 2048.
+        .LOC    CONSOLE+?IBAD
+        .DWORD  ITEXT*2  ; 2-word byte pointer to text/buffer.
+        .LOC    CONSOLE+?IRCL   
+        120.             ; Maximum record length of 120 characters.
+        .LOC    CONSOLE+?IFNP
+        .DWORD  CON*2    ; 2-word byte pointer to filename.
+        .LOC    CONSOLE+?IDEL
+        .DWORD  -1       ; Data-sensitive delimiter table address;
+                         ;    default to NL, CR, NUL.
+        .LOC    CONSOLE+?IBLT ; Default others to 0.
+        ; End of console I/O packet.
+
+; Filename, buffer, messages. .NOLOC 1 follows.
+        .NOLOC  1        ; To save listing space.
+
+CON:    .TXT "@CONSOLE"  ; Use generic name.
+
+ITEXT:  .TXT "Type valid filename to be created.  "
+
+BUF:    .BLK    50.      ; Filename buffer, 100 chars.
+
+TMES:   .TXT " created with ACL of OWR.<12>"
+
+        .NOLOC  0        ; Resume listing all.
+
+        .END    FILCREATE

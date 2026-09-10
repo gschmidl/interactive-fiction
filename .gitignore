@@ -1,0 +1,118 @@
+# ======================================================================
+#  IFBackup — allowlist .gitignore
+#
+#  The working tree is ~12 GB, almost all of it emulator disk packs and
+#  scratch working directories.  GitHub asks for repositories under 1 GB.
+#  So this file ignores EVERYTHING by default and then re-admits only
+#  what is worth publishing:
+#
+#      the ports, the documentation, the playable deliverables,
+#      the original sources, and the scans they were recovered from.
+#
+#  Deliberately excluded: every emulator disk image, every work/ dir,
+#  and the shared _HP3000_work / _VAX_VMS_work trees.  Those stay on
+#  disk; they are simply not published.
+#
+#  Rule order matters — the LAST matching pattern wins.  Keep the four
+#  sections in the order they appear.
+# ======================================================================
+
+# ---- 1. ignore everything -------------------------------------------
+*
+
+# ...but always descend into directories, or none of the rules below
+# would ever get a chance to match.
+!*/
+
+
+# ---- 2. re-admit what we publish ------------------------------------
+
+# repo metadata
+!/.gitignore
+!/.gitattributes
+
+# documentation, wherever it lives
+!**/*.md
+
+# the ports themselves (port/, port_qemu/, port-fixed/, ...)
+!**/port/**
+!**/port_*/**
+!**/port-*/**
+
+# the original sources and the recovered/extracted material.  Small,
+# irreplaceable, and what any future change has to be checked against.
+# (Disk images inside these are re-excluded in section 3.)
+!**/src_original/**
+!**/src_its/**
+!**/dump_original/**
+!**/dump_1987/**
+!**/archive_original/**
+!**/recovered/**
+!**/reference/**
+!**/transcription/**
+!**/doc/**
+!**/docs/**
+!**/notes/**
+
+# games whose deliverable does not live in a port/ dir
+!/ASCII-Ladden (C64)/**
+!/Google Adventure (Browser)/**
+!/Iroha Uta no Nazo (MZ-80B)/**
+!/Kjempens Skatt (ZX Spectrum)/**
+!/*Sescuballi*/**
+!/Sacrifice to the Spider Queen (Coleco Adam)/**
+!/Weird Wood 2 (C64)/**
+!/Underground (Scans)/**
+
+
+
+# ---- 3. ...except these, which are too big or purely derived --------
+
+# Bulk working trees: scratch emulator runs, dirty packs, analysis dumps.
+# The /_*_work/ form is deliberate — it covers _HP3000_work, _VAX_VMS_work,
+# _HP1000_work and any future one without needing an edit.  Each port keeps
+# its own tests/ and tools/, so nothing here is needed to build or verify.
+/_*_work/
+**/work/
+
+# Emulator disk images and save states (hundreds of MB each).  This list is
+# by EXTENSION, so a new project using a format not named here would be
+# published by accident — check `git status` before committing a new port.
+# Note .img is intentionally absent: the only one is Misty Marsh's 308 KB
+# original Wang disk, which we do want.
+*.dsk
+*.disc
+*.rp06
+*.sta
+*.dmp
+*.ext2
+*.core
+
+# ...but the Coleco Adam game IS a pair of 164 KB .dsk files
+!/Sacrifice to the Spider Queen (Coleco Adam)/*.dsk
+
+# the PL/I port's QEMU bundle: 167 MB of redistributed QEMU plus a
+# 60 MB rootfs.  build/README.md documents the Buildroot rebuild, and
+# the image belongs on a GitHub Release rather than in git.
+**/port_qemu/build/qemu/
+**/port_qemu/build/rootfs.ext2
+**/port_qemu/build/bzImage
+
+
+# ---- 4. ordinary build and editor litter ----------------------------
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.o
+*.obj
+fisk.log
+zeno.log
+**/port/saves/*
+Thumbs.db
+desktop.ini
+.DS_Store
+._*
+*.swp
+*~
+.vscode/
+.idea/

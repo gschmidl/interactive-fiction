@@ -1,0 +1,203 @@
+ 11:43 am  Sep 29, 2025 
+ Warning 141:  RPL value replaced: .DNCL
+ Warning 141:  RPL value replaced: .DNCN
+ Warning 141:  RPL value replaced: .DNIN
+ Warning 141:  RPL value replaced: .DNOP
+ Warning 141:  RPL value replaced: .DSCL
+ Warning 141:  RPL value replaced: .DSCN
+ Warning 141:  RPL value replaced: .DSIN
+ Warning 141:  RPL value replaced: .DSOP
+    
+  EMA areas     Starting Address
+   VOCCOM          0                                          
+   TRVCOM          5765                                       
+   LINCOM          12526                                      
+    
+ Purging old file: ADVENT.RUN::ADVEN425:6:236:128 
+ Load map:
+   Save               63554    12. Save area  
+   ADVENT              2012    74. Adventure for HP 1000 <250926.1620>  
+   /TXTCOM/            2124     0. Adventure Named Common <250926.1620> 
+   /PLACOM/            2124     0. Adventure Named Common <250926.1620> 
+   /MISCOM/            2124     0. Adventure Named Common <250926.1620> 
+   /MAGCOM/            2124     0. Adventure Named Common <250926.1620> 
+   /IOCCOM/            2124     0. Adventure Named Common <250926.1620> 
+   /ARYCOM/            2124     0. Adventure Named Common <250926.1620> 
+   /ALPHAS/            2124     0. Adventure Named Common <250926.1620> 
+   INIT                2124   552. Initialization Routine <870713.1413> 
+   MAIN                4000  6723. Main Routine <250926.2104> 
+   VOCAB               3174   192. Look Up Vocabulary <250926.1656> 
+   DESTROY             3474    11. Destroy an Object <250926.1656>  
+   JUGGLE              3507    31. Juggle an Object <250926.1656> 
+   MOVE                3546    50. Move Object <250926.1656>  
+   PUT                 3630    16. Put an Object <250926.1656 
+   CARRY               3650    68. Carry Object <250926.1656> 
+   DROP               21103    54. Drop Object <250926.1656>  
+   ITEM               21171   119. Display Item <250926.1656> 
+   TIMER              21360   146. Measure Elaped Time <250926.1656>  
+   PRIMTIM            22000   371. Determine if Prime Time <250926.1656>  
+   HOURS              22563   192. Display Hours Cave is Open <250926.1656> 
+   SUSPEND            21602    85. Suspend Game for a While <250926.1656> 
+   GUARD              23063   120. Guardian of Various Goodies <250926.1656>  
+   SCORING            24000  1252. Tally Current Score <250926.1656>  
+   SPEK               23253   143. Print a Message <250929.1142>  
+   PSPEK              23472    95. Skip and Print Message <250929.1142> 
+   RSPEK               3754    17. Print Random Message <250929.1142> 
+   MSPEK              21727    17. Print Magic Messages <250929.1142> 
+   GETIN              26344   221. Get Input from Terminal <250929.1142>  
+   ECHO               30000   585. Echo Back Input <250929.1142>  
+   YES                21750    16. Get Yes No Answer <250929.1142>  
+   YESX               23631    97. Get Yes/No from Terminal <250929.1142> 
+   CLEAR              26701    11. Clear Crt Screen <250929.1142> 
+   BUG                26714    47. Process Fatal Errors <250929.1142> 
+   RAND               26773    23. Random Number Generator <250929.1142>  
+   LOWER              27022   112. Convert to Lower Case <250929.1142>  
+   MAGIC              32000  1466. Enter Magic Mode <250929.1142> 
+   SAVE               36000   884. Save Common in File <250929.1142>  
+   RESTORE            40000   802. Restore Common from File <250929.1142> 
+   .FFRW              27202   114. 24998-1X559 Rev.6200 940225  
+   .IOOP              21770     7. 24998-1X300 REV.2101 800805  
+   .FFOP              42000   974. 24998-1X560 REV.5020 890727  
+   .IOCL              27364     7. 24998-1X305 REV.5000 860619  
+   .FFCL              27373   144. 24998-1X561 REV.5000 860620  
+   .IOCM              27613    36. 24998-1X327 REV.2101 801007  
+   .OPN?              27657    20. 24998-1X325 REV.2101 800803  
+   .FOP?              31111   103. 24998-1X326 REV.5000 860619  
+   .FIOI              27703    59. 24998-1X322 REV.2326 830406  
+   .UFMP              31260    15. 24998-1X296 REV.2326 830406  
+   .EXIT              31277    41. 24998-1X320 REV.2440 <841029.1814> 
+   FMPAPPEND          31350   121. 92077-1X503 REV.6200 931122  
+   FMPACCESSDISC      34672   185. 92077-1X503 REV.6000 920325  
+   FMPBLOCKSLEFT      31541    30. 92077-1X503 REV.2326 830728  
+   FMPBUFFERBASE      31577    37. 92077-1X503 REV.2326 830728  
+   FMPEXTENTBASE      31644    26. 92077-1X503 REV.6200 931122  
+   FMPEXTENTSIZE      31676    37. 92077-1X503 REV.2326 830728  
+   FMPGETDATA         35163    58. 92077-1X503 REV.2326 830728  
+   FMPGETLENWORD      35255    36. 92077-1X503 REV.2326 830728  
+   FMPREPORTERROR     35321    83. 92077-1X503 REV.2540 850723  
+   FMPBUFFERSIZE      31743    29. 92077-1X503 REV.2326 830728  
+   FMPSETREADPOS      35444    44. 92570-1X106 Rev.6200 940225  
+   FMPSETPOSITION     44000   370. 92570-1X106 REV.6200 940131  
+   FMPPOSITION        35520   113. 92570-1X106 REV.6200 940131  
+   FMPOPEN            37564    90. 92570-1X106 REV.2326 830728  
+   FMPCLOSE           41442    64. 92570-1X106 REV.6000 900926  
+   FMPPURGE           35701    13. 92570-1X106 REV.2326 830728  
+   FMPDCBPURGE        35716    47. 92570-1X106 REV.5000 860611  
+   FMPINFO            41542    64. 92570-1X106 REV.5000 861030  
+   FMPFILENAME        41642    69. 92570-1X106 REV.2440 840725  
+   FMPERROR           44562    92. 92570-1X106 REV.2440 841217  
+   FMPPOSTEOF         37716    46. 92570-1X106 REV.2326 830728  
+   FMPREAD            44716   169. 92570-1X106 REV.6200 950215  
+   FMPWRITE           45167   157. 92570-1X106 REV.6200 950215  
+   FMPDOTYPE012       46000   279. 92570-1X106 REV.5010 880712  
+   FMPMOVEDATA        46427   239. 92570-1X106 REV.5010 880308  
+   FMPUPDATERECORD    41747    16. 92570-1X106 REV.2326 830728  
+   FMPSETRELPOS       45424    72. 92570-1X106 REV.5010 880712  
+   FMPSETWORD         47006   281. 92570-1X106 REV.6200 941021  
+   FMPPOST            43716    49. 92570-1X106 REV.2326 830728  
+   FMPONESTRING       45534    31. 92570-1X106 REV.2326 830728  
+   FMPASKDDOT         47437   142. 92570-1X106 REV.6000 920225  
+   FMPBUILDNAME       50000   134. 92077-1X504 REV.5000 870121  
+   FMPPARSENAME       50206   224. 92077-1X504 REV.5000 860311  
+   NONDSLEN           45573    37. 92077-1X504 REV.5000 860311  
+   CASEFOLD           45640    26. 92570-1X236 REV.6000 901129  
+   TRIMLEN            45672    45. 92570-1X236 REV.5000 860612  
+   FMPDISCOFFSET      45747    25. 92570-1X236 REV.6200 941026  
+   FMPDISCDIFF        47655    36. 92570-1X236 REV.6200 941216  
+   MOVEWORDS          47721    12. 92570-1X236 REV.2326 830407  
+   DECIMALTOINT       50546    62. 92570-1X236 REV.5000 860303  
+   INTTODECIMAL       50644    46. 92570-1X236 REV.2540 850606  
+   IDADDTONUMBER      50722    49. 92084-1Y013 REV.2340 830812  
+   DCBOPEN            47735    15. 92084-1Y014 REV.2340 830809  
+   MYIDADD            23772     4. 92084-1Y014 REV.2340 830809  
+   DISCWORD           41767     5. 92084-1Y014 REV.2340 830809  
+   FMPSTARTEVENT       3775     3. 92084-1Y014 REV.2440 841016  
+   FMPENDEVENT        35775     3. 92084-1Y014 REV.2440 841016  
+   SPLITSTRING        51003    94. 92077-1X992 Rev.5010 881004 Decompose stri 
+   OVRD.              21777     1. 92077-1X482 REV.2340 830218  
+   SYSRQ              51141    60. 92084-1X002 REV.2121 810831  
+   LUTRU              51235    70. 92084-1X036 REV.2121 810519  
+   IXGET              47754     8. 92084-1X030 REV.2121 780731  
+   FTIME              51343   207. 92070-1X195  REV.5000  860630  
+   .PACK              51662    73. 92084-1X076 REV.2121 750701  
+   $EMA$              52000    98. 92084-1X085 REV.5000 <861124.1212> 
+   RMPAR              52142    25. 92084-1X069 REV.2121 811001  
+   $SWP$              52173   120. 92084-1X086 REV.2440 <841114.1528> 
+   L$PTE              52363    17. 92084-1X099 REV.2121 801204  
+   VMAST              52404    39. 92084-1X101 REV.2121 810513  
+   .IMAP              47764    11. 92084-1X105 REV.2121 810526  
+   .IMAR              52453    88. 92084-1X107 REV.2121 810527  
+   LIMEM              52603    34. 92084-1X050 REV.2121 810717  
+   .LWAS              23776     1. 92084-1X411 REV.2121 810717  
+   COR.A              52645    17. 92084-1X009 REV.2121 770621  
+   .LBPR              52666     7. 92084-1X102 REV.2121 810513  
+   MAPMS              52675   216. 92084-1X109 REV.2121 810604  
+   LOGLU              53225    46. 92084-1X027 REV.2121 790228  
+   XREIO              53303   105. 92084-1X923 REV.5000 840228  
+   PNAME              53454    38. 92084-1X075 REV.2121 800801  
+   $CVT3              53522    54. 92084-1X018 REV.2121 770621  
+   URAN               53610    95. 24998-1X456 REV.2101 800917  
+   .DMOD              53747    16. 24998-1X269 REV.2101 800303  
+   MOD                54000    24. 24998-1X107 REV.2001 751101  
+   MXMNI              54030    72. 24998-1X109 REV.2001 750701  
+   .ISH               54140    27. 24998-1X292 REV.2101 801023  
+   .CFER              54173    34. 24998-1X196 REV.2001 790523  
+   .DFER              54235    30. 24998-1X199 REV.2001 790523  
+   ..FCM              54273    13. 24998-1X182 REV.2001 750701  
+   .DADS              54310    72. 24998-1X036 REV.2001 780818  
+   .DMP               54420   102. 24998-1X045 REV.2001 780818  
+   .DDI               54566   193. 24998-1X040 REV.2001 781021  
+   .DNG               53767     8. 24998-1X046 REV.2001 780818  
+   .DCO               55067    41. 24998-1X037 REV.2001 790417  
+   .DIN               55140     6. 24998-1X042 REV.2001 780818  
+   .DDE               55146    10. 24998-1X039 REV.2001 780818  
+   .DIS               55160    24. 24998-1X044 REV.2001 780818  
+   .CPM               55210    28. 24998-1X505 REV.2140 810802  
+   .FLUN              55244    14. 24998-1X197 REV.2001 750701  
+   UPASC              55262    56. 24998-1X539 REV.2226 820302  
+   .ENTC              55352    51. 24998-1X155 REV.2140 810127  
+   .ENTR              55435    56. 24998-1X192 REV.2001 750701  
+   FPARM              55525    16. 24998-1X342 REV.2140 810730  
+   RHPAR              56000   253. 24998-1X361 REV.5010 880804  
+   .BIO.              55545    78. 24998-1X332 REV.2226 820108  
+   .EIO.              55663    43. 24998-1X329 REV.2226 820503  
+   .FIO.              55736    33. 24998-1X330 REV.2140 810414  
+   .IIO.              56375   129. 24998-1X343 REV.2326 821213  
+   .FMIN              56576   197. 24998-1X344 REV.5010 880304  
+   .FMCN              57103    50. 24998-1X345 REV.2226 820107  
+   .FMCV              60000   692. 24998-1X333 REV.5010 880301  
+   .FMFP              62000   687. 24998-1X346 REV.2540 850927  
+   .FMLD              64000   616. 24998-1X347 REV.5010 880301  
+   .FMIO              57165   155. 24998-1X348 REV.5010 880915  
+   .FMUI              66000   607. 24998-1X349 REV.2540 850820  
+   .FMO?              57420    50. 24998-1X351 REV.2140 810415  
+   .FMER              57502    13. 24998-1X352 REV.2440 841127  
+   .MPEN              57517    50. 24998-1X611 REV.2440 841127  
+   .FMGB              61264   178. 24998-1X353 REV.2440 841115  
+   .IDLP              57601    40. 24998-1X506 REV.2301 821007  
+   .ARTN              57651    14. 24998-1X291 REV.2101 800303  
+   .SST               61546    78. 24998-1X336 REV.2140 810812  
+   .SCO               63257    80. 24998-1X338 REV.2140 800903  
+   .SBST              57667    30. 24998-1X341 REV.2140 810427  
+   .IOER              63377   109. 24998-1X321 REV.5000 850927  
+   ER0.T              23777     1. 24998-1X321 REV.2540 850927  
+   PAU.E              27776     2. 24998-1X254 REV.2540 850927  
+   ER0.E              37774     2. 24998-1X249 REV.2540 850927  
+   NLLANGNUMBER       37776     2. named common 
+   ARYCOM             67137   750. named common 
+   FMPBUFFER          61664    64. named common 
+   TXTCOM             70515   667. named common 
+   MAGCOM             57725    25. named common 
+   PLACOM             71750   551. named common 
+   ALPHAS             57756    12. named common 
+   IOCCOM             61764     8. named common 
+   MISCOM             65150   270. named common 
+   FMPREGS            41774     2. named common 
+  
+ Main            2000 - 73016   29199. words
+ free memory    73017 - 73777     497. words
+  
+ Program ADVENT.RUN::ADVEN425:6:236:128 ready; 30 pages, 33 pages EMA 
+ 11:43 am  Sep 29, 2025     
+ Runnable only on an RTE-6 system     
+1 

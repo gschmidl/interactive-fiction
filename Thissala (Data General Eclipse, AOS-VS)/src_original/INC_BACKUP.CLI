@@ -1,0 +1,130 @@
+[!equal,1,2]
+comment This macro does an incremental labeled diskette backup from the
+comment working directory -- based on the last backup, stored in file
+comment LAST_BACKUP. To back up from the root directory, the macro
+comment requires the process that runs it to be PID 2.
+push
+prompt pop
+comment Check for arguments -- none is allowed.
+[!nequal,%1-%,]
+  write
+  write This macro doesn't allow arguments. Please try again by typing
+  write ,, %0% ,, when ready.
+  write
+[!else]
+  string ok_to_proceed
+  comment Check for the root directory -- if so the PID must be 002.
+  class(1 2) ignore
+  [!equal,[!directory],:]
+    [!UEQ,[!pid],002]
+      superuser on
+    [!else]
+      string non_master
+    [!end]
+  [!else]
+    comment Not in the root - check for write access. If we can create
+    comment a file, assume write access.
+    permanence =?[!pid].[!username].tmp off
+    delete =?[!pid].[!username].tmp
+    write/l==?[!pid].[!username].tmp test
+    string [=?[!pid].[!username].tmp]
+    delete =?[!pid].[!username].tmp
+    [!equal,[!string],test]
+      string ok_to_proceed
+    [!else]
+      string no_access
+    [!end]
+  [!end]
+  comment If it's not okay to proceed, describe error and stop.
+  [!nequal,[!string],ok_to_proceed]
+    [!equal,[!string],non_master]
+      Write Error - only the master CLI can back up from the root.
+    [!else]
+      [!equal,[!string],no_access]
+        write
+	write Error - [!username] does not have write access to
+	write [!directory].
+	write ,,,,,,,,,You cannot back up this directory.
+	write
+      [!end]
+    [!end]
+    pop
+  [!else]
+    [!equal,[!pathname =LAST_BACKUP],]
+      write
+      write Error - Incremental backup requires file LAST_BACKUP --
+      write ,,,,,,,,, which does not exist. Suggest either doing
+      write ,,,,,,,,, FULL_BACKUP or retry incremental backup from
+      write ,,,,,,,,, directory in which you have done your most
+      write ,,,,,,,,, recent backup.
+      write
+    [!else]
+      comment Check to see if CLI operator mode is on. If not,
+      comment stop with message.
+      permanence =?[!pid].[!username].tmp off
+      delete =?[!pid].[!username].tmp
+      operator/l==?[!pid].[!username].tmp
+      string [=?[!pid].[!username].tmp]
+      delete =?[!pid].[!username].tmp
+      [!nequal,([!string]),(OFF)]
+        comment Operator mode is on -- proceed.
+        class1 error
+	class2 warning
+        write
+        write ** Incremental backup from directory [!DIRECTORY]&
+		at [!TIME] on [!DATE] **
+        string [=LAST_BACKUP]
+        write This backup will dump all files created or modified
+	write since [!string].
+        write
+        write Please insert the first diskette to receive backup
+        write material in the primary -- rightmost -- unit. The default
+	write first-volid for full backups is INC01. The 16-bit CLI
+	write can label diskettes if needed. The first diskette and any
+        write others used for backup will be overwritten -- so don't
+        write use diskettes that have material you want to keep.
+        write
+        write Please number the paper label of each diskette as it is
+	write filled so that -- if needed -- the diskettes can be
+	write restored in correct order.
+        write
+        write ,,,,,,,,,,,,,,, -- Beginning file backup --
+        [!equal,[!directory],:]
+          comment Backup from root directory. Set the diskette unit ACL
+          comment for exclusive access, then do backup and reset ACL.
+          acl   @dpj10   op, oware
+          DUMP/RETAIN=0/AFTER/TLM=[!STRING]/V%0/L%   @LFD:INC01:BACKUP &
+	    #\NET\PAGE\PER\PROC\QUEUE\SWAP\SWAP.SWAP\SYSGEN\?+.BRK\+.ED&
+\?+.JOB\+.LS\?+.TMP NET:NETGEN:+
+          acl  @dpj10  +,ware
+        [!else]
+          DUMP/RETAIN=0/AFTER/TLM=[!STRING]/V%0/L%  @LFD:INC01:BACKUP  #
+        [!end]
+        write
+        write ** Incremental backup of [!DIRECTORY] complete at
+	write [!TIME] **
+        permanence/2=ignore  =LAST_BACKUP.BU  OFF
+        delete/2=ignore  =LAST_BACKUP.BU
+        rename/2=ignore  LAST_BACKUP  LAST_BACKUP.BU
+        write/l==LAST_BACKUP   [!DATE]:[!TIME]
+
+        write
+        write This backup has created file LAST_BACKUP in this directory
+        write for future backups. Don't delete this file.
+      [!else]
+        write Operator mode is not on. Turn OPERATOR ON and retry the
+	write command.
+      [!end]
+    [!end]
+  [!end]
+[!end]
+[!else]
+  write This macro is nonexecutable. You can make it executable by
+  write changing the 2 to a 1 in line 1 -- make both numbers 1.
+  write
+  write Backup is very important. Before using the edited macro for
+  write backup you should understand how it works. Please test this
+  write macro. Use FULL_BACKUP and this macro to back up some files.
+  write Then try restoring files using the RESTORE macro before relying
+  write on this macro set routinely.
+[!end]

@@ -1,0 +1,362 @@
+10 gosub2000
+100 gosub3000:s1$=sv$:sv$="":print:print"Hva skal jeg gjore naa?":inputsv$
+110 ifsv$=""thensv$=s1$
+120 v$="":s$="":p=1:fori=1tolen(sv$):ifmid$(sv$,i,1)=" "thenp=2:goto150
+130 ifp=1thenv$=v$+mid$(sv$,i,1)
+140 ifp=2thens$=s$+mid$(sv$,i,1)
+150 nexti:v$=left$(v$,3):s$=left$(s$,3):printun$:printsv$:print
+160 iflen(sv$)=1thengosub2200:goto100
+200 ifv$<>"ta"andv$<>"stj"andv$<>"kas"andv$<>"sli"then300
+202 n=0:ifs$="ask"thenn=35
+204 ifs$="nok"thenn=17
+206 ifs$="sta"ors$="tra"thenn=18
+208 ifs$="bre"ors$="jer"thenn=19
+210 ifs$="bei"ors$="res"thenn=20
+212 ifs$="dis"thenn=21
+214 ifs$="dat"ors$="mas"thenn=22
+216 ifs$="mod"thenn=23
+218 ifs$="dia"ors$="gul"thenn=24
+220 ifs$="gre"thenn=25
+222 ifs$="bla"thenn=26
+224 ifs$="fil"thenn=27
+226 ifs$="spi"ors$="bor"thenn=28
+228 ifs$="sto"thenn=29
+230 ifs$="tau"thenn=30
+232 ifs$="oks"thenn=31
+234 ifs$="ryg"ors$="sek"thenn=32
+236 ifs$="mat"ors$="pak"thenn=33
+238 ifs$="bla"andp(26)<>ivand(p(25)=ivorp(25)=s)thenp(26)=iv:te=te+1:goto398
+240 ifs$="bla"andp(26)<>0thenn=26:goto270
+242 ifs$="lam"thenn=38
+244 ifs$="sak"thenn=39
+260 ifn<>0then270
+265 print"Det er jeg ikke istand til.":goto100
+270 ifv$="kas"orv$="sli"then296
+271 an=2:ifp(32)=ivthenan=5
+272 ifte>anthenprint"Har for mye paa meg!":goto100
+274 ifp(n)=ivthenprint"Har det allerede paa meg!":goto100
+276 ifp(n)<>sthen2140
+278 ifn=35andp(17)=0thenp(17)=s
+294 p(n)=iv:te=te+1:print"O.K.":goto100
+296 ifp(n)<>ivthenprint"Jeg har det ikke paa meg !":goto100
+298 p(n)=s:te=te-1:print"O.K.":goto100
+300 ifv$<>"gaa"andv$<>"lop"then400
+302 n=s:ifs$=""thenprint"Hvor da?":goto100
+305 iflen(s$)=1then399
+310 ifs$="nor"ors$="sor"ors$="ost"ors$="ves"ors$="opp"then399
+315 ifs$="dor"ands=2ands=p(9)thens=3
+317 ifs$="hus"ands=3thens=2
+320 ifs$="sko"ands>2ands<11thens=7
+322 ifs$="tre"ands=8ands=p(1)thens=11
+323 if(s$="tre"ors$="stu")ands=8ands=p(37)thens=28
+324 ifs$="spr"ands=5andp(4)=sthens=12
+326 ifs$="bod"ands=25ands=p(2)thens=13
+328 ifs$="bor"and(p(28)=sorp(28)=iv)thengosub4300
+330 if(s$="sja"ors$="ned")ands=17thengosub4320
+332 ifs$="hul"ands=22andp(43)=sthens=23
+396 ifs<>nthen398
+397 gosub2430:goto100
+398 print"O.K.":goto100
+399 v$=left$(s$,1):gosub2400:goto100
+400 ifv$<>"und"then500
+402 ifs$=""thenprint"Undersoke hva da?":goto100
+404 ifs$<>"bla"ands$<>"veg"ands$<>"ski"ands$<>"skj"then406
+405 print"Det staar noe skrevet der. Kanskje du   skulle lese det!":goto100
+406 ifs$="ask"andp(17)=0ands=1thenp(17)=s:print"Du fant noe i aska!":goto100
+408 ifs$="kis"ands=2andp(30)=0thenprint"Kanskje du skulle aapne den ?":goto100
+410 ifs$="ska"ands=26andp(33)=0thenprint"Det falt noe ut!":p(33)=s:goto100
+411 ifs$="kje"ands=10thenprint"Hun ser sulten ut!":goto100
+412 ifs$="bod"ands=25andp(2)=0thenprint"Den er laast.":goto100
+414 ifs$<>"pri"then416
+415 print"Det faar du nok vente med til etter     bryluppet.":goto100
+416 ifs$="lam"and(p(38)=ivorp(38)=s)thenprint"Den lyser.":goto100
+499 print"Jeg ser ikke noe spesielt.":goto100
+500 ifv$<>"aap"then550
+501 ifs$<>"ryg"ands$<>"sek"then505
+502 ifp(32)=ivorp(32)=sthenprint"Den er allerede aapen.":goto100
+505 ifs$<>"kis"ors<>2then510
+506 ifp(6)=0then549
+508 print"Det falt noe ut!":p(30)=s:p(31)=s:p(6)=0:p(7)=s:goto100
+510 ifs$="ska"and s=26then549
+548 print"Det er fint at du prover deg!":goto100
+549 print"Det er allerede aapent.":goto100
+550 ifv$<>"laa"then570
+555 ifs$="opp"ands=2andp(17)=ivthenp(8)=0:p(9)=s:goto398
+560 ifs$="dor"ands=2andp(17)=ivthenp(9)=0:p(8)=s:goto398
+565 print"Jeg har ikke riktig nokkel.":goto100
+570 ifv$<>"kla"then600
+575 if(s<>8ands<>11)orp(1)=0thenprint"Det gaar ikke an aa klatre her!":goto100
+580 ifs=8thens=11:goto398
+590 ifs=11thens=8:goto398
+600 ifv$<>"les"then650
+610 ifs$<>"bla"ands$<>"veg"ands$<>"ste"ands$<>"ski"ands$<>"skj"then649
+620 ifs$="bla"andp(26)=ivthen4000
+625 ifs$="ski"ands=9thenprint:print"Det staar 'MAT IKKE KJERRINGA!'":goto100
+630 if(s$="veg"ors$="ste")ands=5then4100
+635 ifs$="skj"ands=14thenprint:print"Input code!":goto100
+640 goto2140
+649 print"Det kan jeg ikke lese!":goto100
+650 ifv$="log"thengosub4250:goto100
+660 ifv$<>"gi"then700
+665 ifs=10then675
+670 print"Det er ingen her som vil ha noe fra deg.":goto100
+675 ifs$="mat"andp(33)=ivthenp(33)=0:te=te-1:goto4200
+680 print"Den gamle kjerringa ser bare olmt paa deg.":goto100
+700 ifv$<>"si"then750
+710 ifs$<>"ses"then739
+720 ifs=5andp(4)=0thenp(4)=5:p(3)=0:r$(5)="n12s07006v08":goto740
+739 print"bla. bla. bla.":goto100
+740 print"Du horer et oredovende brak, og ser at"
+742 print"fjellveggen revner foran deg.":goto100
+750 ifv$<>"dir"then800
+760 ifp(18)<>ivthenprint"Jeg trenger noe aa dirke med!":goto100
+770 ifs=25thenp(2)=s:p(13)=0:goto398
+780 goto265
+800 ifv$<>"hog"then850
+810 if p(31)<>ivthenprint"Jeg trenger noe aa hogge med!":goto100
+820 ifp(1)=sands$="tre"then840
+830 print"Jeg hogger ikke ned hvasomhelst!":goto100
+840 p(1)=0:p(37)=s:print"Treet gaar i bakken med et brak.":goto100
+850 ifv$<>"kli"then900
+860 ifp(39)<>ivthenprint"Jeg trenger noe aa klippe med!":goto100
+865 ifs$="led"ands=16thenp(40)=0:p(41)=16:goto398
+870 goto265
+900 ifv$<>"bin"then950
+910 ifp(30)<>ivthenprint"Jeg trenger et tau!":goto100
+920 ifs=30thenp(30)=0:p(42)=17:te=te-1:goto398
+930 print"Jeg faar ikke bundet tauet her!":goto100
+950 ifv$<>"fil"then1000
+960 ifp(27)<>ivthenprint"Jeg trenger noe aa file med!":goto100
+970 ifs$="kje"andp(11)=sthenp(11)=0:p(12)=s:gosub2305:goto100
+980 print"Det er umulig!":goto100
+1000 ifv$<>"fly"then1050
+1010 ifs$<>"ste"ors<>22then1030
+1020 ifp(19)<>ivthen265
+1025 p(43)=s:goto398
+1050 ifv$<>"kry"then1100
+1060 ifs$<>"elv"ors<>24then1090
+1070 ifp(25)=ivorp(25)=sthen6000
+1080 print"Du er spro. Strommen ville tatt livet   av deg med en gang.":goto100
+1090 print"Ikke tull!":goto100
+1100 ifv$<>"slu"then1110
+1102 print:print"Skal du virkelig slutte aa spille?":gosub2120
+1105 ifz$="j"thenend
+1108 print"Forsiktigere neste gang!":goto100
+1110 ifv$<>"spi"then1120
+1112 ifs$<>"mat"then1115
+1113 ifp(33)=ivthente=te-1:p(33)=0:goto398
+1114 ifp(33)=sthenp(33)=0:goto398
+1115 print"Bjon Appetitte!":goto100
+1120 ifv$="sav"thengosub2500:goto100
+1130 ifv$="loa"thengosub2600:goto100
+1140 ifv$="hje"thenprint"Undersok alt noye!":goto100
+1999 print:print"Jeg forstaar ikke "chr$(34)sv$chr$(34)".":goto100
+2000 printchr$(14)::cr$=chr$(13):d$="{down}Du befinner deg"
+2005 un$="----------------------------------------"
+2010 print:print"              ASCII-LADDEN              ":print
+2020 print"          Et Adventurespill av":print
+2030 print"    Tor Engebakken og John Andersen":te=0
+2040 readas:dims$(as),r$(as),fl(as):fori=1toas:reads$(i),r$(i):fl(i)=0:next
+2045 iv=as+1:s=1:sv$="^"
+2050 readag:dimg$(ag),p(ag):fori=1toag:readg$(i),p(i):next:rr$(o)="ns0vo"
+2060 rr$(1)="Nord ":rr$(2)="Sor ":rr$(3)="ost ":rr$(4)="Vest ":rr$(5)="Opp "
+2070 print:print:print"onsker du aa hente inn et savet spill ?"
+2080 gosub2120:ifz$="n"thenprint:print:return
+2090 gosub2600:return
+2099 return
+2100 getz$:ifz$=""then2100
+2110 return
+2120 print:print:print"                [J/N]"
+2125 getz$:ifz$<>"n"andz$<>"j"then2125
+2130 return
+2140 print"Jeg kan ikke se det her!":goto100
+2200 ifv$<>"*"then2300
+2210 print:print"Du har paa deg :":print:j=0:fori=1toag
+2220 ifp(i)=ivthenprintg$(i)".":j=1
+2230 next:ifj=0thenprint"Ingen verdens ting!"
+2240 return
+2300 ifv$<>"^"then2400
+2305 ifs>11ands<26andp(38)<>ivandp(38)<>sthenprint"Det er morkt her!":return
+2310 printd$:prints$(s)".{down}"
+2320 fori=1toag:ifp(i)=sthenprintg$(i)"."
+2330 nexti:print
+2340 fori=1tolen(r$(s))step3:forj=1tolen(rr$(o))
+2350 ifmid$(r$(s),i,1)=mid$(rr$(o),j,1)thenprintrr$(j);
+2360 nextj,i:print:return
+2400 i=1:ifv$<>"n"andv$<>"s"andv$<>"o"andv$<>"v"andv$<>"0"then2440
+2410 ifmid$(r$(s),i,1)=v$thens=val(mid$(r$(s),i+1,2)):print"O.K.":return
+2420 i=i+3:ifi<len(r$(s))then2410
+2430 print"Du kan ikke gaa den veien.":return
+2440 print"Folgende forkortelser kan brukes:"
+2442 print:print"*-Du ser hva du har paa deg.":print"^-Du ser hvor du er."
+2444 print"N-Nord.":print"S-Sor.":print"0-ost.":print"V-Vest.":print"O-Opp"
+2446 print:print"OBS! Bruk null for o.":return
+2500 gosub2700:e=1:fi$="adv-fil":ifz$="d"thenfi$="@:"+fi$+",s,w":e=2
+2510 open1,d,e,fi$:print#1,te,cr$,r$(5),cr$,r$(29),cr$,s,cr$
+2520 fori=1toag:print#1,p(i):next:fori=1toas:print#1,fl(i):next:close1:return
+2600 gosub2700:fi$="adv-fil":e=0:ifz$="d"thene=2:fi$=fi$+",s,r"
+2610 open1,d,e,fi$:input#1,te,r$(5),r$(29),s
+2620 fori=1toag:input#1,p(i):next:fori=1toas:input#1,fl(i):next:close1:return
+2700 print:print"Disk eller Kasett?":print
+2710 getz$:ifz$<>"d"andz$<>"k"then2710
+2720 d=1:ifz$="d"thend=8
+2730 return
+3000 iffl(s)=0thengosub2305:fl(s)=1
+3010 ifs=20andp(41)=0thenprint"Alarmen gaar med et forferdelig leven.":goto5000
+3020 ifp(12)<>0thenp(12)=s
+3099 return
+4000 print:print"MIKRODATA    8/7 1984.":print:print"Sensasjonell avsloring."
+4010 print"Quantum betyr den minste maalbare enhet.";
+4020 print"Ryktene vil ha det til at Sinclair QL   lever opp til navnet, og ";
+4030 print"kommer med":print"tastatur."
+4040 print:print"Tips for aa kjore en database:":print:print"Login.":goto100
+4100 print:print"           DOVREGUBBENS HALL":print
+4110 print"Uvedkommende ingen adgang!":print"Dag og natt vaaker jeg over ";
+4115 print" prinsessen  og skatten, og jeg er alltid paa vakt."
+4117 print:print"                     HILSEN TROLLET":print:print
+4120 printtab(15)"N.B.":print
+4130 print"     Parker ikke foran porten!":print:goto100
+4200 print"Den gamle kjerringa glefser i seg       matpakka di, og etter et";
+4210 print" langt rap, snurhun seg mot deg og sier:":print:print"Fordi du var";
+4220 print" slik ein ven og god gut    skal eg gi deg to gode raad.":print"Eg";
+4230 print" veit du er etter prinsessa, og for   aa koma inn hjaa trollet,";
+4235 print" lyt du seia   "chr$(34)"sesam"chr$(34)" atmed dora hass.":print
+4236 print"Rukkelispretten vinn i fjerde V6-lop paaJarlsberg'":goto100
+4250 ifp(22)=sandp(36)=sands=p(23)then4270
+4260 print"Utstyret er ufullstendig. Kontakt med   databasen ikke oppnaadd."
+4265 return
+4270 ifp(38)<>ivands<>p(38)thenprint"Det er for morkt til aa se noe her.":return
+4271 printtab(10);"DATABASE FOR TROLL"
+4280 print:print"ASKELADDEN.":print"Ubehagelig type, som tilbringer"
+4281 print"mesteparten av tiden med aa rappe       prinsesser fra snille troll."
+4282 print:print"PRINSESSEN.":print"Person hvis eneste eksistensberettigelse";
+4283 print"er aa bli tatt til fange av troll."
+4284 print"(Maa gudene vite hvorfor!!!)"
+4286 print:print"TROLLET.":print"Misforstaatt individ fra norske"
+4287 print"folkeeventyr."
+4289 print:print"ALARMEN.":print"Nyttig hjelpemiddel for aa hindre tyveri";
+4291 print"av prinsesser og skatter."
+4293 return
+4300 ifp(28)=ivthenp(28)=s:te=te-1
+4305 ifs=17thens=30:return
+4310 r$(29)="s"+right$(str$(s),len(str$(s))-1):s=29:return
+4320 ifp(42)<>17thenprint"Du faller nedover sjakta med bulder og  brak."
+4325 ifp(42)<>17then5000
+4330 s=18:return
+5000 print"Trollet vaakner av braaket, og kommer   stormende inn i rommet."
+5010 print"Han faar oye paa deg, og uten aa nole,  sluker han deg i et jafs."
+5020 print:printtab(10)" ADVENTURE OVER ":print:print"Skal du prove igjen?"
+5030 gosub2120:ifz$="j"thenrun
+5040 end
+6000 print"Du legger greina over elva, og loper    elegant over sammen med";
+6010 print" prinsessen. Da  kongen faar hore om dette, gir han deg  baade";
+6020 print" prinsessa og kongeriket, og du    lever lykkelig videre i ";
+6030 print"Adventureland   resten av din levetid.":print
+6040 print"Dette adventurspillet er over,men det erubegrensede muligheter til";
+6050 print" aa lage flere":printtab(12)"Sett igang!":print:goto5020
+10000 data 30:rem antall steder
+10010 data "i ovnskroken. Selv om det er svart og   stygt her,trives du godt"
+10015 data s02
+10020 data "i ei stue"
+10025 data n01v26
+10030 data "utenfor et hus. Det er skog rundt deg   paa alle kanter"
+10035 data n04
+10040 data "paa en stovete landevei. Skogen gaar    like ned til veien"
+10045 data n05s03
+10050 data "inne i en skog. En massiv fjellvegg     sperrer veien mot nord"
+10055 data s07006v08
+10060 data "inne i en skog.Det er nesten haaplost aaorientere seg"
+10065 data n06s07006v10
+10070 data "inne i en skog.Det er lett aa gaa seg   vill her inne"
+10075 data n06s07009v05
+10080 data "inne i en skog.Det er lett aa gaa seg   vill her inne"
+10085 data n05s09010v06
+10090 data "paa en lysning inne i skogen. Det staar et skilt her"
+10095 data n05s10006v07
+10100 data "inne i en skog. Det staar ei gammal     kjerring her"
+10105 data n04s06007v08
+10110 data "oppe i et tre. Rundt deg paa alle kanterer det skog og atter skog",
+10120 data "inne i ei hule."
+10125 data n15s05014v25
+10130 data "i ei redskapsbod"
+10135 data n25
+10140 data "i et rom fullt av datamaskiner og       elektronisk utstyr"
+10145 data v12
+10150 data "i en lang,trang gang"
+10155 data s12n16
+10160 data "i en buet gang"
+10165 data s15017
+10170 data "i et rom. Det er ei jernstang oppe paa  veggen"
+10175 data v16
+10180 data "paa bunnen av en sjakt, nord for        skattkammeret"
+10185 data s20019o17
+10190 data "paa soverommet til trollet"
+10195 data v18
+10200 data "i trollets skattekammer"
+10205 data n18s21
+10210 data "i tronsalen. Det staar en heslig stol   midt i rommet"
+10215 data n20s22
+10220 data "i en fangekjeller. Det myldrer av rotterog mus her"
+10225 data n21
+10230 data "i en mork og sleip tunnell"
+10235 data 024v22
+10240 data "i en tunnell. Du skimter lys ifra ost, men ei elv stenger veien"
+10245 data v23
+10250 data "paa et utolig rotete kjokken"
+10255 data 012
+10260 data "paa et kjokken"
+10265 data 002
+10266 data "i en mork og sleip tunnel"
+10267 datan23s24v23023
+10270 data "inne i en hul trestamme"
+10275 data o08
+10280 data "Oppe paa et spisebord. Du ser temmelig  dustete ut der du staar",
+10290 data "Oppe paa et spisebord. Jernstanga er    innen rekkevidde."
+10295 data s17
+11000 data 43:rem antall gjenstander
+11010 data "Et stort tre hvor en av grenene henger  nesten ned til bakken",8
+11020 data "Ei aapen bod",0
+11030 data "En steinvegg",5
+11040 data "Det er en aapen sprekk i fjellveggen",0
+11050 data "Et hus",3
+11060 data "Ei rosemalt kiste",2
+11070 data "Ei aapen rosemalt kiste",0
+11080 data "Ei laast dor",2
+11090 data "Ei aapen dor",0
+11100 data "Trollet ligger og snorker borte i det   ene hjornet av rommet",19
+11110 data "Prinsessen sitter lenket fast til veggenmed en diger kjetting",22
+11120 data "Prinsessen folger deg hvor du enn gaar. Hun ser beundrende paa deg"
+11130 data 0
+11140 data "En bod",25
+11150 data "En forferdelig stygg trone. Det er mulig at et troll ville likt den"
+11160 data 21
+11170 data "En bunnlos sjakt (?)",17
+11180 data "Et skap",26
+11190 data "En nokkel",0
+11200 data "En staaltraad",9
+11210 data "Et stort brekkjern",13
+11220 data "Noen beinrester",25
+11230 data "En haug med disketter",14
+11240 data "En datamaskin",14
+11250 data "Et modem",14
+11260 data "Diamanter og gull i utrolige mengder",20
+11270 data "Ei stor grein med mange blader",11
+11280 data "Et blad",0
+11290 data "Ei fil",13
+11300 data "Et spisebord",25
+11310 data "En stol",25
+11320 data "Et langt tau",0
+11330 data "Ei stor oks",0
+11340 data "En diger ryggsekk",26
+11350 data "Ei matpakke",0
+11360 data "En diger stein",22
+11370 data "En haug med aske",1
+11380 data "En diger dataskjerm",14
+11390 data "En mengde trefliser, og en hul trestubbesom stikker opp fra bakken"
+11400 data 0
+11410 data "Ei lampe",28
+11420 data "Ei saks",19
+11430 data "En ledning som gaar ned gjennom et hull i gulvet",16
+11440 data "En avklippet ledning",0
+11450 data "Et tau henger ned i sjakta.",0
+11460 data "Et hull i veggen",0

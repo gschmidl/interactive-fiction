@@ -1,0 +1,66 @@
+5030 IF b=1 AND p$="MAT" AND o(7
+)=0 THEN PRINT "Den fraktet meg
+til en by.": PAUSE 0: LET linje=
+5300: GO TO linje
+5035 IF p$="MAT" THEN LET b=1: G
+O TO 5015
+5040 IF a$="RI" AND b=1 THEN PRI
+NT "DEN FRAKTET MEG TIL EN ELV D
+ER  JEG FOR PAA HAU UTI.": GO TO
+ 9900
+5050 GO TO 5015
+5100 CLS : PRINT "Jeg datt oppi
+et hull som gikk  helt ned til j
+ordens indre.": GO TO 9900
+5200 CLS : PRINT "Jeg kom i en l
+ang gang.Jeg gikk og gikk,men je
+g kom ikke til    slutten.Jeg do
+ede av sult.": GO TO 9900
+5300 CLS : PRINT "Jeg moette kon
+gen i byen.Han    sier at han ka
+n hjelpe meg hjem hvis jeg gir h
+am en ting og     svarer riktig
+paa en gaate.Hva  skal jeg gi ha
+m?": INPUT LINE p$: IF p$<>"DIAM
+ANT" THEN PRINT "Han godtok det
+ikke,og drepte   meg.": GO TO 99
+00
+5305 IF o(7)<>0 THEN PRINT "Han
+drepte meg."
+5310 LET o(7)=1: PRINT "Han godt
+ok det.Naa stiller han  meg en g
+aate.Svarer jeg galt paaden drep
+er han meg."
+5315 LET a=INT (RND*5)+5
+5320 IF a=1 THEN PRINT "Hvilket
+dyr har 4 foetter om    morgenen
+,2 om dagen og 3 om     kvelden.
+?": INPUT LINE p$: IF p$<>"MENNE
+SKET" THEN PRINT "GALT.HAN DREPT
+E MEG.": GO TO 9900
+5325 IF a=1 THEN PRINT "RIKTIG":
+ LET linje=6000: GO TO linje
+5330 IF a=2 THEN PRINT "En storr
+oeker ble spurt om hvor mange ha
+n roekte pr. dag.Han    svarte~H
+vis jeg hadde roekt 5   ganger s
+aa mange som jeg gjoer  naa vill
+e jeg ha roekt like     mange ov
+er 99 som jeg naa roekerunder 99
+~.Hvor mange roekte han?": INPUT
+ LINE p$: IF p$<>"33" THEN PRINT
+ "GALT.HAN DREPTE MEG.": GO TO 9
+900
+5335 IF a=2 THEN PRINT "RIKTIG":
+ LET linje=6000: GO TO linje
+5340 IF a=3 THEN PRINT "En murst
+ein veier 1kg pluss 1/2 murstein
+.Hvor mye veier den?": INPUT LIN
+E p$: IF p$<>"2" THEN PRINT "GAL
+T.HAN DREPTE MEG.": GO TO 9900
+5345 IF a=3 THEN PRINT "RIKTIG":
+ LET linje=6000: GO TO linje
+5350 IF a=4 THEN PRINT "En flask
+e med kork koster 1.10krFlasken
+koster 1kr mere enn     korken.H
+vor mange oere koster   korken?"

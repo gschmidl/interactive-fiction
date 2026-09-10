@@ -1,0 +1,237 @@
+;*       Copyright (C) Data General Corporation, 1980 - 1994          *;
+;*       All rights reserved.                                         *;
+;*       Licensed material -- property of Data General Corporation    *;
+;*                                                                    *;
+;*       This software is made available solely pursuant to the       *;
+;*       terms of a DGC license agreement which governs its use.      *;
+; This program, BOOMER, has the initial task read from
+;    an input file and an output task write to an output
+;    file. There are two buffers. The input task reads
+;    into BUFFER1 and transmits its address to the
+;    output task. The output task then writes BUFFER1
+;    while the input task fills BUFFER2. The output task
+;    writes BUFFER2 and the cycle repeats. Both tasks
+;    have priority 0; the output task has an ID of 2.
+
+; For general use, all but packet and buffer code
+;    is in shared area (.NREL 1). Each buffer is
+;    8,192 bytes long, but you can change BUFLENGTH
+;    to suit your needs.
+
+; The program uses the CLI ?GTMES mechanism to
+;    get the output and input filenames from the
+;    command line. It assumes that the input file
+;    exists.  It deletes/recreates the output file
+;    with dynamic record format. Execute the program
+;    with a CLI command of the form
+;
+;    X  progname  outputfile  inputfile
+;
+; Examples are:
+;
+;   X  BOOMER  @MTB0:3  :UDD:UTIL:PARU.32.SR
+;
+;   X  BOOMER  FOO  :UDD:UTIL:PARU.32.SR
+
+
+        .TITLE  BOOMER
+        .ENT    BOOMER
+        .TSK    2       ; 2 tasks
+        .NREL   1       ; Shared code.
+
+; Initial task uses ?GTMES to get output filename
+; (2nd argument), opens it; repeats ?GTMES to get input
+; filename (1st argument), opens it; creates output task.
+
+BOOMER: ?GTMES GPACKET   ; Get input filename.
+        WBR     ERROR    ; Error, process it.
+        LLEFB   0, FNAME*2  ; Get byte address of
+                         ; ?GTMES-returned filename.
+        LWSTA   0, INPUT+?IFNP ; Put in INPUT I/O packet.
+        ?OPEN  INPUT     ; Open input file.
+        WBR     ERROR    ; Error, process it.
+        NLDAI   1, 0     ; Get 1 in AC0.
+        LNSTA   0, GPACKET+?GNUM ; Specify arg1.
+        ?GTMES  GPACKET  ; Get output filename.
+        WBR     ERROR    ; Error, process it.
+        LLEFB   0, FNAME*2 ; Get byte address of filename.
+        LWSTA   0, OUTPUT+?IFNP ; Put in OUTPUT I/O packet.
+        ?OPEN   OUTPUT   ; Open output file.
+        WBR     ERROR    ; Error, process it.
+
+        ?TASK   TPACKET  ; Create OUTPUT task.
+        WBR     ERROR    ; Error, process it.
+
+; Loop reads into BUFFER1, transmits it to output task,
+;    reads into BUFFER2, transmits it to output task.
+;    Message for output task is the buffer address.
+
+READER: ?READ   INPUT    ; Read a buffer from input file.
+        WBR     EOF?     ; Error, check for EOF.
+        LLEF    0, MAILBOX  ; Get address of message.
+        LWLDA   1, INPUT+?IBAD ; Message is buffer address.
+        ?XMTW            ; Awaken output task.
+        WBR     ERROR    ; Error, process it.
+
+; Swap buffer byte pointers for next read.
+
+        LLEFB   0, BUFFER1*2 ; Get byte pointer to BUFFER1.
+        LLEFB   2, BUFFER2*2 ; Get byte pointer to BUFFER2.
+        WSNE    1,2      ; Skip next instruction if BUFFER1
+                         ;    was used for last READ.
+        WMOV    0,2      ; Make BUFFER1 current buffer.
+        LWSTA   2,INPUT+?IBAD ; Put current buffer byte pointer
+                              ;    into INPUT packet.
+        WBR     READER   ; Read into current buffer.
+                        
+; On EOF, get number of characters read from INPUT packet
+;    and make this number the buffer length for last ?XMTW.
+
+EOF?:   NLDAI   EREOF, 1 ; Code for EOF (end of file).
+        WSEQ    0, 1     ; Skip if not EOF.
+        WBR     ERROR    ; Other error, process it.
+        LLEF    0,MAILBOX ; Get address of message.
+        LWLDA   1,INPUT+?IBAD  ; Message is buffer byte pointer.
+        WMOV    1,2      ; Copy to AC2 for indexing.
+        NLDAI   -1,3     ; Put -1 in AC3.
+        WLSH    3,2      ; Make buffer byte pointer a word pointer.
+        LNLDA   3,INPUT+?IRLR ; Get number of characters read
+                              ;    from INPUT I/O packet.
+        LWSTA   3,-2,2   ; Make BUFLENGTH (AC2-2) the number
+                         ;    of characters read.
+        ?XMTW            ; Send the last buffer.
+        WBR     ERROR    ; Error, process it.
+        ?KILL            ; Input is done; output task will ?RETURN.
+
+; Error handler.
+
+ERROR:  WLDAI   ?RFEC+?RFCF+?RFER,  2  ; Error flags.
+        ?RETURN          ; To CLI.
+        WBR     ERROR    ; Return error.
+
+; Output task does the writing.
+
+WRITER: LLEF    0,MAILBOX ; Get message address.
+        ?REC             ; Wait for message.
+        WBR     ERROR    ; Error, process it.
+        LWSTA   1, OUTPUT+?IBAD  ; Got message.  It was a buffer byte
+                                 ;    pointer; put it in I/O packet.
+        WMOV    1,2      ; Copy to AC2 for indexing.
+        NLDAI   -1,3     ; Put -1 in AC3.
+        WLSH    3,2      ; Make byte pointer into word pointer.
+        XWLDA   0,-2,2   ; Get buffer length left by input task
+                         ;    (original length unless task hit EOF).
+        LNSTA   0,OUTPUT+?IRCL ; Make this length the maximum record
+                               ;    length in the I/O packet.
+        ?WRITE  OUTPUT   ; Write buffer to output file.
+        WBR     ERROR    ; Error, process it.
+
+        WLDAI   BUFLENGTH, 1 ; Get original buffer length.
+        WSNE    0,1      ; Is current buffer length the same as the
+                         ;    original buffer length?
+        WBR     WRITER   ;    Yes, get another buffer.
+        WSUB    2,2      ;    No. Done. Set for good return.
+        ?RETURN          ; Return to CLI.
+        WBR     ERROR    ; Return error.
+
+; Buffers, message, packets in unshared code.
+
+        .NREL
+
+; Buffer declarations.
+
+BUFLENGTH =     16384.   ; Need change only this.
+        BUFLENGTH        ; For residual characters after EOF.
+BUFFER1: .BLK   (BUFLENGTH+1)/2   ; Size of BUFFER1.
+        BUFLENGTH        ; For residual characters after EOF.
+BUFFER2: .BLK   (BUFLENGTH+1)/2   ; Size of BUFFER2.
+
+; Mailbox for message.
+
+MAILBOX: 0
+
+        .ENABLE WORD     ; Most packet items = 16 bits.
+
+; ?GTMES packet to get Input and Output filenames.
+
+GPACKET: .BLK   ?GTLN    ; ?GTMES packet length.
+        .LOC    GPACKET+?GREQ
+        ?GARG            ; Put argument only in ?GRES.
+        .LOC    GPACKET+?GNUM
+        2                ; Argument 2 is input filename.
+        .LOC    GPACKET+?GRES
+        .DWORD  FNAME*2  ; 2-word byte pointer to filename buffer.
+        .LOC    GPACKET+?GTLN ; Default others to 0.
+        ; End of ?GTMES packet.
+
+; Open and I/O packet for INPUT task.
+
+INPUT:  .BLK    ?IBLT    ; Packet length.
+        .LOC    INPUT+?ISTI
+        ?ICRF+?RTDY+?OFIN ; Change format + Dynamic + Input.
+        .LOC    INPUT+?IMRS
+         -1              ; Memory block size, default to 2048.
+        .LOC    INPUT+?IBAD
+        .DWORD  BUFFER1*2 ;  Original input buffer.
+        .LOC    INPUT+?IRCL     
+        BUFLENGTH        ; Record length is BUFLENGTH.
+        .LOC    INPUT+?IRLR
+        0                ; System returns number of chars. transferred.
+        .LOC    INPUT+?IFNP
+        .DWORD  FNAME*2  ; 2-word byte pointer to filename.
+        .LOC    INPUT+?IDEL
+        .DWORD  -1       ; Data-sensitive delimiter table address;
+                         ;    not relevant.
+        .LOC    INPUT+?IBLT ; Packet length.
+         ; End of INPUT packet.
+
+; ?TASK packet for output task - minimum packet.
+
+TPACKET: .BLK   ?DSLTH   ; Short packet length.
+        .LOC    TPACKET+?DLNK
+        1                ; Any nonzero value for short packet.
+        .LOC    TPACKET+?DPRI
+        0       ; Priority is 0, as is input task's.
+        .LOC    TPACKET+?DID
+        2       ; ID is 2 (initial task's ID is 1).
+        .LOC    TPACKET+?DPC
+         .DWORD WRITER   ; Task's starting address.
+        .LOC    TPACKET+?DSTB
+        .DWORD  STACK    ; Stack address is STACK.
+        .LOC    TPACKET+?DSFLT
+        -1               ; Stack fault handler; default.
+        .LOC    TPACKET+?DSSZ
+        .DWORD  60.      ; Stack size is 60. words.
+        .LOC    TPACKET+?DNUM
+        1                ; Number of tasks is 1.
+        .LOC    TPACKET+?DSLTH ; End of ?TASK packet.
+
+; Open and I/O packet for OUTPUT task.
+
+OUTPUT: .BLK    ?IBLT    ; Packet length.
+        .LOC    OUTPUT+?ISTI
+        ?OFCR+?OFCE+?ICRF+?RTDY+?OFIO ; Delete + create, change format,
+                                      ;    dynamic records, Input/Output.
+        .LOC    OUTPUT+?IMRS
+         -1              ; Memory block size, default to 2048.
+        .LOC    OUTPUT+?IBAD
+        .DWORD  BUFFER1*2 ; Start output from BUFFER1.
+        .LOC    OUTPUT+?IRCL    
+        BUFLENGTH        ; Record length of BUFLENGTH chars.
+        .LOC    OUTPUT+?IRLR
+        0                ; System returns number of characters
+                         ;    transferred here.
+        .LOC    OUTPUT+?IFNP
+        .DWORD  FNAME*2  ; 2-word byte pointer to filename.
+        .LOC    OUTPUT+?IDEL
+        .DWORD  -1       ; Data-sensitive delimiter table address;
+                         ;    not relevant.
+        .LOC    OUTPUT+?IBLT ; Default others to 0.
+        ; End of Output I/O packet.
+
+FNAME: .BLK  (?MXPL+1)/2 ; Filename  buffer; system limit for
+                         ;    number of characters.
+
+STACK:  .BLK    60.      ; 60.-word task stack.
+
+        .END    BOOMER

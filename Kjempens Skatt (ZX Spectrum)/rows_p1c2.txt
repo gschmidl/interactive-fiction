@@ -1,0 +1,73 @@
+t=1200: LET v=1300
+1010 CLS : PRINT "Jeg staar inne
+ i en hule"
+1020 GO SUB 10
+1030 GO SUB 20: GO TO 1030
+1100 GO SUB 2: LET s=1000: LET v
+=1400
+1101 CLS : PRINT "Jeg gikk inn i
+ et hus.Der var   det en mann so
+m ga meg en fakkel"'
+1110 GO SUB 10
+1115 LET o(9)=0: LET linje=1150
+1120 GO SUB 20: GO TO 1120
+1150 CLS : PRINT "Jeg gikk inn i
+ et hus.Der var   det en mann"
+1160 GO SUB 10
+1170 GO SUB 20: GO TO 1170
+1200 GO SUB 2: LET v=1000: LET n
+=1500: LET st=1600
+1210 CLS : PRINT "Foran meg dele
+r gangen seg."
+1211 GO SUB 10
+1220 GO SUB 20: GO TO 1220
+1300 GO SUB 2: LET st=1000: LET
+v=1700
+1310 CLS : PRINT "Jeg datt ned i
+ en innsj0.Jeg    sv0mte inn til
+ kanten.Vest er   det en hytte.B
+ak meg kom det    et digert sj0u
+hyre opp bak meg."
+1311 GO SUB 10
+1312 GO SUB 20
+1314 IF a$<>"DREP" THEN PRINT "U
+hyret slukte meg.": GO TO 9900
+1320 IF a$="DREP" THEN INPUT "Hv
+a skal jeg bruke mot det? "; LIN
+E p$
+1330 IF p$<>"FAKKEL" THEN PRINT
+"Det slukte meg": GO TO 9900
+1340 IF o(9)<>0 THEN PRINT "Jeg
+har ikke fakkel.Det slukte  meg"
+: GO TO 9900
+1350 PRINT "Jeg stakk fakkelen i
+ 0yet paa   det.Det skrek,datt b
+akover og   druknet.": LET linje
+=1355
+1351 GO SUB 20: GO TO 1351
+1355 GO SUB 2: LET st=1000: LET
+v=1700: CLS : PRINT "Vest er det
+ en hytte": GO SUB 10: GO TO 135
+1
+1400 GO SUB 2: LET st=1100: LET
+v=1800
+1410 CLS : PRINT "Jeg ser en dig
+er slange foran   meg.Den ser su
+lten ut"
+1411 GO SUB 10
+1412 GO SUB 20
+1420 IF a$<>"DREP" THEN PRINT "D
+en spiste meg": GO TO 9900
+1423 INPUT "Hva skal jeg bruke m
+ot det?"'; LINE p$
+1430 IF p$<>"SVERD" THEN PRINT "
+Det spiste meg.": GO TO 9900
+1440 IF o(1)<>0 THEN PRINT "Jeg
+har ikke sverd.Det spiste   meg.
+": GO TO 9900
+1450 PRINT '"Jeg hogg av hodet p
+aa den.": LET linje=1453
+1451 GO SUB 2: LET st=1100: LET
+v=1800: GO SUB 10: GO SUB 20: GO
+ TO 1451
+1453 CLS : PRINT "Jeg ser en d0d

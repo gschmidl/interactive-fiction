@@ -1,0 +1,167 @@
+mentrance: {
+	long: "You are standing before a large, tall, oddly shaped grey cement
+		building, with unusual block and window structures.  Inside the door,
+		there is a stairway up, and a ramp going down.  To the southeast is
+		a small path.";
+	brief: "You are before a large cement building.";
+	up : m2ndfoyer;
+	d : m1stfloor;
+	se : out : science;
+	w : nw : village1;
+}
+m2ndfoyer : {
+	long: "You are inside a large foyer in the computer building of the
+		university.  Before you is a large glass wall , beyond which lies
+		a two story room painted bright red.  Inside the room are all sorts
+		of archaic machines.  This section is probably a museum of early
+		computer technology.";
+	brief: "You are in computer foyer, before red room";
+	d : mentrance;
+	w : nw : widjet;
+	e : vmroom;
+	up : thirdfloor;
+}
+m1stfloor : {
+	long : "You are in an empty hallway at the base of a ramp.  It is
+		a wide hallway, with shut red doors all along it.  Through a window
+		you can see a large red room containing ancient computer machinery.
+		There is a door into the room to the west, and a corner to the east";
+	brief:"You are on the first floor of the math building";
+	open : "You can not open any of the doors";
+	w : if ( .roomdoor == OPEN ) redroom;
+		else "The door into the large red room is locked";
+	e : ioroom;
+	u : out : s : mentrance;
+}
+ioroom : {
+	long : "You have entered a rectangular room with all kinds of
+	ancient computer i/o equipment.  The machines are all old and
+	decayed, and are also too heavy for you to take.  The corridor
+	you were walking in has been sealed by a fallen girder further on
+	The main corridor leads back.";
+	brief : "You are in the i/o room.";
+	back : s : e : out : m1stfloor;
+}
+vmroom : {
+	long : "You are in a room filled with about 8 large green and white boxes
+		of an ugly shape.  A sign on the wall says 'Very Martian'.  The boxes
+		have glass fronts, and keyboards attached to them.  Through the window
+		you can see the large red room, and west is a foyer on the same floor
+		as you.";
+	brief : "You are in the Very Martian room.";
+	w : s : out : m2ndfoyer;
+	sign : "The unit limit on your VM account has run out long ago.";
+	break : "The glass has wire mesh and can't be broken";
+}
+midjet : {
+	long : "You are in a room filled with long rows of computer terminals,
+		with a window onto the red room.  The terminal closest to you reads,
+		in low base martian printed several times to fill the whole screen:
+		'RUN IS IN QUEUE POSITION 14'
+		The terminal next to it is prompting '!USERID'.
+		A sign on the wall reads 'Martian Interactive Debug Job Entry Terminal'";
+	brief : "You are at MIDJET";
+	out : e : s : back : m2ndfoyer;
+	sign : logon : 
+		if( .roomdoor == OPEN ) "The system is not responding";
+		else {
+		onmidjet = YES;
+		"The terminal prompts '!FILE'";
+	}
+	crash : {
+		if ( onwidjet == YES ) {
+			`Are you a hack? `;
+			getstr;
+			if (getarg(0) != yes ) {
+				.roomdoor = OPEN;
+				"That does not matter, anyone can crash MIDJET!!
+				The system has gone down and your terminal is not responding.
+				suddenly a robot comes from behind a box in the red room and
+				moves to a terminal marked '11/45 console'.  It then scurries
+				out the door beneath you";
+			}
+			else "You are unable to bring down the system";
+		}
+		else "You are not signed on to the system.";
+	}
+}
+redroom : {
+	long : "You are inside the large red room.  Large black boxes are all
+		about the room with various labels and flashing lights.  The door
+		you came in is the only one that is unlocked.  On the other side
+		of the big machine in the centre, it looks like one of the panels
+		is open.";
+	brief : "You are in the red room";
+	n : other : panel : openpanel;
+	out : w : m1stfloor;
+}
+openpanel : {
+	long : "You are behind the large box, in front of the open panel";
+	s : back : redroom;
+}
+thirdfloor:{
+	long : "You are on the third floor of the computer building, in a
+		lounge.  There is a hallway to the northwest of you and one to
+		the northeast.";
+	brief: "You are at the third floor lounge";
+	d : m2ndfoyer;
+	nw : outputboxes;
+	ne : mthhall;
+	u : unix;
+}
+mthhall : {
+	long : "You are in a narrow bending hallway on the third floor.
+		It continues on n-s and there are doors on either side";
+	s : se : thirdfloor ;
+	n : terminalroom;
+	w : csc;
+	e : mathsoc;
+}
+csc : {
+	long : "You are in a small office packed with various objects.
+		there are posters taped to the walls, and shelves of books
+		cover the south wall.  Teacups are hanging from the shelves, and
+		a teapot and kettle are nearby.  It looks like a room where tired
+		computer scientists came to relax, talk and drink tea";
+		brief : "You are in the tea room";
+	out : e : mthhall;
+}
+mathsoc : {
+	long : "You are in a moderately large room that looks like an office.
+		there is some normal office equipment, and an odd box with a keyboard
+		in one corner.  There are some old stale round objects on one of the
+		desks, along with old scraps of paper.  Painted on the wall in bright
+		pink is the word 'MARSOC'.  The only way out is the way you came in";
+	brief : "You are in MARSOC";
+	back : out : w : mthhall;
+	eat : donut : "I think you just lost your apetite";
+	sign : "The phone line is dead";
+}
+terminalroom : {
+	long : "You are in a small room full of computer terminals.  Some of
+		them are on, and on them is printed the message
+		c
+		 r
+		  a
+		   s
+		    h";
+	n : outputboxes;
+	s : mthhall;
+	sign : "You hit return, but the system does not respond.";
+}
+outputboxes:{
+	long : "You are before a rectagular array of boxes, each filled
+		with stacks of computer output labelled in large letters.  There
+		is a hallway to the southeast, and one to the southwest";
+	sw : thirdfloor;
+	se : terminalroom;
+}
+unix : {
+	long : "You have gone up several flights of stairs past a variety
+		of uninteresting things to another room full of terminals.
+		Unfortunately, the equipment is not working, and you might as
+		well go downstairs";
+	brief : "You're at sixth floor terminal room";
+	d : out :  thirdfloor;
+	sign : "The system is not working.";
+}

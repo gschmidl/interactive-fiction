@@ -1,0 +1,91 @@
+----------------------------------------------------------------------------- 
+ADVENTURE                                                                M058 
+                         ADVENTURE GAME, VERSION 2.2                        
+----------------------------------------------------------------------------- 
+  
+ Contribution Name...........: ADVENTURE
+    Title....................: Adventure Game, Version 2.2
+    File Names...............: 00. Rename transfer file.
+                             : 01. ADVENTURE.SBMT 
+                             : 02. ADVENT.FTN 
+                             : 03. ADVENT.REL 
+                             : 04. AINIT.FTN
+                             : 05. AINIT.REL
+                             : 06. AMAIN.FTN
+                             : 07. AMAIN.REL
+                             : 08. ASUB.FTN 
+                             : 09. ASUB.REL 
+                             : 10. AIOSUB.FTN 
+                             : 11. AIOSUB.REL 
+                             : 12. ABUILD.FTN 
+                             : 13. ABUILD.REL 
+                             : 14. ALPHAS.INCL
+                             : 15. ARYCOM.INCL
+                             : 16. IOCCOM.INCL
+                             : 17. LINCOM.INCL
+                             : 18. MAGCOM.INCL
+                             : 19. MISCOM.INCL
+                             : 20. PLACOM.INCL
+                             : 21. TRVCOM.INCL
+                             : 22. TXTCOM.INCL
+                             : 23. VOCCOM.INCL
+                             : 24. ADVENT.LOD 
+                             : 25. ABUILD.LOD 
+                             : 26. ADVENTURE.TXT
+                             : 27. ADVENTURE.DAT
+                             : 28. ADVENTURE.DOC
+                             : 29. MESSAGE.TXT
+                             : 30. CHEAT.TXT
+    Operating System.........: RTE-6/VM and RTE-A 
+    Language(s)..............: FTN77
+    Keywords.................: 1. Games 
+    External Support Req'd...:
+    If Re-submission, Reason.: Bug fixes
+ Contributor's Name..........: John L. Anderson Jr. 
+               Company.......: U.S. Naval Station 
+               Street........: Code 3441
+               City..........: Seal Beach 
+               State.........: CA.
+               Country.......: USA
+               Zip Code......: 90740
+               Phone Number..: (213) 594-7887 
+               Telex.........:
+ Contribution Abstract.......:
+  
+ Old games never die, they just get bigger. There have been many changes
+ made to this game summarized as follows: 
+  
+   - No segmentation or LOADR 
+   - No assembly language routines
+   - Data base stored in EMA memory 
+   - Lower case letters used everywhere 
+   - Expanded cave and magic mode 
+   - Optional hours cave is open
+   - Save/restore game to disc file 
+   - Command echo back with full spelling 
+   - Every game is different using random numbers 
+   - Use FORTRAN I/O for all files
+   - Easily ported to HP-UX systems 
+   - Messages to users
+   - Fast response time 
+   - Low usage of system resources
+  
+ Additional Documentation....:
+  
+ See ADVENTURE.DOC for installation. I believe all of the bugs are fixed
+ but it is impossible to test every possible condition. Send me bug reports 
+ if you find any. I finally went through the entire game and have tested
+ just about everything. You should now be able to extra points for the
+ girls garter, the ruby skull and getting to charon's landing. I have 
+ gotten perfect scores but it is not easy. If you get to the final
+ repository, try something that did not work earlier in the game. 
+ Be kind to the beautiful girl and watch out for the statue. It is
+ possible to get all of the treasures but don't waste any time. 
+ The wizard mode is mainly for debugging and controlling access to
+ the game. You don't need it for normal playing. Happy adventuring! 
+  
+   I have been porting this to an IBM PC and am also looking for the
+ source code of the CP/M version that has the ice caves, computer room
+ and other features. I think it was written in Basic. If anyone has a 
+ copy, let me know. CHEAT.TXT has all the answers for playing the game. 
+  

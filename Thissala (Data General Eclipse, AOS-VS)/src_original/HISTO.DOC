@@ -1,0 +1,741 @@
+        HISTO/HISTOREPORT - Histogramming Utilities, Rev. 1          Page 1
+        Chapter 1: Introduction                                         1-1
+
+
+
+
+
+
+
+
+
+                             CHAPTER 1 - Introduction
+
+
+
+        Under AOS/VS, via the ?WHIST system call,  a  user  may  perform  a
+        histogram against either a single process or against all processes.
+        AOS/VS will return raw histogram data in a pre-determined format.
+
+        Histograms record the number of clock periods or "ticks"  spent  in
+        specific logical address ranges or  "buckets"  over  the  histogram
+        duration.  At the end of each tick of the clock,  AOS/VS  evaluates
+        the value of  the  program  counter  and  determines  which  bucket
+        counter is to be incremented.   While  histograms  do  not  provide
+        exact information  and  though  a  statistical  deviation  must  be
+        anticipated, histograms  do  provide  an  indication  of  how  much
+        process run time is  being  consumed  within  the  specific  bucket
+        ranges.
+
+        The system calls ?WHIST and ?KHIST permit the user to  histogram  a
+        user-specified logical address range.  With this  information,  the
+        user has the means to identify and rectify inefficient sections  of
+        his program's code.  Through repetitive histograms over  increasin-
+        gly smaller intervals, measurements of the smallest  intervals  may
+        be made.
+
+        The histogram data may indicate that an excess amount  of  time  is
+        being spent in a particular routine.  This would  suggest  that  an
+        optimization of this routine would  significantly  improve  program
+        performance.
+
+        The histogram utilities, HISTO and HISTOREPORT, facilitate the  use
+        of this histogram functionality.  HISTO  will  perform  the  ?WHIST
+        system call in accordance with user specifications, and generate  a
+        datafile containing the raw histogram data as  well  as  additional
+        pertinent information.  HISTOREPORT will analyze this  datafile  in
+        accordance with user specifications, and will produce a report file
+        containing the interpreted histogram data.
+
+             HISTO/HISTOREPORT support includes the following:
+
+              * 16-bit and 32-bit target processes are supported.
+
+              * Full ring support.  Addresses in rings 0 through 7  may  be
+                monitored, and symbol table files may be provided  for  any
+                ring.
+
+
+
+
+        Data General Corporation                       Company Confidential
+        
+        HISTO/HISTOREPORT - Histogramming Utilities, Rev. 1          Page 2
+        Chapter 1: Introduction                                         1-2
+
+
+
+           * Clock tick totals for various  segments  of  the  system,  the
+                target process, and other processes.
+
+              * A report detailing the limits of each bucket, the number of
+                ticks recorded in that bucket,  and  the  number  of  ticks
+                expressed as a  percentage  of  the  total  ticks  recorded
+                within the whole histogram range.
+
+
+             HISTO/HISTOREPORT optionally provide the following:
+
+              * Symbolic representations for the starting logical addresses
+                of each bucket.
+
+
+
+                                 [End of Chapter 1]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        Data General Corporation                       Company Confidential
+        
+        HISTO/HISTOREPORT - Histogramming Utilities, Rev. 1          Page 3
+        Chapter 2: The Data Collection Utility (HISTO)                  2-1
+
+
+
+
+
+
+
+
+
+                  CHAPTER 2 - The Data Collection Utility (HISTO)
+
+
+
+        This program histograms  the  target  process(es)  via  the  ?WHIST
+        supervisor call and, upon completion of the histogram,  writes  the
+        raw histogram data out to a datafile in a form intelligible to  the
+        report program (HISTOREPORT.PR).
+
+        The user specifies the parameters defining the target  process(es),
+        the duration of the histogram, the logical starting address of  the
+        area to be histogramed, the respective logical ending address,  the
+        size of each bucket within this range, and the file to receive  the
+        raw data.
+
+        The utility process requires at execution the privilege  to  become
+        resident; this is the only restricted privilege required.
+
+
+        2.1  Operating Procedures
+
+
+        Note:   Before  HISTO  can  be  invoked,  the  target  must
+                already have been initialized,  as  HISTO  requires
+                the target pid number as an initial argument.
+
+        HISTO is invoked by the following command line:
+
+                XEQ HISTO <pid#> <run> <saddr> <eaddr> <bucket> <datafile>
+
+        User parameters to HISTO are specified as arguments on the  command
+        line.  There are six required arguments:
+
+        <pid#>
+                        The pid of the  target  process,  or  zero  if  the
+                        target is "all processes".
+
+        <run>
+                        Maximum  histogram  duration, in  seconds.     HISTO
+                        will not  terminate  until  the specified  number of
+                        seconds  has  elapsed, even if  the  target  process
+                        terminates.
+
+
+
+
+
+
+
+        Data General Corporation                       Company Confidential
+        HISTO/HISTOREPORT - Histogramming Utilities, Rev. 1          Page 4
+        Chapter 2: The Data Collection Utility (HISTO)                  2-2
+
+
+
+        <saddr>
+                        The starting address of the area to be histogramed.
+                        This value must be  specified  in  octal  and  must
+                        include a ring field; a ring field of zero  indica-
+                        tes a ring zero address.  This value corresponds to
+                        offset ?HWST in the ?WHIST packet.
+
+        <eaddr>
+                        The ending address of the area to  be  histogramed.
+                        This value must be  specified  in  octal  and  must
+                        include a ring field; a ring field of zero  indica-
+                        tes a ring zero address.  This value corresponds to
+                        offset ?HWEND in the ?WHIST packet.
+
+        <bucket>
+                        The size of each interval in  the  histogram  area.
+                        This value must be specified in octal.  This  value
+                        corresponds to offset ?HWWDS in the ?WHIST packet.
+
+        <datafile>
+                        Pathname of the file to receive the histogram data.
+                        This file must not already exist.
+
+
+
+                                 [End of Chapter 2]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        Data General Corporation                       Company Confidential
+        HISTO/HISTOREPORT - Histogramming Utilities, Rev. 1          Page 5
+        Chapter 3: The Data Analysis/Report Utility (HISTOREPORT)       3-1
+
+
+
+
+
+
+
+
+
+            CHAPTER 3 - The Data Analysis/Report Utility (HISTOREPORT)
+
+
+
+        This program interprets the raw histogram data logged by HISTO, and
+        generates a report file in user-readable format.  This report  file
+        consists of a report header followed by a histogram chart.
+
+
+        3.1  Operating Procedures
+
+        HISTOREPORT may be invoked by the following command line:
+
+                XEQ HISTOREPORT[<switches>]
+
+        User parameters to HISTOREPORT are specified as switches  on  argu-
+        ment zero in the command line.  Unique abbreviations and both upper
+        and lower cases are acceptable.  These switches enable the user  to
+        control the i/o to and from the utility.
+
+        /I=pathname
+                        Read the data from file PATHNAME.  This  file  must
+                        be a datafile created by HISTO.PR.  This switch  is
+                        required.
+
+        /O=pathname
+                        Write the generated report to file PATHNAME.   This
+                        file  must  not  already  exist.   This  switch  is
+                        required.
+
+        /ST
+                        Access the default symbol table file when determin-
+                        ing symbolic  representations  of  ring  7  logical
+                        addresses.  The default for single-process  targets
+                        is <root pathname>.ST;  there  is  no  default  for
+                        all-process targets.
+
+        /ST=pathname
+                        Access the specified file PATHNAME when determining
+                        symbolic  representations   of   ring   7   logical
+                        addresses.
+
+        /R7ST
+                        Same as /ST.  Provided for conformity to  the  rest
+                        of the symbol table switches.
+
+
+
+
+        Data General Corporation                       Company Confidential
+        HISTO/HISTOREPORT - Histogramming Utilities, Rev. 1          Page 6
+        Chapter 3: The Data Analysis/Report Utility (HISTOREPORT)       3-2
+
+
+
+        /R3ST
+                        Access the default AGENT  symbol  table  file  when
+                        determining symbolic representations of AGENT (ring
+                        3) logical addresses.  The default is :AGENT.ST.
+
+        /RxST=pathname
+                        Access the specified file PATHNAME when determining
+                        symbolic  representations  of  ring   "x"   logical
+                        addresses.  "X" may be any number between 0  and  7
+                        inclusive.
+
+
+        3.2  Output Format
+
+        HISTOREPORT produces a report file consisting of  a  header  and  a
+        detailed report.
+
+        ______
+        Header
+
+        Depending on whether the trace target is a specific process or  all
+        processes, the header will supply some  or  all  of  the  following
+        information:
+
+        	+   Target Process name
+        	+   Target Program pathname
+        	+   Ring 7 Symbol File name  (if specified)
+        	+   Ring 6 Symbol File name  (if specified)
+        	+   Ring 5 Symbol File name  (if specified)
+        	+   Ring 4 Symbol File name  (if specified)
+        	+   Ring 3 Symbol File name  (if specified)
+        	+   Ring 2 Symbol File name  (if specified)
+        	+   Ring 1 Symbol File name  (if specified)
+        	+   Ring 0 Symbol File name  (if specified)
+        	+   Date/Time of Histogram initialization
+        	+   System statistics
+        	+   Process runtime statistics
+        	+   Starting address of histogramed area
+        	+   Ending address of histogramed area
+        	+   Interval (bucket) size
+        	+   Number of intervals
+        	+   Total clock ticks during histogram
+        	+   Ticks in the target process within histogram area
+        	+   Ticks in the target process outside histogram area
+        	+   Ticks in other processes
+        	+   Ticks in the system (excepting idle)
+        	+   Ticks in the system idle loop
+
+        _______________
+        Detailed Report
+
+        A detailed report providing statistics  for  each  non-zero  bucket
+        within the histogramed area is included in the report  file.   This
+        report contains the following information:
+
+
+
+        Data General Corporation                       Company Confidential
+        
+        HISTO/HISTOREPORT - Histogramming Utilities, Rev. 1          Page 7
+        Chapter 3: The Data Analysis/Report Utility (HISTOREPORT)       3-3
+
+
+
+        	+   Ring containing logical address of bucket start
+        	+   Logical address of bucket start
+        	+   Count of ticks within the bucket
+        	+   Cumulative tick count
+        	+   Percentage of ticks in bucket as a function of total
+        	    ticks within histogramed area
+        	+   Cumulative percentage
+        	+   Symbolic representation of bucket starting address
+        	    (optional)
+
+
+
+                                 [End of Chapter 3]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        Data General Corporation                       Company Confidential
+        
+        HISTO/HISTOREPORT - Histogramming Utilities, Rev. 1          Page 8
+        Chapter 4: General Notes                                        4-1
+
+
+
+
+
+
+
+
+
+                             CHAPTER 4 - General Notes
+
+
+
+
+              * The limit on the number of buckets to 20000  decimal  is  a
+                restriction imposed by these utilities, not by the  system.
+                AOS/VS requires  that  the  utility  be  resident  for  the
+                duration of the histogram, and  the  pages  containing  the
+                buckets counters are implicitly wired into  memory  by  the
+                system during the processing of ?WHIST.  As a  result,  the
+                bucket counter pages will neither swap out  nor  page  out,
+                increasing system memory  contention.   Additional  buckets
+                were   determined   to   unnecessarily   penalize    system
+                performance.
+
+              * There is no limit on the size of the buckets.  Buckets  may
+                cross ring  boundaries.   Also,  the  buckets  may  contain
+                addresses invalid to the target process.
+
+              * Histograms may be run from the very initialization  of  the
+                target process.  This is accomplished by  issuing  a  ?PROC
+                with the ?PFBS flag set; this will cause the target  to  be
+                blocked immediately after it is created.  A  histogram  may
+                then be activated and the target unblocked.  The  immediate
+                blocking of the target may also be accomplished through the
+                CLI utility by specifying the switch /BSON on  the  PROCESS
+                command.
+
+
+
+                                 [End of Chapter 4]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        Data General Corporation                       Company Confidential
+        
+        HISTO/HISTOREPORT - Histogramming Utilities, Rev. 1          Page 9
+        Chapter 5: Examples                                             5-1
+
+
+
+
+
+
+
+
+
+                               CHAPTER 5 - Examples
+
+
+
+        Examples of each of the two output modules -  Header  and  Detailed
+        Report - are provided in the appendices.  These two modules are the
+        complete product of a single report file.
+
+
+
+                                 [End of Chapter 5]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        Data General Corporation                       Company Confidential
+        
+        HISTO/HISTOREPORT - Histogramming Utilities, Rev. 1         Page 10
+        Appendix A: Example - Header                                    A-1
+
+
+
+
+
+
+
+
+
+                           APPENDIX A - Example - Header
+
+
+
+
+
+
+
+
+        The following example has been edited to fit in this document.  All
+        changes were cosmetic; no functionality has been removed.
+
+
+
+        Histogram Report Utility -- Revision 01.02.00.00 14-May-81 12:50:18
+
+
+        Process name:    	BRINT:020
+        Program pathname:	:UDD:BRINT:HISTO:TEST.PR ( 16-Bit Process )
+
+        Ring 7 Symbol File:  	TEST.ST
+        Ring 6 Symbol File:  	- not specified -
+        Ring 5 Symbol File:  	- not specified -
+        Ring 4 Symbol File:  	- not specified -
+        Ring 3 Symbol File:  	- not specified -
+        Ring 2 Symbol File:	- not specified -
+        Ring 1 Symbol File:	- not specified -
+        Ring 0 Symbol File:	- not specified -
+
+        Date/Time of Histogram:		14-May-81	12:49:40 PM
+
+        System Statistics:
+
+        	System Revision       		01.30.75.02
+        	System Identifier     		AOS/VS REV 1.30.75.02
+        	Memory Configuration  	        2.00 megabytes
+
+        Process Runtime Statistics over Histogram:
+
+        			  Start	          End	      Total
+        	Elapsed Time         24            54            30 seconds
+        	CPU Time          20451         48473         28022 milliseconds
+        	I/O Usage             0             0             0 blocks
+        	Page-Seconds        143           339           196
+
+        Histogram Header/Packet Information:
+
+
+
+        Data General Corporation                       Company Confidential
+        
+        HISTO/HISTOREPORT - Histogramming Utilities, Rev. 1         Page 11
+        Appendix A: Example - Header                                    A-2
+
+
+
+
+
+        	Starting address of monitored area:  16000000000 (octal)
+        	Ending address of monitored area:    16000017777 (octal)
+        	Interval size:                       00000000001 (octal) words
+        	Number of Intervals:                        8191 (decimal)
+
+        	Total clock ticks during histogram:	           300
+        	  Ticks in target inside range:    	           278
+        	  Ticks in target outside range:   	             1
+        	  Ticks in other processes:        	            21
+        	Ticks in system (excepting idle):  	            10
+        	Ticks in system idle loop:         	             1
+
+
+
+                                [End of Appendix A]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        Data General Corporation                       Company Confidential
+        
+        HISTO/HISTOREPORT - Histogramming Utilities, Rev. 1         Page 12
+        Appendix B: Example - Detailed Report                           B-1
+
+
+
+
+
+
+
+
+
+                      APPENDIX B - Example - Detailed Report
+
+
+
+
+
+
+
+
+        The following example has been edited to fit in this document.  All
+        changes were cosmetic; no functionality has been removed.
+
+
+
+              Bucket      #     Cum     Rel    Cum
+        Ring  Address   Ticks  Ticks     %      %   Symbolic Representation
+        -------------------------------------------------------------------
+
+        	-----
+        (7) 16000000451   175    175   62.94  62.94 LOOP
+        (7) 16000000452    57    232   20.52  83.46 LOOP+1
+        (7) 16000000453    46    278   16.54 100.00 LOOP+2
+        	-----
+
+
+
+                                [End of Appendix B]
+
+
+
+               [End of "HISTO/HISTOREPORT - Histogramming Utilities"]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        Data General Corporation                       Company Confidential

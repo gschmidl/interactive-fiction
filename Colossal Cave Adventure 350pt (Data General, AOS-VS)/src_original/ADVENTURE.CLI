@@ -1,0 +1,7 @@
+push
+prompt pop
+proc/def/block/ioc/name=%0% %0%
+wr
+wr [!read Press NEWLINE to return to games menu ...,]
+wr [!as 222 214]
+pop/1=ig/2=ig

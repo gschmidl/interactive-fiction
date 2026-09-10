@@ -1,0 +1,267 @@
+;*       Copyright (C) Data General Corporation, 1980 - 1994          *;
+;*       All rights reserved.                                         *;
+;*       Licensed material -- property of Data General Corporation    *;
+;*                                                                    *;
+;*       This software is made available solely pursuant to the       *;
+;*       terms of a DGC license agreement which governs its use.      *;
+
+
+.TITLE  ERMES
+
+
+;       AOS/VS ERROR MESSAGE FILE GENERATOR
+
+
+;  GROUP TABLE
+
+;       THE GROUP TABLE CONSISTS OF 20000 2-DWORD ENTRIES (1 FOR
+;       EACH GROUP). THE FIRST DWORD OF EACH ENTRY CONTAINS THE
+;       WORD ADDRESS OF THE CORRESPONDING CODE VECTOR.  THE
+;       SECOND DWORD CONTAINS THE NUMBER OF CODES FOR THE 
+;       GROUP (CODE VECTOR LENGTH).
+
+
+
+;  GRP
+;       THE MACRO 'GRP' IS USED TO DEFINE A GROUP.  IT FILLS THE
+;       APPROPRIATE ENTRY IN THE GROUP TABLE AND ALLOCATES THE
+;       CODE VECTOR FOR THE GROUP.
+
+;       ARGUMENTS TO GRP MACRO:
+;               ^1      GROUP NUMBER
+;               ^2      MAXIMUM NUMBER OF CODES
+
+        .MACRO  GRP
+**      .PUSH   .RDX
+**      .RDX    8
+**
+**      .TXTM   1
+**      .TXTN   0
+**      .NREL   0
+**
+**      G=      .               ;NREL REFERENCE
+**      GROUP=  ^1*1000         ;DEFINE THE GROUP NUMBER
+**      .LOC    4*^1            ;POSITION IN GROUP TABLE (ZREL)
+        G                       ;WORD ADDR OF CODE VECTOR
+        ^2                      ;MAX NUMBER OF CODES
+**      .LOC    G               ;POSITION OF CODE VECTOR
+**      .BLK    ^2*2            ;RESERVE CODE VECTOR
+**      .RDX    .POP
+**
+%
+
+;  CODE
+;       THE MACRO 'CODE' IS USED TO INSERT AN ENTRY INTO THE
+;       CURRENT CODE VECTOR.  IT SHOULD BE FOLLOWED BY A .TXT 
+;       WITH ITS ERROR MESSAGE.
+
+;       ARGUMENT OF CODE MACRO:
+;               ^1      CODE NUMBER
+
+        .MACRO  CODE
+**
+**      T=      .               ;NREL REFERENCE FOR TEXT
+**      .LOC    (^1-GROUP)*2+G  ;POSITION IN CODE VECTOR
+        T                       ;WORD ADDRESS OF TEXT
+**      .LOC    T               ;REFERENCE TEXT
+%
+
+
+
+        .IFN    0
+
+
+
+
+                                        ERRORS ONLY--DO NOT ACTUALLY ASSIGN
+                                        CODES TO THIS GROUP NUMBER
+
+
+
+
+
+
+        FORMAT FOR XXXERMES.SR FILES:
+
+                .TITLE  XXXERMES
+
+                GRP     GROUP NUMBER    MAXIMUM # OF ERROR CODES+2
+
+
+                CODE    GRP.NUM. * 1000 + ERROR # (OR NOTE BELOW)
+                .TXT    /AN ERROR MESSAGE TEXT STRING/
+
+                [MORE ERROR CODES]
+
+                .END
+
+NOTE:
+        SYMBOLIC NAMES CAN ALSO BE USED IN PLACE
+        OF THE ARGUMENT (NUMBER * 1000 + ERROR #).
+        THEY MUST ALSO BE ACCOMPANIED BY A 
+        PARAMETER FILE PARXXX.SR.
+
+        THE GRP MACRO DEFINES A SYMBOL "GROUP" WHICH IS
+        EQUAL TO "GRP.NUM. * 1000" .
+        GROUP MESSAGE FILES ARE ALLOCATED AS FOLLOWS:
+
+
+                        "PARXXX"        "XXXERMES"
+
+                0       PARDUMMY        SYSERMES
+                1       ZPARS           ZERMES
+                2       PARSEX          SEXERMES
+                3       PARD            DEBERMES
+                4       PARDUMMY        ABERMES
+                5       PARDUMMY        F4ERMES
+                6       PARDUMMY        F5ERMES
+                7       PARIR           INFOERMES
+                10       ???              ????
+                11      PARDUMMY        PLNERMES
+                12      XEPARS          XERMES
+                13      PARDUMMY        RPGERMES
+                14      PARDUMMY        PL1ERMES
+                15      PARCOB          COBERMES
+                16      PARAP           APERMES
+                17      PARDBMS         DBMSERMES
+                20      RESERVED        RESERVED
+                21      PARIQF          IQFERMES
+                22      PARQ            QERMES
+                23      PARCLRE         CLREERMES
+                24      PARDGL          DGLERMES
+                25      PARLDEB         LDEBERMES
+                26      PARF77          F77ERMES
+                27      PARCLR          CLRERMES
+                30      PARNET          NETERMES (1 OF 2)
+                31      PARNET          NETERMES (2 OF 2)
+                32      PARBIND         BINDERMES
+                33      PARRCX          RCXERMES
+                34      PARQRY          QRYERMES
+                35      PARRJ           RJERMES
+                36      PARROC          ROCERMES
+                37      PARSORT         SORTERMES
+                40      RESERVED FOR MP/OS
+                41      RESERVED FOR MP/OS
+                42      RESERVED FOR MP/OS
+                43      RESERVED FOR MP/OS
+                44      RESERVED FOR MP/OS
+                45      RESERVED FOR MP/OS
+                46      RESERVED FOR MP/OS
+                47      RESERVED FOR ONC_ERMES
+                50      RESERVED FOR MP/OS
+                51      RESERVED FOR MP/OS
+                52      RESERVED FOR MP/OS
+                53      RESERVED FOR MP/OS
+                54      RESERVED FOR MP/OS
+                55      RESERVED FOR MP/OS
+                56                      XODIAC TRANSPORT SERVICE (LINK)
+                57                      XODIAC TRANSPORT SERVICE (NETWORK)
+                60                      XODIAC TRANSPORT SERVICE (MANAGEMENT)
+                61      RESERVED FOR ALEX NICHOLSON
+                62      PARDUMMY        CLERMES
+                63      PARDUMMY        SEDERMES
+                64                      ARRAY+ UTILITY (SOBO)
+                65      RESERVED FOR GREG RUSS
+                66      PARDUMMY        TPMS.ERMES
+                67      PARDUMMY        TPMS.ERMES
+                70      ???             TRINVIEW.ERMES
+                71      PARDUMMY        FAST_DUMPERMES FAST_LOADERMES
+                72                      TELEX
+                73      PARCOB16        COB16ERMES
+                74      PARICX          ICXERMES
+                75      PARDUMMY        ICCERMES
+                76      RESERVED FOR AOS/VS
+                77      PARDUMMY        XYZZYERMES
+                100-177 RESERVED FOR USERS
+                200-206 RESERVED FOR AOS/VS
+                207     CLI32PARS       CLI32ERMES
+                210      ???            LMGR
+                211     PARDUMMY        MASMERMES
+                212     PARDUMMY        BASERMES
+                213     PARLANG_RT      LANG_RTERMES
+                214     PARPL1          PL1ERMES
+                215      ???            ROC32ERMES
+                216      ???            ???(VS PASCAL)
+                217     PARDUMMY        ???(VS PED)
+                220     PARPATCH        PATCHERMES
+                221      ???            ???(VS C)
+                222      ???            Shared libraries  (27 jan 84)
+                223     PARDUMMY        DDERMES
+                224     JPEPARS         JPERMES
+                225      ???            ???(DECISION CONNECTION)
+                226     DGGIPARS        DGGIERMES
+                227      ???            DGVIEWERMES
+                230-237 RESERVED FOR COMMUNICATIONS PRODUCTS
+                240-244 RESERVED FOR DG/SQL
+                244-273 RESERVED FOR AOS/VS
+                274     PARDUMMY        ???(SNADS AU)
+                275-327 RESERVED FOR AOS/VS
+                330     PARDUMMY        DD2ERMES
+                331-7777 RESERVED FOR AOSVS
+                10000-17777 RESERVED FOR USERS
+        SEQUENCE OF COMMANDS TO INSERT NEW ERROR MESSAGES
+
+
+1.      EDIT PARAMETER FILE.  (PARU.32.SR IS PARAMETER FILE FOR SYSERMES.SR)
+
+2.      CREATE NEW MASM.PS IF PARU.32.SR WAS CHANGED.
+
+3.      EDIT XXXERMES.SR.
+
+4.      EMASM PARXXX XXXERMES (AS SHOWN IN ABOVE LIST)
+        (EMASM.CLI IS A MACRO IN :UTIL)
+
+5.      LINK_ERMES
+        (LINK_ERMES.CLI IS A MACRO IN :UTIL WHICH MAY NEED TO BE 
+        EDITED TO INCLUDE NEW FILES)
+
+     
+     A SAMPLE OF THE STRUCTURE OF THE ERMES FILE IS GIVEN HERE:
+     
+      -----     ---------------------------------
+        !       !                               !   LOC  0
+        !       !  20000 2-DWORD ENTRIES, 1 PER !
+        !       !  GROUP. 1ST DWORD=WORD ADDR   !
+                !  OF GROUP'S CODE VECTOR TABLE,!
+        1       !  2ND DWORD=LENGTH(DWDS) OF    !
+                !  GROUPS CODE VECTOR TABLE     !
+       PER      !                               !
+                !--                           --!
+      FILE      ! GROUP N CODE VECTOR TBL ADDR  !
+                !--                           --!
+        !       !    #CODES FOR GROUP N         !
+      -----     !-------------------------------!
+        !       !                               !  LOC 100000
+        !       !   ERROR CODE -> TXT WORD PTRS !
+        !       !   1 DWORD ENTRIES             !
+        !       !        #CODES DWORDS LONG     !
+        !       !                               !
+                !                               !
+        1       !--                           --!
+                ! DWORD POINTER TO TXT FOR CODE ! PTR FOR ERROR CODE XXXXX
+      PAIR      !--                           --!       !
+                !                               !       !
+       PER      !-------------------------------!       !
+                !                               !       !
+      GROUP     !       TEXT FOR GROUP          !       !
+        !       !                               !       !
+        !       !--                           --!       !
+        !       ! TEXT FOR CODE XXXXX           !<------
+        !       !--                           --!
+        !       !                               !
+        !       !                               !
+      -----     !-------------------------------!
+                !                               ! NEXT GROUP CODE VECTOR
+                !                               !       TABLE
+             
+                =                               =
+             
+                !                               ! NEXT GROUPS TEXT AREA
+                !                               !
+                !                               !
+                !-------------------------------!
+                             ETC.
+             
+
+        .ENDC
+        .END

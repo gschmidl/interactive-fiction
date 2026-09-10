@@ -1,0 +1,197 @@
+;			A  M  A  Z  O  N
+;
+;	A game of fun, daring, suprises, and multiple players
+;
+;	Text File Format:
+;
+;Note: All defined values refer to Positive numbers
+;
+;Program defined functions so far include:
+;
+;	Define	Symbol (Value)
+;
+;	(Prop	(Property	Value))
+;
+;	Basic definitions -- what it looks like, not implementation *
+
+;Item	WORD	(Prop
+;		(Property	Value)
+;		(Property	Value)
+;		(Property	(Prop	(Property	Value)
+;					(Property	Value)
+;				)
+;			)
+;		(Property	Value)
+;		(Property	(Value))
+;		(Property	Value)
+;	)
+;
+;
+;Example:
+;
+; Item	'Fred'	(Prop
+;
+;	(Type	   Object)
+;	(Control   Self)
+;	(Name	   'Fred')
+;	(Capacity 	(Prop
+;			(MAX	500)
+;			(PRICE	2500)
+;			(WEIGHT	250)
+;			(LOAD	5)
+;			(OBJECT	(Bird Cake Axe))
+;		    )
+;		)
+;	(Ability   (Prop
+;			(STRENGTH	100)
+;			(INTELLIGENCE	47)
+;			(WISDOM		14)
+;			(CHARISMA	59)
+;			(CONSTITUTION	30)
+;			(SIZE		25)
+;			(AGILITY	72)
+;			(DEXTERITY	66)
+;			(LEVEL		4)
+;			(DAMAGE		42)
+;			(DAMAGETAKEN	3)
+;			(EXPERIENCE	25435)
+;			(LANGUAGE	(#10007004031))
+;		    )
+;		)
+;	(Statistics (Prop
+;			(PPN	(#100000200))
+;			(CODE	'PHREAD')
+;			(TURNS	22792)
+;			(TIME	19582)
+;			(DEATHS	2)
+;		    )
+;		)
+;	)		! final Close Parens
+;
+
+
+Item	'HELP'	(Prop
+	(Description	"This is the Game of Amazon
+
+You are wandering somewhere in the Amazon River Valley deep in the
+heart of South America.  You may find Untold treasures in the caverns
+below.  But, BEWARE!!!  There are traps, puzzles, and other adventurers
+awaiting you in the caves.  Watch out for anything and everything,
+for things may not be what they seem.
+
+")
+	(Type	Definition)
+	)	; end of HELP text for example.
+
+Item	'RIDLRM'	(Prop
+	(Description	"You are in a place with unusual markings on the walls,
+possibly writings from an ancient language, apparently unknown
+to you.  Some of the writing may be legible after closer examination
+but I would not count on it.  You cannot see any viable exits from
+this chamber.")
+	(Name	"Riddle Room")
+	(Action	(Prop
+		(ENTRY	(SET (RIDDLE RAND(RIDLEN)))
+			(SET (RIDANS FALSE)) )
+		(READ	(DISPLAY  RIDTXT(RIDDLE)))
+		(ANSWER	(EQUAL (RIDCOD(RIDDLE) INTEXT) (INCREMENT LOCATION(CRETIN)) ) )
+		) )
+
+2	Amazon Room			There is a scale model of a small cave-like room here
+					....there is a man-like figure walking around in this room.
+					(if you pick him up, you better put him down)
+
+3	Equipment Shop			There are all kinds of camping tools & things here in the
+					shop, each item is worth some number of points.
+
+4	Top of Cliff			There is a large catapult-like contraption for launching
+					some type of aircraft.  It seems to be loaded.
+
+5	Jail				You may enter the Jail as a spectator or a prisoner.
+					....Prisoners cannot leave except when taken to court.
+
+6	Court Room			A large chamber with a Bench, Jury box, a Desk and a Stand.
+					....Behind the bench there is a figure clad in a long dark robe
+					with a gavel in his hand.
+					....*The policeman asks if the man behind the desk is your Lawyer,
+					....*Your Lawyer motions you to come near & be seated behind the desk.
+
+7	Execution Chamber		You have been found GUILTY by the court & were senetnced to die
+					in the execution chamber.   Neither you nor your cohorts are allowed
+					back into the amazon valley until Tomorrow... You have just been Executed.
+
+8	The Shipyard			Home of Captain Hook & his gang... "beware the hook".
+
+9	Wendy's Room			You are in a Warm & Cozy little room with a large fluffy bed against
+					one wall.  The bedspread is embroidered in large script letters the
+					word "WENDY".  Against another wall there is a desk, and a chest of
+					drawers.
+					....*The desk is Locked.
+					....*The desk is Unlocked.
+
+10	Bar Room			You are in a small dimly lit tavern.  There is a sign on one wall
+					which reads "Examiners & Collectors" with a short list of names.
+					....*There is a burly looking Troll behind the bar serving drinks.
+					....*The bartender is nowhere to be seen.
+					....*The bartender brings you your drink.
+					....*The bartender asks you a question. (There are 36 different questions)
+					....*The bartender exclaims "Congratulations, You have just passed your Bar Exam"
+					and he walks over to the sign and adds your name to the list of Examiners.
+					....*The bartender grabs you by the collar & throws you out into the night.
+11	Broom Closet			You are in a tiny Closet with a which seems to have been swept clean recently.
+					....*There is an old Broom with strange writing on the handle leaning against the wall.
+					....*There is an old Black Hat lying here.
+					....*There is an old *Lady Waiting outside in the hallway.
+					....*There is a *Wicked Witch outside in the hallway.
+
+12	Elm Grove			You are in a large open field surrounded by Elm trees, there is a large wooden
+					sign in the West corner of the field.
+					....*The sign says "This way to the Skull Cave,  Beware!"
+
+13	Entrance to Skull Cave		You are at the entrance to a large cave which looks very much like
+					the head of a human being.  The entrance leads through the Mouth of the Skull.
+
+14	Swamp				You are in the swamp, surrounded by trees on all sides.
+
+15	Marsh				You are in the Marshes, surrounded by more marshland.
+
+16	Skull cave			You are in the Skull Cave, there are Skulls hanging all over the walls.
+					....*There is a skeleton covered with a purple costume lying in the corner.
+					....*There is a huge White Stallion tied up here.
+					....*There is an old man in a purple costume sitting nearby.
+
+17	Witch's Castle			You are in a large Castle with many towers and corridors leading in all directions.
+					....There is an old lady with an apple cart off to one side.
+					....*There is an old hag wearing a pointed cap and a long black cape nearby.
+					....*There is a Black cat sitting in the corner.
+
+18	WIld Honeysuckle field		You are passing through a large field of Yellow and White Honeysuckle.
+					....*There are many tiny arms which are reaching toward you.
+					....*The arms have grabbed your Honey and are quickly drawing away.
+					....*The arms have grabbed you and are trying to pull you apart.
+					....*The arms have released you and are quickly drawing away.
+
+19	Amazon River Bank		You are standing on the bank of the Amazon River.  Below you is a raging torrent
+					with a few boulders lying here and there.  To the west is a large wooden sign with
+					writing on it.
+					....*Welcome to the Amazon River Valley, be pleased to discover a new world
+					within the caves and jungle villages to be found nearby.  Untold treasures
+					await you deep inside the Amazon, but beware the suspicious... There are Witches,
+					Demons, and wild animals running loose which are as deadly to you as they
+					appear wonderful.  Many a soul has died within, leaving all the treasures of
+					Lost generations, Dead Adventurers and Fairy Kingdoms to those skillful enough
+					to obtain them.
+
+20	Shadow Room			You have just entered the "SHADOW ROOM" guarded by the shadow of evil.  If you
+					are caught, you must make it to the surface before nightfall, else you will die.
+					If you are caught more than once by the Shadow, you will surely die!
+					....There ais something moving toward you from the right... flee quickly.
+21	Padded Cell			You seem to have wandered through the halls of an Asylum, You are now in
+					a small cell-like room which has padding on the floor, walls and ceiling.
+					....*There is an old man sitting here wearing a pointed hat.
+					....*There is a book here titled "Yellav Nozama Eht Sdraziw Dnarg".
+					....*The book seems to be fastened shut.
+					....*The book opens and seems to be readable.
+					....* Nozama :drow cigam,  Xnihpfs Cxx -- Enasni Eht Fo Yraid.
+
+22	[]

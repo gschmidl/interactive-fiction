@@ -1,0 +1,539 @@
+[inherit('zk$def',
+	 'zk$lex_def',
+	 'zk$text',
+	 'zk$obj',
+	 'ifc$library:ifc$rtl_def')]
+module zk$parse_object;
+
+[global] function zk$test_symbol(expected : $symbol_set) : boolean;
+var	error : boolean;
+	symbol : $symbol_desc;
+	message : unsigned;
+begin
+	error:=false;
+	$get_symbol(symbol);
+	if ( not (symbol.token in expected)) then
+	  begin
+		error:=true;
+		case (symbol.token) of
+		unknown:		message:=zk$text_unknown_word;
+		invalid:		message:=zk$text_invalid_char;
+		end_of_line,
+		period_symbol,
+		then_keyword:		
+					message:=zk$text_incomplete;
+		text_string:		message:=zk$text_cant_use_string;
+		integer_constant:	message:=zk$text_cant_use_number;
+		otherwise		message:=zk$text_cant_use_word;
+		end;
+
+		$message(message, 2, symbol.string.length,
+				iaddress(symbol.string.body));
+	  end;
+
+	zk$test_symbol:=error;
+end;
+
+[global] function zk$parse_object(var ast : $ast_node_ptr) : boolean;
+var	error : boolean;
+	symbol, symbol1 : $symbol_desc;
+	object : integer;
+begin
+	error:=false;
+	$get_symbol(symbol);
+	if (symbol.token = the_keyword) then
+	  begin
+		$advance_symbol;
+		$get_symbol(symbol);
+	  end;
+
+	case (symbol.token) of
+
+		(* Objects with a single name *)
+
+	room_keyword:
+	  begin
+		$advance_symbol; object:=zk$obj_current_room;
+	  end;
+	self_keyword:
+	  begin
+		$advance_symbol; object:=zk$obj_self;
+	  end;
+	contents_keyword:
+	  begin
+		$advance_symbol; object:=zk$obj_contents;
+	  end;
+	possessions_keyword:
+	  begin
+		$advance_symbol; object:=zk$obj_possessions;
+	  end;
+	ball_keyword:
+	  begin
+		$advance_symbol; object:=zk$obj_any_ball;
+	  end;
+	developer_keyword:
+	  begin
+		$advance_symbol; object:=zk$obj_any_developer;
+	  end;
+	hacker_keyword:
+	  begin
+		$advance_symbol; object:=zk$obj_any_developer;
+	  end;
+	programmer_keyword:
+	  begin
+		$advance_symbol; object:=zk$obj_any_developer;
+	  end;
+	disk_keyword:
+	  begin
+		$advance_symbol; object:=zk$obj_any_disk;
+	  end;
+	door_keyword:
+	  begin
+		$advance_symbol; object:=zk$obj_any_door;
+	  end;
+	drive_keyword:
+	  begin
+		$advance_symbol; object:=zk$obj_any_drive;
+	  end;
+	machine_keyword:
+	  begin
+		$advance_symbol; object:=zk$obj_any_machine;
+	  end;
+	money_keyword:
+	  begin
+		$advance_symbol; object:=zk$obj_any_money;
+	  end;
+	sign_keyword:
+	  begin
+		$advance_symbol; object:=zk$obj_any_sign;
+	  end;
+	tape_keyword:
+	  begin
+		$advance_symbol; object:=zk$obj_any_tape;
+	  end;
+	bills_keyword:
+	  begin
+		$advance_symbol; object:=zk$obj_bills;
+	  end;
+	cash_keyword:
+	  begin
+		$advance_symbol; object:=zk$obj_bills;
+	  end;
+	board_keyword:
+	  begin
+		$advance_symbol; object:=zk$obj_bulletin_board;
+	  end;
+	coins_keyword:
+	  begin
+		$advance_symbol; object:=zk$obj_coins;
+	  end;
+	computer_keyword:
+	  begin
+		$advance_symbol; object:=zk$obj_computer;
+	  end;
+	console_keyword:
+	  begin
+		$advance_symbol; object:=zk$obj_console;
+	  end;
+	printer_keyword:
+	  begin
+		$advance_symbol; object:=zk$obj_console;
+	  end;
+	desk_keyword:
+	  begin
+		$advance_symbol; object:=zk$obj_desk;
+	  end;
+	table_keyword:
+	  begin
+		$advance_symbol; object:=zk$obj_desk;
+	  end;
+	quiz_keyword:
+	  begin
+		$advance_symbol; object:=zk$obj_diet_quiz;
+	  end;
+	doc_keyword:
+	  begin
+		$advance_symbol; object:=zk$obj_documentation;
+	  end;
+	listing_keyword:
+	  begin
+		$advance_symbol; object:=zk$obj_documentation;
+	  end;
+	guard_keyword:
+	  begin
+		$advance_symbol; object:=zk$obj_guard;
+	  end;
+	helicopter_keyword:
+	  begin
+		$advance_symbol; object:=zk$obj_helicopter;
+	  end;
+	lamp_keyword:
+	  begin
+		$advance_symbol; object:=zk$obj_lamp;
+	  end;
+	lantern_keyword:
+	  begin
+		$advance_symbol; object:=zk$obj_lamp;
+	  end;
+	manager_keyword:
+	  begin
+		$advance_symbol; object:=zk$obj_manager;
+	  end;
+	menu_keyword:
+	  begin
+		$advance_symbol; object:=zk$obj_menu;
+	  end;
+	nurse_keyword:
+	  begin
+		$advance_symbol; object:=zk$obj_nurse;
+	  end;
+	officer_keyword:
+	  begin
+		$advance_symbol; object:=zk$obj_officer;
+	  end;
+	rep_keyword:
+	  begin
+		$advance_symbol; object:=zk$obj_personnel_rep;
+	  end;
+	sack_keyword:
+	  begin
+		$advance_symbol; object:=zk$obj_sack;
+	  end;
+	bag_keyword:
+	  begin
+		$advance_symbol; object:=zk$obj_sack;
+	  end;
+	safe_keyword:
+	  begin
+		$advance_symbol; object:=zk$obj_safe;
+	  end;
+	scale_keyword:
+	  begin
+		$advance_symbol; object:=zk$obj_scale;
+	  end;
+	card_keyword:
+	  begin
+		$advance_symbol; object:=zk$obj_sdc_card;
+	  end;
+	sword_keyword:
+	  begin
+		$advance_symbol; object:=zk$obj_sword;
+	  end;
+	terminal_keyword:
+	  begin
+		$advance_symbol; object:=zk$obj_terminal;
+	  end;
+	newspaper_keyword:
+	  begin
+		$advance_symbol; object:=zk$obj_zk_enquirer;
+	  end;
+	journal_keyword:
+	  begin
+		$advance_symbol; object:=zk$obj_zk_journal;
+	  end;
+	magazine_keyword:
+	  begin
+		$advance_symbol; object:=zk$obj_zk_today;
+	  end;
+	coke_keyword:
+	  begin
+		$advance_symbol; object:=zk$obj_coke;
+	  end;
+
+			(* Two word objects *)
+
+	pressure_keyword:	(* machine *)
+	  begin
+		$advance_symbol;
+		error:=zk$test_symbol([machine_keyword]);
+		if (not error) then
+		  begin
+			$advance_symbol; object:=zk$obj_bp_machine;
+		  end;
+	  end;
+	bulletin_keyword:	(* board *)
+	  begin
+		$advance_symbol;
+		error:=zk$test_symbol([board_keyword]);
+		if (not error) then
+		  begin
+			$advance_symbol; object:=zk$obj_bulletin_board;
+		  end;
+	  end;
+	diet_keyword:		(* quiz *)
+	  begin
+		$advance_symbol;
+		error:=zk$test_symbol([quiz_keyword]);
+		if (not error) then
+		  begin
+			$advance_symbol; object:=zk$obj_diet_quiz;
+		  end;
+	  end;
+	crystal_keyword:	(* ball *)
+	  begin
+		$advance_symbol;
+		error:=zk$test_symbol([ball_keyword]);
+		if (not error) then
+		  begin
+			$advance_symbol; object:=zk$obj_any_ball
+		  end;
+	  end;
+	security_keyword:	(* guard *)
+	  begin
+		$advance_symbol;
+		error:=zk$test_symbol([guard_keyword]);
+		if (not error) then
+		  begin
+			$advance_symbol; object:=zk$obj_guard;
+		  end;
+	  end;
+	bank_keyword:		(* officer *)
+	  begin
+		$advance_symbol;
+		error:=zk$test_symbol([officer_keyword]);
+		if (not error) then
+		  begin
+			$advance_symbol; object:=zk$obj_officer;
+		  end;
+	  end;
+	personnel_keyword:	(* representative *)
+	  begin
+		$advance_symbol;
+		error:=zk$test_symbol([rep_keyword]);
+		if (not error) then
+		  begin
+			$advance_symbol; object:=zk$obj_personnel_rep;
+		  end;
+	  end;
+	sdc_keyword:		(* card *)
+	  begin
+		$advance_symbol;
+		error:=zk$test_symbol([card_keyword]);
+		if (not error) then
+		  begin
+			$advance_symbol; object:=zk$obj_sdc_card;
+		  end;
+	  end;
+	time_keyword:		(* magazine *)
+	  begin
+		$advance_symbol;
+		error:=zk$test_symbol([magazine_keyword]);
+		if (not error) then
+		  begin
+			$advance_symbol; object:=zk$obj_zk_today;
+		  end;
+	  end;
+
+		(* Special two word objects *)
+
+	rtl_keyword:		(* developer, hacker, programmer *)
+	  begin
+		$advance_symbol;
+		error:=zk$test_symbol([developer_keyword,
+				hacker_keyword, programmer_keyword]);
+		if (not error) then
+		  begin
+			$advance_symbol; object:=zk$obj_stan;
+		  end;
+	  end;
+	dtr_keyword:		(* tape *)
+	  begin
+		$advance_symbol;
+		$get_symbol(symbol);
+		if (symbol.token=tape_keyword) then
+		  begin
+			$advance_symbol; object:=zk$obj_dtr_tape;
+		  end
+		else
+			error:=zk$test_symbol([]);
+	  end;
+	vms_keyword:		(* tape, developer, hacker, program *)
+	  begin
+		$advance_symbol;
+		$get_symbol(symbol);
+		if (symbol.token = tape_keyword) then
+		  begin
+			$advance_symbol; object:=zk$obj_vms_tape;
+		  end
+		else
+		if (symbol.token in [developer_keyword,
+			hacker_keyword, programmer_keyword]) then
+		  begin
+			$advance_symbol; object:=zk$obj_vms_developer;
+		  end
+		else
+			error:=zk$test_symbol([]);
+	  end;
+	cdd_keyword:		(* tape, developer, hacker, prog *)
+	  begin
+		$advance_symbol;
+		$get_symbol(symbol);
+		if (symbol.token=tape_keyword) then
+		  begin
+			$advance_symbol; object:=zk$obj_cdd_tape;
+		  end
+		else
+		if (symbol.token in [developer_keyword,
+			hacker_keyword, programmer_keyword]) then
+		  begin
+			$advance_symbol; object:=zk$obj_cdd_developer;
+		  end
+		else
+			error:=zk$test_symbol([]);
+	  end;
+
+		(* Other multi-word objects *)
+
+	blood_keyword:	(* blood pressure machine *)
+	  begin
+		$advance_symbol;
+		error:=zk$test_symbol([pressure_keyword]);
+		if (not error) then
+		  begin
+			$advance_symbol;
+			error:=zk$test_symbol([machine_keyword]);
+			if (not error) then
+			  begin
+				$advance_symbol; object:=zk$obj_bp_machine;
+			  end;
+		  end;
+	  end;
+	enquirer_keyword:	(* '', newspaper *)
+	  begin
+		$advance_symbol;
+		object:=zk$obj_zk_enquirer;
+		$get_symbol(symbol);
+		if (symbol.token = newspaper_keyword) then
+			$advance_symbol;
+	  end;
+	vax_keyword:		(* '', computer *)
+	  begin
+		$advance_symbol;
+		object:=zk$obj_computer;
+		$get_symbol(symbol);
+		if (symbol.token = computer_keyword) then
+			$advance_symbol;
+	  end;
+	fluorescent_keyword, neon_keyword:	(* ball, crystal ball *)
+	  begin
+		$advance_symbol;
+		$get_symbol(symbol1);
+		if (symbol1.token in [ball_keyword]) then
+		  begin
+			$advance_symbol;
+			if (symbol.token=neon_keyword) then
+				object:=zk$obj_neon_ball
+			else	object:=zk$obj_fluorescent_ball;
+		  end
+		else
+		if (symbol1.token in [crystal_keyword]) then
+		  begin
+			$advance_symbol;
+			$get_symbol(symbol1);
+			if (symbol1.token in [ball_keyword]) then
+			  begin
+				$advance_symbol;
+				if (symbol.token=neon_keyword) then
+					object:=zk$obj_neon_ball
+				else	object:=zk$obj_fluorescent_ball;
+			  end
+			else	error:=zk$test_symbol([]);
+		  end
+		else	error:=zk$test_symbol([]);
+	  end;
+	zk_keyword:		(* enquirer, enquirer news, t mag, j *)
+	  begin
+		$advance_symbol;
+		$get_symbol(symbol);
+		case(symbol.token) of
+		time_keyword:
+		  begin
+			$advance_symbol;
+			object:=zk$obj_zk_today;
+			$get_symbol(symbol);
+			if (symbol.token = magazine_keyword) then
+				$advance_symbol;
+		  end;
+		enquirer_keyword:
+		  begin
+			$advance_symbol;
+			object:=zk$obj_zk_enquirer;
+			$get_symbol(symbol);
+			if (symbol.token = newspaper_keyword) then
+				$advance_symbol;
+		  end;
+		journal_keyword:
+		  begin
+			$advance_symbol; object:=zk$obj_zk_journal;
+		  end;
+		newspaper_keyword:
+		  begin
+			$advance_symbol; object:=zk$obj_zk_enquirer;
+		  end;
+		magazine_keyword:
+		  begin
+			$advance_symbol; object:=zk$obj_zk_today;
+		  end;
+		otherwise	error:=zk$test_symbol([]);
+		end;		
+	  end;
+	otherwise	error:=zk$test_symbol([]);
+	end;
+
+	if (not error) then
+	  begin
+		new(ast, object_node);
+		ast^.node_type:=object_node; ast^.list:=nil;
+		ast^.object_code:=object;
+	  end
+	else	ast:=nil;
+
+	zk$parse_object:=error;
+end;
+
+[global] function zk$parse_object_list(
+	var ast : $ast_node_ptr;
+	var verb : varying[$u1] of char) : boolean;
+
+var	error : boolean;
+	symbol : $symbol_desc;
+	next_ast : $ast_node_ptr;
+begin
+	$get_symbol(symbol);
+	if (symbol.token in [end_of_line, period_symbol, then_keyword]) then
+	  begin
+		error:=true;
+		$message(zk$text_want_to_verb, 2,
+				verb.length, iaddress(verb.body));
+	  end
+	else
+	if (symbol.token = all_keyword) then
+	  begin
+		error:=false;
+		$advance_symbol;
+		new(ast, object_node);
+		ast^.node_type:=object_node; ast^.list:=nil;
+		ast^.object_code:= zk$obj_all;
+	  end
+	else
+	  begin
+		error:=zk$parse_object(ast);
+		next_ast:=ast;
+
+		$get_symbol(symbol);
+		while ( (not error) and (symbol.token in
+				[and_keyword, comma_symbol]) ) do
+		  begin
+			$advance_symbol;
+			error:=zk$parse_object(next_ast^.list);
+			if (not error) then
+			  begin
+				next_ast:=next_ast^.list;
+				$get_symbol(symbol);
+			  end;
+		  end;
+	  end;
+	zk$parse_object_list:=error
+end;
+
+end.

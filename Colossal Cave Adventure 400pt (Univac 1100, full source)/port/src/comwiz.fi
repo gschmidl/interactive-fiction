@@ -1,0 +1,4 @@
+      dimension wkday(2),wkend(2),holid(2)
+      character*5 hname(4), magic
+      common /wizcom/ wkday,wkend,holid,hbegin,hend,hname,short,magic,
+     1 magnm,latncy,saved,savet,setup,pendr

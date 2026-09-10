@@ -1,0 +1,41 @@
+@wait 3
+
+ADVENT
+@wait 12
+no
+in
+get keys
+get lamp
+get food
+get bottle
+out
+s
+s
+s
+unlock grate
+d
+w
+on
+w
+get cage
+w
+get rod
+w
+drop rod
+catch bird
+get rod
+w
+d
+d
+get gold
+u
+u
+e
+e
+e
+u
+out
+in
+drop gold
+score
+inventory

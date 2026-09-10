@@ -1,0 +1,72 @@
+
+HP 1000 Adventure Build Program, Version 2.2
+
+The following message is in the MESSAGE.TXT file:
+ 
+This adventure is brought to you by LABtec, the Los Angeles Basin Techincal
+Computers users group. Please use your machine time wisely or this game may
+no longer be available. For you old timers, this version has new sections of
+the cave added. If you find any bugs, please report them to your local wizard.
+
+Number of disc buffers=  8
+
+Cannot find ADVENTURE.DAT, rebuilding data base.
+
+Initializing data files and such...
+
+Now loading section  1.
+Now loading section  2.
+Now loading section  3.
+Now loading section  4.
+Now loading section  5.
+Now loading section  6.
+Now loading section  7.
+Now loading section  8.
+Now loading section  9.
+Now loading section 10.
+Now loading section 11.
+Now loading section 12.
+
+Used vs Max table values:
+   325 of   330 VOCAB entries
+    31 of    35 VERB entries
+    10 of    10 CLASS entries
+    10 of    10 HINT entries
+   772 of   800 TRAVEL entries
+   149 of   150 LONG TEXT entries
+   149 of   150 SHORT TEXT entries
+   222 of   230 RANDOM TEXT entries
+    35 of    35 MAGIC TEXT entries
+ 27078 of 28000 Total Text Words  
+
+Maximum text length =  70
+Maximum data length =  10
+ 
+There appears before you a threatening figure clad all over in
+heavy black armor. His legs seem like the massive trunk of the
+oak tree. His broad shoulders and helmeted head loom high over
+your own puny frame, and you realize that his powerful arms could 
+easily crush the very life from you body. There hangs from his belt 
+a veritable arsenal of deadly weapons: sword, mace, ball and chain, 
+dagger, lance, and trident. He speaks with a commanding voice:
+
+                  355847 'Identify yourself.'
+
+
+ 
+Suddenly a sinister, wrathlike figure appears before you seeming
+to float in the air. In a low, sorrowful voice he says, Alas, the 
+very nature of the world has changed and the dungeon cannot be found. 
+All must now pass away. Raising his oaken staff in farewell, he fades 
+spreading darkness. In his place appears a tastefully lettered sign 
+reading:
+                       PASSWORD INVALID 
+  
+The darkness becomes all encompassed, and your vision fails.
+ 
+You better learn some magic before you try that again!
+
+Saving data base in file ADVENTURE.DAT
+
+Data base loaded, run ADVENT to play game.
+

@@ -1,0 +1,46 @@
+push
+prompt pop
+[!equal,%1%,[!pathname LOGON]]
+  directory %1%
+[!else]
+  superuser on
+  directory :util
+[!end]
+string %2%
+[!equal,%0/T%,]
+  superuser on
+[!else]
+  [!equal,%2%,LOGON.MESSAGE]
+    delete/2=ignore =logon.message
+    [!nequal,[!pathname logon.message],]
+      copy =logon.message [!pathname logon.message]
+    [!else]
+      create =logon.message
+    [!end]
+  [!else]
+    [!equal,%2%,SETUP.CLI]
+      comment Since there might be a local SETUP.CLI, add a .
+      string %2%.
+      delete/2=ignore =setup.cli.
+      [!nequal,[!pathname setup.cli],]
+        copy =setup.cli. [!pathname setup.cli]
+      [!else]
+        create =setup.cli.
+      [!end]
+    [!else]
+      comment up.cli or down.cli
+      delete/2=ignore =[!string]
+      [!nequal,[!pathname [!string]],]
+        copy =[!string] [!pathname [!string]]
+      [!else]
+        create =[!string]
+      [!end]
+    [!end]
+  [!end]
+  acl/d =[!string]
+[!end]
+X SED/NO_ED [!string]
+[!nequal,%0/T%,]
+  delete/2=ignore =[!string]
+[!end]
+pop

@@ -1,0 +1,536 @@
+Aug 31, 2026  16:34    /* plibool.pli - patched copy of the Iron Spring PL/I runtime routine */                         
+1.4.1                                               Source Listing                                           Page 1     
+    1  /* plibool.pli - patched copy of the Iron Spring PL/I runtime routine */
+    2  /* _pli_Bool, taken verbatim from pli-1.4.1/lib/source/bool.pli (Iron */
+    3  /* Spring PL/I Runtime Library, (c) Peter Flass, distributed under    */
+    4  /* the GNU LGPL) with the four lines marked "PATCH" added below.      */
+    5  /*                                                                    */
+    6  /* Why this file exists:                                              */
+    7  /*                                                                    */
+    8  /*   plic calls _pli_Bool for AND/OR/NOT on bit strings longer than   */
+    9  /*   32 bits.  For a unary NOT it passes the operand in the routine's */
+   10  /*   "Y" argument slots and leaves the "X" slots - ptrarray(3) and    */
+   11  /*   ptrarray(4) - uninitialised.  But _pli_Bool dereferences         */
+   12  /*   ptrarray(4) before it ever looks at the function code, guarding  */
+   13  /*   only against an exactly zero pointer:                            */
+   14  /*                                                                    */
+   15  /*       pDesc = ptrarray(4);                                         */
+   16  /*       if pDesc =sysnull then do;                                   */
+   17  /*         addr(descX)->ST_bo = pDesc->ST_bo;    <-- reads garbage    */
+   18  /*                                                                    */
+   19  /*   so every NOT of a bit string wider than 32 bits dereferences     */
+   20  /*   whatever stack garbage happens to sit in that slot.  It is       */
+   21  /*   usually a readable address, which is why the game mostly ran;    */
+   22  /*   when it was not, the process took SIGSEGV and Adventure printed  */
+   23  /*   "Fatal error # 99".                                              */
+   24  /*                                                                    */
+   25  /*   adventure.pli does exactly that in two places: it negates the    */
+   26  /*   BIT(40) vocabulary overlay while loading the encoded database    */
+   27  /*   ("ATABB(TABNDX) = ^ATABB(TABNDX);", 326 times at start-up) and   */
+   28  /*   again on every word it looks up ("IDB = ^IDB;" in VOCAB, three   */
+   29  /*   times per call).  The game was one unlucky stack layout away     */
+   30  /*   from dying at any moment; it died reproducibly on entry to       */
+   31  /*   wizard mode.                                                     */
+   32  /*                                                                    */
+   33  /*   The patch makes the routine ignore the operand its own function  */
+   34  /*   code says is unused (10 is "NOT Y", 12 is "NOT X") and gives     */
+   35  /*   lenX/lenY defined values when their setup block is skipped.      */
+   36  /*   Nothing else changes.  Linked ahead of libprf.a so the archive   */
+   37  /*   member is never pulled in; "diff -u <plidir>/lib/source/bool.pli */
+   38  /*   plibool.pli" shows the whole change.                             */
+   39 
+   40  /* _pli_Bool                                                        */
+   41  /********************************************************************/
+   42  /*           Iron Spring PL/I Runtime Library Version 0.7           */
+   43  /*              Distributed under the Gnu LGPL License              */
+   44  /*                                                                  */
+   45  /*      Module:        _pli_Bool (PL/I runtime)                     */
+   46  /*      Version:       1.0                                          */
+   47  /*      Date:          Jan, 2009                                    */
+   48  /*      Author:        Peter Flass                                  */
+   49  /*                                                                  */
+   50  /*      Entry Points:  _pli_Bool Runtime BOOL builtin.              */
+   51  /*                                                                  */
+   52  /*      Function:      Perform one of 16 boolean functions          */
+   53  /*                     on two bit strings.                          */
+   54  /*                                                                  */
+   55  /*                     Bool is called for the BOOL builtin, and     */
+   56  /*                     from compiled code to perform AND, OR,       */
+   57  /*                     and NOT operations on strings longer than    */
+   58  /*                     32 bits or of indeterminate length.          */
+Aug 31, 2026  16:34    /* plibool.pli - patched copy of the Iron Spring PL/I runtime routine */                         
+1.4.1                                               Source Listing                                           Page 2     
+   59  /*                                                                  */
+   60  /*      Dependencices: PL/I Locator/Descriptor formats.             */
+   61  /*                                                                  */
+   62  /*      Calling sequence:                                           */
+   63  /*                     DCL BOOL entry( ptr, ptr, ptr, ptr,          */
+   64  /*                                     ptr, ptr, ptr, ptr )         */
+   65  /*                                ext( '_pli_Bool' )                */
+   66  /*                                options( LINKAGE(SYSTEM) );       */
+   67  /*      Arguments:                                                  */
+   68  /*        1. Address of function byte.  First 4 bits significant.   */
+   69  /*        2. Address of function desc, VARYING or nonvarying bit.   */
+   70  /*        3. Address of first source string value.                  */
+   71  /*        4. Address of first source string descriptor.             */
+   72  /*        5. Same for second source string.                         */
+   73  /*        6.            "                                           */
+   74  /*        7. Same for result string.  Result length is equal to     */
+   75  /*        8.   the length of the longest source string.             */
+   76  /*                                                                  */
+   77  /*      The result string resides on the stack and is always        */
+   78  /*      byte-aligned nonvarying.                                    */
+   79  /*                                                                  */
+   80  /*      To Do:                                                      */
+   81  /*                                                                  */
+   82  /*      Modifications:                                              */
+   83  /*                                                                  */
+   84  /********************************************************************/
+   85 
+   86  Bool: proc( args )
+   87          options( LINKAGE(SYSTEM) )
+   88          ext( '_pli_Bool' );
+   89 
+   90  /*-------------------------*/
+   91  /* Parameters              */
+   92  /*-------------------------*/
+   93  dcl     args                ptr;
+   94  dcl     pArgs               ptr;
+   95  dcl     ptrarray         (8)ptr based(pArgs);          
+   96 
+   97  /*-------------------------*/
+   98  /* Automatic Data          */
+   99  /*-------------------------*/
+  100  dcl     pData               ptr;
+  101  dcl     pDesc               ptr;
+  102  dcl    (srcX,srcY,srcTmp)   bit(32);
+  103  dcl     resSize             fixed bin(31);
+  104  dcl     j                   fixed bin(31);
+  105  dcl     fun                 fixed bin(7);
+  106          /* Common functions for BOOL:                               */
+  107          /* 1:  AND                                                  */
+  108          /* 6:  XOR                                                  */
+  109          /* 7:  OR                                                   */
+  110          /* See 
+  111             <a href="http://members.dodo.com.au/robin51/pli-n11.htm" 
+  112             PL/I Newsletter Issue 11</a> for complete list.
+  113          /*                                                          */   
+  114  dcl    (pX,pY,pRes)         ptr;
+  115  dcl    (lenX,lenY,lenRes)   fixed bin(31);
+  116  dcl   1 descriptors,
+Aug 31, 2026  16:34    /* plibool.pli - patched copy of the Iron Spring PL/I runtime routine */                         
+1.4.1                                               Source Listing                                           Page 3     
+  117          2 descX             char(8),  /* like pli_ded_STR           */
+  118          2 descY             char(8),  /*  "       "                 */
+  119          2 descTmp           char(8);  /*  "       "                 */
+  120 
+  121  /*-------------------------*/
+  122  /* Prototypes              */
+  123  /*-------------------------*/
+  124  dcl     Varying_String      char(0)   varying   based;
+  125  dcl     B8                  bit(8)              based;
+  126 
+  127 %include desc;
+127 (INF104)Processing include file DESC.
+    1  /********************************************************************/
+    2  /*                                                                  */
+    3  /*      Module:        Runtime Descriptor Formats                   */
+    4  /*      Version:       1.1                                          */
+    5  /*      Date:          Mar, 2004                                    */
+    6  /*      Author:        Peter Flass                                  */
+    7  /*                                                                  */
+    8  /*      Function:      Describes the layouts for runtime data       */
+    9  /*                     descriptors.                                 */
+   10  /*                                                                  */
+   11  /*      Dependencies:  Mapped in compiled code.                     */
+   12  /*                                                                  */
+   13  /*      To Do:                                                      */
+   14  /*                                                                  */
+   15  /*      Modifications:                                              */
+   16  /*          2024-08-05 SED fields: union, bit                  1.3.1*/
+   17  /*          2023-08-21 Area descriptors                        1.1.1*/
+   18  /*          2021-04-08 Add st_flg to string desc, change name0.8.10e*/
+   19  /*                     SE_dyn to SE_adj                      0.9.10e*/
+   20  /*          2015-09-19 UNSIGNED FIXED BINARY                  0.9.10*/
+   21  /*          2014-02-15 Add code for OPTIONS(IBM) FIXED DECIMAL 0.9.5*/
+   22  /*          2009-05-19 Add 'SE_union'                           0.7c*/
+   23  /*          2005-08-26 Revise SED format.                           */
+   24  /*          2004-03-10 Add complex, program control.                */
+   25  /*                                                                  */
+   26  /********************************************************************/
+   27 
+   28  dcl   1 pli_ded_XB          based,              /* Fixed Binary     */
+   29          5 XB_id             char(1),            /* ID - '41'x       */
+   30          5 XB_flgs           bit(8),             /* '80'bx=complex   */
+   31                                                  /* '40'bx=unsigned  */
+   32          5 XB_scale          fixed bin(7),       /* Scale Factor     */
+   33          5 XB_prec           fixed bin(7);       /* Precision        */
+   34 
+   35  dcl   1 pli_ded_XD          based,              /* Fixed Decimal    */
+   36          5 XD_id             char(1),            /* ID - '42'x       */
+   37          /* FIXED DECIMAL OPTIONS(IBM)              ID - '48'x  0.9.5*/
+   38          5 XD_cplx           bit(8),             /* '80'bx=complex   */
+   39          5 XD_scale          fixed bin(7),       /* Scale Factor     */
+   40          5 XD_prec           fixed bin(7);       /* Precision        */
+   41 
+   42  dcl   1 pli_ded_LB          based,              /* Float Binary     */
+   43          5 LB_id             char(1),            /* ID - '43'x       */
+   44          5 LB_cplx           bit(8),             /* '80'bx=complex   */
+   45          5 fil1              char(1),            /* (reserved)       */
+   46          5 LB_prec           fixed bin(7);       /* Precision        */
+Aug 31, 2026  16:34    /* plibool.pli - patched copy of the Iron Spring PL/I runtime routine */                         
+1.4.1                                               Source Listing                                           Page 4     
+   47 
+   48  dcl   1 pli_ded_LD          based,              /* Float Decimal    */
+   49          5 LD_id             char(1),            /* ID - '44'x       */
+   50          5 LD_cplx           bit(8),             /* '80'bx=complex   */
+   51          5 fil1              char(1),            /* (reserved)       */
+   52          5 LD_prec           fixed bin(7);       /* Precision        */
+   53 
+   54  dcl   1 pli_ded_NP          based,              /* Numeric Picture  */
+   55          5 NP_id             char(1),            /* ID - '45'x Fixed */
+   56                                                  /* ID - '46'x Float */
+   57          5 NP_cplx           bit(8),             /* '80'bx=complex   */
+   58          5 NP_scale          fixed bin(7),       /* Scale Factor     */
+   59          5 NP_prec           fixed bin(7),       /* Precision (# dig)*/
+   60          5 NP_flags          bit(8),             /* Flag byte        */
+   61                              /* '80'bx - signed                      */
+   62                              /* '40'bx - (float picture) exp signed. */
+   63                              /* '20'bx - at least one digit        . */
+   64          5 fil2              char(1),            /* (reserved)       */
+   65          5 NP_size           fixed bin(7),       /* Data length      */
+   66          5 NP_piclen         fixed bin(7),       /* Picture length   */
+   67          5 NP_pic            char(0);            /* Picture spec.    */
+   68 
+   69  dcl   1 pli_ded_CP          based,              /* Character Picture*/
+   70          5 CP_id             char(1),            /* ID - '47'x       */
+   71          5 fil1              char(1),            /* (reserved)       */
+   72          5 CP_size           fixed bin(7),       /* Data length      */
+   73          5 CP_piclen         fixed bin(7),       /* Picture length   */
+   74          5 CP_pic            char(0);            /* Picture spec.    */
+   75 
+   76  dcl   1 pli_ded_STR         based,              /* String ded       */
+   77          5 ST_id             char(1),            /* ID -             */
+   78          /* Nonvarying Character   '10'x                             */
+   79          /* Varying character      '11'x                             */
+   80          /* Nonvarying Bit         '20'x                             */
+   81          /* Varying Bit            '21'x                             */
+   82          5 st_flg            bit(8),             /* Flag bits 0.9.10e*/
+   83          /* Unaligned bit string   '80'bx                       1.3.1*/
+   84          5 fil1              char(1),            /* (reserved20050811*/
+   85          5 ST_bo             fixed bin(7),       /* Bit offset       */
+   86          5 ST_len            fixed bin(31);      /* Max length       */
+   87 
+   88  dcl   1 pli_ded_PC          based,              /* Program Control  */
+   89          5 PC_id             char(1),            /* ID - '50'x       */
+   90          5 fil1              char(1),            /* (reserved)       */
+   91          5 PC_type           char(2),            /* Type             */
+   92                              /* '0080'x - Label                      */
+   93                              /* '0040'x - File                       */
+   94                              /* '0020'x - Entry                      */
+   95                              /* '0010'x - Pointer                    */
+   96                              /* '0008'x - Offset                     */
+   97                              /* '0004'x - Area                       */
+   98                              /* '0002'x - Event                      */
+   99                              /* '0001'x - Task                       */
+  100          /* PC_size is present only for area descriptors. I was 1.1.1*/
+  101          /* going to make them a separate type (51), but didn't.1.1.1*/
+  102          5 PC_size           fixed bin(31);      /* Area size   1.1.1*/
+  103 
+  104  dcl   1 pli_ded_ARR         based,              /* Array ded        */
+Aug 31, 2026  16:34    /* plibool.pli - patched copy of the Iron Spring PL/I runtime routine */                         
+1.4.1                                               Source Listing                                           Page 5     
+  105          5 AR_id             char(1),            /* ID - '30'x     00*/
+  106          5 AR_unalbit        bit(1),             /* Bit subscr'80'bx */
+  107          /* '1'b = Multipliers represent units of bits               */
+  108          /* '0'b = Multipliers represent units of bytes              */
+  109          5 AR_adj            bit(1),             /* Adj array '40'bx */
+  110          /* '1'b = Adjustable                                        */
+  111          /* '0'b = Non-adjustable                                    */
+  112          5 AR_refer          bit(1),             /* Refer-form'20'bx */
+  113          /* '1'b = Use refer for dimensions                   0.9.10e*/
+  114          /* '0'b = Standard array definition                  0.9.10e*/
+  115          5 AR_iSub           bit(1),             /* iSub-defin'10'bx */
+  116          /* '1'b = iSub-defined                                 1.2.1*/
+  117          /* '0'b = Not iSub-defined                             1.2.1*/
+  118          5 AR_StarName       bit(1),             /* Name is *   1.4.1*/
+  119          /* '1'b = Asterisk                                     1.4.1*/
+  120          /* '0'b = Not Asterisk                                 1.4.1*/
+  121          5 fil1              bit(3),             /* (reserved)  1.4.1*/
+  122          /* Array cross-section?                                     */
+  123          5 AR_dim            fixed bin(15),      /* Num of dim's   02*/
+  124          /* RVO is negative if the lbound is > 1                     */
+  125          5 AR_rvo            fixed bin(31),      /* Virt orig20061104*/
+  126          5 AR_dims           char(0);            /* Dimension data 08*/
+  127 
+  128  /* 'AR_dim' dimensions like pli_ded_Dim follow at 'AR_dims'         */
+  129  dcl   1 pli_ded_Dim      (1)based,              /* Dimension      00*/
+  130          5 DM_mult           fixed bin(31),      /* Multiplier     00*/
+  131          5 DM_lbnd           fixed bin(31),      /* Lowest Subscrip04*/
+  132          5 DM_hbnd           fixed bin(31),      /* Highest Subscri08*/
+  133          5 DM_next           char(0);            /* A(Next dimensio0C*/
+  134          /* String desc follows for array of strings                 */
+  135          /* Structure desc follows for array of structures           */
+  136 
+  137  /* Structure Descriptor Descriptor (SDD)                            */
+  138  /* SDD points to list of element info (SED list) for structures     */
+  139  dcl   1 pli_ded_SDD         based,              /* Struct Descriptor*/
+  140          5 SDD_id            char(1),            /* ID - '80'x       */
+  141          5 SDD_flag          bit(8),             /* Flag bits   1.3,1*/
+  142          /* 1... .... ('80'bx) - scalar reference to one array elem  */
+  143          /* .1.. .... ('40'bx) - element of array of structures      */
+  144          5 fil1              char(2),            /* (unused)    1.3.1*/
+  145          5 SDD_pSED          ptr;                /* ->First SED      */
+  146 
+  147  /* Structure descriptors are placeholders for arrays of structures. */
+  148  dcl   1 pli_ded_SD          based,              /* Struct Descriptor*/
+  149          5 SD_id             char(1),            /* ID - '85'x       */
+  150          5 fil1              char(3);            /* (unused)         */
+  151 
+  152  /* Structure element descriptors (SEDs) have an entry               */
+  153  /* for each element and minor structure.                            */
+  154  /* An entry following the last contains the offset of the byte      */
+  155  /* following the structure (structure length)                       */
+  156          /* SED format:                                              */
+  157          /*    +0: Flag word                                         */
+  158          /*    +4: Element offset in structure                       */
+  159          /*    +8: Element Descriptor address                        */
+  160  dcl   1 pli_ded_SED         based,              /* Struct Elem desc.*/
+  161          5 fil1,                                 /* Flag byte        */
+  162            10 SE_str         bit(1),             /*              00.0*/
+Aug 31, 2026  16:34    /* plibool.pli - patched copy of the Iron Spring PL/I runtime routine */                         
+1.4.1                                               Source Listing                                           Page 6     
+  163            /* '1'b - Structure                         '80'bx        */
+  164            /* '0'b - Element                                         */
+  165            10 SE_array       bit(1),             /*              00.1*/
+  166            /* '1'b - Structure or element is array     '40'bx        */
+  167            /* '0'b - Structure or element is scalar                  */
+  168            10 SE_last        bit(1),             /*              00.2*/
+  169            /* '1'b - This is last structure element    '20'bx        */
+  170            /* '0'b - Not last structure element                      */
+  171            10 SE_adj         bit(1),             /*           0.9.10e*/
+  172            /* '1'b - This is adjustable element        '10'bx        */
+  173            /* '0'b - Not adjustable element                          */
+  174            10 SE_alignd      bit(1),             /* Alignment opt00.4*/
+  175            /* '1'b - 'ALIGNED'                         '08'bx        */
+  176            /* '0'b - 'UNALIGNED'                                     */
+  177            10 SE_union       bit(1),             /* Alignment opt00.5*/
+  178            /* '1'b - 'UNION'                           '04'bx        */
+  179            /* '0'b - Not a union                                     */
+  180            10 SE_bit         bit(1),             /* Bit struct  1.3.1*/
+  181            /* '1'b - Structure is unaligned bits       '02'bx   1.3.1*/
+  182            10 fil2           bit(1),             /* (reserved)  1.3.3*/
+  183            10 SE_lvl         bit(8),             /* Norm level   01  */
+  184            10 SE_align       fixed bin(7),       /* Alignment    02  */
+  185            10 SE_bitoffset   fixed bin(7),       /* Bit offset   03  */
+  186          5 SE_offset         fixed bin(31),      /* Base elem off04  */
+  187          5 SE_desc           ptr,                /* Desc addr    08  */
+  188          /* No descriptor present for structures that aren't arrays. */
+  189          5 SE_end            char(0);            /* addr(next_SED0C  */
+  190          /* The last SED for a major structure is followed by a      */
+  191          /* dword of zeroes (placeholder for the ID dword) and the   */
+  192          /* offset of the last+1 byte of the structure.              */
+  193          /* This equals the size of the structure.                   */
+  194 
+  128 %include locdesc;
+  129 
+128 (INF104)Processing include file L0CDESC.
+    1  /********************************************************************/
+    2  /*                                                                  */
+    3  /*      Module:        Locator/Descriptor Pair                      */
+    4  /*      Version:       1.0                                          */
+    5  /*      Date:          Dec, 2003                                    */
+    6  /*      Author:        Peter Flass                                  */
+    7  /*                                                                  */
+    8  /*      Function:      Description of a runtime Locator/Descriptor  */
+    9  /*                     pair, used for argument passing according    */
+   10  /*                     to PL/I conventions, and addressing          */
+   11  /*                     CONTROLLED and adjustable data.              */
+   12  /*                                                                  */
+   13  /*      Dependencies:  Mapped in compiled code.                     */
+   14  /*                                                                  */
+   15  /*      To Do:                                                      */
+   16  /*                                                                  */
+   17  /*      Modifications:                                              */
+   18  /*                                                                  */
+   19  /********************************************************************/
+   20 
+   21  dcl   1 LocDesc             based,
+   22          5 pData             ptr,      /* -> Data element            */
+   23          5 pDesc             ptr;      /* -> Descriptor              */
+Aug 31, 2026  16:34    /* plibool.pli - patched copy of the Iron Spring PL/I runtime routine */                         
+1.4.1                                               Source Listing                                           Page 7     
+   24 
+  130  /*-------------------------*/
+  131  /* Static Data             */
+  132  /*-------------------------*/
+  133 
+  134  /*-------------------------*/
+  135  /* External Declarations   */
+  136  /*-------------------------*/
+  137  dcl     MBS                 entry( ptr, ptr, ptr, ptr )
+  138                              ext( '_pli_MBS' )
+  139                              options( LINKAGE(SYSTEM) ); 
+  140  dcl    (addr,length,max,min,null,plifill,plimove,stg,sysnull,substr)
+  141                              builtin;
+  142  %page;
+  143  /*-----------------------------------*/
+Aug 31, 2026  16:34    /* plibool.pli - patched copy of the Iron Spring PL/I runtime routine */                         
+1.4.1                                               Source Listing                                           Page 8     
+  144  /* Initialize Result                 */
+  145  /*-----------------------------------*/
+  146  pArgs = addr(args);                   /* Get argument list          */
+  147  pRes  = ptrarray(7);                  /* ->Result string            */
+  148  pDesc = ptrarray(8);                  /* ->Result descriptor        */
+  149  lenRes = pDesc->ST_len;               /* Get result length          */
+  150  resSize = (pDesc->ST_len+7)/8;        /* Result length in bytes     */
+  151  call plifill(pRes,'00'x,resSize);     /* Initialize result string   */
+  152 
+  153  /*-----------------------------------*/
+  154  /* Get function code                 */
+  155  /*-----------------------------------*/
+  156  srcX  = (4)'00'bx;                    /* Clear workarea             */
+  157  pData = ptrarray(1);                  /* ->Function string          */
+  158  pDesc = ptrarray(2);                  /* ->Function descriptor      */
+  159  j     = pDesc->ST_len;                /* Get function [max] length  */
+  160  if pDesc->ST_id = '21'x then do;      /* VARYING string?            */
+  161    j     = length(pData->Varying_String);  /* Yes, get current length*/
+  162    pData = pData+stg(null->Varying_String);/*      and ->Data        */
+  163    end; /* varying */
+  164  if j>=4                               /* Get function string        */
+  165  then substr(srcX,29,4) = substr(pData->B8,1,4);
+  166  else substr(srcX,32-j+1,j) = substr(pData->B8,1,j);
+  167  fun = srcX;
+  168 
+  169  /*-----------------------------------*/
+  170  /* Do some trivial operations        */
+  171  /*-----------------------------------*/
+  172  if fun=0  then return;                /* '0000'b = FALSE            */
+  173  if fun=15 then do;                    /* '1111'b = TRUE             */
+  174    call plifill(pRes,'FF'x,resSize);
+  175    return;
+  176    end;
+  177  if fun=3 then do;                     /* '0011'b = X                */
+  178    call MBS( ptrarray(3), ptrarray(4),
+  179              ptrarray(7), ptrarray(8) );
+  180    return;
+  181    end;
+  182  if fun=5 then do;                     /* '0101'b = Y                */
+  183    call MBS( ptrarray(5), ptrarray(6),
+  184              ptrarray(7), ptrarray(8) );
+  185    return;
+  186    end;
+  187 
+  188  /*-----------------------------------*/
+  189  /* Set up Descriptors for data       */
+  190  /*-----------------------------------*/
+  191  call plifill( addr(descriptors), '00'x, stg(descriptors) );
+  192  addr(descTmp)->ST_id  = '20'x;        /* Build descriptors          */
+  193  addr(descTmp)->ST_len = 32;
+  194  addr(descX)->ST_id    = '20'x;
+  195  addr(descY)->ST_id    = '20'x;
+  196  lenX,lenY = 0;                        /* PATCH: undefined if the  */
+  197                                        /* operand block is skipped */
+  198  pX = ptrarray(3);
+  199  pDesc = ptrarray(4);                  /* Get X length               */
+  200  if fun=10 then pDesc = sysnull;       /* PATCH: X unused for ªY   */
+Aug 31, 2026  16:34    /* plibool.pli - patched copy of the Iron Spring PL/I runtime routine */                         
+1.4.1                                               Source Listing                                           Page 9     
+  201  if pDescª=sysnull then do;
+  202    addr(descX)->ST_bo  = pDesc->ST_bo;
+  203    lenX = pDesc->ST_len;
+  204    if pDesc->ST_id = '21'x then do;
+  205      lenX = length(pX->Varying_String);
+  206      pX = pX + stg(null->Varying_String);
+  207      end;
+  208    addr(descX)->ST_len = lenX;
+  209    end;
+  210  pY = ptrarray(5);
+  211  pDesc = ptrarray(6);                  /* Get Y length               */
+  212  if fun=12 then pDesc = sysnull;       /* PATCH: Y unused for ªX   */
+  213  if pDescª=sysnull then do;
+  214    addr(descY)->ST_bo  = pDesc->ST_bo;
+  215    lenY = pDesc->ST_len;
+  216    if pDesc->ST_id = '21'x then do;
+  217      lenY = length(pY->Varying_String);
+  218      pY = pY + stg(null->Varying_String);
+  219      end;
+  220    addr(descY)->ST_len = lenY;
+  221    end;
+  222  if fun=10 then lenX=0;                /* ªY                         */
+  223  if fun=12 then lenY=0;                /* ªX                         */
+  224 
+  225  /*-----------------------------------*/
+  226  /* Loop to do everything else        */
+  227  /*-----------------------------------*/
+  228  do while( lenRes>0 );
+  229    srcX,srcY = (4)'00'bx;
+  230    if lenX>0 then do;                  /* Get 'X' source 32 bits     */
+  231      call MBS( pX, addr(descX),
+  232                addr(srcX), addr(descTmp) );
+  233      lenX = lenX-32;
+  234      pX   = pX+4;
+  235      end;
+  236    if lenY>0 then do;                  /* Get 'X' source 32 bits     */
+  237      call MBS( pY, addr(descY),
+  238                addr(srcY), addr(descTmp) );
+  239      lenY = lenY-32;
+  240      pY   = pY+4;
+  241      end;
+  242    select(fun);
+  243      when( 1) do;                      /* X&Y                        */
+  244        srcX = srcX & srcY;
+  245        end; /*  1 */
+  246      when( 2) do;                      /* X&ªY                       */
+  247        srcY = ªsrcY;
+  248        srcx = srcX & srcY;
+  249        end; /*  2 */
+  250      when( 4) do;                      /* ªX&Y                       */
+  251        srcX = ªsrcX & srcY;
+  252        end; /*  4 */
+  253      when( 6) do;                      /* X <xor> Y                  */
+  254        /* Some PL/Is use the symbol '^' to represent exclusive or    */
+  255        /* X^Y = (ªX&Y) | (X&ªY)                                      */
+  256        srcTmp = ªsrcX & srcY;
+  257        srcX   = srcX & ªsrcY;
+  258        srcX = srcX | srcTmp;
+Aug 31, 2026  16:34    /* plibool.pli - patched copy of the Iron Spring PL/I runtime routine */                         
+1.4.1                                               Source Listing                                           Page 10    
+  259        end; /*  6 */
+  260      when( 7) do;                      /* X|Y                        */
+  261        srcX = srcX | srcY;
+  262        end; /*  7 */
+  263      when( 8) do;                      /* ª(X|Y)                     */
+  264        srcx = ª( srcX | srcY );
+  265        end; /*  8 */
+  266      when( 9) do;                      /* (X&Y)|(ªX&ªY)              */
+  267        srcTmp = ªsrcX & ªsrcY;
+  268        srcx = (srcX & srcY) | srcTmp;
+  269        end; /*  9 */
+  270      when(10) do;                      /* ªY                         */
+  271        srcX = ªsrcY;
+  272        end; /* 10 */
+  273      when(11) do;                      /* X|ªY                       */
+  274        srcX = srcX | ªsrcY;
+  275        end; /* 11 */
+  276      when(12) do;                      /* ªX                         */
+  277        srcX = ªsrcX;
+  278        end; /* 12 */
+  279      when(13) do;                      /* ªX|Y                       */
+  280        srcX = ªsrcX | srcY;
+  281        end; /* 13 */
+  282      when(14) do;                      /* ª(X&Y)                     */
+  283        srcX = ª( srcX & srcY );
+  284        end; /* 14 */
+  285      end; /* select */
+  286    /* Since the output is always aligned, just move it.              */
+  287    j = min( 4, (lenRes+7)/8 );
+  288    call plimove( pRes, addr(srcX), j );
+  289    lenRes = lenRes-32;
+  290    pRes   = pRes+4;
+  291    end; /* do while */   
+  292 
+  293  end Bool;
+  294 
+
+End of compilation. 

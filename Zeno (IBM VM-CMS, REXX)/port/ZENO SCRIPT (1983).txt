@@ -1,0 +1,87 @@
+ZENO 1.1
+ 
+Note: In 1983 REXX was called REX and is referred to by that name here.
+ 
+ZENO is an experimental REX exec (currently in version 1, the initial
+prototype). It was written (in the author's own time) in 1983:
+ 
+ (i)   to provide an interactive environment to stimulate the learning of
+       problem-solving skills (debugging etc)
+ 
+ (ii)  to demonstrate the expressive power of REX (though the prototype
+       should NOT be taken as illustrating good programming style)
+ 
+ (iii) to show that an interpreted language CAN provide adequate
+       performance, even for a large complex application
+ 
+ (iv)  to prototype a number of "Personal Computer" characteristics
+       (e.g. a VDU scroller, command language, full-screen editor etc)
+ 
+ (v)   to experiment with the computer control of a variety of complex
+       devices (lifts, robots etc)
+ 
+ (vi)  for entertainment (outside business hours)
+ 
+Although ZENO takes the appearance of a "computerised fantasy game", it
+does have serious educational intent. The "computer" within ZENO gives
+to the player a level of control unusual (if not unique) in such games.
+(It should also be noted that when the program was written the author's
+job was teaching IBM customers subjects like program design).
+ 
+The ZENO package consists of 4 files:
+ 
+  1. ZENO SCRIPT   - you are reading it
+  2. ZENO EXEC     - a large REX EXEC
+  3. ZENO INITDATA - initial data read by the EXEC (using EXECIO)
+  4. ZENO IOS3270  - screens used by the EXEC (Help etc)
+ 
+ZENO required REX Version 3 or later, IOS3270 and EXECIO. If EXECIO is not avail
+able,
+STACKIO can be used instead (just change one line at the start of the EXEC).
+The EXEC should run in a 512K machine.
+ 
+The current version is highly experimental, and is seriously deficient in
+a number of areas (poor descriptions, limited world to explore, nasty
+"programming" language etc). As a suggested "script" for beginners,
+try the following:
+ 
+  Command           Comment
+  .....................................................................
+ 
+  go to lift        (just "lift" or "door" will do)
+  press the button  ("butt" is enough - just first 4 characters
+                    (nothing happens since no lift program is working)
+  read the notebook (again, "note" is enough)
+                    (try writing in the notebook)
+  go back to room   (you will find you are now carrying the book)
+  go to computer    (different commands allowed here)
+  active            (notice nothing is running)
+  air               (starts the air pump - stops you suffocating!)
+  list              (notice the scrolling)
+  e lift            (you are now in the full-screen editor)
+  help              (to find out about the editor)
+  ....              (play with editor commands)
+  quit              (best not to muck up the lift program yet)
+  lift              (runs the lift program)
+  terminal          (runs the terminal program - asks for input)
+  active            (both lift and terminal should be active)
+                    (stats indicate next line to execute and when)
+  ENABLED           (data for terminal prg - note it didn't take "active"
+  PF3               (leave computer)
+  lift              (back to lift)
+  button            (now something happens)
+  ....              (takes a move to get to next floor)
+  room              (different place)
+  terminal          (not all commands are valid at terminals!!)
+ 
+After that you're on your own - there are books lying about to help.
+Use SAVE and RESTORE to save programs and notes for later sessions.
+Be warned that you can do very fancy things using the ROBOT to run
+programs through voice I/O, and he can be very useful as a debugger
+(eg if you are in the same room as he is, and a voice I/O program is
+running, you have as much power as if you were at a terminal - this can
+save your life if the lift program abends with you in the lift!).
+ 
+Please send all comments and suggestions to the author:
+ 
+      Dave Mitchell (was ZENO at WINVMB, now zenoshrdlu at gmail.com)

@@ -1,0 +1,102 @@
+$LISTER -- a directory/catalog utility, NOT part of UNDERGROUND.
+
+Source: 07192612.PDF (single page). This sheet was in the same scan batch
+but is a different program: it prints a "CATALOG OF" listing using RAD$,
+SWAP%, DATE$/TIME$ and SYS() calls. Only one page was scanned, so the
+listing below is a fragment that breaks off at line 210.
+
+The right margin carries handwritten working notes (transcribed at the
+end). Line 7 is partly obscured by a fold.
+
+
+7 ON ERROR GOTO 251 : OPEN "$LISTER.DOC" FOR INPUT AS FILE 1%
+8 INPUTLINE #1%,A$ : &A$; : GOTO 8
+10 DIM C2%(40%),C1%(25%),A%(30%),A$(1024%):GOTO20
+15 &"IMPROPER SPECIFICATION"
+20 ONERRORGOTO 252 : A%(0%)=30% : A%(I%)=0% FOR I%=1% TO 30% :
+   C%(I%)=0% FOR I%=1% TO 6% : T%,T1%=0%
+30 PRINT"ACCOUNT";:INPUTLINE C$:C$=LEFT(C$,LEN(C$)-2%):CHANGE C$ TO C2%:
+   K%=0%:FOR I%=1% TO C2%(0%) : IF C2%(I%)=32% THEN 40 ELSE K%=K%+1%:
+   C1%(K%)=C2%(I%) : IF C1%(K%)>96% THEN C1%(K%)=C1%(K%)-32%
+40 NEXT I%:C1%(0%)=K% : CHANGE C1% TO C$ : J%=INSTR(1%,C$,"/"):
+   IF J%=0% THEN  C1$=C$ : C2$="":T%=7%:GOTO 48
+45 C1$=LEFT(C$,J%-1%) : C2$=RIGHT(C$,J%+1%)
+47 GOTO 48 IF LEN(C2$)=0% : FOR I%=1% TO LEN(C2$):
+   J%=INSTR(1%,"AL P",MID(C2$,I%,1%)) : T%=T%+J% : NEXT I%
+48 IF T%<2% THEN K1%=6% : K2%=12% : GOTO 50
+49 K1%=4% : K2%=18%
+50 T=T% : IF T/2=INT(T/2) THEN T1%=1%
+51 J%=INSTR(1%,C1$,":") : GOTO 15 IF J%=3% : J1%=INSTR(1%,C1$,"D") :
+   IF J% THEN IF J1% THEN 55 ELSE 15
+52 IF J1% THEN 15 ELSE 70
+55 IF J1%>1% OR J%-J1%=1% THEN 15
+60 C%(1%)=68% : C%(2%)=ASCII(MID(C1$,2%,1%)): IF J%>4% THEN 15 ELSE
+   IF J%=4% THEN C%(3%)=VAL(MID(C1$,3%,1%)):
+   C%(4%)=255%
+65 IF J%=LEN(C1$) THEN 100
+70 J%=INSTR(1%,C1$,"["):J1%=INSTR(1%,C1$,"]"):IF J% THEN IF J1%
+   THEN 75 ELSE 15
+72 D%=0%: IF J1% THEN 15 ELSE IF INSTR(1%,C1$,"$") THEN D%=1%:
+   C%(5%)=1% : C%(6%)=2% : GOTO 120
+73 IF C1$="" THEN 100 ELSE 15
+75 C9$=MID(C1$,J%+1%,J1%-J%-1%) : GOTO 100 IF C9$="" :
+   J2%=INSTR(1%,C9$,",") : GOTO 15 IF J2%<2% OR J2%=LEN(C9$)
+80 C1%,C2%=0% : C5$=LEFT(C9$,J2%-1%) : C6$=RIGHT(C9$,J2%+1%) :
+   IF C5$="*" THEN IF C6$="*" THEN 95 ELSE 15
+85 IF C6$="*" THEN C1%=1% : C%=VAL(C5$) : GOTO 95
+90 C%(5%)=VAL(C5$) : C%(6%)=VAL(C6$) : GOTO 120
+95 C2%=1%
+97 C3%=0%
+100 ONERRORGOTO 254 : DIM B%(30%) : B%(0%)=30% : B%(1%)=6% :
+    B%(2%)=14%
+105 IF C2%THEN 110
+106 B%(I%)=0% FOR I%=3% TO 30% : GOTO 115
+110 C3%=C3%+1% : B%(3%)=C3% : B%(4%)=0% : IF C3%>255% THEN B%(3%)=0%:
+    B%(4%)=C3%-256%
+112 B%(I%)=0% FOR I%=5% TO 22% : B%(23%)=C%(1%) : B%(24%)=C%(2%) :
+    B%(25%)=C%(3%) : B%(26%)=C%(4%)
+115 CHANGE B% TO B$ : CHANGE SYS(B$) TO B% : IF C1% THEN
+    IF C%<>B%(8%) THEN 100
+116 C%(5%)=B%(8%) : C%(6%)=B%(7%)
+118 IF C2% AND B%(3%)=0% THEN C2%=0%
+120 D$=RIGHT(LEFT(NUM$(C%(5%)),LEN(NUM$(C%(5%)))-1%),2%) :
+    D1$=RIGHT(LEFT(NUM$(C%(6%)),LEN(NUM$(C%(6%)))-1%),2%)
+122 IF D$="1" AND D1$="2" AND D% THEN D$="" : D1$="$"
+125 I1%=LEN(D$+D1$) : I1%=I1%+4% IF C%(1%) : I1%=14%-I1%/2%
+130 &:&:&TAB(I1%);"CATALOG OF ";:IF C%(1%) THEN &CHR$(C%(1%));
+    CHR$(C%(2%));:IF C%(4%) THEN &":"; ELSE &RIGHT(LEFT(NUM$(
+    C%(3%)),LEN(NUM$(C%(3%)))-1%),2%);":";
+136 IF D$="" THEN &D1$; ELSE &"["D$","D1$"]";
+138 &" ON ";DATE$(0%);" AT ";TIME$(0%) : & : Q%,Q1%,R%=0%
+150 ONERRORGOTO 252 : A%(1%)=6% : A%(2%)=15% :
+        A%(3%)=Q1%-Q1%/256%*256% : A%(4%)=Q1%/256%
+160 A%(5%)=C%(6%):A%(6%)=C%(5%):A%(23%)=C%(1%):A%(24%)=C%(2%):
+    A%(25%)=C%(3%) : A%(26%)=C%(4%) : CHANGE A% TO A$ : CHANGE
+    SYS(A$) TO A% : Q%=Q%+1% : Q1%=Q1%+1%
+210 A$(Q%)=RAD$(A%(7%) + SWAP%(A%(8%))) + RAD$(A%(9%)+SWAP%(A%(10%)))
+
+    [listing breaks off -- no further pages were scanned]
+
+
+---------------------------------------------------------------------
+HANDWRITTEN MARGIN NOTES (right-hand side of the sheet)
+---------------------------------------------------------------------
+K1% = 6%
+K2% = 12%
+T1% = 1%
+J% = 1%           [reading uncertain]
+J1% = 5%          [reading uncertain]
+
+(+,*)             [beside line 51]
+C9$ = "*,*"
+J2% = 2
+C5$ = "*"
+C6$ = "*"
+C2% = 1%
+
+beside line 105:  SYS(CHR$(6%)+CHR$(14%)+CVT%$(X%))
+beside line 115:  1024 / 1536 / 1554
+beside line 130:  (A,B)
+beside line 150:  SYS(CHR$(6)+CHR$(15)+CVT$%(X%)+CHR$(8)+CHR$(A...
+                  [runs off the edge of the sheet]
+beside line 95:   "6 14 ..." with a scribbled-out calculation

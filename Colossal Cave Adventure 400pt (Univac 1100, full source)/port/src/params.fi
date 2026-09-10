@@ -1,0 +1,13 @@
+C  Array size parameters for Adventure (from FTNDEFS)
+
+      parameter (linsiz = 12900)
+      parameter (trvsiz = 840)
+      parameter (tabsiz = 340)
+      parameter (locsiz = 160)
+      parameter (objsiz = 100)
+      parameter (objsi2 = objsiz*2)
+      parameter (vrbsiz = 40)
+      parameter (rtxsiz = 220)
+      parameter (levsiz = 12)
+      parameter (hntsiz = 20)
+      parameter (magsiz = 35)

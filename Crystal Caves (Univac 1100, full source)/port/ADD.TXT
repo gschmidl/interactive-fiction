@@ -1,0 +1,9 @@
+n                   . don't want to see hours
+n                   . don't want to change hours
+n                   . don't want to schedule holiday
+0                   . same short game length
+                    .
+0                   . same magic number
+0                   . same restart latency
+y                   . change message of the day
+@add      motd/add  . canned message

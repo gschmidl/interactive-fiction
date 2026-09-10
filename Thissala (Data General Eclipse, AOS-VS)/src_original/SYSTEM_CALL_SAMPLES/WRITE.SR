@@ -1,0 +1,163 @@
+;*       Copyright (C) Data General Corporation, 1980 - 1994          *;
+;*       All rights reserved.                                         *;
+;*       Licensed material -- property of Data General Corporation    *;
+;*                                                                    *;
+;*       This software is made available solely pursuant to the       *;
+;*       terms of a DGC license agreement which governs its use.      *;
+; This program opens the terminal (@CONSOLE), then
+;    opens a disk file named FILE. This opening
+;    creates FILE, deleting it first if it exists.
+;    The program then reads input from the terminal,
+;    a line at a time, and writes it to file FILE.
+;    When the user types RD, the program positions
+;    FILE at its beginning, writes all of its records
+;    (lines) to the terminal, and ends. The example
+;    shows calls ?OPEN, ?OPEN with file create/deletion,
+;    ?READ, ?WRITE, ?SPOS, and ?CLOSE. There are
+;    two ?OPEN packets: 1 for @CONSOLE, 1 for FILE.
+
+        .TITLE  WRITE
+        .ENT    WRITE
+        .NREL   ; Default to partition 4.
+
+        ; Open terminal (@CONSOLE) and FILE for input and output.
+
+WRITE:  ?OPEN   CONSOLE  ; Open for Input/Output.
+        WBR     ERROR    ; Error, process it.
+        ?OPEN   FILE     ; Open (create?) FILE.
+        WBR     ERROR    ; Error, process it.
+
+        ; Write greeting and put I/O buffer byte pointer in the packet.
+
+        ?WRITE  CONSOLE  ; Write message.
+        WBR     ERROR    ; Error, process it.
+        XLEFB   0,BUF*2  ; Get byte pointer to I/O buffer.
+        XWSTA   0, CONSOLE+?IBAD ; Put in CON packet.
+
+        ; Read line, check for terminator, write to FILE.
+
+        NLDAI   'RD', 0  ; Put 'RD' terminator in AC0.
+
+LOOP:   ?READ   CONSOLE  ; Read a line.
+        WBR     ERROR    ; Error, process it.
+        XNLDA   1, BUF   ; Get first word of buffer.
+        WSNE    0,1      ; Did user type RD?
+        WBR     SPOS     ;    Yes, do ?SPOS.
+        ?WRITE  FILE     ;    No, write line to FILE.
+        WBR     ERROR    ; Error, process it.
+        WBR     LOOP     ; Get next line from user.
+
+        ; Set position at beginning of FILE.
+
+SPOS:   NLDAI   0, 1     ; Get 0 in AC1.
+        XWSTA   1, FILE+?IRNH ; Put in record number word.
+        XNLDA   2, FILE+?ISTI ; Get FILE's specifications.
+        WMOV    2, 0          ; Save old specifications in AC0.
+        WIORI   ?IPST,  2     ; Add ?IPST specification.
+        XNSTA   2, FILE+?ISTI ; Put in FILE specifications.
+        ?SPOS   FILE          ; Position at FILE start.
+        WBR     ERROR         ; Error, process it.
+        XNSTA   0, FILE+?ISTI ; Restore old specifications.
+
+        ; Read lines back from FILE, write to terminal.
+
+LOOP1:  ?READ   FILE     ; Read from FILE into buffer.
+        WBR     EOF      ; Error, test for EOF.
+        ?WRITE  CONSOLE  ; Write line to CON.
+        WBR     ERROR    ; Error, process it.
+        WBR     LOOP1    ; Read/Write another line.
+
+EOF:    NLDAI   EREOF, 2 ; Code for End of File.
+        WSEQ    0, 2     ; Skip if error is EOF.
+        WBR     ERROR    ; Other error, process.
+
+        ; CLOSE the file.
+
+CLOSE:  ?CLOSE  CONSOLE  ; Close terminal.
+        WBR     ERROR    ; Error, process it.
+        ?CLOSE  FILE     ; Close FILE.
+        WBR     ERROR    ; Error, process it.
+        WSUB    2,2      ; Set good return flags.
+        WBR     BYE      ; Skip error flags.
+
+        ;  Process error and/or return here.
+
+ERROR:  WLDAI   ?RFEC+?RFCF+?RFER,  2  ; Error flags.
+BYE:    ?RETURN          ; To CLI.
+        WBR     ERROR    ; Return error.
+
+        ; Open and I/O packet for terminal (minimum packet).
+
+        .ENABLE WORD     ; Most entries = 16 bits.
+
+        ; Open and I/O packet -- needed for I/O.
+
+CONSOLE: .BLK   ?IBLT    ; Packet length.
+        .LOC    CONSOLE+?ISTI
+        ?ICRF+?RTDS+?OFIO ; Data-sensitive records, Input/Output.
+        .LOC    CONSOLE+?IMRS
+         -1              ; Memory block size, default to 2048.
+        .LOC    CONSOLE+?IBAD
+        .DWORD  ITEXT*2  ; 2-word byte pointer to message and
+                         ;    later to I/O buffer.
+        .LOC    CONSOLE+?IRCL   
+        120.             ; Maximum record length of 120 characters.
+        .LOC    CONSOLE+?IFNP
+        .DWORD  CON*2    ; 2-word byte pointer to filename.
+        .LOC    CONSOLE+?IDEL
+        .DWORD  -1       ; Data-sensitive delimiter table address;
+                         ;    default to NL, CR, NUL.
+        .LOC    CONSOLE+?IBLT ; Default others to 0.
+        ; End of console I/O packet.
+
+        ; Filename, buffer, messages.  .NOLOC 1 follows.
+        .NOLOC  1        ; To save listing space.
+
+CON:    .TXT "@CONSOLE"  ; Use generic name.
+
+BUF:    .BLK 60.         ; 60. words, 120. characters.
+
+ITEXT:  .TXT "I write lines to file FILE. Type
+ RD[NL] to read lines back and stop.<12>"
+
+        .NOLOC  0        ; Resume listing.
+
+        ; Open and I/O packet for FILE. You can omit
+        ;    entries set to 0 if you specify a packet length
+        ;    of ?IBLT, as shown with .BLK and .LOC here.
+FILE:   .BLK    ?IBLT    ; Packet length.
+        .LOC    FILE+?ICH
+        0                ; For system-created channel number.
+        .LOC    FILE+?ISTI
+        ?OFCR+?OFCE+?ICRF+?RTDS+?OFIO ; Delete and recreate,
+                         ; change format if needed, data-sensitive
+                         ; records, input and output.
+        .LOC    FILE+?ISTO
+        0                ; Default file type.
+        .LOC    FILE+?IMRS
+         -1              ; Memory block size, default to 2048.
+        .LOC    FILE+?IBAD
+        .DWORD  BUF*2    ; Buffer. Use same as CONSOLE.
+        .LOC    FILE+?IRES
+        0                ; Tape density, default to VSGEN.
+        .LOC    FILE+?IRCL      
+        120.             ; Maximum record length of 120 characters.
+        .LOC    FILE+?IRLR
+        0                ; System returns number of chars. transferred.
+        .LOC    FILE+?IRNW
+        0                ; Reserved for system.
+        .LOC    FILE+?IRNH
+        .DWORD  0        ; 2 words for record number, default to
+                         ;    the next record.
+        .LOC    FILE+?IFNP
+        .DWORD  FNAME*2  ; 2-word byte pointer to filename.
+        .LOC    FILE+?IDEL
+        .DWORD  -1       ; Data-sensitive delimiter table address;
+                         ;    default to NL, CR, NUL.
+                ; Default other specifications.
+        .LOC    FILE+?IBLT ; Packet length.
+         ; End of FILE packet.
+
+FNAME:  .TXT  "FILE"     ; Disk filename.
+        
+        .END    WRITE

@@ -1,0 +1,875 @@
+* ZENO 1.1A If you are reading this to find out how to win - STOP !!!!
+;INTRO
+.hc
+ &tt &head&timenow
+.sssssc
+  Welcome to ZENO - a test of your initiative
+ 
+  The objective is to survive as long as possible against an increasingly
+  hostile environment.
+ 
+  Things are just being set up - won't be long
+;EDITOR
+.hc
+.j        $
+.snyc
+   ___________________________________________________________________
+  | &tt &head&timenow$           &ehead$                              |
+  | %&emsg$                                                           |
+  | ^50&vduline.1                                         ^3&vdulc.1  |
+  | $50&vduline.2                                         $3&vdulc.2  |
+  | $50&vduline.3                                         $3&vdulc.3  |
+  | $50&vduline.4                                         $3&vdulc.4  |
+  | $50&vduline.5                                         $3&vdulc.5  |
+  | $50&vduline.6                                         $3&vdulc.6  |
+  | $50&vduline.7                                         $3&vdulc.7  |
+  | $50&vduline.8                                         $3&vdulc.8  |
+  | $50&vduline.9                                         $3&vdulc.9  |
+  | $50&vduline.10                                        $3&vdulc.10 |
+  | $50&vduline.11                                        $3&vdulc.11 |
+  | $50&vduline.12                                        $3&vdulc.12 |
+  |  PF1 => Help  PF3 => File    PF7 => Back  PF8 => Forward          |
+  |___________________________________________________________________|
+ / ?#59&ecom                                                         /
+/___________________________________________________________________/
+ 
+%&commsg
+.bcfy HELP % FILE    % % % PRV NXT  % % %
+;COMPUTER
+.hc
+ &tt &head&timenow
+.j        $
+.nyc
+      ________________________________________________________________
+     |  &clogo$                                   System Load=&sysl$  |
+     |________________________________________________________________|
+     |  &vduline.1$                                                   |
+     |  &vduline.2$                                                   |
+     |  &vduline.3$                                                   |
+     |  &vduline.4$                                                   |
+     |  &vduline.5$                                                   |
+     |  &vduline.6$                                                   |
+     |  &vduline.7$                                                   |
+     |  &vduline.8$                                                   |
+     |  &vduline.9$                                                   |
+     |  &vduline.10$                                                  |
+     |  &vduline.11$                                                  |
+     |  &vduline.12$                                                  |
+     | %&vdumsg$                                                      |
+     |________________________________________________________________|
+    / ?#59&vducom                                                    /
+   /________________________________________________________________/
+ 
+%&commsg
+.bcfy HELP % QUIT % % % % % %  % % REPT
+  PF1 => Help   PF3 => Leave the console           PF12 => Last Command
+;ROOM
+.hc
+ &tt &head&timenow
+.j        $
+.nyc
+&rmsg.1
+&rmsg.2
+&rmsg.3
+&rmsg.4
+&rmsg.5
+&rmsg.6
+&rmsg.7
+&rmsg.8
+&rmsg.9
+&rmsg.10
+&rmsg.11
+&rmsg.12
+&rmsg.13
+&rmsg.14
+&rmsg.15
+&rmsg.16
+&rmsg.17
+&rmsg.18
+&rmsg.19
+&rmsg.20
+#72&roomcom
+ %&commsg
+.bcfy HELP % QUIT % % % % % %  % % REPT
+  PF1 => Help   PF3 => Quit                         PF12 => Last Command
+;TRANS
+.hc
+ &tt &head&timenow
+.j        $
+.nyc
+&rmsg.1
+&rmsg.2
+&rmsg.3
+&rmsg.4
+&rmsg.5
+&rmsg.6
+&rmsg.7
+&rmsg.8
+&rmsg.9
+&rmsg.10
+&rmsg.11
+&rmsg.12
+        _________________________________________________________
+       | COMPUZZ Matter Transmitter:&mtsign                      |
+       |                                                         |
+       | &mtmsg$                                                 |
+       | Coordinates: ^10&mtfrom ==> ^10&mtto                    |
+       |                                                         |
+       | Activation Time: $&mttime     (or CANCEL)               |
+       |_________________________________________________________|
+%&commsg
+.bcfy HELP % QUIT % % % % % %  % % %
+  PF1 => Help   PF3 => Leave the Desk
+;FINALE
+.hc
+ &tt &head&timenow
+.j        $
+.snyc
+The game is over after &timenow moves.
+ 
+&statmsg.1
+&statmsg.2
+&statmsg.3
+&statmsg.4
+&statmsg.5
+&statmsg.6
+&statmsg.7
+&statmsg.8
+&statmsg.9
+&statmsg.10
+&statmsg.11
+&statmsg.12
+&statmsg.13
+&statmsg.14
+&statmsg.15
+&statmsg.16
+ 
+Press ENTER to start afresh, PF3 to Quit &continue
+.bcfy % % QUIT % % % % % % % % CONT
+;BOOK
+.hc
+ &tt &head&timenow
+.nyc
+                                          Page  &curpage   of &lastpage
+.ci ZENO IOS3270 * &bkti
+.ci ZENO IOS3270 * &bkpg
+.cl21
+#72&command
+%&bookmsg
+.ci ZENO IOS3270 * &bkpf
+;BKPFF
+.bcfy HELP NDX QUIT % % % %   NXT % % % %
+PF1=Help   PF2=Index   PF3=Close                  PF8=Next
+;BKPFL
+.bcfy HELP NDX QUIT % % % PRV % % % % %
+PF1=Help   PF2=Index   PF3=Close   PF7=Previous
+;BKPFM
+.bcfy HELP NDX QUIT % % % PRV NXT % % % %
+PF1=Help   PF2=Index   PF3=Close   PF7=Previous   PF8=Next
+;BKTION
+    &bktitle1
+    &bktitle2
+;BKTIOFF
+;BKNC
+.sssc
+    I am afraid this book has no cover.
+;BKNI
+.sssc
+    I am afraid this book has no index.
+;BKNE
+.sssc
+    I am afraid that page &curpage of this book is missing
+;BKEX1
+%The-Future
+ 
+Extensions in mind include:
+ 
+  better, structured, programming language
+  shuttle/lunar lander
+  lunar surface
+  more intelligent alien
+  non-deterministic conflicts
+  full save/restore (time-machine?)
+ 
+ 
+Suggestions to:%Dave-Mitchell (now%ZENO-at-GMAIL.COM
+                                                  continued .....
+;BKEX2
+ 
+Since you have got this far you have presumably:
+ 
+  discovered the 20 odd ways to die
+  determined the coordinates of all the places the robot can get to
+  written programs to:
+    detect and recover from power surges automatically
+    restart programs that fail
+    allow editing at terminals (is this possible?)
+    use computed GO's, INTERPRET, the '.' operator etc
+    use multi-tasking, TELL, PULL etc
+    kill off aliens as soon as they get aboard
+  filled up all the disks
+                                                   Continued .....
+;BKEX3
+ 
+%Hints-for-the-Advanced-Explorer
+ 
+You might like to try writing SIMPL/E programs to:
+ 
+  give more sophisticated voice control
+  give robot more autonomy (to wander around lasing things)
+  get the robot to go somewhere distant with a single command
+  get the robot to follow you automatically
+  combine voice-control of the robot and the matter transmitter
+    to obviate the need for a lift
+;BKRB22
+%Basic-Principles-of-Robotics
+ 
+1. The COMPUZZ robot is essentially very simple. Most of the mechanical
+   movements are hydraulic servos, with the occasional stepper motor.
+ 
+2. Robot speech is synthesised using a phoneme generator, with linear
+   predictive encoding used to give some stress to the articulation.
+ 
+3. Robot vision is quite sophisticated, and is described in chapter 6.
+ 
+4. COMPUZZ robots have position sensors which, by detecting the cosmic
+   background radiation are capable of an accuracy of a few metres.
+ 
+5. COMPUZZ robots are strictly non-Asimovian in their behaviour. Indeed
+   this is implicit in any burglar-repelling device. Be warned!
+;BKRB23
+ 
+%Voice-Control
+ 
+When programming the ROBOT to deal with voice I/O, take note of the
+following:
+ 
+ 1.  speech (via ROBOT_VOICE) takes time (1 tick)
+ 2.  if nothing was SAY'd, ROBOT_EAR is set to "hash"
+ 3.  INTERPRET can be used to powerful effect, but beware, since
+       unchecked input, if interpreted, may lead to an ABEND
+ 4.  avoid looping without some sort of time-delay. Test the time
+       before and after, and if unchanged do a WAIT 1
+ 5.  although COMPUZZ robots can be driven hard (multi-tasking means that
+      several robot commands can be obeyed in 1 tick) this can lead to
+      unpredictable effects, overloading the computer, abends etc.
+;BKTR0
+.sssc
+     ------------------------------------------
+    |                                          |
+    |                                          |
+    |    %The-COMPUZZ-Matter-Transmitter       |
+    |                                          |
+    |                                          |
+    |                                          |
+    |    %Operator's-Guide                     |
+    |                                          |
+    |                                          |
+     ------------------------------------------
+;BKTR1
+%Warning: the COMPUZZ Matter Transmitter is not designed for use by the
+untrained. Unless you have received full and proper instruction (and have
+the COMPUZZ Diploma in Matter Transmission Studies), you are advised not
+to use this device.
+ 
+%Contents
+    Introduction . . . . . . . . . . . . . . . 2
+    Manual Mode  . . . . . . . . . . . . . . . 3
+      Coordinate Setting . . . . . . . . . . . 4
+      Scheduling the transmission  . . . . . . 5
+      Hints and Tips . . . . . . . . . . . . . 6
+    Automatic Mode . . . . . . . . . . . . . .10
+      Error recovery . . . . . . . . . . . . .15
+    Hints and Tips  .  . . . . . . . . . . . .16
+    Getting back from LIMBO  . . . . . . . .  20
+;BKTR2
+ 
+%Introduction
+ 
+The COMPUZZ Matter Transmitter is based upon a modification of the
+QUITERON quantum tunnelling effect. By magnifying the effect of
+tachyon emissions from a SQID device at close to 4 degrees Kelvin,
+the possibility of being elsewhere is raised to close to unity.
+COMPUZZ take%no responsibility for the residual probability - of being
+nowhere - which is not zero except under ideal conditions.
+ 
+The elsewhere coordinates (both source and target), although expressible
+in Cayley-Klein parameters, should be established using the PROBE command
+which (among other things) activates the high-resolution position sensor
+attached to COMPUZZ ROBOTs. The information is then available through
+the POSITION global read-only pseudovariable.
+;BKTR10
+%Automatic-Mode
+ 
+Setting the device MT_MODE to the value AUTO does two things:
+ 
+   1.  it disables the keyboard of the matter transmitter
+       (if a manual transmission has already been scheduled it will
+        still be carried out)
+ 
+   2.  any subsequent setting of MT_BEAM (to a coordinate pair "to" and
+       "from") will cause an immediate transmission
+ 
+There is no ability to schedule an automatic transmission for the
+future, nor to affect any manual transmission in any way.
+;BKTR20
+ 
+%Getting-back-from-LIMBO
+ 
+There is no way that this can be accomplished in the current state of the
+art, except by reversing the transmission%immediately. If sentient beings
+have been transmitted, and the target position is unknown, the best thing
+to do is say the last rites (in the appropriate religious mode).
+ 
+It is believed that some LIMBO coordinates are within the event horizon
+of black holes. If true, this could provide enormous untapped energy
+reserves. COMPUZZ COMPUTER SYSTEMS will pay highly for any information
+about the successful recovery of anything from such LIMBO states.
+;BKUG0
+.sssc
+     ------------------------------------------
+    |                                          |
+    |                                          |
+    |    %The-COMPUZZ-Computer-System          |
+    |                                          |
+    |                                          |
+    |                                          |
+    |    %Users-Guide                          |
+    |                                          |
+    |                                          |
+     ------------------------------------------
+;BKUG1
+%Warning: the sample programs distributed as part of the COMPUZZ System
+are for demonstration purposes only. They are not designed for use in the
+virtual world. COMPUZZ Computer Systems cannot be held responsible for
+any disasters that befall. All wrongs are preserved.
+%Contents
+    Introduction . . . . . . . . . . . . . . . 2
+    The COMPUZZ Computer . . . . . . . . . . . 3
+    Commands . . . . . . . . . . . . . . . . . 4
+    Input Handling . . . . . . . . . . . . . . 4
+    Overview of SIMPL/E  . . . . . . . . . . . 6
+    SIMPL/E statements . . . . . . . . . . . . 9
+    Sensors and Devices  . . . . . . . . . . .11
+    Multi-tasking and multi-programming  . . .14
+    The CED Editor . . . . . . . . . . . . . .15
+    Hints and Tips  .  . . . . . . . . . . . .16
+    Some restrictions  . . . . . . . . . . .  20
+;BKUG2
+ 
+%Introduction
+ 
+This manual outlines the main facilities of the COMPUZZ family of virtual
+machines (in this context, virtual means imaginary). Further
+details are to be found in the following manuals:
+ 
+     COMPUZZ System Guide
+     COMPUZZ Editor (CED) User's Guide
+     SIMPL/E Programming Manual
+     COMPUZZ Robot Programming Guide
+     COMPUZZ Matter Transmitter Operator's Guide
+ 
+These manuals are probably lying about somewhere in your installation.
+;BKUG3
+ 
+%The-COMPUZZ-Computer
+The Compuzz computer is a sophisticated virtual machine that offers the
+following facilities:
+ 
+     simple command language (extendable through user programs)
+     simple, easy to use programming language (SIMPL/E)
+     multi-programming and multi-tasking (re-entrant programs)
+     inter-process communication and synchronisation
+     full-screen editor (CED)
+     support for multiple terminals
+     sensing and control of the virtual world
+     multiple disk-drive support
+ 
+This manual describes COMPUZZ Model 1.%Significant enhancements are
+planned for Model 2.
+;BKUG4
+%Commands
+The COMPUZZ system accepts the following commands:
+ 
+   Directory              lists the name and size of the programs on
+or Catalog                the current disk
+or List
+   Active                 lists the name and other statistics about
+                          each program running in the system
+   ERAse pg               erases a program from the disk
+   CANcel pg <nn>         cancels a program which is running
+   Edit pg                edits a program
+   Clear                  clears the VDU screen
+   Type   pg              lists a program on the screen
+   DISK <diskname>        lists on-line disks, or switches current
+   TELL <(pg <vn>)> text  passes text to a program
+ 
+;BKUG5
+%Input-Handling
+ 
+When something is typed at the keyboard of the computer or a terminal,
+the COMPUZZ monitor deals with it as follows:
+ 
+  if it is the name of a program, that program is run
+ 
+  else if it is a valid command (not all commands are valid at%terminals)
+    that command is obeyed
+ 
+  else if programs are waiting for input, it is passed to the first such
+    program (ie an implicit TELL)
+ 
+  else it is treated as an unrecognized input
+ 
+ 
+;BKUG6
+%Overview-of-SIMPL/E
+ 
+%SIMPL/E-Variables
+ 
+ local variables, defined by the VARS statement. If you give one the same
+        name as a global, you won't be able to refer to the global
+ 
+ global variables, available for any purpose (GV0-GV9)
+ 
+ global sensors, which can be read but not changed. These pseudovariables
+        reflect the virtual world (eg TIMENOW, AIR_QUALITY)
+ 
+ global devices, setting which affects the virtual world (eg LIFT_DOOR)
+;BKUG7
+%Expressions
+There are two types of expression in SIMPL/E:
+ 
+ t_exp  translated expressions   - variables are replaced by their values
+ e_exp  evaluated expressions    - operators are applied as well
+ 
+Most SIMPL/E statements use the first type (eg GO can be followed by
+a t_exp, giving the power of a computed go to), except:
+ 
+  PULL and VARS  - must be simple list of vars, no translation is done
+  IF, SET and WAIT   - evaluation as well as translation is done.
+ 
+%Variable-Substitution
+Variables are substituted by their values if they are in%UPPER-CASE.
+Thus the statement "say timenow is TIMENOW" will display a message
+such as "timenow is 24".
+;BKUG8
+%Operators
+Only one operator is allowed in a SIMPL/E expression, and it must be the
+second token. A full description of how the operators work is given in
+the System Guide. The operators are:
+ 
+  + - * / > < = \= >= <= || and .
+ 
+Only the '.' is unusual. It works as follows:
+ 
+  in the expression "X . Y"
+  if X is not an integer, no evaluation is performed (just translation)
+  if X is > 0, the Xth word of the string Y is returned
+  if X = 0, the number of words in the string Y is returned
+  if X < 0, the Xth word of the string Y is deleted
+ 
+This gives SIMPL/E some basic list processing functions.
+;BKUG9
+%SIMPL/E Statements
+ 
+ *                                Comment lines (rest ignored)
+ VARS list-of-local-variables     Defines, initialises to 0
+ GO label                         Transfer control
+ IF (expression) statement        Execute statement if expression = 1
+ WAIT, WAIT FOR expression        Delay expression ticks
+ WAIT UNTIL expression            Delay until expression = 1
+ SAY text                         displays text on all enabled screens
+ PULL list-of-local-variables     sets vars to input from terminal or
+                                  other program (see TELL)
+ RUN program                      start program running (asynchronously)
+ CALL routine                     execute system command (eg EDIT)
+ TELL (program) text              send text to program (see PULL)
+ END                              end normally
+                                                             ... more
+;BKUG10
+ 
+ ABEND text                       abend, displaying text
+<SET> var = expression            set local or global variable
+ INTERPRET line                   translate and execute line
+ 
+%Labels
+SIMPL/E labels consist of a string of alphanumerics (must not be entirely
+numeric) separated from the rest of the line by a colon (':'). There must
+be at least one blank on either side of the colon.
+;BKUG11
+%Sensors or global read-only pseudo-variables, are:
+  RANDOM      - retrieves a random number between 0 and 999
+  TIMENOW     - the current time (in ticks)
+  VERSION     - version of the current program
+  AIR_QUALITY - of the air you are breathing (1=good,10=bad)
+  ENERGY      - available for air_pump, shield etc
+  ROBOT_EAR   - set to what you SAY'd, or "hash" if nothing
+  ROBOT_EYE   - list of "things" the robot can see (first 4 chars only)
+  HUMAN_ACT   - what you did (if in room with robot - "hash" if nothing)
+  ALIEN_ACT   - what alien did (")
+  ALERT_LEVEL - alien attack level (0=OK, 1=near, 2=attacking, 3=inside)
+The following are updated when PROBE is set to ON (see devices)
+  HUMAN_HERE  - 1 if you are in the room with the robot, 0 if not
+  ALIEN_HERE  - 1 if alien is in the room with the robot
+  AIR_HERE    - 1 if there is air in the room with the robot
+  POSITION    - set to ROBOT coordinates
+;BKUG12
+%Devices - global variables that affect the world
+  AIR_PUMP       ON or OFF (if off, air in room gets worse
+  INTRUDER_ALARM ON or OFF (if on, robot and display warn of intruders
+  TERMINALn      ENABLED or DISABLED (if DISABLED, terminal unusable)
+  TRACE          ON or OFF (if ON, statement execution is traced)
+  SHIELD         ON or OFF (if ON, intruders are repelled)
+  LIFT_BUTTON    ON or OFF (no side-effects at all)
+  LIFT_DOOR      OPEN or CLOSE (moves lift door)
+  LIFT_FLOOR     1, 2 etc (moves lift to floor)
+  ROBOT          ROBOT will try to execute the SIMPL/E statement it is
+                 set to
+  ROBOT_VOICE    ROBOT will speak whatever it is set to
+  PROBE          sets HUMAN_HERE, ALIEN_HERE, AIR_HERE and POSITION
+                 when set to ON (and is then turned off again)
+  MT_MODE        OFF, MANUAL or AUTO (matter transmitter status)
+  MT_BEAM        from to (immediate matter transference - AUTO mode only)
+Certain devices take time to operate (eg LIFT_FLOOR)
+;BKUG14
+%MultiTasking-and-MultiProgramming
+ 
+The COMPUZZ monitor allows several programs to be running at the same
+time. The limit on the number is set by the size of%"engine" installed
+(the typical engine is a CIPPER ie 100 instructions per tick).
+ 
+Several versions of the%same program may run at the same time, each of
+which has its own local variables. These different processes using the
+same program text are called%versions. It is possible to cancel or send
+data to a particular version by following the name with the version
+number. For example:
+   TELL (MYPROG 3) LIFT_DOOR = OPEN
+will pass the data "LIFT_DOOR = OPEN" to version 3 of MYPROG.
+;BKUG16
+%Hints-and-Tips
+ 
+SIMPL/E programs are inherently re-entrant. In some cases, this can be
+undesirable. For example, if there is only one computer-controlled lift
+it makes no sense to have two versions of the LIFT program running.
+This can be avoided using the VERSION global pseudo-variable. This is
+set to the version number of the program, so that if two copies are
+already running, starting another will give it a version number of 3.
+Thus, to prevent multi-tasking, start your program with the statement:
+     IF (VERSION > 1) ABEND to prevent multitasking
+ 
+Note that a separate copy of VERSION exists for each process in the
+system (just like local variables). It is a global purely in the sense
+that it is not defined on a VARS statement.
+;BKUG20
+ 
+%Restrictions.
+ 
+A full list is included as an appendix in the COMPUZZ System Guide.
+Please read this carefully. Since COMPUZZ computers are typically used
+to control powerful and potentially dangerous devices such as lifts,
+burglar alarms, lasers etc, failure to observe the recommended procedures
+can be fatal.
+;BKPM0
+.sssc
+     ------------------------------------------
+    |                                          |
+    |                                          |
+    |    %The-SIMPL/E-Language                 |
+    |                                          |
+    |                                          |
+    |                                          |
+    |    %Programming-Manual                   |
+    |                                          |
+    |                                          |
+     ------------------------------------------
+;BKPM1
+ %Contents
+  Introduction                         2
+  The statements                       3
+     Comments                          3
+     VARS                              3
+     SAY and PULL                      4
+     GO, END and ABEND                 4
+     WAIT FOR and WAIT UNTIL           5
+     IF                                5
+     CALL and RUN                      6
+     SET                               6
+     TELL                              7
+     INTERPRET                         7
+  Error Recovery                       8
+  Restrictions                         9
+  Error Messages                       20
+;BKPM2
+%Introduction
+ 
+  SIMPL/E (Simple Interpreted Multi-Purpose Language / Extensible) is
+  a language designed to run on COMPUZZ computers.
+ 
+  This manual describes version 4.
+ 
+%Blanks-in-SIMPL/E
+ 
+There are a number of%required-blanks in SIMPL/E:
+ 
+  before and after the ':' when labelling a statement
+  before and after the operator in an expression
+  before and after the '=' in a SET
+ 
+ 
+;BKPM8
+%Error-Recovery
+ 
+When a program abends, an automatic TELL is performed. This TELL has the
+form:  TELL (ERROR) nnn ppp vvv nnn
+ Where nnn is the abend number (901 -999)
+       ppp is the program name
+       vvv is the program version
+       nnn is the line number where the abend occurred
+ 
+Thus, if a program called ERROR is running, it can PULL this information
+and use it as desired (e.g. to restart the program that failed).
+ 
+A sample ERROR program is supplied on one of the disks.
+;BKPM16
+.sssc
+ The next page is intentionally left blank. This page is blank apart
+ from this message.
+;BKPM17
+;BKPM20
+ Error Messages
+ 
+ The error messages (which all accompany an ABEND - there is no soft
+ failure feature as yet) are self-explanatory.
+;BKHE0
+.sssc
+     ------------------------------------------
+    |                                          |
+    |                                          |
+    |            ZENO V1.1                     |
+    |A delicate%scientific-instrument not a toy|
+    |                                          |
+    |                                          |
+    |    %David-Mitchell ZENO at WINVMB        |
+    |     (now zenoshrdlu at gmail.com)        |
+    |                                          |
+     ------------------------------------------
+;BKHE1
+ 
+  Reasons for ZENO's existence  . . . . . . . 2
+  The ZENO files  . . . . . . . . . . . . . . 3
+  General Introduction to ZENO  . . . . . . . 4
+    Comparisons with other games  . . . . . . 4
+    Object of the game  . . . . . . . . . . . 4
+    The extent of your powers . . . . . . . . 4
+  "Objects" . . . . . . . . . . . . . . . . . 5
+  Commands  . . . . . . . . . . . . . . . . . 6
+  Books and other readable objects  . . . . . 7
+  Sample Script for Beginners . . . . . . . . 8
+;BKHE2
+ZENO is an experimental REX exec (currently in version 1, the initial
+prototype). It was written:
+ (i)   to demonstrate the expressive power of REX (though the prototype
+       should NOT be taken as illustrating good programming style)
+ (ii)  to show that an interpreted language CAN provide adequate
+       performance, even for a large complex application
+ (iii) to prototype a number of "Personal Computer" characteristics
+       (e.g. a VDU scroller, command language, full-screen editor etc)
+ (iv)  to provide an interactive environment to stimulate the learning of
+       problem-solving skills (debugging etc)
+ (v)   to experiment with the computer control of a variety of complex
+       devices (lifts, robots etc)
+ (vi)  for entertainment (outside business hours)
+ 
+Although ZENO takes the appearance of a "computerised fantasy game", it
+does have serious educational intent.
+;BKHE3
+The ZENO package consists of 4 files:
+ 
+  1. ZENO DOC     - similar to this HELP
+  2. ZENO EXEC     - a large REX EXEC
+  3. ZENO INITDATA - initial data read by the EXEC (using EXECIO)
+  4. ZENO IOS3270  - screens used by the EXEC (Help etc)
+ 
+ZENO requires REX Version 3, IOS3270 (a fairly recent one which includes
+the .j command) and EXECIO. If EXECIO is not available, STACKIO can be
+used instead (just one line at the start of the EXEC).
+The EXEC will run in a 512K machine.
+ 
+The current version is highly experimental, and is seriously deficient in
+a number of areas (poor descriptions, limited world to explore, nasty
+"programming" language etc).
+;BKHE4
+ZENO takes the form of a "computerized fantasy game" which attempts to
+model a "universe" - very limited in scope but within that scope fairly
+complex. Like Adventure or Zork, the puzzles it presents are tests of
+intellectual skill, insight and intuition rather than physical dexterity.
+ZENO differs from such games in four main ways:
+ 
+  1. there is no%magic - no wands, words or wizards.
+ 
+  2. there are no%treasures - your only aim is to survive as long as
+     possible
+ 
+  3. you have%very-limited physical powers, since there are%no-verbs
+     only%objects
+ 
+  4. you have, through the computer within the game, a%significant amount
+     of%control over the progress of the game.
+;BKHE5
+ 
+%Objects
+You get close to things by mentioning their name, not by saying things
+like "take rod" or "kill dragon with sword". Since the parser ignores
+words it does not know, "take the rod" and "drop the rod" would both be
+treated as "rod". What happens when you mention an object is usually
+common sense. For example, "door" will take you through the door if it
+is open, or produce a message if not.
+ 
+Complexity in ZENO is reserved for the computer system it embodies.
+Your survival is totally dependent on your ability to%program your way
+out of trouble.
+;BKHE6
+%Commands
+Certain commands are available in all "rooms" (though not within special
+environments such as books, computers, etc):
+ 
+  SAY text    "speaks" text (for talking to robot mainly)
+  SUBSET      gets you into CMS Subset
+  QUIT        this will take you to the exit screen, which gives you a
+              rating, and a chance to re-enter the game.
+  SAVE    xxx this will save programs and notes in a file called
+              "xxx ZENODATA". If no filename is given,  "ZENO" is used.
+ 
+  RESTORE xxx this will restore programs and notes from a file called
+              "xxx ZENODATA". If no filename is given,  "ZENO" is used.
+ 
+In ZENO 1.1, SAVE/RESTORE do%not save the%state of the%game.
+;BKHE7
+%Books-and-other-readable-objects
+ 
+There are a number of objects that are readable. These include several
+books, leaflets, papers, and a notebook which is rather special, since
+you can%write in it too.
+ 
+;BKHE8
+%Sample-Script-for-Beginners
+  go to lift        (just "lift" or "door" will do)
+  press the button  ("butt" is enough - just first 4 characters)
+                    (nothing happens since no lift program is working)
+  read the notebook (again, "note" is enough)
+                    (try writing in the notebook)
+  go back to room   (you will find you are now carring the book)
+  go to computer    (different commands allowed here)
+  active            (notice nothing is running)
+  list              (notice the scrolling)
+  e lift            (you are now in the full-screen editor)
+  help              (to find out about the editor)
+  ....              (play with editor commands)
+  quit              (best not to muck up the lift program yet)
+                                                              .... More
+;BKHE9
+%Sample-Script-for-Beginners (Continued)
+  air               (starts the air pump - stops you suffocating!)
+  lift              (runs the lift program)
+  terminal          (runs the terminal program - asks for input)
+  active            (both lift and terminal should be active)
+                    (stats indicate next line to execute and when)
+  ENABLED           (data for terminal prg - note it didn't take "active"
+  PF3               (leave computer)
+  lift              (back to lift)
+  button            (now something happens)
+  ....              (takes a move to get to next floor)
+  room              (different place)
+  terminal          (not all commands are valid at terminals!!)
+ 
+After that you're on your own - there are books lying about to help.
+;BKED0
+.sssc
+     ------------------------------------------
+    |                                          |
+    |                                          |
+    |    %The-COMPUZZ-Editor                   |
+    |                                          |
+    |    %CED--V2.0                            |
+    |                                          |
+    |    %Users-Guide                          |
+    |                                          |
+    |                                          |
+     ------------------------------------------
+;BKED2
+The full-screen editor is fairly conventional except that%no-time-passes
+while you are within it. When a PF key, or ENTER is pressed, the things
+that happen are:
+ 
+  1. any changes to data on the screen are made to the file
+     (if a line is now blank, it is deleted)
+  2. the line commands (at right of each line) are obeyed
+  3. the commands (separated by "hash") on the command line are obeyed
+  4. the PF key function is obeyed
+ 
+%line Commands:
+ 
+   nnA    adds nn blank lines (default nn is 1)
+   nnD    deletes nn lines (including this one - default nn is 1)
+   nn"    copies this line nn times (default is 1)
+   /      makes this the current line
+;BKED3
+%Editor Commands
+ 
+  Top             set current line = 1
+  Bottom          set current line to last line of file
+  Locate string   set current line to next line containing "string"
+  /string         ditto
+  Getfile file <disk>  get "file" from "disk" (default is current disk)
+                 and insert after current line
+  DELete nn       delete nn lines (including current line)
+  FIle            leave editor (file is updated)
+  Quit            leave editor (file unchanged)
+  Input <text>    if text is present, insert 1 line containing text
+                  else, insert a screenful of blank lines
+  nn              move current line forward nn
+ -nn              move current line backward nn
+ :nn              make line nn the current line
+;BKNB0
+.sssc
+     ------------------------------------------
+    |                                          |
+    |                                          |
+    |    %My-Notebook                          |
+    |                                          |
+    |                                          |
+    |                                          |
+    |  $40&bktitle2                            |
+    |                                          |
+    | ( Call me%NOTE )                         |
+     ------------------------------------------
+;BKNB1
+.ci ZENO IOS3270 * ;BKNBI
+;BKNB2
+.ci ZENO IOS3270 * ;BKNBI
+;BKNB3
+.ci ZENO IOS3270 * ;BKNBI
+;BKNB4
+.ci ZENO IOS3270 * ;BKNBI
+;BKNB5
+.ci ZENO IOS3270 * ;BKNBI
+;BKNBI
+.j        $
+.c
+  $75&nbkline.1
+  $75&nbkline.2
+  $75&nbkline.3
+  $75&nbkline.4
+  $75&nbkline.5
+  $75&nbkline.6
+  $75&nbkline.7
+  $75&nbkline.8
+  $75&nbkline.9
+  $75&nbkline.10
+  $75&nbkline.11
+  $75&nbkline.12
+  $75&nbkline.13
+  $75&nbkline.14
+  $75&nbkline.15
+  $75&nbkline.16
+;END

@@ -1,0 +1,209 @@
+R GAME:ADVENTURE
+
+-- ADVENTURE < 6.1/ 3>, 14-Jan-82  --
+
+The best player since 17-Apr-84 is MIMI, achieving a score       
+of  92 points in  235 turns on  6-Oct-84.
+
+Welcome to ADVENTURE!!  Would you like instructions?   
+
+YES
+
+
+Somewhere nearby is Colossal Cave, where others have found fortunes in
+treasure and gold, though it is rumored that some who enter are never 
+seen again.  Magic is said to work in the cave.  I will be your eyes  
+and hands.  Direct me with natural English commands and I will tell   
+you where you are and describe what is happening around you.  My 
+normal language is Fnordish, so if I don't always understand what
+you tell me, be patient and try to say the same thing some other way. 
+- - - -   
+(If this is your first trip to ADVENTURE-Land, you should type   
+"HELP" to get some general instructions.)    
+Good Luck!
+- - - -   
+You are standing at the end of a road before a small brick building.  
+Around you is a forest.  A small stream flows out of the building and 
+down a gully.  
+
+IN
+
+You are inside a building, a well house for a large spring.  Off 
+to one side is a small storeroom.  
+There is a shiny brass lamp nearby.
+There is a leather sack here. 
+Taped to the wall is a faded poster.    
+There is a small matchbox here.    
+
+TAKE LAMP
+
+Taken.    
+
+TAKE BOTTLE
+
+I see no bottle here.   
+
+TAKE KEYS
+
+I see no keys here.     
+
+OUT
+
+You're at end of road again.  
+
+SOUTH
+
+You are in a valley in the forest beside a stream tumbling along a    
+rocky bed.
+
+SOUTH
+
+At your feet all the water of the stream splashes into a 2-inch slit  
+in the rock.  Downstream the streambed is bare rock.   
+
+SOUTH
+
+You are in a 20-foot depression floored with bare dirt.  Set into the 
+dirt is a strong steel grate mounted in concrete.  A dry streambed    
+leads into the depression.    
+There is a large cloth bag lying nearby.
+The grate is locked.
+
+UNLOCK GRATE
+
+You have no keys!   
+
+OPEN GRATE
+
+You have no keys!   
+
+DOWN
+
+
+You can't go through a locked steel grate!   
+You're outside grate.    
+There is a large cloth bag lying nearby.
+The grate is locked.
+
+Are you trying to get into the cave?    
+
+WEST
+
+Please answer the question.
+
+Are you trying to get into the cave?    
+
+ON
+
+Please answer the question.
+
+Are you trying to get into the cave?    
+
+WEST
+
+Please answer the question.
+
+Are you trying to get into the cave?    
+
+WEST
+
+Please answer the question.
+
+Are you trying to get into the cave?    
+
+TAKE CAGE
+
+Please answer the question.
+
+Are you trying to get into the cave?    
+
+WEST
+
+Please answer the question.
+
+Are you trying to get into the cave?    
+
+TAKE ROD
+
+Please answer the question.
+
+Are you trying to get into the cave?    
+
+WEST
+
+Please answer the question.
+
+Are you trying to get into the cave?    
+
+DROP ROD
+
+Please answer the question.
+
+Are you trying to get into the cave?    
+
+TAKE BIRD
+
+Please answer the question.
+
+Are you trying to get into the cave?    
+
+DROP CAGE
+
+Please answer the question.
+
+Are you trying to get into the cave?    
+
+WEST
+
+Please answer the question.
+
+Are you trying to get into the cave?    
+
+WEST
+
+Please answer the question.
+
+Are you trying to get into the cave?    
+
+XYZZY
+
+Please answer the question.
+
+Are you trying to get into the cave?    
+
+PLUGH
+
+Please answer the question.
+
+Are you trying to get into the cave?    
+
+SCORE
+
+Please answer the question.
+
+Are you trying to get into the cave?    
+
+HELP
+
+Please answer the question.
+
+Are you trying to get into the cave?    
+
+INFO
+
+Please answer the question.
+
+Are you trying to get into the cave?    
+
+NEWS
+
+Please answer the question.
+
+Are you trying to get into the cave?    
+
+SUSPEND
+
+Please answer the question.
+
+Are you trying to get into the cave?    
+

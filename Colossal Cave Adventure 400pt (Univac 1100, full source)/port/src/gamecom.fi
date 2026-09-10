@@ -1,0 +1,51 @@
+C  GAMECOM holds every piece of live game state that used to live as
+C  plain local variables/arrays of the Univac main program (which, in
+C  the original, were saved/restored across SUSPEND/RESTART as a raw
+C  memory-image "D-bank" dump by the INITDB/SAVEDB assembler routines).
+C  This port's INITDB/SAVEDB/SAVEMA replacements (savefile.f) are
+C  ordinary external Fortran subroutines, so this state has to live in
+C  a named COMMON block instead of as MAIN's local variables, in order
+C  for those routines to reach it with a plain WRITE/READ.  Any file
+C  that needs to survive a SUSPEND/RESTORE should include this file
+C  (after declaring IMPLICIT INTEGER(A-Z)).
+
+      dimension ltext(locsiz), stext(locsiz), key(locsiz), cond(locsiz)
+      dimension plac(objsiz), fixd(objsiz), prop(objsiz)
+      dimension actspk(vrbsiz)
+      dimension ctext(levsiz), cval(levsiz)
+      dimension hintlc(hntsiz), hints(hntsiz,4)
+      dimension tk(20), dloc(6), odloc(6)
+      logical dseen(6), hinted(hntsiz)
+      character*1  chr, star
+      character*5  wd1, wd2
+      character*12 wd1x, wd2x
+      dimension travel(trvsiz)
+
+      LOGICAL WZDARK,LMWARN,CLOSNG,PANIC,CLOSED,GAVEUP,SCORNG,DEMO,YEA
+
+      common /gamecom/
+     1 a, a1, a2, a4, a5, abbnum, achieve, attack, axe, back,
+     1 batter, be, bear, before, bird, bonus, bottle, but, ca,
+     1 cage, cave, ced, chain, chasm, chest, chloc, chloc2, clam,
+     1 class, clock1, clock2, clos, coins, congratulations,
+     1 continuing, daltlc, detail, dflag, dkill, door, dprssn,
+     1 dragon, dtotal, dwarf, e, ed, egg, eggs, emrald, entrnc,
+     1 find, fissur, foo, foobar, food, for, g, grate, have,
+     1 higher, hint, hntmax, i1, i12, i2, i3, i4, i5, i6, invent,
+     1 iwest, k, k2, keys, kluge, knfloc, knife, kq, la, lamp,
+     1 later, least, levs, limit, linuse, ll, lock, look, magzin,
+     1 maxdie, maxtrs, messag, minutes, mirror, more, moves, mp,
+     1 mxscor, neat, newloc, next, nugget, null, numdie, o, of,
+     1 oil, oldlc2, oldloc, oldvrb, oom, out, oyster, p, pearl,
+     1 pillow, plant, plant2, point, points, possible,
+     1 pyram, r, rating, resume, rinit, rod, rod2, rop, rope,
+     1 rope2, round, ruby, rug, s, say, score, sect, snake,
+     1 snake2, spices, spk, steps, stick, tablet, tabndx, tally,
+     1 tally2, the, throw, trick, tridnt, troll, troll2, trvs,
+     1 turns, vase, vend, verb, wait, water, will, with, would,
+     1 x, you, z, loc, obj,
+     1 wzdark,lmwarn,closng,panic,closed,gaveup,scorng,demo,yea,
+     1 ltext, stext, key, cond,
+     1 plac, fixd, prop, actspk, ctext, cval, hintlc, hints,
+     1 tk, dloc, odloc, dseen, hinted, wd1, wd2, wd1x, wd2x,
+     1 chr, star, travel

@@ -1,0 +1,6 @@
+COMMENT Test if con0 is linkfile - /LINK switch deleted in 7.61
+send/1=ignore/2=ignore&
+ (@pmap* @pmap<0 1 2 3>:window @vcon- @wcon- @con-\console&
+[!nequal,:per:con0,[!pathname,@con0]]\con0[!end]) &
+[bell] {[!username]} -,,,%1-%
+pause 2

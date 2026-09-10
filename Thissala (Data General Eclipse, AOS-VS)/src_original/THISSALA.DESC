@@ -1,0 +1,50 @@
+
+
+                        T H I S S A L A
+                        ---------------
+
+
+        The game of THISSALA is a fantasy game similar to ADVENTURE and
+ZORK.  The game was written to run under AOS or AOS/VS by David
+Auerbach, Paul Chiasson, and Peter Macaulay of Data General's Corporate
+Systems Engineering Group.
+
+        The fundamental difference between THISSALA and other games 
+is that the goal in THISSALA is not just to get all the treasure, but to
+accomplish a substantial feat, that is, to save the world from the forces
+of evil, and restore the power of good.  Hidden somewhere in the land
+is a parchment describing the tale of THAMOS and MAKASSAR.  This scroll
+holds the initial clues to what must be done.
+
+        In addition to the above difference, THISSALA has an enhanced
+parser compared to ADVENTURE and the DG version of ZORK. The game is also
+substantially larger, consisting of close to 1000 rooms and 400 objects. 
+In addition, the player now has attributes. These are:
+
+        POWER           how strong the player is.  If POWER goes to zero,
+                        the player dies.  POWER is gained by eating.
+                        POWER is lost by dieing and by being wounded by
+                        an evil creature.  The amount of damage that
+                        the player can inflict upon an evil creature is
+                        also determined in part by the player's POWER
+                        level
+
+        COOR            the player's coordination.  Coordination is
+                        gained by playing (the longer you play, the
+                        greater your coordination) and by doing feats
+                        that normally demonstrate some coordination.
+                        COOR will be decreased by drinking.  How often
+                        you hit an evil creature, and vice versa, is
+                        determined by the player's coordination value
+
+        MAGIC           the player's magic ability.  MAGIC is increased
+                        by reading specific books, and by learning magic
+                        spells.  Magic can be used in various parts of
+                        the maze to solve problems and accomplish feats
+
+        WISDOM          who the hell knows?
+
+        KNOWLEDGE       is a measure of how much of the game the player
+                        has explored.  Knowledge is the percent of
+                        rooms visited by the player during the current
+                        session

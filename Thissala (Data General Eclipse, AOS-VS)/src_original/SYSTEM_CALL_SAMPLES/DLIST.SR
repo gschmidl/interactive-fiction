@@ -1,0 +1,145 @@
+;*       Copyright (C) Data General Corporation, 1980 - 1994          *;
+;*       All rights reserved.                                         *;
+;*       Licensed material -- property of Data General Corporation    *;
+;*                                                                    *;
+;*       This software is made available solely pursuant to the       *;
+;*       terms of a DGC license agreement which governs its use.      *;
+; This program lists all filenames in a directory to the
+;    line printer. It uses the ?GTMES system call to get the
+;    directory name from the CLI command line and the system
+;    call ?GOPEN to open the directory.  It shows system
+;    calls ?GOPEN, ?OPEN, ?READ/?WRITE, ?GNFN, and ?SEND.
+;    To execute it, type    X  prog-name  dir-name.
+
+        .TITLE  DLIST
+        .ENT    DLIST
+        .NREL
+
+        ; Get directory name, open directory file and the
+        ;    line printer queue.
+
+DLIST:  ?GTMES  CLIMSG   ; Get directory name argument.
+        WBR     ERROR    ; Error, process it.
+        LLEFB   0, DIRNAME*2 ; Get byte pointer to the directory name.
+        NLDAI   -1, 1    ; -1 specifies system-assigned channel number
+                         ;    for ?GOPEN.
+        ?GOPEN  DIR      ; Open the directory.
+        WBR     ERROR    ; Error, process it.
+        ?OPEN   LINEP    ; Open @LPT queue.
+        WBR     ERROR    ; Error, process it.
+
+; Get next name via ?GNFN, write it to the printer.
+
+        XNLDA   1, DIR+?ICH ; Keep channel number in AC1.
+
+NEXT:   ?GNFN   GNAME    ; Put filename in ?GNFN buffer.
+        WBR     EOF      ; Error, check for EOF.
+        ?WRITE  LINEP    ; Write to LPT queue.
+        WBR     ERROR    ; Error, process it.
+
+        XLEFB   2, NL*2  ; Get address of NL character.
+        XWSTA   2, LINEP+?IBAD ; Put it in LPT buffer.
+        ?WRITE  LINEP    ; Write NL character to LPT queue.
+        WBR     ERROR    ; Error, process it.
+        XLEFB   2, FNAME*2  ; Get byte pointer to name buffer.
+        XWSTA   2, LINEP+?IBAD ; Restore buffer address.
+        WBR     NEXT     ; Get another filename.
+
+EOF:    NLDAI   EREOF, 2 ; Code for End of File.
+        WSEQ    0, 2     ; Skip if error was EOF.
+        WBR     ERROR    ; Other error, process it.
+
+        ; Done with filenames. Get ?SEND parameters, issue ?SEND.
+
+        XLEFB   0,CNAME*2 ; Byte pointer to console name.
+        XLEFB   1,TMSG*2 ; Byte pointer to ?SEND message.
+        WLDAI   (CLIMSG-TMSG)*2+1S22,  2  ; Message length +
+                         ; byte pointer flag (1S22).
+        ?SEND            ; Send message to @CONSOLE.
+        WBR     ERROR    ; Error, process it.
+        WSUB    2, 2     ; Done. Set good return flags.
+        WBR     BYE      ; Goodbye.
+
+ERROR:  NLDAI   ?RFEC+?RFCF+?RFER,  2  ; Error flags.
+BYE:    ?RETURN                 ; To CLI.
+        WBR     ERROR           ; Return error.
+
+NL:     .TXT  "<12>"     ; Puts each name on new line.
+
+        ; ?SEND console name and message.  .NOLOC 1 follows.
+
+        .NOLOC  1
+CNAME:  .TXT  "@CONSOLE" ; Use generic name.
+
+TMSG:   .TXT  "All filenames written to LPT. Bye."
+
+        .NOLOC  0        ; Resume listing all.
+
+        .ENABLE WORD     ; Most packet entries = 16 bits.
+
+        ; ?GTMES packet to get directory name from CLI command.
+
+CLIMSG: .BLK    ?GTLN    ; ?GTMES packet length.
+        .LOC    CLIMSG+?GREQ
+        ?GARG   ; Put argument only in ?GRES.
+        .LOC    CLIMSG+?GNUM
+        1       ; Argument # 1 is directory name (0 is program name).
+        .LOC    CLIMSG+?GRES
+        .DWORD  DIRNAME*2 ; 2-word byte pointer to directory name buffer.
+        .LOC    CLIMSG+?GTLN ; Default others to 0.
+        ; End of ?GTMES packet.
+
+DIRNAME: .BLK   50.      ; Buffer for directory pathname.
+
+        ; ?OPEN packet, as needed for directory.
+
+DIR:    .BLK    ?OPLT    ; ?GOPEN packet length.
+                         ; No user specifications are needed
+                         ;     for directory ?GOPEN.
+        .LOC    DIR+?OPLT ; End of ?GOPEN packet.
+        
+
+        ; ?GNFN Packet to get next filename.
+
+GNAME:  .BLK    ?NFLN    ; Packet length.
+        .LOC    GNAME+?NFKY
+        .DWORD  0        ; System uses the first 2 words.
+        .LOC    GNAME+?NFNM
+        .DWORD  FNAME*2  ; 2-word byte pointer to filename buffer.
+        .LOC    GNAME+?NFTP
+        .DWORD  -1       ; Template byte pointer, default, none.
+        .LOC    GNAME+?NFLN ; End of ?GNFN pkt.
+
+FNAME:  .BLK    16.      ; Maximum filename = 32 chars.
+
+        ; Open, I/O Packet for printer (output) file.
+
+LINEP:  .BLK    ?IBLT    ; Packet length.
+        .LOC    LINEP+?ICH
+        0                ; System puts channel number here.
+        .LOC    LINEP+?ISTI
+        ?ICRF+?RTDS+?OFOT ; Data-sensitive records, output.
+        .LOC    LINEP+?ISTO
+        0                ; Default file type.
+        .LOC    LINEP+?IMRS
+         -1              ; Memory block size, default to 2048.
+        .LOC    LINEP+?IBAD
+        .DWORD  FNAME*2  ; 2-word byte pointer to text/buffer.
+        .LOC    LINEP+?IRCL     
+        136.             ; Maximum record length of 136 characters.
+        .LOC    LINEP+?IRLR
+        0                ; System returns number of chars transferred.
+        .LOC    LINEP+?IRNH
+        .DWORD  0        ; 2 words for record number; default to next.
+        .LOC    LINEP+?IFNP
+        .DWORD  LPTNM*2  ; 2-word byte pointer to filename.
+        .LOC    LINEP+?IDEL
+        .DWORD  -1       ; Data-sensitive delimiter table address;
+                         ;    default to NL, CR, NUL.
+        ; Other specifications can be 0.
+        .LOC    LINEP+?IBLT ; Packet length.
+         ; End of LINEP packet.
+
+LPTNM:  .TXT  "@LPT"     ; Printer queue filename
+                         ;    (could be @CONSOLE).
+        .END    DLIST

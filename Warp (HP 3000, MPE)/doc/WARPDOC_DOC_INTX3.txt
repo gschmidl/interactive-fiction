@@ -1,0 +1,71 @@
+
+     WARPDOC - Warp User Manual                                   22 Sep 86
+
+
+                                                             Michael Shumko
+                                                    Robelle Consulting Ltd.
+                                               8648 Armstrong Road, R.R. #6
+                                                     Langley, B.C.  V3A 4P9
+                                                             (604) 888-3666
+
+
+     WARPDOC  is  a  User Manual for the Warp `adventure' game which may be
+     found on the INTEREX B0 CSL tape.  WARPDOC consists of  a  file  which
+     contains  the  text  of  the user manual and formatting commands.  The
+     commands are for the Prose text formatting program.  Users may convert
+     these  Prose  commands  into  whatever  format their own favorite text
+     formatter accepts.  Also included is  a  cctl  disc  file,  which  was
+     produced  by  Prose.   It  is  formatted  for a standard line printer.
+     Users who do not have Prose may FCOPY this file to their line printer.
+     Users who have Prose may reprint the document to take advantage of the
+     features of other output devices such as the LaserJet.
+
+
+     The WARPDOC contribution consists of the following files:
+
+     WARPDOC.DATA.DETROIT     This is the main part of this contribution to
+                              the  Detroit  swap  tape.   It  is  a file in
+                              standard 80 byte fixed ascii format  with  no
+                              line numbers.  (Normally it would be in QEDIT
+                              format, since Prose reads QEDIT files direct-
+                              ly.)   It  is  full  of Prose formatting com-
+                              mands.  As  distributed  it  is  set  up  for
+                              printing  to a standard line printer, with 65
+                              characters of text per line, and 60 lines per
+                              page.   By  modifying  only a handful of com-
+                              mands (the `.out' lines) it can  be  made  to
+                              format  the  text  for  a Diablo printer or a
+                              LaserJet.  The document is already set up for
+                              printing to a LaserJet using big titles, bold
+                              and italic characters, and proportional spac-
+                              ing.  Simply by un-commenting the `.out(las)'
+                              line, the file can be reprocessed by Prose to
+                              take advantage of these features.
+
+     WARPDOC1.DATA.DETROIT    This  small `.include' file contains commands
+                              to define the LaserJet environment when using
+                              the 92286F font cartridge.  It is referred to
+                              by the main file.  It contains escape sequen-
+                              ces to access the various fonts.
+
+     WARPDOC.DEMO.DETROIT     This  file  is the Warp User Manual formatted
+                              for a standard line printer.  Users may  copy
+                              this  file  to  the line printer using FCOPY,
+                              QEDIT or some other utility.  The  file  con-
+                              tains  carriage  control  characters,  so the
+                              ;CCTL option of FCOPY must be used.
+                              :FCOPY FROM=WARPDOC.DEMO.DETROIT;TO=*LP;CCTL
+
+     WARPDOC.DOC.DETROIT      This documentation file.
+
+
+     The following are not included as part of this contribution:
+
+     WARP                     The game, by Bill Frolik and Rob Lucke of  HP
+                              Corvallis.   Available on INTEREX's Contribu-
+                              ted Software Library, release B0.
+
+     PROSE                    Text formatter from Robelle.  Available as  a
+                              free  `bonus'  program  with QEDIT, SUPRTOOL,
+                              DBAUDIT or XPRESS.  Not for sale separately.
+

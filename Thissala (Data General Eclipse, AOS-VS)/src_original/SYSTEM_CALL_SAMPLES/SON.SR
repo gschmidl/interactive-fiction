@@ -1,0 +1,114 @@
+;*       Copyright (C) Data General Corporation, 1980 - 1994          *;
+;*       All rights reserved.                                         *;
+;*       Licensed material -- property of Data General Corporation    *;
+;*                                                                    *;
+;*       This software is made available solely pursuant to the       *;
+;*       terms of a DGC license agreement which governs its use.      *;
+        .TITLE  SON
+        .ENT    SON
+        .NREL
+
+; This subroutine, SON.SR, creates a swappable
+;   son process. The process runs program SPEAK.PR,
+;   but you can change this by replacing SPEAK.PR
+;   with any executable-program-name.PR.  All
+;   defaultable ?PROC characteristics are
+;   defaulted: No IPC header, processname is its
+;   PID, same maximum size as the calling process,
+;   same generic files and username and privileges
+;   as the father, no sons. To use SON, you must
+;   have "Create without Block" privilege in your
+;   user profile.
+
+;  Get program name to ?PROC.
+
+SON:    WSSVR   0               ; Save return from XJSR.
+        XLEFB   0, PRGNM*2      ; Byte pointer to program name.
+        XWSTA   0,PKT+?PSNM     ; Put in ?PROC packet.
+        ?PROC   PKT             ; Create process.
+        WBR     ERROR           ; Error, handle it.
+        WRTN                    ; To caller.
+
+PRGNM:  .TXT    "SPEAK.PR"
+
+ERROR:  NLDAI   ?RFEC+?RFCF+?RFER,2  ; Error flags.
+        ?RETURN                 ; To CLI.
+        WBR     ERROR           ; Return error.
+
+        ; ?PROC packet.
+
+        .ENABLE WORD            ; Most entries = 16 bits.
+
+       PKT:     
+        .BLK    ?PLTH           ; Packet length.
+        
+        .LOC    PKT+?PFLG
+        0                       ;  Default creation specifications.
+        
+        .LOC    PKT+?PPRI
+        -1                      ; Priority (default = caller's).
+        
+        .LOC    PKT+?PSNM
+        .DWORD  PRGNM*2         ; 2-word byte pointer to process name.
+
+        .LOC    PKT+?PIPC
+        .DWORD  -1              ; 2-word address of IPC message header;
+                                ;    there is no header.
+
+        .LOC    PKT+?PNM
+        .DWORD  -1              ; 2-word byte pointer to process name;
+                                ;    default = PID.
+
+        .LOC    PKT+?PMEM
+        .DWORD  -1              ; Maximum memory pages;
+                                ;    default = caller's.
+
+        .LOC    PKT+?PDIR
+        .DWORD  -1              ; 2-word byte pointer to directory;
+                                ;    default = working directory.
+
+        .LOC    PKT+?PCON
+        .DWORD  0               ; 2-word byte pointer to @CON name. None.
+
+        .LOC    PKT+?PCAL
+        -1                      ; Default = 2 concurrent system calls.
+        
+        .LOC    PKT+?PWSS
+        -1                      ; Maximum working set; default=caller's.
+        
+        .LOC    PKT+?PUNM
+        .DWORD  -1              ; Username; default = caller's.
+        
+        .LOC    PKT+?PPRV
+        ?PVIP                   ; Privileges; allow ?ISEND call.
+        
+        .LOC    PKT+?PPCR
+        0                       ; Number of processes son can create.
+        
+        .LOC    PKT+?PWMI
+        -1                      ; Minimum working set; default=caller's.
+        
+        .LOC    PKT+?PIFP
+        .DWORD  0               ; 2-word byte pointer to @INPUT name;
+                                ;    none.
+
+        .LOC    PKT+?POFP
+        .DWORD  0               ; 2-word byte pointer to @OUTPUT name;
+                                ;    none.
+
+        .LOC    PKT+?PLFP
+        .DWORD  0               ; 2-word byte pointer to @LISTFILE name;
+                                ;    none.
+
+        .LOC    PKT+?PDFP
+        .DWORD  0               ; 2-word byte pointer to @DATAFILE name;
+                                ;    none.
+        
+        .LOC    PKT+?SMCH
+        .DWORD  -1              ; Maximum CPU time; default to father's.
+        
+        .LOC    PKT+?PLTH
+
+        ; End of ?PROC packet.
+
+        .END

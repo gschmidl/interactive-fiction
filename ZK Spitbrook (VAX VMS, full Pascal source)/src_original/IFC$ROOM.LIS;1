@@ -1,0 +1,519 @@
+IFC$ROOM                                                        13-Jun-1985 16:31:33    VAX Pascal V3.0-2                   Page   1
+01                              Source Listing                  13-Jun-1985 16:30:32    [LEES.PASCAL.IFC]IFC$ROOM.PAS;54 (1)
+
+-LINE-IDC-PL-SL-
+
+00001      0  0 [inherit('[-.env]typedef',
+00002      0  0 	 '[-.env]rtldef',
+00003      0  0 	 'ifc$lex_def',
+00004      0  0 	 'ifc$obj_def',
+00005      0  0 	 'ifc$def')]
+00006      0  0 module ifc$room(output);
+00007      0  0 
+00008      0  0 const	directions = [north_keyword, south_keyword, east_keyword, west_keyword,
+00009      0  0 		      north_east_keyword, north_west_keyword, up_keyword,
+00010      0  0 		      south_east_keyword, south_west_keyword, down_keyword];
+00011      0  0 	symbol_hash_size = 101;
+00012      0  0 	room_table_size = 100;
+00013      0  0 	tab = chr(9);
+00014      0  0 
+00015      0  0 type	$room_symbol_ptr = ^$room_symbol;
+00016      0  0 	$room_symbol = record
+00017      0  0 			symbol : varying[31] of char;
+00018      0  0 			number : $ubyte;
+00019      0  0 			next : $room_symbol_ptr;
+00020      0  0 		     end;
+00021      0  0 
+00022      0  0 	$symbol_hash_table = packed array[0..symbol_hash_size-1]
+00023      0  0 						of $room_symbol_ptr;
+00024      0  0 	$room_info = packed record
+00025      0  0 			symbol : varying[31] of char;
+00026      0  0 			defined : boolean;
+00027      0  0 			name : varying[31] of char;
+00028      0  0 			description : varying[31] of char;
+00029      0  0 			link : packed array[1..10] of $ubyte;
+00030      0  0 		     end;
+00031      0  0 	$room_table = packed array[0..room_table_size-1] of $room_info;
+00032      0  0 
+00033      0  0 	$ast = packed record
+00034      0  0 			prefix : varying[31] of char;
+00035      0  0 			module_version : varying[31] of char;
+00036      0  0 			symbol_hash_table : $symbol_hash_table;
+00037      0  0 			number : integer;
+00038      0  0 			room_table : $room_table;
+00039      0  0 		      end;
+00040      0  0 
+00041      1  0 procedure check_ast(var ast : $ast);
+00042      1  0 var	c, d, f, b : integer;
+00043      1  0 	connections_out : boolean;
+00044      1  0 	direction_name : [static] packed array[1..10] of
+00045      1  0 		varying[10] of char :=
+00046      1  0 			('north', 'south', 'east', 'west', 'north east',
+00047      1  0 			 'south west', 'north west', 'south east', 'up',
+00048      1  0 			 'down');
+00049      1  1 begin
+00050      1  1 	for c:=1 to ast.number do
+00051      1  2 	  begin
+00052      1  2 		if (not ast.room_table[c].defined) then
+00053      1  2 			writeln('%IFC-W-NOTDEF, Room ',
+
+IFC$ROOM                                                        13-Jun-1985 16:31:33    VAX Pascal V3.0-2                   Page   2
+01                              Source Listing                  13-Jun-1985 16:30:32    [LEES.PASCAL.IFC]IFC$ROOM.PAS;54 (1)
+
+-LINE-IDC-PL-SL-
+
+00054      1  2 					ast.room_table[i].symbol,
+		                                                       1
+%PASCAL-E-UNDECLID, (1) Undeclared identifier I
+00055      1  2 					' was not explicitly defined');
+00056      1  2 		connections_out:=false;
+00057      1  2 		for d:=1 to 10 do
+00058      1  3 		  begin
+00059      1  3 			f:=ast.room_table[c].link[d];
+00060      1  3 			if (f<>0) then
+00061      1  4 			  begin
+00062      1  4 				connections_out:=true;
+00063      1  4 				if (odd(d)) then
+00064      1  4 					b:=ast.room_table[f].link[d+1]
+00065      1  4 				else	b:=ast.room_table[f].link[d-1];
+00066      1  4 				if (b<>c) then
+00067      1  4 					writeln('%IFC-W-NOTSYM, The path ',
+00068      1  4 						direction_name[d],' from room ',
+00069      1  4 						ast.room_table[c].symbol,
+00070      1  4 						' to room ',
+00071      1  4 						ast.room_table[f].symbol,
+00072      1  4 						' is not symmetric');
+00073      1  4 			  end	
+00074      1  2 		  end;
+00075      1  2 
+00076      1  2 		if (not connections_out) then
+00077      1  2 			writeln('IFC-W-NOEXIT, Room ',
+00078      1  2 				ast.room_table[c].symbol,
+00079      1  2 				' has no exits');
+00080      1  1 	  end;
+00081      0  0 end;
+00082      0  0 
+00083      1  0 procedure write_output_files(
+00084      1  0 	var object_filename : varying[$u1] of char;
+00085      1  0 	var def_filename : varying[$u2] of char;
+00086      1  0 	var ast : $ast);
+00087      1  0 
+00088      1  0 var	def_file : text;
+00089      1  0 	i, j, k : integer;
+00090      1  1 begin
+00091      1  1 	for i:=0 to ast.number do
+00092      1  2 	  begin
+00093      1  2 		writeln('(',i:0,') Symbol "',
+00094      1  2 			ast.room_table[i].symbol,'", name "',
+00095      1  2 			ast.room_table[i].name,'", desc "',
+00096      1  2 			ast.room_table[i].description,'"');
+00097      1  2 		write(tab);
+00098      1  2 		for j:=1 to 10 do
+00099      1  3 		  begin
+00100      1  3 			k:=ast.room_table[i].link[j];
+00101      1  3 			if (k<>0) then
+00102      1  3 				write(tab,'(',j:0,'-->',k:0,') ');
+00103      1  2 		  end;
+00104      1  2 		writeln;
+00105      1  1 	  end;
+00106      1  1 
+
+IFC$ROOM                                                        13-Jun-1985 16:31:33    VAX Pascal V3.0-2                   Page   3
+01                              Source Listing                  13-Jun-1985 16:30:32    [LEES.PASCAL.IFC]IFC$ROOM.PAS;54 (1)
+
+-LINE-IDC-PL-SL-
+
+00107      1  1 	$open_object(object_filename);
+00108      1  1 	$write_hdr_mhd(ast.prefix+'MODULE', ast.module_version);
+00109      1  1 	$write_hdr_lnm('IFC Room Compiler X01.00-00');
+00110      1  1 	$write_tir_sta_pb;
+00111      1  1 	$write_tir_ctl_setrb;
+00112      1  1 	$write_gsd_psc('$IFC_DATA');
+00113      1  1 	$write_eom;
+00114      1  1 	$close_object;
+00115      1  1 
+00116      1  1 	open(def_file, def_filename, history:=new);
+00117      1  1 	rewrite(def_file);
+00118      1  1 	close(def_file);
+00119      0  0 end;
+00120      0  0 
+00121      1  0 procedure init_ast(var ast : $ast);
+00122      1  0 var	i : integer;
+00123      1  1 begin
+00124      1  1 	for i:=0 to symbol_hash_size-1 do
+00125      1  1 		ast.symbol_hash_table[i]:=nil;
+00126      1  1 
+00127      1  1 	ast.number:=0;
+00128      1  1 	ast.room_table[0].symbol:='TABLE';
+00129      1  1 	ast.room_table[0].name:='';
+00130      1  1 	ast.room_table[0].description:='';
+00131      1  1 	for i:=1 to 10 do
+00132      1  1 		ast.room_table[0].link[i]:=0;
+00133      0  0 end;
+00134      0  0 
+00135      1  0 function hash(var symbol : varying[$u1] of char) : integer;
+00136      1  0 var	sum, i : integer;
+00137      1  1 begin
+00138      1  1 	sum:=0;
+00139      1  1 	for i:=1 to (symbol.length) do
+00140      1  1 		sum:=sum + ord(symbol[i]);
+00141      1  1 	hash:=(sum mod symbol_hash_size);
+00142      0  0 end;
+00143      0  0 
+00144      1  0 function lookup_symbol(
+00145      1  0 	var ast : $ast;
+00146      1  0 	var symbol : varying[$u1] of char;
+00147      1  0 	definition : boolean) : integer;
+00148      1  0 
+00149      1  0 var	o, n, p : $room_symbol_ptr;
+00150      1  0 	i, state : integer;
+00151      1  0 	found : boolean;
+00152      1  1 begin
+00153      1  1 	o:=nil; i:=hash(symbol); found:=false; state:=-1;
+00154      1  1 	p:=ast.symbol_hash_table[i];
+00155      1  1 	while ((p<>nil) and (not found)) do
+00156      1  2 	  begin
+00157      1  2 		state:=$compare(symbol, p^.symbol);
+00158      1  2 		if (state<>1) then found:=true
+00159      1  2 		else
+00160      1  3 		  begin
+00161      1  3 			o:=p; p:=p^.next;
+
+IFC$ROOM                                                        13-Jun-1985 16:31:33    VAX Pascal V3.0-2                   Page   4
+01                              Source Listing                  13-Jun-1985 16:30:32    [LEES.PASCAL.IFC]IFC$ROOM.PAS;54 (1)
+
+-LINE-IDC-PL-SL-
+
+00162      1  2 		  end;
+00163      1  1 	  end;
+00164      1  1 
+00165      1  1 	if (state=0) then
+00166      1  2 	  begin
+00167      1  2 		if ( (definition) and
+00168      1  2 		     (ast.room_table[p^.number].defined) ) then
+00169      1  2 			$defer_error_message(error_muldef, symbol, [], 0);
+00170      1  2 		lookup_symbol:=p^.number;
+00171      1  2 	  end
+00172      1  1 	else
+00173      1  2 	  begin
+00174      1  2 		new(n);
+00175      1  2 		n^.symbol:=symbol;
+00176      1  2 		ast.number:=ast.number + 1; n^.number:=ast.number;
+00177      1  2 		n^.next:=nil;
+00178      1  2 
+00179      1  2 		if (o=nil) then ast.symbol_hash_table[i]:=n
+00180      1  2 		else
+00181      1  2 			o^.next:=n;
+00182      1  2 
+00183      1  2 		ast.room_table[ast.number].symbol:=symbol;
+00184      1  2 		ast.room_table[ast.number].defined:=definition;
+00185      1  2 		ast.room_table[ast.number].name:=symbol;
+00186      1  2 		ast.room_table[ast.number].description:='';
+00187      1  2 		for i:=1 to 10 do
+00188      1  2 			ast.room_table[ast.number].link[i]:=0;
+00189      1  2 
+00190      1  2 		lookup_symbol:=ast.number;
+00191      1  1 	  end;
+00192      0  0 end;
+00193      0  0 
+00194      1  0 procedure parse_room(followers : $symbol_set; var ast : $ast);
+00195      1  0 
+00196      1  0 var	symbol : $symbol_desc;
+00197      1  0 	starters : $symbol_set;
+00198      1  0 	d, i : integer;
+00199      1  1 begin
+00200      1  1 	i:=room_table_size-1;
+00201      1  1 	starters:=[room_keyword];
+00202      1  1 	$test_symbol(starters, followers);
+		                     1         2
+%PASCAL-E-OPNDASSCOM, (1) Operands are not assignment compatible
+%PASCAL-E-OPNDASSCOM, (2) Operands are not assignment compatible
+00203      1  1 	$get_symbol(symbol);
+		                    1
+%PASCAL-E-VARCOMFRML, (1) Variable is not compatible with formal parameter SYMBOL
+00204      1  1 	if (symbol.token in starters) then
+00205      1  2 	  begin
+00206      1  2 		$advance_symbol;
+00207      1  2 
+00208      1  2 		$test_symbol([identifier], followers +
+		                             1             2
+%PASCAL-E-OPNDASSCOM, (1) Operands are not assignment compatible
+%PASCAL-E-OPNDASSCOM, (2) Operands are not assignment compatible
+
+IFC$ROOM                                                        13-Jun-1985 16:31:33    VAX Pascal V3.0-2                   Page   5
+01                              Source Listing                  13-Jun-1985 16:30:32    [LEES.PASCAL.IFC]IFC$ROOM.PAS;54 (1)
+
+-LINE-IDC-PL-SL-
+
+00209      1  2 			[name_keyword, description_keyword]);
+00210      1  2 		$get_symbol(symbol);
+		                            1
+%PASCAL-E-VARCOMFRML, (1) Variable is not compatible with formal parameter SYMBOL
+00211      1  2 		if (symbol.token=identifier) then
+00212      1  3 		  begin
+00213      1  3 			i:=lookup_symbol(ast, symbol.string, true);
+00214      1  3 			$advance_symbol;
+00215      1  2 		  end;
+00216      1  2 
+00217      1  2 		$get_symbol(symbol);
+		                            1
+%PASCAL-E-VARCOMFRML, (1) Variable is not compatible with formal parameter SYMBOL
+00218      1  2 		if (symbol.token = name_keyword) then
+00219      1  3 		  begin
+00220      1  3 			$advance_symbol;
+00221      1  3 
+00222      1  3 			$test_symbol([text_string], followers +
+		                                     1              2
+%PASCAL-E-OPNDASSCOM, (1) Operands are not assignment compatible
+%PASCAL-E-OPNDASSCOM, (2) Operands are not assignment compatible
+00223      1  3 				[description_keyword]);
+00224      1  3 			$get_symbol(symbol);
+		                                    1
+%PASCAL-E-VARCOMFRML, (1) Variable is not compatible with formal parameter SYMBOL
+00225      1  3 			if (symbol.token=text_string) then
+00226      1  4 			  begin
+00227      1  4 				ast.room_table[i].name:=symbol.string;
+00228      1  4 				$advance_symbol;
+00229      1  3 			  end;
+00230      1  2 		  end;
+00231      1  2 
+00232      1  2 		$test_symbol([description_keyword], followers + [identifier]);
+		                             1                      2
+%PASCAL-E-OPNDASSCOM, (1) Operands are not assignment compatible
+%PASCAL-E-OPNDASSCOM, (2) Operands are not assignment compatible
+00233      1  2 		$get_symbol(symbol);
+		                            1
+%PASCAL-E-VARCOMFRML, (1) Variable is not compatible with formal parameter SYMBOL
+00234      1  2 		if (symbol.token = description_keyword) then
+00235      1  3 		  begin
+00236      1  3 			$advance_symbol;
+00237      1  3 
+00238      1  3 			$test_symbol([identifier], followers + directions);
+		                                     1             2
+%PASCAL-E-OPNDASSCOM, (1) Operands are not assignment compatible
+%PASCAL-E-OPNDASSCOM, (2) Operands are not assignment compatible
+00239      1  3 			$get_symbol(symbol);
+		                                    1
+%PASCAL-E-VARCOMFRML, (1) Variable is not compatible with formal parameter SYMBOL
+00240      1  3 			if (symbol.token=identifier) then
+00241      1  4 			  begin
+00242      1  4 				ast.room_table[i].description:=symbol.string;
+00243      1  4 				$advance_symbol;
+00244      1  3 			  end;
+
+IFC$ROOM                                                        13-Jun-1985 16:31:33    VAX Pascal V3.0-2                   Page   6
+01                              Source Listing                  13-Jun-1985 16:30:32    [LEES.PASCAL.IFC]IFC$ROOM.PAS;54 (1)
+
+-LINE-IDC-PL-SL-
+
+00245      1  2 		  end;
+00246      1  2 
+00247      1  2 		$get_symbol(symbol);
+		                            1
+%PASCAL-E-VARCOMFRML, (1) Variable is not compatible with formal parameter SYMBOL
+00248      1  2 		while (symbol.token in directions) do
+00249      1  3 		  begin
+00250      1  3 			d:=ord(symbol.token) - ord(north_keyword) + 1;
+00251      1  3 			$advance_symbol;
+00252      1  3 
+00253      1  3 			$test_symbol([identifier], followers + directions);
+		                                     1             2
+%PASCAL-E-OPNDASSCOM, (1) Operands are not assignment compatible
+%PASCAL-E-OPNDASSCOM, (2) Operands are not assignment compatible
+00254      1  3 			$get_symbol(symbol);
+		                                    1
+%PASCAL-E-VARCOMFRML, (1) Variable is not compatible with formal parameter SYMBOL
+00255      1  3 			if (symbol.token=identifier) then
+00256      1  4 			  begin
+00257      1  4 				ast.room_table[i].link[d]:=
+00258      1  4 					lookup_symbol(ast,symbol.string,false);
+00259      1  4 				$advance_symbol;
+00260      1  3 			  end;
+00261      1  3 
+00262      1  3 			$get_symbol(symbol);
+		                                    1
+%PASCAL-E-VARCOMFRML, (1) Variable is not compatible with formal parameter SYMBOL
+00263      1  2 		  end;
+00264      1  2 
+00265      1  2 		$sync_symbol(followers);
+		                             1
+%PASCAL-E-OPNDASSCOM, (1) Operands are not assignment compatible
+00266      1  1 	  end;
+00267      0  0 end;
+00268      0  0 
+00269      1  0 procedure parse_room_seq(followers : $symbol_set; var ast : $ast);
+00270      1  0 
+00271      1  0 var	symbol : $symbol_desc;
+00272      1  0 	starters : $symbol_set;
+00273      1  1 begin
+00274      1  1 	starters:=[room_keyword];
+00275      1  1 	$test_symbol(starters, followers);
+		                     1         2
+%PASCAL-E-OPNDASSCOM, (1) Operands are not assignment compatible
+%PASCAL-E-OPNDASSCOM, (2) Operands are not assignment compatible
+00276      1  1 	$get_symbol(symbol);
+		                    1
+%PASCAL-E-VARCOMFRML, (1) Variable is not compatible with formal parameter SYMBOL
+00277      1  1 	if (symbol.token in starters) then
+00278      1  2 	  begin
+00279      1  2 		parse_room(followers + [room_keyword], ast);
+00280      1  2 
+00281      1  2 		$get_symbol(symbol);
+		                            1
+%PASCAL-E-VARCOMFRML, (1) Variable is not compatible with formal parameter SYMBOL
+
+IFC$ROOM                                                        13-Jun-1985 16:31:33    VAX Pascal V3.0-2                   Page   7
+01                              Source Listing                  13-Jun-1985 16:30:32    [LEES.PASCAL.IFC]IFC$ROOM.PAS;54 (1)
+
+-LINE-IDC-PL-SL-
+
+00282      1  2 		while (symbol.token in starters) do
+00283      1  3 		  begin
+00284      1  3 			parse_room(followers + [room_keyword], ast);
+00285      1  3 			$get_symbol(symbol);
+		                                    1
+%PASCAL-E-VARCOMFRML, (1) Variable is not compatible with formal parameter SYMBOL
+00286      1  2 		  end;
+00287      1  2 
+00288      1  2 		$sync_symbol(followers);
+		                             1
+%PASCAL-E-OPNDASSCOM, (1) Operands are not assignment compatible
+00289      1  1 	  end;
+00290      0  0 end;
+00291      0  0 
+00292      1  0 procedure parse_room_file(followers : $symbol_set; var ast : $ast);
+00293      1  0 
+00294      1  0 var	symbol : $symbol_desc;
+00295      1  0 	starters : $symbol_set;
+00296      1  1 begin
+00297      1  1 	ast.prefix:='NONAME';
+00298      1  1 	ast.module_version:='V01.00-00';
+00299      1  1 
+00300      1  1 	$advance_symbol;
+00301      1  1 	starters:=[prefix_keyword];
+00302      1  1 	$test_symbol(starters, followers);
+		                     1
+%PASCAL-E-OPNDASSCOM, (1) Operands are not assignment compatible
+%PASCAL-F-ERRORLIMIT, (1) Error Limit = 30, source analysis terminated
+00303      1  1 	$get_symbol(symbol);
+00304      1  1 	if (symbol.token in starters) then
+00305      1  1 	  begin
+00306      1  1 		$advance_symbol;
+00307      1  1 
+00308      1  1 		$test_symbol([identifier], followers +
+00309      1  1 			[ident_keyword, room_keyword]);
+00310      1  1 		$get_symbol(symbol);
+00311      1  1 		if (symbol.token=identifier) then
+00312      1  1 		  begin
+00313      1  1 			ast.prefix:=symbol.string;
+00314      1  1 			$advance_symbol;
+00315      1  1 		  end;
+00316      1  1 
+00317      1  1 		$get_symbol(symbol);
+00318      1  1 		if (symbol.token=ident_keyword) then
+00319      1  1 		  begin
+00320      1  1 			$advance_symbol;
+00321      1  1 			$test_symbol([text_string], followers +
+00322      1  1 				[room_keyword]);
+00323      1  1 			$get_symbol(symbol);
+00324      1  1 			if (symbol.token=text_string) then
+00325      1  1 			  begin
+00326      1  1 				ast.module_version:=symbol.string;
+00327      1  1 				$advance_symbol;
+00328      1  1 			  end;
+00329      1  1 		  end;
+
+IFC$ROOM                                                        13-Jun-1985 16:31:33    VAX Pascal V3.0-2                   Page   8
+01                              Source Listing                  13-Jun-1985 16:30:32    [LEES.PASCAL.IFC]IFC$ROOM.PAS;54 (1)
+
+-LINE-IDC-PL-SL-
+
+00330      1  1 
+00331      1  1 		parse_room_seq(followers+[end_keyword], ast);
+00332      1  1 
+00333      1  1 		$test_symbol([end_keyword], followers);
+00334      1  1 		$get_symbol(symbol);
+00335      1  1 		if (symbol.token = end_keyword) then
+00336      1  1 		  begin
+00337      1  1 			$advance_symbol;
+00338      1  1 		  end;
+00339      1  1 
+00340      1  1 		$sync_symbol(followers);
+00341      1  1 	end;
+00342      1  1 end;
+00343      1  1 
+00344      1  1 [global] procedure ifc$compile_rooms(
+00345      1  1 	room_filename : varying[$u1] of char;
+00346      1  1 	object_filename : varying[$u2] of char;
+00347      1  1 	def_filename : varying[$u3] of char);
+00348      1  1 
+00349      1  1 var	ast : $ast;
+00350      1  1 begin
+00351      1  1 	init_ast(ast);
+00352      1  1 
+00353      1  1 	$open_lex(room_filename); $reset_lex(true);
+00354      1  1 	parse_room_file([end_of_file], ast);
+00355      1  1 	$close_lex;
+00356      1  1 
+00357      1  1 	check_ast(ast);
+00358      1  1 	write_output_files(object_filename, def_filename, ast);
+00359      1  1 end;
+00360      1  1 
+00361      1  1 end.
+
+IFC$ROOM                                                        13-Jun-1985 16:31:33    VAX Pascal V3.0-2                   Page   9
+01                              Pascal Compilation Statistics   13-Jun-1985 16:30:32    [LEES.PASCAL.IFC]IFC$ROOM.PAS;54 (1)
+
+ENVIRONMENT STATISTICS
+
+                                             -------- Symbols --------
+        File                                 Total    Loaded   Percent
+
+GUIDO$DRA3:[LEES.PASCAL.ENV]TYPEDEF.PEN;        14         2        14
+GUIDO$DRA3:[LEES.PASCAL.ENV]RTLDEF.PEN;6       134        11         8
+GUIDO$DRA3:[LEES.PASCAL.IFC]IFC$LEX_DEF.       122       113        93
+GUIDO$DRA3:[LEES.PASCAL.IFC]IFC$OBJ_DEF.        39        27        69
+GUIDO$DRA3:[LEES.PASCAL.IFC]IFC$DEF.PEN;       106        86        81
+
+
+COMMAND QUALIFIERS
+
+  PAS/LIST IFC$ROOM
+
+  /CHECK=(BOUNDS,NOCASE_SELECTORS,NOOVERFLOW,NOPOINTERS,NOSUBRANGE)
+  /DEBUG=(NOSYMBOLS,TRACEBACK)
+  /SHOW=(DICTIONARY,INCLUDE,NOINLINE,HEADER,SOURCE,STATISTICS)
+  /OPTIMIZE
+  /NOENVIRONMENT
+  /LIST=GUIDO$DRA3:[LEES.PASCAL.IFC]IFC$ROOM.LIS;1
+  /OBJECT=GUIDO$DRA3:[LEES.PASCAL.IFC]IFC$ROOM.OBJ;49
+  /NOCROSS_REFERENCE /ERROR_LIMIT=30 /NOG_FLOATING /NOMACHINE_CODE /NOOLD_VERSION /NOSTANDARD /WARNINGS
+
+
+COMPILER INTERNAL TIMING
+
+  Phase                 Faults       CPU Time      Elapsed Time
+  Initialization          156        00:00.3          00:00.7
+  Source Analysis         197        00:02.1          00:06.9
+  Source Listing           91        00:01.1          00:05.5
+  Tree Construction         0        00:00.0          00:00.0
+  Flow Analysis             0        00:00.0          00:00.0
+  Value Propagation         0        00:00.0          00:00.0
+  Profit Analysis           0        00:00.0          00:00.0
+  Context Analysis          0        00:00.0          00:00.0
+  Name Packing              0        00:00.0          00:00.0
+  Code Selection            0        00:00.0          00:00.0
+  Final                     0        00:00.0          00:00.0
+  TOTAL                   444        00:03.5          00:13.1
+
+
+COMPILATION STATISTICS
+
+  Informationals: 0
+  Warnings:       0
+  Errors:         30
+  Fatals:         1
+  CPU Time:       00:03.5         (5237 Lines/Minute)
+  Elapsed Time:   00:13.1
+  Page Faults:    444
+  Compilation Complete

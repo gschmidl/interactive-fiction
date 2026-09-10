@@ -1,0 +1,27 @@
+push
+prompt pop
+superuser on
+directory %1%
+[!nequal,%0/D%,];COMMENT START INSTALL FROM DISKETTE
+  class(1 2) ignore
+  permanence =?[!pid].[!username].tmp off
+  delete =?[!pid].[!username].tmp
+  operator/l==?[!pid].[!username].tmp
+  string [=?[!pid].[!username].tmp]
+  delete =?[!pid].[!username].tmp
+  [!equal,([!string]),(off)]
+    operator on
+  [!end]
+  class1 error
+  class2 warning
+  load/v/delete %2% %3-%
+[!else];COMMENT END INSTALL FROM DISKETTE/START INSTALL FROM TAPE
+  X/S/1=IGNORE LOAD_II%0/V/L%/DELETE %2% %3-%
+  [!nequal,([!string]),()]
+    bye/abort [!string] install failed
+  [!else]
+    write [!read [!ascii 234 220 210 226]Press NEW LINE to continue.,]
+  [!end]
+[!end]
+PAUSE 5
+pop

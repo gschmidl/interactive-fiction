@@ -1,0 +1,121 @@
+;*       Copyright (C) Data General Corporation, 1980 - 1994          *;
+;*       All rights reserved.                                         *;
+;*       Licensed material -- property of Data General Corporation    *;
+;*                                                                    *;
+;*       This software is made available solely pursuant to the       *;
+;*       terms of a DGC license agreement which governs its use.      *;
+        .TITLE  SPEAK
+        .ENT    SPEAK
+        .NREL
+
+; The sole purpose of this program is to send
+;    an IPC message to a brother process, then to
+;    terminate itself. SPEAK's origin port is
+;    PORTS and its destination port is PORTR.
+
+        ; Create an IPC entry port named PORTS.
+
+SPEAK:  XLEFB   0, PORTS*2 ; Byte pointer to port name.
+        ?CREATE IPCEN      ; Create IPC port.
+        WBR     E.RROR     ; Error, process it.
+
+        ; See if receive entry, PORTR, has been created.
+
+GETNM:  XLEFB   0, PORTR*2 ; Byte pointer to port name.
+        ?ILKUP             ; Put port number in AC1.
+        WBR     TEST       ; Error -- check for
+                           ; ERDNE (doesn't exist).
+        XWSTA   1, SHDR+?IDPH  ; Entry exists; put
+                               ;    number in send header.
+        NLDAI   1, 0           ; Generate 1.
+        XNSTA   0, SHDR+?IOPN  ; Put destination port 1
+                               ;    in send header. Note
+                               ;    narrow store instruction.
+        ?ISEND  SHDR           ; Send SPEAK message.
+        WBR     E.RROR         ; Error, process it.
+
+        ; Message sent. Delay to allow brother to receive
+        ;    message before terminating yourself.
+
+        NLDAI   10000.,  0     ; 10000 ms = 10 seconds.
+        ?WDELAY                ; Delay for 10 seconds.
+        WBR     E.RROR         ; Error, process it.
+        NLDAI   -1, 0          ; Get -1 to terminate self.
+        WSUB    2,2            ; No IPC message to father.
+        ?TERM                  ; The end.
+        WBR     E.RROR         ; Termination error, handle it.
+
+        ; ?ILKUP error. Check for "does not exist" error and delay
+        ;    if this was the error.
+
+TEST:   NLDAI   ERFDE,  1       ; Put ERFDE number in AC1.
+        WSEQ    0, 1            ; Skip if ERFDE.
+        WBR     E.RROR          ; Handle other error.
+        NLDAI   5000., 0        ; 5000 milliseconds =  5 seconds.
+        ?WDELAY                 ; Delay for 5 seconds.
+        WBR     E.RROR          ; Error, process it.
+        WBR     GETNM           ; Try ?ILKUP again.
+
+        ; Error instruction, pointer, file/port names.
+
+E.RROR: XJMP    ERROR           ; To error handler.
+
+PORTS:  .TXT    "PORTS"         ; Send port name.
+
+PORTR:  .TXT    "PORTR"         ; Receive port name.
+
+        ; Header for IPC entry.
+
+        .ENABLE WORD            ; Most entries = 16 bits.
+                                ;    Use WORD for rest of prog.
+
+IPCEN:  .LOC    IPCEN+?CFTYP
+        ?FIPC                   ; FIPC type file.
+        
+        .LOC    IPCEN+?CPOR
+        1                       ; Port number is 1.
+        
+        .LOC    IPCEN+?CTIM
+        .DWORD  -1              ; Default to current time.
+        
+        .LOC    IPCEN+?CACP
+        .DWORD  -1              ; Default to current ACL.
+
+        ; Send header SHDR -- for the ?ISEND.
+
+SHDR:   .LOC    SHDR+?ISFL
+        0                       ; No system flags.
+        
+        .LOC    SHDR+?IUFL
+        0                       ; No user flags.
+        
+        .LOC    SHDR+?IDPH
+        .DWORD  0               ; For destination port number.
+        
+        .LOC    SHDR+?IOPN
+        0                       ; For origin port number.
+        
+        .LOC    SHDR+?ILTH
+        100.                    ; Message buffer, 100. words.
+        
+        .LOC    SHDR+?IPTR
+        .DWORD  MSBUF           ; Message buffer address.
+        
+        .LOC    SHDR+?PLTH      ; End of header.
+
+        ; Message to send. A .NOLOC 1 follows ...
+
+        .NOLOC  1               ; ... to save listing space.
+
+        MSBUF:  .TXT  "Hello, this is your son SPEAKing. As you <12>
+read these words, I am terminating and so are you.<12>"
+
+        .NOLOC  0               ; Resume listing all.
+
+        ;  Error handler.
+
+ERROR:  NLDAI   ?RFEC+?RFCF+?RFER,  2  ; Error flags.
+        ?RETURN                 ; To CLI.
+        WBR     ERROR           ; Return error.
+
+        .END    SPEAK

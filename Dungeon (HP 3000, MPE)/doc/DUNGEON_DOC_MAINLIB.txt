@@ -1,0 +1,200 @@
+
+                      DUNGEON MASTERS GUIDE
+                          Version 2.3A
+                         23 October 1982
+
+
+
+"DUNGEON" is a challenging game of skill and wit that will  spark
+the  imagination of games fanatics everywhere.  Inside its depths
+one will encounter treasures and terrors unknown to many a mortal
+adventurer.
+
+Installation Procedures:
+
+     DUNGEON consists of three files  that  may  reside  anywhere
+on  the  system,  although  all three should be placed within the
+same group and account.  If the DUNGEON files are not to be  kept
+on  PUB.GAMES, a utility program must be run to patch the DUNGEON
+program file so that upon startup, it will be able to locate  and
+open its text and index files.  The files are named as follows:
+
+  DUNGEON...The dungeon program file.
+  DINDX.....The index file which contains the game database.
+  DTEXT.....The text file which contains messages for output.
+
+Changing Prime Time:
+
+     The Dungeon Master has been endowed with a  special  command
+which  should not be made available to the average garden variety
+adventurer.  This command allows the setting of "prime time" dur-
+ing which play is not permitted.
+
+   Invoked by:
+
+   >NEWHRS
+
+     This command is only recognized by the parser  if  input  as
+the  first move of a new game.  Access to this feature is granted
+only after a successful response to a random challenge whose sol-
+ution can be found later in this text.  New hours may be  set  by
+specifying  "prime  time",  during  which  the DUNGEON may not be
+entered.  Prime time is entered in 24 hour "military" format, and
+may only specify an "on the hour value".  For example, 1500 (3PM)
+is a legal value, although 1530 (3:30PM) is  not.   The  starting
+and  ending  times  are delimited by a comma.  Entering a  single
+zero will act to terminate input for the current prompt.   It  is
+possible to designate prime time to govern play for both weekdays
+and weekends individually.  Due to the  internal  format  of  the
+timestamp,  the  DUNGEON will always remain open for play between
+the hours of 10PM to 7AM.  Attempting to specify prime  time  for
+any  part of this  "free play" period is illegal.  As an example,
+specifying 1100,1700 will close the dungeon from 11AM until 5PM.
+
+
+     DUNGEON comes preset with the prime time  hours  of  8AM  to
+noon  and  1PM to 5PM.  This is thought to be adequate for use in
+most installations.  Caveat: Prime time should be reset only when
+really necessary, since each invokation  of  the  NEWHRS  command
+will  result  in  the  deletion of the current index file and its
+replacement with a new version.  This implicitly means  that  the
+user  of  this command should possess sufficient access rights to
+delete and recreate the DINDX file.  It is recommended  that  the
+prime  time be changed during such time where it will not be busy
+due to a user attempting to start a game.  In any case,  it  will
+always  be  prudent  to maintain a backup copy of all the DUNGEON
+files lest you find the integrity of the game database in  a  un-
+reconcilable position.
+
+The Random Challenge:
+
+     The random challenge is utilized by the  executor  procedure
+of  the NEWHRS command to check for unauthorized access which may
+adversely affect other adventurers.  The algorithm chosen for the
+random  challenge  is  rather  complicated,  and designed to make
+manual encryption tedious even with knowledge of the  procedures.
+For  this  reason, a response to a challenge can be derived using
+the INCANT command.  This command, whose syntax  is  shown  below
+may  be  used once during the course of a game, and should not be
+advertised to the player public,  although  players  encountering
+the endgame will utilize it in a somewhat different context.
+
+It will be necessary to use two terminals during  the  course  of
+altering prime time; one to invoke the NEWHRS command and receive
+the random challenge, and the other to invoke the INCANT  command
+to obtain the response.
+
+   >INCANT,ABCDEF
+   A hollow voice replies "ABCDEF JJSVDG".
+
+     In the above example, a random challenge (which was  printed
+onto  the  terminal where NEWHRS was invoked) of ABCDEF should be
+replied to by entering JJSVDG.   Be wary that in  replying  to  a
+random  challenge,  lower  and  upper case are significant, and a
+response in the incorrect case will produce an incorrect result.
+
+
+Dungeon utility program:
+
+As mentioned earlier, if the DUNGEON files are not be kept on the
+PUB group of the GAMES account, a slightly different installation
+procedure will be required before DUNGEON may be run.
+
+  1.  Restore the DUNGEON files (DUNGEON, DINDX and DTEXT)  along
+      with  the  DUNGEON  utility  program (DUTIL) to the desired
+      group.
+
+  2.  Run the DUNGEON utility program from the  group  containing
+      the files.  The utility will patch the DUNGEON program file
+      with the name of the group and account so that it  will  be
+      able  to  locate  and  open  its  text and index files from
+      anywhere in the system (subject to normal MPE file security
+      conventions).   The file ID string containing the group and
+      account is kept in a PB-relative array in the program file.
+
+  3.  Delete the DUTIL program, and set any desired file security
+      attributes.  An adventurer must have execute access to  the
+      DUNGEON  program  file and read access to both the text and
+      index files to successfully run the game. The DUTIL program
+      may only be run with this latest version of DUNGEON.
+
+
+Bugs in the Dungeon:
+
+     If bugs or other inconsistancies are found during play, they
+should be documented as well as possible perhaps including a hard
+copy listing demonstrating the problem.  This should be sent  off
+to the address below:
+
+     HP3000 International Users Group
+     Contributed Software Library
+     289 S. San Antonio Road
+     Los Altos, CA  94022
+     Attention: Dungeon Maintenance
+
+Troubleshooting:
+
+     The following should be checked before assuming there  is  a
+bug in the dungeon.
+
+   Are all three files present?  (DUNGEON, DINDX, DTEXT)
+
+   Do they all reside on the same group in the same account?
+
+   Do the adventurers have execute access to the program file
+   and read access to both the database and text files?
+
+   Are you attempting to play DUNGEON during prime time?
+   (Initially set from 8AM to 12PM and 1PM to 5PM)
+
+   Is your target computer an HP3000 and is it plugged in?
+
+
+REVIEWER'S NOTE:  To conform to the library's naming standards
+                  the following file have been renamed.
+
+                  DTEXT    =    DUNGEON.DATA
+                  DINDX    =    DUNGEON1.DATA
+
+                  To run the program you will have to rename these
+                  files back to their original names and make sure
+                  they are present in the same account and group as
+                  the program.
+
+                  Also, DUTIL   =  DUNGEON.DEMO.
+
+                CORRECTIONS FOR DUNGEON VER 2.3A
+                        23 OCTOBER 1982
+
+
+The parser will be reset after the player  specifies  an  illegal
+direction,  so  that  any additional commands entered on the same
+line won't be  processed.   Previously,  players  typing  several
+commands  on  a  line could easily get lost (especially in one of
+the mazes) if one command in a sequence was mistyped.
+
+The command "EAT SPIRIT" at the gate to Hades  would  generate  a
+reply  of  "You can't take the #" in previous versions.  This has
+been fixed via an update to the text file.
+
+The current score will be printed during  the  process  of  being
+booted  off  the  game due to a prime time violation.  Players in
+the endgame will no longer have the option of saving  their  game
+at this time.
+
+A few minor typos have been corrected in the text file.
+
+The time, date, and process ID are no longer checked by  routines
+that  utilize  privileged  mode.  Instead, the clock and calendar
+intrinsics are called to make the time check, and a  new  utility
+has been provided to allow DUNGEON to be set up for play anywhere
+on the system.  There were no problems reported with the previous
+method, although it was felt the privileged mode utility routines
+should be minimized for future compatibility as well as aesthetic
+reasons.
+
+Alas, all games saved under version 2.2A may not be  restored  by
+this latest version.  This is necessary due to modifications made
+to the text and index files  (absolute record pointers are placed
+in DSAVE).
+

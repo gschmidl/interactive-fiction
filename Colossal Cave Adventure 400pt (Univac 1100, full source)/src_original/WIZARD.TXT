@@ -1,0 +1,136 @@
+       LOGICAL FUNCTION WIZARD ()
+
+C  Ask if he's a wizard.  If he says yes, make him prove it.  Return
+C  TRUE if he really is a wizard.
+
+       IMPLICIT INTEGER(A-Z)
+      include comwiz                    @ define WIZCOM common block
+       LOGICAL YESM, wrong, kludge
+       DIMENSION VAL(5), fdword(2)                                      DK
+      character*5  wd1, wd2
+      character*12 wd1x, wd2x
+      data fdblnk/o050505050505/                                        DK
+
+       WIZARD=YESM(16,0,7)
+       IF(.NOT.WIZARD)RETURN
+      call privil (wrong)               @ special user?
+c     wrong = .false.                   @
+
+C  He says he is.  First step: does he know anything magical?
+
+       CALL MSPEAK(17)
+       CALL GETIN (WD1, WD1X, WD2, WD2X)
+      wizard = wd1 .eq. magic           @
+
+C  He does.  Give him a random challenge and check his reply.
+
+       CALL DATIME(D,T)
+      t = (t/10)*10                     @ round down to nearest 10 min  DK
+       T=T*2+1
+      fdword(1) = fdblnk                                                DK
+       DO 15 Y=1,5
+       X=79+MOD(D,5)
+       D=D/5
+       DO 12 Z=1,X
+12     T=MOD(T*1027,1048576)
+       VAL(Y)=(T*26)/1048576+1
+15    fdword(1) = fdword(1) + shift(val(y),36-6*y)                      DK
+      i = 1                                                             DK
+      call ffdasc(i,fdword(1),wd1)                                      DK
+C     IF ((YESM(18,0,0) .AND. (WIZARD.XOR.WRONG)) .EQV. WIZARD) GOTO 99
+      kludge = and(yesm(18,0,0),xor(wizard,wrong))
+      if (kludge .and. wizard) goto 99
+      if ((.not. kludge) .and. (.not. wizard)) goto 99
+       PRINT 18, wd1
+18     FORMAT(/' I thought it was "',A5,'".')
+       CALL GETIN (WD1, WD1X, WD2, WD2X)
+      i = 2                                                             DK
+      call fascfd(i, wd1, fdword(1))                                    DK
+       CALL DATIME(D,T)
+       T=(T/60)*40+(T/10)*10
+       D=MAGNM
+       DO 19 Y=1,5
+       Z=MOD(Y,5)+1
+       X=MOD(IABS(VAL(Y)-VAL(Z))*MOD(D,10)+MOD(T,10),26)+1
+       T=T/10
+       D=D/10
+19    fdword(1) = fdword(1) - shift(x,36-6*y)                           DK
+      wizard = xor(wizard,(fdword(1).ne.fdblnk))
+      if (.not. wizard) goto 99
+
+C  By George, he realy IS a wizard!
+
+       CALL MSPEAK(19)
+       RETURN
+
+C  Aha!  An imposter!
+
+99     CALL MSPEAK(20)
+       WIZARD=.FALSE.
+       RETURN
+       END
+
+
+       SUBROUTINE MAINT
+
+C  SOMEONE SAID THE MAGIC WORD TO INVOKE MAINTENANCE MODE.  MAKE SURE HE'S A
+C  WIZARD.  IF SO, LET HIM TWEAK ALL SORTS OF RANDOM THINGS, THEN EXIT SO CAN
+C  SAVE TWEAKED VERSION.  SINCE MAGIC WORD MUST BE FIRST COMMAND GIVEN, ONLY
+C  THING WHICH NEEDS TO BE FIXED UP IS ABB(1).
+
+      include defs                      @ define parameters
+      include comabb                    @ define ABBCOM common block
+      include comblk                    @ define BLKCOM common block
+      include comwiz                    @ define WIZCOM common block
+      logical yesm,wizard
+      character*5 word1                                                 DK
+      character*8 clsmsg                                                DK
+
+       IF(.NOT.WIZARD())RETURN
+       BLKLIN=.FALSE.
+       IF (.not.(YESM(10,0,0))) goto 60                                 DK
+       do 50 clsnum=1,2
+       clsmsg = 'paying'                                                DK
+       if (clsnum.eq.2) clsmsg = 'in-house'                             DK
+       print 40, clsmsg                                                 DK
+40     format (/,' Hours for ',A8,' adventurers:')                      DK
+       call hours(clsnum)                                               DK
+50     continue                                                         DK
+       print 1                                                          DK
+60     IF(YESM(11,0,0))CALL NEWHRS
+       IF(.NOT.YESM(26,0,0))GOTO 10
+       CALL MSPEAK(27)
+       READ 1,HBEGIN
+1      FORMAT()
+       CALL MSPEAK(28)
+       READ 1,HEND
+       CALL DATIME(D,T)
+       HBEGIN=HBEGIN+D
+       HEND=HBEGIN+HEND-1
+       CALL MSPEAK(29)
+       READ 2,HNAME
+2      FORMAT(4A5)
+10     PRINT 12,SHORT                                                   CBC
+12     FORMAT(' Length of short game (zero to leave at',I3,'):')        DK
+       READ 1,X
+       IF(X.GT.0)SHORT=X
+       CALL MSPEAK(12)
+       read 2, word1
+       IF (word1.NE.'     ') MAGIC=word1                                DK
+       CALL MSPEAK(13)
+       READ 1,X
+       IF(X.GT.0)MAGNM=X
+       PRINT 16,LATNCY
+16     FORMAT(' Latency for restart (zero to leave at',I3,'):')         DK
+       READ 1,X
+       IF(X.GT.0.AND.X.LT.45)CALL MSPEAK(30)
+       IF(X.GT.0)LATNCY=MAX0(45,X)
+       IF(YESM(14,0,0))CALL MOTD(.TRUE.)
+      check = -1                        @ ???
+       SAVED=0
+       SETUP=2
+       ABB(1)=0
+       CALL MSPEAK(15)
+       BLKLIN=.TRUE.
+       CALL CIAO
+       END

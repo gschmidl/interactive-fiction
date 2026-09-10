@@ -1,0 +1,186 @@
+  
+To:     Adventure Players 
+From:   Adventure Maintenance 
+Date:   1-SEP-87  
+Subj:   Game Information  
+  
+I.  Adventure II, Version 2.2 
+  
+Adventure II s a maintenance release of Adventure.  
+The release kit contains the following files: 
+  
+        -ADVENT.FTN     main program. 
+        -AINIT.FTN      initialization overlay. 
+        -AMAIN.FTN      game overlay. 
+        -ASUB.FTN       resident subroutines. 
+        -AIOSUB.FTN     resident subroutines. 
+        -ADVENTURE.DOC  documentation file. 
+        -ADVENTURE.TXT  game editable text file.  
+        -ADVENTURE.DAT  game data base file.  
+        -ADVENT.LOD     LINK command file (RTE-6/VM and RTE-A)
+        -ABUILD.FTN     index file build program. 
+        -ABUILD.LOD     LINK command file 
+        -MESSAGE.TXT    startup message 
+  
+The primary changes incorporated in Version 2 are the following:  
+  
+        -Improved page formatting.  
+        -Upper and lower case output. 
+        -SAVE and RESTORE.  
+        -Fast initialization feature. 
+        -Echo back of words input 
+        -MAGIC mode 
+        -Expanded cave
+  
+SAVE (synonyms SUSPEND and PAUSE) permits the user to save the current  
+state of the game for later analysis or continuation.  RESTORE (synonym 
+RESUME) restores a previously SAVEd game.  The fast initialization  
+feature reduces the startup time of the game from 60-90 seconds to  
+3-5 seconds after the first game. 
+  
+The expanded cave and proper scoring now works correctly. 
+  
+II. History 
+  
+This version of Adventure is based on two previous versions:  
+  
+        -A Fortran-10 version done by Willie Crowther and 
+         Don Woods. 
+        -A Fortran-IV-Plus version done by Kent Blackett. 
+  
+Crocks in the language or the compiler necessitated certain other 
+changes, notably the removal of Hollerith constants from arithmetic 
+expressions and the division of 32-bit integer arrays into multiple 
+16-bit integer arrays.  
+  
+The HP-1000 conversion was done by Beasley for RTE-III systems in 1978. 
+Other versions usings segments called MODn have been floating around but
+only part of the source can be found. In 1982 INTEREX released a version
+for RTE-IV systems which this version is based upon. That version will
+not run on RTE-6/VM or RTE-A systems. A new version was submitted for 
+the Washington D.C. swap tape in 1985, but it had missing parts. This 
+had the magic mode and expanded cave added by Tim London of England.
+Most of those changes have been added to this version.
+  
+III. Installation Instructions (RTE-6/VM and RTE-A) 
+  
+To create an executable image, issue the following commands:  
+  
+        LINK,ABUILD.LOD 
+        LINK,ADVENT.LOD 
+        RUN,ABUILD.RUN    (if ADVENTURE.DAT is missing) 
+  
+The linked program can be executed with the command:  
+  
+        RUN,ADVENT.RUN
+  
+Before running the game for the first time, you must create 
+ADVENTURE.DAT binary file, as outlined in section IV. 
+  
+The ABUILD program will take 60-90 seconds to create build the data base
+in ADVENTURE.DAT. Subsequently, startup should take only 3-5 seconds. 
+Do not delete ADVENTURE.DAT or MESSAGE.TXT. You may edit MESSAGE.TXT
+to change the startup message at any time.
+  
+IV.   Creating the Data Base Files  
+  
+For efficiency reasons, Adventure transforms the variable-length  
+records in its data base (ADVENTURE.TXT) into a memory image of all 
+common areas which is saved in the file ADVENTURE.DAT. Do not delete
+this file unless you have changed ADVENTURE.TXT and want to recreate
+ADVENTURE.DAT.
+  
+        -Compile program ABUILD.FTN.  
+  
+        -Link it with the compiled version of module AIOSUB.FTN.  
+  
+        -Execute the linked program.  
+  
+The linked program will produce a version of ADVENTURE.DAT. The version 
+in set in ADVENT.FTN must be the same as the version number stored in 
+ADVENTURE.DAT or you cannot load the data base. Be sure to change the 
+revision number in ADVENT.FTN if any of the common areas are changed. 
+Do not replace ADVENTURE.DAT while playing the game. It will save your
+current state which all others will start with. Use the magic mode in 
+the ABUILD program to modify the hours or time limits. Use the magic
+mode in the main game only for debugging (or cheating). Future changes
+might include encrypting the data base but the game is to well known by 
+this time. Additional restrictions could be placed on the hours or what 
+wizards can do. 
+  
+Best wishes!
+  
+  
+Abstract of Informational Printouts-- 
+  
+SUMMARY 
+------- 
+  
+Somewhere nearby is Colossal Cave, where others have found fortunes in  
+treasure and gold, though it is rumored that some who enter are never 
+seen again.  Magic is said to work in the cave.  I will be your eyes  
+and hands.  Direct me with commands of 1 or 2 words.  I should warn 
+you that I look at only the first four letters of each word, so you'll  
+have to enter 'NORTHEAST' as 'NE' to distinguish it from 'NORTH'. 
+(Should you get stuck, type 'HELP' for some general hints.  For infor-  
+mation on how to end your adventure, etc., type 'INFO'.)  
+                        - - - 
+This program was originally developed by Willie Crowther.  Most of the  
+features of the current program were added by Don Woods (DON @ SU-AI).  
+The current version was done by Kent Blackett and Bob Supnik. 
+                        - - - 
+Bug reports and other correspondence should be sent to: 
+  
+  INTEREX 
+  The International Association of Hewlett-Packard Computer Users 
+  680 Almanor Avenue, Sunnyvale CA. 94086-3513
+  Attn:  Adventure Maintenance (HP 1000)
+  
+HELP  
+----  
+  
+I know of places, actions, and things.  Most of my vocabulary 
+describes places and is used to move you there.  To move, try words 
+like 'FOREST', 'DNSTREAM', 'ENTER', 'EAST', 'WEST', 'NORTH', 'SOUTH', 
+'UP', or 'DOWN'.  I know about a few special objects, like a black rod  
+hidden in the cave.  These objects can be manipulated using some of 
+the action words that I know.  Usually you will need to give both the 
+object and action words (in either order), but sometimes I can infer  
+the object from the verb alone.  Some objects also imply verbs; in  
+particular, 'INVENTORY' implies 'TAKE INVENTORY', which causes me to  
+give you a list of what you're carrying.  The objects have side 
+effects; for instance, the rod scares the bird.  Usually people having  
+trouble moving just need to try a few more words.  Usually people 
+trying unsuccessfully to manipulate an object are attempting something  
+beyond their (or my!) capabilities and should try a completely  
+different tack.  To speed the game you can sometimes move long  
+distances with a single word.  For example, 'BUILDING' usually gets 
+you to the building from anywhere above ground except when lost in the  
+forest.  Also, note that cave passages turn a lot, and that leaving a 
+room to the north does not guarantee entering the next from the south.  
+Good luck!  
+  
+  
+INFO  
+----  
+  
+If you want to end your adventure early, say 'QUIT'.  To suspend your 
+adventure such that you can continue later, say 'SUSPEND' (or 'PAUSE' 
+or 'SAVE').  To see what hours the cave is normally open, say 'HOURS'.  
+To see how well you're doing, say 'SCORE'.  To get full credit for a  
+treasure, you must leave it safely in the building, though you get  
+partial credit just for locating it.  You lose points for getting 
+killed, or for quitting, though the former costs you more.  There are 
+also points based on how much (if any) of the cave you've managed to  
+explore; in particular, there is a large bonus just for getting in (to  
+distinguish the beginners from the rest of the pack), and there are 
+other ways to determine whether you've been through some of the more  
+harrowing sections.  If you think you've found all the treasures, just  
+keep exploring for a while.  If nothing interesting happens, you  
+haven't found them all yet.  If something interesting DOES happen,  
+it means you're getting a bonus and have an opportunity to garner many  
+more points in the master's section.  I may occasionally offer hints  
+if you seem to be having trouble.  If I do, I'll warn you in advance  
+how much it will affect your score to accept the hints.  Finally, to  
+save paper, you may specify 'BRIEF', which tells me never to repeat 
+the full description of a place unless you explicitly ask me to.  

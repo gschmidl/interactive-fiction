@@ -1,0 +1,87 @@
+AMAZON -- commands
+==================
+
+The parser is AMAZOT.SAI's: input is upper-cased and split into runs of
+[A-Z 0-9 * -].  Everything else is a separator.  One verb per line, then as
+many nouns as you like -- GET KNIFE LAMP MATCHES works, because AMAZON.SAI's
+ACQUIRE loops over every word that follows the verb.
+
+
+FROM CMDLIB.SAI (11-Sep-77) -- the original vocabulary
+------------------------------------------------------
+
+  class        commands                             strength
+  -----        --------                             --------
+  ACQUIRE      ACQUIRE GET TAKE CAPTURE KEEP           1
+               STEAL ROB                               2
+  RELINQUISH   RELINQUISH DROP RELEASE                 1
+               THROW TOSS                              2
+  DIRECTION    N NE E SE S SW W NW U D                 0-9
+               NORTH NORTHEAST EAST SOUTHEAST SOUTH
+               SOUTHWEST WEST NORTHWEST UP DOWN
+
+Strength matters.  GET takes what is lying about; STEAL and ROB will take it
+out of another player's hands, if your DEXTERITY beats their AGILITY -- and
+if a Policeman sees you do it, you will be arrested.  DROP puts a thing down;
+THROW and TOSS throw it, which is how you get the jug of water onto the
+Wicked Witch and the silver bullet into the Vampire.
+
+
+ADDED FOR THIS PORT -- not in any surviving file
+------------------------------------------------
+
+Looking about
+  LOOK / L                  describe where you are
+  EXAMINE <thing> / X       print that thing's OBJECT.TYP entry
+  READ <thing>              signs, the Law Book, the wizard's diary, and the
+                            writing on the walls of the Riddle Room
+  INVENTORY / I             what you are carrying, and your load
+
+Doing things
+  OPEN / CLOSE <thing>      the desk, the drawers, the boxes
+  UNLOCK <thing>            needs the right key set
+  SAY <word>                some words do things
+  ANSWER <word>             answer a riddle or a Bar Exam question
+  PUT <thing>               put it down
+  EAT / DRINK <thing>       the cake and the urn are both marked
+  ATTACK / KILL <creature>
+  KISS <creature>           "If kissed by prince/princess becomes princess"
+  TIE <creature>            with the spider web
+  RIDE <creature>
+  SLEEP                     in sunlight, if the Shadow has you
+  LIGHT / EXTINGUISH <lamp>
+  LAUNCH                    fire the catapult at the Top of Cliff
+  WEAR <thing>
+
+Trade and law
+  BUY <thing>               in the Equipment Shop; costs points
+  ORDER                     order a drink, and take the Bar Exam
+  DELIVER / RETURN <thing>  hand a thing back for its reward
+  STUDY                     read the Law Book properly, before the exam
+  PLEAD                     in the Jail, to be taken to court;
+                            in the Court Room, to be tried
+  HINT                      the Frog, the witch and the Lone Ranger all
+                            "give hints"
+
+Yourself and the others
+  SCORE                     points, treasures returned, deaths
+  STATS                     your AMAZON.OFF attribute block
+  WHO                       everyone in the valley (PRTEST.SAI's format)
+  TELL <words>              say something to everyone
+  WAIT / Z
+  HELP / H
+  SOURCE                    what in this game is original and what is not
+  QUIT / DONE / FINISH
+
+
+GETTING STARTED
+---------------
+
+You begin on the Amazon River Bank with nothing and no points, and the shop
+wants points.  So earn some first: OBJECT.TYP is full of things that belong
+to somebody.  The GREEN Apple in the Elm Grove belongs to Johnny Appleseed,
+who is standing right there.  The baby in the basket belongs to Jane.  The
+white mice belong in Dr. Livingston's laboratory.
+
+Then buy a light before you go underground, and find out what the Phantom
+wants before you try to get past his Wolf.

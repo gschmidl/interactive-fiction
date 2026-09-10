@@ -1,0 +1,117 @@
+COMMENT This is macro PED.CLI to run the PED program.
+
+COMMENT For a summary of PED.CLI's switches, give the CLI command PED/H.
+COMMENT For a summary of PED.PR's interactive commands, type H when
+COMMENT    the program is running.
+
+COMMENT Running in interactive mode:
+COMMENT    If the /BATCH switch is supplied, this macro correctly
+COMMENT    creates a PED process so that it doesn't use the console.
+
+COMMENT Running in batch mode:
+COMMENT    If running in batch mode, this macro determines whether
+COMMENT    it was invoked with the /BATCH switch.  If not, the
+COMMENT    macro invokes itself again with this switch.
+
+[!NEQUAL,%0/H%,]
+  WRITE
+  WRITE The PED switches are:
+  WRITE
+  WRITE ,,,SWITCH,,,,,,,DESCRIPTION
+  WRITE ,,,------,,,,,,,-----------
+  WRITE
+  WRITE ,,,/ALL,,,,,,,,,Display all PIDS.
+  WRITE ,,,/BATCH,,,,,,,Run in batch mode.,,No data is displayed.
+  WRITE ,,,/BS,,,,,,,,,,Display the blocked and swapped status.
+  WRITE ,,,/CLASSID,,,,,Display the class id number.
+  WRITE ,,,/CLASSNAME,,,Display the class name.
+  WRITE
+  WRITE ,,,/CPU,,,,,,,,,Display CPU time.
+  WRITE ,,,/CPUS,,,,,,,,Display milliseconds of CPU used per second.
+  WRITE ,,,/CYCLE=n,,,,,Pause for n seconds between updates -- n = 1 - 65535.
+  WRITE ,,,/ELAPSED,,,,,Display elasped time.
+  WRITE ,,,/FATHER,,,,,,Display PID of process's father.
+  WRITE
+  WRITE ,,,/FLAGn,,,,,,,Display flag word n of system call ?PROC
+  WRITE ,,,,,,,,,,,,,,,,,,,where n = 1 - 5.
+  WRITE ,,,/FTA,,,,,,,,,Display logical + physical page faults.
+  WRITE ,,,/FTAS,,,,,,,,Display logical + physical page faults per second.
+  WRITE ,,,/FTL,,,,,,,,,Display logical page faults.
+  WRITE ,,,/FTLS,,,,,,,,Display logical page faults per second.
+  WRITE
+  WRITE ,,,/FTP,,,,,,,,,Display physical page faults.
+  WRITE ,,,/FTPS,,,,,,,,Display physical page faults per second.
+  WRITE ,,,/H,,,,,,,,,,,Display a summary of PED's switches.
+  WRITE ,,,/IO,,,,,,,,,,Display I/O blocks.
+  WRITE ,,,/IOS,,,,,,,,,Display I/O blocks per second.
+  WRITE
+  WRITE ,,,/IREC,,,,,,,,Display number of process's tasks suspended on
+  WRITE ,,,,,,,,,,,,,,,,,,,system call ?IREC.
+  WRITE ,,,/LISTFILE=FILENAME,,,Specify the listfile.,,Default is "PED.LIST".
+  WRITE ,,,/MAXPID=n,,,,Display no PIDS greater than n.
+  WRITE ,,,/MINPID=n,,,,Display no PIDS less than n.
+  WRITE ,,,/MPROCESSOR,,Display whether mother job processor only can run
+  WRITE ,,,,,,,,,,,,,,,,,,,the process.
+  WRITE
+  WRITE ,,,/PAGESECONDS,Display page-seconds.
+  WRITE ,,,/PID,,,,,,,,,Display process ID.
+  WRITE ,,,/PIDSIZE,,,,,Display the PID-size type -- A or B or C.
+  WRITE ,,,/PLOCALITY,,,Display the program locality -- 0 - 15.
+  WRITE ,,,/PNQ,,,,,,,,,Display priority queue factor.
+  WRITE
+  WRITE ,,,/PRIORITY,,,,Display process priority.
+  WRITE ,,,/PRIVBITS,,,,Display process privilege word from system call ?PPRV.
+  WRITE ,,,/PROCESS,,,,,Display process name.
+  WRITE ,,,/PROGRAM,,,,,Display program name.
+  WRITE ,,,/PRTYPE,,,,,,Display process type -- for example[!asc 254] resident.
+  WRITE
+  WRITE ,,,/PSW,,,,,,,,,Display process status word from system call ?PSTAT.
+  WRITE ,,,/RANGE=n,,,,,Restrict the range of PIDS that PED monitors from
+  WRITE ,,,,,,,,,,,,,,,,,,,MINPID to MINPID + n,,=,,MINPID to MAXPID.
+  WRITE ,,,/SH,,,,,,,,,,Display cumulative # of shared pages in rings 3 - 7.
+  WRITE ,,,/SHn,,,,,,,,,Display # of shared pages in ring n -- n = 3 - 7.
+  WRITE ,,,/SNAP=n,,,,,,Run for n number of cycles -- n = 1 - 65535.
+  WRITE
+  WRITE ,,,/SUBSLICES,,,Display number of subslices in time slice.
+  WRITE ,,,/SUPERMODE,,,Display Superprocess and Superuser status.
+  WRITE ,,,/SUPERPRIVILEGES,,,Display Superprocess and Superuser privileges.
+  WRITE ,,,/SYSMGR,,,,,,Display system manager privilege status.
+  WRITE ,,,/TSE,,,,,,,,,Display time slice exponent.
+  WRITE
+  WRITE ,,,/ULOCALITY,,,Display user locality -- 0 - 15.
+  WRITE ,,,/US,,,,,,,,,,Display cumulative # of unshared pages in rings 3 - 7.
+  WRITE ,,,/USn,,,,,,,,,Display # of unshared pages in ring n -- n = 3 - 7.
+  WRITE ,,,/USERNAME,,,,Display username.
+  WRITE ,,,/WSS,,,,,,,,,Display current working set size.
+  WRITE
+  WRITE ,,,/WSSMAX,,,,,,Display maximum working set size.
+  WRITE ,,,/WSSMIN,,,,,,Display minimum working set size.
+  WRITE
+  WRITE
+  WRITE ,,,Invoking PED with no arguments is equivalent to the command
+  WRITE ,,,,,,PED/CYCLE=10/PID/SUPERMODE/USER/PROCESS/PROGRAM/ELAPS/CPU&
+/CPUS/BS/IO/FTAS/PRIORITY/WSS
+  WRITE
+[!ELSE]
+   PUSH
+   PROMPT POP
+   DEFACL +,OWARE
+
+   COMMENT Check to see if in batch mode.
+   [!EQUAL,[!CONSOLE],]
+        [!NEQUAL,%0/BATCH%,]
+              X PED%0/%
+        [!ELSE]
+              X PED/BATCH%0/%
+        [!END]
+   [!ELSE]
+        [!NEQUAL,%0/BATCH%,]
+              PROC/DEF PED%0/%
+        [!ELSE]
+              X PED%0/%
+        [!END]
+   [!END]
+   POP
+[!END]
+
+COMMENT End of macro PED.CLI.

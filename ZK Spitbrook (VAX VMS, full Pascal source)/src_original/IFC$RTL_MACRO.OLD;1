@@ -1,0 +1,106 @@
+	.TITLE	IFC$RTL_MACRO - IFC Run-Time System code in MACRO
+	.IDENT	/X01.00-00/
+
+	$DSCDEF
+
+	.PSECT	$IFC$CODE, PIC, SHR, EXE, RD, NOWRT
+
+	.SUBTITLE IFC$MESSAGE - Write a message
+
+IFC$MESSAGE::
+	.WORD	^M<R2,R3,R4>
+	MOVL	#1, R2			; First argument
+
+TOP:	MOVL	(AP)[R2], R3		; Get message code
+	AOBLEQ	(AP), R2, NOT_END	; Reached end of message?
+	PUSHL	#0			; FAO block
+	PUSHL	#0			; Number of FAO arguments
+	PUSHL	R3			; Message code
+	CALLS	#3, G^WRITE_MESSAGE	; Write the message
+	BRW	DONE			; Last message, exit
+NOT_END:
+	MOVL	(AP)[R2], R4		; Return FAO count
+	BNEQ	ARGS			; Branch if there are arguments
+	PUSHL	#0			; FAO block
+	PUSHL	#0			; Number of FAO arguments
+	PUSHL	R3			; Message code
+	CALLS	#3, G^WRITE_MESSAGE	; Write the message
+	BLBC	R0, DONE		; Punt on error
+	INCL	R2			; Point to next message
+	BRW	BOTTOM
+ARGS:
+	INCL	R2			; Point to first FAO argument
+	PUSHAL	(AP)[R2]		; FAO block
+	PUSHL	R4			; Number of FAO arguments
+	PUSHL	R3			; Message code
+	CALLS	#3, G^WRITE_MESSAGE	; Write the message
+	BLBC	R0, DONE		; Punt on error
+	ADDL2	R4,R2			; Point to next message
+
+BOTTOM:	CMPL	R2, (AP)		; Is there a chained message?
+	BLEQ	TOP			; Yes, go for it
+	MOVL	#1, R0			; Return success
+DONE:	RET				; Return
+
+	.PAGE
+	.SUBTITLE WRITE_MESSAGE - Write one message code
+
+WRITE_MESSAGE:
+	.WORD	^M<R2,R3,R4,R5,R6,R7>
+	MOVL	4(AP), R3		; Message code
+	BEQL	BLANK			; If code=0, print blank line
+	MOVL	8(AP), R4		; Number of FAO arguments
+	MOVL	12(AP), R5		; FAO block
+
+LOOP:	MOVZBL	(R3)+, R6		; Line FAO count
+	MOVZBL	(R3)+, R7		; Line length
+	MOVW	R7, CTRSTR_DESC		; Set ctrstr desc length
+	MOVL	R3, CTRSTR_DESC+4	; Set ctrstr desc addr
+	MOVW	#80, OUTPUT_DESC	; Set output desc length
+	MOVAL	OUTPUT_BUFFER, OUTPUT_DESC+4	; Set output desc addr
+
+	$FAOL_S -
+		CTRSTR = CTRSTR_DESC, -
+		OUTLEN = OUTPUT_DESC, -
+		OUTBUF = OUTPUT_DESC, -
+		PRMLST = (R5)
+	BLBC	R0, FINI
+
+	PUSHAB	OUTPUT_DESC
+	CALLS	#1, G^IFC$PUT_SCROLL
+	BLBC	R0, FINI
+
+	MOVAL	(R5)[R6], R5		; Move FAO argument pointer
+	ADDL2	R7, R3			; Move byte pointer
+	TSTW	(R3)			; Done yet?
+	BNEQ	LOOP			; No loop
+
+	MOVL	#1, R0
+	BRB	FINI
+
+BLANK:	CLRW	OUTPUT_DESC
+	PUSHAB	OUTPUT_DESC
+	CALLS	#1, G^IFC$PUT_SCROLL
+
+FINI:	RET
+
+	.PAGE
+	.SUBTITLE Impure area
+	.PSECT	$IFC$RW_DATA, PIC, RD, WRT, NOEXE, NOSHR
+
+CTRSTR_DESC:
+	.WORD	0
+	.BYTE	DSC$K_DTYPE_T
+	.BYTE	DSC$K_CLASS_S
+	.LONG	0
+
+OUTPUT_DESC:
+	.WORD	0
+	.BYTE	DSC$K_DTYPE_T
+	.BYTE	DSC$K_CLASS_S
+	.LONG	0
+
+OUTPUT_BUFFER:
+	.BLKB	80
+
+	.END

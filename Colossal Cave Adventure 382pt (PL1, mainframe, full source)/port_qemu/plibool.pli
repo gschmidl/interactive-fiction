@@ -1,0 +1,294 @@
+ /* plibool.pli - patched copy of the Iron Spring PL/I runtime routine */
+ /* _pli_Bool, taken verbatim from pli-1.4.1/lib/source/bool.pli (Iron */
+ /* Spring PL/I Runtime Library, (c) Peter Flass, distributed under    */
+ /* the GNU LGPL) with the four lines marked "PATCH" added below.      */
+ /*                                                                    */
+ /* Why this file exists:                                              */
+ /*                                                                    */
+ /*   plic calls _pli_Bool for AND/OR/NOT on bit strings longer than   */
+ /*   32 bits.  For a unary NOT it passes the operand in the routine's */
+ /*   "Y" argument slots and leaves the "X" slots - ptrarray(3) and    */
+ /*   ptrarray(4) - uninitialised.  But _pli_Bool dereferences         */
+ /*   ptrarray(4) before it ever looks at the function code, guarding  */
+ /*   only against an exactly zero pointer:                            */
+ /*                                                                    */
+ /*       pDesc = ptrarray(4);                                         */
+ /*       if pDesc =sysnull then do;                                   */
+ /*         addr(descX)->ST_bo = pDesc->ST_bo;    <-- reads garbage    */
+ /*                                                                    */
+ /*   so every NOT of a bit string wider than 32 bits dereferences     */
+ /*   whatever stack garbage happens to sit in that slot.  It is       */
+ /*   usually a readable address, which is why the game mostly ran;    */
+ /*   when it was not, the process took SIGSEGV and Adventure printed  */
+ /*   "Fatal error # 99".                                              */
+ /*                                                                    */
+ /*   adventure.pli does exactly that in two places: it negates the    */
+ /*   BIT(40) vocabulary overlay while loading the encoded database    */
+ /*   ("ATABB(TABNDX) = ^ATABB(TABNDX);", 326 times at start-up) and   */
+ /*   again on every word it looks up ("IDB = ^IDB;" in VOCAB, three   */
+ /*   times per call).  The game was one unlucky stack layout away     */
+ /*   from dying at any moment; it died reproducibly on entry to       */
+ /*   wizard mode.                                                     */
+ /*                                                                    */
+ /*   The patch makes the routine ignore the operand its own function  */
+ /*   code says is unused (10 is "NOT Y", 12 is "NOT X") and gives     */
+ /*   lenX/lenY defined values when their setup block is skipped.      */
+ /*   Nothing else changes.  Linked ahead of libprf.a so the archive   */
+ /*   member is never pulled in; "diff -u <plidir>/lib/source/bool.pli */
+ /*   plibool.pli" shows the whole change.                             */
+
+ /* _pli_Bool                                                        */
+ /********************************************************************/
+ /*           Iron Spring PL/I Runtime Library Version 0.7           */
+ /*              Distributed under the Gnu LGPL License              */
+ /*                                                                  */
+ /*      Module:        _pli_Bool (PL/I runtime)                     */
+ /*      Version:       1.0                                          */
+ /*      Date:          Jan, 2009                                    */
+ /*      Author:        Peter Flass                                  */
+ /*                                                                  */
+ /*      Entry Points:  _pli_Bool Runtime BOOL builtin.              */
+ /*                                                                  */
+ /*      Function:      Perform one of 16 boolean functions          */
+ /*                     on two bit strings.                          */
+ /*                                                                  */
+ /*                     Bool is called for the BOOL builtin, and     */
+ /*                     from compiled code to perform AND, OR,       */
+ /*                     and NOT operations on strings longer than    */
+ /*                     32 bits or of indeterminate length.          */
+ /*                                                                  */
+ /*      Dependencices: PL/I Locator/Descriptor formats.             */
+ /*                                                                  */
+ /*      Calling sequence:                                           */
+ /*                     DCL BOOL entry( ptr, ptr, ptr, ptr,          */
+ /*                                     ptr, ptr, ptr, ptr )         */
+ /*                                ext( '_pli_Bool' )                */
+ /*                                options( LINKAGE(SYSTEM) );       */
+ /*      Arguments:                                                  */
+ /*        1. Address of function byte.  First 4 bits significant.   */
+ /*        2. Address of function desc, VARYING or nonvarying bit.   */
+ /*        3. Address of first source string value.                  */
+ /*        4. Address of first source string descriptor.             */
+ /*        5. Same for second source string.                         */
+ /*        6.            "                                           */
+ /*        7. Same for result string.  Result length is equal to     */
+ /*        8.   the length of the longest source string.             */
+ /*                                                                  */
+ /*      The result string resides on the stack and is always        */
+ /*      byte-aligned nonvarying.                                    */
+ /*                                                                  */
+ /*      To Do:                                                      */
+ /*                                                                  */
+ /*      Modifications:                                              */
+ /*                                                                  */
+ /********************************************************************/
+
+ Bool: proc( args )
+         options( LINKAGE(SYSTEM) )
+         ext( '_pli_Bool' );
+
+ /*-------------------------*/
+ /* Parameters              */
+ /*-------------------------*/
+ dcl     args                ptr;
+ dcl     pArgs               ptr;
+ dcl     ptrarray         (8)ptr based(pArgs);          
+
+ /*-------------------------*/
+ /* Automatic Data          */
+ /*-------------------------*/
+ dcl     pData               ptr;
+ dcl     pDesc               ptr;
+ dcl    (srcX,srcY,srcTmp)   bit(32);
+ dcl     resSize             fixed bin(31);
+ dcl     j                   fixed bin(31);
+ dcl     fun                 fixed bin(7);
+         /* Common functions for BOOL:                               */
+	 /* 1:  AND                                                  */
+	 /* 6:  XOR                                                  */
+	 /* 7:  OR                                                   */
+	 /* See 
+	    <a href="http://members.dodo.com.au/robin51/pli-n11.htm" 
+	    PL/I Newsletter Issue 11</a> for complete list.
+	 /*                                                          */   
+ dcl    (pX,pY,pRes)         ptr;
+ dcl    (lenX,lenY,lenRes)   fixed bin(31);
+ dcl   1 descriptors,
+         2 descX             char(8),  /* like pli_ded_STR           */
+         2 descY             char(8),  /*  "       "                 */
+         2 descTmp           char(8);  /*  "       "                 */
+
+ /*-------------------------*/
+ /* Prototypes              */
+ /*-------------------------*/
+ dcl     Varying_String      char(0)   varying   based;
+ dcl     B8                  bit(8)              based;
+
+%include desc;
+%include locdesc;
+
+ /*-------------------------*/
+ /* Static Data             */
+ /*-------------------------*/
+
+ /*-------------------------*/
+ /* External Declarations   */
+ /*-------------------------*/
+ dcl     MBS                 entry( ptr, ptr, ptr, ptr )
+                             ext( '_pli_MBS' )
+                             options( LINKAGE(SYSTEM) ); 
+ dcl    (addr,length,max,min,null,plifill,plimove,stg,sysnull,substr)
+                             builtin;
+ %page;
+ /*-----------------------------------*/
+ /* Initialize Result                 */
+ /*-----------------------------------*/
+ pArgs = addr(args);                   /* Get argument list          */
+ pRes  = ptrarray(7);                  /* ->Result string            */
+ pDesc = ptrarray(8);                  /* ->Result descriptor        */
+ lenRes = pDesc->ST_len;               /* Get result length          */
+ resSize = (pDesc->ST_len+7)/8;        /* Result length in bytes     */
+ call plifill(pRes,'00'x,resSize);     /* Initialize result string   */
+
+ /*-----------------------------------*/
+ /* Get function code                 */
+ /*-----------------------------------*/
+ srcX  = (4)'00'bx;                    /* Clear workarea             */
+ pData = ptrarray(1);                  /* ->Function string          */
+ pDesc = ptrarray(2);                  /* ->Function descriptor      */
+ j     = pDesc->ST_len;                /* Get function [max] length  */
+ if pDesc->ST_id = '21'x then do;      /* VARYING string?            */
+   j     = length(pData->Varying_String);  /* Yes, get current length*/
+   pData = pData+stg(null->Varying_String);/*      and ->Data        */
+   end; /* varying */
+ if j>=4                               /* Get function string        */
+ then substr(srcX,29,4) = substr(pData->B8,1,4);
+ else substr(srcX,32-j+1,j) = substr(pData->B8,1,j);
+ fun = srcX;
+
+ /*-----------------------------------*/
+ /* Do some trivial operations        */
+ /*-----------------------------------*/
+ if fun=0  then return;                /* '0000'b = FALSE            */
+ if fun=15 then do;                    /* '1111'b = TRUE             */
+   call plifill(pRes,'FF'x,resSize);
+   return;
+   end;
+ if fun=3 then do;                     /* '0011'b = X                */
+   call MBS( ptrarray(3), ptrarray(4),
+             ptrarray(7), ptrarray(8) );
+   return;
+   end;
+ if fun=5 then do;                     /* '0101'b = Y                */
+   call MBS( ptrarray(5), ptrarray(6),
+             ptrarray(7), ptrarray(8) );
+   return;
+   end;
+
+ /*-----------------------------------*/
+ /* Set up Descriptors for data       */
+ /*-----------------------------------*/
+ call plifill( addr(descriptors), '00'x, stg(descriptors) );
+ addr(descTmp)->ST_id  = '20'x;        /* Build descriptors          */
+ addr(descTmp)->ST_len = 32;
+ addr(descX)->ST_id    = '20'x;
+ addr(descY)->ST_id    = '20'x;
+ lenX,lenY = 0;                        /* PATCH: undefined if the  */
+                                       /* operand block is skipped */
+ pX = ptrarray(3);
+ pDesc = ptrarray(4);                  /* Get X length               */
+ if fun=10 then pDesc = sysnull;       /* PATCH: X unused for ªY   */
+ if pDescª=sysnull then do;
+   addr(descX)->ST_bo  = pDesc->ST_bo;
+   lenX = pDesc->ST_len;
+   if pDesc->ST_id = '21'x then do;
+     lenX = length(pX->Varying_String);
+     pX = pX + stg(null->Varying_String);
+     end;
+   addr(descX)->ST_len = lenX;
+   end;
+ pY = ptrarray(5);
+ pDesc = ptrarray(6);                  /* Get Y length               */
+ if fun=12 then pDesc = sysnull;       /* PATCH: Y unused for ªX   */
+ if pDescª=sysnull then do;
+   addr(descY)->ST_bo  = pDesc->ST_bo;
+   lenY = pDesc->ST_len;
+   if pDesc->ST_id = '21'x then do;
+     lenY = length(pY->Varying_String);
+     pY = pY + stg(null->Varying_String);
+     end;
+   addr(descY)->ST_len = lenY;
+   end;
+ if fun=10 then lenX=0;                /* ªY                         */
+ if fun=12 then lenY=0;                /* ªX                         */
+
+ /*-----------------------------------*/
+ /* Loop to do everything else        */
+ /*-----------------------------------*/
+ do while( lenRes>0 );
+   srcX,srcY = (4)'00'bx;
+   if lenX>0 then do;                  /* Get 'X' source 32 bits     */
+     call MBS( pX, addr(descX),
+               addr(srcX), addr(descTmp) );
+     lenX = lenX-32;
+     pX   = pX+4;
+     end;
+   if lenY>0 then do;                  /* Get 'X' source 32 bits     */
+     call MBS( pY, addr(descY),
+               addr(srcY), addr(descTmp) );
+     lenY = lenY-32;
+     pY   = pY+4;
+     end;
+   select(fun);
+     when( 1) do;                      /* X&Y                        */
+       srcX = srcX & srcY;
+       end; /*  1 */
+     when( 2) do;                      /* X&ªY                       */
+       srcY = ªsrcY;
+       srcx = srcX & srcY;
+       end; /*  2 */
+     when( 4) do;                      /* ªX&Y                       */
+       srcX = ªsrcX & srcY;
+       end; /*  4 */
+     when( 6) do;                      /* X <xor> Y                  */
+       /* Some PL/Is use the symbol '^' to represent exclusive or    */
+       /* X^Y = (ªX&Y) | (X&ªY)                                      */
+       srcTmp = ªsrcX & srcY;
+       srcX   = srcX & ªsrcY;
+       srcX = srcX | srcTmp;
+       end; /*  6 */
+     when( 7) do;                      /* X|Y                        */
+       srcX = srcX | srcY;
+       end; /*  7 */
+     when( 8) do;                      /* ª(X|Y)                     */
+       srcx = ª( srcX | srcY );
+       end; /*  8 */
+     when( 9) do;                      /* (X&Y)|(ªX&ªY)              */
+       srcTmp = ªsrcX & ªsrcY;
+       srcx = (srcX & srcY) | srcTmp;
+       end; /*  9 */
+     when(10) do;                      /* ªY                         */
+       srcX = ªsrcY;
+       end; /* 10 */
+     when(11) do;                      /* X|ªY                       */
+       srcX = srcX | ªsrcY;
+       end; /* 11 */
+     when(12) do;                      /* ªX                         */
+       srcX = ªsrcX;
+       end; /* 12 */
+     when(13) do;                      /* ªX|Y                       */
+       srcX = ªsrcX | srcY;
+       end; /* 13 */
+     when(14) do;                      /* ª(X&Y)                     */
+       srcX = ª( srcX & srcY );
+       end; /* 14 */
+     end; /* select */
+   /* Since the output is always aligned, just move it.              */
+   j = min( 4, (lenRes+7)/8 );
+   call plimove( pRes, addr(srcX), j );
+   lenRes = lenRes-32;
+   pRes   = pRes+4;
+   end; /* do while */   
+
+ end Bool;
+

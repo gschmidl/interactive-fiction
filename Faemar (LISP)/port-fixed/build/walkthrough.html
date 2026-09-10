@@ -1,0 +1,804 @@
+<title>Faemar Walkthrough</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --parchment: #e7e0d0;
+    --parchment-raised: #f1ebdc;
+    --ink: #26211a;
+    --ink-soft: #4a4236;
+    --hairline: #c9bea3;
+    --panel: #ddd3ba;
+    --brass: #93701f;
+    --brass-strong: #7a5c17;
+    --brass-tint: #efe1bf;
+    --ember: #9c3d29;
+    --ember-tint: #f2ded7;
+    --verdigris: #3e6d63;
+    --verdigris-tint: #dbe9e3;
+    --shadow: 220 25% 10%;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --parchment: #1c1a15;
+      --parchment-raised: #242019;
+      --ink: #e9e1cd;
+      --ink-soft: #b9ae94;
+      --hairline: #4a4030;
+      --panel: #2a251d;
+      --brass: #d3a94f;
+      --brass-strong: #e6c06f;
+      --brass-tint: #3a2f18;
+      --ember: #d97a5f;
+      --ember-tint: #3a221c;
+      --verdigris: #7fb3a4;
+      --verdigris-tint: #1c2e29;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --parchment: #1c1a15;
+    --parchment-raised: #242019;
+    --ink: #e9e1cd;
+    --ink-soft: #b9ae94;
+    --hairline: #4a4030;
+    --panel: #2a251d;
+    --brass: #d3a94f;
+    --brass-strong: #e6c06f;
+    --brass-tint: #3a2f18;
+    --ember: #d97a5f;
+    --ember-tint: #3a221c;
+    --verdigris: #7fb3a4;
+    --verdigris-tint: #1c2e29;
+  }
+
+  * { box-sizing: border-box; }
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+
+  body {
+    margin: 0;
+    background: var(--parchment);
+    color: var(--ink);
+    font-family: "Source Serif 4", Georgia, "Times New Roman", serif;
+    font-size: 17px;
+    line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: var(--brass-strong); }
+  a:focus-visible, button:focus-visible, summary:focus-visible {
+    outline: 2px solid var(--verdigris); outline-offset: 3px;
+  }
+
+  h1, h2, h3 {
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 600;
+    text-wrap: balance;
+    color: var(--ink);
+  }
+
+  .mono, code, .cmd {
+    font-family: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  }
+
+  .wrap {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 28px 120px;
+    display: grid;
+    grid-template-columns: 220px minmax(0, 760px);
+    gap: 56px;
+    justify-content: center;
+  }
+
+  @media (max-width: 900px) {
+    .wrap { grid-template-columns: minmax(0, 1fr); padding: 0 18px 90px; }
+    nav.toc { display: none; }
+  }
+
+  /* ---------- header ---------- */
+  header.masthead {
+    grid-column: 1 / -1;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 64px 28px 30px;
+    text-align: left;
+    border-bottom: 1px solid var(--hairline);
+  }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12.5px;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--brass-strong);
+    margin: 0 0 14px;
+  }
+  .eyebrow::before {
+    content: "";
+    width: 22px; height: 1px;
+    background: var(--brass-strong);
+    display: inline-block;
+  }
+  h1.title {
+    font-size: clamp(2.4rem, 5vw, 3.4rem);
+    line-height: 1.04;
+    margin: 0 0 14px;
+    letter-spacing: -0.01em;
+  }
+  .dek {
+    font-size: 1.11rem;
+    color: var(--ink-soft);
+    max-width: 62ch;
+    margin: 0 0 22px;
+  }
+  .source-line {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 18px;
+  }
+  .source-line b { color: var(--ink); font-weight: 600; }
+
+  /* ---------- TOC ---------- */
+  nav.toc {
+    position: sticky;
+    top: 48px;
+    align-self: start;
+    padding-top: 6px;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12.5px;
+  }
+  nav.toc .toc-label {
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-soft);
+    margin: 0 0 10px;
+  }
+  nav.toc ol {
+    list-style: none;
+    margin: 0; padding: 0;
+    display: flex; flex-direction: column; gap: 2px;
+    border-left: 1px solid var(--hairline);
+  }
+  nav.toc a {
+    display: block;
+    padding: 5px 0 5px 14px;
+    color: var(--ink-soft);
+    text-decoration: none;
+    border-left: 2px solid transparent;
+    margin-left: -1px;
+  }
+  nav.toc a:hover { color: var(--ink); border-left-color: var(--brass); }
+
+  main { min-width: 0; }
+  section { margin: 58px 0; scroll-margin-top: 30px; }
+  section > h2 {
+    font-size: 1.55rem;
+    margin: 0 0 6px;
+    display: flex; align-items: baseline; gap: 10px;
+  }
+  section > h2 .num {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.95rem;
+    color: var(--brass);
+    font-weight: 500;
+  }
+  section > .lede {
+    color: var(--ink-soft);
+    max-width: 66ch;
+    margin: 0 0 26px;
+  }
+  p { max-width: 68ch; }
+
+  /* ---------- callouts ---------- */
+  .callout {
+    border: 1px solid var(--hairline);
+    background: var(--panel);
+    border-radius: 3px;
+    padding: 20px 22px;
+    margin: 22px 0;
+  }
+  .callout h3 {
+    font-size: 0.98rem;
+    font-family: "IBM Plex Mono", monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin: 0 0 10px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .callout p, .callout ul { margin: 8px 0; font-size: 0.97rem; }
+  .callout ul { padding-left: 1.2em; }
+  .callout.warn { border-color: color-mix(in srgb, var(--ember) 40%, var(--hairline)); background: var(--ember-tint); }
+  .callout.warn h3 { color: var(--ember); }
+  .callout.tip { border-color: color-mix(in srgb, var(--verdigris) 40%, var(--hairline)); background: var(--verdigris-tint); }
+  .callout.tip h3 { color: var(--verdigris); }
+  .callout.gap h3 { color: var(--brass-strong); }
+
+  /* ---------- map ---------- */
+  .map-figure {
+    margin: 0 -1px;
+  }
+  .map-scroll {
+    overflow-x: auto;
+    border: 1px solid var(--hairline);
+    background: var(--parchment-raised);
+    border-radius: 4px;
+  }
+  .map-scroll svg { display: block; min-width: 760px; }
+  figcaption {
+    font-size: 0.88rem;
+    color: var(--ink-soft);
+    margin-top: 10px;
+  }
+  .legend {
+    display: flex; flex-wrap: wrap; gap: 14px 22px;
+    margin-top: 16px;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11.5px;
+    color: var(--ink-soft);
+  }
+  .legend span { display: inline-flex; align-items: center; gap: 7px; }
+  .legend i { width: 20px; height: 0; border-top-width: 2.5px; border-top-style: solid; display: inline-block; }
+
+  /* ---------- treasure table ---------- */
+  .item-table { width: 100%; border-collapse: collapse; margin: 18px 0; font-size: 0.95rem; }
+  .item-table th {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em;
+    text-align: left; color: var(--ink-soft);
+    padding: 0 12px 8px 0; border-bottom: 1px solid var(--hairline);
+  }
+  .item-table td {
+    padding: 12px 12px 12px 0;
+    border-bottom: 1px solid var(--hairline);
+    vertical-align: top;
+  }
+  .item-table tr:last-child td { border-bottom: none; }
+  .item-table td.name { font-weight: 600; white-space: nowrap; }
+  .item-table td.loc { font-family: "IBM Plex Mono", monospace; font-size: 12.5px; color: var(--brass-strong); white-space: nowrap; }
+  .pt { font-family: "IBM Plex Mono", monospace; font-size: 12px; color: var(--verdigris); font-weight: 600; }
+
+  /* ---------- walkthrough phases ---------- */
+  .phase {
+    border-left: 3px solid var(--brass);
+    padding-left: 22px;
+    margin: 34px 0;
+  }
+  .phase h3 {
+    font-size: 1.14rem;
+    margin: 0 0 4px;
+    display: flex; align-items: baseline; gap: 10px;
+  }
+  .phase h3 .ph-num {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.85rem;
+    color: var(--brass);
+  }
+  .phase .goal { color: var(--ink-soft); font-size: 0.94rem; margin: 0 0 16px; }
+
+  ol.steps {
+    list-style: none;
+    margin: 0; padding: 0;
+    counter-reset: step;
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  ol.steps > li {
+    counter-increment: step;
+    display: grid;
+    grid-template-columns: 26px minmax(0,1fr);
+    gap: 12px;
+    align-items: baseline;
+  }
+  ol.steps > li::before {
+    content: counter(step);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12px;
+    color: var(--brass);
+    text-align: right;
+  }
+  .step-text { font-size: 0.98rem; }
+  .step-text .room { font-weight: 600; }
+  code.cmd {
+    background: var(--panel);
+    border: 1px solid var(--hairline);
+    border-radius: 3px;
+    padding: 1.5px 7px;
+    font-size: 0.86em;
+    white-space: nowrap;
+  }
+  .note-inline {
+    grid-column: 2; /* ol.steps > li is a 2-col grid; without this, a
+      paragraph sibling after .step-text is auto-placed into the narrow
+      26px counter column instead of the text column */
+    font-size: 0.88rem;
+    color: var(--ink-soft);
+    margin: 2px 0 0;
+  }
+
+  /* ---------- quirks list ---------- */
+  .quirk {
+    display: grid;
+    grid-template-columns: 130px minmax(0,1fr);
+    gap: 4px 20px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--hairline);
+  }
+  .quirk:last-child { border-bottom: none; }
+  .quirk .tag {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ember);
+    padding-top: 3px;
+  }
+  .quirk .tag.gap { color: var(--brass-strong); }
+  .quirk .tag.trap { color: var(--ember); }
+  .quirk p { margin: 0; font-size: 0.95rem; }
+  @media (max-width: 620px) {
+    .quirk { grid-template-columns: minmax(0,1fr); }
+  }
+
+  footer.colophon {
+    grid-column: 1 / -1;
+    max-width: 760px;
+    margin: 20px auto 0;
+    padding: 26px 28px 0;
+    border-top: 1px solid var(--hairline);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12px;
+    color: var(--ink-soft);
+  }
+</style>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <p class="eyebrow">Faemar &middot; 1982 text adventure</p>
+    <h1 class="title">The complete walkthrough</h1>
+    <p class="dek">Derived directly from the archived Lisp source &mdash; every room, door, and object below comes from reading <code class="mono">game.lsp</code> and the <code class="mono">faemar</code> world data, not from trial and error at the keyboard.</p>
+    <p class="source-line">
+      <span><b>Engine</b> game.lsp</span>
+      <span><b>World</b> faemar</span>
+      <span><b>Rooms</b> 24</span>
+      <span><b>Doors</b> 12</span>
+      <span><b>Treasure</b> 2 items</span>
+    </p>
+  </header>
+
+  <nav class="toc">
+    <p class="toc-label">Contents</p>
+    <ol>
+      <li><a href="#gaps">Before you start</a></li>
+      <li><a href="#map">The stronghold</a></li>
+      <li><a href="#treasure">Equipment &amp; treasure</a></li>
+      <li><a href="#phase1">1. Up the hill</a></li>
+      <li><a href="#phase2">2. Into the entrance</a></li>
+      <li><a href="#phase3">3. The eastern loop</a></li>
+      <li><a href="#phase4">4. The northern vault</a></li>
+      <li><a href="#phase5">5. The western wing</a></li>
+      <li><a href="#phase6">6. The shrine</a></li>
+      <li><a href="#quirks">Quirks &amp; dead ends</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <section id="gaps">
+      <h2><span class="num">00</span> Before you start</h2>
+      <p class="lede">Four things the code does that no amount of exploring in-game will reveal:</p>
+
+      <div class="callout gap">
+        <h3>&#9670; The game never ends</h3>
+        <p>There's no victory message, no final score readout, no command anywhere in the source that checks what you're holding or where you've been and declares you done. <span class="mono">START</span>'s main loop just keeps reading commands forever. If you reach the Shrine and take the idol's eyes expecting something to happen &mdash; nothing does. <code class="cmd">quit</code> is the only ending there is.</p>
+      </div>
+
+      <div class="callout gap">
+        <h3>&#9670; There is no key, anywhere</h3>
+        <p>Four doors are flagged <span class="mono">%LOCKED%</span> (DR5, D11, D12, D13), and each has an <code class="cmd">unlock</code> handler &mdash; but the object <span class="mono">KEY</span> it checks for is never defined anywhere in the world data. Every <code class="cmd">unlock</code> attempt fails, permanently. <strong>The lock is decorative &mdash; break these doors like any other.</strong> Breaking doesn't check the lock flag at all.</p>
+      </div>
+
+      <div class="callout gap">
+        <h3>&#9670; One corridor goes nowhere</h3>
+        <p>The Dark Intersection's south exit is wired to a room called <span class="mono">HL8</span> that was never built &mdash; no description, no contents, nothing. Walking south from there just returns to an empty stub. This is a gap in the surviving 1982 source, not something you're missing.</p>
+      </div>
+
+      <div class="callout gap">
+        <h3>&#9670; The fountain's coins are a trap for the eye</h3>
+        <p>The coins glittering in the Fountain Room belong to an object literally named <span class="mono">FAKE-COINS</span>, with infinite weight baked in. The game even tells you so as you try: <em>&ldquo;some of the coins disappear&rdquo;</em>. Don't waste turns on them &mdash; the real treasure is elsewhere.</p>
+      </div>
+    </section>
+
+    <section id="map">
+      <h2><span class="num">01</span> The stronghold</h2>
+      <p class="lede">Every room and every door, laid out the way the connections actually run. Doors are colored by what it takes to get through them.</p>
+
+      <figure class="map-figure">
+        <div class="map-scroll">
+          <svg viewBox="0 0 1460 800" role="img" aria-label="Map of the Faemar stronghold showing all 24 rooms and how their doors connect, including the one-way secret shortcut from the Access Room to the Base of the Stairs and the one-way trap door into the Shrine.">
+            <defs>
+              <marker id="arrowEmber" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M0,0 L10,5 L0,10 z" fill="#9c3d29"/>
+              </marker>
+              <marker id="arrowBrass" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M0,0 L10,5 L0,10 z" fill="#93701f"/>
+              </marker>
+            </defs>
+
+            <!-- Grid: columns at x = 55 + 135*col (col 0-9), rows at y = 55 + 125*row (row 0-5).
+                 Every room is a uniform 120x60 box; edges connect box mid-points exactly,
+                 so every line below terminates flush on a room's border. -->
+
+            <!-- open corridors, no door -->
+            <g stroke="currentColor" stroke-width="1.6" fill="none" opacity="0.5">
+              <line x1="520" y1="240" x2="520" y2="305"/> <!-- HL7-IN2 -->
+              <line x1="1060" y1="240" x2="1060" y2="305"/> <!-- HL4-IN1 -->
+              <line x1="445" y1="335" x2="460" y2="335"/> <!-- HL9-IN2 -->
+              <line x1="580" y1="335" x2="595" y2="335"/> <!-- IN2-HL3 -->
+              <line x1="985" y1="335" x2="1000" y2="335"/> <!-- HL2-IN1 -->
+              <line x1="1120" y1="335" x2="1135" y2="335"/> <!-- IN1-HL5 -->
+              <line x1="790" y1="365" x2="790" y2="430"/> <!-- ENT-TOS (DR1, already open) -->
+              <line x1="1060" y1="365" x2="1060" y2="430"/> <!-- IN1-HL6 -->
+              <line x1="1330" y1="365" x2="1330" y2="430"/> <!-- MET-RT1 (se, squeeze) -->
+              <line x1="790" y1="490" x2="790" y2="555"/> <!-- TOS-BOS -->
+              <line x1="1060" y1="490" x2="1060" y2="555"/> <!-- HL6-TRS -->
+              <line x1="1330" y1="490" x2="1330" y2="555"/> <!-- RT1-RT2 -->
+              <line x1="790" y1="615" x2="790" y2="680"/> <!-- BOS-START -->
+              <line x1="1120" y1="585" x2="1135" y2="585"/> <!-- TRS-RT3 (ne, squeeze) -->
+              <line x1="1255" y1="585" x2="1270" y2="585"/> <!-- RT3-RT2 -->
+            </g>
+            <line x1="520" y1="365" x2="520" y2="430" stroke="currentColor" stroke-width="1.4" stroke-dasharray="3 5" fill="none" opacity="0.4"/> <!-- IN2-HL8, dead end -->
+
+            <!-- breakable doors, not locked (brass) -->
+            <g stroke="#93701f" stroke-width="2.2" fill="none">
+              <line x1="520" y1="115" x2="520" y2="180" marker-end="url(#arrowBrass)" marker-start="url(#arrowBrass)"/> <!-- RM6-HL7, DR6 -->
+              <line x1="1060" y1="115" x2="1060" y2="180" marker-end="url(#arrowBrass)" marker-start="url(#arrowBrass)"/> <!-- RM4-HL4, DR7 -->
+              <line x1="790" y1="240" x2="790" y2="305" marker-end="url(#arrowBrass)" marker-start="url(#arrowBrass)"/> <!-- HL1-ENT, DR3 -->
+              <line x1="310" y1="335" x2="325" y2="335" marker-end="url(#arrowBrass)" marker-start="url(#arrowBrass)"/> <!-- FRM-HL9, DR9 -->
+              <line x1="715" y1="335" x2="730" y2="335" marker-end="url(#arrowBrass)" marker-start="url(#arrowBrass)"/> <!-- HL3-ENT, DR4 -->
+              <line x1="850" y1="335" x2="865" y2="335" marker-end="url(#arrowBrass)" marker-start="url(#arrowBrass)"/> <!-- ENT-HL2, DR2 -->
+              <line x1="1255" y1="335" x2="1270" y2="335" marker-end="url(#arrowBrass)" marker-start="url(#arrowBrass)"/> <!-- HL5-MET, DR8 -->
+            </g>
+
+            <!-- locked + breakable doors -- the lock never matters, no key exists (ember) -->
+            <g stroke="#9c3d29" stroke-width="2.6" fill="none">
+              <line x1="580" y1="85" x2="730" y2="85" marker-end="url(#arrowEmber)" marker-start="url(#arrowEmber)"/> <!-- RM6-ACR, D11 -->
+              <line x1="850" y1="85" x2="1000" y2="85" marker-end="url(#arrowEmber)" marker-start="url(#arrowEmber)"/> <!-- ACR-RM4, D12 -->
+              <line x1="790" y1="115" x2="790" y2="180" marker-end="url(#arrowEmber)" marker-start="url(#arrowEmber)"/> <!-- ACR-HL1, DR5 -->
+            </g>
+
+            <!-- one-way trap: FRM -> SHR, cannot be reopened once through -->
+            <line x1="190" y1="335" x2="175" y2="335" stroke="#9c3d29" stroke-width="2.6" marker-end="url(#arrowEmber)"/>
+
+            <!-- one-way secret shortcut: ACR -> BOS only, D13 -->
+            <path d="M 850,80 C 1430,90 1430,580 850,590" stroke="#93701f" stroke-width="2" stroke-dasharray="2 6" fill="none" marker-end="url(#arrowBrass)"/>
+
+            <!-- ROOM NODES: 120x60, IBM Plex Mono labels -->
+            <g font-family="IBM Plex Mono, monospace">
+
+              <!-- row 0: north vault -->
+              <rect x="460" y="55" width="120" height="60" rx="3" fill="none" stroke="currentColor" stroke-width="1.3"/>
+              <text x="520" y="80" text-anchor="middle" font-size="11.5" fill="currentColor">Access Room</text>
+              <text x="520" y="94" text-anchor="middle" font-size="9.5" fill="currentColor" opacity="0.75">torch stub</text>
+              <text x="520" y="107" text-anchor="middle" font-size="8.5" fill="currentColor" opacity="0.6">RM6</text>
+
+              <rect x="730" y="55" width="120" height="60" rx="3" style="fill:var(--brass-tint)" stroke="currentColor" stroke-width="1.6"/>
+              <text x="790" y="80" text-anchor="middle" font-size="11.5" fill="currentColor" font-weight="600">Access Room</text>
+              <text x="790" y="94" text-anchor="middle" font-size="9.5" fill="currentColor" opacity="0.75">hilt &middot; secret door</text>
+              <text x="790" y="107" text-anchor="middle" font-size="8.5" fill="currentColor" opacity="0.6">ACR</text>
+
+              <rect x="1000" y="55" width="120" height="60" rx="3" fill="none" stroke="currentColor" stroke-width="1.3"/>
+              <text x="1060" y="80" text-anchor="middle" font-size="11.5" fill="currentColor">Access Room</text>
+              <text x="1060" y="94" text-anchor="middle" font-size="9.5" fill="currentColor" opacity="0.75">cobwebs</text>
+              <text x="1060" y="107" text-anchor="middle" font-size="8.5" fill="currentColor" opacity="0.6">RM4</text>
+
+              <!-- row 1 -->
+              <rect x="460" y="180" width="120" height="60" rx="3" fill="none" stroke="currentColor" stroke-width="1.3"/>
+              <text x="520" y="212" text-anchor="middle" font-size="11.5" fill="currentColor">Muddy Hallway</text>
+              <text x="520" y="228" text-anchor="middle" font-size="8.5" fill="currentColor" opacity="0.6">HL7</text>
+
+              <rect x="730" y="180" width="120" height="60" rx="3" fill="none" stroke="currentColor" stroke-width="1.3"/>
+              <text x="790" y="212" text-anchor="middle" font-size="11.5" fill="currentColor">Northern Hall</text>
+              <text x="790" y="228" text-anchor="middle" font-size="8.5" fill="currentColor" opacity="0.6">HL1</text>
+
+              <rect x="1000" y="180" width="120" height="60" rx="3" fill="none" stroke="currentColor" stroke-width="1.3"/>
+              <text x="1060" y="212" text-anchor="middle" font-size="11.5" fill="currentColor">Access Hallway</text>
+              <text x="1060" y="228" text-anchor="middle" font-size="8.5" fill="currentColor" opacity="0.6">HL4</text>
+
+              <!-- row 2: main spine, west to east -->
+              <rect x="55" y="305" width="120" height="60" rx="3" style="fill:var(--ember-tint)" stroke="currentColor" stroke-width="1.6"/>
+              <text x="115" y="330" text-anchor="middle" font-size="11.5" fill="currentColor" font-weight="600">Shrine</text>
+              <text x="115" y="344" text-anchor="middle" font-size="9.5" fill="currentColor" opacity="0.75">idol's eyes</text>
+              <text x="115" y="357" text-anchor="middle" font-size="8.5" fill="currentColor" opacity="0.6">SHR &middot; one-way</text>
+
+              <rect x="190" y="305" width="120" height="60" rx="3" style="fill:var(--brass-tint)" stroke="currentColor" stroke-width="1.6"/>
+              <text x="250" y="330" text-anchor="middle" font-size="11.5" fill="currentColor" font-weight="600">Fountain Room</text>
+              <text x="250" y="344" text-anchor="middle" font-size="9.5" fill="currentColor" opacity="0.75">illusory coins</text>
+              <text x="250" y="357" text-anchor="middle" font-size="8.5" fill="currentColor" opacity="0.6">FRM</text>
+
+              <rect x="325" y="305" width="120" height="60" rx="3" fill="none" stroke="currentColor" stroke-width="1.3"/>
+              <text x="385" y="330" text-anchor="middle" font-size="11.5" fill="currentColor">Wet Hallway</text>
+              <text x="385" y="347" text-anchor="middle" font-size="8.5" fill="currentColor" opacity="0.6">HL9</text>
+
+              <rect x="460" y="305" width="120" height="60" rx="3" style="fill:var(--verdigris-tint)" stroke="currentColor" stroke-width="1.4"/>
+              <text x="520" y="328" text-anchor="middle" font-size="10.5" fill="currentColor">Dark</text>
+              <text x="520" y="341" text-anchor="middle" font-size="10.5" fill="currentColor">Intersection</text>
+              <text x="520" y="356" text-anchor="middle" font-size="8.5" fill="currentColor" opacity="0.6">IN2</text>
+
+              <rect x="595" y="305" width="120" height="60" rx="3" fill="none" stroke="currentColor" stroke-width="1.3"/>
+              <text x="655" y="330" text-anchor="middle" font-size="11.5" fill="currentColor">Western Hall</text>
+              <text x="655" y="347" text-anchor="middle" font-size="8.5" fill="currentColor" opacity="0.6">HL3</text>
+
+              <rect x="730" y="305" width="120" height="60" rx="3" style="fill:var(--brass-tint)" stroke="currentColor" stroke-width="1.6"/>
+              <text x="790" y="330" text-anchor="middle" font-size="11.5" fill="currentColor" font-weight="600">Entrance</text>
+              <text x="790" y="344" text-anchor="middle" font-size="9.5" fill="currentColor" opacity="0.75">flask &middot; twigs</text>
+              <text x="790" y="357" text-anchor="middle" font-size="8.5" fill="currentColor" opacity="0.6">ENT &middot; hub</text>
+
+              <rect x="865" y="305" width="120" height="60" rx="3" fill="none" stroke="currentColor" stroke-width="1.3"/>
+              <text x="925" y="330" text-anchor="middle" font-size="11.5" fill="currentColor">Eastern Hall</text>
+              <text x="925" y="347" text-anchor="middle" font-size="8.5" fill="currentColor" opacity="0.6">HL2</text>
+
+              <rect x="1000" y="305" width="120" height="60" rx="3" style="fill:var(--verdigris-tint)" stroke="currentColor" stroke-width="1.4"/>
+              <text x="1060" y="328" text-anchor="middle" font-size="10.5" fill="currentColor">Lighted</text>
+              <text x="1060" y="341" text-anchor="middle" font-size="10.5" fill="currentColor">Intersection</text>
+              <text x="1060" y="356" text-anchor="middle" font-size="8.5" fill="currentColor" opacity="0.6">IN1</text>
+
+              <rect x="1135" y="305" width="120" height="60" rx="3" fill="none" stroke="currentColor" stroke-width="1.3"/>
+              <text x="1195" y="330" text-anchor="middle" font-size="11.5" fill="currentColor">Sooty Hallway</text>
+              <text x="1195" y="347" text-anchor="middle" font-size="8.5" fill="currentColor" opacity="0.6">HL5</text>
+
+              <rect x="1270" y="305" width="120" height="60" rx="3" style="fill:var(--brass-tint)" stroke="currentColor" stroke-width="1.6"/>
+              <text x="1330" y="330" text-anchor="middle" font-size="11.5" fill="currentColor" font-weight="600">Meeting Room</text>
+              <text x="1330" y="344" text-anchor="middle" font-size="9.5" fill="currentColor" opacity="0.75">fireplace &middot; ash</text>
+              <text x="1330" y="357" text-anchor="middle" font-size="8.5" fill="currentColor" opacity="0.6">MET &middot; se=squeeze</text>
+
+              <!-- row 3 -->
+              <rect x="460" y="430" width="120" height="60" rx="3" style="fill:var(--ember-tint)" stroke-dasharray="4 3" stroke="currentColor" stroke-width="1.3" opacity="0.85"/>
+              <text x="520" y="452" text-anchor="middle" font-size="10" fill="currentColor">(unbuilt in</text>
+              <text x="520" y="465" text-anchor="middle" font-size="10" fill="currentColor">source)</text>
+              <text x="520" y="479" text-anchor="middle" font-size="8.5" fill="currentColor" opacity="0.6">HL8 &middot; dead end</text>
+
+              <rect x="730" y="430" width="120" height="60" rx="3" fill="none" stroke="currentColor" stroke-width="1.3"/>
+              <text x="790" y="453" text-anchor="middle" font-size="10.5" fill="currentColor">Top of the</text>
+              <text x="790" y="466" text-anchor="middle" font-size="10.5" fill="currentColor">Stairs</text>
+              <text x="790" y="480" text-anchor="middle" font-size="8.5" fill="currentColor" opacity="0.6">TOS</text>
+
+              <rect x="1000" y="430" width="120" height="60" rx="3" fill="none" stroke="currentColor" stroke-width="1.3"/>
+              <text x="1060" y="455" text-anchor="middle" font-size="11.5" fill="currentColor">Trashy Hallway</text>
+              <text x="1060" y="472" text-anchor="middle" font-size="8.5" fill="currentColor" opacity="0.6">HL6</text>
+
+              <rect x="1270" y="430" width="120" height="60" rx="3" fill="none" stroke="currentColor" stroke-width="1.3"/>
+              <text x="1330" y="455" text-anchor="middle" font-size="11.5" fill="currentColor">Rat's Crawl</text>
+              <text x="1330" y="472" text-anchor="middle" font-size="8.5" fill="currentColor" opacity="0.6">RT1</text>
+
+              <!-- row 4 -->
+              <rect x="730" y="555" width="120" height="60" rx="3" style="fill:var(--brass-tint)" stroke="currentColor" stroke-width="1.6"/>
+              <text x="790" y="578" text-anchor="middle" font-size="10.5" fill="currentColor">Base of the</text>
+              <text x="790" y="591" text-anchor="middle" font-size="10.5" fill="currentColor">Stairs</text>
+              <text x="790" y="605" text-anchor="middle" font-size="8.5" fill="currentColor" opacity="0.6">BOS &middot; mace</text>
+
+              <rect x="1000" y="555" width="120" height="60" rx="3" style="fill:var(--verdigris-tint)" stroke="currentColor" stroke-width="1.4"/>
+              <text x="1060" y="578" text-anchor="middle" font-size="11.5" fill="currentColor">Trash Room</text>
+              <text x="1060" y="592" text-anchor="middle" font-size="9.5" fill="currentColor" opacity="0.75">garbage pile</text>
+              <text x="1060" y="605" text-anchor="middle" font-size="8.5" fill="currentColor" opacity="0.6">TRS &middot; ne=squeeze</text>
+
+              <rect x="1135" y="555" width="120" height="60" rx="3" fill="none" stroke="currentColor" stroke-width="1.3"/>
+              <text x="1195" y="580" text-anchor="middle" font-size="11.5" fill="currentColor">Rat's Crawl</text>
+              <text x="1195" y="597" text-anchor="middle" font-size="8.5" fill="currentColor" opacity="0.6">RT3</text>
+
+              <rect x="1270" y="555" width="120" height="60" rx="3" style="fill:var(--ember-tint)" stroke="currentColor" stroke-width="1.6"/>
+              <text x="1330" y="578" text-anchor="middle" font-size="11.5" fill="currentColor" font-weight="600">Rat's Lair</text>
+              <text x="1330" y="592" text-anchor="middle" font-size="9.5" fill="currentColor" opacity="0.8">treasure +50</text>
+              <text x="1330" y="605" text-anchor="middle" font-size="8.5" fill="currentColor" opacity="0.6">RT2</text>
+
+              <!-- row 5 -->
+              <rect x="730" y="680" width="120" height="60" rx="3" fill="none" stroke="currentColor" stroke-width="1.3"/>
+              <text x="790" y="705" text-anchor="middle" font-size="10.5" fill="currentColor">Outside</text>
+              <text x="790" y="718" text-anchor="middle" font-size="10.5" fill="currentColor">Complex</text>
+              <text x="790" y="732" text-anchor="middle" font-size="8.5" fill="currentColor" opacity="0.6">START</text>
+            </g>
+          </svg>
+        </div>
+        <figcaption>All 24 rooms of the stronghold, connected by their doors. The Access Room's secret northeast passage (dashed) only ever runs one way, back down to the Base of the Stairs &mdash; and the Shrine door, once broken through, locks behind you for good.</figcaption>
+      </figure>
+
+      <div class="legend">
+        <span><i style="border-color: currentColor; opacity:.55"></i> open corridor, no door</span>
+        <span><i style="border-color:#93701f"></i> breakable door</span>
+        <span><i style="border-color:#9c3d29"></i> locked &amp; breakable (break it anyway &mdash; no key exists)</span>
+        <span><i style="border-color:#93701f; border-style:dashed"></i> secret, one-way shortcut</span>
+      </div>
+    </section>
+
+    <section id="treasure">
+      <h2><span class="num">02</span> Equipment &amp; treasure</h2>
+      <p class="lede">Everything worth carrying, and where the code puts it.</p>
+      <table class="item-table">
+        <thead>
+          <tr><th>Item</th><th>Found</th><th>Notes</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="name">Heavy mace</td>
+            <td class="loc">Base of the Stairs</td>
+            <td>Your only weapon. <span class="mono">DAMAG 8</span> per swing vs. your bare hand's <span class="mono">DAMAG 4</span> &mdash; take it before you break anything.</td>
+          </tr>
+          <tr>
+            <td class="name">Rat's Treasure</td>
+            <td class="loc">Rat's Lair (RT2)</td>
+            <td>Gold, silver, copper and three gems, tangled in the nest. The only object in the whole source that actually awards points &mdash; <span class="pt">+50</span> &mdash; on <code class="cmd">take</code>.</td>
+          </tr>
+          <tr>
+            <td class="name">Idol's Eyes</td>
+            <td class="loc">Shrine</td>
+            <td>Two large red gems set in the idol. Takeable, no score attached &mdash; a trophy for finishing the one-way trip.</td>
+          </tr>
+          <tr>
+            <td class="name">Torch stub, dagger hilt</td>
+            <td class="loc">RM6 / Access Room</td>
+            <td>Burnt out and broken respectively &mdash; flavor and backstory (someone tried to pry the secret door open with the dagger and lost the blade in the wall).</td>
+          </tr>
+          <tr>
+            <td class="name"><s>Fountain coins</s></td>
+            <td class="loc">Fountain Room</td>
+            <td>Illusory &mdash; infinite weight in the code, cannot be picked up. See <a href="#gaps">Before you start</a>.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="phase1">
+      <h2><span class="num">03</span> Phase 1 &middot; Up the hill</h2>
+      <div class="phase">
+        <h3><span class="ph-num">1.1</span> From the hillside to the entrance</h3>
+        <p class="goal">Get inside and arm yourself. The outer door is already open &mdash; nothing to break yet.</p>
+        <ol class="steps">
+          <li><span class="step-text">You start at the <span class="room">Outside Complex</span>, facing the stairway. Go <code class="cmd">n</code>.</span></li>
+          <li><span class="step-text">At the <span class="room">Base of the Stairs</span>: <code class="cmd">take mace</code>. Then <code class="cmd">n</code>.</span></li>
+          <li><span class="step-text">At the <span class="room">Top of the Stairs</span>, the doorway (DR1) starts unlocked and open &mdash; just go <code class="cmd">n</code> into the <span class="room">Entrance</span>.</span></li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="phase2">
+      <h2><span class="num">04</span> Phase 2 &middot; The entrance hub</h2>
+      <div class="phase">
+        <h3><span class="ph-num">2.1</span> Three doors, one room</h3>
+        <p class="goal">The Entrance is the hub everything else branches from &mdash; north, east and west all lead to fresh territory, each behind its own door.</p>
+        <ol class="steps">
+          <li><span class="step-text">Optional flavor: <code class="cmd">examine flask</code>, <code class="cmd">examine twigs</code> &mdash; wind-blown debris, nothing more.</span></li>
+          <li><span class="step-text">Breaking through: <code class="cmd">break door with mace</code> works on whichever door you're facing &mdash; the parser only asks &ldquo;Which door?&rdquo; when more than one is in reach, so add a direction when it does, e.g. <code class="cmd">break north door with mace</code>. Doors take several hits (their strength is rolled randomly, roughly 11&ndash;20); keep swinging until it collapses.</span>
+            <p class="note-inline">Naming the weapon skips wielding entirely &mdash; see the wielding note under <a href="#quirks">Quirks</a> before you try <code class="cmd">move mace on hand</code>.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="phase3">
+      <h2><span class="num">05</span> Phase 3 &middot; The eastern loop</h2>
+      <div class="phase">
+        <h3><span class="ph-num">3.1</span> Into the well-lit intersection</h3>
+        <ol class="steps">
+          <li><span class="step-text">From the Entrance: <code class="cmd">break east door with mace</code>, then <code class="cmd">e</code>, <code class="cmd">e</code> to reach the <span class="room">Lighted Intersection</span>.</span></li>
+        </ol>
+        <h3 style="margin-top:26px"><span class="ph-num">3.2</span> The rat tunnels &mdash; the real treasure</h3>
+        <p class="goal">This loop connects back to the Meeting Room on its own, so it's worth doing before you ever touch the Meeting Room's door.</p>
+        <ol class="steps">
+          <li><span class="step-text"><code class="cmd">s</code> to the <span class="room">Trashy Hallway</span>, then <code class="cmd">s</code> again into the <span class="room">Trash Room</span>.</span></li>
+          <li><span class="step-text"><code class="cmd">examine trash</code> if you like &mdash; it describes the hole you're about to use (the parser doesn't actually know the word &ldquo;junk&rdquo;, only <code class="cmd">trash</code>, <code class="cmd">garbage</code>, or <code class="cmd">pile</code>). Then <code class="cmd">ne</code> to squeeze into <span class="room">Rat's Crawl</span>.</span></li>
+          <li><span class="step-text"><code class="cmd">e</code> into the <span class="room">Rat's Lair</span>. <code class="cmd">take treasure</code> &mdash; this is the <span class="pt">+50</span> score object.</span></li>
+          <li><span class="step-text"><code class="cmd">n</code>, <code class="cmd">n</code> to squeeze up through the second crawl straight into the <span class="room">Meeting Room</span> &mdash; no door needed.</span></li>
+          <li><span class="step-text">Look around: <code class="cmd">examine fireplace</code>, <code class="cmd">examine ashes</code>, <code class="cmd">examine chairs</code>, <code class="cmd">examine benches</code>. All flavor, no items.</span></li>
+        </ol>
+        <h3 style="margin-top:26px"><span class="ph-num">3.3</span> Back to the hub, then the north hallway</h3>
+        <ol class="steps">
+          <li><span class="step-text">If you want the Sooty Hallway/Meeting-Room door open too (not required &mdash; the crawl already connects them), it's <code class="cmd">break door with mace</code> from either side.</span></li>
+          <li><span class="step-text">Return the way you came, or via the crawl, to the <span class="room">Lighted Intersection</span>, then <code class="cmd">n</code> to the <span class="room">Access Hallway</span>.</span></li>
+          <li><span class="step-text"><code class="cmd">break door with mace</code>, then <code class="cmd">n</code> into an <span class="room">Access Room (RM4)</span> &mdash; cobwebs in the corner, nothing to take.</span></li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="phase4">
+      <h2><span class="num">06</span> Phase 4 &middot; The northern vault</h2>
+      <div class="phase">
+        <h3><span class="ph-num">4.1</span> Through the Northern Hall</h3>
+        <ol class="steps">
+          <li><span class="step-text">Back at the Entrance: <code class="cmd">break north door with mace</code>, then <code class="cmd">n</code> to the <span class="room">Northern Hall</span>.</span></li>
+          <li><span class="step-text">Two doors are in reach here &mdash; the one you came through, and the one ahead. The next one is locked <em>and</em> breakable, but the lock doesn't matter: <code class="cmd">break north door with mace</code>, then <code class="cmd">n</code> into the <span class="room">Access Room (ACR)</span>.</span></li>
+        </ol>
+        <h3 style="margin-top:26px"><span class="ph-num">4.2</span> The secret door</h3>
+        <p class="goal">A hidden passage back down to the Base of the Stairs. You don't have to wait for the random hint to notice it &mdash; the word <code class="cmd">secret</code> matches it directly.</p>
+        <ol class="steps">
+          <li><span class="step-text"><code class="cmd">examine hilt</code> first &mdash; the broken dagger is a clue that someone already tried this.</span></li>
+          <li><span class="step-text"><code class="cmd">break secret door with mace</code> &mdash; this works immediately, whether or not the room has &ldquo;detected&rdquo; it yet for you. Keep swinging (its strength is rolled tougher than the others, roughly 11&ndash;30).</span></li>
+          <li><span class="step-text">This is a <strong>one-way</strong> shortcut: <code class="cmd">ne</code> drops you back at the Base of the Stairs, but there's no return route coded from that side. Use it as a fast trip out, not a loop.</span></li>
+        </ol>
+        <h3 style="margin-top:26px"><span class="ph-num">4.3</span> The other access rooms</h3>
+        <ol class="steps">
+          <li><span class="step-text">From the Access Room: <code class="cmd">break east door with mace</code>, <code class="cmd">e</code> reaches the other Access Room (RM4) if you skipped it earlier.</span></li>
+          <li><span class="step-text"><code class="cmd">break west door with mace</code>, <code class="cmd">w</code> reaches a third Access Room (RM6) with a burnt-out torch stub &mdash; this is the same room you can also reach from the western wing below.</span></li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="phase5">
+      <h2><span class="num">07</span> Phase 5 &middot; The western wing</h2>
+      <div class="phase">
+        <h3><span class="ph-num">5.1</span> Into the dark intersection</h3>
+        <ol class="steps">
+          <li><span class="step-text">From the Entrance: <code class="cmd">break west door with mace</code>, <code class="cmd">w</code>, <code class="cmd">w</code> to the <span class="room">Dark Intersection</span>.</span></li>
+          <li><span class="step-text"><code class="cmd">s</code> leads to the unbuilt <span class="mono">HL8</span> stub &mdash; a dead end left over from the archived source. Nothing there; turn back.</span></li>
+        </ol>
+        <h3 style="margin-top:26px"><span class="ph-num">5.2</span> To the fountain and beyond</h3>
+        <ol class="steps">
+          <li><span class="step-text"><code class="cmd">w</code> to the <span class="room">Wet Hallway</span>, then <code class="cmd">break door with mace</code>, <code class="cmd">w</code> into the <span class="room">Fountain Room</span>.</span></li>
+          <li><span class="step-text"><code class="cmd">examine fountain</code> for flavor. Don't bother trying to take the coins &mdash; see <a href="#gaps">Before you start</a>.</span></li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="phase6">
+      <h2><span class="num">08</span> Phase 6 &middot; The shrine (read first)</h2>
+      <div class="callout warn">
+        <h3>&#9888; A dead end, not an ending</h3>
+        <p>The door into the Shrine locks itself the instant you step through, and the code gives it no way to be reopened afterward (it's no longer breakable, and &ldquo;open&rdquo; is refused outright). Do everything else in this walkthrough first.</p>
+        <p>And temper your expectations once you're in: taking the eyes doesn't trigger anything. <span class="mono">EYES</span> and <span class="mono">IDOL</span> carry no <span class="mono">VERBS</span> property at all in the source &mdash; picking them up runs the same generic &ldquo;you take it&rdquo; logic as any other object. There is, in fact, no win condition or congratulatory message anywhere in the archived code, and no command ever prints the score it's been quietly tracking. <code class="cmd">quit</code> is the only way the game ends.</p>
+      </div>
+      <div class="phase">
+        <ol class="steps">
+          <li><span class="step-text">From the Fountain Room: <code class="cmd">break west door with mace</code> &mdash; you'll hear a soft gong as it gives way.</span></li>
+          <li><span class="step-text"><code class="cmd">w</code> into the <span class="room">Shrine</span>. The door shuts behind you as you enter.</span></li>
+          <li><span class="step-text"><code class="cmd">examine idol</code>, then <code class="cmd">take eyes</code> &mdash; the idol's two red gems, a trophy with nothing further attached to it.</span></li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="quirks">
+      <h2><span class="num">09</span> Quirks &amp; dead ends</h2>
+      <p class="lede">Behavior worth knowing about before you meet it blind &mdash; all genuine artifacts of the 1982 code, confirmed by reading the relevant handlers side by side.</p>
+
+      <div class="quirk">
+        <span class="tag gap">no ending</span>
+        <p>There is no win condition anywhere in the source &mdash; no victory message, no final score, nothing that checks what you're carrying or where you've been. <span class="mono">START</span>'s command loop just keeps reading input forever. <code class="cmd">quit</code> is the only way out, whether you've taken every item or none of them.</p>
+      </div>
+      <div class="quirk">
+        <span class="tag trap">wielding bug</span>
+        <p><code class="cmd">move mace on hand</code> triggers an infinite loop in the Hand object's own verb handler: it calls the generic move routine before clearing the state that re-triggers that same handler. <code class="cmd">move mace to hand</code> (or <code class="cmd">in hand</code>) hits a different, correctly-written branch and works fine &mdash; or skip wielding entirely and just say <code class="cmd">break door with mace</code>, which never touches this code path.</p>
+      </div>
+      <div class="quirk">
+        <span class="tag gap">no key</span>
+        <p>Four doors check for an object called <span class="mono">KEY</span> that was never defined in the world data. <code class="cmd">unlock</code> always fails on them &mdash; break them instead, which ignores the lock flag entirely.</p>
+      </div>
+      <div class="quirk">
+        <span class="tag trap">one-way shrine</span>
+        <p>Covered above: the Shrine's door cannot be reopened once broken through and entered. It's a dead end, not a scripted finale &mdash; see &ldquo;no ending&rdquo; above.</p>
+      </div>
+      <div class="quirk">
+        <span class="tag gap">unbuilt room</span>
+        <p>The Dark Intersection's south exit points at a room (<span class="mono">HL8</span>) that exists only as a name in a word list &mdash; no room was ever written for it.</p>
+      </div>
+      <div class="quirk">
+        <span class="tag gap">no scoreboard</span>
+        <p>Taking the Rat's Treasure adds 50 to a <span class="mono">SCORE</span> property on the player &mdash; but no command in the source ever prints it back out. The points exist only in memory, never on screen.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="colophon">
+    Compiled by reading game.lsp &amp; faemar directly &mdash; room contents, door strengths, and verb handlers are quoted from the source, not observed through play.
+  </footer>
+
+</div>

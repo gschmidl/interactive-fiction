@@ -1,0 +1,372 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			Documentation changes for:
+
+
+		AOS/VS, AOS/VS II, and AOS/RT32 System Call
+			Dictionary, ?R Through ?Z
+
+		  	Part Number 093-000543-02
+
+
+
+
+	This file (pathname :UTIL:093_000543_02) contains information
+	that affects the following pages of your manual.
+
+	* 1-11
+	  2-844
+	  B-9
+	  B-10
+	  B-16
+	* B-18
+
+	This first revision of 093_000543_02 was created on
+	September 2, 1993.
+
+	The asterisk (*) indicates that the change is printed in this
+	file for the first time.
+
+	For all pages in this file, change bars (|) in the left margin
+	mark material that differs from what is in the printed manual.
+
+	To keep your manual current, print this file, punch holes to fit
+	your binder, and insert the pages into your manual.
+
+
+
+
+
+
+
+
+	Copyright (c) Data General Corporation, 1980 - 1993.
+	All Rights Reserved
+	Licensed Material - Property of Data General Corporation
+
+
+	AOS/VS, AOS/VS II, and AOS/RT32 System Call Dictionary, ?R Through ?Z
+	Documentation Changes, Revision 1			     2-Sep-93
+
+
+	Page 1-11.  Add the following section:
+
+	|	Implementation of System Calls
+	|
+	|	Assembly language and high-level language programs use
+	|	system calls to transfer execution from a user program
+	|	running in rings 4 through 7 to system code located in
+	|	rings 0 through 3.  If you need to know the details of
+	|	how this transfer normally occurs, consider the
+	|	example of the ?GNAME system call.
+	|
+	|	For 32 bit programs, the symbol ?GNAME is defined as a
+	|	MASM macro in SYSID.32.SR so that it expands to the
+	|	following code where 111 indicates this is the
+	|	?GNAME system call.
+	|
+	|				XJSR @6
+	|				111
+	|	
+	|	Location 6 contains the 32 bit address SYST which is
+	|	defined in the URT32.LB library.  The SYST routine
+	|	contains the following code.
+	|
+	|			SYST:	WPSH	3,3
+	|				LCALL	06000000000,0,0
+	|				WBR	SYS10
+	|				ISZTS
+	|			SYS10:	ISZTS
+	|				LDAFP	3
+	|				WPOPJ
+	|
+	|	For 16 bit programs, the symbol ?GNAME is defined as a
+	|	MASM macro in SYSID.16.SR so that it expands to the
+	|	following code where 111 indicates this is the
+	|	?GNAME system call.
+	|
+	|				JSR	@17
+	|				111
+	|
+	|	Location 17 contains the 16 bit address SYST which is
+	|	defined in the URT16.LB library.  The SYST routine
+	|	contains the following code.
+	|
+	|			SYST:	PSH	3,3
+	|				LCALL	06000000000,0,0
+	|				JMP	SYS11
+	|				LDA	3,40
+	|				ISZ	0,3
+	|			SYS10:	ISZ	0,3
+	|				LDA	3,41
+	|				POPJ
+	|			SYS11:	LDA	3,40
+	|				JMP	SYS10
+
+
+	AOS/VS, AOS/VS II, and AOS/RT32 System Call Dictionary, ?R Through ?Z
+	Documentation Changes, Revision 1			    2-Sep-93
+
+
+	Place this page and the following two pages after page 2-844:
+
+
+	|	?WSCNTL                            Working Set Control
+	|
+	|	?WSCNTL [packet address]
+	|	error return
+	|	normal return
+	|
+	|
+	|	Input
+	|
+	|	    AC0  -1 Required
+	|           AC1  Reserved (Set to 0)
+	|	    AC2  Address of the ?WSCNTL packet
+	|
+	|	Error Codes in AC0
+	|
+	|	ERWSM     Caller not privileged to change Working Set
+	|	ERPRH     Process not in hierarchy
+	|	ERMPR     System Call Parameter Address Error (Error on
+	|	          accessing packet)
+	|	ERRVN     Reserved field non-zero
+	|	ERPVS     Packet Version not supported
+	|	ERWSS     Working Set Size error (Min greater than max.
+	|	          Min greater than system max, etc.)
+	|	ERWST     Minimum value is greater than swapfile size.
+	|	ERAWM     Caller has wired maximum already.
+	|
+	|
+	|	Why Use It?
+	|
+	|	Use this system call to view or adjust the maximum and/or
+	|	minimum values for the current processes working set.  Used
+	|	sensibly, this can prevent a given process from using an
+	|	undue share of system resources.
+	|
+	|
+	|	Who Can Use It?
+	|
+	|	Any process can issue this call against itself, it cannot be
+	|	issued against a target process.  Change Working Set Privilege
+	|	(?PVWM) is required to increase either the working set maximum
+	|	or the working set minimum.  It is not required to decrease
+	|	either limit.  Note however, that once a limit is lowered,
+	|	?PVWM would be needed to even put the limit back to where it
+	|	was.
+
+
+	AOS/VS, AOS/VS II, and AOS/RT32 System Call Dictionary, ?R Through ?Z
+	Documentation Changes, Revision 1			    2-Sep-93
+
+
+	|	What It Does
+	|
+	|	This system call will display or modify the working set
+	|	minimum and maximum values stored by the system for the
+	|	calling process.  If the new maximum value is smaller than
+	|	the current working set size, the system will remove pages
+	|	from the working set until it conforms to the new limit.
+	|	In all other cases, it will merely modify the limit saved
+	|	for this process.  The new limits will be used for any
+	|	subsequent decisions made by memory management for the process.
+	|
+	|
+	|	Restrictions
+	|
+	|	The WS minimum cannot be set larger than the swapfile size,
+	|	otherwise an attempt to swap the process would fail.  The
+	|	WS maximum cannot be set smaller than the current number of
+	|	?WIREd pages, or smaller than the WS minimum, otherwise paging
+	|	down to the new maximum would fail.  (This call cannot be used
+	|	to increase the WS minimum or maximum beyond current settings
+	|	without the Change Working Set Size privilege.  Reducing the
+	|	minimum or maximum can be accomplished without this privilege
+	|	but once the new settings are in effect, the user would be
+	|	prevented from raising them back to previous levels.)
+	|
+	|
+	|	The format of the ?WSCNTL packet and subpacket are as follows:
+	|
+	|
+	|	                    0              15 16            31
+	|			    +----------------+----------------+
+	|	?WSCNTL_PKT.PKTID   | Packet identifier               |
+	|                           |                                 |
+	|	                    |----------------+----------------+
+	|       ?WSCNTL_PKT.FUNC    | Function Code  | Reserved       |
+	|       ?WSCNTL_PKT.RSVD    |                |                |
+	|                           |                | (Set to zero)  |
+	|                           +----------------+----------------+
+	|       ?WSCNTL_PKT.SUBPKT  | Pointer to Function subpacket   |
+	|                           |                                 |
+	|                           +---------------------------------+
+	|                           ?WSCNTL_PKT_LEN = packet length
+
+
+	AOS/VS, AOS/VS II, and AOS/RT32 System Call Dictionary, ?R Through ?Z
+	Documentation Changes, Revision 1			    2-Sep-93
+
+
+	|	The format of the subpacket is as follows:
+	|
+	|
+	|	                         0             15 16             31
+	|	                         +----------------+----------------+
+	|	?WSCNTL_MM_PKT.PKTID     | Sub-packet identifier           |
+	|	                         |                                 |
+	|	                         |----------------+----------------+
+	|	?WSCNTL_MM_PKT.MIN       | Working Set Minimum             |
+	|	                         |                |                |
+	|	                         +----------------+----------------+
+	|	?WSCNTL_MM_PKT.MAX       | Working Set Maximum             |
+	|	                         |                                 |
+	|	                         +---------------------------------+
+	|	                         ?WSCNTL_MM_PKT_LEN = packet length
+	|
+	|
+	|	The contents of the ?WSCNTL packet are as follows:
+	|
+	|
+	|	     OFFSET              CONTENTS
+	|
+	|	?WSCNTLßPKT.PKTID        Set to ?WSCNTLßPKTID.
+	|	?WSCNTLßPKT.FUNC         Function Code.  ?WSCNTLßGETßLIMITS to
+	|	                         get the current Working Set Limits.
+	|	                         ?WSCNTL_SET_LIMITS to set new Working
+	|	                         Set Limits.
+	|	?WSCNTLßPKT.RSVD         Reserved.  (Set to 0.)
+	|	?WSCNTLßPKT.SUBPKT       Word Pointer to ?WSCNTL Subpacket.
+	|
+	|
+	|	The contents of the ?WSCNTL subpacket are as follows:
+	|
+	|	     OFFSET              CONTENTS
+	|
+	|	?WSCNTLßMMßPKT.PKTID     Set to ?WSCNTLßMMßPKTID.
+	|	?WSCNTLßMMßPKT.MIN       If function is ?WSCNTLßGETßLIMITS then
+	|	                         the current Working Set minimum will
+	|	                         be returned here. If the function is
+	|	                         ?WSCNTLßSETßLIMITS then this will
+	|	                         contain the new working set minimum.
+	|	                         0 will mean no minimum value. -1 will
+	|	                         mean use the system default (0.)
+	|
+	|	?WSCNTLßMMßPKT.MAX       If function is ?WSCNTLßGETßLIMITS then
+	|	                         the current Working Set maximum will
+	|	                         be returned here. If the function is
+	|	                         ?WSCNTLßSETßLIMITS then this will
+	|	                         contain the new working set maximum.
+	|	                         -1 will mean no maximum value.
+
+
+	AOS/VS, AOS/VS II, and AOS/RT32 System Call Dictionary, ?R Through ?Z
+	Documentation Changes, Revision 1			    2-Sep-93
+
+
+	Page B-9.  Substitute the following description of Event Code 974:
+
+	|	974	Become a system operator (?OPER	system	4
+	|		call, subcodes ?OPON and ?OPOFF)
+
+
+	AOS/VS, AOS/VS II, and AOS/RT32 System Call Dictionary, ?R Through ?Z
+	Documentation Changes, Revision 1			    2-Sep-93
+
+
+		Page B-10.  Add the following event codes to Table B-1.
+
+	|	992	FSCOPY session begins.			4
+
+	|	993	FSCOPY session ends.			4
+
+
+	AOS/VS, AOS/VS II, and AOS/RT32 System Call Dictionary, ?R Through ?Z
+	Documentation Changes, Revision 1			    2-Sep-93
+
+
+		Page B-16.  Add the following data structure:
+
+
+	|	Codes 992 (FSCOPY begins)
+	|	and 993   (FSCOPY ends)
+	|         +-----------------+
+	|	8 | Error code      |
+	|	9 |                 |
+	|	  +-----------------+
+	|      10 | Bit 1 = backup  |
+	|         | Bit 2 = restore |
+	|	  +-----------------+
+	|      11 | Source LDU      |
+	|	  | pathname, null  |
+	|	  | terminated      |
+	|	  | Destination LDU |
+	|	  | pathname (if a  |
+	|	  | restoration),   |
+	|	  | terminated by   |
+	|	  | two nulls)      |
+	|	  +-----------------+
+
+
+	AOS/VS, AOS/VS II, and AOS/RT32 System Call Dictionary, ?R Through ?Z
+	Documentation Changes, Revision 1			    2-Sep-93
+
+
+		Page B-18.  Add the following data structure:
+
+
+	|	Code 1227 (User profile , field  modified)
+	|	(See also event code 1225)
+	|         +-----------------+
+	|	8 | Error code if   |
+	|	9 | any (Note 1)    |
+	|	  +-----------------+
+	|      10 | Profile name    |
+	|         | (in ASCII, 32   |
+	|	  | characters, 16  |
+	|         | words, termina- |
+	|         | ted by null)    |
+	|      25 |                 |
+	|	  +-----------------+
+	|      26 | Field number    |
+	|	  | in description  |
+	|	  | packet          |
+	|	  | (?PROFILE call  |
+	|      27 | format)         |
+	|	  +-----------------+
+	|      28 | 1 = ON, 2 = OFF |
+	|	  +-----------------+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		+-----------------------------------------------------+
+		| End of Documentation Changes for "AOS/VS, AOS/VS II,|
+		| and AOS/RT32 System Call Dictionary, ?R Through ?Z" |
+		|		Revision 1, 2-Sep-93                  |
+		+-----------------------------------------------------+

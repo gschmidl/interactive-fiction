@@ -1,0 +1,64 @@
+push
+prompt pop
+string ok_to_proceed
+comment Check for the root directory -- if so, turn superuser on.
+class(1 2) ignore
+[!equal,[!directory],:]
+  superuser on
+[!else]
+  comment Not in the root - check for write access. If we can create
+  comment and read from a file, assume we have needed access.
+  permanence =?[!pid].[!username].tmp off
+  delete =?[!pid].[!username].tmp
+  write/l==?[!pid].[!username].tmp test
+  string [=?[!pid].[!username].tmp]
+  delete =?[!pid].[!username].tmp
+  [!equal,[!string],test]
+    string ok_to_proceed
+  [!else]
+    string no_access
+  [!end]
+[!end]
+comment If it's not ok to proceed, describe error and stop.
+[!nequal,[!string],ok_to_proceed]
+  [!equal,[!string],no_access]
+    write
+    write Error - [!username] does not have write access to [!directory].
+    write ,,,,,,,,,You cannot back up this directory.
+    write
+  [!end]
+[!else]
+  comment Check if CLI operator mode is on. If not, turn it on.
+  permanence =?[!pid].[!username].tmp off
+  delete =?[!pid].[!username].tmp
+  operator/l==?[!pid].[!username].tmp
+  string [=?[!pid].[!username].tmp]
+  delete =?[!pid].[!username].tmp
+  [!equal,([!string]),(OFF)]
+    OPERATOR ON
+  [!end]
+  comment Operator mode is on -- proceed.
+  class1 error
+  class2 warning
+  write
+  write ** Restoration within directory [!DIRECTORY] at [!TIME] on [!DATE] **
+  write
+  write Please insert the first diskette of the backup fileset.
+  write
+  write Insert the fileset diskettes - when prompted - in the order in
+  write which they were originally dumped.
+  write
+  write ,,,,,,,,,,,,,,,,,,,,  -- Beginning file restoration --
+  [!equal,[!directory],:]
+    [!Nequal,%0/T%,]
+      LOAD%0/RECENT/DELETE/V/L% 	@LFD:VOL01:BACKUP  %1-%
+    [!else]
+      LOAD/N%0/V/L% @LFD:VOL01:BACKUP +
+    [!end]
+  [!else]
+    LOAD%0/RECENT/DELETE/V/L% 	@LFD:VOL01:BACKUP  %1-%
+  [!end]
+  write
+  write ** Restoration of [!DIRECTORY] complete at [!TIME] **
+[!end]
+pop

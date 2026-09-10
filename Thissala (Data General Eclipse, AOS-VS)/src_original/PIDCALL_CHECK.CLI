@@ -1,0 +1,154 @@
+push
+prompt pop
+[!equal,(%1%),()]
+  write This macro uses the FED editor to check a disk file for PID-size related
+  write system calls: ,,, ?PSTAT,,, ?IREC,,, ?EXEC,,, ?DADID
+  write The disk file can be a program --  object -- overlay -- or library file.
+  write The macro requires only read access to the file.
+  write
+  write The macro uses FED for searches based on both 32-bit and 16-bit calls.
+  write Then it runs SPEED and creates a report using FED's results. The
+  write report has two parts -- based on the 32-bit and 16-bit search. The FED
+  write program banner appears at the beginning of each part -- and the FED
+  write underscore prompt appears at the end. Only the part of the report that
+  write matches the target program type -- 32 or 16 bit -- is meaningful.
+  write
+  write For each call found -- FED shows the file location in the left column
+  write and the first five characters of the call name in the right column. For
+  write example:
+  write
+  write  12335/  ?PSTA
+  write
+  write If the report does not show calls ?PSTAT,, ?IREC,, and,, ?EXEC,, then
+  write the program is almost certainly big-PID compatible. You can change the
+  write program with SPRED to Hybrid or anyPID type at will.
+  write
+  write Call ?DADID -- without the other calls -- is big-PID compatible and you
+  write can ignore it for any program you plan to convert to Hybrid or anyPID.
+  write ?DADID is an issue only for smallPID programs in a big-PID environment.
+  write
+  write If the report does show call ?PSTAT,, ?IREC,, or ?EXEC -- you may need
+  write to compile the program with a compiler that produces big-PID compatible
+  write code. Or -- for a compiled-language program that does system calls
+  write directly via SYSCALL or for an assembly language program -- you may need
+  write to change the call in the source program. See the compiler Release
+  write Notice or "How to Generate and Run AOS/VS" for more on big-PID
+  write compatible code.
+  write
+  write For 16-bit programs that have an overlay file -- be sure to run this
+  write macro on both the program and overlay files.
+  write
+  write To check a program --  type the macro name followed by the pathname of
+  write the program you want to check. You must include the suffix. For example
+  write
+  write ,,,%0%,,, MYPROG.PR
+  write
+  [!else]
+  [!equal,([!filenames %1%]),()]
+    write File %1% not found. Please try again. Type full pathname and suffix.
+  [!else]
+    [!equal,([!file :udd:[!user]]),()]
+      write Directory,,,:UDD:[!user],,,does not exist. Unable to run,,,%0%.
+    [!else]
+    comment Do it.
+    [!equal,comment,] The FED command lines we want -- to search for
+    the four system calls in both 32-bit and 16-bit mode -- is
+
+32-bit: <tab><tab>92,-1,((@.=5)!(@.=26)!(@.=330)(@.=127))&(#(.-2)=30606300006)$S
+        \________/ \__/  \___/  \____/  \_____/ \_____/    \_________________/
+          |         |      |       |       |       |                |
+     tells FED    tells    code    code   code    code        code to search for
+     to display   FED to   for     for    for     for         XJSR @1600000006
+     in syscall   search   call    call   call    call        (32-bit) or
+     mode         loc -2   ?PSTAT  ?IREC  ?EXEC   ?DADID      JSR @17 (16-bit);
+           |      to last  |       |       |       |          one of these
+           |         |     |       |       |       |          precedes any
+           |         |     |       |       |       |          system call
+           |         |     |       |       |       |                |
+         ________  ___    ___     ____    ____    _____      ___________
+        /        \/   \  /   \   /    \  /    \  /     \    /            \
+16-bit: <tab><tab>92,-1,((@.=5)!(@.=26)!(@.=330)(@.=127))&(@(.-1)=6017)$S
+
+    These characters are in files PIDCALL_CHECK32.FED and PIDCALL_CHECK16.FED,
+    which are supplied, along with this macro file, with AOS/VS.
+
+    Now, set  up to run FED -- finding size of file to avoid FED address error.
+    Put all files in user's initial directory. Delete all temporary files [!end]
+
+    str :udd:[!user]:
+
+    delete/2=ignore [!string][!efile %1%].BP.REPORT
+    delete/2=ignore [!string]<?SPD<,16,32>.TMP,?FED<16,32>.TMP>
+    delete/2=ignore [!string]REPORT_TEXT<32,16>
+
+    var0 [!size %1%]
+    var0 [!udiv [!var0],2]
+    var0 [!usub [!var0],1]
+    var0 [!octal [!var0]]
+
+    copy/2=error  [!string]?FED(32,16).TMP   PIDCALL_CHECK(32,16).FED
+    acl   [!string]?FED(32,16).TMP   [!username],OWARE
+    write/l=[!string]?SPD(32,16).TMP   @C!-1![!var0]!fuh!
+    x  speed/i=[!string]?SPD(32,16).TMP   [!string]?FED(32,16).TMP
+
+    write Analyzing [!path %1%] -- please wait 30 to 60 seconds.
+    write
+    [!equal,comment,] Run FED -- must use /U switch to check the whole file.[!end]
+    x  fed/u/i=[!string]?FED(32,16).TMP/l=[!string]REPORT_TEXT(32,16) %1%
+
+    write/l=[!string]?SPD.TMP   @s!(@.=330)!L1K@10i!!fuh
+    process/default/input=[!string]?SPD.TMP/output=@null/block &
+       speed  [!string]REPORT_TEXT(32,16)
+
+    push
+    string [!string/p][!efile %1%].BP.REPORT
+    write/l=[!string] ******* Check for PID-size Related System Calls *******
+    write/l=[!string] ,,,,,,,,Calls,,?PSTAT,,?IREC,,?EXEC,,and,,?DADID
+    write/l=[!string]
+    write/l=[!string] ,,,System [!host] directory [!dir] on [!date] at [!time]
+    write/l=[!string]
+    write/l=[!string] ,,,,,File pathname,,,,,Last Modified,,,,,,,Size
+    write/l=[!string] ,,,----------------,,------------------,,,------
+    filestatus/nh/tlm/length/l=[!string]  %1%
+
+    write/l=[!string]
+    write/l=[!string]
+    write/l=[!string],,,,,,,,,,,,,,Report based on 32-bit Program
+    write/l=[!string],,,,,,,,,,,,,,------------------------------
+    write/l=[!string]
+    copy/a   [!string]   [!string/p]REPORT_TEXT32
+    write/l=[!string]
+    write/l=[!string]
+    write/l=[!string],,,,,,,,,,,,,,,Report based on 16-bit Program
+    write/l=[!string],,,,,,,,,,,,,,,------------------------------
+    write/l=[!string]
+    copy/a   [!string]   [!string/p]REPORT_TEXT16
+    write/l=[!string]
+    write/l=[!string]
+    write/l=[!string] ---------------------------------------------------------
+    write/l=[!string] If either report shows ?PSTAT ?IREC or ?EXEC -- for example
+    write/l=[!string] 52552/,,,?PSTA
+    write/l=[!string] then program %1% might need recompilation or source change
+    write/l=[!string] to handle PIDs over 255. Calls and PID-size factors follow.
+    write/l=[!string]
+    write/l=[!string] ,, ?PSTAT,, is a factor only if the call checks son process PIDs.
+    write/l=[!string] ,, ?IREC,,, is a factor only for termination or obit messages.
+    write/l=[!string] ,, ?EXEC,,, is a factor only if the call uses ?XFSTS to get
+    write/l=[!string] ,,,,,,,,,, the process's relationship to EXEC.
+    write/l=[!string] ,, ?DADID,, is a factor only if program %1% will be smallPID.
+
+    write Report on the PID-size calls follows.
+    write
+    type   [!string]
+
+    delete/2=ignore [!string/p]<?SPD<,16,32>.TMP,?FED<16,32>.TMP>
+    delete/2=ignore [!string/p]REPORT_TEXT<32,16>
+    write
+    write Done. For more explanation of macro -- type ,,%0%,, without an argument.
+    write
+    write The report on the PID-size calls is in file [!path [!string]]
+    pop
+  [!end]
+  [!end]
+[!end]
+pop

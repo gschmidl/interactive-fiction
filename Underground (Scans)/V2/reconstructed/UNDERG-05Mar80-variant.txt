@@ -1,0 +1,140 @@
+UNDERGROUND -- material from an EARLIER printout (05-Mar-80), not part of
+the 20-May-80 listing reconstructed in UNDERG.BAS.
+
+Source: 07192609.PDF pages 6-7 (re-scan pass).
+These sheets are a working/debugging printout with hand annotations.
+
+
+=====================================================================
+1. TAIL OF THE MARCH LISTING (lines 16200-17000)
+=====================================================================
+
+Lines struck through in pen are marked [CROSSED OUT]. They implement a
+"CAVEMN.DAT" second-cave / restore feature that does NOT appear in the
+20-May-80 listing.
+
+            X%=X%+15% IF O%(Y%)=2% FOR Y%=1% TO 20%: RETURN
+16300 Z$=SYS("^E")
+16500 &fnr$(X%); for X%=431% to 446%: B%=1%: goto 15900
+16505 GOTO 18000                                        [CROSSED OUT]
+16600 INPUT #1%"HELLO";A$                               [CROSSED OUT]
+16700 IF A$="HELLO"THEN B1$="CAVEMN.DAT":GOTO5100       [CROSSED OUT]
+16800 B1$="CAVEMN.DAT":GOTO5000                         [CROSSED OUT]
+17000 GOTO16600                                         [CROSSED OUT]
+16600                       END      ["66" written in pen over the
+                                      original line number]
+
+Note: the 20-May-80 listing keeps 16300/16500 and ends at "16600 END";
+16400 V$=SYS("^NBYE/F") is present in May but not visible on this sheet.
+
+
+=====================================================================
+2. $LEDIT PATCH SESSION
+=====================================================================
+
+Ready
+
+&FNR$(10)
+?Undefined function called
+
+Ready
+
+510
+?Execute only file
+
+Ready
+
+OLD UNDERHG\GH\^U
+RUN $LEDIT
+LEDIT VER 2A
+INSTRUCTIONS(Y OR N)? N
+#UNDERG
+*50
+50GOTO1700
+
+*510
+510IF Z$="CAVEMAN"THEN 17000
+
+*1300
+1300        T=TIME(0%)
+\           INPUT LINE #1%,A$
+\           IF A$="CAVEMAN"THEN 17000
+\           T=TIME(0%)-T
+\           A$=FNB$(A$)     IF X0%=103%
+\           A$=CVT$$(A$,189%)+" "
+1300        T=TIME(0%)
+\           INPUT LINE #1%,A$
+\           IF A$="CAVEMAN\NAMEVAC\"THEN 170\07\300
+\           T=TIME(0%)-T
+\           A$=FNB$(A$)     IF X0%=103%
+\           A$=CVT$$(A$,189%)+" "
+*1500
+1500        IF T% THEN ON V%+1% GOTO 5800,5900,5900,5900,6000,9100,10400,
+                    11400,11600,12000,12700,12800,13900,14100,14600,14800
+                            ELSE &"WHAT?": GOTO 1300
+1500        IF T% THEN ON V%+1% GOTO 5800,5900,5900,5900,6000,9100,10400,
+                    11400,11600,12000,12700,12800,13900,14100,14600,14800
+                            ELSE &"WHAT\TAH\hat?": GOTO 1300
+*/\/\
+#/o
+ILL SWI!
+#/O
+
+Ready
+
+OLD UNDERG
+KILL"UNDERG.BAK
+
+Ready
+
+(In LEDIT, "\old\new\" is a substitute command; the echoed lines show the
+edit string, then the resulting line. So 1500's &"WHAT?" became &"What?",
+which is what the 20-May-80 listing contains.)
+
+
+=====================================================================
+3. RUN TRANSCRIPT (05-Mar-80, 09:43 AM)
+=====================================================================
+
+RUN
+UNDERG   09:43 AM              05-Mar-80
+Welcome to UNDERGROUND. Type HELP for instructions.
+
+You are on a path near a small building. The air here smells of
+lake water. The path winds north into a dense forest, which surrounds
+you on all sides.
+
+W
+What?
+BLORT
+What?
+GET LAMP
+What?
+^C
+
+Ready
+
+&LINE
+ 1300
+
+Ready
+
+LIST 1300
+UNDERG   09:45 AM              05-Mar-80
+1300        T=TIME(0%)
+\           INPUT LINE #1%,A$
+\           IF A$=""THEN 1300
+\           T=TIME(0%)-T
+\           A$=FNB$(A$)     IF X0%=103%
+\           A$=CVT$$(A$,189%)+" "
+
+Ready
+
+LIST 1301^U
+^U
+BYEF
+
+(The sheet is torn off below this point.)
+
+Note: in this March listing line 1300 reads "A$=FNB$(A$) IF X0%=103%".
+The 20-May-80 listing reads "IF C%=103%" -- see notes in RECONSTRUCTION-NOTES.md.

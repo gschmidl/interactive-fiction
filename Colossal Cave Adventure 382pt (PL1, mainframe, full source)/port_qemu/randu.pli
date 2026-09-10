@@ -1,0 +1,16 @@
+ /* Native Linux replacements for the MVS/TSO-specific external      */
+ /* routines used by the Adventure PL/I engine (TREAD/TWRITE/WHISPER */
+ /* were originally WYLBUR/TSO terminal I/O; CLRSCRN/DECDATE were    */
+ /* assembler; RANDU was Fortran; R062A10/WARNMSG were MVS dynamic   */
+ /* allocation and broadcast-message helpers with no standalone      */
+ /* equivalent).                                                     */
+
+ RANDU: PROCEDURE(IX, IY, YR);
+   DCL IX FIXED BIN(31);
+   DCL IY FIXED BIN(31);
+   DCL YR FLOAT DEC(6);
+   (NOFIXEDOVERFLOW): IY = IX * 65539;
+   IF IY < 0 THEN IY = IY + 2147483647 + 1;
+   YR = IY;
+   YR = YR * .4656613E-9;
+   END RANDU;

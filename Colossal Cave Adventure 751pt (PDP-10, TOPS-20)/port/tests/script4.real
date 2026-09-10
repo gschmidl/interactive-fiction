@@ -1,0 +1,377 @@
+R GAME:ADVENTURE
+
+-- ADVENTURE < 6.1/ 3>, 14-Jan-82  --
+
+The best player since 17-Apr-84 is MIMI, achieving a score       
+of  92 points in  235 turns on  6-Oct-84.
+
+Welcome to ADVENTURE!!  Would you like instructions?   
+
+NO
+
+You are standing at the end of a road before a small brick building.  
+Around you is a forest.  A small stream flows out of the building and 
+down a gully.  
+
+IN
+
+You are inside a building, a well house for a large spring.  Off 
+to one side is a small storeroom.  
+There is a shiny brass lamp nearby.
+There is a leather sack here. 
+Taped to the wall is a faded poster.    
+There is a small matchbox here.    
+
+READ POSTER
+
+The poster has a picture of a thin man with a long white beard.  
+He is wearing a high pointed cap embroidered with strange symbols,    
+and he is pointing a finger at you.  Below the picture are the words: 
+
+!--------------------------------------------------------------------!
+! "I want you!--To report all good ideas for extensions to this game !
+! to me without delay.  Remember: ask not what ADVENTURE can do to   !
+! you; ask what you can do for ADVENTURE."                           !
+!                           -  -  -                                  !
+! >>>A public service of the John-Dillinger-Died-for-You Society<<<  !
+!--------------------------------------------------------------------!
+
+OPEN SAFE
+
+I see no safe here.     
+
+TAKE ALL
+
+brass lantern  
+     Taken.    
+leather sack   
+     Taken.    
+faded poster   
+     Hidden behind the poster is a steel safe, embedded in the wall.  
+matchbox  
+     Taken.    
+
+INVENTORY
+
+You are currently holding the following:
+brass lantern  
+leather sack   
+faded poster   
+matchbox  
+
+OUT
+
+You're at end of road again.  
+
+DOWN
+
+You are in a valley in the forest beside a stream tumbling along a    
+rocky bed.
+
+DOWN
+
+At your feet all the water of the stream splashes into a 2-inch slit  
+in the rock.  Downstream the streambed is bare rock.   
+
+SOUTH
+
+You are in a 20-foot depression floored with bare dirt.  Set into the 
+dirt is a strong steel grate mounted in concrete.  A dry streambed    
+leads into the depression.    
+There is a large cloth bag lying nearby.
+The grate is locked.
+
+OPEN GRATE
+
+You have no keys!   
+
+TAKE BAG
+
+Taken.    
+
+OPEN BAG
+
+Which bag do you want to open?    
+
+LOOK IN BAG
+
+Which bag do you want to look?    
+
+UNLOCK GRATE
+
+
+No way!   
+
+XYZZY
+
+
+Nothing happens.    
+You're outside grate.    
+The grate is locked.
+
+Are you trying to get into the cave?    
+
+PLUGH
+
+Please answer the question.
+
+Are you trying to get into the cave?    
+
+PLOVER
+
+Please answer the question.
+
+Are you trying to get into the cave?    
+
+SAY FEE
+
+Please answer the question.
+
+Are you trying to get into the cave?    
+
+SAY FIE
+
+Please answer the question.
+
+Are you trying to get into the cave?    
+
+WAVE ROD
+
+Please answer the question.
+
+Are you trying to get into the cave?    
+
+RUB LAMP
+
+Please answer the question.
+
+Are you trying to get into the cave?    
+
+ON
+
+Please answer the question.
+
+Are you trying to get into the cave?    
+
+OFF
+
+Please answer the question.
+
+Are you trying to get into the cave?    
+
+THROW AXE
+
+Please answer the question.
+
+Are you trying to get into the cave?    
+
+EAT
+
+Please answer the question.
+
+Are you trying to get into the cave?    
+
+DRINK
+
+Please answer the question.
+
+Are you trying to get into the cave?    
+
+COUNT
+
+Please answer the question.
+
+Are you trying to get into the cave?    
+
+BRIEF
+
+Please answer the question.
+
+Are you trying to get into the cave?    
+
+VERBOSE
+
+Please answer the question.
+
+Are you trying to get into the cave?    
+
+SCORE
+
+Please answer the question.
+
+Are you trying to get into the cave?    
+
+LOOK
+
+Please answer the question.
+
+Are you trying to get into the cave?    
+
+NORTH
+
+Please answer the question.
+
+Are you trying to get into the cave?    
+
+UP
+
+Please answer the question.
+
+Are you trying to get into the cave?    
+
+UP
+
+Please answer the question.
+
+Are you trying to get into the cave?    
+
+EAST
+
+Please answer the question.
+
+Are you trying to get into the cave?    
+
+WEST
+
+Please answer the question.
+
+Are you trying to get into the cave?    
+
+NORTH
+
+Please answer the question.
+
+Are you trying to get into the cave?    
+
+SOUTH
+
+Please answer the question.
+
+Are you trying to get into the cave?    
+
+NORTHEAST
+
+Please answer the question.
+
+Are you trying to get into the cave?    
+
+SOUTHWEST
+
+Please answer the question.
+
+Are you trying to get into the cave?    
+
+NORTHWEST
+
+Please answer the question.
+
+Are you trying to get into the cave?    
+
+SOUTHEAST
+
+Please answer the question.
+
+Are you trying to get into the cave?    
+
+ENTER BUILDING
+
+Please answer the question.
+
+Are you trying to get into the cave?    
+
+GET WATER
+
+Please answer the question.
+
+Are you trying to get into the cave?    
+
+FILL BOTTLE
+
+Please answer the question.
+
+Are you trying to get into the cave?    
+
+HELP
+
+Please answer the question.
+
+Are you trying to get into the cave?    
+
+INFO
+
+Please answer the question.
+
+Are you trying to get into the cave?    
+
+NEWS
+
+Please answer the question.
+
+Are you trying to get into the cave?    
+
+VERSION
+
+Please answer the question.
+
+Are you trying to get into the cave?    
+
+FOO
+
+Please answer the question.
+
+Are you trying to get into the cave?    
+
+BLAST
+
+Please answer the question.
+
+Are you trying to get into the cave?    
+
+ZZZZ
+
+Please answer the question.
+
+Are you trying to get into the cave?    
+
+LISTEN
+
+Please answer the question.
+
+Are you trying to get into the cave?    
+
+SMELL
+
+Please answer the question.
+
+Are you trying to get into the cave?    
+
+SING
+
+Please answer the question.
+
+Are you trying to get into the cave?    
+
+PRAY
+
+Please answer the question.
+
+Are you trying to get into the cave?    
+
+SLEEP
+
+Please answer the question.
+
+Are you trying to get into the cave?    
+
+QUIT
+
+Please answer the question.
+
+Are you trying to get into the cave?    
+
+YES
+
+I am prepared to give you a hint, but it will cost you  2 points.
+
+Do you want the hint?    
+

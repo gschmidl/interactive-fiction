@@ -1,0 +1,446 @@
+* ZENO 1.1 If you are reading this to find out how to win - STOP!!!
+BEGINNER
+$ DISK BEGINNER
+$ FILE HELP
+* Sample HELP Program - CCS
+say Some of the commands available are:
+say List to type a list of the files on a disk
+say Type to type a file
+say Active to display running progs
+say CANcel to cancel a program
+say ERAse to erase a program
+say Edit to edit a program
+say TELL to pass data to a program
+say "command ?" gets you more info
+end
+$ FILE GAME
+* Sample interactive game Program - CCS
+vars ans
+say You are in the Computer Room. You are
+say too far from the computer to read the screen.
+say There is a ferocious alien here who is armed
+say to the teeth (what teeth!) - he's about to
+say attack you!
+again : pull ans
+if (RANDOM > 400) go notmiss
+say A flurry of blows but you both survive
+go again
+notmiss : if (ANS = KILL) go himdead
+say The alien has killed you
+end
+himdead : say You kill the alien
+$ FILE STATUS
+* Sample status display Program - CCS
+say State of the World at TIMENOW
+say Air Pump....... AIR_PUMP
+say Energy......... ENERGY
+say Air Quality.... AIR_QUALITY
+say Shield......... SHIELD
+say Intruder Alarm. INTRUDER_ALARM
+say Terminal 1..... TERMINAL1
+$ FILE AIR
+* Sample device setting Program - CCS
+air_pump = ON
+say  air pump  is now AIR_PUMP
+$ FILE ALERT
+* sample burglar alarm Program - CCS
+intruder_alarm = ON
+shield = UP
+say alert level is ALERT_LEVEL
+say energy level is ENERGY
+$ FILE TERMINAL
+* Sample interactive device setting Program - CCS
+vars lstate
+say Terminal 1 is currently TERMINAL1
+say new state: ENABLED or DISABLED ?
+pull lstate
+if (LSTATE = ENABLED) terminal1 = LSTATE
+if (LSTATE = DISABLED) terminal1 = LSTATE
+say state now TERMINAL1
+$ FILE ROBOT
+* Sample simple robot program - CCS
+* run when you and robot are in room with vdu
+robot = go to the door
+* robot should go into lift
+robot = come into room please
+* robot should come back into room
+$ FILE LIFT
+* Sample device control Program - CCS - take care!
+  if (VERSION > 1) ABEND to prevent crashes
+loop :  say  Lift at floor LIFT_FLOOR
+  LIFT_BUTTON = OFF
+  wait until LIFT_BUTTON = ON
+  LIFT_DOOR = CLOSE
+  if (LIFT_FLOOR = 2) go attop
+  LIFT_FLOOR = 2
+  go open
+attop : LIFT_FLOOR = 1
+open :  LIFT_DOOR = OPEN
+  go loop
+$ DISK ADVANCED
+$ FILE BUGS
+say the following feature exist in SIMPL/E
+say very limited expressions
+say spaces reqd between tokens
+say eg labels, operators etc
+say unstructured logic
+say no arrays or files
+say all errors cause program to abend
+* True as of Feb 18th 1983
+$ FILE ERROR
+* Sample error trapper -CCS
+vars abendnum progname junk
+loop : pull abendnum  progname junk
+* a program has failed, so restart it
+* (don't do this if it suicided - abendnum = 998)
+run PROGNAME
+go loop - to trap next program
+$ FILE DEBUG
+vars tstate
+say Trace is TRACE - new value?
+pull tstate
+trace = TSTATE
+$ FILE VOICECONTROL
+* Sample complex robot control program - CCS - take care
+* Allows voice control/feedback
+* say END to stop program, TEST to check if it's still there
+  vars time
+ack : robot_voice = Yes Master
+loop :  wait until ROBOT_EAR \= #
+  time = TIMENOW
+  if (ROBOT_EAR = END) END
+  if (ROBOT_EAR = TEST) go ack
+  interpret ROBOT_EAR
+  if (TIME = TIMENOW) wait 1
+  go loop
+$ FILE SUPERLIFT
+* Sample device control Program - CCS - take care!
+  vars nfloor
+  if (VERSION > 1) ABEND to prevent crashes
+loop :  say  Lift at floor LIFT_FLOOR
+  LIFT_BUTTON = OFF
+  wait until LIFT_BUTTON = ON
+  LIFT_DOOR = CLOSE
+  nfloor = LIFT_FLOOR
+  if (NFLOOR = 4) nfloor = 0
+  lift_floor = NFLOOR + 1
+  LIFT_DOOR = OPEN
+  go loop
+$ FILE RFOLLOW
+* simple program to get robot to ape what you do
+* say stop to stop him
+  loop : probe = ON
+  if (HUMAN_HERE = 1) go doit
+  wait 1
+  go loop
+  doit : if (ROBOT_EAR = STOP) END
+  robot = HUMAN_ACT
+  go doit
+$ DISK ODDSANDENDS
+$ FILE GETR
+* simple program to get robot to computer room early on
+  run lift
+  lift_button = ON
+  wait 4
+  robot = LIFT
+  robot = BUTT
+  wait 1
+  robot = ROOM
+$ DISK EMPTY
+$ BOOK BKPM
+0 1 2 8 16 17 20
+SIMPL/E Programming Manual
+Version 4 January 1983
+$ BOOK BKUG
+0 1 2 3 4 5 6 7 8 9 10 11 12 14 16 20
+COMPUZZ Users Guide
+Version 1.0  January 1983
+$ BOOK BKEX
+1 2 3
+Extensions to Zeno
+February 1983
+$ BOOK BKHE
+0 1 2 3 4 5 6 7 8 9
+          ZENO
+Version 1.0  January 1983
+$ BOOK BKRB
+22 23
+ COMPUZZ ROBOT Programming Guide
+ Version 9.0  February 1983
+$ BOOK BKTR
+0 1 2 10 20
+ COMPUZZ Matter Transmitter
+ Operator's Guide Version 3
+$ BOOK BKED
+0 2 3
+COMPUZZ Edit Guide
+Version 3.7  January 1983
+$ BOOK BKNB
+0 1 2 3
+My Notebook
+-- write your name here --
+$ NOTE
+1 Are there other floors besides 1 and 2 ?
+2 (and hence rooms apart from computer room and observatory
+4 Are the books to be trusted - seem a bit out of date
+5 Think I'll try tinkering with the lift program
+7 comp room coords 46-975
+8 robot commands have to be simpl/e statements
+$ MSG
+1
+2  The air here seems a bit stuffy
+3  It is getting much stuffier in here
+4  I think you ought to do something about the air
+5  Is the air supply working?
+6  It's getting hard to breathe in here
+7  I'm not sure you can hold out much longer
+8  You won't last much longer unless the air supply improves
+9  Gasp! Gasp!
+10  You are passing out
+11  You are in the computer room - small, dimly-lit and filled with junk.
+12  In the corner, too far away to read the screen, is a computer.
+13  You are in the lift. There is a small brass button on the wall.
+14  Below it, a faded notice says "Press for Service".
+15  On the wall someone has scrawled a message (in blood?) which
+16  says 'Mind the doo'
+17  You are in what might have been an observatory. What were once
+18  astronomical instruments have melted almost beyond recognition in
+18A the heat of an intense fire. There is a terminal in the corner.
+19  There is a fat, dog-eared book here, chained to the computer.
+20  There is a metal door in the wall which is firmly closed.
+21  No handle or knob is visible.
+22  There is an open door in the wall, leading to a cramped lift.
+23  The lift door is open.
+24  The lift door is closed.
+25  There is a battered notebook with pencil attached here.
+26  There is a fearsome alien being here, carrying a snub-nosed blaster.
+27  There is a large, half-opened book here.
+28  There is a clumsy looking metal robot here. On its forehead is a
+28A plate engraved with the words:
+28B   "COMPUZZ ROBOT MK 19"
+28C    "Beat that Burglar"
+29  There is a burnt-out robot here
+30  You are in the storeroom. There is a staircase spiralling down.
+31 The robot is carrying a huge laser
+32 There is a smell of burnt steak, and a heap of ash on the floor
+33 The window is blackened by smoke, you cannot see out.
+34 The window is broken, through it you can see the black of deep
+35 space, dotted with distant stars.
+36 There is the battered body of an alien here. Its neck has
+37 been broken.
+38 There is a bulky space suit here, just your size.
+39 There is a metal bottle (filled with air?) here
+40 You are on the stairs, which spiral up and down
+41 You are at the foot of the stairs, which lead up from here.
+42 You are in the airlock. There is a hatch here. A notice on
+43 it reads "Do NOT operate unless you are wearing a Space Suit"
+44 You are in the hangar - an enormous cavern of a room.
+45 To your left is the hatch of the airlock.
+46 There is a robot here. In its head is a large hole, made by the beam
+46A of an alien blaster.
+47 Two tattered pieces of paper, torn from a book, are stuck to the wall.
+48 You are seated at the desk.
+49 Partly hidden by a pillar there is a large desk. An illuminated sign
+50 over the desk says: "COMPUZZ MATTER TRANSMITTER:
+51 OFF"
+52 MANUAL"
+53 AUTOMATIC"
+54 Your vision falters, there is a flash, and then you can see again.
+55 shimmers, then disappears.
+56 flickers into existence in front of you.
+57 You seem to be floating in a vast, featureless void.
+58 There is a terminal here
+59 At the far end, the remains of the vast hangar door hang open,
+59A probably blasted by a hadronic beam.
+60 Through the door you can see the characteristic blue glow of the
+60A Cerenkov radiation from a protective shield
+61 Through the door you can see a corner of the Mare Imbrium, with Plato
+61A at its edge, hanging 200 klicks away.
+62 You are floating in space, totally helpless.
+62A A klick or so away is the huge, crippled bulk of USS Zeno. While far
+62B off to your right can be seen the strange geometry of an alien
+62C battle cruiser.
+63A You are falling slowly towards the moon. High above you is the USS
+63B ZENO.
+64A You are falling rapidly towards the moon. It looks as though you will
+64B impact somewhere west of the Alps.
+65A You are about to hit the lunar surface, near the crater Aristoteles.
+66 You are standing in the centre of a small crater.
+99
+100 You have survived intact!!
+101 You have been suffocated
+102 You have been suffocated in the lift - no air supply
+103 You have been squashed by the lift - the doors were left
+104 open when the lift moved from floor to floor.
+105 Blame the lift programmer!
+106 As you touched the robot, he blasted you with his laser.
+107 You enter the lift
+108 enters the lift
+109 You leave the lift
+110 leaves the lift
+111 comes into the lift
+112 comes into the room
+113 As you touched the laser, the robot shot you with it
+114 You are wearing the space suit
+115 You are carrying the notebook and pencil
+116 The robot fired his laser. Unfortunately, you were directly in
+117 front of him, and were burnt to a crisp.
+118 As you touched the window
+119 it shattered, and you are sucked into
+120 the vacuum of empty space.
+121 You have suffocated in the space suit. You needed a new bottle.
+122 touched the window,
+123 You leaned out of the window and were struck by a passing meteorite
+124 (Do you have any idea of the odds against that happening?)
+125 You were in a total vacuum, without any protection - must be a leak
+126 somewhere.
+127 As you moved towards the alien, he shot you in the chest
+128 The remains of the alien decompose and crumble before your eyes
+129 until there is nothing left.
+130 prods the space suit
+131 You climb out of the space suit
+131A There's no air here - stay in the space suit!
+132 You climb into the space suit
+133 You can't use the computer when wearing the space suit - your gloves
+133A are too large.
+134 You pick up the notebook and pencil
+135 You went into total vacuum without a space suit
+136 You go through the hatch
+137 goes through the hatch
+138 comes through the hatch
+139 You exchange the bottle for the one on your space suit
+140 You pick the bottle up and drop it on your toe
+141 You go to the stairs and start climbing down
+142 goes down the stairs
+143 comes down the stairs
+144 You go to the stairs and start climbing up
+145 goes up the stairs
+146 comes up the stairs
+147 You climb up
+148 You climb down
+149 You underwent explosive decompression as the hatch  opened
+150 onto a vacuum. You should have read the notice on the hatch!
+151 There is a heap of cardboard here
+152 *****
+153 touches the shuttle which collapses in a heap
+154 You touched the shuttle, which collapsed on top of you.
+155 One of the nails holding it together pierced an artery.
+156 There is a shuttle, large enough for two, parked here.
+157 A sign on the side reads "Cardboard Mockup - DO NOT TOUCH".
+158 A small leaflet is posted on the wall.
+159 There is the pungent smell of rapidly decaying gluons here. The
+160 alien has used a mass disruptor and disintegrated
+161 something. It feels very dangerous.
+162 There is the unmistakable shimmer of a transporter beam
+163 as an alien being materialises in front of you.
+164 There is a loud clang as the lift jerks violently.
+165 As you went to touch the alien blaster, it exploded in your face.
+166 goes to touch the blaster, but stops in its tracks.
+167 You approach the stricken robot, and with amazing dexterity, activate
+167A its self-repair circuitry
+168 The featureless limbo you were in imploded gradually
+168A into a black hole. You were killed by gravitational shear.
+169 The glurk, deprived of his normal source of food, decided you were
+169A the nearest equivalent.
+170 A ravening beast, a Glurk, is here - dragged screaming from his
+170A lair by a defective matter transmission!!
+171 You were unfortunately aboard ship when the photon storm struck.
+171A You unfortunately went aboard ship while the photon storm was raging
+172  You died of radiation burns I'm afraid.
+173 You jumped through the hangar door into the shield, which was up.
+173A You were evaporated into intermediate vector bosons.
+174 One of the matter transmitter coordinates was set to the location of
+174A the transmitter itself. In the resulting feedback loop, the entire
+174B universe was turned inside out. By the way, since the robot cannot
+174C get close to the transmitter, how did you find the coordinates?
+175 You suffocated in space. It's best not to go there unless you know
+175A how to get back.
+200 You press the button
+201 presses the button
+202 The lift door slides shut
+203 The lift door slides open
+204 There is the whine of a distant motor as the lift jerks into motion.
+205 Miraculously you landed unhurt!
+206 falls with a crash beside you!
+600 from Rigel IV: aliens in your sector
+601 from Canopus V: graviton emission from Tau Ceti
+602 from Algol VI: aliens sighted near PROCYON
+603 from Sirius II: aliens have destroyed Star Base III
+604 from Betelgeuse V: garbled transmission.. aliens ...
+605 from USS Enterprise: kryskerb thruqi ?
+606 from USS Enterprise: surrender or die!
+607 from Beta Crucis III: USS Enterprise lost to aliens
+608 from Fomalhaut IX: destroy USS Enterprise on sight
+609 from Struve Base: mayday mayday, we are under attack!!
+610 from Clavius Base I: USS Zeno believed crippled
+700 You
+701 The robot
+702 The alien
+703 The glurk
+801 notebook
+802 book
+803 taps at the keyboard, and gives up in disgust
+804 kicks the terminal into the corner - smoke issues from the back
+805 fiddles with his laser and manages to shoot himself
+806 shudders, attempts to move, and then lapses into silence
+807 You are distracted from the keyboard because:
+808 approaches the robot, who throws him violently aside.
+809 marches up to the alien, and throttles him in front of you.
+810 waves to the alien.
+811 snatches your notebook, glances at it, and throws it away
+812 shoves you aside and taps at the keyboard
+813 shoves you aside and kicks the terminal
+814 "Intruders are near, Master"
+815 "Intruders are attacking the shield, Master"
+816 "Intruders have entered the hangar, Master"
+817 "The shield has gone down, Master"
+817A "The matter transmitter is now off, Master"
+818 shoots the alien with his laser.
+819 "Power surge - devices may be affected"
+820 "Unauthorised access attempt"
+821A glances at the
+821B and turns away
+822 leaflet
+823 paper
+824 hurls you from the desk.
+825 goes to the desk and twiddles with the controls
+826 tries to get to the desk, but
+826A can't squeeze past the pillar
+827 kicks the bottle violently
+828 "Photon storm in 15 ticks"
+829 "Will last at least 6 ticks, Master"
+830 "I will not approach the shield while it is up, Master"
+831 You jump through the hangar door.
+832 jumps through the hangar door and shrinks rapidly into the distance.
+833 shoots towards you from the ship
+894 "gggrrrkkk"
+895 The robot says
+897 You say:
+898 * used for your voice
+899 * used for robot voice
+901 Program does not exist
+902 Program line does not exist
+903 No expression in IF
+904 No such program to run
+905 No label to GO to
+906 Label not found
+907 FOR value not integral
+908 SET variable not single word
+909 SET expression missing
+910 SET variable not defined
+911 Attempt to SET device to illegal state
+912 No variables on VARS
+913 No variable list on PULL
+914 PULL variable does not exist
+915 TELL syntax error
+916 TELL syntax error
+917 TELL value missing
+918 No program waiting to be told
+919 Program not running
+920 Program version not running
+921 No name on CALL
+922 Attempt to call illegal routine
+923 Label names must not be numeric
+998 Committed suicide
+999 Unrecognised statement
+$ EOF

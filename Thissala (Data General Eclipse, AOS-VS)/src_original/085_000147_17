@@ -1,0 +1,793 @@
+
+
+                                AOS/VS Release Notice
+
+
+                                   085-000147-17
+
+
+                                 Model Number 3900
+
+
+                                   Revision 7.73
+
+
+                                     April 1998
+
+
+             CEO, DASHER, ECLIPSE, ECLIPSE MV/4000,  ECLIPSE  MV/6000,
+             and  ECLIPSE  MV/8000  are  U.S. registered trademarks of
+             Data General Corporation;  and  CEO  Drawing  Board,  CEO
+             Wordview,   ECLIPSE  MV/1000,  ECLIPSE  MV/1400,  ECLIPSE
+             MV/2000,  ECLIPSE  MV/2500,  ECLIPSE   MV/3200,   ECLIPSE
+             MV/3500,   ECLIPSE   MV/3600,  ECLIPSE  MV/5000,  ECLIPSE
+             MV/5500,  ECLIPSE  MV/5600,  ECLIPSE   MV/7800,   ECLIPSE
+             MV/9300,   ECLIPSE   MV/9500,  ECLIPSE  MV/9600,  ECLIPSE
+             MV/9800,  ECLIPSE  MV/10000,  ECLIPSE  MV/15000,  ECLIPSE
+             MV/18000,  ECLIPSE  MV/20000,  ECLIPSE  MV/25000, ECLIPSE
+             MV/40000  and  XODIAC  are  trademarks  of  Data  General
+             Corporation.
+
+                             RESTRICTED RIGHTS LEGEND
+
+             Use,  duplication or disclosure by the U.S. Government is
+             subject to restrictions  as  set  forth  in  subparagraph
+             (c)(1)(ii)  of  the Rights in Technical Data and Computer
+             Software clause of Defense Federal Acquisition Regulation
+             (DFAR) 252.227-7013 and in subparagraphs (a) through (d)
+             of the Commercial  Computer  Software  Restricted  Rights
+             clause   of   Federal   Acquisition   Regulation   (FAR)
+             52.227-19, whichever may apply.
+
+                             Data General Corporation
+                                4400 Computer Drive
+                                Westboro, MA 01580
+
+             Unpublished - all rights  reserved  under  the  copyright
+             laws of the United States and all other countries.
+
+             Copyright (c) Data General Corporation, 1980 - 1998
+             All Rights Reserved
+             Licensed Material -- Property of Data General Corporation
+
+             This  software  is  made available solely pursuant to the
+             terms of a DGC license agreement which governs its use. 
+
+        AOS/VS Release Notice Rev. 7.73                              Page 2
+
+
+
+
+
+
+
+
+
+
+                                 TABLE OF CONTENTS
+
+
+
+        1  Introduction .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .   3
+        2  Product Description   .  .  .  .  .  .  .  .  .  .  .  .  .   4
+        3  Environment  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .   4
+          3.1  Hardware and Microcode  .  .  .  .  .  .  .  .  .  .  .   4
+          3.2  Software .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .   6
+        4  Enhancements and Changes .  .  .  .  .  .  .  .  .  .  .  .   8
+          4.1  Enhancements   .  .  .  .  .  .  .  .  .  .  .  .  .  .   8
+          4.2  Changes  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  11
+        5  Notes and Warnings .  .  .  .  .  .  .  .  .  .  .  .  .  .  11
+        6  Documentation   .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  11
+          6.1  Manuals and Templates.  .  .  .  .  .  .  .  .  .  .  .  11
+          6.2  Documentation-Changes Files.  .  .  .  .  .  .  .  .  .  12
+        7  Software  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  13
+          7.1  Media .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  13
+          7.2  Organization   .  .  .  .  .  .  .  .  .  .  .  .  .  .  14
+          7.3  Files .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  15
+        8  Installation Instructions   .  .  .  .  .  .  .  .  .  .  .  16
+        9  Preparing a Software Trouble Report (STR)  .  .  .  .  .  .  16
+
+        AOS/VS Release Notice Rev. 7.73                              Page 3
+
+        1 Introduction
+
+        AOS/VS is available as Model 3900 and also as Model 31133.  This
+        release notice contains information about AOS/VS Model 3900. If you
+        have a system with "Pre-Installed  AOS/VS", you should read the
+        release notice for AOS/VS Model 31133 (085-000780-10). New machines
+        that come with Pre-Installed AOS/VS are the  DS/7500; and ECLIPSE
+        MV/5500 DC, MV/5600 DC, MV/3600 DC, MV/3500 DC, MV/3200 DC,MV/2500
+        DC, MV/2000 DC, MV/1400 DC, and  MV/1000 DC computers. For all
+        other machines, read this notice.
+
+        This release notice contains information consistent with AOS/VS
+        (Model 3900) 7.73 software. Revision 7.73 contains enhancements and
+        changes to Release 7.72. This release notice should be read in
+        conjuction with the AOS/VS 7.72 Update Notice, part number
+        078-000105-30.
+
+        If  you  are  running AOS/VS Model 31133 or 31446, read this
+        release notice if you want to know about enhancements, changes  and
+        other detailed  technical  information  not documented in the Model
+        31133 release notice.  You may also want to read this notice if you
+        have disabled  pre-installed  AOS/VS,  as explained in Appendix D
+        of the manual  "Using  the  AOS/VS  System  Management Interface
+        (SMI)" (069-000203-02).   The  Introduction,  Software,
+        Installation, and Enhancement chapters are the  only  chapters with
+        3900  or  31133 specific information.
+
+        The  purpose  of this release notice is to provide you with
+        information about Revision 7.73 of AOS/VS that is  not available in
+        the AOS/VS documentation.
+
+        This  release notice  provides  a compilation of the update notices
+        produced for AOS/VS Revs. 7.72, as well as new information relative
+        to  AOS/VS  Rev.  7.73.  Enhancements, changes, notes, and warnings
+        newly introduced with AOS/VS Rev. 7.73 are  clearly  marked.   When
+        referencing  other  items,  the  reader should assume that any item
+        discussing  a  change  of  some  type,  introduced  in  an  earlier
+        revision, also applies to revisions that followed it.  For example,
+        an enhancement introduced in Rev 7.72 applies to Rev 7.73.
+
+        This product consists of the following parts:
+
+           Part Description                     Part Number
+           ----------------                     ----------
+
+           AOS/VS Rev. 7.73 release notice      085-000147-17
+
+           AOS/VS Rev. 7.73 release media       See Section 7
+                                                of this release
+                                                notice
+        AOS/VS Release Notice Rev. 7.73                              Page 4
+
+        This printed release notice always accompanies the software. After
+        you  have installed the product, you can print additional copies of
+        this notice. Its pathname is :UTIL:085_000147_17. Please note that
+        the printed notice may be more up to date than the copy on the
+        release medium.
+
+
+        2 Product Description
+
+        AOS/VS, Advanced Operating System/Virtual Storage, is one of
+        several Data General proprietary operating systems. Running on
+        ECLIPSE MV/Family and DS/Series computers, AOS/VS is a
+        multitasking, multiprogramming, demand-paged, virtual-storage,
+        operating system that is suited for time-sharing, batch processing,
+        and real-time control applications.
+
+        This revision of AOS/VS combines the functionality of all previous
+        revisions and their updates, and adds new functionality and
+        changes.
+
+
+        3 Environment
+
+        3.1 Hardware and Microcode
+
+          1) To run AOS/VS Models 3900 and 31133, DGC recommends  that  you
+             have  at least 3 megabytes of memory.  For Model 31446, AOS/VS
+             Operating System Environment for the  DS/7500-series  Systems,
+             we suggest at least 4 megabytes of memory.
+
+          2) Combined  Storage  Subsystems  (CSS) configurations with model
+             6433 or model 6435 controllers should be upgraded to  revision
+             11.03  firmware  or greater if the CSS is configured with tape
+             devices.  This firmware is required to assure all tape  errors
+             are  reported  correctly.  It is also required to use the full
+             capacity of 150-Mbyte or greater cartridge tape  devices  when
+             using the DUMP_II and LOAD_II programs.
+
+          3) To  use  the  /FASTFORWARD  feature  of  DUMP_II  and LOAD_II,
+             Combined Storage Subsystems (CSS)  configurations  with  model
+             6433  or model 6435 controllers should be upgraded to revision
+             13.15 firmware or greater (for 6433 controllers)  or  revision
+             12.19  firmware  or  greater  (6435 controllers) if the CSS is
+             configured with tape devices.
+
+          4) If you have a TERMCONTROLLER, the following minimum  revisions
+             are required to assure proper functioning with AOS/VS.
+
+                * If  you have an ITC-128 or LTC-64 and you are running the
+                  XNS protocol, you should use revision 22026 (or  greater)
+                  "TermController   Software  XNS"  (models  30077,  30085,
+                  30074, 30075). 
+        AOS/VS Release Notice Rev. 7.73                              Page 5
+
+                * If you have an ITC-128 or LTC-64 and you are running  the
+                  TCP/IP   protocol,  you  should  use  revision  3.37  (or
+                  greater) "TermController Software" (models 30070,  30072,
+                  30073, 30076).
+
+                * If you have an ITC-128A and booting from the TermManager,
+                  you should use revision 6.0 (or greater)  "TermController
+                  Software ITC/128-A TCP/IP" (model 30215).
+
+                * If  you  have  an ITC-128A and booting from the host, you
+                  should use  revision  6.0  (or  greater)  "TermController
+                  Software ITC/128-A TCP/IP Host Boot" (model 30216).
+
+          5) The Microcode revision of your system varies depending on your
+             configuration.   The following list shows the latest revisions
+             of Microcode available.  AOS/VS will work with these and later
+             revisions.
+
+             Computer              Microcode    Additional Notes
+             --------              Revision    ----------------
+                                   --------
+
+             MV/1000 DC              12.00
+
+             MV/1400 DC              12.00
+
+             MV/2000 DC              10.00     Level A
+
+             MV/2000 DC (enhanced)   12.00
+
+             MV/2500 DC               8.00
+
+             MV/3200 DC,             53/85     Dependent on the revision
+             MV/3500 DC,                       of the processor chip set
+             and MV/3600 DC
+
+             MV/4000                 13.00     Models 8468, 8469, 8760,
+                                               and 8761
+
+             MV/4000-class           13.00     Models 8764 and 8765
+
+             MV/5500 DC              53/85
+
+             MV/5600 DC              53/85
+
+             MV/6000                 11.00     No hardware floating point
+
+             DS/7500                 10.00
+
+             DS/7500 (enhanced)      12.00
+        AOS/VS Release Notice Rev. 7.73                              Page 6
+
+             MV/7800, MV/7800 DC,    11.00
+             MV/7800 U, MV/7800 C
+
+             MV/7800 DCX,             5.00
+             MV/7800 XP
+
+             MV/8000, MV/8000 II,    11.00     No hardware floating point
+             MV/8000 C                9.00     With hardware floating pt
+                                               Model 9300 with ATI is not
+                                               supported.
+
+             MV/9300                  2.00
+
+             MV/9500                  5.12
+
+             MV/9600                  2.00
+
+             MV/9800                   TBD
+
+             MV/10000                 9.00     Model 8780
+
+             MV/10000 SX              9.00     Model 8880
+
+             MV/15000 Models 8,       8.00
+             10, and 20
+
+             MV/18000                 3.00
+
+             MV/20000                13.00
+
+             MV/25000                   64
+
+             MV/40000                 12.3     IDOS revision
+
+
+        3.2 Software
+
+          1) AOS/VS and many system programs in the root (:) expect to find
+             system  files in a particular directory structure.  You should
+             not rename system files or directories,  or  create  links  to
+             them.  If you do, AOS/VS may not work properly.
+
+          2) There  are patches in the directory :UPDATE:7.73 which resolve
+             problems in the following programs  when  run  under  revision
+             7.73 of AOS/VS. 
+        AOS/VS Release Notice Rev. 7.73                              Page 7
+
+             Program Name       Patch Name
+             ------------       ----------
+
+             FTA.PR            5.30_FTA.PR_PAT
+             FTA.PR            5.50_FTA.PR_PAT
+             SVTA.PR           5.30_SVTA.PR_PAT
+             SVTA.PR           5.50_SVTA.PR_PAT
+             TPMSCCP.PR        3.51_TPMSCCP.PR_PAT
+             XTS.PR            5.61_XTS_PMGR_RING0_PAT
+
+          3) There are  patches  in  directory  :UPDATE:7.73  which  enable
+             certain  options.   The  patchkits  apply to either the AOS/VS
+             system file or to one  of  the  AOS/VS  program  files.   Each
+             patchkit  includes a description of the option provided by the
+             patchkit.
+
+                  Filename                       Status
+                  --------                       ------
+             7.73_AOSVS_MV40000.DPF_OPAT        UNCHANGED
+             7.73_FILE_ELEMENT_SIZE_OPAT        UNCHANGED
+             7.73_FLUSH_BUFFERS_OPAT            UNCHANGED
+             7.73_ROOT_ACL_OPAT                 UNCHANGED
+             7.73_SEA_BUFFERS_OPAT              UNCHANGED
+             7.73_SEA_ENTRIES_OPAT              UNCHANGED
+             7.73_SYSCALL_CHARGE_OPAT           UNCHANGED
+             7.73_TUNPBLK_OPAT                  UNCHANGED
+             7.73_AOSVS_DISCONNECT_OPAT         UNCHANGED
+             7.73_AOSVS_UACL_OPAT               UNCHANGED
+             7.73_LPMGR.PR_ORD_CR_OPAT          UNCHANGED
+             7.73_AGENT.PR_GIGATAPE_OPAT        UNCHANGED
+             7.73_XLPT.PR_HEADER_OPAT           UNCHANGED
+             7.73_XLPT.PR_CLEANUP.ALL_OPAT      UNCHANGED
+             7.73_XLPT.PR_EMPTY.FILE_OPAT       UNCHANGED
+             7.73_AOSVS_DIR_TLM_OPAT            UNCHANGED
+             7.73_LPMGR.PR_NO_CON0LOG_OPAT      UNCHANGED
+             7.73_AOSVS_DEL_LEBS_OPAT           UNCHANGED
+             7.73_AOSVS_IAC24.CONS_OPAT         UNCHANGED
+             7.73_AGENT.PR_RECREATE_OPAT        UNCHANGED
+             7.73_FIXUP_REBOOT_OPAT             UNCHANGED
+             7.73_XXXZRS.PR_ESBB_OPAT           UNCHANGED
+             7.73_AOSVS_PORTS_OPAT              UNCHANGED
+             7.73_XXXZRS.PR_VT100_DIM_OPAT      UNCHANGED
+
+          4) AOS/VS ships with up-to-date error messages in the ERMES  file
+             and the related .OB files for AOS/VS and its utilities.  These
+             .OB files can be found in :UTIL  and  include  the  error  and
+             diagnostic  messages  from  both DGC language products used to
+             build AOS/VS and their language runtime environments.
+
+             If you rebuild your  system's  ERMES  file  (using  the  macro
+             LINK_ERMES.CLI  or  your  own  tailored  macro), the following
+        AOS/VS Release Notice Rev. 7.73                              Page 8
+
+             language and runtime .OB files will be  included,  unless  you
+             update  these  with  ERMES  files  obtained  from more current
+             revisions of the language or runtime product.
+
+             Product                 .OB File        Revision
+             -------                 --------        --------
+
+             C                       CERMES.OB         4.10
+             Common Language
+             Runtime Environment     CLREERMES.OB      3.12
+             DGL                     DGLERMES.OB       3.20
+             F77                     F77ERMES.OB       4.10
+             LANG_RT                 LANG_RTERMES.OB   3.53
+             PL/1                    PL1ERMES.OB       2.52
+             PL/1 16                 PL1ERMES16.OB     3.12
+
+
+        4 Enhancements and Changes
+
+        4.1 Enhancements
+
+        4.1.1  AGENT
+
+               AGENT will follow the ANSI standard for labeling magnetic
+               tapes. An ASCII ZERO will be stored before the creation and
+               expiration date in the year 2000 and beyond. Otherwise, a
+               space will be stored for the date till the year 1999. For
+               example, the date Jan-22-2002 will be stored in the tape as
+               "002022".  Here the ZERO in the first location specifies
+               that the date is in the year 2000.  The date Jan-22-1998
+               will be stored as " 98022".  Here the space specifies that
+               the date is not in year 2000.
+
+               Agent will validate the expiry period correctly, and will
+               not overwrite the labeled media before its actual expiry
+               period.
+
+        4.1.2  AOSVS
+
+               Date will be displayed properly in the year 2000 and beyond.
+
+        4.1.3  CLI16
+
+               CLI16 displays and accepts year in 2 digit. Year less than
+               68 is considered as year between 2000 and 2067. For example,
+               year 67 will be taken as year 2067. 
+        AOS/VS Release Notice Rev. 7.73                              Page 9
+               
+        4.1.4  CLI32
+
+               CLI32 now accepts date in 2-digit or 4-digit format. For
+               example, to see the files which are created after January
+               2000, you can either give the command
+               FILESTATUS/after/date=1-jan-2000 or
+               FILESTATUS/after/date=1-jan-00.
+
+               CLI32 now displays or returns date as output in 2 digit or 4
+               digit year format. The new CLI32 mode variable YEAR4DIGIT
+               allows to select the 4 digit year display. Enter the command
+               "YEAR4DIGIT ON" to see 4 digit year and the command
+               "YEAR4DIGIT OFF" to see 2 digit year. The default mode is
+               the 2 digit year format. The command "YEAR4DIGIT" with no
+               arguments displays current mode.
+
+        4.1.5  CONTEST
+
+               Date will be displayed properly in the year 2000 and beyond.
+
+        4.1.6  DISCO
+
+               DISCO will now accept /START and /STOP switches, which were
+               not functioning earlier. If the user gives year as >= 00 & <
+               68, then it will be treated as the year between 2000 and
+               2067. User is expected to give the date in proper format,
+               else the switch will not function properly.
+
+               Date will be displayed properly in the four digit format.
+
+        4.1.7  DUMP_II/LOAD_II
+
+               DUMP_II now writes label as per the ANSI standards. An ASCII
+               ZERO will be stored before the creation and expiration date
+               in the year 2000 and beyond. Otherwise, a space will be
+               stored for the date till the year 1999.
+
+               DUMP_II/LOAD_II will display year in 2 digit format. For
+               example, the year will be displayed as "00" for the year
+               2000.
+
+               DUMP_II will validate the expiry period, and will not
+               overwrite the Labeled volumes before its actual expiry
+               period.
+
+        4.1.8  EXEC
+
+               FCU.PR will print the year in two digits in the header
+               message.  It will print 00 for year 2000, 10 for the year
+               2010 and so on. 
+        AOS/VS Release Notice Rev. 7.73                             Page 10
+
+               XLPT.PR will create a dump file with two digit year format
+               in its name. For example, it will create memory dump file
+               with name 03_nov_09.1_34_02.7.mdm on 3rd November 2009. 
+
+        4.1.9  HISTOREPORT
+
+               Date will be displayed properly in the year 2000 and beyond.
+
+        4.1.10 LFE
+
+               Date will be displayed properly in the year 2000 and beyond.
+
+        4.1.11 MASM
+
+               MASM will correctly display the year, in the timestamp of
+               compilation for the year 2000 and beyond. It will display 00
+               for the year 2000, 10 for year 2010 and so on.
+
+        4.1.12 MSCOPY
+
+               MSCOPY will follow the ANSI standard for labeling labeled
+               magnetic tapes. An ASCII ZERO will be stored before the
+               creation and expiration date in the year 2000 and beyond.
+               Otherwise, a space will be stored for the date till the year
+               1999. For example, the date Jan-22-2002 will be stored in
+               the tape as "002022".  Here the ZERO in the first location
+               specifies that the date is in the year 2000.  The date
+               Jan-22-1998 will be stored as " 98022".  Here the space
+               specifies that the date is not in year 2000.
+
+               MSCOPY  will  validate  the expiry  period correctly, and
+               will not overwrite the labeled media before its actual
+               expiry period.
+
+        4.1.13 PCOPY
+
+               PCOPY will accept and display year in two digit. Year less
+               than 68 will be taken as year between 2000 and 2067. So year
+               2000 will be displayed as "00" and year 67 will be taken as
+               year 2067.
+
+               PCOPY will write creation and expiry dates on labeled tapes
+               as per ANSI standard. An ASCII ZERO will be stored if date
+               is in the year 2000 and beyond. Otherwise, a SPACE is stored
+               till 1999. 
+
+               PCOPY will do a proper validation and will not overwrite the
+               labeled tapes before their actual expiry period.
+
+        4.1.14 PREDITOR
+
+               Date will be displayed properly in the year 2000 and beyond.
+               
+        AOS/VS Release Notice Rev. 7.73                             Page 11
+
+        4.1.15 REPORT
+
+               REPORT accepts /AFTER and /BEFORE switches. If the user
+               gives year as >= 00 & < 68, then it will treated as the year
+               between 2000 and 2067.
+
+        4.1.16 STARTER
+
+               Date will be displayed properly in the year 2000 and beyond.
+
+               Starter will accept the year >= 00 & < 68 for setting the
+               date in the year between 2000 and 2067. For example, the
+               date 01-Jan-00 will be treated as 01-Jan-2000.
+
+        4.1.17 Terminal Services
+
+               Termserver panic breakfile is created in :TSDUMPS directory
+               as TS.devicecode.DDMMMYY.HHMMSS. The file will be created in
+               proper format in the year 2000 and beyond.  Year will be
+               returned in two digit. For example, 00 in 2000 and 10 in
+               2010.
+
+
+        4.2     Changes
+
+        4.2.1  Terminal Services changes
+
+               ITC keeps panicing with panic 34037. The problem was with
+               the ITC state machine with handling a "Disconnect On Break"
+               condition.  This problem is now corrected.  [NASC-22806]
+
+
+        5 Notes and Warnings
+
+               None
+
+
+        6 Documentation
+
+        6.1 Manuals and Templates
+
+          Part Number      Name
+          -----------      ----
+
+          014-001344-03    Binders for the manuals listed below
+
+          069-000031-02    Learning to Use Your AOS/VS System
+
+          069-000203-02    Using the AOS/VS System Management
+                           Interface (SMI)
+        AOS/VS Release Notice Rev. 7.73                             Page 12
+
+          069-000231-01    AOS/VS and AOS/VS II Glossary
+
+          069-000293-00    Starting and Updating Preinstalled AOS/VS
+
+          093-000197-04    SPEED Text Editor (AOS and AOS/VS) User's Manual
+
+          093-000242-02    AOS/VS Macroassembler (MASM) Reference Manual
+
+          093-000245-02    AOS/VS Link and Library File Editor (LFE)
+                           User's Manual
+
+          093-000246-01    AOS/VS Debugger and File Editor User's Manual
+
+          093-000249-02    SED Text Editor User's Manual (AOS and AOS/VS)
+
+          093-000335-01    AOS/VS System Concepts
+
+          093-000361-03    SED Text Editor template (new color - grey)
+
+          093-000396-01    AOS/VS Debug/FED template (new color - grey)
+
+          093-000540-03    AOS/VS and AOS/VS II Error and Status
+                           Messages
+
+          093-000541-03    Managing AOS/VS and AOS/VS II
+
+          093-000542-02    AOS/VS, AOS/VS II, and AOS/RT32 System Call
+                           Dictionary, ?A Through ?Q,
+                           with addendum 086-000195-00
+
+          093-000543-02    AOS/VS, AOS/VS II, and AOS/RT32 System Call
+                           Dictionary, ?R Through ?Z,
+                           with addendum 086-000196-00
+
+          093-000646-01    Using the CLI (AOS/VS and AOS/VS II),
+                           with addendum 086-000200-00
+
+          093-000650-01    AOS/VS and AOS/VS II Menu-Driven Utilities
+                           template
+
+          093-000675-02    Installing, Starting, and Stopping AOS/VS
+
+        6.2 Documentation-Changes Files
+
+        Print the documentation-changes files listed below after installing
+        your software.  (The files are located in directory :UTIL.)  Follow
+        the instructions on the first page of each file.  The documentation
+        is  incomplete  without  them. 
+        AOS/VS Release Notice Rev. 7.73                             Page 13
+
+          Filename         For Manual
+          --------         ----------
+
+          069_000031_02    Learning to Use Your AOS/VS System
+
+          069_000293_00    Starting and Updating Preinstalled AOS/VS
+
+          093_000242_02    AOS/VS Macroassembler (MASM) Reference Manual
+
+          093_000245_02    AOS/VS Link and Library File Editor (LFE)
+                           User's Manual
+
+          093_000246_01    AOS/VS Debugger and File Editor User's Manual
+
+          093_000335_01    AOS/VS System Concepts
+
+          093_000540_03    AOS/VS and AOS/VS II Error and Status Messages
+
+          093_000541_03    Managing AOS/VS and AOS/VS II
+
+          093_000542_02    AOS/VS, AOS/VS II, and AOS/RT32 System Call
+                           Dictionary, ?A Through ?Q
+
+          093_000543_02    AOS/VS, AOS/VS II, and AOS/RT32 System Call
+                           Dictionary, ?R Through ?Z
+
+          093_000646_01    Using the CLI (AOS/VS and AOS/VS II)
+
+
+        7 Software
+
+        7.1 Media
+
+        Model
+        Number   Part Number     Description
+        ------   -----------     -----------
+
+        3900-H   071-000463-15   1600-bpi magnetic tape Vol 1.
+                 071-001657-01   1600-bpi magnetic tape Vol 2.
+
+        3900-C   071-000463-14   15.2 Mbyte cartridge tape Vol 1.
+                 071-001657-01   15.2 Mbyte cartridge tape Vol 2.
+
+        3900-B   061-000443-02   21 Mbyte cartridge tape Vol 1.
+                 061-000634-01   21 Mbyte cartridge tape Vol 2.
+
+        3900-J   070-000278-02   130 Mbyte cartridge tape
+
+        3900-A   079-000236-02   150 Mbyte cartridge tape
+        AOS/VS Release Notice Rev. 7.73                             Page 14
+
+        7.2 Organization
+
+          7.2.1 H, C and B Tape Medium Organization
+
+               Magnetic Tape Medium (1600-bpi magnetic tape, and 21 Mbyte
+               cartridge tape):
+
+               Like AOS/VS Revisions 7.72, 7.73 media consists of two
+               volumes, whereas revisions prior to 7.67 consisted of a
+               single tape volume.
+
+        Volume 1
+        --------               
+
+        Tape file   Contents           Descritpion
+        ---------   --------          -----------------
+
+             0      TBOOT              (Tape bootstrap)
+
+             1      FIXUP              (Disk fixer utility)
+
+             2      DFMTR              (Disk formatter)
+
+             3      INSTL              (Installer Utility)
+
+             4      TBOOT              (System bootstrap)
+
+             5      Starter System     (:SYSGEN:SYS.PR)
+
+             6      First dump file    (First dump file)
+
+             7      Operating system   (Second dump file (part1)) and
+                                        utilities
+
+        Volume 2
+        --------               
+
+        Tape file   Contents           Descritpion
+        ---------   --------          -----------------
+
+             0      TBOOT              (Tape bootstrap)
+
+             1      FIXUP              (Disk fixer utility)
+
+             2      DFMTR              (Disk formatter)
+
+             3      INSTL              (Installer Utility)
+
+             4      TBOOT              (System bootstrap)
+
+             5      Starter System     (:SYSGEN:SYS.PR)
+        AOS/VS Release Notice Rev. 7.73                             Page 15
+         
+             6      First dump file    (First dump file)
+
+             7      Operating system   (Second dump file (part2)) and
+                                        utilities
+
+         The formats of the two volumes are the same, with the exception of
+         file seven. What was previously contained in file seven has been
+         split between file seven on volume 1 and file seven on volume 2.
+         Basically, :UTIL:#, HELP:#, and :UPDATE:# have been moved to the
+         second volume, because the H, C and B tapes were too small to hold
+         the entire AOS/VS product.
+
+         Note that when using the OS SYSTEM MEDIA for starting from tape,
+         either volume may be used. When loading from file seven, it is not
+         critical that you load volume 1 before loading volume 2, only that
+         you load both.
+
+          7.2.2 J and A Tape Media Organization
+
+               Magnetic tape medium organization (130 Mbyte cartridge
+               tape).
+
+               The AOS/VS J and A media consist of one volume, whereas H, C
+               and B media consist of two volumes. Basically, the two file
+               7 dump files for the H, C and B media are contained in one
+               file for the J and A media.
+
+        Tape file   Contents           Descritpion
+        ---------   --------          -----------------
+
+             0      TBOOT              (Tape bootstrap)
+
+             1      FIXUP              (Disk fixer utility)
+
+             2      DFMTR              (Disk formatter)
+
+             3      INSTL              (Installer Utility)
+
+             4      TBOOT              (System bootstrap)
+
+             5      Starter System     (:SYSGEN:SYS.PR)
+
+             6      First dump file    (First dump file)
+
+             7      Operating system   (Second dump file) and
+                                        utilities
+
+        7.3 Files
+
+        The  files shipped with AOS/VS Revision 7.73 are listed in a separ-
+        ate text file that you can print.  The pathname  of  this  file  is
+        :UTIL:7.73_AOSVS_FILES. 
+        AOS/VS Release Notice Rev. 7.73                             Page 16
+
+
+        8 Installation Instructions
+
+        The procedures for installing a new system and  for  installing  an
+        update  to  an existing AOS/VS system are almost identical, because
+        the release media of an update are identical to a  complete  AOS/VS
+        release.   Detailed  installation  instructions can be found in the
+        manual,    "Installing,    Starting,    and    Stopping     AOS/VS"
+        (093-000675-02).  New Users should see Chapter 3, and users upgrad-
+        ing from a previous revision should see Chapter 7.
+
+
+
+        9 Preparing a Software Trouble Report (STR)
+
+        Gathering STR Information
+
+        If you find an error in AOS/VS, its utilities or its documentation,
+        or  if  you have suggestions to make about the product, please fill
+        out and return a Data General Software Trouble Report  (STR).   (If
+        your contract permits, you may report the information called for to
+        your Data  General  representative.)   You  should  use  the  newly
+        revised on-line STR form (pathname :UTIL:STR_FORM_AOSVS).
+
+        See  Chapter  10  in  "Managing  AOS/VS  and AOS/VS II" for help in
+        filling out the STR.
+
+
+                     [End of "AOS/VS Release Notice"]

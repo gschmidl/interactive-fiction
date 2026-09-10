@@ -1,0 +1,3 @@
+      dimension atloc(locsiz), place(objsiz), fixed(objsiz),
+     1 link(objsi2)
+      common /placom/ atloc,place,fixed,link,holdng
