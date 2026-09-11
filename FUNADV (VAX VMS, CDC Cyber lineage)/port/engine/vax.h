@@ -114,6 +114,11 @@ extern u64 abort_at;
 extern u32 dump_addr;
 extern u32 vms_p0_break;
 extern int term_width, term_height;
+extern int term_baud;           /* terminal line speed, bits/s; 0 = instant */
+extern int term_flash;          /* ms a reverse-screen flash is held on */
+void term_init(void);           /* decide the two above, ready the console */
+void term_demo(void);           /* play the game's screen effects and stop */
+extern const char *term_effects; /* effects.txt to layer on, or "none" */
 extern u32 vms_caller;
 extern u32 watch_lo, watch_hi;
 extern u32 brk_pc;

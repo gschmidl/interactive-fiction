@@ -13,19 +13,28 @@ static void usage(void)
         "  -L dir     directory to search for shareable images (repeatable)\n"
         "  -V         verbose image loading\n"
         "  -T n       instruction trace level\n"
-        "  -S file    system service vector name table\n");
+        "  -S file    system service vector name table\n"
+        "  -baud n    pace terminal output at n bits/s (0 = instant)\n"
+        "  -flash n   hold a reverse-screen flash for n ms (0 = none)\n"
+        "  -demo      play the game's screen effects and exit\n"
+        "  -effects f rules for extra flashes, or none (default effects.txt)\n");
     exit(1);
 }
 
 int main(int argc, char **argv)
 {
     u32 entry = 0, dis_lo = 0, dis_hi = 0;
-    int i, argi = 1;
+    int i, argi = 1, demo = 0;
 
     mem_init();
     cpu_init();
 
     for (; argi < argc && argv[argi][0] == '-'; argi++) {
+        /* the terminal timing options are spelled out in full */
+        if (!strcmp(argv[argi], "-baud"))  { term_baud  = atoi(argv[++argi]); continue; }
+        if (!strcmp(argv[argi], "-flash")) { term_flash = atoi(argv[++argi]); continue; }
+        if (!strcmp(argv[argi], "-demo"))  { demo = 1; continue; }
+        if (!strcmp(argv[argi], "-effects")) { term_effects = argv[++argi]; continue; }
         switch (argv[argi][1]) {
         case 'L': img_add_libpath(argv[++argi]); break;
         case 'V': img_verbose = 1; break;
@@ -43,6 +52,8 @@ int main(int argc, char **argv)
         default: usage();
         }
     }
+    term_init();
+    if (demo) { term_demo(); return 0; }
     if (argi >= argc) usage();
 
     /* user stack in P1 space */
