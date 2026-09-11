@@ -1,0 +1,1271 @@
+TOPS-10 in a Box v1.1 -- directory listings taken from the running system
+Captured by work/route_c/run_original.py on the working copy of t10.dsk.
+System date set to 6-Jan-2007 12:00 by the harness (the monitor's year display
+wraps: "6-Jan-107").  Commands, in order:
+    DIR                 -- the default (logged-in) directory DSKB:[1,2]
+    DIRECT *.*/DETAIL   -- full detail for every file in [1,2]
+    SHOW ALL            -- structures/volumes mounted
+    DIR [1,4]           -- the system directory
+    DIR [*,*]           -- every UFD on DSKB
+(DUMP.FOR/REL/EXE deleted at the start of this session are the scratch dumper
+this recovery built; they are NOT part of the distribution.)
+================================================================================
+
+.DIR
+
+
+ADV     F4     22  <057>   14-Aug-07    DSKB:   [1,2]
+ADV     EXE    48  <057>   14-Aug-07
+IOFIL   FOR     1  <057>   14-Aug-07
+ADV     DAT    33  <057>   14-Aug-07
+ADV     REL    38  <057>   18-May-11
+IOFIL   REL     2  <057>   18-May-11
+ADVENT  DAT    87  <000>   17-May-11
+ADVENT  FOR   128  <000>   17-May-11
+ADVENT  REL   145  <057>   18-May-11
+ADVENT  EXE   324  <057>   18-May-11
+  Total of 828 blocks in 10 files on DSKB: [1,2]
+
+.DIRECT *.*/DETAIL
+
+DSKB0:ADV.F4[1,2]
+Access date:  6-Jan-07
+Creation time, date: 15:44 14-Aug-07
+Access protection: 057
+Mode: 0
+Words written: 2806.
+Estimated length: 30.
+Blocks allocated: 30.
+Written on unit(s) 0 on controller 0 on CPU 4097
+Data block in directory: 4240.
+Internal creation date, time: 18-May-11 10:07:25
+RIB block number: 265020.
+Account: SYSTEM
+
+DSKB0:ADV.EXE[1,2]
+Access date: 18-May-11
+Creation time, date: 15:45 14-Aug-07
+Access protection: 057
+Mode: 16
+Words written: 6144.
+Estimated length: 246.
+Blocks allocated: 50.
+Written on unit(s) 0 on controller 0 on CPU 4097
+Data block in directory: 4240.
+Internal creation date, time: 18-May-11 10:07:25
+RIB block number: 265050.
+Account: SYSTEM
+
+DSKB0:IOFIL.FOR[1,2]
+Access date:  6-Jan-07
+Creation time, date: 13:37 14-Aug-07
+Access protection: 057
+Mode: 0
+Words written: 107.
+Estimated length: 10.
+Blocks allocated: 10.
+Written on unit(s) 0 on controller 0 on CPU 4097
+Data block in directory: 4240.
+Internal creation date, time: 18-May-11 10:07:25
+RIB block number: 265100.
+Account: SYSTEM
+
+DSKB0:ADV.DAT[1,2]
+Access date:  6-Jan-07
+Creation time, date: 15:47 14-Aug-07
+Access protection: 057
+Mode: 0
+Words written: 4098.
+Estimated length: 40.
+Blocks allocated: 40.
+Written on unit(s) 0 on controller 0 on CPU 4097
+Data block in directory: 4240.
+Internal creation date, time: 18-May-11 10:07:25
+RIB block number: 265160.
+Account: SYSTEM
+
+DSKB0:ADV.REL[1,2]
+Access date: 18-May-11
+Creation time, date: 10:22 18-May-11
+Access protection: 057
+Mode: 14
+Words written: 4825.
+Blocks allocated: 40.
+Written on unit(s) 0 on controller 0 on CPU 4097
+Data block in directory: 4240.
+Internal creation date, time: 18-May-11 10:22:55
+RIB block number: 265110.
+Account: SYSTEM
+
+DSKB0:IOFIL.REL[1,2]
+Access date: 18-May-11
+Creation time, date: 10:23 18-May-11
+Access protection: 057
+Mode: 14
+Words written: 201.
+Blocks allocated: 10.
+Written on unit(s) 0 on controller 0 on CPU 4097
+Data block in directory: 4240.
+Internal creation date, time: 18-May-11 10:23:15
+RIB block number: 265200.
+Account: SYSTEM
+
+DSKB0:ADVENT.DAT[1,2]
+Access date:  6-Jan-07
+Creation time, date: 12:27 17-May-11
+Access protection: 000
+Mode: 0
+Words written: 11091.
+Estimated length: 89.
+Blocks allocated: 90.
+Written on unit(s) 0 on controller 0 on CPU 4097
+Data block in directory: 4240.
+Internal creation date, time: 18-May-11 11:16:29
+RIB block number: 268840.
+Account: SYSTEM
+
+DSKB0:ADVENT.FOR[1,2]
+Access date:  6-Jan-07
+Creation time, date: 12:27 17-May-11
+Access protection: 000
+Mode: 0
+Words written: 16372.
+Estimated length: 130.
+Blocks allocated: 130.
+Written on unit(s) 0 on controller 0 on CPU 4097
+Data block in directory: 4240.
+Internal creation date, time: 18-May-11 11:16:29
+RIB block number: 268930.
+Account: SYSTEM
+
+DSKB0:ADVENT.REL[1,2]
+Access date: 18-May-11
+Creation time, date: 11:17 18-May-11
+Access protection: 057
+Mode: 14
+Words written: 18541.
+Blocks allocated: 150.
+Written on unit(s) 0 on controller 0 on CPU 4097
+Data block in directory: 4240.
+Internal creation date, time: 18-May-11 11:17:08
+RIB block number: 269060.
+Account: SYSTEM
+
+DSKB0:ADVENT.EXE[1,2]
+Access date: 18-Apr-26
+Creation time, date: 12:20 18-May-11
+Access protection: 057
+Mode: 17
+Words written: 41472.
+Blocks allocated: 330.
+Written on unit(s) 0 on controller 0 on CPU 4097
+Data block in directory: 4240.
+Internal creation date, time: 18-May-11 12:20:06
+RIB block number: 269320.
+Account: SYSTEM
+
+  Total of 828 blocks in 10 files on DSKB: [1,2]
+
+.SHOW ALL
+
+Allocation for job 2 OPR    [1,2]
+     Volume set           Resource          Type      All  Own
+--------------------  ----------------  ------------  ---  ---
+---                   RP06              Disk unit      1    1 
+DSKB                  DSKB              Structure      1    1 
+
+.DIR [1,4]
+
+
+SAT     SYS    89  <355>   18-May-11    704(151)        DSKB:   [1,4]
+HOME    SYS    29  <355>   18-May-11    704(151)
+SWAP    SYS 38469  <357>   18-May-11    704(151)
+BADBLK  SYS     9  <357>   18-May-11    704(151)
+CRASH   EXE  4100  <357>   (undated)    704(151)
+SYSTEM  EXE  1236  <057>    7-Oct-88    704(33461)
+KSBOOT  EXE    44  <055>    1-Sep-88    4(76)
+SMFILE  EXE   104  <055>    1-Sep-88    2(7)
+MONGEN  EXE   116  <055>    5-Oct-88    103(327)
+REACT   EXE   320  <055>    1-Sep-88    33B(242)
+ACTDAE  EXE   304  <055>    1-Sep-88    2B(155)
+BACKUP  EXE   128  <055>    1-Sep-88    5A(625)
+BTDDT   EXE   132  <055>    1-Sep-88    44C(701)
+BOOT    EXE   184  <055>    1-Sep-88    4(76)
+BTONCE  EXE   156  <055>    1-Sep-88    4(76)
+KSONCE  EXE   144  <055>    1-Sep-88    4(76)
+COMPIL  EXE    40  <055>    1-Sep-88    22G(605)
+CREDIR  EXE    68  <055>    1-Sep-88    3B(111)
+CREF    EXE    28  <055>    1-Sep-88    53C(101)
+CRSCPY  EXE    68  <055>    1-Sep-88    1B(61)
+CTHNRT  EXE   136  <055>    1-Sep-88    5A(323)
+DAEMON  EXE    48  <055>    1-Sep-88    23(1025)
+DDT     EXE   160  <055>    1-Sep-88    44C(701)
+FILDDT  EXE    64  <055>    1-Sep-88    44C(701)
+VMDDT   EXE    72  <055>    1-Sep-88    44C(701)
+DDT11   EXE   296  <055>   18-Nov-87    7E(120002)-3
+DECLAR  EXE    60  <055>    1-Sep-88    2(16)
+MX      EXE   220  <055>    1-Sep-88    1(475)
+MS      EXE   260  <055>    1-Sep-88    11(6041)
+DELFIL  EXE    16  <055>    1-Sep-88    3B(6)
+DIRECT  EXE   136  <055>    1-Sep-88    7A(503)
+DSKLST  EXE    24  <055>    1-Sep-88    33(4)
+DSKRAT  EXE    20  <055>    2-Sep-88    14A(24)
+DTELDR  EXE    56  <055>    1-Sep-88    5A(54)
+F11     EXE   120  <055>    1-Sep-88    2(102)
+FAL     EXE   328  <055>    1-Sep-88    2A(50)
+FE      EXE    24  <055>    1-Sep-88    2(50)
+FEFILE  EXE    16  <055>    1-Sep-88    1(27)
+FILCOM  EXE    28  <055>    1-Sep-88    22A(121)
+FILDAE  EXE    60  <055>    1-Sep-88    4(44)
+BATCON  EXE   128  <055>    1-Sep-88    105(5027)
+CATCNV  EXE   160  <055>    1-Sep-88    (1)
+CATLOG  EXE   196  <055>    1-Sep-88    2A(36)
+CDRIVE  EXE    76  <055>    1-Sep-88    1(114)
+GALGEN  EXE   228  <055>   23-Aug-88    5(2124)
+GLXLIB  EXE   168  <055>    1-Sep-88    5(1601)
+LPTSPL  EXE   180  <055>    1-Sep-88    105(4103)
+NEBULA  EXE    72  <055>    1-Sep-88    1(20)
+OPR     EXE   204  <055>    1-Sep-88    5(1050)
+ORION   EXE   384  <055>    1-Sep-88    5(1050)
+PLEASE  EXE   192  <055>    1-Sep-88    104(115)
+PULSAR  EXE   228  <055>    1-Sep-88    5(543)
+QUASAR  EXE   416  <055>    1-Sep-88    5(1512)
+QUEUE   EXE   160  <055>    1-Sep-88    106(724)
+SPRINT  EXE    92  <055>    1-Sep-88    105(4410)
+GLOB    EXE    20  <055>    1-Sep-88    5C(141)
+HELP    EXE    16  <055>    1-Sep-88    7(100)
+INITIA  EXE    52  <055>    1-Sep-88    12(343)
+KDPLDR  EXE    68  <055>    1-Sep-88    1(6)
+LINK    EXE    52  <055>    1-Sep-88    6(2420)
+LNK999  EXE    48  <055>    1-Sep-88    6(2420)
+LNKERR  EXE   128  <055>    1-Sep-88    6(2420)
+LNKLOD  EXE   140  <055>    1-Sep-88    6(2420)
+LNKMAP  EXE    64  <055>    1-Sep-88    6(2420)
+LNKOV1  EXE   156  <055>    1-Sep-88    6(2420)
+LNKOV2  EXE   116  <055>    1-Sep-88    6(2420)
+LNKSCN  EXE    88  <055>    1-Sep-88    6(2420)
+LNKXIT  EXE   108  <055>    1-Sep-88    6(2420)
+LOGIN   EXE   132  <055>    1-Sep-88    65(3010)
+LOGOUT  EXE   132  <055>    1-Sep-88    65(3010)
+LP20    EXE    76  <055>    1-Sep-88    1(4)
+MACDLX  EXE    60  <055>   30-Apr-86    31(1065)
+MACRO   EXE   108  <055>    1-Sep-88    53B(1247)
+MAKLIB  EXE   120  <055>    1-Sep-88    2C(132)
+MIC     EXE    68  <055>    1-Sep-88    11C(1235)
+NETLDR  EXE    60  <055>    1-Sep-88    4(146)
+NETWOR  EXE    80  <055>    1-Sep-88    3C(44)
+NFT     EXE   392  <055>    1-Sep-88    2A(21)
+OPSER   EXE    32  <055>    1-Sep-88    5E(133)
+PATH    EXE   108  <055>    6-Sep-84    3(25)
+PIP     EXE    52  <055>    1-Sep-88    33D(546)
+PROJCT  EXE    20  <055>    1-Sep-88    1(11)
+QUOLST  EXE    12  <055>    1-Sep-88    5(42)
+RMS     EXE   140  <055>    1-Sep-88    1A(123)
+RMSCOB  EXE   140  <055>    1-Sep-88
+RMSUTL  EXE   176  <055>    1-Sep-88    1A(123)
+RSXT10  EXE    24  <055>    1-Sep-88    3(42)
+RUNOFF  EXE   108  <055>    1-Sep-88    12(263)
+SCDSET  EXE   228  <055>    1-Sep-88    5(22)
+SETSRC  EXE    16  <055>    1-Sep-88    12B(47)
+COMPAR  EXE    24  <055>    1-Sep-88    2(20)
+MERGE   EXE    28  <055>    1-Sep-88    2(15)
+UPDATE  EXE     8  <055>   28-Apr-76
+NOTIFY  EXE   292  <055>   30-Apr-86    2(1140)
+SCOMM   EXE    84  <055>    2-Sep-88
+SPEAR   EXE   300  <055>    2-Sep-88    2(1140)
+SPRCOM  EXE   284  <055>   30-Apr-86    2(1140)
+SPRINS  EXE   332  <055>   30-Apr-86    2(1140)
+SPRKLE  EXE   336  <055>   30-Apr-86    2(1140)
+SPRRET  EXE   848  <055>    2-Sep-88    2(1140)
+SPRSUM  EXE   388  <055>    2-Sep-88    2(1140)
+SYSANS  EXE    56  <055>    1-Sep-88    704(653)
+SYSDLT  EXE    56  <055>    1-Sep-88    704(653)
+SYSDPA  EXE    56  <055>    1-Sep-88    704(653)
+SYSDPB  EXE    56  <055>    1-Sep-88    704(653)
+SYSDPY  EXE    56  <055>    1-Sep-88    704(653)
+SYSHZL  EXE    56  <055>    1-Sep-88    704(653)
+SYSV50  EXE    56  <055>    1-Sep-88    704(653)
+SYSV52  EXE    56  <055>    1-Sep-88    704(653)
+SYSV61  EXE    56  <055>    1-Sep-88    704(653)
+SYSVBX  EXE    60  <055>    1-Sep-88    704(653)
+SYSTAT  EXE    60  <055>    1-Sep-88    704(416)
+TECO    EXE    36  <055>    1-Sep-88    24A(235)
+TGHA    EXE   100  <055>    1-Sep-88    4(20)
+FELOAD  EXE   308  <055>    2-May-88    7E(120002)-3
+AID     EXE    80  <055>   16-Jul-80    20A(32)
+BOOT11  EXE    28  <055>   26-Jul-82    4A(46)
+BOOTDX  EXE    28  <055>    5-Sep-84    3A(24)
+BOOTM   EXE    76  <055>    1-Sep-88    6(37)
+BOOTMS  EXE    40  <055>    1-Sep-88    6(37)
+WIBOOT  EXE    32  <055>   30-Nov-79    7(12)
+WLBOOT  EXE    32  <055>   30-Nov-79    7(12)
+WSBOOT  EXE    24  <055>   30-Nov-79    7(12)
+DMPFIL  EXE    16  <055>   16-Jul-80    6A(7)
+COPY    EXE     8  <055>   17-Jul-80    7(101)
+DTCOPY  EXE    20  <055>   17-Jul-80    7(101)
+DUMP    EXE    68  <055>   18-Jul-80    4(232)
+FACTPR  EXE    16  <055>   16-Jul-80    2A(43)
+FAILSA  EXE    32  <055>   16-Jul-80    101(47)
+FILEX   EXE    56  <055>   25-Jun-87    20(63)
+GRIPE   EXE     8  <055>   16-Jul-80    4(43)
+KNILDR  EXE    56  <055>   30-Apr-86    1(10)
+GLXLGO  EXE    84  <055>    1-Sep-88    103(2113)
+LINED   EXE    16  <055>   16-Jul-80    13B(22)
+GRAPH1  EXE    20  <055>    2-Feb-78
+LINES   EXE    16  <055>    2-Feb-78    5(24)
+LNSRPT  EXE    40  <055>    2-Feb-78
+LODAVE  EXE    12  <055>    2-Feb-78
+LODCOR  EXE    12  <055>    2-Feb-78
+LODCPU  EXE    12  <055>    2-Feb-78
+LODIO   EXE    12  <055>    2-Feb-78
+LODOPN  EXE    12  <055>    2-Feb-78
+LODPQ1  EXE    12  <055>    2-Feb-78
+LODSLP  EXE    12  <055>    2-Feb-78
+LODTST  EXE    16  <055>   20-Feb-78
+MAKVFU  EXE    20  <055>    1-Sep-88    2(33)
+MONEY   EXE    16  <055>   16-Jul-80    17B(23)
+BUFIO   EXE    52  <055>   23-Jul-75    1
+ENQDEQ  EXE    20  <055>    7-Dec-78    1(11)
+PAGUUO  EXE    64  <055>   17-Apr-77    2(12)
+REDUPD  EXE    48  <055>   23-Jul-75    1
+WRTUPD  EXE    12  <055>    7-Jul-78    1(5)
+MOUNT   EXE   224  <055>    1-Sep-88    2(100)
+MTCOPY  EXE    60  <055>   11-Feb-87    3A(64)
+NEWACT  EXE   364  <055>    1-Sep-88    1A(12)
+NOPAG0  EXE     8  <055>   18-Apr-84    1(1)
+NRT     EXE    84  <055>    1-Sep-88    4A(224)
+OMOUNT  EXE    60  <055>   26-Jul-82    27(205)
+PAL10   EXE    28  <055>   26-Jul-82    144(144)
+QMANGR  EXE    28  <055>    1-Sep-88    105(2265)
+REATTA  EXE     8  <055>   16-Jul-80    3(3)
+REDALL  EXE    12  <055>   16-Jul-80    6(1)
+WPS     EXE    20  <055>   11-Nov-85
+DOS210  EXE    12  <055>   11-Nov-85
+ASC210  EXE    20  <055>   11-Nov-85    1(1)
+ASC211  EXE    20  <055>   11-Nov-85    1(1)
+RTFLX   EXE    28  <055>   11-Nov-85    2(106)
+SCRIPT  EXE    44  <055>   17-Jul-80    16(102)
+SDLCNV  EXE    12  <055>   18-Jul-80    1
+SOS     EXE   128  <055>   17-Dec-85    23E(77)
+CAM     EXE    48  <055>   30-Apr-86    3(6)
+COMP10  EXE    28  <055>   30-Apr-86    3(6)
+FED     EXE    40  <055>   30-Apr-86    3(6)
+SPACE   EXE    20  <055>   17-Jul-80    3(70)
+SPROUT  EXE    64  <055>    1-Sep-88    4(2544)
+SYSINF  EXE    40  <055>   29-Aug-84    3B(322)
+TWICE   EXE   436  <055>   30-Apr-86    5(45)
+UMOUNT  EXE    44  <055>   26-Jul-82    26A(103)
+NEWGEN  EXE   292  <055>   13-Feb-87    3M(33)
+AMIS    EXE   284  <055>   19-Feb-88    1C(753)-5
+ATEACH  EXE   344  <055>   20-Feb-88    1C(753)-5
+MAKTRM  EXE   100  <055>    1-Dec-86
+DISCON  EXE    20  <055>   10-Feb-88    1(16)-2
+CICTRS  EXE    44  <055>    1-Sep-88    1(1)
+CISNUP  EXE    16  <055>   30-Aug-88    (1)
+CITATL  EXE    28  <055>   31-Aug-88    (1)
+CISTS   EXE    16  <055>    1-Sep-88    1(1)
+CPU     EXE   196  <055>    1-Sep-88
+CONFIG  EXE   296  <055>    1-Sep-88    5(1050)
+CSHDPY  EXE   212  <055>    1-Sep-88
+CSHDMP  EXE    36  <055>    1-Sep-88
+DBUSY   EXE    16  <055>    1-Sep-88
+DDBDPY  EXE    36  <055>    1-Sep-88    6(302)-1
+DCNSPY  EXE   112  <055>    1-Sep-88    4(11)
+DNSNUP  EXE    84  <055>    1-Sep-88    1(17)
+DNTATL  EXE    84  <055>    1-Sep-88    1(5)
+DTR     EXE   112  <055>    1-Sep-88    1(10)
+DTS     EXE   128  <055>    1-Sep-88    1(4)
+GETNOD  EXE    88  <055>    1-Sep-88    1(6)
+ANF     EXE     8  <055>    1-Sep-88
+DECNET  EXE     8  <055>    1-Sep-88
+NETPTH  EXE    56  <055>    1-Sep-88    4(3)
+NODNAM  EXE    76  <055>    1-Sep-88    2B(17)
+DSKDMP  EXE    16  <055>    1-Sep-88
+DTECO   EXE   120  <055>    1-Sep-88    26A(265)
+ERSATZ  EXE    16  <055>   30-Aug-88    2(5)
+FAST    EXE    72  <055>    1-Sep-88    1(41)-2
+FEDEL   EXE    12  <055>    1-Sep-88    1(6)
+FRCINI  EXE    12  <055>    1-Sep-88    1
+FRECOR  EXE    28  <055>    1-Sep-88    704(4)
+FSCOPY  EXE    88  <055>    1-Sep-88    1(26)
+GALDPY  EXE    28  <055>    2-Sep-88
+GALKIL  EXE    12  <055>    2-Sep-88
+GALTRK  EXE    20  <055>    2-Sep-88
+QSRCVT  EXE    48  <055>   24-Mar-86    2(11)
+TYPIDS  EXE    16  <055>    2-Sep-88    1(107)
+VEREDT  EXE    48  <055>    2-Sep-88    2(12)
+INFTST  EXE    12  <055>    1-Sep-88
+KDPDPY  EXE    32  <055>    1-Sep-88    1(12)
+KILL    EXE    28  <055>    1-Sep-88    13A(132)
+KLBPA   EXE    48  <055>    1-Sep-88    1(1)
+KLEPTO  EXE    44  <055>    1-Sep-88    1(1)
+LINCLN  EXE    72  <055>    1-Sep-88
+LNM     EXE    12  <055>    1-Sep-88
+MAKSYM  EXE    64  <055>    1-Sep-88    3(6)
+MBR     EXE    76  <055>    1-Sep-88
+MCBDA   EXE   260  <055>    1-Sep-88    4(1)
+MONDM4  EXE    32  <055>    1-Sep-88
+MONITR  EXE    16  <055>    1-Sep-88    1
+NETTST  EXE    56  <055>    1-Sep-88    6(40)
+PIVOT   EXE    16  <055>    1-Sep-88    5(16)
+PSTHRU  EXE    40  <055>    1-Sep-88    1(26)
+DX20    EXE    56  <055>    1-Sep-88    1(6)
+RELOAD  EXE    24  <055>    1-Sep-88
+RMTCON  EXE    64  <055>    1-Sep-88    3(15)
+RNXPRT  EXE   160  <055>    1-Sep-88
+RNXTRC  EXE    24  <055>    1-Sep-88    1(5)
+SEARCH  EXE    88  <055>    1-Sep-88    1(3)
+SED     EXE   120  <055>    7-Sep-88    2(664)
+SEDONL  EXE     8  <055>   31-Aug-84
+SEDRNO  EXE   132  <055>   29-Nov-79    10B(245)-1
+SNOOPY  EXE    32  <055>    1-Sep-88    2(26)
+TATTLE  EXE   192  <055>    1-Sep-88
+MSTCKS  EXE    16  <055>    1-Sep-88
+STOPCD  EXE    20  <055>    1-Sep-88
+SPY     EXE    16  <055>   27-Dec-85    1A(36)
+TRACER  EXE    20  <055>    1-Sep-88
+TRDUMP  EXE    24  <055>    1-Sep-88
+TRACK   EXE    64  <055>    1-Sep-88    5A(225)
+XLATE   EXE   156  <055>    1-May-86    6(2113)
+XLPLOT  EXE    20  <055>    1-May-86
+TRMTYP  EXE    16  <055>    1-Sep-88    1(11)
+TSTSUP  EXE    12  <055>    1-Sep-88
+ACCCHK  EXE     8  <055>    1-Sep-88    1(2)
+SPCUSG  EXE    24  <055>    1-Sep-88    3(71)
+USRENT  EXE     8  <055>    1-Sep-88    1(3)
+VALID   EXE     8  <055>    1-Sep-88    1(2)
+USERS   EXE    16  <055>    1-Sep-88    1(6)
+WHOONC  EXE   504  <055>    1-Sep-88    6(243)
+DMPAVL  EXE    56  <055>    1-Sep-88    1(1)
+WHYCRS  EXE    52  <055>    1-Sep-88    1(2)
+T10KL   RAM    48  <055>    1-Sep-88
+LP64    RAM     1  <055>   25-Jun-82
+LP96    RAM     1  <055>   25-Jun-82
+NORMAL  VFU     1  <055>   18-Apr-84
+DDT     REL    93  <055>    1-Sep-88
+JOBDAT  REL     2  <055>    1-Sep-88
+OVRLAY  REL    32  <055>    1-Sep-88
+TECO    ERR    44  <055>   30-Apr-86
+SYSTEM  CMD     2  <055>   24-Jun-88
+CORIMG  SYS    88  <055>   20-May-88
+RSX20F  SYS    60  <055>   25-May-88
+ACTDAE  SYS    36  <157>   24-Jun-88
+CATLOG  SYS    52  <157>   24-Jun-88
+PROJCT  SYS     4  <055>    1-May-85
+LINES   INI     3  <055>   18-Feb-83
+SYSJOB  INI     1  <055>   18-May-11
+TTY     INI     1  <055>   18-May-11
+AVAIL   SYS    10  <155>    6-Jan-07
+ERROR   SYS  3644  <155>   20-May-11
+QSRMS1  QSR     5  <277>   18-May-11
+CRASH   SYS     2  <157>   18-May-11
+FOROT6  EXE   120  <055>    3-Dec-81    6(2033)
+FORTB   EXE   196  <055>    3-Dec-81    6(1144)
+FORTC   EXE   120  <055>    3-Dec-81    6(1144)
+FORTD   EXE   240  <055>    3-Dec-81    6(1144)
+FORTE   EXE   204  <055>    3-Dec-81    6(1144)
+FORTF   EXE   172  <055>    3-Dec-81    6(1144)
+FORTG   EXE   148  <055>    3-Dec-81    6(1144)
+FORTRA  EXE    80  <055>    3-Dec-81    6(1144)
+FORDDT  REL    46  <055>   11-Dec-81
+FORLIB  REL   403  <055>    3-Dec-81
+BASIC   EXE   120  <055>   14-Oct-81    17F(244)
+ERROR   X01     1  <155>   13-Jan-26
+ERROR   X02     1  <155>   18-Apr-26
+ERROR   X03     1  <155>   11-Sep-26
+ERROR   X04     7  <155>    6-Jan-07
+  Total of 73101 blocks in 297 files on DSKB: [1,4]
+
+.DIR [*,*]
+
+
+     1,1           1  <555>   18-May-11 704(151)        DSKB:   [1,1]
+     1,4           5  <775>   18-May-11 704(151)
+     3,3           1  <777>   18-May-11 704(151)
+    10,1           1  <750>   18-May-11 704(151)
+     1,2           1  <775>   18-May-11 704(151)
+     1,5           0  <775>   18-May-11 704(151)
+     1,3           0  <775>   18-May-11 704(151)
+    10,7           3  <775>   18-May-11
+     2,5           2  <775>   18-May-11
+     5,14          1  <775>   18-May-11
+     5,11          2  <775>   18-May-11
+     5,17          1  <775>   18-May-11
+     1,7           1  <775>   18-May-11
+     5,35          1  <775>   18-May-11
+     6,2020        1  <775>   18-May-11
+  Total of 21 blocks in 15 files on DSKB: [1,1]
+
+SAT     SYS    89  <355>   18-May-11    704(151)        [1,4]
+HOME    SYS    29  <355>   18-May-11    704(151)
+SWAP    SYS 38469  <357>   18-May-11    704(151)
+BADBLK  SYS     9  <357>   18-May-11    704(151)
+CRASH   EXE  4100  <357>   (undated)    704(151)
+SYSTEM  EXE  1236  <057>    7-Oct-88    704(33461)
+KSBOOT  EXE    44  <055>    1-Sep-88    4(76)
+SMFILE  EXE   104  <055>    1-Sep-88    2(7)
+MONGEN  EXE   116  <055>    5-Oct-88    103(327)
+REACT   EXE   320  <055>    1-Sep-88    33B(242)
+ACTDAE  EXE   304  <055>    1-Sep-88    2B(155)
+BACKUP  EXE   128  <055>    1-Sep-88    5A(625)
+BTDDT   EXE   132  <055>    1-Sep-88    44C(701)
+BOOT    EXE   184  <055>    1-Sep-88    4(76)
+BTONCE  EXE   156  <055>    1-Sep-88    4(76)
+KSONCE  EXE   144  <055>    1-Sep-88    4(76)
+COMPIL  EXE    40  <055>    1-Sep-88    22G(605)
+CREDIR  EXE    68  <055>    1-Sep-88    3B(111)
+CREF    EXE    28  <055>    1-Sep-88    53C(101)
+CRSCPY  EXE    68  <055>    1-Sep-88    1B(61)
+CTHNRT  EXE   136  <055>    1-Sep-88    5A(323)
+DAEMON  EXE    48  <055>    1-Sep-88    23(1025)
+DDT     EXE   160  <055>    1-Sep-88    44C(701)
+FILDDT  EXE    64  <055>    1-Sep-88    44C(701)
+VMDDT   EXE    72  <055>    1-Sep-88    44C(701)
+DDT11   EXE   296  <055>   18-Nov-87    7E(120002)-3
+DECLAR  EXE    60  <055>    1-Sep-88    2(16)
+MX      EXE   220  <055>    1-Sep-88    1(475)
+MS      EXE   260  <055>    1-Sep-88    11(6041)
+DELFIL  EXE    16  <055>    1-Sep-88    3B(6)
+DIRECT  EXE   136  <055>    1-Sep-88    7A(503)
+DSKLST  EXE    24  <055>    1-Sep-88    33(4)
+DSKRAT  EXE    20  <055>    2-Sep-88    14A(24)
+DTELDR  EXE    56  <055>    1-Sep-88    5A(54)
+F11     EXE   120  <055>    1-Sep-88    2(102)
+FAL     EXE   328  <055>    1-Sep-88    2A(50)
+FE      EXE    24  <055>    1-Sep-88    2(50)
+FEFILE  EXE    16  <055>    1-Sep-88    1(27)
+FILCOM  EXE    28  <055>    1-Sep-88    22A(121)
+FILDAE  EXE    60  <055>    1-Sep-88    4(44)
+BATCON  EXE   128  <055>    1-Sep-88    105(5027)
+CATCNV  EXE   160  <055>    1-Sep-88    (1)
+CATLOG  EXE   196  <055>    1-Sep-88    2A(36)
+CDRIVE  EXE    76  <055>    1-Sep-88    1(114)
+GALGEN  EXE   228  <055>   23-Aug-88    5(2124)
+GLXLIB  EXE   168  <055>    1-Sep-88    5(1601)
+LPTSPL  EXE   180  <055>    1-Sep-88    105(4103)
+NEBULA  EXE    72  <055>    1-Sep-88    1(20)
+OPR     EXE   204  <055>    1-Sep-88    5(1050)
+ORION   EXE   384  <055>    1-Sep-88    5(1050)
+PLEASE  EXE   192  <055>    1-Sep-88    104(115)
+PULSAR  EXE   228  <055>    1-Sep-88    5(543)
+QUASAR  EXE   416  <055>    1-Sep-88    5(1512)
+QUEUE   EXE   160  <055>    1-Sep-88    106(724)
+SPRINT  EXE    92  <055>    1-Sep-88    105(4410)
+GLOB    EXE    20  <055>    1-Sep-88    5C(141)
+HELP    EXE    16  <055>    1-Sep-88    7(100)
+INITIA  EXE    52  <055>    1-Sep-88    12(343)
+KDPLDR  EXE    68  <055>    1-Sep-88    1(6)
+LINK    EXE    52  <055>    1-Sep-88    6(2420)
+LNK999  EXE    48  <055>    1-Sep-88    6(2420)
+LNKERR  EXE   128  <055>    1-Sep-88    6(2420)
+LNKLOD  EXE   140  <055>    1-Sep-88    6(2420)
+LNKMAP  EXE    64  <055>    1-Sep-88    6(2420)
+LNKOV1  EXE   156  <055>    1-Sep-88    6(2420)
+LNKOV2  EXE   116  <055>    1-Sep-88    6(2420)
+LNKSCN  EXE    88  <055>    1-Sep-88    6(2420)
+LNKXIT  EXE   108  <055>    1-Sep-88    6(2420)
+LOGIN   EXE   132  <055>    1-Sep-88    65(3010)
+LOGOUT  EXE   132  <055>    1-Sep-88    65(3010)
+LP20    EXE    76  <055>    1-Sep-88    1(4)
+MACDLX  EXE    60  <055>   30-Apr-86    31(1065)
+MACRO   EXE   108  <055>    1-Sep-88    53B(1247)
+MAKLIB  EXE   120  <055>    1-Sep-88    2C(132)
+MIC     EXE    68  <055>    1-Sep-88    11C(1235)
+NETLDR  EXE    60  <055>    1-Sep-88    4(146)
+NETWOR  EXE    80  <055>    1-Sep-88    3C(44)
+NFT     EXE   392  <055>    1-Sep-88    2A(21)
+OPSER   EXE    32  <055>    1-Sep-88    5E(133)
+PATH    EXE   108  <055>    6-Sep-84    3(25)
+PIP     EXE    52  <055>    1-Sep-88    33D(546)
+PROJCT  EXE    20  <055>    1-Sep-88    1(11)
+QUOLST  EXE    12  <055>    1-Sep-88    5(42)
+RMS     EXE   140  <055>    1-Sep-88    1A(123)
+RMSCOB  EXE   140  <055>    1-Sep-88
+RMSUTL  EXE   176  <055>    1-Sep-88    1A(123)
+RSXT10  EXE    24  <055>    1-Sep-88    3(42)
+RUNOFF  EXE   108  <055>    1-Sep-88    12(263)
+SCDSET  EXE   228  <055>    1-Sep-88    5(22)
+SETSRC  EXE    16  <055>    1-Sep-88    12B(47)
+COMPAR  EXE    24  <055>    1-Sep-88    2(20)
+MERGE   EXE    28  <055>    1-Sep-88    2(15)
+UPDATE  EXE     8  <055>   28-Apr-76
+NOTIFY  EXE   292  <055>   30-Apr-86    2(1140)
+SCOMM   EXE    84  <055>    2-Sep-88
+SPEAR   EXE   300  <055>    2-Sep-88    2(1140)
+SPRCOM  EXE   284  <055>   30-Apr-86    2(1140)
+SPRINS  EXE   332  <055>   30-Apr-86    2(1140)
+SPRKLE  EXE   336  <055>   30-Apr-86    2(1140)
+SPRRET  EXE   848  <055>    2-Sep-88    2(1140)
+SPRSUM  EXE   388  <055>    2-Sep-88    2(1140)
+SYSANS  EXE    56  <055>    1-Sep-88    704(653)
+SYSDLT  EXE    56  <055>    1-Sep-88    704(653)
+SYSDPA  EXE    56  <055>    1-Sep-88    704(653)
+SYSDPB  EXE    56  <055>    1-Sep-88    704(653)
+SYSDPY  EXE    56  <055>    1-Sep-88    704(653)
+SYSHZL  EXE    56  <055>    1-Sep-88    704(653)
+SYSV50  EXE    56  <055>    1-Sep-88    704(653)
+SYSV52  EXE    56  <055>    1-Sep-88    704(653)
+SYSV61  EXE    56  <055>    1-Sep-88    704(653)
+SYSVBX  EXE    60  <055>    1-Sep-88    704(653)
+SYSTAT  EXE    60  <055>    1-Sep-88    704(416)
+TECO    EXE    36  <055>    1-Sep-88    24A(235)
+TGHA    EXE   100  <055>    1-Sep-88    4(20)
+FELOAD  EXE   308  <055>    2-May-88    7E(120002)-3
+AID     EXE    80  <055>   16-Jul-80    20A(32)
+BOOT11  EXE    28  <055>   26-Jul-82    4A(46)
+BOOTDX  EXE    28  <055>    5-Sep-84    3A(24)
+BOOTM   EXE    76  <055>    1-Sep-88    6(37)
+BOOTMS  EXE    40  <055>    1-Sep-88    6(37)
+WIBOOT  EXE    32  <055>   30-Nov-79    7(12)
+WLBOOT  EXE    32  <055>   30-Nov-79    7(12)
+WSBOOT  EXE    24  <055>   30-Nov-79    7(12)
+DMPFIL  EXE    16  <055>   16-Jul-80    6A(7)
+COPY    EXE     8  <055>   17-Jul-80    7(101)
+DTCOPY  EXE    20  <055>   17-Jul-80    7(101)
+DUMP    EXE    68  <055>   18-Jul-80    4(232)
+FACTPR  EXE    16  <055>   16-Jul-80    2A(43)
+FAILSA  EXE    32  <055>   16-Jul-80    101(47)
+FILEX   EXE    56  <055>   25-Jun-87    20(63)
+GRIPE   EXE     8  <055>   16-Jul-80    4(43)
+KNILDR  EXE    56  <055>   30-Apr-86    1(10)
+GLXLGO  EXE    84  <055>    1-Sep-88    103(2113)
+LINED   EXE    16  <055>   16-Jul-80    13B(22)
+GRAPH1  EXE    20  <055>    2-Feb-78
+LINES   EXE    16  <055>    2-Feb-78    5(24)
+LNSRPT  EXE    40  <055>    2-Feb-78
+LODAVE  EXE    12  <055>    2-Feb-78
+LODCOR  EXE    12  <055>    2-Feb-78
+LODCPU  EXE    12  <055>    2-Feb-78
+LODIO   EXE    12  <055>    2-Feb-78
+LODOPN  EXE    12  <055>    2-Feb-78
+LODPQ1  EXE    12  <055>    2-Feb-78
+LODSLP  EXE    12  <055>    2-Feb-78
+LODTST  EXE    16  <055>   20-Feb-78
+MAKVFU  EXE    20  <055>    1-Sep-88    2(33)
+MONEY   EXE    16  <055>   16-Jul-80    17B(23)
+BUFIO   EXE    52  <055>   23-Jul-75    1
+ENQDEQ  EXE    20  <055>    7-Dec-78    1(11)
+PAGUUO  EXE    64  <055>   17-Apr-77    2(12)
+REDUPD  EXE    48  <055>   23-Jul-75    1
+WRTUPD  EXE    12  <055>    7-Jul-78    1(5)
+MOUNT   EXE   224  <055>    1-Sep-88    2(100)
+MTCOPY  EXE    60  <055>   11-Feb-87    3A(64)
+NEWACT  EXE   364  <055>    1-Sep-88    1A(12)
+NOPAG0  EXE     8  <055>   18-Apr-84    1(1)
+NRT     EXE    84  <055>    1-Sep-88    4A(224)
+OMOUNT  EXE    60  <055>   26-Jul-82    27(205)
+PAL10   EXE    28  <055>   26-Jul-82    144(144)
+QMANGR  EXE    28  <055>    1-Sep-88    105(2265)
+REATTA  EXE     8  <055>   16-Jul-80    3(3)
+REDALL  EXE    12  <055>   16-Jul-80    6(1)
+WPS     EXE    20  <055>   11-Nov-85
+DOS210  EXE    12  <055>   11-Nov-85
+ASC210  EXE    20  <055>   11-Nov-85    1(1)
+ASC211  EXE    20  <055>   11-Nov-85    1(1)
+RTFLX   EXE    28  <055>   11-Nov-85    2(106)
+SCRIPT  EXE    44  <055>   17-Jul-80    16(102)
+SDLCNV  EXE    12  <055>   18-Jul-80    1
+SOS     EXE   128  <055>   17-Dec-85    23E(77)
+CAM     EXE    48  <055>   30-Apr-86    3(6)
+COMP10  EXE    28  <055>   30-Apr-86    3(6)
+FED     EXE    40  <055>   30-Apr-86    3(6)
+SPACE   EXE    20  <055>   17-Jul-80    3(70)
+SPROUT  EXE    64  <055>    1-Sep-88    4(2544)
+SYSINF  EXE    40  <055>   29-Aug-84    3B(322)
+TWICE   EXE   436  <055>   30-Apr-86    5(45)
+UMOUNT  EXE    44  <055>   26-Jul-82    26A(103)
+NEWGEN  EXE   292  <055>   13-Feb-87    3M(33)
+AMIS    EXE   284  <055>   19-Feb-88    1C(753)-5
+ATEACH  EXE   344  <055>   20-Feb-88    1C(753)-5
+MAKTRM  EXE   100  <055>    1-Dec-86
+DISCON  EXE    20  <055>   10-Feb-88    1(16)-2
+CICTRS  EXE    44  <055>    1-Sep-88    1(1)
+CISNUP  EXE    16  <055>   30-Aug-88    (1)
+CITATL  EXE    28  <055>   31-Aug-88    (1)
+CISTS   EXE    16  <055>    1-Sep-88    1(1)
+CPU     EXE   196  <055>    1-Sep-88
+CONFIG  EXE   296  <055>    1-Sep-88    5(1050)
+CSHDPY  EXE   212  <055>    1-Sep-88
+CSHDMP  EXE    36  <055>    1-Sep-88
+DBUSY   EXE    16  <055>    1-Sep-88
+DDBDPY  EXE    36  <055>    1-Sep-88    6(302)-1
+DCNSPY  EXE   112  <055>    1-Sep-88    4(11)
+DNSNUP  EXE    84  <055>    1-Sep-88    1(17)
+DNTATL  EXE    84  <055>    1-Sep-88    1(5)
+DTR     EXE   112  <055>    1-Sep-88    1(10)
+DTS     EXE   128  <055>    1-Sep-88    1(4)
+GETNOD  EXE    88  <055>    1-Sep-88    1(6)
+ANF     EXE     8  <055>    1-Sep-88
+DECNET  EXE     8  <055>    1-Sep-88
+NETPTH  EXE    56  <055>    1-Sep-88    4(3)
+NODNAM  EXE    76  <055>    1-Sep-88    2B(17)
+DSKDMP  EXE    16  <055>    1-Sep-88
+DTECO   EXE   120  <055>    1-Sep-88    26A(265)
+ERSATZ  EXE    16  <055>   30-Aug-88    2(5)
+FAST    EXE    72  <055>    1-Sep-88    1(41)-2
+FEDEL   EXE    12  <055>    1-Sep-88    1(6)
+FRCINI  EXE    12  <055>    1-Sep-88    1
+FRECOR  EXE    28  <055>    1-Sep-88    704(4)
+FSCOPY  EXE    88  <055>    1-Sep-88    1(26)
+GALDPY  EXE    28  <055>    2-Sep-88
+GALKIL  EXE    12  <055>    2-Sep-88
+GALTRK  EXE    20  <055>    2-Sep-88
+QSRCVT  EXE    48  <055>   24-Mar-86    2(11)
+TYPIDS  EXE    16  <055>    2-Sep-88    1(107)
+VEREDT  EXE    48  <055>    2-Sep-88    2(12)
+INFTST  EXE    12  <055>    1-Sep-88
+KDPDPY  EXE    32  <055>    1-Sep-88    1(12)
+KILL    EXE    28  <055>    1-Sep-88    13A(132)
+KLBPA   EXE    48  <055>    1-Sep-88    1(1)
+KLEPTO  EXE    44  <055>    1-Sep-88    1(1)
+LINCLN  EXE    72  <055>    1-Sep-88
+LNM     EXE    12  <055>    1-Sep-88
+MAKSYM  EXE    64  <055>    1-Sep-88    3(6)
+MBR     EXE    76  <055>    1-Sep-88
+MCBDA   EXE   260  <055>    1-Sep-88    4(1)
+MONDM4  EXE    32  <055>    1-Sep-88
+MONITR  EXE    16  <055>    1-Sep-88    1
+NETTST  EXE    56  <055>    1-Sep-88    6(40)
+PIVOT   EXE    16  <055>    1-Sep-88    5(16)
+PSTHRU  EXE    40  <055>    1-Sep-88    1(26)
+DX20    EXE    56  <055>    1-Sep-88    1(6)
+RELOAD  EXE    24  <055>    1-Sep-88
+RMTCON  EXE    64  <055>    1-Sep-88    3(15)
+RNXPRT  EXE   160  <055>    1-Sep-88
+RNXTRC  EXE    24  <055>    1-Sep-88    1(5)
+SEARCH  EXE    88  <055>    1-Sep-88    1(3)
+SED     EXE   120  <055>    7-Sep-88    2(664)
+SEDONL  EXE     8  <055>   31-Aug-84
+SEDRNO  EXE   132  <055>   29-Nov-79    10B(245)-1
+SNOOPY  EXE    32  <055>    1-Sep-88    2(26)
+TATTLE  EXE   192  <055>    1-Sep-88
+MSTCKS  EXE    16  <055>    1-Sep-88
+STOPCD  EXE    20  <055>    1-Sep-88
+SPY     EXE    16  <055>   27-Dec-85    1A(36)
+TRACER  EXE    20  <055>    1-Sep-88
+TRDUMP  EXE    24  <055>    1-Sep-88
+TRACK   EXE    64  <055>    1-Sep-88    5A(225)
+XLATE   EXE   156  <055>    1-May-86    6(2113)
+XLPLOT  EXE    20  <055>    1-May-86
+TRMTYP  EXE    16  <055>    1-Sep-88    1(11)
+TSTSUP  EXE    12  <055>    1-Sep-88
+ACCCHK  EXE     8  <055>    1-Sep-88    1(2)
+SPCUSG  EXE    24  <055>    1-Sep-88    3(71)
+USRENT  EXE     8  <055>    1-Sep-88    1(3)
+VALID   EXE     8  <055>    1-Sep-88    1(2)
+USERS   EXE    16  <055>    1-Sep-88    1(6)
+WHOONC  EXE   504  <055>    1-Sep-88    6(243)
+DMPAVL  EXE    56  <055>    1-Sep-88    1(1)
+WHYCRS  EXE    52  <055>    1-Sep-88    1(2)
+T10KL   RAM    48  <055>    1-Sep-88
+LP64    RAM     1  <055>   25-Jun-82
+LP96    RAM     1  <055>   25-Jun-82
+NORMAL  VFU     1  <055>   18-Apr-84
+DDT     REL    93  <055>    1-Sep-88
+JOBDAT  REL     2  <055>    1-Sep-88
+OVRLAY  REL    32  <055>    1-Sep-88
+TECO    ERR    44  <055>   30-Apr-86
+SYSTEM  CMD     2  <055>   24-Jun-88
+CORIMG  SYS    88  <055>   20-May-88
+RSX20F  SYS    60  <055>   25-May-88
+ACTDAE  SYS    36  <157>   24-Jun-88
+CATLOG  SYS    52  <157>   24-Jun-88
+PROJCT  SYS     4  <055>    1-May-85
+LINES   INI     3  <055>   18-Feb-83
+SYSJOB  INI     1  <055>   18-May-11
+TTY     INI     1  <055>   18-May-11
+AVAIL   SYS    10  <155>    6-Jan-07
+ERROR   SYS  3644  <155>   20-May-11
+QSRMS1  QSR     5  <277>   18-May-11
+CRASH   SYS     2  <157>   18-May-11
+FOROT6  EXE   120  <055>    3-Dec-81    6(2033)
+FORTB   EXE   196  <055>    3-Dec-81    6(1144)
+FORTC   EXE   120  <055>    3-Dec-81    6(1144)
+FORTD   EXE   240  <055>    3-Dec-81    6(1144)
+FORTE   EXE   204  <055>    3-Dec-81    6(1144)
+FORTF   EXE   172  <055>    3-Dec-81    6(1144)
+FORTG   EXE   148  <055>    3-Dec-81    6(1144)
+FORTRA  EXE    80  <055>    3-Dec-81    6(1144)
+FORDDT  REL    46  <055>   11-Dec-81
+FORLIB  REL   403  <055>    3-Dec-81
+BASIC   EXE   120  <055>   14-Oct-81    17F(244)
+ERROR   X01     1  <155>   13-Jan-26
+ERROR   X02     1  <155>   18-Apr-26
+ERROR   X03     1  <155>   11-Sep-26
+ERROR   X04     7  <155>    6-Jan-07
+  Total of 73101 blocks in 297 files on DSKB: [1,4]
+
+OPERAT  LOG    78  <057>    6-Jan-07    [3,3]
+SER001  EXE  4100  <057>   18-May-11    704(33461)      [10,1]
+ADV     F4     22  <057>   14-Aug-07    [1,2]
+ADV     EXE    48  <057>   14-Aug-07
+IOFIL   FOR     1  <057>   14-Aug-07
+ADV     DAT    33  <057>   14-Aug-07
+ADV     REL    38  <057>   18-May-11
+IOFIL   REL     2  <057>   18-May-11
+ADVENT  DAT    87  <000>   17-May-11
+ADVENT  FOR   128  <000>   17-May-11
+ADVENT  REL   145  <057>   18-May-11
+ADVENT  EXE   324  <057>   18-May-11
+  Total of 828 blocks in 10 files on DSKB: [1,2]
+
+KSBOOT  EXE    44  <057>    1-Sep-88    4(76)   [10,7]
+SMFILE  EXE   104  <057>    1-Sep-88    2(7)
+SMFILE  HLP     2  <057>   19-Feb-79
+SMFILE  TXT    15  <057>    9-Apr-79
+T10KL   RAM    48  <057>    7-Jan-86
+T10KL   ULD   167  <057>    1-Sep-88
+MONANF  DIR    15  <155>   10-Oct-88
+704     BWR    42  <155>    4-Oct-88
+MON     SFD     2  <775>    6-Oct-88
+ANF10   SFD     1  <775>    6-Oct-88
+CUSP    BWR    20  <155>   28-Aug-88
+BUILD   SFD     1  <775>   15-Sep-88
+ACCT    SFD     1  <775>   15-Sep-88
+ACTSYM  SFD     1  <775>   15-Sep-88
+BACKUP  SFD     1  <775>   15-Sep-88
+BOOT    SFD     1  <775>   15-Sep-88
+COMPIL  SFD     1  <775>   15-Sep-88
+CREDIR  SFD     1  <775>   15-Sep-88
+CREF    SFD     1  <775>   15-Sep-88
+CRSCPY  SFD     1  <775>   15-Sep-88
+CTHNRT  SFD     1  <775>   15-Sep-88
+D60JSY  SFD     1  <775>   15-Sep-88
+DAEMON  SFD     1  <775>   15-Sep-88
+DDT     SFD     1  <775>   15-Sep-88
+DDT11   SFD     1  <775>   15-Sep-88
+DECLAR  SFD     1  <775>   15-Sep-88
+DECMAI  SFD     1  <775>   15-Sep-88
+DELFIL  SFD     1  <775>   15-Sep-88
+DIL     SFD     1  <775>   15-Sep-88
+DIRECT  SFD     1  <775>   15-Sep-88
+DSKLST  SFD     1  <775>   15-Sep-88
+DSKRAT  SFD     1  <775>   15-Sep-88
+DTELDR  SFD     1  <775>   15-Sep-88
+F11     SFD     1  <775>   15-Sep-88
+FAL     SFD     1  <775>   15-Sep-88
+FE      SFD     1  <775>   15-Sep-88
+FEFILE  SFD     1  <775>   15-Sep-88
+FILCOM  SFD     1  <775>   15-Sep-88
+FILDAE  SFD     1  <775>   15-Sep-88
+GALAXY  SFD     1  <775>   15-Sep-88
+GLOB    SFD     1  <775>   15-Sep-88
+HELP    SFD     1  <775>   15-Sep-88
+HELPER  SFD     1  <775>   15-Sep-88
+INITIA  SFD     1  <775>   15-Sep-88
+JOBDAT  SFD     1  <775>   15-Sep-88
+KDPLDR  SFD     1  <775>   15-Sep-88
+KSU     SFD     1  <775>   15-Sep-88
+LINK    SFD     1  <775>   15-Sep-88
+LOGIN   SFD     1  <775>   15-Sep-88
+LP20    SFD     1  <775>   15-Sep-88
+MACDLX  SFD     1  <775>   15-Sep-88
+MACRO   SFD     1  <775>   15-Sep-88
+MACSYM  SFD     1  <775>   15-Sep-88
+MACTEN  SFD     1  <775>   15-Sep-88
+MAKLIB  SFD     1  <775>   15-Sep-88
+MIC     SFD     1  <775>   15-Sep-88
+MONSYM  SFD     1  <775>   15-Sep-88
+NCPTAB  SFD     1  <775>   15-Sep-88
+NETLDR  SFD     1  <775>   15-Sep-88
+NETWOR  SFD     1  <775>   15-Sep-88
+NFT     SFD     1  <775>   15-Sep-88
+OPSER   SFD     1  <775>   15-Sep-88
+PATH    SFD     1  <775>   15-Sep-88
+PIP     SFD     1  <775>   15-Sep-88
+PROJCT  SFD     1  <775>   15-Sep-88
+QUOLST  SFD     1  <775>   15-Sep-88
+RMS10   SFD     1  <775>   15-Sep-88
+RSX20F  SFD     1  <775>   15-Sep-88
+RSXT10  SFD     1  <775>   15-Sep-88
+RUNOFF  SFD     1  <775>   15-Sep-88
+SCAN    SFD     1  <775>   15-Sep-88
+SCDSET  SFD     1  <775>   15-Sep-88
+SETSRC  SFD     1  <775>   15-Sep-88
+SMFILE  SFD     1  <775>   15-Sep-88
+SOUPR   SFD     1  <775>   15-Sep-88
+SPEAR   SFD     1  <775>   15-Sep-88
+SWIL    SFD     1  <775>   15-Sep-88
+SYSDPY  SFD     1  <775>   15-Sep-88
+SYSTAT  SFD     1  <775>   15-Sep-88
+SYSTEM  SFD     1  <775>   15-Sep-88
+TECO    SFD     1  <775>   15-Sep-88
+TGHA    SFD     1  <775>   15-Sep-88
+UFDSET  SFD     1  <775>   15-Sep-88
+UUOSYM  SFD     1  <775>   15-Sep-88
+WILD    SFD     1  <775>   15-Sep-88
+FELOAD  SFD     1  <775>   15-Sep-88
+CUSP    DIR    87  <155>   20-Sep-88
+CUSP    RNO    18  <155>   28-Aug-88
+CUSSUP  DIR    34  <155>   15-Sep-88
+UNSCOM  SFD     1  <775>   15-Sep-88
+UNSCSP  SFD     1  <775>   15-Sep-88
+UNSMON  SFD     1  <775>   15-Sep-88
+TOOLS   DIR    49  <155>    7-Sep-88
+AMIS    SFD     1  <775>    7-Sep-88
+CICTRS  SFD     1  <775>    7-Sep-88
+CISNUP  SFD     1  <775>    7-Sep-88
+CISTS   SFD     1  <775>    7-Sep-88
+CPU     SFD     1  <775>    7-Sep-88
+CONFIG  SFD     1  <775>    7-Sep-88
+CSHDPY  SFD     1  <775>    7-Sep-88
+DBUSY   SFD     1  <775>    7-Sep-88
+DDBDPY  SFD     1  <775>    7-Sep-88
+DECNET  SFD     1  <775>    7-Sep-88
+DPYPAK  SFD     1  <775>    7-Sep-88
+DSKDMP  SFD     1  <775>    7-Sep-88
+DTECO   SFD     1  <775>    7-Sep-88
+ERSATZ  SFD     1  <775>    7-Sep-88
+FAST    SFD     1  <775>    7-Sep-88
+FEDEL   SFD     1  <775>    7-Sep-88
+FRCINI  SFD     1  <775>    7-Sep-88
+FRECOR  SFD     1  <775>    7-Sep-88
+FSCOPY  SFD     1  <775>    7-Sep-88
+GALTOL  SFD     1  <775>    7-Sep-88
+INFTST  SFD     1  <775>    7-Sep-88
+KDPDPY  SFD     1  <775>    7-Sep-88
+KILL    SFD     1  <775>    7-Sep-88
+KLBPA   SFD     1  <775>    7-Sep-88
+KLEPTO  SFD     1  <775>    7-Sep-88
+LINCLN  SFD     1  <775>    7-Sep-88
+LNM     SFD     1  <775>    7-Sep-88
+MAKSYM  SFD     1  <775>    7-Sep-88
+MAP     SFD     1  <775>    7-Sep-88
+MBR     SFD     1  <775>    7-Sep-88
+MCBDA   SFD     1  <775>    7-Sep-88
+MONDM4  SFD     1  <775>    7-Sep-88
+MONITR  SFD     1  <775>    7-Sep-88
+NETTST  SFD     1  <775>    7-Sep-88
+PIVOT   SFD     1  <775>    7-Sep-88
+PSTHRU  SFD     1  <775>    7-Sep-88
+RDREG   SFD     1  <775>    7-Sep-88
+RELOAD  SFD     1  <775>    7-Sep-88
+RMTCON  SFD     1  <775>    7-Sep-88
+RP20    SFD     1  <775>    7-Sep-88
+SEARCH  SFD     1  <775>    7-Sep-88
+SED     SFD     1  <775>    7-Sep-88
+SNOOPY  SFD     1  <775>    7-Sep-88
+SNUP    SFD     1  <775>    7-Sep-88
+STOPCD  SFD     1  <775>    7-Sep-88
+SPY     SFD     1  <775>    7-Sep-88
+TRACER  SFD     1  <775>    7-Sep-88
+TRACK   SFD     1  <775>    7-Sep-88
+TRMTYP  SFD     1  <775>    7-Sep-88
+TSTSUP  SFD     1  <775>    7-Sep-88
+USAGE   SFD     1  <775>    7-Sep-88
+USERS   SFD     1  <775>    7-Sep-88
+WHO     SFD     1  <775>    7-Sep-88
+WHYCRS  SFD     1  <775>    7-Sep-88
+FTNDOC  SFD     1  <775>   18-May-11
+FTNSYS  SFD     1  <775>   18-May-11
+FTNOTS  SFD     2  <775>   18-May-11
+FTNCMP  SFD     5  <775>   18-May-11
+  Total of 789 blocks in 151 files on DSKB: [10,7]
+
+SMFILE  HLP     2  <055>   19-Feb-79    [2,5]
+BACKUP  HLP    23  <055>    7-Jul-86
+CREDIR  HLP     1  <055>   28-Jan-82
+CREF    HLP     2  <055>   30-Apr-86
+CRSCPY  HLP    16  <055>   29-May-86
+CTHNRT  HLP     3  <055>   20-Dec-85
+DECLAR  HLP     6  <055>   17-Jun-88
+MS      HLP    91  <055>    1-Apr-86
+DELFIL  HLP     2  <055>   19-Aug-87
+DIL     HLP    10  <055>    6-Oct-87
+DIRECT  HLP    17  <055>   19-Feb-86
+DSKRAT  HLP     2  <055>    6-Oct-87
+DTELDR  HLP     7  <055>    7-Apr-88
+FILCOM  HLP     2  <055>   28-Sep-87
+CATLOG  HLP    18  <055>    8-Aug-84
+CONFIG  HLP     8  <055>   14-Jun-88
+OPR     HLP    38  <055>   28-Mar-84
+PLEASE  HLP     4  <055>   24-Apr-80
+QUOTA   HLP     8  <055>   17-Sep-85
+QUEUE   HLP    22  <055>   23-Jul-86
+ALLOCA  HLP     7  <055>    4-Apr-85
+CANCEL  HLP     2  <055>    1-Jul-82
+DEALLO  HLP     1  <055>   24-Mar-81
+DISMOU  HLP     2  <055>   25-Jun-82
+MOUNT   HLP     7  <055>    4-Apr-85
+SHOW    HLP     2  <055>   25-Jun-82
+GLOB    HLP     2  <055>    7-Oct-87
+HELP    HLP     2  <055>   30-Apr-86
+INITIA  HLP     4  <055>   17-Jul-87
+KDPLDR  HLP     7  <055>   30-Apr-86
+LINK    HLP    32  <055>   30-Apr-86
+LOGIN   HLP    20  <055>   16-Jan-86
+KJOB    HLP     5  <055>   24-Nov-87
+REATTA  HLP     3  <055>   16-Jan-86
+SESSIO  HLP     3  <055>   16-Jan-86
+ATTACH  HLP    11  <055>   16-Jan-86
+PASSWO  HLP     2  <055>   16-Jan-86
+MACRO   HLP     2  <055>   31-Jan-77
+MAKLIB  HLP     4  <055>    1-Dec-82
+MIC     HLP     4  <055>    8-Jun-83
+NCP     HLP    12  <055>   18-Jan-84
+NETLDR  HLP     2  <055>   25-Feb-76
+NETWOR  HLP     8  <055>   23-Apr-85
+NFT     HLP    16  <055>   24-Jan-86
+OPSER   HLP     6  <055>    7-Oct-87
+PATH    HLP    14  <055>   30-Aug-84
+PIP     HLP     4  <055>    7-Oct-87
+QUOLST  HLP     2  <055>   30-Apr-86
+RSXFMT  HLP     6  <055>   30-Apr-86
+RUNINP  HLP    10  <055>   30-Apr-86
+RUNOFF  HLP     7  <055>   30-Apr-86
+SETSRC  HLP     3  <055>   30-Apr-86
+COMPAR  HLP     7  <055>    9-Sep-84
+MERGE   HLP     4  <055>   15-Sep-81
+UPDATE  HLP     3  <055>    3-Dec-82
+SYSTAT  HLP     6  <055>   17-Jan-86
+TGHA    HLP     1  <055>   30-Apr-86
+BOOT11  HLP     2  <055>    5-Jan-75
+BOOTDX  HLP     4  <055>   15-Apr-80
+FAILSA  HLP     6  <055>    7-Jun-72
+FILEX   HLP     5  <055>   11-Jul-75
+GRIPE   HLP     1  <055>   16-Apr-74
+GLXLGO  HLP     5  <055>    5-Jan-85
+MAKVFU  HLP     6  <055>   29-Oct-79
+MTCOPY  HLP     2  <055>    9-Jan-72
+OMOUNT  HLP    32  <055>   26-Dec-74
+RTFLX   HLP     8  <055>   11-Nov-85
+SDLCNV  HLP     2  <055>   14-Dec-79
+SOS     HLP     3  <055>   17-Dec-85
+SOUP    HLP     2  <055>   30-Apr-86
+SPACE   HLP     1  <055>    1-Mar-72
+UMOUNT  HLP     4  <055>   10-Jan-75
+UDISMO  HLP     3  <055>   10-Jan-75
+CISTS   HLP     2  <055>   12-Apr-85
+NODNAM  HLP     5  <055>    2-Sep-87
+FEDEL   HLP     3  <055>    1-May-86
+FRCINI  HLP     1  <055>    1-May-86
+FSCOPY  HLP     6  <055>   17-Apr-80
+KILL    HLP     3  <055>    6-Jul-80
+KLBPA   HLP     2  <055>    1-May-86
+KLEPTO  HLP    22  <055>    1-May-86
+MAKSYM  HLP     4  <055>   12-Oct-87
+MCBDA   HLP     7  <055>    1-May-86
+MONITR  HLP     1  <055>    1-May-86
+NETTST  HLP    32  <055>   28-Apr-84
+RDREG   HLP     9  <055>    1-May-86
+RMTCON  HLP     6  <055>    1-May-86
+SED     HLP     6  <055>   16-Jul-83
+SEDONL  HLP    33  <055>   31-Aug-84
+TRACK   HLP    18  <055>    1-May-86
+XLATE   HLP     3  <055>    1-May-86
+XLPLOT  HLP     5  <055>    1-May-86
+TRMTYP  HLP     2  <055>    1-May-86
+USAG10  HLP     2  <055>   30-May-80
+USAH10  HLP     2  <055>   30-May-80
+WHO     HLP    27  <055>   17-Jun-82
+WHYCRS  HLP     2  <055>    1-May-86
+FORDDT  HLP     4  <055>    9-Dec-81
+FORTRA  HLP     3  <055>    9-Dec-81
+BASIC   HLP     7  <055>   14-May-81
+  Total of 818 blocks in 100 files on DSKB: [2,5]
+
+DIL     DOC   130  <055>   28-Jul-86    [5,14]
+GALAXY  DOC    23  <055>   10-Feb-86
+RMS10   DOC     8  <055>    3-Feb-86
+SPEAR   DOC    19  <055>   30-Apr-86
+DC72NP  DOC     4  <055>    7-Dec-78
+DC7621  DOC    11  <055>    8-Dec-78
+DN92    DOC    39  <055>   28-Apr-78
+DN9210  DOC     8  <055>   28-Apr-78
+X6801A  DOC     5  <055>    3-Oct-78
+AID20A  DOC     3  <055>   12-Mar-79
+BOOT11  DOC    10  <055>   27-Jul-79
+BOOTDX  DOC     3  <055>    5-Sep-84
+BOOTS   DOC    35  <055>   17-Jul-79
+WTBOOT  DOC    18  <055>   28-Jun-79
+DML6A   DOC     3  <055>    7-Mar-79
+CPY007  DOC     4  <055>    8-Mar-79
+DTC007  DOC     3  <055>    8-Mar-79
+DMP4    DOC    74  <055>    8-Mar-79
+FACTOR  DOC    10  <055>   29-Sep-83
+FPR2A   DOC    12  <055>   15-Mar-79
+FAILSA  DOC    19  <055>    8-Mar-79
+FILEX   DOC     3  <055>    2-Jan-86
+GRP4    DOC     5  <055>    8-Mar-79
+LND13B  DOC     3  <055>    9-Mar-79
+MNY17B  DOC     5  <055>    9-Mar-79
+MTY3    DOC     5  <055>    9-Mar-79
+NPG1    DOC     3  <055>    3-Oct-78
+OMOUNT  DOC    66  <055>   15-Jul-80
+RTA3    DOC     3  <055>    9-Mar-79
+RX20    DOC    32  <055>   17-Sep-84
+SCT014  DOC    19  <055>    9-Mar-79
+SDLCNV  DOC     3  <055>   14-Dec-79
+SOS     DOC    20  <055>   17-Dec-85
+SOSMCR  DOC    14  <055>   17-Dec-85
+SPC3    DOC     6  <055>   15-Mar-79
+STR1    DOC     3  <055>   12-Mar-79
+SYSINF  DOC     5  <055>   29-Aug-84
+UMT26A  DOC    62  <055>   31-Jan-79
+KSDMR   DOC    51  <055>   26-Jul-83
+DEMO    DOC     2  <055>   25-Oct-84
+SED     DOC   231  <055>   23-Aug-83
+TRK5    DOC     7  <055>    1-May-86
+FORDDT  DOC    21  <055>    9-Dec-81
+FOROTS  DOC   111  <055>    9-Dec-81
+FORTRA  DOC    55  <055>    9-Dec-81
+BAS17F  DOC    22  <055>   15-Oct-81
+  Total of 1198 blocks in 46 files on DSKB: [5,14]
+
+TOPS10  REL  2296  <055>    6-Oct-88    [5,11]
+ACTLIB  REL    46  <055>    1-Sep-88
+D60JSY  REL    33  <055>    1-Sep-88
+DDT     REL    93  <055>    1-Sep-88
+EDDT    REL    76  <055>    1-Sep-88
+B361LB  REL   126  <055>   10-Nov-84
+M10INT  REL     8  <055>    1-Sep-88
+MXNMEM  REL    11  <055>    1-Sep-88
+MXNPAG  REL     2  <055>    1-Sep-88
+MXNQUE  REL     3  <055>    1-Sep-88
+MXNTBL  REL     3  <055>    1-Sep-88
+MXNTXT  REL    12  <055>    1-Sep-88
+MXDATA  REL     7  <055>    1-Sep-88
+MXHOST  REL    12  <055>    1-Sep-88
+MXLCL   REL    33  <055>    1-Sep-88
+MXQMAN  REL    35  <055>    1-Sep-88
+MXUFIL  REL    25  <055>    1-Sep-88
+TBL     REL     4  <055>    1-Sep-88
+MXERR   REL    14  <055>    1-Sep-88
+MXDCNT  REL     7  <055>    1-Sep-88
+M10IPC  REL    14  <055>    1-Sep-88
+MXNSKD  REL    13  <055>    1-Sep-88
+MXNNET  REL    22  <055>    1-Sep-88
+CPYRYT  REL     1  <055>    1-Sep-88
+MXNT10  REL     7  <055>    1-Sep-88
+NETTAB  REL     2  <055>    1-Sep-88
+MXVER   REL     1  <055>    1-Sep-88
+SMTLIS  REL    13  <055>    1-Sep-88
+SMTSEN  REL     8  <055>    1-Sep-88
+LISVAX  REL    15  <055>    1-Sep-88
+SENVAX  REL    13  <055>    1-Sep-88
+MXUT10  REL     8  <055>    1-Sep-88
+MX10    REL   280  <055>    1-Sep-88
+DIL1V2  REL    22  <055>    2-Sep-88
+DIT1V2  REL   140  <055>    2-Sep-88
+DIX1V2  REL    69  <055>    2-Sep-88
+DAP1V1  REL   167  <055>    2-Sep-88
+XPN1V1  REL    60  <055>    2-Sep-88
+DIL     REL   462  <055>    2-Sep-88
+CATTAB  REL    14  <055>    1-Sep-88
+GLXLIB  REL   207  <055>    1-Sep-88
+CHRFRM  REL     8  <055>   23-Aug-88
+OPRPAR  REL    27  <055>    1-Sep-88
+QUOTAB  REL    10  <055>    1-Sep-88
+HELPER  REL     3  <055>    1-Sep-88
+JOBDAT  REL     2  <055>    1-Sep-88
+OVRLAY  REL    32  <055>    1-Sep-88
+MACTEN  REL     2  <055>    1-Sep-88
+NCPTAB  REL    56  <055>    1-Sep-88
+RMS     REL   235  <055>    1-Sep-88
+RMS101  REL   235  <055>    1-Sep-88
+RMS1P1  REL    77  <055>    1-Sep-88
+RMS1U1  REL   175  <055>    1-Sep-88
+RMSINI  REL     1  <055>    1-Sep-88
+SCAN    REL    69  <055>    1-Sep-88
+SWIL    REL   374  <055>    1-Sep-88
+UFDSET  REL    24  <055>    1-Sep-88
+UUOSYM  REL    97  <055>    1-Sep-88
+WILD    REL    25  <055>    5-Sep-88
+STRLIB  REL    39  <055>   11-Sep-74
+ROOT    REL     5  <055>   22-Sep-87
+TTYIO   REL    16  <055>    1-Jan-88
+MAIN    REL   158  <055>   13-Feb-88
+UTILIT  REL    24  <055>   19-Sep-87
+INPUT   REL    13  <055>   17-Sep-87
+BUFFER  REL    26  <055>   27-Nov-87
+SCREEN  REL    42  <055>   19-Nov-87
+TERM    REL    18  <055>   19-Feb-88
+TTYIOT  REL    16  <055>    1-Jan-88
+MBUF    REL     4  <055>   24-May-87
+DSKIO   REL    24  <055>    9-Feb-88
+SEARCH  REL    23  <055>   19-Sep-87
+POM     REL     2  <055>   30-Nov-81
+DISCON  REL    12  <055>   10-Feb-88
+DCN     REL    18  <055>    1-Sep-88
+DCNSPY  REL    62  <055>    1-Sep-88
+DPY     REL    18  <055>    1-Sep-88
+DPYPAK  REL    10  <055>    1-Sep-88
+DPYSUB  REL    11  <055>    1-Sep-88
+DPYNEW  REL    17  <055>    1-Sep-88
+MAP     REL    35  <055>    2-Sep-88
+SNUP    REL    12  <055>    1-Sep-88
+TRACK   REL   100  <055>    1-Sep-88
+LIBFOR  REL     7  <055>    1-May-86
+XLATE   REL    67  <055>    1-May-86
+XLPLOT  REL    17  <055>    1-May-86
+  Total of 6632 blocks in 86 files on DSKB: [5,11]
+
+ACTPRM  UNV    15  <055>    1-Sep-88    [5,17]
+ACTSYM  UNV    86  <055>    1-Sep-88
+BTSPRM  UNV     3  <055>    1-Sep-88
+D60UNV  UNV    36  <055>    1-Sep-88
+MSUNV   UNV    19  <055>    1-Sep-88
+GALCNF  UNV     2  <055>   23-Aug-88
+GLXMAC  UNV   106  <055>    1-Sep-88
+ORNMAC  UNV    45  <055>    1-Sep-88
+PLRMAC  UNV    45  <055>    1-Sep-88
+QSRMAC  UNV    52  <055>    1-Sep-88
+JOBDAT  UNV     1  <055>    1-Sep-88
+MACSYM  UNV    69  <055>    1-Sep-88
+MACTEN  UNV    30  <055>    1-Sep-88
+MONSYM  UNV   273  <055>    1-Sep-88
+RMSINT  UNV    48  <055>    1-Sep-88
+SCNMAC  UNV     6  <055>    1-Sep-88
+$SCNDC  UNV     4  <055>    1-Sep-88
+SWIL    UNV   168  <055>    1-Sep-88
+UFDPRM  UNV     2  <055>    1-Sep-88
+UUOSYM  UNV   104  <055>    1-Sep-88
+MACROS  UNV     3  <055>    1-Sep-88
+DCN     UNV    16  <055>    1-Sep-88
+DPYDEF  UNV     2  <055>    1-Sep-88
+HILOW   UNV     1  <055>    1-May-86
+QSRMV2  UNV    16  <055>   30-May-79
+QSRMV4  UNV    43  <055>   11-Apr-85
+QSRMV5  UNV    52  <055>    2-Sep-88
+COMMOD  UNV    26  <055>    1-May-86
+MAC10   UNV     3  <055>    1-Sep-88
+Q       UNV    42  <055>    1-May-86
+SNUP    UNV    10  <055>    1-Sep-88
+  Total of 1328 blocks in 31 files on DSKB: [5,17]
+
+USAGE   OUT   166  <177>    6-Jan-07    [1,7]
+FAILUR  LOG     0  <177>   18-May-11
+USEJOB  BIN    36  <057>    6-Jan-07
+SYSDEV  BIN     1  <057>    6-Jan-07
+  Total of 203 blocks in 4 files on DSKB: [1,7]
+
+KS10FE  BIN   112  <577>   18-May-11    [6,2020]
+KSBOOT  RIM    36  <577>    1-Sep-88    4(76)
+  Total of 148 blocks in 2 files on DSKB: [6,2020]
+  Grand total of 89244 blocks in 744 files
+
+.R OPR
+
+OPR>SET KSYS NOW
+OPR>
+12:01:01          -- Event KSYS queued, request #4 --
+
+12:01:01          -- Timesharing is over --
+                Wait for "KSYS processing complete" message before SHUTDOWN
+
+12:01:01          -- Waiting for BATCON to start for KSYS logouts --
+OPR>
+;;SYSTEM: - Timesharing is over!
+
+12:01:02          -- KSYS processing completed --
+
+OPR>EXIT
+
+.KJOB
+[LGNJSP Other jobs same PPN]
+Job 2  User OPR  [1,2]
+Logged-off CTY  at 12:01:09  on  6-Jan-107
+Runtime: 0:00:00, KCS:7, Connect time: 0:01:08
+Disk Reads:16384, Writes:6, Blocks saved:0
+
+.
