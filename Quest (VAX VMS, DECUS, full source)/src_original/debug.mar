@@ -1,0 +1,6 @@
+	.ENTRY	QSTDEB,^M<>
+	ADDL	#4,4(AP)
+	MOVL	@4(AP),R0
+	CALLG	(AP),(R0)
+	RET
+	.END	QSTDEB

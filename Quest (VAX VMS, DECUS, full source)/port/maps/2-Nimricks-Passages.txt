@@ -1,0 +1,516 @@
+1Dungeon: Nimrick's Passages  
+ Level:      1
+
+
+ MMMMMMMM+++MMMMMMMMMMMMMMMMMMMMMMMMMMM+++MMMMMMMMMMMMMM     MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+ M                       M     M           M                 M                                               M
+ M                       M     M           M                 M                                               M
+ M                       M     M           M                 M                                               M
+ MMMMMMMM---MMM---MMM---MM     M           M     MMMMMMM     MM+++MMM+++MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM     M
+ M     M                 M     M           M     M     M     M     M     M                             M     M
+ M     !                 !     M           M     +     +     M     M     M                             M     M
+ M     M                 M     M           M     M     M     M     M     M                             M     M
+ MMMMMMM                 MMMMMMM           MMMMMMM     MMMMMMM     M     M     MMMMMMMMMMMMMMMMMMM     M     M
+ M     M                 M     M           M                 M     M     M     M                 M     M     M
+ M     !                 ! FNT M           M                 M     M     M     M                 M     M     M
+ M     M                 M     M           M                 M     M     M     M                 M     M     M
+ MMMMMMMMMMMMMM+++MMMMMMMMMMMMMMMMMMMMM+++MMM+++MMMMMMMMMMMMMMM+++MMMMMMMM     M     MMMMMMM     M     M     M
+ M                             M     M                             M     M     M     M     M     M     M     M
+ M                             M     M                             +     M     M     M  SD M     M     M     M
+ M                             M     M                             M     M     M     M     M     M     M     M
+ M     MMMMMMMM---MMM---MMM---MMM---MM     MMMMMMMM+++MMMMMMMM     MMMMMMM     M     MM+++MM     M     M     M
+ M     M     M                 M     M     M           M     M     M     M     M     M     M     M     M     M
+ M     M     ! PIT             !     M     M           M     +     M     M     M     M     M     M     M     M
+ M     M     M                 M     M     M           M     M     M     M     M     M     M     M     M     M
+ M     MMMMMMM                 MMMMMMM     MMMMMMMMMMMMMMMMMMM     M     M     M     M     M     M     M     M
+ M     M     M                 M     M     M                       M     M     M     M     M     M     M     M
+ M     M     !                 !     M     M                       !     M     M     M     M     M     M     M
+ M     M     M                 M     M     M                       M     M     M     M     M     M     M     M
+ M     MMMMMMMMMMMMMM+++MMMMMMMMMMMMMM     M           MMMMMMMM---MMM+++MM     M     M     M     M     M     M
+ M                                         M           M     M     M     M     M     M           M     M     M
+ M                                         M  SU       M     M     M     M     M     M           M     M     M
+ M                                         M           M     M     M     M     M     M           M     M     M
+ MM---MMM---MMM---MMM+++MMM+++MMM---MMM---MMMMMMMMMMMMMM     MMMMMMM     M     M     MMMMMMMMMMMMM     M     M
+ M                 M     M     M                 M           M     M     M     M                       M     M
+ M                 !     M     !                 !           M TEL M     M     M                       M     M
+ M                 M     M     M                 M           M  D  M     M     M                       M     M
+ M                 MMMMMMMMMMMMM                 MMMMMMMMMMMMM     MM---MM     MMMMMMMMMMMMMMMMMMMMMMMMM     M
+ M                 M     M     M                 M     M           M     M                                   M
+ M                 !     M     !                 !     M           M TEL M                                   M
+ M                 M     M     M                 M     M           M  D  M                                   M
+ MMMMMMMM+++MMMMMMMMMMMMMMMMMMMMMMMMMMM+++MMMMMMMMMMMMMM     MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM                  
+1Dungeon: Nimrick's Passages  
+ Level:      2
+
+
+ MMMMMMMMMMMMMMMMMMMMMMMMM     MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+             M     M     M           M           M     M
+             M FNT M     M           M  SU             M
+             M     M     M           M           M     M
+ MMMMMMMM+++MM     M     MMMMMMM     MMMMMMMMMMMMM     M     M
+ M           M     M           M     M           M     M     M
+ M                 M           M     M           M     M  SD M
+ M           M     M           M     M           M     M     M
+ MM---MMM---MMMMMMMM     MMMMMMM     MM---MMMMMMMM     MMMMMMM
+ M           M           M           M                 M     M
+ M           M           +           M                 +     M
+ M           M           M           M                 M     M
+ M           M           MMMMMMM     M           MMMMMMM     M
+ M           M                 M     M           M           M
+ M           M                 M     M           !           M
+ M           M                 M     M           M           M
+ M     MM---MMM---MM           M     MMMMMMMM---MMMMMMMMMMMMMM
+ M     M           M           M     M                 M     M
+ M     !           !           !     M                 +     M
+ M     M           M           M     M                 M     M
+ MMMMMMM           MM---MMM---MMMMMMMMMMMMMMMMMMMMMMMMMMM+++MM
+                   M     M     M
+                   M     M     M
+                   M     M     M
+ M     MM+++MM     M     M     M                 MMMMMMMMMMMMM
+ M     M     M     M     M     M                 M     M     M
+ M     M     M     M     M     M                 M     M [_] M
+ M     M     M     M     M     M                 M     M     M
+ MM+++MM     M     M     M     M           MMMMMMM     M     M
+ M           M     M     M     M           M     M     M     M
+ M       TEL M     M     M     M           M TEL M     M     M
+ M        L  M     M     M     M           M  D  M     M     M
+ M           MM+++MM     MMMMMMMMMMMMMM---MM     M     M     M
+ M                 M           M                 M     M     M
+ M                 +           !                 M     M     M
+ M                 M           M                 M     M     M
+ MMMMMMMMMMMMMMMMMMM     MM---MMMMMMMMM---MM     MM---MM     M
+ M                 M     M                 M     M     M     M
+ M                 !     M                 M TEL M     M     M
+ M                 M     M                 M  L  M     M     M
+ MMMMMMMMMMMMMMMMMMM     MMMMMMM           MMMMMMM     M     M
+ M                             M                       M     M
+ M                             M                       M     M
+ M                             M                       M     M
+ MM---MM                       MMMMMMM                 M     M
+ M     M                             M                 M     M
+ M     M                             M                 M     M
+ M     M                             M                 M     M
+ M     M           MM---MMM---MMMMMMMMMMMMMM     MMMMMMM     M
+ M     M           M           M           M     M     M     M
+ M     M           M           M           !     M     +     M
+ M     M           M           M           M     M     M     M
+ M     MMMMMMM     M           MMMMMMMMMMMMMMMMMMM     MMMMMMM
+ M           M     M                       M                 M
+ M           M TEL M                       M                 M
+ M           M  A  M                       M                 M
+ MM---MMMMMMMMMMMMMM     MMMMMMMMMMMMM     M                 M
+ M                 M     M           M     M                 M
+ M                 M     +           M     M                 M
+ M                 M     M           M     M                 M
+ M                 MMMMMMMM---MMMMMMMMM+++MM                 M
+ M                 M                       M                 M
+ M                 M             PIT       M                 M
+ M                 M                       M                 M
+ M           MM---MM                       MMMMMMM     MMMMMMM
+ M           M     M                       M     M     M     M
+ M           M     !                       !     !     !     M
+ M           M     M                       M     M     M     M
+ M           M     MMMMMMM     M     MMMMMMM     MMMMMMM     M
+ M           M           M     M     M                       M
+ M       FNT M           M     M     M                       M
+ M           M           M     M     M                       M
+ MMMMMMMMMMMMMMMMMMMMMMMMM     M     MMMMMMMMMMMMM           M
+ M           M                 M                 M           M
+ M           M                 M                 M           M
+ M           M                 M                 M           M
+ M           M     MMMMMMMMMMMMMMMMMMMMMMMMM     M           M
+ M           M           M           M                       M
+ M           M       TEL M           M                       M
+ M           M        L  M           M                       M
+ MM---MM     MM+++MMMMMMMM           MMMMMMMMMMMMMMMMMMMMMMMMM
+ M     M                 M           M                 M     M
+ M     M                 !           !                 + TEL M
+ M     M                 M           M                 M  L  M
+ MMMMMMMMMMMMMMMMMMMMMMMMM     MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM                                                                  
+1Dungeon: Nimrick's Passages  
+ Level:      3
+
+
+ MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM     MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+ M           M                 M           M                             M
+ M           M                 M           M                             M
+ M           M                 M           M                             M
+ MM   MMM   MMMMMMMMM   MMMMMMMMM---MM     MM---MMMMMMMMMMMMMM           M
+ M           M           M           M     M     M     M     M           M
+ M                       M           !     M     !     M     !           M
+ M           M           M           M     M     M     M     M           M
+ MMMMMMMM---MMM---MMMMMMMM           MMMMMMM     MMMMMMMM---MM           M
+ M     M           M     M           M     M           M     M           M
+ M     !           M     M           !     M                             M
+ M     M           M     M           M     M           M     M           M
+ MMMMMMMMMMMMMM   MMM---MM     MM   MM     MMMMMMM     MMMMMMMMMMMMMMMMMMM
+ M     M     M           M     M           M     M     M           M     M
+ M  SD !     +           M     !           M     !     M                 M
+ M     M     M           M     M           M     M     M           M     M
+ MM---MMMMMMMM           M     MM---MMM   MMMMMMMM     M     MM---MMM   MM
+ M     M     M           M     M                 M     M     M     M     M
+ M           M           M     M                 M     M       FNT !     M
+ M     M     M           M     M                 M     M     M     M     M
+ MM   MMM   MM           MM---MM                 MM   MMM   MMM   MM     M
+             M                 M                 M     M     M
+             !                         FNT       M     M     M
+             M                 M                 M     M     M
+ MM---MMM   MMM   MMM---MM     M                 MM   MMMMMMMMMMMMMMMMMMMM
+ M     M     M     M     M     M                 M                 M     M
+ M TEL M           !     M     M                 !                       M
+ M  D  M     M     M     M     M                 M                 M     M
+ MM---MMM+++MMMMMMMMM   MMM   MMM---MMM---MM     MM   MMMMMMMM     MM   MM
+ M                 M     M           M     M     M     M                 M
+ M                 M     M           M     M FNT ! TEL !                 M
+ M                 M     M           M     M     M  A  M                 M
+ M                 MMMMMMM           MM   MMMMMMMM     MM   MMMMMMMMMMMMMM
+ M                 M     M           M           M                 M     M
+ M                       M           !           M                   TEL M
+ M                 M     M           M           M                 M  A  M
+ M                 MM---MMMMMMMMMMMMMMM   MM     M     M     MMMMMMMMMMMMM
+ M                 M     M     M     M     M     M     M     M           M
+ M                 !     !           M           M                       M
+ M                 M     M     M     M     M     M     M     M           M
+ MMMMMMMMMMMMMMMMMMMM   MMM---MMM   MM     MM---MMM   MM     MM   MMM---MM
+ M           M     M     M                             M     M     M     M
+ M           !     !     M                               FNT M     M     M
+ M           M     M     M                             M     M     M     M
+ MM---MMMMMMMMM   MM     M                 MM   MMM   MM     MM---MMM   MM
+ M     M           M     M                 M     M           M     M     M
+ M FNT M  SU       M                       M FNT M           M [_] ! TEL M
+ M     M           M     M                 M     M           M     M  A  M
+ MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM     MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM                                                      
+1Dungeon: Nimrick's Passages  
+ Level:      4
+
+
+ MMMMMMMMMMMMM           MMMMMMMMMMMMM           MMMMMMMMMMMMM           M
+ M                       M                       M                       M
+ M                       M                       M TEL                   M
+ M                       M                       M  L                    M
+ M                       M                       M                       M
+ M                       M                       M                       M
+ M                       M                       M                       M
+ M                       M                       M                       M
+ M           MMMMMMMMMMMMM           MMMMMMMMMMMMM           MMMMMMMMMMMMM
+             M                       M                       M
+             M  SU                   M                       M
+             M                       M                       M
+             M                       M                       M
+             M                       M                       M
+             M                       M                       M
+             M                       M                       M
+ MMMMMMMMMMMMM           MMMMMMMMMMMMM           MMMMMMMMMMMMM           M
+ M                       M                       M                       M
+ M TEL                   M                       M                       M
+ M  D                    M                       M                       M
+ M                       M                       M                       M
+ M                       M                       M                       M
+ M                       M                    SD M                       M
+ M                       M                       M                       M
+ M           MMMMMMMMMMMMM           MMMMMMMMMMMMM           MMMMMMMMMMMMM
+             M                       M                       M
+             M                       M                       M
+             M                       M                       M
+             M                       M                       M
+             M                       M                       M
+         FNT M                       M                       M TEL
+             M                       M                       M  A
+ MMMMMMMMMMMMM           MMMMMMMMMMMMM           MMMMMMMMMMMMM                                                                  
+1Dungeon: Nimrick's Passages  
+ Level:      5
+
+
+ MMMMMMM                                                     M
+  
+   TEL
+    D
+  
+  
+  
+  
+ MMMMMMM     M           MMMMMMM           M                 M
+ M     M     M           M     M           M                 M
+ M     M     !           M     M           !                 M
+ M     M     M           M     M           M                 M
+ MM---MMMMMMMM           M     MM---MMMMMMMMMMMMMMMMMMMMMMMMMM
+             M           M     M     M     M           M
+             M           M TEL M     !     M           M
+             M           M  A  M     M     M           M
+             MMMMMMMMMMMMM     MM   MMMMMMMM           M
+                         M     M     M                 M
+                         M     M     M                 M
+                         M     M     M                 M
+ MM---MMMMMMMMMMMMMMM---MM     M     M           MMMMMMMMMMMMM
+             M           M     M     M           M
+                               M     +           +
+             M           M     M     M           M
+ MMMMMMMM---MMM---MMM---MM     MMMMMMMMMMMMMMMMMMM           M
+ M           M     M     M                       M           M
+ M           M     M     M                       M           M
+ M           M     M     M                       M           M
+ M           MMMMMMMMMMMMM                       MMMMMMM     M
+             M     M     M                             M
+             M     !     M
+             M     M     M                             M
+ MMMMMMMM---MM     MM   MMMMMMMM     MMMMMMM     MMMMMMMMMMMMM
+ M           M     M           M     M                       M
+ M           M THR M       FNT M TEL M                       M
+ M           M     M           M  L  M                       M
+ MM   MMMMMMMMMMMMMMM---MMMMMMMMMMMMMM                       M
+       M           M     M           M
+       M           +     M TEL       M
+       M           M     M  L        M
+ MMMMMMM           MMMMMMM           MMMMMMMM   MMMMMMMMM   MM
+ M     M                 M                 M                 M
+ M                       M                 M                 M
+ M     M                 M                 M                 M
+ MMMMMMMM+++MMMMMMMM     M           MMMMMMMMMMMMMM+++MMMMMMMM
+       M           M                 M     M     M     M
+       ! TEL       M                 M     !     !     M
+       M  L        M                 M     M     M     M
+       MMMMMMMM   MMM---MMM---MMMMMMMMM   MMMMMMMM     M
+       M     M           M                 M     M     M
+             M           M  SU             !     M TEL !
+       M     M           M                 M     M  D  M
+ MMMMMMM     MMMMMMMMMMMMMMMMMMM           MMMMMMM     MMMMMMM
+ M                 M           M                             M
+ M                 M       PIT +                         TEL M
+ M                 M           M                          A  M
+ MMMMMMM           MMMMMMMMMMMMM           MMMMMMMMMMMMMM   MM
+ M     M           M           M           M           M     M
+ !     M           M           +           M           +     !
+ M     M           M           M           M           M     M
+ M     M     MMMMMMMMMMMMMMMMMMM           M           MMMMMMM
+       M                       M           M           M
+       M       FNT             M           M           M
+       M                       M           M           M
+ MMMMMMMMMMMMM           M     MMMMMMM     M           MM+++MM
+             M           M           M                 M
+             M           M       FNT M                 M
+             M           M           M                 M
+ MMMMMMM     MMMMMMM     MMMMMMMMMMMMMM   MMMMMMMM     MMMMMMM
+ M                 M     M     M           M                 M
+ M             FNT M     !     M           M                 M
+ M                 M     M     M           M                 M
+ M                 MMMMMMMM---MM     MMMMMMM     MMMMMMM     M
+ M                       M     M     M     M     M     M     M
+ M FNT                   M     +     M     +     M     M     M
+ M                       M     M     M     M     M     M     M
+ MMMMMMM                 M     MM   MM     MMMMMMMM+++MMM+++MM
+ M     M                 M     M     M           M     M     M
+ M     M             THR M     M     M           M TEL M     M
+ M     M                 M     M     M           M  L  M     M
+ M     MMMMMMMMMMMMMMMMMMMM+++MMMMMMMM           MMMMMMMMMMMMM
+ M           M                 M                       M     M
+ !           M                 M                   FNT M     !
+ M           M                 M                       M     M
+ M     MMMMMMM     MMMMMMM     M     MMMMMMM     MMMMMMMMMMMMM
+ M     M     M     M     M     M     M     M                 M
+ M       [_] M     M     !     M     M     !                 M
+ M     M     M     M     M     M     M     M                 M
+ M     MMMMMMM     M     MM+++MM     M     MMMMMMMMMMMMMM---MM
+ M     M     M     M                 M     M                 M
+ M           M TEL M                 M     !                 M
+ M     M     M  L  M                 M     M                 M
+ MM---MMMMMMMMMMMMMMMMMMMM     MMMMMMMMMMMMMM---MM           M
+ M     M                             M     M     M           M
+ M     !                             M     M                 M
+ M     M                             M     M     M           M
+ MMMMMMMM---MMMMMMMMMMMMMMM---MMMMMMMM     MMMMMMM           M
+ M     M                             M           M           M
+ M     M                         TEL M           !           M
+ M     M                          A  M           M           M
+ M     MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM           MMMMMMMMMMMMM
+                   M           M                 M
+                   M           M                 !
+                   M           M                 M
+ MMMMMMMM   MMM---MM           M           MMMMMMMMMMMMMMMMMMM
+       M           M           M           M           M
+       M           M           +           +           M
+       M           M           M           M           M
+ MM---MM           M     MMMMMMMMMMMMMMMMMMM           MM+++MM
+ M     M           M                       M                 M
+ M     M           M                       M                 M
+ M     M           M                       M                 M
+ MMMMMMMMMMMMMMMMMMM                       MMMMMMM           M
+ M     M           M                             M           M
+ M     +           M                                         M
+ M     M           M                             M           M
+ MM---MM           MMMMMMM     MMMMMMM     MMMMMMMMMMMMMMMMMMM
+       M                 M     M                       M
+       M             FNT M TEL M                       M
+       M                 M  D  M                       M
+       MMMMMMMM---MMMMMMMMMMMMMM                       M
+       M     M     M           M                       M
+       M     M [_] M TEL       M                       !
+       M     M     M  A        M                       M
+ MMMMMMM     MMMMMMMMMMMMM     MMMMMMMM   MMMMMMMMM   MMMMMMMM
+ M                                   M                 M     M
+                                     M                 M
+ M                                   M                 M     M
+ MM+++MMMMMMMM                 MMMMMMMMMMMMMM+++MMMMMMMM     M
+ M           M                 M     M     M     M           M
+ ! TEL       M                 M     !     M     !           !
+ M  D        M                 M     M     M     M           M
+ MMMMMMMM   MMM---MMM---MMMMMMMM     MMMMMMM     M           M
+ M     M           M           M     M     M     M           M
+ M     M           M  SD             !     M TEL !           M
+ M     M           M           M     M     M  L  M           M
+ M     MMMMMMMMMMMMMMMMMMMMMMMMM     MMMMMMM     MMMMMMM     M
+             M           M                             M
+             M       PIT +                         TEL M
+             M           M                          L  M
+ M     MMMMMMMMMMMMMMMMMMM     MMMMMMMMMMMMMM   MMM   MMM   MM
+ M           M           M     M           M     M     M     M
+ M           !                 M           +     +     M     M
+ M           M           M     M           M     M     M     M
+ M     MMMMMMMMMMMMMMMMMMM     M     MMMMMMM     MMMMMMMMMMMMM
+ M                       M                       M           M
+ !                       M                       M       TEL !
+ M                       M                       M        L  M
+ MMMMMMM                 MMMMMMM                 MMMMMMMMMMMMM
+       M                       M                 M
+       M                       M                 M
+       M                       M                 M
+       MM---MM     MMMMMMMMMMMMMMMMMMMMMMMMM     M
+       M     M     M                 M
+       !     M     +                 M
+       M     M     M                 M
+ M     MMMMMMMMMMMMMM---MM     MMMMMMMM+++MMMMMMMM           M
+ M                 M     M     M     M     M     M           M
+                   +     M     !     !     M     M            
+ M                 M     M     M     M     M     M           M
+ MMMMMMM                                                                                                                        
+1Dungeon: Nimrick's Passages  
+ Level:      6
+
+
+ MMMMMMMMMMMMMMMMMMMMMMMMM     M     MMMMMMM     MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM     M     MMMMMMMMMMMMMMMMMMM
+       M     M                 M           M     M           M                       M                 M     M
+             M                 M           !     M                               FNT M                 !
+       M     M                 M           M     M           M                       M                 M     M
+ MMMMMMMM---MM           MMMMMMM     M     MMMMMMM           MMMMMMMM---MM     MMMMMMM                 MMMMMMM     M     MMMMMMM
+ M                       M           M     M                 M           M     M                             M     M           M
+ M              SD       M           M     M                 M           M FNT M                             M     M           M
+ M                       M           M     M                 M           M     M                             M     M           M
+ MMMMMMM     MMMMMMMM---MM           MM---MM     M           M     M     MMMMMMM     M                       M     MMMMMMM     M
+       M                 M           M     M     M           M     M                 M                       M           M
+       M                 M           !     !     M           !     M                 M                       M       PIT M
+       M                 M           M     M     M           M     M                 M                       M           M
+ M     MMMMMMMMMMMMM     M           M     MMMMMMM     MMMMMMM     MMMMMMMMMMMMM     MMMMMMMMMMMMMMMMMMM     M     MMMMMMM     M
+ M     M           M     M           M                 M                 M     M                       M     M     M     M     M
+ M                 !     M           M                 !                 !     M                       !     !     M     !     M
+ M     M           M     M           M                 M                 M     M                       M     M     M     M     M
+ MMMMMMMM---MM     M     M           MMMMMMMMMMMMMMMMMMM                 M     MMMMMMMM---MMMMMMMM     M     MM---MM     MMMMMMM
+       M     M     M     M           M           M                       M     M           M     M     M     M     M     M
+             M     M     ! TEL       M           M                       M                 !     M FNT M     !     M     M
+       M     M     M     M  D        M           M                       M     M           M     M     M     M     M     M
+ M     MM---MM     M     M           M           MM   MM     MMMMMMM     MMMMMMM           M     MMMMMMM     M     MM   MM     M
+ M     M     M     M                 M                 M     M     M                       M     M           M     M     M     M
+ M     M TEL M                       M                 M     M     !                       M     !           M     M     M     M
+ M     M  A  M     M                 M                 M     M     M                       M     M           M     M     M     M
+ M     MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM           MMMMMMMM---MM     MM   MMM   MMM   MMM   MMMMMMMM           MM   MM     M     M
+ M     M     M                       M           M     M           M     M     M     M     M     M           M     M     M     M
+ M     !     !                                   M                 M     M     M     !     +     M           M     M     M     M
+ M     M     M                       M           M     M           M     M     M     M     M     M           M     M     M     M
+ MMMMMMM     M                       MMMMMMMM---MMM---MM           MMMMMMM     MMMMMMMMMMMMM     M           M     M     M     M
+ M           M                       M                 M           M           M                 M           M     M     M     M
+ M           M                       M                 M           M           M                 M           M     M     !     M
+ M           M                       M                 M           M           M                 M           M     M     M     M
+ MM---MMMMMMMMMMMMMMMMMMMMM---MM     M                 MM---MM     M     MMMMMMMM---MMMMMMMM     MM   MM     MM   MM     MMMMMMM
+ M     M                 M     M     M                       M     M     M     M           M     M     M                 M     M
+ M     M       THR       M           !                       M     !     M       TEL    SU M     M     M                 !     M
+ M     M                 M     M     M                       M     M     M     M  L        M     M     M                 M     M
+ MM   MM                 M     MM---MMM---MM     M           M     M     M     M           MM---MMM---MMMMMMMMMMMMMMMMMMMM     M
+ M                       M     M           M     M           M     M           M           M     M           M           M     M
+ M                       !     M           !     M           M     M           M           M     M           !           !     M
+ M                       M     M           M     M           M     M           M           M     M           M           M     M
+ MMMMMMMM   MM           M     M     MM   MMMMMMMM     M     MMMMMMM     MM---MM           M     MMMMMMM     MMMMMMMM   MMMMMMMM
+             M           M     M     M           M     M     M     M     M                             M     M     M
+             M       TEL M     !     M           M     M     M TEL M     M                             M       TEL M
+             M        L  M     M     M           M     M     M  D  M     M                             M     M  L  M
+ MMMMMMMMMMMMM     MMMMMMM     M     MM---MMMMMMMMMMMMMMM---MM     MM   MMMMMMMMMMMMMMMMMMMM     MM---MM     MMMMMMMMMMMMMMMMMMM
+                               M     M           M                       M                       M     M     M
+                               M     M           M                       M TEL                   M     M     M [_]
+                               M     M           M                       M  D                    M     M     M
+ MMMMMMMMMMMMMMMMMMMMMMMMM     M     MMMMMMM     MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM     M     MMMMMMMMMMMMMMMMMMM
+1Dungeon: Nimrick's Passages  
+ Level:      7
+
+
+ MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM     M
+ M                             M                                               M                             M     M
+ M              SU             M                                               M                             +     M
+ M                             M                                               M                             M     M
+ M                             M     MMMMMMMMMMMMMMMMMMM     MMMMMMMMMMMMM     M                             M     M
+ M                             M                       M                 M     M                             M     M
+ M                             M                       M                 M     M             FNT             M     M
+ M                             M                       M                 M     M                             M     M
+ MMMMMMMM---MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM     MMMMMMMMMMMMMMMMMMM     M                             M     M
+ M                 M                                   M                       M                             M     M
+ M                 M                                   M                       M                             M     M
+ M                 M                                   M                       M                             M     M
+ M     MMMMMMM     M     MMMMMMMMMMMMMMMMMMMM---MMMMMMMM     MMMMMMMMMMMMM     M                             M     M
+ M     M     M     M                 M     M     M     M     M                                               M     M
+ M     M     !     M                 M TEL M     M TEL M     M                                               M     M
+ M     M     M     M                 M  L  M     M  L  M     M                                               M     M
+ M     M     M     MMMMMMMMMMMMM     M     MM   MM     M     M           MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM     M
+ M     M     M     M                 M                 M     M                                               M     M
+ M     M     M     M                 M                 M     M                                               M     M
+ M     M     M     M                 M                 M     M                                               M     M
+ M     M     M     MMMMMMMM---MMMMMMMMM---MMMMMMMMM---MM     MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM                 M     M
+ M     M     M     M                                                                       M                 M     M
+ M TEL M     M TEL                                       TEL                               M                 M     M
+ M  D  M     M  D  M                                      A                                M                 M     M
+ M     M     M     MMMMMMMM---MMMMMMMMM---MMMMMMMMM---MM     MMMMMMMMMMMMMMMMMMMMMMMMM     MM   MMM   MMMMMMMM     M
+ M           M     M     M           M           M     M     M     M                 M     M     M     M     M     M
+ M           !     M                 M           M     M     M     M                 M     M                 !     M
+ M           M     M     M           M           M     M     M     M                 M     M     M     M     M     M
+ MMMMMMMMMMMMM     M     MMMMMMM     MMMMMMM     M     M     M     M     M           M     MM   MMM   MMM   MM     M
+ M           M     M           M     M           M     M     M     M     M           M     M     M     M     M     M
+ M           !     !           M     M           M     M     M     M     M           M     M             TEL !     M
+ M           M     M           M     M           M     M     M     M     M           M     M     M     M  D  M     M
+ M           M     MMMMMMMMMMMMM     M     MMMMMMM     M     MM   MMM   MM     M     M     M     MM   MMM   MM     M
+ M           M     M           M     M     M           M     M           M     M     M     M     M     M     M     M
+ M           M     M       FNT M     M     M           M     M           M     M     M     M     M     M     M     M
+ M           M     M           M     M     M           M     M           M     M     M     M     M     M     M     M
+ MM   MMMMMMMM     M           MM   MM     M     MMMMMMM     M           M     M     M     M     M     M     M     M
+ M     M     M     M                       M           M     M           M     M                 M     M     M     M
+ M     M TEL !     !                       M           M     M           M     M       TEL       M     M     M     M
+ M     M  A  M     M                       M           M     M           M     M        D        M     M     M     M
+ M     MM   MM     MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM     M     MMMMMMMM   MM     MMMMMMMMMMMMMMMMMMM     M     M     M
+ M     M     M     M     M           M                 M     M           M           M                 M     M     M
+ M     M     M     M     M           M                 M     M           M           !                 M     M     M
+ M     M     M     M     M           M                 M     M           M           M                 M     M     M
+ M     MM   MMM   MM     M     M     M     MMMMMMMMMMMMM     MM   MMMMMMMMMMMMMMMMMMMMM---MMMMMMMMMMMMMM     M     M
+ M           M     M     M     M     M                 M     M           M           M                 M     M     M
+ M           M     M     M     M     M                 M     M           M           M                 M     M     M
+ M           M     M     M     M     M                 M     M           M           M                 M     M     M
+ M     MMMMMMM     M     M     M     MMMMMMMMMMMMM     M     M           M           M                 M     M     M
+ M     M     M     M           M                       M     M           M           M                 M     M     M
+ M     M TEL M     M           M                       M     M           M           M                 M     +     M
+ M     M  A  M     M           M                       M     M           M           M                 M     M     M
+ M     M     M     MM---MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM---MM           M           M     MMMMMMM     MMMMMMM     M
+ M                 M     M     M     M     M     M     M     M                       M                 M           M
+ M             TEL !     !     !     !     !     !     !     !                       M             PIT M  SD       M
+ M              D  M     M     M     M     M     M     M     M                       M                 M           M
+ MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM                  
+1Dungeon: Nimrick's Passages  
+ Level:      8
+
+
+ MMMMMMMMMMMMMMMMMMM
+ M                 M
+ M  SU             M
+ M                 M
+ M                 M
+ M                 M
+ M                 M
+ M                 M
+ M                 M
+ M                 M
+ M                 M
+ M                 M
+ MMMMMMMMMMMMMMMMMMM                                                                                                            

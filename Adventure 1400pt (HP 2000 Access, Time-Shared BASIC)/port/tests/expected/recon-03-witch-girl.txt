@@ -1,0 +1,83 @@
+Type BUG to make comments, ask questions, etc.
+By the way... SAVE and LOAD are now operational. To save a game in
+progress type SAVE when you see the prompt (>).
+Welcome to Adventure ]I[!
+
+Do you need instructions?n
+
+You're in a vast meadow that stretches endlessly in all directions
+To the west is a tree.
+> w
+
+You're in the meadow, underneath a large oak tree.  There are small
+carvings on the tree, and they seem to mean something.
+I see:
+
+Small structure in the tree
+> u
+
+You're in a treehouse, barren of furnishings except a cubicle to the south,
+which is filled with shimmering green light.
+I see:
+
+Battery-powered lamp
+> take lamp
+lamp: Taken.
+> light
+Lighted.
+> allez
+11
+> look
+
+You are in the Mystery Room, a very lovely room with exits to the
+east, west and south.  The hole in the ceiling is too far up to use.
+I see:
+
+Wrinkly old witch
+> kiss witch
+witch: Smack!
+There is a billowing cloud of yellowish-brown smoke!
+As the smoke clears, the hideous hag transforms into a sexy young girl!
+> look
+
+You are in the Mystery Room, a very lovely room with exits to the
+east, west and south.  The hole in the ceiling is too far up to use.
+I see:
+
+Sexy young girl
+> kiss girl
+The girl gazes dreamily into your eyes as your lips press gently together.
+> kiss girl
+The girl gazes dreamily into your eyes as your lips press gently together.
+> take girl
+girl: Taken.
+> inven
+You are carrying:
+Battery-powered lamp
+Sexy young girl
+> allez
+54
+> look
+
+You're crawling over rocky cobbles in an east-west passage.  At the eastern
+end is a formidable wooden door, which is open.
+I see:
+
+Stately wooden door
+> pull knob
+I see no knob here.
+> y
+I don't understand.
+> n
+You can't go that way.
+> kiss bride
+I see no bride here.
+> inven
+You are carrying:
+Battery-powered lamp
+Sexy young girl
+> score
+Your score is 86 out of a possible 1400 in 20 turns.
+This qualifies you as a Beginner Adventurer.
+Do you wish to stop now?n
+> 

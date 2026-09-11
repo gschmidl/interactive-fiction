@@ -1,0 +1,336 @@
+Type BUG to make comments, ask questions, etc.
+By the way... SAVE and LOAD are now operational. To save a game in
+progress type SAVE when you see the prompt (>).
+Welcome to Adventure ]I[!
+
+Do you need instructions?n
+
+You're in a vast meadow that stretches endlessly in all directions
+To the west is a tree.
+> w
+
+You're in the meadow, underneath a large oak tree.  There are small
+carvings on the tree, and they seem to mean something.
+I see:
+
+Small structure in the tree
+> u
+
+You're in a treehouse, barren of furnishings except a cubicle to the south,
+which is filled with shimmering green light.
+I see:
+
+Battery-powered lamp
+> take lamp
+lamp: Taken.
+> light
+Lighted.
+> long
+From now on I'll give you a complete description of each room.
+> allez
+34
+> look
+
+You're in Burgerland!  A meadow surrounds this tiny oasis, which has
+no apparent entrance.
+I see:
+
+Burgerland dinner plate
+Filet-o-fish sandwich
+Odd clown with red hair and yellow overalls
+> allez
+35
+> look
+
+You're in a hallway.  There are various openings to the north and west,
+and two Stairways: one leading up to the east and one down to the foyer.
+> allez
+36
+> look
+
+You're in the attic.  The only exit is a stairway leading downward.
+I see:
+
+Leather work glove
+> allez
+37
+> look
+
+You're in and old-fashioned bathroom, a very tidy place, with exits to
+the north and east,
+I see:
+
+Can of disinfectant spray
+Porcelain Toilet
+0ld-fashioned bathtub
+> allez
+38
+> look
+
+You're in a large room, probably the master bedroom.  There is an exit
+to the south, and one to the east,
+I see:
+
+King-size bed
+Card with a green F and a brown strip on it
+> allez
+39
+> look
+
+You're in the sitting room.  Exits: west and south, and a cubicle to the
+east, filled with shimmering purple light.
+I see:
+
+Ivory-Handled Comb
+> allez
+40
+> look
+
+You're in a cubicle.  A purple glow surrounds you, but you cannot see the
+source of it.
+I see:
+
+Black 6-inch lever embedded in the wall of the cubicle
+> allez
+41
+> look
+
+You're in a very tight east-west passageway.  There is also a small hole
+in the floor on the northern side of the passage.  A freezing wind blows
+out of the hole.
+> allez
+42
+> look
+
+You're in an extremely cold room.  Icicles hang from the ceiling, and near
+a particularly large icicle in the southern part of the room, is a hole.
+I see:
+
+Steamy white brick-like block
+> allez
+43
+> look
+
+You're on a sandy shore.  To the west is some more sand, but it seems
+to be mixed with water.  There is a tight passage leading east.
+> allez
+44
+You are sinking in quicksand.
+> look
+
+You're in a pool of sand.  To the west you can see a path leading outside,
+and to the east, a shore.
+You are sinking in quicksand.
+> allez
+45
+> look
+
+The floor here is quite rocky, making your footing quite unsure.  You're
+on a path with a lighted passage to the south and a dark tunnel to the north.
+To the east is a somewhat soupy pool of sand.
+> allez
+46
+> look
+
+You're at the base of a mountain.  It is snowing lightly here, partially
+covering an assortment of heavy wires.  To the north is a cave leading
+underground,
+I see:
+
+Signpost partially covered with snow
+Beige button marked ~ HIGH VOLTAGE ~
+Strange contraption
+> allez
+47
+> look
+
+You're in a room filled with cobwebs.  There appear to have been recent
+archaeological diggings in this area.  Passages exit to the north and south.
+I see:
+
+Dirty shovel
+> allez
+48
+> look
+
+You're in a small, but elaborately decorated chapel.  There is a large
+machine in one corner of the room, and it is covered with dust.
+The only exit to the room is an archway to the south.
+I see:
+
+Large machine
+Small red knob [on the machine]
+Tiny tan label [on the machine]
+> allez
+49
+> look
+
+You're at the summit of Mount Frobozz.  The eastern slope is impassable,
+hut there are trails to the north and south.  An inviting, cozy lighted
+shack is to the west.  It is snowing quite heavily here.
+I see:
+
+Immense bulletin board
+Beige button marked ~ HIGH VOLTAGE ~
+Strange contraption
+Immense bulletin board
+> allez
+50
+> look
+
+You're at the top of the Expert Slope, a sheet of ice plunging downward
+out of sight at an unpleasant angle.  A small snowy trail leads away south.
+> allez
+51
+> look
+
+You're at the top of the Bunny Slope!  It seems as though a child would
+have no problem skiing down, although walking down is out of the question.
+A path leads away to the north.
+> allez
+52
+> look
+
+You are in a comfortable ski shack, apparently a shelter from the cold
+weather outside.  There's a rickety staircase leading downward in this building.
+I see:
+
+Silver disc with markings
+> allez
+53
+> look
+
+You're in a dark cave with a rocky floor.  There is a stairway leading up
+and an eastern passage.
+I see:
+
+Sparkling diamond jewelry
+> allez
+54
+> look
+
+You're crawling over rocky cobbles in an east-west passage.  At the eastern
+end is a formidable wooden door, which is open.
+I see:
+
+Stately wooden door
+> allez
+55
+> look
+
+You are in a very peculiar room with no apparent exits.  There is an unusual
+flashing light that fills the room, seemingly coming from far above you.
+I see:
+
+Cube of pliable material
+> allez
+56
+> look
+
+You're in a very long, north-south sewer pine.  You ran hear a strange,
+distant, echoing sound, apparently an animal humming to himself.
+> allez
+57
+> look
+
+You're in a very wet room on the eastern side of an immense waterfall.
+There are openings to the north and south, and a small room to the east.
+> allez
+58
+> look
+
+You're in a warm room with an exit to the north.  The walls are covered
+with large metal slabs, apparently for insulation purposes.  In the center
+of the room is a low platform.  A bright orange glow emanates from a small
+grating on the southern wall.
+I see:
+
+Low platform
+Small grating on the southern wall
+Metal insulation slabs
+Large wheel mounted on the platform
+> allez
+59
+> look
+
+You're in a mysterious little room that appears to have been a scientific
+laboratory, judging from the assortment of junk around the room.  Exits
+are an open passage to the south and an odd thin hole to the east.
+> allez
+60
+> look
+
+You're in a small closet, perhaps used for storage of scientific supplies.
+The exit is to the west.
+I see:
+
+Yellow rubber boots
+> allez
+61
+> look
+
+You are inside the reactor core, a large, circular room with a reinforced
+spherical ceiling.  The blinding glare from the reactor makes it difficult
+to make out any other features of the room.  There is an access grating
+on the northern wall.
+I see:
+
+Flawless blue sapphire
+> allez
+62
+> look
+
+You're in a spotless white room, devoid of any furnishings or windows.
+Although there is no visible heat source in the room, the air is very
+warm.  The most interesting feature of this room is the peculiar exit:
+a tall thin hole on the western wall.
+I see:
+
+Menacing nurse with huge needle
+Sickening amber solution [in the needle]
+> allez
+63
+> look
+
+You're in a grassy arena north of Burgerland.  There is what appears to have
+been an escalator (now inoperative) leading downward here.
+I see:
+
+Large black pillar with a bronze F near the top.
+> allez
+64
+> look
+
+You're standing in a very long, cylindrical room.  From the objects about
+the room, it would appear that this is a subway station.  Beyond a gate
+you can see the open doorway of an abandoned train.
+I see:
+
+Small box with a slot
+Eighty-foot Froboliner train
+> allez
+65
+> look
+
+You're in a Froboliner subway train.
+> allez
+66
+> look
+
+You're standing in a very long, cylindrical room.  From the objects about
+the room, it would appear that this is a subway station.  Beyond a gate
+you can see the open doorway of an abandoned train.
+I see:
+
+Small box with a slot
+Eighty-foot Froboliner train
+> allez
+67
+> look
+
+You are in a museum named for the great leader of Erehwon, King Frobozz II.
+The only exit is down to Museum Station.
+I see:
+
+Priceless painting of King Frobozz II
+> 

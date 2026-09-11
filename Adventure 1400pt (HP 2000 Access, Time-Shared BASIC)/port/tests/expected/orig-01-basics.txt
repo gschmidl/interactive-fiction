@@ -1,0 +1,103 @@
+Type BUG to make comments, ask questions, etc.
+By the way... SAVE and LOAD are now operational. To save a game in
+progress type SAVE when you see the prompt (>).
+Welcome to Adventure ]I[!
+
+Do you need instructions?n
+
+You're in a vast meadow that stretches endlessly in all directions
+To the west is a tree.
+> w
+
+You're in the meadow, underneath a large oak tree.  There are small
+carvings on the tree, and they seem to mean something.
+I see:
+
+Small structure in the tree
+> read carvings
+
+The carvings say:   --> Morton's treehouse -- Six metres above <--
+> u
+
+You're in a treehouse, barren of furnishings except a cubicle to the south,
+which is filled with shimmering green light.
+I see:
+
+Battery-powered lamp
+> take lamp
+lamp: Taken.
+> light
+Lighted.
+> inven
+You are carrying:
+Battery-powered lamp
+> s
+
+You're in a cubicle. A green glow surrounds you on all sides,
+but it is impossible to see the source of it.
+I see:
+
+Black 6-inch lever embedded in the wall of the cubicle
+> pull lever
+Lever: Your molecules shimmer away...
+
+
+You are in a small, dark room with a passage to the north and a
+set of ascending stone stairs to the east.
+> n
+
+You are in a very dusty room with a teakwood floor.  You may leave this
+room to the north and south.
+I see:
+
+Dusty oak chest
+> look
+
+You are in a very dusty room with a teakwood floor.  You may leave this
+room to the north and south.
+I see:
+
+Dusty oak chest
+> long
+From now on I'll give you a complete description of each room.
+> s
+
+You are in a small, dark room with a passage to the north and a
+set of ascending stone stairs to the east.
+> e
+
+You're in the Turkish Bath.  Soothing mist surrounds you.  You may go
+down stone stairs to the west, or up a metal ramp To the east.
+> brief
+From now on I will only give descriptions of rooms you haven't been to.
+> super
+From now on, I will only give room names.
+> look
+
+You're in the Turkish Bath.  Soothing mist surrounds you.  You may go
+down stone stairs to the west, or up a metal ramp To the east.
+> sing
+If I were a rich man...
+> pray
+Oh father, who art in heaven...
+> listen
+I don't hear anything.
+> dig
+You don't have anything to dig with.
+> jump
+Very good, now you can go to the second grade.
+> wave staff
+I see no staff here.
+> kiss girl
+I see no girl here.
+> eat gum
+You don't have the gum.
+> swim
+I don't see how to swim here.
+> hide
+There is no place to hide!
+> score
+Your score is 10 out of a possible 1400 in 27 turns.
+This qualifies you as a Beginner Adventurer.
+Do you wish to stop now?n
+> 

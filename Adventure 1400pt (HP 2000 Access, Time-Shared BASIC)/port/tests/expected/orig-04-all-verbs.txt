@@ -1,0 +1,245 @@
+Type BUG to make comments, ask questions, etc.
+By the way... SAVE and LOAD are now operational. To save a game in
+progress type SAVE when you see the prompt (>).
+Welcome to Adventure ]I[!
+
+Do you need instructions?n
+
+You're in a vast meadow that stretches endlessly in all directions
+To the west is a tree.
+> w
+
+You're in the meadow, underneath a large oak tree.  There are small
+carvings on the tree, and they seem to mean something.
+I see:
+
+Small structure in the tree
+> u
+
+You're in a treehouse, barren of furnishings except a cubicle to the south,
+which is filled with shimmering green light.
+I see:
+
+Battery-powered lamp
+> take lamp
+lamp: Taken.
+> light
+Lighted.
+> COMMANDS lamp
+I don't understand.
+> COMMANDS lamp
+I don't understand.
+> COMMANDS lamp
+I don't understand.
+> Take lamp
+I see no lamp here.
+> Drop lamp
+Dropped.
+> Get off
+You are not on anything.
+> Eat lamp
+I don't see how to eat that!
+> Light lamp
+You don't have the lamp.
+> Get lamp
+lamp: Taken.
+> Long lamp
+From now on I'll give you a complete description of each room.
+> On lamp
+The lamp is already lit.
+> Off lamp
+Lamp: Turned off.
+> Read lamp
+
+I don't know how to read a lamp
+> Kiss lamp
+Ok, but you're a strange one!
+> Climb lamp
+I don't see how to climb that.
+> North lamp
+You can't go that way.
+> South lamp
+
+You're in a cubicle. A green glow surrounds you on all sides,
+but it is impossible to see the source of it.
+I see:
+
+Black 6-inch lever embedded in the wall of the cubicle
+> East lamp
+You can't go that way.
+> West lamp
+You can't go that way.
+> Up lamp
+You can't go that way.
+> Down lamp
+You can't go that way.
+> In lamp
+You are carrying:
+Battery-powered lamp
+> Out lamp
+
+You're in a treehouse, barren of furnishings except a cubicle to the south,
+which is filled with shimmering green light.
+> Kill lamp
+I don't see how to kill that!
+> Inven lamp
+You are carrying:
+Battery-powered lamp
+> Turn on lamp
+Lighted.
+> Open lamp
+I see nothing to Open lamp here.
+> Close lamp
+I don't see how to Close lamp that!
+> Lock lamp
+I don't see how to lock that.
+> Unloc lamp
+I don't see how to unlock that.
+> Argyl lamp
+They make socks don't they?
+> Stab lamp
+I don't see how to kill that!
+> Put lamp
+I don't see how to do that with the lamp.
+> Break lamp
+I see no reason to break the lamp.
+> Enter lamp
+
+You're in a cubicle. A green glow surrounds you on all sides,
+but it is impossible to see the source of it.
+I see:
+
+Black 6-inch lever embedded in the wall of the cubicle
+> Exit lamp
+
+You're in a treehouse, barren of furnishings except a cubicle to the south,
+which is filled with shimmering green light.
+> Brief lamp
+From now on I will only give descriptions of rooms you haven't been to.
+> Look lamp
+
+You're in a treehouse, barren of furnishings except a cubicle to the south,
+which is filled with shimmering green light.
+> Push lamp
+I don't see how to Push that!
+> Pull lamp
+I don't see how to Pull that!
+> Super lamp
+From now on, I will only give room names.
+> Play lamp
+I don't see how to play that!
+> Jump lamp
+Very good, now you can go to the second grade.
+> Hop lamp
+Very good, now you can go to the second grade.
+> Wave lamp
+I see no reason to wave the lamp.
+> Chop lamp
+I don't see how to kill that!
+> Say lamp
+Zowee!
+> Go lamp
+Yes, but in which direction?
+> Pick up lamp
+I see no lamp here.
+> Walk lamp
+Yes, but in which direction?
+> Run lamp
+Yes, but in which direction?
+> Crawl lamp
+Yes, but in which direction?
+> Leave lamp
+From now on, I will only give room names.
+> Help lamp
+
+Somewhere nearby is the land of Erehwon, a mysterious place
+Filled with fantasy and magic.  It is your task to explore this
+unknown region, requiring your physical skill and cunning to
+be at their peak.  I will be your eyes and ears in this exped-
+ition, describing your surroundings and any points of interest
+that you happen to run across.  Direct me with commands of one
+or two words.  To move from one place to another, try words like
+NORTH, WEST, CLIMB, DOWN.  To get a list of your current possessions
+use the word INVENTORY.  All words, objects, etc. may be abbriev-
+iated to their first five letters; for example, type UNLOC for
+UNLOCK, INVEN for INVENTORY, and so forth.
+
+The object of the game is to collect all of the valuables and to
+put them in the treehouse (you will find the treehouse soon).
+Special words that do not affect the game but may help you:
+
+BRIEF:  Prints a long description of each place you come to
+        the first time, then only the name of the place there-
+        after.
+LONG:   Prints a long description of your location every time
+        you move from place to place.
+SUPER:  Stands for SUPERBRIEF; means to print only the name
+        of your location when you move.
+LOOK:   Gives you a long description of your location no matter
+        which of the three print modes (SUPER, LONG, BRIEF)
+        was_specified.
+
+You may manipulate special objects in Erehwon, such as a lamp
+you will find in the treehouse.  Manipulation words include:
+TAKE, PUSH, EAT, KILL, WAVE.  (There are MANY more!)
+
+If you are having trouble moving or using an object, try
+anything that comes to mind, not just the commands listed here.
+Multiple commands on a line are separated thus:  N, S, E, W, EAT TREE.
+
+More help will be available here at a later time as the game
+develops further.
+> Find lamp
+lamp: you are carrying it.
+> Have Sex lamp
+I see no lamp here.
+> Screw lamp
+I see no lamp here.
+> Feed lamp
+Feed it what?Spray lamp
+The lamp is not interested in the Spray lamp.
+I don't see how to do that with the lamp.
+> Hit lamp
+That doesn't accomplish much.
+> Kick lamp
+That doesn't accomplish much.
+> Use lamp
+Fiddling with the lamp in this manner is not very productive.
+> Sing lamp
+If I were a rich man...
+> Swim lamp
+I don't see how to swim here.
+> Speak lamp
+Zowee!
+> Call lamp
+Zowee!
+> Taste lamp
+I don't see how to eat that!
+> Punch lamp
+That doesn't accomplish much.
+> Bite lamp
+That doesn't accomplish much.
+> Carry lamp
+I see no lamp here.
+> Poke lamp
+That doesn't accomplish much.
+> Keep lamp
+I see no lamp here.
+> Hide lamp
+There is no place to hide!
+> Dig lamp
+You don't have anything to dig with.
+> Liste lamp
+I don't hear anything.
+> Attac lamp
+I don't see how to kill that!
+> Board lamp
+I don't see how to board that!
+> Launc lamp
+You are not aboard the disc.
+> Throw lamp
+Tossed.
+> Burn lamp
+You have no matches.
+An EPA official runs up and upon discovering your evil intent,
+sentances you to death.

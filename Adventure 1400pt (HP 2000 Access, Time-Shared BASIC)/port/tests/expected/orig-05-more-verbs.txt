@@ -1,0 +1,76 @@
+Type BUG to make comments, ask questions, etc.
+By the way... SAVE and LOAD are now operational. To save a game in
+progress type SAVE when you see the prompt (>).
+Welcome to Adventure ]I[!
+
+Do you need instructions?n
+
+You're in a vast meadow that stretches endlessly in all directions
+To the west is a tree.
+> w
+
+You're in the meadow, underneath a large oak tree.  There are small
+carvings on the tree, and they seem to mean something.
+I see:
+
+Small structure in the tree
+> u
+
+You're in a treehouse, barren of furnishings except a cubicle to the south,
+which is filled with shimmering green light.
+I see:
+
+Battery-powered lamp
+> take lamp
+lamp: Taken.
+> light
+Lighted.
+> Toss lamp
+Tossed.
+> take lamp
+lamp: Taken.
+> Turn off
+Lamp: Turned off.
+> Turn lamp
+I don't see how to turn that!
+> Comb lamp
+You don't have the comb.
+> Pray
+Oh father, who art in heaven...
+> Insert lamp
+You are carrying:
+Battery-powered lamp
+> Read lamp
+
+I don't know how to read a lamp
+> Disem
+You are not on anything.
+> Get off
+You are not on anything.
+> Have Sex
+I see no lamp here.
+> Screw lamp
+I see no lamp here.
+> Feed lamp
+Feed it what?Spray lamp
+The lamp is not interested in the Spray lamp.
+I don't see how to do that with the lamp.
+> Taste lamp
+I don't see how to eat that!
+> Carry lamp
+I see no lamp here.
+> Keep lamp
+I see no lamp here.
+> Pick up lamp
+I see no lamp here.
+> Liste
+I don't hear anything.
+> Unloc lamp
+I don't see how to unlock that.
+> Argyl
+They make socks don't they?
+> score
+Your score is 3 out of a possible 1400 in 25 turns.
+This qualifies you as a Beginner Adventurer.
+Do you wish to stop now?n
+> 
