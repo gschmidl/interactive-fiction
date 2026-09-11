@@ -1,0 +1,541 @@
+*****
+*
+*  DNDOP allows the user to modify Characters or Dungeons.
+*
+*****
+
+	INCLUDE 'QSTCOM.FOR'
+
+	CALL USERINFO(UIC,USERNAME)
+	IF(USERNAME.EQ.'00CKKELLEY'.OR.USERNAME.EQ.'00OGANTHONY'.OR.
+     +USERNAME.EQ.'00WTKONOPA')GOTO 1
+	CALL EXITR
+
+
+1	CALL CLEARSCREEN
+2	CALL FORMAT(4,'Command: ')
+	CALL INPUT1(I)
+	IF(I.EQ.81)THEN
+	  CALL FORMAT(0,'Quit')
+	  CALL EXITR
+	ELSE IF(I.EQ.72)THEN
+	  CALL FORMAT(0,'Help!/!/
+	1C - characters!/
+	1D - dungeons!/
+	1Z - logoff!/
+	1X - Quest!/
+	1Q - quit')
+	  GOTO 2
+	ELSE IF(I.EQ.88)THEN
+	  CALL FORMAT(0,'Play Quest.......')
+	  PLAYER=' '
+	  PLAYER(252:252)='@'
+	  CALL PUTTEMPCORE(PLAYER)
+	  CALL CHAIN('BSU$USER_2:[00CKKELLE.QUEST]QUEST1.Q7R')
+	ELSE IF(I.EQ.90)THEN
+	  CALL FORMAT(0,'Logoff!/!/!/')
+	  CALL SYS$DELPRC(,)
+	ELSE IF(I.EQ.67)THEN
+	  CALL FORMAT(0,'Characters')
+	  CALL CHARACTER
+	ELSE IF(I.EQ.68)THEN
+	  CALL FORMAT(0,'Dungeons')
+	  CALL DUNGEONS
+	  ENDIF
+	GOTO 1
+	END
+
+
+*****
+*
+*  CHARACTER allows the user to modify any existing character in Quest.
+*
+*****
+
+	SUBROUTINE CHARACTER
+	INCLUDE 'QSTCOM.FOR'
+
+
+	CALL CLEARSCREEN
+
+	CALL OPENCHARFILE
+2	CALL FORMAT(4,'Character name (RETURN to exit): ')
+	CALL ASCII(NAME,0)
+	IF(NAME.EQ.' ')THEN
+	  CALL CLOSEFILE(21)
+	  RETURN
+	  ENDIF
+	CALL GETPLAYER(ERR,NAME)
+	IF(ERR.NE.0)THEN
+	  CALL FORMAT(3,'That player isn''t found.')
+	  GOTO 2
+	  ENDIF
+	CALL ASCIITONUMERIC
+
+1	CALL FORMAT(4,'Command: ')
+	CALL INPUT1(I)
+	IF(I.EQ.82)THEN
+	  CALL FORMAT(0,'Run variable: ')
+	  CALL INPUTNUMBER(RUN)
+	ELSE IF(I.EQ.85)THEN
+	  CALL FORMAT(0,'Username: ')
+	  CALL ASCII(USERNAME,0)
+	ELSE IF(I.EQ.75)THEN
+	  CALL FORMAT(0,'Kill a player')
+	  CALL KILLPLAYER(ERR,NAME)
+	  CALL CLOSEFILE(21)
+	  RETURN
+	ELSE IF(I.EQ.83)THEN
+	  CALL FORMAT(0,'Secretname: ')
+	  CALL ASCII(SECRETNAME,0)
+	ELSE IF(I.EQ.68)THEN
+	  CALL FORMAT(0,'Dungeon: ')
+	  CALL INPUTNUMBER(DUNGEON)
+	  CALL FORMAT(2,'Level: ')
+	  CALL INPUTNUMBER(DUNLVL)
+	  CALL FORMAT(2,'X Coordinate: ')
+	  CALL INPUTNUMBER(XCOORD)
+	  CALL FORMAT(2,'Y Coordinate: ')
+	  CALL INPUTNUMBER(YCOORD)
+	ELSE IF(I.EQ.80)THEN
+	  CALL FORMAT(0,'Spells: ')
+	  CALL INPUTNUMBER(SPELLS)
+	ELSE IF(I.EQ.81.OR.I.EQ.48)THEN
+	  CALL FORMAT(0,'Quit')
+	  CALL NUMERICTOASCII
+	  CALL REPLACEPLAYER(ERR,NAME)
+	  CALL CLOSEFILE(21)
+	  IF(I.EQ.48)THEN
+	    CALL PUTTEMPCORE(PLAYER)
+	    CALL CHAIN('BSU$USER_2:[00CKKELLE.QUEST]QUEST3.Q7R')
+	    ENDIF
+	  RETURN
+	ELSE IF(I.EQ.84)THEN
+	  CALL FORMAT(0,'Hitpoints: ')
+	  CALL INPUTNUMBER(HITPOINTS)
+	  CALL FORMAT(2,'Total hitpoints: ')
+	  CALL INPUTNUMBER(TOTALHITPOINTS)
+	ELSE IF(I.EQ.71)THEN
+	  CALL FORMAT(0,'Gold on person: ')
+	  CALL INPUTNUMBER(GOLDONPERSON)
+	  CALL FORMAT(2,'Gold: ')
+	  CALL INPUTNUMBER(GOLD)
+	ELSE IF(I.EQ.65)THEN
+	  CALL FORMAT(0,'Strength: ')
+	  CALL INPUTNUMBER(STATS(1))
+	  CALL FORMAT(2,'Intelligence: ')
+	  CALL INPUTNUMBER(STATS(2))
+	  CALL FORMAT(2,'Wisdom: ')
+	  CALL INPUTNUMBER(STATS(3))
+	  CALL FORMAT(2,'Constitution: ')
+	  CALL INPUTNUMBER(STATS(4))
+	  CALL FORMAT(2,'Dexterity: ')
+	  CALL INPUTNUMBER(STATS(5))
+	  CALL FORMAT(2,'Charisma: ')
+	  CALL INPUTNUMBER(STATS(6))
+	ELSE IF(I.EQ.69)THEN
+	  CALL FORMAT(0,'Experience: ')
+	  CALL INPUTNUMBER(EXPERIENCE)
+	ELSE IF(I.EQ.77)THEN
+	  J=1
+	  DO 5 K=1,8
+	    CALL FORMAT(2,'Magic(')
+	    CALL OUTNUM(J)
+	    CALL FORMAT(0,'): ')
+	    CALL INPUTNUMBER(MAGIC(J))
+	    CALL FORMAT(2,'Property(')
+	    CALL OUTNUM(J)
+	    CALL FORMAT(0,'): ')
+	    CALL INPUTNUMBER(PROPERTIES(J))
+	    J=J+1
+5	  CONTINUE
+	ELSE IF(I.EQ.86)THEN
+	  CALL FORMAT(0,'Level: ')
+	  CALL INPUTNUMBER(CHARLVL)
+	ELSE IF(I.EQ.67)THEN
+	  CALL FORMAT(0,'Class: ')
+	  CALL INPUTNUMBER(CLASS)
+	ELSE IF(I.EQ.66)THEN
+	  CALL FORMAT(0,'Protection from Evil: ')
+	  CALL INPUTNUMBER(PROTEVIL)
+	  CALL FORMAT(2,'Blink: ')
+	  CALL INPUTNUMBER(BLINK)
+	ELSE IF(I.EQ.73)THEN
+	  CALL FORMAT(0,'Disease: ')
+	  CALL INPUTNUMBER(DISEASE)
+	ELSE IF(I.EQ.74)THEN
+	  CALL FORMAT(0,'Adjust to AC: ')
+	  CALL INPUTNUMBER(ADJTOAC)
+	  CALL FORMAT(2,'Adjust to Save Throws: ')
+	  CALL INPUTNUMBER(ADJSAVTHR)
+	  CALL FORMAT(2,'Adjust to hit: ')
+	  CALL INPUTNUMBER(ADJTOHIT)
+	ELSE IF(I.EQ.87)THEN
+	  CALL FORMAT(0,'Wishes: ')
+	  CALL INPUTNUMBER(WISH)
+	ELSE IF(I.EQ.70)THEN
+	  CALL FORMAT(0,'Age: ')
+	  CALL INPUTNUMBER(AGE)
+	ELSE IF(I.EQ.72)THEN
+	  CALL FORMAT(0,'Help!/!/
+	1K - kill!_B - Evil/Blink!/
+	1Q - quit!_I - disease!/
+	1R - run!_!_J - adjustments!/
+	1U - username!_W - wish!/
+	1S - secretname!_F - age!/
+	1D - dungeon!_P - spells!/
+	1T - hitpoints!_G - gold!/
+	1E - experience!_M - magic!/
+	1V - level!_C - class!/
+	1A - statistics!_L - list!/
+	1N - UIC!_!_Z - solved')
+	ELSE IF(I.EQ.90)THEN
+	  CALL FORMAT(0,'Solved: ')
+	  CALL INPUTNUMBER(SOLVED)
+	ELSE IF(I.EQ.78)THEN
+	  CALL FORMAT(0,'UIC: ')
+	  CALL ASCII(UIC,1)
+	ELSE IF(I.EQ.76)THEN
+	  CALL FORMAT(0,'List')
+	  CALL CLEARSCREEN
+	  WRITE(5,100) NAME,USERNAME,SECRETNAME,UIC,RUN,LIFE,
+	1(STATS(J),J=1,6),DUNGEON,DUNLVL,XCOORD,YCOORD,(MAGIC(J),
+	1J=1,8),(PROPERTIES(J),J=1,8),CHARLVL,EXPERIENCE,CLASS,
+	1HITPOINTS,TOTALHITPOINTS,GOLD,GOLDONPERSON,ARMORCLASS,
+	1DISEASE,SPELLS,PROTEVIL,BLINK,ADJTOAC,ADJTOHIT,ADJSAVTHR,
+	1WISH,AGE,MOVES,SOLVED
+100	FORMAT(' Name: ',A15,' Username: ',A12,'Secretname: ',A10,//,
+	1' UIC:  ',A6,10X,'Run: ',I1,16X,'Life: ',I1,//,
+	1' Strength: ',I7,4X,' Intelligence: ',I3,7X,' Wisdom: ',I5,/,
+	1' Constitution: ',I3,4X,' Dexterity: ',I6,7X,' Charisma: ',I3,//,
+	1' Dungeon: ',I1,5X,'Dungeon level: ',I1,5X,'X Coord: ',I2,5X,
+	1' Y Coord: ',I2,//,' Magic:      ',8(I2,2X),/,
+	1' Properties: ',8(I2,2X),//,' Level: ',I6,5X,'Experience: ',I7,/,
+	1' Class: ',I6,5X,'Hitpoints: ',I3,13X,'Total hit points: ',I3,/,
+	1' Gold: ',I7,5X,'Gold on person: ',I7,4X,'Armorclass: ',I3,/,
+	1' Disease: ',I4,5X,'Spells: ',I6,13X,'Prot. from Evil: ',I2,/,
+	1' Blink: ',I6,5X,'Adj. to AC: ',I2,13X,'Adj. to Hit: ',I2,/,
+	1' Adj. to Save: ',I2,2X,'Wishes: ',I1,18X,'Age: ',I3,4X,'Days: ',
+	1I3,/,' Solved: ',I4//)
+	ELSE
+	  CALL FORMAT(0,'Illegal transaction.')
+	  ENDIF
+	GOTO 1
+
+	END
+
+
+
+*****
+*
+*  DUNGEONS allows the user to modify the dungen file in any way.
+*
+*****
+
+	SUBROUTINE DUNGEONS
+	INCLUDE 'QSTCOM.FOR'
+
+	CALL CLEARSCREEN
+1	CALL FORMAT(4,'Dungeons - Command: ')
+	CALL INPUT1(I)
+
+	IF(I.EQ.81)THEN
+	  CALL FORMAT(0,'Quit')
+	  RETURN
+	ELSE IF(I.EQ.66)THEN
+	  CALL FORMAT(0,'Build a map')
+	  CALL BUILDMAP
+	ELSE IF(I.EQ.67)THEN
+	  CALL FORMAT(0,'Change a location')
+	  CALL CHANGE
+	ELSE IF(I.EQ.72)THEN
+	  CALL FORMAT(0,'Help!/!/
+     +B - build a map!/
+     +C - change a single location!/
+     +L - list a level')
+	ELSE IF(I.EQ.76)THEN
+	  CALL FORMAT(0,'List a level')
+	  CALL LIST_LEVEL
+	  ENDIF
+
+	GOTO 1
+	END
+
+
+
+*****
+*
+*  CHANGE allows the user to change a single location in any dungeon.
+*
+*****
+
+	SUBROUTINE CHANGE
+	INCLUDE 'QSTCOM.FOR'
+
+1	CALL FORMAT(4,'Dungeon number: ')
+	CALL INPUTNUMBER(J)
+	IF(J.LT.1.OR.J.GT.6)RETURN
+
+2	CALL FORMAT(3,'Level: ')
+	CALL INPUTNUMBER(I)
+	IF(I.LT.1.OR.I.GT.8)RETURN
+	CALL OPENDUNGEON
+	CALL READ_POINTERS(J)
+	CALL GET_LEVEL(I)
+
+6	CALL FORMAT(3,'X coord: ')
+	CALL INPUTNUMBER(X)
+	CALL FORMAT(3,'Y coord: ')
+	CALL INPUTNUMBER(Y)
+	IF(X.LT.1.OR.Y.LT.1.OR.X.GT.LEVELLENGTH.OR.Y.GT.LEVELWIDTH)THEN
+	  CALL CLOSEFILE(21)
+	  RETURN
+	  ENDIF
+
+	N=POINTER(I)+1+((X-1)*LEVELWIDTH)+Y
+	READ(21'N,3) K
+	WRITE(5,5) K
+3	FORMAT(I4)
+5	FORMAT(' Old location: ',I4,/,
+     +' New location: '$)
+	CALL INPUTNUMBER(K)
+	WRITE(21'N,3) K
+	GOTO 6
+	END
+
+
+
+
+*****
+*
+*  BUILDMAP builds maps the any dungeon in Quest.
+*
+*****
+
+	SUBROUTINE BUILDMAP
+	INCLUDE 'QSTCOM.FOR'
+	CHARACTER ROW(4)*127,WEST(8)*1,SAVE*127
+	CHARACTER NORTH(8)*7,NAMES(6)*20
+
+	DATA NAMES/'Ollamh Castle','Nimrick''s Passages','Gheldrons
+     + Passages','Fallhaven Tunnels','Thorlyn''s Maze',
+     +'Tombs of Tarasar'/
+	DATA NORTH/'MMMMMMM','MM---MM','MM   MM','MM+++MM',
+     +'MM+I+MM','MM+B+MM','MM+S+MM','MM+D+MM'/
+	DATA WEST/'M','!',' ','+','I','B','S','D'/
+
+1	CALL FORMAT(4,'Dungeon number: ')
+	CALL INPUTNUMBER(J)
+	IF(J.LT.1.OR.J.GT.6)RETURN
+	OPEN(UNIT=22,FILE='BSU$USER_2:[00CKKELLE.QUEST]MAPPED.DAT',
+     +STATUS='NEW')
+
+	CALL OPENDUNGEON1
+	CALL READ_POINTERS(J)
+	DO 2 N=1,8
+	  N1=N
+	  CALL GET_LEVEL(N1)
+	  WRITE(22,77) NAMES(J),N1
+77	  FORMAT('1Dungeon: ',A20,/,' Level:      ',I1,//)
+	  DO 3 K=1,LEVELLENGTH
+	  ROW(1)=' '
+	  ROW(2)=' '
+	  ROW(3)=' '
+	  ROW(4)=' '
+	    DO 4 K1=1,LEVELWIDTH
+	      L=IPICK(MAP(K,K1),1,0)
+	      L1=IPICK(MAP(K,K1),2,0)
+	      L2=IPICK(MAP(K,K1),3,4)
+	      IF(K.NE.1)THEN
+		IF(IPICK(MAP(K-1,K1),1,0).GT.0)ROW(1)(K1*6-5:K1*6-5)='M'
+		ENDIF
+	      IF(L1.NE.0)ROW(1)(K1*6-5:K1*6+1)=NORTH(L1)
+	      N7=K1*6-5
+	      IF(L.NE.0)THEN
+		ROW(1)(N7:N7)='M'
+		ROW(2)(N7:N7)='M'
+		ROW(3)(N7:N7)=WEST(L)
+		ROW(4)(N7:N7)='M'
+		ENDIF
+	      IF(L2.EQ.0)GOTO 4
+	      IF(L2.EQ.1)ROW(3)(N7+2:N7+4)='FNT'
+	      IF(L2.EQ.2.OR.L2.EQ.3.OR.L2.EQ.4)ROW(3)(N7+2:N7+4)='TEL'
+	      IF(L2.EQ.2)ROW(4)(N7+3:N7+3)='L'
+	      IF(L2.EQ.3)ROW(4)(N7+3:N7+3)='D'
+	      IF(L2.EQ.4)ROW(4)(N7+3:N7+3)='A'
+	      IF(L2.EQ.5)ROW(3)(N7+2:N7+4)='THR'
+	      IF(L2.EQ.6)ROW(3)(N7+2:N7+4)='[_]'
+	      IF(L2.EQ.7)ROW(3)(N7+2:N7+4)='PIT'
+	      IF(L2.EQ.8)ROW(3)(N7+2:N7+4)='(S)'
+	      IF(L2.EQ.9)ROW(3)(N7+2:N7+4)='(P)'
+	      IF(L2.EQ.10)ROW(3)(N7+2:N7+4)='(D)'
+	      IF(L2.EQ.11)ROW(3)(N7+2:N7+4)='(F)'
+	      IF(L2.EQ.12)ROW(3)(N7+2:N7+4)='/N/'
+	      IF(L2.EQ.13)ROW(3)(N7+2:N7+4)='/E/'
+	      IF(L2.EQ.14)ROW(3)(N7+2:N7+4)='/S/'
+	      IF(L2.EQ.15)ROW(3)(N7+2:N7+4)='/W/'
+	      IF(L2.EQ.16)ROW(3)(N7+2:N7+4)='DSU'
+	      IF(L2.EQ.17)ROW(3)(N7+2:N7+4)='DSD'
+	      IF(L2.EQ.18)ROW(3)(N7+2:N7+4)=' SU'
+	      IF(L2.EQ.19)ROW(3)(N7+2:N7+4)=' SD'
+	      IF(L2.EQ.20)ROW(3)(N7+2:N7+4)='80%'
+	      IF(L2.EQ.21)ROW(3)(N7+2:N7+4)='50%'
+	      IF(L2.EQ.22)ROW(3)(N7+2:N7+4)=' NM'
+	      IF(L2.EQ.23)ROW(3)(N7+2:N7+4)=' NT'
+	      IF(L2.EQ.25)ROW(3)(N7+2:N7+4)='3XM'
+	      IF(L2.EQ.26)ROW(3)(N7+2:N7+4)='-MG'
+	      IF(L2.EQ.27)ROW(3)(N7+2:N7+4)='DRA'
+4	  CONTINUE
+	  I1=LEVELWIDTH*6+1
+	  IF(K.EQ.1)SAVE=ROW(1)
+	  ROW(1)(I1:I1)=ROW(1)(1:1)
+	  ROW(2)(I1:I1)=ROW(2)(1:1)
+	  ROW(3)(I1:I1)=ROW(3)(1:1)
+	  ROW(4)(I1:I1)=ROW(4)(1:1)
+	  I1=LENGTH(ROW(1))
+	  I2=LENGTH(ROW(2))
+	  I3=LENGTH(ROW(3))
+	  I4=LENGTH(ROW(4))
+	  IF(I1.LT.1)I1=1
+	  IF(I2.LT.1)I2=1
+	  IF(I3.LT.1)I3=1
+	  IF(I4.LT.1)I4=1
+	  WRITE(22,17) ROW(1),ROW(2),ROW(3),ROW(4)
+17	  FORMAT(' ',A<I1>,/' ',A<I2>,/' ',A<I3>,/' ',A<I4>)
+3	CONTINUE
+	WRITE(22,107) SAVE
+107	FORMAT(' ',A127)
+2	CONTINUE
+	CALL CLOSEFILE(22)
+	CALL CLOSEFILE(21)
+	RETURN
+	END
+
+
+
+
+*****
+*
+*  OPENDUNGEON opens the dungeon file for I/O.
+*
+*****
+
+	SUBROUTINE OPENDUNGEON
+
+	OPEN(UNIT=21,FILE='BSU$USER_2:[00CKKELLE.QUEST]DUNGEON.DTA',
+     +STATUS='OLD',ACCESS='DIRECT',ORGANIZATION='RELATIVE',
+     +FORM='FORMATTED',CARRIAGECONTROL='LIST',RECL=4)
+	RETURN
+
+	END
+
+
+
+
+*****
+*
+*  READ_POINTERS reads in dungeon level pointers.
+*
+*****
+
+	SUBROUTINE READ_POINTERS(I)
+	INCLUDE 'QSTCOM.FOR'
+
+	K=I*16-15
+	DO 1 J=1,8
+	  READ(21'K,2) POINTER(J)
+	  READ(21'K+1,2) M
+2	  FORMAT(I4)
+	  POINTER(J)=POINTER(J)*10000+M
+	  K=K+2
+1	CONTINUE
+
+	RETURN
+	END
+
+
+
+
+*****
+*
+*  GET_LEVEL reads in a single level from a dungeon.
+*
+*****
+
+	SUBROUTINE GET_LEVEL(I)
+	INCLUDE 'QSTCOM.FOR'
+
+	K=POINTER(I)
+	READ(21'K,1) LEVELLENGTH
+	READ(21'K+1,1) LEVELWIDTH
+1	FORMAT(I4)
+
+	K=K+2
+	DO 2 J=1,LEVELLENGTH
+	  DO 3 J1=1,LEVELWIDTH
+	    READ(21'K,1) MAP(J,J1)
+	    K=K+1
+3	  CONTINUE
+2	CONTINUE
+
+	READ(21'K,1) STAIRSUPX
+	READ(21'K+1,1) STAIRSUPY
+	READ(21'K+2,1) STAIRSDOWNX
+	READ(21'K+3,1) STAIRSDOWNY
+
+	RETURN
+	END
+
+
+
+
+*****
+*
+*  LIST_LEVEL lists the integer data from any level to the screen.
+*
+*****
+
+	SUBROUTINE LIST_LEVEL
+	INCLUDE 'QSTCOM.FOR'
+
+	CALL FORMAT(4,'Dungeon number: ')
+	CALL INPUTNUMBER(I)
+	CALL FORMAT(2,'Dungeon level: ')
+	CALL INPUTNUMBER(J)
+	IF(I.LT.1.OR.I.GT.6.OR.J.LT.1.OR.J.GT.8)RETURN
+	CALL OPENDUNGEON1
+	CALL READ_POINTERS(I)
+	CALL GET_LEVEL(J)
+
+	WRITE(5,1) LEVELLENGTH,LEVELWIDTH,STAIRSUPX,STAIRSUPY,
+     +STAIRSDOWNX,STAIRSDOWNY
+1	FORMAT('1Length: ',I2,/,' Width: ',I2,/,' SU: ',I2,/,
+     +' SU: ',I2,/,' SD: ',I2,/,' SD: ',I2,//)
+
+	DO 12 I1=1,LEVELLENGTH
+	WRITE(5,13) (MAP(I1,K), K=1,LEVELWIDTH)
+13	FORMAT(1X,<LEVELWIDTH>(I4,1X))
+12	CONTINUE
+
+	CALL CLOSEFILE(21)
+	END
+
+
+
+
+*****
+*
+*  OPENDUNGEON1 opens the dungeon file for READONLY access.
+*
+*****
+
+	SUBROUTINE OPENDUNGEON1
+
+	OPEN(UNIT=21,FILE='BSU$USER_2:[00CKKELLE.QUEST]DUNGEON.DTA',
+     +STATUS='OLD',ACCESS='DIRECT',ORGANIZATION='RELATIVE',
+     +FORM='FORMATTED',CARRIAGECONTROL='LIST',RECL=4,READONLY)
+	RETURN
+
+	END
+
+

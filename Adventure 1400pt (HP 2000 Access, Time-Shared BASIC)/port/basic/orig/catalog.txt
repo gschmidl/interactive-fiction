@@ -1,0 +1,22 @@
+* The HP 2000 Access account catalog this program expects.
+*
+* On the school system the game was spread over three accounts: the
+* programs lived in B500, most data files in L957, and the rest in M317.
+* The name a program gives is <file>.<account>.  The data-builder
+* programs create the files under their bare names, so map them here.
+
+Advent.B500 = ADVENT
+Adven2.B500 = ADVEN2
+Adven2      = ADVEN2
+Adread.B500 = ADREAD
+
+Matrix.L957 = MATRIX
+Short.L957  = SHORT
+Descrp.M727 = DESCRP
+Object.L957 = OBJECT
+Things.M317 = THINGS
+Comand.L957 = COMMANDS
+Note.M317   = NOTE
+Help.L957   = HELP
+Score.L957  = Score
+Bug.M317    = Bug

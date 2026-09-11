@@ -1,0 +1,298 @@
+Type BUG to make comments, ask questions, etc.
+By the way... SAVE and LOAD are now operational. To save a game in
+progress type SAVE when you see the prompt (>).
+Welcome to Adventure ]I[!
+
+Do you need instructions?n
+
+You're in a vast meadow that stretches endlessly in all directions
+To the west is a tree.
+> w
+
+You're in the meadow, underneath a large oak tree.  There are small
+carvings on the tree, and they seem to mean something.
+I see:
+
+Small structure in the tree
+> u
+
+You're in a treehouse, barren of furnishings except a cubicle to the south,
+which is filled with shimmering green light.
+I see:
+
+Battery-powered lamp
+> take lamp
+lamp: Taken.
+> light
+Lighted.
+> long
+From now on I'll give you a complete description of each room.
+> allez
+1
+> look
+
+You're in a vast meadow that stretches endlessly in all directions
+To the west is a tree.
+> allez
+2
+> look
+
+You're in the meadow, underneath a large oak tree.  There are small
+carvings on the tree, and they seem to mean something.
+I see:
+
+Small structure in the tree
+> allez
+3
+> look
+
+You're in a treehouse, barren of furnishings except a cubicle to the south,
+which is filled with shimmering green light.
+> allez
+4
+> look
+
+You're in a cubicle. A green glow surrounds you on all sides,
+but it is impossible to see the source of it.
+I see:
+
+Black 6-inch lever embedded in the wall of the cubicle
+> allez
+5
+> look
+
+You are in a small, dark room with a passage to the north and a
+set of ascending stone stairs to the east.
+> allez
+6
+> look
+
+You are in a twisting maze of little passages, all alike.
+I see:
+
+Set of iron keys
+> allez
+7
+> look
+
+You are in a little maze of twisty passages, all alike.
+> allez
+8
+> look
+
+You are in a twisty maze of little passages, all alike.
+> allez
+9
+> look
+
+You are in a very dusty room with a teakwood floor.  You may leave this
+room to the north and south.
+I see:
+
+Dusty oak chest
+> allez
+10
+> look
+
+You are in a very small room with oak walls, and it's a little cramped,
+I see:
+
+Dazzling nugget of gold
+> allez
+11
+> look
+
+You are in the Mystery Room, a very lovely room with exits to the
+east, west and south.  The hole in the ceiling is too far up to use.
+I see:
+
+Wrinkly old witch
+> allez
+12
+> look
+
+You have entered the Hall of the Sea, a room filled with blue-green
+mists.  Mysterious shadows seem to dance upon the walls as your Lamp
+sheds light through the eerie colored fog.  Exits are east and west.
+I see:
+
+Perfectly round pearl
+> allez
+13
+> look
+
+You're in a damp, somewhat musty chamber that appears te be an
+ancient catacomb.  There is a passage to the east.
+I see:
+
+Obscure, wrinkled note
+> allez
+14
+> look
+
+You're in the Turkish Bath.  Soothing mist surrounds you.  You may go
+down stone stairs to the west, or up a metal ramp To the east.
+> allez
+15
+> look
+
+You have entered a small garden.  The soil is very loose here.  To the west
+is a metal ramp that leads downward; to the north is a large glass building.
+I see:
+
+Delicate Ming vase
+> allez
+16
+> look
+
+You're in an empty glass building that seems to have been used for a
+greenhouse.  To the north is a house; to the south is a garden;  to the
+west is a store room.
+> allez
+17
+> look
+
+This is a very tiny store room that has a large hole in the floor on
+the western side of the room, and an exit to the east.
+I see:
+
+Soft, velvet foot stool
+> allez
+18
+> look
+
+You're in the Hall of Tones.  Pleasant tunes can be heard as you decide
+whether to go west, or up steep steps to the east.
+I see:
+
+Stradivarius cello
+> allez
+19
+> look
+
+You are in a very beautiful room, the Chamber of Time.  Exists are to the
+east and west.
+I see:
+
+Finely-crafted Swiss timepiece
+> allez
+20
+> look
+
+This room's walls are covered with a mixture of blood and slimy ooze.
+Exists: North and south.
+I see:
+
+Threatening mass of slime on the floor
+> allez
+21
+> look
+
+You're in a library.  The only apparent exists to the room are: a passage
+to the south and an archway to the east.
+I see:
+
+Tiny yellow book with a broken binding
+> allez
+22
+> look
+
+You're in a kitchen.  There are two exits, one to the west and one to
+the south.  The scent of food is in the air.
+I see:
+
+Sharp butcher's knife
+Generous slice of pizza
+> allez
+23
+> look
+
+You are in the living room of the house.  Exits: North, south, east, and
+a very narrow passage to the west.
+I see:
+
+Ancient piece of parchment
+> allez
+24
+> look
+
+You are in a small foyer, barren of any furnishings, except for a large
+glass cubicle to the south, which is filled with shimmering red light.
+Exits: East and west, and a northern exit leading upstairs.
+> allez
+25
+> look
+
+You are in a glass cubicle.  Surrounding you is a shimmering red glow,
+but it is impossible to see the source of it.
+I see:
+
+Black 6-inch lever embedded in the wall of the cubicle
+Three-foot long staff
+> allez
+26
+> look
+
+You're in a cool room with a towering waterfall filling up the eastern
+part of the room.  You're on a path that bends north and west, and there's
+a glass cubicle to the south, which is filled with shimmering blue light.
+I see:
+
+Clear water [in waterfall]
+> allez
+27
+> look
+
+This room is only five feet high, and has exits to the south and east.
+I see:
+
+Great number of little dirt hills
+> allez
+28
+> look
+
+You are in a glass cubicle.  Surrounding you is a shimmering blue glow,
+but it is impossible to see the source of it.
+I see:
+
+Black 6-inch lever embedded in the wall of the cubicle
+> allez
+29
+> look
+
+You are at the northern end of a very long sewer pipe.  To the north
+is a low room, and there are numerous holes in the floor of the pipe.
+I see:
+
+Huge gorilla-like beast
+> allez
+30
+> look
+
+This giant room is the home of the most valuable treasure in the cave.
+In the direct center of the room, a sphere of great beauty was placed
+many years ago.  The only exits to this room are the stairs above you.
+I see:
+
+Shining Platinum globe with readable coating
+> allez
+31
+> look
+
+You're in a deep pit.  The only exit is straight up.
+I see:
+
+Hungry looking black snake
+> allez
+32
+> look
+
+You're in the front yard of the house. To the west is a door, to the
+south a dark hole, and meadow everywhere else.
+> allez
+33
+> look
+
+You're in a meadow, north of a house.  Far to the north, a tiny oasis
+is visible.
+> 

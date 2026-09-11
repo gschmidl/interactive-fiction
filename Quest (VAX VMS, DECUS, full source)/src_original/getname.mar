@@ -1,0 +1,44 @@
+; GETNAME returns the user's UIC number and his USERNAME.
+; Calling sequence is: CALL GETNAME(UIC,USERNAME)
+; where UIC is integer*4 and USERNAME is character*12
+
+	.TITLE	GETNAME
+	.PSECT	_GETNAME_CODE,EXE,NOWRT,RD,EXE,SHR,LONG,PIC,REL,CON
+
+	.ENTRY	GETNAME,^M<R2,R3,R4,R5>			; Entry point
+	$GETJPI_S	ITMLST=ITEM_LIST		; Get the UIC and username
+	BLBC	R0,10$					; Check for an error
+	$WAITFR_S	#0				; Wait for it.
+	BLBC	R0,10$					; Check for an error
+	MOVL	UIC,@4(AP)				; Return the uic
+	MOVQ	@8(AP),R1				; Get length and address
+	MOVZWL	R1,R1					; Clear high bits
+	MOVC5	USERNAME_LENGTH,-			; String length
+		USERNAME,-				; The string address
+		#^A/ /,-					; Pad with blanks
+		R1,-					; Fortran string length
+		(R2)					; Fortran string address
+10$:	RET						; Return
+
+ITEM_LIST:
+	.WORD		4				; Length of UIC
+	.WORD		JPI$_UIC			; Return the UIC
+	.ADDRESS	UIC				; Address of UIC
+	.ADDRESS	UIC_LENGTH			; Return length
+	.WORD		12				; Length of username
+	.WORD		JPI$_USERNAME			; Return the username
+	.ADDRESS	USERNAME			; Where to return
+	.ADDRESS	USERNAME_LENGTH			; Length of the username
+	.LONG		0				; End the list
+
+	.PSECT		_GETNAME_DATA,PIC,USR,CON,REL,LCL,RD,WRT,LONG,NOSHR
+
+UIC:	.BLKL	1					; UIC
+UIC_LENGTH:
+	.BLKL	1					; Length of UIC
+USERNAME:
+	.BLKB	12					; Username length
+USERNAME_LENGTH:
+	.BLKL	1					; Length
+
+	.END

@@ -1,0 +1,57 @@
+	.TITLE	FORMAT -- Routine to do things with strings/OGA
+	.SBTTL	Owen G. Anthony/OGA
+	.IDENT	/X01/
+
+;     This routine will output a string to the terminal from the
+; users program. The calling sequence is:
+;
+;	CALL	FORMAT(	number_of_line_feeds,
+;     +			'string',
+;     +			[line number],
+;     +			column number])
+
+	.ENTRY	FORMAT,^M<R2,R3,R4,R5>
+	TSTW	TTCHAN					; Do we have the terminal?
+	BNEQ	10$					; Yes, skip it then
+	BSBW	ASSIGNIT				; No, get it
+10$:	MOVL	(AP),R5					; Get number arguments
+	CMPL	#4,R5					; 4?
+	BNEQ	15$					; No, don't position
+	BRW	POSITION				; Yes, position
+15$:	MOVL	@4(AP),R2				; Get number of line feeds to output
+	BEQL	NO_LINE_FEEDS				; Check for a 0
+	MOVB	#^O15,OUT1				; Store a return
+LINE_FEED_LOOP:
+	$QIOW_S	FUNC=#IO$_WRITEVBLK,-			; Write to the terminal
+		CHAN=TTCHAN,-				; On TTCHAN
+		P1=OUT1,-				; A line feed
+		P2=#1					; 1 character
+	MOVB	#^O12,OUT1				; Change to a line feed
+	SOBGTR	R2,LINE_FEED_LOOP			; Loop till done
+NO_LINE_FEEDS:
+	$FAO_S	CTRSTR=@8(AP),OUTLEN=LENGTH,OUTBUF=OUTBUF; Format the string
+20$:	$QIOW_S	FUNC=#IO$_WRITEVBLK,-			; Write
+		CHAN=TTCHAN,-				; To the terminal
+		P1=DATA_1,-				; Buffer address
+		P2=LENGTH				; Length
+	RET						; Return
+POSITION:
+	PUSHL	@16(AP)					; Get column
+	PUSHL	@12(AP)					; Get row
+	CALLS	#2,G^SCR$SET_CURSOR			; Set the cursor
+	BRB	NO_LINE_FEEDS				; And output the rest
+
+ASSIGNIT:	$ASSIGN_S	CHAN=TTCHAN,-		; Assign the terminal
+				DEVNAM=TTNAME		; To TTCHAN
+	BLBS	R0,10$					; All is ok
+	$EXIT_S	R0					; All is not ok
+10$:	RSB						; Return
+
+TTCHAN:	.WORD	0					; Channel number
+TTNAME:	.ASCID	/TT/					; Terminal name
+LENGTH:	.BLKL	1
+OUTBUF:	.LONG	2000
+	.ADDRESS DATA_1
+DATA_1:	.BLKB	2000
+OUT1:	.BLKB	1
+	.END

@@ -1,0 +1,452 @@
+1Dungeon: Tombs of Tarasar    
+ Level:      1
+
+
+ MMMMMMM     MMMMMMMMMMMMMMMMMMMMMMMMM     MMMMMMM     MMMMMMM     MMMMMMM     MMMMMMMMMMMMMM+++MMMMMMMMM+D+MMMMMMMMMMMMMMMMMMMM
+ M           M                             M           M     M     M     M                                         M     M     M
+ M           M FNT                         M TEL       M           M     !                                         +     M [_] M
+ M           M                             M  D        M     M     M     M                                         M     M     M
+ M     MMMMMMMMMMMMMMMMMMMM---MM     M     MMMMMMMMMMMMMMMMMMMMMMMMM     M     MMMMMMM     MMMMMMM     MM+++MM     MMMMMMM     M
+ M     M                 M     M     M     M                       M     M     M     M     M     M     M     M     M           M
+ M     +                 M     M     M     M                       +     M     M 80% M     + FNT M     M TEL +     M           M
+ M     M                 M     M     M     M                       M     M     M     M     M     M     M  D  M     M           M
+ MMMMMMMMMMMMMMMMMMM     MMMMMMMM   MM     M     M     MMMMMMM     MMMMMMM     MM+++MM     MMMMMMM     MMMMMMM     M     MMMMMMM
+ M     M           M     M           M           M     M     M     M     M                                         M     M     M
+ M PIT M           M  SU M 80%       M           M       TEL M     M TEL M                         TEL             M     M  SD M
+ M     M           M     M           M           M     M  D  M     M  L  M                          D              M     M     M
+ M     MM---MM     M     M     MMMMMMM     MMMMMMM     MMMMMMM     MM---MMM   MMMMMMMM     MM+++MM     MMMMMMM     M     M     M
+ M           M           M     M                 M     M                 M     M     M     M     M     M     M     M     M     M
+ M           M           M THR M                 M     M                       M FNT +     M FNT M     M TEL +     S     M [_] M
+ M           M           M     M                 M     M                 M     M     M     M     M     M  D  M     M     M     M
+ MMMMMMM     MMMMMMMMMMMMMMMMMMM                 MMMMMMM     MMMMMMM     MM   MMMMMMMM     MMMMMMM     MMMMMMM     MMMMMMM     M
+ M     M     M           M                                   M     M                                               M     M     M
+ M     !     M TEL                                           ! TEL !                                               +     + [_] M
+ M     M     M  A        M                                   M  L  M                                               M     M     M
+ M     MMMMMMMMMMMMMMMMMMMMMMMMM     MMMMMMM     MMMMMMM     MMMMMMM     MMMMMMMM---MMMMMMMMMMMMMMMMMMMMM---MMMMMMMMM---MMMMMMMM
+ M     M                             M     M     M     M                 M     M     M           M                 M     M     M
+ M (P) M                         80% !     M     !     M                 M     M     M [_]       M                 M TEL   TEL M
+ M     M                             M     M     M     M                 M     M     M           M                 M  L  M  L  M
+ MMMMMMM     MMMMMMMMMMMMMMMMMMMMMMMMM     MMMMMMM     MMMMMMM     MMMMMMM     MMMMMMMMMMMMMM+++MMMMMMMMM+D+MMMMMMMMMMMMMMMMMMMM
+1Dungeon: Tombs of Tarasar    
+ Level:      2
+
+
+ MMMMMMMMMMMMM     MM---MM           MMMMMMMMMMMMM           M     MMMMMMM     M
+       M                 M                 M     M           M
+                         !                 M     !           M
+       M                 M                 M     M           M
+ MMMMMMM     M           MMMMMMMMMMMMM     MM---MMMMMMMMMMMMMMMMMMMM           M
+ M     M     M                 M     M                 M           M           M
+ ! FNT !     M                       +                 ! TEL                   !
+ M     M     M                 M     M                 M  A        M           M
+ M     M     MMMMMMM     MMMMMMMMMMMMM           MMMMMMMMMMMMMMMMMMM           M
+ M     M     M     M                 M                 M           M           M
+ M     M     M [_] M                 M             (F) M           +           M
+ M     M     M     M                 M                 M           M           M
+ M     MM+++MM     MMMMMMMMMMMMM     M           MMMMMMMM+++MM     MMMMMMMMMMMMM
+             M                 M     M           M           M     M     M
+             M                 M     !                       M     !
+             M                 M     M           M           M     M     M
+ M     M     MMMMMMMMMMMMM     M     M     MMMMMMMMMMMMMMMMMMMMMMMMM     MMMMMMM
+ M     M     M           M     M     M     M     M     M                       M
+ M     M             TEL M     M     M     D           M                       M
+ M     M     M        L  M     M     M     M     M     M                       M
+ MMMMMMMMMMMMMMMMMMM     M     M     M     MMMMMMMM---MM           MM---MMM   MM
+ M           M     M     M           M                             M     M     M
+ M           M  SD M     M           M                             M PIT M     M
+ M           M     M     M           M                             M     M     M
+ M           M     MM   MMMMMMMMMMMMMMMMMMMM     MMMMMMMM---MMMMMMMMMMMMMM     M
+             M     M                       M     M     M     M     M
+   (F)       M     M                       M           M     +     M
+             M     M                       M     M     M     M     M
+ MM---MM     M     M           M     M     MMMMMMM     M     MMMMMMM     M     M
+ M     M     M     M           M     M     M     M     M     M           M     M
+ M     M     M     !           M     M     B     M     M     !           M     M
+ M     M     M     M           M     M     M     M     M     M           M     M
+ M     M     MMMMMMM     MM---MMMMMMMM     MM---MMMMMMMMMMMMMM           M     M
+ M     M     M           M     M           M     M                       M     M
+ M     M     +             TEL             M     M                    SU M     M
+ M     M     M           M  D  M           M     M                       M     M
+ M     MMMMMMM           M     MMMMMMM     M     M           M     MMMMMMM     M
+ M     M                             M     M     M           M     M           M
+ M (S) +                             !     M THR M           M     M           M
+ M     M                             M     M     M           M     M           M
+ MMMMMMMMMMMMM     MM---MM           MMMMMMMMMMMMM           M     MMMMMMM                                                      
+1Dungeon: Tombs of Tarasar    
+ Level:      3
+
+
+ MMMMMMM     MM+I+MM     MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+ M     M                 M                 M                 M
+ M                       ! /W/             M                 M
+ M     M                 M                 M                 M
+ M     M     MM+++MM     MMMMMMM           MMMMMMM     M     M
+ M     M     M     M     M     M           M     M     M     M
+ M     M     M     M     M     M                 M     M     M
+ M     M     M     M     M     M           M     M     M     M
+ M     MMMMMMM     MMMMMMM     MMMMMMM     M     MM+D+MM     M
+ M     M                             M     M           M     M
+ M TEL M                             M     M           M [_] M
+ M  L  M                             M     M           M     M
+ MMMMMMM     MMMMMMM     MMMMMMM     MMMMMMM     M     MMMMMMM
+ M           M     M     M     M           M     M           M
+ M           M TEL +     M     M       FNT M     M           M
+ M           M  D  M     M     M           M     M           M
+ MMMMMMM     MMMMMMM     M     M     MMMMMMM     MMMMMMM     M
+       M     M           M     M     M                 M
+       M     M           !     M     M             TEL M
+       M     M           M     M     M              A  M
+ MMMMMMM     MMMMMMMM---MM     M     MMMMMMM     MMMMMMM     M
+ M           M                 M           M     M           M
+ M  SU       M             PIT M           +     M           M
+ M           M                 M           M     M           M
+ MMMMMMM     MMMMMMMMMMMMMMMMMMM     MMMMMMM     MMMMMMM     M
+ M     M                             M                 M     M
+ M  SD M                         (F) M             (P) M FNT M
+ M     M                             M                 M     M
+ M     MMMMMMM     MMMMMMM     MMMMMMM                 MMMMMMM
+ M     M     M     M     M     M                             M
+ + 80% M     M (S) M     M     M                         80% +
+ M     M     M     M     M     M                             M
+ MMMMMMM     MM+I+MM     MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM                                                                  
+1Dungeon: Tombs of Tarasar    
+ Level:      4
+
+
+ MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM+D+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+ M                             M                             M                             M                             M
+ M                             M                             M                             M                             M
+ M                             M                             M                             M                             M
+ M           MM---MM           M     MMMMMMMM---MMMMMMMM     M           MM---MM           M     MMMMMMMM---MMMMMMMM     M
+ M           M     M           M     M                 M     M           M     M           M     M                 M     M
+ M           M     M           M     M                 M     M           M     M           M     M                 M     M
+ M           M     M           M     M                 M     M           M     M           M     M                 M     M
+ M     MMMMMMM     MMMMMMM     M     M     MM---MM     M     M     MMMMMMM     MMMMMMM     M     M     MM---MM     M     M
+ M     M                 M     M     M     M     M     M     M     M                 M     M     M     M     M     M     M
+ D     !       TEL       !     D     !     ! FNT !     !     D     !       [_]       !     D     !     ! TEL !     !     D
+ M     M        L        M     M     M     M     M     M     M     M                 M     M     M     M  A  M     M     M
+ M     MMMMMMM     MMMMMMM     M     M     MM---MM     M     M     MMMMMMM     MMMMMMM     M     M     MM---MM     M     M
+ M           M     M           M     M                 M     M           M     M           M     M                 M     M
+ M           M     M           M     M                 M     M           M     M           M     M                 M     M
+ M           M     M           M     M                 M     M           M     M           M     M                 M     M
+ M           MM---MM           M     MMMMMMMM---MMMMMMMM     M           MM---MM           M     MMMMMMMM---MMMMMMMM     M
+ M                             M                             M                             M                             M
+ M                             M                             M                             M                             M
+ M                             M                             M                             M                             M
+ MMMMMMMMMMMMMM+D+MMMMMMMMMMMMMMMMMMMMMMMMMMM+D+MMMMMMMMMMMMMMMMMMMMMMMMMMM+D+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+ M                             M                 M           M                             M                 M           M
+ M                             M                 M           M                             M                 M           M
+ M                             M                 M           M                             M                 M           M
+ M     MMMMMMMM---MMMMMMMM     M     MMMMMMMMMMMMM     M     M     MMMMMMMM---MMMMMMMM     M     MMMMMMMMMMMMM     M     M
+ M     M                 M     M                       M     M     M                 M     M                       M     M
+ M     M                 M     M                       M     M     M                 M     M                       M     M
+ M     M                 M     M                       M     M     M                 M     M                       M     M
+ M     M     MM---MM     M     MMMMMMM     MMMMMMM     M     M     M     MM---MM     M     MMMMMMM     MMMMMMM     M     M
+ M     M     M     M     M     M     M     M     M     M     M     M     M     M     M     M     M     M     M     M     M
+ D     !     ! TEL !     !     D     M       TEL       M     D     !     !  SU !     !     D     M       TEL       M     D
+ M     M     M  D  M     M     M     M     M  D  M     M     M     M     M     M     M     M     M     M  D  M     M     M
+ M     M     MM---MM     M     M     M     MMMMMMM     MMMMMMM     M     MM---MM     M     M     M     MMMMMMM     MMMMMMM
+ M     M                 M     M     M                       M     M                 M     M     M                       M
+ M     M                 M     M     M                       M     M                 M     M     M                       M
+ M     M                 M     M     M                       M     M                 M     M     M                       M
+ M     MMMMMMMM---MMMMMMMM     M     M     MMMMMMMMMMMMM     M     MMMMMMMM---MMMMMMMM     M     M     MMMMMMMMMMMMM     M
+ M                             M           M                 M                             M           M                 M
+ M                             M           M                 M                             M           M                 M
+ M                             M           M                 M                             M           M                 M
+ MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM+D+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM+D+MMMMMMMMMMMMMM
+ M                             M                             M                             M                             M
+ M                             M                             M                             M                             M
+ M                             M                             M                             M                             M
+ M           MM---MM           M     MMMMMMMM---MMMMMMMM     M           MM---MM           M     MMMMMMMM---MMMMMMMM     M
+ M           M     M           M     M                 M     M           M     M           M     M                 M     M
+ M           M     M  SD       M     M                 M     M           M     M           M     M                 M     M
+ M           M     M           M     M                 M     M           M     M           M     M                 M     M
+ M     MM---MM     MMMMMMM     M     M     MM---MM     M     M     MMMMMMM     MMMMMMM     M     M     MM---MM     M     M
+ M     M                 M     M     M     M     M     M     M     M                 M     M     M     M     M     M     M
+ M     M       TEL       !     D     !     ! [_] !     !     D     !       TEL       !     D     !     ! FNT !     !     M
+ M     M        D        M     M     M     M     M     M     M     M        D        M     M     M     M     M     M     M
+ M     MMMMMMM     MMMMMMM     M     M     MM---MM     M     M     MMMMMMM     MMMMMMM     M     M     MM---MM     M     M
+ M           M     M           M     M                 M     M           M     M           M     M                 M     M
+ M           M     M           M     M                 M     M           M     M           M     M                 M     M
+ M           M     M           M     M                 M     M           M     M           M     M                 M     M
+ M           MM---MM           M     MMMMMMMM---MMMMMMMM     M           MM---MM           M     MMMMMMMM---MMMMMMMM     M
+ M                             M                             M                             M                             M
+ M                             M                             M                             M                             M
+ M                             M                             M                             M                             M
+ MMMMMMMMMMMMMM+D+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM+D+MMMMMMMMMMMMMM
+ M                             M                 M           M                             M                 M           M
+ M                             M                 M           M                             M                 M           M
+ M                             M                 M           M                             M                 M           M
+ M     MMMMMMMM---MMMMMMMM     M     MMMMMMMMMMMMM     M     M     MMMMMMMM---MMMMMMMM     M     MMMMMMMMMMMMM     M     M
+ M     M                 M     M                       M     M     M                 M     M                       M     M
+ M     M                 M     M                       M     M     M                 M     M                       M     M
+ M     M                 M     M                       M     M     M                 M     M                       M     M
+ M     M     MM---MM     M     MMMMMMM     MM   MM     M     M     M     MM---MM     M     MMMMMMM     MM   MM     M     M
+ M     M     M     M     M     M     M     M     M     M     M     M     M     M     M     M     M     M     M     M     M
+ M     !     ! [_] !     !     D     M     M TEL M     M     D     !     ! FNT !     !     D     M     M TEL M     M     M
+ M     M     M     M     M     M     M     M  D  M     M     M     M     M     M     M     M     M     M  A  M     M     M
+ M     M     MM---MM     M     M     M     MM   MM     MMMMMMM     M     MM---MM     M     M     M     MM   MM     MMMMMMM
+ M     M                 M     M     M                       M     M                 M     M     M                       M
+ M     M                 M     M     M                       M     M                 M     M     M                       M
+ M     M                 M     M     M                       M     M                 M     M     M                       M
+ M     MMMMMMMM---MMMMMMMM     M     M     MMMMMMMMMMMMM     M     MMMMMMMM---MMMMMMMM     M     M     MMMMMMMMMMMMM     M
+ M                             M           M                 M                             M           M                 M
+ M                             M           M                 M                             M           M                 M
+ M                             M           M                 M                             M           M                 M
+ MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM+D+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM      
+1Dungeon: Tombs of Tarasar    
+ Level:      5
+
+
+ MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+ M     M     M     M     M     M     M
+ M     + THR +     +     + (D) +  SD M
+ M     M     M     M     M     M     M
+ MM+++MMM+++MMM+++MMM+++MMM+++MMM+++MM
+ M     M     M     M     M     M     M
+ M     +     +     +     +     +     M
+ M     M     M     M     M     M     M
+ MM+D+MMMMMMMM     M     MMMMMMMMMMMMM
+ M     M     M     M     M     M     M
+ M     M PIT M [_] + [_] M  SU M TEL M
+ M     M     M     M     M     M  A  M
+ MM+++MM     MMMMMMMMMMMMM     MM+++MM
+ M     M                       M     M
+ M     +                       +     M
+ M     M                       M     M
+ MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM                                                                                          
+1Dungeon: Tombs of Tarasar    
+ Level:      6
+
+
+ MMMMMMM                                                                       M     M                             MMMMMMM
+       M                                                                       M     M                             M
+       M       (F)                                       (F)                   M     M                   (F)       M
+       M                                                                       M     M                             M
+       MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM                                         M     M           MMMMMMMMMMMMMMMMMMM
+             M           M           M                                         M     M           M
+             !           M (F)       M                                         M     M  SD       M       (F)
+             M           M           M                                         M     M           M
+             M           M           MMMMMMMMMMMMMMMMMMM                       M     MMMMMMMMMMMMM
+             M           M           M                 M                       M     M
+             M           M       TEL M       TEL       M                       M [_] M
+             M           M        A  M        A        M                       M     M
+ M           MMMMMMMMMMMMMM---MMMMMMMM                 MMMMMMMMMMMMMM+B+MMMMMMMMMMMMMM                       MMMMMMMMMMMMM
+ M                                                                 M     M                                   M           M
+ M (F)                                                             I  SU I                               PIT M       (F) M
+ M                                                                 M     M                                   M           M
+ M                                         MMMMMMMMMMMMMMMMMMMMMMMMMM+B+MMMMMMMM                             MM+++MMM+++MM
+                                           M                                   M
+                                           M                                   M       (F)
+                                           M                                   M
+       M     MMMMMMM     MMMMMMMMMMMMMMMMMMM                                   MMMMMMMMMMMMMMMMMMMMMMMMM
+       M     M           M                                                                             M
+       M     M           M                               THR                                           M
+       M     M           M                                                                             M
+       MMMMMMMMMMMMMMMMMMM                       MMMMMMMMMMMMMMMMMMM                                   MMMMMMMMMMMMM
+       M                                                                                                           M
+       M                         (F)                                             (F)                               M
+       M                                                                                                           M
+ MMMMMMM                                                                       M     M                             MMMMMMM      
+1Dungeon: Tombs of Tarasar    
+ Level:      7
+
+
+ MMMMMMM     M     M     M     M     M     M     MMMMMMM     MMMMMMMMMMMMMMMMMMMMMMMMM
+ M     M     M     M     M     M     M     M           M     M           M           M
+ M  SU M     M     M     M     M     M     M           M     M                       M
+ M     M     M     M     M     M     M     M           M     M           M           M
+ M     M     M     M     M     M     M     MMMMMMM     M     M     MMMMMMM     MMMMMMM
+ M     M     M     M     M     M     M           M     M     M     M     M           M
+ M     M     M     M     M     M     M           M     M (D) M     M THR M           M
+ M     M     M     M     M     M     M           M     M     M     M     M           M
+ MM   MM     MM   MM     M     M     MMMMMMM     M     M     MM---MMM   MMMMMMMMMMMMMM
+ M     M     M     M     M     M           M     M     M                       M     M
+ M     M     M     M     M     M       (F) M     M     M                       !     M
+ M     M     M     M     M     M           M     M     M                       M     M
+ M     M     M     M     M     MMMMMMM     M     M     M     MMMMMMM     MMMMMMM     M
+ M     M     M     M     M           M     M     M     M     M     M     M           M
+ M     M     M     M     M           M     M     M     M     !     M     M           M
+ M     M     M     M     M           M     M     M     M     M     M     M           M
+ M     M     M     M     MMMMMMM     M     MM   MM     M     M     M     M           M
+ M     M     M     M           M     M     M     M     M     M     M     M           M
+ M     M     M     M       (F) M     M     M     M     M     M     M     M       (F) M
+ M     M     M     M           M     M     M     M     M     M     M     M           M
+ M     M     M     MMMMMMM     M     M     M     M     M     M     M     MMMMMMMMMMMMM
+ M     M     M           M     M     M     M     M     M     M     M     M           M
+ M     M     M           M     M     M     M     M     M     M     M                 M
+ M     M     M           M     M     M     M     M     M     M     M     M           M
+ M     M     MMMMMMM     M     MM   MM     M     M     M     MMMMMMM     MMMMMMMM+++MM
+ M     M           M     M     M     M     M     M     M                       M     M
+ M     M           M     M     M     M     M     M     M                       M     M
+ M     M           M     M     M     M     M     M     M                       M     M
+ M     MMMMMMM     M     M     M     M     M     M     MMMMMMM                 M     M
+ M           M     M     M     M     M     M     M           M                 M     M
+ D           M     M     M     M     M     M     M           M       [_]    SD M     D
+ M           M     M     M     M     M     M     M           M                 M     M
+ MMMMMMM     M     M     M     M     M     M     MMMMMMM     MMMMMMMMMMMMMMMMMMMMMMMMM                                          
+1Dungeon: Tombs of Tarasar    
+ Level:      8
+
+
+ MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM+++MMMMMMMM     MMMMMMMM+++MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+ M                       M                       M     M     M     M     M     M                       M                       M
+ M                       M 80%   80%   80%   80% M TEL M [_] M     M [_] M TEL M FNT   FNT   FNT   FNT M                       M
+ M                       M                       M  A  M     M     M     M  A  M                       M                       M
+ M                       M                       MMMMMMM     M     M     MMMMMMM                       M                       M
+                         M                       M     M     M     M     M     M                       M
+                         M 80%   80%   80%   80% M FNT M     M     M     M FNT M FNT   FNT   FNT   FNT M
+                         M                       M     M     M     M     M     M                       M
+                         MM+++MMMMMMMMMMMMMMMMMMMMM+I+MMM+B+MMM+S+MMM+B+MMM+I+MMMMMMMMM+++MMMMMMMMMMMMMM
+  
+                           TEL   TEL   TEL   TEL                                 TEL   TEL   TEL   TEL
+                            L     L     L     L                                   L     L     L     L
+                         MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM+++MMMMMMMMMMMMMM
+                         M                       M                             M                       M
+                         M FNT   FNT   FNT   FNT M                             M 80%   80%   80%   80% M
+                         M                       M                             M                       M
+                         MMMMMMM                 M     M                 M     M                       M
+                         M                       M     M                 M     M                       M
+                         + FNT   FNT   FNT   FNT M     M                 M     M 80%   80%   80%   80% M
+                         M                       M     M                 M     M                       M
+                         MMMMMMMMMMMMMMMMMMMMMMMMM     M                 M     MMMMMMMMMMMMMMMMMMMMMMMMM
+                                                       M                 M
+                                                       M                 M
+                                                       M                 M
+ MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM---MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+                                                             M     M
+   80%   80%   80%   80%   80%   80%   80%   80%   80%   80% M     M 80%   80%   80%   80%   80%   80%   80%   80%   80%   80%
+                                                             M     M
+                                                             M     M
+                                                             M     M
+   80%   80%   80%   80%   80%   80%   80%   80%   80%   80% M     M 80%   80%   80%   80%   80%   80%   80%   80%   80%   80%
+                                                             M     M
+                                                             M     M
+                                                             M     M
+   80%   80%   80%   80%   80%   80%   80%   80%   80%   80% M     M 80%   80%   80%   80%   80%   80%   80%   80%   80%   80%
+                                                             M     M
+ MM---MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM+S+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM---MM
+ M                                                                                                                             M
+ M                                                                                                                             M
+ M                                                                                                                             M
+ M     MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM+++MM     M
+ M     M     M     M     M     M     M     M     M     M     M     M     M     M     M     M     M     M     M     M     M     M
+ M     + THR +     M     M     M     M     M     M     M     M     M     M     M     M     M     M     M     M     M THR M     M
+ M     M     M     M     M     M     M     M     M     M     M     M     M     M     M     M     M     M     M     M     M     M
+ M     MMMMMMMM---MMM---MMM---MMM---MMM---MMM---MMM---MMM---MMM---MMM---MMM---MMM---MMM---MMM---MMM---MMM---MMM---MMM+++MM     M
+ M     M     M                                                                                                     M     M     M
+ M     M     ! (D)   (P)   (P)   (P)   (P)   (P)   (P)   (P)   (P)   (P)   (P)   (P)   (P)   (P)   (P)   (P)   (D) M     M     M
+ M     M     M                                                                                                     M     M     M
+ M     MMMMMMM                                                                                                     MMMMMMM     M
+ M     M     M                                                                                                     M     M     M
+ M     M     ! (P)   (D)   (S)   (S)   (S)   (S)   (S)   (S)   (S)   (S)   (S)   (S)   (S)   (S)   (S)   (D)   (P) !     M     M
+ M     M     M                                                                                                     M     M     M
+ M     MMMMMMM                 M                                                                 M                 MMMMMMM     M
+ M     M     M                 M                                                                 M                 M     M     M
+ M     M     ! (P)   (S)   (P) D /S/   /S/   /S/   /S/   /S/   /S/   /S/   /S/   /S/   /S/   /S/ D (P)   (S)   (P) !     M     M
+ M     M     M                 M                                                                 M                 M     M     M
+ M     MMMMMMM           MM+D+MM                                                                 MM+D+MM           MMMMMMM     M
+ M     M     M                                                                                                     M     M     M
+ M     M     ! (P)   (S)   /E/   (F)   (F)   (F)   (F)   (F)   (F)   (F)   (F)   (F)   (F)   (F)   /W/   (S)   (P) !     M     M
+ M     M     M                                                                                                     M     M     M
+ M     MMMMMMM                       MM+I+MMM+I+MMM+I+MMM+I+MMM+I+MMM+I+MMM+I+MMM+I+MMM+I+MM                       MMMMMMM     M
+ M     M     M                       M                                                     M                       M     M     M
+ M     M     ! (P)   (S)   /E/   (F) I THR   THR   THR   THR   THR   THR   THR   THR   THR I (F)   /W/   (S)   (P) !     M     M
+ M     M     M                       M                                                     M                       M     M     M
+ M     MMMMMMM                       M     MM+D+MMM+D+MMM+D+MMM+D+MMM+D+MMM+D+MMM+D+MM     M                       MMMMMMM     M
+ M     M     M                       M     M                                         M     M                       M     M     M
+ M     M     ! (P)   (S)   /E/   (F) I THR D [_]   [_]   [_]   [_]   [_]   [_]   [_] D THR I (F)   /W/   (P)   (P) !     M     M
+ M     M     M                       M     M                                         M     M                       M     M     M
+ M     MMMMMMM                       M     M     MM+++MMM+++MMM+++MMM+++MMM+++MM     M     M                       MMMMMMM     M
+ M     M     M                       M     M     M                             M     M     M                       M     M     M
+ M     M     ! (P)   (S)   /E/   (F) I THR D [_] + FNT   FNT   FNT   FNT   FNT + [_] D THR I (F)   /W/   (S)   (P) !     M     M
+ M     M     M                       M     M     M                             M     M     M                       M     M     M
+ M     MMMMMMM                       M     M     M                             M     M     M                       MMMMMMM     M
+ M     M     M                       M     M     M                             M     M     M                       M     M     M
+ M     M     ! (P)   (S)   /E/   (F) I THR D [_] + FNT   PIT   PIT   PIT   FNT + [_] I THR I (F)   /W/   (S)   (P) !     M     M
+ M     M     M                       M     M     M                             M     M     M                       M     M     M
+ MM+B+MMMMMMMM                       M     M     M                             M     M     M                       MMMMMMMM+B+MM
+ M     M     M                       M     M     M                             M     M     M                       M     M     M
+ M     M     ! (P)   (S)   /E/   (F) I THR D [_] + FNT   PIT   DSU   PIT   FNT + [_] I THR I (F)   /W/   (S)   (P) !     M     M
+ M     M     M                       M     M     M                             M     M     M                       M     M     M
+ M     MMMMMMM                       M     M     M                             M     M     M                       MMMMMMM     M
+ M     M     M                       M     M     M                             M     M     M                       M     M     M
+ M     M     ! (P)   (S)   /E/   (F) I THR D [_] + FNT   PIT   PIT   PIT   FNT + [_] D THR I (F)   /W/   (S)   (P) !     M     M
+ M     M     M                       M     M     M                             M     M     M                       M     M     M
+ M     MMMMMMM                       M     M     M                             M     M     M                       MMMMMMM     M
+ M     M     M                       M     M     M                             M     M     M                       M     M     M
+ M     M     ! (P)   (S)   /E/   (F) I THR D [_] + FNT   FNT   FNT   FNT   FNT + [_] D THR I (F)   /W/   (S)   (P) M     M     M
+ M     M     M                       M     M     M                             M     M     M                       M     M     M
+ M     MMMMMMM                       M     M     MM+++MMM+++MMM+++MMM+++MMM+++MM     M     M                       MMMMMMM     M
+ M     M     M                       M     M                                         M     M                       M     M     M
+ M     M     ! (P)   (S)   /E/   (F) I THR D [_]   [_]   [_]   [_]   [_]   [_]   [_] D THR I (F)   /W/   (S)   (P) !     M     M
+ M     M     M                       M     M                                         M     M                       M     M     M
+ M     MMMMMMM                       M     MM+D+MMM+D+MMM+D+MMM+D+MMM+D+MMM+D+MMM+D+MM     M                       MMMMMMM     M
+ M     M     M                       M                                                     M                       M     M     M
+ M     M     ! (P)   (S)   /E/   (F) I THR   THR   THR   THR   THR   THR   THR   THR   THR I (F)   /W/   (S)   (P) !     M     M
+ M     M     M                       M                                                     M                       M     M     M
+ M     MMMMMMM                       MM+I+MMM+I+MMM+I+MMM+I+MMM+I+MMM+I+MMM+I+MMM+I+MMM+I+MM                       MMMMMMM     M
+ M     M     M                                                                                                     M     M     M
+ M     M     ! (P)   (S)   /E/   (F)   (F)   (F)   (F)   (F)   (F)   (F)   (F)   (F)   (F)   (F)   /W/   (S)   (P) !     M     M
+ M     M     M                                                                                                     M     M     M
+ M     MMMMMMM           MM+D+MM                                                                 MM+D+MM           MMMMMMM     M
+ M     M     M                 M                                                                 M                 M     M     M
+ M     M     ! (P)   (S)   (P) D /N/   /N/   /N/   /N/   /N/   /N/   /N/   /N/   /N/   /N/   /N/ D (P)   (S)   (P) !     M     M
+ M     M     M                 M                                                                 M                 M     M     M
+ M     MMMMMMM                 M                                                                 M                 MMMMMMM     M
+ M     M     M                                                                                                     M     M     M
+ M     M     ! (P)   (D)   (S)   (S)   (S)   (S)   (S)   (S)   (S)   (S)   (S)   (S)   (S)   (S)   (S)   (D)   (P) !     M     M
+ M     M     M                                                                                                     M     M     M
+ M     MMMMMMM                                                                                                     MMMMMMM     M
+ M     M     M                                                                                                     M     M     M
+ M     M     ! (D)   (P)   (P)   (P)   (P)   (P)   (P)   (P)   (P)   (P)   (P)   (P)   (P)   (P)   (P)   (P)   (D) !     M     M
+ M     M     M                                                                                                     M     M     M
+ M     MM+++MMM---MMM---MMM---MMM---MMM---MMM---MMM---MMM---MMM---MMM---MMM---MMM---MMM---MMM---MMM---MMM---MMM---MMMMMMMM     M
+ M     M     M                                                                                                     M     M     M
+ M     M THR M                                                                                                     + THR +     M
+ M     M     M                                                                                                     M     M     M
+ M     MM+++MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM     M
+ M                                                                                                                             M
+ M                                                                                                                             M
+ M                                                                                                                             M
+ MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+ M                                                                                                                             M
+ M                                                                                                                             M
+ M                                                                                                                             M
+ M                 M                             M                       M           MMMMMMMMMMMMMMMMMMMMMMMMM                 M
+ M                 M                             M                       M           M                                         M
+ M                 M                             M                       M           M                                         M
+ M                 M                             M                       M           M                                         M
+ M                 M                             M                       M           M                                         M
+ M                 M                             M                       M           M                                         M
+ M                 M                             M                       M           M                                         M
+ M                 M                             M                       M           M                                         M
+ M                 M                             M                       M           M                                         M
+ M                 M                             M                       M           M                                         M
+ M                 M                             M       PIT             M           M                                         M
+ M                 M                             M                       M           M                                         M
+ M                 M                             MMMMMMMMMMMMMMMMMMMMMMMMM           M                                         M
+ M                 M                                         M                       M                                         M
+ M                 M                                         M                       M                                         M
+ M                 M                                         M                       M                                         M
+ M                 M                                         M                       MMMMMMMMMMMMM                             M
+ M                 M                                         M                       M                                         M
+ M                 M                                         M                       M                                         M
+ M                 M                                         M                       M                                         M
+ M                 MMMMMMMMMMMMMMMMMMM                       M                       M                                         M
+ M                 M                 M                       M                       M                                         M
+ M                 M                 M                       M                       M                                         M
+ M                 M                 M                       M                       M                                         M
+ M                 M                 M                       M                       M                                         M
+ M                 M                 M                       M                       M                                         M
+ M                 M                 M                       M                       M                                         M
+ M                 M                 M                       M                       M                                         M
+ M                 M                 M                       M                       M                                         M
+ M                 M                 M                                               M                                         M
+ M                 M                 M                                               M                                         M
+ M                 M                 M                                               M                                         M
+ M                 MMMMMMMMMMMMMMMMMMM                       MM+S+MM                 MMMMMMMMMMMMMMMMMMMMMMMMM                 M
+ M                                                           M     M                                                           M
+ M                                                           M THR M                                                           M
+ M                                                           M     M                                                           M
+ MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM+++MMMMMMMM     MMMMMMMM+++MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM

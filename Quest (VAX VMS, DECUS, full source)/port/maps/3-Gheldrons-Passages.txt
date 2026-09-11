@@ -1,0 +1,616 @@
+1Dungeon: Gheldrons Passages  
+ Level:      1
+
+
+ MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+ M                                                           M                                                                 M
+ M TEL                                                       M                                                                 M
+ M  L                                                        M                                                                 M
+ MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM                 MMMMMMM                 MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM     MM+++MM     M
+ M                                   M                 M                       M                             M     M     M     M
+ M                         (F)   (F) M                 M                       M                             M     M     M     M
+ M                                   M                 M                       M                             M     M     M     M
+ M                                   M           MM---MM                       M           M                 M     M     M     M
+ M                                   M           M                             M           M                 M     M     M     M
+ M                                   M           M                             M           M        SU       M PIT +     M     M
+ M                                   M           M                             M           M                 M     M     M     M
+ M                                   MMMMMMMMMMMMM                             M           M                 M     MMMMMMM     M
+ M                                                                             M           M                 M                 M
+ M       FNT                                                         (P)       M           M                 M                 M
+ M                                                                             M           M                 M                 M
+ M                 MMMMMMM           MMMMMMMMMMMMMM---MMMMMMMMMMMMMMMMMMMMMMMMMM           MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM+++MM
+ M                 M     M           M                                                                                         M
+ M                 M (F) M           M FNT                                                                                     M
+ M                 M     M           M                                                                                         M
+ M           MM---MM     M           M                                                                                         M
+ M           M           M           M                                                                                         M
+ M           M           M           M                                           PIT                                           M
+ M           M           M           M                                                                                         M
+ M           M           M           M                                                                                         M
+ M           M           M           M                                                                                         M
+ M           M           M           M                                     PIT   FNT   PIT                           80%       M
+ M           M           M           M                                                                                         M
+ M           MMMMMMM     M           M                                                                                         M
+ M                 M     M           M                                                                                         M
+ M /S/             M (F) M           !                                                                                         M
+ M                 M     M           M                                                                                         M
+ M                 MMMMMMM           M                                                                                         M
+ M                                   M                                                                                         M
+ M FNT   /S/                         M                                                       /S/         /S/         /S/       M
+ M                                   M                                                                                         M
+ M                                   M                                                                                         M
+ M                                   M                                                                                         M
+ M             /S/                   M             TEL                                 /S/         /S/         /S/         /S/ M
+ M                                   M              L                                                                          M
+ M                                   M                                                                                         M
+ M                                   M                                                                                         M
+ M                         TEL       M                                                                                         M
+ M                          A        M                                                                                         M
+ M                                   M                                                                                         M
+ M                                   M                                                                                         M
+ M                                   M                                                                               80%       M
+ M                                   M                                                                                         M
+ MM---MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM+++MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM+++MMMMMMMM
+ M                                         M           M                                         M           M                 M
+ M                                         M           M TEL                                     M       FNT M                 M
+ M                                         M           M  A                                      M           M                 M
+ MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM---MM           M                                         M           M                 M
+ M                                         M           M                                         M           M                 M
+ M                                         M           M                                         !           M                 M
+ M                                         M           M                                         M           M                 M
+ MM---MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM           M                                         M     MMMMMMM                 M
+ M                                                                                               M     M     M                 M
+ M                                                                                               M TEL M     M 80%             M
+ M                                                                                               M  D  M     M                 M
+ MM+++MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM           MMMMMMMMMMMMMMMMMMMMMMMMMM+++MMMMMMMMMMMMMMMMMMMM     M                 M
+ M                 M                       M           M                                                     M                 M
+ M                 M             80%   FNT M           M                                                     M             80% M
+ M                 M                       M           M                                                     M                 M
+ M                 M     MMMMMMMMMMMMMMMMMMM           MM+++MMMMMMMMMMMMMMMMMMMM           MMMMMMM           M                 M
+ M                 M     M                                                     M           M     M           M                 M
+ M                 M     M                                                     M           M (S) M           M                 M
+ M                 M     M                                                     M           M     M           M                 M
+ MM+++MMMMMMMMM+++MM     M     MMMMMMM     MMMMMMM     MMMMMMM     MMMMMMM     M           M     M           M                 M
+ M     M           M     M     M     M     M     M     M     M     M     M     M           M     M           M                 M
+ M     M           M     M PIT M TEL M     M TEL M     M TEL M     M TEL M     M           M     M           M       80%       M
+ M     M           M     M     M  L  M     M  L  M     M  A  M     M  D  M     M           M     M           M                 M
+ M     M           M     M     MMMMMMM     MMMMMMM     MMMMMMM     MMMMMMM     M     MMMMMMM     MMMMMMMMMMMMM                 M
+ M     M           M     M                                                     M     M                       M                 M
+ M     M       (F) M     M                                           TEL       M     +                       +                 M
+ M     M           M     M                                            D        M     M                       M                 M
+ M     M           M     MMMMMMM     MMMMMMM     MMMMMMM     MMMMMMM     MMMMMMM     M           MMMMMMMMMMMMM                 M
+ M     M           M           M     M     M     M     M     M     M     M           M           M           M                 M
+ M     M           M           M     M TEL M     M TEL M     M TEL M     +           M           M           M                 M
+ M     M           M           M     M  L  M     M  A  M     M  D  M     M           M           M           M                 M
+ M     M           M     MMMMMMM     MMMMMMM     MMMMMMM     MMMMMMM     MMMMMMM     MMMMMMMM+++MM           M                 M
+ M     M           M     M                                                     M           M                 M                 M
+ M     M           M     M       TEL                                           M           M                 M 80%             M
+ M     M           M     M        L                                            M           M                 M                 M
+ M     MMMMMMM     M     M     MMMMMMM     MMMMMMM     MMMMMMM     MMMMMMM     M           M                 M                 M
+ M           M     M     M     M     M     M     M     M     M     M     M     M           M                 M                 M
+ M           M FNT M     M FNT M     M     M     M     M TEL M  SD M     M     M           M       80%       M             80% M
+ M           M     M     M     M     M     M     M     M  D  M     M     M     M           M                 M                 M
+ M           MMMMMMM     MM+++MM     MM+++MM     MM+++MM     MM+++MM     MM+++MM           M                 M                 M
+ M                                                           M                 M           M                 M                 M
+ M FNT                                                       M                 M       FNT M             FNT M                 M
+ M                                                           M                 M           M                 M                 M
+ MMMMMMMMMMMMMMMMMMMMMMMMMM+++MMMMMMMMMMMMMMM+++MMMMMMMMM+++MM                 MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM                 M
+ M     M                                                     M                                                                 M
+ M                                                           M                                                 80%             M
+ M     M                                                     M                                                                 M
+ M     MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM     M                                                                 M
+ M                                                     M     M                                                                 M
+ M                                     FNT             M     +                         FNT                                     M
+ M                                                     M     M                                                                 M
+ M                                               MMMMMMM     MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM     M
+ M                                               M                 M                                                     M     M
+ M                         TEL                   M                 M                                                 (P) M     M
+ M                          A                    M                 M                                                     M     M
+ M                                               M                 M                                               MM+++MM     M
+ M                                               M                 M                                               M           M
+ M             TEL                               M FNT             +                                               M           M
+ M              L                                M                 M                                               M           M
+ M                                               MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM           MM+++MM     MMMMMMM
+ M                                                                                               M           M           M     M
+ M                                                                                           FNT M           M           M     M
+ M                                                                                               M           M           M     M
+ M                                                                                               M     MM+++MM     MM+++MM     M
+ M                                                                                               M     M           M           M
+ M                         TEL                                             80%                   M FNT M           M           M
+ M                          D                                                                    M     M           M           M
+ M                                                                                               MMMMMMM     MMMMMMM           M
+ M                                                                                                           M                 M
+ M       FNT                                                                                                 M                 M
+ M                                                                                                           M                 M
+ MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+1Dungeon: Gheldrons Passages  
+ Level:      2
+
+
+ MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+ M                                   M                 M
+ M                                   +             (F) M
+ M                                   M                 M
+ M     M           MMMMMMMMMMMMMMMMMMM                 M
+ M     M           M                 M                 M
+ M     M TEL   FNT M PIT             + /S/             M
+ M     M  D        M                 M                 M
+ M     MMMMMMMMMMMMM                 M                 M
+ M     M                             M                 M
+ M     !                             M       /S/       M
+ M     M                             M                 M
+ MM+++MMMMMMMMMMMMMMMMMMMM           M     M           M
+ M                 M     M           M     M           M
+ M                 M TEL M        SU M     M /S/   /S/ M
+ M                 M  L  M           M     M           M
+ M     MM---MMMMMMMM     MMMMMMMMMMMMM     M           M
+ M     M     M     M           M           M           M
+ M     M     !     M           M           M /S/   /S/ M
+ M     M     M     M           M           M           M
+ MMMMMMMMMMMMM     M     MMMMMMMMMMMMM     M           M
+ M     M                       M           M           M
+ M [_] M                       M TEL       M FNT   /S/ M
+ M     M                       M  A        M           M
+ M     M     M           M     M           M           M
+ M           M           M                 M           M
+ M           M 80%       M                 M           M
+ M           M           M                 M           M
+ MMMMMMMMMMMMM           MMMMMMMMMMMMMMMMMMM           M
+ M                             M                       M
+ M TEL                                             80% M
+ M  L                          M                       M
+ M                             MMMMMMM                 M
+ M                                   M                 M
+ M                   PIT                               M
+ M                                   M                 M
+ MMMMMMMM+++MMMMMMMMMMMMMMMMMMMMM+++MMMMMMMMMMMMMMM+++MM
+ M                             M                       M
+ M                             M TEL               80% M
+ M                             M  A                    M
+ MMMMMMMMMMMMMMMMMMMMMMMMM     MMMMMMMMMMMMM           M
+ M                       M           M     M           M
+ M             [_]       M 80%       !     M           M
+ M                       M           M     M           M
+ M                       MMMMMMMMMMMMMM---MM           M
+ M                                         M           M
+ M  SD                                     + FNT       M
+ M                                         M           M
+ MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM                                                                        
+1Dungeon: Gheldrons Passages  
+ Level:      3
+
+
+ MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+ M           M                             M                 M
+ M           +       80%                   M 80%             M
+ M           M                             M                 M
+ M     MMMMMMMM+++MMMMMMMMMMMMMM           M           MM   MM
+ M     M                       M           M           M     M
+ M     M                       M [_]       M           M     M
+ M     M                       M           M           M     M
+ M     M     MMMMMMM           MMMMMMM     M           M     M
+ M     M     M     M                       M           M     M
+ M 80% M     M  SU M       /S/   /E/       M           M     M
+ M     M     M     M                       M           M     M
+ M     M     M     M                       M           M     M
+ M     M           M                       M           M     M
+ M     M           M /S/   /N/             M           M     M
+ M     M           M                       M           M     M
+ M     MMMMMMMMMMMMM                       M           M     M
+ M                 M                       M           M     M
+ M             THR M /N/                   M           M     M
+ M                 M                       M           M     M
+ M                 M                       M           M     M
+ M                 M                       M           M     M
+ M                 M                       M       FNT M     M
+ M                 M                       M           M     M
+ MMMMMMMMMMMMMMMMMMMMMMMMMM+++MMMMMMMMMMMMMM           M     M
+ M                                                     M     M
+ M (F)                                                 M     M
+ M                                                     M     M
+ M           MMMMMMMMMMMMM     MMMMMMMMMMMMM           M     M
+ M           M           M     M           M           M     M
+ M           M FNT       M     M       FNT M           M 80% M
+ M           M           M     M           M           M     M
+ M           M           M     M           M           M     M
+ M           M           M     M           M           M     M
+ M           M       [_] !     ! [_]       M           M     M
+ M           M           M     M           M           M     M
+ M           MM---MMMMMMMM     MMMMMMMM---MM           M     M
+ M                 M                 M                 M     M
+ M                 M              SD M             (F) M     M
+ M                 M                 M                 M     M
+ MMMMMMMMMMMMMMMMMMM                 MMMMMMMMMMMMMMMMMMMM---MM
+ M                                               M           M
+ M             TEL                               !           M
+ M              A                                M           M
+ M                                               MMMMMMM     M
+ M                                                     M     M
+ M                                                           M
+ M                                                     M     M
+ MMMMMMMM   MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM+++MMMMMMMMMMMMMM
+ M                                         M                 M
+ M       (S)               TEL             M 80%   80%   80% M
+ M                          D              M                 M
+ M           MMMMMMMMMMMMMMMMMMM           M                 M
+ M           M                 M           M                 M
+ M           +                 M           M 80%   80%   80% M
+ M           M                 M           M                 M
+ M           MMMMMMMMMMMMMMMMMMM           M                 M
+ M                                         M                 M
+ M                                     FNT M 80%   80%   THR M
+ M                                         M                 M
+ MMMMMMMM+++MMMMMMMMMMMMMMMMMMMMM+++MMMMMMMMMMMMMMMMMMMMMMMMMM
+ M                                                           M
+ M                                                       [_] M
+ M                                                           M
+ M                                                           M
+ M                                                           M
+ M                               TEL                         M
+ M                                A                          M
+ M                                                           M
+ M                                                           M
+ M                                                           M
+ M                                                           M
+ M                 MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+ M                 M                                         M
+ M                                                           M
+ M                 M                                         M
+ MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM                                                                  
+1Dungeon: Gheldrons Passages  
+ Level:      4
+
+
+ M     MMMMMMMMMMMMMMMMMMMMMMMMM
+ M     M     M           M     M
+ M     +     !           M TEL M
+ M     M     M           M  A  M
+ MMMMMMM     MMMMMMMMMMMMMMMMMMM
+ M           M           M     M
+ M           M                 M
+ M           M           M     M
+ M     MM   MM     MMMMMMM     M
+ M     M           M     M     M
+ M     M        SU M     +     M
+ M     M           M     M     M
+ MMMMMMM           MMMMMMMM+++MM
+ M                 M     M     M
+ M /E/             M     M     M
+ M                 M     M     M
+ MM+++MM           MM+++MM     M
+ M     M                 M     M
+ M     M                 M  SD M
+ M     M                 M     M
+ M     MMMMMMMMMMMMMMMMMMMMMMMMM                                                                                                
+1Dungeon: Gheldrons Passages  
+ Level:      5
+
+
+ M     MMMMMMM                 MMMMMMM           MM---MMMMMMMMM+++MMMMMMMM           MM---MM           MMMMMMMMMMMMMM+++MM
+ M           M                       M           M     M     M     M     M           M     M           M     M           M
+ !           M                       M           M     M           M                 M     M           M                 !
+ M           M                       M           M     M     M     M     M           M     M           M     M           M
+ MMMMMMM     MM---MMMMMMMM           MMMMMMMM+++MM     MM---MMMMMMMMMMMMMM     MMMMMMM     MMMMMMM     MM   MMM---MM     M
+ M           M           M                 M                 M     M           M                 M     M     M     M     M
+ M           !           +                 M                 M (D) M           !                 !     M           !     M
+ M           M           M                 M                 M     M           M                 M     M     M     M     M
+ M           M           MMMMMMMMMMMMM     M                 M     M           MMMMMMM     MMMMMMM     MMMMMMMMMMMMMMMMMMM
+             M           M           M     M                 M                 M     M     M           M           M
+         TEL M           !                 M                 M                 !     M     M           +
+          A  M           M           M     M                 M                 M     M     M           M           M
+ MMMMMMMMMMMMMMMMMMMMMMMMM     MMMMMMM     M     MMMMMMM     M     MMMMMMMMMMMMM     MM---MMM---MMMMMMMMMMMMMM     MMMMMMM
+ M                 M           M           M     M                             M                       M     M     M     M
+ M                 M           M           M TEL M                         FNT M                             !     M     M
+ M                 M           M           M  A  M                             M                       M     M     M     M
+ M     MM---MM     M     MM   MMMMMMMMM---MMM+++MMMMMMMMMMMMMM     M     MMMMMMMMMMMMMM---MM           MM   MM     M     M
+ M     M     M     M     M     M     M                             M                       M           M     M     M     M
+ M     M     M     M     M     !     M                             M                       M        SU M     M     M     M
+ M     M     M     M     M     M     M                             M                       M           M     M     M     M
+ M     MMMMMMMM   MMM+++MMMMMMMMMMMMMMMMMMMMMMMMMM           M     MMMMMMMMMMMMM     MMMMMMM           MMMMMMM     MM---MM
+ M     M           M           M     M           M           M     M                 M     M                       M     M
+ !     M           M           M TEL M           M           M     M                 M     !                       !     !
+ M     M           M           M  D  M           M           M     M                 M     M                       M     M
+ MMMMMMM           M     M     M     M           MM---MM     MMMMMMM     M           M     M           M     MMMMMMMMMMMMM
+ M     M                 M     M     M           M     M           M     M           M     M           M                 M
+ M     M                 !           +           !     M           M PIT M           M     M       TEL M                 M
+ M     M                 M     M     M           M     M           M     M           M     M        L  M                 M
+ M     M           MMMMMMMMMMMMMMMMMMM     MMMMMMM     MMMMMMM     MMMMMMM     MMMMMMMMMMMMM     MMMMMMM     M     M     M
+ M     M           M     M           M     M     M     M           M                             M     M     M     M     M
+       M           M     +           M           M     M           !                             M     M     M     M
+ M     M           M     M           M     M     M     M           M                             M     M     M     M     M
+ MMMMMMM     MMMMMMM     M           MMMMMMMMMMMMMMMMMMM     MMMMMMMMMMMMMMMMMMMM---MMM---MMMMMMMM     M     M     MMMMMMM
+ M           M           M                 M                       M           M     M     M           M     M     M     M
+ M FNT       M [_]       M                 I                       M           M     M     M           M     M     M     M
+ M           M           M                 M                       M           M     M     M           M     M     M     M
+ MMMMMMMM   MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM           M     M     M     MMMMMMM     M     M     MMMMMMM     MMMMMMM     M
+       M     M                       M                 M     M     M     M     M     M     M     M     M
+       M     M                       M                 M /S/ M     M     !     M     M     M     +     !
+       M     M                       M                 M     M     M     M     M     M     M     M     M
+       MM   MM     M     MMMMMMM     M           MMMMMMM     MM   MMMMMMMM     MMMMMMM     MM   MMMMMMMMMMMMMMMMMMMM
+       M           M     M     M     M           M     M     M     M     M                       M                 M
+   TEL M           M     M     !     M           M     +     M       FNT M                       M                 M
+    D  M           M     M     M     M           M     M     M     M     M                       M                 M
+ MMMMMMM           M     MMMMMMM     M     MMMMMMM     M     M     MMMMMMM     MM---MMMMMMMMM---MM                 MMMMMMM
+                   M                 M     M           M     M           M     M     M           M
+                   M                 M     M           M /N/ M           !     M     M           M       (S)   (S)
+                   M                 M     M           M     M           M     M     M           M
+ MM+++MM           MMMMMMM     MMMMMMMM+++MM     MMMMMMM     MMMMMMMMMMMMMM---MM     M           M                       M
+ M     M           M     M     M     M     M     M           M     M                 M           M                       M
+ M     M           M     +     M TEL !     +  SD M           !     M                 M           M             (F)       M
+ M     M           M     M     M  L  M     M     M           M     M                 M           M                       M
+ MMMMMMMMMMMMMMMMMMMMMMMMMM---MM     MMMMMMMMMMMMM     MM   MMMMMMMM                 MMMMMMMMMMMMM                 MMMMMMM
+       M     M                             M     M     M     M                             M                       M
+       M     M                             +     M     !     M                             !             (S)       M
+       M     M                             M     M     M     M                             M                       M
+ MMMMMMMM   MM     M     MMMMMMM     MMMMMMM     MMMMMMM     M     MM---MM     MM+++MM     MMMMMMM     MMMMMMMMMMMMM     M
+ M     M     M     M     M     M     M     M           M     M     M     M     M     M     M           M           M     M
+ M                 M     ! (P) !     !     M           M     M     M     M     M     M     M           M                 M
+ M     M     M     M     M     M     M     M           M     M     M     M     M     M     M           M           M     M
+ M     MM   MMMMMMMMM---MM     MM---MM     MMMMMMM     MM---MM     MM---MMMMMMMM     M     MMMMMMMMMMMMMM---MMMMMMMM     M
+       M           M           M     M                 M     M     M                 M                       M
+       M           M           !     M                 M     + PIT M                 M       (P)
+       M           M           M     M                 M     M     M                 M                       M
+ M     MMMMMMM                 MMMMMMM           MM---MMMMMMMMM+++MMMMMMMM           MM---MM           MMMMMMMMMMMMMM+++MM      
+1Dungeon: Gheldrons Passages  
+ Level:      6
+
+
+ MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+ M                                                                                   M
+ M                                                                         PIT       M
+ M                                                                                   M
+ M     MMMMMMM     M     M     MMMMMMMMMMMMM     MMMMMMMMMMMMM     MMMMMMM           M
+ M     M           M     M     M           M           M           M                 M
+ M     M  SU       M     M     M FNT       M           M           M                 M
+ M     M           M     M     M           M           M           M                 M
+ M     M           MMMMMMM     MMMMMMMM+++MM           M           MMMMMMM           M
+ M     M           M     M     M           M           M                 M           M
+ M     M           M     M     M           M           M                 M           M
+ M     M           M     M     M           M           M                 M           M
+ M     MMMMMMM     MM+I+MM     M           M     MMMMMMMMMMMMM     MMMMMMM           M
+ M                                                                                   M
+ M                                                                                   M
+ M                                                                                   M
+ M     M     M     MMMMMMM     M           M           MMMMMMM     M           M     M
+ M     M     M     M           M           M           M           M           M     M
+ M     M     M     M           M           M           M (S)       M       TEL M     M
+ M     M     M     M           M           M           M           M        D  M     M
+ M     MMMMMMM     MMMMMMM     M           M           MMMMMMM     MMMMMMMMMMMMM     M
+ M     M     M     M           M           M           M                 M           M
+ M     M TEL M     M           M           M           M                 M           M
+ M     M  A  M     M           M           M           M                 M           M
+ M     M     M     MMMMMMM     MMMMMMM     MMMMMMM     MMMMMMM           M           M
+ M                                                                                   M
+ M                                                                                   M
+ M                                                                                   M
+ M                                                                                   M
+ M                                                                                   M
+ M                                                 FNT                           /S/ M
+ M                                                                                   M
+ M     MMMMMMMMMMMMMMMMMMMMMMMMMM---MM           MM---MMMMMMMMMMMMMMMMMMMMMMMMMM     M
+ M                                                                                   M
+ M                                                                                   M
+ M                                                                                   M
+ M                 M     MMMMMMM                       MMMMMMM     M     M           M
+ M                 M           M                       M     M     M     M           M
+ M                 M       (P) M                       M     +     M     M           M
+ M                 M           M                       M     M     M     M           M
+ M                 M     MMMMMMM     MMMMMMMMMMMMM     MM+++MM     MMMMMMM           M
+ M                 M     M                             M     M           M           M
+ M                 M     M                             M     M           M DSD       M
+ M                 M     M                             M     M           M           M
+ M                 M     MMMMMMM                       MMMMMMM           M           M
+ M                                                                                   M
+ M                                     TEL                                           M
+ M                                      D                                            M
+ MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM                                          
+1Dungeon: Gheldrons Passages  
+ Level:      7
+
+
+ MMMMMMMMMMMMM
+ M     M     M
+ M  SU M TEL M
+ M     M  A  M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     +     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M     M     M
+ M  SD M     M
+ M     M     M
+ MMMMMMMMMMMMM                                                                                                                  
+1Dungeon: Gheldrons Passages  
+ Level:      8
+
+
+ MMMMMMM           MMMMMMMMMMMMM     MMMMMMMMMMMMM     MMMMMMMM---MM     M
+       M           M     M     M     M     M     M           M
+       !           !     M TEL M     +     ! PIT +           ! PIT
+       M           M     M  L  M     M     M     M           M
+ MM---MMMMMMMMM---MM     MM+++MMM---MMMMMMMM     MM---MM     MMMMMMM     M
+ M     M     M                 M     M                 M     M     M     M
+ M     !     !                 M     M                 M     !     !     M
+ M     M     M                 M     M                 M     M     M     M
+ MMMMMMM     MM---MM     MMMMMMM     MMMMMMM     MMMMMMMM+++MM     MMMMMMM
+ M                 M     M                 M     M     M                 M
+ M (S)             M     !                 +     M     +                 M
+ M                 M     M                 M     M     M                 M
+ MM---MM     MM+++MMM---MMMMMMMM     MMMMMMMMMMMMM     MMMMMMM     MM---MM
+ M     M     M     M     M     M     M     M                 M     M     M
+ M     M     M     M [_] M     M     +     +                 +     M     M
+ M     M     M     M     M     M     M     M                 M     M     M
+ M     MM+++MMM---MM     MM+++MMM---MM     MMMMMMM     MM---MMM+++MMMMMMMM
+             M                 M                 M     M     M     M
+             !                 M                 !     M FNT M     !
+             M                 M                 M     M     M     M
+ M     MMMMMMMMMMMMM     MM---MMMMMMMM     MMMMMMMM---MMMMMMMM     MM---MM
+ M     M     M     M     M     M     M     M     M     M                 M
+ M     !     + THR +     !     M  SU !     M     +     !                 M
+ M     M     M     M     M     M     M     M     M     M                 M
+ MM---MM     MMMMMMMMMMMMM     MM+++MMM---MMM+++MM     MM---MM     MMMMMMM
+ M                 M                 M     M                 M     M     M
+ +                 +                 M     M                 M     +     +
+ M                 M                 M     M                 M     M     M
+ MMMMMMM     MMMMMMMMMMMMM     MMMMMMM     MM+++MM     MMMMMMMM+++MM     M
+       M     M     M     M     M                 M     M     M
+       M     !     +     +     !                 M     !     !
+       M     M     M     M     M                 M     M     M
+ MMMMMMMM---MMMMMMMM     MMMMMMMM---MM     MM+++MMMMMMMM     MMMMMMM     M
+ M           M                 M     M     M     M                 M     M
+ M           !                 M     ! (F) +     M                 M     M
+ M           M                 M     M     M     M                 M     M
+ M           MM---MM     MMMMMMM     MMMMMMM     MM+++MM     MM---MMM---MM
+ M                 M     M                 M           M     M     M     M
+ + TEL             M     !                 !           M     M     M     +
+ M  D              M     M                 M           M     M     M     M
+ MMMMMMM           MMMMMMMMMMMMM     MMMMMMMMMMMMM     MMMMMMMM---MM                                                            

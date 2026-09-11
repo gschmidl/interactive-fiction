@@ -1,0 +1,11 @@
+--- unfixed/advent.txt	2026-09-11 17:13:23.041671300 +0200
++++ advent.txt	2026-09-11 17:13:42.672165400 +0200
+@@ -508,6 +508,8 @@
+  5820 O1$=UPS$(O$)
+  5830 A$="KNIFE"
+  5840 IF NOT POS("WITCH:GIRL :SNAKE:CLOWN:ZARKA:SLIME:BEAST:NURSE",O1$[K1,K5]) THEN 5860
++ 5850 CHAIN "ADVEN2",4850
++ 5851 IF O1$<>"TREE" THEN 5860
+  5852 IF R0<>K2 THEN 2550
+  5853 PRINT "You don't have the axe."
+  5854 PRINT "An EPA official runs up and upon discovering you evil intent,"'10'13"sentances you to death."

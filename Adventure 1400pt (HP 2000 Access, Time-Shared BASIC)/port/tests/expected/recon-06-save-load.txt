@@ -1,0 +1,92 @@
+Type BUG to make comments, ask questions, etc.
+By the way... SAVE and LOAD are now operational. To save a game in
+progress type SAVE when you see the prompt (>).
+Welcome to Adventure ]I[!
+
+Do you need instructions?n
+
+You're in a vast meadow that stretches endlessly in all directions
+To the west is a tree.
+> w
+
+You're in the meadow, underneath a large oak tree.  There are small
+carvings on the tree, and they seem to mean something.
+I see:
+
+Small structure in the tree
+> u
+
+You're in a treehouse, barren of furnishings except a cubicle to the south,
+which is filled with shimmering green light.
+I see:
+
+Battery-powered lamp
+> take lamp
+lamp: Taken.
+> light
+Lighted.
+> save
+File to save it in: regress
+Not available.
+Create?y
+The game is saved!
+> drop lamp
+Dropped.
+> inven
+You are carrying:
+Nothing.
+> load
+File to load: regress
+The game is now as it was when you saved it.
+
+You're in a treehouse, barren of furnishings except a cubicle to the south,
+which is filled with shimmering green light.
+> inven
+You are carrying:
+Battery-powered lamp
+> read carvings
+I can't find any carvings here!
+> help
+
+Somewhere nearby is the land of Erehwon, a mysterious place
+Filled with fantasy and magic.  It is your task to explore this
+unknown region, requiring your physical skill and cunning to
+be at their peak.  I will be your eyes and ears in this exped-
+ition, describing your surroundings and any points of interest
+that you happen to run across.  Direct me with commands of one
+or two words.  To move from one place to another, try words like
+NORTH, WEST, CLIMB, DOWN.  To get a list of your current possessions
+use the word INVENTORY.  All words, objects, etc. may be abbriev-
+iated to their first five letters; for example, type UNLOC for
+UNLOCK, INVEN for INVENTORY, and so forth.
+
+The object of the game is to collect all of the valuables and to
+put them in the treehouse (you will find the treehouse soon).
+Special words that do not affect the game but may help you:
+
+BRIEF:  Prints a long description of each place you come to
+        the first time, then only the name of the place there-
+        after.
+LONG:   Prints a long description of your location every time
+        you move from place to place.
+SUPER:  Stands for SUPERBRIEF; means to print only the name
+        of your location when you move.
+LOOK:   Gives you a long description of your location no matter
+        which of the three print modes (SUPER, LONG, BRIEF)
+        was_specified.
+
+You may manipulate special objects in Erehwon, such as a lamp
+you will find in the treehouse.  Manipulation words include:
+TAKE, PUSH, EAT, KILL, WAVE.  (There are MANY more!)
+
+If you are having trouble moving or using an object, try
+anything that comes to mind, not just the commands listed here.
+Multiple commands on a line are separated thus:  N, S, E, W, EAT TREE.
+
+More help will be available here at a later time as the game
+develops further.
+> score
+Your score is 4 out of a possible 1400 in 9 turns.
+This qualifies you as a Beginner Adventurer.
+Do you wish to stop now?n
+> 

@@ -1,0 +1,68 @@
+Type BUG to make comments, ask questions, etc.
+By the way... SAVE and LOAD are now operational. To save a game in
+progress type SAVE when you see the prompt (>).
+Welcome to Adventure ]I[!
+
+Do you need instructions?n
+
+You're in a vast meadow that stretches endlessly in all directions
+To the west is a tree.
+> w
+
+You're in the meadow, underneath a large oak tree.  There are small
+carvings on the tree, and they seem to mean something.
+I see:
+
+Small structure in the tree
+> u
+
+You're in a treehouse, barren of furnishings except a cubicle to the south,
+which is filled with shimmering green light.
+I see:
+
+Battery-powered lamp
+> take lamp
+lamp: Taken.
+> light
+Lighted.
+> allez
+22
+> take knife
+knife: Taken.
+> inven
+You are carrying:
+Battery-powered lamp
+Sharp butcher's knife
+> allez
+11
+> stab witch
+The witch laughs at your attempt, and your knife disintegrates.
+> inven
+You are carrying:
+Battery-powered lamp
+> allez
+27
+> stab snake
+You don't have the STAB SNAKE.
+> chop tree
+I don't see how to kill that!
+> allez
+19
+> look
+
+You are in a very beautiful room, the Chamber of Time.  Exists are to the
+east and west.
+I see:
+
+Finely-crafted Swiss timepiece
+> allez
+32
+> look
+
+You're in the front yard of the house. To the west is a door, to the
+south a dark hole, and meadow everywhere else.
+> score
+Your score is 5 out of a possible 1400 in 18 turns.
+This qualifies you as a Beginner Adventurer.
+Do you wish to stop now?n
+> 

@@ -1,0 +1,1802 @@
+*****
+*
+*  UPPERCASE takes a string and returns the same string with all lower
+*  case letters transformed into upper case. The string may be of any length.
+*
+*****
+
+	SUBROUTINE UPPERCASE(STRING)
+	CHARACTER STRING*(*)
+	INTEGER LN,I,K
+
+	LN=LIB$LEN(STRING)
+	DO I=1,LN
+
+	K=ICHAR(STRING(I:I))
+	IF(K.GT.96.AND.K.LT.123)THEN
+	  STRING(I:I)=CHAR(K-32)
+	  ENDIF
+
+	ENDDO
+	RETURN
+	END
+
+
+
+*****
+*
+*  LENGTH returns the length of a string passed from the first character
+*  to the last non-blank character. Strings may be of any length.
+*
+*****
+
+	INTEGER FUNCTION LENGTH(STRING)
+	CHARACTER STRING*(*)
+	INTEGER LN,I
+
+	LN=LIB$LEN(STRING)
+	DO I=LN,1,-1
+
+	IF(STRING(I:I).NE.' ')GOTO 2
+
+	ENDDO
+	LENGTH=0
+	RETURN
+
+2	LENGTH=I
+	RETURN
+	END
+
+
+
+*****
+*
+*  DICE "rolls"  I number of J sided dice and returns this in DICE.
+*  If zero dice are rolled, a "1" is returned.
+*
+*****
+
+	INTEGER FUNCTION DICE(I,J)
+	INCLUDE 'QSTCOM.FOR'
+
+*The calling routine must have these statements at the top of the program:
+*	INCLUDE 'QSTCOM.FOR'
+*	SEED1=INT(SECNDS(0.0))
+*	SEED1=SEED1.OR.1
+
+	DICE=0
+	DO K=1,I
+	DICE=DICE+INT(RAN(SEED1)*J)+1
+	ENDDO
+	RETURN
+	END
+
+
+
+
+*****
+*
+*  IPICK picks digits out of a number. It has two calling sequences:
+*
+*  J=IPICK(123,3,0)   would return the number 1
+*  J=IPICK(123,1,0)   would return the number 3
+*
+*  J=IPICK(12345,2,4) would return the number 234
+*
+*****
+
+	INTEGER FUNCTION IPICK(I,J,K)
+	IF(K.EQ.0)THEN
+	  IPICK=MOD((I/10**(J-1)),10)
+	ELSE
+	  IPICK=0
+	  DO N=J,K
+	  IPICK=((MOD((I/10**(N-1)),10))*10**(N-J))+IPICK
+	  ENDDO
+	ENDIF
+	RETURN
+	END
+
+
+
+*****
+*
+*  IPOSITION returns the number of digits in a number, so that variable
+*  formatting may be used.
+*
+*****
+
+	INTEGER FUNCTION IPOSITION(NUMBER)
+	INTEGER I,NUMBER
+
+	IF(NUMBER.GT.0)THEN
+	  IPOSITION=0
+	  I=NUMBER
+	ELSE IF(NUMBER.LT.0)THEN
+	  IPOSITION=1
+	  I=-NUMBER
+	ELSE
+	  IPOSITION=1
+	  RETURN
+	ENDIF
+
+	DO WHILE(I.NE.0)
+	  I=I/10
+	  IPOSITION=IPOSITION+1
+	ENDDO
+	RETURN
+	END
+
+
+
+
+*****
+*
+*  INPUTNUMBER inputs a numeric value from the terminal.
+*
+*****
+
+	SUBROUTINE INPUTNUMBER(I)
+	INTEGER I
+
+1	READ(5,2,ERR=5) I
+2	FORMAT(I)
+	RETURN
+
+5	CALL SINGLE(7)
+	CALL FORMAT(3,'%QSTOTS - Error on numeric input. Please
+     + reenter the number.!/')
+	GOTO 1
+	END
+
+
+
+
+*****
+*
+*  PUTTEMPCORE places the player character into temporary memory in order
+*  to chain to another program.
+*
+*****
+
+	SUBROUTINE PUTTEMPCORE(RECORD)
+	CHARACTER RECORD*(*)
+
+	CALL LIB$PUT_COMMON(RECORD)
+	RETURN
+	
+	END
+
+
+
+
+*****
+*
+*  GETTEMPCORE retrieves the player character from temporary memory.
+*
+*****
+
+	SUBROUTINE GETTEMPCORE(RECORD)
+	INCLUDE 'QSTCOM.FOR'
+	CHARACTER RECORD*(*),CLEAR*1
+
+	CALL LIB$GET_COMMON(RECORD)
+	IF(RECORD(252:252).NE.'@')THEN
+	  CALL USERINFO(UIC,USERNAME)
+	  OPEN(UNIT=27,FILE='BSU$USER_2:[00CKKELLE.QUEST]FATAL.DAT',
+     +STATUS='OLD',ACCESS='APPEND')
+	  WRITE(27,1) USERNAME,UIC
+1	  FORMAT(1X,A12,A6)
+	  CLOSE(UNIT=27)
+	  CALL FORMAT(3,'%QSTOTS - Fatal error on lookup. Invalid
+     + access path.')
+	  CALL EXITR
+	  ENDIF
+	CLEAR=' '
+	CALL LIB$PUT_COMMON(CLEAR)
+	RETURN
+
+	END
+
+
+
+
+*****
+*
+*  CHAIN chains to another program in the users area (or any area).
+*
+*****
+
+	SUBROUTINE CHAIN(FILE)
+	CHARACTER FILE*(*)
+
+	CALL LIB$RUN_PROGRAM(FILE)
+
+	END
+
+
+
+
+*****
+*
+*  LOGOUT logs the user off the VAX.
+*
+*****
+
+	SUBROUTINE LOGOUT
+
+	CALL SYS$DELPRC(,)
+
+	END
+
+
+
+*****
+*
+*  ASCII inputs an ascii string from the terminal. The calling sequence is:
+*
+*  CALL ASCII(STRING,UPPER CASE FLAG) where the string may be any length
+*				      and FLAG=1 means put the string into
+*				      upper case.
+*
+*****
+
+	SUBROUTINE ASCII(STRING,FLAG)
+	CHARACTER STRING*(*)
+	INTEGER FLAG,I,J
+
+	I=LIB$LEN(STRING)
+1	READ(5,2,ERR=5) STRING
+2	FORMAT(A<I>)
+	IF(FLAG.NE.0)CALL UPPERCASE(STRING)
+	RETURN
+
+5	CALL SINGLE(7)
+	CALL FORMAT(2,'%QSTOTS - Error on ASCII input. Please 
+     + reenter the string.!/')
+	GOTO 1
+	END
+
+
+
+
+*****
+*
+*  CLEARSCREEN clears the terminal screen.
+*
+*****
+
+	SUBROUTINE CLEARSCREEN
+
+	CALL LIB$ERASE_PAGE(1,1)
+	RETURN
+	
+	END
+
+
+
+
+*****
+*
+*  TRIMMER takes an ascii string, printing all characters except trailing
+*  blanks.
+*
+*****
+
+	SUBROUTINE TRIMMER(STRING)
+	CHARACTER STRING*(*)
+	INTEGER I,J
+
+	J=LENGTH(STRING)
+	IF(J.NE.0)THEN
+	  WRITE(6,1) STRING
+1	  FORMAT('+',A<J>,$)
+	  ENDIF
+
+	RETURN
+	END
+
+
+
+
+*****
+*
+*  OFIELD acts like a decode statement. Calling sequence is:
+*
+*  CALL OFIELD(STRING,VARIABLE,START,LENGTH)
+*
+*	STRING   = the source of the integer
+*	VARIABLE = the numeric result of the decode
+*	LENTH    = the maximum number of characters to decode
+*	START    = location in text where we find the number
+*
+*****
+
+	SUBROUTINE OFIELD(STRING,NUMBER,S,L)
+	CHARACTER STRING*(*)
+	INTEGER I,J,K,NUMBER,START,LENTH,L,S,MINUS
+
+	NUMBER=0
+	START=S
+	LENTH=L
+	MINUS=0
+
+	IF(STRING(START:START).EQ.'-')THEN
+	  MINUS=1
+	  START=START+1
+	  LENTH=LENTH-1
+	  ENDIF
+
+	DO J=START,LENTH+START-1
+
+	  NUMBER=NUMBER*10
+	  NUMBER=NUMBER+ICHAR(STRING(J:J))-48
+
+	ENDDO
+	IF(MINUS.NE.0)NUMBER=-NUMBER
+
+	RETURN
+	END
+
+
+
+
+*****
+*
+*  IFIELD acts like an encode statement. Calling sequence is:
+*
+*  CALL IFIELD(STRING,VARIABLE,START,LENGTH) where:
+*
+*	STRING   = the destination of the integer
+*	VARIABLE = the numeric variable to encode
+*	START    = the location to deposit the ascii conversion
+*	LENGTH   = the maximum number of digits to encode
+*
+*****
+
+	SUBROUTINE IFIELD(STRING,NUMBER,S,L)
+	CHARACTER STRING*(*)
+	INTEGER NUMBER,START,LENTH,I,J,K,S,L
+
+	I=NUMBER
+	START=S
+	LENTH=L
+	IF(NUMBER.LT.0)THEN
+	  STRING(START:START)='-'
+	  START=START+1
+	  LENTH=LENTH-1
+	  I=-I
+	  ENDIF
+
+	K=1
+	DO J=START+LENTH-1, START, -1
+
+	  STRING(J:J)=CHAR(IPICK(I,K,0)+48)
+	  K=K+1
+
+	ENDDO
+	RETURN
+	END
+
+
+
+
+*****
+*
+*  ENCRIPT encodes or decodes the character string passed. If CODE=1, the
+*  string is encoded; CODE=-1, the string is decoded.
+*
+*****
+
+	SUBROUTINE ENCRIPT(STRING,CODE)
+	CHARACTER STRING*(*),KEY1*15
+	INTEGER COUNT,I,L,M,CODE,LENTH
+	DATA KEY1/'Xj?.#CK/\~@*+!-'/
+
+	COUNT=0
+	LENTH=LIB$LEN(STRING)
+	DO I=1,LENTH
+	  COUNT=COUNT+1
+	  IF(COUNT.GT.15)COUNT=1
+	  L=ICHAR(STRING(I:I))-32
+	  IF(L.LT.1.OR.L.GT.94)GOTO 1
+	  M=ICHAR(KEY1(COUNT:COUNT))-32
+	  CALL CODEIT(L,M,CODE)
+	  STRING(I:I)=CHAR(L)
+1	ENDDO
+	RETURN
+	END
+
+
+
+*****
+*
+*  CODEIT codes an ascii character.
+*
+*****
+
+	SUBROUTINE CODEIT(L,M,CODE)
+	INTEGER L,M,CODE
+
+	IF(CODE.GT.0)THEN
+	  L=L+M+1
+	ELSE
+	  L=L-M-1
+	ENDIF
+
+1	IF(L.LT.1)L=L+94
+	IF(L.GT.94)L=L-94
+	IF(L.LT.1.OR.L.GT.94)GOTO 1
+	L=L+32
+	RETURN
+	END
+
+
+
+
+
+*****
+*
+*  PROMPT prints an underscore, and then backs up the cursor.
+*
+*****
+
+	SUBROUTINE PROMPT
+	INTEGER I
+
+	I=8
+	WRITE(6,1) I
+1	FORMAT('+_',A1$)
+	RETURN
+	END
+
+
+
+
+*****
+*
+*  DATER returns the number of days since November 17, 1858.
+*
+*****
+
+	SUBROUTINE DATER(I)
+	INTEGER I
+
+	CALL LIB$DAY(I)
+	RETURN
+	END
+
+
+
+*****
+*
+*  SLEEP sleeps for the number of seconds requested.
+*
+*****
+
+	SUBROUTINE SLEEP(I)
+	INTEGER I
+
+	CALL BAS$SLEEP(%VAL(I))
+	RETURN
+	END
+
+
+
+
+*****
+*
+*  INPUT returns the ascii value from a key struck on the terminal. If no
+*  key is hit within 30 seconds, a 0 is returned.
+*
+*****
+
+	SUBROUTINE INPUT(I,FLAG)
+	INTEGER I,FLAG
+
+	CALL PROMPT
+	CALL INCHK(I)
+	IF(I.EQ.0)THEN
+	  RETURN
+	ELSE IF(I.EQ.13)THEN
+	  CALL SINGLE(7)
+	  CALL FORMAT(4,'When prompted by a single underscore (_),
+     + do not use the RETURN key.!/')
+	  CALL SLEEP(1)
+	  RETURN
+	  ENDIF
+
+	IF(FLAG.EQ.1)THEN
+	  IF(I.EQ.88)THEN
+	    CALL FORMAT(0,'Current statistics')
+	    CALL CURRENT
+	  ELSE IF(I.EQ.90)THEN
+	    CALL FORMAT(0,'Personal statistics')
+	    CALL PERSONAL
+	  ELSE IF(I.EQ.73)THEN
+	    CALL FORMAT(0,'Inventory')
+	    CALL LISTMAGIC
+	    ENDIF
+	ELSE IF(FLAG.EQ.2)THEN
+	  IF(I.EQ.89)THEN
+	    CALL FORMAT(0,'Yes')
+	  ELSE IF(I.EQ.78)THEN
+	    CALL FORMAT(0,'No')
+	    ENDIF
+	  ENDIF
+	RETURN
+	END
+
+
+
+
+*****
+*
+*  EXITR exits a fortran program.
+*
+*****
+
+	SUBROUTINE EXITR
+
+	CALL FORMAT(2,' ')
+	CALL FOR$EXIT
+	END
+
+
+
+
+*****
+*
+*  NUMERICTOASCII converts all integer and character data into a 252 byte
+*  string in ascii.
+*
+*****
+
+	SUBROUTINE NUMERICTOASCII
+	INCLUDE 'QSTCOM.FOR'
+
+	PLAYER(1:15)=NAME
+	PLAYER(16:25)=SECRETNAME
+	PLAYER(26:37)=USERNAME
+	PLAYER(38:43)=UIC
+
+	CALL IFIELD(PLAYER,RUN,44,1)
+	CALL IFIELD(PLAYER,LIFE,45,1)
+	CALL IFIELD(PLAYER,DUNGEON,46,1)
+	CALL IFIELD(PLAYER,DUNLVL,47,1)
+	CALL IFIELD(PLAYER,SPELLTOREGEN,48,1)
+	CALL IFIELD(PLAYER,SPELLS,49,6)
+	CALL IFIELD(PLAYER,DAYS,55,5)
+	CALL IFIELD(PLAYER,HITPOINTS,60,3)
+	CALL IFIELD(PLAYER,TOTALHITPOINTS,63,3)
+	CALL IFIELD(PLAYER,EXPERIENCE,66,7)
+	CALL IFIELD(PLAYER,GOLD,73,7)
+	CALL IFIELD(PLAYER,GOLDONPERSON,80,6)
+	DO I=1,6
+  	  CALL IFIELD(PLAYER,STATS(I),84+I*2,2)
+	ENDDO
+	DO I=1,8
+  	  CALL IFIELD(PLAYER,MAGIC(I),96+I*2,2)
+  	  CALL IFIELD(PLAYER,PROPERTIES(I),112+I*2,2)
+	ENDDO
+	CALL IFIELD(PLAYER,CHARLVL,130,2)
+	CALL IFIELD(PLAYER,CLASS,132,2)
+	CALL IFIELD(PLAYER,ARMORCLASS,134,2)
+	CALL IFIELD(PLAYER,XCOORD,136,2)
+	CALL IFIELD(PLAYER,YCOORD,138,2)
+	CALL IFIELD(PLAYER,HPREGEN,140,2)
+	CALL IFIELD(PLAYER,DISEASE,142,2)
+	CALL IFIELD(PLAYER,ADJTOAC,144,2)
+	CALL IFIELD(PLAYER,PROTEVIL,146,2)
+	CALL IFIELD(PLAYER,BLINK,148,2)
+	CALL IFIELD(PLAYER,ADJTOHIT,150,2)
+	CALL IFIELD(PLAYER,ADJSAVTHR,152,2)
+	CALL IFIELD(PLAYER,WISH,154,1)
+	CALL IFIELD(PLAYER,SPELLREGEN,155,2)
+	CALL IFIELD(PLAYER,DELAY,157,1)
+	CALL IFIELD(PLAYER,AGE,158,3)
+	CALL IFIELD(PLAYER,MOVES,161,3)
+	CALL IFIELD(PLAYER,SOLVED,164,4)
+	RETURN
+	END
+
+
+
+
+*****
+*
+*  ASCIITONUMERIC converts an ascii string to the character's numeric
+*  variables.
+*
+*****
+
+	 SUBROUTINE ASCIITONUMERIC
+	 INCLUDE 'QSTCOM.FOR'
+
+
+	NAME=PLAYER(1:15)
+	SECRETNAME=PLAYER(16:25)
+	USERNAME=PLAYER(26:37)
+	UIC=PLAYER(38:43)
+
+	CALL OFIELD(PLAYER,RUN,44,1)
+	CALL OFIELD(PLAYER,LIFE,45,1)
+	CALL OFIELD(PLAYER,DUNGEON,46,1)
+	CALL OFIELD(PLAYER,DUNLVL,47,1)
+	CALL OFIELD(PLAYER,SPELLTOREGEN,48,1)
+	CALL OFIELD(PLAYER,SPELLS,49,6)
+	CALL OFIELD(PLAYER,DAYS,55,5)
+	CALL OFIELD(PLAYER,HITPOINTS,60,3)
+	CALL OFIELD(PLAYER,TOTALHITPOINTS,63,3)
+	CALL OFIELD(PLAYER,EXPERIENCE,66,7)
+	CALL OFIELD(PLAYER,GOLD,73,7)
+	CALL OFIELD(PLAYER,GOLDONPERSON,80,6)
+	DO I=1,6
+  	  CALL OFIELD(PLAYER,STATS(I),84+I*2,2)
+	ENDDO
+	DO I=1,8
+  	  CALL OFIELD(PLAYER,MAGIC(I),96+I*2,2)
+  	  CALL OFIELD(PLAYER,PROPERTIES(I),112+I*2,2)
+	ENDDO
+	CALL OFIELD(PLAYER,CHARLVL,130,2)
+	CALL OFIELD(PLAYER,CLASS,132,2)
+	CALL OFIELD(PLAYER,ARMORCLASS,134,2)
+	CALL OFIELD(PLAYER,XCOORD,136,2)
+	CALL OFIELD(PLAYER,YCOORD,138,2)
+	CALL OFIELD(PLAYER,HPREGEN,140,2)
+	CALL OFIELD(PLAYER,DISEASE,142,2)
+	CALL OFIELD(PLAYER,ADJTOAC,144,2)
+	CALL OFIELD(PLAYER,PROTEVIL,146,2)
+	CALL OFIELD(PLAYER,BLINK,148,2)
+	CALL OFIELD(PLAYER,ADJTOHIT,150,2)
+	CALL OFIELD(PLAYER,ADJSAVTHR,152,2)
+	CALL OFIELD(PLAYER,WISH,154,1)
+	CALL OFIELD(PLAYER,SPELLREGEN,155,2)
+	CALL OFIELD(PLAYER,DELAY,157,1)
+	CALL OFIELD(PLAYER,AGE,158,3)
+	CALL OFIELD(PLAYER,MOVES,161,3)
+	CALL OFIELD(PLAYER,SOLVED,164,4)
+	RETURN
+	END
+
+
+
+
+*****
+*
+*  PUTPLAYER writes a new character to the character data file.
+*
+*****
+
+	SUBROUTINE PUTPLAYER(ERR)
+	INCLUDE 'QSTCOM.FOR'
+	INCLUDE '($FORIOSDEF)'
+
+	ERR=0
+1	WRITE(21,IOSTAT=IOS) PLAYER
+	IF(IOS.EQ.0)RETURN
+	IF(IOS.EQ.FOR$IOS_SPERECLOC)THEN
+	  CALL SLEEP(1)
+	  GOTO 1
+	  ENDIF
+
+	ERR=1
+	RETURN
+	END
+
+
+
+*****
+*
+*  OPENCHARFILE opens the character data file for read/write access.
+*
+*****
+
+	SUBROUTINE OPENCHARFILE
+
+	OPEN(UNIT=21,FILE='BSU$USER_2:[00CKKELLE.QUEST]CHARACTER.DTA',
+     +ACCESS='KEYED',STATUS='UNKNOWN',ORGANIZATION='INDEXED',RECL=63,
+     +FORM='UNFORMATTED',KEY=(1:15:CHARACTER,26:37:CHARACTER),SHARED)
+
+	RETURN
+	END
+
+
+
+*****
+*
+*  GETPLAYER reads in a player from the character file.
+*
+*****
+
+	SUBROUTINE GETPLAYER(ERR,KEY1)
+	INCLUDE 'QSTCOM.FOR'
+	INCLUDE '($FORIOSDEF)'
+
+	ERR=0
+1	READ(21,IOSTAT=IOS,KEY=KEY1,KEYID=0) PLAYER
+	IF(IOS.EQ.0)RETURN
+	IF(IOS.EQ.FOR$IOS_SPERECLOC)THEN
+	  CALL SLEEP(1)
+	  GOTO 1
+	  ENDIF
+
+	ERR=1
+	RETURN
+	END
+
+
+
+*****
+*
+*  CLOSEFILE closes the file number passed to it.
+*
+*****
+
+	SUBROUTINE CLOSEFILE(I)
+	INTEGER I
+
+	CLOSE(UNIT=I)
+	RETURN
+	END
+
+
+
+*****
+*
+*  REPLACEPLAYER rewrites a character to the character data file.
+*
+*****
+
+	SUBROUTINE REPLACEPLAYER(ERR,KEY1)
+	INCLUDE 'QSTCOM.FOR'
+	INCLUDE '($FORIOSDEF)'
+
+	ERR=0
+1	READ(21,IOSTAT=IOS,KEY=KEY1,KEYID=0)
+	IF(IOS.EQ.FOR$IOS_SPERECLOC)THEN
+	  CALL SLEEP(1)
+	  GOTO 1
+	ELSE IF(IOS.NE.0)THEN
+	  GOTO 2
+	  ENDIF
+3	REWRITE(21,IOSTAT=IOS) PLAYER
+	IF(IOS.EQ.FOR$IOS_SPERECLOC)THEN
+	  CALL SLEEP(1)
+	  GOTO 3
+	ELSE IF(IOS.EQ.0)THEN
+	  RETURN
+	  ENDIF
+
+	ERR=ERR+1
+2	ERR=ERR+1
+	RETURN
+	END
+
+
+
+*****
+*
+*  COUNTCHARACTER counts the number of live characters which belong to a
+*  particular username.
+*
+*****
+
+	SUBROUTINE COUNTCHARACTER(USER,COUNT)
+	INCLUDE 'QSTCOM.FOR'
+	INCLUDE '($FORIOSDEF)'
+	INTEGER COUNT
+	CHARACTER USER*12
+
+	COUNT=0
+1	READ(21,IOSTAT=IOS,KEY=USER,KEYID=1) PLAYER(1:37)
+	IF(IOS.EQ.FOR$IOS_SPERECLOC)THEN
+	  CALL SLEEP(1)
+	  GOTO 1
+	ELSE IF(IOS.EQ.0)THEN
+	  COUNT=COUNT+1
+	  GOTO 2
+	  ENDIF
+	RETURN
+
+2	READ(21,IOSTAT=IOS,END=50) PLAYER(1:37)
+	IF(USER.NE.PLAYER(26:37))GOTO 50
+	IF(IOS.EQ.FOR$IOS_SPERECLOC)THEN
+	  CALL SLEEP(1)
+	  GOTO 2
+	ELSE IF(IOS.EQ.0)THEN
+	  COUNT=COUNT+1
+	  GOTO 2
+	  ENDIF
+
+50	RETURN
+	END
+
+
+
+
+*****
+*
+*  KILLPLAYER removes a dead player from the character file.
+*
+*****
+
+	SUBROUTINE KILLPLAYER(ERR,KEY1)
+	INCLUDE 'QSTCOM.FOR'
+	INCLUDE '($FORIOSDEF)'
+
+	ERR=0
+1	READ(21,IOSTAT=IOS,KEY=KEY1,KEYID=0)
+	IF(IOS.EQ.FOR$IOS_SPERECLOC)THEN
+	  CALL SLEEP(1)
+	  GOTO 1
+	ELSE IF(IOS.NE.0)THEN
+	  GOTO 2
+	  ENDIF
+3	DELETE(21,IOSTAT=IOS)
+	IF(IOS.EQ.FOR$IOS_SPERECLOC)THEN
+	  CALL SLEEP(1)
+	  GOTO 3
+	ELSE IF(IOS.EQ.0)THEN
+	  RETURN
+	  ENDIF
+
+	ERR=ERR+1
+2	ERR=ERR+1
+	RETURN
+	END
+
+
+
+
+*****
+*
+*  VARFORMAT allows the printing of numeric variables where the number of
+*  output digits may be specified.
+*
+*****
+
+	SUBROUTINE VARFORMAT(NUMBER,DIGITS)
+	INTEGER NUMBER,DIGITS,J,IPOSITION
+	CHARACTER BLANKS*10
+
+	DATA BLANKS/'          '/
+	J=IPOSITION(NUMBER)
+	I=DIGITS-J
+	WRITE(6,1) BLANKS(1:I),NUMBER
+1	FORMAT('+',A<I>,I<J>,$)
+	RETURN
+	END
+	
+
+
+
+*****
+*
+*  SINGLE outputs a single ascii character to the screen.
+*
+*****
+
+	SUBROUTINE SINGLE(I)
+	INTEGER I
+
+	WRITE(6,1) I
+1	FORMAT('+',A1$)
+	RETURN
+	END
+
+
+
+
+*****
+*
+*  USERINFO returns the player's UIC number and USERNAME.
+*
+*****
+
+	SUBROUTINE USERINFO(UIC,USERNAME)
+	INTEGER*2 TEMPUIC1(2)
+	INTEGER*4 TEMPUIC2(2)
+	CHARACTER USERNAME*12,UIC*6
+
+	CALL GETNAME(TEMPUIC1,USERNAME)
+	TEMPUIC2(1)=TEMPUIC1(1)
+	TEMPUIC2(2)=TEMPUIC1(2)
+	CALL IFIELD(UIC,TEMPUIC2(2),1,3)
+	CALL IFIELD(UIC,TEMPUIC2(1),4,3)
+	RETURN
+	END
+
+
+
+
+*****
+*
+*  FINDPLAYER checks to see if a certain character exists in the player
+*  data file.
+*
+*****
+
+	SUBROUTINE FINDPLAYER(ERR,KEY1)
+	INCLUDE 'QSTCOM.FOR'
+
+	ERR=0
+	READ(21,ERR=1,KEY=KEY1,KEYID=0)
+	RETURN
+
+1	ERR=1
+	RETURN
+	END
+
+
+
+
+*****
+*
+*  IEXPER returns the number of experience points necessary to reach certain
+*  levels, where:
+*
+*  Z=IEXPER(CLASS,LEVEL)	    Level is the next level to be reached.
+*				    Class is a 4,7,8, or 10.
+*
+*
+*****
+
+	INTEGER FUNCTION IEXPER(C,L)
+	INTEGER CLASS,LEVEL,TEMP,TEMP1,C,L
+
+	CLASS=C
+	LEVEL=L
+	IEXPER=0
+	IF(LEVEL.LT.2)RETURN
+
+	IF(CLASS.EQ.10)THEN
+	  TEMP=1000
+	ELSE IF(CLASS.EQ.8)THEN
+	  TEMP=1125
+	ELSE IF(CLASS.EQ.7)THEN
+	  TEMP=1050
+	ELSE
+	  TEMP=1250
+	  ENDIF
+
+	TEMP1=0
+	IF(LEVEL.GT.9)THEN
+	  TEMP1=LEVEL-9
+	  TEMP1=TEMP1*TEMP*160
+	  LEVEL=9
+	  ENDIF
+
+	IEXPER=2**(LEVEL-1)*TEMP+TEMP1
+	IF(LEVEL.GT.7)IEXPER=IEXPER-LEVEL*600
+
+	IF(CLASS.EQ.4)THEN
+	  IF(LEVEL.EQ.4)THEN
+	    IEXPER=10500
+	  ELSE IF(LEVEL.EQ.7)THEN
+	    IEXPER=63000
+	    ENDIF
+	    ENDIF
+
+	RETURN
+	END
+
+
+
+
+*****
+*
+*  PERSONAL types out the players personal statistics.
+*
+*****
+
+	SUBROUTINE PERSONAL
+	INCLUDE 'QSTCOM.FOR'
+
+	CALL HEADER
+
+	CALL FORMAT(2,'STR  INT  WIS  CON  DEX  CHR!/
+     +---  ---  ---  ---  ---  ---!/')
+	CALL VARFORMAT(STATS(1),3)
+	DO I=2,6
+	  CALL VARFORMAT(STATS(I),5)
+	ENDDO
+	CALL FORMAT(3,'Your armor class is: ')
+	CALL OUTNUM(ARMORCLASS)
+	CALL FORMAT(2,'You are ')
+	CALL OUTNUM(AGE)
+	CALL FORMAT(0,' years old.')
+	IF(DISEASE.GT.0)CALL FORMAT(2,'You have a disease.')
+	IF(WISH.GT.0)CALL FORMAT(2,'You have a wish.')
+	RETURN
+	END
+
+
+
+*****
+*
+*  CURRENT types out the users current statistics.
+*
+*****
+
+	SUBROUTINE CURRENT
+	INCLUDE 'QSTCOM.FOR'
+
+	CALL HEADER
+
+	CALL FORMAT(2,'Level!_!_!_')
+	CALL VARFORMAT(CHARLVL,9)
+	CALL FORMAT(2,'Experience!_!_')
+	CALL VARFORMAT(EXPERIENCE,9)
+	CALL FORMAT(2,'Gold in credit ring!_')
+	CALL VARFORMAT(GOLD,9)
+	CALL FORMAT(2,'Current hit points!_')
+	CALL VARFORMAT(HITPOINTS,9)
+	CALL FORMAT(2,'Total hit points!_')
+	CALL VARFORMAT(TOTALHITPOINTS,9)
+	CALL FORMAT(2,'Gold on person!_!_')
+	CALL VARFORMAT(GOLDONPERSON,9)
+
+	IF(CLASS.EQ.10.OR.CLASS.EQ.7)RETURN
+	CALL FORMAT(3,'Spells:!/')
+	DO I=1,6
+	  K=I
+	  J=IPICK(SPELLS,K,0)
+	  IF(J.GT.0)THEN
+	    CALL FORMAT(2,'Level ')
+	    CALL OUTNUM(K)
+	    CALL FORMAT(0,' -- ')
+	    CALL OUTNUM(J)
+	    ENDIF
+	ENDDO
+	RETURN
+	END
+
+
+
+*****
+*
+*  HEADER prints out the players name and character class.
+*
+*****
+
+	SUBROUTINE HEADER
+	INCLUDE 'QSTCOM.FOR'
+
+	WRITE(6,FMT='(//)')
+	CALL TRIMMER(NAME)
+	IF(CLASS.EQ.10)THEN
+	  CALL FORMAT(0,' - a Fighter!/')
+	ELSE IF(CLASS.EQ.8)THEN
+	  CALL FORMAT(0,' - a Cleric!/')
+	ELSE IF(CLASS.EQ.7)THEN
+	  CALL FORMAT(0,' - a Thief!/')
+	ELSE
+	  CALL FORMAT(0,' - a Magician!/')
+	  ENDIF
+
+	RETURN
+	END
+
+
+
+
+*****
+*
+*  CHECKLEVEL checks to see if the player should go up or down levels.
+*
+*****
+
+	SUBROUTINE CHECKLEVEL
+	INCLUDE 'QSTCOM.FOR'
+
+1	IF(EXPERIENCE.GE.IEXPER(CLASS,CHARLVL+1))GOTO 5
+	IF(EXPERIENCE.GE.IEXPER(CLASS,CHARLVL))RETURN
+
+	CHARLVL=CHARLVL-1
+	I=DICE(1,CLASS)
+	IF(STATS(4).GT.14)I=I+1
+	IF(STATS(4).GT.17)I=I+1
+	HITPOINTS=HITPOINTS-I
+	TOTALHITPOINTS=TOTALHITPOINTS-I
+	IF(HITPOINTS.LT.1.OR.CHARLVL.LT.1)LIFE=0
+	CALL SINGLE(7)
+	CALL FORMAT(3,'You went down a level!! You are now level ')
+	CALL OUTNUM(CHARLVL)
+	CALL FORMAT(0,'.!/')
+	IF(LIFE.EQ.0)RETURN
+	GOTO 1
+
+5	CHARLVL=CHARLVL+1
+	I=DICE(1,CLASS)
+	IF(STATS(4).GT.14)I=I+1
+	IF(STATS(4).GT.17)I=I+1
+	HITPOINTS=HITPOINTS+I
+	TOTALHITPOINTS=TOTALHITPOINTS+I
+	CALL SINGLE(7)
+	CALL FORMAT(3,'You went up a level!! You are now level ')
+	CALL OUTNUM(CHARLVL)
+	CALL FORMAT(0,'.!/')
+	GOTO 1
+
+	END
+
+
+
+
+*****
+*
+*  LISTMAGIC lists all magic items the player is carrying.
+*
+*****
+
+	SUBROUTINE LISTMAGIC
+	INCLUDE 'QSTCOM.FOR'
+	CHARACTER RECORD*36
+
+	CALL FORMAT(3,'You are currently carrying the following
+     + magic items:!/!/')
+	CALL OPENMAGIC
+
+	DO I=1,8
+	  J=I
+	  IF(MAGIC(J).GT.0)THEN
+	    READ(23'MAGIC(J),2) RECORD
+2	    FORMAT(10X,A36)
+	    CALL OUTNUM(J)
+	    CALL FORMAT(0,')  ')
+	    CALL TRIMMER(RECORD)
+	    WRITE(6,FMT='()')
+	    ENDIF
+	ENDDO
+	CALL CLOSEFILE(23)
+	RETURN
+	END
+
+
+
+*****
+*
+*  OPENMAGIC opens the magic item data file.
+*
+*****
+
+	SUBROUTINE OPENMAGIC
+
+	OPEN(UNIT=23,FILE='BSU$USER_2:[00CKKELLE.QUEST]MAGIC.DTA',
+     +STATUS='OLD',FORM='FORMATTED',ACCESS='DIRECT',ORGANIZATION=
+     +'RELATIVE',RECL=54,READONLY)
+
+	RETURN
+	END
+
+
+
+*****
+*
+*  FINDMAGIC checks to see if you're carrying a magic item, where:
+*
+*  J=FINDMAGIC(40) returns the number of items numbered 40 the player has.
+*
+*****
+
+	INTEGER FUNCTION FINDMAGIC(I)
+	INCLUDE 'QSTCOM.FOR'
+	INTEGER I,J,K
+
+	FINDMAGIC=0
+	K=MAGICPERLEVEL(CHARLVL)
+
+	DO J=1,K
+	  IF(MAGIC(J).EQ.I)FINDMAGIC=FINDMAGIC+1
+	ENDDO
+
+	RETURN
+	END
+	
+
+
+
+*****
+*
+*  SPELL returns the number of spells the character should have based on
+*  his level and class.
+*
+*****
+
+	SUBROUTINE SPELL(I)
+	INCLUDE 'QSTCOM.FOR'
+
+	I=0
+	IF(CLASS.EQ.10.OR.CLASS.EQ.7)RETURN
+	J=FINDMAGIC(28)
+
+	GOTO(1,2,3,4,5,6,7,8,9,10,11,12,13) CHARLVL
+
+13	I=I+00100
+12	I=I+11010
+11	I=I+01100
+10	I=I+10011
+9	I=I+10000
+	IF(J.NE.0)I=I+10000
+8	I=I+01100
+7	I=I+01010
+	IF(J.NE.0)I=I+01000
+6	I=I+00101
+5	I=I+00101
+	IF(J.NE.0)I=I+00100
+4	I=I+00010
+3	I=I+00010
+	IF(J.NE.0)I=I+00010
+2	I=I+00001
+1	I=I+00002
+	IF(J.NE.0)I=I+00001
+
+	RETURN
+	END
+
+
+
+
+*****
+*
+*  OUTNUM prints out numbers in the exact number of spaces needed.
+*
+*****
+
+	SUBROUTINE OUTNUM(I)
+	INTEGER I
+
+	J=IPOSITION(I)
+	WRITE(6,1) I
+1	FORMAT('+',I<J>$)
+
+	RETURN
+	END
+
+
+
+
+*****
+*
+*  ARMOR updates the players armor class based on dexterity, magic items, etc.
+*
+*****
+
+	SUBROUTINE ARMOR
+	INCLUDE 'QSTCOM.FOR'
+
+	IF(CLASS.EQ.4)THEN
+	  ARMORCLASS=10
+	ELSE IF(CLASS.EQ.7.OR.CLASS.EQ.8)THEN
+	  ARMORCLASS=5
+	ELSE
+	  ARMORCLASS=2
+	  ENDIF
+
+	J=0
+	IF(STATS(5).GT.14)THEN
+	  J=14-STATS(5)
+	  IF(J.LT.-7)J=-7
+	ELSE IF(STATS(5).LT.9)THEN
+	  J=9-STATS(5)
+	  IF(J.GT.7)J=7
+	  ENDIF
+
+	ARMORCLASS=ARMORCLASS+J
+	ARMORCLASS=ARMORCLASS+ADJTOAC
+	IF(PROTEVIL.GT.0)ARMORCLASS=ARMORCLASS-4
+
+	IF(FINDMAGIC(23).GT.0)ARMORCLASS=ARMORCLASS+3
+	IF(FINDMAGIC(27).GT.0)ARMORCLASS=ARMORCLASS-2
+	IF(FINDMAGIC(30).GT.0)ARMORCLASS=ARMORCLASS+1
+	IF(FINDMAGIC(38).GT.0)ARMORCLASS=ARMORCLASS+1
+	IF(FINDMAGIC(42).GT.0)ARMORCLASS=ARMORCLASS-2
+	IF(FINDMAGIC(44).GT.0)ARMORCLASS=ARMORCLASS+2
+	IF(FINDMAGIC(58).GT.0)ARMORCLASS=ARMORCLASS+3
+	IF(FINDMAGIC(65).GT.0)ARMORCLASS=ARMORCLASS-1
+	IF(FINDMAGIC(66).GT.0)ARMORCLASS=ARMORCLASS-2
+	IF(FINDMAGIC(86).GT.0)ARMORCLASS=ARMORCLASS-2
+
+	I=MAGIC_RANGE(19,22)
+	IF(I.NE.0)ARMORCLASS=ARMORCLASS+18-I
+	I=MAGIC_RANGE(89,91)
+	IF(I.NE.0)ARMORCLASS=ARMORCLASS-PROPERTIES(MAGIC_POSITION(I))
+
+	IF(ARMORCLASS.LT.-5)ARMORCLASS=-5
+	RETURN
+	END
+
+
+
+
+*****
+*
+*  INPUT1 returns the ascii value from a key struck on the terminal. If no
+*  key is hit within 30 seconds, a 0 is returned.
+*
+*****
+
+	SUBROUTINE INPUT1(I)
+	INTEGER I
+
+	CALL PROMPT
+	CALL INCHK(I)
+	IF(I.EQ.0)THEN
+	  RETURN
+	ELSE IF(I.EQ.13)THEN
+	  CALL SINGLE(7)
+	  CALL FORMAT(4,'When prompted by a single underscore (_),
+     + do not use the RETURN key.!/')
+	  CALL SLEEP(1)
+	  RETURN
+	ENDIF
+
+	RETURN
+	END
+
+
+
+
+*****
+*
+*  DEATH handles the death of a player.
+*
+*****
+
+	SUBROUTINE DEATH
+	INCLUDE 'QSTCOM.FOR'
+	CHARACTER MORAL*80
+
+	LIFE=0
+	WRITE(6,FMT='(///////)')
+
+	IF(FINDMAGIC(25).GT.0.AND.AGE.LT.101)THEN
+	  CALL REMOVEMAGIC(0,25,J)
+	  MAGIC(J)=62
+	  CALL FORMAT(2,'An immense being stands before you. He waves
+     +!/his hands over you and your parts scramble together. Your!/
+     +ring of resurrection is gone...........there is silence.')
+1	  HITPOINTS=0
+	  DO I=1,6
+	    IF(STATS(I).LT.1)STATS(I)=1
+	    IF(STATS(I).GT.25)STATS(I)=25
+	  ENDDO
+	  LIFE=1
+	  DISEASE=0
+	  IF(EXPERIENCE.LT.0)EXPERIENCE=0
+	  CHARLVL=0
+	  CALL CHECKLEVEL
+	  TOTALHITPOINTS=HITPOINTS
+	  AGE=AGE+2
+	  CALL SLEEP(DELAY)
+	  RETURN
+	ELSE IF(WISH.GT.0.AND.AGE.LT.101)THEN
+	  WISH=WISH-1
+	  CALL FORMAT(2,'Your wish has been used to resurrect you...')
+	  GOTO 1
+	  ENDIF
+
+	OPEN(UNIT=21,FILE='BSU$USER_2:[00CKKELLE.QUEST]MORAL.DTA',
+     +STATUS='OLD',ACCESS='DIRECT',ORGANIZATION='RELATIVE',RECL=80,
+     +FORM='FORMATTED',CARRIAGECONTROL='LIST',READONLY)
+	READ(21'DICE(1,50),2) MORAL
+2	FORMAT(A80)
+	CALL CLOSEFILE(21)
+	CALL TRIMMER(MORAL)
+	CALL OPENCHARFILE
+	CALL KILLPLAYER(ERR,NAME)
+	CALL FORMAT(3,'You have died.')
+	CALL CLOSEFILE(21)
+	CALL SLEEP(DELAY)
+	PLAYER=' '
+	PLAYER(252:252)='@'
+	CALL PUTTEMPCORE(PLAYER)
+	CALL CHAIN('BSU$USER_2:[00CKKELLE.QUEST]QUEST1.Q7R')
+	END
+
+
+
+
+*****
+*
+*  ADDGOLD adds gold the player finds to the gold he already has.
+*
+*****
+
+	SUBROUTINE ADDGOLD(I)
+	INCLUDE 'QSTCOM.FOR'
+
+	GOLDONPERSON=GOLDONPERSON+I
+	J=STATS(1)*5000+CHARLVL*4500
+	IF(GOLDONPERSON.GT.J)THEN
+	  GOLDONPERSON=J
+	  CALL FORMAT(3,'You have all the gold you can carry. You
+     + leave!/behind what you cannot keep.')
+	  ENDIF
+	RETURN
+	END
+
+
+
+
+*****
+*
+*  CHANGESTATS allows character's statistics to be changed.
+*  If any statistic falls below 1, the player dies.
+*
+*****
+
+	SUBROUTINE CHANGESTATS(I,J)
+	INCLUDE 'QSTCOM.FOR'
+
+	IF(J.LT.1.OR.J.GT.6)THEN
+	  DO K=1,6
+	    STATS(K)=STATS(K)+I
+	  ENDDO
+	ELSE
+	  STATS(J)=STATS(J)+I
+	  ENDIF
+
+	DO K=1,6
+	  IF(STATS(K).LT.1)THEN
+	    LIFE=0
+	    CALL SINGLE(7)
+	    CALL FORMAT(4,'One of your statistics has reached 0.')
+	    RETURN
+	  ELSE IF(STATS(K).GT.25)THEN
+	    STATS(K)=25
+	    ENDIF
+	ENDDO
+	RETURN
+	END
+
+
+
+
+*****
+*
+*  REMOVEMAGIC removes magic items from the player where:
+*
+*  CALL REMOVEMAGIC(I,J,K)  I is a specific location in the magic array to zero
+*			    J is a magic item number to delete
+*			    K returns the location of the deleted item
+*
+*****
+
+	SUBROUTINE REMOVEMAGIC(I1,I2,I3)
+	INCLUDE 'QSTCOM.FOR'
+	INTEGER I1,I2,I3
+
+	L=MAGICPERLEVEL(CHARLVL)
+
+	IF(I1.EQ.0.AND.I2.EQ.0)THEN
+	  DO I=1,L
+	    MAGIC(I)=0
+	  ENDDO
+	ELSE IF(I1.NE.0.AND.I2.EQ.0)THEN
+	  MAGIC(I1)=0
+	  PROPERTIES(I1)=0
+	ELSE IF(I1.EQ.0.AND.I2.NE.0)THEN
+	  DO I=1,L
+	    IF(MAGIC(I).EQ.I2)THEN
+	      MAGIC(I)=0
+	      PROPERTIES(I)=0
+	      I3=I
+	      RETURN
+	      ENDIF
+	  ENDDO
+	  ENDIF
+	RETURN
+
+	END
+
+
+
+
+*****
+*
+*  LOCATEMAGIC "finds" magic items for players. Calling sequence is:
+*
+*  CALL LOCATEMAGIC(I) I=0  means roll randomly 1 time
+*		       I=-1 means roll until player gets an item he can use
+*		       I>0  means give the player magic item "I".
+*
+*****
+
+	SUBROUTINE LOCATEMAGIC(J)
+	INCLUDE 'QSTCOM.FOR'
+	CHARACTER ITEMNAME*10,ITEMDESCRIPT*36
+	INTEGER K1,K2,K3,K4
+
+15	IF(J.GT.0)THEN
+	  Z=J
+	ELSE
+	  Z=DICE(1,91)
+	  ENDIF
+
+	IF(Z.GE.81.AND.Z.LE.84.AND.DICE(1,4).NE.1)GOTO 15
+	CALL OPENMAGIC
+	READ(23'Z,1) ITEMNAME,ITEMDESCRIPT,K1,K2,K3,K4
+1	FORMAT(A10,A36,4I2)
+	CALL CLOSEFILE(23)
+
+2	CALL FORMAT(3,'You have found a magic item: ')
+	CALL TRIMMER(ITEMNAME)
+	IF((FINDMAGIC(40).GT.0).AND.
+     +(Z.EQ.78.OR.Z.EQ.79.OR.Z.EQ.56.OR.Z.EQ.36.OR.Z.EQ.33.
+     +OR.Z.EQ.29.OR.Z.EQ.28).AND.(DICE(1,100).LT.60))THEN
+	  CALL FORMAT(4,'Your Helm of True Seeing has detected that
+     + this is a bad item.!/You do not take it.!/')
+	  IF(J.LT.0)GOTO 15
+	  RETURN
+	  ENDIF
+
+	CALL FORMAT(2,'Would you like to take it?   ')
+	CALL INPUT(I,1)
+	IF(I.EQ.78)THEN
+	  CALL FORMAT(0,'No')
+	  RETURN
+	ELSE IF(I.NE.89)THEN
+	  GOTO 2
+	ELSE
+	  CALL FORMAT(0,'Yes!/!/It is a(n) ')
+	  CALL TRIMMER(ITEMDESCRIPT)
+	  ENDIF
+
+	IF(Z.EQ.34)THEN
+	  CALL FORMAT(4,'They are Eyes of Petrification !!!!!!!/')
+	  IF(SAVINGTHROW(STATS(4)))THEN
+	    CALL FORMAT(3,'You were able to withstand the shock.!/
+     +You have thrown the eyes to the ground and crushed them.')
+	  ELSE
+	    LIFE=0
+	    CALL FORMAT(3,'You were not of high enough constitution
+     + to withstand the shock.')
+	    ENDIF
+	  RETURN
+	  ENDIF
+
+	IF(Z.EQ.56)THEN
+	  I=DICE(1,21)+9
+	  HITPOINTS=HITPOINTS-I
+	  IF(HITPOINTS.LT.1)LIFE=0
+	  CALL FORMAT(3,'You have been frozen by the gem. You have
+     + taken ')
+	  CALL OUTNUM(I)
+	  CALL FORMAT(0,' points of damage.')
+	  RETURN
+	  ENDIF
+
+	IF(Z.EQ.85)THEN
+	  CALL FORMAT(3,'All statistics have dropped 3.')
+	  CALL CHANGESTATS(-3,0)
+	  RETURN
+	  ENDIF
+
+	IF(CLASS.NE.K1.AND.CLASS.NE.K2.AND.CLASS.NE.K3.AND.
+     +CLASS.NE.K4)THEN
+	  CALL FORMAT(4,'You are of the wrong class to have that item.')
+	  IF(J.EQ.-1)GOTO 15
+	  RETURN
+	  ENDIF
+
+	L=MAGICPERLEVEL(CHARLVL)
+
+
+	IF(Z.LT.13.OR.(Z.GE.89.AND.Z.LE.91))THEN
+	  DO I=1,L
+	    IF((MAGIC(I).LE.18.OR.(MAGIC(I).GE.89.AND.MAGIC(I).LE.91))
+     +.AND.MAGIC(I).GT.0)THEN
+	      CALL FORMAT(4,'You already had a magical weapon so you
+     + decided to keep the!/better of the two.')
+	      IF((MAGIC(I).GT.12.AND.MAGIC(I).LE.18).OR.Z.GT.MAGIC(I))
+     +MAGIC(I)=Z
+	      RETURN
+	      ENDIF
+	  ENDDO
+	ELSE IF(Z.LT.19)THEN
+	  DO I=1,L
+	    IF(MAGIC(I).LT.19.OR.(MAGIC(I).GE.89.AND.MAGIC(I).LE.91))THEN
+	      MAGIC(I)=Z
+	      RETURN
+	      ENDIF
+	  ENDDO
+	ELSE IF(Z.LT.24)THEN
+	  DO I=1,L
+	    IF(MAGIC(I).GE.19.AND.MAGIC(I).LE.23)THEN
+	      IF(Z.EQ.23)THEN
+		MAGIC(I)=Z
+		RETURN
+	      ELSE
+		CALL FORMAT(4,'You were already protected by a magical
+     + shield so you decided!/to keep the better of the two.')
+		IF(Z.GT.MAGIC(I).OR.MAGIC(I).EQ.23)MAGIC(I)=Z
+		RETURN
+		ENDIF
+	      ENDIF
+	  ENDDO
+	  ENDIF
+
+	DO I=1,L
+	  IF(MAGIC(I).EQ.0)THEN
+	    MAGIC(I)=Z
+	    CALL SET_CHARGES(Z,I,PROPERTIES)
+	    RETURN
+	    ENDIF
+	ENDDO
+
+9	CALL FORMAT(3,'You already have all the magic you can carry.!/
+     +Would you like to drop something?   ')
+	CALL INPUT(I,2)
+	IF(I.EQ.78.OR.I.EQ.0)RETURN
+	IF(I.NE.89)GOTO 9
+
+	CALL LISTMAGIC
+	CALL FORMAT(3,'Number of the item you wish to drop?  ')
+	CALL INPUTNUMBER(I)
+	IF(I.EQ.0)GOTO 9
+	IF(I.LT.1.OR.I.GT.L)RETURN
+
+	MAGIC(I)=Z
+	CALL SET_CHARGES(Z,I,PROPERTIES)
+	RETURN
+	END
+
+
+
+
+*****
+*
+*  SET_CHARGES sets the charges that certain magic items have.
+*
+*****
+
+	SUBROUTINE SET_CHARGES(Z,I,PROPERTIES)
+	INTEGER PROPERTIES(8),Z,I,DICE
+
+	IF(Z.EQ.52)THEN
+	  PROPERTIES(I)=DICE(1,4)
+	ELSE IF(Z.EQ.74)THEN
+	  PROPERTIES(I)=DICE(5,6)
+	ELSE IF(Z.EQ.76)THEN
+	  PROPERTIES(I)=DICE(6,3)
+	ELSE IF(Z.EQ.54)THEN
+	  PROPERTIES(I)=DICE(50,2)
+	ELSE IF(Z.GE.89.AND.Z.LE.91)THEN
+	  PROPERTIES(I)=5
+	ELSE
+	  PROPERTIES(I)=DICE(1,99)
+	  ENDIF
+	RETURN
+	END
+
+
+
+*****
+*
+*  MAGICPERLEVEL returns the number of magic items the user may carry
+*  when passed the player's level.
+*
+*****
+
+	INTEGER FUNCTION MAGICPERLEVEL(I)
+
+	IF(I.LT.6)THEN
+	  MAGICPERLEVEL=5
+	ELSE
+	  MAGICPERLEVEL=8
+	  ENDIF
+
+	RETURN
+	END
+
+
+
+
+*****
+*
+*  SAVINGTHROW rolls saving throws for players.
+*
+*****
+
+	LOGICAL FUNCTION SAVINGTHROW(KEY)
+	INCLUDE 'QSTCOM.FOR'
+	INTEGER KEY,I,K
+
+	SAVINGTHROW=.FALSE.
+	I=24-KEY
+	IF(FINDMAGIC(61).GT.0)I=I-2
+	IF(FINDMAGIC(62).GT.0)I=I+2
+	IF(FINDMAGIC(38).GT.0)I=I+1
+	IF(FINDMAGIC(42).GT.0)I=I-1
+	IF(FINDMAGIC(65).GT.0)I=I-1
+	IF(FINDMAGIC(66).GT.0)I=I-2
+	IF(FINDMAGIC(78).GT.0)I=I+10
+	K=DICE(1,20)
+	IF(K+CHARLVL.GE.I.OR.K.EQ.20)SAVINGTHROW=.TRUE.
+	IF(K.EQ.1)SAVINGTHROW=.FALSE.
+
+	RETURN
+	END
+
+
+
+
+*****
+*
+*  QUEST_ERROR is called if any execution-time errors occur.
+*
+*****
+
+	INTEGER FUNCTION QUEST_ERROR(SIGARGS,MECHARGS)
+	INCLUDE 'QSTCOM.FOR'
+	INTEGER*4 MECHARGS(*),SIGARGS(*)
+	INCLUDE '($SSDEF)'
+
+	OPEN(UNIT=99,FILE='SYS$OUTPUT',STATUS='OLD')
+	J=IPOSITION(SIGARGS(2))
+	IF(UIC.NE.'065244')THEN
+	  WRITE(99,1) SIGARGS(2)
+1	  FORMAT(////' Jim, the wizard, appears before you.',//,
+     +' Alas!! The very fabric of my world has changed and I cannot
+     + seem to',/,' find out why. Would you MAIL this number: ',
+     +I<J>,' to 00CKKELLEY?',///,' 			He
+     + vanishes........')
+	  OPEN(UNIT=27,FILE='BSU$USER_2:[00CKKELLE.QUEST]ERROR.DAT',
+     +ACCESS='APPEND',STATUS='OLD')
+	  WRITE(27,12) USERNAME,UIC,SIGARGS(2)
+12	  FORMAT(1X,A12,2X,A6,2X,I)
+	  CLOSE(UNIT=27)
+	  CALL EXITR
+	ELSE
+	  QUEST_ERROR=SS$_RESIGNAL
+	  RETURN
+	  ENDIF
+	END
+
+
+
+*****
+*
+*  MAGIC_RANGE checks to see if the player has a magic item within a
+* range of items.
+*
+*****
+
+	INTEGER FUNCTION MAGIC_RANGE(START,END)
+	INCLUDE 'QSTCOM.FOR'
+	INTEGER START,END
+
+	MAGIC_RANGE=0
+	I=MAGICPERLEVEL(CHARLVL)
+	DO J=1,I
+	  IF(MAGIC(J).GE.START.AND.MAGIC(J).LE.END)THEN
+	    MAGIC_RANGE=MAGIC(J)
+	    RETURN
+	    ENDIF
+	ENDDO
+	RETURN
+	END
+
+
+*****
+*
+*  MAGIC_POSITION returns the position of a magic item in the magic array.
+*
+*****
+
+	INTEGER FUNCTION MAGIC_POSITION(ITEM)
+	INCLUDE 'QSTCOM.FOR'
+	INTEGER ITEM
+
+	MAGIC_POSITION=0
+	J=MAGICPERLEVEL(CHARLVL)
+	DO I=1,J
+	  IF(MAGIC(I).EQ.ITEM)THEN
+	    MAGIC_POSITION=I
+	    RETURN
+	    ENDIF
+	ENDDO
+	RETURN
+	END

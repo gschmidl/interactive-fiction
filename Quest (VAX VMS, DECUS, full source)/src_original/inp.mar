@@ -1,0 +1,93 @@
+	.Title	Inchk
+	.Sbttl	- Input a single character.
+
+
+; This routine will input an ASCII character. If no character is typed
+; within 24 seconds, a "0" is returned.
+
+; Calling sequence:
+
+;	CALL INCHK(NUMBER)
+
+; Where:
+
+;	NUMBER is an integer variable to hold the ASCII value of
+;	the character typed.
+
+
+	.PSECT	DATA,NOEXE,WRT
+	$IODEF				;Define I/O symbols
+TTY:	.ASCID	\SYS$INPUT\		;Terminal
+TTCHAN:	.BLKL	1			;Assigned channel number
+INBUF:	.BLKB	1			;Where to put the input
+FLAGA:	.BLKB	1			;Assignment flag
+LN$BUF=1				;Only one character
+
+	.PSECT	INCHK,EXE
+	.ENTRY	INCHK,^M<R5,R6,R7>
+AGAIN:	JSB	INCHRW			;Get a character
+	CMPW	IO_SB,#SS$_TIMEOUT	;Time out on input?
+	BNEQ	INC.NT			;No, check ahead
+	MOVL	#0,@4(AP)		;Return a 0
+	RET				;And go home
+INC.NT:	MOVZBL	INBUF,@4(AP)		;Move it in
+	RET				;Go on home
+
+CTRL:	CMPB	R7,#^A\a\		;Test for lower case
+	BLSS	CTRL.1
+	CMPB	R7,#^A\z\
+	BGTR	CTRL.1
+	SUBB2	#32,R7			;Make it right
+CTRL.1:	SUBB2	#^A\@\,R7		;Make it a control char
+S.HOME:	SUBW2	#1,R6			;Adjust for extra char
+S.HO.1:	RSB				;Return
+
+	.PSECT	DATA
+IO_SB:	.BLKQ	1
+
+	.PSECT	EXE
+INCHRW:	TSTB	FLAGA			;Assigned yet?
+	BNEQ	GO_ON			;Yes, never mind
+	JSB	ASSIGNIT		;No, assign it
+GO_ON:	$QIOW_S	FUNC=#<IO$_READVBLK!IO$M_NOFILTR!IO$M_NOECHO!IO$M_TIMED>,-
+	CHAN=TTCHAN,P1=INBUF,P2=#1,P3=#24,IOSB=IO_SB
+	BLBC	R0,OOPS			;Error if low bit is set
+	CMPB	INBUF,#^A\a\		;Less than a "a"?
+	BLSS	HOME			;Yes, never mind
+	CMPB	INBUF,#^A\z\		;How about a "z"?
+	BGTR	HOME			;It don't matter any more
+	SUBB2	#32,INBUF		;Make it upper case
+HOME:	RSB				;Return to sender
+
+ASSIGNIT:				;No channel assigned yet
+	$ASSIGN_S	DEVNAM=TTY,CHAN=TTCHAN
+	BLBC	R0,OOPS			;Error if lower bit is set
+	MOVB	#-1,FLAGA		;Flag assignment
+	RSB				;Return to caller
+OOPS:	$EXIT_S	R0			;Exit with error message
+	RET				;Go home
+
+;	CALL	GETINPUT_NOECHO(string.wt.dx)
+
+	.ENTRY	GETINPUT_NOECHO,^M<R2,R3,R4>	; Entry point
+	TSTB	FLAGA			; Is it assigned?
+	BNEQ	10$			; Yes, no need to get it then
+	JSB	ASSIGNIT		; No, get it
+10$:	$QIOW_S	FUNC=#<IO$_READVBLK!IO$M_NOECHO!IO$M_TRMNOECHO>,-
+		CHAN=TTCHAN,-		; Channel
+		IOSB=IO_SB,-		; I/O status block
+		P1=STRING_BUFFER,-	; Data address
+		P2=#80			; Max length
+	MOVZWL	IO_SB+2,STRING_LENGTH	; Get the input length
+	PUSHAQ	@4(AP)			; Return here
+	PUSHAQ	STRING_LENGTH		; Get desc address
+	CALLS	#2,G^LIB$SCOPY_DXDX	; Copy the string
+20$:	RET				; Return
+
+STRING_LENGTH:
+	.BLKL	1			; String length
+DATA_ADDRESS:
+	.ADDRESS	STRING_BUFFER
+STRING_BUFFER:
+	.BLKB	80
+	.END
