@@ -9,6 +9,19 @@
 #include "rmsdef.h"
 #include <time.h>
 #include <ctype.h>
+#ifdef _WIN32
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+#include <io.h>
+#ifndef ENABLE_VIRTUAL_TERMINAL_PROCESSING
+#define ENABLE_VIRTUAL_TERMINAL_PROCESSING 0x0004
+#endif
+#ifndef CREATE_WAITABLE_TIMER_HIGH_RESOLUTION
+#define CREATE_WAITABLE_TIMER_HIGH_RESOLUTION 0x00000002
+#endif
+#else
+#include <unistd.h>
+#endif
 
 #ifndef RAB_L_FAB
 #define RAB_L_FAB 0x3C           /* between RAB$L_BKT (0x38) and RAB$L_XAB (0x40) */
@@ -305,18 +318,271 @@ static int read_record(VFile *f, u8 *buf, int max)
     }
 }
 
-/* (declared above do_qio) Column the program's own output has left on.  The VMS terminal
- * driver tracks this to decide whether a record needs a leading carriage
- * return; terminal echo of typed input does not count towards it. */
+/* ------------------------------------------------------------------ */
+/* Terminal timing.
+ *
+ * FUNADV's visual effects are written for a terminal at the far end of a
+ * serial line and they need the line's own delays to work.  The fall down
+ * the shaft (message 34) and the relief after PISS (message 210) are sent
+ * one short record at a time and are meant to arrive that way; the flashes
+ * in both, and the lightning at the switch (message 211), are done by
+ * setting reverse screen mode (DECSCNM, ESC [ ? 5 h) and clearing it again
+ * a few characters later.  The game asks for no delay of its own - it makes
+ * no timer call and burns no cycles - so delivered at infinite speed the
+ * fall, the pauses and every flash collapse into nothing, which is why only
+ * the ESC [ 7 m inverse text survived.
+ *
+ * So put the line back: terminal output is charged wire time at term_baud
+ * bits per second, ten bits to the character, and reverse screen mode is
+ * held on the screen for at least term_flash milliseconds however few
+ * characters lie between the set and the clear.  Not one byte of output
+ * changes, only when it arrives, and pacing is off whenever stdout is not a
+ * terminal, so captured transcripts stay byte for byte what they were.
+ *
+ * term_col is the column the program's own output has left the terminal on.
+ * The VMS terminal driver tracks it to decide whether a record needs a
+ * leading carriage return; terminal echo of typed input does not count.
+ */
+
+int term_baud  = -1;         /* bits/s; 0 = instant, -1 = decide in term_init */
+int term_flash = -1;         /* ms to hold a flash; 0 = none, -1 = as above */
+
+static double tx_owed;       /* wire time charged but not yet spent, ms */
+static double scnm_at = -1;  /* when reverse screen went on, -1 when off */
+static int    scnm_seen;     /* bytes of ESC [ ? 5 matched so far */
+
+#ifdef _WIN32
+static double now_ms(void)
+{
+    static LARGE_INTEGER f;
+    LARGE_INTEGER c;
+    if (!f.QuadPart) QueryPerformanceFrequency(&f);
+    QueryPerformanceCounter(&c);
+    return (double)c.QuadPart * 1000.0 / (double)f.QuadPart;
+}
+
+/* Sleep() rounds up to the system timer tick, some 15 ms, which is coarser
+ * than a flash and coarser than a line; ask for a high resolution timer and
+ * spin off whatever fraction is left. */
+static void sleep_ms(double ms)
+{
+    static HANDLE t;
+    static int tried;
+    double end = now_ms() + ms;
+    if (ms <= 0) return;
+    if (!tried) {
+        tried = 1;
+        t = CreateWaitableTimerExW(NULL, NULL,
+                                   CREATE_WAITABLE_TIMER_HIGH_RESOLUTION,
+                                   TIMER_ALL_ACCESS);
+        if (!t) t = CreateWaitableTimerW(NULL, TRUE, NULL);
+    }
+    if (t) {
+        LARGE_INTEGER due;
+        due.QuadPart = -(LONGLONG)(ms * 10000.0);
+        if (SetWaitableTimer(t, &due, 0, NULL, NULL, FALSE))
+            WaitForSingleObject(t, (DWORD)ms + 50);
+    }
+    while (now_ms() < end) SwitchToThread();
+}
+
+static int out_is_tty(void) { return _isatty(_fileno(stdout)); }
+#else
+static double now_ms(void)
+{
+    struct timespec ts;
+    clock_gettime(CLOCK_MONOTONIC, &ts);
+    return ts.tv_sec * 1000.0 + ts.tv_nsec / 1.0e6;
+}
+
+static void sleep_ms(double ms)
+{
+    struct timespec ts;
+    if (ms <= 0) return;
+    ts.tv_sec  = (time_t)(ms / 1000.0);
+    ts.tv_nsec = (long)((ms - (double)ts.tv_sec * 1000.0) * 1.0e6);
+    nanosleep(&ts, NULL);
+}
+
+static int out_is_tty(void) { return isatty(fileno(stdout)); }
+#endif
+
+/* Screen effects layered on top of the game's own output.
+ *
+ * The game flashes the screen only where its message text says so, and it
+ * says so in four places: twice on the way down the shaft, once behind
+ * -===RELIEF===- and once at the switch.  Anything else is an addition, so
+ * additions live in a file of their own rather than in the emulator or, far
+ * worse, in the recovered game data: effects.txt beside the game, one rule
+ * per line, "<flashes> <before|after> <text the line contains>".  Delete the
+ * file, or pass -effects none, and the game is exactly as it was written. */
+
+const char *term_effects;              /* -effects: file, or "none" */
+
+#define FX_MAX 16
+typedef struct { char text[64]; int count, after; } Effect;
+static Effect fx[FX_MAX];
+static int fx_n;
+
+static void fx_load(const char *path)
+{
+    FILE *fp = fopen(path, "r");
+    char line[256];
+    if (!fp) return;
+    while (fx_n < FX_MAX && fgets(line, sizeof line, fp)) {
+        char *p = line, *q;
+        int count, after;
+        while (*p == ' ' || *p == '\t') p++;
+        if (!*p || *p == '#' || *p == '\n' || *p == '\r') continue;
+        count = (int)strtol(p, &q, 10);
+        if (q == p || count <= 0) continue;
+        for (p = q; *p == ' ' || *p == '\t'; p++) ;
+        after = strncmp(p, "before", 6) != 0;
+        while (*p && *p != ' ' && *p != '\t') p++;
+        while (*p == ' ' || *p == '\t') p++;
+        for (q = p + strlen(p); q > p && (q[-1] == '\n' || q[-1] == '\r'); q--) ;
+        *q = 0;
+        if (!*p) continue;
+        snprintf(fx[fx_n].text, sizeof fx[fx_n].text, "%s", p);
+        fx[fx_n].count = count;
+        fx[fx_n].after = after;
+        fx_n++;
+    }
+    fclose(fp);
+}
+
+void term_init(void)
+{
+    int tty = out_is_tty();
+    if (term_baud  < 0) term_baud  = tty ? 9600 : 0;
+    if (term_flash < 0) term_flash = tty ? 120  : 0;
+    if (!term_effects || strcmp(term_effects, "none")) {
+        char path[512];
+        if (term_effects) snprintf(path, sizeof path, "%s", term_effects);
+        else snprintf(path, sizeof path, "%s/effects.txt", data_dir);
+        fx_load(path);
+    }
+#ifdef _WIN32
+    /* DECSCNM and the SGR attributes only reach the screen if the console is
+     * interpreting escape sequences itself. */
+    if (tty) {
+        HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
+        DWORD m;
+        if (h != INVALID_HANDLE_VALUE && GetConsoleMode(h, &m))
+            SetConsoleMode(h, m | ENABLE_VIRTUAL_TERMINAL_PROCESSING);
+    }
+#endif
+}
+
+/* put the characters on the screen, then spend the wire time they cost */
+static void term_drain(void)
+{
+    fflush(stdout);
+    if (tx_owed > 0) { sleep_ms(tx_owed); tx_owed = 0; }
+}
+
+static void tx(u8 c)
+{
+    fputc(c, stdout);
+    if (c == '\n' || c == '\r') term_col = 0;
+    else term_col++;
+    if (term_baud > 0) {
+        tx_owed += 10000.0 / term_baud;          /* ten bits to the character */
+        if (tx_owed >= 20.0) term_drain();       /* trickle, do not burst */
+    }
+}
 
 static void term_out(const u8 *s, int n)
 {
+    static const char scnm[] = "\033[?5";
     int i;
     for (i = 0; i < n; i++) {
-        fputc(s[i], stdout);
-        if (s[i] == '\n' || s[i] == '\r') term_col = 0;
-        else term_col++;
+        u8 c = s[i];
+        if (scnm_seen == 4 && (c == 'h' || c == 'l')) {
+            if (c == 'l' && scnm_at >= 0) {      /* hold the reversed screen */
+                double held;
+                term_drain();
+                held = now_ms() - scnm_at;
+                if (held < term_flash) sleep_ms(term_flash - held);
+                scnm_at = -1;
+            }
+            tx(c);
+            term_drain();
+            if (c == 'h' && term_flash > 0) scnm_at = now_ms();
+            scnm_seen = 0;
+            continue;
+        }
+        scnm_seen = (scnm_seen < 4 && c == (u8)scnm[scnm_seen]) ? scnm_seen + 1
+                  : (c == 033 ? 1 : 0);
+        tx(c);
     }
+}
+
+/* n flashes with a dark gap between them, as the game would have written
+ * them; term_out does the holding.  term_col is the column the program's
+ * output reached and these characters are not the program's. */
+static void term_strobe(int n)
+{
+    int save = term_col, i;
+    if (term_flash <= 0) return;
+    for (i = 0; i < n; i++) {
+        term_out((const u8 *)"\033[?5h\033[?5l", 10);
+        term_drain();
+        if (i + 1 < n) sleep_ms(term_flash);
+    }
+    term_col = save;
+}
+
+static int fx_contains(const u8 *buf, int len, const char *text)
+{
+    int n = (int)strlen(text), i;
+    for (i = 0; i + n <= len; i++)
+        if (!memcmp(buf + i, text, n)) return 1;
+    return 0;
+}
+
+static void fx_apply(const u8 *buf, int len, int after)
+{
+    int i;
+    for (i = 0; i < fx_n; i++)
+        if (fx[i].after == after && fx_contains(buf, len, fx[i].text))
+            term_strobe(fx[i].count);
+}
+
+/* -demo: send the effect sequences the game uses, as it sends them, so a
+ * terminal's handling of them can be checked without playing down to the
+ * fountain first.  The text is message 34, 210 and 211 of FUNADV.DAT. */
+void term_demo(void)
+{
+    static const char *const fall[] = {
+        "You are falling...", "falling...", "falling...", "..", ".", ".",
+        ".\b", ".\b", ".\033[?5h\033[?5l", "-  ", ".\033[?5h\033[?5l",
+        "", "", ".", "", "", "", "", "", "",
+        "                             --=splat=-- ", NULL };
+    static const char *const relief[] = {
+        "", "ahhhh....", "...", "..", ".", ".",
+        "\033[?5h\033[?5l\033[7m-===RELIEF===-\033[0m", "", NULL };
+    static const char *const zap[] = {
+        " ->> \033[?5h\033[7mzap!    !!\033[0m\033[?5l <--   .... ... .. . Oh no!",
+        "A bolt of lightning spurts from the switch and broils your arm! ", NULL };
+    static const char *const *const seq[] = { fall, relief, zap, NULL };
+    u8 blanks[80];
+    int i, j;
+
+    memset(blanks, ' ', sizeof blanks);
+    for (i = 0; seq[i]; i++) {
+        for (j = 0; seq[i][j]; j++) {
+            int len = (int)strlen(seq[i][j]);
+            fx_apply((const u8 *)seq[i][j], len, 0);
+            term_out((const u8 *)seq[i][j], len);
+            if (len < (int)sizeof blanks) term_out(blanks, (int)sizeof blanks - len);
+            term_out((const u8 *)"\r\n", 2);
+            term_drain();
+            fx_apply((const u8 *)seq[i][j], len, 1);
+        }
+        term_out((const u8 *)"\r\n", 2);
+    }
+    term_drain();
 }
 
 /* Emit one record to the terminal honouring the file's record attributes.
@@ -324,6 +590,7 @@ static void term_out(const u8 *s, int n)
  * character and is not part of the data. */
 static void term_record(VFile *f, const u8 *buf, int len)
 {
+    fx_apply(buf, len, 0);
     if (f->rat & FAB_M_FTN) {
         int cc = len ? buf[0] : ' ';
         const u8 *d = buf + (len ? 1 : 0);
@@ -361,7 +628,8 @@ static void term_record(VFile *f, const u8 *buf, int len)
         term_out(buf, len);
         term_out((const u8 *)"\r\n", 2);
     }
-    fflush(stdout);
+    term_drain();
+    fx_apply(buf, len, 1);
 }
 
 static void write_record(VFile *f, const u8 *buf, int len)
@@ -693,8 +961,8 @@ static u32 do_qio(int wait)
 
     if (fn == (IO_WRITEVBLK & 0x3F) || fn == IO_WRITEVBLK) {
         u32 i;
-        for (i = 0; i < p2; i++) fputc(rd8(p1 + i), stdout);
-        fflush(stdout);
+        for (i = 0; i < p2; i++) { u8 c = rd8(p1 + i); term_out(&c, 1); }
+        term_drain();
         if (iosb) { wr16(iosb, 1); wr16(iosb + 2, (u16)p2); wr32(iosb + 4, 0); }
         return SS_NORMAL_;
     }
@@ -706,8 +974,8 @@ static u32 do_qio(int wait)
         u32 k = 0;
         if (fn == IO_READPROMPT && argc() >= 12) {      /* p5/p6 carry the prompt */
             u32 pb = arg(11), pl = arg(12), i;
-            for (i = 0; i < pl; i++) fputc(rd8(pb + i), stdout);
-            fflush(stdout);
+            for (i = 0; i < pl; i++) { u8 c = rd8(pb + i); term_out(&c, 1); }
+            term_drain();
             term_col = 1;
         }
         if (pend_pos >= pend_len) {

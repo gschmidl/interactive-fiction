@@ -1,0 +1,20 @@
+# effects.txt - screen effects layered on top of FUNADV's own output.
+#
+# This file is an ADDITION.  FUNADV flashes the screen in exactly four
+# places, and it says so itself, in the message text on the VMS disk: twice
+# on the way down the shaft, once behind -===RELIEF===- and once at the
+# switch.  Nothing here is part of the game as it was written.
+#
+# One rule per line:
+#
+#     <flashes>  before|after  <text the line has to contain>
+#
+# A flash is a set and clear of reverse screen mode, held for as long as
+# -flash says (120 ms by default), with the same again dark between one
+# flash and the next.  Rules only fire when the output is going to a real
+# terminal.  Delete this file, or run with -effects none, and the game shows
+# exactly what it was written to show.
+
+# Hitting the bottom of the shaft.  The fall itself flashes twice on the way
+# down; the landing did not, which reads as an anticlimax after the drop.
+3  after  --=splat=--
