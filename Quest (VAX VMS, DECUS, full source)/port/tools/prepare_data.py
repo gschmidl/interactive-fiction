@@ -1,60 +1,118 @@
-"""Convert the remaining QUEST data files to the fixed-length record form
-that the game's direct-access OPENs describe.
+"""Build port/data from the VMS copy of the QUEST area in ../quest/.
 
-MAGIC.DTA, MORAL.DTA and MON.DTA were stored on VMS with "carriage return
-carriage control" (RAT=CR), so the copy on the web has one LF appended to
-each record.  Unlike DUNGEON.DTA nothing was consumed: dropping the LF
-restores the record exactly.
+That copy holds every file exactly as RMS stored it on disk, so nothing has
+to be repaired, only decoded (see vmsfile.py).  The game's direct-access
+OPENs then read plain fixed-length records, and its sequential ones read
+LF-terminated text.
 
-  magic.dta  RECL=54  FORMAT(A10,A36,4I2)   relative, direct
-  moral.dta  RECL=80  FORMAT(A80)           relative, direct
-  mon.dta    ---      FORMAT(A20,I8,I6)     sequential, stays a text file
-  dunnam.dta ---      FORMAT(A37)           sequential, stays a text file
-  character.dta        252-byte records, indexed on name + username
+  dungeon.dta    relative, RECL=4     FORMAT(I4)          10203 cells
+  magic.dta      relative, RECL=54    FORMAT(A10,A36,4I2)
+  moral.dta      relative, RECL=80    FORMAT(A80)
+  mon.dta        sequential           FORMAT(A20,I8,I6)   text
+  dunnam.dta     sequential           FORMAT(A37)         text
+  access.fil     sequential           FORMAT(I1,2A5)      text
+  character.dta  indexed, 252 bytes, keys name + user name
+
+DUNGEON.DTA keeps its record numbers.  Records 520-549 were never written
+on the VAX, and the author's pointer table skips over them; their cells
+hold four NUL bytes, which are copied as they are.  Nothing reads them --
+and if anything did, gfortran rejects NULs in an I4 field just as VMS
+refused a read of a record that does not exist.
+
+CHARACTER.DTA as copied is the first 75 of the 149 blocks the file used
+(its area descriptor says so), so about half of the buckets are missing.
+character.dta.orig is every live character in the buckets that survive.
+An existing data/character.dta is the player's own save and is never
+touched.
 """
 import os
 import shutil
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, HERE)
+import vmsfile as V                                        # noqa: E402
+
 ROOT = os.path.dirname(os.path.dirname(HERE))
-SRC = os.path.join(ROOT, 'src_original')
+SRC = os.path.join(ROOT, 'quest')
 DST = os.path.join(ROOT, 'port', 'data')
 
 
-def strip_terminators(name, reclen):
-    data = open(os.path.join(SRC, name), 'rb').read()
-    stride = reclen + 1
-    if len(data) % stride:
-        sys.exit('%s: %d bytes is not a multiple of %d' % (name, len(data), stride))
-    n = len(data) // stride
-    out = bytearray()
-    for i in range(n):
-        rec = data[i * stride:(i + 1) * stride]
-        if rec[reclen] != 0x0A:
-            sys.exit('%s: record %d does not end in LF' % (name, i + 1))
-        if 0x0A in rec[:reclen] or 0x0C in rec[:reclen]:
-            sys.exit('%s: record %d has an embedded control byte' % (name, i + 1))
-        out += rec[:reclen]
-    open(os.path.join(DST, name), 'wb').write(out)
-    print('%-14s %5d records of %d bytes' % (name, n, reclen))
+def read(name):
+    with open(os.path.join(SRC, name), 'rb') as f:
+        return f.read()
+
+
+def write(name, data):
+    with open(os.path.join(DST, name), 'wb') as f:
+        f.write(data)
+
+
+def check_dungeon(cells):
+    """The file must read the way GETDUNGEON reads it: through the pointer
+    table in records 1-96, to 48 levels whose stairs are where the level
+    says they are, and which between them account for every record."""
+    def val(n):
+        exists, d = cells[n - 1]
+        assert exists, 'record %d is read but was never written' % n
+        return int(d)
+
+    starts = []
+    for d in range(6):
+        k = (d + 1) * 16 - 15
+        starts += [val(k + 2 * l) * 10000 + val(k + 2 * l + 1) for l in range(8)]
+    used = set(range(1, 97))
+    for i, p in enumerate(starts):
+        ll, lw = val(p), val(p + 1)
+        assert 1 <= ll <= 40 and 1 <= lw <= 21, 'level %d: %dx%d' % (i, ll, lw)
+        span = range(p, p + 2 + ll * lw + 4)
+        assert not used & set(span), 'level %d overlaps another' % i
+        used |= set(span)
+        grid = [[val(p + 2 + x * lw + y) for y in range(lw)] for x in range(ll)]
+        ux, uy, dx, dy = (val(span[-4 + j]) for j in range(4))
+        assert grid[ux - 1][uy - 1] // 100 in (16, 18), 'level %d: stairs up' % i
+        if i % 8 == 7:
+            assert (dx, dy) == (0, 0), 'level 8 has a way down'
+        else:
+            assert grid[dx - 1][dy - 1] // 100 in (17, 19), 'level %d: stairs down' % i
+    written = {n for n, (e, _) in enumerate(cells, 1) if e}
+    assert used == written, 'records outside the levels: %r' % sorted(written ^ used)[:10]
 
 
 def main():
     os.makedirs(DST, exist_ok=True)
-    strip_terminators('magic.dta', 54)
-    strip_terminators('moral.dta', 80)
+
+    cells = V.relative_cells(read('dungeon.dta'), 4)
+    check_dungeon(cells)
+    write('dungeon.dta', b''.join(d for _, d in cells))
+    holes = [n for n, (e, _) in enumerate(cells, 1) if not e]
+    print('%-14s %5d records, 48 levels checked; never written: %s'
+          % ('dungeon.dta', len(cells),
+             '%d-%d' % (holes[0], holes[-1]) if holes else 'none'))
+
+    for name, recl in (('magic.dta', 54), ('moral.dta', 80)):
+        recs = V.relative_records(read(name), recl)
+        write(name, b''.join(recs))
+        print('%-14s %5d records of %d bytes' % (name, len(recs), recl))
+
     for name in ('mon.dta', 'dunnam.dta', 'access.fil'):
-        shutil.copy(os.path.join(SRC, name), os.path.join(DST, name))
-        print('%-14s copied unchanged' % name)
-    # the five characters that were live on the Ball State VAX in 1985
-    shutil.copy(os.path.join(SRC, 'character.dta'),
-                os.path.join(DST, 'character.dta.orig'))
-    if not os.path.exists(os.path.join(DST, 'character.dta')):
-        shutil.copy(os.path.join(SRC, 'character.dta'),
-                    os.path.join(DST, 'character.dta'))
-    print('%-14s %5d records of 252 bytes' %
-          ('character.dta', os.path.getsize(os.path.join(SRC, 'character.dta')) // 252))
+        text = V.var_text(read(name))
+        write(name, text)
+        print('%-14s %5d lines' % (name, text.count(b'\n')))
+
+    ix = V.indexed_file(read('character.dta'))
+    assert ix['keysz'] == 15 and ix['reclen'] == 252
+    write('character.dta.orig', b''.join(r['data'] for r in ix['records']))
+    present = sum(1 for _, _, p in ix['buckets'] if p)
+    print('%-14s %5d live characters from %d of %d data buckets '
+          '(%d of %d blocks survive)'
+          % ('character.dta', len(ix['records']), present, len(ix['buckets']),
+             len(read('character.dta')) // V.BLOCK, ix['blocks_used']))
+    save = os.path.join(DST, 'character.dta')
+    if not os.path.exists(save):
+        shutil.copy(os.path.join(DST, 'character.dta.orig'), save)
+    else:
+        print('%-14s left alone (it is the game\'s save)' % '')
 
 
 if __name__ == '__main__':
