@@ -40,7 +40,7 @@
 441 IFLEN(KE$+E1$)>=7GOTO600
 442 IFE1$="f"GOTO450
 443 IF(ASC(E1$)=<47)+(ASC(E1$)=>99)GOTO440
-444 IF(E1$="`")*(LEN(KE$)>0)THENPRINT" ";:KE$=LEFT$(KE$,LEN(KE$)-1)
+444 IF(E1$="`")*(LEN(KE$)>0)THENPRINT"| |";:KE$=LEFT$(KE$,LEN(KE$)-1)
 445 IFE1$="`"THEN440
 446 IFE1$="b"THENE1$="H"
 447 PRINTE1$;:KE$=KE$+E1$:GOTO440
@@ -90,7 +90,7 @@
 3270 GOSUB630:GOTO430
 5000 PRINT"ฤ                       ฤ"
 5010 PRINT" รๅไใใเๆฤ       ฤๆเใใไๅร "
-5020 PRINT"  ะเเๆฤ วรร๐ใ๏รรล ฤๆเเฮ  "
+5020 PRINT"  ะใเๆฤ วรร๐ใ๏รรล ฤๆเใฮ  "
 5030 PRINT"  ý   ว ว  วใล  ล ล ล ý  "
 5040 PRINT"  ý   ว วฤฤฺใ์ฤฤล ล ล ý  "
 5050 PRINT"  ý   ว /       \ ล ล ý  "
@@ -120,7 +120,7 @@
 6000 GOSUB20000
 6010 CURSOR11,15:PRINT"ฬ๐ุุ"
 6020 CURSOR3,11:PRINT"ฤฤฤฤฤฤฤ":PRINTTAB(3);"้ฤฤฤฤฤ๕":PRINTTAB(3);"ศ \ฤฤฤศ"
-6030 PRINTTAB(3);"ศ  ล  ศ":PRINTTAB(3);"ศ  ล  ศ":PRINTTAB(3);"ศ  ์ฤฤศ"
+6030 PRINTTAB(3);"ศ ๙   ศ":PRINTTAB(3);"ศ ว   ศ":PRINTTAB(3);"ศ  ์ฤฤศ"
 6040 PRINTTAB(3);"ศ /   ศ":PRINTTAB(3);"ศ/    ศ":PRINTTAB(3);"ษ     þ"
 6050 PRINTTAB(3);"       "
 6060 CURSOR5,22:PRINT"1";TAB(20);"2"
@@ -134,14 +134,14 @@
 7000 GOSUB20000:GOSUB7010:GOTO7040
 7010 CURSOR23,11:PRINT"๕ "
 7020 FORI=12TO20:CURSOR23,I:PRINT"ีล":NEXT
-7030 CURSOR23,21:PRINT" ล":RETURN
+7030 CURSOR23,21:PRINT" ๔ ":RETURN
 7040 CURSOR5,22:PRINT"1";TAB(20);"2"
 7050 IF(K1<>0)+(RO(3)<>1)GOTO7110
 7060 CURSOR5,12:PRINT"ะเเเฮ"
 7070 CURSOR5,13:PRINT"ý๏๐๐ý"
 7080 CURSOR5,14:PRINT"ýล๏วý"
 7090 CURSOR5,15:PRINT"ýศฺ้ý"
-7100 CURSOR5,16:PRINT"อเเเÝ"
+7100 CURSOR5,16:PRINT"อใใใÝ"
 7110 IFRO(3)=2GOTO7310
 7120 RETURN
 7200 GOSUB5210
@@ -160,14 +160,14 @@
 7400 IF(K1<>0)+(RO(3)<>2)GOTO600
 7410 CURSOR6,14:PRINT"   "
 7420 RO(3)=3:GOTO610
-8000 PRINT"รๅไใใเๆฤฤฤฺ๏รรรร๐ฤๆเใใไๅร"
+8000 PRINT"รๅไใใเๆฤฤฤฺ๐รรรร๐ฤๆเใใไๅร"
 8010 PRINT" ฤ   ฤ วะเเล๏รรรรโ     ฤ "
 8020 PRINT" ๏ศ ๙ม วýศศล๏รรรร๐ฤ   ศ๐ "
 8030 PRINT" ลศ1๙ม2วý  ๔๏รรรรรโ  4ศว "
 8040 PRINT" ลศ ๙ม วý 6็๏รรรรร๐ฤ  ศว "
 8050 PRINT" ลศ ๙ม /รรรý๏รรรรรรโ  ศว "
 8060 PRINT" ลศ ๙ม/  ฤ สรรรรรรร๐ฤ ศว "
-8070 PRINT" ลศ ๙    /ลส๏รรรรรรร็ ศว "
+8070 PRINT" ลศ ๙    /็ส๏รรรรรรร็ ศว "
 8080 PRINT" ลศ /    ล ว๏รรรรรรร๐ ศว "
 8090 PRINT" ลศ/        รรรรรรรรร\ศว "
 8100 PRINT" ล       3       5     ว "
@@ -194,7 +194,7 @@
 9070 IFRO(5)=2THENFORI=18TO17STEP-1:GOTO9100
 9080 IFRO(5)=3THENFORI=18TO18STEP-1:GOTO9100
 9090 GOTO9110
-9100 CURSOR1,I:PRINT"  ์ฤฤ/  /ล/  //รร๐/":NEXT
+9100 CURSOR1,I:PRINT" ์ฤฤฤ/  /ล/  //รร๐/":NEXT
 9110 CURSOR0,22:PRINT"/รรร"
 9120 CURSOR12,19:PRINT"1":CURSOR12,22:PRINT"2"
 9190 RETURN
@@ -265,7 +265,7 @@
 11400 IFRO(7)<>2GOTO600
 11410 RO(7)=3:CURSOR18,21:PRINT"   "
 11420 GOSUB660:GOTO430
-11600 CURSOR18,13:PRINT"ศ"
+11600 CURSOR18,13:PRINT"|"
 11610 IFRO(7)<>1GOSUB660:CURSOR18,13:PRINT"ฬ":GOTO430
 11620 RO(7)=2:GOSUB660:GOSUB11060:GOTO430
 12000 GOSUB20000
@@ -275,9 +275,9 @@
 12040 PRINTTAB(23);"\\\ใ"
 12050 CURSOR10,15
 12060 PRINT"ฤฤฤฤฤ":PRINTTAB(9);"วฤฤฤฤฤล":PRINTTAB(9);"วýะýฮýล"
-12070 PRINTTAB(9);"วýอýÝýล":PRINTTAB(9);"วรรรรรล":PRINTTAB(10);"ศศศศศ"
+12070 PRINTTAB(9);"๙โอýÝý ":PRINTTAB(9);"๙รรรรรล":PRINTTAB(10);"ศศศศศ"
 12080 IFRO(8)=1GOTO12130
-12090 CURSOR9,16:PRINT"ฦ\ฤฤฤ/ฦ":PRINTTAB(9);"ฦว   ลฦ":PRINTTAB(9);"ฦว   ลฦ"
+12090 CURSOR9,16:PRINT"ฦ\ฤฤฤ/ฦ":PRINTTAB(9);"ฦว   ลฦ":PRINTTAB(9);"ฦ๙   ลฦ"
 12100 PRINTTAB(9);"ฦ/รรร\ฦ"
 12110 IFRO(8)=3GOTO12130
 12120 CURSOR11,17:PRINT"ะเฮý ý"
@@ -306,7 +306,7 @@
 13050 PRINTTAB(11);"ýý  ýยยý"
 13060 PRINTTAB(11);"ýý  อาาÝ"
 13070 PRINTTAB(11);"อÝรรรอÝร":GOTO13100
-13080 CURSOR13,16:PRINT"๏รร๐":FORI=1TO3:PRINTTAB(13);"ล  ว":NEXT
+13080 CURSOR13,16:PRINT"๏รร๐":FORI=1TO3:PRINTTAB(13);"๔  ๙":NEXT
 13090 GOSUB630:CURSOR26,11:PRINT"]‘ฅ –พ‘น":CURSOR15,21:PRINT"3"
 13100 CURSOR5,21:PRINT"1";TAB(20);"2"
 13120 GOSUB11090:RETURN
@@ -329,9 +329,9 @@
 15000 GOSUB20000:GOSUB7010:GOSUB11090
 15010 CURSOR10,15
 15020 PRINTTAB(9);"ฤฤฤฤฤ":PRINTTAB(9);"วฤฤฤฤฤล":PRINTTAB(9);"วýะýฮýล"
-15030 PRINTTAB(9);"วýอýÝýล":PRINTTAB(9);"วรรรรรล":PRINTTAB(10);"ศศศศศ"
+15030 PRINTTAB(9);"๙ýอýÝýล":PRINTTAB(9);"วรรรรรล":PRINTTAB(10);"ศศศศศ"
 15040 IFRO(11)=1GOTO15090
-15050 CURSOR9,16:PRINT"ฦ\ฤฤฤ/ฦ":PRINTTAB(9);"ฦวะเฮลฦ":PRINTTAB(9);"ฦวý ýลฦ"
+15050 CURSOR9,16:PRINT"ฦ\ฤฤฤ/ฦ":PRINTTAB(9);"ฦ๙ะเฮลฦ":PRINTTAB(9);"ฦวý ýลฦ"
 15060 PRINTTAB(9);"ฦ/รรร\ฦ"
 15070 IF((RO(11)=3)+(RO(11)=2))*(K1=1)GOTO15090
 15080 CURSOR11,17:PRINT"      "
@@ -355,7 +355,7 @@
 15550 GOTO430
 15600 GOTO21000
 16000 PRINT"รๅไใใเๆฤฤฤฤฤฤฤฤฤฤฤๆเใใไๅร"
-16010 PRINT" 1  ฤ   ล       ว        "
+16010 PRINT" 1      ล       ว        "
 16020 PRINT"    ๏๏ศ ล       ว        "
 16030 PRINT"    ลลศ ล       ว        "
 16040 PRINT"    ลลศ ล       ว        "
@@ -370,9 +370,9 @@
 16130 PRINT"  /รรรรรรรรรรรรรรรรรรร\  "
 16140 GOSUB5140
 16150 IFRO(12)<>1THENRETURN
-16160 CURSOR9,11:PRINT"๏รรรรร๐":PRINTTAB(9);"ล๏๏๏๏๐ว"
-16170 PRINTTAB(9);"ล์์ฤศฺว":PRINTTAB(9);"ลลลล วว":PRINTTAB(9);"ลลลศ วว"
-16180 PRINTTAB(9);"ล๏๏รร๐ว":PRINTTAB(9);"ล์์์ศฺว":PRINTTAB(9);"์ฤฤฤฤฤฺ"
+16160 CURSOR9,11:PRINT"๏รรรรร๐":PRINTTAB(9);"ล๏๏๏๏๐๙"
+16170 PRINTTAB(9);"ล์์ฤศฺ๙":PRINTTAB(9);"ลลลล วว":PRINTTAB(9);"ลลลศ ๙๙"
+16180 PRINTTAB(9);"ล๏๏รร๐๙":PRINTTAB(9);"ล์์์ศฺว":PRINTTAB(9);"์ฤฤฤฤฤฺ"
 16190 RETURN
 16200 GOSUB5210
 16210 IFGE$="3"THENPA=4:GOSUB660:GOTO400
@@ -387,7 +387,7 @@
 16320 GOTO610
 17000 GOSUB20000
 17010 IFRO(13)<>1GOTO17030
-17020 CURSOR3,17:PRINT"ฤฤฤ/  /ล๏ร๐ ล์ฤฺ/"
+17020 CURSOR3,17:PRINT"ฤฤฤ/  /๔๏ร๐ ล์ฤฺ/"
 17030 CURSOR23,10:PRINT"///"
 17040 FORI=1TO11:PRINTTAB(23);"p":NEXT:CURSOR23,21:PRINT" \ "
 17050 CURSOR24,18:PRINT"ใใ"
@@ -399,16 +399,16 @@
 17230 PA=VAL(GE$)*2+10
 17240 GOSUB660:GOTO400
 17400 IFRO(13)<>1GOTO600
-17410 CURSOR2,17:PRINT"ว   ว    ว    /รรร "
+17410 CURSOR2,17:PRINT"ว   ว    ว    /รรรร"
 17420 RO(13)=2
 17430 GOSUB660
 17440 CURSOR26,11:PRINT"]ชฟฅ–พ ช’ฃน"
 17450 GOTO430
-18000 PRINTSPC(11);"ฤฤฤฤฤฤฤฤฤฺ ศ ว "
+18000 PRINTSPC(11);"ฤฤฤฤฤฤฤฤฤฤฺ ศ ว "
 18010 PRINT"   ฤ ูใไๅร๐         ววศว "
-18020 PRINT"ไๅรว ศ    ว";SPC(10);"ลศว "
+18020 PRINT"ไๅรว ศ    ๙";SPC(10);"ลศ ล"
 18030 PRINT"   ว ศ    /รรรรรรรรรร\ศ๐ "
-18040 PRINT"   ว ศ   /";SPC(14);"ว"
+18040 PRINT"   ว ศ   /";SPC(14);"็"
 18050 PRINT"   ว ศ  /";SPC(13);"3ว "
 18060 PRINT"   ว ศ /";SPC(16);"\"
 18070 PRINT"   ว/ศ/";SPC(18)
