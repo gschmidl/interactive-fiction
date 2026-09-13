@@ -8,24 +8,24 @@
  M           M                             M  D        M     M     M     M                                         M     M     M
  M     MMMMMMMMMMMMMMMMMMMM---MM     M     MMMMMMMMMMMMMMMMMMMMMMMMM     M     MMMMMMM     MMMMMMM     MM+++MM     MMMMMMM     M
  M     M                 M     M     M     M                       M     M     M     M     M     M     M     M     M           M
- M     +                 M     M     M     M                       +     M     M 80% M     + FNT M     M TEL +     M           M
- M     M                 M     M     M     M                       M     M     M     M     M     M     M  D  M     M           M
+ M     +                 M     M     M     M                       +     M     M 80% M     + FNT M     M  NT +     M           M
+ M     M                 M     M     M     M                       M     M     M     M     M     M     M     M     M           M
  MMMMMMMMMMMMMMMMMMM     MMMMMMMM   MM     M     M     MMMMMMM     MMMMMMM     MM+++MM     MMMMMMM     MMMMMMM     M     MMMMMMM
  M     M           M     M           M           M     M     M     M     M                                         M     M     M
- M PIT M           M  SU M 80%       M           M       TEL M     M TEL M                         TEL             M     M  SD M
- M     M           M     M           M           M     M  D  M     M  L  M                          D              M     M     M
+ M PIT M           M  SU M 80%       M           M        NT M     M  NM M                         TEL             M     M  SD M
+ M     M           M     M           M           M     M     M     M     M                          D              M     M     M
  M     MM---MM     M     M     MMMMMMM     MMMMMMM     MMMMMMM     MM---MMM   MMMMMMMM     MM+++MM     MMMMMMM     M     M     M
  M           M           M     M                 M     M                 M     M     M     M     M     M     M     M     M     M
- M           M           M THR M                 M     M                       M FNT +     M FNT M     M TEL +     S     M [_] M
- M           M           M     M                 M     M                 M     M     M     M     M     M  D  M     M     M     M
+ M           M           M 3XM M                 M     M                       M FNT +     M FNT M     M  NT +     S     M -MG M
+ M           M           M     M                 M     M                 M     M     M     M     M     M     M     M     M     M
  MMMMMMM     MMMMMMMMMMMMMMMMMMM                 MMMMMMM     MMMMMMM     MM   MMMMMMMM     MMMMMMM     MMMMMMM     MMMMMMM     M
  M     M     M           M                                   M     M                                               M     M     M
- M     !     M TEL                                           ! TEL !                                               +     + [_] M
+ M     !     M TEL                                           ! TEL !                                               +     + -MG M
  M     M     M  A        M                                   M  L  M                                               M     M     M
  M     MMMMMMMMMMMMMMMMMMMMMMMMM     MMMMMMM     MMMMMMM     MMMMMMM     MMMMMMMM---MMMMMMMMMMMMMMMMMMMMM---MMMMMMMMM---MMMMMMMM
  M     M                             M     M     M     M                 M     M     M           M                 M     M     M
- M (P) M                         80% !     M     !     M                 M     M     M [_]       M                 M TEL   TEL M
- M     M                             M     M     M     M                 M     M     M           M                 M  L  M  L  M
+ M (P) M                         80% !     M     !     M                 M     M     M -MG       M                 M  NM    NM M
+ M     M                             M     M     M     M                 M     M     M           M                 M     M     M
  MMMMMMM     MMMMMMMMMMMMMMMMMMMMMMMMM     MMMMMMM     MMMMMMM     MMMMMMM     MMMMMMMMMMMMMM+++MMMMMMMMM+D+MMMMMMMMMMMMMMMMMMMM
 1Dungeon: Tombs of Tarasar    
  Level:      2
@@ -49,8 +49,8 @@
              M                 M     M           M           M     M     M
  M     M     MMMMMMMMMMMMM     M     M     MMMMMMMMMMMMMMMMMMMMMMMMM     MMMMMMM
  M     M     M           M     M     M     M     M     M                       M
- M     M             TEL M     M     M     D           M                       M
- M     M     M        L  M     M     M     M     M     M                       M
+ M     M              NM M     M     M     D           M                       M
+ M     M     M           M     M     M     M     M     M                       M
  MMMMMMMMMMMMMMMMMMM     M     M     M     MMMMMMMM---MM           MM---MMM   MM
  M           M     M     M           M                             M     M     M
  M           M  SD M     M           M                             M PIT M     M
@@ -69,7 +69,7 @@
  M     M     M           M  D  M           M     M                       M     M
  M     MMMMMMM           M     MMMMMMM     M     M           M     MMMMMMM     M
  M     M                             M     M     M           M     M           M
- M (S) +                             !     M THR M           M     M           M
+ M (S) +                             !     M 3XM M           M     M           M
  M     M                             M     M     M           M     M           M
  MMMMMMMMMMMMM     MM---MM           MMMMMMMMMMMMM           M     MMMMMMM                                                      
 1Dungeon: Tombs of Tarasar    
@@ -291,23 +291,23 @@
 
  MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM+++MMMMMMMM     MMMMMMMM+++MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
  M                       M                       M     M     M     M     M     M                       M                       M
- M                       M 80%   80%   80%   80% M TEL M [_] M     M [_] M TEL M FNT   FNT   FNT   FNT M                       M
+ M                       M 80%   80%   80%   80% M TEL M [_] M     M [_] M TEL M 50%   50%   50%   50% M                       M
  M                       M                       M  A  M     M     M     M  A  M                       M                       M
  M                       M                       MMMMMMM     M     M     MMMMMMM                       M                       M
                          M                       M     M     M     M     M     M                       M
-                         M 80%   80%   80%   80% M FNT M     M     M     M FNT M FNT   FNT   FNT   FNT M
+                         M 80%   80%   80%   80% M FNT M     M     M     M FNT M 50%   50%   50%   50% M
                          M                       M     M     M     M     M     M                       M
                          MM+++MMMMMMMMMMMMMMMMMMMMM+I+MMM+B+MMM+S+MMM+B+MMM+I+MMMMMMMMM+++MMMMMMMMMMMMMM
   
-                           TEL   TEL   TEL   TEL                                 TEL   TEL   TEL   TEL
-                            L     L     L     L                                   L     L     L     L
+                            NM    NM    NM    NM                                  NM    NM    NM    NM
+  
                          MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM+++MMMMMMMMMMMMMM
                          M                       M                             M                       M
-                         M FNT   FNT   FNT   FNT M                             M 80%   80%   80%   80% M
+                         M 50%   50%   50%   50% M                             M 80%   80%   80%   80% M
                          M                       M                             M                       M
                          MMMMMMM                 M     M                 M     M                       M
                          M                       M     M                 M     M                       M
-                         + FNT   FNT   FNT   FNT M     M                 M     M 80%   80%   80%   80% M
+                         + 50%   50%   50%   50% M     M                 M     M 80%   80%   80%   80% M
                          M                       M     M                 M     M                       M
                          MMMMMMMMMMMMMMMMMMMMMMMMM     M                 M     MMMMMMMMMMMMMMMMMMMMMMMMM
                                                        M                 M
@@ -331,7 +331,7 @@
  M                                                                                                                             M
  M     MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM+++MM     M
  M     M     M     M     M     M     M     M     M     M     M     M     M     M     M     M     M     M     M     M     M     M
- M     + THR +     M     M     M     M     M     M     M     M     M     M     M     M     M     M     M     M     M THR M     M
+ M     + 3XM +     M     M     M     M     M     M     M     M     M     M     M     M     M     M     M     M     M 3XM M     M
  M     M     M     M     M     M     M     M     M     M     M     M     M     M     M     M     M     M     M     M     M     M
  M     MMMMMMMM---MMM---MMM---MMM---MMM---MMM---MMM---MMM---MMM---MMM---MMM---MMM---MMM---MMM---MMM---MMM---MMM---MMM+++MM     M
  M     M     M                                                                                                     M     M     M
@@ -403,7 +403,7 @@
  M     M     M                                                                                                     M     M     M
  M     MM+++MMM---MMM---MMM---MMM---MMM---MMM---MMM---MMM---MMM---MMM---MMM---MMM---MMM---MMM---MMM---MMM---MMM---MMMMMMMM     M
  M     M     M                                                                                                     M     M     M
- M     M THR M                                                                                                     + THR +     M
+ M     M 3XM M                                                                                                     + 3XM +     M
  M     M     M                                                                                                     M     M     M
  M     MM+++MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM     M
  M                                                                                                                             M
@@ -423,7 +423,7 @@
  M                 M                             M                       M           M                                         M
  M                 M                             M                       M           M                                         M
  M                 M                             M                       M           M                                         M
- M                 M                             M       PIT             M           M                                         M
+ M                 M                             M       DRA             M           M                                         M
  M                 M                             M                       M           M                                         M
  M                 M                             MMMMMMMMMMMMMMMMMMMMMMMMM           M                                         M
  M                 M                                         M                       M                                         M

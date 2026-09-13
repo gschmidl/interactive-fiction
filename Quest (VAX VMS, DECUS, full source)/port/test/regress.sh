@@ -14,13 +14,22 @@
 #
 #  Transcripts of failures are left in test/out/.
 #
+#  The game runs on a scratch copy of data/ (QUEST_DATA), so the cases are
+#  free to overwrite characters and ACCESS.FIL without touching the save
+#  in data/character.dta.
+#
 cd "$(dirname "$0")/.."
 Q=./quest.exe
 OUT=test/out
 rm -rf "$OUT"; mkdir -p "$OUT"
 pass=0; fail=0
 
-fresh() { cp data/character.dta.orig data/character.dta; }
+D=$OUT/data
+mkdir -p "$D"
+cp data/*.dta data/*.fil data/character.dta.orig "$D"/
+export QUEST_DATA=$D
+
+fresh() { cp "$D/character.dta.orig" "$D/character.dta"; }
 
 #  make one throwaway fighter called CONAN and park him in Exeter
 conan() {
@@ -56,14 +65,15 @@ run() {
 
 #  op <name> <dungeon> <level> <x> <y> <keys after arrival> all|any <pattern>...
 #  DNDOP:  O -> C -> name -> D dungeon level x y -> 0 (save, run QUEST3)
+#  EXTRA, if set, is more DNDOP commands to give before T.
 op() {
     name=$1; d=$2; l=$3; x=$4; y=$5; keys=$6; mode=$7; shift 7
     conan
     #  A, V and T make CONAN strong enough that an incidental monster on
     #  the way in cannot end the case before the square under test is
     #  reached: every statistic 25, level 20, 999 hit points
-    printf "OCCONAN\nD%s\n%s\n%s\n%s\nA25\n25\n25\n25\n25\n25\nV20\nT999\n999\n0%b" \
-        "$d" "$l" "$x" "$y" "$keys" |
+    printf "OCCONAN\nD%s\n%s\n%s\n%s\nA25\n25\n25\n25\n25\n25\nV20\n%bT999\n999\n0%b" \
+        "$d" "$l" "$x" "$y" "$EXTRA" "$keys" |
         QUEST_USERNAME=00CKKELLEY QUEST_UIC=065244 \
         $Q -f -s 4242 --freeze "1985-04-27 20:30:00" > "$OUT/$name.txt" 2>&1
     check "$name" "$OUT/$name.txt" "$mode" "$@"
@@ -86,10 +96,13 @@ run menu-help all 'HQ' \
     'F - find experience for the various levels' \
     'Z - logoff'
 
-#  the five characters that were live on the Ball State VAX in 1985
+#  the characters that were live on the Ball State VAX in 1985: the five
+#  in the web copy, and some from the far end of the indexed file
 run list all 'P Q' \
     'ISMEL' 'NACERIMA' '1027376' '00AFHOOGENBO' \
     'Character         Class   STR INT WIS CON DEX CHR   Lvl'
+run roster all 'P Q' \
+    'ARATHORN' 'Ahman' 'The Monitor' 'ZACK AZORAS' 'som'
 
 run oneuser all 'Y00AFHOOGENBO\n Q' 'PARDUE1' '00AFHOOGENBO'
 
@@ -178,6 +191,23 @@ op telepad   1 1  3 15 'FNFNFNFN' any 'teleporter' 'PIT'
 op stairsdn  1 1  3 11 'FNFYFN'   all 'You have found some steps down. Would you like'
 op stairsup  1 1  1 14 'FNFNFN'   all 'You have found some steps up. Would you like to'
 
+# ---- the four dragons ------------------------------------------------
+#  object 27, one on level 8 of dungeons 3-6 (SUBROUTINE DRAGON).  The
+#  web copy of DUNGEON.DTA had lost them; these squares come from the VMS
+#  copy, and dungeon 6 level 8 is the last level in the file, reached
+#  through the author's own pointer table.  DRAGON wants CHARLVL > 5, so
+#  CONAN is given the experience to keep level 20.
+EXTRA='E3000000\n'
+op dragon-red    3 8  1  8 'HLFFFFFF' all \
+    'Before you is a huge dragon. It is Red in color.' 'L - leave it alone'
+op dragon-blue   4 8  3  9 'HLFFFFFF' all \
+    'Before you is a huge dragon. It is Blue in color.' 'L - leave it alone'
+op dragon-gold   5 8 10 17 'HLFFFFFF' all \
+    'Before you is a huge dragon. It is Gold in color.' 'L - leave it alone'
+op dragon-silver 6 8 34 10 'HLFFFFFF' all \
+    'Before you is a huge dragon. It is Silver in color.' 'L - leave it alone'
+EXTRA=
+
 # ---- monsters, treasure, statistics ----------------------------------
 op monster   1 2  9 12 'FFFFFFFFFF' any \
     'You have encountered a' 'What would you like to do ("H" for Help) ?'
@@ -189,8 +219,8 @@ op stats     1 2  9 12 'FNXZI'    all \
 #  ACCESS.FIL brackets the hours QUEST is closed, every day but Saturday
 #  and Sunday.  QUEST.FOR gets the day from MOD(LIB$DAY(),7), and
 #  17-NOV-1858 was a Wednesday, so 3 is Saturday and 4 is Sunday.
-cp data/access.fil "$OUT/access.saved"
-printf '008:0020:00\n' > data/access.fil
+cp "$D/access.fil" "$OUT/access.saved"
+printf '008:0020:00\n' > "$D/access.fil"
 for case in '1985-04-24 12:00:00|wed-noon|shut' \
             '1985-04-24 21:00:00|wed-evening|open' \
             '1985-04-27 12:00:00|sat-noon|open' \
@@ -209,8 +239,9 @@ for case in '1985-04-24 12:00:00|wed-noon|shut' \
         fi
     fi
 done
-cp "$OUT/access.saved" data/access.fil
+cp "$OUT/access.saved" "$D/access.fil"
 rm -f "$OUT/access.saved"
+rm -rf "$D"
 
 echo
 echo "  $pass passed, $fail failed"

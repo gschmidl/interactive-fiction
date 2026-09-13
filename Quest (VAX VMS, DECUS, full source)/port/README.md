@@ -12,7 +12,7 @@ This directory builds it as a native Windows executable.
     build.bat            (or  sh build.sh)
     quest.exe
 
-`test/regress.sh` runs 35 scripted cases against the built game.
+`test/regress.sh` runs 40 scripted cases against the built game.
 
 ---
 
@@ -21,6 +21,16 @@ This directory builds it as a native Windows executable.
 The DECUS area <https://www.digiater.nl/openvms/decus/vax85a/quest/> holds
 28 files: the complete FORTRAN sources, four MACRO-32 modules, the five
 linked VMS images, the object library, and the data files.
+
+There are two copies of those 28 files.  `../src_original/` is the web
+download, converted to plain stream files on the way.  `../quest/` is the
+same area **as RMS stored it on the VAX disk**: variable-length records
+still carrying their length words, relative and indexed files block for
+block, and the 1984-85 file dates.  The conversion damaged `DUNGEON.DTA`
+and cut `CHARACTER.DTA` down to five records, so `data/` is built from the
+VMS copy.  `tools/verify_web_copy.py` re-derives every byte of all 28 web files
+from the VMS copy, so the relationship between the two is exact, not
+assumed.
 
 | | |
 |---|---|
@@ -46,107 +56,135 @@ subroutines in one executable and `CHAIN` longjmps back to a dispatcher in
 `src/main.c`, which closes what the abandoned image had open — a new VMS
 image would have started with no files of its own — and enters the next.
 
-`character.dta` still contains the five characters that were live on the
-Ball State VAX when the tape was cut, owned by `00AFHOOGENBO`.  ISMEL, a
+`character.dta` still contains the characters that were live on the Ball
+State VAX when the tape was cut: **55 of them, on 39 accounts**, recovered
+from the half of the indexed file that survives (see below).  ISMEL, a
 level 13 cleric with 1,027,376 experience points, is still flagged as
-adventuring, four levels down in Thorlyn's Maze, where he has been since
-1985.  `P` at the main menu lists them.
+adventuring, four levels down in Thorlyn's Manor, where he has been since
+1985.  `Ahman`, a level 8 cleric, is on the author's own account, and has
+the same name as the resident cleric of the temple of Ra.  `P` at the main
+menu lists them all.
 
 ---
 
-## DUNGEON.DTA had to be repaired
+## DUNGEON.DTA: damaged on the web, whole on the VAX disk
 
-**The copy on the web is damaged, and the game cannot run on it.**  This is
-not a transfer error at this end: the images and the object library arrive
-byte for byte, and an independent restorer (*El Explorador de RPG*) hit the
-same thing and also had to rebuild the file.
+**The web copy is damaged, and the game cannot run on it.**  An independent
+restorer (*El Explorador de RPG*) hit the same thing and had to rebuild the
+file too.  The VMS copy in `../quest/` is undamaged, and it shows exactly
+what went wrong.
 
 `DNDOP` writes the dungeon with
 
     WRITE(21'N,3) K
     3  FORMAT(I4)
 
-into a relative file of `RECL=4`, so every record is four characters.  The
-file carries RMS "FORTRAN carriage control" (`RAT=FTN`), which means the
-first byte of each record *is* a carriage-control character — and it is
-also the first digit of the number, because `I4` right justifies.  Whatever
-converted the file for distribution **applied** that carriage control:
-character 1 was consumed and replaced by the control it stands for.
+into a relative file of `RECL=4`, so every record is four characters, right
+justified.  Whatever converted the file for distribution treated the first
+character of each record as a FORTRAN carriage-control byte and **applied**
+it: the character was consumed and replaced by the control it stands for.
 
     ' '       ->  LF (0x0A)     value recoverable, it was a blank
     '1'       ->  FF (0x0C)     value recoverable, it was a 1
     '2'..'9'  ->  LF (0x0A)     leading digit LOST
 
-Every one of the 10173 records in the distributed file begins with LF or
-FF, and LF and FF appear nowhere else — the signature of exactly this.
+It also wrote out only the records that exist.  On disk the file is 106
+blocks: a prolog, then 102 cells a block, each a control byte (`08` = the
+record exists) and four characters.  There are 10203 record numbers, and
+**records 520-549 were never written**; their control byte is 0.  Dropping
+them moved every level after dungeon 1 level 3 thirty records down, so the
+web copy's pointer table no longer matches its data.  The gap is exactly the
+size of one more column of that level: dungeon 1 level 3 is 30x6 and fills
+records 334-519, but the table starts level 4 at 550, which leaves room for
+30x7.
 
-### What the repair recovers, and on what evidence
+`data/dungeon.dta` is the VMS file record for record, with the author's own
+pointer table.  The 30 unwritten cells are copied as they are, four NUL
+bytes each: nothing reads them, and if anything did, gfortran would refuse
+NULs in an `I4` field just as VMS refused a read of a record that does not
+exist.  `tools/prepare_data.py` checks the file the way `GETDUNGEON` reads
+it: the pointer table leads to 48 levels, every length and width is within
+`MAP(40,21)`, every level's stairs-up square holds object 16 or 18 and its
+stairs-down square 17 or 19 (level 8, which has no way down, gives `(0,0)`),
+no two levels overlap, and every written record belongs to one of them.
 
-`tools/repair_dungeon.py` rebuilds the file; `tools/dungeon.py` is the
-decoder it uses.  Neither touches `src_original/`.
+### What the earlier repair got right, and wrong
 
-**Leading digits that can be proved.**  `I4` never writes a leading zero,
-so a surviving second character of `'0'` proves the first one was a digit;
-map codes run to 2788 at most, so that digit can only be `'2'`.  144 map
-records and 5 pointer records come back this way.
+Before the VMS copy turned up, this port ran on a file rebuilt from the web
+copy alone.  `tools/verify_web_copy.py` now scores that repair against the
+real file:
 
-**The pointer table (records 1–96) is regenerated.**  The table shipped in
-the file is stale as well as digit-lossy: it says dungeon 1 level 4 begins
-at record 550, where the dimensions are 20×20, which would overrun its own
-level 5 at record 766.  The level data, by contrast, is entirely
-self-describing, and walking it proves itself four ways:
+* **9419 level records** it decoded as proven, including the 144 whose lost
+  leading `2` was proved by a surviving `0` (`I4` never writes a leading
+  zero): **all correct**.
+* **The pointer table.**  The repair called the table "stale" and rebuilt it
+  from the chain of levels.  The rebuilt table was right for the file it had,
+  so the game ran correctly, but the diagnosis was wrong.  The table was never
+  stale; the conversion had removed the 30 unwritten records underneath it.
+* **658 ambiguous squares.**  An LF followed by `1`..`7` is either a blank
+  (objects 1-7: fountain, the three teleporters, throne, pool, pit) or a lost
+  `2` (objects 21-27: 50% treasure, never meet a monster, never find
+  treasure, unused, magic three times as often, no magic, dragon).  The
+  repair wrote the low object each time.  **503 were right and 155 were
+  wrong**: 30 x object 21, 45 x 22, 16 x 23, 44 x 25, 16 x 26 and 4 x 27.
+  All 155 are in dungeons 3-6.  The two beginner dungeons contain none of
+  objects 21-27, which is why the low reading looked so plausible there.
+  The group-size argument made for it (no ambiguous group looked twice the
+  size of the `4` group, which must be all low) could not see high objects
+  spread thinly over six groups.
 
-* stepping `start -> start + 2 + LL*LW + 4` from record 97 yields exactly
-  **48 levels** and ends on **exactly** the last record of the file;
-* every length is within 1..40 and every width within 1..21 — the bounds of
-  `MAP(40,21)`;
-* in all 48 levels the square named by `STAIRSUPX/Y` carries object 18 or
-  16 (stairs up, or disappearing stairs up) and the square named by
-  `STAIRSDOWNX/Y` carries object 19 or 17 — **90 cross-checks, no misses**;
-* exactly six levels have down-stairs of `(0,0)`, and they are chain
-  positions 8, 16, 24, 32, 40 and 48 — level 8 of each dungeon, which has
-  no way down.  That also fixes which chain position belongs to which
-  dungeon and level.
+**The four dragons** are the squares that mattered most.  `SUBROUTINE
+DRAGON` gives dungeons 3-6 one each (`J = DUNGEON-2`, monsters 116-119),
+and all four are on level 8, the deepest level:
 
-Rebuilding the table from the chain is therefore the only reading
-consistent with the data, and `maps/` holds all six dungeons drawn by
-`DNDOP`'s own map printer from the repaired file.
+| dungeon | level | X | Y | dragon | breath |
+|---|---|---|---|---|---|
+| 3 Gheldron's Caverns | 8 |  1 |  8 | Red    | fire |
+| 4 Fallhaven Tunnels  | 8 |  3 |  9 | Blue   | lightning |
+| 5 Thorlyn's Manor    | 8 | 10 | 17 | Gold   | poison gas |
+| 6 Tombs of Tarasar   | 8 | 34 | 10 | Silver | frost |
 
-### What is lost
-
-A surviving first character of `'1'`..`'7'` under an LF is genuinely
-ambiguous: the lost character was either a blank (object 1..7 — fountain,
-the three teleporters, throne, pool, pit) or a `'2'` (object 21..27 — 50%
-treasure, never meet a monster, never find treasure, unused, magic three
-times as often, no magic, **dragon**).  **658 of the 9789 map records are
-affected**, and the surviving bytes cannot tell them apart.  They are
-written as the low object and listed, one per line with its dungeon, level
-and coordinates, in `data/dungeon_ambiguous.txt`.
-
-The low reading is the better estimate, on the file's own evidence:
-
-* object 24 is documented "not used", so all 73 records of the `'4'` group
-  must be object 4 — and that group is mid-range among the seven (they run
-  68 to 150).  Were the other six groups each carrying a high object too,
-  they would stand out as roughly twice the size of group 4.  They do not.
-* the objects that *can* be counted exactly — 8, 9 and 10 through 19 — occur
-  16 to 88 times each, the same range as the ambiguous groups.
-
-But it is an estimate, not a recovery, and one thing is definitely gone:
-`SUBROUTINE DRAGON` gives dungeons 3, 4, 5 and 6 one dragon each (`J =
-DUNGEON-2`, monsters 116-119, breathing fire, lightning, poison gas and
-frost).  **Those four squares are object 27, inside the ambiguous group,
-and cannot be identified.**  Nothing here invents them: guessing four
-squares out of 68 would be fabricating map content, and a wrong guess would
-put a dragon somewhere the author did not.  If a clean `DUNGEON.DTA` ever
-surfaces, `data/dungeon_ambiguous.txt` is the list to correct.
+Dungeon names are the game's own, from `DUNNAM.DTA`; `DNDOP`'s map printer
+calls 3 and 5 "Gheldrons Passages" and "Thorlyn's Maze", which is where the
+file names in `maps/` come from.  X and Y as `DNDOP` numbers them.  A
+character above level 5 meets the dragon on arrival; `test/regress.sh`
+visits all four.  `maps/` was redrawn from the real file and shows `DRA` on
+each.
 
 ### The other data files
 
-`MAGIC.DTA`, `MORAL.DTA` and `MON.DTA` were stored with ordinary carriage
-return carriage control (`RAT=CR`), so each record simply gained a trailing
-LF.  Nothing was consumed; `tools/prepare_data.py` drops the LF and checks
-that every record is the length its `OPEN` declares (54, 80 and 34 bytes).
+`MAGIC.DTA` and `MORAL.DTA` are relative files (`RECL` 54 and 80) with no
+gaps, and `MON.DTA`, `DUNNAM.DTA` and `ACCESS.FIL` are variable-length
+sequential files.  The web conversion only added an LF to each record, so
+they decode to the same content from either copy.
+
+## CHARACTER.DTA: the whole roster, half of it
+
+`CHARACTER.DTA` is an RMS indexed file (prolog 3, two-block buckets, key and
+record compression) keyed on the character name and the owner's user name.
+The VMS copy is 75 blocks, but the file's own area descriptor says **149
+blocks were in use**, so the copy stops halfway.  The name index names 66
+data buckets.  The 31 in blocks 4-66 survive, and the 35 in blocks 76-148 do
+not.
+
+`tools/vmsfile.py` decodes the surviving buckets: **55 live characters on
+39 accounts**, plus 114 deleted ones, of which RMS keeps only the name.  The
+user-name index is a check on that decoding.  Three of its five buckets
+survive, every recovered character whose account falls in one of those
+three has a live pointer there to its own record ID, and the other 16 fall
+in the two lost buckets.  The surviving user-name buckets also point at 47
+more live characters whose data buckets are gone.  So **at least 102
+characters were live**, on at least 67 accounts.
+
+The web copy's five characters are what a converter recovers by following
+the data buckets' next-bucket links from the first bucket.  Block 4 holds
+ISMEL, MOTO and NACERIMA, block 8 PARDUE1 and ZACK, and block 10 only
+deleted records.  Block 10's link then points at block 138, past the end of
+the file, and the converter stops there.
+
+`data/character.dta.orig` is the 55 recovered characters, in key order.  A
+new `data/character.dta` starts as a copy of it, and the regression test
+works on a scratch copy of both.
 
 ---
 
@@ -267,9 +305,12 @@ author's own account, and `QUEST_USERNAME` / `QUEST_UIC` reach them:
     QUEST_USERNAME=00CKKELLEY QUEST_UIC=065244 quest.exe
 
 adds `O` to the main menu, which runs `DNDOP` — edit any character, edit
-any dungeon square, print a dungeon (`maps/` was made this way).  Setting
-`QUEST_UIC=083084` instead makes you the owner of the five 1985 characters,
-so you can run them without their secret names.
+any dungeon square, print a dungeon (`maps/` was made this way).  The UIC
+is also what makes a character yours: each record holds its owner's six
+digits right after the user name, and setting `QUEST_UIC` to them — for
+instance `083084`, the account that owns ISMEL and the other four in the
+web copy — lets you run those characters without their secret names.
+`065244` is the author's, and the sources let it run anyone's.
 
 **The clock.**  `ACCESS.FIL` is the one-line file that shut the game down
 outside permitted hours: one digit, then two `hh:mm` times that bracket the
@@ -292,15 +333,20 @@ the little man in the grey robes turns you away.
                   vmsrt.c/.h      terminal, $FAO, MTH$RANDOM, $GETJPI, clock
                   keyed.c         the indexed CHARACTER.DTA
                   main.c          the image dispatcher and CHAIN
-    data/         the repaired data files; the game writes character.dta here
-                  character.dta.orig     the five 1985 characters, pristine
-                  dungeon_ambiguous.txt  the 658 squares that cannot be proved
-    maps/         all six dungeons, printed by DNDOP from the repaired data
+    data/         built from ../quest/ by prepare_data.py; the game writes
+                  character.dta here
+                  character.dta.orig     the 55 recovered 1985 characters
+    maps/         all six dungeons, printed by DNDOP from data/dungeon.dta
     tools/        detab.py portify.py  regenerate src/*.f from src_original
-                  dungeon.py repair_dungeon.py prepare_data.py
                   build_sources.sh
+                  vmsfile.py         RMS variable-length, relative, indexed
+                  prepare_data.py    ../quest/ -> data/, with structure checks
+                  verify_web_copy.py every web file from its VMS original,
+                                     and the score of the earlier repair
+                  dungeon.py         decoder for the web copy's DUNGEON.DTA
     test/         regress.sh
     build.bat  build.sh
 
-`../src_original/` is the DECUS area exactly as downloaded, and is never
+`../src_original/` is the DECUS area exactly as downloaded, and
+`../quest/` the same area as it lay on the VMS disk.  Neither is ever
 written to.
