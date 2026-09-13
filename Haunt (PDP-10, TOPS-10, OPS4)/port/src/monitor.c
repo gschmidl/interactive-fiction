@@ -169,7 +169,13 @@ static int tty_fill(void)
         }
         if (c == '\r') continue;
         if (c == '\n') break;
-        if (n < (int)sizeof tibuf - 4) tibuf[n++] = (unsigned char)c;
+        /* The terminal line was 7-bit: the monitor's scanner stripped the
+         * eighth bit before a program saw a character, so a program only
+         * ever met ASCII.  A Windows console hands over 8-bit code-page
+         * bytes (an accented letter, say), and passed through unmasked
+         * they derail the object time system's line reader.  Keep the
+         * terminal 7-bit. */
+        if (n < (int)sizeof tibuf - 4) tibuf[n++] = (unsigned char)(c & 0177);
     }
     if (n > 0 && tibuf[0] == 35) {          /* 35 = # */
         tibuf[n] = 0;
