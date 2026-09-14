@@ -118,7 +118,7 @@ stand-alone game whose banner calls it *the Land of Fred*. You can SAVE and
 then RESTORE, OFF works on the lamp you carry, a carried lamp gives light
 only while lit, and torches light. Used-up lamps, torches and oil flasks go
 back into stock, so you can buy them again. A thrown flask no longer brings
-its last victim back or stays in your hands. Monsters carry gold, the mace
+its last victim back or stays in your hands. Monsters carry gold, the axe gets its bonus, critical hits can be a "good hit", the titan gets the hit points the mace took, the mace
 stops fighting, and the 85th kill no longer stops the game. Each repair,
 what was wrong and how it is done, is in [docs/FIXES.md](docs/FIXES.md).
 
