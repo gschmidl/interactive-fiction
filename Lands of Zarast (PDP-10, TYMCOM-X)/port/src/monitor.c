@@ -76,10 +76,10 @@ int  opt_lcfold = 1;
 int  opt_faketime = -1;          /* minutes past midnight, or -1       */
 const char *opt_dir = ".";       /* where the game's data files live   */
 
-/* Set by the RUN UUO; main.c loads this image next.  On Tymshare the
- * programs really did chain -- CHARAC ends by running VENTUR, VENTUR
- * runs DUNGEN when you go down the stairs and DUNGEN runs VENTUR when
- * you come back up -- so the handoff has to survive here too. */
+/* Set by the RUN UUO; main.c loads this image next.  None of the five
+ * 1984 programs chains to another: the only RUN in any of them is the
+ * TYMBASIC runtime's own RUN SYS:LOGOUT at 400604, taken on the way out.
+ * The handoff is kept for anything that does. */
 char run_next[16];
 
 /* TBA opens a scratch file called COM.<port number> at startup and
@@ -109,6 +109,14 @@ int suspend_requested = 0;
 static char otail[32];
 static int otailn;
 
+/* What has been printed since the last newline -- normally a prompt.
+ * When a line typed at that prompt turns out to be a command for the port
+ * itself (see fixes.c), the prompt is put back after the port's reply. */
+static char curline[256];
+static int curlinen;
+static char promptline[256];     /* curline when input was last requested */
+static int promptlinen;
+
 static void tty_out(int c)
 {
     c &= 0177;
@@ -123,7 +131,8 @@ static void tty_out(int c)
             suspend_requested = 1;
     }
     if (c == 015) return;                    /* CR: let LF do the work */
-    if (c == 012) { putchar('\n'); col = 0; return; }
+    if (c == 012) { putchar('\n'); col = 0; curlinen = 0; return; }
+    if (curlinen < (int)sizeof curline - 1) curline[curlinen++] = (char)c;
     if (c == 011) { putchar('\t'); col = (col + 8) & ~7; return; }
     if (c < 040 && c != 014) return;
     putchar(c);
@@ -143,8 +152,14 @@ static int tty_fill(void)
         tilen = n; tipos = 0; col = 0;
         return n;
     }
+    for (;;) {
+    char line[1024];
+    int r;
     if (tty_eof) { halted = 1; return 0; }
     fflush(stdout);
+    n = 0;
+    memcpy(promptline, curline, (size_t)curlinen);
+    promptlinen = curlinen;
     for (;;) {
         c = getchar();
         if (c == EOF) {
@@ -161,6 +176,15 @@ static int tty_fill(void)
          * they derail the object time system's line reader.  Keep the
          * terminal 7-bit. */
         if (n < (int)sizeof tibuf - 4) tibuf[n++] = (unsigned char)(c & 0177);
+    }
+    /* --fix and --debug take a few commands of their own, which the
+     * program never sees; fixes.c says which. */
+    memcpy(line, tibuf, (size_t)n);
+    line[n] = 0;
+    r = fixes_input_line(line);
+    if (r == 1) continue;                    /* handled: read another    */
+    if (r == 2) n = 0;                       /* hand the program a blank */
+    break;
     }
     tibuf[n++] = 015;
     tibuf[n++] = 012;
@@ -193,6 +217,8 @@ static int lastinlen;
 
 static void warn(const char *fmt, ...);
 static w36 str_sixbit(const char *s, int n);
+extern const unsigned char tbamsg_shr[];
+extern const unsigned tbamsg_shr_len;
 static w36 date_word(void);
 
 /* ------------------------------------------------------------------ */
@@ -354,12 +380,23 @@ static int dsk_load(chan_t *ch)
 
     dsk_path(path, sizeof path, ch->fname);
     f = fopen(path, "rb");
-    if (!f) return 0;
-    fseek(f, 0, SEEK_END); sz = ftell(f); fseek(f, 0, SEEK_SET);
-    raw = (unsigned char *)malloc((size_t)sz + 8);
-    if (!raw) fatal("out of memory reading %s", path);
-    sz = (long)fread(raw, 1, (size_t)sz, f);
-    fclose(f);
+    if (f) {
+        fseek(f, 0, SEEK_END); sz = ftell(f); fseek(f, 0, SEEK_SET);
+        raw = (unsigned char *)malloc((size_t)sz + 8);
+        if (!raw) fatal("out of memory reading %s", path);
+        sz = (long)fread(raw, 1, (size_t)sz, f);
+        fclose(f);
+    } else if (!strcmp(ch->fname, "TBAMSG.SHR")) {
+        /* A run-phase error makes the TYMBASIC runtime look up
+         * SYS:TBAMSG.SHR for the text of the message.  Tymshare's system
+         * directory is not here, so the port carries the file (see
+         * tools/mkmsg.py); without it every error is "TBA system error". */
+        sz = (long)tbamsg_shr_len;
+        raw = (unsigned char *)malloc((size_t)sz + 8);
+        if (!raw) fatal("out of memory for TBAMSG.SHR");
+        memcpy(raw, tbamsg_shr, (size_t)sz);
+    } else
+        return 0;
     memset(raw + sz, 0, 8);
 
     if (mode_is_ascii(ch->mode)) {
@@ -860,6 +897,85 @@ void monitor_cleanup_scratch(void)
 {
     if (scratch[0]) remove(scratch);
     scratch[0] = 0;
+}
+
+/* ------------------------------------------------------------------ */
+/* services for fixes.c                                                 */
+/* ------------------------------------------------------------------ */
+void monitor_print(const char *s)
+{
+    for (; *s; s++) {
+        if (*s == '\n') { tty_out(015); tty_out(012); }
+        else tty_out((unsigned char)*s);
+    }
+    fflush(stdout);
+}
+
+void monitor_reprint_line(void)
+{
+    int i;
+    for (i = 0; i < promptlinen; i++) tty_out((unsigned char)promptline[i]);
+    fflush(stdout);
+}
+
+void monitor_discard_input(void) { tipos = tilen = 0; lastinlen = 0; }
+
+/* A saved game carries the channel table as well as core: the buffer
+ * headers live in core, but which channels are open, and on what, lives
+ * here.  Disk files are written out first and reopened by name. */
+struct chansave {
+    int open, istty, isnull, mode, isdsk, isufd, fout;
+    int ibufhdr, obufhdr, ibuf, obuf, ibufwords, obufwords, fpos;
+    unsigned long long status;
+    char dev[8], fname[32];
+};
+
+int monitor_save_channels(FILE *f)
+{
+    int i;
+    for (i = 0; i < NCHAN; i++) {
+        chan_t *ch = &chan[i];
+        struct chansave cs;
+        memset(&cs, 0, sizeof cs);
+        if (ch->isdsk && ch->fdirty) dsk_store(ch);
+        cs.open = ch->open; cs.istty = ch->istty; cs.isnull = ch->isnull;
+        cs.mode = ch->mode; cs.isdsk = ch->isdsk; cs.isufd = ch->isufd;
+        cs.fout = ch->fout; cs.ibufhdr = ch->ibufhdr; cs.obufhdr = ch->obufhdr;
+        cs.ibuf = ch->ibuf; cs.obuf = ch->obuf; cs.ibufwords = ch->ibufwords;
+        cs.obufwords = ch->obufwords; cs.fpos = ch->fpos;
+        cs.status = (unsigned long long)ch->status;
+        memcpy(cs.dev, ch->dev, sizeof cs.dev);
+        memcpy(cs.fname, ch->fname, sizeof cs.fname);
+        if (fwrite(&cs, sizeof cs, 1, f) != 1) return 0;
+    }
+    return 1;
+}
+
+int monitor_restore_channels(FILE *f)
+{
+    struct chansave cs[NCHAN];
+    int i;
+    if (fread(cs, sizeof cs[0], NCHAN, f) != NCHAN) return 0;
+    for (i = 0; i < NCHAN; i++) {
+        chan_t *ch = &chan[i];
+        if (ch->fp) fclose(ch->fp);
+        dsk_close(ch);
+        memset(ch, 0, sizeof *ch);
+        ch->open = cs[i].open; ch->istty = cs[i].istty; ch->isnull = cs[i].isnull;
+        ch->mode = cs[i].mode; ch->isdsk = cs[i].isdsk; ch->fout = cs[i].fout;
+        ch->ibufhdr = cs[i].ibufhdr; ch->obufhdr = cs[i].obufhdr;
+        ch->ibuf = cs[i].ibuf; ch->obuf = cs[i].obuf;
+        ch->ibufwords = cs[i].ibufwords; ch->obufwords = cs[i].obufwords;
+        ch->status = (w36)cs[i].status;
+        memcpy(ch->dev, cs[i].dev, sizeof ch->dev);
+        memcpy(ch->fname, cs[i].fname, sizeof ch->fname);
+        if (ch->isdsk && ch->fname[0]) {
+            if (cs[i].isufd) dsk_load_ufd(ch);
+            else if (!dsk_load(ch) && ch->fout) { ch->flen = 0; dsk_room(ch, 1024); }
+            ch->fpos = cs[i].fpos;
+        }
+    }
+    return 1;
 }
 
 void monitor_shutdown(void)

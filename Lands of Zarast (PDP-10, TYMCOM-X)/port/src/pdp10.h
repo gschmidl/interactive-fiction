@@ -65,6 +65,17 @@ extern const char       *port_banner;
 int  load_shr(const char *name);      /* returns 0 on failure          */
 extern int image_start;
 
+/* Supplied by fixes.c: the optional repairs (--fix) and debug mode
+ * (--debug).  fix_hook_pc is the running program's statement routine while
+ * either is active, and -1 otherwise, so the test in cpu_step() costs one
+ * comparison. */
+extern int opt_fix, opt_debug;
+extern int fix_hook_pc, fix_restore_pending;
+void fixes_image_loaded(const char *img);
+void fixes_statement(void);
+void fixes_do_restore(void);
+int  fixes_input_line(const char *line);
+
 /* Helpers shared with the monitor. */
 static inline long long sx36(w36 w) {
     return (w & SIGNBIT) ? (long long)w - (1LL << 36) : (long long)w;

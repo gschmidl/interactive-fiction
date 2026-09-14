@@ -308,6 +308,8 @@ int cpu_step(void)
     insn_count++;
     if (watch_addr >= 0) before = M[watch_addr];
     execute(inst, 0);
+    if (PC == fix_hook_pc) fixes_statement();       /* a BASIC statement begins */
+    if (fix_restore_pending) fixes_do_restore();
     if (watch_addr >= 0 && M[watch_addr] != before) {
         fflush(stdout);
         fprintf(stderr, "[watch] %06o: %012llo -> %012llo  by %06o (%012llo)\n",

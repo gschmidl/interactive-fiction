@@ -6,7 +6,7 @@ endif
 CFLAGS  ?= -std=c99 -Wall -Wextra -O2
 
 # One emulator, two sets of images: the 1984 game and the later one.
-COMMON   = src/main.c src/cpu.c src/monitor.c src/load.c
+COMMON   = src/main.c src/cpu.c src/monitor.c src/load.c src/fixes.c src/tbamsg.c
 DUMP84   = ../dump_original
 DUMP87   = ../dump_1987
 BIN84    = bin/zarast.exe
@@ -32,6 +32,10 @@ src/images_84.c: tools/mkimages.py $(DUMP84)/dungen.shr $(DUMP84)/ventur.shr \
 src/images_87.c: tools/mkimages.py $(DUMP87)/pub.shr $(DUMP87)/b.shr \
                  $(DUMP87)/cr.shr $(DUMP84)/filer.shr
 	python tools/mkimages.py 87
+
+# SYS:TBAMSG.SHR, the TYMBASIC run-phase messages; see tools/mkmsg.py.
+src/tbamsg.c: tools/mkmsg.py data/tbamsg.shr
+	python tools/mkmsg.py
 
 # The world as it stood on the tape, with its dropped word put back.
 # Needs the built binary, because the reference is what FILER produces.
