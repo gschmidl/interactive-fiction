@@ -255,6 +255,10 @@ static void printf_game(const char *fmt, ...)
 #define V_VNUM    016314
 #define V_NNUM    016316
 #define V_KILLED  016350
+#define V_DAMBONUS 016352         /* added to this attack's damage          */
+#define V_HITBONUS 016353         /* added to this attack's to-hit roll     */
+#define V_INUM    016317          /* the weapon: "KILL x WITH <this>"       */
+#define V_CRIT    016330          /* which critical hit, 1 to 3             */
 /* arrays, by access routine */
 #define VT_NLOC   015275          /* where each noun is; -2 carried         */
 #define VT_KNAMES 015315          /* names of the monsters killed           */
@@ -274,7 +278,9 @@ static void printf_game(const char *fmt, ...)
 #define N_TORCH 11
 #define N_LAMP  12
 #define N_OIL   13
+#define N_TITAN 89
 #define N_MACE  90
+#define N_AXE   91
 #define CARRIED (-2.0)
 #define IN_STOCK (-1.0)
 #define STORE_ROOM 1
@@ -328,10 +334,23 @@ static void ventur_fix(int line)
         memset(&vx, 0, sizeof vx);
         break;
 
-    /* The mace's hit points in the DATA are 55, where every other object
-     * has 1, and anything with two or more is a monster: a dropped mace
-     * wanders and attacks.  Line 1740 runs once the DATA is read. */
+    /* The hit-point DATA has one value too many in the monsters and one
+     * too few in the objects after them: the titan reads 27, the mace --
+     * the first object -- reads the titan's 55, and anything with two or
+     * more hit points is a monster, so a dropped mace wandered and
+     * attacked.  Every other per-noun column lines up, and the shift can
+     * start no earlier than noun 81 (the three trolls' 26/32/41 rise with
+     * their ratings and damage, the mezzodemon's 49 matches its kind), so
+     * the least change that fits is the titan's own slot.
+     *
+     * Line 1740 runs once the DATA is read, and again after RESTORE.  The
+     * maxima are never written by the game, so they say whether this has
+     * been done; a titan already wounded keeps its wounds. */
     case 1740:
+        if (same(ga(VT_HPMAX, N_TITAN), 27) && same(ga(VT_HPMAX, N_MACE), 55)) {
+            sa(VT_HP, N_TITAN, ga(VT_HP, N_TITAN) + 28);
+            sa(VT_HPMAX, N_TITAN, 55);
+        }
         sa(VT_HP, N_MACE, 1); sa(VT_HPMAX, N_MACE, 1);
         break;
 
@@ -435,6 +454,26 @@ static void ventur_fix(int line)
     /* The kill list holds 84 names, and the 85th kill stopped the game
      * with "Array subscript out of bounds in line 21340".  Count on past
      * 84, keep the first 84 names. */
+    /* The axe was meant to add 5 to damage and 5 to the to-hit roll, but
+     * line 20700 reads DAMBONUS=DAMBONUS+5 AND HITBONUS=HITBONUS+5, which
+     * TYMBASIC compiles as one assignment of a comparison: the damage bonus
+     * became 0 and the to-hit bonus was never touched. */
+    case 20700:
+        if ((int)getv(V_INUM) == N_AXE) {
+            setv(V_DAMBONUS, getv(V_DAMBONUS) + 5);
+            setv(V_HITBONUS, getv(V_HITBONUS) + 5);
+            next_statement();
+        }
+        break;
+
+    /* A natural 20 picks one of three critical hits -- split in two,
+     * head chopped off, or "YOU GOT A GOOD HIT!" for 1-30 extra damage --
+     * with ON A GOTO, but line 22140 rolls A=INT(RND*2+1), which is never
+     * 3.  Every critical killed outright and the good hit never happened. */
+    case 22160:
+        setv(V_CRIT, 1 + rand() % 3);
+        break;
+
     case 21140:
         if (same(getv(V_KILLED), -1)) {
             /* Monsters never carried money, and there was nothing else to
@@ -706,6 +745,8 @@ void fixes_image_loaded(const char *img)
               && line_has(2120, 0201040016274ULL)          /* LAMP$ counter test */
               && line_has(26095, 0260740015275ULL)         /* NLOC(NNUM)=P       */
               && line_has(21340, 0260740015315ULL)         /* kill list          */
+              && line_has(20700, 0312440451157ULL)         /* IF INUM=91 (axe)   */
+              && line_has(22160, 0307440000003ULL)         /* ON A GOTO, 3 ways  */
               && line_addr(25500) > 0 && line_addr(13680) > 0
               && M[line_addr(4700) - 1] == XWD(0265040, 0426151);   /* GOSUB list objects */
         if (!ok) { fprintf(stderr, "[fixes: this VENTUR is not the one they were made for; left off]\n");
