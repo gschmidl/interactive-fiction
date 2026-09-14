@@ -129,10 +129,13 @@ The magic words are the usual `XYZZY`, `PLUGH`, `PLOVER` and
 
 ### Not deterministic — and how to make it so
 
-The program seeds its random numbers from the time of day. Two runs a
-minute apart take different dwarf rolls from the same input; two runs
-within the same minute agree. `-t HH:MM` pins the clock, which is what
-makes the scripted sessions in `tests/` reproducible.
+The program seeds its random numbers from the time of day and the date.
+Two runs a minute apart take different dwarf rolls from the same input,
+and so do two runs at the same minute on different days; two runs within
+the same minute of the same day agree. `-t HH:MM` pins the clock and
+`-D YYYY-MM-DD` pins the day, which together make the scripted sessions
+in `tests/` reproducible. Their transcripts were recorded on 2026-09-03,
+and `tests/runall.sh` pins that date.
 
 ### Suspending
 
@@ -203,6 +206,7 @@ than not poking. `-v` prints what it found.
   -c, --continue      resume from a saved core image
   -f FILE             use FILE instead of advent.core
   -t HH:MM            tell the game it is HH:MM
+  -D YYYY-MM-DD       tell the game it is that day
   -q, --no-delay      skip pauses the game asks for
   -u, --unlimited     ignore cave hours, the turn limit and the wait
                       before a suspended game may resume

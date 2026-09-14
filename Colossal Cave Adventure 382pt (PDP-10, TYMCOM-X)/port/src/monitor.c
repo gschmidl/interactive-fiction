@@ -61,6 +61,7 @@ w36  opt_devchr_tty = 0300240000003ULL;
  * properly.  -e / --echo forces it back on. */
 int  opt_dedupe_echo = -1;       /* -1 = decide from isatty            */
 int  opt_faketime = -1;          /* minutes past midnight, or -1       */
+int  opt_fakedate = -1;          /* YYYYMMDD, or -1                    */
 const char *opt_corefile = "advent.core";
 int  opt_autosave = 1;
 
@@ -135,8 +136,9 @@ static int tty_fill(void)
          * ever met ASCII.  A Windows console hands over 8-bit code-page
          * bytes (an accented letter, say), and passed through unmasked
          * they derail the object time system's line reader.  Keep the
-         * terminal 7-bit. */
-        if (n < (int)sizeof tibuf - 4) tibuf[n++] = (unsigned char)(c & 0177);
+         * terminal 7-bit, and drop a NUL that leaves behind (0x80), as the
+         * scanner discarded NULs -- TBA echoed one as "&@". */
+        if ((c & 0177) && n < (int)sizeof tibuf - 4) tibuf[n++] = (unsigned char)(c & 0177);
     }
     tibuf[n++] = 015;
     tibuf[n++] = 012;
@@ -409,6 +411,15 @@ static struct tm *nowtm(void)
         tmv.tm_hour = opt_faketime / 60;
         tmv.tm_min  = opt_faketime % 60;
         tmv.tm_sec  = 0;
+    }
+    /* The date matters as much as the time: the FORTRAN runtime's DATE
+     * routine turns the DATE UUO into the "DD-Mon-YY" text the game reads,
+     * and a pinned time of day on a different day still takes different
+     * dwarf rolls.  -D pins it for the scripted tests. */
+    if (opt_fakedate >= 0) {
+        tmv.tm_year = opt_fakedate / 10000 - 1900;
+        tmv.tm_mon  = opt_fakedate / 100 % 100 - 1;
+        tmv.tm_mday = opt_fakedate % 100;
     }
     return &tmv;
 }

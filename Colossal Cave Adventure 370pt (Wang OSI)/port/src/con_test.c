@@ -56,7 +56,9 @@ void con_idle(void)
     fflush(stdout);
 
     for (i = 0; buf[i] && buf[i] != '\n' && buf[i] != '\r'; i++) {
-        uint8_t sc = key_scancode((unsigned char)buf[i]);
+        uint8_t sc;
+        if ((unsigned char)buf[i] >= 0x80) continue;   /* see con_win.c */
+        sc = key_scancode((unsigned char)buf[i]);
         if (sc) kq_push(sc);
     }
     kq_push(key_scancode(0x0D));       /* RETURN */
