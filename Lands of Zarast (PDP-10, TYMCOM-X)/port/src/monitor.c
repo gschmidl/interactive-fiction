@@ -174,8 +174,9 @@ static int tty_fill(void)
          * ever met ASCII.  A Windows console hands over 8-bit code-page
          * bytes (an accented letter, say), and passed through unmasked
          * they derail the object time system's line reader.  Keep the
-         * terminal 7-bit. */
-        if (n < (int)sizeof tibuf - 4) tibuf[n++] = (unsigned char)(c & 0177);
+         * terminal 7-bit, and drop a NUL that leaves behind (0x80), as the
+         * scanner discarded NULs -- TBA echoed one as "&@". */
+        if ((c & 0177) && n < (int)sizeof tibuf - 4) tibuf[n++] = (unsigned char)(c & 0177);
     }
     /* --fix and --debug take a few commands of their own, which the
      * program never sees; fixes.c says which. */

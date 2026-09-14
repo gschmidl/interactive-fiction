@@ -206,6 +206,22 @@ C  A CR left by a DOS-format script is not part of the line.
       DO 1 I = 1, LEN(S)
          IF (ICHAR(S(I:I)) .EQ. 13) S(I:I) = ' '
 1     CONTINUE
+C  The terminal line was 7-bit: the -10's scanner stripped the eighth bit
+C  before a program saw a character, and discarded NULs.  A Windows console
+C  hands over code-page bytes (an accented letter, say), and the game packs
+C  seven-bit characters five to a word, so a high bit spills into the next
+C  character and the reply is misread.  Do what the scanner did.
+      IF (LU .EQ. 5) THEN
+         J = 0
+         DO 3 I = 1, LEN(S)
+            C = IAND(ICHAR(S(I:I)), 127)
+            IF (C .NE. 0) THEN
+               J = J + 1
+               S(J:J) = CHAR(C)
+            ENDIF
+3        CONTINUE
+         IF (J .LT. LEN(S)) S(J+1:) = ' '
+      ENDIF
 C  The -10's terminal service echoed what was typed, which is why the
 C  commands appear in a transcript of the original.  A console does its
 C  own echoing, so this applies only when the input is not a terminal.

@@ -16,6 +16,7 @@
 
 extern int  opt_verbose;
 extern int  opt_faketime;
+extern int  opt_fakedate;
 extern int  opt_delays;
 extern int  watch_addr;
 extern int  suspend_requested;
@@ -234,6 +235,7 @@ static void usage(void)
     "  -c, --continue      resume from a saved core image\n"
     "  -f FILE             use FILE instead of advent.core\n"
     "  -t HH:MM            tell the game it is HH:MM\n"
+    "  -D YYYY-MM-DD       tell the game it is that day\n"
     "  -q, --no-delay      skip pauses the game asks for\n"
     "  -u, --unlimited     ignore cave hours, the turn limit and the\n"
     "                      wait before a suspended game may resume\n"
@@ -273,6 +275,14 @@ int main(int argc, char **argv)
             int hh = 0, mm = 0;
             if (sscanf(argv[++i], "%d:%d", &hh, &mm) >= 1)
                 opt_faketime = hh * 60 + mm;
+        } else if ((!strcmp(a, "-D") || !strcmp(a, "--date")) && i + 1 < argc) {
+            int y, mo, d;
+            if (sscanf(argv[++i], "%d-%d-%d", &y, &mo, &d) != 3 ||
+                y < 1964 || y > 2099 || mo < 1 || mo > 12 || d < 1 || d > 31) {
+                fprintf(stderr, "advent: -D wants a date as YYYY-MM-DD\n");
+                return 1;
+            }
+            opt_fakedate = y * 10000 + mo * 100 + d;
         } else {
             fprintf(stderr, "advent: unknown option %s (try -h)\n", a);
             return 1;

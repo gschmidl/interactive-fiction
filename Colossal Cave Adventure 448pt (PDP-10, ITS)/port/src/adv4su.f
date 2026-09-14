@@ -857,6 +857,18 @@ C
 2       LINE=' '
         READ(5,3,END=90)LINE
 3       FORMAT(A20)
+C  The ITS terminal line was 7-bit: the eighth bit of a character never
+C  reached a program, and NULs were dropped.  A Windows console hands over
+C  code-page bytes, which C2W would turn into blanks -- an accented letter
+C  typed after N made the answer N.  Strip the bit as the terminal did.
+        K=0
+        DO 6 I=1,20
+        C=IAND(ICHAR(LINE(I:I)),127)
+        IF(C.EQ.0)GOTO 6
+        K=K+1
+        LINE(K:K)=CHAR(C)
+6       CONTINUE
+        IF(K.LT.20)LINE(K+1:)=' '
         DO 4 I=1,20
         C=ICHAR(LINE(I:I))
         IF(C.GE.97.AND.C.LE.122)LINE(I:I)=CHAR(C-32)

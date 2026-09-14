@@ -131,6 +131,12 @@ void con_poll(void)
 
         ch = (unsigned char)k->uChar.AsciiChar;
         if (ch == 0) continue;
+        /* A national character from the host keyboard (an accented letter,
+         * in the console code page) is not a key a Wang keyboard has.  The
+         * keyboard table is indexed by Wang character code, and the codes
+         * above 0x7F are the workstation's own keys, so passing the byte on
+         * pressed some unrelated key -- two of them answer "quit". */
+        if (ch >= 0x80) continue;
         if (ch == 3) { running = 0; return; }          /* Ctrl+C */
         if (ch == '\n') ch = '\r';
         if (ch == 0x7F) ch = 0x08;                     /* backspace */
