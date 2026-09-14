@@ -50,6 +50,10 @@ static void usage(void)
           "  -e        echo what you type, as the Tymshare monitor did\n"
           "  --lower   pass lowercase through instead of folding it up\n"
           "  -t MIN    freeze the clock at MIN minutes past midnight\n"
+          "  --fix     repair the bugs in the overworld game (1984 set only);\n"
+          "            see docs/FIXES.md\n"
+          "  --debug   god-mode commands at any prompt: #GOD, #STATS, #GOLD,\n"
+          "            #HELP\n"
           "  -v        report monitor calls the port does not implement\n"
           "  -T        trace every instruction (very loud)\n"
           "  -h        this message\n"
@@ -113,6 +117,7 @@ static void run_image(const char *img)
     for (;;) {
         int i;
         if (!load_shr(img)) fatal("cannot load image %s", img);
+        fixes_image_loaded(img);
         cpu_reset();
         PC = image_start;
         halted = 0;
@@ -146,6 +151,8 @@ int main(int argc, char **argv)
         else if (!strcmp(a, "-T")) trace = 1;
         else if (!strcmp(a, "-e")) opt_echo_input = 1;
         else if (!strcmp(a, "--lower")) opt_lcfold = 0;
+        else if (!strcmp(a, "--fix")) opt_fix = 1;
+        else if (!strcmp(a, "--debug")) opt_debug = 1;
         else if (!strcmp(a, "-q")) opt_delays = 0;
         else if (!strcmp(a, "--no-setup")) setup = 0;
         else if (!strcmp(a, "-d") && i + 1 < argc) opt_dir = argv[++i];

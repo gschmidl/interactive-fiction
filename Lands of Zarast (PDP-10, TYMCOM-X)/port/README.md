@@ -82,6 +82,8 @@ it.)
 | `--lower` | pass lowercase through instead of folding it to upper |
 | `-t MIN` | freeze the clock at `MIN` minutes past midnight |
 | `-v` | report monitor calls the port does not implement (`-v -v` for more) |
+| `--fix` | repair the bugs in the overworld game, VENTUR (1984 set only) — see below |
+| `--debug` | god-mode commands at any prompt: `#GOD`, `#STATS`, `#GOLD`, `#HELP` |
 | `-T` | trace every instruction |
 
 Everything the game keeps lives in one directory, as it did on Tymshare:
@@ -106,6 +108,35 @@ as people left it. Copy it over `NEWADV.DAT` in a save directory to play
 that one, and drop in the characters from `dump_original\novafield\` to play
 as the people who were playing it.
 
+## Repairs and debug mode
+
+Both are off unless asked for, so by default the game is the one on the
+tape.
+
+`zarast --fix overworld` repairs what players ran into in VENTUR, the
+stand-alone game whose banner calls it *the Land of Fred*. You can SAVE and
+then RESTORE, OFF works on the lamp you carry, a carried lamp gives light
+only while lit, and torches light. Used-up lamps, torches and oil flasks go
+back into stock, so you can buy them again. A thrown flask no longer brings
+its last victim back or stays in your hands. Monsters carry gold, the mace
+stops fighting, and the 85th kill no longer stops the game. Each repair,
+what was wrong and how it is done, is in [docs/FIXES.md](docs/FIXES.md).
+
+`--debug` adds four commands you can type at any prompt; the program never
+sees them. They work in VENTUR and in the dungeon game of both versions.
+
+| command | effect |
+|---|---|
+| `#GOD` | invulnerability on or off |
+| `#STATS` | dungeon: all six abilities 18 (the most CHARC rolls), hit points and mana full; VENTUR: strength 9999999 |
+| `#GOLD` | 9,999,999 gold for every character in play |
+| `#HELP` | lists them |
+
+9,999,999 is the ceiling because it is the largest number TYMBASIC prints
+without E-notation and the largest that fits the seven-digit field DUNGEN
+writes gold into; debug mode keeps gold and VENTUR strength from growing
+past it.
+
 ## Building
 
 Needs a C99 compiler; built and tested with the mingw-w64 gcc 15.2 that
@@ -116,7 +147,8 @@ ships with Strawberry Perl.
 or `build.bat`, or directly:
 
     gcc -std=c99 -Wall -Wextra -O2 -o bin/zarast.exe \
-        src/main.c src/cpu.c src/monitor.c src/load.c src/images.c -lm
+        src/main.c src/cpu.c src/monitor.c src/load.c src/fixes.c \
+        src/tbamsg.c src/images_84.c -lm
 
 `src/images_84.c` and `src/images_87.c` are generated from the tape files
 by `tools/mkimages.py`, which also carries each version's program table and
@@ -128,6 +160,11 @@ self-contained and need no runtime files.
 How the images were decoded, why every Tymshare BASIC program on that tape
 is one word short, and where the monitor-call semantics came from are in
 [docs/REVERSE-ENGINEERING.md](docs/REVERSE-ENGINEERING.md).
+
+When a program stops with a TYMBASIC run-phase error, the message is the
+real one — `Array subscript out of bounds`, say — because the port carries
+Tymshare's `SYS:TBAMSG.SHR`, which the runtime reads the text from. Without it
+every such error came out as `TBA system error`.
 
 One thing that looks like a bug in the port is the program's own: the first
 command of a dungeon session is always answered `WHAT?`, whatever it is —
