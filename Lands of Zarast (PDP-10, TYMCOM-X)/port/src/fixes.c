@@ -243,6 +243,7 @@ static void printf_game(const char *fmt, ...)
 #define V_LAMPCNT 016256          /* moves made with the lamp on            */
 #define V_TURNS   016257
 #define V_GROWTH  016260          /* strength still to be regained          */
+#define V_SCORE   016266
 #define V_KILLS   016267
 #define V_STR     016270          /* strength, which is also hit points     */
 #define V_NCARRY  016271          /* objects carried, plus one              */
@@ -256,6 +257,10 @@ static void printf_game(const char *fmt, ...)
 #define V_NNUM    016316
 #define V_KILLED  016350
 #define V_DAMBONUS 016352         /* added to this attack's damage          */
+#define V_DAMAGE  016352          /* ...and the same variable holds a
+                                     monster's blow against you             */
+#define V_THROWHIT 016362         /* -1: the thrown object attacks          */
+#define V_I       016321          /* loop index, e.g. THROW's target search */
 #define V_HITBONUS 016353         /* added to this attack's to-hit roll     */
 #define V_INUM    016317          /* the weapon: "KILL x WITH <this>"       */
 #define V_CRIT    016330          /* which critical hit, 1 to 3             */
@@ -263,8 +268,15 @@ static void printf_game(const char *fmt, ...)
 #define VT_NLOC   015275          /* where each noun is; -2 carried         */
 #define VT_KNAMES 015315          /* names of the monsters killed           */
 #define VT_HP     015435
+#define VT_DAM    015515          /* damage die                             */
+#define VT_PRICE  016065          /* price of goods 6-13, as PRICE(n-5)     */
 #define VT_HPMAX  015455
 #define VT_VCODE  016125
+#define VT_VALUE  015715          /* treasure points: half when picked up,
+                                     the rest when left in the store       */
+#define VT_STORED 015375          /* -1 picked up, -2 left in the store;
+                                     the fixes add -3, a weapon sold back   */
+#define VT_NAMES  016045          /* noun names, two words per element      */
 /* string literals and runtime routines */
 #define VS_OFF    0442701
 #define VS_ON     0442752
@@ -272,6 +284,7 @@ static void printf_game(const char *fmt, ...)
 #define VS_ROOM11A 0443223        /* "YOU ARE IN A 30 FOOT BY 30 FOOT ROOM." */
 #define VS_ROOM11B 0443235        /* "THERE ARE FOUR DOORS,ONE ON EACH WALL." */
 #define VS_TOOLATE 0451332        /* "YOU DID NOT THROW THE OIL FLASK IN TIME!" */
+#define VS_NOMONEY 0450252        /* "BUT YOU HAVEN'T GOT ENOUGH MONEY!"    */
 #define VR_STREQ  0462527
 #define VR_STRSET 0471653
 /* nouns */
@@ -281,6 +294,14 @@ static void printf_game(const char *fmt, ...)
 #define N_TITAN 89
 #define N_MACE  90
 #define N_AXE   91
+#define N_SCIMITAR 6              /* goods 6-13 are what the store sells   */
+#define N_ARMOR 9
+#define N_SHIELD 10
+#define N_STIRGE 48
+#define N_CLUB  95
+#define N_CRYSTAL 96              /* the star crystal: needed to win        */
+#define N_WAND  98                /* the game is won by waving it           */
+#define RESOLD  (-3.0)            /* VT_STORED: sold to the merchant before */
 #define CARRIED (-2.0)
 #define IN_STOCK (-1.0)
 #define STORE_ROOM 1
@@ -317,6 +338,31 @@ static void v_uncarry(int noun)
 {
     if (same(ga(VT_NLOC, noun), CARRIED)) setv(V_NCARRY, getv(V_NCARRY) - 1);
 }
+
+/* A noun's name, out of the program's string array.  Each element is two
+ * words: the characters' address in the right half of the first, the length
+ * in the left half of the second. */
+static const char *v_noun_name(int n)
+{
+    static char buf[64];
+    w36 lo = M[VT_NAMES], hi = M[VT_NAMES + 1];
+    int base = (int)RH(M[VT_NAMES - 5]), l, a, p, len, i;
+    buf[0] = 0;
+    if (LH(lo) != 0571000 || LH(hi) != 0571140 || !base) return buf;
+    l = sx18(RH(lo));
+    if (n < l || n > sx18(RH(hi))) return buf;
+    a = base + 2 * (n - l);
+    p = (int)RH(M[a]); len = (int)LH(M[a + 1]);
+    if (len < 0 || len >= (int)sizeof buf) len = 0;
+    for (i = 0; i < len; i++)
+        buf[i] = (char)((M[p + i / 5] >> (29 - 7 * (i % 5))) & 0177);
+    buf[len] = 0;
+    return buf;
+}
+
+/* The treasures that are weapons, which the merchant keeps for resale. */
+static int v_weapon(int n) { return n == N_MACE || n == N_AXE || n == N_CLUB; }
+static int v_resold(int n) { return v_weapon(n) && same(ga(VT_STORED, n), RESOLD); }
 
 static void v_save(void);
 static int  v_restore(void);
@@ -474,17 +520,116 @@ static void ventur_fix(int line)
         setv(V_CRIT, 1 + rand() % 3);
         break;
 
-    case 21140:
-        if (same(getv(V_KILLED), -1)) {
-            /* Monsters never carried money, and there was nothing else to
-             * sell or find, so the only gold was what you started with. */
-            int n = (int)getv(V_NNUM), top = (int)ga(VT_HPMAX, n), g;
-            if (top < 1) top = 1;
-            g = 1 + rand() % top;
-            setv(V_GOLD, fmin(MAX_SAFE, getv(V_GOLD) + g));
-            printf_game("IT WAS CARRYING %d GOLD PIECES.\n", g);
+    /* Gold was set once at line 1600 and only BUY changed it.  A treasure
+     * dropped in the store (lines 11680-11740 have put it on the floor and
+     * scored it) is sold instead: it leaves the game and pays its value in
+     * gold.  That also ends the old loop of picking a treasure up and
+     * dropping it again in the store, which scored every time.
+     *
+     * Two kinds stay on the floor with the usual "OK.".  One is the wand,
+     * since the game is won with it; its value is zeroed once it has scored
+     * in the store, so it scores only the once too.  (The game never writes
+     * the value table, it goes into the save file with the rest of the
+     * program's memory, and a new game reads it afresh.)  The other is a
+     * treasure worth less than nothing, which the merchant won't buy: see
+     * line 11320 for how it counts.
+     *
+     * The mace, the axe and the club are not used up: the merchant puts them
+     * in stock, and BUY sells them back at twice what he paid (see 12480).
+     * They score as treasures only until the first sale.
+     *
+     * The store's own goods that are not used up -- the scimitar, spear,
+     * sword, armor and shield, and a lamp that has never been lit -- can be
+     * returned: the merchant pays half the listed price, rounded down, and
+     * puts them back in stock at the full price.  Torches, oil and a lamp
+     * that has burned are not taken back.
+     *
+     * The star crystal is never sold either; like the wand, the game is won
+     * with it.  (Its value is 0, so it never was, but it is named here so
+     * that stays true.)
+     *
+     * The merchant's words stand in for the "OK." at 11760; line 11780 goes
+     * on to the second object of DROP x AND y. */
+    case 11760:
+        if (same(getv(V_P), STORE_ROOM)) {
+            int n = (int)getv(V_NNUM);
+            double v = ga(VT_VALUE, n);
+            if (!same(ga(VT_NLOC, n), STORE_ROOM)) break;
+            if (n >= N_SCIMITAR && n <= N_LAMP && n != N_TORCH) {
+                int pay = (int)floor(ga(VT_PRICE, n - 5) / 2 + 1e-9);
+                if (n == N_LAMP && !(v_streq(V_LAMP, VS_OFF) && same(getv(V_LAMPCNT), 0))) break;
+                sa(VT_NLOC, n, IN_STOCK);
+                setv(V_GOLD, fmin(MAX_SAFE, getv(V_GOLD) + pay));
+                if (pay > 0)
+                    printf_game("THE MERCHANT TAKES BACK THE %s FOR %d GOLD PIECES.\n", v_noun_name(n), pay);
+                else
+                    printf_game("THE MERCHANT TAKES BACK THE %s, BUT PAYS NOTHING FOR IT.\n", v_noun_name(n));
+                goto_line(11780);
+                break;
+            }
+            if (same(v, 0) || v < 0 || n == N_CRYSTAL) break;
+            if (n == N_WAND) { sa(VT_VALUE, n, 0); break; }
+            if (v_weapon(n)) { sa(VT_NLOC, n, IN_STOCK); sa(VT_STORED, n, RESOLD); }
+            else sa(VT_NLOC, n, 0);
+            setv(V_GOLD, fmin(MAX_SAFE, getv(V_GOLD) + floor(v + 0.5)));
+            printf_game("THE MERCHANT BUYS THE %s FOR %d GOLD PIECES.\n", v_noun_name(n), (int)floor(v + 0.5));
+            goto_line(11780);
         }
         break;
+    /* A treasure worth less than nothing costs its value only while it lies
+     * in the store.  Line 11720 takes it off the score when it is dropped
+     * there (the flag is then -2, from line 11740), and picking it up again
+     * gives it back.  Picking it up anywhere else costs nothing, instead of
+     * half its value, and dropping it anywhere else never did count.  The
+     * game would otherwise charge it again on every pick-up and store drop. */
+    case 11320: {
+        int n = (int)getv(V_NNUM);
+        double v = ga(VT_VALUE, n);
+        if (v_resold(n)) { next_statement(); break; }    /* scores no more */
+        if (v < 0 && !same(v, 0)) {
+            if (same(ga(VT_STORED, n), -2)) setv(V_SCORE, getv(V_SCORE) - v);
+            next_statement();
+        }
+        break; }
+
+    /* A weapon bought back keeps its mark through GET (11340 would make it
+     * -1) and a store DROP (11720 scores, 11740 would make it -2). */
+    case 11340: case 11720: case 11740:
+        if (v_resold((int)getv(V_NNUM))) next_statement();
+        break;
+
+    /* BUY takes only nouns 6-13, priced from the table the price list
+     * prints.  A weapon the merchant bought is sold back for twice its
+     * value, and goes on the store floor as the other goods do. */
+    case 12480: {
+        int n = (int)getv(V_NNUM);
+        if (v_resold(n)) {
+            double price = 2 * floor(ga(VT_VALUE, n) + 0.5);
+            if (same(ga(VT_NLOC, n), getv(V_P))) {
+                monitor_print("YOU ALREADY BOUGHT THAT. IT IS RIGHT HERE.\n");
+                goto_line(12620);
+            } else if (price > getv(V_GOLD)) {
+                print_literal(VS_NOMONEY);
+                goto_line(12620);
+            } else {
+                setv(V_GOLD, getv(V_GOLD) - price);
+                sa(VT_NLOC, n, getv(V_P));
+                goto_line(12600);            /* "YOU HAVE n GOLD PIECES LEFT." */
+            }
+        }
+        break; }
+
+    /* The price list (7000-7060) names the eight goods; the weapons the
+     * merchant has in stock follow, in the same form. */
+    case 7080: {
+        static const int w[] = { N_MACE, N_AXE, N_CLUB };
+        int i;
+        for (i = 0; i < 3; i++)
+            if (v_resold(w[i]) && same(ga(VT_NLOC, w[i]), IN_STOCK))
+                printf_game("%s\n %d\n GOLD PIECES.\n", v_noun_name(w[i]),
+                            (int)(2 * floor(ga(VT_VALUE, w[i]) + 0.5)));
+        break; }
+
     case 21160: {
         int cap = upper(VT_KNAMES);
         double k = getv(V_KILLS);
@@ -524,6 +669,31 @@ static void ventur_fix(int line)
         break;
     case 26210:
         if (same(getv(V_OILST), -3)) { setv(V_OILST, 0); setv(V_OILCNT, 0); }
+        break;
+
+    /* THROW looks for its target with IF NLOC(I)=P AND HP(I)>2 (26100),
+     * and attacks with IF DAM(thrown)>2 AND HP(I)>2 (26200).  Objects have
+     * 1 hit point, so "more than 2" was meant as "a monster", but the stirge
+     * has 2 and nothing thrown could ever touch it.  It is a target now,
+     * for anything with the damage to attack at all.  Burning oil (25120)
+     * still passes it by. */
+    case 26100: {
+        int i = (int)getv(V_I);
+        if (i == N_STIRGE && same(ga(VT_NLOC, i), getv(V_P)) && ga(VT_HP, i) > 0.5)
+            goto_line(26200);
+        break; }
+    case 26200:
+        if ((int)getv(V_I) == N_STIRGE) {
+            if (ga(VT_DAM, (int)getv(V_NNUM)) > 2) setv(V_THROWHIT, -1);
+            next_statement();
+        }
+        break;
+
+    /* A monster's blow is INT(RND*DAM)+1 less its rating, never clamped,
+     * so the weakest monsters "hit" for negative damage and gave strength.
+     * The player's own blows are kept above 0 at line 21060. */
+    case 21980:
+        if (getv(V_DAMAGE) < 0) setv(V_DAMAGE, 0);
         break;
     }
 }
@@ -747,6 +917,23 @@ void fixes_image_loaded(const char *img)
               && line_has(21340, 0260740015315ULL)         /* kill list          */
               && line_has(20700, 0312440451157ULL)         /* IF INUM=91 (axe)   */
               && line_has(22160, 0307440000003ULL)         /* ON A GOTO, 3 ways  */
+              && line_has(11720, 0260740015715ULL)         /* SCORE+=VALUE(N)    */
+              && line_has(11320, 0175100202400ULL)         /* VALUE(N)/2         */
+              && line_has(11740, 0260740015375ULL)         /* FLAG(N)=-2         */
+              && line_addr(11340) > 0
+              && line_has(11740, 0515440575400ULL)         /* FLAG(N)=-2         */
+              && line_has(12480, 0201100450240ULL)         /* "NOT FOR SALE"     */
+              && line_has(12520, 0201100450252ULL)         /* "NOT ENOUGH MONEY" */
+              && line_has(12600, 0201100450263ULL)         /* "YOU HAVE "        */
+              && line_has(7080, 0201100445654ULL)          /* "HURRY WHILES..."  */
+              && line_has(26100, 0313100443017ULL)         /* HP(I)>2            */
+              && line_has(26200, 0260740015515ULL)         /* DAM(NNUM)          */
+              && line_has(26200, 0202440016362ULL)         /* F=-1               */
+              && line_has(21980, 0154440016352ULL)         /* STR=STR-D          */
+              && line_has(12520, 0260740016065ULL)         /* PRICE(N-5)         */
+              && line_has(11760, 0201100450151ULL)         /* PRINT "OK."        */
+              && line_has(11680, 0200440016300ULL)         /* NLOC(N)=P          */
+              && line_addr(11780) > 0
               && line_addr(25500) > 0 && line_addr(13680) > 0
               && M[line_addr(4700) - 1] == XWD(0265040, 0426151);   /* GOSUB list objects */
         if (!ok) { fprintf(stderr, "[fixes: this VENTUR is not the one they were made for; left off]\n");
