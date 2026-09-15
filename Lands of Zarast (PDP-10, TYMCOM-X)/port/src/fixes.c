@@ -260,6 +260,7 @@ static void printf_game(const char *fmt, ...)
 #define V_DAMAGE  016352          /* ...and the same variable holds a
                                      monster's blow against you             */
 #define V_THROWHIT 016362         /* -1: the thrown object attacks          */
+#define V_BURNING 016347          /* -1: the fire reaches this noun         */
 #define V_I       016321          /* loop index, e.g. THROW's target search */
 #define V_HITBONUS 016353         /* added to this attack's to-hit roll     */
 #define V_INUM    016317          /* the weapon: "KILL x WITH <this>"       */
@@ -285,6 +286,7 @@ static void printf_game(const char *fmt, ...)
 #define VS_ROOM11B 0443235        /* "THERE ARE FOUR DOORS,ONE ON EACH WALL." */
 #define VS_TOOLATE 0451332        /* "YOU DID NOT THROW THE OIL FLASK IN TIME!" */
 #define VS_NOMONEY 0450252        /* "BUT YOU HAVEN'T GOT ENOUGH MONEY!"    */
+#define VS_FROMWHOM 0450227       /* "BUY FROM WHOM?"                       */
 #define VR_STREQ  0462527
 #define VR_STRSET 0471653
 /* nouns */
@@ -294,6 +296,7 @@ static void printf_game(const char *fmt, ...)
 #define N_TITAN 89
 #define N_MACE  90
 #define N_AXE   91
+#define N_MERCHANT 5              /* stands in the store; gone once killed  */
 #define N_SCIMITAR 6              /* goods 6-13 are what the store sells   */
 #define N_ARMOR 9
 #define N_SHIELD 10
@@ -363,6 +366,9 @@ static const char *v_noun_name(int n)
 /* The treasures that are weapons, which the merchant keeps for resale. */
 static int v_weapon(int n) { return n == N_MACE || n == N_AXE || n == N_CLUB; }
 static int v_resold(int n) { return v_weapon(n) && same(ga(VT_STORED, n), RESOLD); }
+/* KILL refuses the merchant, but a thrown weapon can kill him, and the kill
+ * routine takes him out of the store like any monster. */
+static int v_merchant_dead(void) { return !same(ga(VT_NLOC, N_MERCHANT), STORE_ROOM); }
 
 static void v_save(void);
 static int  v_restore(void);
@@ -454,6 +460,16 @@ static void ventur_fix(int line)
     /* Buying.  There is one of each object, so a used-up one has to go
      * back into stock before it can be sold again, and the store would
      * take your money a second time for something already on its floor. */
+    /* BUY with the merchant dead gets the game's own answer for a BUY
+     * outside the store (12400), and nothing else happens: no sale, no
+     * lamp trade-in. */
+    case 12400:
+        if (same(getv(V_P), STORE_ROOM) && v_merchant_dead()) {
+            print_literal(VS_FROMWHOM);
+            goto_line(12620);
+        }
+        break;
+
     case 12440: {
         int n = (int)getv(V_NNUM);
         if (n == N_LAMP && v_streq(V_LAMP, VS_DEAD)) {
@@ -555,6 +571,13 @@ static void ventur_fix(int line)
             int n = (int)getv(V_NNUM);
             double v = ga(VT_VALUE, n);
             if (!same(ga(VT_NLOC, n), STORE_ROOM)) break;
+            /* Nobody to trade with: an ordinary drop.  Line 11720 has scored
+             * a treasure as the original always did; zero its value, as for
+             * the wand, so dropping it here again cannot score again. */
+            if (v_merchant_dead()) {
+                if (v > 0) sa(VT_VALUE, n, 0);
+                break;
+            }
             if (n >= N_SCIMITAR && n <= N_LAMP && n != N_TORCH) {
                 int pay = (int)floor(ga(VT_PRICE, n - 5) / 2 + 1e-9);
                 if (n == N_LAMP && !(v_streq(V_LAMP, VS_OFF) && same(getv(V_LAMPCNT), 0))) break;
@@ -671,12 +694,20 @@ static void ventur_fix(int line)
         if (same(getv(V_OILST), -3)) { setv(V_OILST, 0); setv(V_OILCNT, 0); }
         break;
 
-    /* THROW looks for its target with IF NLOC(I)=P AND HP(I)>2 (26100),
-     * and attacks with IF DAM(thrown)>2 AND HP(I)>2 (26200).  Objects have
-     * 1 hit point, so "more than 2" was meant as "a monster", but the stirge
-     * has 2 and nothing thrown could ever touch it.  It is a target now,
-     * for anything with the damage to attack at all.  Burning oil (25120)
-     * still passes it by. */
+    /* The stirge.  Nouns with fewer than 2 hit points are objects: the
+     * monster loop (17220) skips them, so 2 is the fewest a monster can
+     * have, and the stirge has 2.  But burning oil picks its victims with
+     * IF NLOC(I)=P AND HPMAX(I)>2 (25120), and THROW looks for a target with
+     * IF NLOC(I)=P AND HP(I)>2 (26100) and attacks only IF DAM(thrown)>2 AND
+     * HP(I)>2 (26200) -- "more than 2" where "a monster" was meant -- so
+     * neither could ever touch it.  Both treat it as the monster it is. */
+    case 25120: {
+        int i = (int)getv(V_I);
+        if (i == N_STIRGE && same(ga(VT_NLOC, i), getv(V_P))) {
+            setv(V_BURNING, -1);
+            next_statement();
+        }
+        break; }
     case 26100: {
         int i = (int)getv(V_I);
         if (i == N_STIRGE && same(ga(VT_NLOC, i), getv(V_P)) && ga(VT_HP, i) > 0.5)
@@ -923,10 +954,13 @@ void fixes_image_loaded(const char *img)
               && line_addr(11340) > 0
               && line_has(11740, 0515440575400ULL)         /* FLAG(N)=-2         */
               && line_has(12480, 0201100450240ULL)         /* "NOT FOR SALE"     */
+              && line_has(12400, 0201100450227ULL)         /* "BUY FROM WHOM?"   */
               && line_has(12520, 0201100450252ULL)         /* "NOT ENOUGH MONEY" */
               && line_has(12600, 0201100450263ULL)         /* "YOU HAVE "        */
               && line_has(7080, 0201100445654ULL)          /* "HURRY WHILES..."  */
               && line_has(26100, 0313100443017ULL)         /* HP(I)>2            */
+              && line_has(25120, 0260740015455ULL)         /* HPMAX(I)           */
+              && line_has(25120, 0202440016347ULL)         /* F=-1               */
               && line_has(26200, 0260740015515ULL)         /* DAM(NNUM)          */
               && line_has(26200, 0202440016362ULL)         /* F=-1               */
               && line_has(21980, 0154440016352ULL)         /* STR=STR-D          */
