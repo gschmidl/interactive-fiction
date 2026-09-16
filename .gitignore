@@ -111,7 +111,7 @@ __pycache__/
 *.obj
 fisk.log
 zeno.log
-**/port/saves/*
+**/saves/
 Thumbs.db
 desktop.ini
 .DS_Store
