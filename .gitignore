@@ -112,6 +112,7 @@ __pycache__/
 fisk.log
 zeno.log
 **/saves/
+**/save/
 Thumbs.db
 desktop.ini
 .DS_Store
