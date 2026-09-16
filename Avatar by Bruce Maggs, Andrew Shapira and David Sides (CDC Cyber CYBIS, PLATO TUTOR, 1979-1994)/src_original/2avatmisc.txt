@@ -1,0 +1,1623 @@
+2avatmisc  (tutor    a, 14 blocks)
+  n | 5m | 05/16/84 | 03/07/94 | s | s | Maggs/Sh | apira/Sid | es | avatar | see author | s | n/a | avatar aut | hors | access blo | ck and les | lists for | avatar | 15.20.16. | dave runte | e | s | coserv | coserv | publish | i4a[l | 2avatuse | avatarbv | mu2+ «{75} | 0catnote | coserv | s0edit | 5 | e
+
+=== block '*directory'  kind 00  0 words  (block 0)
+
+=== block 'entry'  kind 00  198 words  (block 1)
+storage 610
+stoload nc891,1,610
+common  1               $$ for -release- in "options"
+lvars   10
+*--
+define  lesson
+use     functions
+use     nc consts
+use     student
+use     items
+use     maze
+use     monsters
+use     spells
+        option  = nc(ncsbank+0)
+        optshow = nc(ncsbank+1)
+        jfile   = nc(ncsbank+2)
+*
+unit    entry
+        merge,previous
+        lless
+        llbuf(3)
+$
+atnm    208,256
+write   Please wait.
+*--
+*-- must be used as a processor lesson
+*--
+jumpout zxfile = 0;q;x
+*--
+*-- see if lesson is permitted
+*--
+leslist (zlesson),versions
+jumpout zreturn;x;q     $$ no lesson with error unit yet
+*--
+zero    llbuf(1),3
+calc    llbuf(2) « zxfile
+findl   (llbuf(1)),lless
+jumpout lless;q;x
+*--
+*-- lesson must be legit, find access permitted
+*--
+zero    n1,150
+access  (zxfile),access;opword
+jumpout zreturn;x;q
+*--
+calc    leslist « zxfile
+*--
+leslist (leslist),(leslist)
+jumpout zreturn;x;q
+*--
+*-- either give op page or go directly to game
+*--
+jump    bitcnt(opword) > 1,index,x
+jumpout bitcnt(opword) = 0;q;x
+inhibit erase
+loop
+.       jumpout <gtentry>
+endloop
+*
+use     utility
+use     options
+*
+unit    index
+atnm    208,480
+write   Entry Lesson
+atnm    209,480
+write   Entry Lesson
+do      choose
+loop
+.       pause   keys=all
+.       do      options
+endloop
+*
+unit    showopts
+calc    option « 0
+loop    option < 0
+.       calc    option « option+1
+outloop (key = stop)
+.       atnm    48,wherey-18
+.       showa   (option $cls$ 12) $union$ ". "
+.       writec  option-2;Unused;;
+endloop
+*
+
+=== block 'error'  kind 00  37 words  (block 2)
+unit    enote
+finish
+pack    errmess;errlen;«a,errmess»(z«s,zreturn»)
+at      48,312
+write   There has been an error.
+ 
+        «a,errmess,errlen»
+ 
+        Please give a description of what happened prior
+        to this error.
+notes   errmess,int((errlen+1)/10)+1,errmess
+pause   keys=term
+*
+
+=== block 'read me'  kind 47  55 words  (block 3)
+Next error message number is 213
+ 
+error('commandnnn') where nnn is the error message number
+ 
+The following variables may be one bit flags and the
+substitution eq1/eq0 for the "=" should save some ECS.
+(Some of these may be -1, 0 flags, make sure they are
+1,0 flags before using the eq1/eq0 functions.)
+ 
+sqseen
+takeabl
+fseen
+popaliv
+evestat
+mallow
+alipeac
+pochick
+shownam
+sstop
+chsbit
+dstatus
+dzap
+poexit
+ppwait
+ppterm
+dateras
+
+=== block 'versions'  kind 44  320 words  (block 4)
+
+2avatar
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+=== block 'access'  kind 52  320 words  (block 5)
+e3cbxc×5a÷c5
+.c+xj-/eda=
+sides
+
+publish
+dave runte
+s
+
+5Other
+apexccdsiicoservoizcoservrpublish6s*Other
+
+d
+conty
+
+;;;;;;;;;;sides
+
+;;;;;;;;;;dale pyle
+;;;;;;;;;;lyle borton
+;;;;;;;;;;dave runte
+;;;;;;;;;;dale pyle
+;;;;;;;;;;dave runte
+;;;;;;;;;;jack guinnip
+;;;;;;;;;;lyle borton
+;;;;;;;;;;steve hearne
+;;;;;;;;;;dave runte
+;;;;;;;;;;sides
+
+;;;;;;;;;;dave runte
+;;;;;;;;;;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+=== block 'access'  kind 52  320 words  (block 6)
+cupaddar1*ala4Author
+
+;;;;;;;;;;Operator
+g;;;;;;;Playtester
+g;;Gamer
+
+d
+Thief
+
+
+bts
+Author Options
+        
+Operator Options ⌫
+        
+Monitor Options
+        
+Gamer Options
+        
+bs3x=phc
+Edit Access List
+        
+Edit Game Phrases
+        
+Enter Closed Game
+        
+h=)7tdadrd[pue5e[5yf6{70}
+Inspect Access List
+Edit Races
+Edit Classes
+Edit Items
+Edit Spells
+Edit Monsters (and Encounter Tables)
+Edit Dungeon Levels
+Edit Characters
+Edit Economic Statistics
+Use Initialization Options
+Use Print Routines
+Use Misc Data Routines
+duanab=g]6h7l
+Use Monitor Lesson
+        
+Open/Close Game (Edit Down Message)
+        
+Edit Game Message
+        
+Minor God-like Powers
+        
+Major God-like Powers
+        
+b%a6astk7⌫÷
+Enter Game (Normal Access)
+        
+See Debugging Information ⌫
+        
+Use Alternate Version
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+=== block '2avatmisc'  kind 44  70 words  (block 7)
+
+
+
+2avatuse
+
+2avatmisc
+2avatar
+
+2avat
+
+2upstairs
+2darkmoor
+2avathelp
+2avatstat
+
+
+
+
+
+
+
+
+
+
+
+
+2avatarn
+
+
+
+
+
+2avatcom
+
+2avatnset
+2avatname
+2avatmap
+
+2avatgld
+
+2avatst
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+=== block 'lessons'  kind 44  70 words  (block 10)
+
+2avat
+
+2avatar
+
+2avatcom
+
+2avathelp
+2avatmisc
+2avatstat
+2avatuse
+
+2darkmoor
+2upstairs
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+=== block 'datafiles'  kind 44  70 words  (block 11)
+
+2avatgld
+
+2avatmap
+
+2avatname
+2avatnset
+2avatst
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+=== block '8owq 980sl'  kind 42  320 words  (block 12)
+g{70}      b                     df                                          df        
+5ah        hp5        abg;       df         p                     o;;        df        
+d5x        pbp        bpo{^00}   df         5aab5      h÷p÷5      abg;       df        
+/          c;;÷       o;;        df         d5÷        s;{^00}p   bpo{^00}   df        
+pa{70}     pad        pag;       df         ;{'00}5a   h5b        h5o{^00}   df        
+dah                              df         ap                    g;         df        
+ax                    o{^00}     df         5a5                              df        
+h5a/       h5b        h5o{^00}   df         4⌫aa÷      pad        pad        df        
+;;⌫a{70}   o;;                   df         5bb        5bh        5bh        df        
+4⌫bbh      ahac       h[bhp      df         ;{'00}pbp  bdo;{'00}  p5a        df        
+bx                    h          df         ;;⌫b5                            df        
+;{'00}5b/  h5b        h5b        df         4⌫b÷                             df        
+;{'00}b{70}                       df         4⌫bc       aha        hah        df        
+;{'00}pch  bdh        p5a        df         hpcp       bdh        p5a        df        
+pbcx       aha        hah        df         c5                    a          df        
+dpc/       dpa        dpa        df         a;;÷c÷     5bd        o;⌫o;;     df        
+pc{^00}c{70} aha        {'00}ah    df         bdd        a5a;÷      o;;        df        
+d5dh       pbp        bpb        df         ;;⌫dp      o;{75}h    5a;;÷      df        
+5adx       {'00}p5    ac{^00}d   df         ;;⌫d5      g;         a5d5       df        
+a;⌫d/                 o;;        df         ;;⌫d÷                 4;         df        
+d{70}      g÷c5       ⌫5f458a    df         5qphe      ah56hhd    jtedr      df        
+peh        fpg        hp         df         a÷h5ep     1nn÷dg     p38;74     df        
+sg⌫94÷ex   ;8;»8↑=    8⌫;a{75}⌫
+         df         5ae5       hp5        abd        df        
+cfpe/      b÷q5ac     b8dpcahp   df         cbc5e÷     dppp5      a5a÷       df        
+dae{70}    bd[ dxb    5dcbv5a    df         5bf        pab        llo;       df        
+ox/rfh     h7jd7q9    xbrp       df         c;;÷fp     nA×bo      g«↑5cm{'00} df        
+m{'00}4ppfx hh
+        g9 g÷l5a      df         ;⌫lf5      l5d        pbh        df        
+÷o5÷f/     ÷a↓cT4c    o6÷6Bh     df         f÷                               df        
+h;%;⌫÷f{70} a9ja4g↑    b51dbo;÷   df         ⌫ng        f[÷gx      c/xp8*     df        
+odh45gh    a{'40}[÷a5 cc÷        df         ca÷gp      hg+>5y÷a   m÷.=5a     df        
+q5fhpgx    +/ds×va{75} ÷3         df         pbb4;÷g5   æa÷bj      [tg↓5t;    df        
+qdrh7g/    7h6dqdqd   7h7h7dqd   df         uuv))5g÷   uuv))+uu   ))(uuz))   df        
+h                                df         hh         o÷a6mb     ×hghp4;    df        
+c⌫ho⌫5hp   g
+        p4
+        a⌫/ g⌫53d;÷    df         hx         l÷÷cd      1bs3jm=x   df        
+{c0fh5     ↑76÷icd    ll÷        df         a%⌫e↓5h/   [⌫h5       bh4        df        
+c;;÷h÷     pa         pff.*.     df         ⌫b=h{70}   ⌫÷h%5p[    adh4       df        
+c{'00}ppi  l8÷n1      a×lnh{'54} df         a9xc÷ih    xd95cl     dh÷1       df        
+cb{^00}ip  48fg{'00}  %*5{'76}bd df         i5b/ix     y÷a5æa{'00} 8;5fh      df        
+a;5ngi5    f⌫x[5⌫     nxmi÷js5   df         5gb5gi/    6 /]q5[    flnco÷     df        
+hapi÷      g÷u5{^30}a {'00}⌫1    df         fo5i{70}   g{'00}xi   ⌫ow46pb    df        
+
+=== block '8owq 980sl'  kind 42  320 words  (block 13)
+j                                df         a5ojh      g{'70}y*c- =l46÷⌫fc   df        
+÷xoc÷jp    x÷m-sA     gdpf       df         c5jx       1dzhrws    7pe↓/l     df        
+$plcj5     a65c
+        ws 7d6÷q5n    df         hly÷j/     g⌫oi5      {75}a÷cp   df        
+3c{'00}j÷  ag5o÷a;    f1[5fb     df         cc{'00}j{70} ⌫a÷c÷      o÷;5c÷     df        
+3a{'00}k   {^00}c9n   lh         df         35bg5kh    ×apya      bh1i-
+        i9 df        
+1c6=kp     1b]o;[uu   f)=uup;{'00} df         kx         g;         a5d5       df        
+bdk5       a5a;÷                 df         pak/       pad        pad        df        
+k÷                               df         k{70}                            df        
+h5l        h5b        h5b        df         {^00}c{'00}lh {^00}c{'00}o5 {^00}c{'00}o5 df        
+lp         gp)        ft÷ad      df         bplx       xfxf       9          df        
+{'00}dpl5  ba/ex      ht+5ba     df         hd+5l/     htavf5     bdpn       df        
+c↑a
+        5l÷ o9dx÷xi    ÷6471g;5   df         2↓ab1÷l{70} 
+        c↓dp5a o5o66pa{'00} df        
+gde.zm     =)d0pc×)   or50p0j5   df         0↓51ppmh   dprA5      5bqgkb     df        
+a{^00}4{^00}mp na[5o-a-   ÷loa5;;;   df         ;;;a5÷mx   ÷lm5y-{^00} na÷4{^00}45 df        
+lcm5       c5pf4      3b         df         bm/        3a*÷a      c5cc       df        
+5c>61÷m÷   d1dvx7a    ⌫p28-<q9   df         5c75lm{70} 7b[;;%uu   f).«ux;{'00} df        
+lgpn       c9{'40}dt  /pdixb     df         bdl-pnh    butf$pga   clb÷g      df        
+vek{'00}np 5qahhm;;   ]ba6dc.5   df         {'00}lpnx  l9cc5dp    bnxo↓c$    df        
+vquv;÷n5   bqub$(qt   pqxv)×/4   df         q«ykk÷n/   =mw;5f     ÷pb6a8di   df        
+15n÷       1b5g.      k5⌫b{'00}  df         3÷apn{70}  1÷a        lo÷c       df        
+;;{'00}po  ;;⌫4;;     ;⌫c;÷o;    df         o:5a÷oh    z%/a⌫      ÷c8;;↓c    df        
+9h-h1÷op   sl<o↑;     dpn        df         dl÷ox      a*⌫k>↑fm   ;6o[⌫;c,   df        
+↑]zbpo5    df5b{^00}  1f0{^00}4fm df         ⌫oo4⌫÷o/   5b×s5[     
+        ×d;5a- df        
+gh1;5o÷    i
+        ⌫cc;;; lp                                                               
+                                                                                       
+                                                                                       
+                                                                                       
+                                                                                       
+                                                                                       
+                                                                                       
+                                                                                       
+                                                                                       
+                                                                                       
+                                                                                       
+                                                                                       
+                                                                                       
+                                                                                       
+                                                                                       
+                                                                                       
+                                                                                       
+
+=== block 'new'  kind 42  320 words  (block 14)
+xa
+df
+
+
+dfdhb÷b-3
+ngh1
+        3
+dfa{'00}1
+        pngi5g5j
+b÷d
+dfx
+
+df5
+
+dfh
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

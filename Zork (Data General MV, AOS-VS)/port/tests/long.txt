@@ -1,0 +1,73 @@
+look
+open mailbox
+take leaflet
+read leaflet
+drop leaflet
+north
+east
+open window
+west
+look
+open sack
+take all
+west
+take lamp
+take sword
+inventory
+move rug
+open trap door
+turn on lamp
+down
+look
+north
+kill troll with sword
+kill troll with sword
+kill troll with sword
+kill troll with sword
+kill troll with sword
+kill troll with sword
+diagnose
+score
+east
+east
+se
+e
+look
+take coins
+w
+n
+up
+look
+save "zs1"
+w
+e
+restore "zs1"
+look
+inventory
+this is a deliberately very long command line that keeps going far past eighty columns to see what the parser and its buffers do with it all
+take the elvish sword and the brass lantern and the jewel encrusted egg and the painting and the crystal skull and the platinum bar and the coins
+drop all but lamp
+take all
+brief
+verbose
+superbrief
+info
+help
+time
+wait
+wait
+up
+w
+s
+n
+e
+d
+climb
+jump
+xyzzy
+plugh
+echo
+hello sailor
+score
+quit
+y

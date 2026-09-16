@@ -1,0 +1,1951 @@
+exp  (tutor    a, 28 blocks)
+  1 | 5x | 07/02/81 | 04/29/93 | dipstick | izcoserv | Michael {70} | wei | (414) 548- | 9889 | dungeons a | nd dragons | Experimen | tal entry | lesson to | the LAB | YRINT | H | 12.29.05. | jack guinn | ipj | izcoserv | juse | microj | wn4lao) | operate | authplu | mu2+ «{75} | 0catnote | s0edit | e | d
+
+=== block '*directory'  kind 00  0 words  (block 0)
+
+=== block 'cas driver'  kind 00  248 words  (block 1)
+*
+use     stddefine1
+use     stddefine2
+use     stddefine3
+use     gamdefine1
+use     gamdefine2
+use     plydefine1
+use     plydefine2
+use     comdefine1
+use     comdefine2      $$ jumps to unit title
+use     stdrtns1
+use     davertn1
+**
+        
+* note if title is back'd to, will cause exec error
+unit    title
+lineset labyrinth,dunglines
+finish  writeit
+*  entry from (dlez)..dungeon driver
+if      zfroml=(dlez)  $$ ie. we are entering castle
+.       comload nc1,4501,1500
+.       inhibit erase
+.       jump    reent
+endif
+*  entry only from labyrinth
+if      zfroml {^54} entrylz
+.       jumpout (entrylz)
+endif
+*
+* titlen is used for the program to jump back to itself to.
+* It thus avoids hassles if zfroml is set..
+*
+        
+entry   titlen
+*
+lineset labyrinth,dunglines
+finish  writeit
+*  initialize flags
+zero    n(KC+1),20
+comload nc1,4501,1500
+release common
+inhibit
+*  inhibit erase if jumping to labyrinth
+if      optflag{^54}'first'
+.       inhibit erase
+endif
+jump    enter
+**
+        
+unitop  enter
+backgnd
+back1   return
+data    enter
+color   display;zblue
+if      optflag='first' $or$ optflag='second'
+.       box     166,344;346,200;2
+.       draw    184,300;328,300;
+.       color   display;zyellow
+.       at      189,306
+.       write   LABYRINTH OPTIONS
+.       at      190,272
+else
+.       box     10,251;186,146;3
+.       mode    erase
+.       fill    11,250;185,147
+.       mode    write
+.       color   display;zyellow
+.       at      33,234
+.       write   LABYRINTH OPTIONS
+.       at      30,216
+endif
+write   c - create a char
+        r - run a char
+        n - notefile
+        h - help lesson
+if      op<0
+.       write
+.               e - editing lesson
+endif
+color   display;zwhite
+calc    optflag « 'first'
+inhibit
+loop
+.       pause   keys=c,r,n,h,e,back1,term
+.       keytype ktype,r,c,n,h,e
+reloop  ktype=4 $and$ op{^73}0
+.       jump    ktype-1,run,create,x
+.       do      saveuser
+.       jumpout ktype-3;(notelez);(helplez);(editlez)
+endloop
+**
+        
+
+=== block 'create'  kind 00  290 words  (block 2)
+unit    dummy
+jump    title
+**
+        
+unit    return
+do      saveuser
+** this prevents back1 from opt page after jumpouts to
+** drivers from causing exec errors
+if      zfrom=(caslez) $or$ zfrom=(dlez)
+.       jumpout labyrinth
+endif
+jumpout (zfrom)
+**
+        
+unit    charload
+termop  c
+loop
+.       at      127
+.       write   LOADING CHARS
+.       charset
+.       charset labyrinth,dungedchar
+outloop key=stop $or$ zreturn
+endloop
+break   
+press   next
+loop
+.       lineset
+.       lineset labyrinth,dunglines
+outloop key=stop $or$ zreturn
+endloop
+at      127
+erase   13
+write
+**
+        
+*unit    numuse
+*termop  u
+*termop  users
+*if      player>0
+*.       at      101
+*.       erase   64
+*.       at      120
+*.       write   Currently «s,numuser» users.
+*endif
+**
+        
+unit    create
+back    titlen
+back1   return
+do      reserve
+comload
+sort    common,1;225,20,403,7
+calc    num1 « 0
+comload nc1,1,1500
+loop
+outloop 20[add1(num1)-1] +1 {^73} 1500
+outloop nc{ 20[num1-1] +1 } {^54} 0
+endloop
+release common
+*
+if      num1 {^72} 1
+.       color   display;zblue
+.       box     378,182;134,330;2
+.       color   display;zyellow
+.       at      152,296
+.       write   The storage slots are FULL.
+.               Your character will not be
+.               saved unless you attain a
+.               higher level than the last
+.               player on the player list.«c,zwhite»
+.                   {^55}NEXT to continue.
+.                  BACK for entry page.
+.       pause   keys=funct
+endif
+erase
+*
+comload nc1,4501,1500
+do      pickrace
+do      pickspec
+do      pickstat
+do      findmnum
+loop
+.       do      name(2030)
+outloop return{^54}0
+endloop
+loop
+.       do      password(2230)
+outloop return{^54}0
+endloop
+do      reserve
+comload nc1,1,1500
+block   n(KC+1),nc1,20
+comload
+sort    common,1;225,20,403,7
+release common
+comret
+comload nc1,4501,1500
+do      adduser
+*do      clean
+jump    dungeon
+**
+        
+unit    rollstat
+randu   str,12+num1
+randu   intel,12+num2
+randu   wisdom,12+num3
+randu   con,12+num4
+randu   dex,12+num5
+randu   charm,12+num6
+randu   hits,max[1,3int(con/2)+var1]
+mode    rewrite
+calc    ind1«0
+loop    add1(ind1){^72}6
+.       at      2203+100ind1
+.       showt   [pstats(ind1)«pstats(ind1)+6],2
+endloop
+at      2903
+showt   [hits«hits+6],2
+mode    write
+calc    phits«hits
+**
+        
+
+=== block 'create'  kind 00  215 words  (block 3)
+unit    pickrace
+*
+at      403
+write   a) dwarf
+        b) elf
+        c) gnoll
+        d) gnome
+        e) goblin
+        f) hobbit
+        g) human
+        h) kobold
+        i) ogre
+        j) orc
+        k) troll
+at      1603
+write   What race (a-k)?
+pause   keys=a,b,c,d,e,f,g,h,i,j,k,back,back1,term
+calc    race«key-1
+at      1621
+writec  race,,dwarf,elf,gnoll,gnome,goblin,hobbit,human,kobold,ogre,orc,troll
+calcs   race-1,num1« 4,-3, 6,-2,-4,-1, 0,-6, 3, 0, 6
+calcs   race-1,num2« 2, 6,-5, 1, 2, 3, 0, 0,-2, 0,-5
+calcs   race-1,num3« 2, 5,-8, 1,-3, 2, 0, 0,-4, 0,-4
+calcs   race-1,num4« 0, 1, 7, 0, 1, 0, 0, 3, 4, 0, 6
+calcs   race-1,num5«-4, 3, 2, 3, 3, 4, 0, 6,-1, 2,-2
+calcs   race-1,num6« 0, 2,-6, 5, 1, 2, 0, 0,-3, 6,-4
+calcs   race-1,var1« 3,-5, 4, 1, 3, 0, 0, 0, 9,-4, 7
+**
+        
+unit    pickspec
+*
+at      1703
+write   What sex (m⌫_ale/f⌫_emale)?
+pause   keys=m,f,back,back1,help,term
+keytype sex,f,m
+calcc   sex=0,num6«num6+3,num1«num1+2
+at      1728
+writec  sex,,female,male
+at      1803
+write   What Alignment (n⌫_eutral,l⌫_awful,c⌫_haotic)?
+pause   keys=c,l,n,back,back1,help,term
+keytype align,c,l,n
+calcc   align,,num1«num1+2,num6«num6+2,num2«num2+2
+at      1845
+writec  align,,chaotic,lawful,neutral
+**
+        
+unit    pickstat
+*
+at      2003
+write   Press NEXT to accept
+        Press LAB  to reroll
+ 
+           Strength
+           Intelligence
+           Wisdom
+           Constitution
+           Dexterity
+           Charm
+           Hits
+loop
+.       do      rollstat
+.       pause   keys=lab,next,back,back1,help,term
+outloop key=next
+endloop
+calc    exper«bank«2000
+        mrow«mcol«dungcol«dungrow«7
+        mface«plev«numsp«1
+        sup«age«18
+        useday«int(day)
+        monster«pgold«treasur«0
+        weight«36
+**
+        
+
+=== block 'run'  kind 00  222 words  (block 4)
+unit    run
+back    titlen
+loop
+.       release common
+.       color   display;zyellow
+.       at      1010
+.       erase   50,4
+.       write   Run what character
+.       do      aarrow(1029,10)
+reloop  return=0  $$ don't allow null reply
+.       do      reserve
+*
+* Look up at list of currently running users (4500-6000).
+* Find returns in num1 location of found signon, or -1 if
+* not found. "return" is name from aarow above.
+.       comload nc1,4501,1500
+.       find    return,pseudin(1),30,num1
+.       at      1110
+.       writec  num1,,Char in use!
+reloop  num1 {^54} -1  $$ if in use, abort..try again.
+*
+* Loop through the 3 available banks of common to
+* find this guy's pseudo. If not, he ain't there. If,go on.
+.       calc    ptr1 « 0
+.       loop
+.       .       do      comld[ add1(ptr1) ]
+.       .       find    return,nc1,1500,num1,20
+.       outloop num1{^73}0 $or$ ptr1{^73}3
+.       endloop
+.       at      1110
+.       writec  num1,Char not found!,,
+reloop  num1 $$  (-1 = not found)
+*
+* Now check the password as found in the student bank.
+* Operator exempt from this check. (Nice, eh?)
+.       at      1210
+.       write   Type the character's password » 
+.       getcode num2
+outloop [ num2=nc(num1+2) ] $or$ [ op < 0 ]
+.       at      1310
+.       write   Wrong Password
+.       release common
+.       pause   keys=next,back,term
+endloop
+color   display;zwhite
+*
+* Now move his student statistics from common into student
+* variables.
+block   nc[ -1(num1=-1)+(num1+1) ],n(KC+1),20
+comload nc1,4501,1500
+do      adduser  $$ go put his name into pseudin slot..
+release common
+*
+* Restore monsters and such.
+calc    monster « savemon
+        pgold   « 0
+        useday  « int(day)
+        actzid  « 75(ptr1)-int[ num1/20 ]
+do      findmnum
+*do      clean
+jump    dungeon
+**
+        
+
+=== block 'stop1 exit'  kind 00  244 words  (block 5)
+unit    writeit
+*
+* Save "who usedit" data. not really necessary..but..
+comload nc1,4501,1500
+calc    gamemin«gamemin+max[(clock-entrtim)/60,1]
+if      op{^73}0 $and$ clock-entrtim>45
+.       comload nc1,6001,200
+.       calc    tips«1000(proctim-entrcpu)÷(clock-entrtim)
+.       clock   num1
+.       date    num2
+.       calc    savptr«cycle(savptr+1,maxent)
+.               savacc(savptr)«zaccnam+station
+.               savent(savptr)«num1
+.               num3«(clock-entrtim)÷60
+.       pack    savday(savptr),,«a,num2,6»«t,num3,3»
+.       name    savnam(savptr)
+.       pack    savgrp(savptr),,«t,abs(tips),2»«a,zgroup,8»
+endif
+comload nc1,1,1500
+*
+* If the player was alive (phits>0)
+if      {plev>[(nc(7)$ars$11)$mask$rmask(7)]} $and$ phits>0
+.       comload nc1,4501,1500
+*
+* If the player was in game, then turn off his
+* "I am alive" stats in common.
+.       if      player>0
+.       .       calc    sub1m(numuser,0)
+.       .               pseudin(player)«goldin(player)«0
+.       .               gotmess(player)«0
+.       .               player«0
+.       endif
+*
+* grab common. Can exec error error here if takes too long.
+.       loop
+.       .       reserve common
+.       outloop zreturn
+.       endloop
+*
+* Loop through the three sections of common,1-1500,1501-3000
+* and 3001-4500. There player statistics are stored. Hence
+* There's 1500/20, or 75 x 3 = 225 available slots.
+.       calc    ptr1 « 0
+*
+* Go find his pseudo in common..bank 1,2, then 3(comld)
+.       loop
+.       .       do      comld[ add1(ptr1) ]
+.       .       find    pseudo,nc1,1500,num1,20
+.       outloop num1{^73}0 $or$ ptr1{^73}3
+.       endloop
+*
+* Save any monsters currently with him..*grin*
+.       calc    savemon«monster
+.               savelev«monlev
+.               savenum«monnum
+*
+* And block move his player stats, up in high student vars,
+* to common.
+.       block   n(KC+1),nc[ -1(num1=-1)+(num1+1) ],20
+.       comload
+.       sort    common,1;225,20,403,7
+else
+.       do      subuser
+endif
+release common
+comret
+**
+        
+
+=== block 'back1 exit'  kind 00  259 words  (block 6)
+unit    writecom
+back
+help1
+comload nc1,1,1500
+if      {plev{^72}[(nc(7)$ars$11)$mask$rmask(7)]}
+.       color   display;zgreen
+.       at      1010
+.       write   Warning!  You have not attained an adequate
+.               level of achievement to be remembered in the
+.               list of active characters.«c,zwhite»
+.
+.               Press BACK to return to dungeon.
+.               Press HELP1 to delete your char.
+.       pause   keys=back,help1,term
+.       if      key=back
+.       .       comload nc1,4501,1500
+.       .       jump    dungeon
+.       endif
+endif
+do      saveit
+jump    title
+**
+        
+*
+* See previous block (stop1 exit) for documentation on
+* this.
+* this unit is -done- by writecom, the back1 exit.
+unit    saveit
+comload nc1,1,1500
+if      {plev>[(nc(7)$ars$11)$mask$rmask(7)]} $and$ phits>0
+.       comload nc1,4501,1500
+.       calc    sub1m(numuser,0)
+.               pseudin(player)«goldin(player)«0
+.               gotmess(player)«0
+.               player«0
+.       do      reserve
+.       calc    ptr1 « 0
+.       loop
+.       .       do      comld[ add1(ptr1) ]
+.       .       find    pseudo,nc1,1500,num1,20
+.       outloop num1{^73}0 $or$ ptr1{^73}3
+.       endloop
+.       calc    savemon«monster
+.               savelev«monlev
+.               savenum«monnum
+.       block   n(KC+1),nc[ -1(num1=-1)+(num1+1) ],20
+.       comload
+.       sort    common,1;225,20,403,7
+.       zero    n(KC+1),20
+.       comload nc1,4501,1500
+else
+.       do      subuser
+endif
+release common
+jump    titlen  $$ skips entry lesson check.
+* the above fixes the back1 bug.
+        
+unit    saveuser
+comload nc1,4501,1500
+calc    gamemin«gamemin+max[(clock-entrtim)/60,1]
+if      op=0 $and$ clock-entrtim>45
+.       comload nc1,6001,200
+.       calc    tips«1000(proctim-entrcpu)÷(clock-entrtim)
+.       clock   num1
+.       date    num2
+.       calc    savptr«cycle(savptr+1,maxent)
+.               savacc(savptr)«zaccnam+station
+.               savent(savptr)«num1
+.               num3«(clock-entrtim)÷60
+.       pack    savday(savptr),,«a,num2,6»«t,num3,3»
+.       name    savnam(savptr)
+.       pack    savgrp(savptr),,«t,abs(tips),2»«a,zgroup,8»
+endif
+comret
+**
+        
+
+=== block 'plotpage'  kind 00  249 words  (block 7)
+** plotpage has had its dlev=labyrinth removed.
+* only call this first time thru, thenskip it
+*
+* Ie, this unit handles diagram setup for castle only.
+* None of the dungeon lines are in here.
+        
+unit    plotpage
+color   display;zblue
+erase
+box     2,486;190,106;2
+box     402,486;510,266;2
+box     402,262;510,42;2
+box     2,102;398,42;2
+draw    502;524;skip;1102;1124;skip;1502;1524
+draw    1802;1824;skip;2102;2124;skip;8,159;184,159;
+draw    1752;1764;skip;352;364
+draw    2702;2712;2612;skip;2720;2725;skip;2727;2732
+draw    2734;2739;skip;2742;2749
+color   display;zwhite
+at      1753
+write   Scrolls
+at      353
+write   Weapons
+at      303
+write   «a,pseudo»(«s,plev»)
+at      603
+write   Strength«t,str,12»
+        Intelligence«t,intel,8»
+        Wisdom«t,wisdom,14»
+        Constitution«t,con,8»
+        Dexterity«t,dex,11»
+        Charisma«t,charm,12»
+        Bank«t,bank,16»
+        Baguettes«t,bagets,11»
+        Gems«t,gems,16»
+        Gold Pieces«t,gold,9»
+        Weight«t,weight,14»
+        Using: Offense«t,useoff,6»
+               Defense«t,usedef,6»
+        Experience«t,exper,10»
+at      2003
+writec  pdeluse-1{^56}
+        Hits«t,phits,10»/«t,hits,5»{^56}
+        Hits  UNKNOWN /«t,hits,5»
+at      2103
+write   Magic Units«t,numsp,5»/«t,3plev-2,3»
+        Supplies«t,sup,12»
+        {^'66}{'67}{'67}{'67}ESP uses left«t,espon,7»
+at      403
+writec  align,,Chaotic ,Lawful ,Neutral ,,
+writec  race,,Dwarf,Elf,Gnoll,Gnome,Goblin,Hobbit,Human,Kobold,Ogre,Orc,Troll
+at      503
+writec  sex,,Female,Male
+write    -- «t,age,3»
+at      2703
+write   Charmees         intel    str    dex      hits
+do      showchrm
+do      showweap
+do      showspel
+**
+        
+catchup
+**
+        
+unit    addphits(arg1)
+calc    phits«max{0,[min(phits+arg1,hits)] }
+if      pdeluse=0
+.       at      2010
+.       erase   7
+.       showt   phits,7
+endif
+**
+        
+unit    addspell(arg1)
+calc    numsp«min(511,max(0,numsp+arg1))
+at      104,177
+erase   5
+at      2114
+showt   numsp,5
+**
+        
+
+=== block 'updatepage'  kind 00  268 words  (block 10)
+unit    adduser
+loop
+outloop add1(numuser){^72}30
+.       calc    sub1m(numuser,0)
+.       at      2528
+.       write   SORRY! Game is currently full.
+.               Press NEXT to try again, or
+.               Press BACK for entry page.
+.       back    saveit
+.       pause   keys=back,next,term
+endloop
+*
+* Find the first open slot in the pseudin table.
+find    0,pseudin(1),30,num1
+calc    player« max(num1+1,1)  $$ hence, which player number
+        pseudin(player)«pseudo
+        goldin(player)«gotmess(player)«0
+calc    ind1«0
+*
+* Zero message buffer
+loop    add1(ind1){^72}36
+reloop  mto(ind1){^54}player $and$ mfrom(ind1){^54}player
+.       calc    mto(ind1)«mfrom(ind1)«0
+.       zero    message(ind1),5
+endloop
+calc    dlev    « min( dlev, 500000 )
+if      op {^73} 0 $or$ (actname = 0 $or$ actgrp = 0)
+.       name    actname
+.       group   actgrp
+endif
+**
+        
+unit    espshow
+at      160,143
+erase   2
+showt   espon,2
+write   
+**
+        
+unit    showweap
+at      (place«352)+100
+erase   11,12
+calc    ind2«0
+loop    add1(ind2){^72}60
+reloop  weapons(ind2)=0
+.       at      place«place+100
+.       erase   11
+.       color   display;zgreen
+.       writec  using(ind2)=1,*, 
+.       color   display;zwhite
+.       showa   wname(ind2)
+endloop
+writec  place<400,«at,place+101»none,,
+**
+        
+unit    showspel
+at      (place«1753)+100
+erase   11,12
+calc    ind2«0
+loop    add1(ind2){^72}30
+reloop  scrolls(ind2)=0
+.       at      place«place+100
+.       showa   sname(ind2)
+endloop
+writec  place<1800,«at,place+100»none,,
+**
+        
+unit    showchrm
+at      2803
+erase   47,2
+writec  [num1«charmee(1)]=0,1. none,1. «a,mname(num1)»
+at      2903
+writec  [num2«charmee(2)]=0,2. none,2. «a,mname(num2)»
+if      charmee(1)>0
+.       at      2820
+.       write   «t,chrmint(1),5»«t,chrmstr(1),7»«t,chrmdex(1),7»
+.       writec  pdeluse=0{^56}«t,chrmhit(1),10»{^56}   UNKNOWN
+endif
+if      charmee(2)>0
+.       at      2920
+.       write   «t,chrmint(2),5»«t,chrmstr(2),7»«t,chrmdex(2),7»
+.       writec  pdeluse=0{^56}«t,chrmhit(2),10»{^56}   UNKNOWN
+endif
+**
+        
+unit    addbank(arg1)
+calc    bank«max[ 0,min( maxgold,bank+arg1 ) ]
+at      1208
+erase   15
+showt   bank,15
+**
+        
+
+=== block 'updatepage'  kind 00  201 words  (block 11)
+unit    addbaget(arg1)
+calc    bagets«max[ 0,min( maxbags,bagets+arg1 ) ]
+do      addwgt(5arg1)
+at      1315
+erase   8
+showt   bagets,8
+**
+        
+unit    addgem(arg1)
+calc    gems«max[ 0,min( maxgems,gems+arg1 ) ]
+do      addwgt(arg1)
+at      1415
+erase   8
+showt   gems,8
+**
+        
+unit    addgold(arg1)
+calc    gold«max[ 0,min( maxgld,gold+arg1 ) ]
+do      addwgt(arg1)
+at      112,273
+erase   8
+at      1515
+showt   gold,8
+**
+        
+unit    addwgt(arg1)
+calc    weight«weight+arg1
+at      1613
+erase   10
+showt   weight,10
+**
+        
+unit    addusing(arg1,arg2)
+calc    useoff«useoff+arg1
+        usedef«usedef+arg2
+at      136,241
+erase   5,2
+write   «t,useoff,5»
+        «t,usedef,5»
+**
+        
+unit    addplev(arg1)
+calcs   arg1<0,plev«max[(plev+arg1),0], min[(plev+arg1),127]
+if      plev {^72} 0
+.       jump    monster=0, dead(34), dead(monster)
+endif
+at      303
+erase   20
+write   «a,pseudo»(«s,plev»)
+**
+        
+unit    addhits(arg1)
+calcs   arg1<0,hits«max[(hits+arg1),0], min[(hits+arg1),maxhits]
+if      hits {^72} 0
+.       jump    monster=0, dead(34), dead(monster)
+endif
+at      2018
+erase   5
+showt   hits,5
+**
+        
+unit    addsup(arg1)
+if      arg1 > 0
+.       do      sup=31,x,addwgt[ min( 31-sup,arg1 ) ]
+elseif  arg1 < 0
+.       do      sup=0,x,addwgt[ max( 0-sup,arg1 ) ]
+.       jump    sup+arg1<0, dead(33), x
+endif
+calc    sup«min(31,max(0,sup+arg1))
+jump    sup=0 $and$ starve=1,dead(33),x
+calcs   sup=0,starve«1,0
+if      sup=0
+.       color   display;zgreen
+endif
+at      2218
+erase   5
+writec  starve=1,DYING,«t,sup,5»
+color   display;zwhite
+**
+        
+
+=== block 'updatepage'  kind 00  237 words  (block 12)
+unit    addstr(arg1)
+calcs   arg1<0,str«max[(str+arg1),0], min[(str+arg1),127]
+if      str {^72} 0
+.       jump    monster=0, dead(34), dead(monster)
+endif
+at      620
+erase   3
+showt   str,3
+**
+        
+unit    addint(arg1)
+calcs   arg1<0,intel«max[(intel+arg1),0], min[(intel+arg1),127]
+if      intel {^72} 0
+.       jump    monster=0, dead(34), dead(monster)
+endif
+at      720
+erase   3
+showt   intel,3
+**
+        
+unit    addwis(arg1)
+calcs   arg1<0,wisdom«max[(wisdom+arg1),0], min[(wisdom+arg1),127]
+jump    wisdom{^72}0, dead(monster), x
+at      820
+erase   3
+showt   wisdom,3
+**
+        
+unit    addcon(arg1)
+calcs   arg1<0,con«max[(con+arg1),0], min[(con+arg1),127]
+if      con {^72} 0
+.       jump    monster=0, dead(34), dead(monster)
+endif
+at      920
+erase   3
+showt   con,3
+**
+        
+unit    adddex(arg1)
+calcs   arg1<0,dex«max[(dex+arg1),0], min[(dex+arg1),127]
+if      dex {^72} 0
+.       jump    monster=0, dead(34), dead(monster)
+endif
+at      1020
+erase   3
+showt   dex,3
+**
+        
+unit    addcharm(arg1)
+calcs   arg1<0,charm«max[(charm+arg1),0], min[(charm+arg1),127]
+if      charm {^72} 0
+.       jump    monster=0, dead(34), dead(monster)
+endif
+at      152,337
+erase   3
+at      1120
+showt   charm,3
+**
+        
+unit    subexper(arg1)
+calc    num1«exper-arg1
+loop    num1{^72}0
+.       do      uplev(1)
+.       calc    exper«min(100000000,1000×2{'67}(plev-1){'66})
+.               num1«exper+num1
+endloop
+calc    exper«num1
+at      1914
+erase   9
+showt   exper,9
+**
+        
+unit    addage(arg1)
+calc    arg1«age+arg1
+jump    arg1>127, dead(35), x           $$ old age
+jump    arg1{^72}0, dead(32), x             $$ youth
+calc    age«min(127,max(0,arg1))
+at      16,433
+erase   15
+at      503
+writec  sex,,Female,Male
+write    -- «t,age,3»
+calcs   race,num1«,3,5,-1,3,-1,2,0,-2,-1,-2,-1
+randu   var1
+if      var1<{(age-40)/(60+20num1)} $or$ var1<{(15-age)/10}
+.       calc    plev«plev+1
+.       do      uplev(-1)
+endif
+**
+        
+
+=== block 'info rtns'  kind 00  256 words  (block 13)
+unit    dunginfo
+at      1126
+erase   24,5
+write   Help on what
+do      aarrowjb(1226)
+at      1126
+erase   24,5
+at      101
+erase   64
+**
+        
+unit    weapinfo
+write   «a,wname(ind1)»{^'04} Break(«s,wbreak(ind1)»)/
+write   Str(«s,wstr(ind1)»)/Dex(«s,wdex(ind1)»)/
+write   Def(«s,wdef(ind1)»)/Off(«s,woff(ind1)»)/
+writec  wwear(ind1)-1,(Body),(Hands),(Skull),(Misc)
+**
+        
+unit    maginfo
+write   «a,sname(ind1)»{^'04}
+write   Int(«s,sint(ind1)»)/Wis(«s,swis(ind1)»)/
+write   Fail(«s,sfail(ind1)»)/Level «s,slev(ind1)»
+**
+        
+unit    monsinfo
+write   «a,mname(ind1)»{^'04} 
+write   Hit(«s,hitd(ind1)»)/Str(«s,strd(ind1)»)/
+write   Dex(«s,dexd(ind1)»)/Int(«s,intd(ind1)»)/(
+writec  mtype(ind1)-1,Beast,Human,Mythic,Undead,,
+write   )/(
+writec  mspec(ind1)-1,Magic-Res,Paralyzes,Drains Lvl,None
+write   )
+**
+        
+unit    uplev( arg6 )
+*
+calcs   args = 0, arg6 « 1,,
+randu   num2,3int(con/2)
+calcs   race,arg1«, 3,-5, 4, 1, 3, 0, 0, 0, 9,-4, 7
+do      arg6<0, addhits[ min( -1, -1{num2+arg1} ) ],
+        addhits[ max( 1, num2+arg1 ) ]
+do      phits>hits, addphits( phits-hits ), x
+*
+randu   num2,20
+calcs   race,arg1«, 4,-3, 6,-2,-4,-1, 0,-6, 3, 0, 6
+calcs   sex=1,arg1«arg1+2,,
+calcs   align=0,arg1«arg1+2,,
+do      addstr[ arg6 * upstat(num2,arg1) ]
+*
+randu   num2,20
+calcs   race,arg1«, 2, 6,-5, 1, 2, 3, 0, 0,-2, 0,-5
+calcs   align=2, arg1«arg1+2,,
+do      addint[ arg6 * upstat(num2,arg1) ]
+*
+randu   num2,20
+calcs   race,arg1«, 2, 5,-8, 1,-3, 2, 0, 0,-4, 0,-4
+do      addwis[ arg6 * upstat(num2,arg1) ]
+*
+randu   num2,20
+calcs   race,arg1«, 0, 1, 7, 0, 1, 0, 0, 3, 4, 0, 6
+do      addcon[ arg6 * upstat(num2,arg1) ]
+*
+randu   num2,20
+calcs   race,arg1«, 0, 1, 7, 0, 1, 0, 0, 3, 4, 0, 6
+do      adddex[ arg6 * upstat(num2,arg1) ]
+*
+randu   num2,20
+calcs   race,arg1«, 0, 2,-6, 5, 1, 2, 0, 0,-3, 6,-4
+calcs   sex=0, arg1«arg1+3,,
+calcs   align=1, arg1«arg1+2,,
+do      addcharm[ arg6 * upstat(num2,arg1) ]
+*
+do      addplev( arg6 )
+at      152,177
+erase   3
+at      2120
+showt   3plev-2,3
+if      arg6<0
+.       at      1126
+.       erase   20
+endif
+**
+        
+
+=== block 'castle'  kind 00  248 words  (block 14)
+unit    castle
+back1   writecom  $$ save player data.
+*
+calc    pgold«gold+1000(gems+100bagets)
+do      pgold>0,subexper(pgold),x
+do      pgold>0,addbank(pgold),x
+do      bagets>0,addbaget(-bagets),x
+do      gems>0,addgem(-gems),x
+do      gold>0,addgold(-gold),x
+*
+if      pdeluse=1
+.       calc    pdeluse « 0
+.       do      charmee(1)+charmee(2)>0, showchrm, x
+.       at      2003
+.       erase   20
+.       write   Hits«t,phits,10»/«t,hits,5»
+endif
+*
+calc    light«zeropot«spprot«magshld«visible«pgold«espon«0
+do      castopt
+*-*-*
+        
+unit    castopt
+at      225
+erase   26,24
+do      espshow
+at      193,104
+erase   26
+color   display;zblue
+box     194,487;398,486
+color   display;zwhite
+loop
+.       do      monit  $$ in operator lesson
+.       color   display;zgreen
+.       writec  gotmess(player)=1,«at,101»«m,r»*Messages*,,,
+.       writec  zpnotes,«at,3257»*PNOTES*,,,
+.       color   display;zgreen
+.       at      330
+.       write   Castle Options:«c,zyellow»
+.                 a) hostel
+.                 b) casino
+.                 c) weapons store
+.                 d) magic store
+.                 e) monster shop
+.                 f) skills shop
+.                 g) supply shop«c,zwhite»
+.
+.               Press - to return
+.                 to the dungeon
+.       pause   10,keys=back1,help1,data,-,{'46},%,a,b,c,d,e,f,g,m,M,ans,term
+reloop  key=timeup  $$ keep going through monitor!!
+.       keytype ktype,-,$,{'46},*,%,a,b,c,d,e,f,g,m,M,ans
+.       if      ktype {^73} 0 $and$ ktype < 5
+.       .       calc    ktype«ktype+9
+.       .       do      updown
+reloop  dlev=0  $$ if still on 0,replot.
+outloop
+.       endif
+.       do      ktype-6,hostel,blackjck,shop(1),shop(2),shop(3),x
+.       do      ktype-10,x,skillshp,supshop,sendmess,readmess,answer,x
+.       at      325
+.       erase   26,14
+endloop
+**
+        
+unit    answer
+calc    ind1«ind2«cycle(mptr+1,36)
+loop    (ind2«cycle[sub1(ind2),36)]{^54}ind1
+reloop  mto(ind2)<31 $and$ mto(ind2){^54}player
+reloop  pseudin[ mfrom(ind2) ]=0
+outloop
+endloop
+do      writmess(mfrom(ind2)-1)
+**
+        
+
+=== block 'casino'  kind 00  185 words  (block 15)
+unit    blackjck
+at      326
+erase   25,18
+if      bank=0
+.       color   display;zyellow
+.       write   Get out you bum!
+.               Get some money first!
+.       color   display;zwhite
+.       pause   keys=all
+.       at      326
+.       erase   25,2
+.       return  
+endif
+color   display;zgreen
+write   LABYRINTH Blackjack game:
+loop
+.       color   display;zcyan
+.       at      526
+.       erase   25,16
+.       write   Bet how much
+.       do      narrowjb[ 626,0, min(10000,bank) ]
+outloop return=0
+.       at      526
+.       erase   25,2
+.       write   Bet of $«s,return»
+.       color   display;zwhite
+.       do      addbank(-return)
+.       color   display;zcyan
+.       calc    escape«-1
+.       setperm 52
+.       do      bjsetup
+.       loop    escape
+.       .       do      askcard
+.       .       do      sum2<22,dealer,x
+.       .       do      sum1{^73}sum2 $or$ sum2>21,lose(1),win(2return,1)
+.       endloop
+.       if      bank>0
+.       .       at      1926
+.       .       color   display;zwhite
+.       .       write   Press NEXT to try again
+.       .               Press BACK to exit
+.       .       pause   keys=next,back,back1,term
+.       else
+.       .       color   display;zyellow
+.       .       at      1926
+.       .       write   Get out you bum!
+.       .               Get some money first!
+.       .       pause   keys=all
+outloop
+.       endif
+outloop key=back
+outloop bank=0
+endloop
+1out
+at      326
+erase   25,18
+**
+        
+
+=== block 'cas: bj'  kind 00  135 words  (block 16)
+unit    bjsetup
+calc    tend«tenp«sum1«sum2«0
+do      getcard
+at      726
+write   {75},./⌫⌫⌫{^'66}"!?
+calc    sum1«min(10,rank)
+        hidrank«rank
+        hidsuit«suit
+calcs   rank=1,tend«10,,
+do      getcard
+do      giveplay(1)
+do      getcard
+do      givedeal(2)
+do      getcard
+do      giveplay(2)
+if      sum1+tend=21
+.       do      showcard(200,400,hidrank,hidsuit)
+.       at      1026
+.       write   Dealer has Blackjack!
+.       do      lose(1)
+elseif  sum2+tenp=21
+.       at      1526
+.       write   You have Blackjack!
+.       do      win(3return,1)
+endif
+**
+        
+unit    askcard
+calc    ind1«2
+loop
+.       at      1526
+.       erase   25,3
+.       write   You have 
+.       writec  tenp>0{^56}«s,sum2»/«s,sum2+tenp»{^56}«s,sum2»
+.       at      1726
+.       write   Do you wish a card (y/n)?
+.       pause   keys=y,n,back1,term
+outloop key="n"
+.       do      getcard
+.       do      giveplay[ add1(ind1) ]
+outloop sum2+tenp>21
+endloop
+calcs   tenp>0,sum2«sum2+tenp,,
+at      1526
+erase   25,3
+write   You have «s,sum2»!
+**
+        
+
+=== block 'cas: bj'  kind 00  200 words  (block 17)
+unit    de aler       do      sh owcard(200 ,400,hidra nk,hidsuit )          calc    in
+d1«2       loop    su m1+tend <  17-(tend>0 )          .       at       1026           
+.       er ase   25   .       wr ite   Dea  ler has    .       wr itec  tend >0 $and$ s
+um1+tend<2 2{^56}«s,sum 1»/«s,su   m1+tend»{76} ,«s,sum1{76} 1          .       do       getc
+ard        .       do       give deal[ add1 (ind1) ]   endloop    calcs   te nd>0,sum1«
+sum1+tend, ,          at      10 26         erase   25            write   D  ealer has 
+«s,sum1»   !          calcs   su m1>21,sum1 «0,,       **
+         unit    ge tcard     
+randp   ca rd         calc    su it«int[(ca rd-1)/13]    $$ c=0/d =1/h=2/s=3           
+        ra nk«13frac[ card/13]     $$ A=1/  .../J=11/  Q=12/K=1   3          calcs   ra
+nk=0,rank« 13,,       **
+         unit    sh owcard(arg 1,arg2,arg 3,arg4)    *       ar
+g1 = fine  grid x; ar g2 = fine  grid y     *       ar g3 = card  rank;   ar g4 = card 
+suit       mode    re write      at      ar g1,arg2    write   {75}- ÷×⌫⌫⌫{^'66}{'46} {'60}{'64}{75}
+mode    wr ite        at      ar g1+4,arg2+ 2          writec  ar g3,,,{75}α{75}, {75}β{75},{75}{^03}{75},
+{75}δ{75},{75}{^05}{75}, {75}{^06}{75},{75}æ{75}, {75}ø{75},{75}{^11}{75}, {75}å{75},{75}ä{75}, {75}λ{75},{75}μ{75}            at      ar g1+8,arg2-
+7          writec  ar g4,,{75}w{75},{75}x {75},{75}y{75},{75}z{75}            at      ar g1+14,arg2 -16       
+writec  ar g3,,,{75}α{75}, {75}β{75},{75}{^03}{75}, {75}δ{75},{75}{^05}{75}, {75}{^06}{75},{75}æ{75}, {75}ø{75},{75}{^11}{75}, {75}å{75},{75}ä{75}, {75}λ{75},{75}μ{75}
+           **
+         unit    gi veplay(arg 1)         do      sh owcard(175 +25arg1,32
+0,rank,sui t)         calc    su m2«sum2+mi n(10,rank)            calcs   ra nk=1,tenp«
+10,,       calcs   su m2>11,tenp «0,,       **
+         unit    gi vedeal(arg 1)        
+do      sh owcard(175 +25arg1,40 0,rank,sui t)         calc    su m1«sum1+mi n(10,rank)
+           calcs   ra nk=1,tend« 10,,       calcs   su m1>11,tend «0,,       **
+        
+unit    wi n(arg1,arg 2)         at      12 35+500arg2            write   Y  OU WO{70} 
+n!         color   di splay;zwhi te         do      ad dbank(arg1 )          color   di
+splay;zcya n          calc    es cape«0     **
+         unit    lo se(arg1)   at      12
+35+500arg1            write   Y  OU LO{70}  sT!        calc    es cape«0     **
+        
+
+=== block 'cas: host'  kind 00  265 words  (block 20)
+unit    hostel
+calc    sum1«8plev
+        sum2«5plev
+        ptr1«ptr2«0
+color   display;zgreen
+at      326
+erase   25,14
+write   LABYRINTH hostel:«c,zyellow»
+          a) rest hits
+          b) rest magic units
+at      626
+writec  [charmee(1)+charmee(2)]>0,  c) stable charmee(s),,
+loop
+.       at      826
+.       erase   25,6
+.       pause   keys=a,b,c,back,back1,term
+.       keytype ktype,a,b,c
+outloop ktype
+reloop  ktype=2 $and$ charmee(1)=0 $and$ charmee(2)=0
+.       do      ktype,x,resthits,restspel,stable,x
+reloop  ktype=2
+outloop return=0
+.       pause   keys=back,next,back1,term
+outloop key=back
+endloop
+at      826
+erase   25,6
+**
+        
+unit    resthits
+calc    num1«min[ hits-phits,int(bank/sum1) ]
+calcs   op<0,num1«min[ maxhits-phits,int(bank/sum1) ],,
+at      826
+if      num1>0
+.       write   Can repair «s,num1» hits.
+.               Cost is $«s,sum1» per hit.
+.               How many
+.       do      narrowjb(1035,0,num1)
+.       at      1126
+.       if      return>0
+.       .       write   «s,return» hits are repaired!
+.       .       color   display;zwhite
+.       .       do      runrest
+.       .       do      addphits(return)
+.       .       do      addbank(-sum1×return)
+.       .       do      addsteps(1000return,2)
+.       .       color   display;zyellow
+.       endif
+elseif  hits{^72}phits
+.       write   You are at full hits!
+else
+.       write   Not enough money!
+endif
+**
+        
+unit    restspel
+calc    num1«min[ 3plev-2-numsp,int(bank/sum2) ]
+calcs   op<0,num1«min[ 511-numsp,int(bank/sum2) ],,
+at      826
+if      num1>0
+.       write   «s,num1» magic can be restored.
+.               Cost is $«s,sum2» per unit.
+.               How many
+.       do      narrowjb(1035,0,num1)
+.       at      1126
+.       if      return>0
+.       .       write   «s,return» magic restored.
+.       .       color   display;zwhite
+.       .       do      runrest
+.       .       do      addspell(return)
+.       .       do      addbank(-sum2×return)
+*
+.       .       do      addsteps(500return,2)
+.       .       color   display;zyellow
+.       endif
+elseif  3plev-2{^72}numsp
+.       write   At full magic.
+else    
+.       write   Not enough money!
+endif
+**
+        
+
+=== block 'cas: skil'  kind 00  213 words  (block 21)
+unit    stable
+if      charmee(1)>0
+.       at      826
+.       write   Stable «a,mname(charmee(1))» (y/n)?
+.       pause   keys=y,n,back,back1,term
+.       calcs   key="y",ptr1«1,0
+endif
+if      charmee(2)>0
+.       at      926
+.       write   Stable «a,mname(charmee(2))» (y/n)?
+.       pause   keys=y,n,back,back1,term
+.       calcs   key="y",ptr2«1,0
+endif
+calc    sum1«8plev[ 1+ptr1+ptr2 ]
+        sum2«5plev[ 1+ptr1+ptr2 ]
+at      826
+erase   25,2
+**
+        
+unit    runrest
+do      chrmrest(3-ptr1-2ptr2)
+if      ptr1+ptr2=0
+.       at      626
+.       erase   25
+endif
+**
+        
+unit    skillshp
+color   display;zyellow
+at      326
+erase   25,14
+write   Improve what skill
+          a) strength
+          b) intelligence
+          c) wisdom
+          d) constitution
+          e) dexterity
+          f) charm
+loop
+.       at      1126
+.       erase   25,3
+.       pause   keys=a,b,c,d,e,f,back,back1,term
+.       keytype ktype,a,b,c,d,e,f
+.       calcs   ktype-1,num5«str,intel,wisdom,con,dex,charm
+outloop ktype
+.       at      1126
+.       write   Cost is $100000/week.
+.               Weeks to train - 
+.       writec  ktype-1,Str,Int,Wis,Con,Dex,Charm
+.       do      narrowjb[ 1326,0,int(bank/10↑5) ]
+reloop  return=0
+.       color   display;zwhite
+.       do      chrmrest(3)
+.       doto    1add, num1 « 1, return
+.       randu   num4,2
+.       branch  num4=1, 1add, x
+.       randu   num4,127
+.       if      num4 > num5
+.       .       do      ktype-1,addstr(1),addint(1),
+.       .               addwis(1),addcon(1),
+.       .               adddex(1),addcharm(1)
+.       endif
+.       1add
+.       do      addsteps(60000return,2)
+.       do      addbank(-100000return)
+.       color   display;zyellow
+endloop
+**
+        
+
+=== block 'cas:shops'  kind 00  308 words  (block 22)
+unit    shop(shop)
+calc    ptr1«0
+packc   shop-2,num1,,weapon,scroll,monster
+color   display;zyellow
+at      326
+erase   25,13
+write   What «a,num1»«c,zwhite»
+ 
+ 
+        LAB{^'04} list some «a,num1»s
+        -OR- type in «a,num1» name
+            {^'04}HELP for info on it
+            {^'04}DATA to sell it
+            {^'04}NEXT to buy it
+color   display;zblue
+draw    1025;1051
+color   display;zyellow
+loop
+.       at      426
+.       erase   25,2
+.       do      sarrow
+outloop ktype=3         $$ back key was pressed
+reloop  return=0 $and$ ktype{^54}2
+.       calcs   shop-2,num1«1,91,61
+.       calcs   shop-2,num2«60,30,30
+.       find    return,iname(num1),num2,num2,1,lmask(6jcount)
+reloop  num2
+.       calc    ind1«num2+1
+.       do      ktype,buyit,sellit,infoit,scrollit,x
+reloop  ktype{^73}0
+.       pause   1,keys=next,back,term
+outloop key=back
+endloop
+color   display;zwhite
+at      1626
+erase   25,10
+**
+        
+unit    infoit
+at      101
+erase   64
+do      shop-2,weapinfo,maginfo,monsinfo
+**
+        
+unit    scrollit
+at      1125
+erase   26,15
+color   display;zwhite
+at      636
+write   «m,r»more«m,w»
+color   display;zyellow
+calc    ind1«0
+        place«1026
+loop    add1(ind1){^72}15
+.       calc    add1(ptr1)
+.       at      place«place+100
+.       if      shop=1
+.       .       writec  wwear(ptr1),,Body,Hands,Skull,Misc
+.       .       at      place+14
+.       .       writec  weapons(ptr1)=1,*,,
+.       elseif  shop=2
+.       .       write   Lev «t,slev(ptr1),2»
+.       .       at      place+14
+.       .       writec  scrolls(ptr1)=1,*,,
+.       endif
+.       at      place+5
+.       if      shop=1
+.       .       write   «t,wprice(ptr1),8»  «a,wname(ptr1)»
+.       elseif  shop=2
+.       .       write   «t,sprice(ptr1),8»  «a,sname(ptr1)»
+.       else
+.       .       write   «t,200hitd(ptr1),8»  «a,mname(ptr1)»
+.       endif
+.       calcs   ptr1=30,ptr1«0,,
+endloop
+**
+        
+unit    sarrow
+arrow   426
+long    10
+jkey    data,help,back,lab
+storea  return
+ok
+keytype ktype,data,help,lab,back
+if      ktype=3
+.       okword
+endif
+endarrow
+**
+        
+unit    buyit
+at      526
+if      ind1=0
+.       write   Not found!
+else
+.       color   display;zwhite
+.       do      shop-2,buyweap,buyspell,buycharm
+.       color   display;zyellow
+endif
+**
+        
+unit    sellit
+at      526
+if      ind1=0
+.       write   Not found!
+else
+.       color   display;zwhite
+.       do      shop-2,sellweap,sellspel,sellchrm
+.       color   display;zyellow
+endif
+**
+        
+
+=== block 'cas:shops'  kind 00  313 words  (block 23)
+unit    buyweap
+if      weapons(ind1)=1
+.       write   Already Have It!
+elseif  ind1>30 $and$ op{^73}0
+.       write   Can't buy magic items!
+elseif  wprice(ind1)>bank
+.       write   Not Enough Money!
+elseif  numweap>11
+.       write   Only 12 weapons!
+else
+.       calc    set(weapons(ind1))
+.               add1m(numweap,12)
+.       write   You bought it!
+.       do      addwgt[ 10wwgt(ind1) ]
+.       do      addbank[ -wprice(ind1) ]
+.       do      showweap
+endif
+**
+        
+unit    buyspell
+if      scrolls(ind1)=1
+.       write   Already Have It!
+elseif  sprice(ind1)>bank
+.       write   Not Enough Money!
+elseif  numspel>11
+.       write   Only 12 scrolls!
+else
+.       write   You bought it!
+.       calc    set(scrolls(ind1))
+.               add1m(numspel,12)
+.       do      addbank[ -sprice(ind1) ]
+.       do      showspel
+endif
+**
+        
+unit    buycharm
+if      200hitd(ind1)>bank
+.       write   Not Enough Money!
+else
+.       if      charmee(1)>0 $and$ charmee(2)>0
+.       .       write   Already have 2!
+.       else
+.       .       write   You bought it!
+.       .       calcs   charmee(1)=0,ind2«1,2
+.       .       randu   num1,30hitd(ind1)
+.       .       randu   num2,min[ 10intd(ind1),1.5charm ]
+.       .       randu   num3,30strd(ind1)
+.       .       randu   num4,30dexd(ind1)
+.       .       calc    charmee(ind2)«ind1
+.       .               chrmhit(ind2)«num1
+.       .               chrmint(ind2)«num2
+.       .               chrmstr(ind2)«num3
+.       .               chrmdex(ind2)«num4
+.       .       do      addbank[ -200hitd(ind1) ]
+.       .       do      chrmsort
+.       endif
+endif
+**
+        
+unit    sellweap
+if      weapons(ind1)=0
+.       write   You don't own one!
+elseif  woff(ind1)<0 $and$ wdef(ind1)<0
+.       write   Can't sell cursed items!
+else
+.       do      dropweap        $$ num3 is price
+.       do      addbank[ int(3wprice(ind1)/4) ]
+endif
+**
+        
+unit    sellspel
+if      scrolls(ind1)=0
+.       write   You don't own one!
+else
+.       calc    scrolls(ind1)«0
+.               sub1m(numspel,0)
+.       do      addbank[ .75sprice(ind1) ]
+.       do      showspel
+endif
+**
+        
+unit    sellchrm
+if      charmee(1)=ind1 $and$ charmee(2)=ind1
+.       at      526
+.       write   Which Charmee(1,2)?
+.       pause   keys=1,2,back,term
+.       keytype ktype,back,1,2
+elseif  charmee(1)=ind1
+.       calc    ktype«1
+elseif  charmee(2)=ind1
+.       calc    ktype«2
+else
+.       at      526
+.       write   Not a charmee!
+endif
+if      ktype>0
+.       do      addbank[ 10chrmhit(ktype) ]
+.       calc    cstat(ktype)«0
+.       do      chrmsort
+endif
+**
+        
+
+=== block 'cas:sup'  kind 00  200 words  (block 24)
+unit    supshop
+color   display;zyellow
+at      326
+erase   25,14
+write   Stock up on supplies.
+        Maximum of 31 weeks.
+        Cost is $100/week.«c,zwhite»
+        BACK to leave.
+loop
+.       color   display;zyellow
+.       at      926
+.       write   How many weeks
+.               of supplies?
+.       calc    num1«min[int(bank/100),31-sup]
+.       do      narrowjb(1039,1,num1)
+.       at      926
+.       erase   25,2
+outloop return=0
+* This was deleted.
+.       color   display;zwhite
+.       do      addsteps(1000,2)
+.       do      addsup(return)
+.       do      addbank(-100return)
+endloop
+**
+        
+unit    dungeon
+do      plotpage  $$ includes erase. First time only!
+*
+entry   reent   $$ from jump back from (dlez). no replot.
+next
+back
+data    dungeon
+help1   delchar
+back1   writecom
+do      dlev=0,castle,x
+*
+* should we ever return from this do, its because he
+* pressed - to enter dungeon. Jumpout.
+color   display;zgreen
+at      1528
+write   Wait..opening gate.
+color   display;zwhite
+*inhibit sexdrive
+inhibit erase
+inhibit dropstor
+jumpout (dlez)  $$ go do dungeon options
+**
+        
+unit    findmnum
+calc    mnum«cycle{int[abs(π×cycle(dlev,24)×dungrow×dungcol)],20}
+        offset«2msize(msize+1)(mnum-1)
+*-*-*
+        
+unit    addsteps(arg1,arg2)
+calc    num1«steps+arg1
+        num2 « 0
+loop    num1{^73}60000
+.       calc    add1(week)
+.               add1(num2)
+.               num1«num1-60000
+.       if      week=52
+.       .       calc    week«0
+.       .       do      addage(1)
+.       endif
+endloop
+if      arg2{^54}2 $and$ num2>0
+.       do      addsup(-num2)
+endif
+calc    steps«num1
+**
+        
+
+=== block 'driverrtns'  kind 00  295 words  (block 25)
+unit    updown
+color   display;zyellow
+if      ktype>9
+.       at      101
+.       erase   64
+.       writec  (ktype=11)$or$(ktype=13),Down how many ,Up  how  many
+.       calcs   (ktype=11)$or$(ktype=13),num1«500000-dlev,500000
+.       do      narrowjb(115,0,num1)
+.       calcs   (ktype=11)$or$(ktype=13),num1«return,-min(dlev,return)
+else
+.       calcs   ktype=9,num1«1,-1
+.       calcs   ktype=9$and$dlev=500000,num1«0,,
+endif
+color   display;zwhite
+at      101
+erase   64
+if      num1{^54}0
+.       calc    dlev«dlev+num1
+.       do      addsteps[ abs(num1),0 ]
+.       if      dlev{^72}0
+.       .       calc    dlev « 0
+.       .       do      castle
+.       else
+.       .       calc    monster«0
+.       .       do      findmnum
+.       endif
+endif
+**
+        
+unit    delchar  $$ from castopt
+erase
+color   display;zwhite
+at      1417
+write   Press SHIFT HELP to delete '«a,pseudo»'!
+pause   keys=funct
+if      key=help1
+.       do      subuser
+else
+.       do      saveit
+endif
+jump    title
+**
+        
+unit    dead(arg1)
+erase
+back    title
+back1   title
+next1   create
+color   display;zyellow
+at      1010
+write   You were killed by: 
+at      1031
+writec  arg1-31,«a,mname(arg1)»,Chest,Excessive Youth,
+        Starvation,Energy Loss,Old Age,Teleport,
+        Potion: «a,pname(arg1-35)»
+do      subuser
+color   display;zwhite
+at      1210
+write   SHIFT NEXT to try again
+        BACK for entry page
+pause   keys=next1,back1,back,term
+**
+        
+unit    subuser
+comload nc1,4501,1500
+if      player>0
+.       calc    sub1m(numuser,0)
+.               pseudin(player)«goldin(player)«0
+.               gotmess(player)«0
+.               player«0
+endif
+calc    ptr1 « 0
+*
+* Loop through the 3 available common locations.
+*
+loop
+.       do      comld[ add1(ptr1) ]
+.       find    pseudo,nc1,1500,num1,20
+outloop num1{^73}0 $or$ ptr1{^73}3
+endloop
+*
+* Now that its comloaded, zero out the player's records.
+*
+zero    n(KC+1),20
+if      num1{^73}0
+.       zero    nc(num1+1),20
+endif
+comload
+*
+* resort it.
+*
+sort    common,1;225,20,403,7
+comload nc1,4501,1500
+**
+        
+unit    info
+do      dunginfo
+if      return = 0
+.       calc    num2 « -1
+else
+.       find    return,iname(1),120,num2,1,lmask(6jcount)
+endif
+if      num2{^73}0
+.       calcs   int(num2/30)-2,ind1«num2+1,num2-59,num2-89
+.       do      int(num2/30)-2,weapinfo,monsinfo,maginfo
+endif
+*-*-*
+        
+
+=== block 'throw away'  kind 00  230 words  (block 26)
+unit    dropweap
+if      using(ind1)=1
+.       calcc   wwear(ind1)-1,usebody«0,sub1(usehand),useskul«0,,
+.       calc    using(ind1)«0
+.       do      addusing[ -woff(ind1),-wdef(ind1) ]
+endif
+calc    weapons(ind1)«0
+        sub1m(numweap,0)
+do      addwgt[ -10wwgt(ind1) ]
+do      showweap
+**
+        
+unit    darrow(arg1)
+calcs   arg1-2,num1«1,91
+calcs   arg1-2,num2«60,30
+do      aarrowjb(1226)
+find    return,iname(num1),num2,num2,1,lmask(6jcount)
+calc    ind1«num2+1
+*-*-*
+        
+unit    name(arg1)
+calc    place«arg1
+loop
+.       at      place
+.       erase   25,3
+.       write   Pseudo
+.       inhibit blanks
+.       do      aarrowjb(place+100)
+outloop return=0
+.       calc    ind1«0
+.       loop    add1(ind1){^72}10
+.       reloop  returnc(ind1)=56 $or$ returnc(ind1)=45
+.       outloop returnc(ind1)>36
+.       endloop
+.       if      ind1<11
+.       .       calc    return«0
+.       .       at      place+200
+.       .       write   Letters and numbers only
+.       .       pause   keys=next,back,term
+outloop key=back
+reloop
+.       endif
+.       calc    ptr1 « 0
+.       loop
+.       .       do      comld[ add1(ptr1) ]
+.       .       find    return,nc1,1500,num1,20
+.       outloop num1{^73}0 $or$ ptr1{^73}3
+.       endloop
+.       if      num1
+.       .       comload nc1,4501,1500
+.       .       find    return,pseudin(1),30,num1
+.       endif
+outloop num1
+.       comload nc1,4501,1500
+.       calc    return«0
+.       at      place+200
+.       write   Already being used!
+.       pause   keys=funct
+outloop key=back
+endloop
+if      return {^54} 0
+.       calc    ptr1 « 0
+.       loop
+.       .       do      comld[ add1(ptr1) ]
+.       .       find    pseudo,nc1,1500,num1,20
+.       outloop num1{^73}0 $or$ ptr1{^73}3
+.       endloop
+.       if      num1 {^73} 0 $and$ nc(num1+2){^54}0
+.       .       calc    nc(num1+1) « return
+.       endif
+.       calc    pseudo « return
+endif
+comload nc1,4501,1500
+**
+        
+
+=== block 'password'  kind 00  100 words  (block 27)
+unit    password(arg1)
+loop
+.       at      arg1
+.       erase   25,3
+.       write   Password
+.               » 
+.       getcode num1
+reloop  num1=0
+.       at      arg1
+.       erase   25,2
+.       write   Again
+.               » 
+.       getcode num2
+outloop num1=num2
+.       at      arg1+200
+.       write   Passwords don't match.
+.       pause   keys=next,back,term
+outloop key=back
+endloop
+if      num1 = num2
+.       calc    ptr1 « 0
+.       loop
+.       .       do      comld[ add1(ptr1) ]
+.       .       find    pseudo,nc1,1500,num1,20
+.       outloop num1{^73}0 $or$ ptr1{^73}3
+.       endloop
+.       if      num1{^73}0
+.       .       calc    nc(num1+2) « num2
+.       endif
+.       calc    passwrd « num2
+endif
+comload nc1,4501,1500
+at      arg1
+erase   25,3
+**
+        
+
+=== block 'messages'  kind 00  309 words  (block 30)
+unit    readmess
+calc    ind1«ind2«cycle(mptr+1,36)
+        gotmess(player)«0
+loop    (ind2«cycle[sub1(ind2),36)]{^54}ind1
+reloop  mto(ind2)<31 $and$ mto(ind2){^54}player
+.       if      pseudin[ mfrom(ind2) ]=0
+.       .       calc    mto(ind2)«mfrom(ind2)«0
+reloop
+.       endif
+.       at      101
+.       erase   63
+.       write   «a,pseudin(mfrom(ind2))»{^'04}«a,message(ind2),50»
+.       pause   keys=ans,next,next1,term
+.       keytype ktype,next1,ans,next
+reloop  ktype=2
+outloop ktype=0
+.       do      writmess(mfrom(ind2)-1)
+endloop
+at      101
+erase   63
+write   *end of messages*
+pause   1.2,keys=next,term
+at      101
+erase   25
+**
+        
+unit    sendmess
+back
+at      101
+erase   63
+write   Message to:
+loop
+.       calc    ktype«0
+.       do      aarrowjb(113)
+.       if      return='all'
+.       .       calc    num1«30
+.       elseif  return=0
+.       .       calc    ktype«-1
+outloop
+.       else
+.       .       find    return,pseudin(1),30,num1
+.       endif
+outloop num1>-1
+.       at      wherex, wherey+48
+.       write   «m,r»Not found!   «m,w»
+.       pause   keys=back,next,next1,term
+.       keytype ktype,next
+.       at      113
+.       erase   50
+outloop ktype
+endloop
+do      ktype=0,writmess(num1),x
+at      101
+erase   64
+**
+        
+unit    writmess(arg1)
+calc    num1«arg1
+loop    num1>-1
+.       at      101
+.       erase   63
+.       writec  num1=30,To all,To «a,pseudin(num1+1)»
+.       do      marrow(where+1)
+outloop num1=-1
+.       calc    mto[mptr«cycle(add1(mptr),36)]«num1+1
+.               mfrom(mptr)«player
+.       zero    message(mptr),5
+.       pack    message(mptr),,«a,line,50»
+.       if      num1=30
+.       .       calc    ind3«0
+.       .       loop    add1(ind3){^72}30
+.       .       .       calc    gotmess(ind3)«1
+.       .       endloop
+.       else
+.       .       calc    gotmess(num1+1)«1
+.       endif
+outloop ktype=0
+endloop
+at      101
+erase   63
+**
+        
+unit    marrow(arg1)
+arrow   arg1
+long    50
+jkey    back,next1
+storea  line,50
+ok
+calcs   key=next1,ktype«-1,0
+calcs   key=back,num1«-1,,
+endarrow
+unit    chrmsort
+calcc   chrmhit(1)>chrmhit(2),sw[ cstat(1),cstat(2) ],,
+do      showchrm
+**
+        
+unit    chrmrest(arg1)
+*  arg1 = what charmee goes(0=none,1=1st,2=2nd,3=both)
+calc    ind1«0
+loop    add1(ind1){^72}2
+reloop  charmee(ind1)=0$or$(arg1{^54}ind1$and$arg1{^54}3)$or$arg1=0
+.       at      101
+.       erase   64
+.       write   Your «a,mname[charmee(ind1)]» ran away!
+.       calc    cstat(ind1)«0
+.       do      showchrm
+endloop
+***
+        

@@ -1,0 +1,54 @@
+      PROGRAM QSET
+C
+C     THIS PROGRAM WILL MODIFY THE USER_DATA_FILE FOR
+C     A SPECIFIED USER.
+C
+      INTEGER*2 VDATA(1:101)
+      CHARACTER*32 ID, PASS, IDINPUT
+      CHARACTER*1 C1, C2
+
+      OPEN(1,FILE='USER_DATA_FILE',RECFM='FIXED',RECL=266,
+     1STATUS='OLD',ACCESS='DIRECT',FORM='UNFORMATTED',MODE='BINARY')
+
+5     PRINT *,'<FF><NL><NL>WHAT QUEST USER DO YOU WISH TO DISPLAY? '
+      READ (*, '(A16)') IDINPUT
+      PRINT *,'<NL>'
+      I=0
+10    I=I+1
+      IF (I.GT.16)GOTO 50
+      WRITE (*,15) ' ',I, ID
+15    FORMAT (1A,'RECORD ',I3,16A)
+      READ (1, REC=I, ERR=50) VDATA(1), ID, VDATA(2), PASS,
+     1(VDATA(J),J=3,18), (VDATA(J),J=19,100)
+      IF (ID(1:4).NE.IDINPUT(1:4)) GOTO 10
+            PRINT *,'<FF><TAB><TAB>QUEST USER ', ID
+            PRINT *
+            PRINT 17, 'QUEST     ', VDATA(100)
+            PRINT 17, 'STRENGTH  ', VDATA(87)
+            PRINT 17, 'WEALTH    ', VDATA(91)
+            PRINT 17, 'EXPERIENCE', VDATA(86)
+            PRINT 17, 'INTELLEGNT', VDATA(85)
+            PRINT 17, 'VISION    ', VDATA(89)
+            PRINT 17, 'POSITION  ', VDATA(3),
+     1VDATA(4)
+17          FORMAT (1X,A10,1X,I6,1X,I6)
+            PRINT *
+            PRINT *,'<TAB><TAB>OTHER VALUES ARE:'
+            PRINT *
+            K=0
+            DO 90 J=1,101
+            IF (VDATA(J).NE.0) THEN
+               PRINT '(1A,I4,2X,I6,5X)', '#', J, VDATA(J)
+               K=K+1
+               IF (K.GT.2) THEN
+                   PRINT '(1A)',' '
+                   K=0
+               END IF
+            END IF
+90          CONTINUE
+100   CONTINUE
+      STOP
+50    PRINT '<LF><LF> THIS USER DOES NOT EXIST. PLEASE RE-ENTER.'
+      PAUSE 'PRESS NEW-LINE TO CONTINUE'
+      GOTO 5
+      END

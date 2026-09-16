@@ -1,0 +1,798 @@
+ciswork29  (tutor    a, 14 blocks)
+  04/09/80( | 05/20/80 | change | space | Michael {70} | jackson | work space | 20.56.19. | michael ja | cksonh | cis4932z | (5 | cis4932* | 1458026
+
+=== block 'start'  kind 00  0 words  (block 0)
+
+=== block 'charset'  kind 42  320 words  (block 6)
+ta
+df
+
+
+dfo⌫÷÷hk×(pb+
+k×÷÷c;
+dfo⌫;÷po⌫
+        ÷c*
+o⌫;÷c;
+dfa5apx151
+xapx
+dfh
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+=== block 'deifnes'  kind 00  319 words  (block 1)
+****    
+define  name    = n1    $$ defines for boxes
+        name1   = n2
+        course  = n3
+        scr     = n4
+        x       = n5
+        y       = n6
+        box     = n7
+        times   = n8
+        xtes    = n9
+        ytes    = n10
+*       
+*       
+*       
+*       
+        segment,bit=n100,1      $$uses n100-n137
+        wall(a,b) = bit(a+52b+1)
+        setbit(a,b) = (bit(a+52b+1)«1)
+        locx(a) = 56+8(a-1)
+        locy(a) = 128+8(a-1)
+*       
+*       
+*       
+*       
+        ques    = n11           $$  defines for hobbit game
+        item    = n12
+        out     = n13
+        nerv    = n14
+*       
+*       
+*       
+1load   
+chartst ciswork29,charset
+branch  zreturn,1over,x
+at      2315
+write   Building the walls...
+charset ciswork29,charset
+branch  zreturn,1over,x
+erase   
+at      2706
+write   The character set for this lesson has not been loaded:
+draw    ;2706
+at      3104
+write   Press NEXT to quit this lesson, or press LAB to try again
+pause   keys=next,lab,term
+jumpout key=next;q;x
+erase   
+branch  1load
+1over   
+calc    name«'michael ja'
+        name1«'ckson'
+name    name
+course  course
+jump    stayout
+unit    stayout
+jump    (course='cis4932' $and$ name='michael ja' $and$ name1='ckson') $or$ (course{^54}'cis4932'),index,x
+at      822
+write   -- Restricted File --
+at      1218
+write   Lesson "ciswork29" is restricted
+at      1414
+write   Last edited by:  michael jackson of cis4932
+at      2018
+write   You can not access this lesson.
+at      2522
+write   Press -- Back to exit
+pause   keys=all
+jumpout q
+unit    help
+at      325
+write   H E L P
+at      1010
+write   This lesson is an index for all of the projects
+        that I will do in 'cis4932' - 03.
+at      3010
+write   Back - for an index     Shift Stop - to exit
+***     
+unit    pnext
+at      3127
+write   Press -Next-
+pause   keys=next,back,term
+***     
+unit    index
+do      frame
+help    help
+back    out
+back1   out
+write   «at,192,464»I N D E X   $$  This is faster than 
+                                $$  a doto...
+write   «at,193,464»I N D E X
+at      714
+write   Choose one of the following:
+at      1018
+write   a.  Boxes       (assignment 1)
+        
+        b.  Walls       (assignment 2)
+        
+        c.  Hobbits     (assignment 3)
+        
+        d.  assignment 4
+at      3147
+write   (help available)
+arrow   2010
+long    1
+specs   bumpshift,nookno
+match   scr,a,b,c,d
+jump    scr,x,boxes,walls,question,assi4
+judge   ignore
+endarrow
+unit    out
+calc    n1«'ciswork29'
+jumpout q
+
+=== block 'index'  kind 00  297 words  (block 2)
+unit    out1
+size    4
+at      1005
+write   I warned you!!
+pause   3
+jumpout q
+unit    frame
+frame   10,10;501,501
+frame   11,11;500,500
+frame   12,12;499,499
+frame   13,13;498,498
+unit    boxes
+back    index
+draw    409;2809;2857;457;409;skip;1209;1257;skip;2009
+        2057;skip;425;2825;skip;441;2841
+circle  32,128,384
+at      1212
+write     circle
+circleb 32,256,384
+at      1226
+write    broken circle
+vector  352,352,424,416
+at      1243
+write     vector 
+draw    1411;90,288;skip;100,288;110,288;skip;120,288
+        130,288;skip;140,288;150,288;skip;160,288
+        170,288;skip;170,288;1423;skip;1423;176,278
+        skip;176,268;176,258;skip;176,248;176,238;skip
+        176,228;skip;176,228;1823;166,224;skip;156,224
+        146,224;skip;136,224;126,224
+draw    ;skip;116,224;106,224;skip;96,224;86,224;skip
+        86,224;1811;80,234;skip;80,244;80,254;skip
+        80,264;80,274;skip;80,284;skip;80,284;1411
+at      2010
+write     broken box
+circle  56,272,226,182,55
+at      2030
+write     arc
+circleb 50,382,273,221,359
+at      2042
+write     broken arc
+at      2417
+size    2,3
+rotate  315
+rcircle 10
+at      2810
+size    0
+at      2810
+write      ellipse
+rotate  0
+size    1,3
+at      2230
+write   tall
+at      2426
+size    3,1
+write   short
+size    0
+at      2826
+write    sized writing
+draw    2248;2543;2553;2248
+at      2843
+write     triangle
+at      3217
+write   Shift-Stop to exit     Back to an index
+pause   keys=term,back
+jump    key=back,index,x
+unit    assi4
+at      1010
+write   Sorry assignment 4 is not complete 
+pause   keys=all
+jump    index
+unit    walls
+****    
+draw    2408;2458;458;408;2408
+draw    55,449;55,127;457,127;457,449;55,449
+*       
+*       
+*       
+doto    1loop,x«0,51    $$  This loop sets the  bits on
+                        $$ for the horizantal walls
+*       
+calc    setbit(x,0)
+        setbit(x,41)
+1loop   
+doto    2loop,y«0,41    $$  This loop sets the bits on for
+                        $$  for the vertical walls
+*       
+calc    setbit(0,y)
+        setbit(51,y)
+2loop   
+randu   x,50            $$  randomly puts a box on the
+randu   y,40            $$  screen
+*       
+*       
+write   «at,locx(x),locy(y)»{75}a   {75}$$ always writes first box
+*       
+calc    setbit(x,y)             $$  turns on bit for the
+                                $$  first box...
+*       
+*       
+*       
+setperm 4
+
+=== block 'assign 1'  kind 00  182 words  (block 3)
+0again                  $$  THE LOOP
+*       
+*       
+*       
+*       
+*       
+*       
+randp   box
+branch  box,x,1done,x           $$  If the setperm is 0
+                                $$  then go to 1done
+*       
+*       
+calcs   box-2,xtes«1,-1,0       $$  If box = 1, xtes«-1.
+                                $$  If box = 2, xtes«0
+                                $$  xtes is the same if
+                                $$  box = anything else
+*       
+*       
+*       
+calcs   box,ytes«0,0,0,0,1,-1,0 $$  If box = 3, ytes«1
+                                $$  if box = 4, ytes«-1
+                                $$  ytes stays the same
+                                $$  if box = anything else
+*       
+*       
+*       
+branch  wall(x+xtes,y+ytes),x,x,0again  $$  Checks to
+                                $$  see if there is a 
+                                $$  box already at the
+                                $$  location where the
+                                $$  box is going
+*       
+*       
+*       
+calc    x«x+xtes
+        y«y+ytes
+write   «at,locx(x),locy(y)»{75}a
+calc    setbit(x,y)
+setperm 4
+add1    times
+branch  0again
+*       
+*       
+*       
+1done                   $$  This does the flashing
+mode    rewrite
+doto    1flash,box«1,10,1
+mode    erase
+write   «at,locx(x),locy(y)»{75}a
+mode    write
+write   «at,locx(x),locy(y)»{75}b
+1flash  
+write   «at,2510»It messed up in «s,times» moves
+at      3010
+write   Next - to do again      Back - for an index
+pause   keys=next,back,term
+zero    n1,150
+jump    key-next,x,walls,x
+jump    key-back,x,index,x
+
+=== block 'walls'  kind 00  269 words  (block 4)
+unit    question
+jump    out=1,nono,x
+do      frame
+back    index
+help    help
+at      1007
+write   You are about to enter a most amazing world!  You
+        are to be drawn into a place of wondrous adventures
+        involving elves, dwarves, goblins and drangons.
+        A place and time which is beyond the far-off magic 
+        lands of the Misty Mountains.
+        
+        You are about to experience J.R.R. Tolkien's
+        
+                Middle Earth
+do      pnext
+erase   
+do      frame
+at      1007
+write   You are going to take place in the famous riddle
+        game which occurs in the 'Hobbit' written by
+        Tolkien.
+do      pnext
+at      1407
+write   In this version of the game, Gollum (a slimmy
+        creature that lives underground) will ask
+        Bilbo (a friendly, likable Hobbit from the Shire)
+        five (5) riddles.
+do      pnext
+at      1907
+write   If Bilbo misses a riddle then Gollum will give
+        him a nice hint.  Gollum will give Bilbo five
+        hints to each of the five riddles.  If after
+        the fifth hint Bilbo still does not know the
+        answer, then Gollum will give Bilbo a very
+        good hint.  Be sure not to press BACK at any
+        time during the game.
+do      pnext
+erase   
+do      frame
+at      1007
+write   You see, Bilbo has a problem.  He cannot find 
+        his way out of  the dark nasty cave that  he is
+        in.  And Gollum will not show him the way out
+        unless he answers all of the riddles correctly.
+at      1507
+write   Your job is to help Bilbo answer all of the 
+        riddles.
+do      pnext
+erase   
+do      frame
+at      1007
+write   If Bilbo answers all of the question correctly
+        Gollum will lead Bilbo out of the dark nasty
+        cave that they are in.  If not, then Gollum
+        will keep asking Bilbo and you until you answer
+        correctly.  DO NOT PRESS THE BACK ONCE THE 
+        GAME BEGINS!!  You have been warned.
+do      pnext
+at      1707
+write   Gollum grows impatient and more wicked!  We
+        wouldn't want him to cheat now, would we?
+do      pnext
+setperm 5
+jump    unit1
+unit    unit1
+randp   ques
+jump    ques,x,finish,x
+do      frame
+do      ques-2,q1,q2,q3,q4,q5
+
+=== block 'quest'  kind 00  198 words  (block 5)
+unit    q1
+entry   entry
+back    chicken
+at      1010
+write   What has roots as nobody sees
+        Is taller than the trees
+           Up,up it goes,
+           And yet never grows?
+specs   bumpshift,okspell,okcap
+arrow   1520
+answer  <it,is,a>mountain
+remove  -ques(ntries=1)
+no      
+writec  ntries-2{^56}Some types of goats live on these{^56}It is hard to climb{^56}I sometimes snows on them{^56}The Alps{^56}
+        Could it be a mountain my precious? *sssss*
+endarrow
+judge   ntries=5,quit,x
+modperm 
+jump    unit1
+unit    q2
+back    chicken
+at      1010
+write   Voiceless it cries,
+        Wingless it flutters,
+        Toothless it bites,
+        Mouthless mutters.
+specs   bumpshift,okspell,okcap
+arrow   1520
+answer  <it,is,a,the>wind
+remove  -ques(ntries=1)
+no      
+writec  ntries-2{^56}You cannot see it{^56}You can feel it{^56}You cannot taste it{^56}It removes leaves from trees{^56}
+        This is a silly Hobbit, isn't it my precious?
+        Maybe it will think of the Wind....
+endarrow
+judge   ntries=5,quit,x
+modperm 
+jump    unit1
+unit    q3
+back    chicken
+at      1010
+write   It can not be seen, can not be felt,
+        Cannot be heard, cannot be smelt.
+        It lies behind stars and under hills,
+           And empty holes it fills.
+        It comes first and follows after,
+           Ends life, kills laughter.
+specs   bumpshift,okspell,okcap
+arrow   1720
+answer  <it,is,a,the,pitch>dark
+remove  -ques(ntries=1)
+no      
+writec  ntries-2{^56}You cannot see it{^56}You cannot feel it{^56}It comes and goes without a sound{^56}Its enemy is light{^56}
+        Hmm.  Will it say Darkness?  The nasty little
+        Hobbit.
+endarrow
+judge   ntries=5,quit,x
+modperm 
+jump    unit1
+
+=== block 'cont'  kind 00  239 words  (block 10)
+unit    q4
+back    chicken
+at      1010
+write   Alive without breath,
+        As cold as death;
+        Never thirsty, ever drinking,
+        All in mail never clinking
+specs   bumpshift,okspell,okcap
+arrow   1520
+answer  <it,is,a,the>fish
+remove  -ques(ntries=1)
+no      
+writec  ntries-2{^56}It lives in the water{^56}It has no legs{^56}It swims{^56}
+        Its body and head are one{^56}Is it a fish?
+endarrow
+judge   ntries=5,quit,x
+modperm 
+jump    unit1
+unit    q5
+back    chicken
+at      1010
+write   This thing all things devour:
+        Birds, beast, trees, flowers;
+        Gnaws iron, bites steel;
+        Grinds hard stone to meal;
+        Slays kings, ruins towns,
+        And beats high mountains down.
+specs   bumpshift,okspell,okcap
+arrow   1720
+answer  <it,is,a,the>time
+remove  -ques(ntries=1)
+no      
+writec  ntries-2{^56}Old men loath it{^56}It kills seaons{^56}It lives forever{^56}Babys have lots of it{^56}
+        You are running out of Time.
+endarrow
+judge   ntries=5,quit,x
+modperm 
+jump    unit1
+unit    finish
+at      1010
+write   You have answered all of the questions correctly...
+        Gollum will now show you the way out of the cave.
+pause   keys=all
+jump    index
+unit    chicken
+do      frame
+at      1010
+write   You have broken the rules to the ancient riddle
+        game!!  There is no second chance.  But, Gollum
+        will have mercy on you.  Instead of eating you
+        he has made you vow never to play the riddle
+        game again.  BE GONE WITH YOU NOW!!!
+calc    out«1
+do      pnext
+jump    index
+unit    nono
+jump    nerv=4,out1,x
+do      frame
+at      1005
+writec  nerv{^56}{^56}I thought that you were forbidden to play the riddle game.  Do not try again.{^56}
+        Do not press your luck, puny one!!{^56}This is your last warning. Stay away!!{^56}
+        You are obviously one that can not follow orders.
+        Because of you Bilbo has been eaten.
+        DO NOT TRY AGAIN!!
+*       
+calc    nerv«nerv+1
+do      pnext
+jump    index

@@ -240,7 +240,7 @@ static const mvop mvops[] = {
     { 0x8668, "FSCAL", 0x08, 1 },
     { 0x8688, "POP", 0x0F, 1 },
     { 0x8689, "WADDI", 0x11, 3 },
-    { 0x8698, "LNDO", 0x17, 3 },
+    { 0x8698, "LNDO", 0x17, 4 },
     { 0x8699, "WANDI", 0x11, 3 },
     { 0x86A8, "FNS", 0x1E, 1 },
     { 0x86A9, "WIORI", 0x11, 3 },
@@ -263,7 +263,7 @@ static const mvop mvops[] = {
     { 0x8769, "WCTR", 0x1E, 1 },
     { 0x8779, "WCMV", 0x1E, 1 },
     { 0x8789, "WPOPJ", 0x1E, 1 },
-    { 0x8798, "LWDO", 0x17, 3 },
+    { 0x8798, "LWDO", 0x17, 4 },
     { 0x8799, "WRSTR", 0x1E, 1 },
     { 0x87A8, "LDI", 0x08, 1 },
     { 0x87A9, "WRTN", 0x1E, 1 },
@@ -452,6 +452,13 @@ static const mvop mvops[] = {
 
 static const mvop *mvfind(unsigned short ir)
 {
+    /* XVCT and QSCAN in their CF.. form are ONE word: the F77 compiler's
+     * range-check traps (found on QUEST).  The C7.. forms keep MASM's length,
+     * which ZORK.PR's 0xC719 allocator walk needs. */
+    {   static const mvop xvct1 = { 0xC709, "XVCT",  0x05, 1 };
+        static const mvop qscn1 = { 0xC719, "QSCAN", 0x05, 1 };
+        if (ir == 0xCF09) return &xvct1;
+        if (ir == 0xCF19) return &qscn1; }
     /* WBR first.  Its displacement occupies the two accumulator fields and
      * the shift field, so it needs a mask of its own (0x873F), and the carry
      * masks below would otherwise hand 80F8 to DSB, which shares the space

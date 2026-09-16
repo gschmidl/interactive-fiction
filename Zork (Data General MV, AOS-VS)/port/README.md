@@ -41,3 +41,13 @@ Interactive play is unaffected.
 
 The same emulator, from the same source, runs Ferret; each port carries its
 own identical copy of it in `src32/`.
+
+## Checking it
+
+    sh tests/run.sh       # replays recorded sessions with the clock frozen
+
+`-Z <seconds>` freezes the clock, which is what makes a session repeat: the
+game seeds its random numbers from it.  One of the recorded sessions is 600
+random commands that used to hang the game for good -- DIVX, which Zork's
+random number generator is built on, was broken in the emulator until
+2026-09-16; `NOTES.md` has the story.

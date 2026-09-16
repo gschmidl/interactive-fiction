@@ -1,0 +1,1952 @@
+0moriah  (tutor    a, 35 blocks)
+  8 | 53 | 03/04/93 | 11/30/93 | s | coserv | duncombe/b | attin | moria: he | lp lesson | 14.44.19. | dave runte | h | s | coserv | coserv | coserv | sysmicro | edit | igl;. | 0moriad | publisis | mu2+ «{75} | lessnotes | coserv | s0edit | b | e
+
+=== block '*directory'  kind 00  0 words  (block 0)
+
+=== block 'copyright'  kind 47  17 words  (block 1)
+*
+*  © copyright 1978,1984 by kevet duncombe and jim battin
+*      all rights reserved
+*
+*list   symbols
+*list   eject
+*
+
+=== block 'main index'  kind 00  183 words  (block 2)
+define  help
+use     base/g
+use     g-confunct
+use     g-students
+use     g-monsters
+use     g-magic
+use     m-defines
+        indexat(bb,rr,oo,xx) = bb + oo*int[(xx-1)/rr] + 100*cycle(xx,rr)
+*
+storage recsize,exactly
+use     global ieu
+*do      copyrite
+do      charload(1725)
+imain   imain
+finish  finish
+jump    mainindx
+*
+        
+unit    mainindx
+        merge,previous
+        gray
+color   define;gray,.2,.2,.2
+color   display;zwhite;gray
+erase
+do      boarder
+*
+back1   out
+back    jumpgame        $$  jumps to entry
+base
+*
+do      copyrite
+*
+size    3,3
+at      309
+color   display;zgreen
+write   MORIA GUIDE BOOK
+size    0
+color   display;zwhite
+at      821
+write   a)  Introduction
+ 
+        b)  Mazes And Terrain
+        
+        c)  Characters And Groups
+        
+        d)  Magic Weapons And Items
+        
+        e)  Spells And Magic
+        
+        f)  Monsters And Fighting
+        
+        g)  Treasures
+        
+        h)  Life In The Big City
+ 
+        i)  Playing The Game
+at      2612
+color   display;zyellow
+write      BACK     to jumpout to the game
+        SHIFT-BACK  to return to your previous lesson
+           HELP     is always available!
+*
+do      indpause("i")
+*
+jump    ktype-2, x, intro, mazeind, charind, magind, spelind
+        monind, treaind, cityind, playind
+*
+        
+unit    jumpgame
+*
+do      finish
+jumpout <moria>
+*
+        
+unit    finish
+do      up.use
+*
+        
+
+=== block 'indexes'  kind 00  294 words  (block 3)
+unit    mazeind         $$  Mazes And Terrain
+back1   mainindx
+back    intro
+next1   charind
+*
+at      324
+color   display;zgreen
+write   MAZES AND TERRAIN
+box     176,480;328,464;2
+*
+color   display;zwhite
+at      919
+write   a)  Introductory Explanation
+ 
+        b)  Viewing The Maze
+ 
+        c)  Moving Thru The Maze
+ 
+        d)  Different Terrains
+ 
+        e)  Moving Between Terrains and Levels
+ 
+        f)  Objects In The Mazes
+*
+do      indopt
+do      indpause("f")
+jump    ktype-2, mazeind, mintro, mview, mmove, mterrain,
+        mmoveb, mobject
+*
+        
+unit    charind         $$  Characters And Groups
+back1   mainindx
+back    mazeind
+next1   magind
+*
+at      322
+color   display;zgreen
+write   CHARACTERS AND GROUPS
+box     160,480;344,464;2
+*
+color   display;zwhite
+at      919
+write   a)  Introductory Explanation
+ 
+        b)  Character's Skills
+ 
+        c)  Vitality
+ 
+        d)  Supplies ( Food And Water )
+ 
+        e)  Strings
+ 
+        f)  Camps
+ 
+        g)  Age & Inheritance
+ 
+        h)  Groups
+ 
+        i)  Guilds
+* 
+*        h)% Land Ownership
+*
+do      indopt
+do      indpause("i")
+*
+jump    ktype-2, charind, cintro, cskill, cvital, csupply,
+        cstrings, ccamps, cage, cgroup, cguild
+*
+        
+unit    magind          $$  Magic Weapons And Items
+back1   mainindx
+back    charind
+next1   spelind
+*
+at      322
+color   display;zgreen
+write   MAGIC WEAPONS AND ITEMS
+box     160,480;360,464;2
+*
+color   display;zwhite
+at      919
+write   a)  Introductory Explanation
+ 
+        b)  Buy, Sell, And Trade
+ 
+        c)  Finding Weapons And Items
+ 
+        d)  Weapons
+ 
+        e)  Special Magic Items
+*
+do      indopt
+do      indpause("e")
+jump    ktype - 2, magind, iintro, ibuy, ifind, iweapon
+        imagic
+*
+        
+unit    spelind         $$  Spells And Magic
+back1   mainindx
+back    magind
+next1   monind
+*
+at      324
+color   display;zgreen
+write   SPELLS AND MAGIC
+box     176,480;320,464;2
+*
+color   display;zwhite
+at      919
+write   a)  Introductory Explanation
+ 
+        b)  Spells
+do      indopt
+do      indpause("b")
+jump    ktype-2, spelind, spintro, spmag
+*
+        
+
+=== block 'indexes'  kind 00  133 words  (block 4)
+unit    monind          $$  Monsters And Fighting
+back1   mainindx
+back    spelind
+next1   treaind
+*
+at      322
+color   display;zgreen
+write   MONSTERS AND FIGHTING
+box     160,480;344,464;2
+*
+color   display;zwhite
+at      919
+write   a)  Introductory Explanation
+ 
+        b)  Finding Monsters
+ 
+        c)  Fighting/Killing Monsters
+ 
+        d)  Monster Types
+ 
+        e)  Lists of Monsters
+ 
+*        f)  Lawful Monsters
+*
+do      indopt
+do      indpause("e")
+jump    ktype-2, monind, fintro, ffind, ffight, ftype, flist
+*
+        
+unit    treaind         $$  Treasure
+back1   mainindx
+back    monind
+next1   cityind
+*
+at      328
+color   display;zgreen
+write   TREASURES
+box     208,480;296,464;2
+*
+color   display;zwhite
+at      919
+write   a)  Introductory Explanation
+ 
+        b)  Finding Treasures
+ 
+        c)  Types of Treasure
+* 
+*        d)  Banks
+*
+do      indopt
+do      indpause("c")
+jump    ktype-2, treaind, tintro, tfind, ttype
+*
+        
+
+=== block 'indexes'  kind 00  146 words  (block 5)
+unit    cityind         $$  Life In The Big City
+back1   mainindx
+back    treaind
+next1   playind
+*
+at      322
+color   display;zgreen
+write   LIFE IN THE BIG CITY
+box     160,480;336,464;2
+*
+color   display;zwhite
+at      919
+write   a)  Introductory Explanation
+ 
+        b)  Shops And Trading
+ 
+        c)  Stores
+ 
+        d)  Water House
+ 
+        e)  Jail
+do      indopt
+do      indpause("e")
+jump    ktype-2,cityind,aintro,cshops,cstores,cwater,cjail
+*
+        
+unit    playind         $$  Play the game index
+back1   mainindx
+back    cityind
+next1   mainindx
+*
+at      325
+color   display;zgreen
+write   PLAYING THE GAME
+box     184,480;328,464;2
+*
+color   display;zwhite
+at      919
+write   a)  Introductory Explanation
+        
+        b)  Hall of Fame
+        
+        c)  General Playing Options
+        
+        d)  Peace Options
+        
+        e)  Fight Options
+        
+        f)  Miscellaneous Data
+        
+        g)  TERMS Available
+ 
+        h)  Hints For New Players
+*
+do      indopt
+do      indpause("h")
+jump    ktype-2,playind,pintro,phof,popts,ppopts,pfopts,
+        pmisc,pterms,phints
+*
+        
+
+=== block 'intro'  kind 00  176 words  (block 6)
+unit    intro
+next    intro2
+back    mainindx
+back1   mainindx
+*
+at      508
+color   display;zwhite
+write        Moria is a mythical land, very different and
+        very far from any land you may know.  Moria exists
+        in a different time, a different dimension; ruled
+        not by the laws of science, but rather by the laws
+        of fantasy.  Moria is a land of powerful wizards,
+        cunning thieves, noble warriors, and deeply
+        religious priests who use the powers of magic,
+        the mind, and even nature to survive.
+        
+             This game is the authors' interpretation of
+        Moria.  It was written for the enjoyment of all who
+        play and we hope you get many hours of pleasure from
+        Moria.
+ 
+                                    The authors
+*
+do      next
+*
+        
+unit    intro2
+back1   mainindx
+back    intro
+next    mazeind
+*
+at      508
+write       The land of Moria consists of four physical
+        elements: air, earth, fire, and water.  All non-
+        living objects are a combination of all four
+        elements, with different types of objects containing
+        different amounts of each element.  Living objects
+        contain a fifth spiritual element called
+        vitality.  It is vitality which gives the property
+        of life to the four physical elements in Moria.
+        Vitality also accounts for the non-physical traits
+        of living beings, such as intelligence, personality,
+        belief in gods.
+do      nexttop
+*
+        
+
+=== block 'mazes'  kind 00  264 words  (block 7)
+unit    mintro
+back    mazeind
+next    mview
+back1   mazeind
+*
+at      508
+color   display;zwhite
+write        Moria is a world of underground rooms and
+        corridors where the characters in the game will
+        spend their entire life trying to survive.  The
+        rooms and corridors in Moria are grouped into
+        different levels which are grouped into terrains.
+        Some terrains consist of a single large level, while
+        the more hostile terrains contain up to 60 levels.
+do      nexttop
+*
+        
+unit    mview
+back    mintro
+next    mview2
+back1   mazeind
+*
+color   display;zwhite
+at      308
+write        Below is a sample view of a Moria maze.
+ 
+                             Corridor
+                              {75}ud  sf
+                               {75}iwxii
+                              {75}uv  ae
+                              5 Steps   N 3,4
+ 
+        The view of the maze you see is much like what you
+        would see when standing in a room or hall.  The
+        walls appear as solid blocks and walls with doors
+        contain a smaller rectangle on their surface, as in
+        the example where the far wall directly in front has
+        a door.  Walls directly in front of you will appear
+        flat or square.  The walls on the sides of you will
+        appear slanted.
+ 
+             Directly above the maze is the word "Corridor"
+        which means you are in a set of corridors.  When you
+        are in a set of rooms, the word "Room" will appear.
+ 
+             Directly below the maze is the number of steps
+        you have just taken when moving (see section on
+        moving, W key).  When you break through a door, then
+        "door" will appear below.  To the right of that is
+        the direction you are facing, north, south, and your
+        x,y location within the 6×6 block.
+do      next
+*
+        
+unit    mview2
+back    mview
+next    mmove
+back1   mazeind
+*
+at      508
+color   display;zwhite
+write        The mazes in Moria are organized into blocks of
+        6 steps by 6 steps.  The blocks alternate between
+        rooms and corridors to form a checkerboard.  Each
+        level is rectangular, M×N, with each side from 5 to
+        9 blocks wide.
+do      nexttop
+*
+        
+
+=== block 'mazes'  kind 00  219 words  (block 10)
+unit    mmove
+back    mview2
+next    mterrain
+back1   mazeind
+*
+at      511
+color   display;zwhite
+write   The keys active for moving thru the maze are:
+at      810
+write   w:  w moves you forward one step providing
+              there is an open space in front of you.
+ 
+        W:  W serves two functions.  If there is a
+              door in front of you, it opens the door
+              and moves you through it, displaying
+              "Door" under the maze view.  If there
+              is no door ahead of you, then it moves
+              forward until you find something
+              interesting, such as a door, wall, or 
+              monster, displaying the number of steps
+              taken under the maze view.
+ 
+        d:  Turns you 90° to the right on the square
+              you are standing on.
+ 
+        a:  Turns you 90° to the left on the square
+              you are standing on.
+ 
+        x:  Turns you 180° around on the square
+              you are standing on.
+do      nexttop
+*
+        
+unit    mterrain
+back    mmove
+next    mterr1
+back1   mazeind
+*
+at      508
+color   display;zwhite
+write        The mazes in Moria are organized into levels,
+        which are parts of different terrains.  Two of the
+        terrains, the City and the Wilderness, consist
+        of a single large level.  The city contains many
+        interesting attractions and serves as a resting
+        place for characters.  The Wilderness is a mildly
+        hostile area with weak monsters and little gold.
+        The other four terrains, Caves, Mountains, Forest,
+        and Desert contain up to 60 levels, each deeper
+        level containing more dangers and more rewards.
+ 
+        When a character is created, he starts his journey
+        in the City on top of the stairs to the Wilderness.
+do      next
+*
+        
+
+=== block 'mazes'  kind 00  257 words  (block 11)
+unit    mterr1
+back    mterrain
+next    mmoveb
+back1   mazeind
+*
+at      508
+color   display;zwhite
+write        Below is a map showing the connections between
+        terrains and their levels.
+at      925
+write   Wilderness City
+at      1127
+write   Wilderness
+at      1401
+write        Cave 1        Mountain 1       Forest 1       Desert 1
+        
+             Cave 2        Mountain 2       Forest 2       Desert 2
+        
+             Cave 3        Mountain 3       Forest 3       Desert 3
+at      2008
+write   .
+        .
+        .
+at      2024
+write   .
+        .
+        .
+at      2040
+write   .
+        .
+        .
+at      2055
+write   .
+        .
+        .
+at      2608
+write        This continues downward for 60 levels.  The
+        lines represent paths between terrains and levels.
+draw    59,288;59,272;skip;59,256;59,240;skip;187,240;187,256;skip;187,272;187,288;skip;315,288;315,272
+draw    315,272;skip;315,256;315,240;skip;435,240;435,256;skip;435,272;435,288;skip;435,304;245,336
+draw    245,336;315,304;skip;187,304;245,336;60,304;skip;245,352;245,368
+do      nexttop
+*
+        
+unit    mmoveb
+back    mterr1
+next    mobject
+back1   mazeind
+*
+at      508
+color   display;zwhite
+write        There are several ways to move between the
+        different levels and terrains.  Stairways move
+        up or down, one to three levels at a time.
+         
+             Stairs also allow you to move between the
+        City and Wilderness, or the Wilderness and
+        other terrains.  There is also a guild option
+        for teleporting from the city to your camp or
+        to any person in the maze.
+do      nexttop
+*
+        
+unit    mobject
+back    mmoveb
+next    mazeind
+back1   mazeind
+*
+at      508
+write       While traveling through the Moria mazes, you
+        will find several interesting objects to resupply
+        your group and aid you in your quest.  The city
+        contains shops for buying items, water houses,
+        and supply stores for stocking up on food.
+        The other terrains, besides containing monsters,
+        have waterholes for filling your flasks.  For 
+        more information on these objects, see the section
+        " Life in the Big City ".
+do      nexttop
+*
+        
+
+=== block 'chars'  kind 00  274 words  (block 12)
+unit    cintro          $$  Introductory Explanation
+back    charind
+back1   charind
+next    cskill
+*
+at      508
+write        The life of a character will hopefully be
+        exciting and challenging.  Each character will start
+        with the same basic skills and abilities as all
+        other characters.  Even so, you may develop any
+        skill and pursue membership in the guild of your
+        choice.
+do      nexttop
+*
+        
+unit    cskill          $$  Character's Skills
+back    cintro
+back1   charind
+next    cskill1
+*
+at      508
+write        Each character has four basic skills which
+        determine their actions.  A character's skill
+        represents his unique combination of the four
+        elements coupled with his vitality.  Each skill
+        determines a character's ability in a certain area,
+        such as magic.  Skills run from 0-100 and represent
+        the percent of perfection for that skill.  Skills
+        increase as a character grows and gains experience
+        by using a certain skill, but the rate of increase
+        slows down as the skill goes up.
+do      next
+*
+        
+unit    cskill1
+back    cskill
+back1   charind
+next    cvital
+*
+at      408
+write    Cunning:  Determines life expectancy and ability
+                   to steal.  Cunning characters get the
+                   edge of surprise over most monsters
+                   and can quite often trick monsters.
+                   Cunning also affects the chance of
+                   opening boxes and chests successfully
+                   and the chance of evading monsters.
+ 
+           Piety:  Wisdom or ability to pray.  Determines
+                   the success rate and level of praying
+                   you are able to do.  Also affects the
+                   casting of some peacetime spells.
+ 
+           Valor:  Determines amount of damage done in
+                   fighting and decreases damage done to a
+                   character by the monsters.  Valor also
+                   determines which weapons a character
+                   can use since some weapons require more
+                   skill to use than others.
+ 
+        Wizardry:  Intelligence or skill in casting spells.
+                   Wizardry determines the level of magic
+                   you are able to safely cast, along with
+                   the chances of success.
+do      nexttop
+*
+        
+
+=== block 'chars'  kind 00  281 words  (block 13)
+unit    cvital          $$  Vitality
+back    cskill1
+back1   charind
+next    csupply
+*
+at      508
+write        Vitality is a measure of a character's life
+        force.  Every action a character performs, fighting,
+        magic, praying, subtracts from a character's vitality.
+        Vitality ranges from 0-100, with 0 corresponding to
+        death.  Vitality increases automatically when a
+        character is not fighting, providing you have food
+        and water.
+do      nexttop
+*
+        
+unit    csupply         $$  Supplies ( Food And Water )
+back    cvital
+back1   charind
+next    cstrings
+*
+at      508
+write        While traveling through the land of Moria, a
+        character will need a certain amount of food and
+        water to survive.  Food and water can be bought in
+        the city.   A character can carry food for up to 30
+        months of travel and water for up to 15 months.
+        Water can be found along the trail in all terrains,
+        but caution should be used when drinking since the
+        water may sometimes be poisoned.  Water drawn from a
+        city well will always be safe.  Killing of animal
+        type monsters (bears, etc.) will generally replenish
+        your food supply, BUT if you use p⌫_rayer to kill
+        the monster, the food will be left as an offering.
+ 
+             Without food and/or water, a character will
+        slowly starve and/or die of thirst.  When a
+        character is out of either item, his vitality
+        will slowly decrease until he dies.
+do      nexttop
+*
+        
+unit    cstrings
+back    csupply
+next    ccamps
+back1   charind
+*
+at      508
+write        To aid you on your journey, and help you keep
+        your bearings in the vast land, you're equipped with
+        a magic string.  Your character can tie his string
+        somewhere, wander around, then retrace his steps
+        using the string.  The string won't stretch down a
+        stairway, though, so when you change levels, your
+        string comes untied.
+        
+              On the lower levels there is a chance that
+        some hungry monster might chew through your string
+        and it will break when you pull on it.  All members
+        of a group can tie their strings, but only the guide
+        may follow his to the end.  When you do retrace your
+        steps, you will be returned to the spot in the room
+        where your string was tied.
+do      nexttop
+*
+        
+
+=== block 'chars'  kind 00  197 words  (block 14)
+unit    ccamps          $$  Camps
+back    cstrings
+back1   charind
+next    cage
+*
+at      508
+write        Since a character can only carry a limited
+        amount of gold and food, he may establish a camp in
+        one of the various rooms and corridors for storing
+        food and bags of gold.  A character may stockpile up
+        to 60 months of food and 60 bags of gold in his
+        camp; a bag of gold is 200 thousand gold pieces.
+        You may then add or remove food and gold as long as
+        you are in the same room as your camp.
+do      nexttop
+*
+        
+unit    cage            $$  Age And Inheritance
+back    ccamps
+back1   charind
+next    cgroup
+*
+at      508
+write        A character is considered an adult when it
+        reaches the age of 13 years.  All characters
+        therefore begin their journey through Moria at
+        that age.   A character can live to 100 or more
+        before old age catches up with him.  Cunning helps
+        determine how long a character will live.  Once in
+        a while, a character will be lucky enough to live
+        so long it can no longer die, at which point its
+        age is displayed as "Old".  To postpone death by
+        old age, search for the Reaper's Ring.  Those who
+        find it may also find themselves 5 years younger!
+         
+             If a character is a guild member when it dies,
+        the contents of its guild locker can be passed on
+        to an heir.  This will happen automatically if (and
+        ONLY if) you create a new character immediately.  If
+        you leave the game for any reason before creating a
+        new character, the inheritance will be lost⌫⌫⌫⌫____!
+do      nexttop
+*
+        
+
+=== block 'chars'  kind 00  188 words  (block 15)
+unit    cgroup          $$  Groups
+back    cage
+back1   charind
+next    cgroup2
+*
+at      508
+write        To aid you in your journey, you may join
+        other players and travel through the maze in
+        groups.  A group may contain up to 10 players at
+        once.  When you join a player, either that player or
+        that player's guide becomes your guide.  The guide's
+        function is to guide you from block to block.
+ 
+             Once you enter a block, everyone in the
+        group is allowed to move about the block, search
+        for monsters, shops, or any other object.  Once
+        you find an object, you can then notify your
+        group, by either yelling for help when fighting
+        or sending a message.  The other members of
+        your group can then run to your aid or use the
+        object you have found.
+do      next
+*
+        
+unit    cgroup2         $$  Groups
+back    cgroup
+back1   charind
+next    cgroup3
+*
+at      418
+write   Things a group GUIDE must know.
+at      608
+write        The guide's function is merely to guide his
+        group from one block to the next.  While in the
+        block, every member of the group is allowed to move
+        around.  The guide is the only group member allowed
+        to leave a block.  When he does leave, all members
+        in the group will follow to that block.  The guide
+        may not leave if any members of his group are busy
+        fighting monsters.  If there are one or more people
+        fighting, then the message "someone is missing" will
+        appear if he tries to leave.
+do      next
+*
+        
+
+=== block 'chars'  kind 00  150 words  (block 16)
+unit    cgroup3         $$  Groups
+back    cgroup2
+back1   charind
+next    cguild
+*
+at      414
+write   These are things a FOLLOWER should know.
+at      608
+write        When you join a group, you will be lead from
+        block to block by your guide, but while in a
+        block, you are allowed to move around and search
+        for any interesting object you like.  As a group
+        member, it is your duty to help the guide out when
+        searching a room for monsters or other objects.
+        Your guide is the only member of your group allowed
+        to leave the block.  If you try to leave and you
+        are not a guide, you are told you have to "Leave the
+        group first".  Use the "L" option if you wish to
+        leave your group and become your own guide.
+        
+             Some suggestions to help you are:  keep track
+        of the block you are in so you know approximately
+        where you are.  When your guide leaves a block, you
+        are told in which direction he has left so you can
+        keep track of which block you're in.  Also, when you
+        enter a room, spread out and look for objects and
+        monsters.  You may want to divide rooms up among
+        your group, with some people going north, others
+        south, or east, or west when you search.
+do      nexttop
+*
+        
+
+=== block 'chars'  kind 00  224 words  (block 17)
+unit    cguild          $$  Guilds
+back    cgroup3
+back1   charind
+next    cguild2
+*
+at      508
+write        Once you have developed your skills to
+        fulfill the standards of one of the four guilds,
+        you may apply for membership.  Each guild has
+        different standards and dues for membership.  As a
+        guild member you will have various benefits and
+        responsibilities.  With hard work, you may one day
+        become the master of your guild.
+ 
+             The four guilds are;  Thieves Guild, The
+        Brotherhood, Union of Knights, and Circle of Wizards.
+        Their respective skills are: cunning, piety, valor,
+        and wizardry.
+ 
+             To join a guild, you must have a guild skill of
+        at least 20.  You are admitted at the rank of
+        apprentice.  To raise your guild rank, you need
+        five bags of gold, one million gold coins, in your 
+        account and must have the skill needed for that
+        rank.  The skills are; apprentice 20, journeyman 30,
+        counselor 40, and master 50.  The guild master is
+        the master with the highest skill in the guild.
+*
+        
+unit    cguild2
+back    cguild
+back1   charind
+next    charind
+*
+at      508
+write   Each guild confers a unique advantage on its members.
+ 
+          Æ Members of The Brotherhood can instantly
+            raise the vitality of the group.
+             
+          Æ Members of the Circle of Wizards can
+            teleport themselves (and a group they
+            are leading) back to the city.
+             
+          Æ Members of the Union of Knights take
+            less damage and have a chance of
+            beheading a monster with a single blow.
+             
+          Æ Members of the Thieves Guild have a
+            better chance of finding magic items
+            that have been cunningly hidden in the
+            treasure chests.
+*
+        
+
+=== block 'magic item'  kind 00  205 words  (block 20)
+unit    iintro
+back    magind
+back1   magind
+next    ifind
+*
+at      508
+write        There are various items in Moria to aid you
+        in your battle against those nasty monsters.  Some
+        items aid you in fighting, some aid you in defending
+        yourself, while others have mystical powers for
+        performing various tasks.  A few have no special
+        properties except value when sold.  Use the I⌫_nfo
+        command to determine an item's properties.  A
+        character may carry up to 12 magic items at one
+        time.  After joining a guild, a character may
+        store an additional 12 in its guild locker.
+do      nexttop
+*
+        
+unit    ifind
+back    iintro
+back1   magind
+next    ibuy
+*
+at      508
+write        After killing the monsters, you have a chance
+        of finding magic items among the dead bodies of the
+        monsters.  You may then pick the item up to use or
+        to sell to a shop for profit.  The deeper you go,
+        the more powerful the monster, the better your
+        chance of finding an item.
+do      nexttop
+*
+        
+unit    ibuy
+back    ifind
+back1   magind
+next    iweapon
+*
+at      508
+write        Besides finding weapons, you may purchase them
+        at the weaponry shops in the city.  You may
+        buy or sell items at a weaponry shop, but you may
+        only sell at a magic shop.  Beware though, the shop
+        keepers in Moria are shrewd traders, so try to
+        haggle them up or down to the best price.  If you
+        are unsure of the price of an item, you may price an
+        item in the shop.  You can specify the amount of
+        money you wish to spend and the shopkeeper will give
+        you the name of an item in that range.
+do      nexttop
+*
+        
+
+=== block 'magic item'  kind 00  267 words  (block 21)
+unit    iweapon         $$  Weapons
+back    ibuy
+back1   magind
+next    iweapon1
+*
+at      508
+write        There are many weapons, some magic, which can
+        be worn on your body or carried in your hands.
+        Each weapon has an area of the body designated on
+        which it must be worn or carried.  You may
+        therefore not use two weapons which are worn on the
+        same part of the body, such as two helmets.  In
+        addition, some weapons must be carried in your
+        hands such as swords.  Some weapons require one
+        hand while others require two hands.  You may use
+        up to two hands worth of equipment.  All extra
+        items which are duplicates may still be owned, but
+        not used for battle.
+         
+             NOTE: one-handed weapons are harder to use.
+        To use a single one-handed weapon you must have
+        at least 15 valor.  To use one in each hand you
+        must have 30 valor!
+ 
+             To designate which weapons you wish to use, you
+        must choose them with the "U" option while not in
+        battle.  If you are not currently using an item,
+        you will begin using it.  If you are already using
+        that item then it will become unused for you.
+do      next
+*
+        
+unit    iweapon1
+back    iweapon
+back1   magind
+*
+at      509
+write   Press the letter of the weapons you wish to see:
+at      1020
+write   a)  Items worn anywhere
+ 
+        b)  One-handed weapons
+ 
+        c)  Two-handed weapons
+ 
+        d)  Weapons worn on the body
+ 
+        e)  Weapons worn on the arms
+ 
+        f)  Weapons worn on the head
+do      nexttop
+loop
+.       pause   keys=all
+.       keytype ktype,a,b,c,d,e,f
+.       jump    ktype,x,list(ktype)
+.       jump    key = next,imagic,x
+endloop 
+*
+        
+unit    list(a1)
+next    iweapon1
+back    iweapon
+back1   magind
+*
+at      209
+write   Weapon Name  Å  Offensive Value  Å  Defensive Value
+calc    ind « sind « 0
+loop    incr(ind) {^72} nmitem
+reloop  weapon(ind) {^54} 1
+reloop  a1 {^54} wbody(ind)
+.       calc    incr(sind)
+.       at      at « indexat(308,25,32,sind)
+.       showa   iname(ind),nichnam
+.       at      at+17
+.       write   «t,oeffect(ind),2» «t,deffect(ind),2»
+endloop 
+do      next
+*
+        
+
+=== block 'magic item'  kind 00  56 words  (block 22)
+unit    imagic
+back    iweapon
+back1   magind
+next    magind
+*
+at      508
+write        In addition to the weapons you can find or
+        buy, there are several special magic items which
+        you can only find in the depths of Moria.  Many of
+        them have special properties for finding stairs
+        or raising your skills.  Others have no special
+        properties at all, but they are worth their weight
+        in gold when sold to the magic shops.
+do      nexttop
+*
+        
+
+=== block 'monsters'  kind 00  303 words  (block 23)
+unit    fintro
+back    monind
+back1   monind
+next    ffind
+*
+at      508
+write        The land of Moria is plagued by evil monsters.
+        As a character in Moria, it is your life's duty to
+        do your best and rid the land of evil, and of course
+        pick up the treasure.
+do      nexttop
+*
+        
+unit    ffind
+back    fintro
+back1   monind
+next    ffight
+*
+at      508
+write        Monsters spend their life in the hostile
+        terrains, all terrains other than the city.  The
+        monsters reside in the various rooms and corridors
+        in the mazes.  In the wilderness the monsters run by
+        themselves.  In the other terrains, the monsters
+        come in groups of one to three types, with
+        possibly several of each type.  The deeper you
+        go, the more and tougher monsters you'll meet.
+        The toughest monsters you'll ever care to meet
+        will be found on the deepest level, level 60.
+do      nexttop
+*
+        
+unit    ffight
+back    ffind
+back1   monind
+next    ffight2
+*
+at      310
+write   These are the options available while fighting:
+at      505
+write   f:
+        
+        
+        
+        t:
+        
+        
+        
+        
+        p:
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+        b:
+at      508
+write   Fight the monster using your weapons.  You will do
+        so many points of damage to the monster, depending
+        on your valor compared to his defense.
+ 
+        Trick the monster using your cunning.  By tricking
+        the monster, you get him to let down his defense
+        so you can deliver a fatal blow.  You either kill
+        the monster instantly or fail to trick the monster.
+ 
+        Pray for divine help.  There are several things for
+        which you may pray; success is dependant on your
+        piety.  Holy word, if successful, instantly kills
+        the monster.  Pray for escape allows you to run from
+        the monsters.  Pray for a miracle calls for divine
+        intervention from your gods.  If it works, all the
+        monsters you're currently battling will instantly
+        die; but the gods tire of helping if it's done too
+        often.  Unction is used for healing wounds.  It
+        gives you back some of your vitality, but won't work
+        unless you are wounded severely, under 50 vitality.
+ 
+        Bribe a monster to release you.  You can offer gold
+        or an item.  The monster will take it, and if it's
+        valuable enough will run away, letting you escape.
+do      nexttop
+*
+        
+
+=== block 'monsters'  kind 00  210 words  (block 24)
+unit    ffight2
+back    ffight
+back1   monind
+next    ftype
+*
+at      505
+write   r:
+        
+ 
+ 
+        
+        
+        
+        e:
+        
+        
+ 
+        c:
+        
+        h:
+ 
+ 
+        m:
+ 
+        M:
+at      508
+write   Run from the monsters.  Your chance of successfully
+        getting away is dependant on your cunning.  But
+        if you run from a monster, you forfeit your share
+        of any treasure you had accumulated up to then.
+        Note, after you run, you will encounter the monsters
+        again if you use SHIFT-DATA to replot or "n".
+ 
+        Evade the monsters.  This allows you to dodge the
+        monsters attack and you will get hit less frequently
+        while the members of your group kill the monsters.
+ 
+        Cast a spell on the monsters.  
+ 
+        Yell for HELP!  This sends a message of HELP to
+        your group or anyone else in the room with you.
+ 
+        Message to everyone in the same room as the sender.
+        
+        Whisper to an individual player.  You will be asked
+        for the players pseudo.  The player you are going
+        to whisper to MUST be in the same room as yourself.
+do      nexttop
+*
+        
+unit    ftype
+back    ffight2
+back1   monind
+next    flist
+*
+at      508
+write        The monsters in Moria belong to one of
+        «s,nmclass» classes.  Each class has it's own skill
+        for repelling attacks.
+ 
+                        The «s,nmclass» classes are:
+*
+at      1226
+write   Humanoids
+        Undead
+        Magic Users
+        Mythical
+        Animals
+        Elementals
+        Cleric
+        Lawful
+*
+do      nexttop
+*
+        
+
+=== block 'monsters'  kind 00  234 words  (block 25)
+unit    flist
+back1   monind
+*
+do      choice
+back
+*
+loop
+.       erase   abort
+.       do      mbackgd(ktype)
+.       do      mfill(ktype)
+.       at      3223
+.       write   «c,zyellow»Press NEXT or BACK.
+.       pause   keys=all
+.       erase   abort
+.       if      key = next $and$ ktype < nmclass
+.       .       calc    add1( ktype )
+reloop  -1
+.       elseif  key = back $and$ ktype > 1
+.       .       calc    sub1( ktype )
+reloop  -1
+.       endif
+.       do      imain
+.       do      choice
+endloop 
+*
+        
+unit    choice
+back    ftype
+*
+at      410
+write   Press the letter of monster list you wish to see:
+*
+at      724
+write   a)  Humanoids
+ 
+        b)  Undead
+ 
+        c)  Magic Users
+ 
+        d)  Mythical
+ 
+        e)  Animals
+ 
+        f)  Elementals
+ 
+        g)  Cleric
+ 
+        h)  Lawful
+*
+do      nexttop
+*
+loop
+.       pause   keys=all
+.       keytype ktype,a,b,c,d,e,f,g,h,i,j,k,l,m,n
+outloop ktype {^73} 0  $and$  ktype < nmclass
+.       jump    key=next,monind,x
+endloop 
+calc    incr(ktype)
+*
+        
+unit    mfill(a1)           $$  fill display with monsters
+*
+calc    ind   « 0       $$  index into common
+        sind « 0
+*
+loop    incr(ind) {^72} nmon
+reloop  mtype(ind) {^54} a1      $$  only those in this class
+*
+.       calc    incr(sind)
+.               at « indexat(221,28,1,sind)
+.       at      at
+.       showa   mname(ind),nmchnam
+.       at      at + 20
+.       showt   mlevel(ind),2
+endloop
+*
+        
+unit    mbackgd(a1)         $$  draw monster editor display
+*
+at      122
+writec  a1 - 2
+        Humanoids
+        Undead
+        Magic Users
+        Mythical
+        Animals
+        Elementals
+        Cleric
+        Lawful
+at      222
+write   Monster Name     Level
+box     120;3144;2
+draw    220;244;skip;138;3138
+*
+        
+
+=== block 'treasure'  kind 00  252 words  (block 26)
+unit    tintro
+back    treaind
+back1   treaind
+next    tfind
+*
+at      508
+write        One of the rewards for fighting and killing
+        the many evils in the land of Moria is plundering
+        the dead monsters for any treasure they may have.
+        You can use the money for buying supplies, haggling
+        with shopkeepers and resting in inns.  The limit
+        on the amount of gold you can carry is $1,000,000.
+do      nexttop
+*
+        
+unit    tfind
+back    tintro
+back1   treaind
+next    ttype
+*
+at      508
+write       You will find treasure chests in the wilderness,
+        cave, desert, forest, and mountains.  The amount of
+        treasure you find is proportional to the level you
+        are on, with the most money being found on level
+        60.  The chance of a group of monsters carrying
+        treasure depends on the level of the monsters in
+        the group.
+ 
+            Once the monsters you are fighting are dead,
+        you will get the option to open a chest, if one
+        is to be found.  Once someone has opened the chest,
+        everyone who is still alive receives their share
+        of the bounty, based on your contribution to the
+        battle.  The player who first finds the monsters,
+        gets an extra share, to compensate for the extra
+        risk of starting the battle alone.  Since the 
+        canny monsters may have trapped their chest, the
+        player who opens it also gets an extra share.
+        The chest opener's cunning determines the amount
+        of damage he'll suffer should the chest be trapped.
+do      nexttop
+*
+        
+unit    ttype
+back    tfind
+back1   treaind
+next    treaind
+*
+at      513
+write   The types and values of treasure are:
+at      1013
+write   Diamonds
+        
+        Emeralds
+        
+        Rubies
+        
+        Pearls
+        
+        Gold Coins
+at      1037
+write   $20,000 gold coins
+ 
+         $4,000 gold coins
+ 
+           $800 gold coins
+        
+           $150 gold coins
+ 
+             $1 gold coin
+at      2108
+write       The basic unit of value in Moria is the gold
+        coin.  All treasure is expressed in terms of gold.
+do      nexttop
+*
+        
+
+=== block 'big apple'  kind 00  229 words  (block 27)
+unit    aintro
+back    cityind
+back1   cityind
+next    cshops
+*
+at      508
+write        The city is a safe place for the player to
+        wander, rest, and replenish his supplies.  Monsters
+        don't dare enter the city, so the player is
+        completely safe.
+do      nexttop
+*
+        
+unit    cshops
+back    aintro
+back1   cityind
+next    cstores
+*
+at      508
+write        Shops are a place to buy and sell equipment
+        and weapons.
+ 
+             The weaponry shop is where you will buy or
+        sell swords, maces, or other items for killing 
+        the monsters.  You may also buy items for defense,
+        such as shields, armor, robes to protect yourself
+        from the monsters.
+ 
+            The magic shop is where you may sell all the
+        extra magic items you find on your journeys through
+        the land of Moria.  The magic shop makes no sales;
+        magic items must be found in the depths.
+do      nexttop
+*
+        
+unit    cstores
+back    cshops
+back1   cityind
+next    cwater
+*
+at      508
+write        The supply store is where players will buy
+        their food for their journey through the hostile
+        terrains.  Food costs 100 gold coins for a month's
+        worth.
+do      nexttop
+*
+        
+unit    cwater
+back    cstores
+back1   cityind
+next    cjail
+*
+at      508
+write        The water house is maintained to furnish the
+        players in the game safe water for their trips.
+        For the service of using the well in the water
+        house, you are charged 20 gold coins per months 
+        worth of water you buy.
+do      nexttop
+*
+        
+unit    cjail
+back    cwater
+back1   cityind
+next    cityind
+*
+at      508
+write        Those caught trying to steal from a guild
+        treasury are sent to jail.  The only way out is
+        for your guild to post bail.  If you're not a
+        guild member you'll NEVER be released.
+do      nexttop
+*
+        
+
+=== block 'play opts'  kind 00  184 words  (block 30)
+unit    pintro
+back    playind
+back1   playind
+next    phof
+*
+at      508
+write       This section lists things you should know to
+        get the most enjoyment from the game.  The general
+        options are available from all pauses, while the
+        peace options are available when you are not
+        encountering a group of monsters and the fighting
+        options are available when encountering monsters.
+do      nexttop
+*
+        
+unit    phof
+back    pintro
+back1   playind
+next    popts
+*
+at      508
+write        There are several ways in which the superior
+        player is honored.  Characters earn score points
+        for fighting monsters.  That score can earn them
+        a place on the hall of fame.  The top 25 characters
+        are listed in the catagories of monthly earnings
+        and lifetime achievement.
+ 
+             Another goal, more difficult to achieve, is
+        to become master of a guild.  To do this a character
+        must improve its guild skill until it is the highest
+        in the guild.
+ 
+             The last and most dangerous goal is to find the
+        Reaper's Ring.  The ring starts on level 1 and moves
+        down a level each time it's found.  It may be found
+        on any terrain, so the search may be long and
+        arduous.  When you meet the Guardian of the Ring you
+        will be offered the option to fight or flee.  Choose
+        wisely, for the Guardian is no pushover.  Those who
+        vanquish the Guardian, however, will be honored as
+        the Finders of the Ring!
+do      nexttop
+*
+        
+
+=== block 'play opts'  kind 00  170 words  (block 31)
+unit    popts
+back    phof
+back1   playind
+next    ppopts
+*
+at      309
+color   display;zwhite
+write   These are the options which are always available:
+at      607
+write   KEY
+at      628
+write   DESCRIPTION
+at      808
+write   m:
+at      1708
+write   M:
+at      2208
+write   n:
+at      812
+write   This option allows you to send a message to anyone
+        in the same group of rooms as you.  Everyone in
+        the room, including those not in your group, will
+        receive the message.  After typing your message,
+        you may press«c,zyellow» NEXT«c,zwhite» to send and return to your
+        options arrow, or you may press«c,zyellow» SHIFT-NEXT«c,zwhite» and
+        continue sending another message.  Pressing«c,zyellow» BACK«c,zwhite»
+        will exit the message arrow.
+ 
+        This option allows you to whisper to a member of
+        your group.  That person will be the only player
+        to receive the message.  The same keys as in "m"
+        will allow you to continue the message.
+ 
+        This option replots the maze in the center of
+        the screen.  It also "re-encounters" any monsters
+        or objects on that square.
+at      2608
+write   Y:  This option allows you to yell to any player in
+            the game regardless of their location.  That person
+            will be the only player to receive the message.
+do      nexttop
+*
+        
+
+=== block 'play opts'  kind 00  270 words  (block 32)
+unit    ppopts
+back    popts
+back1   playind
+next    ppopts2
+*
+at      308
+write   These are the options available when not fighting:
+at      607
+write   KEY
+at      628
+write   DESCRIPTION
+at      808
+write   J:
+at      812
+write   This allows you to join another group in the same
+        group of rooms as you.  To join, you type the
+        name of a member of the group you wish to follow,
+        or type a partial name as long as the partial
+        name is not ambiguous.
+at      1408
+write   L:
+at      1412
+write   This allows you to leave your group and form a
+        new one.  When you leave you are by yourself, but
+        others may then join and follow you.
+at      1808
+write   R:
+at      1812
+write   This allows you to "run" to another member of your
+        group.  This is very useful in locating monsters.
+        When you enter a room, your group can spread out
+        and search for the monsters.  When someone finds
+        the monsters, the other group members can run
+        to his assistance.
+at      2510
+write   In addition to these options, the cursor keys will
+        move you through the maze.  For more information,
+        look in the section on moving through the maze.
+do      next
+*
+        
+unit    ppopts2
+back    ppopts
+back1   playind
+next    ppopts3
+*
+at      607
+write   KEY
+at      628
+write   DESCRIPTION
+at      808
+write   S:   Secure your string in the room you are standing
+             in.
+ 
+        F:   Follow your string to the end.
+ 
+        G:   Give food or water or magic item to another
+             player.  If you attempt to give another player
+             a magic item and that player already has his
+             limit of 10 items, the magic item will be
+             returned to you.
+ 
+        K:   Kick a player out of your group.  This option
+             is only available to the group guide.
+ 
+        c:   Cast a peacetime spell.
+ 
+        C:   Camp options:  if you are not in the room with
+             your camp, you have the option of forgetting
+             about it and starting a new camp.  If you are
+             in the room with your camp, you may add/remove
+             food and gold from it.
+do      next
+*
+        
+
+=== block 'play opts'  kind 00  159 words  (block 33)
+unit    ppopts3
+back    ppopts2
+back1   playind
+next    pfopts
+*
+at      607
+write   KEY
+at      628
+write   DESCRIPTION
+at      808
+write   I:   Get information on a particular magic item.
+             You type the name of the item and it will show
+             you the offensive and defensive property of
+             the item, along with the requirements for use.
+ 
+        T:   Throw away a magic item.  This is useful for
+             making room for more magic items.
+ 
+        U:   Use a magic item.  A magic item does you no
+             good until you U⌫_se it.
+do      nexttop
+*
+        
+unit    pfopts
+back    ppopts3
+back1   playind
+next    pmisc
+*
+at      310
+write   These are the options available while fighting:
+at      607
+write   KEY
+at      628
+write   DESCRIPTION
+at      808
+write   f:   Fight the monster using whatever weapons
+             you own.
+        
+        c:   Cast a spell on the monsters.
+        
+        p:   Pray options.
+        
+        e:   Evade the monsters.
+        
+        r:   Run from the monsters.
+        
+        t:   Trick the monsters.
+ 
+        h:   Yell for HELP!
+ 
+        m:   Message to room.
+ 
+        M:   Whisper to a single player
+do      nexttop
+*
+        
+
+=== block 'play opts'  kind 00  262 words  (block 34)
+unit    pmisc
+back    pfopts
+back1   playind
+next    pterms
+*
+at      317
+write   More miscellaneous keys to forget:
+at      607
+write   KEY
+at      628
+write   DESCRIPTION
+at      804
+write   SHIFT-BACK
+at      816
+write   Exit the dungeon and return to the entry lesson.
+at      1004
+write   SHIFT-DATA  Replot the screen.
+at      1204
+write   SHIFT-STOP  Leave the game.
+at      1404
+write      DATA     Replot your stats, reflecting recent changes.
+at      1607
+write   LAB      Go to a page showing the current players.
+do      nexttop
+*
+        
+unit    pterms
+back    pmisc
+back1   playind
+next    phints
+*
+at      508
+write       These are the terms available in the dungeon.
+at      806
+write   TERM
+at      830
+write   DESCRIPTION
+at      1206
+write   comment:
+at      1221
+write   write a comment about the lesson.
+at      1406
+write   b or backgnd:
+at      1421
+write   switch to background.
+at      1606
+write   f or foregnd:
+at      1621
+write   switch to foreground.
+*
+do      nexttop
+*
+        
+unit    phints
+back    pterms
+back1   playind
+next    playind
+*
+at      322
+write   Hints for new players
+draw    ;322
+at      508
+write   If you run out of food or water you will quickly
+        die.  One of the first things to do, therefore,
+        is to locate the supply store and water house.
+ 
+        Certain items, for instance a gold bar, have no
+        special properties except value.  They will bring
+        many gold pieces in the magic shop, or can be used
+        for bribing monsters.
+ 
+        When you find or buy an item, be sure to U⌫_se it!
+        Only the items above the underline are in use; any
+        others are in your pack and of no help.
+ 
+        When you're starting out, it's a good idea to run
+        away from an encounter that's going badly.  Many
+        players break off battle and start trying to run
+        when their vitality drops below 50.
+ 
+        Talk to other players and try to travel in a group.
+        Most players will be glad to share their knowledge.
+do      nexttop
+*
+        
+
+=== block 'spells'  kind 00  187 words  (block 35)
+unit    spintro
+back    spelind
+back1   spelind
+next    spmag
+*
+at      508
+write        Spells in the dungeon allow the character to
+        call upon the limitless forces of the gods and nature
+        to assist in his quest.  They are divided into
+        battle spells that aid in controlling the many
+        vicious monsters, and non-battle spells that are
+        useful at other times.
+ 
+             When casting a spell, a certain amount of your
+        vitality is used in the spell.  The amount of
+        vitality used depends on your wizardry, the higher
+        your wizardry, the less vitality it takes to cast
+        a spell.
+do      nexttop
+*
+        
+unit    spmag
+back    spintro
+back1   spelind
+next    spelind
+*
+at      305
+write   Battle Spells
+at      508
+write   Paralyze: paralyzes the monsters and causes instant
+          death.
+        
+        Charm: charms the monster into believing you are a
+          friend and allows you to deal a fatal blow.
+        
+        Sleep: puts the monster to sleep, permanently.
+        
+        Dispell Magic: turns the magic of a monster against
+          the monster and kills it.
+        
+        Magic Missile: throws a missile of magic energy at the
+          monster.
+at      2005
+write   Peacetime Spells
+at      2207
+write   Light: allows you to see secret doors.
+        
+        Pass Wall: allows you to move through walls.
+        
+        Precognition: allows you to see if a monster has
+          treasure before killing the monster.
+        
+        Protection: protects you against attack by monsters.
+do      nexttop
+*
+        
+
+=== block 'util'  kind 00  258 words  (block 36)
+use     utils
+unit    zcheck        $$  error unit, so it ain't missing
+*
+        
+unit    help
+*
+at      508
+write   While on an index page, press the letter of the
+        topic you wish to see.  You can page from one
+        index to the next, except the main index page, by
+        press«c,zyellow» SHIFT-NEXT«c,zwhite» to go forward and«c,zyellow» BACK«c,zwhite» to go
+        backward.
+ 
+        While reading a topic,«c,zyellow» SHIFT-BACK«c,zwhite» will return you
+        to your previous index page.
+end     help
+*
+        
+unit    indpause(a1)            $$  Index pause
+*
+*       a1 = # of entries in index.  pass last letter of
+*               index (right justified, "")
+*       Returns value of ktype pressed from 1-a1 in ktype
+*
+at      610
+write   Press the letter of the topic you wish to see:
+draw    ;610
+*
+loop
+.       pause   keys=all
+.       keytype ktype,next,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,
+.               q,r,s,t,u,v,w,x,y,z
+.       calcs   ktype = 0, ktype«1,,
+outloop ktype > 0  $and$  ktype {^72} a1
+endloop 
+*
+calc    incr(ktype)
+*
+        
+unit    indopt          $$  Index page options
+*
+at      3009
+color   display;zyellow
+write   SHIFT-NEXT: Next Topic    BACK: Previous Topic
+                   SHIFT/BACK: Main Index
+*
+        
+unit    nexttop         $$  End of topic page options
+*
+at      3013
+color   display;zyellow
+write   NEXT: Next Topic   BACK: Previous Topic
+             SHIFT-BACK: Current Topic Index
+color   display;zwhite
+*
+        
+unit    next            $$  Topic page options
+at      3014
+color   display;zyellow
+write   NEXT: Next Page   BACK: Previous Page
+            SHIFT-BACK: Current Topic Index
+color   display;zwhite
+*
+        
+unit    out
+*
+do      finish
+inhibit jumpchk
+jumpout return
+*
+        
+unit    imain
+*
+help    help
+lab1op  notes
+do      boarder
+*
+        
+unit    notes
+*
+notes
+*
+        
+unit    boarder
+        merge,previous
+        gray
+color   define;gray,.4,.4,.4
+color   display;gray
+box     0,0;511,511;-2
+box     4,4;507,507;-2
+color   display;zwhite
+*
+        

@@ -1,0 +1,1520 @@
+midearth  (tutor    a, 14 blocks)
+  03/20/80 | 05/29/80 | buckland | buckland | by Thomas | A. Wood | ed | this lesso | n contains | two games. | 1. Space | Invasion | & 2. Mid | dle-earth, | a game bas | ed on the | works of {70} | j.R.R. {70} | tolkien | 21.05.51. | tom wooded | ] | bcc5018 | buckland | buckland | buckland | ({75} | bccq | gamenotes | 0090008
+
+=== block 'genesis'  kind 00  131 words  (block 0)
+unit    wait
+chartst midearth,runes
+at      32,370
+writec  zreturn{^56}{^56} One moment please...
+         PLATO is feeding the dragons!
+charset midearth,runes
+do      pnext
+unit    title
+at      94,432
+size    3.5
+write   Middle-earth
+size    0
+draw    54,480;454,480;454,416;54,416;54,480;skip;57,477;451,477;451,419
+draw    ;57,419;57,477
+at      230,304
+write     {75}TP  +
+        {75}WIZME÷-
+        {75}ARDF×
+         {75}BOONJ
+at      94,192
+write   a game of travel and adventure based on
+             the works of J.R.R. Tolkien
+at      134,144
+write   created by Thomas A. Wooded
+draw    38,112;462,112;462,16;38,16;38,112
+at      206,96
+write   -PRESS-
+at      2707
+write   NEXT to play
+next    choose
+at      2807
+write   LAB  for map
+lab     map1
+at      2907
+write   SHIFT-LAB for Space Invasion game
+lab1    closed
+at      2734
+write   HELP for help section
+help    help
+at      2834
+write   DATA for the latest quiz
+data    tquest
+unit    pnext
+at      3026
+write   Press NEXT
+
+=== block 'spaceinv'  kind 00  249 words  (block 2)
+unit    closed
+erase   
+at      910
+write   SPACE INVASION is undergoing major contruction
+        and re-working. For those of you who are eagerly
+        awaiting its completion, I hope to have it 
+        operational{'37}⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫{'36}___________ soon. It will probably be closed
+        until then.
+do      pnext
+next    title
+cstop   
+unit    spacewt
+erase   
+at      1010
+write   The monsters are attacking!!
+charset midearth,monsters
+do      pnext
+next    spaceinv
+unit    spaceinv
+define  li=n1
+        xloc=n2
+        yloc=n3
+        press=v1
+*backgnd
+erase   
+size    4
+at      31,432
+write   SPACE INVASION
+draw    31,432;471,432
+size    0
+at      50,396
+write   {75}/.,
+at      917
+write   {75}56 56 56 56 56 56 56 56 56 56
+        
+        {75}34 34 34 34 34 34 34 34 34 34
+        
+        {75}12 12 12 12 12 12 12 12 12 12
+        
+        {75}34 34 34 34 34 34 34 34 34 34 
+        
+        {75}12 12 12 12 12 12 12 12 12 12
+at      2717
+write   {75}7777    7777     7777    7777
+        {75}7  7    7  7     7  7    7  7
+                     {75}0
+do      pnext
+pause   key=next
+erase   
+size    4
+at      31,432
+write   SPACE INVASION
+draw    31,432;471,432
+size    0
+at      917
+write   {75}56 56 56 56 56 56 56 56 56 56
+        
+        {75}34 34 34 34 34 34 34 34 34 34
+        
+        {75}12 12 12 12 12 12 12 12 12 12
+        
+        {75}34 34 34 34 34 34 34 34 34 34 
+        
+        {75}12 12 12 12 12 12 12 12 12 12
+at      2717
+write   {75}7777    7777     7777    7777
+        {75}7  7    7  7     7  7    7  7
+                     {75}0
+pause   .2,keys=a,d,s
+1again  
+keytype press,a,d,s
+do      press,x,left,right,shoot,x
+do      invade
+branch  1again
+********
+mode    rewrite
+doto    0move,n1«50,450
+at      n1,396
+write   {75}?/.,
+0move   
+mode    write
+************
+unit    left
+mode    rewrite
+doto    0move,li«xloc,xloc-10,-1
+at      li,48
+write   {75}?0
+0move   
+calc    xloc«xloc-10
+mode    write
+unit    saucer
+mode    rewrite
+doto    0move,n1«50,450
+at      n1,396
+write   {75}?/.,
+0move   
+mode    write
+cstart  
+
+=== block 'again'  kind 00  259 words  (block 3)
+unit    tquest
+at      1010
+size    2
+write   TOLKIEN QUIZ:
+size    0
+at      91,330
+write   ( April 25, 1980 )
+at      1410
+write   1) Who first devised the runes used by the Dwarves
+           and known as the Cirth?
+        
+        2) Give the Dwarvish names of the three mountains
+           over Moria.
+        
+        3) When the last moon of Autumn and the sun are 
+           together in the sky, what day is it for Dwarves?
+at      3010
+write   ANSWERS WILL APPEAR SOON
+        Press NEXT for the last question
+next    yquest
+unit    yquest
+size    0
+at      91,330
+write   ( April 24, 1980 )
+at      1410
+write   1) To what riddle did Gollum answer the correct
+           response "eggses"?
+        
+        2) What was it Bilbo had meant to say when he 
+           accidentally gave the correct answer to the
+           ninth riddle?
+        
+        3) What is the answer to this riddle:
+                "Thirty white horses on a red hill,
+                first they champ, then they stamp,
+                then they stand still."?
+at      2610
+write    1- "A box without hinges, key, or lid. Yet golden 
+            treasure inside is hid."
+         2- "Give me more time!"
+         3- teeth
+* p.49  
+* 1- Daeron, minstrel and loremaster of King Thingol
+* 2- Barazinbar, Bundushathur, and Zirak-zigil
+* 3- Durin's Day
+unit    help
+erase   
+size    2
+at      305
+write   HELP SECTION FOR MIDDLE-EARTH
+draw    32,461;492,461
+size    1.5
+at      709
+write   Choose a topic:
+size    0
+arrow   2813
+at      1114
+write   1) Character types
+        2) History
+        3) Travel
+        4) Monsters
+        5) Fighting monsters
+        6) Meeting other people
+        7) Fighting other people
+        8) Languages
+        9) Weapons
+at      2013
+write   10) Alignments
+        11) Magic
+        12) Disease
+        13) Climate and Geography
+        14) Food
+        15) Clothing
+match   v1,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15
+jump    v1,x,types,hist,trav,mon,fmon,peo,fpeo,lang,weap,
+        align,magic,dis,clime,food,cloth,x
+
+=== block 'help'  kind 00  158 words  (block 13)
+unit    types
+back    title
+at      130,464
+size    2
+write   CHARACTER TYPES
+draw    130,464;366,464
+size    0
+at      705
+write   Your "character to be" may be one of the following types:
+at      1025
+write   a) Wizard
+        b) Ranger
+        c) Hobbit
+        d) Dwarf
+        e) Elf
+        f) Orc
+draw    38,112;462,112;462,16;38,16;38,112
+at      2607
+write   You may obtain information about a certain type by
+        pressing the corresponding letter; or you may...
+        
+        press SHIFT-NEXT to choose another topic, or
+        press BACK to exit the help section.
+0pause  
+pause   keys=all
+keytype n100,a,b,c,d,e,f,next1
+jump    n100,x,wtype,rtype,htype,dtype,etype,otype,help,x
+branch  0pause
+unit    wtype
+at      191,480
+size    2
+write   WIZARDS
+draw    191,480;299,480
+size    0
+at      605
+write      Wizards are one of the two types of characters found in
+        Middle-earth that use magic. The race of wizards, in the 
+        elvish toungue, is called "Istari." The Istari were sent by
+        the Valar around the 1000↑t↑h year of the Third Age. There are
+        only 10 wizards that were sent, these being sent to keep or-
+        der in Middle-earth.
+draw    3205;3005;3062;3262;3205
+at      160,9
+write   Press BACK to leave
+back    help
+
+=== block 'roll'  kind 00  235 words  (block 4)
+unit    choose
+size    0
+at      305
+write   Choose a character:
+                        a) Wizard
+                        b) Ranger
+                        c) Hobbit
+                        d) Dwarf
+                        e) Elf
+                        f) Orc
+arrow   1121
+long    1
+specs   bumpshift
+answer  a
+jump    rollw
+answer  b
+jump    rollr
+answer  c
+jump    rollh
+answer  d
+jump    rolld
+answer  e
+jump    rolle
+answer  f
+jump    rollo
+no      
+endarrow
+unit    rollw
+randu   n2,20
+        n3,20
+        n4,15
+        n5,10
+        n6,50
+        n7,100
+        n8,10
+        n9,100
+        n10,6
+        n11,4
+at      907
+write                              {'36}Maximum:{'37}⌫⌫⌫⌫⌫⌫⌫⌫{'36}_______
+        Strength:                  20
+        Mobility:                  20
+        Hit points:                15
+        Power:                     10
+        Intelligence:              50
+        Luck:                      100
+        Magic:                     10
+        
+        Money:                     100
+        Food:                      5
+        Water:                     2
+mode    rewrite
+at      1028
+write   «t,n2,2»
+                       «t,n3»
+                       «t,n4»
+                       «t,n5»
+                       «t,n6»
+                       «t,n7»
+                       «t,n8»
+        
+                       «t,n9»
+                       «t,n10»
+                       «t,n11»
+pause   keys=lab,next,back
+goto    key=lab,rollw,x
+back    title
+mode    write
+unit    rollr
+do      bknow
+unit    rollh
+do      bknow
+unit    rolld
+do      bknow
+unit    rolle
+do      bknow
+unit    rollo
+do      bknow
+unit    bknow
+at      1010
+write   This option not currently available.
+        Please press BACK.
+back    choose
+
+=== block 'mapbrdr'  kind 00  201 words  (block 6)
+unit    map1
+draw    21,496;21,16;485,16;485,496;21,496;skip;482,493;24,493;24,19;482,19
+draw    ;482,493
+draw    24,464;482,464
+size    2
+at      49,467
+write   MIDDLE EARTH IN THE 3  AGE
+at      384,476
+size    1
+write   rd
+size    0
+at      32,28
+write   {75}«
+draw    24,56;482,56;skip;46,56;skip;48,19;48,56
+size    0
+at      3009
+write   SCALE:
+at      58,19
+write   (miles)
+draw    127,38;127,32;skip;141,38;141,32;skip
+        155,38;155,32;skip;169,38;169,32
+        skip;183,38;183,32;skip;197,38
+        197,32;skip;127,35;197,35
+at      122,19
+write   0
+at      144,39
+write   100
+at      173,19
+write   200
+draw    214,56;214,19
+at      221,38
+write   Map adapted from The Lord of the{'37}⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫{'36}___ ____ __ ___
+        Rings{'37}⌫⌫⌫⌫⌫{'36}_____ ( Ballantine Books: 1965 )
+do      coast
+cstop   
+common  midearth,records,640
+define  name = n2
+        course  = n2
+*       
+        nam(α) = nc((α-1)2+1)
+        cors(α)= nc((α-1)2+2)
+*--
+            
+unit    jumpout
+name    name
+course  course
+doto    0check,var«1,10 $$be sure to define var
+branch  (name=nam(var) $and$ course=cors(var)),0k,x
+0check  
+branch  0nope
+0k      
+* fake author mode, jumpout, etc...
+0nope   
+*--
+            
+ $$  its set up so  you add the first person's name to
+nc1, and his course to nc2..2nd person's name to nc4, etc
+********
+unit    jumpout
+common  midearth,records,640
+arrow   215,215
+storea  n1,20
+ok      
+jumpout (n1)
+end     
+*       this should do it...
+*       i am taking the inspect code off my lesson..ok?
+*       {'37}byw⌫⌫⌫  bye⌫⌫⌫   bye⌫⌫⌫   bye⌫⌫⌫   bye⌫⌫⌫   bye⌫⌫⌫   bye⌫⌫⌫   BYE⌫⌫⌫   {'36}BYE⌫⌫⌫___!!! « Tom
+cstart  
+
+=== block 'map1'  kind 00  267 words  (block 7)
+unit    coast
+draw    176,464;164,457;156,454;153,454;149,455;146,455
+        144,453;151,448;154,448;159,445;157,441;153,437
+        148,436;142,437;138,438;132,436;127,434;123,438
+        118,438;116,440;118,443;121,448;122,451;117,454
+        112,455;105,452;89,449;74,443;67,439
+draw    ;59,430;61,426;68,424;71,421;70,418;61,414
+        51,406;50,406;42,407;43,399;40,389;41,384;45,379
+        47,373;52,374;60,366;61,366;60,374;60,378;71,371
+        79,370;88,368;90,367;92,367;95,368;102,371
+        107,373;104,367;95,358
+draw    ;93,357;87,359;88,357;79,352;80,355;74,355;73,352
+        73,352;67,350;63,354;60,349;61,343;61,340;62,339
+        61,338;57,335;58,329;60,329;63,331;65,329;72,329
+        74,326;73,321;77,318;76,314;84,306;90,305;94,308
+        100,307
+draw    101,307;108,306;110,305;109,301;113,302;116,301
+        117,301;122,309;122,305;124,302;118,295;121,287
+        123,289;127,292;131,297;133,298
+draw    131,297;133,297;133,295;135,293;133,290;135,287
+        132,282;135,276;134,273;137,270;139,268;141,268
+        143,266;148,270;151,270;158,277;162,291;174,301
+draw    175,302;165,286;159,270;162,262;159,253;161,250
+        153,242
+draw    153,242;154,240;165,244;156,232;157,228;161,224
+        158,223;160,218;159,208;161,198;157,196;158,192
+        150,186;142,179;138,177;135,174
+draw    134,174;140,175;166,184;174,182;185,179;187,190;189,
+        182;201,183;202,187;207,186;209,189;211,188;222,196
+        224,193;240,195;243,192;257,195
+draw    257,195;255,184;250,185;249,183;255,176;254,171
+        256,167;260,162;263,170;265,170;266,172;269,172
+        273,177
+draw    273,177;272,174;272,173;273,172;282,172;286,171
+        289,168;278,154;278,153;281,148;279,141;295,129
+        288,130;286,131;283,128;282,131;277,130;274,125
+        268,123;254,109;245,113;239,111;232,112;229,102
+        230,100;229,94;230,94;233,95;240,102
+draw    ;244,101
+draw    245,101;254,103;255,102;253,98;254,97;254,96
+        260,96;262,94;251,86;242,87;228,79;200,56
+        skip;265,156;265,158;269,165;273,164;269,157
+        265,156
+do      rivers
+unit    rivers
+draw    106,441;106,437;skip;101,441;106,437;105,435
+        112,436;120,432;124,427;119,415;skip;99,415
+        101,415;105,419;112,419;119,415;123,408;122,394
+        skip;142,402;140,400;138,402;122,394;120,387
+        114,383;108,373
+at      1022
+write   Press BACK for now please!
+
+=== block 'notes'  kind 00  225 words  (block 10)
+cstop   
+common  midearth,records,960
+calc    nc960«nc960+30
+unit    rools
+calc    n150«nc960
+name    n1
+mode    rewrite
+randu   n2,100
+        n3,50
+        n4
+        n5
+at      215,215
+write   «s,n2»      «s,n3»
+pause   keys=lab,next
+goto    key=lab,rools,x
+next    storem
+unit    storem
+calc    nc(n150)«n1
+        nc(n150+1)«n2
+        nc(n150+2)«n3
+        nc(n150+3)«n4
+        nc(n150+4)«n5
+********  dunn k  pbjca                 04/10/80  13.22.57
+magical spells:{'37}⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫{'36}______________
+   1.spiritual hammer           2.locate object
+   3.sticks to snakes           4.flame stike
+   5.insect plague              6.animate object
+  *7. blade barrier             8.speak w/ monsters
+   9.feeblemind                10.confusion
+  11.wall of thorns            12.fire storm
+  13.fire from fingers         14.shocking grasp↑+{'37}⌫{'36}+
+  15.forget                    16.invisibility
+  17.levitate                  18.ray of enfeeblement
+  19.stinking cloud↑×           20.fireball
+  21.flame arrow               22.gust of wind
+  23.dimension door            23.enchanted weapon
+  24.ice storm                  25.wall of fire
+  26.telekenisis                27.wall of force
+  28.wall of iron               29.wall of stone
+  30.death spell                31.disintegrate
+  32.stone to flesh             33.delayed blast fireball
+  34.power word, stun           35.vanish
+  36.incendairy cloud           37.power word, blind
+  38.trap the soul              39.imprisonment
+  40.meteor swarm               41.power word, kill
+  42.temporal stasis            43.wall of fog
+        
+notes{'37}⌫⌫⌫⌫⌫{'36}_____:
+  +{'37}⌫{'36}↑+(shocking grasp)- similar to type of protection
+                     "Nautilus" had in 20,000 leagues
+  ↑×(stinking cloud)- causes victim to become extremely
+                     nauseaous.
+        
+                IS THAT ENOUGH?
+        
+                                        - radgast/bcc501
+********
+cstart  
+
+=== block 'runes'  kind 42  320 words  (block 11)
+c5         a                     df                                          df        
+o;5hh      abo{'00}              df         o;5qp      b/dp5      ab         df        
+o;7bx      ahi        h          df         o;5q5      bhdpq                 df        
+o;5q/      bhdph5     q;{^00}    df         aj÷        dp;{^00}              df        
+o;5i{70}   d595       d5         df         fda        5;{^00}b   dl         df        
+bah        ;{^00}     5          df         o;5ahap    ir5        ab         df        
+o;7bax     ahi        h          df         cpa5       h;{^00}h   ax         df        
+a;{^00}a/  h[t/6                 df         hbpa÷      bg{^00}5   95         df        
+c5a÷a{70}  c5÷{'00}   1n         df         a;{^00}b   h5t5                  df        
+o;7bbh     ahi        h          df         ahbp       d;α        bd         df        
+5dbx       b;÷5       ab         df         o;7pb5     bdhh       5          df        
+h5qdb/     b)dp)5     dq5b       df         5db÷       bdp)       dp;{^00}   df        
+ajb{70}    dp5αd      b5d        df         c          aj         ad;{^00}   df        
+o⌫5ch      pbp        c;5        df         5dcp       b;{^00}5   ab         df        
+cx                               df         pc5c5      ;;;;;{^03}5 p1c5p1c    df        
+s54⌫c5c/   α%÷nna÷    Naa÷n      df         a÷anc÷     ;c{'00}o   {'00}c5d   df        
+ha÷c{70}   ;;;;;↑g    {'00}kh    df         d/         a          hah        df        
+d5d÷       pb                    df         ;÷g;f      c45o{^00}4p a;o{'00}%  df        
+{75};;↑.÷f5 c;{'00};÷o d          df         fc⌫÷f/     px8;[o;    bxc⌫÷a5    df        
+gx         a5f                   df         h                                df        
+chh        {^00}cxo   {'00}ch    df         ⌫;÷hp      g;;;;;;.   ;;;↑;;;;   df        
+g;⌫4;÷h5   g.;;;%;;   ↑;44;~;    df         ;A;5h/     25;{^00}   g=;5f⌫     df        
+>;;↑;÷h÷   {75}>;>;;*; ↑4↑>;;.;   df         g⌫45ih     m÷{^00}c{'00} 4a{^00}n{^00} df        
+a⌫pip                            df         o;5bbix    aaiC                  df        
+e[
+        vg5i/ cg>%;54↓   a;G45o{^00} df         ;;;;;÷i÷   {75};;;;;;; ;{^74}4;÷g; df        
+;;;;;÷i{70} ↑;;;;4;;   ;↑;;;;;;   df         a>⌫{^60}j  a⌫÷                   df        
+jp         po         o⌫o;;;.    df         j5                    lg÷c{75}   df        
+{'00}c÷j{70} ⌫g÷0       c⌫o÷a{^00} df         k                                df        
+;C;5kp     a;xg454{^00} ⌫;L3+x3                                                          
+                                                                                       
+                                                                                       
+                                                                                       
+                                                                                       
+                                                                                       
+                                                                                       
+                                                                                       
+                                                                                       
+                                                                                       
+                                                                                       
+                                                                                       
+
+=== block 'monsters'  kind 42  320 words  (block 1)
+aa
+df
+
+
+df×s>o/1;6ld
+
+dfb5palgo{70}
+÷c%qo=t;
+df1c÷cx⌫c;÷o;
+⌫c÷g
+dfpc5aDo÷y86
+-,i:a;5
+dfgα:c/-,jxP;a
+aDp
+dfa⌫hda5c÷o5
+        ↑dfl7
+{'74}0↑;.{76}
+df;C↑;5c{'70}⌫y8h*1p
+o5Da54b
+dfdaLl[[6l
+ng6⌫⌫o;
+df;⌫a⌫⌫dhng5xs%g
+aL
+df;;;;;÷dp;;;;;;;;
+;;;;;;;;
+dfgteg3ax
+g54at
+df7h57h5gx7h57h/7h
+h7jh7bh7
+dfep4g/g5va{70}
+gta÷
+df4]c;g÷q«p;;c;⌫
+q«rc;g⌫
+dfh
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+=== block 'records'  kind 41  320 words  (block 14)
+tom woodedbcc501
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+=== block 'records'  kind 41  320 words  (block 15)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

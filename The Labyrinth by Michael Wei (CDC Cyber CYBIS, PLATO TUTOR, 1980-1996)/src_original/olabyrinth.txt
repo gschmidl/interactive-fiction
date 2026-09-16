@@ -1,0 +1,353 @@
+olabyrinth  (tutor    a, 21 blocks)
+  u | 5e | 02/10/81 | 04/28/93 | dipstick | izcoserv | Michael {70} | wei | self | (414) 548- | 9889 | DnD | anyone | Entry les | son for T | he LAB{70} | yRINT{70} | h. | 08.58.42. | jack guinn | ipb | izcoserv | juse | microj | dn4lao) | fenhollen | authplu | mu2+ «{75} | 0catnote | s0edit | e | d
+
+=== block '*directory'  kind 00  0 words  (block 0)
+
+=== block 'ieu/entry'  kind 00  121 words  (block 1)
+use     stddefine1
+use     stddefine2
+use     gamdefine1
+use     gamdefine2
+use     plydefine1
+use     plydefine2
+use     comdefine1
+use     comdefine2      $$ jumps to unit title
+use     stdrtns1
+**
+        
+unit    title
+data    title
+back1   return
+*
+from    num1;(helplez);(editlez);(drivlez);(notelez)
+calcs   num1, zfrom « zfroml,,
+calc    optflag « 0
+finish  q
+*  restrict site 'link'
+if      [sitenam = 'link'] $and$ [op {^73} 0]
+.       jumpout (zfrom)
+endif
+*
+zero    n(KC+1),20
+comload nc1,4501,1500
+if      zcusers = 1     $$ deghoster
+.       calc    pseudin « 0
+.               numuser « 0
+endif
+*
+if      op{^73}0 $and$ openflg=1
+.       at      1519
+.       write   Sorry, {^52}«a,entrylz»{^52} is closed.
+.               Check {^52}«a,notelez»{^52} for updates.
+.       at      145,272
+.       write   Sorry, {^52}«a,entrylz»{^52} is closed.
+.               Check {^52}«a,notelez»{^52} for updates.
+.       pause   keys=all
+.       jumpout (zfrom)
+*
+*  [ continued in next block ]
+*
+
+=== block 'entry'  kind 00  281 words  (block 2)
+*
+*  [ continued from last block ]
+*
+elseif  op = 9
+.       fill    58,390;454,138
+.       mode    erase
+.       box     809;2357;2
+.       box     451,141;61,387
+.       box     446,146;66,382
+.       at      1217
+.       write   You no longer have access to this
+.               dungeon.  The most likely reason
+.               being that you offended me when I
+.               was in a rather bad mood.  If you
+.               wish to regain access, you might
+.               begin by pnoting me with a sincere
+.               apology.  If not, so be it.
+.               
+.                                      Michael Wei
+.       at      129,320
+.       write   You no longer have access to this
+.               dungeon.  The most likely reason
+.               being that you offended me when I
+.               was in a rather bad mood.  If you
+.               wish to regain access, you might
+.               begin by pnoting me with a sincere
+.               apology.  If not, so be it.
+.               
+.                                      Michael Wei
+.       pause
+.       jumpout bye
+elseif  op<0
+.       at      123
+.       write   Labyrinth is 
+.       writec  openflg,,OPEN.,CLOSED.
+*.       pause   keys=all
+endif
+*
+do      beeper          $$ user trap routine
+*
+*do      totuser=10000,note,x
+release common
+lineset hyborea,dunglines
+*chartst hyborea,dungedchar  $$ avoid dbl loading...
+chartst operate,dungedchar
+if      zreturn
+.       do      draw1
+.       calc    optflag « 'second'
+.       calc    add1( totuser )
+.       inhibit erase
+.       jumpout (drivlez),title
+else
+.       do      drawcast
+.       do      charload
+endif
+catchup
+pause   keys=next,data,back1,term
+calc    kstore « key
+if      kstore=next
+.       calc    add1( totuser )
+.       mode    erase
+.       fill    11,246;185,201
+.       mode    write
+.       at      16,220
+.       write   -Entering the Castle-
+.       inhibit erase
+.       jumpout (drivlez),title
+endif
+jumpout (zfrom)
+**
+        
+unit    dummy
+jump    title
+**
+        
+unit    return
+jumpout (zfrom)
+**
+        
+unit    numuse
+termop  u
+termop  users
+if      player>0
+.       at      101
+.       erase   64
+.       at      120
+.       write   Currently «s,zcusers» users.
+endif
+**
+        
+
+=== block 'misc'  kind 00  310 words  (block 3)
+unit    charload
+termop  c
+termop  char
+loop
+.       mode    erase
+.       fill    11,246;185,201
+.       mode    write
+.       at      18,218
+.       write   -CHECKING THE BOOKS-
+.       charset
+*.       charset hyborea,dungedchar
+.       charset operate,dungedchar  $$ avoid reloading 
+*               charset twice when jumping from labyrinth.
+outloop key=stop $or$ zreturn
+endloop
+break   
+press   next
+loop
+.       lineset
+.       lineset hyborea,dunglines
+outloop key=stop $or$ zreturn
+endloop
+mode    erase
+fill    11,246;185,201
+mode    write
+at      23,226
+write   Press NEXT to enter
+            the Castle.
+**
+        
+unit    openit
+*
+*  toggles labyrinth open
+*  openflg = 0 when game is open
+*
+branch  op<0, x, 1d
+termop  open
+*
+at      101
+erase   63
+at      116
+write   Press SHIFT-HELP to OPEN Labyrinth.
+pause   keys=all
+calc    kstore « key
+calcs   kstore=help1, openflg « 0,,
+at      101
+erase   63
+at      123
+write   Labyrinth is 
+writec  openflg,,OPEN.,CLOSED.
+comret
+1d
+write
+**
+        
+unit    closeit
+*
+*  toggles labyrinth closed
+*  openflg = 1 when game is closed
+*
+branch  op<0, x, 1d
+termop  close
+*
+at      101
+erase   63
+at      115
+write   Press SHIFT-HELP to CLOSE Labyrinth.
+pause   keys=all
+calc    kstore « key
+if      kstore = help1
+.       calc    openflg « 1
+endif
+at      101
+erase   63
+at      123
+write   Labyrinth is 
+writec  openflg,,OPEN.,CLOSED.
+comret
+1d
+write
+**
+        
+unit    beeper
+        Lname, Lname2   $$ user's signon
+        Lloop           $$ loop counter
+        Lmsg            $$ message char length
+        Lstat           $$ user station number
+        Lbuff(5)        $$ message buffer
+*
+*  This unit uses 10 lvars.
+*
+*  user trapper/beeper routine
+*
+name    Lname
+calc    Lloop « 0
+attach  provo,rw,'mastermind'
+setname 'wei'
+loop
+.       records info;station,Lstat
+outloop (zreturn {^54} -1) $or$ (Lname = 'wei')
+.       loop
+.       .       records send,Lstat;beep
+.       .       calc    Lmsg  « 50
+.       .               Lbuff « 0
+.       .       clean   Lbuff(1),5
+.       .       records send,Lstat;message,110,Lbuff(1),Lmsg
+.       .       pack    Lbuff(1),Lmsg,«a,Lname,18»/«a,zgroup» entered «a,zlesson» 
+.       .       records send,Lstat;message,117,Lbuff(1),Lmsg
+.       outloop zreturn
+.       endloop
+outloop ( Lloop « Lloop + 1 ) > 1
+.       catchup
+endloop
+detach
+
+=== block 'castledraw'  kind 00  165 words  (block 4)
+unit    drawcast
+color   display;zblue
+box     507,491;4,32;-3
+box     10,194;186,146;3
+box     10,251;186,200;3
+box     10,60;501,140;3
+color   display;zwhite
+at      16,170
+write   Total Users: «t,totuser,8»
+        Current Users: «t,zcusers,6»
+color   display;zblue
+box     10,60;501,140;3
+color   display;zwhite
+at      28,124
+write     The LABYRINTH is a constantly evolving dungeon game.  I
+        am attempting to approach a compromise between user input
+        and my own whims.  I recommend reading the notesfile and
+        the help lesson frequently⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫__________.  All comments, suggestions and
+        error reports are appreciated.     ENJOY! 
+color   display;zyellow
+draw    32,260;32,324;skip;48,260;48,324;51,327;51,333;
+draw    32,324;29,327;29,333;skip;29,333;
+draw    ;33,333;33,329;37,329;37,333;43,333;
+draw    ;43,329;47,329;47,333;51,333;
+draw    96,260;96,324;skip;112,260;112,324;115,327;115,333;
+draw    96,324;93,327;93,333;skip;93,333;
+draw    ;97,333;97,329;101,329;101,333;107,333;
+draw    ;107,329;111,329;111,333;115,333;
+draw    48,317;52,317;52,321;56,321;56,317;
+draw    ;60,317;60,321;64,321;64,317;68,317;
+draw    ;68,321;72,321;72,317;76,317;76,321;
+draw    ;80,321;80,317;84,317;84,321;88,321;
+draw    ;88,317;92,317;92,321;96,321;
+draw    48,324;32,324;skip;96,324;112,324;skip;64,260;
+        64,276;
+draw    80,260;80,276;
+atnm    1510
+circle  9,154,26
+
+=== block 'castledraw'  kind 00  181 words  (block 5)
+* continued from last block
+color   display;zgreen
+draw    24,260;39,260;44,261;48,260;62,259;73,260;
+draw    ;83,260;88,261;95,260;116,260;119,263;123,263;
+draw    ;124,262;130,262;139,261;148,262;161,261;
+draw    ;175,263;181,270;188,275;196,271;198,261;
+draw    ;213,250;225,243;241,226;257,217;281,211;
+draw    ;302,198;311,197;319,189;332,186;338,187;
+draw    ;363,182;
+draw    ;382,183;406,179;427,180;475,178;
+color   display;zyellow
+atnm    304,340
+circle  24
+color   display;zwhite
+draw    248,340;264,340;skip;264,339;288,339;skip;288,338;
+draw    ;296,338;skip;296,339;304,339;skip;304,338;
+draw    ;320,338;skip;320,339;336,339;skip;336,340;
+draw    ;355,340;
+draw    296,334;301,334;skip;301,333;306,333;skip;306,334;
+draw    296,334;301,334;skip;301,333;306,333;skip;306,334;
+draw    ;311,334;skip;301,328;303,328;skip;303,329;
+draw    ;305,329;
+at      216,460
+write   Welcome To
+size    3
+at      104,396
+write   {75}klm nopqrstuv{75}
+size
+color   display;zcyan
+at      204,368
+write   (OLD VERSION)
+color   display;zgreen
+at      72,36
+write   © 1980 by Michael Wei.  All Rights Reserved.
+color   display;zwhite
+**
+        
+unit    draw1
+color   display;zwhite
+at      216,460
+write   Welcome To
+size    3
+at      104,396
+write   {75}klm nopqrstuv{75}
+size    0
+color   display;zcyan
+at      204,368
+write   (OLD VERSION)
+color   display;zgreen
+at      72,36
+write   © 1980 by Michael Wei.  All Rights Reserved.
+color   display;zwhite
+**
+        

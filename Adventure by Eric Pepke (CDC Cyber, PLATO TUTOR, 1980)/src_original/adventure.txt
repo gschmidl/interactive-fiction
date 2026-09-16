@@ -1,0 +1,2629 @@
+adventure  (tutor    a, 28 blocks)
+  10/26/79w | 05/26/80 | dk | Eric Pep | ke | Random ty | pe. | Too poor | for one. | Getting l | ost | Ninnies a | nd cretins | A variati | on on adve | nture. | 08.56.22. | eric | 9 | authore | pimp | *4 | fsulib( | gamenotes | 0090018
+
+=== block 'zilcho!'  kind 00  2 words  (block 0)
+*Nothing at all*
+
+=== block 'defines'  kind 00  145 words  (block 14)
+*Adventure*
+*Version 2.2
+*Copyright 1980 by Eric Pepke
+common  adventure,info,960
+dataset adventds
+storage 320
+stoload nc961,1,320
+define  segment,infd=n123,10
+        segment,been=n1,1
+        segment,obj=n5,9,s
+        segment,flags=n10,1
+        segment,atwrite=n100,4
+define  loc=n13,trans=n14,magic(α)=n(14+α),fuel=n20,hunger=n21,thirst=n22,date=n24,trials=n26
+        dir=n102,wrd=n103,alg1=n104,infotst=n105,algo=n106,xces=n107,testobj=n108,k=n109,k1=n110,param1=n111
+        what=n112,name=n113,course=n114,posit=n115,igflg=n116,points=n117,olaf=n118,testdat=n119,have=n120
+        recrd=n121,currec=n122,node2=n125
+        wordwrk=n140
+        door1=flags(1),canop=flags(2),lamp=flags(3),botful=flags(4),staflt=flags(5)
+        wash=flags(6),canfl=flags(7),canwat=flags(8),canoil=flags(9),rubclr=flags(10)
+        maxobj=12,infuel=80,inth=80,inhun=180,maxcar=8,maxloc=43,maxfl=8,desloc=803,comend=959
+        here(α)=abs(obj(α))=loc,yr(α)=α$mask$o777700
+        ltlc=loc<11$or$(loc=11$and$door1=1)$or$loc=13$or$(loc>28$and$loc<35)$or$loc=36$or$loc=27
+        dark=not(ltlc)$and$(not(here(2))$or$lamp=0)$and$(not(here(7))$or$staflt=0)
+        wathere=(loc=1$or$loc=5$or$loc=6$or$loc=7)
+        incave=(loc>15),desc(α,β)=nc(961+α×52-52+β×6-6+2)
+        vloc(α,β)=nc(961+α×52-52+β)
+
+=== block 'vocabs'  kind 00  134 words  (block 1)
+vocabs  words
+        (lamp,torch),(turn*on,light,ignite),(extinguish,snuff,turn*off,put*out),(bottle,flask,skin,vessel)
+        (get,take,pick*up,bring,carry,lift)
+        (drop,set*down,put,put*down),(d,down),(w,west),(e,east),(s,south),(n,north),(go,walk,travel,run)
+        (u,up,upstairs)
+        (x,cross,traverse,across,through)
+        ,(in,into,inside),(out,outside),enter,(exit,leave),(look,see),(lake,lagoon,sea)
+        (forest,woods,glen),(stream,river,rivulet),(go*up,climb,ascend,scale),(descend,fall),say
+        (building,cabin,edifice,house),(swim,swimming),(food,ravioli,eats,victuals,can),keys,knife
+        (open,unlock,unlatch),(close,lock,latch),(door,doors),(carrying,inventory,have)
+        (paper,page,scroll,leaf,parchment),(staff,rod,wand,stick),(hold,raise,wave,flourish)
+        (it,them),read,(fill,full),(eat,consume,ingest),(everything,all)
+        (quit,end,stop,give*up),(suspend,save),(jump*off,jump,leap),(use,utilize)
+        drink,(wash,clean),water,(oil,lamp*fuel,fuel*oil,fuel),(tank,tub,drum)
+        (heat,cook),stalagmite,(nugget,gold),(silver,bar,bars),(book,stamps),(adamant,diamond,crystal)
+        (points,score),(olaf,monster),(attack,fight,kill,exterminate),dart,(throw,toss,chuck)
+        (translate,decipher)
+
+=== block 'titles'  kind 00  271 words  (block 2)
+name    name
+course  course
+unit    testo
+jump    warn
+jump    name='eric'$and$course='author',warn,x
+at      1010
+write   Adventure will not be available for a while.
+        I am switching over to the dataset.
+            Sorry about the inconvenience.
+pause   
+jumpout return
+unit    titles
+chartst adventure,letters
+branch  zreturn,1sk,x
+char    48,o00000,o00000,o3740,o17770,o37774,o37774,o77776,o77776
+char    52,o77776,o77776,o77776,o37774,o37774,o17770,o3740,o0
+1sk     
+calc    olaf«0
+        currec«0
+size    5,10
+at      911
+write   ADVENTURE
+size    0
+draw    74,366;436,366;436,458;74,458;74,366
+draw    0,254;8,282;16,262;32,302;40,291;46,294;54,242
+        skip;50,267;66,295;74,279;82,311;98,275;112,254
+        104,242;skip;95,281;103,297;119,273;127,305
+        142,270;130,244;skip;138,279;154,287;157,277
+        165,301;173,265;181,269;190,247;skip;176,267
+draw    ;184,295;192,291;200,303;216,263;skip;208,282
+        224,286;232,275;243,251;skip;247,251;255,271
+draw    254,268;257,264;265,288;272,280;280,312;288,272
+        296,288;304,264;skip;295,249;311,277;327,281
+        335,301;343,265;351,277;359,253;skip;340,278
+        348,294;364,274;376,302;384,262;393,267;401,243
+        skip;380,283;396,297;404,277
+draw    ;420,307;428,271;434,279;442,251;skip;438,267
+        454,295;462,271;477,276;485,248;skip;469,274
+        485,294;499,276;511,284
+draw    247,251;257,248;268,243;288,233;307,223;320,215
+        336,204;350,193;361,182;373,167;387,146;398,125
+        408,97;416,67;420,44;422,23;421,0
+draw    243,251;252,246;263,239;275,231;285,223;293,214
+        301,203;309,187;310,181;311,176
+draw    311,176;312,169;313,159;312,149;310,138;308,125
+        305,113;302,102;298,90;293,79;285,64;271,45
+        256,28;226,0
+at      300,292
+write   {75}÷×
+doto    1star,param1«1,50
+randu   k,200
+randu   k1,511
+calc    k«k+300
+dot     k1,k
+1star   
+micro   adventure,lazytwits
+chartst adventure,letters
+at      12,160
+writec  zreturn{^56}{^56}I am filling my inkwell.
+charset adventure,letters
+at      12,160
+erase   26
+write   {75}<>{75} 198{75}0{75} by Eric Pepke
+        
+         NEXT⌫⌫⌫⌫⌫{75}«====-{75} to play
+         HELP⌫⌫⌫⌫⌫{75}«====-{75} for instructions
+         DATA⌫⌫⌫⌫⌫{75}«====-{75} to resume a saved game
+help    instr
+data    resume
+unit    set1
+do      setup
+jump    mainprog
+
+=== block 'mainline'  kind 00  311 words  (block 3)
+unit    mainprog
+calc    trials«trials+1
+        olaf«0
+force   firsterase
+help    sugg
+do      pre
+do      d
+do      postd
+do      monster
+calc    dir«0
+calc    wrd«0
+branch  posit,1ok,1ok,x
+press   next
+1ok     
+arrow   1603
+long    50
+specs   bumpshift,okspell,nookno,noorder,okextra
+do      monster
+join    posit,x,loadme
+put     incant=say
+        mutter=say
+        utter=say
+        speak=say
+         say=say
+        ,and=/
+        , and=/
+        , =/
+        ,=/
+        and =/
+        and=/
+        ; =/
+storea  wordwrk,50
+join    breakup
+concept n
+        go n
+calc    dir«1
+goto    mov
+concept s
+        go s
+calc    dir«2
+goto    mov
+concept e
+        go e
+calc    dir«3
+goto    mov
+concept w
+        go w
+calc    dir«4
+goto    mov
+concept u
+        go u
+        climb
+        climb up
+calc    dir«5
+goto    mov
+concept d
+        go d
+        descend
+        climb d
+        go d in
+calc    dir«6
+goto    mov
+concept in
+        enter
+        go in
+calc    dir«7
+goto    mov
+concept out
+        go out
+        get out
+        exit
+calc    dir«8
+goto    mov
+concept read page
+        read
+        read it
+writec  here(6){^56}{^56}«at,2003»What parchment?
+goto    here(6),x,no
+writec  dark{^56}It's too dark to read here!{^56}
+goto    dark,no,x
+jump    read
+join    usujudge
+miscon  wave staff
+at      1803
+write   Nothing happens.
+join    getput
+concept say
+goto    magic
+concept look
+        look look
+calc    been(loc)«0
+jump    mainprog
+concept carrying
+        take inventory
+do      carry
+goto    ok
+miscon  go
+at      1803
+write   I am unsure which way you are facing.  Try compass points.
+join    loc,x,x,1sup,2sup,3sup,4sup,5sup,6sup,7sup,8sup,x,x,11sup,12sup,13sup,14sup,15sup,16sup,17sup,18sup,19sup,x
+join    loc-20,x,20sup,21sup,22sup,23sup,24sup,25sup,26sup,27sup,28sup,29sup,x
+join    loc-30,x,30sup,31sup,32sup,33sup,34sup,35sup,36sup,37sup,38sup,39sup,x
+join    loc-40,x,40sup,41sup,42sup,43sup,44sup,45sup,46sup,x
+join    usuhint
+answer  fly
+at      1803
+write   Who do you think you are, Superman?
+goto    no
+miscon  get
+at      1803
+writec  wcount{^56}{^56}{^56}What do you want to get???{^56}I don't know how to get that.  Please rephrase.
+goto    no
+miscon  put
+at      1803
+write   You aren't carrying it!!!!!!!
+goto    no
+concept quit
+        save
+jump    quit
+answer  
+judge   ignore
+no      
+do      invalid
+goto    no
+endarrow
+jump    mainprog
+
+=== block 'judges   *'  kind 00  285 words  (block 4)
+unit    usujudge
+concept light lamp
+        light
+        light it
+        light light
+or      
+answer  turn on lamp
+branch  here(2),1ok,x
+at      1803
+write   What lamp?
+goto    ok
+1ok     
+at      1803
+branch  fuel,x,1lampon
+write   Your lamp is empty.
+goto    no
+1lampon 
+branch  dark,x,1light
+calc    lamp«1
+at      desloc
+erase   60,2
+do      desc
+do      postd
+1light  
+at      1803
+write   Your lamp is now burning brightly.
+calc    lamp«1
+goto    ok
+concept snuff lamp
+        snuff
+        snuff it
+        snuff light
+branch  here(2),1snuff,,
+at      1803
+write   There is no lamp here!
+goto    no
+1snuff  
+branch  lamp=0,1nochan,x
+calc    lamp«0
+branch  dark,x,1nochan
+do      alldrk
+1nochan 
+at      1803
+write   Your lamp is now off.
+at      603
+erase   40
+goto    ok
+concept eat food
+        eat
+branch  here(3),x,1huh
+branch  canop,,1nopen,
+calc    algo«3
+        obj(8)«obj(3)
+        obj(3)«0
+        hunger«hunger+inhun
+branch  obj(8),1hold,x
+do      zap
+calc    algo«8
+do      drop1
+1hold   
+at      1803
+write   Thank you!  It was delicious!
+goto    ok
+1huh    
+at      1803
+write   There isn't anything to eat here!
+goto    no
+1nopen  
+write   «at,1803»The can isn't open!  How can I eat out of a shut can?
+goto    no
+concept open can
+at      1803
+writec  here(5){^56}The can is now open.{^56}There's nothing with which I may open the can!
+goto    here(5),x,no
+calc    canop«1
+goto    ok
+concept open can keys
+        open can can keys
+at      1803
+writec  here(5){^56}They aren't sharp enough.{^56}What keys?  I see no keys!
+goto    no
+concept eat bottle
+calc    algo«1
+goto    eat
+concept eat lamp
+calc    algo«2
+goto    eat
+concept eat keys
+calc    algo«4
+goto    eat
+concept eat knife
+calc    algo«5
+goto    eat
+concept eat paper
+calc    algo«6
+goto    eat
+concept eat staff
+calc    algo«7
+goto    eat
+concept fill bottle
+        fill bottle water
+        fill skin water river
+        get water
+        put water in bottle
+calc    algo«1
+goto    fill
+concept fill lamp
+        put oil in lamp
+        fill lamp oil
+calc    algo«2
+goto    fill
+concept fill bottle oil
+        drink oil
+goto    oilbot
+concept fill it
+        fill
+goto    fill
+
+=== block 'judges2  *'  kind 00  307 words  (block 5)
+concept heat food
+        heat food lamp
+        heat can food
+        heat it
+goto    heat
+concept drink
+        drink water
+        drink water stream
+        drink stream
+calc    what«'stream'
+goto    drink
+concept drink bottle
+        drink water bottle
+calc    what«'bottle'
+goto    drink
+concept fill can
+calc    what«''
+goto    filcan
+concept fill can oil
+calc    what«'oil'
+goto    filcan
+concept fill can water
+calc    what«'water'
+goto    filcan
+*       
+unit    getput
+concept get bottle
+        get water bottle
+calc    algo«1
+goto    get
+concept get lamp
+calc    algo«2
+goto    get
+concept get food
+        get food food
+calc    algo«3
+goto    get
+concept get keys
+calc    algo«4
+goto    get
+concept get knife
+calc    algo«5
+goto    get
+concept get paper
+calc    algo«6
+goto    get
+concept get staff
+calc    algo«7
+goto    get
+concept get gold
+        get gold gold
+calc    algo«9
+goto    get
+concept get silver
+        get bar silver
+calc    algo«10
+goto    get
+concept get stamps
+calc    algo«11
+goto    get
+concept get adamant
+        get crystal adamant
+calc    algo«12
+goto    get
+concept get tank
+        get tank oil
+at      1803
+writec  loc=3{^56}Do you want to give me a hernia?{^56}I see no tank of oil!
+goto    no
+concept get all
+calc    k1«0
+branch  dark,1getit,x
+doto    1getit,algo«1,maxobj
+branch  obj(algo)=loc,x,1getit
+branch  have>maxcar,1stop,x
+calc    k1«k1+1
+calc    obj(algo)«-obj(algo)
+do      zap
+do      reclaim
+1getit  
+at      1803
+writec  k1{^56}{^56}There isn't anything to get!{^56} 
+goto    k1,ok,no,ok
+1stop   
+at      1803
+write   I can't carry everything!
+goto    no
+answer  (pick,lift) (it,them) <up>
+goto    get
+concept get it
+goto    get
+concept get dart
+writec  olaf{^56}{^56}What dart?{^56}The olafs' darts vanish when they hit the walls.
+goto    no
+concept drop bottle
+        drop water bottle
+calc    algo«1
+goto    drop
+concept drop lamp
+calc    algo«2
+goto    drop
+concept drop food
+        drop food food
+calc    algo«3
+goto    drop
+concept drop keys
+calc    algo«4
+goto    drop
+concept drop knife
+calc    algo«5
+goto    drop
+concept drop paper
+calc    algo«6
+goto    drop
+concept drop staff
+calc    algo«7
+goto    drop
+concept drop gold
+        drop gold gold
+calc    algo«9
+goto    drop
+concept drop silver
+        drop bar silver
+calc    algo«10
+goto    drop
+concept drop stamps
+calc    algo«11
+goto    drop
+
+=== block 'judges3  *'  kind 00  139 words  (block 6)
+concept drop adamant
+calc    algo«12
+goto    drop
+answer  (put,set) (it,them) <down>
+goto    drop
+concept drop it
+goto    drop
+concept drop all
+calc    have«0
+doto    1drop,k«1,maxobj
+branch  obj(k){^54}-loc,1drop,,
+calc    k1«k1+1
+calc    algo«k
+do      drop1
+1drop   
+writec  k1{^56}{^56}You aren't carrying anything!{^56} 
+goto    k1,ok,no,ok
+concept use keys
+at      1803
+writec  here(4){^56}What do you want me to do with them?{^56}I see no keys!
+goto    no
+concept use keys open can
+at      1803
+writec  here(4){^56}Sorry, the keys are much too blunt.{^56}Keys?  What keys?
+goto    no
+concept use staff
+at      1803
+writec  here(4){^56}It isn't here!{^56}To do what?
+goto    no
+concept light tank
+        light tank oil
+goto    boom
+concept points
+do      calpts
+at      1803
+write   You have «s,points» points so far.
+goto    ok
+concept kill olaf
+        throw knife olaf
+        kill olaf knife
+        kill
+goto    olaf,x,x,throw
+at      1803
+write   I see no olaf!
+goto    no
+concept throw knife
+goto    throw
+concept translate
+        translate paper
+        translate it
+goto    xlate
+
+=== block 'directives'  kind 00  281 words  (block 7)
+unit    carry
+at      3003
+erase   60,2
+calc    k1«0
+doto    1count,k«1,maxobj
+calcc   obj(k),k1«k1+1,,
+1count  
+branch  k1=0,,1write
+write   You aren't carrying anything!!
+goto    no
+1write  
+write   You are carrying the following objects:
+at      3105
+doto    2write,k«1,maxobj
+branch  obj(k),,2write
+do      shortobj(k)
+calc    k1«k1-1
+writec  k1{^56}{^56}.{^56} and {^56}, 
+2write  
+write    
+goto    ok
+unit    get
+at      1803
+branch  have<maxcar,1noful,x
+write   You can't carry any more.  You'll have to drop something.
+goto    no
+1noful  
+branch  dark,1nosee,x
+calcc   algo=3$and$obj(3)=0,algo«8,,
+branch  here(algo),,1nosee
+branch  obj(algo),,1ok
+at      1803
+write   You're already carrying it!!!
+goto    no
+1nosee  
+writec  algo{^56}{^56}{^56}I see no bottle!{^56}There is no lamp here!{^56}There's no food!{^56}I can't see any keys!
+        {^56}What knife?{^56}I don't see any parchment!{^56}I see no staff here!
+goto    no
+1ok     obj(algo)«-obj(algo)
+do      zap
+calc    have«have+1
+goto    ok
+unit    zap
+doto    1get,k«1,maxfl
+branch  atwrite(k)=algo,x,1get
+at      k×100+2003
+erase   50
+calc    atwrite(k)«0
+do      reclaim
+1get    
+unit    drop
+calcc   algo=3$and$obj(3)=0,algo«8,,
+do      drop1
+write    
+calc    have«have-1
+goto    ok
+unit    drop1
+calc    testobj«obj(algo)
+branch  testobj,1ok,x
+at      1803
+write   You aren't carrying it!
+goto    no
+1ok     
+doto    1drop,k«1,maxfl
+branch  atwrite(k)=0,1cont,x
+1drop   
+1cont   
+at      k×100+2003
+do      k{^73}maxfl,writeobj(0),writeobj(algo)
+calc    atwrite(k)«algo
+        obj(algo)«-obj(algo)
+unit    magic
+at      1803
+calc    wordwrk«(wordwrk$cls$24)$mask$o77777777777700000000
+doto    1check,k«1,5
+branch  magic(k)=wordwrk,1wrd,x
+1check  
+write   All right, "«a,wordwrk,jcount»"!
+goto    ok
+1wrd    
+branch  k{^54}5,1get,x
+branch  here(7),x,1nuthap
+branch  staflt,,x,1obsc
+branch  dark,x,1lit
+calc    staflt«1
+at      desloc
+erase   60,2
+do      desc
+do      postd
+1lit    staflt«1
+at      1803
+write   A dim blue glow eminates from the end of your staff.
+goto    ok
+1obsc   
+branch  dark,1drk,x
+calc    staflt«0
+branch  dark,x,1drk
+do      alldrk
+1drk    staflt«0
+at      1803
+write   The blue glow has stopped.
+goto    ok
+
+=== block 'more of em'  kind 00  310 words  (block 10)
+1get    infotst«infd(8+k)
+branch  infotst=0,1nuthap,x
+branch  infotst{^73}300,2cont,x
+goto    preinfo
+2cont   
+branch  infotst{^73}400,3cont,x
+do      stupmag
+goto    no
+3cont   
+goto    specmag
+1nuthap 
+write   «at,1803»Nothing happens.
+goto    no
+unit    mov
+branch  dark$and$dir<5,x,1nornd
+randu   dir,4
+1nornd  
+calc    infotst«infd(dir)
+entry   preinfo
+branch  infotst>0 $and$ infotst<256,1ok,x
+goto    infotst{^73}400,specmov,x
+do      stupid
+goto    no
+1ok     loc«infotst
+unit    eat
+at      1803
+branch  here(algo),1ok,x
+writec  algo=4{^56}They aren't here.  Good thing, too.{^56}It isn't here.  Good thing, too.
+goto    no
+1ok     
+randu   k,6
+writec  k{^56}{^56}{^56}Yick!{^56}Icky poo!{^56}When I say 'oog,' does that mean anything to you?{^56}NO!{^56}I won't do that!
+        {^56}Don't be ridiculous!
+goto    no
+unit    fill
+at      1803
+branch  algo=1$or$algo=2,1noprob,x
+calcc   here(2),algo«2,,
+calcc   here(1),algo«1,,
+branch  algo=1$or$algo=2,1noprob,x
+write   I don't understand what you are referring to.
+goto    no
+1noprob 
+branch  here(algo),1ok,x
+writec  algo{^56}{^56}{^56}What bottle?{^56}There is no lamp here!
+goto    no
+1ok     
+branch  algo,,,1bot,1lam,
+1bot    
+branch  loc=24,1pois,x
+branch  wathere,1fill,x
+write   There is no water here.
+goto    no
+1fill   
+writec  botful,,Your bottle is now full.,Your bottle is already full!
+goto    botful,x,x,no
+calc    botful«1
+goto    ok
+1pois   
+write   The water here looks poisonous.
+goto    no
+1lam    
+branch  loc=3,1lamful,x
+branch  here(8)$and$canoil=1,1fromcn,x
+write   I can see no fuel oil here!
+goto    no
+1fromcn fuel«infuel
+        canoil«0
+write   You have filled your lamp with fuel from the can,
+        which is now empty.
+1lamful fuel«infuel
+write   Your lamp is now full.
+goto    ok
+unit    drink
+at      1803
+branch  what='bottle',1kluge,x
+branch  wathere,1drinst,x
+1kluge  
+branch  here(1),1drinbt,x
+write   There is no stream here!
+goto    no
+1drinbt 
+branch  botful=1,1okbot,x
+write   But your bottle is empty!
+goto    no
+1okbot  botful«0
+write   Your bottle is now empty.
+branch  1redth
+1drinst 
+write   You have taken a drink from the stream.  It is icy cold!
+1redth  thirst«thirst+(inth-thirst)×2/3
+goto    ok
+unit    heat
+at      1803
+branch  here(3),1food,x
+write   I see no food!
+goto    no
+1food   
+branch  here(2),1lam,x
+write   How can I without a lamp?
+goto    no
+1lam    
+branch  lamp,x,x,1ok
+write   Your lamp isn't even on!
+goto    no
+1ok     
+write   Your can of ravioli is piping hot.
+goto    ok
+
+=== block 'even more'  kind 00  290 words  (block 11)
+unit    filcan
+at      1803
+branch  here(8),1cont,x
+branch  here(3),1noopen,x
+write   I see no can here!
+goto    no
+1noopen 
+write   The can is full of food!
+goto    no
+1cont   
+branch  what='oil',1oil,x
+branch  what='water',1wat,x
+branch  wathere,1wat,x
+1oil    
+branch  loc=3,1watest,x
+write   There is no oil with which to fill the can!
+goto    no
+1watest 
+branch  canwat=1,x,1oleok
+write   The can is full of water!!!
+goto    no
+1oleok  canoil«1
+write   Your can is now full of oil.
+goto    ok
+1wat    
+branch  wathere,1olatst,x
+write   There is no water with which to fill the can!
+goto    no
+1olatst 
+branch  canoil=1,x,1okwat
+write   This can is full of oil!
+goto    no
+1okwat  canwat«1
+goto    ok
+unit    oilbot
+at      1803
+branch  loc=3$or$(here(8)$and$canoil=1),1ok,x
+write   I see no oil!
+goto    no
+1ok     
+write   Do you want to poison me?
+goto    no
+unit    stupmag
+at      1803
+writec  infotst-300{^56}{^56}Not available yet.{^56}The rocks rumble for a few moments, but nothing budges.
+unit    specmag
+goto    infotst-400,x,buried,clear
+unit    buried
+jump    buried1
+unit    buried1
+at      1003
+write   With a great resounding rumble, the walls and ceiling
+        have collapsed, burying you under countless tons of
+        rock.
+goto    reincar
+unit    clear
+jump    rubclr=1,buried1,x
+size    5
+doto    1show,k«0,6,2
+at      50+k,400+k
+showa   magic(4)
+1show   
+calc    rubclr«1
+size    0
+calcc   loc=46,loc«47,,
+calcc   loc=15,loc«16,,
+catchup 
+pause   1
+jump    mainprog
+unit    boom
+at      1803
+branch  loc=3,1ok,x
+write   I see no tank of oil!
+goto    no
+1ok     
+branch  here(2),2ok,x
+write   There is no lamp here!  I have no flint!
+goto    no
+2ok     
+jump    kill2
+unit    throw
+calc    algo«5
+branch  obj(algo)=-loc,1ok,x
+at      1803
+write   You aren't carrying the knife!
+goto    no
+1ok     
+do      drop1
+calc    have«0
+goto    olaf,ok,x
+at      1803
+erase   55
+randu   k,4
+branch  k,x,x,1mis,x
+at      1803
+write   You got him!
+at      1303
+erase   55,2
+calc    olaf«0
+goto    ok
+1mis    
+at      1803
+write   You missed!
+goto    ok
+unit    usuhint
+answer  <give> (hint)
+at      1803
+writec  olaf{^56}{^56}Sorry, you're on your own.{^56}Sorry, you're on your own.{^76}{^56}If you have a knife, throw it!
+goto    no
+
+=== block 'specmov'  kind 00  87 words  (block 12)
+unit    specmov
+goto    infotst-400,x,for1,nforw,nfore,cavesp,chambsp,bridsp,rubble,rub1
+unit    for1
+randu   k,10
+calcs   k,loc«loc,loc,loc,5,1,9,10,loc
+jump    mainprog
+unit    nforw
+randu   k,5
+calcs   k,loc«loc,loc,9,9,9,9,10
+jump    mainprog
+unit    nfore
+randu   k,5
+calcs   k,loc«loc,loc,9,9,9,9,5
+jump    mainprog
+unit    chambsp
+branch  door1,,,1open
+calc    infotst«0
+do      stupid
+goto    no
+1open   
+calc    loc«8
+unit    cavesp
+branch  door1,,,1open
+calc    infotst«0
+do      stupid
+goto    no
+1open   
+calc    loc«11
+unit    bridsp
+branch  obj(7),1ok,x
+jump    kill1
+1ok     loc«43
+unit    rubble
+calcs   rubclr,loc«15,15,16
+unit    rub1
+calcs   rubclr,loc«46,46,47
+
+=== block 'describe'  kind 00  109 words  (block 13)
+unit    d
+at      desloc
+branch  dark,x,1ok
+do      dark
+branch  1exit
+1ok     
+do      desc
+1exit   
+unit    dark
+write   It is now completely dark.  I can feel my way around,
+        but I can't be sure which way I'm going.
+unit    desc
+do      been(loc),x,long,short
+calc    been(loc)«1
+do      loc=8$or$loc=11,cavedes,x
+unit    long
+do      getloc
+doto    1write,k«1,6
+at      desloc-100+100×k
+showa   desc(node2,k),60
+1write  
+unit    short
+do      getloc
+doto    1write,k«7,8
+at      desloc-700+100×k
+showa   desc(node2,k),60
+1write  
+unit    getloc
+calc    recrd«int((loc-1)/6)
+        node2«loc-recrd×6
+        recrd«recrd+1
+branch  recrd=currec,1noget,x
+datain  recrd;storage,1;1
+calc    currec«recrd
+1noget  
+calc    n123«vloc(node2,0)
+        n124«vloc(node2,1)
+unit    cavedes
+at      1403
+writec  door1{^56}{^56}The doors are locked.{^56}The doors are open!
+
+=== block 'routines'  kind 00  311 words  (block 17)
+unit    setup
+randu   obj(6),4
+        trans,20
+calc    loc«1
+        obj(1)«2$$bot
+        obj(2)«3
+        obj(3)«2
+        obj(4)«3
+        obj(5)«13
+        obj(6)«obj(6)+10
+        obj(7)«2
+        n1«0
+        n10«0$$zeroes flags
+        trans«trans+10
+        fuel«(-1)
+        posit«-1
+        have«0
+        currec«0
+doto    1stuff,k«9,12
+randu   obj(k),30
+calc    obj(k)«obj(k)+12
+1stuff  
+setperm 10
+doto    1mag,k«1,5
+randp   k1
+calcs   k1,magic(k)«,,'foo','toad','bocka','nose','ni','foing','bork','foami','gorm','bop'
+1mag    
+* store name in common
+name    nc(nc100)
+course  nc(nc100+1)
+branch  nc(nc100)='eric'$and$nc(nc100+1)='author',1eric,x
+calcc   nc(100)>300,nc(100)«101,nc(100)«nc(100)+2
+1eric   nc(nc(100))«'--Start--'
+unit    pre
+calc    what«''
+calcc   lamp=1$and$fuel{^73}0,fuel«fuel-1,,
+calcc   fuel<0,lamp«0,,
+doto    1change,testobj«1,maxobj
+calcc   obj(testobj),obj(testobj)«-loc,,
+1change 
+calcc   here(6)$and$trans>-2,trans«trans-1,,
+unit    postd
+branch  dark,1exit,x
+doto    1zer,k«1,maxfl
+calc    atwrite(k)«0
+1zer    
+calc    k1«1
+doto    1print,testobj«1,maxobj
+branch  obj(testobj)=loc,x,1print
+calcc   k1{^72}maxfl,atwrite(k1)«testobj,,
+calc    algo«testobj
+at      k1×100+2003
+do      k1>maxfl,writeobj(0),writeobj(testobj)
+calc    k1«k1+1
+1print  
+writec  trans=-1{^56}«at,203»I have translated the paper!{^56}{^56}
+writec  here(2)$and$fuel<7$and$fuel>-1$and$lamp=1{^56}«at,603»Your lamp is beginning to burn low.{^56}{^56}
+1exit   
+unit    writeobj(param1)
+writec  param1{^56}{^56}There are additional objects.{^56}There is a water bottle lying here!
+        {^56}There is a small brass oil lamp here!
+        {^56}There is an old can of ravioli!{^56}There is a large ring of keys here!
+        {^56}There is a knife lying discarded.{^56}There is an old parchment lying here!{^56}
+        There is an oaken staff lying here.{^56}There is an empty can of ravioli here.
+        {^56}There is a nugget of gold lying on the ground!{^56}There is a bar of silver!
+        {^56}There is a book of trading stamps on the ground!{^56}There is a crystal of adamant here!
+unit    shortobj(param1)
+writec  param1{^56}{^56}{^56}bottle{^56}lamp{^56}food{^56}keys{^56}knife{^56}parchment{^56}staff{^56}can{^56}gold{^56}silver{^56}stamps{^56}adamant
+unit    stupid
+at      1803
+writec  infotst=0{^56}There is no way to go in that direction.{^56}{^56}
+writec  infotst-300{^56}{^56}Not available at this time.{^56}I CAN'T SWIM!{^56}That's your job!!!
+        {^56}I can't climb that high!
+        {^56}That would be stupid!!{^56}I'm already in!!!!!{^56}The window slits are too narrow.
+        {^56}The banks are too steep to climb safely.{^56}Yes, but in what direction?
+        {^56}There are two staircases to the north.  Up or down?
+
+=== block 'routines2'  kind 00  311 words  (block 20)
+unit    invalid
+at      1803
+randu   k,4
+writec  k{^56}{^56}{^56}I don't understand that!{^56}Please rephrase your request.{^56}What did you say?{^56}Huh?
+unit    ok
+calc    trials«trials+1
+branch  posit,1igoqt,1igoqt,x
+at      1803
+erase   55
+press   next
+judge   ignore
+1igoqt  
+at      101
+judge   igflg,x,noquit,x
+calc    igflg«0
+at      1803
+erase   50
+judge   ignore
+unit    no
+calc    posit«-1
+        trials«trials+1
+judge   noquit
+unit    games
+term    games
+at      1010
+write   Games saved:
+calc    k«1210
+doto    1czech,k1«320,888,32
+branch  nc(k1)=0,1czech,x
+at      k
+write   «a,nc(k1)»/«a,nc(k1+1)»
+at      k+20
+showa   nc(k1+25)
+calc    k«k+100
+next    games
+1czech  
+unit    breakup
+ok      
+search  '/',1,wordwrk,50,1,posit
+join    posit,x,x,found
+judge   continue
+unit    found
+calc    igflg«1
+judge   continue
+loada   wordwrk,posit-1
+ok      
+move    wordwrk,posit+1,wordwrk,1,50
+judge   continue
+unit    loadme
+loada   wordwrk,50
+unit    hint
+at      1003
+write   I am prepared to give you a hint, but it will cost you
+        four points.  Is that acceptable?
+arrow   1303
+specs   bumpshift,nookno
+answer  (y,yes,yeah)
+at      1503
+writec  k{^56}{^56}{^56}Why don't you blast the rocks away with magic?{^56}
+pause   
+jump    mainprog
+answer  (n,no,nah,nope)
+jump    mainprog
+no      
+write   Yes or no, please!
+unit    alldrk
+at      desloc
+erase   60,5
+doto    1zap,k«1,maxfl
+branch  atwrite(k)=0,1zap,x
+at      k×100+2003
+erase   60
+calc    atwrite(k)«0
+1zap    
+at      desloc
+do      dark
+unit    reclaim
+unit    monster
+branch  incave,x,1exit,x
+branch  olaf,x,1monst,1erase,1morpup,x
+calc    olaf«0
+branch  1exit
+1monst  
+randu   k,30
+branch  k,x,x,1temp,1pers,1exit
+1temp   
+calc    olaf«1
+at      1303
+erase   60,2
+writec  dark{^56}A dart whizzes by your ear.{^56}An olaf came into the room, shot a dart at you (which
+        missed), and then ran away.
+do      meser
+branch  1exit
+1pers   
+calc    olaf«2
+at      1303
+erase   55,2
+writec  dark{^56}You can hear something snarling in the darkness.{^56}There is an evil-looking olaf in the room with you.
+do      meser
+branch  1exit
+1erase  
+calc    olaf«0
+at      1303
+erase   55,2
+branch  1exit
+1morpup 
+at      1303
+erase   50
+randu   k,10
+writec  dark{^56}Something whizzes as it comes toward you.{^56}The olaf threw a dart at you.  
+writec  k{^56}{^56}{^56}It hit you!!!!!{^56}It missed!
+do      meser
+branch  k,x,x,x,1exit
+pause   2
+jump    kill3
+1exit   
+unit    meser
+at      1803
+erase   60
+write    
+catchup 
+
+=== block 'routines3'  kind 00  29 words  (block 33)
+unit    xlate
+at      1803
+branch  here(6),1ok,x
+write   There is no parchment here!  How can I translate it?
+goto    no
+1ok     
+writec  trans{^56}It's already translated!{^56}I'm getting around to it!  Be patient!!
+goto    no
+
+=== block 'suppl1   *'  kind 00  306 words  (block 21)
+unit    1sup
+concept enter woods
+        go in woods
+calc    loc«4
+concept enter stream
+        x stream
+        go x stream
+        go x
+calc    loc«6
+concept enter lake
+        go in lake
+        go swim
+        go in swim
+        swim
+calc    dir«2
+goto    mov
+concept enter building
+        go in building
+calc    loc«2
+unit    2sup
+concept exit building
+        go out cabin
+calc    loc«1
+concept look out
+at      1803
+write   A crystal river winds along a green plain.
+goto    ok
+unit    3sup
+unit    4sup
+concept leave forest
+calc    dir«8
+goto    mov
+unit    5sup
+concept enter forest
+calc    loc«4
+concept x stream
+        go x stream
+        go x
+        enter stream
+calc    loc«8
+goto    mov
+unit    6sup
+concept x stream
+        go x
+        go x stream
+        enter stream
+calc    loc«1
+unit    7sup
+concept cross stream
+        enter stream
+calc    loc«5
+unit    8sup
+concept open doors
+        open
+        open doors keys
+        open them
+        open them keys
+branch  here(4),,1nokey
+at      1403
+erase   22
+write   The doors are open!
+calc    door1«1
+branch  1noer
+concept close doors
+        close
+        close doors keys
+        close them
+        close them keys
+branch  here(4),,1nokey
+at      1403
+erase   22
+write   The doors are locked.
+calc    door1«0
+1noer   
+write    
+goto    ok
+1nokey  
+at      1803
+write   With what?  I see no keys!
+goto    no
+unit    11sup
+join    8sup
+unit    12sup
+unit    13sup
+unit    14sup
+unit    15sup
+unit    16sup
+unit    17sup
+join    jump1
+concept cross
+calc    loc«20
+unit    18sup
+unit    19sup
+join    jump1
+unit    20sup
+join    jump1
+concept cross
+calc    loc«17
+unit    jump1
+concept jump
+        jump d
+        jump d in
+calc    infotst«405
+goto    preinfo
+unit    21sup
+unit    22sup
+concept climb stalagmite
+        climb it
+calc    loc«41
+unit    23sup
+unit    24sup
+unit    25sup
+unit    26sup
+unit    27sup
+unit    28sup
+unit    29sup
+unit    30sup
+unit    31sup
+unit    32sup
+unit    33sup
+unit    34sup
+unit    35sup
+unit    36sup
+unit    37sup
+unit    38sup
+unit    39sup
+unit    40sup
+unit    41sup
+unit    42sup
+unit    43sup
+unit    44sup
+unit    45sup
+unit    46sup
+answer  <give> (hint)
+calc    k«1
+jump    hint
+
+=== block 'helps'  kind 00  283 words  (block 22)
+unit    instr
+size    4,8
+at      716
+write   ADVENTURE
+size    0
+at      1004
+write   You are about to go on an adventure.  I will be your eyes
+        and ears.  You must tell me what to do by giving me simple
+        English commands.
+pause   
+at      1504
+write   There's no telling what may await you on this adventure.
+        Some people say that treasure was hidden in secret places
+        long ago.  However, if you are not careful, many perils
+        may await you.  Legends of magic are whispered in dark
+        taverns.  Some believe that evil creatures from out of the
+        past still lurk near.
+pause   
+at      2304
+write   That's all I will tell you.  If you want to end your 
+        adventure, type "end" or "quit" or something like that.
+pause   
+at      2804
+write   Press  NEXT⌫⌫⌫⌫⌫{75}«====-{75} to learn more about this version.
+        Press  BACK⌫⌫⌫⌫⌫{75}«====-{75} to begin your adventure.
+next    hist
+unit    hist
+at      104
+write   This is a game similar to the usual FORTRAN adventure found
+        on many large timesharing systems.  There are many large
+        differences, however.  The layout is different for this
+        version of adventure.
+pause   
+at      604
+write   You will find that many commands accepted by the classic
+        adventure will not be understood by this version.  A command
+        such as "build" will not get you to the building.  Similarly,
+        this version may understand other commands.  In particular,
+        this version is much more liberal concerning syntax.  Most
+        complete sentences will be understood where only two word
+        commands were understood by the FORTRAN version.  As an
+        example, "Get out of this horrible place!" is accepted to
+        mean the same as "leave."  I strongly suggest that you try
+        to use complete sentences in addressing this version.  It 
+        takes more time and the program may not respond to all
+        structures, but it's much more fun.
+pause   
+at      1904
+write   This game has a few particular features of which you
+        should be aware.  For one thing, after you have entered
+        a command, you do not need to press  NEXT⌫⌫⌫⌫⌫{75}«====- {75}to erase it.
+        Just start typing and it will automatically erase.   Also,
+        multiple commands such as "get the lamp and light it"
+        are accepted.
+at      3104
+write   Press  BACK⌫⌫⌫⌫⌫{75}«====-{75} to return to adventure.
+end     help
+
+=== block 'morhelp'  kind 00  301 words  (block 23)
+unit    sugg
+at      203
+write   Types of command I might understand:
+        
+        
+        go south        get lamp        eat food        drop paper
+        fill bottle     drink           take inventory  open doors
+        enter           leave           quit            look around
+        say glorp       light lamp      snuff lamp      go in
+        
+        
+        
+        These are only the simple one or two word commands.  There
+        are multiple word commands, also.
+        
+        If you get stuck, remember that I usually only look at
+        one or two words of your command.  More words usually
+        work and are sometimes neccesary, however.  If your 
+        particular command doesn't work, try compressing it into
+        two words.  Even if if does work then, write me a note
+        or use term "comment."     eric/author
+        
+        Also:
+        "Give me a hint" sometimes works in special cases.
+        Don't expect it to work all the time, however.
+        
+        Press NEXT for a summary of the micro table.
+unit    micro
+at      201
+write   a:look around   b:bring         c:carrying      d:drop 
+        e:enter         f:forest        g:get           i:take inventory
+write   l:leave         o:open          s:silver        t:take 
+        A:adamant       B:bottle        C:can           D:drop 
+        E:eat           F:food          G:gold          H:house 
+        I:inside        K:keys          L:lamp          N:nugget 
+        O:outside       P:parchment     S:staff
+        0:in,get all,in                 1:get all,fill lamp
+        2:out,out,fill bottle           3:n,e,n,open
+end     help
+unit    resume
+base    
+doto    1search,k«320,comend,32
+branch  nc(k)=name$and$nc(k+1)=course,1ok,x
+1search 
+at      1010
+write   No game saved!
+        Press  HELP⌫⌫⌫⌫⌫{75}«====-{75} for an explanation of possible reasons.
+help    resexc
+next    set1
+branch  1exit
+1ok     nc(k)«0
+block   nc(k+2),n1,30
+calc    have«0
+doto    1tal,k«1,maxobj
+calcc   obj(k),have«have+1,,
+1tal    
+jump    mainprog
+1exit   
+unit    resexc
+at      1003
+write   Your game may be missing for the following reasons:
+        
+        1) I only have room for 20 games right now.  When someone
+           wants to save a game and there isn't enough space,
+           I delete the oldest game on file.  Perhaps yours was
+           one of these.
+        2) If you are on a different signon, I can't recognize
+           the game as being yours.  To see if it is saved under
+           another name, use -term games-.
+        
+        Press any key to continue.
+pause   
+jump    set1
+
+=== block 'critical'  kind 00  320 words  (block 24)
+unit    kill1
+at      1003
+write   Since you obviously have no magical powers, you have been
+        dashed to pieces on the rocks below.
+goto    reincar
+unit    kill2
+at      1003
+write   The oil tank has exploded and you have been blown into
+        billions of little bits of french-fried flesh.
+goto    reincar
+unit    kill3
+at      1003
+write   Oh dear!  You seem to have gotten yourself killed by
+        a poisoned dart!
+goto    reincar
+unit    reincar
+at      2003
+write   Do you want me to try and reincarnate you?
+arrow   2203
+specs   bumpshift,nookno
+answer  (yes,y,ok)
+write   O.K., you asked for it!
+pause   2
+jump    poof
+answer  (no,nah,n)
+jump    endgame
+no      
+write   YES OR NO?
+unit    poof
+size    10,20
+doto    1poof,k«0,10,2
+at      56+k,192+k
+write   POOF!
+1poof   
+catchup 
+size    0
+pause   2
+calc    loc«2
+jump    mainprog
+unit    quit
+at      1010
+write   Are you sure you want to stop now?
+arrow   1210
+answer  (yes,y,yeah)
+answer  (n,no,nah)
+jump    mainprog
+no      
+write   Yes or no, please!
+endarrow
+at      2010
+write   Do you want to save your game?
+        (at your own⌫⌫⌫___ risk)
+arrow   2210
+answer  (yes,y,yeah)
+goto    savegam
+answer  (no, n,nah)
+jump    endgame
+no      
+write   YES OR NO?????
+unit    savegam
+date    date
+doto    1search,k«320,comend,32
+branch  nc(k)=name$and$nc(k+1)=course,1found,x
+1search 
+doto    2search,k«320,comend,32
+branch  nc(k)=0,1found,x
+2search 
+calc    testdat«' 99/99/99 '
+        k1«0
+doto    3search,k«320,comend,32
+branch  yr(testdat)>yr(nc(k+25)),1stor,x
+branch  yr(testdat)<yr(nc(k+25)),3search,x
+branch  testdat>nc(k+25),x,3search
+1stor   
+calc    k1«k
+        testdat«nc(k+25)
+3search 
+branch  k1<320,1nosp,x
+calc    k«k1
+branch  nc(k+25)=testdat,x,2search
+calc    nc(k)«0
+branch  1found
+1nosp   
+at      2710
+write   An error has occured.  Please contact eric/author.
+branch  1end
+1found  nc(k)«name
+        nc(k+1)«course
+block   n1,nc(k+2),26
+at      2710
+write   Game saved.
+1end    
+at      2810
+write   Press  DATA⌫⌫⌫⌫⌫{75}«====-{75} to return.
+        Press  NEXT⌫⌫⌫⌫⌫{75}«====-{75} to end.
+next    endgame
+data    mainprog
+unit    calpts
+calc    points«0
+doto    1been,k«1,maxloc
+calcc   been(k),,,points«points+1
+1been   
+calc    points«points+(points×2/trials)
+doto    1tres,k«8,maxobj
+calcc   obj(k)=2$or$obj(k)<0,points«points+20,,
+1tres   
+unit    endgame
+do      calpts
+at      1010
+write   You moved «s,trials» times and aquired «s,points» points.
+        
+        I hope you enjoyed
+at      1410
+size    2
+write   ADVENTURE!
+pause   
+jumpout return
+
+=== block 'text'  kind 00  177 words  (block 25)
+unit    read
+draw    413;452;3052;3013
+doto    1tear,k«433,32,-16
+at      91,k
+plot    37
+1tear   
+branch  trans,1ok,x
+altfont on
+1ok     
+at      615
+write        Homemaker's Guide to Magic
+                    Magic Words
+        
+        1)«a,magic(1)»
+        Good spell of opening.  Useful when
+        you lock the keys in the car.
+        
+        2)«a,magic(2)»
+        Spell of closing.  Holds together
+        ungummed envelopes, keeps cans of
+        peaches closed, etc.
+        
+        3)«a,magic(5)»
+        Spell of light.  Requires staff of
+        protection, available at any large
+        hardware store.
+        
+        4)«a,magic(3)»
+        Word of transmutation.  Cannot
+        be used for evil!
+        
+        5)«a,magic(4)»
+        General spell of power.  WARNING:
+        
+        Good Cavekeeping  1/29/94  page 192
+altfont off
+at      205
+writec  trans{^56}The other side is too faded to read.{^56}hmmm..  I might be able to translate it if you take it.
+at      3126
+write   Press  NEXT⌫⌫⌫⌫⌫{75}«====-
+pause   
+jump    mainprog
+unit    warn
+next    titles
+jump    name='eric'$and$course='author',titles,x
+at      1010
+write   WARNING: This game is not yet complete.  Try at
+        your own risk.
+        
+        Use term 'comment' or contact eric/author with
+        suggestions or difficulties.
+        
+        press  NEXT⌫⌫⌫⌫⌫{75}«====-{75} to continue
+        press  SHIFT⌫⌫⌫⌫⌫⌫{75}«=====-{75} STOP⌫⌫⌫⌫⌫{75}«====-{75} to quit
+
+=== block 'letters'  kind 42  320 words  (block 26)
+d{'00}a
+df
+
+
+dfo;5hhabo{70}
+
+dfo;5qpb/dp5
+ab
+dfo;7bxahi
+h
+dfo;5q5bhdpq
+
+dfo;5q/bhdph5
+q;{76}
+dfaj÷dp;{76}
+
+dfo;5iD595
+d5
+dffda5;{^00}b
+dl
+dfb;{^00}ahh
+
+dfo;5ahapir5
+ab
+dfo;7baxahi
+h
+dfcpa5h;{^00}h
+ax
+dfo;5qda/b)dp
+
+dfhbpa÷bg{^00}5
+95
+dfc5a÷aC5÷{70}
+1n
+dfo;5qbb5d
+
+dfo;7bbhahi
+h
+dfahbpd;α
+bd
+df5dbxb;÷5
+ab
+dfo;7pb5bdhh
+5
+dfh5qdb/b)dp)5
+dq5b
+df5db÷bdp)
+dp;{76}
+dfajbDp5αd
+b5d
+dfcaj
+ad;{76}
+dfo⌫5chpbp
+c;5
+dffcdpcp/aj
+adxl
+dfg{'00}cxbahd5p
+a{76}
+dfac5pag{70}
+
+dfdpqc/dpn
+
+dfddh5c÷apc{76}
+
+dfc{'00};5d5
+d
+df5bd5c{^00}h
+5b
+dfahdhd/dp
+5
+dfbhdp7bhh5
+1
+dfd5dxpb4÷
+
+dfd5d/a⌫1
+
+dfd/ncmgs
+hb
+dfh54⌫d÷
+
+df5adHp5
+abd
+dfaepad
+
+dfpqae5pqadd
+pqadd
+dfg{'00}fg;5;;c;⌫
+4;
+        ;;*;{76}
+df4;
+        ;;5f54;:;c;⌫
+g;5g{70}
+dff/
+g;5bdd
+dfgx
+
+dfg/
+
+dfg÷
+
+dfh
+
+dfo;5hhhabo{70}
+
+dfo;5qhpb/dp5
+ab
+dfo;7bhxahi
+h
+dfo;5qh5bhdpq
+
+dfo;5qh/bhdph5
+q;{76}
+dfajh÷dp;{76}
+
+dfo;5ihD595
+d5
+dffdi5;{^00}b
+dl
+dfb;{^00}ihh
+
+dfo;5ahipir5
+ab
+dfo;7bixahi
+h
+dfcpi5h;{^00}h
+ax
+dfo;5qdi/b)dp
+
+dfhbpi÷bg{^00}5
+95
+dfc5a÷iC5÷{70}
+1n
+dfo;5qjb5d
+
+dfahjpd;α
+bd
+df5djxb;÷5
+ab
+dfo;7pj5bdhh
+5
+dfh5qdj/b)dp)5
+dq5b
+df5dj÷bdp)
+dp;{76}
+dfajjDp5αd
+b5d
+dfo⌫5khpbp
+c;5
+dfkx;db*9
+d6htb6pj
+dfe/tb5k5d6hiiph
+;
+dflp
+
+df5m5h5b
+
+dfox
+
+dfo5
+
+
+
+
+
+
+
+=== block 'lazytwits'  kind 43  320 words  (block 27)
+microtableb
+
+
+
+look around 
+bring 
+
+carrying 
+drop 
+
+enter 
+
+forest 
+
+get 
+
+
+
+take inventory 
+
+
+
+
+leave 
+
+
+
+
+
+open 
+
+
+
+
+
+
+
+silver 
+
+take 
+
+
+
+
+
+
+
+
+
+
+
+
+
+in,get all,in
+get all,fill lamp
+out,out,fill bottlen,e,n,open
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+adamant 
+
+bottle 
+
+can 
+
+doors 
+
+eat 
+
+food 
+
+gold 
+
+house 
+
+inside 
+
+
+
+keys 
+
+lamp 
+
+
+
+nugget 
+
+outside 
+
+parchment 
+
+
+
+
+staff 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+=== block 'info'  kind 41  320 words  (block 30)
+= ÷d
+p
+hcxa
+p
+b
+]fp]fp-
+-l,
+aI+{70}
+5
+F÷a
+h
+af÷e+{70}
+a
+]xg
+]xg+/
+d]vq+{70}
+d,
+cDahd+{70}
+c{70}
+bnta5
+a-s+/fpka/naxkfp-t]-t]la9]
+za-vd=fpa÷
+n+/fqa÷÷-9×+/fpbxkrd%-xk
+bh
+bhq
+b5q],ud%-1×+/fpdscxu-d%-x+/
+vb5)vtfpb/yb⌫=b/w+/fpd{'00}cvb÷xd{'00}+/fp+/wb{70}
++/+/fpb÷+ct=
+-9×+/fpa÷y
+-9×+/
+c5td5
+d×
++50
+d×
+ep3
+-9×
+c/d%-x2
+j
+-xj
+-/tdh--5
++55dp5dp5
+86
+-9×
+dp9
+-9×
+dx0dx8
+ch
+y
+5/d
+ed×
+ew
+-9×
++5gd×=
+-9×
+b÷vb÷vv
+2b==
+c=×
+=-x
+e5+/fpex 
+-9×+/fpe5]{70}
+-9×+/fp 
+e/ +/fqf b
+-9×+/fp.b
+.+/fp
+
+
+bqrobert
+fsufac
+dave
+bio2
+dave
+bio2
+swaffieldjefn4
+fun
+uf
+testuser
+ananda
+fun
+uf
+fred
+bauer
+tom woodedbcc501
+math
+atldemo
+undercoffljefn4
+undercoffljefn3
+jkh
+research
+fun
+uf
+robert
+fsufac
+fred
+bauer
+carpenter apb001
+jd
+p
+cdcce
+o
+cdcce
+o
+visitor
+demo
+visitor
+demo
+--Start--atldemo
+sterley roatldemo
+ginny
+facmelb
+ginny
+facmelb
+ginny
+facmelb
+ginny
+facmelb
+ginny
+facmelb
+ginny
+facmelb
+ginny
+facmelb
+ginny
+facmelb
+ginny
+facmelb
+ginny
+facmelb
+ginny
+facmelb
+ginny
+facmelb
+ginny
+facmelb
+ginny
+facmelb
+ginny
+facmelb
+ginny
+facmelb
+ginny
+facmelb
+ginny
+facmelb
+ginny
+facmelb
+ginny
+facmelb
+ginny
+facmelb
+ginny
+facmelb
+ginny
+facmelb
+ginny
+facmelb
+lynda b
+jefdemo
+fun
+uf
+math
+atldemo
+jim mcd
+atldemo
+math
+atldemo
+jim mcd
+atldemo
+math
+atldemo
+math
+atldemo
+jkh
+research
+fun
+uf
+math
+atldemo
+math
+atldemo
+math
+atldemo
+eric
+imb
+math
+atldemo
+math
+atldemo
+jim mcd
+atldemo
+math
+atldemo
+math
+atldemo
+fun
+uf
+math
+atldemo
+math
+atldemo
+blip
+ufo
+ginny
+facmelb
+ginny
+facmelb
+ginny
+facmelb
+fun
+uf
+tom
+jefn
+undercoffljefn4
+undercoffljefn3
+undercoffljefn4
+tom woodedbcc501
+math
+atldemo
+gary stollcis4932
+succop
+appl
+finn
+mildemo
+fun
+uf
+gregory
+sccdemo
+math
+atldemo
+math
+atldemo
+fun
+uf
+fun
+uf
+lucier
+jefn7
+math
+atldemo
+math
+atldemo
+math
+atldemo
+mike
+fjc
+fun
+uf
+math
+atldemo
+gravy traicourse1
+mike
+fjc
+testuser
+ananda
+testuser
+ananda
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+dave
+
+=== block 'info'  kind 41  320 words  (block 31)
+bio2       ;;;;>;;>                                    ;*⌫;5h;5c  ;5xcxc               
+                      5d                               c          ;;;;;;;;;{75} gorm      
+foami      bop        bork       ni         ap                                         
+ 05/30/80             k↓                                                     gregory   
+sccdemo    ;;%⌫>88                                     {75}w){75}w){75}w) {75}p{75}w){75}w)           
+                      /                                u          ;;;;;;;;;{75} bork      
+toad       gorm       bocka      nose       {70}                                       
+ 05/12/80             b{75}                                                  john w    
+paxdemo    <]b;.p{75}                                  ⌫o6⌫o6a.6  p⌫h(⌫o6              
+                      /                                3          ;;;;;;;;;{75} foami     
+ni         bork       toad       bocka      q                                          
+ 05/12/80             bf                                                     david p   
+compsci    ;=5                                         {^67}↓{^67}↓a/n {^60}d/wes           
+                      d                                i          r          foo       
+foami      gorm       foing      ni         ap                    «                    
+ 05/19/80             ÷                                                      blip      
+ufo        ;;;⌫;46;              ufo                   ;.{75}g{75};.{75} ;.{75}c;{75};.{75} a         
+t          a          rd                               b          ;;;;;;;;;{75} bocka     
+foami      foo        gorm       toad       ap         21.41b×    {'00}a     a         
+ 05/26/80             hl                                                     math      
+atldemo    6÷                    atldemo               pcpca/na   pbx5a÷1{75} a⌫        
+u          a                                a          h          0          bork      
+gorm       foing      ni         foami      ;;;;;;;;;{76} 14.22      op5        a         
+ 05/19/80  b          a4                                                     me        
+bcc501     
+        %;{'74}45                                  ;.{75};.{75};.{75} ;/c÷*b*{75} /         
+g          a          fd                               b          ;;;;;;;;;{75} nose      
+foo        ni         bop        toad       d                     «                    
+ 05/07/80             c;                                                     mike k    
+paxdemo    <%7÷4                                       >40>40>40  >xd÷pa↑0             
+                      l                                9          ;;;;;;;;;{75} toad      
+bork       bocka      bop        gorm       aa                    «                    
+ 05/08/80             *                                                      elizabeth 
+facmelb    <%;÷pt                facmelb               {75};.g.{75};. {75};.{75}U{75}{ ×         
+b          a          ]d                               p          ;;;;;;;;;{75} nose      
+bop        foo        toad       foami      al         19.13b×    j)))))$5   a         
+ 05/19/80             am                                                     lisa l    
+paxdemo    <%b÷l4                                      ⌫*9⌫*9a.9  ⌫5bw9⌫5+             
+                      /                                0          g          foo       
+gorm       ni         foing      bork       {76}                                       
+ 05/12/80             «                                                      wh        
+
+=== block 'info'  kind 41  320 words  (block 32)
+fool
+;>8;o44
+
+fool
+
+;↑~↑~↑{^00};÷;↑α÷+6la]
+
+
+a;;;;;;;;;{75}nose
+foing
+ni
+bop
+bork
+c20.23
+op5
+a 05/19/80 
+d2
+
+
+
+ginny
+facmelb
+
+        %;÷p>
+
+
+
+;.{75};.{75};.{75};/d4{75}c{'33}
+
+
+fd
+
+
+b;;;;;;;;;{75}bocka
+toad
+bop
+foing
+nose
+f
+
+
+ 05/21/80 
+b.
+
+
+
+
+bio2
+;;>;÷÷{76}
+
+
+
+;*⌫;5h;*⌫;5xcc÷c
+
+
+5
+
+
+c;;;;;;;;;{75}gorm
+foami
+bop
+bork
+ni
+ap
+
+
+ 05/28/80 
+e7
+
+
+
+bludworthjefdemo
+{^73}%{^63} 
+
+
+
+<;w<;w<;w<{'00}cgw<;w/ga=
+
+
+/;;;;;;;;;{75}ni
+foo
+toad
+bop
+nose
+0
+
+
+ 05/08/80 
+bx
+
+
+
+testuser
+ananda
+<>]÷⌫45
+
+ananda
+
+>;4g4>;4>;4>{'37}e*7kax
+
+
+5;;;;;;;;;{75}bop
+foo
+ni
+toad
+bork
++19.07b×÷aa 05/28/80 
+a7
+
+
+
+haluska apatldemo
+;l5
+ril
+atldemo
+
+pc;o
+        a/kpchncx1a{^00}uah
+
+
+ftfoami
+bop
+foing
+bork
+nose
+ai14.16
+/aa 05/09/80 
+«
+
+
+
+holden
+jefdemo
+;;;;;;6>
+
+
+
+;↑{^00}g~↑{^00};↑~↑{^03}/m
+
+
+↓d
+
+
+a;;;;;;;;;{75}ni
+bop
+foing
+foo
+bork
+apb×ap
+ 05/27/80 
+q5
+
+
+
+glenn b
+paxdemo
+{^73}7÷1t
+
+
+
+>oy>oy>hm>h>oyd51
+
+
+=
+
+
+-rtoad
+gorm
+foo
+bop
+bork
+⌫
+«
+ 05/08/80 
+ao
+
+
+
+gravy traicourse1
+>%8÷1t
+n
+course1
+
+;.{75};.{75};.{75}w;(idx)bg{75}e↓ba/
+jlb;;;;;;;;;{75}bocka
+ni
+foo
+toad
+foing
+/17.33
+5aa 05/27/80 pa4
+
+
+
+swaffieldjefn3
+;β;la2
+
+jefn3
+
+;4>;4>a/l;xco>d3a$xa5
+PhoriansRomulansdzfoami
+foo
+bork
+gorm
+toad
+;;;;;;;;;»7.48
+oq÷
+a 05/14/80 r÷c;«he/↑bx×5fs
+
+
+
+eric

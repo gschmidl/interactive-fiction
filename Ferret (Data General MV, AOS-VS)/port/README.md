@@ -53,3 +53,15 @@ Interactive play is unaffected.
 
 The same emulator, from the same source, runs Zork; each port carries its
 own identical copy of it in `src32/`.
+
+## Checking it
+
+    sh tests/run.sh       # replays recorded sessions with the clock frozen
+
+`-Z <seconds>` freezes the clock, which is what makes a session repeat.  The
+emulator was brought up to date on 2026-09-16 (a broken DIVX, and the fixes
+found while porting Quest); `NOTES.md` has the details.
+
+Known problem: `RESTORE` of a save that does not exist ends the game with a
+garbled runtime error rather than a message.  Whether rev 4.10 did the same
+on a real machine is not settled -- see the end of `NOTES.md`.

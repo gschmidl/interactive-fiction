@@ -1,0 +1,4038 @@
+2darkmoor  (tutor    a, 77 blocks)
+  am | 5a | 08/20/84 | 03/07/94 | s | s | Maggs/Sh | apira/Sid | es | Avatar | see "auth | ors" | recreation | anyone | Avatar du | ngeon less | on | 15.21.05. | dave runte | e | s | coserv | coserv | publish | juse | microj | i4a⌫o | 2avatuse | avatarbv | mu2+ «{75} | 0catnote | coserv | s0edit | 5 | e | b
+
+=== block '*directory'  kind 00  0 words  (block 0)
+
+=== block 'initial'  kind 00  295 words  (block 1)
+*
+*       copyright 1979, 1980, 1981, 1982, 1983, 1984
+*       Bruce Maggs, Andrew Shapira, David Sides
+*
+*-- 551-934 are never used by dungeon but are by city
+storage 610,exactly
+*list   symbols
+*
+define  global
+        lessonn = 2     $$ lesson number of dungeon
+use     nc consts
+use     functions
+use     student
+*--
+*-- level-modified monster functions
+*--
+        zfight(x)       = x×([im2(zloc)/(.6+2×x)]+1)-1.1
+        zhits(x)        = x×([5×zloc/(.6+x**.8)]+1)-3.1
+        zdamage(x)      = x×([5×(zloc**.6)/(.6+x)]+1)-3.1
+        zappear(x)      = x×(zloc**(.43-x/40))
+        zresist(x)      = x+zloc
+*use     stats
+*********Ö token limit exceeded
+        dungdat         = nc(nccond+02) $$ dungeon ecs date
+        dungtim         = nc(nccond+03) $$ dungeon ecs time
+        segmentf,messes = nc(ncstwrd),01,30
+        segmentf,gives  = nc(ncstwrd),31,30
+        segmentf,gtime  = nc(ncstwrd+01),01,50  $$ game time
+**********{^'27} token limit exceeded
+use     dungeon
+use     players
+use     messages
+use     race/class
+use     character
+use     items
+use     maze
+use     monsters
+use     alive
+use     spells
+use     cmstats
+use     initial         $$ set leslist
+initial common,fakeinit
+initial lesson,stortime
+if      (fromnum {^54} gtentry) $mask$ (fromnum {^54} gtcity)
+.       color   display;zcyan
+.       atnm    208,256
+.       write   Please wait.
+.       calc    leslist « 0
+.       inhibit jumpchk
+.       jumpout <gtentry>
+.       jumpout q
+endif
+jump    (chpseu1=poseud1)$mask$(chpseu2=poseud2),x,entrypag
+*if      (chpseu1 {^54} poseud1) $union$ (chpseu2 {^54} poseud2)
+*.       calc    value1 « 'transit'
+*.               value2 « 0
+*.       notes   value,1,value,send
+*.       jumpout <gtentry>
+*endif
+keylist right,d,Rtarr
+keylist right1,D,Rtarr1
+keylist left,a,Lfarr
+keylist left1,A,Lfarr1
+keylist up,w,Uparr
+keylist up1,W,Uparr1
+keylist down,x,Dnarr
+keylist down1,X,Dnarr1
+*
+unit    secure          $$ to please condensor
+*
+unit    fakeinit
+*-- fooled you plato
+*calc    value1 « 'fakeinit'
+*        value2 « 0
+*notes   value,2,value,send
+*
+unit    stortime
+date    dungdat
+clock   dungtim
+*
+unit    listkeys
+*
+use     game arrow
+use     utilities
+use     timel
+use     wait
+use     city/dung
+use     u items
+use     u spell
+use     find play
+use     find spell
+use     u company
+use     u message
+use     u give
+use     att/def
+use     game util
+use     char plot
+use     u critrec
+use     colors
+*
+
+=== block 'initial'  kind 00  80 words  (block 2)
+*
+unit    dunginit
+inhibit term,anserase
+finish  exitslot
+if      backgnd
+.       backgnd
+endif
+*-- some initializations are done in unit getdown in city
+calc    potimer « 0
+        sqval   « 0
+        dmess   « 0
+        nodevil « -1
+        takeabl « 0
+        notpit  « -1
+        repflag « 0
+        dinfol1 « 0
+        dinfol2 « 0
+        opewait « -1
+        evadbon « 0
+        spay    « 0
+timel   5,timel
+do      wait
+*
+unit    replot
+erase   abort
+do      charplot
+calc    moved   « -1
+        sqseen  « 0
+        dmess   « 0
+        repflag « -1
+catchup
+*
+
+=== block 'main loop'  kind 00  228 words  (block 3)
+unitop  dungeon
+        merge,previous
+        lnewr   $$ new room number
+        lnxloc  $$ new xloc
+        lnyloc  $$ new yloc
+        lnxyloc $$ new x,y location
+        lfwall  $$ value of front wall
+        lrnuse  $$ -1 if not to use a round, else 0
+        lfight  $$ local value of fight
+$
+do      dunginit
+loop
+.       if      combat
+.       .       if      alitnum = 0
+.       .       .       do      endenc
+.       .       endif
+.       endif
+.       if      treas
+.       .       if      eq1(pochick)
+.       .       .       do      treaeras
+.       .       elseif  aliches {^72} 1
+.       .       .       do      endtreas
+.       .       endif
+.       .       if      opewait = 0
+.       .       .       do      open
+reloop
+.       .       elseif  opewait > 0
+.       .       .       do      opewait
+.       .       endif
+.       .       if      (examine = -2) $mask$ (aliches {^54} 4)
+.       .       .       calc    examine « (aliches < 2)
+.       .       .       do      examine
+.       .       endif
+.       endif
+.       if      ponloc > 0
+.       .       do      lchange
+.       .       do      company
+.       elseif  atrack
+.       .       do      company
+.       endif
+.       loop    sqseen = 0
+.       .       if      dmess
+.       .       .       do      edmess
+.       .       endif
+.       .       calc    sqseen « -1
+.       outloop ((sqval « mazesqu(xyloc)) = 0) $mask$ notpit
+.       .       do      specsqua
+.       endloop
+.       if      moved
+.       .       do      mazeplot
+.       endif
+.       calc    repflag « 0
+.       if      roomnum {^54} (lnewr « mazeroo(xyloc))
+.       .       do      exitold
+.       .       calc    roomnum « lnewr
+.       .       do      newroom
+.       endif
+.       do      mainkey
+.       if      mainkey = -1
+.       .       branch  opewait > 0,1wait,x
+reloop
+.       endif
+.       calc    lrnuse « eq0(kround(mainkey))
+*-- continued in next block
+
+=== block 'main loop'  kind 00  276 words  (block 4)
+*-- continued from previous block
+.       if      mainkey < 4
+reloop  (eq0(pofight)) $union$ (alinum(mainkey+1) = 0)
+.       .       calc    fight « mainkey+1
+.       elseif  mainkey < 14
+.       .       do      loadspel(mainkey-4)
+.       elseif  mainkey < 22
+.       .       if      atrack
+.       .       .       do      leavcomp
+.       .       endif
+.       .       if      mainkey < 20
+.       .       .       calc    xn    « mainkey-13
+.       .       .               xn    « direc+xn+3×(xn > 3)
+.       .       .               direc « xn+im4(xn > 3)
+.       .       .               moved « -1
+.       .       .       if      mainkey > 16
+.       .       .       .       do      setup(0)
+.       .       .       endif
+.       .       endif
+.       .       branch  mainkey > 16,x,1out
+.       .       branch  (lfwall « twall(6)) = 1,1out,x
+.       .       branch  (mainkey=20)$mask$(lfwall{^54}0),1out,x
+.       .       calc    xn     « xcalc(xyloc)
+.       .               yn « ycalcx(xyloc,xn)+ymove(direc)
+.       .               lnxloc « movewrp(xn+xmove(direc))
+.       .               lnyloc « movewrp(yn)
+.       .               lnxyloc « xyind(lnxloc,lnyloc)
+*.       .       branch  (alitnum > 0) $mask$ eq1(pofight) $mask$ (mazeroo(xyloc) {^54} roomnum),x,1noe
+.       .       branch  (alitnum > 0) $mask$ eq1(pofight) $mask$ (mazeroo(lnxyloc) {^54} roomnum),x,1noe
+.       .       do      evade
+*.       .       branch  lrnuse « evaded,x,1out
+.       .       1noe    sqseen « 0
+.       .               moved  « -1
+.       .               poxyloc « xyloc « lnxyloc
+.       .       1out    podirec « direc
+reloop  mazeroo(xyloc) {^54} roomnum
+.       else
+.       .       do      mainkey-32,spelbuf(mainkey-22),
+.       .               follow,fight,spell,take,message,
+.       .               yell,track,moveforw,moveback,quiet,
+.       .               leavcomp,pickup(0),drop,give,
+.       .               itchoose,itemcast,dropitem,x,
+.       .               open,treaeras(1),leavches,
+.       .               expask,foregnd,backgnd,return,
+.       .               updatec,dungexit,replot,term,
+.       .               autofigh,autospel,killself,
+.       .               itempage,plotpage(mainkey-61)
+.       endif
+reloop  livenum = 0
+.       if      combat
+reloop  lrnuse
+.       .       if      opewait {^54} -1
+.       .       .       do      endwait
+.       .       endif
+.       endif
+*-- continued in next block
+
+=== block 'main loop'  kind 00  175 words  (block 5)
+*-- continued from previous block
+.       1wait   nextkey « -3
+.       loop    (clock < rtime) $mask$ (alitnum > 0)
+.       .       if      nextkey = -3
+.       .       .       do      erasfigh
+.       .       .       color   display;zyellow
+.       .       .       writec  autof;>;;
+.       .       .       color   display;zcyan
+.       .       .       calc    nextkey « -2
+.       .       endif
+.       .       pause   .75,keys=keyset
+*-- catchup is sometimes pressed by the timel
+.       reloop  (key = timeup) $union$ (key = catchup)
+.       .       do      keytype(;nextkey)
+.       .       do      erasfigh
+.       .       color   display;zyellow
+.       .       writec  nextkey;;*
+.       .       color   display;zcyan
+.       endloop
+.       calc    opewait « opewait+(opewait {^54} -1)
+reloop  nextkey = -3
+.       do      erasfigh
+endloop
+*
+unit    keytype
+        merge,previous
+        lkey    $$ keytype value
+$
+*keytype lkey,1,2,3,4,0,1,2,3,4,5,6,7,8,9,a,x,d,A,X,
+*        D,w,W,<,>,[,],$,%,_,',*,(,j,f,s,t,M,Y,T,+,-,
+keytype lkey,1,2,3,4,0,1,2,3,4,5,6,7,8,9,left,down,right,
+        left1,down1,right1,up,up1,<,>,[,],$,%,_,',*,(,j,
+        f,s,t,M,Y,T,+,-,
+*-- the "1" is a placeholder
+        H,K,p,l,G,U,P,L,1,O,q,Q,I,F,B,R,next,back1,
+        data1,term,÷,×,help1,i,lab,S,help,help,lab1,copy,
+        copy1
+calc    autof « 0
+return  lkey
+*
+unit    autofigh
+calc    autof « -1
+do      fight
+*
+unit    autospel
+calc    autof « -2
+do      spelbuf(0)
+*
+
+=== block 'main key'  kind 00  269 words  (block 77)
+unit    mainkey
+        merge,previous
+        lkey            $$ keytype variable
+        ltreas          $$ treasure key not allowed?
+        lallow          $$ normal key not allowed?
+$
+mode    rewrite
+atnm    200,444
+showt   aliplay,1
+writec  (xn « alicorp)-1;  ;+«t,xn,1»
+mode    write
+calc    mainkey « -1
+        autof « autof*(1-sign(popbit(b.paral)+popbit(b.sleep)))
+if      alitnum > 0
+.       do      showenum
+.       calcs   autof+1,nextkey « 22,33,,
+.       calc    lkey « nextkey
+.               rtime « clock+5.375
+.       if      nextkey
+.       .       goto    (fight « nfight(fight))-1,q,x
+.       .       do      showfigh
+.       .       pause   (clock-rtime)*(rtime>clock),keys=all
+.       .       goto    alitnum-1,q,x
+.       .       do      erasfigh
+.       .       do      keytype(;lkey)
+.       endif
+else
+.       calc    rtime « clock+2.375
+.               nextkey « -4
+.       pause   (clock-rtime)*(rtime>clock),keys=all
+.       do      keytype(;lkey)
+endif
+goto    lkey,q,x
+calc    nextkey « -1
+        lkey « lkey+5*(lkey < 4)*notl(combat)
+goto    ((popbit(b.paral)+popbit(b.sleep)) > 0) $mask$ eq0(kparal(lkey)),q,x
+calc    ltreas « eq0(ktreas(lkey))
+        lallow « eq0(kallow(lkey))
+if      treas $mask$ combat
+.       goto    ltreas $mask$ lallow,q,x
+elseif  treas
+.       goto    ltreas,q,x
+else
+.       goto    lallow,q,x
+endif
+calc    mainkey « lkey
+*
+unit    specsqua
+do      sqval-1,outpit,smove(-1,0,0,1),stairs(-1),stairs(1),
+        trans(-1),trans(1),slope,pit,pit,pit,chute,chute,
+        chute,randxy,x,rock,telept2d,telept2d,telept2d,
+        telept3d,revolve,leavcomp,x,antimag,x,quiksand,
+        direct(0),direct(1),direct(2),direct(3),revolve
+*
+unit    stairs(takeabl)
+do      mazeplot
+calc    dmess « -1
+color   display;zgreen
+atnm    40,322
+write   You have found a stairway going 
+writec  takeabl;down.;;up.
+write     "t" to take it.
+color   display;zcyan
+*
+unit    trans(takeabl)
+do      atrack,x,movedown
+*
+unit    slope
+        merge,previous
+        lroll   $$ random number
+$
+do      mazeplot
+randu   lroll,100+zloc
+goto    lroll > rslope(race)×3,q,x
+color   display;zgreen
+atnm    112,322
+write   You have detected a sloping passage.
+color   display;zcyan
+calc    dmess « -1
+*
+
+=== block 'squares'  kind 00  228 words  (block 6)
+unit    pit
+        merge,previous
+        lroll
+        lnolev  $$ -1 if not levitating, 0 if levitating
+$
+if      repflag
+.       do      hover
+.       goto    q
+endif
+calc    lnolev « (popbit(b.levit) = 0)
+if      notpit
+.       calc    notpit « 0
+.       do      wait
+.       randu   lroll,100
+.       do      lnolev $union$ (lroll < (zloc $ars$ 1)),falldam,hover
+else
+.       do      lnolev;inpit;hover
+endif
+*
+unit    outpit
+calc    notpit « -1
+*
+unit    inpit
+color   display;zyellow
+atnm    188,322
+write   You are in a pit.
+color   display;zcyan
+calc    dmess « -1
+*
+unit    chute
+        merge,previous
+        lroll
+$
+if      repflag
+.       do      hover
+.       goto    q
+endif
+calc    takeabl « 9-sqval
+do      wait
+randu   lroll,100
+if      (popbit(b.levit)>0) $mask$ (lroll{^73}(zloc $ars$ 1))
+.       do      hover
+else
+.       do      leavcomp
+.       do      movedown
+.       do      falldam
+endif
+*
+unit    randxy
+do      wait
+do      leavcomp
+loop
+.       randu   xyloc,900
+outloop mazesqu(xyloc) {^54} 15
+endloop
+calc    poxyloc « xyloc
+        notpit  « -1
+do      tploc
+*
+unit    antimag
+goto    repflag,q,x
+do      wait
+do      offmagic
+*
+unit    falldam
+        merge,previous
+        ldam    $$ damage taken when falling in pit
+        ldmax   $$ max damage
+$
+do      mazeplot
+if      sqval < 10
+.       randu   ldam,ldmax « (sqval-6)×10×zloc
+else
+.       randu   ldam,ldmax « (sqval-9)×15
+endif
+calc    xn « ldam×pitmult
+        zn « pobhits
+        xn « imax(xn,1)
+color   display;zyellow
+atnm    52,322
+write   You have fallen 
+writec  sqval-10;into a pit;down a chute
+write    and taken «s,ldam«imin(ldam,xn)» hit«a,plur(ldam)».
+color   display;zcyan
+do      hitself(ldam)
+do      comploop(1,id2(ldmax))
+catchup
+pause   .75
+calc    dmess « -1
+*
+
+=== block 'squares'  kind 00  227 words  (block 7)
+unit    hover
+        merge,previous
+        lpit    $$ -1 if a pit
+$
+do      mazeplot
+color   display;zgreen
+atnm    68-72*(lpit « sqval < 10),322
+write   You are hovering over a 
+writec  lpit;pit.;chute.  "t" to take it.
+color   display;zcyan
+calc    dmess « -1
+*
+unit    rock
+calc    chrock « 1
+do      messloc
+color   display;zyellow
+write     You are stuck in solid rock!
+color   display;zcyan
+*calc    popdead « 1
+do      hitself(1000)
+*
+unit    telept2d
+goto    atrack,q,x
+calc    poxyloc « (xyloc « mazetxy(sqval-15))
+do      tploc
+*
+unit    tploc
+do      mazeplot
+do      newloc
+calc    moved « 0
+*
+unit    telept3d
+goto    atrack,q,x
+if      (takeabl « zloc-mazetpz) = 0
+.       do      telept2d
+else
+.       calc    xyloc « mazetxy(4)
+.       do      movedown
+endif
+*
+unit    revolve
+goto    repflag+atrack,q,x      $$ leave if either is true
+randu   direc,4
+do      direct(direc-1)
+*
+unit    direct(direc)
+calc    podirec « direc
+*
+unit    take
+        merge,previous
+$
+goto    takeabl,x,q,x
+do      (alitnum > 0) $mask$ (eq1(pofight)),evade,x
+atnm    40,322
+erase   54
+color   display;zgreen
+atnm    212,322
+write   Going 
+writec  takeabl;down.;;up.
+color   display;zcyan
+do      atrack,leavcomp,x
+do      movedown
+calc    teled « -1      $$ tell treasure unit we moved
+*
+unit    movedown
+*--
+*-- all common variables should be updated simultaneously
+*--
+calc    zloc    « zloc-takeabl
+        takeabl « 0
+        zloc    « imax(zloc,0)
+        poxyloc « xyloc
+        notpit  « -1
+if      (zloc « imin(zloc,levels)) {^54} pozloc
+.       calc    pozloc « zloc
+.       do      zloc-1,citymove,getlevel
+.       do      tploc
+endif
+*
+unit    citymove
+do      newloc
+do      edmess
+calc    pozloc « 0
+do      patience
+do      jprepare
+jumpout <gtcity>,'refresh'
+*
+
+=== block 'drown'  kind 00  173 words  (block 10)
+unit    newloc
+*do      combat,encerase,x
+do      exitold
+calc    sqseen « 0
+        moved  « -1
+*
+unit    edmess
+atnm    40,322
+erase   54
+calc    dmess   « 0
+        takeabl « 0
+*
+unit    quiksand
+        merge,previous
+        lroll   $$ random number
+$
+goto    repflag,q,x
+randu   lroll,100
+goto    (popbit(b.levit)>0)$mask$(lroll{^73}(zloc $ars$ 1)),q,x
+do      hitself(im4(zloc))
+do      comploop(4,im4(zloc))
+randu   lroll,100
+do      zloc-lroll,x,chowitem(-2)
+*
+unit    offmagic
+        merge,previous
+        lmaskw = o14 63 14 63 14 63 17 77 77 77
+$
+calc    popbits « popbits $mask$ lmaskw
+*
+unit    drown
+        merge,previous
+        lweight $$ total weight
+        litem   $$ item to scan
+        litemn  $$ item number
+        lroll
+$
+*
+* {'43}MAGGS{'44} $ars$ 1
+randu   lroll,100
+goto    (popbit(b.water) > 0) $union$ ((popbit(b.levit) > 0) $mask$ (lroll {^73} (zloc $ars$ 1))),q,x
+do      getmons(chcomon)
+do      mpro(mp.drow)-1,comploop(2),x
+do      dmess,edmess,x
+calc    litem   « 0
+        lweight « 0
+loop    (litem « litem+1) {^72} slots
+reloop  (litemn « chitem(litem)) = 0
+reloop  eq1(chibank(litem))
+.       do      getitem(litemn)
+.       calc    lweight « lweight+ispecb(i.heavy)
+endloop
+goto    lweight-1,q,x
+color   display;zyellow
+atnm    188,322
+write   You are drowning!
+color   display;zcyan
+calc    dmess « -1
+do      hitself(lweight×3)
+*
+
+=== block 'company'  kind 00  233 words  (block 11)
+unit    term
+*****
+goto    combat,q,x
+*****
+if      (popbit(b.disea)+popbit(b.poiso)) > 0
+.       color   display;zyellow
+.       do      phrasew(51)
+.       color   display;zcyan
+.       goto    q
+endif
+zero    value,4
+if      ppnum(leadr) > 1
+.       pack    value,,Pressed TERM.
+.       color   display;zcyan
+.       do      sendmess(m.track)
+.       color   display;zcyan
+endif
+do      timel
+calc    poterm « 1
+inhibit
+press   term
+pause   3,keys=term
+inhibit term,anserase
+timel   5,timel
+calc    poterm « 0
+*
+unit    company
+        merge,previous
+        lleader $$ your leader
+        lnloc   $$ combination of x,y,z and direction
+        lnxyloc $$ new x,y location
+        lnzloc  $$ new zloc
+        lndirec $$ new direction
+        lnewr   $$ new room number
+        lchance $$ did escape attempt fail?
+$
+calc    lleader « poleadr
+        lnloc   « pploc(lleader)
+        lnxyloc « ppxyloc(lleader)
+        lnzloc  « ppzloc(lleader)
+        lndirec « ppdirec(lleader)
+        lnewr   « -1    $$ room number changes if level does
+*--
+branch  xyloc = lnxyloc,x,1move
+branch  zloc = lnzloc,x,2move
+branch  direc = lndirec,1end,3move
+*--
+1move   lnewr « mazeroo(lnxyloc)
+2move
+if      combat
+.       if      (alitnum > 0) $mask$ (eq1(pofight))
+.       .       if      lnewr {^54} roomnum
+.       .       .       do      evade
+.       .       endif
+.       endif
+endif
+calc    poloc  « lnloc          $$ update x,y,z,d in common
+        xyloc  « lnxyloc        $$ update x,y
+        sqseen « 0              $$ new square
+3move   direc  « lndirec        $$ update local d
+        moved  « -1             $$ new maze to plot
+if      zloc   {^54} lnzloc         $$ check for level change
+.       do      newloc
+.       do      (zloc « lnzloc)-1,citymove,getlevel
+endif
+*if      zloc+0 {^54} (zloc « lnzloc) $$ check for level change
+*.       do      newloc
+*.       do      zloc-1,citymove,getlevel
+*endif
+1end
+*
+
+=== block 'maze plot'  kind 00  272 words  (block 12)
+unit    setup
+        merge,previous
+        loffset $$ offset in maze defines
+        lind    $$ index goes from 0 to 10
+$
+calc    loffset « (xn « xcalc(xyloc))×31+ycalcx(xyloc,xn)
+        lind    « 0
+loop    (lind   « lind+1) {^72} 10
+.       calc    xn « loffset+mview(lind,direc)
+.               twall(lind) « maze2(imax(xn,1))
+endloop
+*
+unit    mazeplot
+        merge,previous
+        lwall   $$ wall loop index
+        lval    $$ array index
+        lind    $$ wall index, goes from 0-10
+$
+do      setup
+calc    moved « 0
+*        sqval « mazesqu(xyloc)  $$ in case teleported
+if      -nodevil
+.       goto    roomnum = mazeroo(xyloc),q,x
+endif
+if      (sqval = 14) $union$ (sqval = 30)       $$ darkness
+.       set     tshow «
+.               o57575757575771575757,
+.               o57575771575757575757,
+.               o71575757575757000000
+else
+.       set     tshow «
+.               o55555555555571555555,
+.               o55555571555555555555,
+.               o71555555555555000000
+.       if      (sqval = 22) $union$ (sqval  = 31) $$ water
+.       .       calc    tshow3 « o71565656565656000000
+.       elseif  sqval = 24      $$ illusion
+.       .       calc    lind « 0
+.       .       loop    (lind « lind+1) {^72} 10
+.       .       .       calc    twall(lind) « (twall(lind)+3)$mask$3
+.       .       endloop
+*-- quicksand
+.       elseif  (sqval = 25) $mask$ (popbit(b.levit) = 0)
+.       .       calc    tshow3 « o71505050505050000000
+.       endif
+.       calc    lwall « 0
+.       loop    (lwall « lwall+1) {^72} 10
+.       reloop  twall(lwall)-1
+.       .       calc    lval « im2(lwall)+(twall(lwall) {^54} 2)
+.       .               tshow « (tshow $mask$ mmazew1(lwall)) $union$ umazew1(lval)
+.       .               tshow2 « (tshow2 $mask$ mmazew2(lwall)) $union$ umazew2(lval)
+.       endloop
+endif
+mode    rewrite
+color   display;zyellow
+atnm    280,444
+write   **
+color   display;zcyan
+altfont alt
+at      232,492
+showa   tshow,29
+altfont off
+color   display;zyellow
+atnm    280,444
+writec  atrack;{75}__{75};++
+color   display;zcyan
+mode    write
+goto    sqval = 24,setup,q
+*.       calc    xdiff«ppxloc(leadr)-poxloc
+*.               ydiff«ppyloc(leadr)-poyloc
+*.       writec  sign(xdiff)×(direc+1)+3;Ö;{^'04};{^'27};{^'01};+;{^'04};Ö;{^'01};{^'27}
+*.       writec  sign(ydiff)×(direc+1)+3;{^'04};{^'27};{^'01};Ö;+;{^'27};{^'04};Ö;{^'01}
+*
+
+=== block 'timel'  kind 00  123 words  (block 13)
+unit    timel
+        merge,previous
+        lroll   $$ roll of a die
+        lcomp   $$ companion number
+        lchits  $$ current hits of companion
+        lhits   $$ old hits
+        ldamage $$ damage
+        linfow  $$ word of status info
+        segment,linfo   = linfow,4
+        lplotl  $$ plotting loop variable
+        lninfo  $$ new info value
+$
+do      setinfo(;linfow)
+if      -linfo(d.poi)
+.       randu   lroll,4+im2(popbit(b.spoi) > 0)
+.       calc    ldamage « lroll
+.       randu   lroll,20
+.       calc    popbit(b.poiso) « linfo(d.poi)×sign(lroll-1)
+else
+.       calc    ldamage         « 0
+.               popbisp(b.spoi) « 0
+endif
+if      -linfo(d.dis)
+.       randu   lroll,2
+.       calc    ldamage « ldamage+lroll
+.       randu   lroll,40
+.       calc    popbit(b.disea) « linfo(d.dis)×sign(lroll-1)
+endif
+if      -linfo(d.sle)
+.       randu   lroll,10
+.       calc    popbisp(b.sleep) « sign(lroll-1)
+endif
+if      -linfo(d.par)
+.       randu   lroll,20
+.       calc    popbisp(b.paral) « sign(lroll-1)
+endif
+
+=== block 'timel'  kind 00  246 words  (block 14)
+do      setinfo(;linfow)
+calc    lplotl « 0
+loop    (lplotl « lplotl+1) {^72} 7
+*--
+*-- 1 through 6 are shown; 7 is not
+*--
+reloop  sign(info(lplotl)) = sign(lninfo « linfo(lplotl))
+.       color   display;zyellow
+.       atnm    80,180-im16(lplotl)
+.       writec  (im2(lplotl=7)-(lninfo>0))×lplotl
+.        
+.               {'37}          
+.               Poisoned
+.               Diseased
+.               Paralyzed
+.               Asleep
+.               «c,zgreen»Levitating
+.               «c,zgreen»Invisible
+.       color   display;zcyan
+.       do      showabil
+endloop
+calc    infow « linfow
+*--
+do      mtimel
+if      ldamage > 0
+.       do      hitself(ldamage)
+endif
+if      chcomps > 0
+.       randu   lcomp,4
+.       calc    lchits « chcochi(lcomp)
+.       if      (eq1(chcothe(lcomp))) $mask$ (lchits > 0)
+.       .       randu   lroll,im2(curstat(s.cha))×(1+(lchits/chcobhi(lcomp)))
+.       .       if      lroll = 1
+.       .       .       do      destcomp(lcomp)
+.       .       .       do      messloc
+.       .       .       color   display;zyellow
+.       .       .       write     Companion #«s,lcomp» left.
+.       .       .       color   display;zcyan
+.       .       endif
+.       endif
+endif
+branch  combat,x,1out
+branch  alitnum > 0,x,1out
+if      eq0(pofight)
+.       if      follow = 0
+.       .       randu   lroll,curstat(s.cha)×3
+.       .       do      lroll-2+5×(align {^54} alialig),unpeace,
+.       .               x
+.       endif
+else
+.       do      fseen = 0,unpeace,x
+.       do      sqval = 22,drown,x
+.       do      monsattk
+.       do      chattack
+endif
+1out
+atnm    3264
+write    
+timel   5,timel
+*
+unit    setinfo
+        merge,previous
+        linfow                  $$ word of info
+        segment,linfo   = linfow,4
+$
+calc    linfo(d.poi) « popbit(b.poiso)
+        linfo(d.dis) « popbit(b.disea)
+        linfo(d.par) « popbit(b.paral)
+        linfo(d.sle) « popbit(b.sleep)
+        linfo(d.lev) « popbit(b.levit)
+        linfo(d.inv) « popbit(b.invis)
+        linfo(d.pro) « popbit(b.pro)    $$ not shown
+return  linfow
+*
+
+=== block 'populate'  kind 00  131 words  (block 15)
+unit    newroom
+        merge,previous
+        lcount  $$ number of rooms to depopulate
+$
+jump    abs(checs)×((muse/mallot) > (checs/100)),exitgame,x
+calc    magic   « eq0(mazemag(roomnum))
+        nodevil « -1
+        autof   « 0
+        nextkey « -1
+        pofight « 0
+        teled « pochick « 0
+***
+*if      zgroup = 'lock'
+*.       at      1428
+*.       erase   32,2
+*.       write   roomnum = «s,roomnum», zloc = «s,zloc»
+*.               popaliv = «s,popaliv(zloc,roomnum)»
+*endif
+***
+loop
+.       if      popaliv(zloc,roomnum) = 1
+.       .       loop
+reloop  popaliv(zloc,roomnum) = 0
+.       .       .       do      alifind
+.       .       outloop livenum > 0
+.       .       .       break   
+.       .       endloop
+.       .       loop    aliplay = 49
+.       .       .       break   
+.       .       endloop
+.       .       if      aliplay = 50
+.       .       .       calc    aliplay « 49
+.       .       .       finish  encstag2
+.       .       .       do      createnc
+.       .       .       calc    aliplay « 0
+.       .       endif
+outloop
+
+=== block 'populate'  kind 00  289 words  (block 16)
+.       else
+.       .       calc    popaliv(zloc,roomnum) « 1
+.       .       finish  encstag1
+.       .       calc    livenum « aliapri
+*.       .               lcount « 1
+.       .       loop
+.       .       .       calc    xn      « livenum+1
+.       .       .               livenum « wrap(xn,1,maxlive)
+*.       .       reloop  alitotp {^54} 0
+*.       .       .       calc    aliplay « 49
+*.       .       .       if      aliid > 0
+*.       .       .       .       calc    popaliv(alizloc,aliroom) « 0
+*.       .       .       .               aliid « 0
+*.       .       .       endif
+*.       .       outloop lcount-2
+*.       .       .       calc    aliplay « 0
+*.       .       .               lcount « lcount-1
+*.       .       endloop
+*.       .       calc    aliid   « id
+*.       .               aliplay « 49
+.       .       outloop alitotp = 0
+.       .       endloop
+.       .       if      aliid > 0
+.       .       .       calc    popaliv(alizloc,aliroom) « 0
+.       .       endif
+.       .       calc    aliid   « id
+.       .               aliplay « 49
+.       .               aliapri « livenum
+.       .               xn      « alilive+1
+.       .               alilive « imin(xn,maxlive)
+.       .       finish  encstag2
+.       .       do      setalive
+.       .       do      createnc
+.       .       calc    aliplay « 0
+outloop
+.       endif
+endloop
+calc    aliplay « aliplay+1
+finish  exitslot
+do      alitnum > 0,newenc,x
+do      treas « (aliches > 1),newtreas,x
+*--
+*-- there should be NO commands after this
+*--
+*
+unit    exitold
+goto    livenum-1,q,x
+if      combat
+.       do      encerase        $$ sets combat to 0
+endif
+if      treas                   $$ sets treas to 0
+.       do      treaeras
+endif
+calc    aliplay « aliplay-1
+        alifoll « 1
+        livenum « 0
+        roomnum « 0
+*
+unit    alifind
+        merge,previous
+        lreturn $$ return argument for find command
+$
+find    id $cls$ 48,alibnk1,maxlive,lreturn,1,lmask(12)
+calc    livenum « lreturn+1
+goto    lreturn,q,x
+do      setalive
+*
+unit    setalive
+calc    a10     « livenum×6-4   $$ alidef(livenum,10)+2
+        a8      « livenum×7-5   $$ alidef(livenum,8)+2
+        a4      « livenum×15-15 $$ alidef(livenum,4)
+*
+unit    encstag1
+calc    popaliv(zloc,roomnum) « 0
+        livenum « 0
+do      exitslot
+*
+unit    encstag2
+calc    aliplay « 50
+        livenum « 0
+do      exitslot
+*
+
+=== block 'populate'  kind 40  255 words  (block 17)
+.       else
+.       .       calc    popaliv(zloc,roomnum) « 1
+.       .       finish  encstag1
+.       .       calc    livenum « aliapri
+.       .               lcount « 1
+.       .       loop
+.       .       .       calc    xn      « livenum+1
+.       .       .               livenum « wrap(xn,1,maxlive)
+.       .       reloop  alitotp {^54} 0
+.       .       .       calc    aliplay « 49
+.       .       .       if      aliid > 0
+.       .       .       .       calc    popaliv(alizloc,aliroom) « 0
+.       .       .       .               aliid « 0
+.       .       .       endif
+.       .       outloop lcount-2
+.       .       .       calc    aliplay « 0
+.       .       .               lcount « lcount-1
+.       .       endloop
+.       .       calc    aliid   « id
+.       .               aliapri « livenum
+.       .               xn      « alilive+1
+.       .               alilive « imin(xn,maxlive)
+.       .       finish  encstag2
+.       .       do      setalive
+.       .       do      createnc
+.       .       calc    aliplay « 0
+outloop
+.       endif
+endloop
+calc    aliplay « aliplay+1
+finish  exitslot
+do      alitnum > 0,newenc,x
+do      treas « (aliches > 1),newtreas,x
+*--
+*-- there should be NO commands after this
+*--
+*
+unit    exitold
+goto    livenum-1,q,x
+if      combat
+.       do      encerase        $$ sets combat to 0
+endif
+if      treas                   $$ sets treas to 0
+.       do      treaeras
+endif
+calc    aliplay « aliplay-1
+        alifoll « 1
+        livenum « 0
+        roomnum « 0
+*
+unit    alifind
+        merge,previous
+        lreturn $$ return argument for find command
+$
+find    id $cls$ 48,alibnk1,maxlive,lreturn,1,lmask(12)
+calc    livenum « lreturn+1
+goto    lreturn,q,x
+do      setalive
+*
+unit    setalive
+calc    a10     « livenum×6-4   $$ alidef(livenum,10)+2
+        a8      « livenum×7-5   $$ alidef(livenum,8)+2
+        a4      « livenum×15-15 $$ alidef(livenum,4)
+*
+unit    encstag1
+calc    popaliv(zloc,roomnum) « 0
+        livenum « 0
+do      exitslot
+*
+unit    encstag2
+calc    aliplay « 50
+        livenum « 0
+do      exitslot
+*
+
+=== block 'enc new'  kind 00  187 words  (block 20)
+unit    newenc
+        merge,previous
+        ltype   $$ type to scan
+        lrolled $$ rolling variable
+        lbasex  $$ base x location for monster characters
+        floating: lbase         $$ player-based chance
+$
+do      wait
+calc    combat  « -1
+        dinfol1 « 0
+        dinfol2 « 0
+*-- try recognize new monsters
+        lbase  « sqrt(chage/(17×8766))+curstat(s.wis)+lev/10
+        ltype  « 0
+        lbasex « 236-12×alityps
+        fight « 1
+zero    namew,12        $$ zero previous information
+loop    (ltype « ltype+1) {^72} 4
+.       calc    monsx(ltype) « lbasex+24×ltype
+.               tamons(ltype) « alimons(ltype)
+reloop  alinum(ltype)     = 0
+.       calc    known(ltype) « 3        $$ man, animal, etc
+reloop  (sqval = 14) $union$ (sqval = 30)       $$ darkness
+.       calc    known(ltype) « 1        $$ correct knowledge
+.       do      getmons(tamons(ltype))
+.       randu   lrolled,100
+.       calc    xn « lbase+mrecogn
+reloop  (lrolled {^72} imin(xn,97)) $union$ (mconfus = 0)
+.       calc    known(ltype) « 2        $$ confusion
+endloop
+calc    pofight « 1
+        follow  « 0
+if      alitnum > 0
+.       do      encpeace        $$ follow, peace, etc.
+.       calc    fight « nfight(fight)
+.       branch  fight = 0,1out,x
+.       do      getmons(tamons(fight))
+.       randu   lrolled,100
+.       do      (lrolled>(50+(curstat(s.dex)-mdex)×5-matt(ma.surp)×20-matt(ma.csur)×500)) $mask$ eq1(pofight),monsattk,x
+***
+*.       do      opt(33)-1,x,debugset    $$ debug info
+***
+.       catchup
+.       1out
+endif
+calc    fseen « pofight
+timel   5,timel
+*
+
+=== block 'enc create'  kind 00  191 words  (block 21)
+unit    createnc
+        merge,previous
+*        lsearch $$ entry in encounter table
+*        ltotal  $$ total of weights so far
+        ltable  $$ encounter table
+        lrolled $$ random number
+        lroll   $$ another random number
+        ltype   $$ monster loop counter
+        lcreate $$ slot to create in
+        lsused  $$ squares occupied by monster groups so far
+        lrsqrs  $$ squares in current room
+        lmain   $$ main monster
+        lalig   $$ alignment
+        lalignc $$ alignment counter
+        lalignw $$ alignment list
+        lcpass  $$ passes left to disregard mons/room size
+        lmtab   $$ mazetab(roomnum)
+        lcheck  $$ alignment to check
+        laloc   $$ alignment array location
+        lguest(4)       $$ array of possible guests
+$
+*--
+*-- ALL rooms have population entries -- even if they have
+*-- no monsters
+*--
+calc    alimbyt « o00100000000  $$ first group to 1
+        alifbyt « 0
+        alinbyt « 0
+        alitnum « 0
+        aliches « 0
+        lrsqrs  « mazecnt(roomnum)
+if      pomons  > 0     $$ throw orwell encounter
+.       calc    lmain « pomons
+.       do      getmons(lmain)
+else
+.       calcs   mazetab(roomnum)-1,ltable « zloc,
+.               mazetab(roomnum)
+.       calc    lcpass « 0
+.       loop    (lcpass « lcpass+1) {^72} 3
+.       .       do      encloop(ltable,0;lmain)
+.       .       goto    lmain-1,q,x
+.       .       do      getmons(lmain)
+.       .       goto    eq1(mallow(lmain)),q,x  $$ banished
+.       outloop (lsused « mrsize) {^72} lrsqrs      $$ it fits
+.       endloop
+endif
+*--
+*-- continued in next block
+*--
+
+=== block 'enc create'  kind 00  222 words  (block 22)
+*--
+*-- continued from previous block
+*--
+calc    alimons(1) « lmain
+        pomons « 0
+        lalignw « (maligns $cls$ 57)    $$ alignment list
+        lalignc « bitcnt(lalignw)       $$ count
+randp   lalig,lalignc
+randu   lroll,100
+calc    alialig « imax(lalig,1)
+        alipeac « abs((lroll > chances((alialig-1)*3+ppalign(leadr)))*(mint > 5)*(eq0(mpro(mp.peac))))
+        alifoll « 0
+do      moncreat(1)
+*--
+*-- roll for guest appearances
+*--
+calc    ltype « 0
+loop    (ltype « ltype+1) {^72} 3
+reloop  (lguest(ltype) « mappear(ltype)) = 0
+.       randu   lrolled,100
+reloop  lrolled {^72} mchance(ltype)
+.       calc    lguest(ltype) « 0
+endloop
+*--
+*-- now try to fit these guests into the room
+*--
+setperm 3
+calc    lcreate « 1
+loop
+.       randp   ltype
+outloop ltype-1
+reloop  lguest(ltype) = 0
+.       do      getmons(lguest(ltype))
+reloop  lsused+mrsize   > lrsqrs
+.       calc    lsused  « lsused+mrsize
+.               alimons(lcreate « lcreate+1) « lguest(ltype)
+.       do      moncreat(lcreate)
+endloop
+calc    alityps « lcreate
+        alifbyt « rmask(lcreate)
+do      creatrea        $$ create treasure
+*
+unit    moncreat(lcreate)
+        merge,previous
+        lcreate $$ which slot to create in
+        floating : lmonsn       $$ number of monsters
+$
+do      vroll(mapdice,mapside;lmonsn)
+calcs   eq1(mapplev),lmonsn « zappear(lmonsn),,
+calc    xn               « min(lmonsn,15)
+        alinum(lcreate)  « xn
+        alitnum          « alitnum+xn
+do      newhits(lcreate)
+*
+unit    newhits(lcreate)
+        merge,previous
+        lcreate $$ which slot to create in
+        floating: lhits $$ number of hits
+$
+do      vroll(mhdice,mhdside;lhits)
+calc    lhits            « lhits+mhbonus
+        lhits            « max(lhits,1)
+        xn               « zhits(lhits)
+        alihits(lcreate) « imin(xn,1023)
+*
+
+=== block 'enc create'  kind 00  251 words  (block 23)
+unit    creatrea
+        merge,previous
+        lgold           $$ total gold
+        lgroup          $$ monster group
+        lgoldp          $$ personal gold
+        lgoldg          $$ group (primary only) gold
+        lroll           $$ roll 1 {^72} x {^72} 100
+        lrollx          $$ roll 1 {^72} x {^72} 2
+        lcount          $$ total so far against total weight
+        ltrap           $$ trap number
+$
+*--
+*-- initialization and count up individual monster gold
+*--
+calc    lgold « lgroup « 0
+        aliitem « 0
+loop    (lgroup « lgroup+1) {^72} 4
+outloop alinum(lgroup) = 0      $$ end of groups
+.       do      getmons(alimons(lgroup))
+.       do      roll(mpdice,mpsides;lgoldp)
+.       calc    lgold « lgold+((lgoldp×10**mpmult)×alinum(lgroup))
+endloop
+do      getmons(alimain)        $$ primary group
+*--
+*-- is monster in lair?
+*--
+*-- maybe add check for corridor/room here too? (7/26/82)
+*--
+randu   lroll,100
+if      lroll {^72} mtrlair
+.       do      roll(mgdice,mgsides;lgoldg)
+.       calc    lgold « lgold+(lgoldg×10**mgmult)
+*--
+*-- determine if item, 1/4 normal chance
+*--
+.       do      itemfoun(4)
+*--
+*-- is there a chest?
+*--
+.       randu   lroll,100
+.       if      lroll {^72} mtrches
+*--
+*-- how is chest locked? (2 = normal, 3 = unused, 4 = magic)
+*--
+.       .       randu   lroll,100
+.       .       calc    aliches«2+ 2×(lroll {^72} mtrspec)×magic
+*--
+*-- chest is trapped?
+*--
+.       .       randu   lcount,mtrapto
+.       .       calc    lcount « lcount - mnotrap
+.       .               ltrap « 0
+.       .       loop    (lcount > 0) $mask$ (ltrap < 10)
+.       .       .       calc    ltrap « ltrap+1
+.       .       .               lcount « lcount-mtrap(ltrap)
+.       .       endloop
+.       .       calcs   (alitrap«ltrap)-1,alidiff«0,mtrdif
+*--
+*-- is there an item?
+*--
+.       .       do      itemfoun(1)
+.       endif
+endif
+calc    aliexpo « int(log(lgold))
+        alimant « int((lgold/10**aliexpo)×100)
+*
+unit    itemfoun(lmult)
+        merge,previous
+        lroll
+        floating: lmult
+$
+randu   lroll,100×lmult
+calc    aliitem « 1+(lroll > mtritem)
+*
+
+=== block 'enc peace'  kind 00  289 words  (block 24)
+unit    encpeace
+        merge,previous
+        lroll   $$ random number
+$
+atnm    180,408
+if      eq0(alipeac)
+.       color   display;zyellow
+.       write   {75}CD
+.       atnm    316,408
+.       write   {75}CD
+.       color   display;zcyan
+.       goto    q
+endif
+calc    pofight « 0     $$ should be right here
+color   display;zwhite
+write   {75}©{^'04}
+atnm    316,408
+write   {75}©{^'04}
+color   display;zcyan
+goto    (eq0(alifoll)) $mask$ (alialig = align) $mask$ (alitnum > 0),x,q
+randu   jgroup,4
+goto    (jgroup « nfight(jgroup))-1,q,x
+do      getmons(tamons(jgroup))
+randu   lroll,70-(curstat(s.cha)+curstat(s.wis))
+goto    (eq0(mpro(mp.foll))) $mask$ (lroll < 5),x,q
+randu   lroll,int(curstat(s.cha)/8)+1
+calc    follow « alinum(jgroup)
+        follow « imin(follow,4)
+goto    (follow « imin(follow,lroll))-1,q,x
+calc    alifoll « 1
+        known(jgroup) « 1
+color   display;zgreen
+atnm    40,352
+write   Press "j" to allow 
+do      showmons(follow,jgroup,-1,0)
+write    to follow you.
+color   display;zcyan
+calc    atnm1(40)
+*
+unit    unpeace
+        merge,previous
+        lcomp   $$ companion to leave
+$
+mode    rewrite
+color   display;zyellow
+atnm    180,408
+write   {75}CD
+atnm    316,408
+write   {75}CD
+color   display;zcyan
+mode    write
+if      follow > 0
+.       calc    follow  « -1
+.               dinfol1 « 0
+.       atnm    40,352
+.       erase   59
+endif
+calc    alipeac « 0
+if      eq0(pofight)
+.       calc    person « 0
+.       loop    (person « person+1) {^72} maxin
+.       reloop  ppseudo(person) = 0
+.       reloop  ppleadr(person) {^54} poleadr
+.       .       calc    ppfight(person) « 1
+.       endloop
+endif
+calc    fseen « 1
+*
+unit    follow
+do      (eq1(pofight)) $mask$ (fseen = 0),unpeace,x
+goto    follow-1,q,x
+do      shold(jgroup)
+calc    alifbyt « 0
+        alinbyt « 0
+        alitnum « 0
+        aliches « 0
+do      treaeras
+*
+unit    vroll(ldice,lsides)
+        merge,previous
+        ldice                   $$ dice
+        lsides                  $$ sides
+        lroller                 $$ loop index
+        floating: lroll         $$ temporary result
+        floating: lrolled       $$ permanent result
+$
+calc    lroller « 0
+        lrolled « 0
+loop    (lroller « lroller+1) {^72} ldice
+.       randu    lroll
+.       calc     lrolled « lrolled+1+lroll×(lsides-1)
+endloop
+return  lrolled
+*
+
+=== block 'enc show'  kind 00  287 words  (block 25)
+unit    showenum
+        merge,previous
+        ltype   $$ which type to plot
+        lxloc   $$ where to plot
+        lyloc
+        lanum   $$ alinum(ltype)
+        lnamep  $$ need to replot name
+        lrolled $$ random number
+$
+do      eq1(pofight) $mask$ (fseen = 0),unpeace,x
+mode    rewrite
+*atnm    216,444
+*showt   aliplay,2
+calc    ltype   « 0
+loop    (ltype  « ltype+1) {^72} 4
+.       calc    lxloc « showex(ltype)
+.               lyloc « showey(ltype)
+.               lanum « alinum(ltype)
+*-- erase when all monsters die
+.       if      lanum = 0
+.       .       if      shownam(ltype) {^54} 0
+.       .       .       atnm    lxloc,lyloc
+.       .       .       erase   28
+.       .       .       atnm    monsx(ltype),413
+.       .       .       erase   2,2
+.       .       .       calc    shownam(ltype) « 0
+.       .       .       if      nodevil = ltype
+.       .       .       .       calc    nodevil « -1
+.       .       .       .       do      mazeplot
+.       .       .       endif
+.       .       endif
+reloop
+.       endif
+*-- chance of recognizing a confused monster
+.       randu   lrolled,5
+.       calcs   lrolled = 1,known(ltype) « 1,,
+*-- plot new numbers if number of monsters changes
+*-- or the name needs to be displayed
+*-- replot monster name if it becomes singular
+.       calcs   (oldnum(ltype)>1) $mask$ (lanum=1),lnamep «
+.               -1,known(ltype) {^54} shownam(ltype)
+reloop  (lanum = oldnum(ltype)) $mask$ notl(lnamep)
+.       do      getmons(tamons(ltype))
+.       color   display;zwhite
+.       atnm    lxloc,lyloc
+.       write   «s,ltype».  
+.       do      showmons(oldnum(ltype) « lanum,ltype,lnamep," ")
+.       color   display;zcyan
+.       calc    shownam(ltype) « known(ltype)
+reloop  notl(lnamep)
+.       erase   28-(wherex-lxloc)/8
+reloop  (popbit(b.dinvi)-matt(ma.invi)) < 0
+.       if      matt(ma.dev)-1
+.       .       color   display;zwhite
+.       .       atnm    monsx(ltype),413
+.       .       plot    mcharac(mchar,1)
+.       .       plot    mcharac(mchar,2)
+.       .       atnm    monsx(ltype),398
+.       .       plot    mcharac(mchar,3)
+.       .       plot    mcharac(mchar,4)
+.       else
+.       .       calc    nodevil « ltype
+*.       .       do      orange
+.       .       color   display;zyellow
+.       .       at      232,496
+.       .       write         
+         {75}'?{^'02}Å 
+         {75}Ä{'64}\{^'17} 
+         {75}{^'77}!{^'57}{^57} 
+.       endif
+.       color   display;zcyan
+endloop
+mode    write
+*
+
+=== block 'enc show'  kind 00  132 words  (block 26)
+unit    showmons(lnum,lgroup,lnamesh,lpref)
+        merge,previous
+        lnum    $$ number of monsters
+        lgroup  $$ group number
+        lnamesh $$ -1 if to show name, 0 if not
+        lpref   $$ prefix to number if < 10, i.e. space or 0
+        lknown  $$ known status
+        linv    $$ monster is invisible and not detected
+$
+*--
+*-- assumes correct monster is loaded
+*--
+do      (lknown « known(lgroup)) = 2,getmons(mconfus),x
+calc    linv « (popbit(b.dinvi)-matt(ma.invi)) < 0
+*color   display;zyellow
+writec  eq1(matt(ma.uniq)) $union$ linv;;«a,lpref×abs(lnum < 10)»«s,lnum» 
+branch  lnamesh,x,1out
+if      linv
+.       write   Unseen Monster«a,plur(lnum)»
+elseif  lknown = 3
+.       writec  mtype;;Human;Animal;Undead;Humanoid;Giant;
+.               Demon;Dragon;Lycanthrope;Mythical;Enchanted;
+.               Clean-up;Monster;Insect;Water-Dweller;
+.               Elemental;Devil
+.       writec  lnum-2;;s
+else
+.       write   «a,mname,20»«a,msuffix(sign(lnum-1)+1)»
+endif
+*--
+*-- load correct monster again
+*--
+1out
+*color   display;zcyan
+do      getmons(tamons(lgroup))
+*
+
+=== block 'enc end'  kind 00  210 words  (block 27)
+unit    endenc
+        merge,previous
+        lmons   $$ monster number
+        ltype   $$ type (1-4) to check for quest completion
+$
+*inhibit         $$ clear inhibit term
+do      encerase
+if      -nodevil
+.       calc    nodevil « -1
+.       do      mazeplot
+endif
+goto    eq0(pofight),q,x
+*-- check for quest
+if      chqstat(class) = 4
+.       calc    ltype « 0
+.       loop    (ltype « ltype+1) {^72} 4
+.       reloop  ((lmons « tamons(ltype)) = 0) $union$ (lmons {^54} chqinfo(class))
+.       .       calc    chqstat(class) « 2
+.       .       do      messloc
+.       .       color   display;zgreen
+.       .       write     You have completed your quest!
+.       .       color   display;zcyan
+.       outloop
+.       endloop
+endif
+*-- chest
+goto    eq1(pochick),q,x
+do      aliches-1,encgold,x
+goto    aliches-2,q,x
+do      examine
+goto    opewait,q,x
+calc    opewait « 0
+do      endwait
+*atnm    156,352
+*erase   26
+*calc    dinfol1 « 0
+do      open
+*
+unit    encerase
+        merge,previous
+        lerase  $$ erase monsters loop index
+        ldinfol $$ info line erase length
+$
+calc    popbit(b.sleep) « 0
+        popbit(b.paral) « 0
+        combat « 0
+atnm    180,408         $$ erase either sword or peace sign
+erase   2
+atnm    316,408
+erase   2
+do      fight-1,x,erasfigh
+*atnm    216,444         $$ # players
+*erase   2
+at      212,414
+erase   11,2            $$ monster characters
+*atnm    236,415
+*erase   5
+***
+*atnm    8,416           $$ debug information
+*erase   60
+***
+calc    lerase « 0
+loop    (lerase « lerase+1) {^72} 4
+reloop  shownam(lerase) = 0
+.       atnm    showex(lerase),showey(lerase)
+.       erase   28
+endloop
+atnm    dinfob1,352
+erase   dinfol1
+atnm    dinfob2,336
+erase   dinfol2
+*
+
+=== block 'enc util'  kind 00  282 words  (block 30)
+unit    killself
+goto    eq0(pofight),q,x
+do      hitself(1000)
+*
+unit    showtrap(ltrap)
+        ltrap           $$ trap number
+$
+color   display;zgreen
+writec  ltrap-1;Not trapped;Withering;
+        Disease spores;Fear;Exploding box;
+        Fire trap;Poison gas;Teleporter;Slime;
+        Blackout;Fate
+color   display;zcyan
+*
+unit    evade
+        merge,previous
+        lroll
+$
+*
+**      check to see if player evades sucessfully
+*
+*       this unit rewritten 10/12/83 cds
+*
+*       factors taken into account:
+*
+*       player's invisiblity and monster's see invisible
+*       should be taken into account, but would have to
+*       check for all monster groups to be accurate, so
+*       blowing this check off for now...
+*
+*       player's dex
+*       player's wisdom
+*
+*       kept simple to be nice to players...
+*
+calc    xn « int[(im2(curstat(s.dex))+curstat(s.wis))/3]*4
+        xn « imax(xn,5)
+randu   lroll,100
+*
+goto    lroll > imin(xn,95),x,q
+calc    evadbon « -1    $$ monster get bonus
+do      monsattk
+calc    evadbon « 0
+*
+*unit    evade
+*        merge,previous
+*        lroll
+*$
+**--
+**-- base chance of 65%
+**--
+**-- dex difference      -40 - 40
+**-- pitmult               0 - 2; uses race, thieving ability
+**-- invisibility          0 / 30 (monster sees invisible, 0)
+**-- number of monster     0 - 60
+**-- number of players     0 - 48
+**--
+*calc    fight « nfight(fight)
+*goto    fight-1,q,x
+**-- redundant, but so what
+*calc    alifoll « 1
+**-- use monster you are fighting for dex determination
+*do      getmons(tamons(fight))
+*calc    xn « 65+(curstat(s.dex)-mdex)×1.5+((1-matt(ma.seei))×sign(popbit(b.invis)))×30
+*        xn « xn+aliplay×5-alitnum-15×pitmult
+*        xn « imax(xn,5)
+*randu   lroll,100
+**goto    evaded « (lroll {^72} imin(xn,95)),q,x
+*if      lroll > imin(xn,95)     $$ failed evade shot
+*.       calc    evadbon « -1    $$ monster get bonus
+*.       do      monsattk
+*.       calc    evadbon « 0
+*endif
+*
+unit    matmess(lmnum)
+        merge,previous
+        lmnum   $$ message number
+        lbuff(4)$$ buffer
+$
+atnm    dinfob2,336
+erase   dinfol2
+transfr c,cstatus+im4(lmnum-1);lbuff(1);4
+atnm    dinfob2«256-im4(dinfol2 «lbuff(4)$mask$rmask(6)),336
+color   display;zyellow
+showa   lbuff(1),39
+color   display;zcyan
+*
+
+=== block 'treasure'  kind 00  69 words  (block 100)
+unit    encgold
+        merge,previous
+        lgold           $$ gold total for group
+        lgoldp          $$ gold you get
+$
+*-- 2 ways to get gold; end of combat or end of treasure
+goto    (lgold « (ecmon/ectot)*(((alimant/100)*10**aliexpo)/alisplt))-1,q,x
+atnm    dinfob1,352
+erase   dinfol1
+color   display;zgreen
+atnm    80,352
+write   Your share of the treasure is «s,lgold,8» gold.
+color   display;zcyan
+calc    atnm1(80)
+do      gold(lgold,1,0,-1,0)
+do      giveaway                $$ may or may not give item
+goto    combat,q,x
+catchup
+atnm    80,352
+erase   44
+*
+
+=== block 'treasure'  kind 00  257 words  (block 31)
+unit    trap
+        merge,previous
+        ldam    $$ damage
+        lsides  $$ sides on damage dice
+        ltrap   $$ value of trap
+        lroll   $$ for hand re-alignment
+$
+atnm    24,408
+erase   17
+do      showtrap(ltrap « alitrap)
+if      ltrap-1         $$ not trapped
+elseif  ltrap-2         $$ withering
+.       do      gainage(720,-1) $$ age 4 weeks
+elseif  ltrap-3         $$ disease spores
+.       calc    popbisp(b.disea) « 1
+elseif  ltrap-4         $$ fear
+.       if      chcomps > -(pocrry < 0)
+.       .       do      comploop(3)
+.       .       do      messloc
+.       .       color   display;zyellow
+.       .       write     Your companions were scared away.
+.       .       color   display;zcyan
+.       .       do      compplot
+.       endif
+elseif  ltrap-6         $$ exploding box, fire trap
+.       calcs   ltrap-5,lsides «12,15-7×sign(popbit(b.fire))
+.       do      roll(zloc,lsides;ldam)
+.       atnm    392,408
+.       erase   11
+.       color   display;zyellow
+.       write   («s,ldam» hit«a,plur(ldam)»)
+.       color   display;zcyan
+.       do      hitself(ldam)
+elseif  ltrap-7         $$ poison gas
+.       calc    popbisp(b.poiso) « 1
+elseif  ltrap-8         $$ teleport
+.       calc    teled « -1
+.       do      leavcomp        $$ teleport only the opener
+.       do      randxy
+.       do      treaeras        $$ sets treas to 0
+elseif  ltrap-9         $$ slime
+.       do      chowitem(-1)
+elseif  ltrap-10        $$ blackout
+.       do      offmagic
+elseif  ltrap-11        $$ fate
+.       do      fate
+endif
+pause   1
+*do      treaeras
+atnm    24,408
+erase   17
+atnm    392,408
+erase   11
+atnm    24,408
+erase   17
+*
+unit    fate
+        merge,previous
+        lroll
+$
+randu   pochits,chbhits
+do      showchit
+randu   chspell,200
+do      showspel
+randu   lroll,26282     $$ 3 years-worth
+do      gainage(lroll-13141)
+calc    return « -1     $$ spell units also call this unit
+*-- randomly align hands
+*.       randu   lroll,10
+*.       if      lroll-2
+*.       .       randu   lroll,4
+*.       .       calc    chialig(1) « lroll-1
+*.       .       do      showitem(1)
+*.       endif
+
+=== block 'treasure'  kind 00  149 words  (block 32)
+unit    examine
+        merge,previous
+        ltrap           $$ trap to show
+        lroll           $$ roll 1 {^72} x {^72} 100
+        lroom           $$ number in population list
+        lcalc           $$ calculated exponent
+        floating:ltseed,lrseed
+$
+goto    examine,q,x
+calc    examine « -1
+atnm    24,408
+erase   17
+if      aliches = 4
+.       color   display;zgreen
+.       write   Magically locked.
+.       color   display;zcyan
+.       calc    examine « -2
+else
+.       randu   lroll,100
+.       randu   ltrap,11
+*.       calc    lcalc « 100+charid+livenum*alimain
+*.               lrseed « 1.000003**lcalc
+*.               ltseed « 1.000002**lcalc
+*.               lroll « 1+frac((lrseed $mask$ rmask(20))/100)*100
+*.               ltrap « 1+frac((ltseed $mask$ rmask(20))/11)*11
+.       calcs   (lroll {^72} knowtr),ltrap « alitrap,ltrap-1
+.       do      showtrap(ltrap)
+.       color   display;zgreen
+.       atnm    392,408
+.       writec  int(knowtr/20)-1;=⌫-;==⌫⌫--;===⌫⌫⌫---;====⌫⌫⌫⌫----;=====⌫⌫⌫⌫⌫-----
+.       writec  int(disarm/20)-1;  --;  -;  +⌫↓-;  +;  ++
+.       color   display;zcyan
+*.       goto    opt(o.debug)-1,q,x
+*.       erase   10
+*.       show    lroll
+*.       write    
+*.       show    ltrap
+endif
+*
+
+=== block 'treasure'  kind 00  262 words  (block 33)
+unit    newtreas
+calc    examine « 0     $$ not examined yet
+        xn « alidiff
+*        knowtr « (curstat(s.wis)/23)*95-im8(xn)+pabilit(a.thief)
+*        knowtr « imax(knowtr,0)
+*        disarm  « thprob(pabilit(a.thief),xn) × (curstat(s.dex)/23) - (xn/2)**2
+*        zn « 95-xn*1.5
+*        disarm « imin(disarm,zn)
+* tom / exp / cerl  4/30/84  10:57 pm *
+        yn « pabilit(a.thief)+1
+        knowtr « im2(curstat(s.wis))+yn+pabilit(a.fight)-(xn*5)
+        knowtr « knowtr/(1-(sqval = 14))
+        knowtr « imax(knowtr,0)
+        disarm « ((yn**.4)×curstat(s.dex)) - xn*7
+        zn « 95-xn
+        disarm « imin(disarm,zn)
+*do      orange
+color   display;zyellow
+atnm    256,430
+write   {75}AB
+color   display;zcyan
+do      getmons(tamons(1))
+*-- calculate number of rounds to open chest
+calc    xn « id2(mtrdif)**1.5-pabilit(a.thief)**.65+mtlev/10-id8(curstat(s.dex))+2 
+        orounds « imax(xn,1)
+do      (alitnum = 0) $union$ (orounds = 1),examine,x
+*goto    opt(o.debug)-1,q,x
+*write     («s,knowtr»,«s,disarm»)
+*
+unit    open
+        merge,previous
+        lroll   $$ random number
+        lchest  $$ aliches
+$
+goto    eq1(pochick),q,x
+goto    opewait-1,x,q
+calc    lchest « aliches
+if      (lchest < 2) $union$ (lchest = 4)
+elseif  combat $mask$ (opewait = -1)
+.       do      eq0(pofight),unpeace,x
+.       calc    opewait « orounds
+.       atnm    dinfob1,352
+.       erase   dinfol1
+.       color   display;zgreen
+.       atnm    164,352
+.       write   Opening
+.       color   display;zcyan
+.       calc    dinfol1 « 24
+.       do      opewait
+else
+.       calc    aliches « 1
+.               alisplt « aliplay
+.       do      endwait
+.       if      alitrap < 1
+*-- give item away if there was no trap
+.       .       do      giveaway
+.       else
+.       .       randu   lroll,100
+.       .       if      lroll {^72} disarm
+.       .       .       calc    alitrap « 0
+.       .       .       do      moreexp(alidiff×zloc×20)
+.       .       .       goto    q
+.       .       endif
+*-- don't give away if teleported
+*-- give item away before trap, in case trap kills him
+.       .       do      alitrap = 7,x,giveaway
+.       .       do      alitrap-2,trap,x,x,trap,x,x,trap,trap,x,trap
+.       endif
+endif
+
+=== block 'treasure'  kind 00  125 words  (block 34)
+unit    leavches
+        merge,previous
+        lplay   $$ player to check
+$
+goto    aliches-2,q,x
+calc    lplay « 0
+loop    (lplay « lplay+1) {^72} maxin
+reloop  ppleadr(lplay) {^54} poleadr
+.       calc    ppchick(lplay) « 1
+endloop
+do      treaeras
+*
+unit    endtreas
+do      treaeras
+goto    (aliches-1),q,x
+goto    (eq0(pofight)) $mask$ combat,q,x
+do      alitrap-2,x,trap,trap,x,trap,trap,x,x,trap,x
+do      teled,x,encgold
+*
+unit    treaeras(pochick)
+calc    treas « 0
+atnm    256,430
+erase   2               $$ treasure chest
+atnm    24,408
+erase   17              $$ trap/magically locked
+atnm    392,408
+erase   11              $$ trap knowledge indicators
+do      endwait
+*
+unit    opewait
+mode    rewrite
+color   display;zgreen
+atnm    228,352
+write   («s,opewait» round«a,plur(opewait)» to go)  
+color   display;zcyan
+mode    write
+do      orounds > im2(opewait-1),examine,x
+*
+unit    endwait
+goto    opewait,q,x
+atnm    148,352
+erase   28
+calc    opewait « -1
+        dinfol1 « 0
+*
+
+=== block 'giveaway'  kind 00  216 words  (block 35)
+unit    giveaway
+        merge,previous
+        lfind           $$ player number to check
+        lplyr           $$ player number of receiver of item
+        lcount          $$ number passed so far
+        ltarget         $$ target player number
+        lgslot          $$ temporary give slot
+        lmitem          $$ item/table index
+        litype          $$ index type, 0=item, 1=table
+        ltable          $$ table number
+$
+goto    aliitem-1,q,x           $$ no item to give away
+calc    aliitem « 0             $$ don't give away two
+do      getmons(tamons(1))      $$ only main monster
+*--
+*-- find player to give item to...
+*--
+randu   ltarget,aliplay
+calc    lfind « lcount « 0
+        lplyr « comnum
+loop    (lfind « lfind+1) {^72} maxin
+*--
+*-- have some reloops
+*--
+reloop  ppseudo(lfind) = 0
+reloop  ppzloc(lfind)  {^54} zloc
+reloop  mazeroo(ppxyloc(lfind)) {^54} roomnum
+reloop  ppchits(lfind) = 0
+reloop  eq1(ppchick(lfind))     $$ q or Q was pressed
+reloop  (lcount « lcount+1) {^54} ltarget
+.       calc    lplyr « lfind
+outloop
+endloop
+*--
+calc    pgive « 0               $$ give buffer zeroed
+        lmitem « mitem          $$ item/table index
+        litype « mitype         $$ 0 = item, 1 = table
+if      (eq0(litype)) $mask$ (lmitem > 0)       $$ item
+.       do      getitem(lmitem)
+.       do      createit(lmitem)
+elseif  eq1(litype)                             $$ table
+.       calcs   lmitem-1,ltable « 15+zloc,lmitem
+.       do      encloop(ltable,1;lmitem)
+.       goto    lmitem-1,q,x            $$ no item to create
+.       do      createit(lmitem)
+endif
+*--
+*-- send give buffer
+*--
+goto    gitem-1,q,x             $$ create item failed
+*--
+calc    xn « gslot+1
+        gto(gslot « (lgslot « xn+(xn = 21)×20)) « lplyr
+        gfrom(lgslot) « 63
+        gstat(lgslot) « 2
+transfr pgive;c,give(lgslot);1
+*
+
+=== block 'giveaway'  kind 00  250 words  (block 36)
+unit    createit(litem)
+        merge,previous
+        litem           $$ item number (1-255)
+        lcount          $$ counter for # of alignments
+        lcharge         $$ number of charges
+$
+*--
+*-- check to see if too many of this item in the game
+*-- already, unit "get" takes care of incrementing the
+*-- "found" counter (ifound(x))
+*--
+goto    ((imaxn(litem)-ifound(litem)) < 1) $mask$ (imaxn(litem) {^54} 0),q,x
+do      getitem(litem)
+calc    pgive  « 0      $$ zero give buffer
+        gitem  « litem  $$ item number
+        gknown « 0      $$ nothing known, just found
+*--
+*-- determine charges
+*--
+calc    gcharge « 0
+if      ichdice > 0
+.       do      roll(ichdice,ichside;lcharge)
+.       calc    gcharge « imin(lcharge,ichmax)
+endif
+*--
+*-- determine alignment
+*--
+calc    galign « 0
+if      (lcount « igne(1)+igne(2)+igne(3)) > 0
+.       randu   lcount,lcount
+.       loop    (galign « galign+1) {^72} 3
+.       outloop (lcount « lcount-igne(galign)) = 0
+.       endloop
+endif
+*
+unit    encloop(ltable,ltype)
+        merge,previous
+        ltable          $$ starting table
+        ltype           $$ 0 = monster, 1 = item
+        lpass           $$ pass number
+        lindex          $$ -return-ed index of monster/item
+        lroll           $$ random number
+        lsearch         $$ current entry
+        ltotal          $$ sum of weights so far
+$
+calc    lpass « 0
+        lindex « 0
+*--
+loop    (lpass « lpass+1) {^72} 7
+.       do      getenc(ltable)
+outloop eents = 0               $$ empty table
+outloop ettype {^54} ltype          $$ wrong table type
+.       randu   lroll,etweigh
+.       calc    lsearch « 0
+.               ltotal « 0
+.       loop    (lsearch « lsearch+1) {^72} eents
+.       .       calc    evtto « etinfo(lsearch)
+.       outloop (ltotal « ltotal+eveweig) > lroll-1
+.       endloop
+*--
+*-- pointer to another table
+*--
+.       if      eq1(evestat)
+.       .       calc    ltable « evenumb
+reloop
+.       endif
+*--
+*-- normal entry
+*--
+.       calc    lindex « evenumb
+outloop
+endloop
+*--
+return  lindex          $$ 0 if nothing valid, else 1-255
+*
+
+=== block 'kill/damag'  kind 00  316 words  (block 37)
+unit    showfigh
+atnm    showex(fight)-16,showey(fight)
+color   display;zyellow
+write   {^'04}
+color   display;zcyan
+*
+unit    erasfigh
+atnm    showex(fight)-16,showey(fight)
+erase   1
+*
+unit    damage(ldam,lshow,lmult)
+        merge,previous
+        ldam    $$ damage to do to monster
+        lshow   $$ show messages: -2 = backstab, -1 = normal
+        floating: lmult $$ experience multiplier
+$
+if      alinum(fight) > 0
+.       if      ldam {^73} alihits(fight)
+.       .       do      kill(fight,1,lmult)
+.       .       do      lshow,killmess(-36-(37×lshow),kill),x
+.       elseif  ldam > 0
+.       .       calc    alihits(fight) « alihits(fight)-ldam
+.       .       if      lshow
+.       .       .       atnm    dinfob1,352
+.       .       .       erase   dinfol1
+.       .       .       color   display;zyellow
+.       .       .       atnm    dinfob1 « 184+32*lshow,352
+.       .       .       writec  lshow+1;You backstabbed;
+.       .       .               You hit
+.       .       .       write    for «s,ldam» damage.
+.       .       .       color   display;zcyan
+.       .       .       calc    dinfol1 « (wherex-dinfob1) $ars$ 3
+.       .       endif
+.       .       do      moreexp(mexp×ldam×lmult×((ppnum(poleadr)+6)/10))
+.       endif
+endif
+*
+unit    kill(ltype,kill,lmult,lhits)
+        merge,previous
+        ltype   $$ which type to kill
+        ldam    $$ how much damage you did
+        lhits   $$ hits to set to, if fourth arg is passed
+        lavhits $$ average hits of each monster
+        lremain $$ how many are left after they are killed
+        floating: lmult         $$ experience multiplier
+$      
+calcs   args-4,lhits « -1,lhits
+calc    yn   « alinum(ltype)
+        kill « imin(kill,yn)
+if      kill > 0                $$ actually killed something
+.       calc    lremain       « yn-kill
+.               alinum(ltype) « lremain
+.               alitnum       « alitnum-kill
+.               ldam          « alihits(ltype)
+.               alifbyt « (alifbyt $mask$ comp(1 $cls$ (ltype-1))) $union$ (sign(lremain) $cls$ (ltype-1))
+*****{^'27} is inefficient; use comp twice and mask once
+.       do      getmons(tamons(ltype))
+.       if      lremain > 0
+.       .       do      lhits,newhits(ltype),
+.       .               sethits(alihits(ltype) « lhits)
+.       else
+.       .       calc    alihits(ltype) « 0
+*-- in case final group is killed and gold from no chest
+.       .               alisplt « aliplay
+.       endif
+.       calc    mallow(tamons(ltype)) « matt(ma.uniq)
+.               lavhits « (id2(mhdside+1))×mhdice+mhbonus
+.               lavhits « zhits(lavhits)
+.       do      moreexp(mexp×(ldam+(kill-1)×lavhits)×lmult×((ppnum(poleadr)+6)/10))
+endif
+*
+unit    sethits(ldummy)
+        ldummy  $$ dummy variable
+*
+
+=== block 'hitprob'  kind 00  254 words  (block 40)
+unit    hitprob(latt,ldef)
+        merge,previous
+*--
+        latt            $$ attacker
+        latemp,lasize,ladbon,laprob,lastr
+*--
+        ldef            $$ defender
+        ldtemp,ldsize,ldcpro,ldac,ldprob
+*--
+        ltemp
+*--
+        lchance         $$ chance of hitting (%)
+        lcrit           $$ chance of a critical hit (%)
+$
+if      latt = -1       $$ player
+.       calc    lcrit   « abs(5×crinuse) + pabilit(a.crit)
+.               latemp  « itemper
+.               lasize  « itarget
+.               xn      « lastr-14
+.               ladbon  « imin(xn,5)
+.               ladbon  « imax(ladbon,0)
+.               ladbon  « ladbon+dambon+pabilit(a.dam)
+.               laprob  « poatt
+.               laprob  « laprob-invbon*(eq1(matt(ma.invi)) $mask$ (popbit(b.dinvi) > 0))
+else                    $$ monster
+.       do      getmons(latt)
+.       do      attprob(zfight(mflev)×2,mstr,im2(mint),mdex,mhitbon;laprob)
+.       calc    lcrit   « 5×matt(ma.crit)
+.               laprob  « laprob*(1-0.5*evadbon)
+.               latemp  « mtemp
+.               lasize  « msize
+.               xn      « lastr-14
+.               ladbon  « imin(xn,5)
+.               ladbon  « imax(ladbon,0)
+.               ladbon  « ladbon+mabonus
+.               laprob  « laprob-invbon*((popbit(b.invis) > 0) $mask$ (eq1(matt(ma.seei))))
+endif
+if      ldef = -1       $$ player
+.       calc    ldprob  « podef/(2+sign(opewait))
+.               ldtemp  « 3
+.               ldsize  « 4
+.               ldcpro  « (pabilit(a.fight) > (20*zloc)) $mask$ (zloc < 13)
+else                    $$ monster
+.       do      getmons(ldef)
+.       do      defprob(zfight(mflev)×2,mstr,im2(mint),mdex,mac,0,0,0,0-matt(ma.invi);ldprob)
+.       calc    ldtemp  « mtemp
+.               ldsize  « msize
+.               ldcpro  « eq1(mpro(mp.crit))
+endif
+*--
+calc    lchance « 50 + laprob - ldprob
+        lchance « imin(95,lchance)
+        lchance « imax(05,lchance)
+*--
+        ltemp   « abs(latemp - ldtemp)
+calcs   ldcpro,lcrit « 0,,
+if      lcrit > 0
+.       calc    xv      « (lcrit/100)×lchance
+.               lcrit   « max(xv,1)
+endif
+*--
+return  lchance,lcrit,imax(0,ltemp)-abs(lasize-ldsize)+ladbon
+*
+
+=== block "p {^'04} m"  kind 00  202 words  (block 41)
+unit    fight
+        merge,previous
+        lshow           $$ same values as in unit damage
+        lhit            $$ number needed to get under to hit
+        lroll           $$ number rolled
+        lswing          $$ swing loop variable
+        ltswing         $$ temporary swing variable
+        litemn          $$ item number (1-255)
+        lfight          $$ temporary fight
+        lcrit           $$ chance for critical hit
+        lmdam           $$ accumulated monster damage
+        ldamage         $$ damage to dish out
+        lmissm          $$ show miss message?
+        lswings         $$ number of swings this round
+        ldambon         $$ damage bonus due to size/temp
+        lmons           $$ tamons(fight)
+*-- chance of fumbling (1-5%)
+        lfumble = (5 - int(lhit/20))/3
+c               always 5% chance of hitting or missing
+$
+goto    alitnum-1,q,x   $$ no chest if someone -j-'s
+if      eq0(pofight)
+*.       if      chcomps > 0
+*.       .       do      pocrry,drop,x
+*.       .       do      allcomps
+*.       endif
+.       do      unpeace
+.       calc    rtime « clock+5.375
+endif
+calc    popbisp(b.invis) « 0
+if      (litemn « chitemu(1)) = 0
+.       atnm    dinfob1,352
+.       erase   dinfol1
+.       color   display;zyellow
+.       atnm    188,352
+.       write   No weapon in use!
+.       color   display;zcyan
+.       calc    atnm1(188)
+.               autof « 0
+.       goto    q
+*-- damage hands if they are normal and in use
+elseif  ((litemn «chitem(litemn))=1)$mask$(pabilit(a.dam)=0)
+.       randu   lroll,im8(pabilit(a.fight)+9)
+.       if      lroll = 1
+.       .       calc    chitem(1) « 2
+.       .               litemn « 2
+.       .       do      showitem(1)
+.       endif
+endif
+*-- continued in next block
+
+=== block "p {^'04} m"  kind 00  204 words  (block 42)
+*-- continued from previous block
+*-- load weapon if not loaded
+do      litemn = loadedi,x,getitem(litemn)
+calc    lswing  « 0             $$ no swings yet
+        lfight  « 0             $$ monster fighting
+        lmdam   « 0             $$ accumulated damage
+        lmissm  « -1            $$ you missed
+        ltswing « iswings       $$ temporary, save ECS
+        xn      « 7-itarget     $$ based on weapon size
+        xn      « imax(xn,1)    $$ at least one swing
+        xn      « imin(xn,5)    $$ maximium swings
+        xn      « imax(xn,ltswing)      $$ at least iswings
+calcs   ispecb(i.xtra)-1,yn « ltswing,
+        ltswing+pabilit(a.swing)
+*-- lshow is -2 if backstab, -1 if normal hit
+randu   lroll,100
+calc    lshow   « (lroll {^72} pabilit(a.bstab))-1
+        lswings « imin(xn,yn)
+loop    (lswing « lswing+1) {^72} lswings
+.       randu   lroll,100
+reloop  lroll > 107-7×popos
+outloop (fight « nfight(fight)) = 0
+.       calc    lmons « tamons(fight)
+.       if      fight {^54} lfight
+.       .       do      getmons(lmons)
+.       .       do      hitprob(-1,lmons;lhit,lcrit,ldambon)
+.       .       calcs   lshow+1,lhit « 100,,
+.       .       calc    lfight « fight
+***
+*.       .       do      debug(1,lhit)   $$ p{^'04}m
+***
+.       endif
+outloop alitnum = 0
+.       if      (0 - mpro(iprotec))     $$ wimp weapon
+.       .       do      lmdam > 0,damage(lmdam,-1,1.5),x
+.       .       do      wimpweap
+.       .       calc    autof « 0
+.       .       goto    q
+.       endif
+.       randu   lroll,100
+.       if      lroll {^72} lcrit
+.       .       do      crithit
+.       .       calc    lmdam  « 0
+.       .               lmissm « 0
+.       .               lshow « -1
+.       .       do      kill(fight,1,2)
+reloop
+.       endif
+*-- continued in next block
+
+=== block "p {^'04} m"  kind 00  233 words  (block 43)
+*-- continued from previous block
+.       do      roll(iddice,idsides;ldamage)
+.       calc    xn      « ldamage+ldambon
+reloop  (ldamage « imax(xn,0)) = 0
+.       calc    lmdam « lmdam×(1-.5×(class = mclasvs))
+.       randu   lroll,100
+.       if      lroll {^72} lhit×(1-.3×(class = mclasvs))
+.       .       calc    lmdam  « lmdam-ldamage*lshow
+.       .               lmissm « 0
+.       .       if      lmdam  {^73} alihits(fight)
+.       .       .       do      damage(lmdam,lshow,1.5)
+.       .       .       calc    lmdam « 0
+.       .       .               lshow « -1
+.       .       endif
+.       elseif  eq1(ispecb(i.ifumb))    $$ can't fumble
+.       elseif  lroll > (100-lfumble)
+.       .       if      lmdam  > 0
+.       .       .       do      damage(lmdam,lshow,1.5)
+.       .       .       calc    lmdam « 0
+.       .       endif
+.       .       atnm    dinfob1,352
+.       .       erase   dinfol1
+.       .       color   display;zyellow
+.       .       atnm    188,352
+.       .       write   Fumble!  «s,ldamage « id2(ldamage)-(ldamage = 1)» hit«a,plur(ldamage)».
+.       .       color   display;zcyan
+.       .       calc    atnm1(188)
+.       .       do      hitself(ldamage)
+*--
+*-- fumble ends your current round      6/29/82 cds
+*--
+*.       .       calc    lmissm « 0
+.       .       goto    q
+.       endif
+endloop
+goto    alitnum = 0,q,x
+goto    (lmdam  > 0) $union$ lmissm,x,q
+atnm    dinfob1,352
+erase   dinfol1
+do      lmissm,missed,damage(lmdam,lshow,1.5)
+*
+unit    crithit
+atnm    dinfob1,352
+erase   dinfol1
+color   display;zgreen
+atnm    160,352
+write   You scored a critical hit!
+color   display;zcyan
+calc    atnm1(160)
+*
+unit    missed
+color   display;zyellow
+atnm    212,352
+write   You missed.
+color   display;zcyan
+calc    atnm1(212)
+*
+unit    wimpweap
+atnm    dinfob1,352
+erase   dinfol1
+color   display;zyellow
+atnm    160,352
+write   Your weapon has no effect!
+color   display;zcyan
+calc    atnm1(160)
+*
+
+=== block "c {^'04} m"  kind 00  245 words  (block 44)
+unit    chattack
+        merge,previous
+        lroll   $$ random number
+        lcomp   $$ companion
+        lcomps  $$ number of companions attacking
+        lswing  $$ swing number
+        lswings $$ number of swings
+        lmons   $$ last monster group attacked
+        lhit    $$ chance to hit
+        lcrit   $$ chance to critical hit
+        ldambon $$ damage bonus
+        ldam    $$ total damage
+        lkill   $$ number killed
+        lmpd    $$ not pro level-drain
+        lmflev  $$ fighting level
+        lgroup  $$ group number (1-4)
+$
+goto    pofight-1,q,x
+goto    (lcomps « chcomps+(pocrry < 0))-1,q,x
+goto    (lgroup « nfight(fight))-1,q,x
+if      lgroup {^54} fight
+.       do      erasfigh
+.       calc    fight « lgroup
+.       do      erasfigh
+.       color   display;zyellow
+.       if      autof
+.       .       write   >
+.       elseif  nextkey {^73} 0
+.       .       write   *
+.       else
+.       .       writec  nextkey+3;{^'04};;
+.       endif
+.       color   display;zcyan
+endif
+do      hitprob(chcomon,tamons(fight);lhit,lcrit,ldambon)
+***
+*do      debug(2,lhit)   $$ c{^'04}m
+***
+*-- hitprob makes sure current monster is tamons(fight)
+calc    lmflev « zfight(mflev)
+        lmpd   « eq0(matt(mp.ldra))
+do      getmons(chcomon)        $$ get attacking monster
+calc    lswings « mswings×lcomps
+        lswing  « 0
+        ldam    « 0
+        lkill   « 0
+loop    (lswing « lswing+1) {^72} lswings
+outloop alinum(fight) {^72} lkill
+.       randu   lroll,100
+reloop  lroll > 107-7×popos
+.       randu   lroll,100
+reloop  lroll > lhit
+.       randu   lroll,100
+.       if      lroll {^72} lcrit   $$ critical hit
+.       .       calc    lkill « lkill+1
+.       else                    $$ plain damage
+.       .       do      roll(madice,madside;lroll)
+.       .       calc    ldam « ldam+lroll+ldambon
+reloop  mdrain = 0              $$ energy drain
+.       .       randu   lroll,id2(lmflev)+1
+.       .       calc    lkill « lkill+((lroll=1)$mask$lmpd)
+.       endif
+endloop
+do      lkill-1,x,kill(fight,lkill,1/6)
+do      ldam-1,x,damage(ldam,0,1/6)
+*
+
+=== block "m {^'04} p/c"  kind 00  229 words  (block 45)
+unit    monsattk
+        merge,previous
+        lleader $$ current leader
+        lgroup  $$ which group to look at
+        lmons   $$ which monster within a group
+        lroll   $$ random number
+        lattack $$ which attack within a group
+        ldam    $$ damage done by monsters
+        ldambon $$ damage bonus
+        ldrains $$ levels lost so far
+        lhit    $$ monster's hit probability
+        lswing  $$ swings taken so far
+        lcmflev $$ companion monster fighting level
+        lcrit   $$ chance for victim being critical hit
+        lkill   $$ 2 if critical hit, 1 if normal
+        lcomp   $$ companion to attack
+        lsize   $$ sizes of attacking monsters
+        lfound  $$ entries in table of victims
+        ltable(5)       $$ victims
+        lmonsn  $$ tamons(lgroup)
+$
+*-- if leader moved out, attack will be taken care of
+*-- by evasion unit -- don't penalize player for not
+*-- beating on the space key.
+goto    zloc = ppzloc(lleader « poleadr),x,q
+goto    roomnum = mazeroo(ppxyloc(lleader)),x,q
+calc    lgroup « 0
+loop    (lgroup « lgroup+1) {^72} 4
+.       do      getmons(lmonsn « tamons(lgroup))
+.       calc    lattack « 0
+.               lmons   « 0
+.               lsize   « 0
+.       loop    (lmons  « lmons+1) {^72} alinum(lgroup)
+.       outloop lmons > 8
+.       .       randu   lroll,100
+.       reloop  lroll > 100/aliplay
+.       .       randu   lroll,100
+.       reloop  lroll > 107-7×popos+50×((popbit(b.invis) > 0) $mask$ (eq0(matt(ma.seei))))
+.       .       calc    lsize « lsize+msize
+.       outloop lsize > 7
+.       .       calc    lattack « lattack+1
+.       endloop
+reloop  lattack = 0
+.       calc    lcomp « 0
+.               lfound « 1
+.               ltable(1) « 1
+.       loop    (lcomp « lcomp+1) {^72} 4
+.       reloop  (chcochi(lcomp)*chcothe(lcomp))-1
+.       .       calc    lfound « lfound+1
+.       .               ltable(lfound) « lcomp+1
+.       endloop
+.       randu   victim,lfound
+.       calc    victim « ltable(victim)
+*-- continued
+
+=== block "m {^'04} p/c"  kind 00  192 words  (block 46)
+*-- continued from previous block
+.       if      victim > 1
+.       .       do      hitprob(lmonsn,chcomon;lhit,lcrit,ldambon)
+***
+*.       .       do      debug(4,lhit)   $$ m{^'04}c
+***
+.       .       do      getmons(chcomon)
+.       .       calc    lcmflev « mflev
+.       else
+.       .       do      hitprob(lmonsn,-1;lhit,lcrit,ldambon)
+.       .       calc    lhit « lhit*(1-.3*(class=mvsclas))
+***
+*.       .       do      debug(3,lhit)   $$ m{^'04}p
+***
+.       endif
+.       do      getmons(lmonsn)
+.       calc    lswing  « 0
+.               ldam    « 0
+.               ldrains « 0
+.               lkill   « 1
+.               numhits « 0     $$ not hit yet
+.       loop    (lswing « lswing+1) {^72} mswings*lattack
+.       .       randu   lroll,100
+.       reloop  lroll > lhit
+.       .       calc    numhits « numhits+1
+.       .       randu   lroll,100
+.       .       calc    xn    « 1-(lroll {^72} lcrit)
+.       .               lkill « 1+((lkill-1) $union$ (xn-1))
+.       .       do      roll(madice,madside;lroll)
+.       .       calc    ldam « ldam+(lroll+ldambon)*xn
+.       reloop  mdrain = 0
+.       .       if      victim = 1
+.       .       .       if      (popbit(b.drain) > 0)
+*.       .       .       .       calc    popbisp(b.drain) « 0
+*-- {^'27} this might go back in later?   8/8/82 cds
+.       .       .       .       randu   lroll,100
+.       reloop  lroll > 10
+.       .       .       endif
+.       .       else
+.       .       .       randu   lroll,id2(lcmflev)+1
+.       reloop  (lroll > 1) $union$ (eq1(mpro(mp.ldra)))
+.       .       endif
+.       .       calc    ldrains « ldrains+mdrain
+.       endloop
+*-- continued in next block
+
+=== block "m {^'04} p/c"  kind 00  101 words  (block 47)
+*-- continued from previous block
+.       if      ldam > 0
+.       .       if      victim > 1
+.       .       .       do      hitcomp(ldam,ldrains)
+reloop
+.       .       endif
+.       .       atnm    dinfob2,336
+.       .       erase   dinfol2
+.       .       atnm    52,336
+.       .       color   display;zyellow
+.       .       do      showmons(lattack,lgroup,-1,0)
+.       .       writec  lkill-2; attack; CRITICAL hit
+.       .       writec  lattack = 1;s;;
+.       .       write    you for «s,ldam « ldam×(1-((class = mvsclas)/2))» damage.
+.       .       color   display;zcyan
+.       .       calc    atnm2(52)
+.       .       do      ldrains-1,x,loselevl(ldrains)
+.       .       do      hitself(ldam)
+.       endif
+.       do      mattany-1,x,specatts
+.       do      damself(lgroup)
+endloop
+catchup         $$ to give chars a chance? 04/12/82 cds
+*
+
+=== block "m {^'04} c"  kind 00  223 words  (block 50)
+*
+*unit    hitcomp(ldam,ldrains)
+*        merge,previous
+*        ldam    $$ damage done to companion
+*        ldrains $$ levels lost
+*        lroll   $$ random number
+*        lnvict  $$ new victim
+*        lvic    $$ which companion is the victim
+*$
+*goto    ldam+ldrains-1,q,x
+*do      getmons(chcomon)
+*calc    lvic « victim-1
+*        xn « chcochi(lvic)-ldam
+*        chcochi(lvic) « imax(xn,0)×(1-sign(ldrains))
+*do      compdisp(lvic)
+*goto    chcochi(lvic)-1,x,q             $$ not dead
+*if      (lnvict « -(pocrry×matt(ma.carr))) > 0
+*.       if      chcobhi(lvic) > chcobhi(lnvict)
+*.       .       calc    pocrry « -lvic
+*.       .               lvic « lnvict
+*.       .       do      carrying
+*.       endif
+*elseif  (lnvict = 0)
+*.       calc    pocrry « -lvic
+*.       do      carrying
+*.       goto    q
+*endif
+*do      destcomp(lvic)
+**
+unit    hitcomp(ldam,ldrains)
+        merge,previous
+        ldam    $$ damage done to companion
+        ldrains $$ levels lost
+        lroll   $$ random number
+        lcvic   $$ current companion being carried
+        lvic    $$ which companion is the victim
+$
+*goto    ldam+ldrains-1,q,x              $$ why am I here?
+goto    (eq0(chcothe(lvic « victim-1))) $union$ (chcochi(lvic)=0),q,x
+calc    xn « chcochi(lvic)-ldam
+        chcochi(lvic) « imax(xn,0)×(1-sign(ldrains))
+do      getmons(chcomon)
+do      compdisp(lvic)
+goto    chcochi(lvic)-1,x,q             $$ not dead
+branch  pocrry-1,x,1kill                $$ carrying player
+branch  matt(ma.carr)-1,1kill,x         $$ not carryable
+calc    lcvic « abs(pocrry)             $$ carrying now
+*--
+if      lcvic > 0                       $$ see if studly
+.       branch  chcobhi(lvic) > chcobhi(lcvic),x,1kill
+endif
+calc    pocrry « -lvic                  $$ companion neg
+        lvic « lcvic                    $$ kill current
+do      carrying
+1kill
+do      lvic-1,x,destcomp(lvic)
+*
+
+=== block "m {^'04} p"  kind 00  238 words  (block 51)
+unit    specatts        $$ done for every hit
+        merge,previous
+        lswing  $$ swing number
+        lpf     = curstat(s.con)        $$ poison factor
+        ls      = 10×sign(popbit(b.anti))       $$ stone
+        lrolled $$ random number
+$
+calc    lswing « 0
+loop    (lswing « lswing+1) {^72} numhits
+*-- poison
+.       if      eq1(matt(ma.pois))$mask$(popbit(b.poiso)=0)
+.       .       do      save(8,pabilit(a.fight)+lpf)
+reloop  safe
+.       .       do      matmess(7)
+.       .       calc    popbisp(b.poiso) « 1
+.       endif
+*-- disease
+.       if      eq1(matt(ma.dise))$mask$(popbit(b.disea)=0)
+.       .       do      save(5,pabilit(a.fight))
+reloop  safe
+.       .       do      matmess(8)
+.       .       calc    popbisp(b.disea) « 1
+.       endif
+*-- stone
+.       if      eq1(matt(ma.ston))
+*.       .       .       do      save(10,pabilit(a.fight))
+.       .       do      save(10,pabilit(a.spell)+ls)
+reloop  safe
+.       .       calc    popbisp(b.stone) « 1
+.       .       do      matmess(2)
+.       .       do      hitself(1000)
+.       endif
+*-- age 5 years
+.       if      eq1(matt(ma.age))
+.       .       do      save(8,pabilit(a.spell))
+.       .       do      safe,x,gainage(43830,-1)
+.       endif
+*-- paralyze
+.       if      eq1(matt(ma.para)) $mask$ (popbit(b.paral) = 0) $mask$ (evadbon = 0)
+.       .       do      randu(90,popbit(b.rpar))
+reloop  safe
+.       .       do      save(zfight(mslev)+6,pabilit(a.spell))
+reloop  safe
+.       .       do      matmess(6)
+.       .       calc    popbisp(b.paral) « 1
+.       .       do      showabil
+.       endif
+*-- item destruction
+.       if      eq1(matt(ma.ides))
+.       .       do      chowitem(0)
+*-- itchow = 0 or -1 upon exit
+.       .       if      chgold > 0
+.       .       .       randu   lrolled,20
+.       .       .       do      gold(chgold×(lrolled/600),-1,0,1,0)
+.       .       .       do      matmess(77+itchow)
+.       .       elseif  itchow
+.       .       .       do      matmess(78)
+.       .       endif
+.       endif
+endloop
+*
+
+=== block "m {^'04} p"  kind 00  270 words  (block 52)
+unit    damself(lgroup)
+        merge,previous
+        lgroup          $$ group number (1-4)
+        latt
+        ltchanc         $$ chance of thieving
+        lroll
+        lpick           $$ whether to steal items or gold
+        lchance         $$ probability monster will use spec
+        lchowed         $$ -1 if item was chowed, 0 if not
+        lavhits         $$ average hits of monster
+$
+calc    lchance « 10×(aliplay-alinum(lgroup))
+        lchance « imin(lchance,50)
+        lchance « imax(lchance,-50)
+        lavhits « id2(mhdside+1)×mhdice+mhbonus
+        lavhits « zhits(lavhits)
+        lchance « 30-(lavhits-pobhits)+lchance
+        latt « 6
+loop    (latt « latt+1) {^72} 10
+reloop  eq0(matt(latt))
+.       randu   lroll,100
+reloop  lroll > lchance
+.       do      latt-7,x,mssleep,x,msbreath(lgroup),msdeath
+endloop
+goto    mtlev,q,q,x
+calc    ltchanc « 30+zloc+(mdex-curstat(s.dex))×5
+        ltchanc « ltchanc+(zfight(mtlev)-pabilit(a.thief))×3
+        ltchanc « ltchanc+15×((known(fight) = 3)-known(fight) = 2)
+        ltchanc « imin(ltchanc,100)
+randu   lroll,100
+goto    lroll > ltchanc,q,x
+randu   lpick,4
+if      lpick = 1
+.       do      chowitem(lgroup)
+.       do      matmess(53+sign(itchow))
+else
+.       goto    chgold-1,q,x
+.       do      gold((((ltchanc-lroll)+1)/500)×chgold,-1,0,1,0)
+.       do      kill(lgroup,1,0)
+.       do      (alinum(lgroup) = 0) $mask$ (fight = lgroup),erasfigh,x
+.       do      matmess(52)
+endif
+*
+unit    msdeath
+goto    magic,x,q
+do      save(zfight(mslev)+2,pabilit(a.spell)×(1-(popbit(b.anti)>0)))
+goto    safe,q,x
+do      matmess(1)
+do      hitself(1000)
+*
+unit    msbreath(lgroup)
+        merge,previous
+        ldam    $$ damage sustained
+        lgroup  $$ group to breathe from
+$
+do      save(8+zfight(mflev),pabilit(a.fight))
+do      roll(zfight(mslev),6;ldam)
+calc    ldam « 1+ldam×2**((sign(safe)-sign(popbit(b.fire))))
+        ldam « imin(ldam,pochits)
+atnm    dinfob2,336
+erase   dinfol2
+color   display;zyellow
+atnm    116,336
+write   You were breathed on for «s,ldam» damage.
+color   display;zcyan
+calc    atnm2(116)
+do      hitself(ldam)
+goto    chcomps-1,q,x
+do      getmons(chcomon)
+if      eq0(matt(ma.brea))
+.       do      hitcomp(ldam $ars$ 2,0),victim « 2,5
+endif
+do      getmons(tamons(lgroup))
+*
+
+=== block "m {^'04} p"  kind 00  167 words  (block 53)
+unit    mssleep
+        merge,previous
+        lroll
+$
+goto    magic,x,q
+goto    popbit(b.sleep)-1,x,q
+goto    lev > 4,q,x
+goto    popbit(b.anti) > 0,q,x
+do      save(60,pabilit(a.fight))
+goto    safe,q,x
+do      matmess(5)
+calc    popbisp(b.sleep) « 1
+do      showabil
+*
+unit    randu(lchance,lvalue)
+        merge,previous
+        lchance
+        lvalue
+        lroll
+$
+if      lvalue = 0
+.       calc    safe « 0
+else
+.       randu   lroll,100
+.       calc    safe « (lroll {^72} lchance)
+endif
+*
+unit    save(latt,ldef)
+        merge,previous
+        lroll           $$ random number
+        latt            $$ potency of attacker
+        ldef            $$ defense strength
+$
+calc    xn « save(rsave(race),csave(class),curstat(s.con),ldef,latt)
+        xn « imin(xn,95)
+        xn « imax(xn,05)
+do      randu(xn,1)
+***
+*do      debug(6,xn)     $$ m{^'04}p (saving throw)
+***
+*
+unit    loselevl(llevels)
+        merge,previous
+        llevels $$ levels to lose
+        lstat   $$ stat to lose from
+        llose   $$ loop
+        llost   $$ number lost
+$
+calc    llose « llost « 0
+loop    (llose « llose+1) {^72} llevels
+.       do      randu(50,popbit(b.drain) > 0)
+reloop  safe
+.       calc    llost « llost+1
+.       randu   lstat,6
+.       do      gainstat(lstat,-1,1)
+.       do      statshow(lstat)
+endloop
+do      llost-1,x,matmess(4)
+*
+
+=== block 'chowitem'  kind 00  185 words  (block 54)
+unit    chowitem(lgroup)
+        merge,previous
+        litem           $$ item to chow possibly
+        litemn          $$ item number (1-255)
+*
+*-- -2  destroyed by quicksand
+*-- -1  destroyed by trap
+*--  0  destroyed by monster
+*-- 1-4 stolen by monster
+*
+        lgroup
+        linuse          $$ item is in use
+        lroll
+$
+randu   litem,slots-1
+calc    itchow « 0
+        litemn « chitem(litem « litem+1)
+goto    (litemn = 0) $union$ (eq1(chibank(litem))),q,x
+do      getitem(litemn)
+calc    linuse « (litem = chitemu(iclass))
+goto    linuse $mask$ (lgroup > 0),q,x  $$ can't steal
+*--
+*-- item is too studly too destroy
+*--
+*goto    (((ifierce/10)-20) > zfight(mslev)) $mask$ (lgroup = 0),q,x
+do      roll(1,20;lroll)
+goto    ((lroll+3×ilev) > zfight(mslev)) $mask$ (lgroup = 0),q,x
+*--
+do      linuse,useitem(litem,-1,-1),x   $$ you lose big
+do      zapitem(litem,-1)
+calc    itchow « -1
+do      messloc
+*write     «a,mname,20»«a,msuffix(m.singu)»
+color   display;zyellow
+writec  lgroup+1;Quicksand;Trap;
+          «a,mname,20»«a,msuffix(m.singu)»
+atnm    192,messy
+if      lgroup > 0
+.       calc    known(lgroup) « 1       $$ identify it
+.       write   Thanks for the «a,iname,30»!
+.       color   display;zcyan
+.       goto    mint > im2(ilev),x,q    $$ wants more stuff
+.       do      kill(lgroup,1,0)
+.       randu   lroll,alitnum+1
+.       goto    lroll-2,x,q
+.       calc    alimant « 0
+.               aliches « 0
+else
+.       color   display;zyellow
+.       write   «a,iname,30» destroyed!
+.       color   display;zcyan
+endif
+*
+
+=== block 'spell cast'  kind 00  216 words  (block 55)
+unit    castspel(sbyitem,spelnum)
+        merge,previous
+        lroll   $$ random number
+        lstype  $$ spell type
+        limult  $$ multiplier, 1 if by spell,0 item
+        lmored  $$ added dice for level dependency
+        linc    $$ spell increment for lev dep sps
+        lret    $$ return variable -- # comps
+        lkey
+$
+color   display;zyellow
+do      getspell(spelnum)
+color   display;zcyan
+calcs   sbyitem,sblev « spower,sclassu(class)
+calcs   sbyitem,slev « isplev,,
+calc    limult « 1+sbyitem
+        xn « ((sblev**2)/slev)×10×limult
+        spcost « imax(xn,sblev)
+        starget « 0             $$ player
+        sdie « ((spcost/chspell)×100-20)×-(sblev>slev)×limult
+        linc « slevinc
+        lstype « stype
+        spdice « sdice
+if      linc > 0
+.       calc    lmored « (slev-sblev)/linc
+.               spdice « spdice + imax(lmored,0)
+endif
+calc    xn     « smdice
+        spdice « imin(spdice,xn)
+do      cancast
+if      return {^54} -1
+.       calc    autof « 0
+.       do      spellfb
+.       goto    q
+endif
+*
+*       continued
+if      sdie > 0
+.       color   display;zwhite
+.       atnm    8,56
+.       write   SHIFT-HELP to cast  («s,sdie»% chance of death)
+.       color   display;zcyan
+.       pause   keys=all
+.       keytype lkey,help1
+.       do      y56b
+.       calc    autof « autof*(lkey+1)
+.       goto    lkey,q,x
+endif
+transfr sname;spcopy;2
+if      starg = 1       $$ individual
+.       if      (lstype = 3) $union$ (lstype = 6)
+.       .       do      compstat(lstype;lret)
+.       .       do      lret-1,person(0),person(-1)
+.       elseif  (lstype = 4) $union$ (lstype = 15)
+.       .       do      person(0)
+.       endif
+else
+.       calc    starget « 0
+endif
+calc    autof « autof*abs(starget {^54} -1)
+goto    starget,q,x
+
+=== block 'spell cast'  kind 00  233 words  (block 56)
+if      (lstype < 3) $union$ (lstype = 5)
+.       do      pofight-1,unpeace,x
+.       calc    popbisp(b.invis) « 0
+endif
+randu   lroll,100
+if      lroll > (sign(sdie)×20)
+.       calc    spay « -1       $$ tell finish unit to pay
+.       do      lstype-1,x,sdamage(0),sdamage(-1),sheal,
+.               scharbit,shold(fight),sraise,stelepor,
+.               swordofr,spasswal,ssetsanc,
+.               sunlock,sdetrock,sdepth,sdirec,slocate,
+.               pickup(-1),fate,x
+.       do      return,spellpay,x
+.       calc    spay « 0
+.       if      (return = -1) $mask$ (lstype > 2) $mask$ (lstype {^54} 5)
+.       .       do      messloc
+.       .       color   display;zgreen
+.       .       write     "«a,sname,20»" thrown
+.       .       if      (lstype < 7) $union$ (lstype = 14)
+.       .       .       if      starget = 1
+.       .       .       .       write    on companion #«s,person»
+.       .       .       else
+.       .       .       .       writec  person = comnum; on yourself;
+.       .       .       .                on «a,ppseudo(person),20»
+.       .       .       .       writec  lstype = 3; («s,ppchits(person)»/«s,ppbhits(person)»);;
+.       .       .       endif
+.       .       endif
+.       .       write   .
+.       .       color   display;zcyan
+.       else
+.       .       do      spellfb
+.       endif
+else
+.       color   display;zyellow
+.       do      phrasew(54)
+.       color   display;zcyan
+endif
+*
+unit    spellpay
+        merge,previous
+        lroll   $$ random number
+$
+if      sbyitem
+.       calc    xn « chcharg(islot)-ichused
+.               chcharg(islot) « xn
+.       do      (xn = 0) $and$ (eq0(ispecb(i.setu))),zapitem(islot,-1),showitem(islot)
+else
+.       calc    chspell « chspell-spcost
+.       do      showspel
+.       do      sage-1,x,gainage(sage×730,-1)
+.       randu   lroll,100
+.       goto    lroll {^72} sdie,x,q
+.       color   display;zyellow
+.       do      phrase(55)
+.       color   display;zcyan
+.       do      hitself(1000)
+endif
+*
+
+=== block 'spell get'  kind 00  302 words  (block 57)
+unit    compstat(lval)
+        merge,previous
+        lval    $$ heal = 3, raise = 6
+        ltemp
+$
+calc    ltemp « chcobhs - chcochs
+if      chcomps = 0                             $$ no comps
+elseif  (lval = 3) $mask$ (ltemp = 0)           $$ all ok
+elseif  (lval = 3) $mask$ (ltemp = chcobhs)     $$ all dead
+elseif  (lval = 6) $mask$ (pocrry {^73} 0)          $$ not dead
+else
+.       return  1
+endif
+return  0
+*
+unit    spell
+1again
+color   display;zyellow
+do      phrase(35)
+do      arrowa(104,56,19,spcopy1,spcopy2)
+color   display;zcyan
+do      y56b
+goto    pressed,q,x,q           $$ next is only good key
+goto    jcount = 0,q,x          $$ must enter something!
+transfr value1;spcopy;2
+do      findspel(jcount,value1,value2,-1)
+if      (howmany > 1) $union$ ((spelnum « hishome) = 0)
+.       color   display;zyellow
+.       writec  hishome = 0;Spell not found;Spell not unique
+.       color   display;zcyan
+.       catchup
+.       do      y56a
+.       branch  1again
+endif
+do      getspell(spelnum)
+calc    slev « pabilit(a.spell)
+do      castspel(0,spelnum)
+*
+unit    sunlock
+goto    return « -1 - 25*(aliches {^54} 4),x,q
+calc    aliches « 2
+*
+unit    sdetrock
+calc    xn     « xcalc(xyloc)
+        yn     « ycalcx(xyloc,xn)+ymove(direc)
+        xn     « xn+xmove(direc)
+        return « -5-(mazesqu(xyind(wrap(xn,1,30),wrap(yn,1,30))) = 15)
+*
+unit    cancast
+        merge,previous
+        lstat           $$ for stat checking loop
+        lstype          $$ stype-1
+$
+calc    return « 13
+        branch  magic,x,1bad
+        lstype « stype-1
+if      sbyitem         $$ spell cast by item
+.       calc    return « 12
+.               branch  chcharg(islot)-1,1bad,1more
+endif
+calc    return « 11
+        branch  (chspell < spcost),1bad,x
+        return « 3
+        branch  sgne(chalign)-1,1bad,x
+        return « 4
+        branch  sblev-1,1bad,x
+*goto    lclassu > slev,q,x
+        lstat « 0
+loop    (lstat « lstat+1) {^72} 6
+reloop  sstat(lstat) {^72} curstat(lstat)
+.       calc    return « lstat+4
+.               branch  1bad
+endloop
+1more
+if      notl(combat)
+.       calc    return « 1
+.               branch  spuse(1)-1,1bad,x
+elseif  combat $mask$ (eq0(pofight))
+.       calc    return « 23
+.               branch  spuse(2)-1,1bad,x
+else
+.       calc    return « 2
+.               branch  spuse(3)-1,1bad,x
+.       if      (sdepth > 0) $mask$ (eq1(sstop))
+.       .       calc    return « 21
+.       .               branch  (popos > sdepth),1bad,x
+.       endif
+endif
+calc    return « -1
+1bad
+*
+
+=== block 'spell get'  kind 00  184 words  (block 60)
+unit    person(ltarget)
+        merge,previous
+        ltarget         $$ target can be companion?
+$
+*--
+*-- starget     -1      bad target
+*--              0      player
+*--              1      companion
+*-- sparam = 2 for stone to flesh
+*--
+calc    starget « 0
+if      ltarget $mask$ (chcomps>0) $mask$ (sparam < 2)
+.       color   display;zyellow
+.       do      phrase(58)
+.       color   display;zcyan
+.       loop
+.       .       pause   keys=p,1,2,3,4,next, ,back,data
+.       .       keytype starget,p,1,2,3,4
+.       outloop starget < 1
+.       .       calc    person « starget
+.       .               starget « 1
+.       outloop eq1(chcothe(person))
+.       endloop
+.       do      y56b
+.       if      key = data
+.       .       calc    starget « 0
+.       .               person  « comnum
+.       .       goto    q
+.       endif
+endif
+if      starget = 0
+.       color   display;zyellow
+.       atnm    8,56
+.       write   "«a,spcopy,20»" player
+.       do      getplay(wherex+8,56)
+.       color   display;zcyan
+.       calc    starget « (pressed = -1)
+endif
+do      y56b
+*
+unit    spelbuf(lsbufn)
+        merge,previous
+        lsbufn  $$ buffer number (0-9)
+        lspelbu $$ shcbuf(lsbufn)
+$
+if      (lspelbu « chsbuf(lsbufn))-1
+.       calc    autof « 0
+.       color   display;zyellow
+.       do      phrasew(23)
+.       color   display;zcyan
+.       goto    q
+endif
+calc    slev « pabilit(a.spell)
+do      chsbit(lsbufn)-1,castspel(0,lspelbu),
+        icastchk(lspelbu)
+*
+
+=== block 'spells'  kind 00  247 words  (block 61)
+unit    sraise
+        merge,previous
+        llevel          $$ spell level of raiser
+        lcon            $$ companion constitution
+        lchance         $$ chance companion will make raise
+        lroll           $$ 1 {^72} x {^72} 100
+$
+if      starget = 1             $$ companion
+.       calc    return « 18
+.       goto    chcochi(person)-1,x,q
+.       do      getmons(chcomon)
+.       calcs   sbyitem,llevel « isplev,slev
+.       calc    lcon    « mcon
+.               lchance « (lcon < 17)×-5×lcon-(lcon > 16)×(lcon+64)
+.               xn      « lchance+(llevel/5)-2
+.               lchance « imin(xn,98)
+***
+*.       at      8,88
+*.       erase   4
+*.       write   «t,lchance,2» %
+***
+.       randu   lroll,100
+.       if      lroll > lchance         $$ didn't make it
+.       .       do      destcomp(person)
+.       else
+*--
+*-- sparam = 1 is resurrection, 2 is stone to flesh
+*--
+.       .       calcs   sparam-1,chcochi(person)«1,
+.       .               chcobhi(person)
+.       .       do      compdisp(person)
+.       endif
+.       calc    pocrry « 0
+.               return « -1
+else
+.       calc    return « 19
+.       goto    ppzloc(person) = zloc,x,q
+.       goto    mazeroo(ppxyloc(person)) = roomnum,x,q
+.       calc    return « 16
+.       goto    ppchits(person)-1,x,q
+.       goto    ppstud(person)-1,x,q
+*.       calc    return « 14
+*.       goto    pppdead(person)-1,x,q
+.       if      sparam < 2      $$ not stone to flesh
+.       .       calc    return « 22
+.       .       goto    pppbit(person,b.stone)-1,x,q
+.       endif
+.       calc    ppstud(person)  « comnum
+.               ppnloc(person) « poloc
+.               ppfrais(person) « sparam        $$ autowrap
+.               return « -1
+.       calcs   sbyitem,pprlev(person) « isplev,slev
+endif
+*
+unit    spasswal
+do      return « 11×notl(atrack),passwall,x
+*
+unit    passwall
+do      (twall(6) $mask$ 1)-1,x,makewall
+do      smove(-1,0,0,1)
+*
+unit    makewall
+at      248,476
+write   {75}×÷
+        {75}wk
+*
+unit    swordofr
+do      return « 12×notl((chszloc = 0) $union$ atrack),smove(0,chszloc,chsxy),x
+*
+
+=== block 'spells'  kind 00  316 words  (block 62)
+unit    slocate
+        merge,previous
+        lxloc,lyloc,lxyloc      $$ x,y,xy of person to find
+        loxloc,loyloc   $$ own x,y
+        lzloc   $$ z location
+        lrang   $$ maximum difference in z locations
+        lxdiff,lydiff   $$ loxloc-lxloc, loyloc-lyloc
+$
+calc    lrang«int(((curstat(s.wis)$cls$1)+curstat(s.int))/9)
+        lzloc   « ppzloc(person)
+        lxyloc  « ppxyloc(person)
+        lxloc   « xcalc(lxyloc)
+        lyloc   « ycalcx(lxyloc,lxloc)
+        loxloc  « xcalc(xyloc)
+        loyloc  « ycalcx(xyloc,loxloc)
+*-- it must be possible to write this more efficiently
+*-- using absolute values, masks on direction (1=3,0=2), and
+*-- xy values instead of both x and y
+        zdiff   « zloc-lzloc
+if      lzloc   = zloc
+.       calc    lxdiff « loxloc-lxloc
+.               lydiff « loyloc-lyloc
+.       calcs   direc-1,dright «
+.               -lxdiff         $$ {^'27} +-
+.               -lydiff         $$ {^'01} +-
+.               lxdiff          $$ Ö --
+.               lydiff          $$ {^'04} -+
+.       calcs   direc-1,dahead «
+.               -lydiff         $$ {^'27} ++
+.               lxdiff          $$ {^'01} +-
+.               lydiff          $$ Ö --
+.               -lxdiff         $$ {^'04} -+
+*.       calcs   direc-1,dright «
+*.               lxloc-loxloc      $$ {^'27} +-
+*.               lyloc-loyloc      $$ {^'01} +-
+*.               loxloc-lxloc      $$ Ö --
+*.               loyloc-lyloc      $$ {^'04} -+
+*.       calcs   direc-1,dahead «
+*.               lyloc-loyloc      $$ {^'27} ++
+*.               loxloc-lxloc      $$ {^'01} +-
+*.               loyloc-lyloc      $$ Ö --
+*.               lxloc-loxloc      $$ {^'04} -+
+.       calc    return « -8
+else
+.       calc    return«(1-(abs(zdiff)>lrang))×sign(zdiff)-8
+endif
+*
+unit    sheal
+        merge,previous
+        lhits           $$ number of hits to cure
+$
+if      starget = 1     $$ companion
+.       calc    return « 17
+.       goto    chcochi(person)-1,q,x
+elseif  ppleadr(person) {^54} poleadr
+.       calc    return « 19
+.       goto    ppzloc(person) = zloc,x,q
+.       goto    mazeroo(ppxyloc(person)) = roomnum,x,q
+.       calc    return « 15
+.       goto    ppchits(person)-1,q,x
+endif
+do      roll(spdice,ssides;lhits)
+*calc    xn « im2(lhits×sblev)
+*do      moreexp(xn)             $$ experience for heals
+if      starget = 1             $$ companion
+.       calc    xn              « chcobhi(person)
+.               yn              « chcochi(person)+lhits
+.               chcochi(person) « imin(xn,yn)
+.       do      compdisp(person)
+else
+.       calc    xn              « ppchits(person)+lhits
+.               yn              « ppbhits(person)
+.               ppchits(person) « imin(xn,yn)
+endif
+calc    return « -1
+*
+
+=== block 'spells'  kind 00  185 words  (block 63)
+unit    scharbit
+        merge,previous
+        lschbit $$ schbit
+        lperson $$ person to set
+$
+if      starg = 1
+.       if      poleadr {^54} ppleadr(person)
+.       .       calc    return « 19
+.       .       goto    ppzloc(person) = zloc,x,q
+.       .       goto    mazeroo(ppxyloc(person))=roomnum,x,q
+.       endif
+.       calc    lperson « person - 1
+else
+.       calc    lperson « 0
+endif
+calc    lschbit « schbit
+loop    (lperson « lperson+1) {^72} maxin
+reloop  (ppleadr(lperson) {^54} poleadr) $mask$ (starg = 2)
+.       calc    xn « pppbisp(lperson,lschbit)+schange
+.               xn      « imax(xn,0)
+.               pppbisp(lperson,lschbit) « imin(xn,3)
+outloop starg = 1
+endloop
+calc    return « -1
+*
+unit    ssetsanc
+calc    chsxy     « xyloc
+        chszloc   « zloc
+        return    « -1
+*
+unit    spellfb
+        merge,previous
+        lbuff(4)        $$ message buffer
+$
+color   display;zgreen
+atnm    8,56
+writec  return+9;
+        He is below you.;
+        He is «s,-zdiff» level«a,abs("s"×-(zdiff < -1))» below you.;
+        He is right «s,dright» and ahead «s,dahead».;
+        He is «s,zdiff» level«a,abs("s"×-(zdiff > 1))» above you.;
+        He is above you.;
+        No rock detected.;
+        Rock detected.;
+        You are on level «s,zloc».;
+        You are facing «a,direcn(direc)».;;
+c       -1 and 0 give no message
+if      return > 0
+.       transfr c,cstatus+im4(return+8);lbuff(1);4
+.       showa   lbuff(1),39
+endif
+color   display;zcyan
+catchup
+pause   .75-(return < 0)-(return = -8),keys=all
+do      y56b
+*
+
+=== block 'spells'  kind 00  283 words  (block 64)
+unit    sdepth
+calc    return « -3
+*
+unit    sdirec
+calc    return « -2
+*
+unit    stelepor
+        merge,previous
+        lmzchan $$ max z change
+        lxchang $$ requested x change
+        lychang $$ y change
+        lpzchan $$ potential z change
+        lzchang $$ z change
+        lnzloc  $$ new z location
+        lkey    $$ -1 if no change, else 0
+$
+goto    return « -26*atrack-1,x,q
+calc    lmzchan « sparam
+color   display;zyellow
+atnm    0,352
+write   Enter change right
+writec  lmzchan-1; and forward;, forward, and down
+write    (- for left, back, or up)
+if      lmzchan > 0
+.       atnm    172,336
+.       write   (Maximum up or down of «s,lmzchan» level
+.       writec  lmzchan-2;);s)
+endif
+calc    lkey    « 0
+        lzchang « 0
+arrow   24,336
+long    10
+jkey    back
+exact
+calc    lkey « -1
+judge   quit
+storen  lxchang
+storen  lychang
+storen  lpzchan
+judge   okquit
+ok
+judge   key = back,quit,x
+judge   lmzchan-1,noquit,x
+judge   abs(lpzchan) > lmzchan,noquit,x
+judge   (abs(lxchang)>30) $union$ (abs(lychang)>30),noquit,x
+calc    lnzloc  « zloc+lpzchan
+judge   (lnzloc > levels) $union$ (lnzloc < 1),noquit,x
+calc    lzchang « lpzchan
+endarrow
+color   display;zcyan
+at      0,352
+erase   64,2
+do      return « notl((key = back) $union$ lkey),smove(-1,lzchang,lxchang,lychang),x
+*
+unit    smove(lmtype,lnewz,lnewx,lnewy)
+*-- 3 arguments: lnewx is really lnewxy and lnewz = absolute
+*-- 4 arguments: lnewx,lnewy,lnewz = offsets
+        merge,previous
+        lmtype  $$ -1 = relative, 0 = to absolute
+        lnewx,lnewy,lnewz
+        lnewxy = lnewx
+        lxloc,lyloc     $$ new y location
+        lxinc,lyinc     $$ increments
+$
+goto    return « -26*atrack-1,x,q
+if      lmtype
+.       calcs   direc-1,lxinc « lnewx,-lnewy,-lnewx,lnewy
+.       calcs   direc-1,lyinc « lnewy,lnewx,-lnewy,-lnewx
+.       calc    lxloc « xcalc(xyloc)
+.               lyloc « ycalcx(xyloc,lxloc)+lyinc
+.               lxloc « lxloc+lxinc
+.               xyloc « xyind(wrap(lxloc,1,30),wrap(lyloc,1,30))
+.               lnewz « zloc+lnewz
+else
+.       calc    xyloc « lnewxy
+endif
+calc    poxyloc « xyloc
+        pozloc  « lnewz
+        sqseen  « 0
+        moved   « -1
+        teled   « -1
+        notpit  « -1
+goto    zloc = lnewz,q,x
+calc    zloc « lnewz
+do      exitold
+do      getlevel
+*
+
+=== block 'spell hold'  kind 00  170 words  (block 65)
+unit    shold(lgroup)
+        merge,previous
+        lcarry  $$ who carrying
+        lgroup  $$ non-0 monster group to hold monsters from
+        lcheck  $$ monster to check
+        lhold   $$ number to hold based on int
+        lgot    $$ number of monsters held so far
+        lchits  $$ current hits
+        lhits   $$ best value of hits
+        lmons   $$ monster number to hold
+        lroll   $$ random number
+        floating:lrolled        $$ random number
+$
+goto    alinum(lgroup)-1,q,x
+do      getmons(lmons « tamons(lgroup))
+if      follow > 0              $$ "j", not spell
+.       calc    known(lgroup) « 1
+.               lgot          « follow
+else
+.       if      known(lgroup) {^54} 1
+.       .       calc    return « 20
+.       .       goto    q
+.       endif
+.       goto    mpro(sprotec)-1,x,q
+.       calc    lcheck « 0
+.               xn     « curstat(s.int)/6
+.               yn     « alinum(lgroup)
+.               xn     « imin(xn,yn)
+.               yn     « sgnmax
+.               lhold  « imin(xn,yn)
+.               lgot   « 0
+.       loop    (lcheck « lcheck+1) {^72} lhold
+.       .       randu   lroll,100
+.       .       calc    lgot « lgot-(lroll > msave)
+.       endloop
+.       if      lgot = 0
+.       .       do      afailed
+.       .       goto    q
+.       endif
+endif
+goto    (lgot « imin(lgot,alinum(lgroup)))-1,q,x
+calc    lchits « alihits(lgroup)
+do      follow-1,kill(lgroup,lgot,1),x
+*-- continued in next block
+
+=== block 'spell hold'  kind 00  111 words  (block 66)
+*-- continued from previous block
+calc    lcarry  « pocrry
+        pocrry  « abs(lcarry×(lcarry > 0))
+        chcomps « lgot
+        chcomon « lmons
+*-- set the first lgot "chcothe"s (strange due to segmentf)
+        chcoths « rmask(lgot) $cls$ (4-lgot)
+*-- set hits to 0 so non-existent companions aren't attacked
+        chcochs « 0
+        lcheck  « 0
+loop    (lcheck « lcheck+1) {^72} lgot
+.       do      vroll(mhdice,mhdside;lrolled)
+.       calc    lhits           « lrolled+mhbonus
+.               lhits           « zhits(lhits)
+.               lhits           « imin(lhits,1023)
+.               chcochi(lcheck) « lchits-lhits×(lchits = 0)
+.               chcobhi(lcheck) « imax(lhits,lchits)
+.               lchits          « 0
+endloop
+do      compplot
+*
+unit    afailed
+atnm    dinfob1,352
+erase   dinfol1
+color   display;zyellow
+atnm    196,352
+write   Attempt failed.
+color   display;zcyan
+calc    atnm1(196)
+*
+
+=== block 'sdamage'  kind 00  230 words  (block 67)
+unit    killmess(lmess,lkill)
+        merge,previous
+        lmess   $$ which message to show
+        lkill   $$ how many were killed
+$
+if      lkill {^54} -1
+.       atnm    dinfob1,352
+.       erase   dinfol1
+.       atnm    196,352
+endif
+color   display;zgreen
+write   You 
+if      lmess < 13
+.       writec  lmess-7;killed;immolated;froze;electrocuted;
+.               killed
+elseif  lmess < 23
+.       write   held
+elseif  lmess < 28
+.       write   dispelled
+elseif  lmess < 31
+.       write   dazzled
+else
+.       writec  lmess-32;slept;choked;scared;stoned;
+.               destroyed;disintegrated;backstabbed
+endif
+writec  lkill;; the wall.; one!; two!; three!; four!; five!;
+         six!; seven!; eight!; a lot!
+color   display;zcyan
+calc    atnm1(196)
+*
+unit    sdamage(lkill)
+        merge,previous
+        lkill   $$ -1 if a kill spell, 0 if damage spell
+        lpmdam  $$ damage per monster
+        lroll   $$ die roll
+        ldam    $$ total damage to dish out to current group
+        lfight  $$ old arrow position
+        lfought $$ how many groups fought so far
+        lcheck  $$ group counter
+*-- kill spells -- based on msave
+*-- damage spells -- based on mmresis
+        lsavepm $$ saving throw parameter
+        lresist $$ chance of resistance
+        lnum    $$ monsters in group
+        lcount  $$ number of monsters checked so far
+        lmax    $$ max number that can be affected
+        lhurt   $$ number that were affeceted out of lmax
+        lmaxg   $$ max groups to damage
+        lmonspg $$ affected monsters/group
+        lpro    $$ protection index
+        ldepth  $$ depth spell may be thrown from
+        lmess   $$ whether or not anything was displayed
+        floating:lhits  $$ hits of top monster
+$
+calc    lmess   « 0
+        lmaxg   « sgmax
+        lmonspg « sgnmax
+        ldepth  « sdepth
+        lpro    « sprotec
+do      roll(spdice,ssides;lpmdam)
+*--
+*-- continued in next block
+*--
+
+=== block 'sdamage'  kind 00  143 words  (block 70)
+*--
+*-- continued from previous block
+*--
+calc    lfight  « nfight(fight)
+branch  lfight  = 0,1out,x
+calc    fight   « lfight
+        lcheck  « -1
+        lfought « 0
+loop    alitnum > 0
+outloop (lfought > lmaxg) $union$ (lcheck = 3)
+.       calc    lcheck « lcheck+1
+.               xn     « lfight+lcheck
+.               fight  « xn+im4(xn > 4)
+*-- don't beat on the same group twice
+outloop (fight = lfight) $mask$ (lcheck {^54} 0)
+.       calc    lnum   « alinum(fight)
+reloop  lnum = 0
+.       calc    lfought « lfought + 1
+.       do      getmons(tamons(fight))
+reloop  eq1(mpro(lpro))
+*-- figure out the maximum number of monsters to kill,
+*-- taking magic resistance into account
+.       calcs   lkill,lsavepm « mmresis,im2(msave)
+.       calc    lresist « pabilit(a.spell)-50
+.               lresist « imax(lresist,0)          $$ no<0%
+.               lresist « lsavepm-imin(lresist,50) $$ no>50%
+.               lmax    « imin(lnum,lmonspg)
+.               lhurt   « lmax
+.               lcount  « 0
+.       loop    (lcount « lcount+1) {^72} lmax
+.       .       randu   lroll,100
+.       reloop  lroll > lresist
+.       .       calc    lhurt  « lhurt-1
+.       .               lcount « lcount-1
+.       endloop
+
+=== block 'sdamage'  kind 00  211 words  (block 71)
+*-- kill however many monsters the damage will take out,
+*-- up to the max
+.       do      roll(ssides,ssides;ldam)
+.       calc    ldam  « ldam*spower
+.               ldam «ldam*(1-((1-lhurt/lmax))*.5*(1-lkill))
+.               lhits « alihits(fight)
+reloop  lkill $mask$ (ldam < lhits)
+.       do      showfigh
+.       calc    kill « 0
+.       loop    (ldam {^73} lhits) $mask$ (kill < lmax)
+.       .       do      vroll(mhdice,mhdside;lhits)
+.       .       calc    kill  « kill+1
+.       .               ldam  « ldam-lhits
+.       .               lhits « lhits+mhbonus
+.       .               lhits « max(lhits,1)
+.       .               lhits « zhits(lhits)
+.       .               lhits « min(lhits,1023)
+.       endloop
+.       if      kill > 0
+.       .       do      kill(fight,kill,-(lmess « -1),lhits)
+.       .       do      killmess(lpro,kill)
+.       endif
+.       do      (lkill = 0) $mask$ (ldam > 0) $mask$ (kill < lmax),damage(ldam,lmess « -1,1),x
+.       do      erasfigh
+endloop
+calc    fight « lfight
+*--
+*-- possibly damage others in your party
+*--
+branch  ldepth = 0,1out,x
+branch  popos > ldepth,x,1out
+pack    value,,«a,sname,20» hit you for «s,lpmdam» damage
+calc    person « 0
+loop    (person « person+1) {^72} maxin
+reloop  ppseudo(person) = 0
+reloop  ppleadr(person) {^54} poleadr
+reloop  pppos(person) > popos-ldepth
+.       calc    xn « ppchits(person)-lpmdam
+.               ppchits(person) « imax(xn,0)
+.       atnm    dinfob1,352
+.       erase   dinfol1
+.       atnm    64-((xn < 1)*80),352
+.       color   display;zgreen
+.       do      killmess(lpro,-1)
+.       write    «a,ppseudo(person),20»
+.       writec  xn-1;!; for «s,lpmdam» damage!
+.       color   display;zcyan
+.       calc    atnm1(52)
+.               lmess « -1
+.       do      sendmess(4)
+endloop
+1out
+do      lmess,x,afailed
+*
+
+=== block 'item cast'  kind 00  214 words  (block 72)
+unit    itemcast
+color   display;zyellow
+do      phrase(57)
+do      getitemn(192,56,1)
+color   display;zcyan
+do      y56b
+goto    islot,q,x
+do      icastchk
+*
+unit    icastchk(islot)
+        merge,previous
+        lknown
+        lknownx
+$
+*--
+*-- possibly throws spell from item in slot "islot"
+*--
+goto    chitem(islot)-1,q,x
+if      eq1(chibank(islot))
+.       color   display;zyellow
+.       do      phrasew(36)
+.       color   display;zcyan
+.       goto    q
+endif
+do      getitem(chitem(islot))
+*
+calc    lknownx « chitmkn(islot)
+if      ispell = 0
+.       calc    return « 12     $$ item doesn't throw spell
+.       goto    lknownx-2,q,x   $$ shhhh, player is stupid
+.       branch  1bypass         $$ give them feedback
+endif
+*
+do      itemck(islot,-1)        $$ check to see if can use
+do      return,x,itemfb
+goto    return,x,q
+*--
+do      iditem(1,lknownx;chitmkn(islot))
+do      (lknown « chitmkn(islot)) > lknownx,showitem(islot),
+        showbit(islot)
+*--
+if      (chitemu(iclass){^54}islot)$mask$(eq1(ispecb(i.setu)))
+.       calc    return « 14     $$ item must be in use
+.       goto    lknown-2,q,x    $$ dumb player again
+.       branch  1bypass
+endif
+if      (chitmkn(islot) < 3) $mask$ (eq1(ispecb(i.trig)))
+.       calc    return « 13     $$ trigger word not known
+.       goto    lknown-2,q,x    $$ still a dumbshit
+.       branch  1bypass
+endif
+*--
+*-- the player must know the item to level 2 to get
+*-- anything out of it...
+*--
+calc    return « -1+(lknown < 2)        $$ maybe no effect
+1bypass
+do      return+1,x,castspel(-1,ispell),itemfb
+*
+*unit    itemthro
+*do      ((chcharg(islot) « chcharg(islot)-ichused) = 0) $mask$ (eq0(ispecb(i.setu))),zapitem(islot,-1),showitem(islot)
+*do      castspel(-1,ispell)
+*goto    return,x,q
+*goto    starget,q,x     $$ bad target
+*
+
+=== block 'compl/yell'  kind 00  163 words  (block 73)
+unit    comploop(loper,lparam)
+        merge,previous
+        loper   $$ operation number to perform
+        lparam  $$ parameter
+        lcomp   $$ companion number
+        ldamage $$ damage to inflict
+$
+calc    lcomp   « 0
+loop    (lcomp  « lcomp+1) {^72} 4
+.       calc    victim « lcomp+1
+.       if      loper-2
+*-- timel also uses victim
+.       .       randu   ldamage,lparam
+.       .       calc    xn     « zfight(mtlev)
+.       .       do      hitcomp(ldamage×(1-(imin(xn,10)/30)),0)
+.       elseif  loper-3
+.       .       randu   ldamage,3
+.       .       do      hitcomp(ldamage+chcobhi(lcomp)/50,0)
+*-- fear
+.       elseif  loper-4
+.       .       do      chcochi(lcomp)-1,x,destcomp(lcomp)
+*-- quicksand, breath
+.       elseif  loper-5
+.       .       do      hitcomp(lparam,0)
+.       endif
+endloop
+*
+unit    yell
+        merge,previous
+        lbit    $$ player bit loop
+$
+color   display;zwhite
+do      phrase(56)
+color   display;zcyan
+zero    value,4
+pack    value;;HELP! «s,pochits»/«s,pobhits»
+calc    lbit « 0
+loop    (lbit « lbit+1) {^72} 5
+reloop  popbit(bitchck(lbit)) = 0
+.       pack    value;;«a,value,40» «a,bitmes(lbit)»
+endloop
+*-- sends message to company if not alone, else to area
+*-- if you change this line, check the m.xx constants
+color   display;zyellow
+do      sendmess(2+(ppnum(leadr) > 1))
+color   display;zcyan
+do      y56a
+*
+
+=== block 'give'  kind 00  309 words  (block 74)
+unit    give
+        merge,previous
+        lgslot          $$ temporary give slot
+        litem           $$ 1-255
+        lnhere          $$ player not in same room?
+*--
+*-- values of "gstat(x)"
+*-- 0   given by player
+*-- 1   bounced by program
+*-- 2   treasure
+*--
+$
+1give
+atnm    8,56
+if      chbgold < 0
+.       color   display;zyellow
+.       write   In debt to bank.
+.       color   display;zcyan
+.       pause   1,keys=all
+.       do      y56a
+.       goto    q
+endif
+color   display;zyellow
+write   Give item #
+do      getitemn(112,56,2)
+color   display;zcyan
+do      y56b
+goto    pressed,x,q
+if      islot {^54} -1
+.       if      eq1(chibank(islot))
+.       .       color   display;zyellow
+.       .       do      phrasew(36)
+.       .       color   display;zcyan
+.       .       branch  1give
+.       endif
+*-- set iclass
+.       do      getitem(litem « chitem(islot))
+.       goto    istuck(iclass)$mask$(chitemu(iclass)=islot),q,x
+.       do      unuse
+endif
+atnm    8,56    $$ item units change screen location
+if      chgold > (value « 0)
+.       color   display;zyellow
+.       write   How much gold
+.       do      getgold(120,56,chgold)
+.       color   display;zcyan
+.       do      y56b
+.       goto    pressed,x,q
+endif
+goto    (value = 0) $mask$ (islot = -1),q,x
+color   display;zyellow
+write   Give to whom
+do      getplay(120,56)
+color   display;zcyan
+do      y56b
+goto    pressed,q,x
+*-- must be on same square
+calc    lnhere « (zloc {^54} ppzloc(person)) $union$ (mazeroo(xyloc) {^54} mazeroo(ppxyloc(person)))
+*-- don't allow giving to dead people in dungeon
+if      lnhere $union$ (ppchits(person) = 0)
+.       color   display;zyellow
+.       do      phrasew(73-lnhere)
+.       color   display;zcyan
+.       goto    q
+endif
+if      pochits > 0             $$ not dead
+.       in      ppstat(person)  $$ check for ghosts
+.       goto    zreturn = -1,x,q
+endif
+calc    pgive « 0               $$ zero give buffer
+do      gold(ggold « value,-1,0,1,0)
+if      islot > 0
+.       calc    gitem « litem
+.               gknown « chitmkn(islot)
+.               galign « chialig(islot)
+.               gcharge « chcharg(islot)
+.       do      zapitem(islot,-1)
+endif
+calc    gto(gslot«(lgslot«(gslot+1+20×(gslot=20)))) « person
+        gfrom(lgslot) « comnum
+        gstat(lgslot) « 0
+transfr pgive;c,give(lgslot);1
+calc    getgold « value         $$ for showg1, showg2
+        getitem « gitem         $$ "
+        kknown « gknown         $$ "
+do      showg1(0,person)
+do      gitem-1,x,showg2(islot)
+do      inreturn
+*
+
+=== block 'exitslot'  kind 00  136 words  (block 75)
+unit    exitslot
+        merge,previous
+        lleader $$ poleadr
+$
+timel
+finish  q
+do      ckgive          $$ don't lose items when you stop1
+do      spay,spellpay,x $$ age, etc. if tries to escape it
+do      treas $mask$ eq0(pochick) $mask$ (aliches {^72} 1),endtreas,x
+*
+*-- backout -2 is ok since modems cough 8/25/84 CDS
+*
+calcs   combat $mask$ eq1(pofight) $mask$ (backout > -1) $mask$ (dstatus = 0),pochits « 0,,
+do      exitold
+do      ponloc-1,x,lchange      $$ in case leader just left
+calc    xyloc  « ppxyloc(lleader « poleadr)
+        zloc   « ppzloc(lleader)
+if      (carry « pocrry) > 0
+.       calc    ppcrryb(carry) « 0
+.               ppnloc(carry) « poloc
+endif
+calc    xn      « pochits-(60-.5×imin(lev,40))*sign(popbit(b.disea)+popbit(b.poiso))
+        pochits « imax(xn,0)
+*--
+*-- reset sleep and paralysis (in case he leaves combat)
+*--
+        popbit(b.sleep) « 0
+        popbit(b.paral) « 0
+do      inreturn
+do      delslot
+calc    gtime « gtime+(clock-etime)
+*
+unit    pcharret
+calc    chxyloc   « xyloc
+        chzloc    « zloc
+        chdirec   « direc
+        chhitb    « pohitb
+        chbits    « popbits     $$ all player bits
+*
+
+=== block 'debug'  kind 00  115 words  (block 76)
+cstop
+*
+unit    comhelp
+        merge,previous
+        lline
+        lbuff(4)
+$
+mode    rewrite
+calc    lline « 0
+loop    (lline « lline+1) {^72} 14
+.       transfr c,cstatus+im4(lline+63);lbuff(1);4
+.       atnm    176,312-im16(lline)
+.       showa   lbuff(1),39
+.       erase   41-(lbuff(4)$mask$rmask(6))
+endloop
+mode    write
+*
+***
+cstart
+***
+*
+*unit    debug(ldebug,lnum)
+*        merge,previous
+*        ldebug          $$ which debugging to show
+*        lnum            $$ number to show
+*        lloc            $$ screen location
+*$
+*goto    opt(o.debug)-1,q,x
+*****
+cstop
+*****
+*-- 1 = p{^'04}m, 2 = c{^'04}m, 3 = m{^'04}p, 4 = m{^'04}c, st: 5 = p{^'04}m, 6 = m{^'04}p
+calcs   ldebug-2,lloc « 126,226,137,237,326,337
+atnm    lloc
+erase   2
+showt   lnum,2
+*****
+cstart
+*****
+**
+*unit    debugset
+*atnm    8,416
+*erase   60
+*write   p{^'04}m    c{^'04}m    m{^'04}p    m{^'04}c    Å p{^'04}m    m{^'04}p
+***
+*cstart
+***
+*

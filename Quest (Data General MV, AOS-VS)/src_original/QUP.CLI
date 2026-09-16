@@ -1,0 +1,5 @@
+comment qup/start will setup world from scratch
+comment ----- startup time -> 10 mins !!!, 1 meg !!! jillions cpu-seconds !!!
+delete/2=ignore quest.out
+cre quest.out
+proc/def/out=quest.out/name=quest.server quest_server%0/%

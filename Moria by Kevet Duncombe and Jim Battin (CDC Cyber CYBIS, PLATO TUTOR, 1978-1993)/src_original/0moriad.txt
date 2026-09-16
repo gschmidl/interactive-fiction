@@ -1,0 +1,1563 @@
+0moriad  (tutor    a, 42 blocks)
+  ) | 5/ | 02/26/93 | 11/30/93 | s | coserv | battin/dun | combe | moria: -u | se- lesson | 14.43.42. | dave runte | h | s | coserv | coserv | coserv | sysmicro | edit | igl;. | 0moriad | publisis | mu2+ «{75} | lessnotes | coserv | s0edit | b | e
+
+=== block '*directory'  kind 40  0 words  (block 0)
+
+=== block 'copyright'  kind 47  17 words  (block 1)
+*
+*  © copyright 1978,1984 by kevet duncombe and jim battin
+*      all rights reserved
+*
+*list   symbols
+*list   eject
+*
+
+=== block 'base/g'  kind 40  284 words  (block 2)
+*
+*
+*                 /////  Global Cm Defines  /////
+*
+*
+*-- Temp common
+        Ctemp   = 0     $$ temp common
+*
+        CT = Ctemp      $$ interterminal communication table
+        CY = CT + 51    $$ message defines
+        CH = CY + 81    $$ player defines
+        CA = CH + 100   $$ active monsters
+        CR = CA + 101   $$ monster room maps, pointers
+        Ctempl  = CR + 101
+*
+*-- comloaded permanent common
+        Cperm = Ctemp + Ctempl  $$ permanent common
+        CE = Cperm      $$ entry stats!
+        CM = CE + 25    $$ monster/class defines
+        CC = CM + 200   $$ class defines
+        CB = CC + 8     $$ monster/terrain randp map
+        CI = CB + 24    $$ magic item defines
+        CP = CI + 254   $$ plotter table
+        CG = CP + 18    $$ guild defines
+        CQ = CG + 24    $$ quest defines
+*
+        Cloadl = CQ+1   $$ length of comloaded area
+*
+*-- unloaded permanent common
+*  Note: be sure to patch unit newsys if you change these
+        CN = Cloadl     $$ permanent pseudos
+        CS = CN + 1310  $$ skill & misc. info
+        CX = CS + 1310  $$ experience info
+*---->  next = CX + 1310
+*
+*
+*
+*                 /////  Global Student Defines  /////
+*
+*
+        B = 0           $$ base defines
+        W = B + 9       $$ working vars
+        R = W + 27      $$ skills vars
+        S = R + 9       $$ end of standard student defines
+*
+*  Each individual lesson's student defines should use
+*  S as it's base.
+*
+*
+        pp = 1  $$ synonym for prompt color- a. keller 2/93
+*
+*               /////  Storage & Char I/O  /////
+*
+*
+        SS = 0          $$ char storage start
+        SSl = 64        $$ size of the records
+*
+*
+*               /////  Dungeon Define Bases  /////
+*
+*
+        DW = S          $$ dungeon work vars
+        DA = DW + 32    $$ argument passing vars
+        DP = DA + 13    $$ map and plotter vars
+        DM = DP + 8     $$ map vars
+        DG = DM + 7     $$ generate vars and functions
+        DI = DG + 1     $$ ict word
+        DT = DI + 1     $$ timel vars
+        DS = DT + 7     $$ stairways
+        DH = DS + 7     $$ monster trash
+        DB = DH + 8     $$ barter and haggle
+        DF = DB + 6     $$ end of dungeon student defines!
+
+=== block 'g-confunct'  kind 40  165 words  (block 3)
+*
+*
+*               /////  Functions  /////
+*
+*
+        indat(ii,aa,cc,ll) = aa + 100*ll*frac((ii-1)/ll) +    cc*int((ii-1)/ll)
+        spcost(xx,ss) = 10 * xx * (2-log(ss)) + 1
+        incr(xx)      = xx « xx + 1
+        add1(xx)      = xx « xx + 1
+        bump(xx,yy)   = xx « xx + yy
+        sub1(xx)      = xx « xx - 1
+        max(xx,yy)    = xx - ( yy-xx )*( yy>xx )
+        min(xx,yy)    = xx - ( yy-xx )*( yy<xx )
+        mod(xx,yy)    = yy*[ frac(xx/yy) - (frac(xx/yy)<0) ]
+        cycle(xx,yy)  = mod[ xx-1,yy ] + 1
+        add1cyc(xx,yy)= xx « yy*frac[xx/yy] + 1
+        sub1cyc(xx,yy)= xx « cycle(xx-1,yy)
+        page(xx,yy)   = int[ (xx-1)/yy ] + 1
+        ceiling(xx)   = int(xx) - ( frac(xx) > 0 )
+        odd(xx)       = abs(frac(xx/2)) = .5
+        outbyte(oo,bb,ll)=[oo$cls$(bb+ll-1)]$mask$rmask(ll)
+        mskbyte(bb,ll)= lmask(ll) $cls$ (61-bb)
+        inbyte(oo,bb,ll) = oo $cls$ (zbpw+1-ll-bb)
+        Any(xx)       = Or(xx)
+        All(xx)       = And(xx)
+        bags(xx)      = int( xx/200000 )
+        maxbags(xx)   = 5 - ceiling(xx/200000)
+        messat(xx)    = 2701 + 100*xx
+        select(xx,aa,bb) = bb-(aa-bb)*xx  $$if⌫⌫__ xx t⌫_ aa e⌫_ bb
+        mod4(xx) =(o32103210321032103210 $ars$ 3*xx)$mask$o7
+        char(oo,cc)= rmask(6) $mask$ [oo $cls$ (6*cc)]
+        lhash( xx,yy ) = [ xx/.93 + yy/.71 + (xx+yy)/.79 ]
+        chrlen(xx)=int((bitcnt(xx){^54}0)                           *(bitcnt(xx$diff$(xx-1))-66)/6)
+
+=== block 'g-confunct'  kind 40  214 words  (block 4)
+*
+*
+*               /////  Constants  /////
+*
+*--  lesson number in leslist "0moria"/"lessons"
+        moria   = 0     $$ entry lesson
+        moriag  = 1     $$ game itself
+        moriad  = 2     $$ defines (-use- lesson)
+        moriah  = 3     $$ help lesson
+        moriac  = 4     $$ common lesson
+        moriads = 5     $$ dataset for char storage
+        morian  = 6     $$ notefile
+*
+*-- action and message constants
+        mroom   = 1     $$ message to the room
+        myou    = 2     $$ message to you
+        mplayer = 3     $$ message to a player
+        mnews   = 4     $$ message to all: news flash
+        mgroup  = 5     $$ message to group
+        mall    =63     $$ message to all
+*
+*--  misc
+        yes     = -1            $$  yes?
+        no      = 0             $$  no!
+        nullst  = o17777        $$  null station number
+        blanks  = '         '   $$  9 blanks for plot3d
+        recsize = 64            $$  nameset record size
+        thisver = 1     $$ current version number
+        timel   = 3     $$ -timel- delay
+        stairat = o4052534      $$ myat for stairs
+        oceanat = 2114958       $$ myat for ocean
+        mh      = 4     $$ physical hits per monster
+*
+*--   direction and map constants
+        east     = 0
+        north    = 1
+        west     = 2
+        south    = 3
+*
+        city    = 1
+        wild    = 2
+        cave    = 3
+        mount   = 4
+        forest  = 5
+        desert  = 6
+        ocean   = 7
+*
+        maskr   = mskbyte(38,17)        $$  mask to room
+        maskt   = mskbyte(38,9)         $$  mask to level
+        maska   = mskbyte(38,23)        $$  mask to at
+*
+        month   = 480           $$  seconds/month in game
+        gperbag = 200000        $$  gold / bag
+
+=== block 'g-students'  kind 40  304 words  (block 5)
+*
+*
+*-------  Basic User Info
+*
+        name    = n( B+1 )      $$  users name 2 wds
+        name2   = n( B+2 )
+        today   = v( B+3 )      $$ value from -day- on entry
+          segmentf, chash = n( B+4 ),1,48   $$  char hash
+          segmentf,  ckey = n( B+4 ),49,8   $$  setname key
+        me      = n( B+5 )      $$  my slot number
+        cindex  = n( B+6 )      $$ character index
+        array, Legacy(2) = n( B+7 )     $$ inheritance
+          segment, inherit = Legacy(1),7
+        mircles = n( B+9 )      $$ miracles this month
+*
+*
+*-------  Working vars
+*
+        tn1     = n( W+1 )      $$  temp vars, int
+        tn2     = n( W+2 )
+        tn3     = n( W+3 )
+        tn4     = n( W+4 )
+        tv1     = v( W+5 )      $$  temp vars, real
+        tv2     = v( W+6 )
+        ind     = n( W+7 )      $$  loop indexes
+        sind    = n( W+8 )
+        escape  = n( W+9 )      $$  escape flag
+        ktype   = n( W+10 )     $$  keytype command
+        k       = n( W+11 )     $$  save key value
+        return  = n( W+12 )     $$  function return
+        a1      = n( W+13 )     $$  argument passing
+        a2      = n( W+14 )
+        a3      = n( W+15 )
+        utilbuf = n( W+16 )     $$  6 word buffer
+          bufflen = 6           $$  buffer length
+          util1   = n( W+16 )   $$  each word of utilbuf
+          util2   = n( W+17 )
+          util3   = n( W+18 )
+          util4   = n( W+19 )
+          util5   = n( W+20 )
+          util6   = n( W+21 )
+          segment,utilc=utilbuf,zbpc    $$  break into chars
+          array,Util(bufflen)=utilbuf   $$  array utilbuf
+        at      = n( W+22 )     $$  various screen locations
+        length  = n( W+23 )     $$  various lengths
+        resind  = n( W+24 )     $$  reserve index
+        unit    = n( W+25 )     $$  unit where error is
+        ecmnd   = n( W+26 )     $$  zreturn for this command
+        workloc = n( W+27 )     $$  full word for locations
+        segmentf, whead = n( W+27 ),36,2      $$  heading
+        segmentf,   wat = n( W+27 ),38,23     $$  location
+          segmentf,  wroom = n( W+27 ),38,17    $$  room in
+          segmentf,   wpos = n( W+27 ),47,14    $$  x,y's
+          segmentf,   wfine = n( W+27 ),55,6    $$  fine x,y
+            segmentf,    wterr = n( W+27 ),38,3  $$  terrain
+            segmentf,     wlev = n( W+27 ),41,6  $$  level
+            segmentf,  wgrossx = n( W+27 ),47,4  $$  room x
+            segmentf,  wgrossy = n( W+27 ),51,4  $$  room y
+            segmentf,       wx = n( W+27 ),55,3  $$  fine x
+            segmentf,       wy = n( W+27 ),58,3  $$  fine y
+
+=== block 'g-skills'  kind 40  285 words  (block 6)
+*
+        array, Skill(9) = n( R+1 )     $$  array of stats
+*
+*-- character info stored in dataset
+*
+*  word 1 -- hash and record info
+        segmentf,   rhash = n( R+1 ),1,48   $$  char hash
+        segmentf,  rlastu = n( R+1 ),49,4   $$  last used
+        segmentf, infight = n( R+1 ),53,1   $$  fighting bit
+        segmentf,    jail = n( R+1 ),54,1   $$  in jail?
+        segmentf,  lastran= n( R+1 ),55,1   $$  new version?
+        segmentf, spelson = n( R+1 ),56,5   $$  all spells
+          segmentf,    lite = n( R+1 ),56,1
+          segmentf,   treas = n( R+1 ),57,1
+          segmentf, protect = n( R+1 ),58,1
+          segmentf, spelon4 = n( R+1 ),59,1     $$  ??
+          segmentf, spelon5 = n( R+1 ),60,1     $$  ??
+*NOTE:  if you define spelon5 you'll have to make more
+*       room on the spell display and fix erases, etc.
+*
+*  word 2 --  location info & misc
+        atword  = n( R+2 )      $$  full word for locations
+        segmentf,   vital = n( R+2 ),1,7    $$ vitality
+        segmentf,  camprm = n( R+2 ),8,17   $$ camp room
+        segmentf,   cfood = n( R+2 ),25,7   $$ camp food
+        segmentf,   cgold = n( R+2 ),32,6   $$ camp money
+        segmentf, myat    = n( R+2 ),38,23      $$  location
+          segmentf,  myroom = n( R+2 ),38,17    $$  room in
+          segmentf,   mypos = n( R+2 ),47,14    $$  x,y's
+          segmentf,    fine = n( R+2 ),55,6     $$  fine x,y
+            segmentf,    terr = n( R+2 ),38,3   $$  terrain
+            segmentf,     lev = n( R+2 ),41,6   $$  level
+            segmentf,  grossx = n( R+2 ),47,4   $$  room x
+            segmentf,  grossy = n( R+2 ),51,4   $$  room y
+            segmentf,       x = n( R+2 ),55,3   $$  fine x
+            segmentf,       y = n( R+2 ),58,3   $$  fine y
+*
+*  word 3 --  misc stats
+        segmentf,    gold = n( R+3 ),1,20   $$ pocket money
+        segmentf,   gbank = n( R+3 ),21,10  $$ bank account
+        segmentf, heading = n( R+3 ),31,2   $$ heading
+        segmentf,    food = n( R+3 ),33,5   $$ in months
+        segmentf,   water = n( R+3 ),38,5   $$ in months
+        segmentf,  string = n( R+3 ),43,14  $$ gross & fine
+          segmentf, stringx = n( R+3 ),43,4   $$ gross x
+          segmentf, stringy = n( R+3 ),47,4   $$ gross y
+*---->  Open bits 57,4
+*
+*  word 4..6 -- magic items!
+*
+        segment, mislot = n( R+4 ),7    $$ bits 1-56
+        segmentf, numuse = n( R+4 ),57,4
+*---->  Open word 5, bits 57,4
+*---->  Open word 6, bits 57,4
+
+=== block 'g-skills'  kind 40  105 words  (block 7)
+*
+*-- character info stored in common
+*
+*  word 7 -- skills & misc.
+        segment, myskill = n( R+7 ),7           $$  Skills
+          CUN     = 1           $$  skill #1
+          PIE     = 2
+          VAL     = 3
+          WIZ     = 4
+          segmentf, cunning = n( R+7 ),1,7
+          segmentf,   piety = n( R+7 ),8,7
+          segmentf,   valor = n( R+7 ),15,7
+          segmentf,     wiz = n( R+7 ),22,7
+        segmentf,   guild = n( R+7 ),29,3   $$ guild I'm in
+        segmentf,    rank = n( R+7 ),32,3   $$ char rank
+        segmentf,    age = n( R+7 ),35,11
+*---->  Open bits 46,15
+*
+*  word 8 -- hall of fame data
+        segmentf, fndring = n( R+8 ),1,6        $$ ring lev.
+        segmentf, mexper = n( R+8 ),7,24        $$ trip exp.
+        segmentf, lexper = n( R+8 ),31,30       $$ life exp.
+*
+*  word 9 -- permanent pseudo
+        myname = n( R+9 )
+
+=== block 'g-guilds'  kind 40  84 words  (block 10)
+*
+*
+*-------  Guild Defines
+*  Note: be sure to patch unit newsys if you change these
+*
+*
+*-- words 1-4
+        ggold(xx)       = nc( CG + xx )
+*-- words 5-8
+        segmentv,   gbond = nc( CG+5 ),1,30
+        segmentv, gmskill = nc( CG+5 ),31,7
+        segmentv, guildat = nc( CG+5 ),38,23
+          segmentv, guildrm = nc( CG+5 ),38,17  $$  room in
+          segmentv,  guildx = nc( CG+5 ),55,3   $$  fine x
+          segmentv,  guildy = nc( CG+5 ),58,3   $$  fine y
+*-- words 9-20
+        gmaster(xx,yy)  = nc( CG+5 + 3*xx + yy )
+*               xx      = guild number
+*               yy      = 1-2 are name, 3 is group
+*-- words 21-24
+        gmlast(xx)      = vc( CG+20 + xx )
+
+=== block 'g-quest'  kind 40  20 words  (block 11)
+*
+*-------  quest for reaper's ring defines
+*
+*  Note: be sure to patch unit newsys if you change these
+        ringat = nc( CQ+1 )     $$ reaper's ring
+
+=== block 'g-players'  kind 40  125 words  (block 12)
+*
+*
+*-------  Player Slots
+*
+*
+        maxslot = 50            $$  # of player slots
+        nchname = 10            $$  # of chars in pseudo
+*
+        pseudo(xx) = nc( CH + xx )      $$  player's pseudos
+*
+*-- 
+*
+        slot(xx) = nc( CH + maxslot + xx )      $$  slots
+*
+        segmentv, stashun = slot(1),1,13        $$  station#
+          segmentv,   guide = slot(1),14,6      $$  guides
+          arraysegv,  Guide(maxslot) = slot(1),14,6
+        myguide = guide(me)
+*
+        arraysegv,  Busy(maxslot) = slot(1),20,1
+          segmentv,  busy = slot(1),20,1
+*
+        arraysegv,  Ltype(maxslot) = slot(1),21,2
+        segmentv, enterxy = slot(1),23,6    $$  entered here
+        segmentv,  inuser = slot(1),29,1    $$  on user list
+*
+*               Open bits 30-37!
+*
+        segmentv, charat = slot(1),38,23      $$ char loc
+          arraysegv, Charat(maxslot) = slot(1),38,23
+            segmentv,    room = slot(1),38,17   $$  room at
+            arraysegv,   Room(maxslot) = slot(1),38,17
+*
+
+=== block 'g-ictable'  kind 40  25 words  (block 13)
+*
+*
+*-------  Interterminal Communication Table
+*
+*
+        buffptr = nc( CT+1 )    $$  table pointer
+        tablew(xx) = nc( CT+1 + xx )
+        nextict = buffptr « cycle(buffptr+1,50)
+*
+
+=== block 'g-monsters'  kind 40  171 words  (block 14)
+*
+*
+*-------  Monster Defines
+*
+*
+        nmon    = 100           $$  # of monsters max
+        nmchnam = 17            $$  # chars per monster name
+*
+        mname(xx) = nc[ CM-1 + (xx$cls$1) ] $$  monster name
+          segmentv, Cm1.1 = nc( CM+1 ), 43,4
+          segmentv, Cm1.2 = nc( CM+1 ), 47,7
+          segmentv, Cm1.3 = nc( CM+1 ), 54,5
+          segmentv, Cm1.4 = nc( CM+1 ), 59,2
+        mtype(xx)   = Cm1.1(xx$cls$1)   $$  type of monster
+        mlevel(xx)  = Cm1.2(xx$cls$1)   $$  level of monster
+        mchar(xx)   = Cm1.3(xx$cls$1)   $$  char plotted
+        msflag(xx)  = Cm1.4(xx$cls$1)   $$  special ability?
+*
+*
+*-------  Class defines
+*
+*
+        nmclass = 8             $$  # of monster classes
+        chuman  = 1
+        cundead = 2
+        cmu     = 3
+        cmyth   = 4
+        canimal = 5
+        celem   = 6
+        ccleric = 7
+        clawful = 8
+*
+        mcstat   = nc( CC+1 )   $$  class information
+        segmentv, clfight = mcstat,1,7  $$  fight ability
+        segmentv,  clpray = mcstat,8,7  $$  praying ability
+        segmentv,   clrun = mcstat,15,7 $$  run to/from
+        segmentv, clspell = mcstat,22,7 $$  spell ability
+        segmentv, cltrick = mcstat,29,7 $$  trick ability
+        segmentv, clattck = mcstat,36,7 $$  monster attack
+*
+*
+*-------  Monster/Terrain -randp- bitmap
+*
+*
+        monterr(xx)=nc(CB+1+3*xx)       $$ [0..7]
+
+=== block 'g-magic'  kind 40  265 words  (block 15)
+*
+*
+*-------  Magic Items
+*
+        nmitem  = 127           $$  # of magic items
+        nichnam = 17            $$  # chars/name
+        nmislot = 12            $$  # magic item slots
+*
+        iname(xx)  = nc[ CI-1 + (xx$cls$1) ] $$ item name
+        iname2(xx) = nc[ CI   + (xx$cls$1) ] $$ 2nd word
+*
+*-- bits 43 to 60 of the second word of iname2
+*
+            segmentv, Ci1.1 = nc( CI+1 ),43,1
+        weapon(xx)      = Ci1.1( xx$cls$1 )     $$  1=yes
+            segmentv, Ci1.2 = nc( CI+1 ),54,7
+        miflags(xx)     = Ci1.2( xx$cls$1 )     $$  all flag
+            segment,  Ci1.3 = nc( CI+1 ),1      $$  flags
+          miflag(xx,yy)   = Ci1.3[ yy-7 + (120*xx) ]
+*
+*-- weapon defines
+*
+            segmentv, Ci2.1 = nc( CI+1 ),44,5
+        oeffect(xx)     = Ci2.1( xx$cls$1 )     $$  offense
+            segmentv, Ci2.2 = nc( CI+1 ),49,5
+        deffect(xx)     = Ci2.2( xx$cls$1 )     $$  defense
+        wcurse(xx)      = miflag(xx,1)  $$  54
+        wmagic(xx)      = miflag(xx,2)  $$  55
+        wintell(xx)     = miflag(xx,3)  $$  56
+*               unsed miflag(xx,4)  $$  57
+            segmentv,  Ci2.3 = nc( CI+1 ),58,3  $$  58-60
+        wbody(xx)       = Ci2.3( xx$cls$1 )     $$  body loc
+*
+*-- Special items
+*
+            segmentv, Ci3.1 = nc( CI+1 ),44,5
+        stype(xx)       = Ci3.1( xx$cls$1 )
+            segmentv, Ci3.2 = nc( CI+1 ),49,5
+        micost(xx)      = Ci3.2( xx$cls$1 )
+        scurse(xx)      = miflag(xx,1)  $$  54
+        smagic(xx)      = miflag(xx,2)  $$  55
+        sgoaway(xx)     = miflag(xx,3)  $$  56
+*
+*--     types of special items
+*
+        silite  = 1     $$  first 5 are for the spells
+        sitreas = 2
+        sipro   = 3
+        silsta  = 6     $$  locate these
+        silwat  = 7
+        sicun   = 11    $$  raise skills
+        sipiety = 12
+        sivalor = 13
+        siwiz   = 14
+        sirun   = 15
+        sitele  = 16    $$  telport to city
+        siregen = 17
+        sifood  = 18    $$  bottomless food and water
+        siwater = 19
+        sicureg = 20    $$  cure group
+        siair   = 21    $$  breathe in the ocean
+        sivalue = 30    $$  just valuable, that's all
+*-- to go past 30 you have to fix the define for "havitem"
+*
+
+=== block 'g-ptable'  kind 40  37 words  (block 16)
+*
+*
+*-------  Plotter Table
+*
+*
+        array, Cols1(3) = nc( CP+1 )
+        array, Cols2(3) = nc( CP+4 )
+        array, Cols3(3) = nc( CP+7 )
+        array, Cols4(3) = nc( CP+10 )
+        array, Cols5(3) = nc( CP+13 )
+        array, Cols6(3) = nc( CP+16 )
+
+=== block 'g-messages'  kind 40  38 words  (block 17)
+*
+*-------  Message Defines
+*
+        nmwlen  = 4             $$  max words for messages
+        nmclen  = 10*nmwlen     $$  # chars for messages
+        mesbufl = 80            $$  word size of message buf
+*
+        messptr = nc( CY+1 )    $$  current message pointer
+        message(xx) = nc( CY+1 + xx )
+*
+
+=== block 'g-montable'  kind 40  145 words  (block 20)
+        amlen   = 50            $$  active monster length
+        arlen   = 100           $$  active room length
+*
+*
+*-------info on active monsters  (group being fought)
+*
+*
+        slotind = nc( CA+1 )    $$ last monster slot used
+        mslot(xx)   = nc( CA+1+xx )
+        moninfo(xx) = nc( CA+1+amlen + xx )
+*
+*               word 1
+          segment, Ca1.1 = mslot(1),8
+        monhits(xx,yy) = Ca1.1( 7xx+yy-7 )  $$  mymons,1:3
+        monnums(xx,yy) = Ca1.1( 7xx+yy-4 )  $$  mymons,1:3
+        segmentv, mondead = mslot(1),1,24   $$  all hits
+        segmentv,  monall = mslot(1),1,48   $$  all info!
+*               Open bits 49-60
+*
+*               word 2
+        segmentv,  ttaken = moninfo(1),1,1
+        segmentv,  tvalue = moninfo(1),2,20
+        segmentv,  shares = moninfo(1),22,10
+        segmentv, monsiat = moninfo(1),38,23     $$ location
+*               Open bits 32-37
+*
+*
+*-------monster bit maps  (where they are in a room)
+*
+*
+        roomind = nc( CR+1 )    $$  last room slot used
+*
+        monmap(xx)      = nc( CR+1 + xx )
+            segment,  Cr3.1 = monmap(1),1
+          monsbit(rr,xx,yy) = Cr3.1( 60rr + 6xx + yy - 66 )
+          segmentv,  monsbrm   = monmap(1),38,17
+
+=== block 'g-storage'  kind 40  89 words  (block 21)
+*
+*
+*               /////  Storage Defines  /////
+*
+*
+        baselen = 6             $$  basic char length
+        maxchar = 10            $$  10 chars/record
+        charsiz = 60            $$  length times 10 chars
+*
+*-------  Character Skills:  1-60
+*
+        stoword(xx) = nc( SS+xx )       $$  storage word
+          segmentv, shash = nc( SS+1 ),1,48   $$  hash code
+          segmentv,slastu = nc( SS+1 ),49,4   $$  last use
+*
+*
+*-------  Temp monster storage: 61-63
+*
+        tempmon(xx)     = nc( SS+60 + xx )
+          segmentv, tmonall = tempmon(1),1,48
+          segmentv, tplayer = tempmon(1),49,6
+*
+*
+*-------  Day counter:  64
+*
+        lastday = nc( SS+64 )   $$  last day record updated
+
+=== block 'm-defines'  kind 40  144 words  (block 22)
+*
+*
+*               /////  Moria Defines  /////
+*
+*
+*
+*-------  Hash Code Functions
+*
+*
+        numbits = 48            $$  # bits in hash code
+        nn1(xx) = [ lmask(48) $mask$ xx ] $cls$ 48
+        nn2(xx,yy) = [ (rmask(12)$mask$xx) $union$ (lmask(36)$mask$yy) ] $cls$ 36
+        gg1(zz) = [ zz $cls$ 48 ]
+        nhash(xx,yy,zz)=rmask(numbits)$mask$(sin(nn1(xx))$diff$(sin(nn2(xx,yy))$ars$1)$diff$(sin(gg1(zz))$ars$2))
+*
+*
+*-------  Other Misc Moria Vars
+*
+*
+        ctype   = n( S+1 )     $$  type of char creating
+        myhash  = n( S+2 )     $$  my hash code
+*
+*
+*-------  Moria Common Stats
+*  Note: be sure to patch unit newsys if you change these
+*
+*
+        numentr = nc( CE+1 )    $$  # of entries
+        numjump = nc( CE+2 )    $$  # jumps to the game
+        numcre  = nc( CE+3 )    $$  # chars created
+        numdead = nc( CE+4 )    $$  # chars killed
+        version = nc( CE+5 )    $$  version id for updates
+        lastexe = vc( CE+6 )    $$  day when last executed
+        lastsys = nc( CE+7 )    $$  zsysid at last run
+*---->  Open(3) 8-10
+        array,Cmins(12)=nc(CE+11)$$ monthly contact minutes
+*---->  Open(3) 23-25
+
+=== block 'd-students'  kind 40  240 words  (block 23)
+*------- Dungeon Work Vars
+*
+        flag(xx)        = n( DW+xx )    $$  boolean flags
+        array, Flag(3)  = flag(1)       $$  3 words
+*
+        array, Object(3) = n( DW+4 )    $$  object bit map
+            segment, Dw4.1 = n( DW+4 ),5
+          object(xx,yy) = Dw4.1( 6*xx + yy - 6 )
+*
+        uptime  = v( DW+7 )     $$  update time
+        nextmth = n( DW+8 )     $$  next month passes
+        statime = n( DW+9 )     $$  stats rise timer
+          segment,   statup = statime,1     $$  1=raised 
+          segmentf, statsup = statime,1,4   $$  all of em
+        nextcpt = v( DW+10 )    $$  next time for checkpoint
+*
+        myptr   = n( DW+11 )    $$  my buffer pointer
+        messlin = n( DW+12 )    $$  mess plot location
+        whom    = n( DW+13 )    $$  last whom choice
+        levsizx = n( DW+14 )    $$  grossx size of level
+        levsizy = n( DW+15 )    $$  grossy size of level
+        mymonsb = n( DW+16 )    $$  ptr to my monster bitmap
+        pause   = n( DW+17 )    $$  pause this time thru
+        findobj = n( DW+18 )    $$  find obj this time
+        findmon = n( DW+19 )    $$  find monster this time
+        myshare = n( DW+20 )    $$  my shares for treasure
+*
+        array, eskill(4) = n( DW+21 )   $$   effective skill
+          ecun    = n( DW+21 )  $$  effective cunning
+          epie    = n( DW+22 )  $$  effective piety
+          eval    = n( DW+23 )  $$  effective valor
+          ewiz    = n( DW+24 )  $$  effective wizardry
+*
+        offen   = n( DW+25 )    $$  offense addition
+        defen   = n( DW+26 )    $$  defense addition
+        itemwrd = n( DW+27 )    $$  flags for magic items!
+          segment, havitem = itemwrd,2,s
+        seed    = v( DW+28 )    $$  seed for randu's (real)
+          nseed   = n( DW+28 )  $$  integer version of seed
+        Spind   = n( DW+29 )    $$  spell index on a scroll
+        segment, spind = Spind,7
+        dfact   = n( DW+30 )    $$  difficulty factor
+        exper   = n( DW+31 )    $$  trip experience
+        pmhits  = v( DW+32 )    $$  prev. value of monhits
+
+=== block 'd-students'  kind 40  97 words  (block 24)
+*
+*-------  argument passing
+*
+*-- messages
+        sendto  = n( DA+1 )     $$  who it's sent to
+        sendtyp = n( DA+2 )     $$  type message sent
+*-- magic items & objects
+        aitem   = n( DA+3 )     $$  for adding magic items
+        ditem   = n( DA+4 )     $$  for del magic items
+        wflag   = n( DA+5 )     $$  weapon/mag item flag
+        objnum  = n( DA+6 )     $$  number of this object
+*-- success unit
+        for     = n( DA+7 )     $$  force doing the acting
+        against = n( DA+8 )     $$  force being acted upon
+        diff    = n( DA+9 )     $$  difficulty factor
+*-- misc
+        indsize = n( DA+10 )    $$  index size for pausei
+        givtype = n( DA+11 )    $$  type of thing giving
+        givewrk = n( DA+12 )    $$  work var, amount/index
+        oflag   = n( DA+13 )    $$  ownership flag
+
+=== block 'd-map'  kind 40  257 words  (block 25)
+*
+*
+*-------  Plotter Vars
+*
+*-- plotter output buffer
+        pltout  = n( DP+1 )     $$  3 words
+          array, Pltout(3) = pltout
+            arraysegv,col1(3) = pltout,1,6
+            arraysegv,col2(3) = pltout,7,6
+            arraysegv,col3(3) = pltout,13,6
+            arraysegv,col4(3) = pltout,19,6
+            arraysegv,col5(3) = pltout,25,6
+            arraysegv,col6(3) = pltout,31,6
+        iline   = n( DP+4 )     $$  bottom info line
+        dx      = n( DP+5 )     $$ increment to move forward
+        dy      = n( DP+6 )
+        wbas    = n( DP+7 )     $$  nmw base pointer
+        sbas    = n( DP+8 )     $$  nrs base pointer
+*
+*
+*-------  Plotter Map
+*
+*
+*    dir 0({^'04}) in bits 1..12          dir 1({^'27}) in bits 13..24
+*        x{^'04}word, y{^'04}seg                    y{^'04}word, x{^'04}seg
+*
+        map(xx) = n( DM+1 + xx )   $$ map(0:6)
+          array,   Map(0;6) = map(0)    $$  whole map
+            array, Inw(1;5) = map(1)    $$  inner walls
+            segment, md = map(0),2      $$  segments
+*
+          sideptr(xx,yy,dd)= 30*(xx-(dd$ars$1)) +(dd$mask$1)          *(29*(yy-xx)+6) +yy
+        side(xx,yy,dd)=md{ sideptr(xx,yy,dd) }
+*-- wall functions
+        mapwall(cc,ww) = md( 30*cc + ww )      $$  {^'27}Ö
+        mapside(cc,ss) = md( 30*cc + ss + 6 )  $$  {^'01}{^'04}
+*
+*
+*-------  Map Functions
+*
+*
+        mhash(xx,yy) = xx/.93 + yy/.71 + lev/.79 + terr/.37
+*-- increment the base pointers for a step
+        incwbas(xx) = (wbas« wbas+30*xx)    $$ feed (dx+dy)
+        incsbas(xx) = (sbas« sbas+xx)
+*-- set dx,dy
+        setdx   = (dx « [o2123$ars$3*heading $mask$ o7]-2 )
+        setdy   = (dy « [o1232$ars$3*heading $mask$ o7]-2 )
+*-- 10 visible walls relative to the base
+        nlw     = md(wbas+dx-dy)
+        nmw     = md(wbas)
+        nrw     = md(wbas-dx+dy)
+        nrs     = md(sbas)
+        nls     = md(sbas+30(dx-dy))
+        flw     = md(wbas+31dx+29dy)
+        fmw     = md(wbas+30(dx+dy))
+        frw     = md(wbas+29dx+31dy)
+        fls     = md(sbas+31dx-29dy)
+        frs     = md(sbas+dx+dy)
+*
+        wall    = (nmw>0)
+        corr    = (nmw=0)
+        door    = nmw>0 $and$ nmw<3
+        incorr  = odd(grossx+grossy)
+
+=== block 'd-generate'  kind 40  142 words  (block 26)
+*
+*
+*-------  Generate Functions and Vars
+*
+*
+*-- door locations in room block
+        alldoor = n( DG+1 )
+            segment, Dg1.1 = alldoor,3
+          doorloc(xx) = Dg1.1(xx+17)  $$ doorloc(0:3)
+*-- make contents of doorloc in range 1..6
+        makdoor(xx)=alldoor« [xx $mask$ (o3333 $union$        comp(xx $mask$ (xx $cls$ 1)))] + o1111
+*-- clear map array
+        clrmap  = [ Map « rmask(36) ]
+*-- put solid wall around the gross block
+        bounds = map(0) « map(0) $union$ lmask(24)
+        boundw = map(6) « map(6) $union$ lmask(24)
+*-- toggle wall ll long starting at xx,yy in given direction
+        tog0(xx,yy,ll) = map(xx) « map(xx) $diff$                      mskbyte(2*yy-1,2*ll)
+        tog1(xx,yy,ll) = map(yy) « map(yy) $diff$                      mskbyte(11+2*xx,2*ll)
+*-- set wall ll long starting at xx,yy in given direction
+        set0(xx,yy,ll) = map(xx) « map(xx) $union$                     mskbyte(2*yy-1,2*ll)
+        set1(xx,yy,ll) = map(yy) « map(yy) $union$                     mskbyte(11+2*xx,2*ll)
+*-- clear out the cross walls in the path in given direction
+        clr0(yy) = Inw« Inw $mask$ comp(mskbyte(11+2*yy,2))
+        clr1(xx) = Inw« Inw $mask$ comp(mskbyte(2*xx-1,2))
+
+=== block 'd-ict'  kind 40  159 words  (block 27)
+*
+*
+*-------  Interterminal Common Table Student Defines
+*
+*
+        icword  = n( DI+1 )     $$  ic fields
+*
+*-- first 41 bits common to all action types
+        segmentf,   whoto = icword,1,6  $$ who action is for
+        segmentf,  roomto = icword,7,17 $$ to which room
+        segmentf, groupto = icword,24,6 $$ to which group
+*
+        segmentf, whofrom = icword,30,6 $$ who action from
+        segmentf,  action = icword,36,5 $$ action to take
+*
+*  to set who sees the action, just set one or more of
+*  the following:  whoto, groupto, roomto.
+*
+*
+*--       Constants for all ic words
+*
+*-- actions
+        acmess  = 1     $$  message
+        acshpty = 2     $$  show group change
+        acfood  = 3     $$  give em food
+        acwater = 4     $$  give em water
+        acgivem = 5     $$  give magic item away!
+        acboot  = 6     $$  give em the boot
+        acenter = 7     $$  someone entered the room
+        accure  = 8     $$  someone cured the group
+*
+*-- message section
+        segmentf,    mptr = icword,48,7 $$ message pointer
+        segmentf, mestype = icword,55,3 $$ type message sent
+        segmentf, messlen = icword,58,3 $$ message word len
+*
+*-- actions for giving:  tis better to give than to ....
+        segmentf, howmuch = icword,49,5 $$ to give someone
+        segmentf, givitem = icword,54,7 $$ item to give
+
+=== block 'd-timel'  kind 40  48 words  (block 30)
+*
+*
+*-------  Local Vars for timel
+*
+*
+        opcode  = n( DT+1 )     $$  action taken
+        la1     = n( DT+2 )     $$  argument
+        la2     = n( DT+3 )     $$  guess
+        lind    = n( DT+4 )     $$  local index
+        ln1     = n( DT+5 )     $$  local temp
+        ln2     = n( DT+6 )     $$  slow learner I see
+        smerase = v( DT+7 )     $$  time to erase sysmess
+
+=== block 'd-stairs'  kind 40  231 words  (block 31)
+*
+*
+*-------  Stair Vars
+*
+*
+*-- number of levels stair n will take you
+        levchng(xx) = [ o53110 $ars$ (3*xx) ] $mask$ o7
+*
+        levinfo = v( DS+1 )     $$  level info
+          segmentf,   down1 = levinfo,16,1
+          segmentf,   down2 = levinfo,17,1
+          segmentf,   down3 = levinfo,18,2
+          segmentf,  lsizex = levinfo,20,4
+          segmentf,  lsizey = levinfo,24,4
+*
+        array, Stairs(4) = n( DS+2 )    $$  all stair info
+*
+*-- down stairs
+        arraysegv,   Sdn(4) = n( DS+2 ),1,30
+          arraysegv,   Sdnat(4) = n( DS+2 ),1,23
+            arraysegv,   Sdnrm(4) = n( DS+2 ),1,17
+              arraysegv,  Sdnter(4) = n( DS+2 ),1,3
+              arraysegv,  Sdnlev(4) = n( DS+2 ),4,6
+              arraysegv,   Sdngx(4) = n( DS+2 ),10,4
+              arraysegv,   Sdngy(4) = n( DS+2 ),14,4
+            arraysegv,   Sdnfx(4) = n( DS+2 ),18,3
+            arraysegv,   Sdnfy(4) = n( DS+2 ),21,3
+          arraysegv, Sdntt(4) = n( DS+2 ),24,3
+          arraysegv, Sdndl(4) = n( DS+2 ),27,4,s
+*-- up stairs
+        arraysegv,     Sup(4) = n( DS+2 ),31,30
+          arraysegv,   Supat(4) = n( DS+2 ),31,23
+            arraysegv,   Suprm(4) = n( DS+2 ),31,17
+              arraysegv,  Supter(4) = n( DS+2 ),31,3
+              arraysegv,  Suplev(4) = n( DS+2 ),34,6
+              arraysegv,   Supgx(4) = n( DS+2 ),40,4
+              arraysegv,   Supgy(4) = n( DS+2 ),44,4
+            arraysegv, Supfx(4) = n( DS+2 ),48,3
+            arraysegv, Supfy(4) = n( DS+2 ),51,3
+          arraysegv, Suptt(4) = n( DS+2 ),54,3
+          arraysegv, Supdl(4) = n( DS+2 ),57,4,s
+*
+        strind  = n( DS+6 )     $$  stair index number
+        strinfo = n( DS+7 )     $$  stair info word
+          segmentf, strrm = strinfo,31,17
+          segmentf, strfx = strinfo,48,3
+          segmentf, strfy = strinfo,51,3
+          segmentf, strtt = strinfo,54,3
+          segmentf, strdl = strinfo,57,4,s
+
+=== block 'd-monlocal'  kind 40  76 words  (block 32)
+*
+*
+*-------  Local Monster Vars
+*
+*
+        which1  = n( DH+1 )     $$  which monster fighting
+        mymons  = n( DH+2 )     $$  ptr to monst in my room
+        monind  = n( DH+3 )     $$  my monster index
+        monlev  = n( DH+4 )     $$  monster level
+        monclas = n( DH+5 )     $$  monster class
+        levhits = n( DH+6 )     $$  hits/monster on this lev
+        mtime   = n( DH+7 )     $$  next monhit time
+        rtime   = n( DH+8 )     $$  time / round
+        allshow = flag(1)       $$  monster shown?
+          segment,shown=allshow,2,s
+        run     = flag(2)       $$  monster fought till dead
+
+=== block 'd-haggle'  kind 40  68 words  (block 33)
+*
+*
+*-------  Haggle Work Vars
+*
+*
+        yesno   = n( DB+1 )          $$  yes or no answer
+        bestbid = n( DB+2 )          $$  best offer
+        cashflo = n( DB+3 )          $$  shop buy or sell?
+        noffer  = n( DB+4 )          $$  free offer amount
+        offer   = n( DB+5 )          $$  shops offer
+        sgold   = n( DB+6 )          $$  gold while in shop
+        playbid = flag(1)            $$  did player bid?
+        final   = flag(2)            $$  final offer by shop
+        deal    = flag(3)            $$  deal made?
+*
+        
+
+=== block 'global ieu'  kind 40  209 words  (block 34)
+*
+*-- just the essentials here
+*
+lvars   148
+*
+*-- attach leslist, common, dataset
+*
+leslist 0moria,lessons
+if      zreturn {^73} 0
+.       packc   zreturn{^56}n2{^56}n1{^56}{^56}
+.               not found{^56}
+.               wrong codeword{^56}
+.       pack    n2,n1,Problem attaching leslist:
+        «a,n2,n1».
+.       move    0,1,n2,n1+1,10
+.       notes   n2,1+int((n1+1)/10),send
+.       at      1720
+.       showa   n2,n1
+.       pause
+.       jumpout q
+endif
+*
+*
+commonx <moriac>,common,8000,,checkpt
+if      zreturn {^73} 0
+.       packc   zreturn{^56}n2{^56}n1{^56}{^56}
+.               not found{^56}
+.               wrong codeword{^56}
+.               already have one{^56}
+.               common in EM is different length{^56}
+.               bad length{^56}
+.               zreturn=«s,zreturn»
+.       pack    n2,n1,Problem attaching common:
+        «a,n2,n1».
+.       move    0,1,n2,n1+1,10
+.       notes   n2,1+int((n1+1)/10),send
+.       at      1720
+.       showa   n2,n1
+.       pause
+.       jumpout q
+endif
+comload nc1,1,Cloadl
+*
+attach  <moriads>
+if      zreturn {^73} 0
+.       packc   zreturn{^56}n2{^56}n1{^56}{^56}
+.               not found{^56}
+.               wrong codeword{^56}
+.               busy elsewhere{^56}
+.               directory error{^56}
+.               system disk error{^56}
+.               zreturn=«s,zreturn»
+.       pack    n2,n1,Problem attaching dataset:
+        «a,n2,n1».
+.       move    0,1,n2,n1+1,10
+.       notes   n2,1+int((n1+1)/10),send
+.       at      1720
+.       showa   n2,n1
+.       pause
+.       jumpout q
+endif
+*
+if      zcondok
+else    
+.       jumpout <moria>,conderrs(zlesson)
+endif
+*
+jumpout user='multiple';q;x     $$  multiples break it
+okword  $$ someone must be making a fortune in payoffs!
+*
+
+=== block 'char I/O'  kind 40  205 words  (block 35)
+unit    getrec(a1)      $$  get record a1
+*
+do      resrec(a1)      $$  reserve record
+datain  a1; s, SS+1     $$  get record into storage
+do      zcheck('getrec','datain')
+*
+        
+unit    findchar        $$  finds your char in stoword buff
+*          return is set to first word of the char if found
+*          cindex is set to absolute character number
+*
+calc    sind  « 1       $$  storage hash table index
+        return « 0
+        cindex« 10*ckey-9
+*
+loop    sind {^72} charsiz
+.       if      shash(sind) = chash     $$  mine?
+.       .       calc    return « sind
+.       .       goto    q
+.       endif   
+.       calc    bump(sind,baselen)
+.               add1(cindex)
+endloop 
+*
+        
+unit    resrec(a1)      $$  reserve dataset record
+*
+calc    a2 « 0
+loop    
+.       reserve records,a1,1
+outloop zreturn < 0
+reloop  mainu = 'finish'
+.       pause   .75
+.       jump    incr(a2) > 10, error('resrec','reserve'),x
+endloop 
+*
+        
+unit    zcheck(unit,ecmnd)      $$  check zreturn {^54} -1
+if      zreturn {^73} 0
+.       pack    resind,,«s,zreturn»
+.       jump    error(unit,ecmnd,resind)
+endif
+*
+        
+unit    error( util1,util2,util3,util4,util5 )
+*
+finish
+detach
+release common
+calc    Util(args+1)« 0
+erase   abort
+at      1717
+write   An error has occurred.
+at      1917
+text    utilbuf,args
+*
+notes   utilbuf,args+1,send
+catchup
+pause   5
+press   stop1
+*
+        
+unit    iosetup         $$  setup for accessing dataset
+comload
+stoload stoword(1), 1,SSl
+do      getrec(ckey)
+do      findchar
+*
+        
+unit    ioend           $$  end code for accessing dataset
+dataout ckey; s,1
+do      zcheck('ioend','dataout')
+release records,ckey,1
+stoload
+comload nc1,1,Cloadl
+*
+        
+
+=== block 'getchar'  kind 40  110 words  (block 36)
+unit    getchar
+*
+do      iosetup
+*
+day     sind
+if      sind {^54} lastday
+.       calc    sind « 1
+.       loop    sind {^72} charsiz
+.       .       if      slastu(sind) < 15
+.       .       .       calc    incr(slastu(sind))
+.       .       endif   
+.       .       calc    bump(sind,baselen)
+.       endloop 
+.       day     lastday
+endif   
+*
+calc    Skill « 0       $$  clear out skill array
+if      return > 0
+.       calc    slastu(return) « 0
+.       transfr stoword(return) ; Skill(1) ; baselen
+.       transfr c,CS+cindex ; Skill(7) ; 1
+.       transfr c,CX+cindex ; Skill(8) ; 1
+.       transfr c,CN+cindex ; Skill(9) ; 1
+endif   
+*
+do      ioend
+*
+        
+unit    gethash(a1,a2,a3)       $$  hash name/group together
+*
+*       a1 = first word of name
+*       a2 = second word of name
+*       a3 = group
+*
+calc    chash « nhash(a1,a2,a3)
+        ckey « cycle(chash,131)
+*
+        
+
+=== block 'putchar'  kind 40  39 words  (block 37)
+unit    putchar      $$  put char:  return=0 means not found
+*
+do      iosetup
+*
+if      return > 0
+.       transfr Skill(1) ; stoword(return) ; baselen
+.       transfr Skill(7); c,CS+cindex; 1
+.       transfr Skill(8); c,CX+cindex; 1
+.       transfr Skill(9); c,CN+cindex; 1
+endif
+*
+do      ioend
+*
+        
+
+=== block 'garbage'  kind 40  136 words  (block 40)
+unit    garbage
+*
+calc    sind « 1
+loop    sind {^72} charsiz
+.       calcs   slastu(sind) > 14, shash(sind) « 0,,
+.       calc    bump(sind,baselen)
+endloop 
+*
+        
+unit    addchar
+*
+do      iosetup
+if      return > 0      $$  already there
+.       do      ioend
+.       goto    q
+endif   
+*
+do      findopen
+*
+if      return {^72} 0
+.       do      garbage         $$  delete old chars
+.       do      findopen        $$  try to find open slot
+endif
+*
+at      2728
+if      return {^72} 0
+.       do      ioend
+.       write   NO ROOM
+.       pause   5,keys=next
+else    
+.       calc    shash(return) « chash
+.       do      ioend
+.       write   Storing
+.       pause   1
+endif   
+at      2728
+erase   7
+*
+        
+unit    findopen        $$  find open char: set return
+*          cindex is set to absolute character number
+*
+calc    sind « 1
+        return « 0
+        cindex« 10*ckey-9
+loop    sind {^72} charsiz
+.       if      shash(sind) = 0
+.       .       calc    return « sind
+.       .       goto    q
+.       endif   
+.       calc    bump(sind,baselen)
+.               add1(cindex)
+endloop 
+*
+        
+
+=== block 'utils'  kind 40  258 words  (block 41)
+unit    getnum(a1,a2)
+*
+*       Pass range of the number you wish
+*         a1 = lower value : a2 = higher value
+*       Number is stored in variable return
+*       escape is true if back is pressed with no number
+*
+arrow   where
+long    6
+join    escape
+*
+store   return
+ok
+judge   return < a1  $or$  return > a2,no,okquit
+endarrow 
+*
+        
+unit    miarrow $$ get a magic item name in utilbuf
+arrow   where
+jkey    back
+long    nichnam
+specs   bumpshift
+putd    .  . .          $$ __ to _
+putd    . . !           $$ _ to _{^'27}
+putd    . Of. of.
+putd    . And. and.
+storea  utilbuf,20
+ok
+calc    return« jcount+1
+        escape« key=back $or$ jcount<1
+judge   escape,okquit,x
+judge   return > nichnam,ignore,x
+move    utilbuf,1,utilbuf,2,jcount
+calc    utilc(1)« o70
+endarrow 
+*
+        
+unit    getstr(a1,a2)
+*
+*       Pass number of characters = a1
+*       [a2]  a2 char copy string in utilbuf
+*       String is returned in utilbuf
+*       Length is returned in return
+*       escape is set to true is blank back is pressed
+*
+calc    Util « 0
+calcs   args<2,a2« 0,,
+*
+arrow   where
+long    a1
+jkey    back,lab,next1
+copy    utilbuf,a2
+join    bumpcrap
+*
+exact
+calc    escape« yes
+*
+storea  utilbuf,return«jcount
+ok
+calc    escape« no
+endarrow 
+calc    k « key
+*
+        
+unit    escape  $$  allows escape from an arrow with back
+*
+calc    escape « no
+jkey    back
+exact
+judge   key = back,x,ignore
+calc    escape « yes
+*
+        
+unit    termchar
+*
+termop  c
+termop  char
+termop  chars
+termop  charset
+charset
+do      charload(3126)
+*
+        
+unit    charload(a1)
+*
+chartst <moria>,l to r
+goto    zreturn,q,x
+at      a1
+write     One Moment.  
+charset <moria>,l to r
+at      a1
+erase   14
+*
+        
+unit    copyrite                $$  displays copy message
+*
+at      36,22
+write   «size,1,1.5»©«size,0,0» Copyright 1978,1984 by  ⌫$$_
+writec  frac(clock) < .5
+        Kevet Duncombe & Jim Battin
+        Jim Battin & Kevet Duncombe
+at      176,6
+write   All rights reserved.
+*
+        
+
+=== block 'utils'  kind 40  283 words  (block 42)
+unit    showmons(a1)
+writec  a1{^56}-{^56}0{^56}
+        {75}+-{75}      $$  + -
+        {75}α/{75}{^56}     $$ {^'17}a /
+        {75}β{^03}{75}      $$ {^'17}b{^'17}c
+        {75}δ={75}{^56}     $$ {^'17}d =
+        {75}{^05}{^06}{75}      $$ {^'17}e{^'17}f
+        {75}æ{75}{^56}      $$ {^'17}g
+        {75}÷ø{75}      $$  ÷{^'17}h
+        {75}{^11}å{75}{^56}     $$ {^'17}i{^'17}j
+        {75}×«{75}      $$  × «
+        {75}äλ{75}{^56}     $$ {^'17}k{^'17}l
+        {75}μ{^16}{75}      $$ {^'17}m{^'17}n
+        {75}°;{^56}     $$ {^'17}o ;
+        {75}",{75}      $$  " ,
+        {75}.A{75}{^56}     $$  . A
+        {75}BC{75}      $$  B C
+        {75}DE{75}{^56}     $$  D E
+        {75}FG{^56}     $$  F G
+        {75}HI{75}      $$  H I
+        {75}JK{75}{^56}     $$  J K
+        {75}LM{75}      $$  L M
+        {75}NO{75}{^56}     $$  N O
+        {75}PQ{75}      $$  P Q
+        {75}RS{75}{^56}     $$  R S
+        {75}TU{75}      $$  T U
+        {75}VW{75}{^56}     $$  V W
+        {75}XYZ{75}     $$  X Y Z
+        {75}<>[{75}{^56}    $$  < > [
+        {75}]$%{75}     $$  ] $ %
+        {75}_'*{75}{^56}    $$  _ ' *
+        {75}({'45}{75}      $$  ( {'45}
+        {75}{'46}{^'01}{75}{^56}     $$  {'46}{^'17}A
+        {75}?{^'02}{75}      $$  ?{^'17}B
+        {75}©{^'04}{75}{^56}     $$ {^'17}C{^'17}D
+        {75}){^'05}ÆØ{75}{^56}   $$  ){^'17}E{^'17}F{^'17}G
+        {75}{'60}|Å{75}     $$  {'60}{^'17}H{^'17}I
+        {75}Ä{'64}!{75}{^56}    $$ {^'17}J {'64} !
+        ++
+*
+        
+unit    bumpcrap
+bump    
+        {^67}↓{75}⌫{75}                 $$  Ö{^'17}{'60}{'64}Æ{^'01}Æ
+*
+        
+unit    backgnd
+termop  b
+termop  bgnd
+termop  backgnd
+*
+at      3129
+write    BACKGND
+catchup
+backgnd
+at      3129
+erase   9
+*
+        
+unit    foregnd
+termop  f
+termop  fgnd
+termop  foregnd
+*
+at      3129
+write    FOREGND
+catchup
+foregnd
+at      3129
+erase   9
+*
+        
+unit    rescom
+*
+calc    resind« 0
+loop
+.       reserve common
+outloop zreturn < 0
+.       at      3228
+.       write   wait«m,e»⌫⌫⌫⌫wait
+.       pause   .75
+.       do      add1(resind) > 30 ,zcheck(mainu,'reserve'),x
+endloop 
+*
+        
+unit    up.use  $$ update contact hours
+day     tv1
+do      day2mo(today; ind)      $$ get month I entered
+calc    bump(Cmins(ind),60*24*(tv1-today))
+*
+        
+unit    day2mo(dy)
+        floating: dy
+        integer:  str
+          segmentf,c1=str,1,6
+          segmentf,c2=str,7,6
+cdate   dy;str;1        $$ turn day into mm/dd/yy
+if      c1=" "          $$ figure out what month it is
+.       return  c2-"0"
+else    
+.       return  10*(c1-"0")+c2-"0"
+endif
+*
+        
+
+=== block 'user list'  kind 40  123 words  (block 43)
+unit    ulist
+erase   abort
+at      103
+do      c(zgreen)
+write   #  Pseudonym  Guide  Location
+at      135
+write   #  Pseudonym  Guide  Location
+do      c(zmagent)
+draw    0,495;511,495
+draw    256,97;256,511
+box     0,511;511,97
+do      c(zwhite)
+*
+calc    ind « 0
+        sind « 0
+loop    incr(ind) {^72} maxslot
+reloop  stashun(ind) = nullst
+.       calc    incr(sind)
+.               wroom« room(ind)
+.       calcs   sind{^72}25, at« 102+100*sind, 134+100*(sind-25)
+.       at      at
+.       write   «t,ind,2») «a,pseudo(ind),10»
+.       at      at + 16
+.       writec  guide(ind)=ind
+.                *
+.               «t,guide(ind),2»
+.       at      at + 22
+.       do      c(zwhite)
+.       writec  wterr,-,
+.               Entering,
+.               City,
+.               Wild,
+.               Cave   «t,wlev,2»,
+.               Mount  «t,wlev,2»,
+.               Forest «t,wlev,2»,
+.               Desert «t,wlev,2»,
+.               Ocean «t,wlev,2»,+
+endloop 
+*
+        
+
+=== block 'newsys'  kind 00  261 words  (block 44)
+*  When the game is shipped to a new system, zsysid will
+*  no longer match lastsys, and we'll come here.  Zero
+*  things as appropriate and return.
+*
+define  newsys
+use     base/g
+use     g-confunct      $$ only constants and functions
+use     g-students
+use     g-guilds
+use     g-quest
+use     d-stairs
+use     d-students
+use     m-defines
+use     global ieu
+*
+        
+unit    newsys
+if      lastsys = zsysid
+.       jumpout <moria>
+.       jumpout q       $$ paranoia check
+endif
+at      1727
+write   One Moment.  
+reserve common
+if      zreturn {^73} 0     $$ someone has saved you the trouble
+.       loop    zreturn {^73} 0     $$ just wait 'til he's done
+.       .       pause   1
+.       .       reserve common
+.       endloop 
+.       release common
+.       jumpout <moria>
+.       jumpout q       $$ paranoia check
+endif
+finish  abort
+*
+*-- save the good info
+calc    n1« guildat(1)
+        n2« guildat(2)
+        n3« guildat(3)
+        n4« guildat(4)
+        n5« version
+*
+*-- zero everything
+do      zeroc(CE+1,25)
+do      zeroc(CG+1,24)
+do      zeroc(CQ+1,1)
+do      zeroc(CN+1,1310)
+do      zeroc(CS+1,1310)
+do      zeroc(CX+1,1310)
+*
+*-- hide the reaper's ring
+calc    wat« 0
+        wlev« 1
+seed    $$ system seed
+randu   wterr,4
+calcs   wterr-2,wterr« cave,mount,forest,desert
+*
+calc    seed« lhash(wlev,wterr)/3
+seed    seed
+randu   levinfo
+*
+seed    $$ system seed
+randu   wgrossx,4+cycle(lsizex,5)
+randu   wgrossy,4+cycle(lsizey,5)
+randu   wx,6
+randu   wy,6
+calc    ringat« wat
+*
+*-- initialize other things
+day     lastexe
+calc    guildat(1)« n1
+        guildat(2)« n2
+        guildat(3)« n3
+        guildat(4)« n4
+        version« n5
+        numjump« 1
+        lastsys« zsysid
+comret  $$ make sure it stays updated
+jumpout <moria>
+jumpout q       $$ paranoia check
+*
+        
+unit    zeroc(from,for)  $$ zero unloaded ecs common
+        from,for,i
+calc    i« 0
+transfr i; c,from; 1
+calc    i « 1
+loop    for > (i $cls$ 1)
+.       transfr c,from; c,from+i; i
+.       calc    i « i $cls$ 1
+endloop 
+transfr c,from; c,from+i; for-i
+*
+        
+unit    abort
+abort   common
+*
+        

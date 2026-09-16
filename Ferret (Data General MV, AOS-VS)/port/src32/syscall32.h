@@ -214,6 +214,14 @@ static int is_delim(int c) { return c == 0 || c == 10 || c == 12; }
 #define P_GSW   2
 #define P_GRES  4
 #define ERNAG 228
+/* -Z <seconds>: every ?GTOD and ?GDAY answers that instant, so a scripted
+ * session repeats exactly (both games seed their random numbers from the
+ * clock).  Give a present-day time: with 1000000000 (2001) Zork's QUIT
+ * spins writing nothing, so its date arithmetic evidently cannot take it. */
+static long frozen_clock;
+/* PARU.32.SR is octal: "EREOF= 30" is 030, twenty-four. */
+#define EREOF 030    /* end of file */
+#define ERFDE 025    /* file does not exist */
 
 static char progname_buf[64] = "";
 static char progpath_buf[80] = "";
@@ -333,10 +341,10 @@ static int do_syscall32(word code)
         for (i = 4; i < 8; i++) M[MADDR(pkt + i)] = 0;
         return 1;
 
-    case SC_GTOD: { time_t t = time(NULL); struct tm *lt = localtime(&t);
+    case SC_GTOD: { time_t t = frozen_clock ? (time_t)frozen_clock : time(NULL); struct tm *lt = localtime(&t);
                     AC[0] = lt->tm_sec; AC[1] = lt->tm_min; AC[2] = lt->tm_hour;
                     return 1; }
-    case SC_GDAY: { time_t t = time(NULL); struct tm *lt = localtime(&t);
+    case SC_GDAY: { time_t t = frozen_clock ? (time_t)frozen_clock : time(NULL); struct tm *lt = localtime(&t);
                     AC[0] = lt->tm_mday; AC[1] = lt->tm_mon + 1; AC[2] = lt->tm_year;
                     return 1; }
 
@@ -381,7 +389,7 @@ static int do_syscall32(word code)
             if ((((chan_ibad[ch] >> 1) & OFFMASK)) >= MEMWORDS) chan_ibad[ch] = 0;
             if (!chan[ch]) {
                 if (verbose) fprintf(stderr, "[open failed: %s]\n", name);
-                return 0;
+                AC[0] = ERFDE; return 0;
             }
             chan_console[ch] = 0;
         }
@@ -480,6 +488,11 @@ static int do_rw32(word code, dword pkt)
 
     if (code == SC_READ) {
         if (!chan[ch]) return 0;
+        /* C stdio forbids a read straight after a write (and a write after a
+         * read) on one stream without a positioning call between; the
+         * Windows runtime silently loses the transfer.  Found on QUEST's
+         * save; reposition before every file transfer. */
+        if (!chan_console[ch]) fseek(chan[ch], 0, SEEK_CUR);
         if (fmt == RF_DS) {
             int c = 0;
             if (chan_console[ch]) {
@@ -498,7 +511,7 @@ static int do_rw32(word code, dword pkt)
                 buf[n++] = 10;
             } else {
                 while ((c = fgetc(chan[ch])) == 0) ;
-                if (c == EOF) return 0;
+                if (c == EOF) { AC[0] = EREOF; return 0; }
                 while (n < rcl - 1 && c != EOF && !is_delim(c)) {
                     buf[n++] = (char)c; c = fgetc(chan[ch]);
                 }
@@ -528,12 +541,12 @@ static int do_rw32(word code, dword pkt)
                           : chan_pos[ch] + rec;
                 long avail;
                 chan_spos[ch] = 0;
-                if (want < 0 || want >= chan_vnrec[ch]) return 0;
+                if (want < 0 || want >= chan_vnrec[ch]) { AC[0] = EREOF; return 0; }
                 if (fseek(chan[ch], chan_vrec[ch][2 * want], SEEK_SET)) return 0;
                 avail = chan_vrec[ch][2 * want + 1];
                 if (avail > rcl) avail = rcl;
                 got = fread(buf, 1, (size_t)avail, chan[ch]);
-                if (!got) return 0;
+                if (!got) { AC[0] = EREOF; return 0; }
                 n = (int)got;
                 chan_pos[ch] = want + 1;
             } else {
@@ -545,7 +558,7 @@ static int do_rw32(word code, dword pkt)
             }
             chan_spos[ch] = 0;
             got = fread(buf, 1, (size_t)rcl, chan[ch]);
-            if (!got) return 0;
+            if (!got) { AC[0] = EREOF; return 0; }
             n = (int)got;
             chan_pos[ch] = ftell(chan[ch]) / (rcl ? rcl : 1);
             }
@@ -570,6 +583,7 @@ static int do_rw32(word code, dword pkt)
 
     getbytes(pkt_dw(pkt, P_IBAD), buf, rcl);
     n = rcl;
+    if (chan[ch] && !chan_console[ch]) fseek(chan[ch], 0, SEEK_CUR);
     if (fmt != RF_DS && !chan_console[ch] && chan[ch] && !chan_spos[ch]) {
         long off = (((long)M[MADDR(pkt + P_IRNH)] << 16) |
                             M[MADDR(pkt + P_IRNL)]) * (long)rcl;

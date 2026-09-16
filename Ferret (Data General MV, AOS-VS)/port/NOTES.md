@@ -894,3 +894,54 @@ made it, and `-F` for floating point.
 else is the hardest kind of bug to find by reading a trace, and it found both
 of the last two — the leaked argument counts and the WCMV over page zero — in
 one run each.
+
+## The 2026-09-16 audit: DIVX, and the fixes from Quest
+
+The Quest ports (`../../Quest (Data General MV, AOS-VS)` and
+`../../Quest 1984 (Data General MV, AOS-VS)`) started from this emulator and
+found several things wrong in it.  This emulator was then audited against
+them: a copy with counters on every affected path, and a copy with the fixes,
+run side by side on long scripted and random sessions with the clock frozen.
+
+**DIVX was broken, and it hung Zork.**  DIVS and DIVX share one `case`, and
+the sign extension that makes DIVX DIVX was guarded by
+`(ir & 0x87FF) == 0xBFC8` -- never true, because the mask clears bits of
+0xBFC8 itself.  So DIVX divided whatever AC0 happened to hold.  ZORK.PR's
+random number generator (7D2F0) is `seed = (23*seed + 217) mod 1221` done
+with DIVX while AC0 still holds the dividend: 888 of 889 DIVX in a long
+session gave a wrong remainder, so every random number was wrong, and the
+routine at 7CD26 -- pick 0..9 until the slot is free -- could then spin for
+ever on the broken sequence.  A 600-command random session hung after about
+460 commands, silently, with no prompt.  FERRET.PR uses DIVX a few times a
+session too (7 of 9 wrong).  Fixed; `tests/` in the Zork port keeps that
+session as a regression.
+
+**The fixes carried over from Quest**, each measured before it was applied:
+
+| fix | executed here? | visible effect in these games |
+|---|---|---|
+| WMSP allocates doublewords, not words | Zork ~640, Ferret 2 per session | none seen |
+| WCMV leaves source bytes not moved in AC1 | yes, often | none: the runtime never reads it |
+| WMESS releases I.LOCK | once (I.GINIT) | none |
+| XVCT/QSCAN CF.. forms are one word | never | -- |
+| DO loops store the index on exit too | thousands of exits | none seen |
+| LNDO/LWDO are four words | never | -- |
+| fseek between read and write on a file | no unsafe switch occurred | -- |
+| EREOF on end of file, ERFDE on a failed open | no | -- |
+| 64-bit instruction counter | -- | -- |
+
+With the DIVX fix in both copies, four 600-command random Zork sessions and
+four Ferret ones gave byte-identical transcripts with and without the rest,
+so those are dormant here; they are in for correctness.  `-Z <seconds>`
+freezes the clock (give a present-day value: with 2001, Zork's QUIT spins),
+and `sh tests/run.sh` replays recorded sessions.
+
+**Not fixed: RESTORE of a save that does not exist ends FERRET.**  The ?OPEN
+fails, the PL/I runtime prints "from line 1879061010 of" and some garbage,
+and the program exits.  The number is an address and the name garbage, so
+the message itself is wrong here (its ?RNGPR/?UIDSTAT answers and the error
+file it then tries to ?SOPEN are not what AOS/VS gave it).  Whether rev 4.10
+itself stopped on this is not settled: the 2022 rev 10.00 for Windows answers
+"Savefile does not exist." and carries on, but it is a later revision, and
+this build's message text is encoded, so it cannot simply be searched for.
+Zork, given the same, says "I am unable to open that save file." and carries on.

@@ -1,0 +1,338 @@
+labyrinth  (tutor    a, 7 blocks)
+  g | 5e | 02/10/81 | 04/17/96 | coserv | izcoserv | Michael {70} | wei | (414) 548- | 9889 | DnD | Entry les | son for T | he LAB{70} | yRINT{70} | h. | 18.50.30. | bob hubel | h | s | juse | microj | i4lao) | operate | authplu | mu2+ «{75} | 0catnote | s0edit | e | d
+
+=== block '*directory'  kind 00  0 words  (block 0)
+
+=== block 'enter'  kind 00  235 words  (block 1)
+* Uses from (editlez)
+*
+use     stddefine1
+use     stddefine2
+use     stddefine3
+use     gamdefine1
+use     gamdefine2
+use     plydefine1
+use     plydefine2
+use     comdefine1
+use     comdefine2      $$ jumps to unit title ; has ieu
+use     stdrtns1
+**
+        
+*
+unit    title
+        merge,previous
+        atloc
+data    title
+back1   return
+from    num1; (helplez);(editlez);(drivlez);(notelez)
+calcs   num1, zfrom « zfroml,,
+calc    optflag « 0
+finish  q
+zero    n(KC+1),20
+comload nc1,4501,1500
+*
+* -- deghoster ÖÖ
+        
+if      zcusers = 1
+.       calc    pseudin « 0
+.               numuser « 0
+endif
+*
+release common
+lineset ,dunglines  $$ do not modify lineset lesson..many
+* lineset commands all over, hard to get them all
+chartst (editlez),dungedchar
+do      numuse
+if      zreturn<0  $$ (if charset loaded detectably)
+.       calc    optflag « 'second'      $$ enter w/charset
+endif
+*
+* Initial lesson entry.
+* Do full castle draw.
+        
+1entry  $$ kludge
+do      optflag=0,drawcast,draw1
+do      numuse
+chartst (editlez),dungedchar
+do      zreturn{^73}0,charload,x            $$ charset loader
+*
+2replot
+calcs   optflag=0,atloc«1428,2215
+do      status(atloc)
+*
+pause   keys=next,lab,back,back1,term,lab1
+if      key=lab1
+.       erase
+.       calc    optflag«0
+.       branch  1entry
+endif
+if      optflag=0
+.       mode    erase
+.       fill    11,246;185,201
+.       mode    write
+endif
+at      atloc
+erase   35,3
+inhibit erase
+if      key=next $and$ (openorm=0 $or$ op=-2)
+.       calc    add1( totuser )
+.       jumpout (drivlez)  $$normal driver
+*
+*elseif  key=lab $and$ (openexp=0 $or$ op=-2)
+*.       calc    add1( totuser )
+*.       jumpout (explez)  $$ experimental driver
+endif
+mode    rewrite $$ proceed here if closed or ECS problems.
+at      atloc+200
+write   The door won't open!
+catchup
+pause   .75,keys=all
+branch  2replot
+**
+        
+unit    dummy
+jump    title
+**
+        
+
+=== block 'draw'  kind 00  273 words  (block 2)
+unit    drawcast
+do      op<0,nocastle,castle
+do      draw1
+*
+unit    nocastle
+color   display;zblue
+box     507,491;4,32
+box     10,194;186,146
+box     10,251;186,200
+box     10,60;501,140
+color   display;zwhite
+at      16,170
+write   Total Users: «t,totuser,8»
+        Current Users: «t,zcusers,6»
+do      mofday
+*
+unit    castle
+color   display;zblue
+box     507,491;4,32;-3
+box     10,194;186,146;3
+box     10,251;186,200;3
+box     10,60;501,140;3
+color   display;zwhite
+at      16,170
+write   Total Users: «t,totuser,8»
+        Current Users: «t,zcusers,6»
+do      mofday
+color   display;zyellow
+draw    32,260;32,324;29,327;29,333;skip;29,333;33,333;
+        33,329;37,329;37,333;43,333;43,329;47,329;47,333;
+        51,333;51,327;48,324;48,260;
+draw    96,260;96,324;93,327;93,333;skip;93,333;97,333;
+        97,329;101,329;101,333;107,333;107,329;111,329;
+        111,333;115,333;115,327;112,324;112,260;
+draw    32,324;48,324;48,317;52,317;52,321;56,321;56,317;
+        60,317;60,321;64,321;64,317;68,317;68,321;72,321;
+        72,317;76,317;76,321;80,321;80,317;84,317;84,321;
+        88,321;88,317;92,317;92,321;96,321;96,324;112,324;
+draw    80,276;80,260;skip;64,260;64,276
+atnm    1510
+circle  9,154,26
+color   display;zgreen
+draw    24,260;39,260;44,261;48,260;62,259;73,260;83,260;
+        88,261;95,260;116,260;119,263;123,263;124,262;
+        130,262;139,261;148,262;161,261;175,263;181,270;
+        188,275;196,271;198,261;213,250;225,243;241,226;
+        257,217;281,211;302,198;311,197;319,189;332,186;
+draw    ;338,187;363,182;382,183;406,179;427,180;475,178;
+color   display;zyellow
+atnm    304,340
+circle  24
+color   display;zwhite
+draw    248,340;264,340;skip;264,339;288,339;skip;288,338;
+        296,338;skip;296,339;304,339;skip;304,338;320,338;
+        skip;320,339;336,339;skip;336,340;355,340;
+draw    296,334;301,334;skip;301,333;306,333;skip;306,334;
+        311,334;skip;301,328;303,328;skip;303,329;305,329;
+*
+unit    draw1
+color   display;zyellow
+at      216,460
+write   Welcome To
+if      op=0
+.       size    3
+.       at      88,396
+.       write     {75}lomnqpsut
+.       size    0
+else
+.       at      724
+.       write   L A B Y R I N T H
+endif
+color   display;zgreen
+at      108,36
+write   ©1980 by Randy Harmelink & Michael Wei
+color   display;zwhite
+**
+        
+
+=== block 'mofday'  kind 00  244 words  (block 3)
+unit    return
+jumpout (zfrom)
+**
+        
+unit    charload
+termop  c
+termop  char
+loop
+.       mode    erase
+.       fill    11,246;185,201
+.       mode    write
+.       at      14,218
+.       write   Checking the books...
+.       charset
+.       charset (editlez),dungedchar             $$ NOTE
+outloop key=stop $or$ zreturn
+endloop
+break   
+*press   next
+loop
+.       lineset
+.       lineset ,dunglines              $$ NOTE
+outloop key=stop $or$ zreturn
+endloop
+mode    erase
+fill    11,246;185,201
+mode    write
+**
+        
+unit    numuse
+termop  u
+termop  users
+at      3101
+erase   64
+at      3120
+write   Currently «s,zcusers» users.
+writec  op=-2{^56}..usersin=«s,usersin»{^56}{^56}
+**
+        
+unit    status(atloc)
+        merge,previous
+        atloc
+if      op<0
+.       at      101
+.       if      openflg = 0
+.       .       write   Labyrinth is OPEN
+.       else    
+.       .       write   Labyrinth is CLOSED
+.       endif
+*.       write   Open flag is «s,openflg»
+endif
+at      atloc
+erase   35,3
+if      openflg=3
+.       write   Sorry, {^52}«a,entrylz»{^52} is completely closed.
+.               Check {^52}«a,notelez»{^52} for updates.
+else
+.       writec  openorm{^56}{^56}
+.               Press NEXT for Labyrinth.{^56}
+.               Labyrinth is Closed.{^56}
+*.       writec  openorm{^56}{^56}
+*.               Press NEXT for normal Labyrinth.{^56}
+*.               Normal Labyrinth Closed.{^56}
+*.       at      atloc+100
+*.       writec  openexp{^56}{^56}
+*.               Press LAB for OLD Labyrinth.{^56}
+*.               OLD Labyrinth Cobwebbed.{^56}
+endif
+*
+*
+* message of the day.
+*
+unit    mofday
+*box     10,60;501,140
+at      13,140
+write   $$ Do NOT write on this line.  Append messages.
+        Labyrinth has been recovered (obviously).  I will be working
+        on the colors, and some of the old errors.  You may still
+        play, but remember that I may have to condense the lessons
+        from time to time.
+        Thanks, Jack Guinnip (4/23/93)
+
+=== block 'dunglines'  kind 46  320 words  (block 4)
+lineset    9                                                                 b)        
+;;;;h      c;{'00}               e/,f]      f5↓g<      g5{^00}hab ihaljxax   kA8lA$    
+mA«oha⌫    pbpbg      pBgpBg     pBgpBg     pBgpBg     pBgpBg     pBgpBg     pBgpBg    
+pBgpBg     pBgpBg     pBgpBg     pBhq5bo    rpbvspb2   tb9tB)     upb)upb)   upb)upb)  
+upb)upb)   upb)upb)   upb)upb)   upb)upb)   upb)upb)   upb)upb)   upb)upb)   upb)upb)  
+upb)upb)   upb)upb)   upb)upb)   upb)       5          5dbp       da5        b5dbpp    
+5plca55    bbpp       5plaa5     d[↑fc5p    dde.h[↑    bc,x2{^'00} bd34k,x    jl{'61}↑fcap/
+5aa.hc[↑   y⌫>.↑2%cn/ 5c4.0%c.↑  2{^73},xfc[↑ 2{^74}n>,x y{^73}.↑2%cnx 5c4↑0]c.↑  jn{'61}↑fcapx
+5aa↑hb[↑   a4÷la÷k{75} aphdd÷xjc  a55lfapHg  ap÷jc5phg  5/e{^00}÷c{75} qhh[xdj    5=dbda    
+aaxbh6he{75} 45ja;÷g{76} [tdbda     [phiaqphk  qbo×b      pg{75}a5hle ap÷hf55da  ao÷jap/fe 
+55di55p    5ha{76}    ;5e{75}45e> a5lga/jf   a4÷jc5ba   p÷e5D      55p5hl     ÷Be5÷ff   
+ap5k{75}a÷m{76} a5/hg÷⌫b   apxfc5pe{75} aplb./c{76} phdb55p    5hn        p÷hiaapfi  [dbap{'00}b
+÷/g{75}a÷pi{76} a×dbda     /dg5f      4/be=b     55jga÷/ld  a×dbda     a5hg{75}pbd aLeap5ff  
+5/daao×d   bdabd      ÷c{75}p÷e  5E{^00}55jg a4/na.÷lf  ap⌫dbda    ÷c{75}qg   aaxjj[pdi 
+.÷deaJg    a5÷mα÷k{75} ap÷hg55p   5hh[xjj    ÷hjpBa     ao/laphg{76} 5dh5÷lf    ap=dbda   
+aaxbh6he{75} 45ja;÷fj   55p5hdi    a5hg{75}pbd aLe÷tb     ap5ff5/da  ao×dbda    5la÷k{75} 
+aphdd÷xjc  a55lfapHg  ap÷jc5phg  5/e{^00}÷c{75} qhh[xdj    5=dbda     58,5h      5dbp      
+dbahl      ca5x55p    p          b5dbpp     5pplca5x   5v55p      bbpp       5pplaa5h  
+5v5p       d[↑fc5p    ddbe.h=p   d65+{75}5÷x 5p         bc,x2{^'00} bdb34k]p   4q8>{75}5c.↑
+           jl{'61}↑fcap/ 5qa.hcap5  5c>{75}5÷x y⌫>.↑2%cn/ 5s4.0%cn5  5c>{75}5c,x 2{^73},xfc[↑
+2{^74}bn{'00}p db6↑5÷x    [↑         y{^73}.↑2%cnx 5s4↑0]cnp  5c>{75}5c,x jn{'61}↑fcapx 5qa↑hbapp 
+5c>{75}5÷x                                                                             
+                                                                                       
+                                                                                       
+                                                                                       
+                                                                                       
+                                                                                       
+                                                                                       
+                                                                                       
+                                                                                       
+                                                                                       
+                                                                                       
+                                                                                       
+                                                                                       
+                                                                                       
+                                                                                       
+                                                                                       
+                                                                                       
+                                                                                       
+                                                                                       
+
+=== block 'files'  kind 44  40 words  (block 5)
+
+exp
+
+fenhollen
+helpless
+
+hyborea
+
+khazaddum
+labyrinth
+odungeon
+
+olabyrinth
+operate
+
+tavern
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

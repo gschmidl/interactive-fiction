@@ -1,0 +1,2066 @@
+helpless  (tutor    a, 35 blocks)
+  8 | 51 | 04/02/79 | 04/28/93 | dipstick | izcoserv | Michael {70} | wei | (414) 548- | 9889 | D & D | Anyone | Help less | on for Th | e LABY | RINTH | 15.40.16. | jack guinn | ipc | izcoserv | juse | microj | cn4lao) | operate | authplu | mu2+ «{75} | 0catnote | s0edit | e | d
+
+=== block '*directory'  kind 40  0 words  (block 0)
+
+=== block 'print/fixs'  kind 47  314 words  (block 1)
+************************
+*****  Prints  to  *****
+**** Michael M. Wei ****
+** 925 Madison Street **
+** Waukesha, WI 53188 **
+************************
+*list   eject
+dungeon = 16333 words
+        
+Key to purchase all supplies?{'66}
+Key to purchase all hits/magic?{'66}
+Stairs seem to mess up spells?{'66}
+BACK should get you out of messages just like NEXT1 does{'66}
+Make sipping take hits (potion spoils)?{'66}
+Add death records and game statistics{'66}
+Make 'progressive' hitting based on intelligence?{'66}
+Potion of 'beast con'?{'66}
+Character occupation: Bard, Cleric, Paladin, etc{'66}
+Add baccarat to casino{'66}
+Add trap doors and slides (??){'66}
+Need harp to bard?{'66}
+Weekly stat check {^'04} randu 150-stat {^'04} randu < 3 ÖÖ{'66}
+Stat usage go up  {^'04} after 15 uses {^'04} randu stat↑2 {^'04}  up if 1{'66}
+Monsters appear while resting?{'66}
+Invisible monsters?{'66}
+Fix quickness so it's success is based on dex and weight{'66}
+Replace MR monster ability with stone ability
+       holy water, stone kill, bard, charm, paralysis bad
+       trolls, gargoyles, and gel cubes{'66}
+Make MR a product of monster level, add MR flag{'66}
+Put in a 'spell already on' message?{'66}
+Spell restoral message too long in hostel{'66}
+Potion or spell of luck (especially casino){'66}
+Pass wall doesn't take hits on slow death -- base on time?{'66}
+'uncursed' message overwrites on throwing away{'66}
+Add price of items to -i-nfos{'66}
+Add constitution affects on paralysis/stone{'66}
+Add 'repugnance' potion?{'66}
+Add spells active limit?{'66}
+Implement pinning and/or eliminate level making in dungeon?{'66}
+Add pseudo-population routines? roll population only for the
+ current module and store in player char's record.{'66}
+Add additional monster classes.{'66}
+Fix chests so body/skull items affect trap hits taken.{'66}
+Fix consistantly high monster randu's (level of monsters)
+ that occur when running on level 19994 walking thru one of
+ the secret doors in the corner.{'66}
+Change common storage to dataset/nameset?{'66}
+Fix first-swing bug with monster specials.{'66}
+Fix casino-push error.{'66}
+Fix supply deletion problem (4 weeks depleted when {'46}year){'66}
+Fix stat decrease/equip usage problem when lvl drained.{'66}
+Convert to real-time?{'66}
+Implement group-fighting/spell throwing options?{'66}
+Healing potion?{'66}
+Fog factor unit? (use for esp, chests, sipping, etc){'66}
+Add ability pluses/minuses to some magic items?{'66}
+Spell limitations? (ie sleep only lvl 4 monsters and less){'66}
+Fix cursed weapons/weapons use bug (if get 3 or more cursed
+  items, the using counter wraps!){'66}
+Key to store char while in game?{'66}
+Exit maul loop if invulnerab goes off?{'66}
+Signon-wise editor options (to limit #of chars/signon or to
+  search for particular signons, etc){'66}
+Add more interesting/appropriate kill/damage messages?{'66}
+
+=== block 'def/main'  kind 00  244 words  (block 2)
+use     stddefine1
+use     stddefine2
+use     stddefine3
+*
+define
+        H       = B + Bl        $$ start of help lesson vars
+        Hl      = 5             $$ length of helpless vars
+*
+        Hindex  = n( H + 1 )    $$ helpless index pointer
+        Htext   = n( H + 2 )    $$ helpless text pointer
+        Hvers   = n( H + 3 )    $$ helpless version pointer
+        Htloc   = 478           $$ frame title y-loc
+*
+use     comdefine1
+use     comdefine2      $$ jumps to unit title
+*
+use     stdrtns1
+*
+keylist framers,next,next1,back,back1,data,data1,term
+*---*
+        
+unit    getvers
+        merge,global:
+        Which
+calc    Hvers « -1  $$ have already selected version...
+color   display;zyellow
+at      1021
+write   Labyrinth Help Lesson
+*write   Labyrinth Help Lesson for which version?
+*        
+*               1.  Normal Version
+*               2.  OLD Version
+color   display;zwhite
+at      2024
+write   Press any key.
+*1paws
+pause   keys=all
+calc    Which«2
+*keytype Which,(0),1,2
+*branch  Which {^72} 0,1paws,x
+commonx
+if      Which = 2
+.       commonx hyborea,dungeoncom,6400
+else
+.       commonx operate,krozaircom,7600
+endif
+jump    title
+*
+        
+unit    title   $$ IEU
+* get data
+do      Hvers {^54} -1,getvers,x
+comload nc1,4501,1500
+* init
+zero    Hindex
+        Htext
+*
+jump    main    $$ main index of indexes, front page
+*---*
+        
+unit    main
+next1   nonkeys
+next    nonkeys
+back1   title
+back    title
+*
+comload nc1,4501,1500
+*
+do      label
+do      frameit
+do      Hindex,x,
+        tmain,nonkeys,croute,sroute,mroute,wroute,
+        proute,troute,casroute,charrout,droute,
+        iroute,playlist,x
+loop
+.       pause   keys=all
+.       keytype ktype,lab,framers,a,b,c,d,e,f,g,h,i,j,k,p,q
+.       if      ktype{^73}1
+.       .       erase   abort
+.       endif
+.       do      ktype,x,plotit,nonkeys,nonkeys,croute,
+.               sroute,mroute,wroute,proute,troute,casroute,
+.               charrout,droute,iroute,playlist,x
+endloop
+*---*
+        
+
+=== block 'main index'  kind 00  313 words  (block 3)
+unit    label
+erase   abort
+at      172,Htloc
+writec  Hindex{^56}
+        *****index*error*****{^56}
+        LABYRINTH HELP LESSON{^56}
+         {^55}NON-COMBAT OPTIONS{^56}
+           {^55}COMBAT OPTIONS{^56}
+               SCROLLS{^56}
+              {^55}MONSTERS{^56}
+               WEAPONS{^56}
+               POTIONS{^56}
+              TREASURES{^56}
+               {^55}CASTLE{^56}
+             {^55}CHARACTERS{^56}
+               DUNGEON{^56}
+        *****index*error*****
+*---*
+        
+unit    dummy
+jump    dungieu
+*---*
+        
+unit    return
+jumpout (entrylz)
+*---*
+        
+unit    frameit
+data    jumpit
+data1   return
+color   display;zblue
+box     163,478;348,494;2
+box     1,495;511,32
+box     3,66;509,34
+color   display;zwhite
+at      14,50
+write   NEXT  {^'04} next page   BACK  {^'04} previous page   DATA  {^'04} replot
+        NEXT1 {^'04} next index  BACK1 {^'04} previous index  DATA1 {^'04} LABYRINTH
+*---*
+        
+unit    jumpit          $$ for data replots
+jumpout (zlesson),(baseu)
+*---*
+        
+unit    writeit         $$ dummy finish unit
+*---*
+        
+use     playerlist      $$ insert player listing units
+*---*
+        
+unit    plotit
+mode    rewrite
+at      128
+write   *updating*
+at      1946
+write   **⌫⌫«s,numuser»  
+        **⌫⌫«s,zcusers-1»  
+at      200,152
+write   *****⌫⌫⌫⌫⌫«s,gamemin/60»  
+        *****⌫⌫⌫⌫⌫«s,totuser»  
+at      424,152
+write   *****⌫⌫⌫⌫⌫«s,gamemin/60/num1»  
+        *****⌫⌫⌫⌫⌫«s,totuser/num1»  
+write
+mode    write
+at      128
+erase   10
+*---*
+        
+unit    tmain
+*
+at      144,444
+write         Chose an Option:
+        a)  Non-Combat options
+        b)  Combat options
+        c)  Scrolls
+        d)  Monsters
+        e)  Weapons
+        f)  Potions
+        g)  Treasures
+        h)  Castle
+        i)  Characters
+        j)  Dungeon
+        k)  Inter-terminal Messages
+        p)  Current Player List
+*        q)  Current Player List (PWA version)
+day     var1
+calc    num1 « int(var1 - refday)
+at      1916
+write   Users currently in dungeon:    «s,numuser» 
+        Users currently in labyrinth:  «s,zcusers-1»
+        Since 4/23/93 -- [ for «s,num1» days ]
+at      40,152
+write   Total hours played: «s,gamemin/60»
+        Total users:        «s,totuser»
+at      272,152
+write   Average hours/day: «s,gamemin/60/num1»
+        Average users/day: «s,totuser/num1»
+color   display;zgreen
+at      2509
+write   WARNING:  This help lesson is being updated, and
+        the information may not always be accurate.
+color   display;zwhite
+*---*
+        
+
+=== block 'noncombat'  kind 00  261 words  (block 4)
+unit    nonkeys
+back1   title
+back    title
+next1   croute
+*
+at      198,Htloc
+write   NON-COMBAT KEYS
+do      frameit
+at      707
+write   Keys active in the dungeon
+draw    707;733
+at      909
+write   (a,A) {^'04} turns you to the left
+        (d,D) {^'04} turns you to the right
+        (x,X) {^'04} turns you completely around
+          w   {^'04} moves you straight ahead
+          W   {^'04} moves you straight ahead/through door{'66}
+          c   {^'04} cast non-combat spells
+          e   {^'04} equip an item (partial matches accepted)
+          u   {^'04} use the special ability of a potion or item
+                (partial matches are NOT accepted here)
+          t   {^'04} throw away an item, scroll, or treasure{'66}
+          r   {^'04} rest hits or restore magic units in dungeon
+                NOTE: ALL charmees run away if this is used
+          K   {^'04} Kick out an unwanted charmee
+          i   {^'04} request info on a monster, item, or spell
+          o   {^'04} options to change character's name/password
+pause   keys=framers
+jump    nonkey1
+*---*
+        
+unit    nonkey1
+back1   title
+back    nonkeys
+next1   croute
+*
+at      198,Htloc
+write   NON-COMBAT KEYS
+do      frameit
+at      508
+write   Stair Options
+draw    508;521
+at      104,411
+write   + {^'04} go up one level
+        - {^'04} go down one level
+        {'45} {^'04} go up more than one level
+        {'46} {^'04} go down more than one level
+at      56,332
+write   Inter-terminal keys active in dungeon and castle
+draw    56,332;440,332
+at      96,311
+write    U {^'04} list pseudonyms of players in the dungeon
+         m {^'04} write a message to another player
+         M {^'04} read previous messages sent to you
+        ANS {^'04} respond to last person who messaged you
+at      56,232
+write   Terms active
+draw    56,232;152,232
+at      104,211
+write   b {^'04} background processing mode
+        f {^'04} foreground processing mode
+        (not saved between lessons)
+at      56,148
+write   Function keys active
+draw    56,148;216,148
+at      72,127
+write   DATA  {^'04} replot the screen
+        BACK1 {^'04} go to title page and store your char
+        HELP1 {^'04} fall on your sword (safeguarded)
+pause   keys=framers
+jump    combat
+*---*
+        
+
+=== block 'combatrout'  kind 00  292 words  (block 5)
+unit    croute
+back1   nonkeys
+back    nonkey1
+next1   sroute
+*
+at      200,Htloc
+write   COMBAT OPTIONS
+do      frameit
+at      614
+write   a)  Keys active in combat
+        
+        b)  fight/maul/hide
+        
+        c)  bard/trick
+        
+        d)  evade/pray/cast
+        
+        e)  use item/ability
+pause   keys=a,b,c,d,e,f,framers
+keytype ktype,next,a,b,c,d,e
+jump    ktype-2,combat,fh,bt,epc,u,croute
+*---*
+        
+unit    combat
+next1   sroute
+back1   croute
+back    nonkey1
+*
+at      200,Htloc
+write   COMBAT OPTIONS
+do      frameit
+at      708
+write      B  - bard the monster (charm with a song).{'66}
+           C  - cast a spell at the monster.
+                (partial matches accepted){'66}
+           E  - evade the monster(s).{'66}
+           F  - fight the monster.{'66}
+           H  - hide from monsters (behind your charmees)
+                and let charmees do the fighting.{'66}
+           M  - maul the monster (auto-fight)!{'66}
+           P  - pray to the gods for deliverance.{'66}
+           T  - trick the monster.{'66}
+           U  - use the special ability of a potion or item.
+                (partial matches NOT accepted)
+        
+        HELP  - information about the monster's stats
+                (NOTE: this option only available when
+                 esp is active)
+pause   keys=framers
+jump    fh
+*---*
+        
+unit    fh
+next1   sroute
+back1   croute
+back    combat
+*
+at      200,Htloc
+write   COMBAT OPTIONS
+do      frameit
+at      40,424
+write   F - fighting⌫⌫⌫⌫⌫⌫⌫⌫________ the monsters.  Strength is the basic
+            attribute used for fighting, but an adjustment
+            is made for the differences between intelligence
+            and dexterity.  If you have one charmee, he will
+            do 60% of the fighting, and you will do 40% of
+            the fighting.  If you have two charmees, each of
+            them will do 40% of the fighting, and you will
+            only have to do 20% of the fighting.
+ 
+        M - mauling⌫⌫⌫⌫⌫⌫⌫_______ the monsters.  This option will initiate
+            a fight-loop.  You exit from the fight-loop if
+            you take a hit, if one of your charmees takes a
+            hit, and/or the monster dies.
+ 
+        H - hide⌫⌫⌫⌫____ from the monster(s).  This allows you to
+            let your charmees do all the fighting.  If you
+            have NO charmees, this would be equivalent to
+            doing a normal fight (see -F- above).  Normally,
+* [ continued in next block ]
+
+=== block 'combatrout'  kind 00  307 words  (block 6)
+            the charmees are given a chance to run away in
+            each round of fighting.  If you choose to hide,
+            then your charmees are given an extra chance to
+            run away (break charm control).
+pause   keys=framers
+jump    bt
+*---*
+        
+unit    bt
+next1   sroute
+back1   croute
+back    fh
+*
+at      200,Htloc
+write   COMBAT OPTIONS
+do      frameit
+at      706
+write   B - bard⌫⌫⌫⌫____ the monster.  The success of barding is
+            based on your charm, and the monster's intel-
+            ligence.  If you bard successfully, you charm
+            the monster, and he will be added as a charmee
+            (if he has more hits than your weakest charmee).
+            If your bard fails, he will attack you with an
+            advantage based on how far away you were from
+            successfully barding him.   Hint: you cannot bard
+            undeads.
+        
+        T - trick⌫⌫⌫⌫⌫_____ the monster.  The success of your trick is
+            based on your intelligence and the monster's
+            intelligence.  If your trick is successful, you
+            kill the monster.  If it is unsuccessful, the 
+            monster attacks you with an advantage based on
+            how far away you were from successfully tricking
+            him.
+pause   keys=framers
+jump    epc
+*---*
+        
+unit    epc
+next1   sroute
+back1   croute
+back    bt
+*
+at      200,Htloc
+write   COMBAT OPTIONS
+do      frameit
+at      40,424
+write   E - evade⌫⌫⌫⌫⌫_____ the monster(s).  The success of evading
+            is based on your dexterity, and the monster's
+            dexterity.  If you successfully evade the
+            monster(s), you get away from him/them.  If you
+            fail to evade the monster(s), it/they will
+            attack you with an advantage based on how far
+            away you were from successfully evading.  Note
+            that when you evade, any charmees you had with
+            you will escape, and you drop all baguettes, gems,
+            or gold pieces you were carrying.
+        
+        P - pray⌫⌫⌫⌫____ to the gods for escape.  If successful, you
+            are transported to the castle with NO penalties
+            of any kind.  If you fail, the monster whomps on
+            you.  Success is based on your wisdom and intel-
+            ligence.  A beginning char has about a 1% chance
+            for success and a 'perfect' char about 65%.
+        
+        C - cast⌫⌫⌫⌫____ a spell.  This will allow you to cast any
+            combat spell.  If the spell fails, the monster
+            will attack you with a slight advantage.
+pause   keys=framers
+jump    u
+*---*
+        
+
+=== block 'combatrout'  kind 00  281 words  (block 7)
+unit    u
+next1   sroute
+back1   croute
+back    epc
+*
+at      200,Htloc
+write   COMBAT OPTIONS
+do      frameit
+at      506
+write   U - use⌫⌫⌫___ a special ability.  Special abilities may be
+            obtained from certain potions and magical items.
+            These potions and magic items are:
+        
+             1) holy water (potion) -- kills any undead.
+             2) undead con (potion) -- charms any undead.
+             3) human con (potion) -- charms any human.
+            *4) paralysis (potion) -- protection from paralysis.
+            *5) energy (potion) -- protection from level drain.
+            *6) invulnerab (potion) -- complete protection from
+                monsters, most potions, and chest traps.
+             7) magicboots (magic item) -- has the same effect
+                as quickness (but it always works).
+            *8) magiccloak (magic item) -- has the same effect
+                as throwing an invisibility spell, but it
+                works 100% of the time.
+            *9) magic ring (magic item) -- restores magic units.
+            10) holy ring (magic item) -- kills any undead
+        
+          Each time one of these abilities is used, there's a
+          chance the ability will disappear.  A '*' indicates
+          this ability can also be used in non-combat.
+pause   keys=framers
+jump    spells
+*---*
+        
+cstop
+at      706
+write   help - get info on monster.  This gives you 5 types
+               of info on monster:  monster level, strength,
+               dexterity, intelligence, and number of hits.
+ 
+               For strength, dexterity, and intelligence, 
+               the monster is given a 'rank' of either --,
+               -, =, +, or ++.  This 'rank' is based on a
+               comparison of the monster's stat to your own.
+                -- means your stat is over 4 times his.
+                 - means your stat is over 2 times his.
+                 = means your stat is between half his and
+                   double his.
+                 + means his stat is over 2 times yours.
+                ++ means his stat is over 4 times yours.
+ 
+               For hits, each asterick indicates a single
+               digit for the number of hits the monster has.
+                * would indicate between 1 and 9 hits.
+                ** would indicate between 10 and 99 hits.
+                *** would indicate between 100 and 999 hits.
+               and so forth.....
+cstart
+
+=== block 'spellroute'  kind 00  225 words  (block 10)
+unit    sroute
+next1   mroute
+back1   croute
+back    u
+*
+at      228,Htloc
+write   SCROLLS
+do      frameit
+at      814
+write   a)  Explanation of Scroll Tables{'66}
+        b)  Scroll Tables, page 1{'66}
+        c)  Scroll Tables, page 2{'66}
+        d)  General Info on Scrolls/Magic{'66}
+        e)  Types of spells{'66}
+        f)  Level 1 Spells{'66}
+        g)  Level 2 Spells{'66}
+        h)  Level 3 Spells{'66}
+        i)  Level 4/5 Spells{'66}
+        j)  Level 6/7 Spells{'66}
+        k)  Level 8/9/10 Spells{'66}
+        l)  Level 12/15 Spells{'66}
+        m)  Spell effectiveness
+pause   keys=a,b,c,d,e,f,g,h,i,j,k,l,m,framers
+keytype ktype,next,a,b,c,d,e,f,g,h,i,j,k,l,m
+jump    ktype-2,spells,sstats1,sstats2,sinfo,stype,slevel1,
+        slevel2,slevel3,slevel4,slevel6,slevel8,slevelo,
+        sprobs,sroute
+*---*
+        
+unit    spells
+next1   mroute
+back1   sroute
+back    u
+*
+at      228,Htloc
+write   SCROLLS
+do      frameit
+at      506
+write   The columns in the scroll listings are:
+        
+        spell
+          The name of the spell/scroll.{'66}
+        lev
+          This indicates the level of the spell.  A level
+        7 spell will use 7 magic units, a level 1 only 1.{'66}
+        int
+          This is the minimum intelligence your char will 
+        need to be able to cast the spell.{'66}
+        wis
+          This is the minimum wisdom your char will need to
+        be able to cast the spell.{'66}
+        price
+          This is the cost of the spell, if you buy it at
+        the magic shop in the castle.{'66}
+        fail
+          This is an indication of how often the spell will
+        fail to work.  Dungeon level modifies failure rate.
+draw    40,402;80,402;skip;40,365;64,365;skip;40,312;64,312
+draw    40,259;64,259;skip;40,206;80,206
+draw    40,206;80,206;skip;40,153;72,153
+pause   keys=framers
+jump    sstats1
+*---*
+        
+
+=== block 'spellroute'  kind 00  302 words  (block 11)
+unit    sstats1
+next1   mroute
+back1   sroute
+back    spells
+*
+at      228,Htloc
+write   SCROLLS
+do      frameit
+at      623
+write   Scroll Table, Page 1
+at      80,392
+write   SCROLLS       LVL{^55}  INT   WIS{^55}    PRICE   FAIL%
+box     72,432;456,391
+draw    180,407;180,135;skip;224,407;224,135;skip;272,407;
+        272,135;skip;320,407;320,135;skip;396,407;396,135;
+zero    ind1
+loop    add1(ind1){^72}15
+.       at      place«811+100ind1
+.       showa   sname(ind1)
+.       at      place+13
+.       showt   slev(ind1),3
+.       at      place+19
+.       showt   sint(ind1),3
+.       at      place+25
+.       showt   swis(ind1),3
+.       at      place+31
+.       showt   sprice(ind1),7
+.       at      place+41
+.       showt   sfail(ind1),3
+endloop
+pause   keys=framers
+jump    sstats2
+*---*
+        
+unit    sstats2
+next1   mroute
+back1   sroute
+back    sstats1
+*
+at      228,Htloc
+write   SCROLLS
+do      frameit
+at      623
+write   Scroll Table, Page 2
+at      80,392
+write   SCROLLS       LVL{^55}  INT   WIS{^55}    PRICE   FAIL%
+box     72,432;456,391
+draw    180,407;180,135;skip;224,407;224,135;skip;272,407;
+        272,135;skip;320,407;320,135;skip;396,407;396,135;
+calc    ind1 « 15
+loop    add1(ind1){^72}30
+.       at      place«811+100(ind1-15)
+.       showa   sname(ind1)
+.       at      place+13
+.       showt   slev(ind1),3
+.       at      place+19
+.       showt   sint(ind1),3
+.       at      place+25
+.       showt   swis(ind1),3
+.       at      place+31
+.       showt   sprice(ind1),7
+.       at      place+41
+.       showt   sfail(ind1),3
+endloop
+pause   keys=framers
+jump    sinfo
+*---*
+        
+unit    sinfo
+next1   mroute
+back1   sroute
+back    sstats2
+*
+at      228,Htloc
+write   SCROLLS
+do      frameit
+at      706
+write   To cast a spell, merely type in the name of the 
+        spell at the 'Cast what spell' arrow (partial
+        matches are accepted).
+        
+        You must OWN the scroll in order to cast the spell.
+        They may be found in the dungeon, or bought at the
+        magic shop in the castle.
+        
+        Each time you cast a spell, your magic units will
+        decrease based on what level the spell was.
+        
+        Each time you cast a spell, there is a chance (based
+        on your dexterity) that the scroll will disintegrate.
+        
+        You may only own ONE of each scroll.
+        
+        Even if a spell fails, you will still lose at least
+        one magic unit.
+pause   keys=framers
+jump    stype
+*---*
+        
+
+=== block 'spellroute'  kind 00  308 words  (block 12)
+unit    stype
+next1   mroute
+back1   sroute
+back    sinfo
+*
+at      228,Htloc
+write   SCROLLS
+do      frameit
+at      506
+write   There are basically 3 types of spells:
+        
+        COMBAT spells
+          Combat spells are spells that can only be used in
+        combat.  Typically, they affect only the monster and
+        generally just kill it if successful.  However, a
+        special class of spells, called damage spells will
+        inflict damage on ANY monster (despite even a magic
+        resistance specialty).  They will also inflict twice
+        normal damage to undeads.  These spells are: magic
+        arrow, magic missile, fireball, lightning, and blast
+        bolt.{'66}
+        NON-COMBAT spells
+          Non-Combat spells are spells that can only be used
+        when NOT in combat.  Generally, they either toggle
+        some ability, or affect you or your charmees.{'66}
+        Combination spells
+          Combination spells can be used IN combat, or when
+        NOT in combat.  Generally, it will behave much 
+        differently when used in each situation.  In effect
+        then, a combination spell is really 2 spells, since 
+        it does act so differently.
+draw    40,402;144,402;skip;40,237;176,237;
+draw    40,168;184,168;
+pause   keys=framers
+jump    slevel1
+*---*
+        
+unit    slevel1
+next1   mroute
+back1   sroute
+back    stype
+*
+at      228,Htloc
+write   SCROLLS
+do      frameit
+at      40,456
+write   Level 1 Spells
+draw    40,458;152,458;
+at      506
+write   Det Level -- NON-COMBAT spell
+          Tells you how deep you are in dungeon.{'66}{'66}
+        Magic Shield -- NON-COMBAT spell
+          Protects you from monsters.  Based on wisdom.{'66}{'66}
+        Sleep -- COMBAT spell
+          If successful, this spell will put the monster to
+        sleep so you can kill him.  Will not work on undead
+        type monsters.{'66}{'66}
+        Charm -- COMBAT spell
+          If successful, you charm the monster, and he will
+        become your charmee.  Success is based on monster's
+        intelligence and your charm.  Will not work on an
+        undead type monster, and is more effective on a
+        mythical type monster.{'66}
+        Holy Water -- COMBAT spell
+          If successful, will kill any undead type monster.{'66}
+        Magic Arrow -- COMBAT spell
+          Will give monster hits based on your intelligence
+        and wisdom.  This spell gives 2×damage to undeads (as
+        will ALL damage-type spells).  It also hits magic
+        resistant monsters!
+pause   keys=framers
+jump    slevel2
+*---*
+        
+
+=== block 'spellroute'  kind 00  238 words  (block 13)
+unit    slevel2
+next1   mroute
+back1   sroute
+back    slevel1
+*
+at      228,Htloc
+write   SCROLLS
+do      frameit
+at      706
+write   Level 2 Spells
+draw    40,402;152,402
+at      1006
+write   Light -- NON-COMBAT spell
+          This allows you to see secret doors (displays the
+        secret door as if it were a normal door).
+        
+        Light Cure -- NON-COMBAT spell
+          Cures hits you have lost.  Amount based on wisdom.
+        
+        Protection -- NON-COMBAT spell
+          Protects you from monsters.  {^74}Based on Intelligence.
+        
+        Magic Missile -- COMBAT spell
+          Will give monster hits based on your intelligence
+        and wisdom (10 times stronger than Magic Arrow).
+pause   keys=framers
+jump    slevel3
+*---*
+        
+unit    slevel3
+next1   mroute
+back1   sroute
+back    slevel2
+*
+at      228,Htloc
+write   SCROLLS
+do      frameit
+at      406
+write   Level 3 Spells
+draw    406;420
+at      606
+write   Locate Stairs -- NON-COMBAT spell
+          This uses {^'27}{^'04}Ö{^'01} to point to where stairs are (in
+        relation to your current location-facing).{'66}
+        Pass Wall -- NON-COMBAT spell
+          This moves you forward, regardless of what type
+        of wall/door/space is in front of you.{'66}
+        Feeble Mind -- NON-COMBAT spell
+          Reduces a charmee's intelligence.{'66}
+        Feeble Mind -- COMBAT spell
+          Reduces the monster's intelligence.{'66}
+        Hold Human -- COMBAT spell
+          If successful, kills any human type monster.{'66}
+        Esp -- COMBAT and NON-COMBAT spell (both identical)
+          If successful, will enable you to accurately evaluate
+        the monster's stats via the HELP key.  The spell will
+        last for a maximum of 45 uses (displayed in the lower
+        left side of your screen).  If you want more uses,
+        throw the spell again and the use counter will increase.
+pause   keys=framers
+jump    slevel4
+*---*
+        
+
+=== block 'spellroute'  kind 00  255 words  (block 14)
+unit    slevel4
+next1   mroute
+back1   sroute
+back    slevel3
+*
+at      228,Htloc
+write   SCROLLS
+do      frameit
+at      506
+write   Level 4 Spells
+draw    506;520
+at      706
+write   Medium Cure -- NON-COMBAT spell
+          Cures hits you have lost.  Amount based on wisdom.
+        (Same as Light Cure, but 5 times as powerful.)
+ 
+        Fireball -- COMBAT spell
+          Will give monster hits based on your intelligence
+        and wisdom (50 times stronger than Magic Arrow).
+ 
+        Confuse -- COMBAT spell
+          If successful, will kill any monster.
+at      2106
+write   Level 5 Spells
+draw    2106;2120
+at      2406
+write   Death -- COMBAT spell
+          If successful, will kill any non-undead monster.
+pause   keys=framers
+jump    slevel6
+*---*
+        
+unit    slevel6
+next1   mroute
+back1   sroute
+back    slevel4
+*
+at      228,Htloc
+write   SCROLLS
+do      frameit
+at      406
+write   Level 6 Spells
+draw    406;420
+at      40,424
+write   Heavy Cure -- NON-COMBAT spell
+          Cures hits you have lost.  Amount based on wisdom.
+        (Same as Light Cure, but 10 times as powerful.){'66}
+        Disintegrate -- COMBAT spell
+          If successful, kills any type monster.{'66}
+        Lightning -- COMBAT spell
+          Will give monster hits based on your intelligence
+        and wisdom (400 times stronger than Magic Arrow).
+at      1506
+write   Level 7 Spells
+draw    40,272;152,272
+at      40,248
+write   Uncurse -- NON-COMBAT spell
+          Allows you to drop ANY weapon in the dungeon.  
+        This is the only way to get rid of cursed weapons.{'66}
+        Invisible -- NON-COMBAT spell
+          Makes you invisible to all non-undead monsters.
+        You can then run from them without penalty of any
+        kind.  Any other action against non-undeads makes
+        you visible.  Magic resistant monsters CAN turn
+        off the invisibility spell.  Your non-undead
+        charmees will run away when you are invisible as
+        they no longer see a master.
+pause   keys=framers
+jump    slevel8
+*---*
+        
+
+=== block 'spellroute'  kind 00  264 words  (block 15)
+unit    slevel8
+next1   mroute
+back1   sroute
+back    slevel6
+*
+at      228,Htloc
+write   SCROLLS
+do      frameit
+at      506
+write   Level 8 Spells
+draw    506;520
+at      706
+write   Quickness -- COMBAT spell
+          Allows you to escape from the monsters without
+        dropping your gold or losing your charmees.  You 
+        also get to pick up some of the gold the monster 
+        has, or any items that are stored in a chest.
+        
+        Blast Bolt (kaboom) -- COMBAT spell
+          Will give monster hits based on your intelligence
+        and wisdom (2000 times stronger than Magic Arrow).
+at      1806
+write   Level 9 Spells
+draw    1806;1820
+at      2006
+write   Total Cure -- NON-COMBAT spell
+          Cures all hits you have lost.
+at      2406
+write   Level 10 Spells
+draw    2406;2421
+at      2606
+write   Stone Kill -- COMBAT spell
+          If successful, kills any monster.
+pause   keys=framers
+jump    slevelo
+*---*
+        
+unit    slevelo
+next1   mroute
+back1   sroute
+back    slevel8
+*
+at      228,Htloc
+write   SCROLLS
+do      frameit
+at      406
+write   Level 12 Spells
+draw    406;421;
+at      606
+write   Wizard Eye -- NON COMBAT spell
+          This spell will aid lost wonderers.  A 14×14
+        map will be shown to help you on your way.  The
+        stairs are indicated with 'S' and your character
+        is shown with an arrow at your location/facing.
+at      40,312
+write   Level 15 Spells
+draw    40,312;160,312;
+at      40,280
+write   Teleport -- NON-COMBAT spell
+          If successful, you are teleported to the nearest
+        stairway.  If unsuccessful, you may be transported
+        to a random location at most 2 levels away from
+        your current location.
+        
+        Teleport -- COMBAT spell
+          If successful, it will teleport any monster away
+        from the battle.  However, if it fails, you will be
+        subject to several distinct mishaps.  Essentially,
+        when teleport fails, you teleport either more of or
+        less of the encounter AND of yourself than originally
+        intended.
+pause   keys=framers
+jump    sprobs
+*---*
+        
+
+=== block 'spellroute'  kind 00  247 words  (block 16)
+unit    sprobs
+data    sprobs
+next1   mroute
+back1   sroute
+back    slevelo
+*
+at      228,Htloc
+write   SCROLLS
+do      frameit
+at      506
+write   Here you can test how effective some of the combat spells
+        are given a set intelligence, wisdom, and dungeon level.
+          Enter you character's intelligence and wisdom below:
+at      1026
+write   INT
+        WIS
+*
+do      narrow( 1030, 1, 127 )
+calc    num1 « return
+*
+do      narrow( 1130, 1, 127 )
+calc    num2 « return
+        num3 «[(num1+num2)150]-5000
+at      1416
+write   Spells Equalized on Level «s,num3».
+*
+at      2715
+write   Press DATA to enter different stats
+        Press LAB  to specify level to run on.
+labop   showprbs
+pause   keys=framers,lab
+jump    monsters
+*---*
+        
+unit    showprbs
+at      1226
+write   LVL
+do      narrow( 1230, 1, 500000 )
+calc    num4 « return
+*
+at      1732
+mode    rewrite
+write   fail(%) on level «s,num4»
+draw    1732;1749+jcount
+at      where
+write         
+calc    var1«(25/((3(num1+num2))-(num4/50)))100
+calcc   var1>100 $or$ var1{^72}0,var1«100,,
+at      1816
+write   sleep(25)               «s,var1»%  
+calc    var1«(18/((3(num1+num2))-(num4/50)))100
+calcc   var1> 90 $or$ var1{^72}0,var1«90,,
+at      1916
+write   feeblemind(18)          «s,var1»%  
+calc    var1«(15/((3(num1+num2))-(num4/50)))100
+calcc   var1> 75 $or$ var1{^72}0,var1«75,,
+at      2016
+write   confuse(15)             «s,var1»%  
+calc    var1«(12/((3(num1+num2))-(num4/50)))100
+calcc   var1> 60 $or$ var1{^72}0,var1«60,,
+at      2116
+write   disintegra(12)          «s,var1»%  
+calc    var1«(10/((3(num1+num2))-(num4/50)))100
+calcc   var1> 50 $or$ var1{^72}0,var1«50,,
+at      2216
+write   quickness(10)           «s,var1»%  
+calc    var1« (4/((3(num1+num2))-(num4/50)))100
+calcc   var1> 20 $or$ var1{^72}0,var1«20,,
+at      2316
+write   stone kill(4)           «s,var1»%  
+calc    var1« (2/((3(num1+num2))-(num4/50)))100
+calcc   (var1>10 $or$ var1{^72}0)$and$(num4>num3),var1«10,,
+at      2416
+write   teleport(2)             «s,var1»%  
+write
+*---*
+        
+
+=== block 'mon route'  kind 00  299 words  (block 17)
+unit    mroute
+next1   wroute
+back1   sroute
+back    sprobs
+*
+at      224,Htloc
+write   MONSTERS
+do      frameit
+at      614
+write   a)  Monster statistics
+        
+        b)  What the monster stats mean
+        
+        c)  Monster Types
+        
+        d)  Monster Specialties
+pause   keys=a,b,c,d,framers
+keytype ktype,next,a,b,c,d,e,f,g
+jump    ktype-2,monsters,monhelp,montype,monspec,mroute
+*---*
+        
+unit    monsters
+next1   wroute
+back1   mroute
+back    sprobs
+*
+*do      frameit
+at      105
+write   monster     hd  dd  sd  id hml dl m# type    specialties
+calc    ind1«0
+loop    add1(ind1){^72}30
+.       at      place«101+100ind1
+.       showt   ind1,2
+.       at      place+3
+.       showa   mname(ind1)
+.       at      place+14
+.       showt   hitd(ind1),4
+.       at      place+19
+.       showt   dexd(ind1),3
+.       at      place+23
+.       showt   strd(ind1),3
+.       at      place+27
+.       showt   intd(ind1),3
+.       at      place+31
+.       showt   hml(ind1),3
+.       at      place+35
+.       showt   hdl(ind1),2
+.       at      place+38
+.       showt   mnbr(ind1),2
+.       at      place+41
+.       writec  mtype(ind1)-1,Beast,Human,Mythic,Undead,,
+.       at      place+49
+.       writec  mspec(ind1)-1,Magic-Resist,Paralyze,Level Drain,None
+endloop
+pause   keys=framers
+jump    monhelp
+*---*
+        
+unit    monhelp
+next1   wroute
+back1   mroute
+back    monsters
+*
+at      224,Htloc
+write   MONSTERS
+do      frameit
+at      510
+write     On the monster page, the following stats are shown
+        for each monster:
+ 
+        hd -- basic number of hit 'dice'
+        dd -- basic number of dexterity 'dice'
+        sd -- basic number of strength 'dice'
+        id -- basic number of intelligence 'dice'
+        hml - highest level the monster can be
+        dl -- highest dungeon level the monster can reach
+        m# -- the most monsters that can be found in a group
+        type -- the type of creature the monster is
+        specialties -- a specialty the monster posesses
+ 
+          The actual number of dice used for hits, strength,
+        dexterity, and intelligence is the 'basic'
+        number adjusted by the monster's level.  The 'dice'
+        are just in terms of amount, not distribution.
+          The probability of finding a monster is greater
+        when going through a door, and greatest when coming
+        through a secret door.  If there is a monster on a
+        stairway, you will not meet him until you turn from
+        the stairs.
+pause   keys=framers
+jump    montype
+*---*
+        
+
+=== block 'mon route'  kind 00  234 words  (block 20)
+unit    montype
+next1   wroute
+back1   mroute
+back    monhelp
+*
+at      224,Htloc
+write   MONSTERS
+do      frameit
+at      909
+write   There are four types of monsters:  beast, human,
+        mythical, and undead.  Each cannot be affected
+        by certain actions.  For example, undeads cannot
+        be charmed or barded, and humans will not die
+        from a holy water spell.  There are several other
+        important differences which will have to be found
+        through experimentation (most should be obvious).
+pause   keys=framers
+jump    monspec
+*---*
+        
+unit    monspec
+next1   wroute
+back1   mroute
+back    montype
+*
+at      224,Htloc
+write   MONSTERS
+do      frameit
+at      407
+write   Monsters may have several special powers:
+        
+        Magic Resistant -- A monster that is magic resistant
+            has a high saving throw against any magic spell.
+            Passive magic spells however, such as quickness,
+            will work as normal.  Most active combat spells
+            may be deactivated by this power.{'66}
+        Paralyze -- This specialty allows the monster to
+            paralyze you in combat.  Each time the monster
+            hits you for damage, he has a chance to paralyze
+            you.  This chance increases as combat continues.
+            Once paralyzed, the monster continues fighting
+            (hitting charmees first) until you die, or you
+            become unparalyzed (this is possible after each
+            round of combat).  The probability of becoming
+            unparalyzed is based upon your constitution.{'66}
+        Level Drain -- This specialty is a rather nasty one.
+            This power is currently given only to certain
+            undeads.  If the monster hits you, and you miss
+            your saving throw (based upon your experience
+            level), you will lose a level of experience.
+            Your stats and hits will decrease in a fashion
+            exactly the reverse of when you make a level.
+pause   keys=framers
+jump    weapons(0)
+*---*
+        
+
+=== block 'weap route'  kind 00  302 words  (block 21)
+unit    wroute
+next1   proute
+back1   mroute
+back    monspec
+*
+at      228,Htloc
+write   WEAPONS
+do      frameit
+at      614
+write   a)  Regular Weapons Statistics
+        
+        b)  Magic Weapons Statistics
+        
+        c)  What weapon statistics mean -- Page 1
+        
+        d)  What weapon statistics mean -- Page 2
+        
+        e)  General info on weapons
+pause   keys=a,b,c,d,e,framers
+keytype ktype,next,a,b,c,d,e
+jump    ktype-2,weapons(0),weapons(1),wstats1,wstats2,winfo,wroute
+*---*
+        
+unit    weapons(arg1)
+back1   wroute
+next1   proute
+back    monspec
+*
+*do      frameit
+calcs   args=0, arg1 « 0,,
+calc    ptr1«30arg1
+at      106
+write   weapon   str dex  price   off  def break weight wear
+calc    ind1«0
+loop    add1(ind1){^72}30
+.       at      place«101+100ind1
+.       showt   ind1+ptr1,2
+.       at      place+3
+.       showa   wname(ind1+ptr1)
+.       at      place+15
+.       showt   wstr(ind1+ptr1),2
+.       at      place+19
+.       showt   wdex(ind1+ptr1),2
+.       at      place+22
+.       showt   wprice(ind1+ptr1),7
+.       at      place+30
+.       showt   woff(ind1+ptr1),4
+.       at      place+35
+.       showt   wdef(ind1+ptr1),4
+.       at      place+40
+.       showt   wbreak(ind1+ptr1),4
+.       at      place+47
+.       showt   10wwgt(ind1+ptr1),4
+.       at      place+53
+.       writec  wwear(ind1+ptr1)-1,Body,Hands,Skull,Misc,,
+endloop
+pause   keys=framers
+keytype ktype,next1,next
+jump    ptr1=0,weapons(1),wstats1
+*---*
+        
+unit    wstats1
+next1   proute
+back1   wroute
+back    weapons
+*
+at      228,Htloc
+write   WEAPONS
+do      frameit
+at      606
+write   The columns on the statistics pages mean:
+ 
+ 
+        weapon⌫⌫⌫⌫⌫⌫______ is the name of the weapon or magic weapon.
+ 
+        str⌫⌫⌫___ is the minimum strength your char will need to
+        be able to use the weapon.
+ 
+        dex⌫⌫⌫___ is the minimum dexterity your char will need to
+        be able to use the weapon.
+ 
+        price⌫⌫⌫⌫⌫_____ is the 'cost' of the weapon at the general
+        store.  Note the magic weapons cannot be bought,
+        and price is just a guideline for buying from you.
+ 
+        off⌫⌫⌫___ is the offensive advantage the weapon will give
+        you in combat.  One offense point is equivalent to
+        increasing your strength by one.
+ 
+        def⌫⌫⌫___ is the defensive advantage the weapon will give
+        you in combat.  One defensive point is equivalent to
+        decreasing the monster's strength by one.
+pause   keys=framers
+jump    wstats2
+*---*
+        
+
+=== block 'weap route'  kind 00  239 words  (block 22)
+unit    wstats2
+next1   proute
+back1   wroute
+back    wstats1
+*
+at      228,Htloc
+write   WEAPONS
+do      frameit
+at      606
+write   The columns on the statistics pages mean:
+ 
+ 
+        break⌫⌫⌫⌫⌫_____ is an indication of how often the weapon or
+        magic weapon will break, or be dropped, in battle.
+        The larger the amount, the more often the weapon
+        will be dropped or broken.  Note that if you become
+        paralyzed, you will drop something almost every
+        round of fighting.  The higher the monster's stength
+        the more likely you will weapon will be dropped or
+        broken.  The higher your dex, the more likely the
+        weapon will be just dropped, instead of breaking.
+ 
+        weight⌫⌫⌫⌫⌫⌫______ is how much the weapon weighs.  See the 
+        section 'Characters' for more info on character
+        weight.
+ 
+        wear⌫⌫⌫⌫____ tells you where you can use or wear the weapon.
+        You can use as many 'Misc(ellaneous)' type weapons
+        as you like, but you can only use one 'Body' and
+        'Skull' type, and only two 'Hands' types.  Weapons
+        worn on the body and skull also protect you if a
+        chest trap goes off on you.
+pause   keys=framers
+jump    winfo
+*---*
+        
+unit    winfo
+next1   proute
+back1   wroute
+back    wstats2
+*
+at      228,Htloc
+write   WEAPONS
+do      frameit
+at      706
+write   Some magic weapons can be cursed.  These will always
+        have a '-n' suffix, where the n is an indication of
+        how much a weapon is cursed.  For example, you may
+        find a 'sword-2', which is worse than a 'sword-1'.
+        When you find a cursed weapon, you are automatically
+        forced to use it.  The only way to get rid of a
+        cursed weapon is to use the 'uncurse' scroll.
+ 
+ 
+        In order to get the offensive and defensive capabil-
+        ities of a weapon, you must -e-quip it before any
+        combat begins (ie: before you meet a monster).
+pause   keys=framers
+jump    potions
+*---*
+        
+
+=== block 'potion rou'  kind 00  299 words  (block 23)
+unit    proute
+next1   troute
+back1   wroute
+back    winfo
+*
+at      228,Htloc
+write   POTIONS
+do      frameit
+at      614
+write   a)  List of potions
+        
+        b)  Types of potions
+        
+        c)  Potion options
+        
+        d)  Ability potions
+        
+        e)  Trip Potions
+        
+        f)  Immediate Potions - Page 1
+        
+        g)  Immediate Potions - Page 2
+pause   keys=a,b,c,d,e,f,g,framers
+keytype ktype,next,a,b,c,d,e,f,g
+jump    ktype-2,potions,ptypes,poptions,apotion,tpotion,ipotion1,ipotion2
+*---*
+        
+unit    potions
+back1   proute
+next1   troute
+back    winfo
+*
+*do      frameit
+at      107
+write   potion
+calc    ind1«0
+loop    add1(ind1){^72}30
+.       at      place«101+100ind1
+.       showt   ind1,2
+.       at      place+3
+.       showa   pname(ind1)
+endloop
+pause   keys=framers
+jump    ptypes
+*---*
+        
+unit    ptypes
+back1   proute
+next1   troute
+back    potions
+*
+at      228,Htloc
+write   POTIONS
+do      frameit
+at      706
+write   Ability potions⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫_______________
+           These potions stay with you until they wear off
+        through use, and are the one listed in the 'potions'
+        box of the screen display.  Each time you use them,
+        there is a chance the 'ability' will disappear.
+ 
+ 
+        Trip Potions⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫____________
+          Trip potions will stay active until you go up to
+        the castle.  You can tell when one of these is
+        active because it will be listed in the 'Spells On'
+        portion of the screen display.
+ 
+ 
+        Immediate Potions⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫_________________
+          All immediate potions have an 'immediate' and
+        permanent effect on your character.  Most of them
+        either raise or lower one of your stats, such as
+        charm or strength.
+pause   keys=framers
+jump    poptions
+*---*
+        
+unit    poptions
+back1   proute
+next1   troute
+back    ptypes
+*
+at      228,Htloc
+write   POTIONS
+do      frameit
+at      706
+write   d - drink the potion.  This will give you the effect
+            of the potion.
+ 
+        s - sip the potion.  This lets you inspect the 
+            potion before drinking it.  Depending on your
+            intelligence, you will be told what type of
+            potion it is.  After sipping, you may still
+            drink the potion and the potion will work
+            like it normally would.
+ 
+        l - leave the potion.
+pause   keys=framers
+jump    apotion
+*---*
+        
+
+=== block 'potion rou'  kind 00  314 words  (block 24)
+unit    apotion
+back1   proute
+next1   troute
+back    poptions
+*
+at      228,Htloc
+write   POTIONS
+do      frameit
+at      606
+write   Ability potions⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫_______________: (page 1)
+        
+        paralysis  -- Will prevent a monster from paralyzing
+            you.  Each time a monster WOULD have paralyzed
+            you, the paralysis is ignored, and there is a 
+            chance this ability will disappear.  Use this
+            potion to activate the spell.
+        
+        venomous   -- This will prevent a venomous monster's
+            venom from giving you additional hits.  It will
+            also protect you from poison dart chest traps.
+            Each time you would have been hit from a venomous
+            monster or struck by a poison dart, this potion
+            may disappear from use.  Use this potion to 
+            activate the spell.
+        
+        invulnerab -- makes you invulnerable to monsters
+            and turns the death and poison potions into slow
+            death.  This potion is activated and used up in
+            the same way as paralysis and venomous potions.
+pause   keys=framers
+jump    apotion2
+*---*
+        
+unit    apotion2
+back1   proute
+next1   troute
+back    apotion
+*
+at      228,Htloc
+write   POTIONS
+do      frameit
+at      606
+write   Ability potions:⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫_______________  (page 2)
+        
+        human con  -- When used in battle, this potion will
+            charm any⌫⌫⌫___ monster that is human.
+        
+        undead con -- When used in battle, this potion will
+            allow you to charm any⌫⌫⌫___ undead type monster.
+        
+        holy water -- Using this ability in battle will 
+            allow you to kill any⌫⌫⌫___ undead monster.
+        
+        energy     -- Use this potion in or out of battle
+            to activate a protection from level-drain by any
+            monster.  The power and potion are used and used
+            up similar to invulnerab and others.
+pause   keys=framers
+jump    tpotion
+*---*
+        
+unit    tpotion
+back1   proute
+next1   troute
+back    apotion2
+*
+at      228,Htloc
+write   POTIONS
+do      frameit
+at      706
+write   Trip potions:⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫_____________
+        
+        treasure   -- increases probability of finding, and
+            and amount of treasure.
+        
+        invisible  -- identical to invisible spell.
+        
+        delusion   -- will prevent you from knowing whether
+            you or charmees are taking any hits from monster.
+        
+        slow death -- subtracts 1% of your maximum hits from
+            you each time you take a step forward (w/W).
+        
+        protection -- gives you 30 defense points.
+pause   keys=framers
+jump    ipotion1
+*---*
+        
+
+=== block 'potion rou'  kind 00  237 words  (block 25)
+unit    ipotion1
+back1   proute
+next1   troute
+back    tpotion
+*
+at      228,Htloc
+write   POTIONS
+do      frameit
+at      706
+write   Immediate Potions - Page 1⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫_________________
+ 
+        strength   -- makes strength rise 1-5 points.
+        weakness   -- makes strength fall 1-5 points.
+ 
+        intelligen -- makes intelligence rise 1-5 points.
+        feeblemind -- makes intelligence fall 1-5 points.
+ 
+        wisdom     -- makes wisdom rise 1-5 points.
+        senility   -- makes wisdom fall 1-5 points.
+ 
+        endurance  -- makes constitution rise 1-5 points.
+        fatigue    -- makes constitution fall 1-5 points.
+ 
+        dexterity  -- makes dexterity rise from 1-5 points.
+        clumsiness -- makes dexterity fall from 1-5 points.
+ 
+        charisma   -- makes charm rise from 1-5 points.
+pause   keys=framers
+jump    ipotion2
+*---*
+        
+unit    ipotion2
+back1   proute
+next1   troute
+back    ipotion1
+*
+at      228,Htloc
+write   POTIONS
+do      frameit
+at      706
+write   Immediate Potions - Page 2⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫_________________
+ 
+        death      -- will cause you to die immediately,
+            unless you currently have the invulnerability
+            potion active, in which case this potion will
+            turn into a slow death potion.
+ 
+        poison     -- identical to death potion, but an
+            active venomous potion will also turn this into
+            a slow death potion.
+ 
+        youth      -- makes age fall 1 year.
+        old age    -- makes age rise 1-5 years.
+ 
+        magic save -- makes magic units rise 1-5 units.
+        magic loss -- makes magic units fall 1-5 units.
+ 
+        nourishing -- gives you 2 weeks supplies.
+ 
+        polymorph  -- will randomly change your sex and
+                      race.  The operation may prove fatal,
+                      DESPITE invulnerability.
+pause   keys=framers
+jump    charmake        $$ FIX
+*---*
+        
+
+=== block 'tres/cast'  kind 00  157 words  (block 26)
+unit    troute
+next1   casroute
+back1   proute
+back    ipotion2
+*
+at      220,Htloc
+write   TREASURES
+do      frameit
+at      614
+write   a⌫⌫⌫⌫**  )  Chest Options
+        
+        b⌫⌫⌫⌫**  )  Finding Items
+pause   keys=a,b,framers
+keytype ktype,next,a,b
+jump    ktype-2,troute
+*---*
+        
+unit    casroute
+next1   charrout
+back1   troute
+back    troute
+*
+at      232,Htloc
+write   CASTLE
+do      frameit
+at      812
+write   a)  General Info
+        
+        b)  Hostel, Casino, Weapons Shop, and Magic Shop
+        
+        c)  Monster Shop, Skills Shop, Supply Shop
+pause   keys=a,b,c,framers
+keytype ktype,next,a,b,c
+jump    ktype-2,cas1,cas2,cas3,casroute
+*---*
+        
+unit    cas1
+next1   charrout
+back1   casroute
+back    casroute
+*
+at      232,Htloc
+write   CASTLE
+do      frameit
+at      710
+write     The castle is found at the top of every stairwell.
+        There you will find various shops that will help you
+        to survive in the dungeon.  The castle provides a
+        temporary refuge for the weary traveller (ie. no
+        monsters are to be found there).  Currently, the
+        shops available are a hostel, casino, weapons shop,
+        magic shop, monster shop, skill shop, and supply
+        shop.
+pause   keys=next,next1,back,back1,data,data1,term
+jump    cas2
+*---*
+        
+
+=== block 'cast route'  kind 00  253 words  (block 27)
+unit    cas2
+next1   charrout
+back1   casroute
+back    cas1
+*
+at      232,Htloc
+write   CASTLE
+do      frameit
+at      708
+write   hostel        -- The hostel can restore yours hits
+                         and magic units to max capacity, at
+                         a price determined by your char's
+                         level.
+ 
+        casino        -- The casino provides a blackjack game
+                         for your gambling pleasure.  There is
+                         a house limit of 10,000 gold/bet.
+ 
+        weapons store -- The weapons store will sell you any
+                         normal weapon within your budget.
+                         They will also buy any weapon (be
+                         it magic or normal) at 75% cost.
+ 
+        magic shop    -- The magic shop sells the scrolls you
+                         need before you may cast a spell.
+                         The magic shop will also buy your
+                         scrolls for 75% of what they cost you.
+pause   keys=framers
+jump    cas3
+*---*
+        
+unit    cas3
+next1   charrout
+back1   casroute
+back    cas2
+*
+at      232,Htloc
+write   CASTLE
+do      frameit
+at      709
+write   monster shop  -- The monster shop will sell you a
+                         companion to take along into the
+                         dungeon.  It will jump in front of
+                         you when a monster attacks you and
+                         will take all hits from monsters
+                         before you do.  The shop will buy
+                         your charmees for $10/hit.
+        
+        skill shop   -- The skills shop gives you a chance 
+                        to increase your stats, at a cost of
+                        $100,000 per chance.  It gets harder
+                        to raise a stat as it approaches the
+                        maximum upper limit of 127.
+        
+        supply shop  -- The supply shop is where you will
+                        obtain your weekly food and water
+                        supplies at a cost of $100/week of
+                        food and water supplies.
+pause   keys=framers
+jump    charmake
+*---*
+        
+
+=== block 'char route'  kind 00  239 words  (block 30)
+unit    charrout
+next1   droute
+back1   casroute
+back    cas3
+*
+at      216,Htloc
+write   CHARACTERS
+do      frameit
+at      614
+write   a)  Character creation
+        
+        b)  Character attributes
+        
+        c)  Character treasure
+        
+        d)  Character status
+pause   keys=a,b,c,d,framers
+keytype ktype,next,a,b,c,d
+jump    ktype-2,charmake,charattr,chartrea,charstat,charrout
+*---*
+        
+unit    charmake
+back1   charrout
+next1   droute
+back    cas3
+*
+at      216,Htloc
+write   CHARACTERS
+do      frameit
+at      40,440
+write   Creation of Chars⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫_________________
+        
+        Sex and alignment have the following adjustments
+        when you create a char:
+        
+        {^'04} male   = +2 str       {^'04} lawful   = +2 charm
+        {^'04} female = +3 charm     {^'04} neutral  = +2 intel
+                                {^'04} chaotic  = +2 str
+at      40,296
+write   Race affects your char's stats with these adjustments:
+draw    16,248;496,248;skip;16,264;496,264;skip;112,264;
+        112,72;
+draw    160,72;160,264;skip;208,264;208,72;skip;256,72;
+        256,264;
+draw    304,264;304,72;skip;352,72;352,264;skip;400,264;
+        400,72;
+draw    448,72;448,264;skip;16,264;16,72;496,72;skip;
+        496,264;496,72;
+at      24,248
+write      Race     Str   Int   Wis   Con   Dex   Cha   Hits  Age
+        a) dwarf     +4    +2    +2     0    -4     0    +3    +3
+        b) elf       -3    +6    +5    +1    +3    +2    -5    +5
+        c) gnoll     +6    -5    -8    +7    +2    -6    +4    -1
+        d) gnome     -2    +1    +1     0    +3    +5     0    +3
+        e) goblin    -4    +2    -3    +1    +3    +1    +3    -1
+        f) hobbit    -1    +3    +2     0    +4    +2     0    +2
+        g) human      0     0     0     0     0     0     0     0
+        h) kobold    -6     0     0    +3    +6     0     0    -2
+        i) ogre      +3    -2    -4    +4    -1    -3    +9    -1
+        j) orc        0     0     0     0    +2    +6    -4    -2
+        k) troll     +6    -5    -4    +6    -2    -4    +7    -1
+pause   keys=framers
+jump    charattr
+*---*
+        
+
+=== block 'char route'  kind 00  237 words  (block 31)
+unit    charattr
+back1   charrout
+next1   droute
+back    charmake
+*
+at      216,Htloc
+write   CHARACTERS
+do      frameit
+at      606
+write   Character Stats⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫_______________
+        
+        STRENGTH is your capacity to give the monsters hits.
+        Each strength point gives you a single chance at 
+        giving the monster one hit.
+        
+        INTELLIGENCE is primarily concerned with your spell
+        casting skill.  Certain spells are directly affected
+        by it (feeblemind, teleport, protection, and all
+        projectiles).  It's also used to inspect chests, 
+        unarm chests, pray, trick, hit the monster, and get
+        past the monsters' magic resistance.
+        
+        WISDOM is the secondary spell casting ability.  It 
+        is used directly by some spells (mag shield and 
+        healing).  Also used for praying and potion sipping.
+pause   keys=framers
+jump    charatt1
+*---*
+        
+unit    charatt1
+back1   charrout
+next1   droute
+back    charattr
+*
+at      216,Htloc
+write   CHARACTERS
+do      frameit
+at      606
+write   Character Stats⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫_______________ (page 2)
+        
+        CONSTITUTION determines how fast hits and strength
+        will rise when you gain a level.  Also determines
+        how many times you can use usable items.
+ 
+        DEXTERITY determines your ability to run and hit in
+        a fight, how well the quickness spell will work, and
+        is the prime determinant for chest opening success.
+ 
+        CHARM is used exclusively for charmees.  It is the
+        main stat for charm spell and barding option.  Also
+        determines how fast charmees' loyalty changes.
+ 
+        AGE ranges from 1 to 127 years.  If you go below 1
+        year of age or above 127 years of age, you will die.
+        Various races will age more gracefully than others.
+        There are penalties for being too young as well as
+        for being too old.
+pause   keys=framers
+jump    chartrea
+*---*
+        
+
+=== block 'char route'  kind 00  295 words  (block 32)
+unit    chartrea
+back1   charrout
+next1   droute
+back    charatt1
+*
+at      216,Htloc
+write   CHARACTERS
+do      frameit
+at      506
+write   Character Treasure⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫__________________
+        
+        
+        There are three types of monetary treasure you can
+        pick up in the dungeon:  baguettes, gems, and gold
+        pieces.  The gold piece is the basic amount unit
+        when talking of treasure, and the 'bank' amount is 
+        stated in terms of gold pieces.  These are the rel-
+        ative stats on treasure:
+ 
+ 
+        Type          Value    Weight  Max you can carry
+        {^'67}____          _____    ______  _________________
+ 
+        Gold              1         1          8,388,607
+        Gems          1,000         1             32,767
+        Baguettes   100,000         5              4,095
+ 
+ 
+        The bank can hold a maximum of 3.51844×10↑1↑3 gold
+        pieces per player.  If this is not enough, the ways
+        of gaining money will need to be 'fixed.'  Each 
+        'gold piece' you return to the castle is worth one
+        experience
+pause   keys=framers
+jump    charstat
+*---*
+        
+unit    charstat
+back1   charrout
+next1   droute
+back    chartrea
+*
+at      216,Htloc
+write   CHARACTERS
+do      frameit
+at      606
+write   Character Status⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫________________
+        
+        Attributes   -- These define your char's ability in
+                        various general areas.  They range
+                        from 1 to 127.  If an attribute is
+                        0, you will die.
+        Using        -- These are the offensive/defensive
+                        advantages your weapons give you.
+        Experience   -- This is the amount of experience
+                        needed for your next level.
+        Hits         -- This is how much punishment you
+                        can take from the monsters.
+        Magic Units  -- This is your capacity to cast spells.
+        Supplies     -- You can carry up to 31 weeks worth
+                        of supplies.  If you allow your
+                        supplies to drop to 0 and one week
+                        passes, you will die of starvation.
+                        The amount of supplies that you are
+                        carrying will limit the number of hits
+                        and the number of magic units you can
+                        -r-est in the dungeon.
+pause   keys=framers
+jump    dsize
+*---*
+        
+
+=== block 'dung route'  kind 00  167 words  (block 33)
+unit    droute
+next1   iroute
+back1   charrout
+back    charstat
+*
+at      228,Htloc
+write   DUNGEON
+do      frameit
+at      614
+write   a)  Size and Nature of Dungeon
+pause   keys=a,framers
+keytype ktype,next,a
+jump    ktype-2,dsize
+*---*
+        
+unit    dsize
+back1   droute
+next1   iroute
+back    charstat
+*
+at      228,Htloc
+write   DUNGEON
+do      frameit
+at      606
+write   Size of Dungeon⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫_______________
+ 
+          The dungeon wraps around horizontally, but I doubt
+        anyone will go far enough to wrap around.  The depth
+        of the dungeon is 500000 levels.
+ 
+ 
+        Stairways⌫⌫⌫⌫⌫⌫⌫⌫⌫_________
+ 
+          All stairways go the full depth of the dungeon, 
+        and are within 14 steps of each other.  You cannot 
+        have any encounters on the stairways.
+ 
+ 
+        Monster Probabilities⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫_____________________
+ 
+          Are based on what type of wall you just came 
+        through, and your distance from the nearest stairs.
+        The denser the wall (nothing{^'04}door{^'04}secret door{^'04}wall),
+        the better the chance of finding a monster.  As you
+        get farther from the stairs, your chances increase.
+        Distance from the stairs is the biggest determinant.
+pause   keys=framers
+jump    iroute  $$ FIX
+*---*
+        
+
+=== block 'interroute'  kind 00  32 words  (block 34)
+unit    iroute
+next1   title
+back1   droute
+back    dsize
+*
+at      200,Htloc
+write   INTER-TERMINAL 
+do      frameit
+at      614
+write   a)  Messages
+pause   keys=a,framers
+keytype ktype,next,a
+jump    ktype-2,title
+*---*
+        

@@ -1,0 +1,297 @@
+West of house
+You are in an open field west of a big white house with a boarded
+front door.
+A rubber mat saying 'Welcome to Zork!' lies by the door.
+There is a small mailbox here.
+>West of house
+You are in an open field west of a big white house with a boarded
+front door.
+A rubber mat saying 'Welcome to Zork!' lies by the door.
+There is a small mailbox here.
+>Opening the mailbox reveals a leaflet.
+>Taken.
+>	     Welcome to Dungeon!!
+
+   Dungeon is a game of adventure, danger, and low cunning.  In it
+you will explore some of the most amazing territory ever seen by mortal
+man.  Hardened adventurers have run screaming from the terrors contained
+within.
+
+   In Dungeon, the intrepid explorer delves into the forgotten secrets
+of a lost labyrinth deep in the bowels of the earth, searching for
+vast treasures long hidden from prying eyes, treasures guarded by
+fearsome monsters and diabolical traps!
+
+   No AOS system should be without one!
+
+   Dungeon was created at the Programming Technology Division of the MIT
+Laboratory for Computer Science be Tim Anderson, Marc Blank, Bruce
+Daniels, and Dave Lebling.  It was inspired by the Adventure game of
+Crowther and Woods, and the Dungeons and Dragons game of Gygax
+and Arneson.  The original version was written in MDL (alias MUDDLE).
+This version was implemented from scratch in PL1 by a frustrated SPL
+programmer.
+
+   On-line information may be obtained with the commands HELP and INFO.
+>Dropped.
+>North of house
+You are facing the north side of a white house.  There is no door here,
+and all the windows are barred.
+>Behind House
+You are behind the white house.  In one corner of the house
+there is a window which is slightly ajar.
+>With great effort, you open the window far enough to allow passage.
+>Kitchen
+You are in the kitchen of the white house.  A table seems to have
+been used recently for the preparation of food.  A passage leads to
+the west and a dark staircase can be seen leading upward.  To the
+east is a small window which is open.
+On the table is an elongated brown sack, smelling of hot peppers.
+A bottle is sitting on the table.
+The glass bottle contains:
+ A quantity of water
+>Kitchen
+You are in the kitchen of the white house.  A table seems to have
+been used recently for the preparation of food.  A passage leads to
+the west and a dark staircase can be seen leading upward.  To the
+east is a small window which is open.
+On the table is an elongated brown sack, smelling of hot peppers.
+A bottle is sitting on the table.
+The glass bottle contains:
+ A quantity of water
+>Opening the brown sack reveals a clove of garlic, and a lunch.
+>I don't know the word 'all'.
+>Living room
+You are in the living room.  There is a door to the east, a wooden
+door with strange gothic lettering to the west, which appears to be
+nailed shut, and a large oriental rug in the center of the room.
+A battery-powered brass lantern is on the trophy case.
+On hooks above the mantlepiece hangs an elvish sword of great antiquity.
+There is a trophy case here.
+There is an issue of US NEWS & DUNGEON REPORT dated 5/5/80 here.
+>Taken.
+>Taken.
+>You are carrying:
+A sword
+A lamp
+>With a great effort, the rug is moved to one side of the room.
+With the rug moved, the dusty cover of a closed trap-door appears.
+>The door reluctantly opens to reveal a rickety staircase descending
+into darkness.
+>The lamp is now on.
+>Cellar
+You are in a dark and damp cellar with a narrow passageway leading
+east, and a crawlway to the south.  To the west is the bottom of a
+steep metal ramp which is unclimbable.
+The door crashes shut, and you hear someone barring it.
+Your sword is glowing with a faint blue glow.
+>Cellar
+You are in a dark and damp cellar with a narrow passageway leading
+east, and a crawlway to the south.  To the west is the bottom of a
+steep metal ramp which is unclimbable.
+>You can't go that way.
+>There is no object here matching that description.
+>There is no object here matching that description.
+>There is no object here matching that description.
+>There is no object here matching that description.
+>There is no object here matching that description.
+>There is no object here matching that description.
+>You are in perfect health.
+You can be killed by a serious wound.
+>Your score is 35 [total of 616 points], in 29 moves.
+This score gives you the rank of Beginner.
+>Troll room
+You are in a small room with passages off in all directions.
+Bloodstains and deep scratches (perhaps made by an axe) mar the walls.
+A nasty-looking troll, brandishing a bloody axe, blocks all passages
+out of the room.
+Your sword has begun to glow very brightly.
+>The troll fends you off with a menacing gesture.
+>You can't go that way.
+>The troll fends you off with a menacing gesture.
+>Troll room
+You are in a small room with passages off in all directions.
+Bloodstains and deep scratches (perhaps made by an axe) mar the walls.
+A nasty-looking troll, brandishing a bloody axe, blocks all passages
+out of the room.
+>There is no object here matching that description.
+>Cellar
+Your sword is glowing with a faint blue glow.
+>You can't go that way.
+>The trap-door is closed.
+>Cellar
+You are in a dark and damp cellar with a narrow passageway leading
+east, and a crawlway to the south.  To the west is the bottom of a
+steep metal ramp which is unclimbable.
+>Saved.
+>You try to ascend the ramp, but it is impossible, and you slide back down.
+>Troll room
+A nasty-looking troll, brandishing a bloody axe, blocks all passages
+out of the room.
+Your sword has begun to glow very brightly.
+>Restored.
+Cellar
+You are in a dark and damp cellar with a narrow passageway leading
+east, and a crawlway to the south.  To the west is the bottom of a
+steep metal ramp which is unclimbable.
+>Cellar
+You are in a dark and damp cellar with a narrow passageway leading
+east, and a crawlway to the south.  To the west is the bottom of a
+steep metal ramp which is unclimbable.
+>You are carrying:
+A sword
+A lamp
+>I don't know the word 'this'.
+>I don't know the word ''.
+>I don't know the word 'and'.
+>I don't know the word 'and'.
+>I don't know the word 'all'.
+>I don't know the word 'all'.
+>Brief descriptions.
+>Maximum verbosity.
+>No long descriptions.
+>Welcome to Dungeon!
+ 
+   You are near a large dungeon, which is reputed to contain vast
+quantities of treasure.  Naturally, you wish to acquire some of it.
+In order to do so, you must of course remove it from the dungeon.  To
+receive full credit for it, you must deposit it safely in the trophy
+case in the living room of the house.
+ 
+   In addition to valuables, the dungeon contains various objects
+which may or may not be useful in your attempt to get rich.  You may
+need sources of light, since dungeons are often dark, and weapons,
+since dungeons often have unfriendly things wondering about.  Reading
+material is scattered around the dungeon as well;  some of it
+is rumored to be useful.
+ 
+   To determine how successful you have been, a score is kept.
+When you find a valuable object and pick it up, you receive a
+certain number of points, which depends on the difficulty of finding
+the object.  You receive extra points for transporting the treasure
+safely to the living room and placing it in the trophy case.  In
+addition, some particularly interesting rooms have a value associated
+with visiting them.  The only penalty is for getting yourself killed,
+which you may do only twice.
+ 
+   Of special note is a thief (always carrying a large bag) who
+likes to wander around in the dungeon (he has never been seen by the
+light of day).  He likes to take things.  Since he steals for pleasure
+rather than profit and is somewhat sadistic, he only takes things which
+you have seen.  Although he prefers valuables, sometimes in his haste
+he may take something which is worthless.  From time to time, he examines
+his take and discards objects which he doesn't like.  He may occas-
+ionally stop in a room you are visiting, but more often he just wanders
+through and rips you off (he is a skilled pickpocket).
+>Useful commands:
+ 
+   The 'BRIEF' command supresses printing of long room descriptions
+for rooms which have been visited.  The 'SUPERBRIEF' command supresses
+printing of long descriptions for all rooms.  The 'VERBOSE' command
+causes the long descriptions to always be printed.
+   The 'INFO' command prints information which might give some idea
+of what this game is about.
+   The 'QUIT' command prints your score and asks whether you wish
+to continue playing.
+   The 'SAVE' command saves the state of the game for later continuation.
+   The 'RESTORE' command restores a saved game.
+   The 'INVENTORY' command lists the objects in your possesion.
+   The 'LOOK' command prints a description of your surroundings.
+   The 'SCORE' command prints your current score and ranking.
+   The 'TIME' command tells you how long you have been playing.
+   The 'DIAGNOSE' command reports on your injuries, if any.
+ 
+Containment:
+ 
+   Some objects can contain other objects.  Many such containers can
+be opened and closed.  The rest are always open.  They may or may
+not be transparent.  For you to access (e.g., take) an object
+which is in a container, the container must be open.  For you
+to see such an object the container must be either open or
+transparent.  Containers have a capacity, and objects have sizes;
+the number of objects which will fit therefore depends on their
+sizes.  You may PUT any object you have access to (it need not be
+in your hands) into any other object.  At some point, the program
+will attempt to pick it up if don't already have it, which
+may fail if you're carrying too much.  Containers can contain
+other containers.
+ 
+Fighting:
+ 
+   Occupants of the dungeon will, as a rule, fight back when
+attacked.  In some cases, they may attack even if unprovoked.
+Useful verbs here are 'ATTACK <villain> WITH <weapon>', 'KILL',
+etc.  Knife-throwing may or may not be useful.  You have a
+fighting strength which varies with time.  Being in a fight,
+getting killed, and being injured all lower this strength.
+Your carrying capacity may also be reduced after a fight.
+Strength is regained with time.  Thus, it is not a good idea to
+fight someone immediately after being killed.  Other details
+should become apparent after a few melees or deaths.
+ 
+Command parser:
+ 
+   A command is a sentence terminated by a period or carriage return.
+For reasons of simplicity, all words are distinguished by their
+first five letters.  All others are ignored.  For example, typing
+'DISASSEMBLE THE ENCYCLOPEDIA' is not only meaningless, it also
+creates excess effort for your fingers.  Note that this trunca-
+tion may produce ambiguities in the interpretation of longer words.
+   
+   Actions:
+ Among the more obvious of these are TAKE, PUT, DROP, etc.
+ Fairly general forms of these may be used, such as PICK UP,
+ PUT DOWN, etc.
+ 
+   Directions:
+ NORTH, SOUTH, UP, DOWN, etc. and their various abbreviations.
+ Other more obscure directions (LAND, CLIMB) are appropriate in
+ only certain situations.
+ 
+   Objects:
+ Most objects have names and can be refenced by them.
+ 
+   Adjectives:
+ Many adjectives are understood and required when there are
+ two objects which can be referenced by the same noun (e.g.,
+ DOORs, BUTTONs).
+ 
+   Prepositions:
+ It may be necessary in some cases to include prepositions. When
+ a preposition is used it must be appropriate; 'GIVE CAR TO DEMON'
+ will work, but 'GIVE CAR WITH DEMON' wont parse.
+ 
+   Sentences:
+ The parser understands a reasonable number of syntactic construc-
+ tions.  Rather than listing them, we advise you to do reasonable
+ things.
+ 
+   Multiple objects:
+ The parser can handle sentences that contain more than one direct
+ object, as in 'GIVE CAR, KEYS TO DEMON' or 'GIVE CAR AND KEYS TO
+ DEMON'.  Some verbs can handle direct objects such as ALL, or
+ VALUABLES.
+>That feature is not implemented in this rev.
+>Time passes...
+>Time passes...
+>The trap-door is closed.
+>You try to ascend the ramp, but it is impossible, and you slide back down.
+>West of chasm
+Your sword is no longer glowing.
+>North-south crawlway
+Your sword is glowing with a faint blue glow.
+>Troll room
+A nasty-looking troll, brandishing a bloody axe, blocks all passages
+out of the room.
+Your sword has begun to glow very brightly.
+>You can't go that way.
+>Nothing happens.
+>Have you tried hopping around the dungeon, too?
+>I don't know the word 'xyzzy'.
+>I don't know the word 'plugh'.
+>I don't know the word 'echo'.
+>Nothing happens here.
+>Your score is 35 [total of 616 points], in 73 moves.
+This score gives you the rank of Beginner.
+>Your score is 35 [total of 616 points], in 74 moves.
+This score gives you the rank of Beginner.

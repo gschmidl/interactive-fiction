@@ -1,0 +1,3746 @@
+2avathelp  (tutor    a, 70 blocks)
+  af | 5a | 05/17/84 | 03/07/94 | s | s | sides | UI Econ | Authors | work space | me | work space | 15.19.57. | dave runte | e | s | coserv | coserv | publish | i4a,j | 2avatuse | avatarbv | mu2+ «{75} | 0catnote | coserv | s0edit | 5 | e | b
+
+=== block '*directory'  kind 00  0 words  (block 0)
+
+=== block 'read me'  kind 47  101 words  (block 1)
+Comments concerning the adding of a new page:
+ 
+1. Check -vocabs- to make sure words required by -concept-
+are present.
+ 
+2. Add -concept- on the end.  Please document every 5th
+-concept- to make additions easier.  Unit "concept".
+ 
+3. Add a tag to the -jump- table in unit "jumptab".
+ 
+4. Add a description of the page and the keyword to the
+HELP section (unit(s) "flist1", "flist2" ...)
+ 
+4. At the beginning of every page that can be gotten to
+by a -concept- put a -do- to unit "setinfo" with the keyword
+as the parameter:
+ 
+do      setinfo('races')        $$ for example
+ 
+SHIFT-LAB will display the current keyword.
+It uses line 31, so don't display anything on line 31.
+ 
+Remember, the following are in the -imain-:
+ 
+NEXT1   return to game
+LAB1    show current keyword
+DATA    what feature arrow
+
+=== block 'defines'  kind 00  96 words  (block 2)
+*
+*       copyright 1979, 1980, 1981, 1982, 1983, 1984
+*       Bruce Maggs, Andrew Shapira, David Sides
+*
+*
+*jumpout zsyslev;x;q
+jumpout user = 'multiple';q;x
+if      zcondok > -1
+*.       do      red
+.       at      1520
+.       write   Condense errors in Avatar!
+.               
+.               This is a system problem.
+.       pause   keys=all
+.       jumpout q
+endif
+*--
+*-- 64×4 extra words of storage for guild log records
+*--
+storage 866,exactly
+define  global
+        lessonn = 0     $$ lesson number of help/statistics
+use     nc consts
+use     functions
+use     student
+use     help
+use     race/class
+use     character
+use     players
+use     items
+use     monsters
+use     spells
+use     log
+use     maze
+use     initial
+*
+
+=== block 'vocabs'  kind 00  139 words  (block 3)
+vocabs  avathlp
+*
+        <a,the,an,in>
+        (help,help*me,welcome,hi,hello,everything)
+        (shit,fuck,fuckoff,damn/it,fuck*you,swear,hint/s)
+        (char,character,alter-ego)
+        (stats,statistics)
+        (strength,str)
+        (intelligence,int)
+        (wisdom,wis)
+        (constitution,con)
+        (charisma,cha,beauty,leadership)
+        (dexterity,dex,agility)
+        (attack,defense,att,def)
+        (hits,hit,hit*points,experience,exp)
+        (race1,ogre,osiri,elf)
+        (race2,troll,cirilian,morloch,human)
+        (race3,gnome,dwarf,giant)
+        (race/s,race*summary)
+        (rpage1,race*page1)
+        (rpage2,race*page2)
+        (rpage3,race*page3)
+        (rhelp,race*help)
+        (city,upstairs,morgue,bank,spells*in*city)
+        (store1,store,general*store,buying,selling,buy,sell)
+        (store2,combine,remove,learn)
+        (store3,realign,heal*hands)
+        item/s
+        (weapon/s,sword/s,dagger/s,mace/s)
+        (armor,plate*mail,chain*mail,leather,cloak/s)
+        (ring/s,ornament/s,amulet/s,scarab/s)
+        (guild/s,class/es,acquaint/ing,level,make*level,making*level)
+        (guilds2,nomad,warrior,ninja)
+        (guilds3,thief,mage,sorcerer)
+
+=== block 'vocabs'  kind 00  185 words  (block 4)
+        (guilds4,healer,wizard,scavenger)
+        (guilds5,seeker,paladin,villain)
+        (guilds6,require/ments)
+        (guilds7,ability,abilities)
+        (guild*log,log)
+        (spell/s,magic)
+        (sptypes,spell*types,spells2)
+        spells3
+        spells4
+        (splist,spell*list,spell*lists)
+        (dungeon1,dungeon,stair/s,teleporter,slope,sloping*passage)
+        (dungeon2,pit,chute,darkness,rock)
+        (rotating*room,revolving*square,disorientation,water,drowning,drown)
+        (dungeon3,anti*magic,no*magic,non*magic,illusion*square,illusion,quicksand)
+        (combat,encounter/s,companion/s,peace,hostile,war,fight,join,joining)
+        (mons1,monsters1,monsters,monster*attack,monster*attacks)
+        (poison,disease,stone,stoning,sleep,slept)
+        (mons2,monsters2,paralysis,paralyze,paralyzing)
+        (breath,breathing,fire,cold,gas,electrical,electric,death,death*ray,critical*hit,critical)
+        (mons3,monsters3,steal,stealing,stealing*gold,stealing*items,stealing*item,theft)
+        (treasure,gold,finding*items,finding,greed)
+        (traps,traps1,withering,disease*spores,fear,exploding*box,fire*trap,poison*gas,teleport*trap)
+        (traps2,slime,blackout,fate)
+        (combat2,encounter2,room*count)
+        keys1
+        keys2
+        keys3
+        keys4
+        keys5
+        keys6
+        keys7
+        keys8
+        (keylist,key*list,keys,key,all*keys,active*keys,keys*active)
+        (credit/s,author/s,operator/s,op/s)
+        (donor/s,disk*space)
+        (lastpage,last,last*page)
+        (features,keywords,list,flist,flist1)
+        features2
+        features3
+        help*tips
+
+=== block 'start'  kind 00  280 words  (block 5)
+jump    begin
+*
+unit    begin
+jump    (opt(o.stud) = 0) $and$ (dstatus = 1),game,x
+jump    start
+*
+use     secure
+use     u critrec
+use     utility
+use     find spell
+use     find item
+use     find mons
+use     arrow
+*
+unit    clean           $$ to please condensor
+*
+        
+unit    imain
+*
+**      keys that are always active in help lesson
+*
+base    q
+data    farrow
+next1   game
+lab1op  showinfo
+*
+        
+unit    game
+*
+**      exit to game
+*
+do      jumpout(gtentry)
+jump    farrow
+*
+        
+unit    statless
+*
+**      exit to stat lesson
+*
+do      jumpout(gtstat)
+jump    farrow
+*
+unit    jumpout(lfile,lunit)
+*
+**      jumpout to specified file (leslist entry)
+*
+        lfile   $$ lesson to jumpout to
+        lunit   $$ unit to jumpout to
+$
+inhibit jumpchk
+if      args = 1
+.       jumpout <lfile>
+elseif  args = 2
+.       jumpout <lfile>,(lunit)
+endif
+*
+unit    start
+*
+**      grab character etc
+*
+if      backgnd
+.       backgnd
+endif
+*
+imain   imain
+*
+calc    lfilen « -1
+do      green
+atnm    172,256
+write   Finding your essence.
+do      packname        $$ pack signon name
+do      attach(dnchar)
+setname (sbuf)
+calc    found « (zreturn = -1)
+if      found
+.       datain  1;s,schara;1
+.       do      zreturn,x,error('datain72')
+.       reserve name
+.       do      zreturn,x,error('reserve73')
+.       calc    sxinfo « zinfo
+.       if      ssafe = 0
+.       .       day     sday
+.       .       rename  (sbuf),sxinfo
+.       .       do      zreturn,x,error('rename37')
+.       endif
+.       if      chflag(f.bgnd) $mask$ (backgnd = 0)
+.       .       do      backgnd
+.       .       catchup
+.       endif
+else
+.       zero    chword,chwords
+endif
+mode    rewrite
+do      white
+atnm    172,256
+write        One moment.     
+inhibit charclear
+char    65,o0,o0,o374,o604,o1502,o1502,o3441,o3777
+char    66,o7702,o7762,o17624,o17744,o17450,o17710,o17020,o7760
+char    67,o0,o0,o3,o303,o304,o70044,o157050,o155430
+char    68,o175420,o155430,o157050,o70044,o304,o303,o3,o0
+char    97,o1740,o1740,o1740,o1740,o1740,o1740,o1740,o1740
+char    106,o3740,o17770,o34034,o60076,o60146,o140303,o140603,o177777
+char    107,o177777,o140603,o140303,o60146,o60076,o34034,o17770,o3740
+jump    farrow
+*
+
+=== block 'farrow'  kind 00  182 words  (block 6)
+unit    farrow
+*
+**      "What feature" arrow
+*
+do      setinfo(0)      $$ no keyword
+*
+back1   farrow
+help    flist1
+help1   begin1
+data1   statless
+lab     credits
+*
+do      white
+at      212,424
+write   Avatar Help
+at      213,424
+write   Avatar Help
+do      blue
+draw    64,392;448,392;
+do      cyan
+at      76,344
+write   What feature would you like information about:
+do      yellow
+at      200,232
+write   HELP available
+at      116,200
+write   SHIFT-HELP if you are new to Avatar
+if      found = 0
+.       do      blue
+.       box     108,216;404,200
+endif
+do      yellow
+at      124,184
+write   SHIFT-NEXT always exits to Avatar
+atnm    96,168
+write   SHIFT-DATA to go to the statistics lesson
+at      132,152
+write   DATA always returns to this page
+at      140,136
+write   LAB from this page for credits
+do      blue
+draw    64,120;448,120
+at      2611
+do      white
+write   Copyright 1979, 1980, 1981, 1982, 1983, 1984
+at      2713
+write   Bruce Maggs, Andrew Shapira, David Sides
+         Tom Kirchman, Greg Janusz, Mark Eastom
+do      blue
+draw    64,56;448,56
+do      cyan
+arrow   144,296
+long    40
+specs   okextra,bumpshift,nomark,okspell
+*
+exact
+judge   ignore
+*
+join    concept
+no
+do      red
+*       $$  maybe magenta would be better than red...dmr
+at      164,272
+write   Try again or press HELP
+endarrow
+do      white
+jump    jumptab(anscnt)
+*
+        
+
+=== block 'concept'  kind 00  192 words  (block 7)
+unit    concept
+*
+**      concepts understood by the help lesson
+**      note that the order is important since
+**      *anscnt* is used in the -jump-
+*
+concept welcome         $$ *anscnt* = 2                 2
+concept swear
+concept char            $$ basic character
+concept stats           $$ anscnt = 5 for all           5
+        str
+        int
+        wis
+concept con
+        cha
+        dex
+concept attack
+concept hits
+concept race1
+concept race2           $$ 10
+concept race3
+concept races
+concept rpage1
+concept rpage2
+concept rpage3          $$ 15
+concept rhelp
+concept city
+concept store1
+concept store2
+concept store3          $$ 20
+concept item
+        weapon
+        armor
+        ring
+concept guild
+concept guilds2
+concept guilds3         $$ 25
+concept guilds4
+concept guilds5
+concept guilds6
+concept guilds7
+concept log
+concept spells
+concept spells2
+concept spells3
+concept spells4         $$ 30
+concept splist
+concept dungeon1
+concept dungeon2
+        drown
+concept dungeon3
+concept combat          $$ 35
+concept mons1
+        poison
+concept mons2
+        breath
+concept mons3
+concept treasure
+concept traps1          $$ 40
+concept traps2
+concept combat2
+concept keys1
+concept keys2
+concept keys3           $$ 45
+concept keys4
+concept keys5
+concept keys6
+concept keys7
+concept keys8           $$ 50
+concept keylist
+concept credit
+concept donor
+concept lastpage
+concept features        $$ 55
+concept features2
+concept features3
+concept help tips
+*
+        
+
+=== block 'jumptable'  kind 00  167 words  (block 10)
+unit    jumptab(lindex)
+        merge,previous
+        lindex          $$ *anscnt* from -concept-
+$
+*
+**      jump to appropriate page based on -concept-
+*
+jump    lindex-2,farrow,
+        begin1,
+        hints,
+        char1,
+        stats1,         $$ 5
+        stats2,
+        ability1,
+        ability2,
+        race1,
+        race2,          $$ 10
+        race3,
+        races,
+        racea,
+        raceb,
+        racec,          $$ 15
+        rhelpc,
+        city1,
+        store1,
+        store2,
+        store3,         $$ 20
+        items1,
+        guilds1,
+        guilds2,
+        guilds3,
+        guilds4,        $$ 25
+        guilds5,
+        guilds6,
+        guilds7,
+        guildlog,
+        spells1,
+        spells2,
+        spells3,
+        spells4,        $$ 30
+        spellist,
+        dungeon1,
+        dungeon2,
+        dungeon3,
+        combat1,        $$ 35
+        monster1,
+        monster2,
+        monster3,
+        treas1,
+        traps1,         $$ 40
+        traps2,
+        combat2,
+        keys1,
+        keys2,
+        keys3,          $$ 45
+        keys4,
+        keys5,
+        keys6,
+        keys7,
+        keys8,
+        keylist,        $$ 50
+        credits,
+        donors,
+        lastpage,
+        flist1,
+        flist2,
+        flist3,
+        helptips,
+*
+        farrow
+*
+
+=== block 'flist1'  kind 00  173 words  (block 11)
+*
+unit    flist1
+*
+**      list of features
+*
+next    flist2
+back    farrow
+*
+do      setinfo('flist1')
+*
+do      white
+at      108
+write   Features (Page 1 of 3)
+at      148
+write   Keyword
+do      blue
+draw    102;164
+do      cyan
+at      308
+write   Introduction
+        Tips on How to Use this Lesson
+        Basic Character Information
+        Strength, Intelligence, and Wisdom
+        Constitution, Charisma, and Dexterity
+        Attack/Defense
+        Hits, Experience, and Gold
+        Races: Ogre, Osiri, Elf
+        Races: Troll, Cirilian, Morloch, Human
+        Races: Gnome, Dwarf, Giant
+        General Race Information
+        Races: Stats and Alignments
+        Guilds that Each Race can Join
+        Races: Miscellaneous
+        Races: Age, Exp., Pits, Slope, Luck
+        City Options Other than the Store
+        Buying and Selling Items
+        Items: Learning, Combining, Removing
+        Realigning Items, Healing Hands
+at      348
+write   welcome
+        help tips
+        char
+        str,int,wis
+        con,cha,dex
+        attack
+        hits
+        ogre
+        troll
+        gnome
+        races
+        race page1
+        race page2
+        race page3
+        race help
+        city
+        store
+        store2
+        store3
+*
+do      firstp
+do      cyan
+*
+
+=== block 'flist2'  kind 00  169 words  (block 12)
+unit    flist2
+*
+**      list of features
+*
+*
+next    flist3
+back    flist1
+*
+do      setinfo('flist2')
+*
+do      white
+at      108
+write   Features (Page 2 of 3)
+at      148
+write   Keyword
+do      blue
+draw    102;164
+do      cyan
+at      308
+write   Items
+        General Guild Information
+        Guilds: Nomad, Warrior, Ninja
+        Guilds: Thief, Mage, Sorcerer
+        Guilds: Healers, Wizards, Scavengers
+        Guilds: Seeker, Paladin, Villain
+        Guild Characteristics (stats, etc.)
+        Guild Abilities (backstab, etc.)
+        Guild Logs (if you have a character)
+        General Spell Information
+        Spell Types: A-D
+        Spell Types: E-K
+        Spell Types: L-P, and Spell Failure
+        Guild Spell Lists
+        Dungeon: Stairs, Teleporters, Slopes
+        Dungeon: Pits - Water
+        Dungeon: General Maze Information
+        Encounters: General
+        Encounters: Miscellaneous
+at      348
+write   items
+        guilds
+        guilds2
+        guilds3
+        guilds4
+        guilds5
+        guilds6
+        guilds7
+        guild log
+        spells
+        spells2
+        spells3
+        spells4
+        spell list
+        dungeon1
+        dungeon2
+        dungeon3
+        encounters
+        encounter2
+*
+do      middlep
+do      cyan
+*
+
+=== block 'flist3'  kind 00  173 words  (block 13)
+unit    flist3
+*
+**      list of features
+*
+*
+next    farrow
+back    flist2
+*
+do      setinfo('flist3')
+*
+do      white
+at      108
+write   Features (Page 3 of 3)
+at      148
+write   Keyword
+do      blue
+draw    102;164
+do      cyan
+at      308
+write   Monsters: Poison-Sleep
+        Monsters: Paralysis-Critical Hit
+        Monsters: Destroying and Stealing
+        Treasure
+        Traps: Miscellaneous
+        Traps: Miscellaneous, Damage
+        List of Active Keys
+        Keys: General Information
+        M,G,T,K
+        H,+,-,I
+        i,U,P,L,p,l
+        s,0 - 9,< - (,S,×,Y
+        f,÷,O,Q,q
+        a,d,w,x,W,A,D,X,j,t,F,B
+        R,HELP1,STOP1,LAB,NEXT,COPY,COPY1,DATA1
+        Credits
+        Disk Space Donors
+        Hints for Playing
+        Last Page
+        Features List: First Page
+        Features List: Second Page
+        Features List: Third Page
+at      348
+write   monsters
+        monsters2
+        monsters3
+        treasure
+        traps
+        traps2
+        keylist
+        keys1
+        keys2
+        keys3
+        keys4
+        keys5
+        keys6
+        keys7
+        keys8
+        credits
+        donors
+        hints
+        last page
+        features
+        features2
+        features3
+*
+do      lastp
+do      cyan
+*
+
+=== block 'u/credits'  kind 00  131 words  (block 14)
+*
+unit    credits
+*
+**      game credits
+*
+do      setinfo('credits')
+*
+back    farrow
+next    donors
+*
+do      cyan
+at      64,456
+write   Avatar
+do      blue
+draw    ;64,456
+do      white
+at      64,424
+write   Dedicated to:
+at      280,424
+write   Walter G. Brooks
+atnm    64,392
+write   Current version authors:
+at      280,392
+write   Bruce Maggs
+        Andrew Shapira
+        David Sides
+at      64,328
+write   Additional authors:
+        ["first" version]
+at      280,328
+write   Mike Berger
+        Lindsay Reichmann
+        Peter Steinberg
+atnm    64,264
+write   Operators:
+at      280,264
+write   Mark Eastom
+        Greg Janusz
+        Tom Kirchman
+atnm    64,200
+write   Advice etc.:
+at      280,200
+write   Jerry Bucksath
+        Dan LaBerge
+        Steve Peltz
+        Paul Silver
+        John VanAntwerp
+        James L. Worley
+at      64,88
+write   Character set design:      David Anderson
+*
+do      firstp
+do      cyan
+*
+
+=== block 'u/donors'  kind 00  258 words  (block 15)
+*
+unit    donors
+*
+**      those that contributed disk space
+*
+do      setinfo('donors')
+*
+next    farrow
+back    credits
+*
+do      cyan
+at      4,496
+write   Special thanks to the following people for donating disk space:
+do      blue
+draw    4,495;504,495
+do      white
+at      202
+write
+        Eugene Anderson
+        Steve Austin
+        Kevin Barnes
+        Quentin Barnes
+        Pete Bilger
+        Kevin Brooks
+        Bill Buckner
+        Jerry Bucksath
+        Alan Carroll
+        Bruce Carroll
+        Tony Chen
+        Gary Czvitkovicz
+        Tom Davis
+        Wes Dunn
+        Mark Eastom
+        Steve Ekker
+        Liam Foley
+        John Gawienowski
+        David Goldberg
+        Valerie Gray
+        Mike Gregory 
+        Glenn Hard
+        Bill Hartsell
+        John Hegarty
+        Brad Hinchcliff
+at      223
+write
+        Paul Jacobson
+        Michael Jones
+        Mike Kappes
+        David Karr
+        Kipp Kreft
+        Mike Kulas
+        Gary Leisky
+        Bill Marshall
+        Mike McCormick
+        Douglas Mitchell
+        Gary Mocko
+        Jana Loeh
+        Chris Lopez
+        Tony Mui
+        Lance Ogasawara
+        Mike O'Hara
+        Joshua Paley
+        Phil Parker
+        Flint Pellett
+        Steve Peltz
+        Randy Pilcher
+        W. Kemper Porter
+        Ron Powell
+        Richard Prouty
+        Ben Radcliff
+at      245
+write
+        Brian Ries
+        Larry Rose
+        Mark Rosenberger
+        Ross Ryan
+        Mark Sargent
+        Charles Sentman
+        Kevin Stewart
+        Seth Sweetser
+        Raymond P. Thomsen
+        Anthony Tomasic
+        Frank Trainer
+        Quang Tu
+        Wayne Turnbow
+        Lehman Waisvisz
+        Dan Weber
+        Ben Wiegand
+        Fred Worley
+        James L. Worley
+        Andy Zaffron
+*
+do      lastp
+do      cyan
+*
+        
+
+=== block 'u/begin1'  kind 00  170 words  (block 16)
+*
+unit    begin1
+*
+**      beginners page
+*
+do      setinfo('welcome')
+*
+next    helptips
+back    farrow
+*
+do      cyan
+at      205
+write   Welcome to Avatar!
+ 
+        Avatar is the result of many years of work and play by
+        literally hundreds of people.  We hope that you enjoy
+        playing the game as much as we have enjoyed creating it.
+ 
+        The game offers fun to the beginner and has enough
+        complexity to keep the expert challenged.  One of the
+        most important aspects of the game is the interaction
+        between the players.  The players make this game.
+ 
+        The game is based on many "dungeon games" that have
+        come before it and adds many new ideas.  There is no
+        absolute goal to the game; the players generally make
+        their own goals.  You will probably pick and change
+        goals throughout your lifetime in the game.
+ 
+        The basic concept behind the game is "role-playing".
+        You will assume the role of a person (not necessarily
+        human!) living in an "alternate reality" where the
+        impossible is possible.  Magic exists in Avatar.
+ 
+        The game may appear complex to the beginner.  Don't be
+        concerned, just dig in and enjoy.  As with the real
+        world you will only need to know a small number of
+        rules to get started.  Good luck!
+*
+do      firstp
+do      cyan
+*
+
+=== block 'u/begin2'  kind 00  180 words  (block 17)
+*
+unit    helptips
+*
+**      some tips about using the help lesson
+*
+do      setinfo('help tips')
+*
+next    char1
+back    begin1
+*
+do      cyan
+at      205
+write   This help lesson is more of a collection of facts about
+        the game and is not setup to be a well flowing narrative.
+        We recommend that you read it entirely before playing
+        the game and refer back to it as necessary.  Once you
+        become experienced you will know what pages contain the
+        information you want.
+ 
+        There are many things we will NOT tell you about the game.
+        Part of the fun is discovering a monster you've never
+        seen before (and hopefully defeating it!), or finding an
+        item you don't know anything about.  This game is far
+        too large to explain completely and besides, you would
+        quickly become bored reading about it.  Go discover it!
+        (But we strongly suggest you read the entire help lesson
+        first; it is not that long.)
+ 
+        You may press SHIFT-LAB at any time to see what "keyword"
+        to use to get to your current page.  For example, typing
+        "help tips" will always bring you to this page.
+ 
+        SHIFT-NEXT will always return you to the game.
+ 
+        DATA will always return you to the page where you
+        may choose a feature (ie. type in a page keyword).
+ 
+        TERM-comment is available if you have a comment about
+        the game or this help lesson.
+*
+do      middlep
+do      cyan
+*
+
+=== block 'u/char'  kind 00  184 words  (block 20)
+*
+unit    char1
+*
+**      basic character information
+*
+do      setinfo('char')
+*
+next    stats1
+back    begin1
+*
+do      white
+at      205
+write   Basic Character Information
+do      cyan
+at      405
+write   To play Avatar you must first create your alter-ego or
+        character.  Your character has several basic pieces of
+        information that the game uses in various ways.
+ 
+        Your pseudonym or name you wish to be known by is used
+        whenever someone in the game wishes to refer to you
+        specifically.  For example, when giving you gold or
+        items your name is used.  When curing, your character's
+        name is needed.  Choose your pseudonym well since it
+        cannot be changed ever again.  Only one person in the
+        game can have a given name.  If a name is already taken
+        you will not be able to use it so you must choose
+        another.  When your character is destroyed the name
+        may once again be used.
+ 
+        The race you choose to be will determine how old you
+        can be, how quickly you learn (gain experience) and
+        how strong, intelligent, wise, healthy, charismatic
+        and dexterous you can be.  There are several other
+        important points concerning your race; they will be
+        discussed later.
+ 
+        There are six basic statistics (stats) that determine
+        how well or poorly your character will do when faced
+        with certain tasks (eg. fighting, casting spells etc.).
+*
+do      middlep
+do      cyan
+*
+
+=== block 'u/stats1'  kind 00  170 words  (block 21)
+*
+unit    stats1
+*
+**      character stats
+*
+do      setinfo('str')
+*
+next    stats2
+back    char1
+*
+do      cyan
+at      205
+write   Any item or spell may require a minimum in some stats.
+        The guilds may require a minimum stat to join.  Certain
+        items may change a stat, but sometimes the unmodified
+        (natural) stat is still used (eg. the guilds will only
+        look at your natural stats when deciding if you may
+        join, and both item use and your maximum spell points are
+        based on natural stats).  You may raise your natural
+        stats by using certain items.«c,zwhite»
+ 
+        Strength (Str):«c,zcyan» Your character's physical strength.
+ 
+          > your chance to hit a monster in combat
+          > the damage you do once you do hit the monster«c,zwhite»
+ 
+        Intelligence (Int):«c,zcyan» Your character's intelligence.
+ 
+          > your chance to hit a monster in combat
+          > your maximum spell points
+          > your ability to identify an item«c,zwhite»
+ 
+        Wisdom (Wis):«c,zcyan» Your character's common sense and insight.
+ 
+          > your chance to hit a monster in combat
+          > your maximum spell points
+          > your ability to recognize a trap on a chest
+          > your ability to identify an item
+          > your chance to leave combat without being hit
+*
+do      middlep
+do      cyan
+*
+
+=== block 'u/stats2'  kind 00  182 words  (block 22)
+unit    stats2
+*
+**      Con, Cha, Dex
+*
+do      setinfo('con')
+*
+next    ability1
+back    stats1
+*
+do      white
+at      205
+write   Constitution (Con):«c,zcyan» Your character's "healthiness".
+ 
+          > the number of hits you receive when "making level"
+          > your chance of being raised when you are dead
+          > your ability to resist special monster attacks:
+            poison, disease, stoning, aging, "breath" (fire, cold
+            or other breath attacks) and "death" spells«c,zyellow»
+            (DATA then "monster attacks" for details)«c,zwhite»
+ 
+        Charisma (Cha):«c,zcyan» Your character's beauty and leadership.
+ 
+          > your chance to have monsters "j"oin you
+          > how long a companion will stay with you
+          > the chance of monsters "unpeacing" with you«c,zwhite»
+ 
+        Dexterity (Dex):«c,zcyan» Your character's speed and agility.
+ 
+          > your chance to hit in combat
+          > your ability to disarm traps
+          > how long it takes to open a chest in combat
+          > a monster's chance of stealing an item or gold
+            is lower if you have a high dexterity
+          > your chance of leaving combat without being hit
+          > your chance of surprising the monsters
+ 
+        When a stat has reached its NATURAL maximum it will
+        appear thicker.  For example: 24.
+do      white
+atnm    273,64
+write   24
+do      cyan
+*
+do      middlep
+do      cyan
+*
+
+=== block 'u/ability1'  kind 00  185 words  (block 23)
+*
+unit    ability1
+*
+**      other character abilities
+*
+do      setinfo('attack')
+*
+next    ability2
+back    stats2
+*
+do      white
+at      205
+write   Attack/Defense (Att/Def):«c,zcyan» These numbers vary with what
+        items you are wearing, your character's fighting
+        ability and your current stats.  Some spells (eg.
+        protection) may modify your Att/Def.  Your Att/Def is
+        used to modify your basic chance of hitting a monster
+        and of being hit by a monster.  An Att/Def of 9/21
+        means that you have a 9% additional chance of hitting
+        the monster and the monster has less of a chance of
+        hitting you by 21%.  Keep in mind that monsters also
+        have an Att/Def (depending upon the same sorts of
+        things, like dexterity etc.) and that as you go deeper
+        in the dungeon they get tougher.
+ 
+        For example, let's say Mithir the Mage meets a Goblin:
+ 
+        Mithir's Att/Def:  3/9
+        Goblin's Att/Def:  6/12
+ 
+        Mithir's chance of hitting Goblin = (50+3-12) = 41%
+        Goblin's chance of hitting Mithir = (50+6-9)  = 47%
+ 
+        (The "50" is the base chance to hit without modifications.)
+        There are several other modifications such as whether
+        you are invisible and whether the monster can see
+        invisible.  Also, the size of your weapon vs. the size
+        of the monster is important.  Daggers don't work as
+        well on dragons as they do on Goblins, for example.
+*
+do      middlep
+do      cyan
+*
+
+=== block 'u/ability2'  kind 00  203 words  (block 24)
+*
+unit    ability2
+*
+***     hits etc.
+*
+do      setinfo('hits')
+*
+next    race1
+back    ability1
+*
+do      white
+at      205
+write   Hits:«c,zcyan» Hits determine how much damage your character can
+        take before dying.  They depend heavily on your level
+        in your strongest guild.  Your constitution is also
+        important.  You will receive "bonus" hits when making
+        level if your constitution is above 17.  When your
+        character's hits go to 0 you are dead.  Hits are
+        expressed as a fraction.  For example, 12/12 means
+        that your character is at "full strength".  If you
+        were to get hit for 5 hits by a monster you would see
+        7/12.  If you ever see 0/12 you will be dead.  You may
+        restore your hits by returning to the city, or by being
+        cured by a spell.  Certain guilds get the ability to
+        throw cure spells (eg. Healers).  Spells will be
+        explained in more detail later.«c,zwhite»
+ 
+        Experience (Exp):«c,zcyan» is used to determine when you have
+        learned enough to "make level".  You make level by
+        entering your current guild and choosing that option.
+        You will also be required to donate gold to your guild
+        to make level.  Both your race and your guild will affect
+        how much experience you need to make level.«c,zwhite»
+ 
+        Gold:«c,zcyan» In Avatar gold is practically weightless, so
+        there is no limit to the amount you can carry.  You
+        may keep your gold in the bank or on your character.
+        If it is kept on your character certain monsters can
+        try to steal it so it is a good idea to use the bank.
+*
+do      middlep
+do      cyan
+*
+
+=== block 'u/race1'  kind 00  292 words  (block 25)
+*
+unit    race1
+*
+**      general information about races
+*
+do      setinfo('ogre')
+*
+next    race2
+back    ability2
+*
+do      cyan
+at      205
+write   The race you choose to be is important because it will
+        determine what guilds you can join.  Your race will also
+        determine your starting statistics and maximum natural
+        statistics. (ie. max strength, max intelligence, etc.)
+        A summary of information about the races follows these
+        brief descriptions of the various races:«c,zwhite»
+ 
+        Ogre«c,zcyan»
+ 
+        Although strong and healthy, Ogres are somewhat dim
+        witted.  They find great pleasure in hacking at
+        monsters and treasure chests.  Guilds that pride
+        themselves in spell casting do not accept Ogres.«c,zwhite»
+ 
+        Osiri«c,zcyan»
+ 
+        An extremely dexterous race, the Osiri make excellent
+        thieves.  They also have a marginal spell casting
+        ability as paladins and sorcerers.«c,zwhite»
+ 
+        Elf«c,zcyan»
+ 
+        While Elves are not a very hardy race, they are 
+        very wise and intelligent, hence they make excellent
+        spell casters.  They also live longer than any other 
+        race, even though they have low constitutions.
+*
+do      middlep
+do      cyan
+*
+unit    race2
+*
+**      more information about races
+*
+do      setinfo('troll')
+*
+next    race3
+back    race1
+*
+do      white
+at      205
+write   Troll«c,zcyan»
+ 
+        Trolls are very strong and quick, and like to make
+        short work of their enemies.  Quick to take up
+        sides, they refuse to be neutral.«c,zwhite»
+ 
+        Cirilian«c,zcyan»
+ 
+        Cirilians are the most versatile race.  They can
+        specialize in most any field from fighting to
+        thieving and even resurrections.«c,zwhite»
+ 
+        Morloch«c,zcyan»
+ 
+        Morlochs possess a large amount of natural magic
+        ability, but this is hard on their bodies, giving
+        them a shorter life span and lower constitution.
+        Although strong and swift, they are so ugly they
+        can not charm all monsters.«c,zwhite»
+ 
+        Human«c,zcyan»
+ 
+        Humans do not possess any natural magic abilities,
+        but they are very lucky.  They also make levels very
+        quickly, which is good because of their very short
+        life span.
+*
+do      middlep
+do      cyan
+*
+
+=== block 'u/race3'  kind 00  113 words  (block 26)
+*
+unit    race3
+*
+**      more information about races
+*
+do      setinfo('gnome')
+*
+next    races
+back    race2
+*
+do      white
+at      205
+write   Gnome«c,zcyan»
+ 
+        Being very charismatic, Gnomes make excellent Mages.
+        Good by nature, Gnomes like to help other adventurers
+        serving in the Wizard's and Paladin's guild.«c,zwhite»
+ 
+        Dwarf«c,zcyan»
+ 
+        Dwarves are always curious about things, poking
+        into treasure chests, injured adventurers, monsters 
+        splattered against the wall, and mapping the dungeon.
+        While allowed into a diverse group of guilds, Dwarves
+        are always neutral.«c,zwhite»
+ 
+        Giant«c,zcyan»
+ 
+        Giants live for only one thing, slicing monsters
+        in half with one blow.  An exceptionally strong
+        race, Giants will only specialize as Warriors.
+*
+do      middlep
+do      cyan
+*
+
+=== block 'd/races'  kind 00  288 words  (block 27)
+*
+unit    races
+*
+**      summary index for races
+*
+        lkey
+$
+do      setinfo('races')
+*
+back    race3
+*
+do      white
+at      609
+write   Information about Races«c,zcyan»
+ 
+ 
+        Which page of information would you like to see:
+        
+        
+        1. Minimum and maximum starting stats and alignments
+           (good, neutral, evil) for each race.
+        
+        
+        2. A list of guilds that each race may join.
+        
+        
+        3. Miscellaneous information about each race including
+           approximate maximum age, learning ability and
+           special abilities such as "see invisible".
+        
+        
+do      yellow
+at      2415
+write   Press a number (1,2,3) or NEXT for 1,
+        LAB to bypass 1,2,3 and continue, or
+        BACK to review.  DATA to choose a feature.
+do      cyan
+*
+loop
+.       pause   keys=all
+.       keytype lkey,lab,next,1,2,3
+reloop  lkey = -1
+.       jump    lkey-1,city1,racea,racea,raceb,racec,x
+endloop
+*
+unit    racea
+        merge,previous
+        lrace
+        lyloc
+        lstat
+$
+do      setinfo('race page1')
+*
+next    raceb
+back    races
+back1   races
+*
+do      white
+at      24,448
+write   Race
+at      112,448
+write     Str   Int   Wis   Con   Cha   Dex  G N E
+do      blue
+draw    24,448;448,448;
+do      white
+calc    lrace « 0
+loop    (lrace « lrace+1) {^72} races
+.       calc    lyloc « 440-16*lrace
+.       atnm    24,lyloc
+.       write   «a,rname(lrace)»
+.       calc    lstat « 0
+.       loop    (lstat « lstat+1) {^72} 6
+.       .       atnm    64+48*lstat,lyloc
+.       .       write   «t,rlow(lrace,lstat),2»/«t,rhigh(lrace,lstat),2»
+.       endloop
+.       atnm    408,lyloc
+.       writec  ralign(lrace,1)-1;  ;* 
+.       writec  ralign(lrace,2)-1;  ;* 
+.       writec  ralign(lrace,3)-1;;*
+endloop
+do      white
+at      40,200
+write   The numbers under the Stat are of the form low/high.
+        For example:  Str 7/17 means that a person of that
+        race cannot start with a Strength of less than 7,
+        nor greater than 17.  You may not raise a NATURAL
+        stat more than 5 above the maximum listed above. 
+        Items may modify a stat up to 40.
+        
+        G = Good, N = Neutral, E = Evil.  The "*" indicates
+        that the race can be of the given alignment.
+*
+do      middlep
+do      cyan
+*
+
+=== block 'd/races'  kind 00  214 words  (block 30)
+*
+unit    raceb
+*
+**      which guilds each race may join
+*
+        merge,previous
+        lrace
+        lyloc
+        lclass
+        lshift = o70 00 00 00 00 00 00 00 00 00
+$
+do      setinfo('race page2')
+*
+next    racec
+back    racea
+back1   races
+*
+do      white
+atnm    24,448
+write   Race
+atnm    112,448
+calc    lclass « 0
+do      white
+loop    (lclass « lclass+1) {^72} classes
+.       write   «a,lshift + (lclass $cls$ 48)» 
+endloop
+do      blue
+draw    24,448;wherex-6,wherey
+do      white
+calc    lrace « 0
+loop    (lrace « lrace+1) {^72} races
+.       calc    lyloc « 440-16*lrace
+.               lclass « 0
+.       atnm    24,lyloc
+.       write   «a,rname(lrace)»
+.       loop    (lclass « lclass+1) {^72} classes
+.       reloop  rclass(lrace,lclass) = 0
+.       .       atnm    96+16*lclass,lyloc
+.       .       write   *
+.       endloop
+endloop
+calc    lclass « 0
+do      blue
+loop    (lclass « lclass+2) {^72} classes
+.       draw    107+16*lclass,448;107+16*lclass,wherey
+endloop
+do      white
+atnm    384,448
+write   Guilds
+do      blue
+draw    ;384,448
+calc    lclass « 0
+do      white
+loop    (lclass « lclass+1) {^72} classes
+.       atnm    368,440-16*lclass
+.       write   «a,lshift + (lclass $cls$ 48)» 
+.       showa   cname(lclass)
+endloop
+*
+do      white
+at      2003
+write   An astrix (*) indicates that a character in the given
+        race may join the listed guild.  All characters are
+        automatically members of the Nomad guild.  There are
+        other requirements to join a guild.  For example, you
+        must have a minimum intelligence to join the Mage's
+        guild.  More information about these minimum
+        requirements will be presented later.
+*
+do      middlep
+do      cyan
+*
+
+=== block 'd/races'  kind 00  223 words  (block 31)
+*
+unit    racec
+        merge,previous
+        lrace
+        lyloc
+        lbit
+$
+do      setinfo('race page3')
+*
+next    city1
+back    raceb
+back1   races
+help    rhelpc
+*
+do      white
+at      24,448
+write   Race
+do      white
+at      112,448
+write    Age  Exp  Pit  Slope  Luck  A B C D E F G H I J
+do      blue
+draw    24,448;496,448;
+calc    lrace « 0
+do      white
+loop    (lrace « lrace+1) {^72} races
+.       calc    lyloc « 440-16*lrace
+.       atnm    24,lyloc
+.       write   «a,rname(lrace)»
+.       atnm    120,lyloc
+.       showt   rage(lrace)*10,3
+.       atnm    168,lyloc
+.       showt   int(rexp(lrace)/5)+1,2
+.       atnm    208,lyloc
+.       showt   int(rpit(lrace)/5)+1,2
+.       atnm    256,lyloc
+.       showt   rslope(lrace),2
+.       atnm    304,lyloc
+.       showt   int(rsave(lrace)/10)+1,2
+.       atnm    344,lyloc
+.       calc    lbit « 0
+.       loop    (lbit « lbit+1) {^72} 10
+.       .       writec  rbit(lrace,lbit)-1;  ;* ;
+.       endloop
+endloop
+calc    lbit « 0
+do      blue
+loop    (lbit « lbit+2) {^72} 9
+.       draw    339+16*lbit,448;339+16*lbit,wherey
+endloop
+do      white
+at      24,224   $$ = about 1804...dmr
+write   Age    -- approx max age             D -- resist stat drain
+        Exp    -- experience modifier        E -- levitate
+        Pit    -- pit damage & evade factor  F -- invisible
+        Slope  -- slope detection modifier   G -- see invisible
+        Luck   -- "luckiness"                H -- resist poison
+        A      -- +15% defense               I -- breath water
+        B      -- resist fire etc.           J -- resist paralysis
+        C      -- resist spells
+ 
+do      green
+at      2709
+write   HELP for more details about the various abilities
+*        HELP for more details about the various abilities
+*
+do      middlep
+do      cyan
+*
+
+=== block 'd/races'  kind 00  186 words  (block 32)
+*
+unit    rhelpc
+*
+**      brief explanation of terms
+*
+do      setinfo('race help')
+*
+next    racec
+back    racec
+*
+do      white
+at      205
+write   Age:«c,zcyan» is only an approximate indicator.  There is very
+        small chance that you could die before that age, but
+        as you approach the age listed your chance of dying
+        goes up.«c,zwhite»
+ 
+        Exp:«c,zcyan» if higher, the race needs more exp when making level.«c,zwhite»
+ 
+        Pit:«c,zcyan» the lower this number, the LESS damage you will
+        take when falling into a pit.«c,zwhite»
+ 
+        Slope:«c,zcyan» the higher this number, the better the chance
+        of detecting sloping passages in the dungeon.«c,zwhite»
+ 
+        Luck:«c,zcyan» the higher the number, he luckier the race.
+        Luck is important when determining whether poison,
+        disease, stat drain attacks, etc. will have full effect.
+ 
+        > +15% defense: adds 15% to your defense (att/DEF)
+        > resist fire etc.: monster's breath does less damage
+        > resist spells: sleep spell, death spell have less effect
+        > resist stat drain: 90% immunity from stat drain attack
+        > levitate: able to levitate naturally (over pits, water)
+        > invisible: race is naturally invisible
+        > see invisible: can see invisible monsters
+        > resist poison: take less damage from poison
+        > breath water: no drowning while on water in dungeon
+        > resist paralysis: 90% immunity from paralysis
+*
+do      middlep
+do      cyan
+*
+
+=== block 'u/city'  kind 00  177 words  (block 33)
+*
+unit    city1
+*
+**      city information
+*
+do      setinfo('city')
+*
+next    store1
+back    races
+*
+do      white
+at      205
+write   The City«c,zcyan»
+ 
+        When you first enter the game you will be in the city.
+        There are several options available only in the city:
+ 
+        Bank: the Bank of Avatar is where you may put your gold
+        and items that you do not wish to use on your dungeon
+        adventure.  Pressing DATA when depositing gold in the
+        bank will deposit all the gold on your character.  When
+        spending money in the city, gold will be taken
+        automatically from your bank account if you don't have
+        enough on your character.  DATA as well as NEXT is active
+        when depositing items in the bank.
+ 
+        Morgue: you may raise characters or companions from the
+        dead at the morgue.  If raising a character, one point
+        of constitution will be taken from the player being raised.
+ 
+        Spells: you may see what spells you can cast and how
+        many spell points they cost.  This information is valid
+        only for your "acquainted" guild (explained later).
+ 
+        Dungeon: enter the dungeon.  Upon returning to the city
+        from the dungeon you will rest and heal yourself (aging
+        in the process).  This process will restore your hits
+        and cure any poison or disease.  It will also heal any
+        monster companions.
+*
+do      middlep
+do      cyan
+*
+
+=== block 'u/store1'  kind 00  177 words  (block 34)
+*
+unit    store1
+*
+**      general store
+*
+do      setinfo('store')
+*
+next    store2
+back    city1
+*
+do      white
+at      205
+write   The General Store«c,zcyan»
+ 
+        Buying items: You should equip your character with a weapon
+        and whatever protection (armor, cloak) you can in the
+        store.  When listing items, if one number appears off
+        to the right it is the price, if 4 numbers appear to the
+        right of the item name the numbers indicate the number
+        of each alignment held by the store.  "u g n e" above
+        the item numbers indicate "unaligned", "good", "neutral"
+        and "evil" respectively.  For example:
+ 
+                                                u g n e
+                Manual of Health                0 2 0 3
+                Bronze Plate Mail                  1234
+ 
+        would indicate that there are 5 (2+3) Manuals of Health
+        in the store, two aligned "good" and 3 aligned "evil".
+        Bronze Plate Mail would cost 1234 gold in this example.
+ 
+        Selling an item:  When selling an item that has charges
+        (explained later) the store may only buy charges off of
+        the item, or if there are few charges it will buy the
+        entire item.
+ 
+        For both buying and selling the store takes supply and
+        demand into account.  If there are few of a given item
+        in the store that item will be more expensive.
+*
+do      middlep
+do      cyan
+*
+
+=== block 'u/store2'  kind 00  309 words  (block 35)
+*
+unit    store2
+*
+**      more store
+*
+do      setinfo('store2')
+*
+next    store3
+back    store1
+*
+do      cyan
+at      205
+write   Learning about an item: will give you different
+        information depending upon your current knowledge of the
+        item.  How much you know about an item initially is
+        determined by your intelligence and wisdom.  You will be
+        able to identify some items when you find them and most
+        others will require a payment to learn more.  You may of
+        course "U"se an item without knowing what it is, but this
+        can be rather risky since it could be opposite to your
+        alignment or might not benefit your character.
+ 
+        Combine: allows you to combine items that have charges.
+        For example, you can combine two Potions of Health into
+        one Potion of Health with the sum of the charges on the
+        two different potions.  Be aware that there is no easy
+        way to split an item back apart (selling some of the
+        charges is a way, but it is not easy to figure out).
+ 
+        Remove an item: is the only way to remove a "cursed"
+        item.  Some items will tell you if they are cursed by
+        putting "(cursed)" beside the item name, but an item is
+        also considered "cursed" if it is of an opposite alignment.
+        If you are aligned "good" and you "U"se an evil item it
+        will be stuck on you.  Removing a stuck (=cursed) item
+        is very expensive.  Good and Evil are opposite alignments
+        so they are a curse to each other, neutral on the other
+        hand can use either type, but a neutral won't get the
+        full benefit from a good or evil item.
+*
+do      middlep
+do      cyan
+*
+unit    store3
+*
+**      more store
+*
+do      setinfo('store3')
+*
+next    items1
+back    store2
+*
+do      cyan
+at      405
+write   Realign an item: this allows you to change the alignment
+        of certain items.  It provides an alternative to trading
+        with other players but can be expensive.  We recommend
+        trying to trade with other players when possible.
+ 
+        Heal damaged hands: this is only seen when you have
+        damaged hands.  The way to avoid getting damaged
+        hands is to fight with a weapon.  Your hands will
+        always be in the first item slot.  You will see
+        "Damaged Hands" if you ever to manage to bash your
+        fingers up.
+ 
+ 
+        With all options in the city, gold will be removed from
+        your bank account if you do not have enough on your
+        character.
+ 
+ 
+*
+do      middlep
+do      cyan
+*
+
+=== block 'u/items1'  kind 00  200 words  (block 36)
+*       $$  continue coloring here...
+*
+unit    items1
+*
+**      general information about items
+*
+do      setinfo('items')
+*
+next    guilds1
+back    store1
+*
+do      white
+at      205
+write   Items«c,zcyan»
+ 
+        The term "item" refers to any object that your character
+        wears, carries or can use.  Your character has 56 item
+        "slots", the first of which contains your "Hands".  You
+        cannot use slot one (1) for any other purpose, so you
+        have 55 free item slots when you start.  You can buy
+        items in the store, or find them in the dungeon.  You
+        can also receive them from other players.
+ 
+        You can learn what an item does in the store.  Items can
+        modify any one or more of the following: attack, defense,
+        stats (str, dex etc.), hits, age, spell points, damage
+        done to monsters.  An item could cast a spell.  Certain
+        heavy items can cause you to drown when in water.  Some
+        items have "charges".  Each time a spell is cast from
+        an item with charges the item loses a charge.  When all
+        charges are gone the item can no longer cast a spell.
+ 
+        If you decide to wear an item you must "U"se it.  A
+        weapon must be "U"sed before you can fight with it.  You
+        cast a spell off of an item by using the special "P"ower
+        (ie. press "P").  You can "G"ive and "L"eave items also.
+        An item may require certain minimum stats and may be
+        restricted to certain guilds (also called "class").
+*        To see a summary of what you know about your current
+*        items and items in the store press LAB.
+*
+do      middlep
+do      cyan
+*
+
+=== block 'u/guilds1'  kind 00  205 words  (block 37)
+*
+unit    guilds1
+*
+**      general information about guilds
+*
+do      setinfo('guilds')
+*
+next    guilds2
+back    items1
+*
+do      white
+at      205
+write   Guilds«c,zcyan»
+ 
+        Every character is a member of the «a,cname(1)» guild when born.
+        You may join one other guild free of charge (provided you
+        meet the membership requirements) but thereafter you must
+        pay to join a new guild.  Each guild has a spell book
+        which determines which spells you can cast while acting as
+        a member of that guild.  Each guild also restricts its
+        members to wearing only certain items.  You may switch
+        between guilds while in the city, but you cannot change
+        guilds while in the dungeon.  You may not switch guilds
+        if you are wearing any cursed items, or if you are wearing
+        any items aligned oppositely to your character.
+ 
+        There are two options available in a guild.  You
+        "acquaint" yourself if you want to act as a member of that
+        guild.  When you qualify you may "make level" in a guild.
+        Making level within a guild requires that you gain a
+        certain amount of experience by killing monsters.  The
+        guild will also require gold.  As you gain in level the
+        guild may also "quest" you to kill a certain monster or
+        find a certain item.  To get credit for killing a monster
+        you must be in the room when the encounter that had the
+        given monster in it is over.  You will receive a message
+        when your quest is completed.  You will gain hits if the
+        level you are being granted is higher than your level in
+        any other guild.  Your att/def and spell level may also
+        increase when making level.
+*
+do      middlep
+do      cyan
+*
+
+=== block 'u/guilds2'  kind 00  262 words  (block 40)
+*
+unit    guilds2
+*
+**      data about guilds
+*
+$
+do      setinfo('guilds2')
+*
+next    guilds3
+back    guilds1
+*
+do      white
+at      405
+write   Nomad«c,zcyan»
+         
+        Nomads are very quick learners, even though they don't
+        try to learn many different abilities.  Being good 
+        fighters and moderate thieves, Nomads are often found 
+        roaming the upper levels of the dungeon.«c,zwhite»
+         
+        Warrior«c,zcyan»
+         
+        Warriors could care less about spells, but are unmatched
+        when it comes to slicing monsters in two.  They are
+        very good fighters and alone can use the best weapons
+        in the dungeon.«c,zwhite»
+         
+        Ninja«c,zcyan»
+         
+        Ninjas are weapons masters, and can use almost all
+        weapons including their hands.  A Ninja desires quickness
+        at all times and will not wear most armor and some
+        other items.
+*
+do      middlep
+do      cyan
+*
+unit    guilds3
+*
+**      data about guilds
+*
+$
+do      setinfo('guilds3')
+*
+next    guilds4
+back    guilds2
+*
+do      white
+at      405
+write   Thief«c,zcyan»
+         
+        Thieves are the best guild for collecting treasure, 
+        although the guild makes sure to get it's share of
+        the loot.  Very devoted to stealing, thieves often
+        lack some fighting skill, but make up for it with
+        treacherous backstabbing.«c,zwhite»
+         
+        Mage«c,zcyan»
+         
+        Mages are masters at charming monsters.  They are never
+        at a lack for companions.  They are also fairly adept
+        at curing players and companions, although putting 
+        together a corpse is beyond their abilities.«c,zwhite»
+         
+        Sorcerer«c,zcyan»
+         
+        A Sorcerer lacks the fine control and deep concentration
+        of a Mage while in combat, and so his spells tend to
+        blast monsters against the wall instead of charming them.
+        Out of combat a sorcerer can muster up some useful 
+        player protection spells.
+*
+*
+do      middlep
+do      cyan
+*
+
+=== block 'u/guilds4'  kind 00  265 words  (block 41)
+*
+unit    guilds4
+*
+**      data about guilds
+*
+$
+do      setinfo('guilds4')
+*
+next    guilds5
+back    guilds3
+*
+do      white
+at      405
+write   Healer«c,zcyan»
+         
+        Healers are very good at putting characters back together
+        again after a rough day in the dungeon.  The best at
+        curing, they are also fairly good at killing monsters.«c,zwhite»
+         
+        Wizard«c,zcyan»
+         
+        Wizards are very good at teleporting parties around the
+        dungeon, although they can't always tell what they are
+        going to land in, or know where other characters are.  
+        They also have damage spells equal to a Healer, and
+        can toss protection spells.«c,zwhite»
+         
+        Scavenger«c,zcyan»
+         
+        A Scavenger is a cross between a Warrior and a Thief,
+        fighting a little worse than the former and boxing
+        worse than the latter.  A Scavenger can backstab like
+        a thief, can be other than neutrally aligned, and can
+        use a few more items than a thief.
+*
+do      middlep
+do      cyan
+*
+unit    guilds5
+*
+**      data about guilds
+*
+$
+do      setinfo('guilds5')
+*
+next    guilds6
+back    guilds4
+*
+do      white
+at      405
+write   Seeker«c,zcyan»
+         
+        Seekers are very good at moving through the dungeon,
+        being able to levitate, locate other players, and
+        teleport.  They can't kill monsters with their magical
+        powers, but a Seeker does well with a weapon in hand.«c,zwhite»
+         
+        Paladin«c,zcyan»
+         
+        Paladins think of themselves as the heroes of the dungeon,
+        blundering about killing monsters and somewhat successfully
+        healing characters.  You don't have to be too smart to
+        be a Paladin, you just have to look good doing it.«c,zwhite»
+         
+        Villain«c,zcyan»
+         
+        Villains are fallen Thieves, having strayed from the
+        magic and equipment restrictions of the Thief guild.
+        While working on various poisons, the Villains also
+        learned or stole some of the secrets of healing.
+*
+do      middlep
+do      cyan
+*
+
+=== block 'd/guilds6'  kind 00  219 words  (block 42)
+*
+unit    guilds6
+*
+**      data about guilds
+*
+        merge,previous
+        lclass
+        lstat
+        lyloc
+$
+do      setinfo('guilds6')
+*
+next    guilds7
+back    guilds5
+*
+do      white
+at      24,448
+write   Guild
+do      white
+at      120,448
+write   AH ML MH
+at      192,448
+write   EP LP
+at      240,496
+write    Required Stats
+         S  I  W  C  C  D
+         t  n  i  o  h  e
+         r  t  s  n  a  x
+at      392,448
+write   G N E
+do      blue
+draw    ;24,448
+calc    lclass « 0
+do      white
+loop    (lclass « lclass+1) {^72} classes
+.       do      white
+.       calc    lyloc « 440-16*lclass
+.       atnm    24,lyloc
+.       write   «a,cname(lclass)»
+.       atnm    120,lyloc
+.       write   «t,cdice(lclass)*(csides(lclass)/2),2» «t,cmaxl(lclass),2» «t,chits(lclass),2»
+.       atnm    192,lyloc
+.       write   «t,cexp(lclass),2» «t,csave(lclass),2»
+.       calc    lstat « 0
+.       atnm    240,lyloc
+.       loop    (lstat « lstat+1) {^72} 6
+.       .       writec  cstatr(lclass,lstat)-1;   ;
+.       .               «t,cstatr(lclass,lstat),2» 
+.       endloop
+.       atnm    392,lyloc
+.       writec  calign(lclass,1)-1;  ;* 
+.       writec  calign(lclass,2)-1;  ;* 
+.       writec  calign(lclass,3)-1;  ;* 
+outloop lclass = classes
+reloop  lclass/2 {^54} int(lclass/2)
+.       do      blue  $$ is this it?  dmr...
+.       draw    24,wherey;432,wherey
+endloop
+do      white
+at      24,200
+write   AH -- average hits / level
+        ML -- maximium level at which hit dice are rolled
+        MH -- hits received / level after reaching ML
+        EP -- experience parameter (higher means more exp required)
+        LP -- luck parameter (the higher the better)
+        G  -- good allowed in guild, N -- neutral, E -- evil
+*
+do      middlep
+do      cyan
+*
+
+=== block 'd/guilds7'  kind 00  280 words  (block 43)
+*
+unit    guilds7
+*
+**      more data about guilds
+*
+        merge,previous
+        lguild          $$ guild number (1..classes)
+        labil           $$ ability number (1..8)
+        lave(8)         $$ average ability level
+        lcando          $$ guilds that can use that ability
+$
+do      setinfo('guilds7')
+*
+next    found,guildlog,spells1
+back    guilds6
+*
+doto    1loop,labil«1,8
+calc    lguild«lcando«lave(labil)«0
+loop    classes{^73}(lguild«lguild+1)
+reloop  cdiv(lguild,labil)=0
+.       calc    lave(labil)«lave(labil)+cdiv(lguild,labil)
+.               lcando«lcando+1
+endloop
+calc    lave(labil)«lave(labil)÷lcando
+1loop
+*
+do      white
+mode    write
+at      203
+write   Guild Abilities
+do      blue
+draw    ;203
+do      white
+at      16,448
+write   Guild
+do      blue
+draw    16,448;504,448
+calc    lguild « 0
+do      white
+loop    (lguild « lguild+1) {^72}  classes
+.       do      white
+.       calc    labil « 0
+.       atnm    16,448-16*lguild
+.       showa   cname(lguild),10
+.       loop    (labil « labil + 1) {^72} 8
+.       .       if      lguild = 1
+.       .       .       atnm    64+52*labil,448
+.       .       .       write   «a,(o7000 $union$ labil)»
+.       .       endif
+.       .       atnm    56+52*labil,448-16*lguild
+*.       .       write   «t,cabil(lguild,labil),1»/«t,cdiv(lguild,labil)*2,2»
+.       reloop  cdiv(lguild,labil)=0
+.       .       writec  cdiv(lguild,labil)-lave(labil)+4,+++,{^55}++,{^55}++, +, +, *, -, -,{^55}--,{^55}--,---
+.       endloop
+outloop lguild = classes
+.       if      int(lguild/2) = lguild/2
+.       .       do      blue
+.       .       draw    16,wherey;504,wherey
+.       endif
+endloop
+*
+do      white
+at      16,224
+*write   X/YY indicates that the guild listed gets the ability
+*        starting at level X and gets an increase every YY levels.
+write   +++,++,+,*,-,--,--- indicate the guild gets the ability
+        at a very fast to very slow rate, * being the average.
+ 
+        A -- extra damage when monster is hit
+        B -- backstab (doubles damage)
+        C -- extra swings (with proper weapon)
+        D -- extra defense (in addition to fighting ability)
+        E -- quest difficulty
+        F -- thieving ability (used for chests)
+        G -- fighting ability (raises att/def)
+        H -- critical hit
+*
+do      middlep
+do      cyan
+*
+
+=== block 'd/guildlog'  kind 00  207 words  (block 44)
+*
+unit    guildlog
+        merge,previous
+        lclass  $$ class to plot
+        lyloc   $$ screen yloc
+$
+*
+jump    found,x,farrow
+*
+do      setinfo('guild log')
+*
+back    guilds3
+*
+do      white
+at      200,432
+write   Guild Logs
+do      blue
+draw    ;200,432
+do      cyan
+calc    lclass«0
+        lyloc«280+(8×classes)
+loop    (lclass«lclass+1){^72}classes
+reloop  chlevel(lclass) = 0
+.       calc    lyloc«lyloc-16
+.       at      200,lyloc
+.       write   «a,lclass». «a,cname(lclass),10»
+endloop
+*
+do      yellow
+at      40,lyloc-32
+write   Choose the letter of the class whose log you want to see,
+          or NEXT to continue, BACK to review or DATA to choose
+                            a feature.
+do      cyan
+arrow   212,lyloc-96
+long    1
+exact
+jump    spells1
+storea  class
+ok
+calc    class « class $cls$ 6
+judge   (class < 1) $or$ (class > classes),ignore,x
+judge   chlevel(class) = 0,ignore,x
+endarrow
+*
+jump    logdisp
+*
+unit    logdisp
+        merge,previous
+        lname           $$ name in nameset
+        logspec $$ special info
+        segmentf,lentry = logspec,51,10 $$ last entry used
+        ldisp   $$ log entry to display
+        lyloc   $$ y location
+        logdone $$ number of entries plotted total
+$
+back    guildlog
+calc    lname  « cname(class)
+do      attach(dnglog)
+setname (lname)
+jump    zreturn = 2,guildlog,x  $$ no name created yet
+jump    zreturn,x,error('setname76')
+datain  1;s,slog;zrecs
+jump    zreturn,x,error('datain75')
+getname lname,logspec
+calc    ldisp « lentry
+        logdone « 0
+1plot   lyloc « 448
+*
+*       $$ continued in next block.
+*
+
+=== block 'd/guildlog'  kind 00  125 words  (block 100)
+*
+*       $$ continued from last block.
+*
+*       $$ some ⌫ next/back stuff here isn't in yellow.
+*       dmr3/12/93
+*
+do      cyan
+atnm    164,480
+write   Scroll of the «a,cname(class)»
+atnm    165,480
+write   Scroll of the «a,cname(class)»
+loop
+.       atnm    0,lyloc
+.       do      loglist(ldisp)
+.       calc    lyloc « lyloc-16
+.               logdone « logdone+1
+.       if      ldisp = 1
+.       .       calc    ldisp « maxlogs
+.       else
+.       .       calc    ldisp « ldisp-1
+.       endif
+.       if      logdone = maxlogs
+.       .       atnm    212,32
+.       .       write   Press BACK.
+.       .       pause   keys=back,term
+.       elseif  lyloc = 48
+.       .       atnm    112,32
+.       .       write   Press NEXT for more or BACK to exit.
+.       .       loop
+.       .       .       pause   keys=all
+.       .       outloop (key = next)
+.       .       endloop
+.       .       erase   abort
+.       .       branch  1plot
+.       endif
+endloop
+do      cyan
+*
+
+=== block 'd/guildlog'  kind 00  230 words  (block 45)
+*
+unit    loglist(ldisp)
+        merge,previous
+        ldisp   $$ which log entry to display
+        logbuff(4)      $$ log buffer
+        logpseu = logbuff(1)    $$ 20 character pseudonym
+        segmentf,logid   = logbuff(3),01,30     $$ char id
+        segmentf,logday  = logbuff(3),31,30     $$ day
+        segmentf,loginfo = logbuff(4),01,08     $$ mon/item
+        segmentf,logstat = logbuff(4),09,06     $$ status
+        segmentf,loglevl = logbuff(4),15,04     $$ level
+        floating: ldays $$ days elapsed since event
+        lday    $$ current day
+$
+transfr s,logloc(ldisp);logbuff(1);4
+goto    logday-1,q,x
+day     lday
+calc    ldays « lday-(logday/100)
+do      white
+showa   logpseu,20
+atnm    168,wherey
+if      logstat = lmqstrt
+.       do      getmons(loginfo)
+.       write   quest of 
+.       showa   mname,20
+.       showa   msuffix(m.singu)
+elseif  logstat = liqstrt
+.       do      getitem(loginfo)
+.       write   quest of 
+.       showa   iname,20
+elseif  logstat = lmqcomp
+.       do      getmons(loginfo)
+.       write   killed 
+.       showa   mname,20
+.       showa   msuffix(m.singu)
+elseif  logstat = liqcomp
+.       do      getitem(loginfo)
+.       write   found 
+.       showa   iname,30
+elseif  logstat = ldied
+.       write   died 
+.       writec  loglevl;;in the city;on level «s,loglevl»
+elseif  logstat = lraised
+.       write   was raised 
+.       writec  loglevl;;in the morgue;on level «s,loglevl»
+elseif  logstat = lpdied
+.       write   failed raise 
+.       writec  loglevl;;in the morgue;on level «s,loglevl»
+elseif  logstat = lmemb
+.       write   joined our guild
+elseif  logstat = lgmastr
+.       write   was named Guild Master
+endif
+atnm    392,wherey
+if      ldays < (1.5/24)
+.       write   within the hour
+elseif  ldays < (15/24)
+.       write   «s,round(ldays×24)» hours ago
+else
+.       write   «s,round(ldays)» 
+.       writec  ldays < 1.5;day ago;days ago
+endif
+do      cyan
+*
+
+=== block 'u/spells1'  kind 00  194 words  (block 46)
+*
+unit    spells1
+*
+**      general information about spells
+*
+do      setinfo('spells')
+*
+next    spells2
+back    found,guildlog,guilds3
+*
+do      white
+at      205
+write   Spells«c,zcyan»
+ 
+        Magic is important in Avatar.  Each guild has certain
+        spells that its members can use.  A spell can be "cast"
+        by the player or it can be cast off of an item.  When
+        the player casts a spell some "spell points" are used.
+        The number of spell points that a spell will take depends
+        upon the "level" of the spell.  A more powerful spell
+        will take more spell points.  As you progress in the
+        guild lower level spells will take fewer spell points
+        hence allowing you to cast them more often.  Upon returning
+        to the city your spell points are restored.  Intelligence
+        and Wisdom are used in determining your maximum spell
+        points.
+ 
+        You cast a spell by pressing "s" and typing the name
+        (or the first few letters of the name) of the spell you
+        wish to cast.  You may also "load" a spell on one of the
+        keys 0 through 9 for quicker casting.«c,zyellow»  (DATA then 
+        "key list" for more information.)«c,zcyan»
+ 
+        Some monsters have partial immunity to magic.  Some have
+        complete immunity to some types of magic, for example,
+        some dragons have immunity to fire damage spells.  Higher
+        level (greater than 100) characters will have more
+        success when casting spells against a monster that is
+        partially immune to magic.  (Total immunity can never be
+        negated.)
+*
+do      middlep
+do      cyan
+*
+
+=== block 'u/spells2'  kind 00  303 words  (block 47)
+*
+unit    spells2
+*
+**      info about spell types
+*
+do      setinfo('spells2')
+*
+next    spells3
+back    spells1
+*
+do      white
+at      205
+write   Spell Types«c,zcyan»
+ 
+        A - Damage: spells of this type will inflict hits on one
+        or more monsters.
+ 
+        B - Kill: spells of this type will either kill the monster
+        outright or have no effect on the monster.
+ 
+        C - Heal: will allow the caster to heal himself (pressing
+        DATA at the "What player" arrow will do this), his
+        monster companions (if he has any) or another player.
+ 
+        D - Change one of the following:
+ 
+            1. +15% defense             9. breath water
+            2. resist breath           10. resist paralysis
+            3. resist spells           11. poison
+            4. resist stat drain       12. disease
+            5. levitate                13. stone and death
+            6. invisibility            14. paralysis
+            7. see invisible monsters  15. sleep
+            8. slow poison
+ 
+        Elsewhere in the help section, for example, D11 indicates
+        remove poison.  D4 indicates making a player resistant
+        to stat drain.«c,zyellow»  (DATA then "race help" for additional
+        information.)«c,zcyan»
+*
+do      middlep
+do      cyan
+*
+unit    spells3
+**      info about spell types
+do      setinfo('spells3')
+next    spells4
+back    spells2
+*
+do      cyan
+at      205
+write   E - Charm/Hold: cause up to 4 monsters to become your
+        companions.«c,zyellow»  (DATA then "companions" for more information.)«c,zcyan»
+ 
+        F - Raise: raise a player or companion from the dead.
+        As you gain level the chance of a raise being successful
+        increases.  Raise dead thrown by a player, unlike a morgue
+        raise, does not take a point of constitution from the
+        "raisee".
+ 
+        G - Teleport: allows you to move around in the dungeon.
+        Some teleport spells only allow you to move on the same
+        dungeon level, others will allow you to transport
+        yourself (and anyone following) up or down up to 3
+        dungeon levels.  Teleporting into solid rock will kill
+        you and anyone tracking you.
+ 
+        H - Sanctuary: returns the spell caster and his company
+        to the location at which he "set sanctuary".
+ 
+        I - Walk through walls: opens a temporary portal through
+        the wall in front of you.  If you walk into solid rock
+        you will die.
+*
+*       $$ continued in next block. {^'04}
+
+=== block 'u/spells4'  kind 00  216 words  (block 50)
+*
+*       $$ continued from last block.
+ 
+        J - Set Sanctuary: determines the location to which a
+        character will return when "sanctuary" is cast.
+ 
+        K - Unlock chest: allows magically locked chests to be
+        opened normally.  Traps may still be triggered though.
+*
+do      middlep
+do      cyan
+*
+unit    spells4
+*
+**      info about spell types
+*
+do      setinfo('spells4')
+*
+next    spellist
+back    spells3
+*
+do      cyan
+at      205
+write   L - Detect rock: will tell you if the area just past the
+        wall you are facing is rock or not.  Useful for mapping
+        and critical for making sure you don't teleport into rock.
+ 
+        M - Depth: will tell you how deep you are in the dungeon.
+        There are at least 11 levels, but few have lived below
+        level 11 so how deep the dungeon is exactly is not known.
+ 
+        N - Direction: will tell you which direction you are facing.
+ 
+        O - Locate person: gives the position of the character
+        specified IN RELATION TO THE SPELL CASTER.
+ 
+        P - Fetch Essence: is used to pull characters out of rock.
+ 
+ 
+        All spells will fall into one of the above categories.
+        You will have to experiment with the spells to figure
+        out exactly what they do.  Some spells will not be very
+        effective when you first are able to use them but will
+        improve as you become more powerful (gain levels).
+ 
+        You may cast a spell that is higher than your current
+        spell level, however, there is a chance it will kill
+        you and/or that it will fail.  You must also have enough
+        spell points to cast the higher level spell.  You will
+        be warned before the spell is cast that it could kill you.
+*
+do      middlep
+do      cyan
+*
+
+=== block 'd/spells'  kind 00  255 words  (block 51)
+*
+unit    spellist
+*
+**      list spells by guild
+*
+        merge,previous
+        lguild
+$
+do      setinfo('spell list')
+*
+back    spells4
+*
+do      white
+at      188,448
+write   Guild Spell Lists
+do      blue
+draw    ;188,448;
+do      cyan
+*
+do      listclas(220,400)
+*
+do      yellow
+at      2109
+write   Choose a letter or NEXT to continue, BACK to review
+                    or DATA to choose a feature.
+*
+do      cyan
+arrow   2430
+long    1
+exact
+jump    dungeon1
+storea  lguild
+ok
+calc    lguild « lguild $cls$ 6
+judge   (lguild < 0) $or$ (lguild > classes),ignore,x
+endarrow
+*
+jump    listspel(lguild)
+*
+unit    spelhead(lclass)
+        merge,previous
+        lclass
+$
+do      white
+at      8,492
+write   Spells usable by members of the «a,cname(lclass)»'s guild.
+do      cyan
+at      8,472
+write   Spell
+at      184,472
+write   Level
+at      248,472
+write   St In Wi Co Ch De  G N E  Type
+do      blue
+draw    8,488;504,488;skip;8,472;504,472;
+do      cyan
+*
+unit    showspel(lclass)
+        merge,previous
+        lclass
+        lstat
+        lalign
+$
+do      cyan
+atnm    8,wherey
+showa   sname,20
+atnm    200,wherey
+showt   sclassu(lclass),2
+at      248,wherey
+calc    lstat « 0
+loop    (lstat « lstat+1) {^72} 6
+reloop  sstat(lstat) = 0
+.       atnm    224+24*lstat,wherey
+.       showt   sstat(lstat),2
+endloop
+*
+calc    lalign « 0
+loop    (lalign « lalign+1) {^72} 3
+reloop  sgne(lalign) = 0
+.       atnm    384+16*lalign,wherey
+.       write   *
+endloop
+*
+do      white
+atnm    464,wherey
+writec  stype;;
+        ?;A;B;C;D«s,schbit»;E;F;G;H;I;J;K;L;M;N;O;P;Q;R;S;T
+do      cyan
+*
+unit    listclas(lx,ly)
+*
+**      list all classes (guilds)
+*
+        merge,previous
+        lx, ly          $$ location
+        lguild
+$
+calc    lguild « 0
+do      white
+loop    (lguild « lguild+1) {^72} classes
+.       at      lx,ly-16*(lguild-1)
+.       write   «a,lguild». «a,cname(lguild)»
+endloop
+do      cyan
+*
+
+=== block 'd/spells'  kind 00  301 words  (block 52)
+*
+*       $$ note: lines are only drawn under even-numbered
+*       $$ sections.  one of 'em only has 1 "spell power"
+*       $$ and another one has 7...ergo, no lines. dmr
+*
+unit    listspel(lclass)
+        merge,previous
+        lclass          $$ class being searched
+        ltotal          $$ total number of spells
+        lline           $$ line number
+        lcnts(3)
+        segment,lcnt = lcnts(1),04
+        lcntr           $$ looping variable
+        lspells(47)     $$ array of spells
+        segment,lspx = lspells(1),07
+        lsp(a,b) = lspx(12*(a-1)+b)
+        lspell          $$ current spell
+        llev            $$ current spell level
+        lkey            $$ keytype variable
+        lshow
+$
+do      busy
+zero    lcnts(1),3      $$ zero counters
+zero    lspells(1),47   $$ zero array of spell numbers
+calc    lspell « ltotal « 0
+loop    (lspell « lspell+1) {^72} spells
+.       do      getspell(lspell)
+reloop  sclassu(lclass) = 0
+.       calc    llev « sclassu(lclass)
+.               lcnt(llev) « lcnt(llev)+1
+.               ltotal « ltotal+1
+.               lsp(llev,lcnt(llev)) « lspell
+endloop
+*--
+do      spelhead(lclass)
+calc    llev « lline « lshow « 0
+loop    (llev « llev+1) {^72} 31
+reloop  lcnt(llev) = 0
+.       calc    lcntr « 0
+.       loop    (lcntr « lcntr+1) {^72} lcnt(llev)
+.       .       calc    lline « lline+1
+.       .               lshow « lshow+1
+.       .       do      getspell(lsp(llev,lcntr))
+.       .       atnm    8,464-16*lline
+.       .       do      showspel(lclass)
+.       .       if      int(lline/2) = lline/2
+.       .       .       draw    8,wherey;504,wherey
+.       .       endif
+outloop lshow = ltotal
+.       .       if      lline = 25
+.       .       .       do      notbusy
+.       .       .       do      yellow
+.       .       .       atnm    8,32
+.       .       .       write   NEXT to continue, or BACK to choose another guild.
+.       .       .       loop    lline = 25
+.       .       .       .       pause   keys=all
+.       .       .       .       keytype lkey,back,next
+.       .       .       reloop  lkey
+.       .       .       .       jump    lkey-1,spellist,x
+.       .       .       .       calc    lline « 0
+.       .       .       .       erase   abort
+.       .       .       .       do      spelhead(lclass)
+.       .       .       .       do      busy
+.       .       .       endloop
+.       .       endif
+.       endloop
+endloop
+do      cyan
+*
+do      notbusy
+do      yellow
+atnm    8,32
+write   NEXT to choose another guild.
+do      cyan
+pause   keys=all
+jump    spellist
+*
+
+=== block 'u/dungeon1'  kind 00  169 words  (block 53)
+*
+unit    dungeon1
+*
+**      general information about the dungeon
+*
+do      setinfo('dungeon')
+*
+next    dungeon2
+back    spellist
+*
+do      white
+at      205
+write   The Dungeon«c,zcyan»
+ 
+        The dungeon is where the fun starts.  The dungeon is divided
+        into rooms and corridors.  As you go through a door into
+        a new room you will often encounter a group of monsters
+        although if someone else has been through the room recently
+        they may have killed all of the monsters.  The dungeon
+        will "repopulate" over time, so a room that is empty on
+        on the way down into the dungeon may have monsters as you
+        are coming back up...
+ 
+        There are several nasty traps and features that you can
+        encounter in the dungeon:
+ 
+        Stairs: these either go up or down (surprise!).  Be careful
+        if you go down since the lower the level, the tougher
+        the monsters...
+ 
+        Teleporter: these can either take you to a specified place
+        (the only way to find out where they take you is to try
+        them though) on the same level, on another level or they
+        can take you to a random place on the same level.
+        Unlike the teleport spell, you can not be put in rock.
+ 
+        Sloping passages: if you detect them, this is a hint that
+        you may be headed to a deeper level in the dungeon.
+*
+do      middlep
+do      cyan
+*
+
+=== block 'u/dungeon2'  kind 00  183 words  (block 54)
+*
+unit    dungeon2
+*
+**      dungeon squares
+*
+do      setinfo('dungeon2')
+*
+next    dungeon3
+back    dungeon1
+*
+do      cyan
+at      205
+write   Pits: will take hits from you if you fall in them.  Pits
+        become more dangerous as you go deeper in the dungeon.
+        Levitation will allow you to hover over a pit although
+        levitation has a small chance of failing.
+ 
+        Chute: basically like a pit except that you will be on a
+        different level if you fall down it.  You cannot crawl
+        back out of a chute.  Unless you are levitated, you will
+        take damage when falling down a chute.
+ 
+        Darkness: prevents you from seeing the maze.  You must
+        "feel" your way out of an area of darkness by walking.
+ 
+        Rock: a square that is solid rock.  It is only possible to
+        enter rock with certain spells (eg. teleport) and it is not
+        very healthy; that is, you die.  To get out, you must be
+        summoned out of rock by another player with a spell.
+ 
+        Revolving square: will turn you around so that you face
+        a random direction.  There are also squares that will
+        face you in a predetermined direction all the time.
+        
+        Disorientation: squares will cause everyone in your
+        company to "untrack".
+ 
+        Water: squares will cause you to drown if you are wearing
+        heavy items and are not breathing water or levitating.
+        Certain types of monsters will appear only on water.
+*
+do      middlep
+do      cyan
+*
+
+=== block 'u/dungeon3'  kind 00  170 words  (block 55)
+*
+unit    dungeon3
+*
+**      dungeon squares
+*
+do      setinfo('dungeon3')
+*
+next    combat1
+back    dungeon2
+*
+do      cyan
+at      205
+write   Anti-magic squares: will turn off all spells cast on a
+        character.  Resist stat drain, protection, etc. will be
+        removed.  Special powers granted by an item will not be
+        removed.
+ 
+        Illusion: a part of the maze may appear one way but when
+        you go to move through it things will not be as they seem.
+ 
+        Quicksand: squares are bad news.  You take hits and can
+        lose items if you are not levitating.
+ 
+        There are also some squares which are combinations of
+        the squares that were described above.
+ 
+        Some rooms in the dungeon are locations of power which
+        will not permit the use of magic.  Although items will
+        still retain whatever magic powers they have, magic
+        spells cannot be cast in these rooms.
+ 
+        Some rooms will consistently contain tougher or easier
+        monsters.  Learn to recognize these rooms; your
+        character's life may depend upon it.
+ 
+        In general the mazes become nastier as you go deeper in
+        the dungeon.  If you get teleported remain cool and get
+        some help if you can.  If you can't, get some graph
+        paper and try to find your way back out.  Mapping is an
+        adventure...
+*
+do      middlep
+do      cyan
+*
+
+=== block 'u/combat'  kind 00  228 words  (block 56)
+*
+unit    combat1
+*
+**      general information about combat
+*
+do      setinfo('encounters')
+*
+next    combat2
+back    dungeon3
+*
+do      white
+at      205
+write   Encounters«c,zcyan»
+ 
+        Walking around in a maze would not be much fun unless
+        there were groups of monsters trying to terminate your
+        existence.  An encounter can either be "peaced" ({75}©{^'04}{75}) or
+        "hostile" (also "unpeaced", {75}CD{75}).  If it is peaced the
+        monsters may decide to attack you (a high charisma will
+        delay them attacking) eventually so don't plan on sticking
+        around in the room for too long.  The first hostile act
+        you take toward them will cause them to become hostile.
+        Some spells cannot be cast in a "peaced" encounter.
+        You may walk through a room with a peaced encounter as
+        if the monster were not there.  This is often a useful
+        feature when you are beat up and just trying to get back
+        to the city alive, or if you are going deeper in the
+        dungeon and don't want to bother with small encounters.
+ 
+        Sometimes one or more monsters may offer to "j"oin you
+        and become your companions.  Once a companion it will
+        fight for you in combat and will act as another target
+        for the monsters you are fighting.  Your charisma will
+        determine how likely a monster is to join you and once
+        joined how long it will stay around.  You may heal and
+        raise a companion just like another character.  If you
+        don't keep your companion at "full hits" he is more
+        likely to leave you.  Taking on a new companion will
+        cause your current companions to leave you.
+*
+do      middlep
+do      cyan
+*
+unit    combat2
+*
+**      more encounter type stuff
+*
+do      setinfo('encounter2')
+*
+next    monster1
+back    combat1
+*
+*       $$  continued in next block
+*
+
+=== block 'u/monster1'  kind 00  264 words  (block 57)
+*       $$  continued from next block
+*
+do      cyan
+at      505
+write   When a monster companion dies you will automatically
+        carry him if he can be carried (ever try to carry
+        a dragon?!) unless you are carrying a player.  If
+        you pick up a player you will drop any companions
+        you might be carrying.  If a companion dies and you
+        are already carrying another one, the companion with
+        the most hits will be carried.
+ 
+        You can only have one set of companions whether they
+        came from "j"oining you or you used a spell to hold or
+        charm them.
+ 
+        There is always at least one number that appears in
+        the lower left corner of the maze.  This number
+        indicates the number of people in the room.  If there
+        is a dead body in the room you will see a "+1" (or "+2"
+        if there are two dead bodies etc).
+*
+do      middlep
+do      cyan
+*
+unit    monster1
+*
+**      general information about monsters
+*
+do      setinfo('monsters')
+*
+next    monster2
+back    combat2
+*
+do      white
+at      205
+write   Monsters«c,zcyan»
+ 
+        Besides using their claws, sword or whatever weapons
+        the monster has many monsters have other forms of attack
+        that the player must be aware of:
+ 
+        Poison: will cause the player to lose hits approximately
+        every 6 seconds.  If the player has "slow poison" on the
+        damage taken will be one half normal.  Poison can wear
+        off (high constitution helps this) but not before taking
+        many hits...
+ 
+        Disease: the effect is about the same as poison except
+        that disease takes fewer hits each time, but does not
+        wear off as quickly.
+ 
+        Stone: as the Medusa in earth mythology, some monsters
+        can turn you to stone.  Getting unstoned either requires
+        a special spell or a trip to the morgue.  Unstoning will
+        always take one point of constitution.
+ 
+        Age: will cause the player to age 5 years.
+ 
+        Sleep: monsters may put you to sleep.  If you are above
+        level 4 or resistant to magic/spells you are immune to
+        this attack form.
+*
+do      middlep
+do      cyan
+*
+
+=== block 'u/monster2'  kind 00  159 words  (block 60)
+*
+unit    monster2
+*
+**      monster attack information
+*
+do      setinfo('monsters2')
+*
+next    monster3
+back    monster1
+*
+do      cyan
+at      305
+write   Paralysis: is very dangerous.  The player cannot fight
+        or leave the room.  All defense bonuses due to the
+        players ability to move, parry etc. are lost so the
+        monster has a better chance to hit you.  Paralysis WILL
+        wear off, fortunately, but often after your character
+        is dead.  Resist paralysis gives 90% immunity to this
+        attack form.
+ 
+        Stat drain: will reduce one of your stats (str, dex, etc.)
+        by one or more.  Resist stat drain gives 90% immunity
+        to this attack form.
+ 
+        Breath: can be either fire, cold, electrical, gaseous...
+        Resist breath will halve the damage taken from this attack
+        form.  The monsters will breath more often if they feel
+        threatened.
+ 
+        Death: rays, spells etc.  Resist magic/spells will give
+        you a better chance of surviving these attacks.  Being
+        higher level will also help you survive.
+ 
+        Critical hits: will do more damage to you.  Unlike when
+        a player critical hits a monster, the player will not
+        instantly die when a monster critical hits a player.
+*
+do      middlep
+do      cyan
+*
+
+=== block 'u/monster3'  kind 00  190 words  (block 61)
+*
+unit    monster3
+*
+**      monster attack information
+*
+do      setinfo('monsters3')
+*
+next    treas1
+back    monster2
+*
+do      cyan
+at      205
+write   Destroy item: some monsters can destroy an item you are
+        carrying or WEARING.  The chance of the item being
+        destroyed is based on the power of the item and the
+        power of the monster.  If you find a good item on a
+        low level it should not be destroyed by a monster on
+        a higher level.  Monsters that destroy on the lower levels
+        are to be feared since they can destroy any item!
+ 
+        Steal item: thieving monsters can try to steal items
+        that you are carrying.  They can NOT steal items that you
+        are wearing ("U"sing).  They will choose an item at
+        random from your 56.  If that slot is empty they will
+        forget it for that combat round, therefore it does not
+        benefit you to fill your slots with useless items.  If
+        a monster grabs an item he feels is worthwhile he will
+        leave the room.  If he grabs a worthless item he will
+        bash it against the wall destroying it and stay in the
+        room to continue fighting you.
+ 
+        Steal gold: thieving monsters can steal some of your gold.
+ 
+        For both stealing attacks above the chance is based on
+        the monster's dexterity, its "thieving ability", your
+        dexterity and your "thieving ability".  So, a thief
+        has less chance of being stolen from than a non-thieving
+        character.  If gold or an item is in the bank, it's safe.
+*
+do      middlep
+do      cyan
+*
+
+=== block 'u/treasure'  kind 00  165 words  (block 62)
+*
+unit    treas1
+*
+**      general information about treasure
+*
+do      setinfo('treasure')
+*
+next    traps1
+back    monster3
+*
+do      white
+at      205
+write   Treasure«c,zcyan»
+ 
+        Monsters carry gold.  Sometimes you will be lucky and
+        find a group of monsters in their "lair" in which case
+        you will find more gold.  There is also a chance that you
+        will find an item when a monster is found in lair,
+        although it is rare to find an item outside of a chest.
+ 
+        A monster may have a chest ({75}AB{75}{^55}){^55}in which case it must be
+        opened to get any gold.  You may open a chest during
+        combat, but while doing so the monsters have a better
+        chance of hitting you.  When looking at a treasure chest
+        the trap you think is on it will appear in the upper
+        left corner of the screen and some symbols will appear
+        in the upper right corner of the screen.
+ 
+        Boxes (=⌫-) indicate how sure you are about what you
+        think you know.  If you see one box you are not sure
+        at all, if you see five boxes you are very sure.
+ 
+        Plus/minus (--,-,+/-,+,++) indicate what you think
+        your chance of successfully disarming the trap on the
+        chest is where "--" indicates you are not hopeful and
+        "++" means you're quite sure.
+*
+do      middlep
+do      cyan
+*
+
+=== block 'u/traps'  kind 00  151 words  (block 63)
+*
+unit    traps1
+*
+**      traps on chests
+*
+do      setinfo('traps')
+*
+next    traps2
+back    treas1
+*
+do      white
+at      205
+write   Traps«c,zcyan»
+ 
+        Chests have traps that can either affect the player
+        (individual) opening the chest or everyone in the room
+        (group) who has not left the chest ("q" or "Q").  Thieves
+        and classes with thief-like abilities can open chests
+        better than members of other guilds.  Some chests are
+        "Magically locked". and can only be opened once a
+        "charm of opening" spell has been cast.
+ 
+        Withering: (individual) Ages the opener 4 weeks.
+ 
+        Disease spores: (group) Diseases everyone in the room.
+ 
+        Fear: (group) Causes all companions to leave!
+ 
+        Exploding box: (individual) Takes hits.
+ 
+        Fire trap: (group) Takes hits.  Those with resist breath
+        will take half damage.
+ 
+        Poison gas: (group) Poisons everyone in the room.  Those
+        with resist poison will take half damage from poison.
+ 
+        Teleport: (individual) Will teleport the opener to a
+        random location on the same dungeon level.
+*
+do      middlep
+do      cyan
+*
+
+=== block 'u/traps'  kind 00  115 words  (block 64)
+*
+unit    traps2
+*
+**      traps on chests
+*
+do      setinfo('traps2')
+*
+next    keylist
+back    traps1
+*
+do      cyan
+at      205
+write   Slime: (individual) Has a chance of destroying an item.
+        Even items in "U"se can be destroyed!
+ 
+        Blackout: (group) All in the room will lose any
+        protective spells cast on them.  (eg. resist stat
+        drain, levitate etc.)  Items or natural race abilities
+        that give these protections will not be affected.
+ 
+        Fate: (individual) A surprise.  Sometimes something good
+        will happen, sometimes something bad.
+ 
+ 
+        In general, the deeper in the dungeon you go the more
+        difficult it will become to disarm a trap on a chest.
+        Also, certain monsters favor certain traps and have
+        more skill at making traps.  Traps that take hits will
+        do more damage as you go deeper into the dungeon.
+*
+do      middlep
+do      cyan
+*
+
+=== block 'u/keylist'  kind 00  310 words  (block 65)
+*
+unit    keylist
+*
+**      list of keys with very brief description
+*
+        merge,previous
+        lkey
+$
+do      setinfo('key list')
+*
+lab1    q
+data    q
+*
+do      white
+at      205
+write   Key                     Description
+do      blue
+draw    29,480;57,480
+draw    221,480;313,480
+ 
+*        j,f,÷                   join/fight/autofight
+do      cyan
+at      405
+write   j,f,+                   join/fight/autofight
+        1,2,3,4                 choose monster group (combat)
+        1,2,3,4                 load spell buffer (non-combat)
+        0,5,6,7,8,9             load spell buffer
+        s,<,>,[,],$,%,_,',*,(   throw spell/use buffer
+        a,x,d,w,A,X,D,W         move around in dungeon
+        t                       take stairs, etc.
+        M,Y                     send message/yell
+        T                       track someone
+        +,-                     move within company
+        H                       trackable/untrackable
+        K                       abandon company
+        p,l                     pick up/drop body
+        G                       give gold/item
+        U,P                     use item/use powers
+        L                       leave item
+        O,q,Q                   open/exit/abandon chest
+        I                       experience and quest info
+        F,B                     foregnd/backgnd
+        R,HELP1                 return/kill character
+        NEXT                    update company display
+        i,S                     list items/spells
+        LAB,LAB1,COPY,COPY1     status/company/area/all
+        DATA1,BACK1             replot/exit game
+ 
+*        Press the key listed to see more info.
+do      white
+at      2912
+write   Press the key listed to see more info.
+*
+do      middlep
+do      cyan
+*
+loop
+.       pause   keys=all
+.       keytype lkey,M,G,T,K,H,+,-,I,i,U,P,L,p,l,
+.               s,numeric,<,>,[,],$,%,_,',*,(,
+.               S,!,Y,f,/,O,Q,q,a,x,d,w,A,X,D,W,
+.               j,t,F,B,R,help1,lab,data1,back1,copy,copy1,
+.               lab1
+outloop lkey > -1
+.       keytype lkey,data,next,back
+.       jump    lkey,x,farrow,keys1,traps2
+endloop
+*
+jump    lkey-1,keys2,keys2,keys2,keys2,keys3,keys3,
+        keys3,keys3,keys4,keys4,keys4,keys4,keys4,keys4,
+        keys5,keys5,keys5,keys5,keys5,keys5,keys5,keys5,
+        keys5,keys5,keys5,keys5,keys5,keys5,keys5,keys6,
+        keys6,keys6,keys6,keys6,
+        keys7,keys7,keys7,keys7,keys7,keys7,keys7,keys7,
+        keys7,keys7,keys7,keys7,
+        keys8,keys8,keys8,keys8,keys8,keys8,keys8,keys8,
+        keys1
+*
+
+=== block 'u/keys1'  kind 00  149 words  (block 66)
+*
+unit    keys1
+*
+**      keys available
+*
+do      setinfo('keys1')
+*
+next    keys2
+back    keylist
+*
+do      white
+at      205
+write   Keys Available in the Game«c,zcyan»
+ 
+        The following pages contain a brief description of the
+        keys available in the game.  You may press DATA and
+        then type "key list" to get a complete listing on one
+        page.  We recommend writing these keys down since you
+        cannot get a complete list once you are in the game.  From
+        the "key list" page you may press any one of the keys
+        listed to get information about what it will do in
+        the game.  You may press STOP once on the "key list"
+        page to choose another feature.
+ 
+        Keys that are documented in the game will not necessarily
+        be covered here (for example, the store has several keys
+        active depending upon what you are doing and they are
+        generally documented in the game).  
+        
+        When at an arrow (») quite often pressing DATA or LAB
+        will do something different than just pressing NEXT.
+        For example, when sending messages, DATA will allow you
+        to send another line to the same destination.
+*
+do      middlep
+do      cyan
+*
+
+=== block 'u/keys2'  kind 00  170 words  (block 67)
+*
+unit    keys2
+*
+**      more keys
+*
+do      setinfo('keys2')
+*
+next    keys3
+back    keys1
+*
+do      cyan
+at      205
+write   "M" - send messages to everyone, your area, all trackers
+        or to an individual.  The bottom three lines of the
+        screen will display various messages either from other
+        players or from the game.  A letter will prefix the
+        message so that you know where it came from:
+ 
+        "E" = everyone, "A" = area, "T" = trackers,
+        "P" = personal, "G" = give, "R" = receive,
+        "I" = informational
+ 
+        "G" - give items and/or gold.  You will not be allowed
+        to give anything if you are in debt to the bank.  (A
+        character starts life in debt to the bank.)
+ 
+        "T" - track (follow) a player.  The player you wish
+        to track must be of an alignment close to yours (good
+        cannot track evil).  After tracking you will move
+        wherever the person you are tracking moves.  This
+        allows you to run in groups.  Running in groups is
+        generally advantageous since you can help each other.
+ 
+        "K" - abandon your company.  When you press this key
+        you will be on your own although you may retrack the
+        same person again.  If you should ever get tired of
+        "Waiting for company". you may press "K" to leave.
+*
+do      middlep
+do      cyan
+*
+
+=== block 'u/keys3'  kind 00  155 words  (block 70)
+*
+unit    keys3
+*
+**      more keys
+*
+do      setinfo('keys3')
+*
+next    keys4
+back    keys2
+*
+do      cyan
+at      205
+write   "H" - to hide from tracking.  This will set and unset
+        a flag that allows you to be tracked or prevents you
+        from being tracked.  When you are dead, you can use this
+        to prevent people from carrying your dead body.
+ 
+        "+" - move forward in the company order.  The first
+        three people in the company can fight and be hit by
+        monsters.  As you move back past the 3rd person your
+        chance of hitting and being hit is reduced.  Certain
+        "type A" (damage) spells when cast from the rear of
+        a large enough company will damage characters toward
+        the front of the company.
+ 
+        "-" - move back in the company order.
+ 
+        "I" - see how much experience and gold you need to
+        make level.  If you have a quest it will be shown also.
+        Note: the experience needed may say "to pin" in which
+        case you already have enough experience to make your
+        current level and need the amount listed to make your
+        next level.  You can only gain enough experience to
+        make two levels above your current level.
+*
+do      middlep
+do      cyan
+*
+
+=== block 'u/keys4'  kind 00  165 words  (block 71)
+*
+unit    keys4
+*
+**      more keys
+*
+do      setinfo('keys4')
+*
+next    keys5
+back    keys3
+*
+do      cyan
+at      205
+write   "i" - choose a page of items to display.  An item need
+        not be shown on the page in order to do something with
+        it.  You can still "U" or "P" an item even if it is
+        not listed on the page.
+ 
+        "U" - use an item.  Items that are worn must be "U"sed
+        before they will be of any benefit.  A solid bar ({75}_{75})
+        will appear by an item if it is being worn.  A "B" will
+        appear beside an item if it is in the bank.  The item
+        number will appear in bold type (e.g. 23).
+atnm    337,336
+write   23
+write     if it casts
+        a spell.
+ 
+        "P" - use the special power of an item.  This casts
+        a spell from the item if the item has a spell to cast.
+ 
+        "L" - leave an item.  Once dropped it cannot be picked
+        up again.
+ 
+        "p" - pickup a character who is dead.  The name of
+        the character you are carrying will appear in the
+        upper right hand corner of the screen.  If you are
+        being carried the name of the person carrying you
+        will appear in the same area.
+ 
+        "l" - drop a character.  Dropping a character in the
+        city will leave them in the morgue.
+*
+do      middlep
+do      cyan
+*
+
+=== block 'u/keys5'  kind 00  158 words  (block 72)
+*
+unit    keys5
+*
+**      more keys
+*
+do      setinfo('keys5')
+*
+next    keys6
+back    keys4
+*
+do      cyan
+at      205
+write   "s" - cast a spell.  You only need to type enough of
+        the spell name to get a unique partial match.
+ 
+        0,1,2,3,4,5,6,7,8,9 - will "load" a spell or item for
+        casting.  Type the spell name (partial match) or the
+        item number to load the number you chose.  To clear
+        a slot press DATA at the arrow (»).  Note: 1,2,3, and 4
+        are not active for this function in combat -- they are used
+        to choose which group of monsters to fight.
+ 
+        <,>,[,],$,%,_,',*,( - will cast the spell specified
+        when you set it with 0,1,2,3,4,5,6,7,8 or 9.  Having
+        spells "loaded" allows you to cast spells quickly in
+        combat.
+ 
+        "S" - to display the spells you have "loaded" for
+        casting.  The cost in spell points is shown beside
+        the spell.
+ 
+        "×" - "autospell".  When in combat, this key will press
+        "<" for you every time it is your turn to attack.
+ 
+        "Y" - yell for help.  A message is sent to all in
+        your company with information about your hits and
+        whether you are poisoned, diseased, paralyzed etc.
+*
+do      middlep
+do      cyan
+*
+
+=== block 'u/keys6'  kind 00  147 words  (block 73)
+*
+unit    keys6
+*
+**      more keys
+*
+do      setinfo('keys6')
+*
+next    keys7
+back    keys5
+*
+do      cyan
+at      205
+write   "f" - to fight the monster currently pointed to by
+        the small arrow ({^'04}).  You will be allowed to swing
+        about every 5 seconds.  You may press a key before
+        the five seconds has elapsed in which case you will
+        see an astrix (*).  If you have not yet pressed a
+        key you will see a minus (-).
+ 
+        "÷" - to "autofight".  When in combat, this will press
+        "f" for you every time it is your turn to attack.
+ 
+        "O" - open the chest displayed.  If there is no chest
+        then this option will do nothing.  You automatically
+        try to disarm a chest when you open it.  If you open
+        a chest in combat it will take one or more rounds
+        which will give the monsters a greater chance of hitting
+        you.
+ 
+        "Q" - leave a chest for your entire company.
+ 
+        "q"  - leave a chest.  This is useful if you don't
+        want to be harmed by any trap that might be on it.
+        You will not share in the gold or any items in that
+        chest of course.
+*
+do      middlep
+do      cyan
+*
+
+=== block 'u/keys7'  kind 00  167 words  (block 74)
+*
+unit    keys7
+*
+**      more keys
+*
+do      setinfo('keys7')
+*
+next    keys8
+back    keys6
+*
+do      cyan
+at      205
+write   "a" - turn 90° to your right
+        "d" - turn 90° to your left
+        "w" - go forward if clear, not through door though
+        "x" - turn around
+        "W" - go forward (through door if necessary)
+        "A" - "a" + "W" (turn left, then move ahead)
+        "D" - "d" + "W" (turn right, then move ahead)
+        "X" - "x" + "W" (turn around, then move ahead)
+        (useful for leaving rooms you just entered through a door)
+ 
+        "j" - if a group of monsters offers to join you and
+        you want them to join you press "j".  Remember that
+        your new companions will cause whatever companions you
+        had to leave.
+ 
+        "t" - when on a stairway or chute pressing "t" when
+        offered will move you up or down depending upon the
+        stairway.  Chutes only go down.
+ 
+        "F" - foreground processing mode.  Foreground will
+        guarantee you a certain amount of processing, but
+        probably not enough to play Avatar satisfactorily.
+ 
+        "B" - background processing mode.  Background will
+        give you any extra processing the computer has "left
+        over".  It is recommended that you use background.
+*
+do      middlep
+do      cyan
+*
+
+=== block 'u/keys8'  kind 00  308 words  (block 75)
+*
+unit    keys8
+*
+**      more keys
+*
+do      setinfo('keys8')
+*
+next    hints
+back    keys7
+*
+do      cyan
+at      205
+write   "R" - return your character to disk.  If the system
+        crashes you could lose whatever has happened since the
+        last time your character was saved to disk.  Entering
+        the city or dungeon returns your character as does
+        giving or receiving an item.
+ 
+        SHIFT-HELP - kill your character.
+ 
+        SHIFT-STOP - in combat will kill your character,
+        otherwise it will exit the game.  Upon re-entry you
+        will return to exactly where you left off.
+ 
+        LAB - see special info about your character.
+ 
+        SHIFT-LAB - see info about your company.
+ 
+        NEXT - when on the company info page (SHIFT-LAB) will
+        update your company's status.
+ 
+        COPY - see all players in your area.
+ 
+        SHIFT-COPY - see all players in the game.
+ 
+        SHIFT-DATA - replot the page.
+*
+do      middlep
+do      cyan
+*
+unit    hints
+*
+** useful hints
+*
+do      setinfo('hints')
+*
+next    lastpage
+back    keys8
+*
+do      cyan
+at      205
+write        A safe party of adventurers should be diverse in
+        their abilities.  The primary abilities that classes can
+        have are skill in fighting, healing spells, spells for
+        attacking monsters, and the ability to open boxes safely.
+        
+             For example, a party which would have the best
+        chance would be one consisting of a Thief, a Healer, a
+        Warrior, and a Wizard.  But often, you can not arrange
+        to be in a four person party, in which case you will have
+        to give up one or more of the skills.  Unless you are too
+        deep in the dungeon, the ability to fight well can
+        usually be sacrificed.
+        
+           A couple examples of a three person party are:
+              Thief, Villain, Healer; or Thief, Paladin, Wizard.
+         
+           A couple examples of two person parties are:
+              Scavenger, Mage; or Thief, Healer.
+        
+            These are not the only parties that work out well;
+        there are many combinations which provide a reasonably
+        balanced party of adventurers.
+        
+             If you decide that you want to adventure in the
+        dungeon alone, then you are taking a risk, because you
+        will only have one or two skills on a single character
+        where three or four are normally required to be safe.
+*
+do      middlep
+do      cyan
+*
+
+=== block 'units'  kind 00  311 words  (block 76)
+*
+unit    lastpage
+*
+**      more keys
+*
+do      setinfo('lastpage')
+*
+next    farrow
+back    hints
+*
+do      white
+*at      305
+at      512
+write   YOU ARE NOW READY TO FACE THE DUNGEONS!
+do      blue
+box     311;652;3
+ 
+ 
+*        If you are ready to play, press SHIFT-NEXT!  Otherwise,
+do      cyan
+at      1505
+write   If you are ready to play, press SHIFT-NEXT!   Otherwise,
+        you may review something by pressing NEXT and typing the
+        feature you want information on.  If you want to read the
+        whole thing from start to finish, press NEXT and then
+        SHIFT-HELP.
+*
+do      lastp
+do      cyan
+*
+unit    setinfo(infostr)
+*
+**      if not passed with anything, *infostr* unchanged
+*
+unit    showinfo
+*
+**      show current keyword if not null
+*
+goto    infostr = 0,q,x
+do      blue
+draw    3063;3001
+atnm    0,16
+erase   64
+do      cyan
+atnm    12,16
+write   Type "«a,infostr»" to get to this page.
+*
+        
+unit    attach(lfile)
+        merge,previous
+        lfile   $$ leslist file number to attach
+$
+goto    lfile = lfilen,q,x
+attach  <lfile>
+do      zreturn,x,error('attach7')
+calc    lfilen « lfile
+*
+unit    middlep
+*
+**      pause in the middle of number of pages
+*
+do      yellow
+at      12,32
+write   NEXT to continue, BACK to review or DATA to choose a feature.
+*
+unit    firstp
+*
+**      pause on first page of several
+*
+do      yellow
+at      52,32
+write   NEXT to continue, BACK or DATA to choose a feature.
+*
+unit    lastp
+*
+**      pause on last page of several
+*
+do      yellow
+at      60,32
+write   BACK to review, NEXT or DATA to choose a feature.
+*
+unit    onlyp
+*
+**      only pause, all keys exit
+*
+do      yellow
+at      100,32
+write   NEXT, BACK or DATA to choose a feature.
+*
+unit    more
+*
+**      for inter-page breaks
+*
+        lwherey         $$ temp copy in case TERM pressed
+        lwherex
+$
+do      yellow
+atnm    204,wherey-32
+write   NEXT for more«a,o71»
+calc    lwherey « wherey+16
+        lwherex « wherex
+pause   keys=funct
+atnm    204,lwherey
+erase   13
+at      lwherex,lwherey
+*
+unit    busy
+do      green
+*atnm    232,16
+*write   -busy-
+at      3125
+write   Searching...
+do      cyan
+*
+unit    notbusy
+*atnm    232,16
+*erase   6
+at      3125
+erase   12
+*
+
+=== block 'colors'  kind 00  43 words  (block 77)
+*
+unit    blue
+color   display;zblue
+*
+unit    cyan
+color   display;zcyan
+*
+unit    white
+color   display;zwhite
+*
+unit    yellow
+color   display;zyellow
+*
+unit    green
+color   display;zgreen
+*
+unit    red
+color   display;zred
+*
+unit    magent
+color   display;zmagent
+*

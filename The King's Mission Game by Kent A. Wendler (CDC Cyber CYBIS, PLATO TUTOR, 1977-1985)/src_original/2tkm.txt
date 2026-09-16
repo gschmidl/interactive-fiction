@@ -1,0 +1,2220 @@
+2tkm  (tutor    a, 28 blocks)
+  1 | 5z | 09/02/80 | 09/19/85 | coserv | coserv | kent a. we | ndler | aiss/lcs u | iuc | (217) 333- | 6349 | game | everyone | The King | 's Missi | on Game. | 10.03.58. | lenberg | ae | coserv | coserv | coserv | 2tkmb | tkmchars | 4gl↑/ | authplu | mu2+ «{75} | 0catnote | coserv | edit | 5 | e | a
+
+=== block '*directory'  kind 00  0 words  (block 0)
+
+=== block '**authmes'  kind 00  252 words  (block 1)
+*coservmes**authl1*
+* This must reside in this lesson with this block name in
+* order to write messages into the fronts of lessons.
+*
+*
+draw    326,454;185,454;184,453;327,453;328,452;183,452;
+        183,451;328,451;328,450;183,450;183,449;328,449;
+        328,448;183,448;183,447;192,447;skip;319,447;
+        328,447;328,446;320,446;skip;191,446;183,446;
+        183,445;190,445;skip;321,445;328,445;
+*calc    n1 « 183
+*        n2 « 190
+*        n3 « 445
+*        n4 « 1
+*loop    n4 < 84
+*.       draw    n1,n3;n2,n3;skip;n1+138,n3;n2+138,n3;
+*.       calc    n4 « n4 + 1
+*.               n3 « n3 - 1
+*endloop
+box     183,445;190,363;-4
+box     321,445;328,363;-4
+draw    328,362;321,362;skip;190,362;
+draw    ;183,362;skip;183,361;191,361;skip;320,361;328,361;skip;
+        328,360;319,360;skip;192,360;183,360;skip;183,359;
+        328,359;skip;328,358;183,358;skip;183,357;328,357;skip;
+        328,356;183,356;skip;183,355;328,355;skip;331,354;
+draw    328,354;183,354;skip;182,353;189,353;skip;322,353;
+        329,353;skip;330,352;323,352;skip;188,352;181,352;skip;
+        180,351;331,351;
+draw    ;331,351;skip;332,350;179,350;skip;178,349;333,349;skip;
+        334,348;177,348;skip;176,347;335,347;skip;336,346;
+        175,346;skip;174,345;337,345;skip;338,344;173,344;skip;
+        172,343;339,343;skip;340,342;171,342;
+draw    171,341;340,341;skip;340,340;171,340;skip;171,339;
+        178,339;skip;333,339;340,339;skip;340,338;333,338;skip;
+        178,338;171,338;skip;171,337;340,337;skip;340,336;
+        171,336;skip;172,335;339,335;
+size    1.50
+at      214,408
+write   Authors
+at      215,408
+write   Authors
+at      214,384
+write   Library
+at      215,384
+write   Library
+size    0
+*
+at      1604
+write                             NOTICE:
+ 
+ 
+                Excellent courseware has been developed by 
+                PLATO users.   Control Data is pleased to 
+                provide this courseware to our PLATO 
+                customers.   The ⌫⌫  author of this courseware,
+                Mr. Kent A. Wendler, is solely responsible
+                for the quality of this material.
+at      3022
+write   Press NEXT to continue.
+pause   keys=next,term
+*zero    n1,4
+erase
+*
+
+=== block 'doc/define'  kind 00  299 words  (block 2)
+*
+*
+*       title:  The King's Mission Game
+*
+*       author: Kent A. Wendler
+*
+*       © 1977 by Kent A. Wendler
+*       © 1981 by the University of Illinois
+*                Board of Trustees
+*
+*       abstract:       In the King's Mission Game, the
+*               player is given a "mission" to "kill" all 
+*               of a specified type of monster in one of
+*               the "enchanted realms" which is selected
+*               by the player and which range in size from
+*               1 to 100 sectors.  Each sector is a 10×10
+*               matrix of possible positions which can be
+*               occupied by the player or other objects.
+*               The game becomes progressively more diff-
+*               icult with continued play.
+*                       Game records are stored for each
+*               player by means of a system which will, if
+*               necessary, delete the record of the lowest
+*               rated player not actively playing the game.
+*               Provision is made for suspending a game for 
+*               later resumption.  Various game statistics
+*               are also kept and are optionally available
+*               for display.  All player records are
+*               cleared upon intersystem transfer.
+*
+*       intended audience:      ages 8 and older
+*
+*       prerequisites:  none
+*
+*       average length of time in lesson:       open-ended
+*
+*       machine resources:      cpu:    > 5 tips, backgnd
+*                                       & foregnd options
+*                               memory: 6700 words, approx.
+*                               disc:   < 1 dapm
+*
+*       associated files:       =tkmb=  help lesson, common,
+*                                       charset, microtable
+*                               =tkmds= dataset for storing
+*                                       suspended games
+*
+*       associated file references:
+*               unit:   (ieu); statements 2, 12, 13, 19,
+*                                         20, 63
+*               unit:   page1; statement 43
+*               unit:   chars; statement 9
+*
+*       management note:        if it is desired to delete
+*                               a pseudonym from the game
+*                               for any reason (e.g.,
+*                               obscenities), simply edit
+*                               the lesson common by
+*                               zeroing the two consecutive
+*                               common words containing
+*                               the pseudonym to be deleted.
+*
+
+=== block 'start'  kind 00  250 words  (block 3)
+*       
+*       
+*                       kent wendler/uiuca
+*       
+*       
+*list   info
+*list   symbols
+define  adv
+        segment,scmap1=n41,3    $$ section "base maps"
+        segment,scmap2=n41,6
+        objmap(iii,jjj)=scmap2(iii+10*jjj-10)      $$ section object map
+        otype(iii,jjj)=scmap1(2*iii+20*jjj-21)   $$ type
+        ostat(iii,jjj)=scmap1(2*iii+20*jjj-20)     $$ status
+        segmentv,trees=n51,1,6  $$ object counts
+        segmentv,treasur=n51,7,6
+        segmentv,mcirc=n51,13,6
+        segmentv,goblins=n51,19,6
+        segmentv,zombies=n51,25,6
+        segmentv,wrwolvs=n51,31,6
+        segmentv,demons=n51,37,6
+        segment,mleft=n25,15
+        segment,dtime=n13,12
+        cname(iii)=nc(2*iii-1)  $$ roster
+        csname(iii)=nc(120+iii)
+        ctrait1(iii)=nc(180+iii)
+        segmentv,cgold=nc181,1,45
+        segmentv,carrows=nc181,46,9
+        ctrait2(iii)=nc(240+iii)
+        segmentv,chits=nc241,1,45
+        segmentv,csword=nc241,46,3
+        segmentv,nmiss=nc311,1,20
+        segmentv,pfails=nc311,21,20
+        segmentv,pdths=nc311,41,20
+        segment,active=nc301,1  $$ active player flags
+        segment,suspnd=nc306,1  $$ suspended game flags
+        active2=nc301
+        segment,honors=nc307,6  $$ honors list
+        lhonor(iii,jjj)=honors((iii-1)*10+jjj)
+        lh(iii)=nc(306+iii)
+        bldadv=nc302,brating=nc304,ctime=nc305,sysid=nc321
+        screen(xxx)=96+xxx*40   $$ functions
+        xn(iii)=iii-10*int((iii-1)/10)
+        yn(iii)=int((iii-1)/10)+1
+        mod(iii,jjj)=iii-jjj*int(iii/jjj)
+        segmentf,i1=n37,1,30,s
+        segmentf,i2=n37,31,30,s
+        segmentf,i8=n36,1,30,s
+        segmentf,i9=n36,31,30,s
+        plnam=n39,sname=n38,i3=n35,slotno=n34,
+        plnama=n40,i4=n33,beta=v33,snamech=n37,realm=n32,hits=n31,
+        arrows=n30,gold=n29,sword=n28,difflev=n27,rating=n26,reward=n24,
+        x1=v23,mlefta=n25,i5=n22,i6=n21,secx=n20,secy=n19,xsec=n20,ysec=n19,
+        x=n18,y=n17,speed=n16,bearing=v15,pdamage=n14,
+        time=n12,theta=v11,xnew=n10,ynew=n9,secmap=n41,secno=n8,
+        ix=n7,iy=n6,alpha=v5,idam=n4,i7=n3,mcoff=n2,stime=n1
+        dly=4-abs(difflev)      $$ rating dependent delay
+*
+*
+*
+
+=== block 'ieu'  kind 00  215 words  (block 4)
+lvars   5
+attach  2tkmds
+if      zreturn{^73}0
+.       at      1220
+.       write   PLATO file error.
+.               Dataset not attached.
+.               Zreturn=«s,zreturn»
+.       pause
+.       jumpout q
+endif
+jump    usersin<60,x,toofull
+common  2tkmb,tkmers,321,checkpt
+chartst 2tkmb,tkmchars
+if      not(zreturn)
+.       at      1621
+.       write   You are now journeying to
+.               
+.               {^55}  the Aeolian Kingdom!
+.       charset 2tkmb,tkmchars
+.       chartst 2tkmb,tkmchars
+.       if      not(zreturn)
+.       .       erase   abort
+.       .       at      1015
+.       .       write   Some enchantment has ensorceled the
+.       .               characters of the Aeolian Kingdom!
+.       .               Please inform the Higher Powers!
+.       .       pause
+.       .       jumpout q
+.       endif
+.       erase   abort
+endif   
+if      zsysid{^54}0$and$zsysid{^54}sysid       $$ new system check
+.       zero    nc1,304 $$ clear common, save time & stats
+.       zero    nc306,5
+.       calc    sysid«zsysid
+endif
+loop
+.       reserve common
+outloop zreturn<0
+.       at      1217
+.       write   ...You are entering
+.               
+.                  the Aeolian Kingdom...
+.       pause   2
+endloop
+erase   abort
+if      usersin<2       $$  residual common errors cleanup
+.       at      1217
+.       write   ...You are entering
+.               
+.                  the Aeolian Kingdom...
+.       calc    active2«0       $$ active flags left by crash
+.       doto    1loop,slotno«1,60
+.       if      cname(slotno)=0 $$ deleted pseudonym
+.       .       do      deleth
+.       .       calcs   bldadv=slotno,bldadv«0,,
+.       endif
+.       1loop
+.       catchup
+.       erase   abort
+endif
+release common
+micro   2tkmb,keykill
+*
+*
+*
+
+=== block 'page1'  kind 00  290 words  (block 5)
+unit    page1
+*       entrance display
+next    starting
+data    roster
+data1   misstats
+lab     hroll
+size    2
+at      511
+write   The King's Mission Game
+size    0
+at      721
+write   ©1977 by Kent A. Wendler
+        ©1981 by The University of
+           Illinois Board of Trustees
+            All rights reserved
+at      1519
+write   {75}12
+        {75}34
+at      1629
+write   {75}ab
+at      1538
+write   {75}kl
+        {75}mn
+at      1542
+write   {75}st
+        {75}uv
+at      1546
+write   {75}op
+        {75}qr
+at      1550
+write   {75}ij
+at      2212
+write   Press:
+at      2220
+write   NEXT to receive a mission.
+        DATA to see the King's Roster.
+        SHIFT-DATA to see the King's Statistics.
+        HELP for an introduction.
+        LAB to see the King's Honor Roll.
+        BACK to leave.
+1back
+pause   keys=next,data,help,lab,back,data1,lab1,term
+jumpout key=back;q;x
+jumpout key=help;2tkmb;x
+jump    key=next,starting,x
+branch  1back
+*
+*
+*
+unit    starting
+*       game entry unit
+at      913
+write   Welcome to the Aeolian Kingdom.  I am the 
+        King's Gatekeeper.  What is thy name, O
+        noble adventurer?
+at      1913
+write   Or wouldst thou rather inspect the DATA in
+        the King's Roster?
+at      3227
+write   NEXT    DATA
+helpop  nameu
+data    roster
+arrow   1525
+long    20
+force   micro
+wrong
+storea  plnam,20
+ok      
+endarrow
+doto    1loop,slotno«1,60
+jump    plnam=cname(slotno)$and$plnama=cname(slotno+.5),oldpl,x
+1loop   
+jump    newpl
+*
+*
+*
+unit    newpl
+*       enter new player
+back    starting
+at      411
+write   Greetings, «a,plnam,20»!  I am the King's 
+        Chamberlain.  Although you are not currently
+        on the King's Roster, you may be listed if
+        you will but whisper your chosen secret
+        name to me.  (If you have misspoken your
+        name to the Gatekeeper, you may go BACK to
+        see him.)
+1sname  
+at      1215
+getcode sname
+at      1215
+erase   20
+at      1515
+erase   30
+at      1515
+write   Tell me again so I can be sure.
+at      1715
+getcode snamech
+at      1715
+erase   20
+at      1515
+erase   40
+branch  snamech=sname,1nameok,x
+at      1515
+write   Sorry, I misunderstood.
+catchup
+pause   2
+
+=== block 'entry 2'  kind 00  265 words  (block 6)
+at      1515
+erase   25
+branch  1sname
+1nameok 
+loop    
+.       reserve common
+outloop zreturn<0       $$ exit if success
+.       break   
+endloop 
+calc    i2«9999999999
+        slotno«1
+doto    1search,i1«1,60 $$ find inactive slot with lowest rating
+if      cname(i1)=0     $$ empty slot
+.       calc    slotno«i1
+.       branch  1found
+endif
+if      active(i1)=0
+.       calc    i3«chits(i1)+50*cgold(i1)+100000*csword(i1)+10*carrows(i1)
+.       if      i3{^72}i2
+.       .       calc    i2«i3
+.       .               slotno«i1
+.       endif
+endif   
+1search 
+1found
+finish  bexit
+calc    active(slotno)«1
+        cname(slotno)«plnam
+        cname(slotno+.5)«plnama
+        csname(slotno)«sname
+        cgold(slotno)«25
+        carrows(slotno)«15
+        chits(slotno)«200
+        csword(slotno)«0
+        suspnd(slotno)«0
+release common
+do      deleth
+erase   abort
+at      608
+write   I am the King's Master of Arms, «a,plnam,20».
+goto    select
+*
+*
+*
+unit    oldpl
+*       previous player unit
+branch  active(slotno)=0,1cont,x
+at      406
+write   Thou varlet!  It is well known that «a,plnam,20»
+        is at this very moment engaged in a mission for
+        the King!
+pause   10,keys=all
+jump    page1
+1cont
+at      404
+write   Welcome, «a,plnam,20», back to the Aeolian Kingdom!
+        Please whisper to me your secret name; else I will
+        know that you are naught but some knave in clever
+        disguise.  If you have misspoken your name, you may
+        go BACK to the gatekeeper.
+at      3228
+write   NEXT    LAB
+back    starting
+loop
+.       at      1715
+.       getcode snamech,endkeys=lab
+outloop snamech=csname(slotno)
+.       at      where+2
+.       write   no
+.       at      1915
+.       write   This is not the secret name of 
+.               «a,plnam,20»!
+.       pause   keys=all,term
+.       at      1715
+.       erase   25
+.       at      1915
+.       erase   30,2
+endloop
+loop    
+.       reserve common
+outloop zreturn<0
+.       break   
+endloop 
+calc    active(slotno)«1
+finish  gexit
+release common
+erase   abort
+goto    key=lab,chnam,x
+goto    suspnd(slotno)=0,select,resume
+*
+*
+*
+
+=== block 'entry'  kind 00  255 words  (block 7)
+unit    chnam
+*       permit change of name or secret name
+at      511
+write   If you wish to be known by a new name, please
+        tell it to me now.
+at      3232
+write   NEXT
+arrow   919
+long    20
+force   micro
+answer
+storea  plnam,20
+ok
+block   plnam,cname(slotno),2
+endarrow
+erase   abort
+at      715
+write   If you wish to use a new secret name,
+        please whisper it to me now.
+at      3232
+write   NEXT
+1sname  
+at      1215
+getcode sname
+branch  sname{^54}0,1cont,x
+erase   abort
+goto    suspnd(slotno)=0,select,resume
+1cont
+erase   20
+at      1515
+erase   30
+at      1515
+write   Tell me again so I can be sure.
+at      1715
+getcode snamech
+at      1715
+erase   20
+at      1515
+erase   40
+branch  snamech=sname,1nameok,x
+at      1515
+write   Sorry, I misunderstood.
+catchup
+pause   2
+at      1515
+erase   25
+branch  1sname
+1nameok 
+calc    csname(slotno)«sname
+erase   abort
+goto    suspnd(slotno)=0,select,resume
+*
+*
+*
+unit    select
+finish  gexit
+back
+*       Select mission area, receive mission
+at      808
+write   The King has a mission for you in one of his en-
+        chanted realms.  To which realm do you wish to go?
+        (You may ask for HELP.)
+helpop  rlmhelp
+arrow   1324
+storen  realm
+do      rlmhelp
+ok      
+judge   realm>0$and$realm<11,x,no
+endarrow
+calc    hits«chits(slotno)
+        gold«cgold(slotno)
+        sword«csword(slotno)
+        arrows«carrows(slotno)
+        rating«hits+50*gold+100000*sword+10*arrows
+        difflev«1-(rating>50000)-(rating>100000)-(rating>200000)
+        stime«ctime
+calcs   difflev{^73}4$and$hits<10000,difflev«1-(hits>1000)-(hits>3000),,
+do      tstart
+at      1508
+write   Very well.  Your mission is to slay all the 
+writec  difflev-2,goblins,zombies,werewolves,demons
+randu   i1,difflev*20
+calc    reward«1+i1*realm
+calcs   difflev=4,reward«reward/(4-sword),,
+at      1608
+write   in this realm.  If you succeed, your reward will
+        be «s,reward» bag
+writec  reward>1{^56}s{^56}{^56}
+write    of gold.
+pause
+jump    setup
+*
+*
+*
+
+=== block 'initial2'  kind 00  296 words  (block 10)
+unit    setup
+*       initialize section populations
+at      816
+write   Traveling to the 
+writec  realm-2,first,second,third,fourth,fifth,sixth,seventh,eighth,nineth,tenth
+write    enchanted realm...
+catchup
+zero    n41,110
+zero    mlefta     $$ monster counts 
+calc    speed«realm*realm       $$ no. of sections
+setperm speed   $$ random order
+do      dsetup  $$ generate first section
+add1    mcirc(secno)    $$ must be at least 1
+do      dsetup,i1«2,speed       $$ generate the rest
+pause   2
+goto    squest
+*
+*
+*
+unit    dsetup
+*       population fill unit
+randp   secno   $$ pick next section
+calc    xsec«realm*frac(secno/realm)
+        ysec«int(secno/realm)
+        i2«difflev-2
+        i3«-1-(xsec=1)-(xsec=realm)-(ysec=1)-(ysec=realm)$$ no. of borders
+calcs   i3,i3«70,60,50,,32      $$ max pop.
+randu   i4,7    $$ trees
+calc    trees(secno)«i4
+calcs   difflev-4,i4«-1,0       $$ treasures
+calcs   i2,i5«4,5,8,11
+randu   i6,i5
+calc    treasur(secno)«i6+i4
+randu   i4,4    $$ pyramids
+sub1    i4
+calc    mcirc(secno)«i4
+calcs   i2,i4«3,4,9,6  $$ goblins
+calcs   i2,i5«1,5,9,14
+randu   i6,i4
+calc    goblins(secno)«i6+i5
+calcs   i2,i4«2,3,6,7   $$ zombies
+calcs   i2,i5«0,2,4,9
+randu   i6,i4
+calc    zombies(secno)«i6+i5
+calcs   i2,i4«1,3,5,6     $$ werewolves
+calcs   i2,i5«0,1,3,9
+randu   i6,i4
+calc    wrwolvs(secno)«i6+i5
+calcs   difflev-4,i5«-1,0,1     $$ demons
+calcs   i2,i4«2,3,5,(10/(4-sword))-1
+randu   i6,i4
+calc    demons(secno)«i6+i5
+        i4«trees(secno)+treasur(secno)+mcirc(secno)+goblins(secno)+zombies(secno)+wrwolvs(secno)+demons(secno)
+branch  i4{^72}i3,1next,x   $$ normalize
+calc    x1«i3/i4
+        trees(secno)«x1*trees(secno)
+        treasur(secno)«x1*treasur(secno)
+        mcirc(secno)«x1*mcirc(secno)
+        goblins(secno)«x1*goblins(secno)
+        zombies(secno)«x1*zombies(secno)
+        wrwolvs(secno)«x1*wrwolvs(secno)
+        demons(secno)«x1*demons(secno)
+1next   mleft(1)«mleft(1)+goblins(secno)
+        mleft(2)«mleft(2)+zombies(secno)
+        mleft(3)«mleft(3)+wrwolvs(secno)
+        mleft(4)«mleft(4)+demons(secno)
+*
+*
+*
+unit    squest
+*       select initial game coordinates
+finish  mexit
+randu   secx,realm
+randu   secy,realm
+randu   x,10
+randu   y,10
+calcs   secx=1$and$x=1,x«2,,
+calcs   secx=realm$and$x=10,x«9,,
+calcs   secy=1$and$y=1,y«2,,
+calcs   secy=realm$and$y=10,y«9,,
+calc    xnew«x
+        ynew«y
+zero    speed
+zero    mcoff
+zero    bearing
+calc    theta«1.5707963
+jump    intersec
+*       
+*       
+*       
+
+=== block 'between'  kind 00  284 words  (block 11)
+unit    intersec
+*       initialize new section upon entrance
+zero    secmap,10       $$ clear section map
+calc    xnew«speed*cos(theta)+x $$ new position
+        ynew«speed*sin(theta)+y
+calc    i1«(xnew<1)-(xnew>10)   $$ find new section
+        i2«(ynew<1)-(ynew>10)
+calcs   i1,xsec«xsec-1,,xsec+1
+calcs   i2,ysec«ysec-1,,ysec+1
+if      xsec<1$or$(xsec=1$and$xnew=1)
+.       calc    xsec«1
+.               i8«-1   $$ border tree collision on section entry
+.               xnew«2
+elseif  xsec>realm$or$(xsec=realm$and$xnew=10)
+.       calc    xsec«realm
+.               i8«-1
+.               xnew«9
+else
+.       calcs   i1,xnew«xnew+10,,xnew-10
+.       zero    i8
+endif
+if      ysec<1$or$(ysec=1$and$ynew=1)
+.       calc    ysec«1
+.               i9«-1
+.               ynew«2
+elseif  ysec>realm$or$(ysec=realm$and$ynew=10)
+.       calc    ysec«realm
+.               i9«-1
+.               ynew«9
+else
+.       calcs   i2,ynew«ynew+10,,ynew-10
+.       zero    i9
+endif
+branch  xsec=1,x,1next  $$ check & set border trees
+doto    1tree,i3«1,10
+calc    otype(1,i3)«1
+1tree   
+1next   
+branch  xsec=realm,x,2next
+doto    2tree,i3«1,10
+calc    otype(10,i3)«1
+2tree   
+2next   
+branch  ysec=1,x,3next
+doto    3tree,i3«1,10
+calc    otype(i3,1)«1
+3tree   
+3next   
+branch  ysec=realm,x,4next
+doto    4tree,i3«1,10
+calc    otype(i3,10)«1
+4tree   
+4next   secno«xsec+realm*(ysec-1)
+doto    1set,i3«1,7     $$ generate map
+calcs   i3-2,i4«trees(secno),treasur(secno),mcirc(secno),goblins(secno),zombies(secno),wrwolvs(secno),demons(secno)
+doto    1set,i7«1,i4
+loop    $$ open space search
+.       randu   ix,10
+.       randu   iy,10
+*       inhibit placing weak player next to a demon
+reloop  speed=0$and$i3=7$and$((ix-xnew)**2+(iy-ynew)**2){^72}2$and$hits<2000
+outloop otype(ix,iy)=0$and$(ix{^54}xnew$or$iy{^54}ynew)
+endloop 
+calc    otype(ix,iy)«i3
+1set    
+setperm 100
+do      nscreen
+calc    x«xnew
+        y«ynew
+at      screen(x),screen(y)
+write   {75}12
+        {75}34
+if      i8$or$i9        $$ border tree collision on entry
+.       randu   pdamage,speed
+.       calc    hits«hits-pdamage
+.       zero    speed
+.       pause   dly+2
+.       at      2720
+.       erase   40,2
+.       at      2720
+.       write   You collided with the tree
+.               at («s,xnew», «s,ynew»); a «s,pdamage» point injury.
+endif
+inhibit erase
+jump    enter
+*
+*
+*
+
+=== block 'inside'  kind 00  309 words  (block 12)
+unit    insec
+*       inside section
+doto    1move,i1«1,speed        $$ find new position
+calc    xnew«i1*cos(theta)+x
+        ynew«i1*sin(theta)+y
+if      xnew<1$or$ynew<1$or$xnew>10$or$ynew>10  $$ section exit
+.       at      screen(x),screen(y)     $$ move figure
+.       erase   2,2
+.       at      screen(x),screen(y)-16
+.       write   .
+.       pause   2
+.       jump    intersec
+endif
+branch  xnew=1$and$xsec=1,1coliz,x      $$ border tree collisions
+branch  xnew=10$and$xsec=realm,1coliz,x
+branch  ynew=1$and$ysec=1,1coliz,x
+branch  ynew=10$and$ysec=realm,1coliz,x
+branch  otype(xnew,ynew){^54}0,1coliz,x     $$ collision with object
+1move   
+at      screen(x),screen(y)     $$ move figure
+erase   2,2
+at      screen(x),screen(y)-16
+write   .
+1skip   x«xnew
+        y«ynew
+at      screen(x),screen(y)
+write   {75}12
+        {75}34
+goto    enter
+1coliz  ix«(i1-1)cos(theta)+x
+        iy«(i1-1)sin(theta)+y
+at      screen(x),screen(y)
+erase   2,2
+at      screen(x),screen(y)-16
+write   .
+calc    x«ix
+        y«iy
+at      screen(x),screen(y)
+write   {75}12
+        {75}34
+randu   pdamage,speed*(i2«otype(xnew,ynew))
+calc    hits«hits-pdamage
+pause   dly+1
+at      2720
+erase   44,2
+at      2720
+write   You collided with the 
+writec  i2-2,tree,treasure chest,pyramid,goblin,zombie,werewolf,demon
+at      2820
+write   at («s,xnew», «s,ynew»); 
+writec  pdamage=8$or$pdamage=11$or$pdamage=18{^56}an{^56}a
+write    «s,pdamage» point injury.
+catchup
+pause   dly+2
+at      2720
+erase   41,2
+zero    speed
+calc    xnew«ix
+        ynew«iy
+entry   enter   $$ section object actions
+zero    idam
+doto    1obj,i1«1,100
+randp   i2
+branch  scmap1(2*i2-1){^72}2,1obj,x    $$ skip inanimates
+calc    ix«xn(i2)
+        iy«yn(i2)
+        i3«otype(ix,iy)
+do      i3-4,mcproc,mproc       $$ pyramids, monsters
+1obj    
+modperm 
+do      tinc
+mode    rewrite $$ status display update
+at      107
+write   «s,dtime(3)»/«s,dtime(2)»/«s,dtime(1)»  
+at      207
+write   «s,dtime(4)»:«s,dtime(5),2»  
+at      307
+show    hits
+write        
+at      407
+show    gold
+write        
+at      509
+show    arrows
+write     
+at      610
+showt   bearing,2.1
+at      708
+show    speed
+at      904
+write   («s,xsec», «s,ysec»)  
+at      1104
+write   «s,hits+50*gold+100000*sword+10*arrows»
+at      1209
+write    «s,mleft(1)» 
+         «s,mleft(2)» 
+at      1413
+write   «s,mleft(3)» 
+at      1509
+write   «s,mleft(4)» 
+draw    1501;1517
+mode    write
+at      2619
+erase   46,4
+
+=== block 'helps1'  kind 00  120 words  (block 13)
+entry   reenter
+1key    
+helpop
+at      2635
+write   »
+time    15
+pause   keys=a,z,x,c,d,e,w,q,s,m,T,p,next,help,data,term,stop,timeup
+keytype i1,a,z,x,c,d,e,w,q,s,m,T,p,next,help,data,term,stop,timeup
+if      i1<17
+.       at      2635
+.       erase   1
+.       at      2720
+.       erase   45
+.       at      1601
+.       erase   16,2*idam       $$ erase damage display
+.       at      120,256
+.       erase   1,2*idam
+endif
+do      i1-8,pstrike,shoot,pmove,gtreasr,mchelp,x,helpa,refresh,x,stopp,cuehelp
+branch  i1-13,x,1key
+time
+goto    i1{^72}14,insec,x
+*
+*
+*
+unit    rlmhelp
+at      1708
+write   The enchanted realms are square in shape and are
+        numbered by the length of their sides, which vary
+        from 1 to 10.  The larger the realm, the longer and
+        more difficult your mission will be; but there will
+        also be more gold and glory to be gained.  Therefore
+        choose by stating the number of the desired realm.
+end     help
+*       
+*       
+*       
+
+=== block 'helps1'  kind 00  215 words  (block 14)
+unit    bexit
+*       finish unit which deletes record
+*       (entered only by new players who stop1 during setup)
+calc    active(slotno)«0
+zero    cname(slotno)
+zero    cname(slotno+.5)
+zero    csname(slotno)
+zero    ctrait1(slotno)
+zero    ctrait2(slotno)
+do      deleth
+*       
+*       
+*       
+unit    mexit
+*       finish unit for incomplete mission
+do      tend
+zero    active(slotno)
+goto    (goblins(secno)=0$and$zombies(secno)=0$and$wrwolvs(secno)=0$and$demons(secno)=0)$or$backout=-1,q,x
+add1    nmiss(realm)
+add1    pfails(realm)  $$ failed mission
+if      bldadv=slotno
+.       zero    bldadv
+.       zero    brating
+endif
+zero    cname(slotno)
+zero    cname(slotno+.5)
+zero    csname(slotno)
+zero    ctrait1(slotno)
+zero    ctrait2(slotno)
+do      deleth
+*       
+*       
+*       
+unit    nameu
+*       name entry unit
+at      2813    $$$
+write   What is the name by which you are known (or
+        wish to be known) in the Aeolian Kingdom?
+*       
+*       
+*       
+unit    toofull
+*       exit unit for surplus players
+at      1215
+write        The Aeolian Kingdom regrets that
+        it is currently at its maximum capacity.
+        Please try again later.
+at      3128
+write   Press NEXT.
+pause   
+jumpout q
+*       
+*       
+*       
+unit    roster
+*       show current roster
+size    2,2
+at      315
+write   The King's Roster
+size    0
+at      3221
+write   NEXT  BACK  SHIFT-BACK
+zero    i5
+doto    1rchk,i1«1,60   $$ empty roster check
+calcs   cname(i1){^54}0,i5«i5+1,,
+1rchk
+branch  i5>0,1go,x
+at      1117
+write   (The King's Roster is empty.)
+end     help
+1go
+calcs   i5<5,i5«,5,5
+at      506
+writec  bldadv{^54}0,«a,cname(bldadv),20» is the Boldest Adventurer!,,
+calc    i1«1
+
+=== block 'aux 2'  kind 00  292 words  (block 15)
+1back
+calcs   i1<1$or$i1>60,i1«1,,
+doto    1loop,i2«1,i5
+loop    cname(i1)=0     $$ skip vacant slots
+.       calcs   i1=60,i1«1,i1+1
+endloop
+at      401+i2*400
+writec  active(i1)=1,*,,
+writec  suspnd(i1)=1,{^'27},,
+at      402+i2*400
+write   «t,i1,2». «a,cname(i1),20» with «s,cgold(i1)» bags of gold, «s,carrows(i1)» arrows,
+            «s,chits(i1)» hits, and a 
+writec  csword(i1)-1,normal sword,Magic Sword+1,Magic Sword+2,Sword Supreme
+write   , has a rating«at,605+i2*400» of «s,chits(i1)+50*cgold(i1)+100000*csword(i1)+10*carrows(i1)».
+calcs   i1=60,i1«1,i1+1
+1loop
+at      3011
+write   Name or position:
+arrow   3030
+at      3104
+write   * active
+at      3152
+write   {^'27} suspended
+at      3221
+long    20
+specs   nookno
+answer
+at      801
+erase   64,20
+store   i1
+judge   rejudge
+ansv    30.5,29.5
+at      801
+erase   64,20
+storea  plnam,20
+ok
+zero    i4
+doto    1search,i3«1,60
+branch  cname(i3)=plnam$and$cname(i3+.5)=plnama,2search,x
+1search
+at      3032+jcount
+write   :  NOT FOUND
+catchup
+at      3032+jcount
+erase   12
+judge   ignore
+2search i1«i3
+at      801
+erase   64,20
+endarrow
+at      3030
+erase   25
+branch  1back
+end     help
+*
+*
+*
+unit    gexit
+*       finish unit which saves record
+calc    active(slotno)«0
+*       
+*       
+*       
+unit    nscreen
+*       replot  screen
+doto    1,i7«1,10       $$ replot section
+doto    1,i6«1,10
+at      i4«screen(i6),i5«screen(i7)
+writec  i3«(otype(i6,i7)-1),,{75}cd{75},,{75}AB{75},{75}kl{75},{75}st{75},{75}op{75},{75}ij
+at      i4,i5-16
+writec  i3,.,{75}ef{75},{75}ab{75},{75}CD{75},{75}mn{75},{75}uv{75},{75}qr{75},,
+1       
+at      101
+write   Date:
+        Time:
+        Hits:
+        Gold:
+        Arrows:
+        Bearing:
+        Speed:
+        Section:
+ 
+        Rating:
+ 
+        Goblins:
+        Zombies:
+        Werewolves:
+        Demons:
+draw    1501;1517
+at      107
+write   «s,dtime(3)»/«s,dtime(2)»/«s,dtime(1)»
+at      207
+write   «s,dtime(4)»:«s,dtime(5),2»
+at      307
+show    hits
+write     
+at      407
+show    gold
+write     
+at      509
+show    arrows
+write    
+at      610
+showt   bearing,2.1
+at      708
+show    speed
+at      904
+write   («s,xsec», «s,ysec»)  
+at      1104
+write   «s,hits+50*gold+100000*sword+10*arrows»  
+at      1209
+write    «s,mleft(1)» 
+         «s,mleft(2)» 
+
+=== block 'aux 3'  kind 00  307 words  (block 16)
+at      1413
+show    mleft(3)
+at      1509
+show    mleft(4)
+at      -[1208*(abs(difflev)=1)+1308*(abs(difflev)=2)+1411*(abs(difflev)=3)+1507*(abs(difflev)=4)]
+mode    rewrite
+write   {^'04}
+*
+*
+*
+unit    endchk
+*       check for end of mission
+exit    -(mleft(abs(difflev))>0)
+beep
+calc    difflev«-abs(difflev)      $$ end of mission flag
+pause   dly+2
+at      2719
+erase   53,2
+at      2720
+write   Your mission is complete.  Seek help from
+        a pyramid.
+*
+*
+*
+unit    helpb
+*       clock directions help
+at      3201
+erase   64
+at      3201
+write   Use clock directions:  12 (or 0) is up, 3 is right, and so on.
+end     help
+*
+*
+*
+unit    helpc
+*       allowable new directions help for speed 3
+calcs   bearing{^72}3,beta«bearing+12,bearing
+at      3201
+erase   64
+at      3201
+write   Allowable new bearings are «s,mod(beta-3,12)» to «s,mod(beta+3,12)».
+*
+*
+*
+unit    mproc
+*       process monster movement and attacks
+calc    i4«ostat(ix,iy)
+randu   alpha
+do      abs(ix-x){^72}1$and$abs(iy-y){^72}1$and$alpha>.1*i4,mstrike,mmove
+*
+*
+*
+unit    mstrike
+*       process monster attack
+randu   alpha
+exit    alpha>.1*(9-i4) $$ strike probability
+add1    idam    $$ damage display index
+randu   i5,8    $$ strike animation
+randu   i6,16
+calc    i5«screen(x)+i5
+        i6«screen(y)+i6-8
+calcs   i5>496,i5«496,,
+calcs   i6>496,i6«496,,
+at      i5,i6
+write   {75}*
+mode    erase
+at      i5,i6
+write   {75}*
+mode    write
+calcs   i3-5,pdamage«10,10*(4-i4),10*(8-i4),100*(8-i4)
+at      1401+200*idam
+write   «s,pdamage» point hit by
+at      1501+200*idam
+writec  i3-5,{75}OPQR{75},{75}EFGH{75},{75}<>[]${75},{75}IJKN{75}
+write    at («s,ix», «s,iy»)
+calc    hits«hits-pdamage
+exit    -(hits>0)       $$ death detection
+catchup
+pause   3
+jump    pdeath
+*
+*
+*
+unit    mmove
+*       monsters move towards player
+randu   alpha
+exit    alpha<.1*i4     $$ wounding factor
+calc    i5«sign(x-ix)   $$ direction
+        i6«sign(y-iy)
+randu   i7,4    $$ random backing factor
+calcs   i5=0,i5«sign(i7-2),i5*sign(i7-2)
+randu   i7,4
+calcs   i6=0,i6«sign(i7-2),i6*sign(i7-2)
+exit    ix+i5<1$or$ix+i5>10$or$iy+i6<1$or$iy+i6>10      $$ border check
+exit    otype(ix+i5,iy+i6){^54}0$or$(ix+i5=x$and$iy+i6=y)    $$ blocked
+mode    erase
+at      screen(ix),screen(iy)
+writec  i3-5,{75}kl{75},{75}st{75},{75}op{75},{75}ij
+at      screen(ix),screen(iy)-16
+writec  i3-5,{75}mn{75},{75}uv{75},{75}qr{75},  ,
+mode    rewrite
+at      screen(ix),screen(iy)-16
+write   .
+
+=== block 'aux 4'  kind 00  272 words  (block 17)
+calc    objmap(ix,iy)«0
+        ix«ix+i5
+        iy«iy+i6
+        otype(ix,iy)«i3
+        ostat(ix,iy)«i4
+at      i5«screen(ix),i6«screen(iy)
+writec  i3-5,{75}kl{75},{75}st{75},{75}op{75},{75}ij
+at      i5,i6-16
+writec  i3-5,{75}mn{75},{75}uv{75},{75}qr{75},  ,
+mode    write
+*
+*
+*
+unit    mcproc
+*       handle occasional pyramid motions
+randu   alpha
+exit    -(alpha>.1)     $$ 10% motion probability
+randu   i4,3
+randu   i5,3
+exit    -(i4=2$and$i5=2)
+calc    i4«i4-2
+        i5«i5-2
+        i6«i4+ix
+        i7«i5+iy
+exit    -(i6<1$or$i6>10$or$i7<1$or$i7>10)
+exit    -((i6=x$and$i7=y)$or$(otype(i6,i7){^54}0))
+at      screen(ix),screen(iy)
+erase   2,2
+mode    rewrite
+at      screen(ix),screen(iy)-16
+write   .
+at      screen(i6),screen(i7)
+write   {75}AB
+        {75}CD
+calc    objmap(i6,i7)«objmap(ix,iy)
+        objmap(ix,iy)«0
+mode    write
+*
+*
+*
+unit    pdeath
+*       process player death
+do      tend
+add1    nmiss(realm)
+add1    pdths(realm)  $$ player deaths
+if      bldadv=slotno
+.       zero    bldadv
+.       zero    brating
+endif
+calc    cname(slotno)«cname(slotno+.5)«csname(slotno)«0
+        ctrait1(slotno)«ctrait2(slotno)«active(slotno)«0
+do      deleth
+at      910
+write   The Aeolian Kingdom sends its sincere condolences
+        to the next of kin of «a,plnam,20».
+ 
+        This noble adventurer was tragically killed while
+        engaged in heroic combat on a mission for the King.
+at      2410
+write   (You may proceed to:  NEXT, leave; or go
+        
+                              BACK to try again.)
+1back
+pause   keys=next,back,term
+jump    key=back,page1,x
+jumpout key=next;q;x
+branch  1back
+*
+*
+*
+unit    pstrike
+*       monster struck with sword
+at      2625
+write   Strike with sword!
+calc    ix«x+(i1<2$or$i1=7)-(i1>2$and$i1<6)
+        iy«y+(i1>0$and$i1<4)-(i1>4)
+goto    ix<1$or$ix>10$or$iy<1$or$iy>10,smiss,x
+goto    i2«otype(ix,iy)-1,smiss,stree,streas,smc,sgob,szom,sww,sdem
+*
+*
+*
+unit    smiss
+*       missed sword strike
+at      2730
+write   You missed!
+exit
+*
+*
+*
+unit    stree
+*       struck tree
+do      sostrk
+entry   atree
+at      2720
+write   You hit the tree at («s,ix», «s,iy»)!
+exit
+*
+*
+*
+
+=== block 'aux 5'  kind 00  287 words  (block 20)
+unit    streas
+*       struck treasure
+do      sostrk
+entry   atreas
+at      2720
+write   You hit the treasure chest at («s,ix», «s,iy»)!
+exit
+*
+*
+*
+unit    smc
+*       struck pyramid
+do      sostrk
+entry   amc
+exit    mcoff
+sub1    mcoff
+pause   dly+3
+at      2720
+erase   62,4
+at      2720
+write   How dare you strike me, a pyramid! Now
+        you will receive no further help from me
+        or any other pyramid--except to end your
+        mission.
+pause   15,keys=all
+at      2720
+erase   41,4
+exit
+*
+*
+*
+unit    sgob
+*       struck goblin
+do      sostrk
+entry   agob
+sub1    goblins(secno)
+sub1    mleft(1)
+at      screen(ix),screen(iy)
+erase   2,2
+at      screen(ix),screen(iy)-16
+write   .
+at      2720
+write   You killed the goblin at («s,ix», «s,iy»)!
+calc    hits«hits+10
+do      endchk
+zero    objmap(ix,iy)
+exit
+*
+*
+*
+unit    szom
+*       struck zombie
+do      sostrk
+calc    i3«ostat(ix,iy)
+branch  sword>0$or$i3=3,1zkill,x
+add1    ostat(ix,iy)
+calc    hits«hits+10
+at      2720
+write   You hit the zombie at («s,ix», «s,iy»)!
+exit
+1zkill  hits«hits+10*(4-i3)
+at      screen(ix),screen(iy)
+erase   2,2
+at      screen(ix),screen(iy)-16
+write   .
+at      2720
+write   You killed the zombie at («s,ix», «s,iy»)!
+sub1    zombies(secno)
+sub1    mleft(2)
+zero    objmap(ix,iy)
+do      endchk
+exit
+*
+*
+*
+unit    terms
+*       list available terms
+termop  spells
+at      3201
+erase   64
+at      3201
+write   Spells: TERM p⌫_aratime; TERM n⌫_ormal time; TERM s⌫_ee clearly
+*
+*
+unit    backgnd
+termop  p
+termop  paratime
+at      3201
+erase   64
+backgnd
+at      3201
+write   now in paratime
+catchup
+pause   dly+2
+at      3201
+erase   15
+*
+*
+unit    foregnd
+termop  n
+termop  normal
+at      3201
+erase   64
+foregnd
+at      3201
+write   now in normal time
+catchup
+pause   dly+2
+at      3201
+erase   20
+*
+*
+unit    chars
+termop  s
+termop  see
+at      3201
+erase   64
+at      3201
+write   clearing vision . . .
+charset
+charset 2tkmb,tkmchars
+do      refresh
+at      2635
+write   »
+*
+*
+*
+
+=== block 'aux 6'  kind 00  258 words  (block 21)
+unit    sww
+*       struck werewolf
+do      sostrk
+calc    i3«ostat(ix,iy)
+branch  sword>0$or$i3=7,1wkill,x
+add1    ostat(ix,iy)
+calc    hits«hits+10
+at      2720
+write   You hit the werewolf at («s,ix», «s,iy»)!
+exit
+1wkill  hits«hits+10*(8-i3)
+at      screen(ix),screen(iy)
+erase   2,2
+at      screen(ix),screen(iy)-16
+write   .
+at      2720
+write   You killed the werewolf at («s,ix», «s,iy»)!
+sub1    wrwolvs(secno)
+sub1    mleft(3)
+zero    objmap(ix,iy)
+do      endchk
+exit
+*
+*
+*
+unit    sdem
+*       struck demon
+do      sostrk
+branch  sword>0,1hit,x
+at      2720
+write   You hit the demon at («s,ix», «s,iy»)!
+exit
+1hit    i3«ostat(ix,iy)
+calc    i4«2**(sword-1) $$ new status incre.
+branch  i3+i4>7,1die,x
+calc    hits«hits+i4*100
+        ostat(ix,iy)«i3+i4
+at      2720
+write   You hit the demon at («s,ix», «s,iy»)!
+exit
+1die    hits«hits+100*(8-i3)
+at      screen(ix),screen(iy)
+erase   2
+at      screen(ix),screen(iy)-16
+write   .
+at      2720
+write   You killed the demon at («s,ix», «s,iy»)!
+sub1    demons(secno)
+sub1    mleft(4)
+zero    objmap(ix,iy)
+do      endchk
+exit
+*
+*
+*
+unit    shoot
+at      2625
+write   Shoot arrow!
+*       shoot arrow
+helpop  helpb
+if      arrows=0
+.       at      2720
+.       write   You have no arrows!
+.       exit
+endif
+at      2720
+write   Which direction?
+arrow   2740
+store   alpha
+ansv    6,6
+endarrow
+at      2720
+erase   30
+sub1    arrows
+calc    alpha«1.5707863*(1-alpha/3)
+doto    1shoot,i2«1,15
+calc    ix«x+i2*cos(alpha)
+        iy«y+i2*sin(alpha)
+branch  ix<1$or$ix>10$or$iy<1$or$iy>10,1miss,x
+branch  otype(ix,iy){^54}0,1hit,x
+1shoot
+1hit    i3«otype(ix,iy)
+do      sastrk
+calc    i2«i3-2
+do      i2,atree,atreas,amc,agob,azom,aww,adem
+1miss
+do      samiss
+goto    smiss
+*
+*
+unit    azom
+*       zombie hit by arrow
+calc    i3«ostat(ix,iy)
+        hits«hits+10
+branch  i3=3,1zkill,x
+add1    ostat(ix,iy)
+at      2720
+write   You hit the zombie at («s,ix», «s,iy»)!
+exit
+
+=== block 'aux 7'  kind 00  276 words  (block 22)
+1zkill
+at      screen(ix),screen(iy)
+erase   2,2
+at      screen(ix),screen(iy)-16
+write   .
+at      2720
+write   You killed the zombie at («s,ix», «s,iy»)!
+sub1    zombies(secno)
+sub1    mleft(2)
+zero    objmap(ix,iy)
+do      endchk
+exit
+*
+*
+*
+unit    aww
+*       werewolf hit by arrow
+calc    i3«ostat(ix,iy)
+        hits«hits+10
+branch  i3=7,1wkill,x
+add1    ostat(ix,iy)
+at      2720
+write   You hit the werewolf at («s,ix», «s,iy»)!
+exit
+1wkill
+at      screen(ix),screen(iy)
+erase   2,2
+at      screen(ix),screen(iy)-16
+write   .
+at      2720
+write   You killed the werewolf at («s,ix», «s,iy»)!
+sub1    wrwolvs(secno)
+sub1    mleft(3)
+zero    objmap(ix,iy)
+do      endchk
+exit
+*
+*
+*
+unit    adem
+*       demon hit by arrow
+at      2720
+write   You hit the demon at («s,ix», «s,iy»)!
+exit
+*
+*
+*
+unit    pmove
+*       change player motion
+at      2630
+write   move
+helpop  speed<3,helpb,helpc
+at      2720
+write   Which way?
+calc    i2«bearing
+calcs   speed-1,i3«12,12,6,3
+arrow   2740
+answer
+calc    alpha«bearing
+store   alpha
+ansv    6,6
+judge   mod(bearing+i3,12){^73}alpha$or$mod(bearing-i3,12){^72}alpha,x,wrong
+endarrow
+zero    i4
+calc    bearing«alpha
+        theta«1.5707863*(1-bearing/3)
+at      2820
+write   What speed?
+helpop  helpd
+calc    i2«speed
+arrow   2840
+answer
+calc    i3«speed
+store   i3
+ansv    1.5,1.5
+judge   abs(i2-i3)>2,wrong,x
+endarrow
+calc    speed«i3
+at      2720
+erase   30,2
+exit
+*
+*
+*
+unit    helpd
+*       speed change help
+at      3201
+erase   64
+at      3220
+writec  speed-1{^56}Allowable new speeds are 0, 1, or 2.{^56}
+        Allowable new speeds are 0, 1, 2, or 3.{^56}
+        Allowable new speeds are 0, 1, 2, or 3.{^56}
+        Allowable new speeds are 1, 2, or 3.
+end     help
+*
+*
+*
+unit    gtreasr
+*       pick up treasure
+at      2625
+write   Pick up treasure.
+do      srch(2) $$ locate treasure
+randu   i2,20*(abs(difflev)+1)       $$ treasure amount
+calc    gold«gold+i2
+zero    objmap(ix,iy)
+sub1    treasur(secno)
+at      screen(ix),screen(iy)
+erase   2,2
+at      screen(ix),screen(iy)-16
+write   .
+
+=== block 'aux 8'  kind 00  289 words  (block 23)
+at      2720
+write   You have picked up «s,i2» 
+writec  i2-2,bag,bags
+write    of gold!
+exit
+*
+*
+*
+unit    mchelp
+*       pyramid gives help
+at      2620
+write   Seek help from a pyramid.
+do      srch(3)
+goto    mcoff$and$difflev>-1,nomch,x
+goto    mcoff$and$difflev{^72}-1,endmiss,x
+branch  gold=0$and$difflev>-1,x,1cont
+at      2720
+write   You have no gold!
+exit
+1cont
+goto    gold=0$and$difflev{^72}-1,endmiss,x
+at      2720
+write   What do you wish?
+helpop  helpf
+inhibit arrow
+arrow   2740
+long    1
+specs   nookno
+answer  s
+at      2743
+write   trength
+at      where+200
+calc    i3«-1
+answer  a
+at      2743
+write   rrows
+calc    i3«0
+answerc difflev;e;;
+judge   difflev,ok,continue
+at      2743
+write   nd mission
+calc    i3«1
+answerc gold>2000;m;;
+judge   gold>2000,ok,continue
+at      2743
+write   agic sword
+calc    i3«2
+no
+judge   ignore
+endarrow
+catchup
+at      3201
+erase   64
+goto    i3,bstr,barrw,endmiss,bsword
+*
+*
+*
+unit    nomch
+*       no help message
+at      2720
+write   We will not help you until your 
+        mission is complete.
+catchup
+pause   8,keys=all
+at      2720
+erase   32,2
+exit
+*
+*
+*
+unit    endmiss
+*       mission end
+at      2920
+write   Do you wish to end your mission?
+arrow   where+5
+specs   bumpshift
+long    3
+specs   nookno
+answer  y
+or
+answer  yes
+jump    wrapup
+answer  n
+or
+answer  no
+endarrow
+exit
+*
+*
+*
+unit    wrapup
+*       mission completion
+finish
+add1    nmiss(realm)
+calc    cgold(slotno)«gold«gold+reward
+        carrows(slotno)«arrows
+        chits(slotno)«hits
+        csword(slotno)«sword
+        i1«hits+50*gold+100000*sword+10*arrows
+doto    1h,i2«1,3
+calcs   mleft(i2)=0,lhonor(i2,realm)«slotno,,
+1h
+calcs   abs(difflev)>1$and$sword{^73}1$and$mleft(4)=0,lhonor(4,realm)«slotno,,
+do      tend
+if      i1>brating
+.       calc    bldadv«slotno
+.               brating«i1
+endif
+at      911
+write   The King congratulates you on the success of
+        your mission and grants you the promised reward
+        of «s,reward» bags of gold.
+        
+        Would you like another mission?
+arrow   1623
+long    1
+answer  y
+jump    select
+answer  n
+zero    active(slotno)
+jump    page1
+endarrow
+*
+*
+*
+
+=== block 'aux 9'  kind 00  295 words  (block 24)
+unit    helpf
+*       pyramid help
+at      3201
+erase   64
+at      3201
+write   You may buy s⌫_trength, a⌫_rrows
+writec  gold{^73}2000{^56}, a m⌫_agic sword{^56}{^56}
+writec  difflev{^56}, or e⌫_nd your mission{^56}{^56}
+write   .
+*
+*
+*
+unit    bstr
+*       buy strength
+helpop  helpg
+at      2720
+erase   40,2
+at      2720
+write   How much do you wish to spend?
+arrow   2830
+store   i4
+ok
+judge   i4<0$or$i4>gold,wrong,x
+endarrow
+calc    hits«hits+i4*50
+        gold«gold-i4
+exit
+*
+*
+*
+unit    helpg
+*       buy strength help
+at      3201
+erase   64
+at      3201
+write   1 bag gold = 50 points strength
+end     help
+*
+*
+*
+unit    barrw
+*       buy arrows
+helpop  helph
+at      2720
+erase   40,2
+at      2720
+write   How much do you wish to spend?
+arrow   2830
+store   i4
+ok
+judge   i4<0$or$i4>gold,wrong,x
+endarrow
+calc    arrows«arrows+i4*15
+        gold«gold-i4
+calcs   arrows>100,arrows«100,,
+exit
+*
+*
+*
+unit    helph
+*       buy arrows help
+at      3201
+erase   64
+at      3220
+write   1 bag gold = 15 arrows
+end     help
+*
+*
+*
+unit    bsword
+*       buy magic sword
+helpop  helpt
+at      2720
+erase   40,2
+branch  gold{^73}4000,2sword,x
+at      2720
+write   Do you wish to buy a Magic Sword+1
+        for 2000 bags of gold?
+arrow   2920
+long    1
+answer  y
+calcs   sword{^72}1,sword«1,,
+calc    gold«gold-2000
+answer  n
+endarrow
+exit
+2sword
+branch  gold{^73}8000,3sword,x
+at      2720
+write   Do you wish to buy a Magic Sword+1 or
+        a Magic Sword+2?
+arrow   2920
+specs   okextra
+wrong   y
+wrong   yes
+answer  1
+calcs   sword{^72}1,sword«1,,
+calc    gold«gold-2000
+answer  2
+calcs   sword<2,sword«2,,
+calc    gold«gold-4000
+answer  n
+answer  no
+endarrow
+exit
+3sword
+at      2720
+write   Do you wish to buy a Magic Sword+1,
+        a Magic Sword+2, or a Sword Supreme?
+arrow   2920
+specs   okextra,bumpshift
+wrong   y
+wrong   yes
+answer  1
+calcs   sword{^72}1,sword«1,,
+calc    gold«gold-2000
+answer  2
+calcs   sword<2,sword«2,,
+calc    gold«gold-4000
+answer  s
+or
+answer  supreme
+calcs   sword<3,sword«3,,
+calc    gold«gold-8000
+answer  n
+answer  no
+endarrow
+exit
+*
+*
+*
+
+=== block 'aux 9'  kind 00  287 words  (block 25)
+unit    helpt
+*       buy magic sword help
+at      3201
+erase   64
+at      3201
+write   Magic swords cost 2000, 4000, or 8000 bags of gold.
+end     help
+*
+*
+*
+unit    helpa
+*       main options help
+at      3201
+erase   64
+write   m⌫_ove, T⌫_reasure, p⌫_yramid, s⌫_hoot arrow... (more)
+pause   keys=next,back
+exit    key=back
+at      3201
+erase   64
+at      3201
+write   Use the arrow keys to strike with your sword. (more)
+pause   keys=next,back
+exit    key=back
+at      3201
+erase   64
+at      3201
+write   Temporarily STOP your mission; (more)
+pause   keys=next,back
+exit    key=back
+at      3201
+erase   64
+at      3201
+write   NEXT to continue; DATA to look again; TERM spells.
+pause   keys=all,term
+at      3201
+erase   64
+exit
+*
+*
+*
+unit    refresh
+*       replot screen
+erase   abort
+do      nscreen
+at      screen(x),screen(y)
+write   {75}12
+        {75}34
+exit
+*
+*
+*
+unit    sostrk
+*       show sword strike on object
+randu   i6,8
+randu   i7,16
+calc    i6«screen(ix)+i6-3
+        i7«screen(iy)+i7-12
+calcs   i6>504,i6«496,,
+calcs   i7>504,i7«498,,
+at      i6,i7
+write   {75}*
+mode    erase
+at      i6,i7
+write   {75}*
+mode    write
+*
+*
+*
+unit    cuehelp
+*       show help available flash
+calc    i8«dly
+doto    1flash,i9«1,i8
+mode    write
+at      3224
+write   HELP available
+catchup
+at      3224
+erase   20
+1flash
+mode    write
+*
+*
+*
+unit    sastrk
+*       show arrow hit on target
+calc    i4«screen(x+.5*cos(alpha))
+        i5«screen(y+.5*sin(alpha))
+randu   i6,8
+randu   i7,16
+calc    i6«screen(ix)+i6-3
+        i7«screen(iy)+i7-12
+calcs   i6>503,i6«496,,
+calcs   i7>503,i7«498,,
+draw    i4,i5;i6,i7
+mode    erase
+draw    i4,i5;i6,i7
+mode    write
+at      i6-8,i7-8
+write   {^55}{75}*{75}⌫{^74}{75}LM
+mode    erase
+at      i6-8,i7-8
+write   {^55}{75}*{75}⌫{^74}{75}LM
+mode    write
+*
+*
+*
+unit    samiss
+*       show arrow miss
+window  2517;164
+randu   i6,8    $$$
+randu   i7,8
+calc    i4«screen(x+.5*cos(alpha))
+        i5«screen(y+.5*sin(alpha))
+        i6«screen(ix)+i6
+        i7«screen(iy)+i7
+draw    i4,i5;i6,i7
+mode    erase
+draw    i4,i5;i6,i7
+mode    write
+window
+*
+*
+*
+
+=== block 'suspending'  kind 00  303 words  (block 26)
+unit    srch(i2)
+*       search adjacent squares
+doto    1srch,i3«-1,6
+calcs   i3,ix«x-1,x-1,x-1,x,x+1,x+1,x+1,x
+calcs   i3,iy«y+1,y,y-1,y-1,y-1,y,y+1
+branch  ix<1$or$ix>10$or$iy<1$or$iy>10,1srch,x
+exit    -(otype(ix,iy)=i2)
+1srch
+at      2720
+write   There are no 
+writec  i2-3,treasure chests,pyramids
+write    near you!
+exit
+*
+*
+*
+unit    tstart
+*       find initial date and time
+calc    i3«stime
+doto    1time,i4«1,5
+calcs   i4-2,i5«518400,43200,1440,60,1
+calc    dtime(i4)«int(i3/i5)
+        i3«i3-dtime(i4)*i5
+1time
+*
+*
+*
+unit    tinc
+*       increment time
+add1    dtime(5)
+if      dtime(5)=60
+.       zero    dtime(5)
+.       add1    dtime(4)
+.       if      dtime(4)=24
+.       .       zero    dtime(4)
+.       .       add1    dtime(3)
+.       .       if      dtime(3)=30
+.       .       .       zero    dtime(3)
+.       .       .       add1    dtime(2)
+.       .       .       if      dtime(2)=12
+.       .       .       .       zero    dtime(2)
+.       .       .       .       add1    dtime(1)
+.       .       .       endif
+.       .       endif
+.       endif
+endif
+*
+*
+*
+unit    tend
+*       compute game time
+calc    i5«dtime(1)*518400+dtime(2)*43200+dtime(3)*1440+dtime(4)*60+dtime(5)
+        i5«i5-stime
+        ctime«ctime+i5
+*
+*
+*
+unit    misstats
+*       display mission statistics
+calc    i5«i6«i7«0
+size    2,2
+at      311
+write   THE KING'S STATISTICS
+size    0,0
+at      602
+write   REALM     MISSIONS     COMPLETE      ABANDONED     DEATHS
+at      3223
+doto    1loop,i1«1,10
+calc    i2«nmiss(i1)
+        i5«i5+i2
+        i3«pfails(i1)
+        i6«i6+i3
+        i4«pdths(i1)
+        i7«i7+i4
+at      603+i1*200
+write   «t,i1,2»      «t,i2»     «t,i2-i3-i4»       «t,i3»   «t,i4»
+at      729+i1*200
+write   «t,100*(i2-i3-i4)/i2,3»%           «t,100*i3/i2,3»%       «t,100*i4/i2,3»%
+1loop
+draw    2701;2759
+at      2901
+write   TOTAL     «t,i5»     «t,i5-i6-i7»       «t,i6»   «t,i7»
+at      3029
+write   «t,100*(i5-i6-i7)/i5,3»%           «t,100*i6/i5,3»%       «t,100*i7/i5,3»%
+at      3221
+write   NEXT  BACK  SHIFT-BACK
+end     help
+*
+*
+*
+unit    stopp
+*       unit to save suspended game
+dataout slotno;n1
+if      zreturn{^73}0
+.       at      3201
+.       erase   64
+.       at      3201
+.       write   Your mission cannot be suspended.
+.       pause   5,keys=all
+.       at      3201
+.       erase   64
+.       exit
+endif
+
+=== block 'honor roll'  kind 00  311 words  (block 27)
+calc    active(slotno)«0
+        suspnd(slotno)«1
+detach  2tkmds
+jumpout q
+*
+*
+*
+unit    resume
+*       unit to resume suspended mission
+datain  slotno;n1
+if      zreturn{^73}0
+.       at      808
+.       write   Regretfully, certain internal difficulties prevent
+.               the resumption of your mission at this time.
+.       at      2126
+.       write   Press NEXT.
+.       pause
+.       jumpout q
+endif
+calc    active(slotno)«1
+        suspnd(slotno)«0
+at      808
+write   You may now resume your suspended mission.
+at      3231
+write   NEXT
+pause
+erase
+do      refresh
+inhibit erase
+setperm 100
+jump    reenter
+*
+*
+*
+unit    hroll
+        merge,adv
+        hno(4),hchk
+*       king's honor roll unit
+doto    1loop,i5«1,4
+zero    hno(i5)
+* only 1 honoree/difflev =={^74}> negative realm count
+doto    1loop,i6«1,10
+if      lhonor(i5,i6){^54}0
+.       if      hno(i5)=0
+.       .       calc    hchk«lhonor(i5,i6)
+.       .               hno(i5)«-1
+.       elseif  hno(i5)<0
+.       .       if      hchk{^54}lhonor(i5,i6)
+.       .       .       calc    hno(i5)«1-hno(i5)
+.       .       else
+.       .       .       sub1    hno(i5)
+.       .       endif
+.       else
+.       .       add1    hno(i5)
+.       endif
+endif
+1loop
+if      hno(1)=0$and$hno(2)=0$and$hno(3)=0$and$hno(4)=0
+.       at      1507
+.       write   The King does not wish to honor anyone at this time.
+.       pause   5,keys=all
+.       jump    page1
+endif
+doto    2loop,i5«1,4
+if      hno(i5){^54}0
+.       at      212
+.       write   The King wishes to honor the following noble
+.               adventurer
+.       writec  hno(i5)<0, who has,s who have
+.       write    slain all of the 
+.       writec  i5-2,goblins,zombies,werewolves,demons
+.       at      412
+.       writec  abs(hno(i5))=1,in this realm:,in these realms:
+.       calc    i1«717
+.       doto    3loop,i2«1,10
+.       if      lhonor(i5,i2)>0
+.       .       at      i1
+.       .       write   In the 
+.       .       writec  i2-2,First,Second,Third,Fourth,Fifth,Sixth,Seventh,Eighth,Ninth,Tenth
+.       .       write    Realm:  «a,cname(lhonor(i5,i2)),20»
+.       .       calc    i1«i1+200
+.       endif
+.       3loop
+.       at      3218
+.       write   NEXT    BACK    SHIFT-BACK
+.       pause   keys=back1,next,back
+.       erase
+endif
+2loop
+jump    page1
+*
+*
+*
+unit    deleth
+        merge,adv
+        i
+*       honor roll deletion unit
+doto    1noh,i«1,40
+calcs   honors(i)=slotno,honors(i)«0,,
+1noh

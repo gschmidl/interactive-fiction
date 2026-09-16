@@ -1,0 +1,1454 @@
+West of house
+You are in an open field west of a big white house with a boarded
+front door.
+A rubber mat saying 'Welcome to Zork!' lies by the door.
+There is a small mailbox here.
+>Dig with what?
+>There is no object here matching that description.
+>You are in perfect health.
+You can be killed by a serious wound.
+>There is no object here matching that description.
+>There is no object here matching that description.
+>There is no object here matching that description.
+>I don't know the word 'sleep'.
+>South of house
+You are facing the south side of a white house.  There is no door here,
+and all the windows are barred.
+>You can't go that way.
+>I'm sorry.  I couldn't parse that.
+>I don't know the word ''.
+>There is no object here matching that description.
+>The windows are all barred.
+>I don't know the word 'searc'.
+>West of house
+A rubber mat saying 'Welcome to Zork!' lies by the door.
+There is a small mailbox here.
+>There is no object here matching that description.
+>There is no object here matching that description.
+>There is no object here matching that description.
+>You can't go that way.
+>I don't know the word 'house'.
+>The door is locked and there is evidently no key.
+>You can't go that way.
+>There is no object here matching that description.
+>There is no object here matching that description.
+>I don't know the word 'chest'.
+>I don't know the word 'sleep'.
+>Time passes...
+>Useful commands:
+ 
+   The 'BRIEF' command supresses printing of long room descriptions
+for rooms which have been visited.  The 'SUPERBRIEF' command supresses
+printing of long descriptions for all rooms.  The 'VERBOSE' command
+causes the long descriptions to always be printed.
+   The 'INFO' command prints information which might give some idea
+of what this game is about.
+   The 'QUIT' command prints your score and asks whether you wish
+to continue playing.
+   The 'SAVE' command saves the state of the game for later continuation.
+   The 'RESTORE' command restores a saved game.
+   The 'INVENTORY' command lists the objects in your possesion.
+   The 'LOOK' command prints a description of your surroundings.
+   The 'SCORE' command prints your current score and ranking.
+   The 'TIME' command tells you how long you have been playing.
+   The 'DIAGNOSE' command reports on your injuries, if any.
+ 
+Containment:
+ 
+   Some objects can contain other objects.  Many such containers can
+be opened and closed.  The rest are always open.  They may or may
+not be transparent.  For you to access (e.g., take) an object
+which is in a container, the container must be open.  For you
+to see such an object the container must be either open or
+transparent.  Containers have a capacity, and objects have sizes;
+the number of objects which will fit therefore depends on their
+sizes.  You may PUT any object you have access to (it need not be
+in your hands) into any other object.  At some point, the program
+will attempt to pick it up if don't already have it, which
+may fail if you're carrying too much.  Containers can contain
+other containers.
+ 
+Fighting:
+ 
+   Occupants of the dungeon will, as a rule, fight back when
+attacked.  In some cases, they may attack even if unprovoked.
+Useful verbs here are 'ATTACK <villain> WITH <weapon>', 'KILL',
+etc.  Knife-throwing may or may not be useful.  You have a
+fighting strength which varies with time.  Being in a fight,
+getting killed, and being injured all lower this strength.
+Your carrying capacity may also be reduced after a fight.
+Strength is regained with time.  Thus, it is not a good idea to
+fight someone immediately after being killed.  Other details
+should become apparent after a few melees or deaths.
+ 
+Command parser:
+ 
+   A command is a sentence terminated by a period or carriage return.
+For reasons of simplicity, all words are distinguished by their
+first five letters.  All others are ignored.  For example, typing
+'DISASSEMBLE THE ENCYCLOPEDIA' is not only meaningless, it also
+creates excess effort for your fingers.  Note that this trunca-
+tion may produce ambiguities in the interpretation of longer words.
+   
+   Actions:
+ Among the more obvious of these are TAKE, PUT, DROP, etc.
+ Fairly general forms of these may be used, such as PICK UP,
+ PUT DOWN, etc.
+ 
+   Directions:
+ NORTH, SOUTH, UP, DOWN, etc. and their various abbreviations.
+ Other more obscure directions (LAND, CLIMB) are appropriate in
+ only certain situations.
+ 
+   Objects:
+ Most objects have names and can be refenced by them.
+ 
+   Adjectives:
+ Many adjectives are understood and required when there are
+ two objects which can be referenced by the same noun (e.g.,
+ DOORs, BUTTONs).
+ 
+   Prepositions:
+ It may be necessary in some cases to include prepositions. When
+ a preposition is used it must be appropriate; 'GIVE CAR TO DEMON'
+ will work, but 'GIVE CAR WITH DEMON' wont parse.
+ 
+   Sentences:
+ The parser understands a reasonable number of syntactic construc-
+ tions.  Rather than listing them, we advise you to do reasonable
+ things.
+ 
+   Multiple objects:
+ The parser can handle sentences that contain more than one direct
+ object, as in 'GIVE CAR, KEYS TO DEMON' or 'GIVE CAR AND KEYS TO
+ DEMON'.  Some verbs can handle direct objects such as ALL, or
+ VALUABLES.
+>I don't know the word 'skull'.
+>The door is locked and there is evidently no key.
+>There is no object here matching that description.
+>You can't go that way.
+>Your score is 0 [total of 616 points], in 34 moves.
+This score gives you the rank of Beginner.
+>South of house
+>You can't go that way.
+>There is no object here matching that description.
+>I don't know the word 'it'.
+>You can't go that way.
+>There is no object here matching that description.
+>You are empty handed.
+>The windows are all barred.
+>You can't go that way.
+>I don't know the word 'wear'.
+>The windows are all barred.
+>There is no object here matching that description.
+>Behind House
+You are behind the white house.  In one corner of the house
+there is a window which is slightly ajar.
+>There is no object here matching that description.
+>I am unable to open that save file.
+>North of house
+You are facing the north side of a white house.  There is no door here,
+and all the windows are barred.
+>You must specify which direction here.
+>I don't know the word 'wear'.
+>The windows are all barred.
+>There is no object here matching that description.
+>Behind House
+>There is no object here matching that description.
+>I don't know the word 'liste'.
+>Useful commands:
+ 
+   The 'BRIEF' command supresses printing of long room descriptions
+for rooms which have been visited.  The 'SUPERBRIEF' command supresses
+printing of long descriptions for all rooms.  The 'VERBOSE' command
+causes the long descriptions to always be printed.
+   The 'INFO' command prints information which might give some idea
+of what this game is about.
+   The 'QUIT' command prints your score and asks whether you wish
+to continue playing.
+   The 'SAVE' command saves the state of the game for later continuation.
+   The 'RESTORE' command restores a saved game.
+   The 'INVENTORY' command lists the objects in your possesion.
+   The 'LOOK' command prints a description of your surroundings.
+   The 'SCORE' command prints your current score and ranking.
+   The 'TIME' command tells you how long you have been playing.
+   The 'DIAGNOSE' command reports on your injuries, if any.
+ 
+Containment:
+ 
+   Some objects can contain other objects.  Many such containers can
+be opened and closed.  The rest are always open.  They may or may
+not be transparent.  For you to access (e.g., take) an object
+which is in a container, the container must be open.  For you
+to see such an object the container must be either open or
+transparent.  Containers have a capacity, and objects have sizes;
+the number of objects which will fit therefore depends on their
+sizes.  You may PUT any object you have access to (it need not be
+in your hands) into any other object.  At some point, the program
+will attempt to pick it up if don't already have it, which
+may fail if you're carrying too much.  Containers can contain
+other containers.
+ 
+Fighting:
+ 
+   Occupants of the dungeon will, as a rule, fight back when
+attacked.  In some cases, they may attack even if unprovoked.
+Useful verbs here are 'ATTACK <villain> WITH <weapon>', 'KILL',
+etc.  Knife-throwing may or may not be useful.  You have a
+fighting strength which varies with time.  Being in a fight,
+getting killed, and being injured all lower this strength.
+Your carrying capacity may also be reduced after a fight.
+Strength is regained with time.  Thus, it is not a good idea to
+fight someone immediately after being killed.  Other details
+should become apparent after a few melees or deaths.
+ 
+Command parser:
+ 
+   A command is a sentence terminated by a period or carriage return.
+For reasons of simplicity, all words are distinguished by their
+first five letters.  All others are ignored.  For example, typing
+'DISASSEMBLE THE ENCYCLOPEDIA' is not only meaningless, it also
+creates excess effort for your fingers.  Note that this trunca-
+tion may produce ambiguities in the interpretation of longer words.
+   
+   Actions:
+ Among the more obvious of these are TAKE, PUT, DROP, etc.
+ Fairly general forms of these may be used, such as PICK UP,
+ PUT DOWN, etc.
+ 
+   Directions:
+ NORTH, SOUTH, UP, DOWN, etc. and their various abbreviations.
+ Other more obscure directions (LAND, CLIMB) are appropriate in
+ only certain situations.
+ 
+   Objects:
+ Most objects have names and can be refenced by them.
+ 
+   Adjectives:
+ Many adjectives are understood and required when there are
+ two objects which can be referenced by the same noun (e.g.,
+ DOORs, BUTTONs).
+ 
+   Prepositions:
+ It may be necessary in some cases to include prepositions. When
+ a preposition is used it must be appropriate; 'GIVE CAR TO DEMON'
+ will work, but 'GIVE CAR WITH DEMON' wont parse.
+ 
+   Sentences:
+ The parser understands a reasonable number of syntactic construc-
+ tions.  Rather than listing them, we advise you to do reasonable
+ things.
+ 
+   Multiple objects:
+ The parser can handle sentences that contain more than one direct
+ object, as in 'GIVE CAR, KEYS TO DEMON' or 'GIVE CAR AND KEYS TO
+ DEMON'.  Some verbs can handle direct objects such as ALL, or
+ VALUABLES.
+>North of house
+You are facing the north side of a white house.  There is no door here,
+and all the windows are barred.
+>You are empty handed.
+>The windows are all barred.
+>I don't know the word 'tree'.
+>I am unable to open that save file.
+>You must specify which direction here.
+>I don't know the word 'house'.
+>Brief descriptions.
+>There is no object here matching that description.
+>I don't know the word 'tree'.
+>Welcome to Dungeon!
+ 
+   You are near a large dungeon, which is reputed to contain vast
+quantities of treasure.  Naturally, you wish to acquire some of it.
+In order to do so, you must of course remove it from the dungeon.  To
+receive full credit for it, you must deposit it safely in the trophy
+case in the living room of the house.
+ 
+   In addition to valuables, the dungeon contains various objects
+which may or may not be useful in your attempt to get rich.  You may
+need sources of light, since dungeons are often dark, and weapons,
+since dungeons often have unfriendly things wondering about.  Reading
+material is scattered around the dungeon as well;  some of it
+is rumored to be useful.
+ 
+   To determine how successful you have been, a score is kept.
+When you find a valuable object and pick it up, you receive a
+certain number of points, which depends on the difficulty of finding
+the object.  You receive extra points for transporting the treasure
+safely to the living room and placing it in the trophy case.  In
+addition, some particularly interesting rooms have a value associated
+with visiting them.  The only penalty is for getting yourself killed,
+which you may do only twice.
+ 
+   Of special note is a thief (always carrying a large bag) who
+likes to wander around in the dungeon (he has never been seen by the
+light of day).  He likes to take things.  Since he steals for pleasure
+rather than profit and is somewhat sadistic, he only takes things which
+you have seen.  Although he prefers valuables, sometimes in his haste
+he may take something which is worthless.  From time to time, he examines
+his take and discards objects which he doesn't like.  He may occas-
+ionally stop in a room you are visiting, but more often he just wanders
+through and rips you off (he is a skilled pickpocket).
+>There is no object here matching that description.
+>I don't know the word 'ferre'.
+>You can't go that way.
+>Maximum verbosity.
+>There is no object here matching that description.
+>Time passes...
+>There is no object here matching that description.
+>I'm sorry.  I couldn't parse that.
+>I don't know the word 'fe'.
+>I don't know the word 'r'.
+>You must specify which direction here.
+>You can't go that way.
+>Forest
+This is a dimly lit forest, with large trees all around.  One
+particularly large tree with some low branches stands here.
+>You can't go that way.
+>There is no object here matching that description.
+>I don't know the word 'food'.
+>I don't know the word 'searc'.
+>Brief descriptions.
+>Saved.
+>Forest
+You are in a dimly lit forest, with large trees all around.  To the
+east, there appears to be sunlight.
+You hear in the distance the chirping of a songbird.
+>There is no object here matching that description.
+>You must specify which direction here.
+>I don't know the word 'house'.
+>You can't go that way.
+>Saved.
+>Forest
+You are in a forest, with trees in all directions around you.
+>You are in perfect health.
+You can be killed by a serious wound.
+>There is no object here matching that description.
+>There is no object here matching that description.
+>Forest
+>Forest
+>That feature is not implemented in this rev.
+>There is no object here matching that description.
+>I don't know the word ''.
+>You can't go that way.
+>Forest
+>You can't go that way.
+You hear in the distance the chirping of a songbird.
+>Maximum verbosity.
+>There is no object here matching that description.
+>You can't go that way.
+>I'm sorry.  I couldn't parse that.
+>I don't know the word 'ntie'.
+>Forest
+You are in a dimly lit forest, with large trees all around.  To the
+east, there appears to be sunlight.
+>There is no object here matching that description.
+>I don't know the word 't'.
+>I don't know the word 'rythi'.
+>There is no object here matching that description.
+>There is no object here matching that description.
+>I don't know the word 'ferre'.
+>Clearing
+You are in a clearing, with a forest surrounding you on the west
+and south.
+There is a pile of leaves on the ground.
+>There is no object here matching that description.
+>Clearing
+There is a pile of leaves on the ground.
+>There is no object here matching that description.
+>There is no object here matching that description.
+>I don't know the word 'smell'.
+>I don't know the word 'smell'.
+>Forest
+>There is no object here matching that description.
+>I don't know the word 'wear'.
+>South of house
+You are facing the south side of a white house.  There is no door here,
+and all the windows are barred.
+>I don't know the word 'food'.
+>There is no object here matching that description.
+>You can't go that way.
+>There is no object here matching that description.
+>There is no object here matching that description.
+>Forest
+>Your score is 0 [total of 616 points], in 138 moves.
+This score gives you the rank of Beginner.
+>Restored.
+Forest
+You are in a dimly lit forest, with large trees all around.  To the
+east, there appears to be sunlight.
+>I don't know the word 'sleep'.
+>Restored.
+Forest
+You are in a dimly lit forest, with large trees all around.  To the
+east, there appears to be sunlight.
+You hear in the distance the chirping of a songbird.
+>Maximum verbosity.
+>Forest
+You are in a forest, with trees in all directions around you.
+>There is no object here matching that description.
+>You must specify which direction here.
+>You must specify which direction here.
+>Forest
+You are in a forest, with trees in all directions around you.
+>Forest
+>I don't know the word 'house'.
+>Forest
+>I'm sorry.  I couldn't parse that.
+>I don't know the word 'uish'.
+>I don't know the word ''.
+>There is no object here matching that description.
+>Time passes...
+You hear in the distance the chirping of a songbird.
+>There is no object here matching that description.
+>You are empty handed.
+>There is no object here matching that description.
+>There is no object here matching that description.
+>Maximum verbosity.
+>There is no object here matching that description.
+>You are empty handed.
+>Forest
+You are in a forest, with trees in all directions around you.
+>You can't go that way.
+>You can't go that way.
+>I don't know the word 'it'.
+>You can't go that way.
+>There is no object here matching that description.
+>Forest
+>There is no object here matching that description.
+>Welcome to Dungeon!
+ 
+   You are near a large dungeon, which is reputed to contain vast
+quantities of treasure.  Naturally, you wish to acquire some of it.
+In order to do so, you must of course remove it from the dungeon.  To
+receive full credit for it, you must deposit it safely in the trophy
+case in the living room of the house.
+ 
+   In addition to valuables, the dungeon contains various objects
+which may or may not be useful in your attempt to get rich.  You may
+need sources of light, since dungeons are often dark, and weapons,
+since dungeons often have unfriendly things wondering about.  Reading
+material is scattered around the dungeon as well;  some of it
+is rumored to be useful.
+ 
+   To determine how successful you have been, a score is kept.
+When you find a valuable object and pick it up, you receive a
+certain number of points, which depends on the difficulty of finding
+the object.  You receive extra points for transporting the treasure
+safely to the living room and placing it in the trophy case.  In
+addition, some particularly interesting rooms have a value associated
+with visiting them.  The only penalty is for getting yourself killed,
+which you may do only twice.
+ 
+   Of special note is a thief (always carrying a large bag) who
+likes to wander around in the dungeon (he has never been seen by the
+light of day).  He likes to take things.  Since he steals for pleasure
+rather than profit and is somewhat sadistic, he only takes things which
+you have seen.  Although he prefers valuables, sometimes in his haste
+he may take something which is worthless.  From time to time, he examines
+his take and discards objects which he doesn't like.  He may occas-
+ionally stop in a room you are visiting, but more often he just wanders
+through and rips you off (he is a skilled pickpocket).
+>I'm sorry.  I couldn't parse that.
+You hear in the distance the chirping of a songbird.
+>There is no object here matching that description.
+>You can't go that way.
+>There is no object here matching that description.
+>There is no object here matching that description.
+>You can't go that way.
+>There is no object here matching that description.
+>You can't go that way.
+>There is no object here matching that description.
+>You must specify which direction here.
+>Forest
+>I don't know the word 'chest'.
+>You must specify which direction here.
+>I don't know the word 'again'.
+>North of house
+>You can't go that way.
+>There is no object here matching that description.
+>There is no object here matching that description.
+>The windows are all barred.
+>You are in perfect health.
+You can be killed by a serious wound.
+>I'm sorry.  I couldn't parse that.
+>I don't know the word ''.
+>There is no object here matching that description.
+>West of house
+You are in an open field west of a big white house with a boarded
+front door.
+A rubber mat saying 'Welcome to Zork!' lies by the door.
+There is a small mailbox here.
+>Forest
+>There is no object here matching that description.
+>Forest
+>Forest
+>South of house
+>I don't know the word 'ferre'.
+>You can't go that way.
+>That feature is not implemented in this rev.
+>I don't know the word 'it'.
+>There is no object here matching that description.
+>There is no object here matching that description.
+>I don't know the word 'chest'.
+>There is no object here matching that description.
+>I don't know the word 'food'.
+>There is no object here matching that description.
+>There is no object here matching that description.
+>Restored.
+Forest
+You are in a dimly lit forest, with large trees all around.  To the
+east, there appears to be sunlight.
+>Saved.
+>Waving a wall doesn't do anything.
+>Maximum verbosity.
+>Saved.
+>Forest
+You are in a large forest, with trees obstructing all views except
+to the east, where a small clearing may be seen through the trees.
+>Your score is 0 [total of 616 points], in 102 moves.
+This score gives you the rank of Beginner.
+>I don't know the word 'house'.
+>Brief descriptions.
+>I don't know the word 'chest'.
+>There is no object here matching that description.
+>There is no object here matching that description.
+>Forest
+You are in a forest, with trees in all directions around you.
+>I don't know the word 'chest'.
+>I don't know the word ''.
+>I don't know the word 'ling'.
+>There is no object here matching that description.
+>There is no object here matching that description.
+You hear in the distance the chirping of a songbird.
+>You can't go that way.
+>Welcome to Dungeon!
+ 
+   You are near a large dungeon, which is reputed to contain vast
+quantities of treasure.  Naturally, you wish to acquire some of it.
+In order to do so, you must of course remove it from the dungeon.  To
+receive full credit for it, you must deposit it safely in the trophy
+case in the living room of the house.
+ 
+   In addition to valuables, the dungeon contains various objects
+which may or may not be useful in your attempt to get rich.  You may
+need sources of light, since dungeons are often dark, and weapons,
+since dungeons often have unfriendly things wondering about.  Reading
+material is scattered around the dungeon as well;  some of it
+is rumored to be useful.
+ 
+   To determine how successful you have been, a score is kept.
+When you find a valuable object and pick it up, you receive a
+certain number of points, which depends on the difficulty of finding
+the object.  You receive extra points for transporting the treasure
+safely to the living room and placing it in the trophy case.  In
+addition, some particularly interesting rooms have a value associated
+with visiting them.  The only penalty is for getting yourself killed,
+which you may do only twice.
+ 
+   Of special note is a thief (always carrying a large bag) who
+likes to wander around in the dungeon (he has never been seen by the
+light of day).  He likes to take things.  Since he steals for pleasure
+rather than profit and is somewhat sadistic, he only takes things which
+you have seen.  Although he prefers valuables, sometimes in his haste
+he may take something which is worthless.  From time to time, he examines
+his take and discards objects which he doesn't like.  He may occas-
+ionally stop in a room you are visiting, but more often he just wanders
+through and rips you off (he is a skilled pickpocket).
+>There is no object here matching that description.
+>There is no object here matching that description.
+>There is no object here matching that description.
+>I don't know the word 'smell'.
+>I'm sorry.  I couldn't parse that.
+>I'm sorry.  I couldn't parse that.
+>I don't know the word 'flate'.
+You hear in the distance the chirping of a songbird.
+>I don't know the word 'wim'.
+>I don't know the word 'again'.
+>Forest
+>Canyon view
+You are at the top of the great canyon on its south wall.  From here
+there is a marvelous view of the canyon and parts of the Frigid River
+upstream.  Across the canyon, the walls of the white cliffs still
+appear to loom far above.  Following the canyon upstream (north and
+northwest), Aragain Falls may be seen, complete with rainbow.
+Fortunately, my vision is better than average, and I can discern the
+top of flood control dam #3 far to the distant north.  To the
+west and south can be seen an immense forest, stretching for miles
+around.  It is possible to climb down into the canyon from here.
+>You must specify which direction here.
+>You can't go that way.
+>Rocky ledge
+You are on a ledge about halfway up the wall of the river canyon.
+You can see from here that the main flow from Aragain Falls twists
+along a passage which is impossible to enter.  Below you is the
+canyon bottom.  Above you is more cliff, which still appears
+climbable.
+>You can't go that way.
+>You must specify which direction here.
+>There is no object here matching that description.
+>There is no object here matching that description.
+>That feature is not implemented in this rev.
+>Maximum verbosity.
+>You are empty handed.
+>You can't go that way.
+>You can't go that way.
+>You are in perfect health.
+You can be killed by a serious wound.
+>You are empty handed.
+>There is no object here matching that description.
+>Your score is 0 [total of 616 points], in 142 moves.
+This score gives you the rank of Beginner.
+>You can't go that way.
+>Canyon view
+You are at the top of the great canyon on its south wall.  From here
+there is a marvelous view of the canyon and parts of the Frigid River
+upstream.  Across the canyon, the walls of the white cliffs still
+appear to loom far above.  Following the canyon upstream (north and
+northwest), Aragain Falls may be seen, complete with rainbow.
+Fortunately, my vision is better than average, and I can discern the
+top of flood control dam #3 far to the distant north.  To the
+west and south can be seen an immense forest, stretching for miles
+around.  It is possible to climb down into the canyon from here.
+>There is no object here matching that description.
+>I don't know the word 'ferre'.
+>Restored.
+Forest
+You are in a dimly lit forest, with large trees all around.  To the
+east, there appears to be sunlight.
+You hear in the distance the chirping of a songbird.
+>Useful commands:
+ 
+   The 'BRIEF' command supresses printing of long room descriptions
+for rooms which have been visited.  The 'SUPERBRIEF' command supresses
+printing of long descriptions for all rooms.  The 'VERBOSE' command
+causes the long descriptions to always be printed.
+   The 'INFO' command prints information which might give some idea
+of what this game is about.
+   The 'QUIT' command prints your score and asks whether you wish
+to continue playing.
+   The 'SAVE' command saves the state of the game for later continuation.
+   The 'RESTORE' command restores a saved game.
+   The 'INVENTORY' command lists the objects in your possesion.
+   The 'LOOK' command prints a description of your surroundings.
+   The 'SCORE' command prints your current score and ranking.
+   The 'TIME' command tells you how long you have been playing.
+   The 'DIAGNOSE' command reports on your injuries, if any.
+ 
+Containment:
+ 
+   Some objects can contain other objects.  Many such containers can
+be opened and closed.  The rest are always open.  They may or may
+not be transparent.  For you to access (e.g., take) an object
+which is in a container, the container must be open.  For you
+to see such an object the container must be either open or
+transparent.  Containers have a capacity, and objects have sizes;
+the number of objects which will fit therefore depends on their
+sizes.  You may PUT any object you have access to (it need not be
+in your hands) into any other object.  At some point, the program
+will attempt to pick it up if don't already have it, which
+may fail if you're carrying too much.  Containers can contain
+other containers.
+ 
+Fighting:
+ 
+   Occupants of the dungeon will, as a rule, fight back when
+attacked.  In some cases, they may attack even if unprovoked.
+Useful verbs here are 'ATTACK <villain> WITH <weapon>', 'KILL',
+etc.  Knife-throwing may or may not be useful.  You have a
+fighting strength which varies with time.  Being in a fight,
+getting killed, and being injured all lower this strength.
+Your carrying capacity may also be reduced after a fight.
+Strength is regained with time.  Thus, it is not a good idea to
+fight someone immediately after being killed.  Other details
+should become apparent after a few melees or deaths.
+ 
+Command parser:
+ 
+   A command is a sentence terminated by a period or carriage return.
+For reasons of simplicity, all words are distinguished by their
+first five letters.  All others are ignored.  For example, typing
+'DISASSEMBLE THE ENCYCLOPEDIA' is not only meaningless, it also
+creates excess effort for your fingers.  Note that this trunca-
+tion may produce ambiguities in the interpretation of longer words.
+   
+   Actions:
+ Among the more obvious of these are TAKE, PUT, DROP, etc.
+ Fairly general forms of these may be used, such as PICK UP,
+ PUT DOWN, etc.
+ 
+   Directions:
+ NORTH, SOUTH, UP, DOWN, etc. and their various abbreviations.
+ Other more obscure directions (LAND, CLIMB) are appropriate in
+ only certain situations.
+ 
+   Objects:
+ Most objects have names and can be refenced by them.
+ 
+   Adjectives:
+ Many adjectives are understood and required when there are
+ two objects which can be referenced by the same noun (e.g.,
+ DOORs, BUTTONs).
+ 
+   Prepositions:
+ It may be necessary in some cases to include prepositions. When
+ a preposition is used it must be appropriate; 'GIVE CAR TO DEMON'
+ will work, but 'GIVE CAR WITH DEMON' wont parse.
+ 
+   Sentences:
+ The parser understands a reasonable number of syntactic construc-
+ tions.  Rather than listing them, we advise you to do reasonable
+ things.
+ 
+   Multiple objects:
+ The parser can handle sentences that contain more than one direct
+ object, as in 'GIVE CAR, KEYS TO DEMON' or 'GIVE CAR AND KEYS TO
+ DEMON'.  Some verbs can handle direct objects such as ALL, or
+ VALUABLES.
+>You can't go that way.
+>Forest
+You are in a forest, with trees in all directions around you.
+>Forest
+>You can't go that way.
+>There is no object here matching that description.
+>There is no object here matching that description.
+You hear in the distance the chirping of a songbird.
+>You must specify which direction here.
+>You can't go that way.
+>You can't go that way.
+>You can't go that way.
+>There is no object here matching that description.
+>You can't go that way.
+>South of house
+>There is no object here matching that description.
+>You can't go that way.
+>There is no object here matching that description.
+>You can't go that way.
+>I don't know the word 'searc'.
+>I don't know the word 'ferre'.
+>I don't know the word 'vel'.
+>South of house
+You are facing the south side of a white house.  There is no door here,
+and all the windows are barred.
+>I'm sorry.  I couldn't parse that.
+>I don't know the word 'eilin'.
+>There is no object here matching that description.
+>You must specify which direction here.
+>There is no object here matching that description.
+>There is no object here matching that description.
+>South of house
+You are facing the south side of a white house.  There is no door here,
+and all the windows are barred.
+>Forest
+>You must specify which direction here.
+>Forest
+You are in a large forest, with trees obstructing all views except
+to the east, where a small clearing may be seen through the trees.
+>Forest
+>You can't go that way.
+>Your score is 0 [total of 616 points], in 135 moves.
+This score gives you the rank of Beginner.
+You hear in the distance the chirping of a songbird.
+>Your score is 0 [total of 616 points], in 136 moves.
+This score gives you the rank of Beginner.
+>I don't know the word 'food'.
+>You can't go that way.
+>There is no object here matching that description.
+>There is no object here matching that description.
+>Forest
+You are in a large forest, with trees obstructing all views except
+to the east, where a small clearing may be seen through the trees.
+>I don't know the word 'ceili'.
+>There is no object here matching that description.
+You hear in the distance the chirping of a songbird.
+>I don't know the word 'tree'.
+>I don't know the word 'food'.
+>I don't know the word 'eilin'.
+>I don't know the word 'ng'.
+>Canyon view
+You are at the top of the great canyon on its south wall.  From here
+there is a marvelous view of the canyon and parts of the Frigid River
+upstream.  Across the canyon, the walls of the white cliffs still
+appear to loom far above.  Following the canyon upstream (north and
+northwest), Aragain Falls may be seen, complete with rainbow.
+Fortunately, my vision is better than average, and I can discern the
+top of flood control dam #3 far to the distant north.  To the
+west and south can be seen an immense forest, stretching for miles
+around.  It is possible to climb down into the canyon from here.
+>You'll need something to drink out of.
+>There is no object here matching that description.
+>Forest
+You are in a forest, with trees in all directions around you.
+>I'm sorry.  I couldn't parse that.
+>I don't know the word 'k'.
+>I don't know the word 'ig'.
+>I don't know the word 'searc'.
+>I don't know the word 'll'.
+>I don't know the word ''.
+>I don't know the word 'wear'.
+You hear in the distance the chirping of a songbird.
+>I don't know the word 'house'.
+>There is no object here matching that description.
+>You can't go that way.
+>I don't know the word 'liste'.
+>I don't think you can burn a quantity of water.
+>You can't go that way.
+>I don't know the word 'chest'.
+You hear in the distance the chirping of a songbird.
+>I don't know the word 'ceili'.
+>I don't know the word 'll'.
+>There is no object here matching that description.
+>I don't know the word 'house'.
+>I'm sorry.  I couldn't parse that.
+>There is no object here matching that description.
+>You can't go that way.
+>There is no object here matching that description.
+You hear in the distance the chirping of a songbird.
+>You can't go that way.
+>There is no object here matching that description.
+>You must specify which direction here.
+>There is no object here matching that description.
+>There is no object here matching that description.
+>Useful commands:
+ 
+   The 'BRIEF' command supresses printing of long room descriptions
+for rooms which have been visited.  The 'SUPERBRIEF' command supresses
+printing of long descriptions for all rooms.  The 'VERBOSE' command
+causes the long descriptions to always be printed.
+   The 'INFO' command prints information which might give some idea
+of what this game is about.
+   The 'QUIT' command prints your score and asks whether you wish
+to continue playing.
+   The 'SAVE' command saves the state of the game for later continuation.
+   The 'RESTORE' command restores a saved game.
+   The 'INVENTORY' command lists the objects in your possesion.
+   The 'LOOK' command prints a description of your surroundings.
+   The 'SCORE' command prints your current score and ranking.
+   The 'TIME' command tells you how long you have been playing.
+   The 'DIAGNOSE' command reports on your injuries, if any.
+ 
+Containment:
+ 
+   Some objects can contain other objects.  Many such containers can
+be opened and closed.  The rest are always open.  They may or may
+not be transparent.  For you to access (e.g., take) an object
+which is in a container, the container must be open.  For you
+to see such an object the container must be either open or
+transparent.  Containers have a capacity, and objects have sizes;
+the number of objects which will fit therefore depends on their
+sizes.  You may PUT any object you have access to (it need not be
+in your hands) into any other object.  At some point, the program
+will attempt to pick it up if don't already have it, which
+may fail if you're carrying too much.  Containers can contain
+other containers.
+ 
+Fighting:
+ 
+   Occupants of the dungeon will, as a rule, fight back when
+attacked.  In some cases, they may attack even if unprovoked.
+Useful verbs here are 'ATTACK <villain> WITH <weapon>', 'KILL',
+etc.  Knife-throwing may or may not be useful.  You have a
+fighting strength which varies with time.  Being in a fight,
+getting killed, and being injured all lower this strength.
+Your carrying capacity may also be reduced after a fight.
+Strength is regained with time.  Thus, it is not a good idea to
+fight someone immediately after being killed.  Other details
+should become apparent after a few melees or deaths.
+ 
+Command parser:
+ 
+   A command is a sentence terminated by a period or carriage return.
+For reasons of simplicity, all words are distinguished by their
+first five letters.  All others are ignored.  For example, typing
+'DISASSEMBLE THE ENCYCLOPEDIA' is not only meaningless, it also
+creates excess effort for your fingers.  Note that this trunca-
+tion may produce ambiguities in the interpretation of longer words.
+   
+   Actions:
+ Among the more obvious of these are TAKE, PUT, DROP, etc.
+ Fairly general forms of these may be used, such as PICK UP,
+ PUT DOWN, etc.
+ 
+   Directions:
+ NORTH, SOUTH, UP, DOWN, etc. and their various abbreviations.
+ Other more obscure directions (LAND, CLIMB) are appropriate in
+ only certain situations.
+ 
+   Objects:
+ Most objects have names and can be refenced by them.
+ 
+   Adjectives:
+ Many adjectives are understood and required when there are
+ two objects which can be referenced by the same noun (e.g.,
+ DOORs, BUTTONs).
+ 
+   Prepositions:
+ It may be necessary in some cases to include prepositions. When
+ a preposition is used it must be appropriate; 'GIVE CAR TO DEMON'
+ will work, but 'GIVE CAR WITH DEMON' wont parse.
+ 
+   Sentences:
+ The parser understands a reasonable number of syntactic construc-
+ tions.  Rather than listing them, we advise you to do reasonable
+ things.
+ 
+   Multiple objects:
+ The parser can handle sentences that contain more than one direct
+ object, as in 'GIVE CAR, KEYS TO DEMON' or 'GIVE CAR AND KEYS TO
+ DEMON'.  Some verbs can handle direct objects such as ALL, or
+ VALUABLES.
+>There is no object here matching that description.
+You hear in the distance the chirping of a songbird.
+>You can't go that way.
+>Restored.
+Forest
+You are in a dimly lit forest, with large trees all around.  To the
+east, there appears to be sunlight.
+>You can't go that way.
+>South of house
+>Saved.
+>Behind House
+>There is no object here matching that description.
+>There is no object here matching that description.
+>North of house
+>You can't go that way.
+>I don't know the word 'chest'.
+>I don't know the word 'row'.
+>I'm sorry.  I couldn't parse that.
+>There is no object here matching that description.
+>You can't go that way.
+>I don't know the word 'smell'.
+>Behind House
+>The wall cannot be opened.
+>There is no object here matching that description.
+>I don't know the word 'floor'.
+>I don't know the word 'chest'.
+>There is no object here matching that description.
+>Clearing
+You are in a clearing, with a forest surrounding you on the west
+and south.
+There is a pile of leaves on the ground.
+>There is no object here matching that description.
+>Forest
+>There is no object here matching that description.
+You hear in the distance the chirping of a songbird.
+>I don't know the word 'again'.
+>I don't know the word 'chest'.
+>I'm sorry.  I couldn't parse that.
+>I don't know the word 'rd'.
+>Forest
+You are in a dimly lit forest, with large trees all around.  To the
+east, there appears to be sunlight.
+>Time passes...
+>South of house
+>West of house
+A rubber mat saying 'Welcome to Zork!' lies by the door.
+There is a small mailbox here.
+>You must specify which direction here.
+>North of house
+>There is no object here matching that description.
+>There is no object here matching that description.
+>The windows are all barred.
+>There is no object here matching that description.
+>Behind House
+>The window is closed.
+>Behind House
+You are behind the white house.  In one corner of the house
+there is a window which is slightly ajar.
+>You can't go that way.
+>I'm sorry.  I couldn't parse that.
+>There is no object here matching that description.
+>Useful commands:
+ 
+   The 'BRIEF' command supresses printing of long room descriptions
+for rooms which have been visited.  The 'SUPERBRIEF' command supresses
+printing of long descriptions for all rooms.  The 'VERBOSE' command
+causes the long descriptions to always be printed.
+   The 'INFO' command prints information which might give some idea
+of what this game is about.
+   The 'QUIT' command prints your score and asks whether you wish
+to continue playing.
+   The 'SAVE' command saves the state of the game for later continuation.
+   The 'RESTORE' command restores a saved game.
+   The 'INVENTORY' command lists the objects in your possesion.
+   The 'LOOK' command prints a description of your surroundings.
+   The 'SCORE' command prints your current score and ranking.
+   The 'TIME' command tells you how long you have been playing.
+   The 'DIAGNOSE' command reports on your injuries, if any.
+ 
+Containment:
+ 
+   Some objects can contain other objects.  Many such containers can
+be opened and closed.  The rest are always open.  They may or may
+not be transparent.  For you to access (e.g., take) an object
+which is in a container, the container must be open.  For you
+to see such an object the container must be either open or
+transparent.  Containers have a capacity, and objects have sizes;
+the number of objects which will fit therefore depends on their
+sizes.  You may PUT any object you have access to (it need not be
+in your hands) into any other object.  At some point, the program
+will attempt to pick it up if don't already have it, which
+may fail if you're carrying too much.  Containers can contain
+other containers.
+ 
+Fighting:
+ 
+   Occupants of the dungeon will, as a rule, fight back when
+attacked.  In some cases, they may attack even if unprovoked.
+Useful verbs here are 'ATTACK <villain> WITH <weapon>', 'KILL',
+etc.  Knife-throwing may or may not be useful.  You have a
+fighting strength which varies with time.  Being in a fight,
+getting killed, and being injured all lower this strength.
+Your carrying capacity may also be reduced after a fight.
+Strength is regained with time.  Thus, it is not a good idea to
+fight someone immediately after being killed.  Other details
+should become apparent after a few melees or deaths.
+ 
+Command parser:
+ 
+   A command is a sentence terminated by a period or carriage return.
+For reasons of simplicity, all words are distinguished by their
+first five letters.  All others are ignored.  For example, typing
+'DISASSEMBLE THE ENCYCLOPEDIA' is not only meaningless, it also
+creates excess effort for your fingers.  Note that this trunca-
+tion may produce ambiguities in the interpretation of longer words.
+   
+   Actions:
+ Among the more obvious of these are TAKE, PUT, DROP, etc.
+ Fairly general forms of these may be used, such as PICK UP,
+ PUT DOWN, etc.
+ 
+   Directions:
+ NORTH, SOUTH, UP, DOWN, etc. and their various abbreviations.
+ Other more obscure directions (LAND, CLIMB) are appropriate in
+ only certain situations.
+ 
+   Objects:
+ Most objects have names and can be refenced by them.
+ 
+   Adjectives:
+ Many adjectives are understood and required when there are
+ two objects which can be referenced by the same noun (e.g.,
+ DOORs, BUTTONs).
+ 
+   Prepositions:
+ It may be necessary in some cases to include prepositions. When
+ a preposition is used it must be appropriate; 'GIVE CAR TO DEMON'
+ will work, but 'GIVE CAR WITH DEMON' wont parse.
+ 
+   Sentences:
+ The parser understands a reasonable number of syntactic construc-
+ tions.  Rather than listing them, we advise you to do reasonable
+ things.
+ 
+   Multiple objects:
+ The parser can handle sentences that contain more than one direct
+ object, as in 'GIVE CAR, KEYS TO DEMON' or 'GIVE CAR AND KEYS TO
+ DEMON'.  Some verbs can handle direct objects such as ALL, or
+ VALUABLES.
+>There is no object here matching that description.
+>You can't go that way.
+>There is no object here matching that description.
+>I don't know the word 'ouse'.
+>With great effort, you open the window far enough to allow passage.
+>You can't go that way.
+>I don't know the word 'sleep'.
+>Restored.
+South of house
+You are facing the south side of a white house.  There is no door here,
+and all the windows are barred.
+>I don't know the word 'ferre'.
+>You can't go that way.
+>There is no object here matching that description.
+>There is no object here matching that description.
+>The windows are all barred.
+>The windows are all barred.
+>West of house
+A rubber mat saying 'Welcome to Zork!' lies by the door.
+There is a small mailbox here.
+>Restored.
+South of house
+You are facing the south side of a white house.  There is no door here,
+and all the windows are barred.
+>You can't go that way.
+>I'm sorry.  I couldn't parse that.
+>I don't know the word ''.
+>I don't know the word 'ntern'.
+>I don't know the word 'k'.
+>Well, FOO, BAR, and BLETCH to you too!
+>I don't know the word 'wear'.
+>You can't go that way.
+>The windows are all barred.
+>Forest
+>Forest
+You are in a large forest, with trees obstructing all views except
+to the east, where a small clearing may be seen through the trees.
+>Forest
+>You can't go that way.
+>You can't go that way.
+You hear in the distance the chirping of a songbird.
+>You must specify which direction here.
+>Forest
+>There is no object here matching that description.
+>There is no object here matching that description.
+>There is no object here matching that description.
+>You can't go that way.
+>I don't know the word 'house'.
+>There is no object here matching that description.
+>There is no object here matching that description.
+You hear in the distance the chirping of a songbird.
+>There is no object here matching that description.
+>I don't know the word 'food'.
+>Forest
+You are in a forest, with trees in all directions around you.
+>Forest
+>There is no object here matching that description.
+>There is no object here matching that description.
+>I don't know the word 'smell'.
+>I don't know the word 'it'.
+>I don't know the word 'ferre'.
+>Clearing
+You are in a clearing, with a forest surrounding you on the west
+and south.
+There is a pile of leaves on the ground.
+>Welcome to Dungeon!
+ 
+   You are near a large dungeon, which is reputed to contain vast
+quantities of treasure.  Naturally, you wish to acquire some of it.
+In order to do so, you must of course remove it from the dungeon.  To
+receive full credit for it, you must deposit it safely in the trophy
+case in the living room of the house.
+ 
+   In addition to valuables, the dungeon contains various objects
+which may or may not be useful in your attempt to get rich.  You may
+need sources of light, since dungeons are often dark, and weapons,
+since dungeons often have unfriendly things wondering about.  Reading
+material is scattered around the dungeon as well;  some of it
+is rumored to be useful.
+ 
+   To determine how successful you have been, a score is kept.
+When you find a valuable object and pick it up, you receive a
+certain number of points, which depends on the difficulty of finding
+the object.  You receive extra points for transporting the treasure
+safely to the living room and placing it in the trophy case.  In
+addition, some particularly interesting rooms have a value associated
+with visiting them.  The only penalty is for getting yourself killed,
+which you may do only twice.
+ 
+   Of special note is a thief (always carrying a large bag) who
+likes to wander around in the dungeon (he has never been seen by the
+light of day).  He likes to take things.  Since he steals for pleasure
+rather than profit and is somewhat sadistic, he only takes things which
+you have seen.  Although he prefers valuables, sometimes in his haste
+he may take something which is worthless.  From time to time, he examines
+his take and discards objects which he doesn't like.  He may occas-
+ionally stop in a room you are visiting, but more often he just wanders
+through and rips you off (he is a skilled pickpocket).
+>Forest
+>There is no object here matching that description.
+>There is no object here matching that description.
+You hear in the distance the chirping of a songbird.
+>You can't go that way.
+>I don't know the word 'smell'.
+>Forest
+You are in a dimly lit forest, with large trees all around.  To the
+east, there appears to be sunlight.
+>You can't go that way.
+>There is no object here matching that description.
+>I don't know the word 'floor'.
+>Clearing
+There is a pile of leaves on the ground.
+>Forest
+>North of house
+>There is no object here matching that description.
+>You must specify which direction here.
+>You can't go that way.
+>You are empty handed.
+>Restored.
+South of house
+You are facing the south side of a white house.  There is no door here,
+and all the windows are barred.
+>I don't know the word 'smell'.
+>I don't know the word 'hrow'.
+>West of house
+You are in an open field west of a big white house with a boarded
+front door.
+A rubber mat saying 'Welcome to Zork!' lies by the door.
+There is a small mailbox here.
+>There is no object here matching that description.
+>Forest
+You are in a forest, with trees in all directions around you.
+>Put in what?
+>Saved.
+>There is no object here matching that description.
+>Welcome to Dungeon!
+ 
+   You are near a large dungeon, which is reputed to contain vast
+quantities of treasure.  Naturally, you wish to acquire some of it.
+In order to do so, you must of course remove it from the dungeon.  To
+receive full credit for it, you must deposit it safely in the trophy
+case in the living room of the house.
+ 
+   In addition to valuables, the dungeon contains various objects
+which may or may not be useful in your attempt to get rich.  You may
+need sources of light, since dungeons are often dark, and weapons,
+since dungeons often have unfriendly things wondering about.  Reading
+material is scattered around the dungeon as well;  some of it
+is rumored to be useful.
+ 
+   To determine how successful you have been, a score is kept.
+When you find a valuable object and pick it up, you receive a
+certain number of points, which depends on the difficulty of finding
+the object.  You receive extra points for transporting the treasure
+safely to the living room and placing it in the trophy case.  In
+addition, some particularly interesting rooms have a value associated
+with visiting them.  The only penalty is for getting yourself killed,
+which you may do only twice.
+ 
+   Of special note is a thief (always carrying a large bag) who
+likes to wander around in the dungeon (he has never been seen by the
+light of day).  He likes to take things.  Since he steals for pleasure
+rather than profit and is somewhat sadistic, he only takes things which
+you have seen.  Although he prefers valuables, sometimes in his haste
+he may take something which is worthless.  From time to time, he examines
+his take and discards objects which he doesn't like.  He may occas-
+ionally stop in a room you are visiting, but more often he just wanders
+through and rips you off (he is a skilled pickpocket).
+>Brief descriptions.
+>There is no object here matching that description.
+>Forest
+>There is no object here matching that description.
+>Forest
+>Saved.
+>I don't know the word 'floor'.
+>There is no object here matching that description.
+>I'm sorry.  I couldn't parse that.
+You hear in the distance the chirping of a songbird.
+>I don't know the word 'te'.
+>I don't know the word 'tle'.
+>Forest
+>You can't go that way.
+>There is no object here matching that description.
+>Forest
+>You must specify which direction here.
+>You can't go that way.
+>There is no object here matching that description.
+>Forest
+>There is no object here matching that description.
+>There is no object here matching that description.
+>South of house
+>There is no object here matching that description.
+>There is no object here matching that description.
+>There is no object here matching that description.
+>I'm sorry.  I couldn't parse that.
+>There is no object here matching that description.
+>Behind House
+>The window is closed.
+>There is no object here matching that description.
+>There is no object here matching that description.
+>There is no object here matching that description.
+>I'm sorry.  I couldn't parse that.
+>Clearing
+You are in a clearing, with a forest surrounding you on the west
+and south.
+There is a pile of leaves on the ground.
+>Maximum verbosity.
+>There is no object here matching that description.
+>You must specify which direction here.
+>There is no object here matching that description.
+>Brief descriptions.
+>Clearing
+There is a pile of leaves on the ground.
+>There is no object here matching that description.
+>Forest
+>Clearing
+There is a pile of leaves on the ground.
+>Forest
+>I don't know the word 'chest'.
+>North of house
+>There is no object here matching that description.
+>There is no object here matching that description.
+>You are in perfect health.
+You can be killed by a serious wound.
+>The windows are all barred.
+>There is no object here matching that description.
+>There is no object here matching that description.
+>I don't know the word 'every'.
+>There is no object here matching that description.
+>I don't know the word 'it'.
+>The windows are all barred.
+>There is no object here matching that description.
+>You can't go that way.
+>There is no object here matching that description.
+>There is no object here matching that description.
+>You can't go that way.
+>You must specify which direction here.
+>There is no object here matching that description.
+>Behind House
+>You can't go that way.
+>There is no object here matching that description.
+>There is no object here matching that description.
+>You can't go that way.
+>South of house
+>There is no object here matching that description.
+>You can't go that way.
+>I don't know the word 'searc'.
+>I don't know the word 'it'.
+>South of house
+You are facing the south side of a white house.  There is no door here,
+and all the windows are barred.
+>You must specify which direction here.
+>The windows are all barred.
+>I don't know the word 'house'.
+>You must specify which direction here.
+>You can't go that way.
+>Behind House
+>You can't go that way.
+>Welcome to Dungeon!
+ 
+   You are near a large dungeon, which is reputed to contain vast
+quantities of treasure.  Naturally, you wish to acquire some of it.
+In order to do so, you must of course remove it from the dungeon.  To
+receive full credit for it, you must deposit it safely in the trophy
+case in the living room of the house.
+ 
+   In addition to valuables, the dungeon contains various objects
+which may or may not be useful in your attempt to get rich.  You may
+need sources of light, since dungeons are often dark, and weapons,
+since dungeons often have unfriendly things wondering about.  Reading
+material is scattered around the dungeon as well;  some of it
+is rumored to be useful.
+ 
+   To determine how successful you have been, a score is kept.
+When you find a valuable object and pick it up, you receive a
+certain number of points, which depends on the difficulty of finding
+the object.  You receive extra points for transporting the treasure
+safely to the living room and placing it in the trophy case.  In
+addition, some particularly interesting rooms have a value associated
+with visiting them.  The only penalty is for getting yourself killed,
+which you may do only twice.
+ 
+   Of special note is a thief (always carrying a large bag) who
+likes to wander around in the dungeon (he has never been seen by the
+light of day).  He likes to take things.  Since he steals for pleasure
+rather than profit and is somewhat sadistic, he only takes things which
+you have seen.  Although he prefers valuables, sometimes in his haste
+he may take something which is worthless.  From time to time, he examines
+his take and discards objects which he doesn't like.  He may occas-
+ionally stop in a room you are visiting, but more often he just wanders
+through and rips you off (he is a skilled pickpocket).
+>There is no object here matching that description.
+>Clearing
+There is a pile of leaves on the ground.
+>You must specify which direction here.
+>There is no object here matching that description.
+>I don't know the word 'again'.
+>Clearing
+You are in a clearing, with a forest surrounding you on the west
+and south.
+There is a pile of leaves on the ground.
+>You can't go that way.
+>There is no object here matching that description.
+>You can't go that way.
+>Forest
+>You must specify which direction here.
+>There is no object here matching that description.
+>There is no object here matching that description.
+>North of house
+>There is no object here matching that description.
+>West of house
+A rubber mat saying 'Welcome to Zork!' lies by the door.
+There is a small mailbox here.
+>There is no object here matching that description.
+>The door is locked and there is evidently no key.
+>There is no object here matching that description.
+>I don't know the word 'skull'.
+>You can't go that way.
+>There is no object here matching that description.
+>I don't know the word 'skull'.
+>I don't know the word 'skull'.
+>I don't know the word 'ur'.
+>I don't know the word 'ferre'.
+>You must specify which direction here.
+>There is no object here matching that description.
+>I'm sorry.  I couldn't parse that.
+>I don't know the word 'again'.
+>You can't go that way.
+>I don't know the word 'sleep'.
+>North of house
+>There is no object here matching that description.
+>There is no object here matching that description.
+>You can't go that way.
+>I don't know the word 'chest'.
+>Forest
+>Restored.
+Forest
+You are in a forest, with trees in all directions around you.
+>You must specify which direction here.
+>There is no object here matching that description.
+>There is no object here matching that description.
+>Forest
+>You are in perfect health.
+You can be killed by a serious wound.
+>Forest
+>There is no object here matching that description.
+>Brief descriptions.
+>You can't go that way.
+>Time passes...
+>Maximum verbosity.
+>There is no object here matching that description.
+>There is no object here matching that description.
+>You can't go that way.
+>There is no object here matching that description.
+>There is no object here matching that description.
+>There is no object here matching that description.
+>There is no object here matching that description.
+>I don't know the word 'ferre'.
+>There is no object here matching that description.
+>Brief descriptions.
+You hear in the distance the chirping of a songbird.
+>Forest
+You hear in the distance the chirping of a songbird.
+>Forest
+>There is no object here matching that description.
+>I'm sorry.  I couldn't parse that.
+>I don't know the word 'g'.
+>I don't know the word 'ng'.
+You hear in the distance the chirping of a songbird.
+>You must specify which direction here.
+>Time passes...
+You hear in the distance the chirping of a songbird.
+>There is no object here matching that description.
+>I don't know the word 'it'.
+You hear in the distance the chirping of a songbird.
+>Maximum verbosity.
+>You can't go that way.
+>There is no object here matching that description.
+>There is no object here matching that description.
+>I don't know the word 'liste'.
+>There is no object here matching that description.
+>You can't go that way.
+>I don't know the word 'chest'.
+>I don't know the word 'liste'.
+>Clearing
+You are in a clearing, with a forest surrounding you on the west
+and south.
+There is a pile of leaves on the ground.
+>Forest
+>There is no object here matching that description.
+>You can't go that way.
+>There is no object here matching that description.
+>You can't go that way.
+>There is no object here matching that description.
+>South of house
+>You can't go that way.
+>I don't know the word 'tree'.
+>I don't know the word 'again'.
+>I don't know the word 'every'.
+>The windows are all barred.
+>I don't know the word 'it'.
+>You are in perfect health.
+You can be killed by a serious wound.
+>There is no object here matching that description.
+>Your score is 0 [total of 616 points], in 179 moves.
+This score gives you the rank of Beginner.

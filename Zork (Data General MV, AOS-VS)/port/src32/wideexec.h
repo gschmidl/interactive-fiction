@@ -375,7 +375,12 @@ static void wide_exec(word ir, dword at)
     case 0xC659: SETDW(WSB_A, AC[acd]); return;                      /* STASB */
     case 0xC669: AC[acd] = DW(WFP_A); return;                        /* LDAFP */
     case 0xC679: SETDW(WFP_A, AC[acd]); return;                      /* STAFP */
-    case 0xE649: SETDW(WSP_A, RING | ((DW(WSP_A) + AC[acd]) & OFFMASK)); return;
+    /* WMSP allocates DOUBLEWORDS, not words: every caller computes its
+     * argument as (bytes + 1 + 3) >> 2.  Found on QUEST (see that port's
+     * NOTES.md); ZORK.PR and FERRET.PR use the same idiom and so were
+     * under-allocating their stack buffers, with no visible effect in the
+     * audit's sessions. */
+    case 0xE649: SETDW(WSP_A, RING | ((DW(WSP_A) + 2u * AC[acd]) & OFFMASK)); return;
     case 0xE659: AC[acd] = (dword)((int32_t)AC[acd] >> 1); return;   /* WHLV */
     case 0xE669: AC[acd] = sx16((word)AC[acd]); return;              /* CVWN */
 
@@ -456,7 +461,9 @@ static void wide_exec(word ir, dword at)
             wrbyte(dp + (dword)(ds * k), 0x20);           /* blank filled */
         AC[2] = dp + (dword)(ds * dn);
         AC[3] = sp + (dword)(ss * n);
-        AC[0] = 0; AC[1] = 0;
+        /* AC1 = source bytes not moved, as the Eclipse CMV defines it (QUEST
+         * needs it; these two games never read it back). */
+        AC[0] = 0; AC[1] = (dword)(ss * (sn - n));
         C = sn > dn;
         return; }
     case 0xA759: {                                                   /* WCMP */
@@ -714,7 +721,17 @@ static void wide_exec(word ir, dword at)
                    C = 0; return; }
     case 0xDFC8: case 0xBFC8: {                                       /* DIVS/DIVX */
                    int32_t nu;
-                   if ((ir & 0x87FF) == 0xBFC8)
+                   /* DIVX sign-extends AC1 into AC0 first.  The test used to
+                    * be (ir & 0x87FF) == 0xBFC8, which can never be true --
+                    * the mask clears bits of 0xBFC8 itself -- so DIVX divided
+                    * whatever AC0 held.  ZORK.PR's random number generator at
+                    * 7D2F0 is seed = (23*seed + 217) mod 1221 done with DIVX
+                    * and AC0 still holding the dividend, so every random number
+                    * was wrong; the retry loop at 7CD26 ("pick 0..9 until a free
+                    * slot") then could span for ever on the broken sequence --
+                    * the game hung after a few hundred commands.  FERRET.PR
+                    * uses DIVX a few times a session too. */
+                   if (ir == 0xBFC8)
                        SETLO(0, (LO(1) & 0x8000) ? 0xFFFFu : 0);
                    nu = (int32_t)(((uint32_t)LO(0) << 16) | LO(1));
                    if (!LO(2)) { C = 1; return; }
@@ -1048,6 +1065,13 @@ static void wide_exec(word ir, dword at)
      * facility), reporting success is what lets a single-task program get on
      * with initialising itself. */
     case 0xE719:                                                     /* WMESS */
+        /* It is the release half of the runtime's lock (I.UNLOCK): clear the
+         * flag bit at AC2 and post to the mailbox two words before it --
+         * found on QUEST.  Only I.GINIT uses it here, where the skip is what
+         * matters; there is no second task to wake. */
+        {   dword fw = AC[2] & OFFMASK, box = (fw - 2) & OFFMASK;
+            M[MADDR(fw)] = (word)(M[MADDR(fw)] & ~0x8000u);
+            M[MADDR(box)] = 0xFFFF; M[MADDR(box + 1)] = 0xFFFF; }
         PC = (at + 1) & OFFMASK; wskip(); return;
 
     /* ---- the queue instructions --------------------------------------
@@ -1118,12 +1142,14 @@ static void wide_exec(word ir, dword at)
         default: ea = (dword)((int32_t)AC[3] + (int16_t)d1); break;
         }
         ea &= OFFMASK;
-        idx = wide ? (int32_t)rdw(ea) : (int32_t)(int16_t)M[MADDR(ea)];
-        idx++;
-        if (idx > lim) { PC = (dword)((int32_t)(at + 1) + (int16_t)d2) & OFFMASK;
-                         return; }
+        idx = wide ? (int32_t)(rdw(ea) + 1) : (int32_t)(int16_t)(word)(M[MADDR(ea)] + 1);
+        /* "In either case" (32-bit Principles of Operation 10-79, 10-186)
+         * the stepped value is stored and loaded -- on the way out of the loop
+         * too, where FORTRAN leaves the DO variable one past the limit. */
         if (wide) wrw(ea, (dword)idx); else M[MADDR(ea)] = (word)idx;
         AC[ac] = (dword)idx;
+        if (idx > lim) { PC = (dword)((int32_t)(at + 1) + (int16_t)d2) & OFFMASK;
+                         return; }
         break; }
 
     /* ---- WSKBO / WSKBZ (type 24) --------------------------------------

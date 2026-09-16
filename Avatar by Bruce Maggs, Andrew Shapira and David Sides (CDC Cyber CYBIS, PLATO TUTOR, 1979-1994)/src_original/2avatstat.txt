@@ -1,0 +1,1262 @@
+2avatstat  (tutor    a, 21 blocks)
+  u | 5o | 05/17/84 | 03/07/94 | s | s | Maggs/Sh | apira/Sid | es | avatar | see author | s | statistics | lesson fo | r avatar | 15.20.49. | dave runte | e | s | coserv | coserv | publish | i4a[0 | 2avatuse | avatarbv | mu2+ «{75} | 0catnote | coserv | s0edit | 5 | e
+
+=== block '*directory'  kind 00  0 words  (block 0)
+
+=== block 'start'  kind 00  193 words  (block 1)
+*
+*       copyright 1979, 1980, 1981, 1982, 1983, 1984
+*       Bruce Maggs, Andrew Shapira, David Sides
+*
+*
+*jumpout zsyslev;x;q
+jumpout user = 'multiple';q;x
+if      zcondok > -1
+.       at      1520
+.       write   Condense errors in Avatar!
+.               
+.               This is a system problem.
+.       pause   keys=all
+.       jumpout q
+endif
+storage 610,exactly
+define  global
+        lessonn = 0     $$ lesson number of help/statistics
+use     nc consts
+        k.rdist =       1       $$ race distribution page
+        k.cdist =       2       $$ class distr
+        k.mstat =       3       $$ misc stats
+        k.gdist =       4       $$ guild distr
+        k.main  =       5       $$ main index
+        k.guild =       6       $$ guild index
+use     functions
+        sdev(x,y,z) = sqrt((x-((y**2)/z))/z)
+*-- where x is {'45}x↑2
+*--       y is ({'45}x)
+*--       z is size of POPULATION (not sample)
+use     student
+use     stat
+use     stats
+use     race/class
+use     character
+use     players
+use     items
+use     monsters
+use     spells
+use     log
+use     maze
+use     cmstats
+use     initial
+jump    begin
+*
+unit    begin
+jumpout opt(o.stud) = 0 $and$ dstatus = 1;2avatar;x
+jump    start
+*
+        
+unit    imain
+next1   game
+*
+        
+unit    game
+jumpout <gtentry>
+jump    index
+*
+        
+unit    helpless
+jumpout <gthelp>
+jump    index
+*
+        
+use     secure
+use     u critrec
+*use     u rec
+use     utility
+use     find spell
+use     find item
+use     find mons
+use     arrow
+*
+unit    clean           $$ to please the condenser
+*
+
+=== block 'start'  kind 00  207 words  (block 2)
+*
+unit    start
+        merge,previous
+        lguild
+        lpseudo(2)
+$
+if      backgnd
+.       backgnd
+endif
+*
+imain   imain
+calc    lfilen « -1
+do      green
+atnm    172,256
+write   Finding your essence.
+do      cyan
+do      packname        $$ pack signon name
+do      attach(dnchar)
+setname (sbuf)
+calc    found « (zreturn = -1)
+if      found
+.       datain  1;s,schara;1
+.       do      zreturn,x,error('datain83')
+.       reserve name
+.       do      zreturn,x,error('reserve84')
+.       calc    sxinfo « zinfo
+.       if      ssafe = 0
+.       .       day     sday
+.       .       rename  (sbuf),sxinfo
+.       .       do      zreturn,x,error('rename37')
+.       endif
+.       if      chflag(f.bgnd) $mask$ (backgnd = 0)
+.       .       do      backgnd
+.       .       catchup
+.       endif
+else
+.       zero    chword,chwords
+endif
+calc    lguild « guildm « 0
+loop    (lguild « lguild+1) {^72} classes
+.       transfr c,gpseudo(lguild);lpseudo(1);2
+*
+*       this is a kludge, but it will catch the case
+*       of a zeroed pseudonym with a non-zero level
+*       this should go somewhere else eventually
+*
+.       if      lpseudo(1) = 0
+.       .       calc    glevel(lguild) « 0
+.       endif
+*
+reloop  chpseu1 {^54} lpseudo(1)
+reloop  chpseu2 {^54} lpseudo(2)
+.       calc    gm(lguild) « -1
+endloop
+jump    index
+*
+unit    jumpout(lfile,lunit)
+        lfile   $$ lesson to jumpout to
+        lunit   $$ unit to jumpout to
+$
+inhibit jumpchk
+if      args = 1
+.       jumpout <lfile>
+elseif  args = 2
+.       jumpout <lfile>,(lunit)
+endif
+*
+unit    pkey
+do      yellow
+atnm    160,16
+write   Press any key to continue.
+pause   keys=all
+*
+
+=== block 'ind/master'  kind 00  320 words  (block 3)
+unit    index
+        merge,previous
+        lkey
+do      white
+atnm    188,432
+write   Avatar Statistics
+atnm    189,432
+write   Avatar Statistics
+do      blue
+draw    64,408;448,408
+do      cyan
+at      188,384
+write   Choose an option:
+at      140,352
+write   a.  Guildmasters
+        
+        b.  Race Distribution
+        c.  Characteristics Distribution
+        d.  Guild Distribution
+        e.  Miscellaneous Statistics
+        
+        f.  Guild Statistics
+        
+        g.  Game Statistics
+do      blue
+draw    2009;2057
+do      yellow
+at      2219
+write   SHIFT-NEXT to go to the game
+at      116,144
+write   SHIFT-DATA to go to the help lesson
+do      blue
+draw    2409;2457
+do      white
+at      80,104
+write   Copyright 1979, 1980, 1981, 1982, 1983, 1984
+at      96,88
+write   Bruce Maggs, Andrew Shapira, David Sides
+         Tom Kirchman, Greg Janusz, Mark Eastom
+do      blue
+draw    2809;2857
+do      white
+loop
+.       pause   keys=all
+.       keytype lkey,data1,
+.               a,b,c,d,e,f,g
+reloop  lkey = -1
+.       jump    lkey-1,helpless,masters,x
+.       if      lkey < 6        $$ all statistics
+.       .       jump    allstats(lkey)
+.       elseif  lkey = 6        $$ guild statistics
+.       .       jump    gstats
+.       endif
+.       jump    gamestat
+endloop
+pause   keys=all
+*
+unit    attach(lfile)
+        lfile   $$ file to attach
+attach  <lfile>
+do      zreturn,x,error('attach86')
+*
+unit    attachch
+attach  <dnchar>,ro
+do      zreturn,x,error('attach87')
+*
+unit    findclas
+calc    class « 0
+loop    (class « class+1) {^72} classes
+reloop  (value $mask$ lmask(jcount*6)){^54}(cname(class) $mask$ lmask(jcount*6))
+.       goto    q
+endloop
+calc    class « 0
+unit    masters
+        merge,previous
+        lguild
+        lpseudo(2)
+next    masters
+back    index
+do      white
+at      96,416
+write   Guildmasters
+at      96,384
+write   Guild
+at      192,384
+write   Pseudonym
+at      376,384
+write   Level
+do      blue
+box     96,382;416,380
+do      cyan
+calc    lguild « 0
+loop    (lguild « lguild+1) {^72} classes
+.       if      gm(lguild)      $$ guild master
+.       .       atnm    84,376-16*lguild
+.       .       write   *
+.       endif
+.       atnm    96,376-16*lguild
+.       showa   cname(lguild)
+.       transfr c,gpseudo(lguild);lpseudo(1);2
+.       atnm    192,376-16*lguild
+.       showa   lpseudo(1),20
+.       atnm    392,376-16*lguild
+.       showt   glevel(lguild),3
+endloop
+*
+do      blue
+box     96,386-16*lguild;416,384-16*lguild
+do      yellow
+at      2915
+write   NEXT to replot or BACK for index
+do      cyan
+
+=== block 'allstats'  kind 00  286 words  (block 4)
+*
+unit    allstats(ljump)
+        merge,previous
+        lnam(3)
+        lname = lnam(1) $$ setname buffer
+        lkey
+        ljump
+$
+erase   abort
+do      attach(dnstat)  $$ attach statistics nameset
+zero    lname,3
+calc    lname « 'allstats'
+        class « 0       $$ to indicate all, not spec class
+setname (lname)
+*
+if      zreturn > -1
+.       addname (lname),5
+.       jump    zreturn,x,index
+.       calc    stdate « 0
+.       dataout 1;s,sstats;1
+.       jump    zreturn,x,index
+endif
+*
+datain  1;s,sstats;5            $$ 320 word buffer
+do      zreturn,x,error('datain88')
+*--
+branch  stdate = 0,1go,x
+*--
+do      white
+at      40,336
+write   Statistics on All Characters
+at      40,272
+write   Statistics were last compiled on«a,stdate»at«a,sttime»
+do      yellow
+at      120,224
+write         NEXT to use these statistics
+        SHIFT-HELP to compile new statistics
+        SHIFT-BACK to return to the index
+do      cyan
+pause   keys=back1,next,help1,term
+keytype lkey,next,help1
+jump    lkey,index,x
+if      lkey = 0
+.       jump    ljump-3,racedist,statdist,clasdist,miscstat,x
+endif
+*
+1go
+*
+do      compile
+do      attach(dnstat)  $$ attach statistics nameset
+setname (lname)
+jump    zreturn,x,index
+dataout 1;s,sstats;5            $$ 320 word buffer
+do      zreturn,x,error('datain89')
+jump    ljump-3,racedist,statdist,clasdist,miscstat,x
+*
+*unit    doall
+*        merge,previous
+*        lnam(3)
+*        lname = lnam(1)
+*$
+*termop  crunch
+*do      attach(dnstat)  $$ attach statistics nameset
+*zero    lname,3
+*calc    lname « 'allstats'
+*        class « 0       $$ to indicate all, not spec class
+*loop    class {^72} classes
+*.       setname (lname)
+*.       jump    zreturn,x,index
+*.       datain  1;s,sstats;5            $$ 320 word buffer
+*.       do      zreturn,x,error('datain90')
+*.       do      compile
+*.       do      attach(dnstat)  $$ attach statistics nameset
+*.       setname (lname)
+*.       jump    zreturn,x,index
+*.       dataout 1;s,sstats;5            $$ 320 word buffer
+*.       do      zreturn,x,error('datain91')
+*.       calc    class « class+1
+*.       zero    lname,3
+*.       calc    lname « cname(class)
+*endloop
+*do      packname
+*setname (sbuf)
+*do      zreturn,x,error('setname92')
+*datain  1;s,schara;1
+*do      zreturn,x,error('datain93')
+*jump    index
+*
+
+=== block 'compile'  kind 00  256 words  (block 5)
+*
+unit    compile
+        merge,previous
+        lnam(3)
+        lname = lnam(1)
+        lstat
+        lclass
+        lbuff(stwpc)    $$ buffer for -inserts-
+        lbuf = lbuff(1)
+        lpat            $$ search pattern word
+        segmentf,llev = lpat,24,10
+        llevx
+        lret
+        lchars
+$
+erase   abort
+do      green
+at      128,256
+write   Compiling Avatar Data:
+do      cyan
+at      128,223
+writec  class-1;All Characters;«a,cname(class)»
+mode    rewrite
+zero    statbuf,320
+zero    lbuf,stwpc              $$ for -inserts-
+calc    lchars « 0
+do      attachch
+at      336,256
+write   1/«s,znsnams»
+setname
+*
+loop
+.       setname nextname
+outloop zreturn > -1
+.       getname lname
+.       datain  1;s,schara;1
+.       do      zreturn,x,error('datain94')
+.       calc    lchars « lchars+1
+.       if      int(lchars/20) = lchars/20
+.       .       atnm    320,256
+.       .       write   «t,lchars,3»
+.       .       catchup
+.       .       pause   2
+.       endif
+.       if      class > 0
+reloop  chlevel(class) = 0
+.       endif
+.       calc    stchars         « stchars+1
+.               strace(chrace)  « strace(chrace)+1
+.               stgne(chalign+1)« stgne(chalign+1)+1
+.               stsex(chsex+1)  « stsex(chsex+1)+1
+.               sthits          « sthits + chbhits
+.               stgamer         « stgamer+chtimel
+.               stsqgam         « stsqgam+chtimel**2
+.               stage           « stage+chage
+.               stsqage         « stsqage+chage**2
+.               lstat           « 0
+.       loop    (lstat « lstat+1) {^72} 6
+.       .       calc    ststats(lstat) « ststats(lstat)+chstat(lstat)
+.       .               stsqsts(lstat) « stsqsts(lstat)+chstat(lstat)**2
+.       .               ststat(lstat,chstat(lstat)+1) « ststat(lstat,chstat(lstat)+1)+1
+.       endloop
+.       if      class = 0       $$ figure class distribution
+.       .       calc    lclass « 0
+.       .       loop    (lclass « lclass+1) {^72} classes
+.       .       .       calc    stclass(lclass) « stclass(lclass)-(chlevel(lclass) > 0)
+.       .       endloop
+.       endif
+reloop  class = 0
+*--
+*-- continued in next block
+*--
+
+=== block 'compile'  kind 00  142 words  (block 6)
+*
+*       $$  continued from last block
+*
+.       calc    llev « chlevel(class)
+.               llevx « min(llev,499)
+.               sclevs(int(llevx/5)+1) « sclevs(int(llevx/5)+1)+1
+.               llev « 1000-chlevel(class)
+.       finds   lpat,stsword;topchar,stwpc,24,10,lret
+.       calc    lret « abs(lret)
+reloop  lret {^73} topmax
+.       inserts lbuf,scbuf;topchar,stwpc,abs(lret)
+.       calc    topchar « min(topchar+1,topmax)
+.               sclevel(lret) « 1000-chlevel(class)
+.               scpriv(lret) « chflag(f.pub)
+.               scqstat(lret) « chqstat(class)
+.               scqinfo(lret) « chqinfo(class)
+.               scage(lret) « chage/8766
+.               scrace(lret) « chrace
+.               scalign(lret) « chalign
+.               scsex(lret) « chsex
+.               schits(lret) « chbhits
+.               scqnum(lret) « chquest(class)
+.       transfr chpseud;scpseud(lret);2
+.       transfr lname;scname(lret);3
+endloop
+date    stdate
+clock   sttime
+erase   abort
+do      getrec
+*
+unit    getrec
+goto    found,x,q
+do      packname
+do      attach(dnchar)
+setname (sbuf)
+goto    zreturn,x,q     $$ character moved off maybe...
+datain  1;s,schara;1
+do      zreturn,x,error('datain96')
+*
+
+=== block 'r/c dist'  kind 00  318 words  (block 7)
+*
+unit    racedist
+        merge,previous
+        lrace
+        lkey
+$
+do      white
+at      64,464
+write   Race Distribution
+do      blue
+draw    ;64,464;
+do      white
+at      64,432
+write   Population of «s,stchars»
+if      class > 0
+.       write     (Guild: «a,cname(class)»)
+endif
+*
+do      white
+at      64,384
+write   Race
+at      192,384
+write   Number in game
+at      368,384
+write   Percentage
+do      blue
+draw    64,384;448,384;
+do      cyan
+calc    lrace « 0
+loop    (lrace « lrace+1) {^72} races
+.       atnm    64,376-16*lrace
+.       showa   rname(lrace),10
+.       atnm    240,wherey
+.       showt   strace(lrace),3
+.       atnm    384,wherey
+.       showt   (strace(lrace)/stchars)*100,3.2
+endloop
+*
+if      class > 0
+.       do      showkeys(k.cdist,k.mstat,k.guild)
+else
+.       do      showkeys(k.cdist,k.gdist,k.main)
+endif
+*
+pause   keys=next,back,back1,term
+keytype lkey,next,back,back1
+if      class > 0
+.       jump    lkey-1,statdist,miscstat,guild
+else
+.       jump    lkey-1,statdist,clasdist,index
+endif
+*
+unit    clasdist
+        merge,previous
+        lclass
+        lkey
+$
+do      white
+at      64,464
+write   Guild Distribution
+do      blue
+draw    ;64,464;
+do      white
+at      64,432
+write   Population of «s,stchars»
+if      class > 0
+.       write     (Guild: «a,cname(class)»)
+endif
+*
+at      64,384
+write   Guild
+at      192,384
+write   Number in game
+at      368,384
+write   Percentage
+do      blue
+draw    64,384;448,384;
+do      cyan
+calc    lclass « 0
+*
+loop    (lclass « lclass+1) {^72} classes
+.       atnm    64,376-16*lclass
+.       showa   cname(lclass),10
+.       atnm    240,wherey
+.       showt   stclass(lclass),3
+.       atnm    384,wherey
+.       showt   (stclass(lclass)/stchars)*100,3.2
+endloop
+*
+do      showkeys(k.rdist,k.mstat,k.main)
+pause   keys=next,back,back1,term
+keytype lkey,next,back,back1
+jump    lkey-1,racedist,miscstat,index
+*
+unit    showkeys(lnext,lback,lback1)
+        merge,previous
+        lnext,lback,lback1
+$
+do      blue
+draw    64,128;448,128;
+do      yellow
+at      64,96
+write         NEXT to see 
+do      white
+do      showp(lnext)
+do      yellow
+at      64,80
+write         BACK to see 
+do      white
+do      showp(lback)
+do      yellow
+at      64,64
+write   SHIFT-BACK to return to the 
+do      white
+do      showp(lback1)
+do      blue
+draw    64,48;448,48;
+do      cyan
+at      64,16
+write         Data compiled on«a,stdate»at«a,sttime»
+*
+unit    showp(lpage)
+        lpage
+*
+
+=== block 'stat'  kind 00  310 words  (block 10)
+*
+$
+writec  lpage-2;
+        Race Distribution;
+        Characteristic Distribution;
+        Miscellaneous Statistics;
+        Guild Distribution;
+        Main Index;
+        Guild Index;
+*
+unit    statdist
+        merge,previous
+        lstat
+        lstatx
+        lmax
+        lval
+        lkey
+$
+do      white
+at      64,464
+write   Characteristic Distribution
+do      blue
+draw    ;64,464;
+do      white
+at      64,432
+write   Population of «s,stchars»
+if      class > 0
+.       write     (Guild: «a,cname(class)»)
+endif
+*at      64,408
+*write   LAB for graphs
+at      64,384
+write   Characteristic
+at      208,384
+write   Mean
+at      272,384
+write   Std. Dev.
+at      376,384
+write   Mode
+do      blue
+draw    64,384;448,384;
+do      cyan
+at      64,328
+write   Strength
+        
+        Intelligence
+        
+        Wisdom
+        
+        Constitution
+        
+        Charisma
+        
+        Dexterity
+calc    lstat « 0
+*
+loop    (lstat « lstat+1) {^72} 6
+.       atnm    200,360-32*lstat
+.       showt   ststats(lstat)/stchars,2.2
+.       atnm    288,wherey
+.       showt   sdev(stsqsts(lstat),ststats(lstat),stchars),2.2
+.       calc    lstatx « lmax « lval « 0
+.       loop    (lstatx « lstatx+1) {^72} 32
+.       reloop  ststat(lstat,lstatx) < lmax
+.       .       calc    lval « lstatx-1
+.       .               lmax « ststat(lstat,lstatx)
+.       endloop
+.       atnm    384,wherey
+.       showt   lval,2
+.       atnm    416,wherey
+.       write   («s,chstat(lstat)»)
+endloop
+*
+if      class > 0
+.       do      showkeys(k.mstat,k.rdist,k.guild)
+else
+.       do      showkeys(k.mstat,k.rdist,k.main)
+endif
+*
+pause   keys=next,back,back1,lab,term
+keytype lkey,next,back,back1,lab
+jump    lkey-1,miscstat,racedist,x,statgr,x
+jump    class-1,index,guild
+*
+unit    statgr
+calc    stat « 1
+loop
+.       do      showgr
+endloop
+*
+do      yellow
+at      3003
+write         NEXT for Intelligence
+              BACK for Dexterity
+        SHIFT-BACK to exit graphs
+do      cyan
+jump    statdist
+*
+unit    showgr
+jump    statdist
+do      cyan
+at      103
+write   Guild: Commoner
+at      203
+write   Strength Distribution
+gorigin 24,64
+axes    464,384
+scalex  50
+scaley  32
+labelx  10
+labely  16
+do      yellow
+at      3003
+write         NEXT for Intelligence
+              BACK for Dexterity
+        SHIFT-BACK to exit graphs
+do      cyan
+pause   keys=all
+erase   abort
+*
+
+=== block 'misc'  kind 00  196 words  (block 11)
+*
+unit    miscstat
+        merge,previous
+        lkey
+$
+do      white
+at      64,464
+write   Miscellaneous Statistics
+do      blue
+draw    ;64,464;
+do      white
+at      64,432
+write   Population   - «s,stchars»
+*
+if      class > 0
+.       write     (Guild: «a,cname(class)»)
+endif
+*
+do      blue
+draw    709;756
+do      cyan
+at      64,368
+write   Alignment - Good
+                  - Neutral
+                  - Evil
+        
+        Sex       - Male
+                  - Female
+        
+        Age       - Mean
+        (years)   - Std. Dev.
+        
+        Hits      - Mean
+        
+        Game time - Mean
+        (hours)   - Std. Dev.
+                  - Your
+at      328,368
+write   «t,stgne(2),3»   «t,(stgne(2)/stchars)*100,3.2»%
+        «t,stgne(3),3»   «t,(stgne(3)/stchars)*100,3.2»%
+        «t,stgne(4),3»   «t,(stgne(4)/stchars)*100,3.2»%
+        
+        «t,stsex(1),3»   «t,(stsex(1)/stchars)*100,3.2»%
+        «t,stsex(2),3»   «t,(stsex(2)/stchars)*100,3.2»%
+at      304,256
+write   «t,(stage/stchars)/8766,3.2»
+        «t,sdev(stsqage,stage,stchars)/8766,3.2»
+        
+        «t,sthits/stchars,3.2»
+        
+        «t,(stgamer/stchars)/720,3.2»
+        «t,sdev(stsqgam,stgamer,stchars)/720,3.2»
+        «t,chtimel/720,3.2»
+if      class > 0
+.       do      showkeys(k.rdist,k.cdist,k.guild)
+else
+.       do      showkeys(k.gdist,k.cdist,k.main)
+endif
+*
+pause   keys=next,back,back1,term
+keytype lkey,next,back,back1
+*
+if      class > 0
+.       jump    lkey-1,racedist,statdist,guild
+else
+.       jump    lkey-1,clasdist,statdist,index
+endif
+*
+
+=== block 'guilds'  kind 00  269 words  (block 12)
+*
+unit    gstats
+*
+**      guild statistics
+*
+back    index
+*
+do      white
+at      425
+write   Guild Statistics
+do      blue
+draw    ;425
+do      cyan
+*
+do      listclas(220,400)
+*
+*do      green
+do      yellow
+*at      196,160  $$ = 2225
+at      2218
+*write   Choose a guild:
+write   Choose a letter or BACK for index
+*write   Choose a letter or «c,zyellow»BACK«c,zgreen» for index
+do      cyan
+arrow   2430
+long    1
+storea  class
+ok
+calc    class « class $cls$ 6
+judge   (class < 0) $or$ (class > classes),ignore,x
+endarrow
+*
+jump    gstatsx
+*
+unit    listclas(lx,ly)
+*
+**      list all classes (guilds)
+*
+        merge,previous
+        lx, ly          $$ location
+        lguild
+$
+calc    lguild « 0
+loop    (lguild « lguild+1) {^72} classes
+.       at      lx,ly-16*(lguild-1)
+.       write   «a,lguild». «a,cname(lguild)»
+endloop
+*
+*
+unit    gstatsx
+        merge,previous
+        lnam(3)
+        lname = lnam(1) $$ setname buffer
+        lkey
+$
+do      attach(dnstat)  $$ attach statistics nameset
+zero    lname,3
+calc    lname « cname(class)
+setname (lname)
+*
+if      zreturn > -1
+.       addname (lname),5
+.       jump    zreturn,x,index
+.       calc    stdate « 0
+.       dataout 1;s,sstats;1
+.       jump    zreturn,x,index
+endif
+datain  1;s,sstats;5            $$ 320 word buffer
+do      zreturn,x,error('datain97')
+*--
+branch  stdate = 0,1go,x
+*--
+do      white
+at      40,336
+write   Statistics on Specific Guild: «a,cname(class)»
+at      40,272
+write   Statistics were last compiled on«a,stdate»at«a,sttime»
+do      yellow
+at      120,224
+write         NEXT to use these statistics
+        SHIFT-HELP to compile new statistics
+        SHIFT-BACK to return to the index
+do      cyan
+pause   keys=back1,next,help1,term
+keytype lkey,next,help1
+*
+jump    lkey,index,x
+jump    lkey-1,guild,x
+*
+1go
+*
+do      cyan
+do      compile
+do      attach(dnstat)  $$ attach statistics nameset
+setname (lname)
+jump    zreturn,x,index
+dataout 1;s,sstats;5            $$ 320 word buffer
+do      zreturn,x,error('datain98')
+jump    guild
+*
+
+=== block 'guilds'  kind 00  319 words  (block 13)
+*
+unit    listtop
+        merge,previous
+        lkey
+$
+do      white
+at      120,320
+write   Top «s,topchar» «a,cname(class)» characters.
+do      cyan
+at      88,280
+write   1 - Pseudonym, Quest Information
+        
+        2 - Pseudonym, Race, Age, Sex, Alignment, Hits
+        
+        3 - Pseudonym, Signon (if available)
+pause   keys=back1,back,next,1,2,3,term
+keytype lkey,next,1,2,3
+jump    lkey,guild,topquest,topquest,toprace,topsigno,guild
+jump    listtop
+*
+unit    topquest
+        merge,previous
+        lchar
+        lkey
+$
+do      white
+at      8,496
+write   Top «s,topchar» «a,cname(class)» characters.
+at      8,480
+write   Pseudonym
+at      176,480
+write   Level
+at      232,480
+write   Num
+at      272,480
+write   Current Quest
+do      blue
+draw    8,480;504,480;
+do      cyan
+calc    lchar « 0
+*
+loop    (lchar « lchar+1) {^72} topchar
+.       atnm    8,464-16*lchar
+.       showa   scpseud(lchar),20
+.       atnm    184,wherey
+.       showt   1000-sclevel(lchar),3
+.       atnm    232,wherey
+.       showt   scqnum(lchar),3
+.       atnm    272,wherey
+.       if      scqstat(lchar) = 4
+.       .       do      getmons(scqinfo(lchar))
+.       .       write   «a,mname,20»«a,msuffix(m.singu)»
+.       elseif  scqstat(lchar) = 5
+.       .       do      getitem(scqinfo(lchar))
+.       .       showa   iname,30
+.       else
+.       .       write   -
+.       endif
+endloop
+*
+do      blue
+draw    8,48;504,48;
+do      cyan
+pause   keys=back1,back,next,term
+keytype lkey,back1,back,next
+jump    lkey-1,guild,topsigno,toprace
+jump    guild
+*
+unit    toprace
+        merge,previous
+        lchar
+        lkey
+$
+do      white
+at      8,496
+write   Top «s,topchar» «a,cname(class)» characters.
+at      8,480
+write   Pseudonym
+at      168,480
+write   Race
+at      248,480
+write   Age
+at      288,480
+write   Sex
+at      328,480
+write   Align
+at      384,480
+write   Hits
+do      blue
+draw    8,480;504,480;
+do      cyan
+calc    lchar « 0
+*
+loop    (lchar « lchar+1) {^72} topchar
+.       atnm    8,464-16*lchar
+.       showa   scpseud(lchar),20
+.       atnm    168,wherey
+.       showa   rname(scrace(lchar))
+.       atnm    248,wherey
+.       showt   scage(lchar),3
+.       atnm    296,wherey
+.       writec  scsex(lchar)-1;M;F
+.       atnm    336,wherey
+.       writec  scalign(lchar)-2;good;neut;evil
+.       atnm    392,wherey
+.       showt   schits(lchar),3
+endloop
+do      blue
+draw    8,48;504,48;
+do      cyan
+pause   keys=back1,back,next,term
+keytype lkey,back1,back,next
+jump    lkey-1,guild,topquest,topsigno
+jump    guild
+*
+
+=== block 'guilds'  kind 00  320 words  (block 14)
+*
+unit    guild
+        merge,previous
+        lkey
+        lpseudo(2)
+$
+do      white
+at      64,432
+write   Guild Statistics
+do      blue
+draw    ;64,432;
+do      white
+at      64,400
+write   Population of «s,stchars»
+write     (Guild: «a,cname(class)»)
+transfr c,gpseudo(class);lpseudo(1);2
+at      64,368
+writec  glevel(class)-1
+        There is no guildmaster.
+        Guildmaster is «a,lpseudo(1),20» (level «s,glevel(class)»)
+at      64,336
+write   Data compiled on«a,stdate»at«a,sttime»
+at      64,304
+write   a.  Race Distribution
+        b.  Characteristic Distribution
+        c.  Miscellaneous Statistics
+        
+        d.  Highest Level Guild Members
+ 
+        e.  Level Distribution
+do      yellow
+at      64,80
+write        BACK to choose another guild
+        SHIFT-BACK to return to the main index
+do      cyan
+*
+loop
+.       pause   keys=all
+.       keytype lkey,back1,back,
+.               a,b,c,d,e
+reloop  lkey = -1
+.       jump    lkey-1,index,gstats,racedist,statdist,
+.               miscstat,listtop,levdist,x
+endloop
+*
+unit    levdist
+        merge,previous
+        llev
+        lclass
+$
+do      blue
+draw    130,48;504,48
+do      cyan
+calc    llev « 101
+        lclass « 0
+loop    (llev « llev-1) > 0
+reloop  sclevs(llev) = 0
+.       calc    lclass « lclass+1
+.       draw    126+3*llev,48;126+3*llev,48+min(448,sclevs(llev)*8)
+reloop  lclass > 27
+.       atnm    8,32+16*lclass
+.       write   «t,(llev-1)*5,3» - «t,(llev-1)*5+4,3»  «t,sclevs(llev),3»
+endloop
+*
+calc    lclass « min(lclass,27)
+*
+do      cyan
+at      8,48+16*lclass
+write   Levels       #
+do      blue
+draw    ;8,48+16*lclass
+do      cyan
+at      8,64+16*lclass
+showa   cname(class)
+do      blue
+draw    8,48;120,48
+do      cyan
+at      96,32
+showt   stchars,3
+pause   keys=funct
+jump    guild
+*
+unit    topsigno
+        merge,previous
+        lchar
+        lkey
+$
+do      white
+at      8,496
+write   Top «s,topchar» «a,cname(class)» characters.
+at      8,480
+write   Pseudonym
+at      176,480
+write   Signon
+do      blue
+draw    8,480;504,480;
+do      cyan
+calc    lchar « 0
+loop    (lchar « lchar+1) {^72} topchar
+.       atnm    8,464-16*lchar
+.       showa   scpseud(lchar),20
+reloop  not(scpriv(lchar)) $mask$ (opt(o.minor) = 0)
+.       atnm    176,wherey
+.       write   «a,scname(lchar),18»/«a,scgroup(lchar),8»
+endloop
+*
+do      blue
+draw    8,48;504,48;
+do      cyan
+pause   keys=back1,back,next,term
+keytype lkey,back1,back,next
+jump    lkey-1,guild,toprace,topquest
+jump    guild
+*
+
+=== block 'game stats'  kind 00  286 words  (block 15)
+*
+unit    gamestat
+        merge,previous
+        lday
+        ldate
+        ltemp
+        lkey
+        ldayx
+$
+day     lday
+do      white
+at      409
+write   Avatar Statistics
+do      blue
+draw    ;409
+do      cyan
+at      709
+write   Characters created             > «s,totchar»
+        
+        Most in game at once           > «s,mostin»
+do      blue
+draw    64,352;448,352
+do      cyan
+at      1209
+write   Following statistics initialized «s,lday-isday» days ago.
+        
+        Number of deaths               > «s,isdeath»
+        
+        Number of raises               > «s,israise» («s,(israise/isdeath)*100»%)
+        Number of complications        > «s,iscomp» («s,(iscomp/israise)*100»%)
+do      blue
+draw    1809;1857
+do      cyan
+at      2009
+write   Following statistics initialized «s,lday-stday» days ago:
+at      2209
+write   Entries into the game          > «s,gentry»
+        Total time in game (hours)     > «s,gtime/3600,6.2»
+        Average use per day (hours)    > «s,((gtime/3600)/(lday-stday)),3.2»
+at      2609
+write   Messages sent                  > «s,messes»
+        Give buffers received          > «s,gives»
+*       $$  info keys added below...dmr, 9/23/93.
+do      yellow
+at      2915
+write   NEXT to replot or BACK for index
+do      cyan
+*
+do      yellow
+if      opt(o.acc) = 1
+.       at      2915
+.       write   SHIFT-HELP to initialize statistics,
+.                  or BACK to return to the Index.
+endif
+do      cyan
+loop
+.       pause   keys=all
+.       keytype lkey,next,back,help1
+reloop  (lkey = 2) $and$ (opt(o.acc) = 0)       $$ not stud
+outloop lkey > -1
+endloop
+*
+jump    lkey-1,gamestat,index,x
+do      green
+at      3209
+write   SHIFT-NEXT to do it...
+do      cyan
+pause   keys=all
+jump    key = next1,x,gamestat
+*--
+*-- set day/date of initialization
+*--
+date    ldate
+day     lday
+calc    stday « lday
+        isday « lday
+        ltemp « 0
+*
+*       these are not shown, but are still stored
+*
+move    ldate,2,ltemp,1,2
+compute stmonth,ltemp,2
+move    ldate,5,ltemp,1,2
+compute stdatex,ltemp,2
+move    ldate,8,ltemp,1,2
+compute styear,ltemp,2
+*--
+*-- initialize stats
+*--
+calc    gentry « gtime « gives « messes « 0
+        isdeath « israise « iscomp « 0
+jump    gamestat
+*
+
+=== block 'colors'  kind 00  58 words  (block 16)
+*
+unit    blue
+color   display;zblue
+*
+unit    cyan
+color   display;zcyan
+*
+unit    white
+color   display;zwhite
+*
+unit    yellow
+color   display;zyellow
+*
+unit    green
+color   display;zgreen
+*
+unit    red
+color   display;zred
+*
+unit    magent
+color   display;zmagent
+*
+*       $$ colors
+*        fred = v10
+*        fgreen = v11
+*        fblue = v12
+*        orange = v13
+*
+
+=== block 'orange'  kind 40  25 words  (block 17)
+*
+unit    orange
+*       This -define- could be put somewhere else
+color   define;(orange),1,.5,0  $$ per =INFO=...dmr
+*color   define;(orange),.9,.4,0  $$ this is good also.
+color   display;orange
+*

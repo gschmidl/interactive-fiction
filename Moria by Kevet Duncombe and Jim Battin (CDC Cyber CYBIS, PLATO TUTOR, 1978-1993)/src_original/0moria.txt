@@ -1,0 +1,1831 @@
+0moria  (tutor    a, 28 blocks)
+  1 | 50 | 02/26/93 | 11/30/93 | s | coserv | battin/dun | combe | moria: en | try lesson | 14.43.27. | dave runte | h | s | coserv | coserv | coserv | sysmicro | edit | igl;. | 0moriad | publisis | mu2+ «{75} | lessnotes | coserv | s0edit | b | e | 0moriag | access
+
+=== block '*directory'  kind 40  0 words  (block 0)
+
+=== block 'copyright'  kind 47  17 words  (block 1)
+*
+*  © copyright 1978,1984 by kevet duncombe and jim battin
+*      all rights reserved
+*
+*list   symbols
+*list   eject
+*
+
+=== block 'ieu'  kind 00  140 words  (block 2)
+*
+define  purge
+define  ieu
+use     base/g
+use     g-confunct
+use     g-students
+use     g-skills
+use     g-guilds
+use     g-players
+use     g-magic
+use     g-messages
+use     g-ictable
+use     g-montable
+use     g-quest
+use     g-storage
+use     m-defines
+*
+*
+*               /////  Ieu  /////
+*
+*
+storage 2620,exactly
+use     global ieu      $$ attach leslist, common, etc.
+*
+*-- see if we've been shipped to a new system
+jumpout lastsys=zsysid;x;<moriad>
+*
+day     today   $$ set up for initcom, cleanup, etc.
+name    name
+finish  finish
+initial common,initcom
+initial lesson,cleanup
+*
+from    tn1;<moriag>;
+jump    tn1,initent,x
+*
+        
+unit    initent         $$  initial entry to moria
+*
+do      c
+erase
+*
+*do      copyrite
+do      charload(1725)
+*
+calc    incr(numentr)
+        Legacy« 0
+do      readme
+*
+*-- update gmlast if you're a guildmaster
+doto    1,ind« 1,4
+branch  gmaster(ind,1)=name,x,1
+branch  gmaster(ind,2)=name2,x,1
+branch  gmaster(ind,3)=zgroup,x,1
+day     gmlast(ind)
+1
+*
+jump    rhash = 0,title,x
+jump    jail = 1,injail,index
+*
+        
+
+=== block 'ieu'  kind 00  163 words  (block 3)
+unit    initcom
+*
+*-- clean out the temp common
+zero    nc(Ctemp+1),Ctempl
+doto    1,ind « 1, maxslot
+calc    stashun(ind) « nullst
+1
+*
+        
+unit    cleanup
+goto    today<lastexe,q,x       $$ op entered wrong date
+goto    today>(lastexe+365),q,x
+*
+*-- zero monthly stats if it's time
+*
+do      day2mo(lastexe; ind)    $$ month last time we ran
+do      day2mo(today; tn1)      $$ this month
+if      ind {^54} tn1       $$ zero mexper for this month
+.       at      1728
+.       write   One moment.
+.       comload nc1,CX+1,1310
+.       calc    sind« 0
+.       loop    add1(sind) {^72} 1310
+.       .       calc    nc(sind)« nc(sind) $mask$                           o77000000007777777777
+.       endloop 
+.       comload nc1,1,Cloadl
+endif
+loop    ind {^54} tn1       $$ zero usage for new month(s)
+.       calc    add1cyc(ind,12)
+.               Cmins(ind)« 0
+endloop 
+calc    lastexe« today
+*
+*-- check for obsolete guild masters
+*
+doto    2,ind« 1,4
+do      gethash(gmaster(ind,1),gmaster(ind,2),                      gmaster(ind,3))
+do      getchar $$ sets rhash
+if      rhash = 0 $or$ (today-gmlast(ind)) > 90
+.       zero    gmaster(ind,1),3
+.       calc    gmlast(ind)« 0
+endif
+2
+*
+        
+unit    readme  $$ read in my char
+name    name
+do      gethash(name,name2,zgroup)
+do      getchar $$ sets rhash
+*
+        
+unit    finish
+do      up.use
+*
+        
+
+=== block 'title'  kind 00  287 words  (block 4)
+unit    title
+stop    index
+next    index
+dataop  copyrite
+do      title0
+jump    key = stop,index,x
+do      title1
+jump    key = stop,index,x
+do      title2
+jump    key = stop,index,x
+do      title3
+jump    key = stop,index,x
+do      clock
+*
+        
+unit    title0
+size    7,7
+at      240,40
+write   MORIA
+size    0
+*do      copyrite
+*  foregnd
+*do      c(zblack)
+do      c(zmagent)
+draw    0,67;8,75;26,81;49,91;60,89;82,84;88,85;99,78
+        114,75;121,77;146,87;156,99;183,112;218,112;240,129
+        278,138;309,131;341,140;360,143;386,141;434,157
+        470,161;511,156;skip;0,124;10,126;26,129;50,131
+        73,136;94,120;skip;129,144;180,151;226,154;287,149
+        321,156;329,148;skip;364,165;390,163;434,172;462,174
+        479,186;511,189
+*  bridge
+draw    218,112;121,147;118,144;skip;181,112;98,147;94,143
+        94,82
+*  left wall
+draw    73,136;73,176;0,165;skip;72,162;0,149
+*  left tower
+draw    117,143;110,143;skip;119,146;119,169;116,172;103,172
+        100,169;100,147;skip;90,124;90,210;skip;129,145
+        129,211;137,211;82,211;82,227;110,243;138,227
+        138,211;skip;82,211;66,211;66,228;82,228;skip
+        109,243;93,243;66,228;skip;101,228;117,228;117,220
+        101,220;101,228;skip;113,196;113,188;105,188;105,196
+        113,196;skip;70,210;70,176
+*  middle wall
+draw    130,168;320,189;skip;130,182;320,202;320,157
+*  right tower
+draw    329,148;335,150;344,149;364,152;364,232;309,232
+        309,201;skip;329,148;329,232;372,232;372,245;347,256
+        321,245;321,232;305,232;305,245;321,245;305,245
+        331,256;346,256;skip;338,245;354,245;354,238;338,238
+        338,245;skip;349,215;349,209;343,209;343,215;349,215
+        skip;349,191;349,185;343,185;343,191;349,191
+*  right wall
+draw    365,205;511,219;skip;511,208;365,193
+*  left backgnd
+*do      c(zgreen)
+draw    14,167;14,200;17,200;17,168
+draw    25,169;41,208;55,174;skip;40,206;40,214;36,214
+        36,216;40,216;40,220;42,220;42,216;46,216;46,214
+        42,214;42,205
+*
+        
+do      c(zgreen)
+unit    clock
+*do      c(zwhite)
+day     tv1
+polar                   $$ turn "polar" mode on
+gorigin 203,364
+gvector 0,0;(.6*9),-(tv1*720°)-270°;.25       $$ hours
+gvector 0,0;(.9*9),-(tv1*(24*360°))-270°;.25  $$ minutes
+gdraw   9,  0°;9, 30°;9, 60°;9, 90°;
+        9,120°;9,150°;9,180°;9,210°;
+        9,240°;9,270°;9,300°;9,330°;
+        9,360°
+polar   -1              $$ turn "polar" mode off
+*** - continued next block  EDK 3/93
+
+=== block 'title1'  kind 00  315 words  (block 5)
+goto    mod(int(4frac(tv1)),3) = 0, x, q
+dot     223
+dot     910
+dot     405
+dot     108
+dot     762
+dot     720
+dot     1212
+dot     903
+dot     507
+dot     515
+dot     115
+dot     319
+dot     1107
+dot     707
+draw    111,367;112,369
+draw    112,398;113,400
+draw    79,463;80,465
+draw    494,430;495,432
+draw    479,495;480,497
+do      c
+*
+        
+        
+unit    title1
+*do      c(zblack)
+rorigin -340,-300
+size    1.7
+rdraw   464,352;461,366;461,382;461,430;463,436;463,445;465,449;461,449;461,461;459,465;457,461;457,449
+rdraw   ;449,449;449,462;453,470;457,462;skip;446,432;446,358;448,352;skip;446,366;449,367;457,367;458,367
+rdraw   ;461,366;skip;461,384;458,385;449,385;446,384;skip;446,404;449,405;458,405;461,404;skip;463,437
+rdraw   ;461,437;460,435;skip;461,437;458,437;458,435;skip;458,437;454,437;454,435;skip;454,437;448,437
+rdraw   ;skip;452,430;454,430;454,422;452,422;452,429;skip;452,419;452,385;454,382;skip;436,351;433,357
+rdraw   ;433,426;435,431;435,450;447,468;449,463;skip;449,449;449,437;446,433;skip;443,455;445,451;445,437
+rdraw   ;skip;443,456;441,451;441,438;skip;446,421;440,422;433,421;skip;433,418;440,419;446,418;skip;436,412
+rdraw   ;443,412;443,399;437,399;436,399;436,412;skip;439,412;439,407;436,407;skip;436,406;439,406;439,399
+rdraw   ;skip;440,399;440,406;443,406;skip;443,407;440,407;440,412;skip;405,343;401,347;403,359;403,405
+rdraw   ;403,437;406,437;406,441;411,441;411,438;skip;411,441;415,441;415,437;skip;415,441;420,441;419,437
+rdraw   ;skip;420,441;423,441;428,428;433,426;skip;428,428;428,356;431,350;skip;427,383;421,384;411,384
+rdraw   ;403,382;skip;407,389;411,389;411,397;406,397;406,389;skip;403,404;415,405;423,404;427,404;skip;422,441
+rdraw   ;422,404;423,386;skip;409,410;411,410;411,418;409,418;409,410;skip;410,425;412,425;412,433;410,433
+rdraw   ;410,425;skip;423,442;423,448;429,456;435,450;skip;423,449;423,477;421,477;421,458;419,449;417,449
+rdraw   ;417,454;417,462;416,464;416,472;skip;416,464;413,458;skip;416,472;414,472;414,467;412,467;410,475
+rdraw   ;407,467;403,467;400,470;397,461;397,458;413,458;skip;405,458;skip;397,458;390,452;388,460;386,466
+rdraw   ;381,459;381,443;387,443;387,425;387,420;391,420;399,412;399,437;397,439;397,443;401,444;403,441
+rdraw   ;403,437
+rdraw   387,420;392,444;395,420;399,413
+rdraw   398,339;398,401;397,404;395,402;395,398;395,396;skip;388,338;388,389;390,397;390,404;382,404
+rdraw   ;381,404;380,396;380,386;375,386;375,389;375,390;380,390;skip;380,396;372,396;skip;365,396;373,396
+rdraw   ;371,393;371,381;378,381;381,378;375,377;371,381;371,379;374,376;374,378;363,375;361,377;357,377
+rdraw   ;skip;362,377;359,374;354,374;354,368;skip;381,378;381,339;skip;378,340;376,356;skip;372,356
+rdraw   ;372,343;skip;367,345;364,355;skip;360,357;360,348;skip;342,353;343,365;343,368;345,368;345,366
+rdraw   ;348,366;348,368;351,368;351,366;354,366;354,368
+
+=== block 'title2'  kind 00  211 words  (block 6)
+unit    title2
+rorigin -340,-300
+size    1.7
+*do      c(zblack)
+rdraw   500,348;484,353;481,354;479,354;477,355;474,355;473,354;471,354;468,353;464,352;458,353;455,353
+rdraw   ;452,351;448,351;442,350;438,352;436,351;433,350;431,350;428,353;425,353;420,350;417,348;413,347
+rdraw   ;409,345;402,343;399,341;397,338;390,336;389,338;381,339;378,341;372,343;367,345;360,347;342,353
+rdraw   ;337,356;337,351;375,335;375,333;skip
+*do      c(zgreen)
+rdraw   390,336;390,332;387,333;387,336;390,336;skip
+*do      c(zblack)
+rdraw   387,336;338,355
+rdraw   ;skip;375,332;373,332;373,334;375,335;skip
+*do      c(zgreen)
+rdraw   373,332;368,332;365,331;362,332;360,331;358,330;355,330
+rdraw   ;351,328;347,328;345,327;341,326;336,325;332,325;330,324;327,324;324,325;322,326;323,354;325,356
+*do      c(zblack)
+rdraw   322,326;323,354;325,356
+rdraw   ;337,351;skip;343,368;340,368;340,366;338,366;338,368;335,368;335,366;333,366;333,369;333,379
+rdraw   ;333,397;334,404;334,429;331,433;331,444;334,444;334,439;336,439;336,444;337,446;338,445;342,459
+rdraw   ;344,457;345,466;348,466;348,454;350,456;348,458;351,460;355,457;355,465;358,465;358,458;363,468
+rdraw   ;368,468;371,465;373,467;378,467;382,460;skip;371,464;368,453;365,453;365,456;358,456;skip;358,458
+rdraw   ;358,453;350,453;348,453;skip;351,453;351,444;351,440;349,440;349,442;347,442;skip;347,431;347,401
+rdraw   ;349,400;349,380;349,368;skip;347,412;350,412;350,408;352,408;352,411;352,412;354,412;354,408
+rdraw   ;356,408;356,412;359,412;359,408;361,408;361,412;363,412;363,408;365,408;365,412;367,412;367,408
+rdraw   346,442;347,431
+*do      c(zgreen)
+draw    298,267;299,262;297,257;289,253;251,243;193,230;139,218;skip;317,268;316,261;314,255;307,250
+draw    ;284,241;238,230;185,218;129,205;skip;70,207;69,206;64,203;60,194;62,183;67,175
+*do      c(zblack)
+draw    452,308;452,313;454,311;456,313;456,308;skip;461,312;460,313;459,313;458,312;458,309;459,308
+draw    ;460,308;461,309
+*do      c
+
+=== block 'title3'  kind 00  300 words  (block 7)
+unit    title3
+rorigin -340,-300
+size    1.7
+*do      c(zblack)
+rdraw   370,408;370,427;372,427;372,413;379,413;385,414;385,420;387,422;skip;385,420;382,423;376,424
+rdraw   ;376,437;376,445;374,445;374,437;372,437;372,431;368,437;364,431;364,423;364,422;347,422;skip;354,422
+rdraw   ;357,425;364,425;skip;360,435;358,437;356,435;skip;358,437;358,452;skip;368,453;360,434;364,430
+rdraw   398,402;399,412;skip;385,414;389,406;390,404;skip;381,404;385,413;382,414;380,405;373,404
+rdraw   ;374,408;376,412;376,413;skip;373,405;370,408;skip;367,408;364,405;372,405;skip;364,405;364,396
+rdraw   ;366,387;skip;359,387;360,387;skip;356,385;356,387;354,387;354,385;356,385;skip;356,392;356,403
+rdraw   ;355,403;355,392;354,392;354,403;353,403;353,392;skip;344,395;344,386;343,386;343,395;342,395
+rdraw   ;342,387;342,386;341,386;341,395;340,395;340,386;339,386;339,395;skip;345,384;337,384;skip;337,382
+rdraw   ;337,432
+rdraw   343,418;343,427;342,427;342,418;341,418;341,427;skip;350,422;351,426;352,430;351,430;352,434
+rdraw   ;351,434;349,430;347,430;349,434;skip;347,430;345,430;345,433;345,434;skip;345,430;342,430;342,433
+rdraw   342,430;340,430;340,433;skip;340,430;337,430;334,430;skip;332,398;336,400;346,400;349,399
+rdraw   350,379;340,380;332,379;skip;331,377;326,377;326,385;327,388;327,393;322,398;322,409;320,409
+rdraw   ;320,403;320,402;320,401;316,405;305,404;297,391;311,392;317,405;skip;311,392;311,386;313,384
+rdraw   ;315,384;315,382;324,382;324,384;326,384;skip;322,382;322,371;314,371;314,384;skip;314,371;314,336
+rdraw   ;310,334;302,355;296,355;297,390;skip;322,353;320,353;320,358;318,358;318,327;318,325;321,327
+rdraw   ;320,352;skip;318,358;316,358;315,334;313,326;317,325;skip;322,371;325,371;325,359;skip;327,355
+rdraw   ;327,377;skip;325,359;327,357;skip;319,378;319,375;318,375;318,378
+rdraw   296,355;289,356;285,356;282,355;280,357;283,346;285,341;286,335;289,331;293,326;297,322;skip;313,326
+rdraw   ;296,323;290,319;286,318;283,317;278,316;274,316
+rdraw   219,349;226,350;236,352;239,351;244,353;244,361
+rdraw   244,353;249,355;254,356;262,355;266,355;266,362;skip;266,355;271,356;280,357;skip;296,364
+rdraw   ;292,364;292,362;290,362;290,364;287,364;287,362;285,362;285,364;282,364;282,362;280,362;280,363
+rdraw   ;280,364;278,364;277,364;277,362;274,362;274,364;270,364;270,362;268,362;268,364;266,364;263,363
+rdraw   ;261,362;261,363;259,364;257,364;257,362;255,361;255,363;252,363;252,361;250,360;250,362;248,362
+rdraw   ;248,360;246,360;244,361;238,360;237,359;236,359;236,360;231,359;226,358;220,357;219,357
+rdraw   230,370;230,359;skip;230,370;251,371;251,363;skip;251,371;skip;273,371;skip;249,371
+rdraw   ;273,371;273,365;skip;273,371;296,371
+rdraw   248,317;232,316;218,319;205,322;skip;219,349;211,351
+rdraw   219,357;205,366;skip;230,370;223,367;217,369;211,375;205,378
+*do      c
+
+=== block 'option pag'  kind 00  289 words  (block 10)
+unit    index
+base
+dataop  copyrite
+*
+*-- grandfather clause to warn old chars of an update
+if      rhash = 0
+elseif  lastran = (version $mask$ 1)
+else    $$ haven't run your char since the update
+.       jump    newstuff
+endif
+*       
+do      c(zwhite)
+box     0,0;511,511;-2     $$ these two lines are 
+box     4,4;507,507;-2     $$ the page border
+*do      copyrite
+at      1826
+do      c(zgreen)
+writec  zcusers,,, 1 Player In,«t,zcusers,2» Players In
+*
+size    3,3
+at      315
+do      c(zgreen)
+write   MORIA OPTIONS
+size    0,0
+*
+at      505
+do      c(zyellow)
+writec  rhash = 0{^56}C--Create a character
+        N--Game notesfile{^56}
+        R--Run your character
+        D--Destroy your character
+        T--Transfer character
+        I--Info on your character
+        P--Change your pseudonym
+                           N--Game notesfile
+at      536
+write   H--Help lesson
+        U--User list
+        G--Guild info
+        A--Achievements
+        F--Ring finders
+at      2920
+write   SHIFT-BACK for title page
+            DATA for credits
+*
+clock   tn1
+at      1733-int( (log(numjump)+14)/2 )
+do      c(zgreen)
+write   «s,numjump» Games Played
+do      repop   $$  re-populate the dungeon!
+*
+loop
+.       back1   title
+.       lab     userlist
+.       do      getopt
+.       back1
+.       lab
+.       do      ktype,
+.               x               $$  -1
+.               create          $$  create a char
+.               run             $$  run a char
+.               destroy         $$  destroy a char
+.               transfer        $$  transfer char
+.               cinfo           $$  character info page
+.               helpless        $$  jumpout to help lesson
+.               userlist        $$  user list
+.               ginfo           $$  guild info page
+.               getpseu         $$  get new pseudo
+.               hof             $$  hall of fame
+.               ringfind        $$  ring finders
+.               tonotes         $$  go to notefile
+endloop 
+*
+              
+unit    getopt       $$  get an option on main option page
+loop    
+.       pause   keys=all
+.       keytype ktype,c,C,r,R,d,D,t,T,i,I
+.               h,H,u,U,g,G,p,P,a,A,f,F,n,N
+reloop  ktype<0
+.       calc    ktype« int(ktype/2)
+reloop  ktype = 0  $and$  rhash > 0     $$  already alive
+reloop  [ ktype {^73} 1 $and$ ktype {^72} 4 ]  $and$  rhash = 0
+outloop -1
+endloop 
+*
+        
+
+=== block 'option pag'  kind 00  53 words  (block 11)
+unit    repop
+*
+do      rescom
+*
+calc    ind « 0
+        tn1 « arlen - 3*zcusers
+*
+if      tn1 > 0
+.       loop    incr(ind) {^72} tn1
+.       .       calc    sind « cycle(ind+roomind,arlen)
+.       .       find    monmap(sind),slot(1),maxslot,return,                1,maskr
+.       reloop  return {^73} 0              $$  someone using it
+.       .       calc    monmap(sind) « 0
+.       endloop 
+endif   
+*
+release common
+*
+        
+
+=== block 'options'  kind 00  238 words  (block 12)
+unit    create
+*
+at      2010
+write   Pick the skills you would like to start with:
+at      2217
+write   Cunning   Piety   Valor   Wizardry
+at      2314
+do      c(zwhite)
+write   a)   10        5       7         7
+        b)    5       10       7         7
+        c)    7        7      10         5
+        d)    7        7       5        10
+*
+do      getlett("d")
+*
+if      ktype = 0
+.       at      2010
+.       erase   45,7
+else
+.       do      initchar(ktype)
+.       doto    1,ind« 1,nmislot
+.       calc    mislot(ind)« inherit(ind)
+.       1
+.       do      addchar
+.       do      putchar
+.       catchup
+.       calc    incr(numcre)
+.       jump    index
+endif
+*
+        
+unit    run
+*
+jump    jail=1, injail,x
+*
+transfr c,CN+cindex; myname; 1
+if      myname = 0
+.       do      getpseu
+.       goto    escape,q,x
+endif
+calc    add1(numjump)
+erase   abort
+at      1010
+do      c(zwhite)
+write   Now entering the  ⌫$$_
+do      c(zgreen)
+writec  terr,--,00,
+        City!,
+        Wilderness!,
+        Cave!,
+        Mountains!,
+        Forest!,
+        Desert!,
+        Ocean!
+pause   3
+do      infight=1,addmon,x
+do      finish
+inhibit dropstor,jumpchk,dropfile,erase
+jumpout <moriag>
+*
+        
+unit    getpseu
+at      2123
+write   Enter Your Pseudonym.
+do      c(zmagent)
+box     152,143;1946;2
+at      2725
+do      c(zyellow)
+write   BACK for options
+do      c(zwhite)
+loop    
+.       at      2325
+.       erase   15
+.       do      getstr(nchname)
+outloop escape
+.       comload nc1,CN+1,1310
+.       find    utilbuf,nc1,1310,return
+.       comload nc1,1,Cloadl
+outloop return < 0 $or$ (return+1) = cindex
+.       at      2518
+.       erase   30
+.       write   Already someone with that name!
+endloop 
+if      not(escape)
+.       calc    myname« utilbuf
+.       transfr utilbuf; c,CN+cindex; 1
+endif
+at      1918
+erase   31,9
+*
+        
+
+=== block 'options'  kind 00  271 words  (block 13)
+unit    hof
+        merge,previous
+        ps,xp,sk
+          segmentf, mx=xp,7,24
+          segmentf, lx=xp,31,30
+          segmentf, gl=sk,29,3
+          segmentf, rk=sk,32,3
+erase   abort
+at      220
+do      c(zgreen)
+write   «size,2,3»Hall of Fame«size,0»
+at      407
+write   Monthly Records                  Lifetime Achievement
+do      c(zmagent)
+draw    401;464;skip;432;2932;
+*
+at      1711
+do      c(zwhite)
+write   One moment.
+transfr c,CX+1; s,1; 1310
+transfr c,CN+1; s,1311; 1310
+sort    s,1; 1310,1,7,24
+        s,1311; 1
+comload nc1,CN+1,1310
+at      504
+erase   24,25
+calc    ind« 0
+loop    add1(ind) {^72} 25
+.       transfr s,1311-ind; xp; 1       $$ experience
+.       transfr s,2621-ind; ps; 1       $$ pseudo
+outloop mx = 0
+.       at      100*ind+402
+.       showa   ps
+.       find    ps,nc1,1310,sind
+.       if      sind {^73} 0        $$ paranoid?  ME?
+.       .       transfr c,CS+1+sind; sk; 1
+.       .       if      gl > 0
+.       .       .       write   ,  ⌫$$_
+.       .       .       writec  rk-2{^56}A{^56}J{^56}C{^56}M{^56}G
+.       .       .       write   .
+.       .       .       writec  gl-2{^56}T{^56}B{^56}K{^56}W
+.       .       .       write   .
+.       .       endif
+.       endif
+.       at      100*ind+421
+.       showt   mx
+endloop 
+*
+at      1745
+write   One moment.
+transfr c,CX+1; s,1; 1310
+transfr c,CN+1; s,1311; 1310
+sort    s,1; 1310,1,31,30
+        s,1311; 1
+at      536
+erase   24,25
+calc    ind« 0
+loop    add1(ind) {^72} 25
+.       transfr s,1311-ind; xp; 1       $$ experience
+.       transfr s,2621-ind; ps; 1       $$ pseudo
+outloop lx = 0
+.       at      100*ind+434
+.       showa   ps
+.       find    ps,nc1,1310,sind
+.       if      sind {^73} 0        $$ paranoid?  ME?
+.       .       transfr c,CS+1+sind; sk; 1
+.       .       if      gl > 0
+.       .       .       write   ,  ⌫$$_
+.       .       .       writec  rk-2{^56}A{^56}J{^56}C{^56}M{^56}G
+.       .       .       write   .
+.       .       .       writec  gl-2{^56}T{^56}B{^56}K{^56}W
+.       .       .       write   .
+.       .       endif
+.       endif
+.       at      100*ind+453
+.       showt   lx
+endloop 
+comload nc1,1,Cloadl
+at      3027
+do      c(zyellow)
+write   Press NEXT.
+pause   keys=all
+jump    index
+*
+        
+
+=== block 'options'  kind 00  138 words  (block 14)
+unit    ringfind
+        merge,previous
+        xp
+          segmentf, rl=xp,1,6
+calc    wat« ringat
+        rl« wlev-1
+erase   abort
+at      214
+do      c(zgreen)
+write   «size,2,3»Finders of the Ring«size,0»
+do      c(zmagent)
+draw    0,456;504,456;
+do      c(zwhite)
+if      wlev = 1
+.       at      1718
+.       write   Nobody has found the ring yet.
+else    
+.       at      324
+.       write   Last found on level «s,rl».
+.       at      1728
+.       write   One moment.
+.       comload nc1,CX+1,1310
+.       stoload nc1400,1,101
+.       findall xp,nc1,1310,nc1400,100,1,mskbyte(1,6)
+.       comload nc1,CN+1,1310
+.       at      1728
+.       erase   11
+.       calc    ind« 0
+.       loop    ind < 100 $and$ ind < nc1400
+.       .       calc    add1(ind)
+.       .               sind« nc(1400+ind)+1
+.       .       at      indat(ind,501,16,25)
+.       .       write      «a,nc(sind)»
+.       endloop 
+.       stoload
+.       comload nc1,1,Cloadl
+endif
+*
+at      3027
+do      c(zyellow)
+write   Press NEXT.
+pause   keys=all
+jump    index
+*
+        
+unit    tonotes
+do      finish
+jumpout <morian>
+*
+        
+
+=== block 'options'  kind 00  67 words  (block 15)
+unit    destroy
+*
+at      2113
+do      c(zyellow)
+write   Press SHIFT-HELP to fall on your sword.
+pause
+if      key=help1
+.       name    name
+.       if      guild{^72}0
+.       elseif  gmaster(guild,1){^54}name
+.       elseif  gmaster(guild,2){^54}name2
+.       elseif  gmaster(guild,3){^54}zgroup
+.       else    
+.       .       zero    gmaster(guild,1),3
+.       endif
+.       calc    Skill « 0       $$  zap char
+.       do      putchar         $$  put in dead char
+.       jump    index
+else
+.       at      2113
+.       erase   50
+endif
+*
+        
+
+=== block 'options'  kind 00  240 words  (block 16)
+unit    helpless
+do      finish
+jumpout <moriah>
+*
+              
+unit    addmon
+*
+do      iosetup
+*
+calc    ind « 0
+        tn1 « 0
+loop    incr(ind) {^72} 3
+reloop  tplayer(ind) {^54} return
+.       calc    tn1 « tmonall(ind)
+.               tempmon(ind) « 0
+outloop yes
+endloop 
+do      ioend
+goto    tn1 = 0,q,x
+*
+*
+loop
+.       do      findmons        $$  one already there?
+.       goto    return > 0,q,x  $$  one there
+.       reserve common
+outloop zreturn < 0
+.       pause   .75
+endloop 
+*
+do      findmons        $$  monster there now?
+if      return > 0
+.       release common
+.       goto    q
+endif
+*
+calc    ind «  0        $$  find unused slot
+loop    incr(ind) {^72} amlen
+.       calc    sind « cycle(slotind+ind,amlen)
+outloop monsiat(sind) = 0
+.       find    moninfo(sind),slot(1),maxslot,return,1,maskr
+outloop return < 0
+endloop 
+*
+if      ind > amlen        $$%
+.       do      error('no mslot')
+endif
+*
+calc    monall(sind) « tn1      $$  hits and types
+        moninfo(sind) « 0
+        monsiat(sind) « myat    $$  location
+        slotind « sind          $$  update slotind
+release common
+*
+        
+unit    findmons        $$  find monster in my room
+*
+find    atword,moninfo(1),amlen,return,1,maska
+if      return {^73} 0
+.       calc    incr(return)
+.       calcs   mondead(return)<1, return « -1,,  $$  dead?
+endif   
+*
+        
+unit    leave
+do      finish
+jumpout q
+*
+        
+use     user list
+*
+        
+unit    userlist
+loop    
+.       do      ulist
+.       at      3116
+.       do      c(zyellow)
+.       write   NEXT to replot    BACK for options
+.       pause   keys=funct
+outloop key{^54}next
+endloop 
+jump    index
+*
+        
+unit    sholoc(wterr,wterr)
+writec  wlev>1
+        located on level «s,wlev» in the  ⌫$$_
+        located in the  ⌫$$_
+writec  wterr,-,0,
+        City,
+        Wilderness,
+        Cave, 
+        Mountains,
+        Forest,
+        Desert,
+        Ocean,
+writec  jail=0,, Jail
+*
+        
+
+=== block 'options'  kind 00  85 words  (block 17)
+unit    shoguild
+        merge,previous
+        gmn1=gmaster(guild,1)   $$ gm name word 1
+        gmn2=gmaster(guild,2)   $$ gm name word 2
+        gmg=gmaster(guild,3)    $$ gm group
+goto    guild=0,q,x
+write   You are  ⌫$$_
+if      rank < 5
+.       writec  rank,-,
+.               a Peasant,
+.               an Apprentice,
+.               a Journeyman,
+.               a Counselor,
+.               a Master
+elseif  name = gmn1 $and$ name2 = gmn2 $and$ zgroup = gmg
+.       write   the Guild Master
+else    
+.       write   a Past Master
+endif
+write    of the  ⌫$$_
+writec  guild-2
+        Thieves Guild.
+        Brotherhood.
+        Union of Knights.
+        Circle of Wizards.
+*
+        
+
+=== block 'options'  kind 00  319 words  (block 20)
+unit    cinfo
+erase   abort
+do      c(zgreen)
+transfr c,CN+cindex; myname; 1
+at      at« 232-int(chrlen(myname))
+showa   myname
+draw    ;at
+at      409
+do      shoguild
+at      620
+write   Bank account is «s,gbank» bags.
+at      801
+do      c(zgreen)
+write   Possessions        Guild Locker              Skills
+do      c(zmagent)
+draw    801;812;skip;820;832;skip;846;852;
+do      c(zwhite)
+calc    ind « 0
+loop    incr(ind) {^72} nmislot
+.       if      mislot(ind) > 0
+.       .       at      801 + 100*ind
+.       .       showa   iname( mislot(ind) ),nichnam
+.       endif
+.       if      mislot(ind+nmislot) > 0
+.       .       at      820 + 100*ind
+.       .       showa   iname( mislot(ind+nmislot) ),nichnam
+.       endif
+endloop 
+*
+at      943
+write   Cunning    «t,cunning,3»
+        Piety      «t,piety,3»
+        Valor      «t,valor,3»
+        Wizardry   «t,wiz,3»
+        Vitality   «t,vital,3»
+        Age        «t,int(age/12),3»
+               «t,gold,7»
+        Score«t,lexper,9»
+        Food        «t,food,2» months
+        Water       «t,water,2» months
+at      1543
+writec  jail=1,Bail,Gold
+at      2210
+do      c(zgreen)
+calc    wroom« myroom
+write   You are  ⌫$$_
+do      sholoc
+write   .
+if      camprm>0
+.       at      2410
+.       calc    wroom« camprm
+.       write   You have a camp  ⌫$$_
+.       do      sholoc
+.       write   
+        which contains:  ⌫$$_
+.       writec  cgold=1{^56}1 bag{^56}«s,cgold» bags
+.       write    of gold &  ⌫$$_
+.       writec  cfood=1{^56}1 month{^56}«s,cfood» months
+.       write    of food.
+endif
+pause   keys=all
+jump    index
+*
+        
+unit    ginfo
+erase   abort
+do      c(zwhite)
+box     0,0;511,511;-2     $$ page
+box     4,4;507,507;-2     $$  border
+at      520
+do      c(zgreen)
+write   Guild Masters of the World
+do      c(zmagent)
+box     148,428;364,430
+box     364,452;148,450
+at      805
+do      c(zgreen)
+write   Thieves Guild
+ 
+ 
+        Brotherhood
+ 
+        
+        Union of Knights
+ 
+        
+        Circle of Wizards
+do      c(zwhite)
+doto    1,ind« 1,4
+at      524 + 300*ind
+writec  gmaster(ind,1)=0{^56}
+        There is no guild master.{^56}
+        «a,gmaster(ind,1),18» / «a,gmaster(ind,3)» is master
+             with a skill of «s,gmskill(ind)».
+1
+if      guild=0
+.       pause   keys=all
+.       jump    index
+endif
+at      2109
+do      c(zgreen)
+do      shoguild
+at      2323
+write   Treasury   --  $«s,ggold(guild)»
+ 
+        Bail Bond  --  $«s,gbond(guild)»
+at      2717
+writec  gbank>0,You have «s,gbank» bags in your account.,,
+pause   keys=all
+jump    index
+*
+        
+
+=== block 'option utl'  kind 00  290 words  (block 21)
+unit    transfer
+        merge,previous
+        ocindex
+*
+at      2011
+write   Transfer your character to a NEW signon:
+at      2216
+write   NEW name
+        NEW group
+*
+at      2227
+do      getstr(18)              $$  get name
+goto    escape,outtrans,x
+move    utilbuf,1,name,1,18
+*
+at      2327
+do      getstr(8)               $$  get group
+goto    escape,outtrans,x
+*
+at      2517
+write   Press SHIFT-HELP to transfer to
+at      2631-int((chrlen(name)+chrlen(name2)+chrlen(utilbuf))/2)
+write   «a,name,18»/«a,utilbuf,8».
+pause   keys=all
+*
+goto    key{^54}help1,outtrans,x
+*
+calc    ocindex« cindex         $$ save current cindex
+do      gethash(name,name2,utilbuf)
+pause   1               $$  pick up some steam
+do      iosetup         $$  get record, reserve, findchar
+*
+at      2516
+erase   40
+if      return > 0
+.       do      ioend
+.       write   «a,name,18»/«a,utilbuf,8» already has a character.
+else
+.       do      garbage
+.       do      findopen
+.       if      return > 0
+.       .       write       Character transfered to
+.       .       calc    rhash « chash
+.       .       transfr Skill(1) ; stoword(return) ; baselen
+.       .       transfr Skill(7) ; c,CS+cindex ; 1
+.       .       transfr Skill(8) ; c,CX+cindex ; 1
+.       .       do      ioend
+.       .       do      outtrans
+.       .       if      guild{^72}0
+.       .       elseif  gmaster(guild,1){^54}name
+.       .       elseif  gmaster(guild,2){^54}name2
+.       .       elseif  gmaster(guild,3){^54}zgroup
+.       .       else    
+.       .       .       zero    gmaster(guild,1),3
+.       .       endif
+.       .       calc    Skill « 0
+.       .       do      putchar
+.       .       pause   5,keys=all
+.       .       jump    index
+.       endif   
+endif   
+pause   keys=all
+do      outtrans
+*
+        
+unit    outtrans
+at      2005
+erase   59,8
+name    name
+do      gethash(name,name2,zgroup)
+*
+        
+unit    initchar(ctype)     $$  initialize a new char(ctype)
+*
+name    name
+do      gethash(name,name2,zgroup)
+*
+calc    Skill « 0
+        rhash « chash
+        vital « 100
+        gold « 150
+        age « 13*12     $$  age is stored in months
+        myat « stairat
+        food « 15
+        water « 15
+        lastran « (version $mask$ 1)
+calcs   ctype,cunning «,,10, 5, 7, 7
+calcs   ctype,piety   «,, 5,10, 7, 7
+calcs   ctype,valor   «,, 7, 7,10, 5
+calcs   ctype,wiz     «,, 7, 7, 5,10
+*
+        
+
+=== block 'newstuff'  kind 00  172 words  (block 22)
+use     char I/O
+use     getchar
+use     putchar
+use     garbage
+*
+        
+unit    newstuff
+calc    escape« no      $$ preset for already in city
+next    lev>20,wannadie,uprun
+at      103
+write   Welcome!  Things have changed a bit since the last time
+        you played.  You'll want to read the help, but briefly:
+           
+        Æ members of The Circle of Wizards (or anyone with an item
+          for teleportation) can now jump instantly to the stairs
+           
+        Æ members of The Brotherhood (or anyone with a healing item)
+          can instantly raise the vitality of everyone in the group.
+           
+        Æ members of the Union of Knights take less damage than
+          others and have a chance to behead even a reaper
+           
+        Æ members of the Thieves Guild have a better chance of
+          finding magic items cunningly hidden in chests
+           
+        Æ levels 21-60 are MUCH more deadly; you may not be able to
+          survive alone.
+           
+        Æ there's now a hall of fame and pseudos are permanent
+ 
+        Æ there's now a goal that gets harder each time it's achieved
+           
+        Æ items can be stored at the guild and passed on to
+          a new charcter if you die
+ 
+        Æ plus a new and deadly terrain, bribe options, monthly
+          records and maybe a surprise or two!
+catchup
+at      2919
+write   Press NEXT to continue OR
+              SHIFT-STOP to leave.
+*
+        
+
+=== block 'newstuff'  kind 00  140 words  (block 23)
+unit    wannadie
+calc    escape« yes     $$ preset for go to city
+next    uprun
+back    wannadie
+at      413
+write   Since you may not be able to survive the
+        lower levels alone, we've given you a way
+        out.  If you choose you may now go to the
+        main stairway in the city, where you can
+        try to gather companions (and your courage)
+        before trying your luck on the new, tougher
+        levels.  This offer will NOT be repeated,
+        so choose wisely.
+        
+        Do you wish to go to the city now? »
+pause   keys=y,n,Y,N,back,term
+keytype ktype,n,N
+if      ktype {^73} 0
+.       at      1513
+.       write   You'll probably die.  Are you sure? »
+.       pause   keys=y,n,Y,N,back,term
+.       keytype ktype,y,Y
+.       at      1713
+.       if      ktype {^73} 0
+.       .       write   Good luck--you'll need it!
+.       .       calc    escape« no
+.       else    
+.       .       write   Wise decision.
+.       endif
+else    
+.       at      1513
+.       write   Wise decision.
+endif
+at      2813
+write   Press NEXT to continue OR
+              BACK to rechoose OR
+              SHIFT-STOP to leave.
+*
+        
+
+=== block 'uprun'  kind 00  131 words  (block 24)
+unit    uprun   $$ update last ran setting and go on
+do      v0.to.v1
+calcc   escape,myat« stairat,,
+do      putchar
+jump    index
+*
+        
+unit    v0.to.v1        $$  convert char to v1
+        merge,previous
+        Old(6)
+block   Skill(1),Old(1),6
+calc    spelson« outbyte(Old(3),41,5)
+        vital« outbyte(Old(2),29,7)
+        camprm« outbyte(Old(5),28,17)
+        cfood« outbyte(Old(5),45,7)
+        cgold« outbyte(Old(5),52,6)
+        gbank« outbyte(Old(5),18,10)
+        heading« outbyte(Old(2),36,2)
+        food« outbyte(Old(3),32,5)
+        water« outbyte(Old(3),37,4)
+        string« outbyte(Old(3),46,14)
+        cunning« outbyte(Old(2),1,7)
+        piety« outbyte(Old(2),8,7)
+        valor« outbyte(Old(2),15,7)
+        wiz« outbyte(Old(2),22,7)
+        guild« outbyte(Old(5),15,3)
+        rank« outbyte(Old(5),58,3)
+        age« outbyte(Old(3),21,11)
+        mislot(11)« mislot(12)« mislot(13)« mislot(14)« 0
+        mislot(15)« mislot(16)« mislot(17)« mislot(18)« 0
+        mislot(19)« mislot(20)« mislot(21)« mislot(22)« 0
+        mislot(23)« mislot(24)« 0
+        myname« 0
+        lastran« 1
+calcc   guild>0,bump(ggold(guild),gperbag*gbank),,
+*
+        
+
+=== block 'utils'  kind 00  86 words  (block 25)
+use     utils
+*
+        
+unit    getlett(a1)             $$  get letter for index
+*
+*       a1 = # of entries in index.  pass last letter of
+*               index (right justified, "")
+*       Returns value of ktype pressed from 1-a1 in ktype;
+*         ktype is 0 if back is pressed
+*       Returns k as: -1 if shift letter; 0 unshifted
+*
+loop
+.       pause   keys=all
+.       keytype ktype,back,alpha,numeric
+outloop ktype = 0
+.       if      ktype=1 $$ proper alpha
+.       .       calc    k « (key > o100)
+.       .               ktype « key $mask$ rmask(zbpc)
+.       elseif  ktype=2 $$ number instead
+.       .       keytype ktype,back,1,2,3,4,5,6,7,8,9
+.       endif
+outloop ktype {^73} 1 $and$ ktype {^72} a1
+endloop 
+*
+        
+
+=== block 'return unt'  kind 00  249 words  (block 26)
+*
+*       units jumped too from the dungeon
+*
+unit    dead(type)
+        merge,previous
+        type
+        gray
+color   define;gray,.3,.3,.3
+help    helpless
+next    index
+back    leave
+*
+color   display;zwhite;gray
+erase
+calc    incr(numdead)
+box     0,0;511,511;-2     $$ these two lines are 
+box     4,4;507,507;-2     $$ the page border
+do      death              $$ the reaper
+at      1715
+color   display;zwhite;gray
+writec  type="old"{^56}
+ 
+          Sorry, you have died of old age.{^56}
+        And another mighty warrior loses his
+        battle against the forces of evil!!!
+at      2217
+write   Press NEXT to try again.
+              HELP for help lesson.
+              BACK to leave.
+do      readme
+*
+        
+unit    death
+draw    205,275;210,270;210,478;213,481;208,486;207,486
+        202,481;205,478;205,275
+atnm    319,276
+circle  203,122,91
+atnm    288,313
+circle  169,117,80
+*
+draw    254,458;261,448;264,443;265,437;263,434;262,432
+        263,430;280,419;283,418;286,416;288,413;293,355
+        284,354;276,352;285,352;292,354;skip;275,352;272,372
+        272,395;270,407;skip;280,351;282,342;287,313;294,295
+        300,287;281,283;277,287;269,281
+draw    ;257,284;249,281;237,281;234,284;232,284;230,281
+        227,307;226,341;228,365;231,367;233,370;236,407
+        skip;228,367;210,385;skip;210,408;216,399;221,393
+        221,389;214,382;skip;218,399;220,401;221,414;226,421
+        229,421;243,429;240,439;240,442
+draw    ;248,452;254,458;skip;260,388;264,344;271,323
+        skip;264,310;267,292;skip;251,299;248,327;249,358
+        skip;238,325;241,305;skip;248,422;257,431;258,437
+        259,437;259,442;256,447;247,447;245,443;245,438
+        247,436;247,432;250,428;251,426
+draw    ;249,424;skip;254,442;255,441;253,441;254,440
+        skip;250,440;251,441;249,441;250,442
+*  initials
+draw    288,271;288,275;290,273;292,275;292,271;skip;295,271
+        299,271;skip;297,271;297,275;skip;295,275;299,275
+*
+        
+unit    samename
+next    index
+at      1517
+write   Someone else has your pseudo now.
+        
+          Press NEXT for options page.
+do      readme
+*
+        
+
+=== block 'return unt'  kind 00  243 words  (block 27)
+unit    injail
+do      c(zwhite)
+erase
+help    helpless
+next    index
+back    leave
+*
+box     3201;511,511;-2     $$ these two lines are 
+box     4,4;507,507;-2     $$ the page border
+doto    1, ind « 1,10
+if      zttype>0
+.       fill    32+48*(ind-1),506 ; 48+48*(ind-1),5
+else
+.       box     32+48*(ind-1),506 ; 48+48*(ind-1),5 ; -9
+endif
+1
+*
+at      2216
+erase   34,3
+box     2116;2450
+at      2217
+do      c(zyellow)
+write   Press HELP to go to moriahelp.
+              BACK to leave.
+do      c(zwhite)
+box     913;416,303
+at      1014
+erase   38,4
+do      readme
+*
+do      c(zyellow)
+if      guild = 0
+.       at      1018
+.       write   Since you are not a member of a
+.               guild, you will never be able to
+.               get out.  Better luck next time!
+.                    Press NEXT for index.
+else
+.       at      1014
+.       write   Your bond is set at
+.               Your guild currently has
+.               posted for its members.
+.       catchup
+.       loop    jail = 1
+.       .       mode    rewrite
+.       .       at      1044
+.       .       write   $«t,gold,7».
+.       .               $«t,gbond(guild),7».
+.       .       pause   5,keys=all
+.       .       if      gold {^72} gbond(guild)     $$  out!!
+.       .       .       calc    bump(gbond(guild),-gold)
+.       .       .               gold « 0
+.       .       .               jail « 0
+.       .       .       do      putchar
+.       .       elseif  gbond(guild) > 0
+.       .       .       calc    bump(gold,-gbond(guild))
+.       .       .               gbond(guild) « 0
+.       .       .       do      putchar
+.       .       endif   
+.       endloop 
+.       at      1014
+.       erase   38,3
+.       write        Your bond has been posted!
+.                    Press NEXT for the index.
+endif   
+*
+        
+unit    conderrs(les)
+        les
+erase   abort
+at      1517
+write   Lesson "«a,les»" has condense errors.
+pause   10,keys=funct
+press   stop1
+press   stop1
+*
+        
+
+=== block 'l to r'  kind 42  320 words  (block 30)
+
+
+
+
+5ahhp5
+abd
+4⌫bpaha
+hah
+o⌫x
+
+o⌫p5bdh
+;{'00}5/h5b
+h5b
+o⌫5÷h5b
+h5b
+5aO;⌫
+
+;;⌫a
+o;{75}h
+;;⌫ah
+
+;;⌫ap;;{75}b
+g;⌫
+;;⌫ax4;]
+pc;;÷
+;;{^00}pa55fxa
+5fxa
+;;÷bp
+bpb
+;{'00}pa÷bdh
+;;÷5a
+;÷a{70}
+
+;÷bb;ha
+{'00}ah
+5abhhc÷5
+ac{^00}d
+;;øpbp8;{^00}xa
+5fxa
+bpb
+;{'00}pb5bdh
+h5b/h5b
+h5b
+;÷bb÷aha
+hah
+;;{^00}pb{'40}fxa
+6;δxpa
+6fdpc6fg;{'00}a
+5fxa
+5fpch5fxa
+5fxa
+dpcpdpa
+dpa
+g;⌫pcxdpa
+dpa
+g;⌫c5
+
+
+
+c÷ic;
+
+h5dl
+l5b
+h5dhn/b5
+n5b
+h5dph5b
+h5b
+
+
+lhacpl%
+@;fd1x8
+q9e<8÷d÷h%lecp*b
+bg÷d5l
+÷a$⌫f
+÷o÷8;c÷
+h÷b;e;;÷5a6b
+bd
+h1-bpc
+4b75jg5
+//e⌫÷epicp-bbgr
+c5q÷f
+pobs÷exm;dxbmg
+hbyrhh
+pxd*pe55ff×1
+wβapc
+nαde/÷56⌫5c/b
+fto/b
+dlwe÷f5qa1
+fpa
+n↑d55pbg
+hp*)b(↑;
+c{^00}go5f1hm4;%
+u3]n
+        3
+a+⌫a;5fhnppaj
+itc854[
+4÷dj×ld
+mdljj5fxcx;3c,
+faj5cod
+;;⌫ar÷di
+t5c9f/fi5q
+h÷bopx
+↑;69bhp
+×oa;⌫fXa8qi;×
+5dq5fc;÷
+a=jas
+a{75}dl9a[k
+gd6l8÷gh6×clln
+÷$;{75}÷4
+N
+        
+        mo;j
+4⌫y[bnb↓
+l8;a5gxa$ga88/
+pa>;;5d
+÷×bl÷p=
+adlnhq9+
+dv=yipg/c7dpppn
+a8hccc÷
+*fc8/hq
+↓Clg{'70}xc7÷m[
+
+
+
+↓ClhhXc7÷m[
+
+o⌫a;÷o⌫
+c;⌫;;↑o;
+xδ;{^60}hxo⌫4÷4
+;;]c{'00};
+;;8;oa{70}
+;;%;{'00}h/;5b4÷h4⌫
+;[5;÷
+g=icr
+iIn⌫d>x
+s{75}9,↓phS.ig677
+irpx↓
+a⌫o÷ie⌫/o<y
+2÷x%↓c~
+o;⌫%÷ih2[k{^43}pb/
+e⌫o÷4
+;c;;÷ip;ttcg1k6
+kidpp;;{75}
+;;⌫q÷ix]h+↓lpfg
+;g*;;;÷
+g;÷i5ja⌫1q
+        ;
+lp÷×,8c
+        
+mk/[ci/g511ab5c
+⌫d
+f4]⌫i÷;;λak;]
+⌫icnb
+
+=== block 'l to r'  kind 42  320 words  (block 31)
+pp4÷5i:;/.;×
+;;÷
+c⌫xac
+nle;;;
+        8
+;-m;;÷jhnldp÷a5
+c⌫
+÷a;;-b
+⌫i;51ba
+÷he;5pjx⌫i5*;{76}
+÷
+g7l6[db
+reeqdep
+9abr9j/Pas5
+adc>54
+⌫p4j÷]xl{^00}pa
+pdfq[u
+h5uapj{'00}p-obyba
+xdkix
+a-5i+5su
+f]/÷«p[u
+%×-5khf×d51↓
+bm/pcrlg
+th51kpel÷ih÷95
+apc5
+da5x
+        kxh÷÷93a-d
+5]ifpv[y
+tbwpp÷k5tbv/iz(c
+9xa5xlx
+5nxofpk/lvpazc
+/axc
+wx7a%
+hhp5kSa9;eqrb
+e↓dl*[8
+a65fal5l
+
+1bllh5a[h7
+ahbd5hq
+6taf÷lpi9vph«
+7jcqtnh÷
+asz9lxXa5b
+
+b÷ jgbb*
+cb$0$[>;
+↓<⌫lj5l/hjajd=n
+÷a5l÷/a5lb
+kX÷4n5
+lg÷.65l{'00}h
+
+y{75}{75}{75}↓;↑
+x;2.;÷mh4ppaae;
+ppaag;
+÷c5mp÷bpo8
+;>~;{75}⌫
+$c3mx4H*;]o;
+hnmx
+⌫bhm5q5aa5b65
+is5dfip
+×5/)m/e5ty/i
+b⌫;÷mu5h
+v8÷mpm÷b⌫⌫jbqq9
+e5/)mh
+x+5dmIs/xdf
+q5bho
+f6×,es÷{76}
+o8{'36}o5(⌫
+bw9y⌫÷nhnx⌫ho÷*{76}
+g*5b5÷y↑
+a↑1ae÷np2=pa]
+ag÷f
+za/k
+⌫c÷f{70}
+A%5a5n5÷z]k
+⌫b;O{75}5↓
+o÷a5n÷5db3pii
+5da5c⌫
+ao5p
+
+a÷bh
+
+bhpp7
+apb
+÷nz;[o5.[÷na5
+6⌫c;g
+o÷a6mb
+×hghp4;
+c⌫ho÷5o÷gP46a⌫h
+g÷53d;÷
+c⌫ho÷5oGP46a⌫h
+g÷53d;÷
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+=== block 'lessons'  kind 44  20 words  (block 32)
+
+0moria
+
+0moriag
+
+0moriad
+
+0moriah
+
+0moriac
+
+0moriads
+
+0morian
+
+
+
+
+
+
+
+=== block 'newfullcol'  kind 00  284 words  (block 33)
+**  following replots screen in color; added
+**      2/93  andy keller/coserv  CDSI
+*do      c
+*erase
+*
+*c****  insert these two units in last block of file
+***
+*c****  To do a paint, you must first draw an enclosed area
+*c****  using a specified color. Then select a spot inside
+*c****  the area.  Get the x and y location.  Then call the
+*c****  paint routine, specifying the xloc, yloc, foreground
+*c****  color (i.e., the color you want it painted in) and
+*c****  temporary BB (background) color--this is the color 
+*c****  that your box or circle was drawn in.  The unit 
+*c****  automatically resets to the default colors.
+*c****  EXAMPLE:
+*c****  box     1010;1420   $$ draws a box in cyan
+*c****  do      paint(160,336,zblue,zcyan)
+*c****  The above two lines would draw a box, paint it blue
+*c****  and then revert to the default colors--cyan on gray.
+unit    c(ff)
+        merge,previous
+        ff
+        BB
+** A color can be set in several ways using this routine:
+*do      c(text)        $$ color description constant
+*do      c(pp)          $$ color abbreviation constant
+*do      c              $$ selects defaults of text,colorb
+*do      c(zwhite)      $$ system color constant
+*
+*
+branch  zttype=12 $and$ ztstype<4,1skip,x
+color   define;BB,.1,.1,.1
+color   display;,BB
+if      args=0  $$ if no colors passed, use defaults
+.       color   display;zcyan
+elseif  ff=pp   $$ prompt color wanted
+.       color   display;zyellow
+else
+.       color   display;ff
+endif
+1skip
+*-*
+unit    paint(xlocek,ylocek,ff,BB)
+        merge,previous
+        ff
+        BB
+        brown
+        gray
+        silver
+        brick
+        xlocek
+        ylocek
+color   define;brown,.5,0,0
+*color   define;gray,.5,.5,.5
+color   define;silver,.7,.7,.7
+color   define;brick,.7,0,0
+color   display;ff,BB
+at      xlocek,ylocek
+paint
+*color   display;zwhite,backva2
+color   display;zcyan,BB
+unit    fill(xlocek,ylocek,ff,BB,ch)
+        merge,previous
+        ff
+        BB
+        brown
+        gray
+        silver
+        brick
+        xlocek
+        ylocek
+        ch
+color   define;brown,.5,0,0
+*color   define;gray,.5,.5,.5
+color   define;silver,.7,.7,.7
+color   define;brick,.7,0,0
+color   display;ff,BB
+at      xlocek,ylocek
+paint   ch
+*color   display;zwhite,backva2
+color   display;zcyan,BB

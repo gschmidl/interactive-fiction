@@ -1,0 +1,702 @@
+ciswork18  (tutor    a, 14 blocks)
+  04/09/80( | 05/31/80 | doggiedo | doggie | Gary Sto | llman | cis4932 | cis4932 le | sson space | anybody wh | o cares | class work | space so {70} | i can be a | s good a p | rogrammer | as jd | 22.10.19. | gary stoll | mano | cis49328 | (5 | cis4932* | 1458035
+
+=== block 'start'  kind 00  0 words  (block 0)
+
+=== block 'vocab'  kind 45  92 words  (block 1)
+vocabs  vocab
+        (hit,bang,strike,pound)
+        (kick,break,beat,smash,bust,bash)
+        door
+        house
+        wall
+        floor
+        fireplace
+        bookrack
+        books
+        attic
+        (cellar,basement)
+        (enter,in,inside,go*in,go*into)
+        (press,push)
+        sword
+        (kill,attack,murder)
+        (down,d)
+        (up,u)
+        (east,e)
+        (west,w)
+        (north,n)
+        (south,s)
+        (take,get,pick*up)
+        (mat,welcome*mat)
+        keys
+        (unlock,open)
+        (lift,pull,look*under)
+        (read,decipher,translate)
+        (writing,inscription)
+        ditch
+        use
+        knock
+        (under*mat)
+        from
+        (out,leave,go*out)
+
+=== block 'defines'  kind 00  127 words  (block 3)
+define  noway=n1
+        segment,flags=n2,1
+        gotkeys=flags(1),gotmat=flags(2),frtdoor=flags(3)
+        locate=n3
+        direc=n4
+        nusers=nc1
+        sdate=nc2
+common  ciswork18,temp,320
+size    3
+at      184,400
+write   QUEST
+at      185,401
+write   QUEST
+at      186,402
+write   QUEST
+size    0
+add1    nusers  $$ increment total number of users by 1
+unit    contact $$ records how many people have used lesson
+help    helper
+branch  sdate{^54}0,1hop,x   $$ if date recorded do not record           another one
+date    sdate    $$ record today's date
+1hop    
+at      2316
+write   # of current users in lesson- «s,usersin»
+        
+        You are the «s,nusers»
+writec  frac(nusers÷100)×100-10{^56}{^56}{^56}↑t↑h{^56}↑t↑h{^56}↑t↑h{^56}{^56}  $$ ↑t↑h on teens
+branch  frac(nusers÷100)×100-10,x,x,1q,1q,1q,x
+writec  frac(nusers÷10)×10{^56}{^56}↑t↑h{^56}↑s↑t{^56}↑n↑d{^56}↑r↑d{^56}↑t↑h{^56}
+1q      
+write    person to use this
+        
+             lesson since «a,sdate»
+draw    2214;2714;2753;2253;2214
+at      3014
+write   Press NEXT to go on--For help press HELP
+draw    3013;2913;2955;3055;3013
+*       
+
+=== block 'quest'  kind 00  210 words  (block 2)
+unit    begin
+do      front
+zero    n1,n4
+inhibit blanks
+arrow   2210
+long    50
+specs   nookno,okextra,okspell,bumpshift,noorder
+branch  anscnt>-1,1cont,x
+at      2510
+randu   noway,6
+writec  noway{^56}{^56}{^56}I don't understand that!{^56}Huh?{^56}
+        Please repeat your request!!{^56}What did you say?{^56}
+        I don't understand that concept!{^56}Please try again!{^56}
+1cont   
+judge   wrong
+concept n
+calc    direc«1
+goto    mover
+concept e
+calc    direc«2
+goto    mover
+concept s
+calc    direc«3
+goto    mover
+concept w
+calc    direc«4
+goto    mover
+concept u
+calc    direc«5
+goto    mover
+concept d
+calc    direc«6
+goto    mover
+concept in
+calc    direc«7
+goto    mover
+concept out
+calc    direc«8
+goto    mover
+join    more
+join    more2
+concept enter house
+        enter
+goto    frtdoor=1,1open,x
+concept open door
+        open
+        use keys
+goto    gotkeys=1,keys2,x
+write   You haven't any keys!!
+concept kick door
+        bust open door
+        kick door in
+        kick down door
+calc    frtdoor«1
+write   With a crash the door gives way!!
+concept knock door
+write   Who's there?
+concept hit door
+write   You hurt your hand!
+concept read writing door
+        read writing
+        read door
+write   The writing says WELCOME TO QUEST!!
+concept attack door
+write   Dont be ridiculous!
+concept get mat
+goto    gotmat=1,got,x
+calc    gotmat«1
+write   You now own a welcome mat!!
+goto    gotkeys=0,keys1,x
+concept lift mat
+write   There is a ring of keys under the mat!
+concept get keys
+        get keys under mat
+        get keys from under mat
+goto    gotkeys=1,keys,x
+calc    gotkeys«1
+write   You now own a set of keys!!
+
+=== block 'quest2'  kind 00  309 words  (block 4)
+unit    helper
+size    2
+at      422
+write   HELP PAGE
+draw    421;316,448
+size    0
+at      711
+write   This game is like Adventure with the same ideas
+        and concepts. To move use point of the compass,
+        like east, west, north, and south, up, or down.
+        You can also abbreviate the last to the first 
+        letter if you wish. There is an entrance to a 
+        cave nearby somewhere, but getting in will not
+        be as easy as you think. Almost everything has
+        a purpose in this game. That is the only clue
+        which I will give you. Good luck and have fun!
+        
+        
+        Also, you should try not to use more than a few
+        words at a time or it may not understand you!!!
+at      2311
+write   P.S. This help page will be expanded in the near
+        future to help you some more with some problems!
+        
+        
+        
+        Please press BACK to return to the game!!!!!!!!!
+end     
+unit    keys2
+write   Funny, none of the keys seems to work!
+unit    keys1
+at      2610
+write   There is a ring of keys here!
+pause   keys=all
+at      2510
+erase   55,2
+delay   .1
+at      2211
+erase   30,1
+unit    got
+write   You're already carrying it!!
+unit    1closed
+write   The door is locked!
+unit    keys
+write   You're already carrying them!!
+unit    more
+unit    ditch
+calc    locate«9
+at      307
+erase   55,7
+at      307
+write   You are in a drainage ditch which seems to lead
+        under the house. There is not much light in here.
+        The ditch appears to go forward to the north.
+judge   ignore
+unit    1open
+calc    locate«1
+at      307
+erase   55,9
+at      307
+write   You are inside the hall of the little house. There
+        is a room to the east, a room to the west, and a
+        spiral staircase leading up to the second floor.
+judge   ignore
+unit    lib
+calc    locate«2
+at      307
+erase   55,8
+at      307
+write   You are in the library of the little house. There
+        is a bookcase along one of the walls. There is a 
+        large chandelier hanging from the ceiling, and an
+        old reading table sitting in one corner of the room.
+judge   ignore
+unit    study
+calc    locate«3
+at      307
+erase   55,8
+at      307
+write   This is a large cheery room with a huge fireplace 
+        in the center of one of the paneled walls. There
+        are two large figurines of lions at the edges of
+        the mantlepiece of the fireplace. On top of the 
+        mantlepiece sits a small electric lamp, and an
+        elfish sword with some strange markings on it.
+judge   ignore
+
+=== block 'quest3'  kind 00  279 words  (block 7)
+unit    front
+calc    locate«0
+at      307
+erase   55,3
+at      307
+write   You are just south of a pretty little house near
+        a stream. The house has a large wooden door with
+        some strange ancient writing on the front. The
+        stream flows down a gully and out through a huge
+        drainage ditch near the front of the little house.
+        There is a small welcome mat sitting on the steps
+        of the front door. It appears to be very worn-out.
+judge   ignore
+unit    upstair
+calc    locate«4
+at      307
+erase   55,8
+at      307
+write   You are upstairs. There is a room to the north, 
+        a room to the south, and the staircase is right
+        behind you. A cold chill seems to engulf you as
+        you stand here. It feels like the jaws of death!
+judge   ignore
+unit    nroom
+calc    locate«5
+at      307
+erase   55,8
+at      307
+write   This is a small room which appears bare, except
+        for a closet door. There is a message scrawled
+        above the door reading, "This is not a closet."
+judge   ignore
+unit    sroom
+calc    locate«6
+at      307
+erase   55,8
+at      307
+write   This appears to be the bedroom of the house. You
+        see a large well-decorated bed with a canopy top.
+        There is a nightstand here with a clock, a mirror,
+        a jewelry box, and a small knobed walking stick.
+judge   ignore
+unit    closet
+calc    locate«7
+at      307
+erase   55,8
+at      307
+write   This is a little closet with no apparent exits.
+        There are two shelves loaded with lots of junk.
+judge   ignore
+unit    closeit
+at      707
+write   The closet door slams shut, trapping you inside!!
+judge   ignore
+unit    cliff
+calc    locate«8
+at      307
+erase   55,8
+at      307
+write   You are standing on the edge of a cliff. Below is
+        a maze of corridors and tunnels. It does not seem
+        like you will be able to climb down from up here.
+judge   ignore
+unit    under
+at      307
+erase   55,8
+at      307
+write   You are in a long tunnel with water splashing all
+        about you. There is a locked trapdoor located way
+        up over your head. It is much too high to reach!
+judge   ignore
+unit    gully
+calc    locate«10
+at      307
+erase   55,8
+at      307
+write   You are in a small gully near the drainage ditch.
+        There is a tall ladder sitting here in one corner.
+judge   ignore
+
+=== block 'moving'  kind 00  116 words  (block 5)
+unit    mover
+branch  locate=0,x,1locate
+goto    frtdoor=0,1closed,x
+goto    direc=1,1open,x
+goto    direc=4,cliff,x
+goto    direc=2,ditch,x
+goto    direc=7,1open,x
+goto    direc=6,gully,nodir
+1locate 
+branch  locate=1,x,2locate
+goto    direc=2,study,x
+goto    direc=4,lib,x
+goto    direc=8,front,x
+goto    direc=5,upstair,nodir
+2locate 
+branch  locate=2,x,3locate
+goto    direc=2,1open,nodir
+3locate 
+branch  locate=3,x,4locate
+goto    direc=4,1open,nodir
+4locate 
+branch  locate=4,x,5locate
+goto    direc=1,nroom,x
+goto    direc=3,sroom,x
+goto    direc=6,1open,nodir
+5locate 
+branch  locate=5,x,6locate
+goto    direc=3,upstair,nodir
+6locate 
+branch  locate=6,x,7locate
+goto    direc=1,upstair,nodir
+7locate 
+branch  locate=8,x,9locate
+goto    direc=2,front,nodir
+9locate 
+branch  locate=9,x,1loc
+goto    direc=4,front,x
+goto    direc=1,under,nodir
+1loc    
+branch  locate=10,x,2loc
+goto    direc=5,front,nodir
+2loc    
+unit    nodir
+write   There is no way to go in that direction!
+
+=== block 'temp'  kind 41  320 words  (block 6)
+a% 05/27/80 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+=== block 'quest4'  kind 00  11 words  (block 10)
+unit    more2
+concept get ladder
+goto    gotlad=1,got,x
+write   You now own a ladder!

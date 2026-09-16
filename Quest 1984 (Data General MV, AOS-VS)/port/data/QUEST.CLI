@@ -1,0 +1,13 @@
+PU;PROMPT POP
+CHAR/OFF/ST
+[!eq (%0/S%) ()]
+    write [!ascii 223]
+    TYPE CASTLE
+    write [!ascii 222]
+[!end]
+[!EQ,%1%,]
+  x3 quest
+[!ELSE]
+  X QUEST
+[!END]
+POP

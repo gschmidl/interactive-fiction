@@ -1,0 +1,5389 @@
+2avatuse  (tutor    a, 105 blocks)
+  a( | 5a8 | 05/24/84 | 03/07/94 | s | s | Maggs/Sh | apira/Sid | es | Avatar | see "auth | ors" | Use lesso | n for Ava | tar | 15.20.57. | dave runte | e | s | coserv | coserv | publish | juse | microj | ifh⌫o | avatarbv | mu2+ «{75} | 0catnote | coserv | s0edit | 5 | e | b
+
+=== block '*directory'  kind 00  0 words  (block 0)
+
+=== block 'nc consts'  kind 40  190 words  (block 1)
+c
+c       starting locations in central memory, common
+c
+*-- referenced directly without constant in player defines
+        ncpbank         = 1     $$ player bank
+        ncslotv         = 289   $$ slotvar
+        ncslotb         = 290   $$ player slots used bitmap
+        ncgbuff         = 291   $$ give buffer
+        ncmbuff         = 296   $$ message buffer
+        ncraces         = 303   $$ races
+        ncclass         = 334   $$ classes
+*-- 15 levels × 180 rooms/level, not 255
+        ncrbitm         = 380   $$ room bitmap
+        ncpopul         = 425   $$ population
+        ncpoptr         = 614   $$ population pointers
+        ncecon          = 615   $$ economic variables
+        nciduuu         = 620   $$ item types (first level)
+        ncitype         = 652   $$ item types (second level)
+        ncchars         = 716   $$ chars stored
+        ncinfo          = 717   $$ 8 words for statistics
+        ncumons         = 725   $$ unique monsters
+        nccond          = 730   $$ condense information
+        ncstore         = 734   $$ item counters for store
+        ncctabl         = 785   $$ character table
+        ncnspel         = 793   $$ number of spells
+        ncfitem         = 794   $$ found item counters
+        ncdstat         = 879   $$ dungeon status
+        ncnitem         = 880   $$ number of items stored
+        ncmstrs         = 881   $$ number of monsters
+        ncstatw         = 882   $$ message/give status word
+        ncstair         = 883   $$ stair co-ordinates
+        ncgll           = 884   $$ highest guild levels
+        ncstwrd         = 887   $$ when stats last collected
+*        ncfree          = 890   $$ 1 free word
+*--
+
+=== block 'nc consts'  kind 40  233 words  (block 2)
+c
+c       starting locations in central memory, storage
+c
+        ncmask          = 891   $$ maze mask table
+        ncunion         = 911   $$ maze mask table
+        ncranks         = 951   $$ ranks in class
+        nclrank         = 952   $$ list of class ranks
+        ncchara         = 1003  $$ character
+        ncmaze          = 1067  $$ maze and encounter tables
+*--
+*-- help text is 320 words long and overwrites other stuff
+*-- do not use help text and maze levels at the same time
+*--
+*-- the entry lesson uses the 320 word buffer for various
+*-- messages
+*--
+*-- this 320 word buffer is also used for the statistics
+*--
+        nctext          = 1067  $$ help text
+        ncstats         = 1067  $$ stat lesson buffers
+        ncgmess         = 1067  $$ game status message
+        ncbull          = 1131  $$ bulletin board
+        ncitems         = 1387  $$ current item
+        ncmonst         = 1394  $$ current monster
+        ncspell         = 1403  $$ current spell
+        ncsbank         = 1409  $$ pseudo student variables
+        ncencta         = 1481  $$ encounter table
+c
+c       storage
+c
+        smask           = 001   $$ maze mask table
+        sunion          = 021   $$ maze union table
+        sranks          = 061   $$ ranks in class
+        slrank          = 062   $$ list of class ranks
+        schara          = 113   $$ character
+        smaze           = 177   $$ maze and encounter tables
+*--
+*-- help text is 320 words long and overwrites other stuff
+*-- do not use help text and maze levels at the same time
+*--
+*-- this 320 word buffer is also used for the statistics
+*--
+        stext           = 177   $$ help lesson text
+        sstats          = 177   $$ stat lesson buffers
+        smess           = 177   $$ messages/ game/ bulletin
+        sitems          = 497   $$ current item
+        smonst          = 504   $$ current monster
+        sspell          = 513   $$ current spell
+        ssbank          = 519   $$ pseudo student variables
+        slog            = 611   $$ log
+
+=== block 'nc consts'  kind 40  238 words  (block 3)
+c
+c       starting locations in common
+c
+        cpbank          = 1     $$ player bank
+        cslotv          = 289   $$ slotvar
+        cslotb          = 290   $$ player slots used bitmap
+        cgbuff          = 291   $$ give buffer
+        cmbuff          = 296   $$ message buffer
+        craces          = 303   $$ races
+        cclass          = 334   $$ classes
+        crbitm          = 380   $$ room bitmap
+        cpopul          = 425   $$ population
+        cpoptr          = 614   $$ population pointers
+        cecon           = 615   $$ economic variables
+        ciduuu          = 620   $$ item types (first level)
+        citype          = 652   $$ item types (second level)
+        cchars          = 716   $$ number of characters
+        cinfo           = 717   $$ 8 words for statistics
+        cumons          = 725   $$ unique monsters
+        ccond           = 730   $$ condense information
+        cstore          = 734   $$ item counters for store
+        sctable         = 785   $$ character table
+        cnspel          = 793   $$ number of spells
+        cfitem          = 794   $$ found item counters
+        cdstat          = 879   $$ dungeon status
+        cnitem          = 880   $$ number of items stored
+        cmstrs          = 881   $$ number of monsters
+        cstatw          = 882   $$ message/give status word
+        cstair          = 883   $$ stair co-ordinates
+        cgll            = 884   $$ highest guild levels
+****HERE
+        cstwrd          = 887   $$ stat words (3)
+*        clfree          = 890   $$ 1 free word
+*--
+*-- not loaded
+*--
+*        cnlfree         = 891   $$ 30 free words
+        cglp            = 921   $$ guild leaders
+        cgbuffp         = 951   $$ give buffer, passed info
+        cmbufft         = 971   $$ message text
+        citems          = 1051  $$ items
+        cmonst          = 2836  $$ monsters
+        cencoun         = 5131  $$ encounter tables
+        clrank          = 6351  $$ class ranks
+        cspells         = 7131  $$ spells (90×6w)
+        cstatus         = 7671  $$ phrases (82 × 4w)
+
+=== block 'nc consts'  kind 40  191 words  (block 4)
+        startl  = '2avatmisc'    $$ regular version access
+*
+*-- index of files in leslist
+*
+*-- format for leslist defined constants:
+*
+*-- first letter tells purpose of file
+*--     g = necessary for the game to run
+*--     d = database, necessary for the game
+*--     a = author lesson, database editors etc.
+*-- second letter tells type of file
+*--     t = tutor
+*--     f = notefile
+*--     n = nameset
+*--     d = dataset
+*
+        gtxxxx          = 0     $$ unused
+        gtuse           = 1     $$ use lesson
+        gtmisc          = 2     $$ miscellaneous lesson
+        gtentry         = 3     $$ entry lesson
+        gttitle         = 4     $$ title page
+        gtcity          = 5     $$ city lesson
+        gtdung          = 6     $$ dungeon lesson
+        gthelp          = 7     $$ help lesson
+        gtstat          = 8     $$ statistics lesson
+        atchar          = 9     $$ character editor
+        atmons          = 10    $$ monster editor
+        atmaze          = 11    $$ maze/encounter editor
+        atmisc          = 12    $$ misc editors
+        atmon           = 13    $$ monitor lesson
+        atutil          = 14    $$ utility lesson
+        gfplay          = 15    $$ player notefile
+        gfcom           = 16    $$ comment notefile
+        afauth          = 17    $$ author notefile
+        dtcom           = 18    $$ common lesson
+        dnchar          = 19    $$ character database
+        dnpseud         = 20    $$ character pseudonyms
+        ddmaze          = 21    $$ maze levels
+        dnglog          = 22    $$ guild log nameset
+        dnstat          = 23    $$ statistic lesson nameset
+*
+
+=== block 'functions'  kind 40  202 words  (block 5)
+        ww1             = v149          $$ wrap word 1
+        ww2             = v150          $$ wrap word 2
+*        wrap(x,y,z) = (frac((x-y)/(z+1-y))-(frac((x-y)/(z+1-y))<0))×(z+1-y)+y
+        wrap(x,y,z) = ((ww1 « frac((x-y)/(ww2 « (z+1-y))))-(ww1 < 0))×ww2+y
+*--
+        end(x,y,z)  = (x×((x{^73}y)$mask$(x<z))+y×(x<y)+z×(x{^73}z))/-1
+*--
+*        mod(x,y)    = int(y×frac((x-1)/y))      $$ modified
+*--
+        imin(x,y)   = x+((y-x) $mask$ ((y-x) $ars$ 59))
+*--
+        imax(x,y)   = x-((x-y) $mask$ ((x-y) $ars$ 59))
+*--
+        iend(x,y,z) = imin(imax(x,y),z)
+*--
+        min(x,y)    = x-((x > y)×(y-x))
+*--
+        max(x,y)    = x-((x < y)×(y-x))
+*--
+        roundup(x)  = round(x+.499999)
+*--
+        notl(x)     = (-1-x)            $$ logical vals only
+*-- adds an "s" ending if plural
+        plur(x)     = "s"×sign(x-1)     $$ values {^73} 1
+        plura(x)    = "s"×abs(x {^54} 1)    $$ all values
+*--
+*-- for one bit flags (1 = yes, 0 = no) ONLY
+*-- this eq1(flag) is the same as (flag = 1) except
+*-- it uses far less ECS
+*--
+        eq1(x)  = (0-x)         $$ x = 1
+        eq0(x)  = (-1+x)        $$ x = 0
+*--
+        lobit(x) = bitcnt(x $diff$ (x-1))×sign(bitcnt(x))
+*--
+        sitenum(x)      = x $ars$ 5
+        statnum(x)      = x $mask$ rmask(5)
+*--
+*-- returns a percentage chance of opening a chest (1-100)
+*-- x is thieving ability
+*-- y is trap difficulty (function courtesy of Tom Kirchman)
+*-- (x: 0-50, y: 0-15)
+*--
+        thprob(x,y) = 100×(((x+1)**(.75))/(2*(y+1)))
+*-- integer multiply and divide functions
+        id2(x)  = x $ars$ 1
+        id8(x)  = x $ars$ 3
+        im2(x)  = x $cls$ 1
+        im4(x)  = x $cls$ 2
+        im8(x)  = x $cls$ 3
+        im16(x) = x $cls$ 4
+        im32(x) = x $cls$ 5
+*
+
+=== block 'student'  kind 40  319 words  (block 6)
+*--
+*-- nameset info
+*--
+        sb0             = 1
+        sb0n(x)         = n(sb0+x)
+*        sb0v(x)         = v(sb0+x)
+        sbuf            = sb0n(0)       $$ for -setname-
+        sbufw(x)        = sb0n(x-1)
+        name            = sb0n(0)       $$ signon name
+        name1           = sb0n(0)       $$ first part
+        name2           = sb0n(1)       $$ second part
+        group           = sb0n(2)       $$ signon group
+        sxinfo          = sb0n(3)       $$ extra info
+        segmentf,slesson= sxinfo,37,02  $$ last lesson
+        segmentf,ssafe  = sxinfo,39,01  $$ protected char
+        segmentf,sglev  = sxinfo,40,07  $$ highest level
+*       if ssafe=1, then sday=idnum
+        segmentf,sday   = sxinfo,47,14  $$ last day used
+        leslist         = sb0n(4)       $$ leslist attached
+        lfilen          = sb0n(5)       $$ llist file attach
+*--
+*-- character status
+*--
+        sb1             = 7
+        sb1n(x)         = n(sb1+x)
+*        sb1v(x)         = v(sb1+x)
+        race            = sb1n(00)      $$ race
+        class           = sb1n(01)      $$ class
+        align           = sb1n(02)      $$ alignment
+        lev             = sb1n(03)      $$ character level
+        sex             = sb1n(04)      $$ sex
+        curstat(x)      = sb1n(04+x)    $$ 6 stats, 1 to 6
+        xyloc           = sb1n(12)      $$ x-y index
+        xcalc(x)        = int((x+29)/30)
+        ycalc(x)        = x-30×int((x-1)/30)
+*-- y = x location, x = xy location
+        ycalcx(x,y)     = x-(y-1)×30
+        xyind(x,y)      = (x-1)×30+y
+        zloc            = sb1n(13)      $$ level in dungeon
+        direc           = sb1n(14)      $$ direction,0=N,3=E
+        roomnum         = sb1n(15)      $$ room number
+        id              = roomnum $union$ (zloc $cls$ 8)
+        livenum         = sb1n(16)      $$ room number, 1-63
+        move            = sb1n(17)      $$ move state
+        combat          = sb1n(18)      $$ combat state
+        treas           = sb1n(19)      $$ treasure state
+        sqseen          = sb1n(20)      $$ square seen flag
+        moved           = sb1n(21)      $$ has moved flag
+        carry           = sb1n(22)      $$ carry flag/countr
+        atrack          = sb1n(23)      $$ auto-following?
+        backgnd         = sb1n(24)      $$ background flag
+        found           = sb1n(25)      $$ search flag
+*-- ability array: see raceclas defines for constants
+        pabilit(x)      = sb1n(25+x)    $$ 9 words
+        statvar         = sb1n(35)      $$ statmod word
+        segment,statmod = statvar,10,s  $$ stat modifiers
+*--
+*-- interterminal status
+*--
+        sb2             = 43
+        sb2n(x)         = n(sb2+x)
+*        sb2v(x)         = v(sb2+x)
+        comnum          = sb2n(0)       $$ common index
+        person          = sb2n(1)       $$ scratch play num
+** 0 free variable
+
+=== block 'student'  kind 40  240 words  (block 7)
+*--
+*-- screen display
+*--
+        sb3             = 45
+        sb3n(x)         = n(sb3+x)
+*        sb3v(x)         = v(sb3+x)
+        leadr           = sb3n(00)      $$ your leader
+        opos            = sb3n(01)      $$ old company pos.
+        onum            = sb3n(02)      $$ old party number
+        ocnum           = sb3n(03)      $$ last # in company
+        oalign          = sb3n(04)      $$ old alignment
+        opalig          = sb3n(05)      $$ old party align
+        pseen           = sb3n(06)      $$ tracking display
+        khits           = sb3n(07)      $$ last known hits
+        optpage         = sb3n(08)      $$ option page shown
+        dateras         = sb3n(09)      $$ option erasing?
+*-- company update display
+        ohitsw          = sb3n(10)      $$ for zeroing
+        segment,ohits   = ohitsw,10     $$ 12 people
+        oplyrs          = sb3n(12)      $$ player array
+        segment,oplyr   = oplyrs,06
+        infow           = sb3n(13)      $$ screen info word
+        segment,info    = infow,04      $$ info status
+*--
+*-- message and give buffers
+*--
+*-- message buffer
+        sb4             = 59
+        sb4n(x)         = n(sb4+x)
+*        sb4v(x)         = v(sb4+x)
+        pmslot          = sb4n(0)       $$ last slot seen
+        messloc         = sb4n(1)       $$ message screenloc
+        msender         = sb4n(2)       $$ who sent message
+*-- give buffer
+        pgslot          = sb4n(3)       $$ last slot seen
+*-- two give buffer words to allow receiving while sending
+        pgive           = sb4n(4)       $$ send
+        segmentf,gitem  = pgive,01,08   $$ item number
+        segmentf,gknown = pgive,09,02   $$ known bit (2)
+        segmentf,galign = pgive,11,02   $$ alignment
+        segmentf,gcharge= pgive,13,08   $$ charges
+        segmentf,ggold  = pgive,21,30   $$ gold
+        pgiver          = sb4n(5)       $$ receive
+        segmentf,kitem  = pgiver,01,08  $$ item number
+        segmentf,kknown = pgiver,09,02  $$ known bit (2)
+        segmentf,kalign = pgiver,11,02  $$ alignment
+        segmentf,kcharge= pgiver,13,08  $$ charges
+        segmentf,kgold  = pgiver,21,30  $$ gold
+
+=== block 'student'  kind 40  223 words  (block 10)
+*--
+*-- arrays set upon entry
+*--
+        sb5             = 65
+        sb5n(x)         = n(sb5+x)
+        sb5v(x)         = v(sb5+x)
+        exitflg         = sb5n(0)       $$ -do exitold- flag
+        direcn(x)       = sb5n(01+x)    $$ starts at 0
+        segment,compx   = sb5n(05),12   $$ companion xlocs
+        segment,compy   = sb5n(06),12   $$ companion y locs
+        segment,showex  = sb5n(07),09   $$ monster x locs
+        segment,showey  = sb5n(08),09   $$ monster y locs
+        dsparay         = sb5n(09)      $$ display array
+        segment,disparr = dsparay,12,s  $$ maze offsets
+        mview(ww,dd)    = disparr(im4(ww)+dd-3)
+*** 3 free words here?
+        segment,bit241s = sb5n(20),02,s
+        xmove(x)        = bit241s(x+1)  $$ x change, 0-3
+        ymove(x)        = bit241s(x+5)  $$ y change, 0-3
+        nochars         = sb5n(21)      $$ chars not loaded?
+*-- 2 free words, probably
+*-- the next 3 are here because "dungeon" has no space left
+        notpit          = sb5n(23)      $$ not from pit?
+        autof           = sb5n(24)      $$ -2=<,-1=f,0=none
+        nextkey         = sb5n(25)      $$ next keytype val
+        movewrd         = sb5n(26)      $$ wrap table
+        segment,hmovewr = movewrd,5
+        movewrp(x)      = hmovewr(x+1)
+        bitmesw         = sb5n(29)      $$ yell bits
+        segment,bitmes  = bitmesw,18    $$ 3-char info packs
+        segment,bitchck = sb5n(31),06   $$ yell bits to chck
+*-- chances calculated upon entry
+        pitmult         = sb5v(32)      $$ pit damage mult
+        slopdet         = sb5v(33)      $$ slope detection
+        etime           = sb5v(34)      $$ entry clock time
+*-- state index; only one of move or combat is ever set
+        kword           = sb5n(35)      $$ key-bit word
+        segment,kb      = kword,1       $$ key bits
+        kallow(x)       = kb(x+1-72×combat)
+        ktreas(x)       = kb(x+145)
+        kround(x)       = kb(x+217)
+        kparal(x)       = kb(x+289)
+** 0 free variables
+
+=== block 'student'  kind 40  262 words  (block 11)
+*--
+*-- items
+*--
+        sb6             = 107
+        sb6n(x)         = n(sb6+x)
+*        sb6v(x)         = v(sb6+x)
+        loadedi         = sb6n(00)      $$ item loaded
+        iclass          = sb6n(01)      $$ item class
+        islot           = sb6n(02)      $$ item slot (1-28)
+        iclbuf          = sb6n(03)      $$ item classes
+        segment,iclas   = iclbuf,04
+        crinuse         = sb6n(06)      $$ crit hit in use
+*-- item in use of this class (index = iclass) is stuck
+        istuckw         = sb6n(07)      $$ for zeroing
+        segment,istuck  = istuckw,02,s  $$ stuck items
+*-- item-dependent status
+        armorcl         = sb6n(08)      $$ armor class
+        hitpbon         = sb6n(09)      $$ hit prob bonus
+        dambon          = sb6n(10)      $$ damage bonus
+        twohand         = sb6n(11)      $$ two-handed weapon
+        itype           = sb6n(12)      $$ item type
+** 0 free variable
+*--
+*-- encounters
+*--
+        sb7             = 120
+        sb7n(x)         = n(sb7+x)
+*        sb7v(x)         = v(sb7+x)
+        evar            = sb7n(0)       $$ encounter variabl
+        segmentf,evtto  = evar,01,15
+        segmentf,evenumb= evar,01,08
+        segmentf,eveweig= evar,09,06
+        segmentf,evestat= evar,15,01
+        segment,chances = sb7n(1),12    $$ peace chances
+        gchance(x)      = chances(x+0)  $$ good
+        nchance(x)      = chances(x+3)  $$ neutral
+        echance(x)      = chances(x+6)  $$ evil
+*--
+*-- spells
+*--
+        sb8             = 123
+        sb8n(x)         = n(sb8+x)
+*        sb8v(x)         = v(sb8+x)
+        spelnum         = sb8n(0)       $$ spell number 1-90
+        spcopy          = sb8n(1)       $$ spell copy buffer
+        spcopy1         = sb8n(1)       $$ first word
+        spcopy2         = sb8n(2)       $$ second word
+*--
+*-- get defines
+*--
+        getgold         = sb8n(3)       $$ gold received
+        getitem         = sb8n(4)       $$ item received
+*--
+*-- search routines
+*--
+        sb9             = 128
+        sb9n(x)         = n(sb9+x)
+*        sb9v(x)         = v(sb9+x)
+        howmany         = sb9n(0)       $$ how many matches
+        exact           = sb9n(1)       $$ exact match?
+        hishome         = sb9n(2)       $$ location of match
+*
+
+=== block 'student'  kind 40  249 words  (block 12)
+*--
+*-- arrow defines
+*--
+        sba             = 131
+        sban(x)         = n(sba+x)
+*        sbav(x)         = v(sba+x)
+        value           = sban(0)       $$ returned value
+        segment,vchar   = value,06      $$ chars
+        value1          = sban(0)
+        value2          = sban(1)
+        value3          = sban(2)
+        value4          = sban(3)
+        copybuf         = sban(4)       $$ copy buffer
+        cop(x)          = sban(3+x)     $$ copy array
+*--
+*-- utility
+*--
+        sbb             = 139
+        sbbn(x)         = n(sbb+x)
+*        sbbv(x)         = v(sbb+x)
+        return          = sbbn(0)       $$ return value
+        pressed         = sbbn(1)       $$ keytype value
+        opword          = sbbn(2)       $$ access list word
+        segment,opt     = opword,01     $$ 60 options
+*--
+*-- segment and segmentv values
+*--
+        sbc             = 142
+        sbcn(x)         = n(sbc+x)
+*        sbcv(x)         = v(sbc+x)
+*-- player bank
+        a10             = sbcn(0)       $$ only for hits; +2
+        a8              = sbcn(1)       $$ only for mons; +2
+        a4              = sbcn(2)       $$ ok for all
+*        wfight          = sbcn(3)       $$ wait fight
+*--
+*-- ecs utility and min/max function
+*--
+        sbd             = 146
+        sbdn(x)         = n(sbd+x)
+        sbdv(x)         = v(sbd+x)
+        xn              = sbdn(0)       $$ integer x
+        xv              = sbdv(0)       $$ floating x
+        yn              = sbdn(1)       $$ integer y
+        yv              = sbdv(1)       $$ floating y
+        zn              = sbdn(2)       $$ integer z
+        zv              = sbdv(2)       $$ floating z
+*-- 0 free variables
+*--
+*-- fatal error; overwrites
+*--
+        sbe             = 1
+        sben(x)         = n(sbe+x)
+*        sbev(x)         = v(sbe+x)
+        errlen          = sben(0)
+        errmess         = sben(1)       $$ error message
+*--
+*-- wrap function defines to speed and save
+*--
+*        ww1             = v149          $$ wrap word 1
+*        ww2             = v150          $$ wrap word 2
+*-- n149 and n150 are defined in d functions
+
+=== block 'student'  kind 40  164 words  (block 13)
+*--
+*-- misc defined constants
+*--
+        invbon          = 35    $$ bonus for invis
+*--
+*-- defined constants for options
+*--
+        o.acc           = 01    $$ edit access list
+        o.phra          = 02    $$ phrase editor
+        o.stud          = 03    $$ can always get in game
+*--
+        o.iacc          = 16    $$ inspect access list
+        o.race          = 17    $$ edit races
+        o.class         = 18    $$ edit classes
+        o.item          = 19    $$ edit items
+        o.spell         = 20    $$ edit spells
+        o.mons          = 21    $$ edit monsters
+        o.enc           = 21    $$ edit encounter tables
+        o.maze          = 22    $$ edit mazes
+        o.char          = 23    $$ edit characters
+        o.ochar         = 23    $$ edit own char
+        o.econ          = 24    $$ edit economics stats
+        o.init          = 25    $$ initialize options
+        o.print         = 26    $$ print routines bit
+        o.misc          = 30    $$ use misc data routines
+*--
+        o.monit         = 31    $$ use monitor lesson
+        o.statu         = 32    $$ change dungeon status
+        o.gmess         = 33    $$ edit game message
+        o.minor         = 34    $$ minor god-like powers
+        o.major         = 35    $$ major god-like powers
+*--
+        o.game          = 46    $$ enter game normally
+        o.debug         = 47    $$ see debug info
+        o.nvers         = 48    $$ enter new vers. database
+*
+
+=== block 'student'  kind 40  242 words  (block 14)
+*--
+*-- pause constants
+*--
+        p.run           = 1     $$ dungeon runner
+        p.enc           = 2     $$ encounter
+        p.city          = 3     $$ city
+        p.bank          = 4     $$ bank
+        p.start         = 5     $$ unit charbegn
+        p.raise         = 6     $$ accept or reject raise
+        p.morg          = 7     $$ morgue
+        p.iguil         = 8     $$ guild enter
+        p.gjoin         = 9     $$ guild join
+        p.ghate         = 10    $$ guild hate
+        p.gmemb         = 11    $$ guild members
+        p.gmake         = 12    $$ guild make level
+        p.store         = 13    $$ store
+        p.treas         = 14    $$ treasure
+        p.hand          = 15    $$ hand healing
+        p.showi         = 16    $$ item list
+        p.iopt          = 17    $$ item info options
+        p.slist         = 18    $$ spell listing
+        p.buy           = 19    $$ buy item pause
+        p.trade         = 20    $$ trade option
+        p.cial          = 21    $$ choosing item alignment
+*--
+*-- option page constants
+*--
+        o.ip1           = 0     $$ item page one
+        o.ip2           = 1     $$ item page two
+        o.ip3           = 2     $$ item page three
+        o.ip4           = 3     $$ item page four
+        o.pbits         = 4     $$ player bits
+        o.lspel         = 5     $$ spells
+        o.helpc         = 6     $$ combat help
+        o.helpn         = 7     $$ non-combat help
+        o.cdisp         = 8     $$ company display
+        o.areau         = 9     $$ all users in an area
+        o.allu          = 10    $$ all users in game
+        o.iinfo         = 11    $$ item information
+        o.minfo         = 12    $$ monster information
+        o.log           = 13    $$ log display in guild
+*
+*--
+*-- bits to plot for the timel unit
+*--
+        d.poi           = 1     $$ poison
+        d.dis           = 2     $$ disease
+        d.par           = 3     $$ paralization
+        d.sle           = 4     $$ sleep
+        d.lev           = 5     $$ levitation
+        d.inv           = 6     $$ invisibility
+        d.pro           = 7     $$ protection
+
+=== block 'character'  kind 40  307 words  (block 15)
+*
+*-- character defines (64w character bank)
+        oldest          =  21     $$ oldest safe character
+        chword          =nc(ncchara)
+        chwords         =64
+        chpseud         =nc(ncchara+00)
+        chpseu1         =nc(ncchara+00)
+        chpseu2         =nc(ncchara+01)
+        chgold          =nc(ncchara+02)
+        chbgold         =nc(ncchara+03) $$ bank gold
+*
+*-- Ö flags tell whether a companion exists or not
+        segmentf,chcoths=nc(ncchara+04),01,04   $$ 1×4b
+        segment,chcothe =nc(ncchara+04),1       $$ 4×1b
+        segmentf,chtimel=nc(ncchara+04),05,26   $$ timels
+        segmentf,ohage  =nc(ncchara+04),01,30,s $$ age
+        segmentf,chchits=nc(ncchara+04),31,10   $$ cur hits
+        segmentf,chbhits=nc(ncchara+04),41,10   $$ perm hits
+        segmentf,chhitb =nc(ncchara+04),31,20   $$ hit byte
+        segmentf,chrace =nc(ncchara+04),51,04   $$ race
+        segmentf,chclass=nc(ncchara+04),55,04   $$ cur class
+*-- 2 bits (59-60?)
+        segmentf,chstds  =nc(ncchara+05),01,06  $$ knowns
+        segment,chstdet  =nc(ncchara+05),01     $$ statknown
+        segmentf,chcomon =nc(ncchara+05),07,08  $$ comp mons
+        segmentf,ohcomon =nc(ncchara+05),01,08  $$ comp mons
+*-- 6 bits here (15-20?)
+        segmentf,chcomps=nc(ncchara+05),21,03   $$ # comps
+        segmentf,chgjoin=nc(ncchara+05),24,01   $$ joined?
+        segmentf,chrock =nc(ncchara+05),25,01   $$ rocked
+        segmentf,chdirec=nc(ncchara+05),26,02   $$ direction
+        segmentf,chldied=nc(ncchara+05),28,01   $$ dth logd?
+        segmentf,chalign=nc(ncchara+05),29,02   $$ g/n/e
+        segmentf,chthits=nc(ncchara+05),31,15   $$ total hts
+        segmentf,chsex  =nc(ncchara+05),46,01   $$ SEX
+        segmentf,checs  =nc(ncchara+05),47,07   $$ ecs %
+*-- 7 bits here (54-60?)
+        chcode          =nc(ncchara+06) $$ password
+        segment,chstat  =nc(ncchara+07),05      $$ stats (6)
+        segmentf,chage  =nc(ncchara+07),31,30,s $$ age
+        segmentf,ohstds =nc(ncchara+08),01,06   $$ knowns
+*-- Ö companions best hits
+        chcobhs         =nc(ncchara+08) $$ uses full word
+        segment,chcobhi =nc(ncchara+08),10      $$ 4×10b
+*-- Ö companions current hits
+        chcochs         =nc(ncchara+09) $$ uses full word
+        segment,chcochi =nc(ncchara+09),10      $$ 4×10b
+        ohbits          =nc(ncchara+09)
+        chbits          =nc(ncchara+10)
+        segment,chbit   =nc(ncchara+10),04      $$ special
+        segment,chbitx  =nc(ncchara+10),02      $$ by 2's
+        chbitsp(x)      = chbitx((x $cls$ 1)-1) $$ spell
+        chbitit(x)      = chbitx(x $cls$ 1)     $$ item
+*        segment,chgldj  =nc(ncchara+10),01
+*-- {^'27} this is not referenced anywhere except the char editor
+
+=== block 'character'  kind 40  241 words  (block 16)
+*-- to update a char from second-latest to latest format:
+*zero    nc(ncchara+44),9
+*block   nc(ncchara+23),nc(ncchara+27),21
+*block   nc(ncchara+17),nc(ncchara+19),6
+*zero    nc(ncchara+17),2
+*zero    nc(ncchara+25),2
+*
+        slots           = 56    $$ # of item slots
+        chitems         =nc(ncchara+11)         $$ item #'s
+        segment,chitem  =chitems,08             $$ item #
+*        chchrgs         =nc(ncchara+17)         $$ charges
+        chchrgs         =nc(ncchara+19)         $$ charges
+        segment,chcharg =chchrgs,08             $$ charges
+        chials          =nc(ncchara+27)         $$ ialig's
+        segment,chialig =nc(ncchara+27),02      $$ alignment
+        chibnks         =nc(ncchara+29)         $$ ibank's
+        segment,chibank =nc(ncchara+29),01      $$ in bank?
+        chikns          =nc(ncchara+30)         $$ itmkn's
+        segment,chitmkn =nc(ncchara+30),02      $$ itemknown
+        chiuses         =nc(ncchara+32)         $$ for zero
+        segment,chitemu =nc(ncchara+32),06      $$ in use
+*
+        chexpb          =nc(ncchara+34)         $$ buffer
+        segment,chexper =nc(ncchara+34),30      $$ 15×30b
+        chlevb          =nc(ncchara+42)         $$ buffer
+        segment,chlevel =nc(ncchara+42),10      $$ 15×10b
+        chmtime         =vc(ncchara+45)         $$ timel
+*-- loaded spell buffer (0-9)
+        segment,chsbufx =nc(ncchara+46),07
+        chsbuf(x)       = chsbufx(x+1)
+        segment,chsbitx = nc(ncchara+47),01
+        chsbit(x)       = chsbitx(x+32)
+*-- 5 free words somewhere
+*-- special option bits
+        chflags         = nc(ncchara+53)        $$ specials
+        segment,chflag  = nc(ncchara+53),02,s
+        f.bgnd          = 1     $$ background mode
+        f.mall          = 2     $$ messages from all
+        f.updat         = 3     $$ company update
+        f.pub           = 4     $$ signon to public
+        f.lines         = 5     $$ plot lines on main disp
+        f.ecs           = 6     $$ automatic ECS bump
+        f.mper          = 7     $$ receive personal messages
+*        f.cred          = 7     $$ credit option in city
+*--
+
+=== block 'character'  kind 40  236 words  (block 17)
+*--
+*-- unique character id
+*--
+        segmentf,chlocb =nc(ncchara+54),01,30   $$ buffer
+*-- current z,x,y location
+        segmentf,chloc  =nc(ncchara+54),01,14
+        segmentf,chzloc =nc(ncchara+54),01,04
+        segmentf,chxyloc=nc(ncchara+54),05,10
+*-- sanctuary
+        segmentf,chsloc =nc(ncchara+54),15,14
+        segmentf,chszloc=nc(ncchara+54),15,04
+        segmentf,chsxy  =nc(ncchara+54),19,10
+*--
+        segmentf,charid=nc(ncchara+54),31,30
+        chbpass         = nc(ncchara+55)        $$ bnk code
+c
+c       0       not determined
+c       1       no quest needed
+c       2       monster quest completed
+c       3       item quest completed
+c       4       monster quest given
+c       5       item quest given
+c       6       unknown quest (for shift stop or backout)
+c
+        segment,chqstat =nc(ncchara+56),03      $$ statuses
+        segment,chqinfo =nc(ncchara+57),08      $$ quest inf
+*--
+*-- spells -- to save ECS
+*--
+        chspell         =nc(ncchara+60)
+        segment,chquest =nc(ncchara+61),10      $$ 3 words
+*--
+*-- NO FREE WORDS
+*--
+        b.pro           = 1     $$ protection
+        b.fire          = 2     $$ fire resistance
+        b.anti          = 3     $$ anti-magic
+        b.drain         = 4     $$ protection from level-drn
+        b.levit         = 5     $$ levitation
+        b.invis         = 6     $$ invisible
+        b.dinvis        = 7     $$ detect invisibility
+        b.spoi          = 8     $$ slow poison
+        b.water         = 9     $$ water breathing
+        b.rpar          = 10    $$ resist paralysis
+        b.poiso         = 11    $$ poison
+        b.disea         = 12    $$ disease
+        b.stone         = 13    $$ berger-like
+        b.paral         = 14    $$ paralization
+        b.sleep         = 15    $$ asleep
+*--
+        s.str   = 1     $$ stat constants
+        s.int   = 2
+        s.wis   = 3
+        s.con   = 4
+        s.cha   = 5
+        s.dex   = 6
+*---
+        maxsp =(chstat(s.int)+chstat(s.wis))*3.5
+*
+
+=== block 'old char'  kind 40  197 words  (block 20)
+*
+        ohitems         =nc(ncchara+11)         $$ item #'s
+        ohchrgs         =nc(ncchara+16)         $$ charges
+        ohials          =nc(ncchara+21)         $$ ialig's
+        ohibnks         =nc(ncchara+22)         $$ ibank's
+        ohikns          =nc(ncchara+23)         $$ itmkn's
+        segment,ohitemu =nc(ncchara+24),05      $$ in use
+        ohexpb          =nc(ncchara+27)         $$ buffer
+        segment,ohexper =nc(ncchara+27),30      $$ 15×30b
+        ohlevb          =nc(ncchara+35)         $$ buffer
+        segment,ohlevel =nc(ncchara+35),10      $$ 15×10b
+        ohcobhs         =nc(ncchara+38) $$ uses full word
+        ohcochs         =nc(ncchara+39) $$ uses full word
+        segmentf,ohcoths=nc(ncchara+40),01,04   $$ 1×4b
+        ohitems         =nc(ncchara+11)         $$ item #'s
+        ohchrgs         =nc(ncchara+16)         $$ charges
+        ohials          =nc(ncchara+21)         $$ ialig's
+        ohibnks         =nc(ncchara+22)         $$ ibank's
+        ohikns          =nc(ncchara+23)         $$ itmkn's
+        segment,ohitemu =nc(ncchara+24),05      $$ in use
+        ohexpb          =nc(ncchara+27)         $$ buffer
+        segment,ohexper =nc(ncchara+27),30      $$ 15×30b
+        ohlevb          =nc(ncchara+35)         $$ buffer
+        segment,ohlevel =nc(ncchara+35),10      $$ 15×10b
+        ohcobhs         =nc(ncchara+38) $$ uses full word
+        ohcochs         =nc(ncchara+39) $$ uses full word
+        segmentf,ohcoths=nc(ncchara+40),01,04   $$ 1×4b
+        segmentf,oharid=nc(ncchara+54),01,30
+*-- number of times timel executed
+        ochtime         = nc(ncchara+55)
+*-- monster recognized by character before
+*        segment,chmseen =nc(ncchara+44),02      $$ 9 words
+        segmentf,ohlocb =nc(ncchara+26),01,30   $$ buffer
+
+=== block 'players'  kind 40  267 words  (block 21)
+*
+        segmentf,dstatus        =nc(ncdstat),01,30
+        segmentf,dzap           =nc(ncdstat),31,30
+*--
+*-- counter for unique character id
+*-- number of characters created
+*--
+        totchar         = nc(ncchars)   $$ total chars
+*--
+*-- trade buffer
+*--
+*        tradet          = vc(nctrade)   $$ when expires
+*        tbuff(x)        = nc(nctrade-2+x×3)
+*--
+        slotvar         = nc(ncslotv)
+*--
+*-- active player banks
+        maxin           = 48            $$ maximum players
+*        pbinc           = 6             $$ words/player
+        pblen           = 48×6          $$ bank length
+*--
+        plyr2           = nc(ncpbank+maxin×2)
+        plyr3           = nc(ncpbank+maxin×3)
+        plyr4           = nc(ncpbank+maxin×4)
+        plyr5           = nc(ncpbank+maxin×5)
+*-- 20 characters for pseudo
+        ppseudo(x)      = nc(ncpbank-2+im2(x))
+        ppseud1(x)      = ppseudo(x)
+        ppseud2(x)      = nc(ncpbank-1+im2(x))
+*-- one word of player bits (4 bits × 15)
+        pppbits(x)      = nc(ncpbank+2×maxin-1+x)
+        segment,ppbit4  = pppbits(1),04
+        segment,ppbit2  = pppbits(1),02
+        pppbit(x,y)     = ppbit4(x×15-15+y)
+*-- first two bits for spell counter, next two bits for item
+        pppbisp(x,y)    = ppbit2(x×30-31+im2(y))
+        pppbiit(x,y)    = ppbit2(x×30-30+im2(y))
+*-- current hits
+        segmentv,ppchits= plyr3,01,10
+*-- base hits
+        segmentv,ppbhits= plyr3,11,10
+*-- hit byte
+        segmentv,pphitb = plyr3,01,20
+*-- level
+        segmentv,pplevel= plyr3,21,10
+*-- class
+        segmentv,ppclass= plyr3,31,04
+*-- race
+        segmentv,pprace = plyr3,35,04
+*-- 6 free bits
+*-- alignment
+        segmentv,ppalign= plyr3,45,02
+*-- wait bit; means he is in or about to be in a wait loop
+        segmentv,ppwait = plyr3,47,01
+*-- station number
+        segmentv,ppstat = plyr3,48,12
+*-- 0 if not in term, 1 if in term
+        segmentv,ppterm = plyr3,60,01
+*-- leader of company
+*-- don't move, -find- uses mask
+        segmentv,ppleadr= plyr4,01,06
+*-- position in company
+*-- don't move -find- uses mask
+        segmentv,pppos  = plyr4,07,06
+*-- jumpout bit
+        segmentv,pptimer= plyr4,13,01
+*-- trackable bit
+        segmentv,pptrack= plyr4,14,01
+*-- number in company
+        segmentv,ppnum  = plyr4,15,06
+*-- alignment of company
+        segmentv,pppalig= plyr4,21,02
+
+=== block 'players'  kind 40  165 words  (block 22)
+*-- dir,x,y,z coordinate info
+        segmentv,pploc  = plyr4,23,16
+*-- direction
+        segmentv,ppdirec= plyr4,23,02
+*-- square only, not including direction
+        segmentv,ppsqr  = plyr4,25,14
+*-- z location
+        segmentv,ppzloc = plyr4,25,04
+*-- xy location
+        segmentv,ppxyloc= plyr4,29,10
+*--
+*-- don't use these functions except in editors
+*--
+        ppxloc(xx) = int((ppxyloc(xx)-1)/30)+1
+        ppyloc(xx) = ppxyloc(xx)-30×(ppxloc(xx)-1)
+*-- chickenshit bit
+        segmentv,ppchick= plyr4,39,01
+*-- 1 if fighting, 0 if not
+        segmentv,ppfight= plyr4,40,01
+*-- carrying
+        segmentv,ppcrry = plyr4,41,07,s
+*-- carried by
+        segmentv,ppcrryb= plyr4,48,06
+*-- full raise (0 = no, 1 = yes)
+        segmentv,ppfrais= plyr4,54,01
+*-- player slot raising you
+        segmentv,ppstud = plyr4,55,06
+*-- monster to encounter
+        segmentv,ppmons = plyr5,01,08
+*-- spell level of player or item raising
+        segmentv,pprlev = plyr5,09,08
+*-- new direction and x,y,z coordinates for when leader gone
+        segmentv,ppnloc = plyr5,17,16
+*-- new z location
+        segmentv,ppnzloc= plyr5,19,04
+*-- new xy location
+        segmentv,ppnxy  = plyr5,23,10
+*-- backout bit
+        segmentv,ppexit = plyr5,34,01
+*-- leave chest flag
+        segmentv,pplches= plyr5,35,01
+*-- 4 free bits
+*-- defense
+        segmentv,ppdef  = plyr5,39,11,s
+*-- attack
+        segmentv,ppatt  = plyr5,50,11,s
+*
+
+=== block 'players'  kind 40  250 words  (block 23)
+*
+*-- own player info
+        poseudo         = ppseudo(comnum)
+        poseud1         = poseudo
+        poseud2         = ppseud2(comnum)
+        popbits         = pppbits(comnum)
+*-- note that pppbit = pppbisp, but it should overlap
+*-- pppbiit too
+        popbit(x)       = pppbit(comnum,x)
+        popbisp(x)      = pppbisp(comnum,x)
+        popbiit(x)      = pppbiit(comnum,x)
+*--
+        pochits         = ppchits(comnum)
+        pobhits         = ppbhits(comnum)
+        pohitb          = pphitb(comnum)
+        polevel         = pplevel(comnum)
+        poclass         = ppclass(comnum)
+        porace          = pprace(comnum)
+        poalign         = ppalign(comnum)
+        powait          = ppwait(comnum)
+        postat          = ppstat(comnum)
+        poterm          = ppterm(comnum)
+*--
+        poleadr         = ppleadr(comnum)
+        popos           = pppos(comnum)
+        potimer         = pptimer(comnum)
+        potrack         = pptrack(comnum)
+        ponum           = ppnum(comnum)
+        popalig         = pppalig(comnum)
+        poloc           = pploc(comnum)
+        poxyloc         = ppxyloc(comnum)
+        posqr           = ppsqr(comnum)
+        podirec         = ppdirec(comnum)
+        pozloc          = ppzloc(comnum)
+        pochick         = ppchick(comnum)
+        pofight         = ppfight(comnum)
+        pocrry          = ppcrry(comnum)
+        pocrryb         = ppcrryb(comnum)
+        pofrais         = ppfrais(comnum)
+        postud          = ppstud(comnum)
+*--
+        pomons          = ppmons(comnum)
+        porlev          = pprlev(comnum)
+        ponloc          = ppnloc(comnum)
+        poexit          = ppexit(comnum)
+        polches         = pplches(comnum)
+        podef           = ppdef(comnum)
+        poatt           = ppatt(comnum)
+*
+        freewrd         = nc(ncslotb)    $$ free word list
+        segment,peerf   = freewrd,1      $$ free bits
+        freep(x)        = peerf(61-x)   $$ right to left
+*        messy           = 32-im16(messloc)+im2(messloc = 0)
+        messy           = 32-im16(messloc)
+
+=== block 'messages'  kind 40  237 words  (block 24)
+*--
+*-- circular give buffers (20)
+*--
+        segmentf,gslot  = nc(ncstatw),01,30
+        segment,gstat   = nc(ncgbuff+00),3
+        segment,gfrom   = nc(ncgbuff+01),6
+        segment,gto     = nc(ncgbuff+03),6
+        give(x)         = x+cgbuffp-1
+*-- segmented give buffer
+*        segmentf,gitem  = pgive,01,08   $$ item number
+*        segmentf,gknown = pgive,09,02   $$ known bit (2)
+*        segmentf,galign = pgive,11,02   $$ alignment
+*        segmentf,gcharge= pgive,13,08   $$ charges
+*        segmentf,ggold  = pgive,21,30   $$ gold
+*--
+*-- circular message buffer (20)
+*--
+        segmentf,mslot  = nc(ncstatw),31,30
+        segment,mstatus = nc(ncmbuff+00),3
+        segment,mto     = nc(ncmbuff+01),12
+        segment,mfrom   = nc(ncmbuff+05),6
+        message(x)      = cmbufft-4+im4(x)
+*--
+*-- message types
+*--
+        m.pers          = 0             $$ personal
+        m.track         = 1             $$ trackers
+        m.area          = 2             $$ area
+        m.all           = 3             $$ everyone
+        m.dam           = 4             $$ damage
+        m.guild         = 5             $$ guild announce
+*--
+*-- economic variables
+*--
+        ectot           = nc(ncecon)    $$ total wealth
+        ecplay          = nc(ncecon+1)  $$ player owned
+        ecmon           = nc(ncecon+2)  $$ monster owned
+        ecbank          = nc(ncecon+3)  $$ bank total
+        ecstore         = nc(ncecon+4)  $$ store accounts
+*--
+*-- for game status and bulletin messages
+*--
+*-- "messrec" is the record in which the messages
+*-- are kept -- the dataset is the <ddmaze>
+*--
+        messrec         = 20
+*--
+*-- six 10 word lines for the game status message
+*--
+        gmessw          = 64    $$ words for message
+        gmess           = nc(ncgmess+00)
+        gmessl(x)       = nc(ncgmess-10+10×x)
+*--
+*-- six 10 word lines for the bulletin message
+*--
+        bmessw          = 64    $$ words for bulletin
+        bmess           = nc(ncbull+00)
+        bmessl(x)       = nc(ncbull-10+10×x)
+*
+
+=== block 'log'  kind 40  163 words  (block 25)
+        logloc(x)       = slog-4+im4(x) $$ stg. locs (-zwpr)
+        maxlogs         = 64    $$ max # entries in a guild
+        grecs           = 4     $$ records/log name
+*-- statistics constants: word numbers in statistics record
+        lstart          = 1     $$ quests started
+        lfinish         = 2     $$ quests fulfilled
+        ldeath          = 3     $$ deaths
+        lraise          = 4     $$ successful raises
+        lperms          = 5     $$ permanent deaths
+        lmembs          = 6     $$ members
+        lcycles         = 7     $$ cycles log has undergone
+*-- constants to pass to log unit
+        lmqstrt         = 0     $$ monster quest started
+        lmqcomp         = 1     $$ monster quest completed
+        liqstrt         = 2     $$ item quest started
+        liqcomp         = 3     $$ item quest completed
+        ldied           = 4     $$ died
+        lraised         = 5     $$ raise
+        lpdied          = 6     $$ permanent death
+        lmemb           = 7     $$ new member
+        lgmastr         = 8     $$ named as guild master
+*-- guild leaders
+*-- if this define is changed, see avatar/unit masterby
+        segment,glevel  = nc(ncgll),10  $$ highest levels
+        gpseudo(xx)     = cglp+im2(xx)-2$$ pseudonyms
+*        gpseudo(x)      = nc(ncgl-3+x×3)
+*        gpseud1(x)      = nc(ncgl-3+x×3)
+*        gpseud2(x)      = nc(ncgl-2+x×3)
+*        glevel(x)       = hglevel(x×18-17)
+
+=== block 'race/class'  kind 40  278 words  (block 26)
+*--
+*-- race defines
+*--
+        races           = nc(ncraces)
+        maxrace         = 10
+        segment,race6   = nc(ncraces+1),06      $$ segments
+        segment,race5   = nc(ncraces+1),05
+        segment,race3   = nc(ncraces+1),03
+        segment,race1   = nc(ncraces+1),01
+        rname(x)        = nc(x×3+ncraces-2)     $$ race name
+        rhigh(x,y)      = race5(x×36+y-24)      $$ high stat
+        rlow(x,y)       = race5(x×36+y-18)      $$ low stat
+        rsave(x)        = race6(x×30-9)         $$ sav throw
+        rexp(x)         = race6(x×30-8)         $$ experienc
+        rpit(x)         = race6(x×30-7)         $$ pit mult
+        rslope(x)       = race3(x×60-13)        $$ slope det
+        ralign(x,y)     = race1(x×180+y-39)     $$ alignment
+        rclass(x,y)     = race1(x×180+y-36)     $$ classes
+        rprefix(x)      = race1(x×180-20)       $$ prefix
+        rbit(x,y)       = race1(x×180-20+y)     $$ race bits
+*-- free bits here
+        rage(x)         = race6(x×30)           $$ age factr
+*--
+*-- race bit constants
+*--
+        r.pro   = 1     $$ protection
+        r.breat = 2     $$ resist breath
+        r.spell = 3     $$ resist spells
+        r.ldrai = 4     $$ level drain
+        r.levit = 5     $$ levitation
+        r.invis = 6     $$ invisibility
+        r.seein = 7     $$ see invisible
+        r.poiso = 8     $$ poison
+        r.wbrea = 9     $$ water breathing
+        r.paral = 10    $$ paralyze
+*--
+*-- class defines
+*--
+        classes         = nc(ncclass)
+        maxclas         = 15
+        cname(x)        = nc(x×3+ncclass-2)     $$ name
+        segment,class6  = nc(ncclass+1),06      $$ segments
+        segment,class5  = nc(ncclass+1),05
+        segment,class4  = nc(ncclass+1),04
+        segment,class3  = nc(ncclass+1),03
+        segment,class1  = nc(ncclass+1),01
+        cstatr(x,y)     = class5(x×36+y-24)
+        cexp(x)         = class6(x×30-14)
+        cabilx(x,y)     = class4(x×45+y-21)
+        cdiv(x,y)       = class4(x×45+y-21)
+*-- 4 bits here
+        csides(x)       = class4(x×45-12)
+        cdice(x)        = class4(x×45-11)
+        chits(x)        = class4(x×45-10)
+        calign(x,y)     = class1(x×180+y-40)
+*-- bit 24 unused
+        cmaxl(x)        = class6(x×30-5)
+        csave(x)        = class6(x×30-4)
+        cdivx(x,y)       = class3(x×60+y-8)
+        cabil(x,y)      = class3(x×60+y-8)
+*-- no free bits
+*
+
+=== block 'race/class'  kind 40  212 words  (block 27)
+*
+        a.dam           = 1     $$ damage bonus
+        a.bstab         = 2     $$ back-stabbing
+        a.swing         = 3     $$ extra swings
+        a.ac            = 4     $$ armor class modifier
+        a.quest         = 5     $$ quest ability
+        a.thief         = 6     $$ thieving
+        a.fight         = 7     $$ fighting
+        a.crit          = 8     $$ critical hits
+        a.spell         = 9     $$ spell casting level
+*-- class ranks
+        maxrnks         = 17            $$ max ranks
+        rnkwrds         = 3             $$ words / rank
+*-- transfr length
+        ranktrn         = maxrnks×rnkwrds+1
+*-- number of ranks in current class
+        csnum           = nc(ncranks)
+*-- rank names of current class
+        cdisp(x)        = nc(x×rnkwrds+nclrank-rnkwrds)
+        cdisp1(x)       = nc(x×rnkwrds+nclrank-rnkwrds)
+        cdisp2(x)       = nc(x×rnkwrds+nclrank+1-rnkwrds)
+        cdisp3(x)       = nc(x×rnkwrds+nclrank+2-rnkwrds)
+*-- location in common
+        clranks(x)      = clrank-ranktrn+(ranktrn)×x
+*
+*        expneed(r,c,l) = (900+100×(cexp(c)+rexp(r)/10))×(2**imin(l-3,7)+imax(l-10,0)×85)
+*--
+*-- new experience function 2/25/83 tfk (cds)
+*--
+        expneed(r,c,l) = (cexp(c)×((96+rexp(r))/128)×20)×(l**2-1)
+*
+*       *gldneed* removed from global because of token
+*       limit -- it is referenced in two places: in the
+*       makelevel unit in city lesson and in unit "expask"
+*       in the use file
+*
+*       it is gross to do this, sigh -- 9/8/83 cds
+*
+*        gldneed(r,c,l) = (cexp(c)×((96+rexp(r))/128)×20)×(2l-1)×(5×l)**.3
+*        gldneed(r,c,l) = [(ecplay+ecbank)/ecmon]*[(cexp(c)×((96+rexp(r))/128)×20)×(2l-1)×(5×l)**.3]
+*        save(r,c,C,l,p) = 70+(p-l)-((r+c)/4)-C
+*        save(r,c,C,l,p) = 35+((r+c)/2)+C+50×((log(l)-log(p))/1.778) $$ 1.778 = log(60)
+        save(r,c,s,l,f) = ((r+c)×.4)+(s/2)+(l×1.35)-(f/4)
+*--
+
+=== block 'items'  kind 40  306 words  (block 30)
+*-- number of items stored
+        items           = nc(ncnitem)
+*-- maximium findable and number found
+        segment,imaxn   = nc(ncfitem),10
+        ifound(x)       = imaxn(255+x)
+*-- store counters
+        segment,hisown  = nc(ncstore),3
+        isowned(x,y)    = hisown(im4(x)+y-3)
+        segment,isownt  = nc(ncstore),12
+*--
+        iwpi            = 7     $$ words per item
+        maxitem         = 255   $$ maximium items
+        itemloc(x)      = (citems-iwpi)+(iwpi×x)
+        item0           = nc(ncitems+0)
+        item1           = nc(ncitems+1)
+        item2           = nc(ncitems+2)
+        item3           = nc(ncitems+3)
+        item4           = nc(ncitems+4)
+        item5           = nc(ncitems+5)
+        item6           = nc(ncitems+6)
+*--
+        iname           = item0         $$ item name
+        iname1          = item0
+        iname2          = item1
+        iname3          = item2
+        segmentf,itypex = item3 ,01,05  $$ item type
+        segmentf,ifierce= item3 ,06,10  $$ fierceness
+        segmentf,ispell = item3 ,16,07  $$ spell number
+        segmentf,isplev = item3 ,23,08  $$ spell level
+        segmentf,ispmult= item3 ,31,01  $$ spell multiplier
+        segmentf,ichused= item3 ,32,03  $$ charges used/use
+        segmentf,ichdice= item3 ,35,04  $$ charge dice
+        segmentf,ichside= item3 ,39,04  $$ spell dice sides
+        segmentf,ichmax = item3 ,43,08  $$ maximium charges
+        segmentf,irechar= item3 ,51,06  $$ recharge ratio
+        segmentf,ilev   = item3 ,57,04  $$ save from dystroy
+*---
+*        segmentf,ikeep  = item4 ,01,07  $$ chance to keep
+        segmentf,ialev  = item4, 01,10  $$ abil lev required
+        segmentf,OI     = item4,08,04,s
+*-- 2 free bits
+        segmentf,ihitpal= item4 ,12,03  $$ allignment mod
+        segmentf,iacb   = item4 ,15,04,s$$ armor class base
+        segmentf,iacal  = item4 ,19,04,s$$ allignment mod
+        segmentf,iswings= item4 ,23,03  $$ swings/round
+        segmentf,ialmod = item4 ,26,02  $$ allignment damage
+        segmentf,iddice = item4 ,28,04  $$ damage dice
+        segmentf,idsides= item4 ,32,04  $$ sides/ddice
+        segmentf,itarget= item4 ,36,03  $$ optimium target
+        segmentf,itemper= item4 ,39,03  $$ temperature
+        segment,ionebit = item4 ,01     $$ 1 bit defines
+        igne(x)         = ionebit(41+x) $$ good/neutral/evil
+        iclassu(x)      = ionebit(44+x) $$ 15 classes - use?
+*-- 2 bits
+        segment,istat   = item5 ,05     $$ required stats(6)
+        segmentf,iprotec= item5 ,31,06  $$ protection index
+        segment,ispecbw = item5 ,01     $$ special bits
+        ispecb(x)       = ispecbw(36+x) $$ special bits
+*
+
+=== block 'items'  kind 40  229 words  (block 31)
+*
+*        segmentf,iparamx= item6,44,11,s $$ misc parameter
+*        segmentf,ichbitx= item6,11,04   $$ character bit #
+*        segment,ichx3   = item6,3,s
+*        ichx(x)         = ichx3(5+x)
+*--
+        segment,ichang  = item6,03,s    $$ stat change
+        istchan(x)      = ichang(x)
+*--
+        segment,iidx    = item6,06      $$ id required stats
+        iid(x)          = iidx(3+x)
+*--
+        segmentf,iabil  = item6,37,04   $$ ability required
+        segmentf,ichbit = item6,41,04   $$ character bit #
+        segmentf,iparam = item6,45,11,s $$ parameter
+        segmentf,ihitpb = item6,56,04,s $$ hit prob base
+        segmentf,NI     = item6,56,04,s
+*--
+*-- 1 free bit
+*--
+*-- item types (duuu level)
+*--
+        iduu(x)         = nc(nciduuu-1+x)
+        itypes(x)       = nc(ncitype-2+im2(x))
+        itype2(x)       = nc(ncitype-1+im2(x))
+*--
+*-- item type constants
+*--
+        it.weap         = 01    $$ weapon
+*        it.scr          = 04    $$ scroll
+*        it.dus          = 13    $$ dust
+*        it.pot          = 22    $$ potion
+*--
+*--- special bit constants
+*--
+        i.curse         = 1     $$ cursed
+        i.twoh          = 2     $$ two handed
+        i.setu          = 3     $$ set use bit
+        i.buy           = 4     $$ buyable
+*        i.statc         = 5     $$ stat change
+*        i.perm          = 6     $$ permanent
+*        i.oneu          = 7     $$ one use only
+        i.xtra          = 8     $$ extra swings
+        i.crit          = 9     $$ critical hit
+        i.hits          = 10    $$ change hits
+        i.permh         = 11    $$ permanently?
+        i.bhits         = 11    $$ base hits
+        i.age           = 12    $$ age
+        i.spell         = 13    $$ spell points
+        i.id            = 14    $$ ID bonus
+        i.trig          = 15    $$ trigger word required
+        i.ifumb         = 16    $$ immune to fumble?
+        i.quest         = 17    $$ questable item
+        i.heavy         = 18    $$ causes drowning?
+*
+
+=== block 'spells'  kind 40  250 words  (block 32)
+*-- spell defines
+        swps            = 6     $$ words per spell
+        maxspel         = 90    $$ maximium spells
+        spell0          = nc(ncspell+00)
+        spell1          = nc(ncspell+01)
+        spell2          = nc(ncspell+02)
+        spell3          = nc(ncspell+03)
+        spell4          = nc(ncspell+04)
+        spell5          = nc(ncspell+05)
+*-- number of spells stored
+        spells          = nc(ncnspel)
+*-- 20 characters for spell name
+        sname           = spell0
+        sname1          = spell0
+        sname2          = spell1
+*-- amount spell ages you when used
+        segmentf,sage   = spell2,01,04
+*-- maximium number of groups affected
+        segmentf,sgmax  = spell2,05,03
+*-- maximium number per group affected
+        segmentf,sgnmax = spell2,08,04
+*-- maximium number of monsters affected total
+        segmentf,stotmax= spell2,12,06
+*-- spell base power
+        segmentf,spower = spell2,18,05
+*-- target (0 = not applicable, 1 = individual, 2 = company)
+        segmentf,starg  = spell2,23,03
+*-- spell parameter -- use varies with spell type
+        segmentf,sparam = spell2,26,09,s
+*-- buyable in city
+        segmentf,sbuyabl= spell2,35,01
+*-- character bit to set
+        segmentf,schbit = spell2,36,05
+*-- change to character bit
+        segmentf,schange= spell2,41,03,s
+*-- depth in company
+        segmentf,sdepth = spell2,44,06
+*-- protection index
+        segmentf,sprotec= spell2,50,06
+*-- level increment for level dependent spells
+        segmentf,slevinc= spell2,56,04
+*-- players can use spell (ie. not thrown by item)
+        segmentf,sstop  = spell2,60,01
+*-- damage dice
+        segmentf,sdice  = spell3,01,04
+*-- maximium damage dice (for level dependent spells)
+        segmentf,smdice = spell3,05,06
+*-- sides per damage die
+        segmentf,ssides = spell3,11,05
+*-- required stat (6×5b)
+        segment,s5bit   = spell3,05
+        sstat(x)        = s5bit(3+x)
+        sclassu(x)      = s5bit(9+x)
+*-- good/neutral/evil can use
+        segment,soneb   = spell5,01
+        sgne(x)         = soneb(x)
+*-- out of combat, semi-combat, in combat
+        spuse(x)        = soneb(3+x)
+*-- spell type
+        segmentf,stype  = spell5,55,06
+*
+
+=== block 'maze'  kind 40  243 words  (block 33)
+*
+*--
+*-- stair co-ordinates in common
+*--
+        segmentf,stzloc = nc(ncstair),01,04
+        segmentf,stxyloc= nc(ncstair),05,10
+*--
+*-- tables for generating the display
+*--
+        mmazew1(x)      = nc(ncmask-1+x)
+        mmazew2(x)      = nc(ncmask+9+x)
+        umazew1(x)      = nc(ncunion-1+x)
+        umazew2(x)      = nc(ncunion+19+x)
+*--
+        rooms           = 180           $$ rooms per level
+        levels          = 15            $$ levels per game
+        specls          = 31    $$ # of special squares
+*-- maze walls
+        segment,maze2   = nc(ncmaze+000),02
+        mazelef(x,y)    = maze2(((x-1)×31)+y)
+        mazerig(x,y)    = maze2(x×31+y) $$ mazelef(x+1,y)
+        mazedow(x,y)    = maze2(x×31+y+961-31)
+        mazeup(x,y)     = maze2(x×31+y+961-30) $$ dow(x,y+1)
+*--
+        segment,maze5   = nc(ncmaze+065),05
+*        mazesqu(x,y)    = maze5(((x-1)×30)+y)
+        mazesqu(x)      = maze5(x)
+        segment,maze10  = nc(ncmaze+140),10
+        mazetxy(x)      = maze10(x)
+        mazetpz         = maze5(910)
+*-- room number / square (129 words)
+        segment,maze8   = nc(ncmaze+141),08
+*        mazeroo(x,y)    = maze8(((x-1)×30)+y)
+        mazeroo(x)      = maze8(x)
+*-- 180 rooms - number of squares / room (15 words)
+        maxsq           = 31
+        segment,mazecnt = nc(ncmaze+270),05
+*-- encounter table for given room (180 rooms)
+        segment,mazetab = nc(ncmaze+285),06
+*-- magic usable in a given room (180 rooms)
+        segment,mazemag = nc(ncmaze+303),01
+*
+        eents           = nc(ncencta+00)$$ # of entries
+*--
+*-- item/monster table indicator, 0 = monster, 1 = item
+*--
+        segmentf,ettype = nc(ncencta+01),01,01
+*--
+*-- total weight
+*--
+        segmentf,etweigh= nc(ncencta+01),31,30,s
+        ename           = nc(ncencta+02)$$ table name
+        ename1          = ename
+        ename2          = nc(ncencta+03)$$ second part
+c
+c       etinfo:
+c               bits 1-8        monster, item or table #
+c               bits 9-14       weight
+c               bit 15          0 if monster/item, 1 if tab
+c
+        segment,etinfo  = nc(ncencta+04),15
+
+=== block 'monsters'  kind 40  278 words  (block 34)
+*
+*-- unique bit; 1 = inhibited, 0 = not
+        segment,mallow  = nc(ncumons),1
+*-- monster defines
+        maxmstr         = 255           $$ maximium monsters
+        mwpm            = 9             $$ words per monster
+        mstrcnt         = nc(ncmstrs)   $$ number stored
+*-- location of monster in common
+        monsloc(x)      = cmonst-mwpm+x×mwpm
+*-- base word (0-8)
+        mword(x)        = nc(ncmonst+x)
+*-- monster name
+        mname           = mword(0)
+        mname1          = mword(0)
+        mname2          = mword(1)
+*-- suffixes
+*-- do not change these locations since they are
+*-- referenced as primitives in the monster editor
+        segment,msuffix = mword(2),18
+        m.singu         = 1
+        m.plura         = 2
+*-- stats of importance
+        segmentf,mstr   = mword(2),37,05        $$ strength
+        segmentf,mint   = mword(2),42,05        $$ intellig
+        segmentf,mcon   = mword(2),47,05        $$ constitu
+        segmentf,mdex   = mword(2),52,05        $$ dexterity
+*-- gold dice per individual monster
+        segmentf,mpdice = mword(2),57,04
+*-- hit dice and various level equivalencies
+        segmentf,mhdice = mword(3),01,06        $$ hit dice
+        segmentf,mhdside= mword(3),07,04        $$ sides/die
+        segmentf,mhbonus= mword(3),11,08        $$ hit bonus
+        segmentf,mflev  = mword(3),19,06        $$ fight lev
+        segmentf,mslev  = mword(3),25,06        $$ spell lev
+        segmentf,mtlev  = mword(3),31,06        $$ thief lev
+*-- offensive capability
+        segmentf,mswings= mword(3),37,03        $$ swings/r
+        segmentf,mhitbon= mword(3),40,05,s      $$ hit bonus
+        segmentf,madice = mword(3),45,04        $$ att dice
+        segmentf,madside= mword(3),49,04        $$ sides/die
+        segmentf,mabonus= mword(3),53,04        $$ att bonus
+*-- gold sides for individual monster
+        segmentf,mpsides= mword(3),57,04
+*-- appearance data
+        segment,mnums   = mword(4),08   $$ monster numbers
+        mconfus         = mnums(1)      $$ one for now
+        mappear(x)      = mnums(2+x)    $$ appear with (3)
+        segmentf,mapdice= mword(4),41,03        $$ appear d
+        segmentf,mapside= mword(4),44,04        $$ sides/die
+        segmentf,mrecogn= mword(4),48,07        $$ recognize
+*-- multipliers for individual and group gold
+        segmentf,mpmult = mword(4),55,03
+        segmentf,mgmult = mword(4),58,03
+
+=== block 'monsters'  kind 40  289 words  (block 35)
+*-- appearance continued / special bits
+*-- chance of appearance, related to mappear (3 segs)
+        segment,mchance = mword(5),07
+        segment,mattw   = mword(5),01
+        segmentf,maligns= mword(5),22,3
+        mgne(x)         = mattw(21+x)  $$ good/neutral/evil
+        matt(x)         = mattw(24+x)  $$ special abilities
+        segmentf,mattany= mword(5),26,8$$ darkmoor/specatts
+*        mclass(x)       = mattw(45+x)  $$ class recognize
+*-- monster gets huge bonus v.s. class
+        segmentf,mvsclas= mword(5),46,04
+*-- class gets huge bonus v.s. monsters
+        segmentf,mclasvs= mword(5),50,04
+        segmentf,mtrapto= mword(5),54,06
+*-- 1 free bit
+*-- protection bits
+        segmentf,mprowrd= mword(6),1,40
+        segment,mpro    = mword(6),01
+*-- character to use when displaying monster
+        segmentf,mchar  = mword(6),41,04
+*-- appearance affected by level?  1=yes
+        segmentf,mapplev = mword(6),45,01
+        segmentf,mquestw= mword(6),46,15
+        mquest(x)       = mpro(45+x)
+*-- misc
+        segmentf,mdrain = mword(7),01,02        $$ lvl drain
+        segmentf,mstat  = mword(7),03,01        $$ data stat
+*-- 0 = special item, 1 = item table
+        segmentf,mitype = mword(7),04,01        $$ item type
+        segmentf,mtemp  = mword(7),05,03        $$ temperat
+        segmentf,msize  = mword(7),08,03        $$ size
+        segmentf,mexp   = mword(7),11,10        $$ experienc
+        segmentf,msave  = mword(7),21,06        $$ save para
+        segmentf,mtype  = mword(7),27,04        $$ mons type
+        segmentf,mmresis= mword(7),31,07        $$ magic res
+        segmentf,mac    = mword(7),38,06,s      $$ armor cl
+        segmentf,mrsize = mword(7),44,05        $$ room size
+*-- special item found on monster
+        segmentf,mitem  = mword(7),49,08        $$ item #
+*-- group treasure sides/die
+        segmentf,mgsides= mword(7),57,04
+*-- treasure defines
+        segment,mtrch   = mword(8),07   $$ % chances
+        mtrlair         = mtrch(1)      $$ in lair
+        mtrches         = mtrch(2)      $$ chest
+        mtrspec         = mtrch(3)      $$ special chest
+        mtritem         = mtrch(4)      $$ chance of sp item
+        segmentf,mnotrap= mword(8),29,04
+        segment,mtrtrbx = mword(8),02   $$ trap weights
+        mtrap(x)        = mtrtrbx(16+x) $$ 10 trap weights
+*        segmentf,mtraptx= mword(8),47,06 $$ last 3 traps
+*-- group gold dice + sides
+        segmentf,mgdice = mword(8),53,04
+        segmentf,mtrdif = mword(8),57,04 $$ trap difficulty
+*
+
+=== block 'monsters'  kind 40  164 words  (block 36)
+*-- constants
+*--     monster attack capability (matt)
+*-- if these constants are changed, update darkmoor/specatts
+*-- and also the define for "mattany" in the monster defines
+        ma.crit         = 01    $$ critical hit
+        ma.pois         = 02    $$ poison
+        ma.dise         = 03    $$ disease
+        ma.ston         = 04    $$ stone
+        ma.age          = 05    $$ breath
+        ma.para         = 06    $$ paralyze
+        ma.slee         = 07    $$ sleep
+        ma.ides         = 08    $$ item destroy
+        ma.brea         = 09    $$ breath
+        ma.deat         = 10    $$ death
+        ma.surp         = 11    $$ surprise bonus
+        ma.csur         = 12    $$ cannot be surprised
+        ma.uniq         = 13    $$ unique
+        ma.seei         = 14    $$ see invisible
+        ma.invi         = 15    $$ invisible
+        ma.carr         = 16    $$ carryable
+        ma.dev          = 17    $$ devil
+*--
+*--     monster protection
+*--
+        mp.drow         = 36    $$ drowning
+        mp.peac         = 37    $$ peacing
+        mp.foll         = 38    $$ hero worship
+        mp.crit         = 39    $$ critical hit
+        mp.ldra         = 40    $$ level-drain
+*--
+*-- adder to monster defense and attack (multiplied by 4)
+*--
+        mstud           = 0
+*-- characters for monster
+        segment,hchars  = nc(ncctabl),07
+        mcharac(x,y)    = hchars(im4(x)+y) $$ starts at 0,1
+
+=== block 'cmstats'  kind 40  114 words  (block 37)
+*
+*       statistics kept in common loaded cm at all times
+*
+*       8 words total for these fields
+*
+*       value of *day* when these initialized last
+*
+        segmentf,isday  = nc(ncinfo+00),01,15
+*
+        segmentf,isdeath= nc(ncinfo+01),01,22   $$ deaths
+        segmentf,israise= nc(ncinfo+01),23,21   $$ raises
+        segmentf,iscomp = nc(ncinfo+01),44,17   $$ comps
+*
+*-- system id value, used to initialize database when
+*-- it arrives on a new system
+*
+        sysid   = nc(ncinfo+02)         $$ system id value
+*
+*-- *sysnew*
+*-- set by author or operator before shipping
+*-- -1 if should completely zap database
+*-- 0 if just updating common and should force cleanup
+*
+        segmentf,sysnew = nc(ncinfo+03),01,02,s
+*
+*-- run cleanup flag which is set if there are errors
+*-- in the lesson
+*-- -1 will force the next user who enters with no one
+*-- else in the game to cleanup the game
+*
+        segmentf,fixflag= nc(ncinfo+03),03,02,s
+*
+
+=== block 'alive'  kind 40  224 words  (block 40)
+*------- population bits
+        segment,pop1    = nc(ncrbitm),01
+        popaliv(x,y)    = pop1(((x-1)×rooms)+y)
+*------- pointers to alive defines
+        segmentf,alilive= nc(ncpoptr),01,06     $$ counter
+        segmentf,aliapri= nc(ncpoptr),07,06
+        maxlive         = 63    $$ max number of live rooms
+*------- alive defines
+*        alidef(x,y)     = (x-1)×int(zbpw/y)
+        alibnk1         = nc(ncpopul+maxlive×0)
+        alibnk2         = nc(ncpopul+maxlive×1)
+        alibnk3         = nc(ncpopul+maxlive×2)
+*-- room info
+        segmentv,haliid = alibnk1,01,12 $$ room id number
+        aliid           = haliid(livenum)
+        segmentv,halizlo= alibnk1,01,04 $$ zloc
+        alizloc         = halizlo(livenum)
+        segmentv,haliroo= alibnk1,05,08 $$ room number
+        aliroom         = haliroo(livenum)
+        segmentv,halispl= alibnk1,13,06 $$ divide gold by
+        alisplt         = halispl(livenum)
+*-- 1 free bits here
+*-- monster info
+        segmentv,halihby= alibnk1,21,40 $$ hits byte
+        alihbyt         = halihby(livenum)
+        segment,halahit = alibnk1,10
+        alihits(x)      = halahit(a10+x)
+        segmentv,halinby= alibnk2,01,16 $$ monster ctr. byte
+        alinbyt         = halinby(livenum)
+        segment,halinum = alibnk2,04
+        alinum(x)       = halinum(a4+x)
+        segmentv,halimby= alibnk2,17,32 $$ mons byte
+        alimbyt         = halimby(livenum)
+        segment,halimon = alibnk2,08
+        alimons(x)      = halimon(a8+x)
+        alimain         = alimons(1)    $$ main group
+        segmentv,haliali= alibnk2,49,02 $$ alignment
+        alialig         = haliali(livenum)
+        segmentv,halityp= alibnk2,51,03 $$ init number types
+        alityps         = halityp(livenum)
+        segmentv,halifol= alibnk2,54,01 $$ follower offer?
+        alifoll         = halifol(livenum)
+        segmentv,halitnu= alibnk2,55,06 $$ total monsters
+        alitnum         = halitnu(livenum)
+*-- continued in next block
+
+=== block 'alive'  kind 40  166 words  (block 41)
+*-- continued from previous block
+*-- treasure
+        segmentv,haliman= alibnk3,01,10 $$ gold mantissa
+        alimant         = haliman(livenum)
+        segmentv,halidif= alibnk3,11,04 $$ trap difficulty
+        alidiff         = halidif(livenum)
+        segmentv,haliche= alibnk3,15,03 $$ chest information
+        aliches         = haliche(livenum)
+        segmentv,halitra= alibnk3,18,04 $$ trap type
+        alitrap         = halitra(livenum)
+        segmentv,haliexp= alibnk3,22,03 $$ gold exponent
+        aliexpo         = haliexp(livenum)
+*        segmentv,halispi= alibnk3,24,01 $$ special item
+*        alispit         = halispi(livenum)
+*-- 2 free bits
+        segmentv,haliite= alibnk3,27,01 $$ item in chest
+        aliitem         = haliite(livenum)
+        segmentv,halipea= alibnk3,28,01
+        alipeac         = halipea(livenum)
+*-- 2 free bits
+*-- monster bits, referenced right to left in byte
+        segmentv,halifby= alibnk3,31,04 $$ fight byte
+        alifbyt         = halifby(livenum)
+        nbit            = lobit(alifbyt)
+*-- returns 0 if no monsters alive
+        nfight(x)=abs(x×(alinum(x)>0)+nbit×(alinum(x)=0))
+*-- player info
+        segmentv,halitot= alibnk3,35,12 $$ # live/dead
+        alitotp         = halitot(livenum)
+        segmentv,halipla= alibnk3,35,06 $$ # live in room
+        aliplay         = halipla(livenum)
+        segmentv,halicor= alibnk3,41,06 $$ # corpses in room
+        alicorp         = halicor(livenum)
+
+=== block 'city'  kind 40  220 words  (block 42)
+        cb              = ncsbank       $$ pseudo student
+*--
+        fundl   = '2avatfund'            $$ protection lesson
+*--
+*-- character creation
+*--
+        newrace         = nc(cb+00)     $$ new race
+        newpick(x)      = nc(cb+00+x)   $$ new stats
+        newalig         = nc(cb+07)     $$ new alignment
+        newsex          = nc(cb+08)     $$ new sex
+        newalil         = nc(cb+09)     $$ new alignment
+        newpseu         = nc(cb+10)     $$ new pseudonym 3w
+        nsignon         = nc(cb+12)     $$ signon, 10 ch
+*--
+*-- overdefines newpseu, nsignon
+*--
+        pbuf            = nc(cb+10)     $$ pseudo buffer
+        pbufw(x)        = nc(cb+9+x)
+*--
+*-- item information
+*--
+        ilist           = nc(cb+13)     $$ item list seen?
+        iinfo           = nc(cb+14)     $$ value of parcel
+        inew            = nc(cb+15)     $$ new info flag
+*--
+*-- character manipulation
+*--
+        zappseu         = nc(cb+16)     $$ delete pseudo
+*--
+*-- main city loop
+*--
+        cityhlp         = nc(cb+17)     $$ help seen in city
+        avathlp         = nc(cb+17)     $$ beginner?
+*
+*-- for being dead
+*
+        cseen           = nc(cb+18)     $$ last carrier seen
+*--
+*-- for the store
+*--
+*        sicharg         = nc(cb+18)     $$ can be charged?
+        siprice         = nc(cb+19)     $$ item price
+        siname          = nc(cb+20)     $$ item name
+        siname1         = nc(cb+20)
+        siname2         = nc(cb+21)
+        siname3         = nc(cb+22)
+        silist          = nc(cb+23)     $$ items listed?
+        sitop           = nc(cb+24)     $$ top item in list
+        sibot           = nc(cb+25)     $$ bot item in list
+        siuse           = nc(cb+26)     $$ item is usable
+        sialig          = nc(cb+27)     $$ item alignment
+        sichar          = nc(cb+28)     $$ charges on item
+        siitem          = nc(cb+29)     $$ number of item
+
+=== block 'city'  kind 40  194 words  (block 43)
+*
+*       temporary variable for holding your previous
+*       guild -- see unit "aqfin" in city lesson
+*
+        oclass  = nc(cb+30)     $$ previous class
+*--
+*-- trade option
+*--
+*        obuff           = nc(cb+30)     $$ 3 word offer buf
+*        segment,os8     = obuff,8
+*        segment,os2     = obuff,2
+*        segment,os1     = obuff,1
+*        oitem(x)        = os8(x)        $$ item number
+*        segmentf,operson=obuff,41,06    $$ person in slot
+*        oalig(x)        = os2(x+24)     $$ alignments
+**-- ostatus: 0 = no offer, 1 = offer being decided,
+**-- 2 = accepted, 3 = rejected
+*        segmentf,ostatus= obuff,59,02
+*        ocharge(x)      = os8(x+7)
+*        oknow(x)        = os1(x+100)
+**-- third word of trade buffer is gold
+*        ogold           = nc(cb+32)     $$ offered gold
+*        pbuff           = nc(cb+33)     $$ 3 word personal o
+*        odisp           = nc(cb+34)     $$ display own buff?
+*        odeal           = nc(cb+35)     $$ who deal is with
+*        opslot          = nc(cb+36)     $$ personal trade sl
+*        owslot          = nc(cb+37)     $$ slot of other guy
+*
+        tsbuf           = nc(cb+38)     $$ signon buffer
+        tsbufw(x)       = nc(cb+37+x)
+        tname           = nc(cb+38)     $$ temp name
+        tname1          = tname
+        tname2          = nc(cb+39)
+        tgroup          = nc(cb+40)
+        texist          = nc(cb+41)     $$ signon exists?
+*
+        guild           = nc(cb+42)     $$ guild number
+        mycode          = nc(cb+43)     $$ ownchar codeword
+        ipage(x)        = nc(cb+43+x)   $$ item page shown
+*
+*-- morgue
+*
+        morguep(x)      = 1500×imin(x,542)**1.4
+*
+
+=== block 'dungeon'  kind 40  184 words  (block 44)
+        db              = ncsbank       $$ pseudo student
+*--
+*-- runner
+*--
+        tshow           = nc(db+00)     $$ 3 var show buffer
+        tshow2          = nc(db+01)     $$ second part
+        tshow3          = nc(db+02)     $$ third part
+        twall(xx)       = nc(db+02+xx)
+        sdie            = nc(db+13)     $$ chance of death
+        spay            = nc(db+14)     $$ need to age, etc?
+        mainkey         = nc(db+15)     $$ main loop keytype
+        opewait         = nc(db+16)     $$ rounds remaining
+        orounds         = nc(db+17)     $$ initial rounds
+        jgroup          = nc(db+18)     $$ -j- monster group
+        nodevil         = nc(db+19)     $$ nature of beast
+*--
+*-- dungeon status
+*--
+*--
+*-- move ttime later
+*--
+*        ttime           = vc(db+19)
+*-- sqval should be set before -do- to unit chcksqua
+        sqval           = nc(db+20)     $$ value of square
+        takeabl         = nc(db+21)     $$ can take stairs?
+        magic           = nc(db+22)     $$ magic allowed?
+*--
+*-- screen display
+*--
+        dmess           = nc(db+23)     $$ stairway message
+        fseen           = nc(db+24)     $$ last known pofigh
+        repflag         = nc(db+25)     $$ replot flag
+        dinfol1         = nc(db+26)     $$ message length 1
+        dinfol2         = nc(db+27)     $$ message length 2
+        dinfob1         = nc(db+28)     $$ message begin 1
+        dinfob2         = nc(db+29)     $$ message begin 2
+        atnm1(x)       = dinfol1 « (wherex-(dinfob1 « x)) $ars$ 3
+        atnm2(x)       = dinfol2 « (wherex-(dinfob2 « x)) $ars$ 3
+*-- continued in next block
+
+=== block 'dungeon'  kind 40  234 words  (block 45)
+*-- continued from previous block
+*--
+*-- encounter
+*--
+        fight           = nc(db+30)     $$ group to attack
+        kill            = nc(db+31)     $$ how many to kill
+        victim          = nc(db+32)     $$ monster victim
+*-- -1  already followed
+*--  0  not offered
+*-- >0  that many offered to follow
+        follow          = nc(db+33)     $$ peaced monsters
+*-- number of times monster hits player / companion
+*-- used to determine number of times special ability
+*-- unit should be done (eg. poison, sleep, etc.)
+        numhits         = nc(db+34)
+        namew           = nc(db+35)     $$ base 12-wd block
+        known(x)        = nc(db+34+x)   $$ recognize info
+        shownam(x)      = nc(db+38+x)   $$ show name array
+        oldnum(x)       = nc(db+42+x)   $$ old num on screen
+        tamons(x)       = nc(db+46+x)   $$ alimons(x)
+        monsx(x)        = nc(db+50+x)   $$ monstr char xlocs
+        evadbon         = nc(db+55)     $$ monster smashes
+        rtime           = nc(db+56)     $$ round timer
+*--
+*-- treasure
+*--
+*-- -1 if chest examined; else number of rounds needed to
+*-- wait before chest can be examined
+        examine         = nc(db+57)     $$ chest examined?
+        knowtr          = nc(db+58)     $$ know trap
+        disarm          = nc(db+59)     $$ chance to disarm
+        teled           = nc(db+60)     $$ trap teleport?
+*--
+*-- spells
+*--
+        slev            = nc(db+61)     $$ temp. spell lev
+        spcost          = nc(db+62)     $$ spell unit cost
+        sbyitem         = nc(db+63)     $$ spell by item?
+        starget         = nc(db+64)     $$ 0=player, 1=comp
+        safe            = nc(db+65)     $$ made sav. throw?
+        sblev           = nc(db+66)     $$ base spell level
+        spdice          = nc(db+67)     $$ dice
+*-- locate person
+        zdiff           = nc(db+68)     $$ z difference
+        dahead          = nc(db+69)     $$ distance ahead
+        dright          = nc(db+70)     $$ distance right
+*--
+*-- items
+*--
+        itchow          = nc(db+71)     $$ item chowed?
+
+=== block 'help'  kind 40  97 words  (block 46)
+*
+*--
+*-- pseudo student variables
+*--
+        hb              = ncsbank       $$ pseudo student
+        infostr         = nc(hb+00)     $$ current keyword
+*        hpat            = nc(hb+00)     $$ search pattern
+*        hnote           = nc(hb+01)     $$ current note
+**--
+*        tword           = nc(nctext)    $$ text location
+**--
+**-- name buffers × 26
+**--
+*        tname(x)        = nc(nctext+3*(x-1))
+**--
+**-- note buffer
+**--
+*        hnname          = nc(nctext+00) $$ signon name
+*        hngroup         = nc(nctext+02) $$ signon group
+*        hndate          = nc(nctext+03) $$ date edited
+*        hntime          = nc(nctext+04) $$ time edited
+*        htwords         = nc(nctext+05) $$ number of words
+*        htlines         = nc(nctext+06) $$ number of lines
+**--
+*        htshow          = nc(nctext+08) $$ text buffer
+*
+
+=== block 'stat'  kind 40  184 words  (block 47)
+*--
+*-- defines referenced only by stat lesson
+*--
+*--     72 words pseudo student bank
+*--
+        stb             = ncsbank       $$ pseudo bank
+*--
+        guildm          = nc(stb+00)    $$ guild master flag
+        segment,gm      = guildm,02,s   $$ guild master map
+*--
+        stat            = nc(stb+0)     $$ statistic shown
+*--
+*--     nc(ncstats) is the starting location for
+*--     a 320 word buffer
+*--
+        statbuf         = nc(ncstats+00)$$ stat buffer
+        stdate          = nc(ncstats+00)$$ data compiled
+        sttime          = nc(ncstats+01)$$ time compiled
+        stchars         = nc(ncstats+02)$$ characters 
+*--
+*-- used by overall game statistics and guild statistics
+*--
+*-- race map, 15 races
+        segment,strace  = nc(ncstats+03),12     $$ 3 words
+*-- stat map, 35 stat categories (add 1 to index)
+        segment,ststatx = nc(ncstats+06),12     $$ 39 words
+        ststat(x,y)     = ststatx(im32(x-1)+y)
+*-- sum of stats (6 different stats)
+        ststats(x)      = nc(ncstats+44+x)      $$ 6 words
+*-- sum of stats squared
+        stsqsts(x)      = vc(ncstats+50+x)      $$ 6 words
+*-- good/neutral/evil
+        segment,stgne   = nc(ncstats+57),12     $$ 1 word
+*-- sum of hits
+        sthits          = nc(ncstats+58)
+*-- sum of time in game
+        stgamer         = vc(ncstats+59)
+*-- sum of time in game squared
+        stsqgam         = vc(ncstats+60)
+*-- # of each sex
+        segment,stsex   = nc(ncstats+61),12
+*-- sum of age
+        stage           = vc(ncstats+62)
+*-- sum of age squared
+        stsqage         = vc(ncstats+63)
+*
+
+=== block 'stat'  kind 40  252 words  (block 50)
+*--
+*-- the last 4×64 word records vary depending on which
+*-- part of the lesson is using them
+*--
+        segment,stclass = nc(ncstats+64),12
+*--
+*-- for top characters in guild
+*--
+        topchar         = nc(ncstats+64)        $$ # stored
+        topmax          = 25            $$ max top chars
+*--
+*-- level division's by 10's
+*-- sclevs(1) is number of people level 1-9, etc...
+        segment,sclevs  = nc(ncstats+71),12     $$ 20 words
+*--
+        scbuf           = nc(ncstats+112)       $$ -inserts-
+        stwpc           = 8     $$ words per character
+*--
+        scname(x)       = nc(ncstats+111+stwpc*(x-1)+01)
+        scname1(x)      = scname(x)
+        scname2(x)      = nc(ncstats+111+stwpc*(x-1)+02)
+*--
+        scgroup(x)      = nc(ncstats+111+stwpc*(x-1)+03)
+*--
+        scpseud(x)      = nc(ncstats+111+stwpc*(x-1)+04)
+        scpseu1(x)      = scpseud(x)
+        scpseu2(x)      = nc(ncstats+111+stwpc*(x-1)+05)
+*--
+        stw6            = nc(ncstats+111+06)
+        stw7            = nc(ncstats+111+07)
+        stw8            = nc(ncstats+111+08)
+        stsub(x)        = 1+stwpc*(x-1)
+*--
+        stsword         = stw6  $$ search word
+        segmentv,Scag   = stw6,01,10    $$ age in years
+        scage(x)        = Scag(stsub(x))
+*--
+        segmentv,Scpri  = stw6,11,02,s  $$ privacy bit
+        scpriv(x)       = Scpri(stsub(x))
+*--
+        segmentv,Scqsta = stw6,13,03    $$ quest status
+        scqstat(x)      = Scqsta(stsub(x))
+*--
+        segmentv,Scqinf = stw6,16,08    $$ quest info
+        scqinfo(x)      = Scqinf(stsub(x))
+*--
+        segmentv,Scleve = stw6,24,10
+        sclevel(x)      = Scleve(stsub(x))
+*--
+        segmentv,Scrac  = stw6,34,04    $$ race
+        scrace(x)       = Scrac(stsub(x))
+*--
+        segmentv,Scalig = stw6,38,02    $$ alignment
+        scalign(x)      = Scalig(stsub(x))
+*--
+        segmentv,Scse   = stw6,40,01    $$ SEX
+        scsex(x)        = Scse(stsub(x))
+*--
+        segmentv,Schit  = stw6,41,10    $$ hits
+        schits(x)       = Schit(stsub(x))
+*--
+        segmentv,Scqnu  = stw6,51,10    $$ times quested
+        scqnum(x)       = Scqnu(stsub(x))
+*
+
+=== block 'stats'  kind 40  100 words  (block 51)
+*-- stats referenced by the city and dungeon
+        citydat         = nc(nccond+00) $$ city ecs date
+        citytim         = nc(nccond+01) $$ city ecs time
+        dungdat         = nc(nccond+02) $$ dungeon ecs date
+        dungtim         = nc(nccond+03) $$ dungeon ecs time
+        segmentf,messes = nc(ncstwrd),01,30
+        segmentf,gives  = nc(ncstwrd),31,30
+*--
+        segmentf,gtime  = nc(ncstwrd+01),01,50  $$ game time
+*--
+        segmentf,mostin = nc(ncstwrd+01),51,10  $$ most in
+        segmentf,gentry = nc(ncstwrd+02),01,30  $$ entries
+*--
+*-- when stats last initialized
+*--
+        segmentf,stinit = nc(ncstwrd+02),31,30  $$ init word
+        segmentf,styear = nc(ncstwrd+02),31,07  $$ year
+        segmentf,stmonth= nc(ncstwrd+02),38,04  $$ month
+        segmentf,stdatex= nc(ncstwrd+02),42,05  $$ date
+        segmentf,stday  = nc(ncstwrd+02),47,14  $$ "day"
+*
+
+=== block 'monitor'  kind 40  203 words  (block 52)
+*-- defines for the monitor lesson
+        mb              = ncsbank       $$ pseudo student
+        page            =nc(mb+00)      $$ room count
+        D               =nc(mb+01)      $$ for hibit funct
+        blur(I,O)=D«D$union$((D«D$union$(O$ars$I))$ars$2×I)
+        hibit(OB)=bitcnt(blur(16,blur(4,blur(1,D«OB))))
+        bitcopy         =nc(mb+02)      $$ copy of bits
+        segment,bit=bitcopy,1           $$ individual bits
+        word            =nc(mb+03)      $$ word count
+        highb           =nc(mb+04)      $$ highest bit found
+        bitnum          =nc(mb+05)      $$ where to start
+        donep           =nc(mb+06)      $$ plotting flag
+        totbit          =nc(mb+07)      $$ overall bit num
+        optshow         =nc(mb+08)      $$ help show flag
+        start           =nc(mb+09)      $$ start buffer
+        last            =nc(mb+10)      $$ end buffer
+        jfile           =nc(mb+11)      $$ jumpout file
+        option          =nc(mb+12)      $$ option to display
+*--
+*-- list of player locations last shown
+*-- 48×(5+5) = 8 words
+*        segment,xyloc   =nc(mb+13),5    $$ 8 words
+*        sxloc(x)        = xyloc(x)      $$ x location
+*        syloc(x)        = xyloc(48+x)   $$ y location
+*--
+        snum            =nc(mb+21)      $$ number shown
+        slev            =nc(mb+22)      $$ level shown
+        tmslot          =nc(mb+23)      $$ last mess slot
+        tgslot          =nc(mb+24)      $$ last give slot
+        tmessn          =nc(mb+25)      $$ last line shown
+*--
+*-- fight makes d alive condense
+*--
+        fight           =nc(mb+26)
+*--
+*--     free words here
+*--
+        trplyr  = nc(mb+40)             $$ player tracking
+        trbit   = nc(mb+41)             $$ plyr bit to set
+*
+*--
+        wordbit(xx)     =nc(ncrbitm+xx-1)
+
+=== block 'minor'  kind 40  188 words  (block 53)
+*--
+*-- defines for "minor" editors
+*--
+        ob              =ncsbank        $$ pseudo student
+        loop            =nc(ob+00)      $$ looping variable
+*--
+*-- race and class editor defines
+*--
+        rtype           =nc(ob+01)      $$ scratch var
+        rxloc           =nc(ob+02)      $$ race x location
+        ryloc           =nc(ob+03)      $$ race y location
+        dispc           =nc(ob+04)      $$ class to display
+        rbuffer         =nc(ob+05)      $$ alpha buffer
+        cdispx          =nc(ob+06)      $$ class x location
+        cdispy          =nc(ob+07)      $$ class y location
+        cbuffer         =nc(ob+08)      $$ class buffer
+*--
+*-- item editor
+*--
+        itemn           =nc(ob+09)      $$ item being edited
+        icopy           =nc(ob+10)      $$ item name copy
+        icopy1          =nc(ob+10)
+        icopy2          =nc(ob+11)
+        icopy3          =nc(ob+12)
+        ipress          =nc(ob+13)      $$ item key press
+        iline           =nc(ob+14)      $$ item underline
+*--
+*-- spell editor
+*--
+        spelln          =nc(ob+15)      $$ spel being edited
+        scopy           =nc(ob+16)      $$ spell name copy
+        scopy1          =nc(ob+16)
+        scopy2          =nc(ob+17)
+        spress          =nc(ob+18)      $$ spell key press
+        sline           =nc(ob+19)
+        optshow         =nc(ob+20)      $$ options shown?
+        option          =nc(ob+21)      $$ option to show
+        jfile           =nc(ob+22)      $$ jumpout file
+        cntr            =nc(ob+23)      $$ counter for loops
+        shflag          =nc(ob+24)      $$ show flag
+*--
+*-- free words
+*--
+*
+
+=== block 'charedit'  kind 40  244 words  (block 54)
+*--
+*-- defines for character editor
+*--
+        ob              =ncsbank        $$ pseudo student
+        cpage           =nc(ob+00)      $$ character page
+        chpress         =nc(ob+01)      $$ keytype
+        chline          =nc(ob+02)      $$ line number
+        overide         =nc(ob+03)      $$ allow deletion
+*--
+*-- note that pbuf overwrites idbuft
+*--
+        pbuf            =nc(ob+04)      $$ pseudo buffer
+        pbufw(x)        =nc(ob+03+x)    $$ by word
+        idbuft          =nc(ob+04)      $$ id buffer temp
+        idbuftg         =nc(ob+06)      $$ group
+        xinfot          =nc(ob+07)      $$ xtra info
+        segmentf,lessont=nc(ob+07),37,2 $$ last lesson in
+        segmentf,safet  =nc(ob+07),39,1 $$ protected
+        segmentf,glevt  =nc(ob+07),40,7 $$ guild level
+        segmentf,dayt   =nc(ob+07),47,14$$ last day
+        idbufx          =nc(ob+08)      $$ id buffer temp
+        idbufnx         =nc(ob+08)      $$ name
+        idbufgx         =nc(ob+10)      $$ group
+        xinfox          =nc(ob+11)      $$ xtra info
+        segmentf,lessonx=nc(ob+11),37,2
+        segmentf,safex  =nc(ob+11),39,1
+        segmentf,glevx  =nc(ob+11),40,7
+        segmentf,dayx   =nc(ob+11),47,14
+        itemp           = nc(ob+12)     $$ item page -- 1,2
+        chonp           = nc(ob+13)     $$ item on page
+        loop            =nc(ob+14)      $$ looping variable
+        segment,olditem =nc(ob+15),08  $$ old items
+        icopy           =nc(ob+19)      $$ item name copy
+        icopy1          =nc(ob+19)
+        icopy2          =nc(ob+20)
+        icopy3          =nc(ob+21)
+        oldpseu         =nc(ob+22)      $$ prev pseudo (2w)
+        oldp1           =nc(ob+22)
+        oldp2           =nc(ob+23)
+        obgold          =nc(ob+24)      $$ old bank gold
+        ogold           =nc(ob+25)      $$ old gold on p
+        optshow         =nc(ob+26)      $$ options shown?
+        option          =nc(ob+27)      $$ option to show
+        jfile           =nc(ob+28)      $$ jumpout file
+        ipage           =nc(ob+29)      $$ char edit info
+        xloc            =nc(ob+30)      $$ screen x
+        yloc            =nc(ob+31)      $$ screen y
+
+=== block 'charedit'  kind 40  200 words  (block 55)
+*--
+*-- backup routine
+*--
+        frnset          = nc(ob+30)     $$ from nameset
+        tonset          = nc(ob+31)     $$ to nameset
+        frname          = nc(ob+32)     $$ from name
+        frname1         = nc(ob+32)
+        frname2         = nc(ob+33)
+        frgroup         = nc(ob+34)
+        toname          = nc(ob+35)     $$ to name
+        toname1         = nc(ob+35)
+        toname2         = nc(ob+36)
+        togroup         = nc(ob+37)
+*--
+        frpseud         = nc(ob+38)     $$ from pseudo
+        frpseu1         = nc(ob+38)
+        frpseu2         = nc(ob+39)
+        topseud         = nc(ob+40)     $$ to pseudo
+        topseu1         = nc(ob+40)
+        topseu2         = nc(ob+41)
+*--
+*-- for initialization routine
+*--
+        cidays          = nc(ob+30)     $$ max age (days)
+        cilev           = nc(ob+31)     $$ safe char level
+        cigold          = nc(ob+32)     $$ safe char gold
+        cibuy           = nc(ob+33)     $$ buyable items
+        cihgold         = nc(ob+34)     $$ highest gold
+        cihhits         = nc(ob+35)     $$ highest hits
+        cicomp          = nc(ob+36)     $$ delete companions
+        cicity          = nc(ob+37)     $$ put in city
+        cidi            = nc(ob+38)     $$ DI
+        ciquest         = nc(ob+39)     $$ remove quest
+        ciilev          = nc(ob+40)     $$ item level
+        ciitem          = nc(ob+41)     $$ item to remove
+        cistore         = nc(ob+42)     $$ zero store
+        cigrpck         = nc(ob+43)     $$ check group
+        cialign         = nc(ob+44)     $$ check alignment
+        ciexp           = nc(ob+45)     $$ set experience
+        cidel           = nc(ob+46)     $$ chars deleted
+        ciyn(x)         = nc(ob+48+x)   $$ y/n
+*--
+*--     free words here
+*--
+*
+
+=== block 'monedit'  kind 40  231 words  (block 56)
+*
+*-- monster editor pseudo student variables
+        mb              = ncsbank       $$ base
+*--
+        option          = nc(mb+00)     $$ option loop var
+        optshow         = nc(mb+01)     $$ options shown
+        jfile           = nc(mb+02)     $$ jumpout file
+*--
+        monsn           = nc(mb+03)     $$ monster number
+        cntr            = nc(mb+04)     $$ loop variable
+        mpress          = nc(mb+05)     $$ for keytype
+        mcopy           = nc(mb+06)     $$ copy buffer
+        mcopy1          = nc(mb+06)     $$ first word
+        mcopy2          = nc(mb+07)
+        mpage           = nc(mb+08)     $$ monster page
+        mbuffer         = nc(mb+09)     $$ monster name
+        mbuf1           = nc(mb+09)
+        mbuf2           = nc(mb+10)
+        proline         = nc(mb+11)     $$ monster pro line
+        cline           = nc(mb+12)     $$ class line
+        loop            = nc(mb+13)     $$ loop index
+*--
+        segmentf,proword= nc(mb+14),01,40       $$ pro patt
+        segment,propat  = nc(mb+14),01
+*--
+*--     free words here
+*--
+        mqtpat          = nc(mb+36)     $$ monstype pattern
+        segment,mqtbitx = mqtpat,01
+        mqtbit(x)       = mqtbitx(x+1)  $$ 0 {^'04} 15
+        bitnum          = nc(mb+37)     $$ bit being changed
+        mqchang         = nc(mb+38)     $$ yes/no flag
+        mqhd            = nc(mb+39)     $$ hit dice limit
+        mqah            = nc(mb+40)     $$ average hits
+        mqflev          = nc(mb+41)     $$ fighting level
+        mqslev          = nc(mb+42)     $$ spell level
+        mqint           = nc(mb+43)     $$ intelligence
+        mqsave          = nc(mb+44)     $$ saving throw
+        mqtemp1         = nc(mb+45)     $$ temperature
+        mqtemp2         = nc(mb+46)     $$ lower lmit
+        mqexp           = nc(mb+47)     $$ exp/hit
+*--
+        monster         = nc(mb+48)     $$ monster loaded
+        hhits           = nc(mb+49)     $$ high hits
+        ahits           = nc(mb+50)     $$ average hits
+        lowhits         = nc(mb+51)     $$ low hits
+*
+
+=== block 'mazedit'  kind 40  196 words  (block 57)
+        em              = ncsbank       $$ pseudo student
+        level           = nc(em+00)     $$ level to edit
+        xat             = nc(em+01)     $$ x location
+        yat             = nc(em+02)     $$ y location
+        cx              = nc(em+03)     $$ cursor x location
+        cy              = nc(em+04)     $$ cursor y location
+        mxmove(x)       = nc(em+04+x)   $$ maze x movement
+        mymove(x)       = nc(em+20+x)   $$ maze x movement
+        inc             = nc(em+37)     $$ increment
+        tpnum           = nc(em+38)     $$ teleporter number
+        newx            = nc(em+39)     $$ new x location
+        newy            = nc(em+40)     $$ new y location
+        newz            = nc(em+41)     $$ new z location
+        sqset           = nc(em+42)     $$ square to set to
+        nroom           = nc(em+43)     $$ new room number
+        change          = nc(em+44)     $$ change?
+        optshow         = nc(em+45)     $$ options shown?
+        option          = nc(em+46)     $$ option to show
+        jfile           = nc(em+47)     $$ jumpout file
+        mattemp         = nc(em+48)     $$ charset attempted
+        epage           = nc(em+49)     $$ encounter page
+        enumber         = nc(em+50)     $$ encounter tab #
+        epages          = nc(em+51)     $$ number of pages
+        opnum           = nc(em+52)     $$ operator number
+        mscan           = nc(em+53)     $$ scan monster #
+        mline           = nc(em+54)     $$ monster line #
+        etype           = nc(em+55)     $$ tab type, ettype
+        cxy             = nc(em+56)     $$ x,y index
+        oroom           = nc(em+57)     $$ old square num
+*--
+        mtabs           = nc(em+58)     $$ table array, 7w
+        segment,mtab    = mtabs,06      $$ table to conv to
+*
+
+=== block 'test'  kind 40  162 words  (block 60)
+*
+        tb              = ncsbank       $$ pseudo student
+*
+*-- free word here
+        monster         = nc(tb+01)     $$ monster loaded
+        itemn           = nc(tb+02)     $$ item loaded
+        spelln          = nc(tb+03)     $$ spell loaded
+*        hhits           = nc(tb+04)     $$ high hits
+*        ahits           = nc(tb+05)     $$ average hits
+*        lowhits         = nc(tb+06)     $$ low hits
+        ptype           = nc(tb+07)     $$ print type
+*        mqtpat          = nc(tb+08)     $$ monstype pattern
+*        segment,mqtbitx = mqtpat,01
+*        mqtbit(x)       = mqtbitx(x+1)  $$ 0 {^'04} 15
+*        bitnum          = nc(tb+09)     $$ bit being changed
+*        mqchang         = nc(tb+10)     $$ yes/no flag
+*        mqhd            = nc(tb+11)     $$ hit dice limit
+*        mqah            = nc(tb+12)     $$ average hits
+*        mqflev          = nc(tb+13)     $$ fighting level
+*        mqslev          = nc(tb+14)     $$ spell level
+*        mqint           = nc(tb+15)     $$ intelligence
+*        mqsave          = nc(tb+16)     $$ saving throw
+*        mqtemp1         = nc(tb+17)     $$ temperature
+*        mqtemp2         = nc(tb+18)     $$ lower lmit
+*        mqexp           = nc(tb+19)     $$ exp/hit
+        item            = nc(tb+20)     $$ item num (1-255)
+        option          = nc(tb+21)     $$ option to show
+        optshow         = nc(tb+22)     $$ options shown?
+        jfile           = nc(tb+23)     $$ jumpout file
+*
+
+=== block 'test'  kind 40  144 words  (block 61)
+*
+*       free words
+*
+        bprint          = tb+45
+*
+        fileout = nc(bprint+00)  $$ output file
+        nameout = nc(bprint+01)  $$ output name (3 words)
+        nameo1  = nc(bprint+01)
+        nameo2  = nc(bprint+02)
+        nameo3  = nc(bprint+03)
+        nameox  = nc(bprint+04)  $$ x-tra info
+        zwprout = nc(bprint+05)  $$ "zwpr" for output file
+        outptr  = nc(bprint+06)  $$ print buffer word pointr
+        length  = nc(bprint+07)  $$ length of input string
+        string  = nc(bprint+08)  $$ input string, 13 words
+        filein  = nc(bprint+21)  $$ input file
+        namein  = nc(bprint+22)  $$ input name (3 words)
+        namei1  = nc(bprint+22)
+        namei2  = nc(bprint+23)
+        namei3  = nc(bprint+24)
+        nameix  = nc(bprint+25)  $$ x-tra info
+*--
+*-- character buffer is overwritten for printing stuff
+*--
+*--
+        stprbuf = schara         $$ storage buffer
+        ncprbuf = ncchara        $$ central memory buffer
+        wpstr   = 13            $$ words per print string
+*--
+*-- print buffer defines
+*-- print buffer starting word for -zero- command
+*-- print word index for -transfr- command
+*--
+        prbuf           = nc(ncprbuf)
+        prword(x)       = nc(ncprbuf+x-1)
+*
+
+=== block 'secure'  kind 40  197 words  (block 62)
+*
+c
+c       box a, please.
+c
+*list   symbols
+*
+unit    secure
+access  (leslist),access;opword
+do      zreturn,x,error('access1')
+*--
+if      (lessnum = gtentry) $mask$ (opt(o.stud) = 1)
+elseif  (lessnum = gtentry) $mask$ (opt(o.game)  = 1)
+elseif  (lessnum = gtentry)
+.       jumpout q
+*--
+elseif  (lessnum = gtcity) $mask$ (opt(o.stud) = 1)
+elseif  (lessnum = gtcity) $mask$ (opt(o.game) = 1)
+*--
+elseif  (lessnum = gthelp) $mask$ (opt(o.stud) = 1)
+elseif  (lessnum = gthelp) $mask$ (opt(o.game)  = 1)
+*--
+elseif  (lessnum = gtstat) $mask$ (opt(o.stud) = 1)
+elseif  (lessnum = gtstat) $mask$ (opt(o.game)  = 1)
+*--
+elseif  (lessnum = atmisc) $mask$ (opt(o.acc)   = 1)
+elseif  (lessnum = atmisc) $mask$ (opt(o.race)  = 1)
+elseif  (lessnum = atmisc) $mask$ (opt(o.class) = 1)
+elseif  (lessnum = atmisc) $mask$ (opt(o.item)  = 1)
+elseif  (lessnum = atmisc) $mask$ (opt(o.spell) = 1)
+elseif  (lessnum = atmisc) $mask$ (opt(o.econ)  = 1)
+elseif  (lessnum = atmisc) $mask$ (opt(o.phra) = 1)
+*--
+elseif  (lessnum = atchar) $mask$ (opt(o.char)  = 1)
+elseif  (lessnum = atchar) $mask$ (opt(o.init) = 1)
+*--
+elseif  (lessnum = atmaze) $mask$ (opt(o.maze)  = 1)
+elseif  (lessnum = atmaze) $mask$ (opt(o.mons) = 1)
+*--
+elseif  (lessnum = atmons) $mask$ (opt(o.mons)  = 1)
+*--
+elseif  (lessnum = atmon) $mask$ (opt(o.monit) = 1)
+elseif  (lessnum = atmon) $mask$ (opt(o.statu) = 1)
+elseif  (lessnum = atmon) $mask$ (opt(o.gmess) = 1)
+elseif  (lessnum = atmon) $mask$ (opt(o.minor) = 1)
+elseif  (lessnum = atmon) $mask$ (opt(o.minor) = 1)
+*--
+elseif  (lessnum = atutil) $mask$ (opt(o.misc) = 1)
+*--
+else
+.       jumpout return
+endif
+*
+
+=== block 'initial'  kind 40  85 words  (block 63)
+*
+lvars   128             $$ thank you jim bowery
+okword
+*--
+*-- use normal leslist to determine -from- lessons
+*--
+leslist (startl),(startl)
+jumpout zreturn;x;q
+*--
+from    value;<gtentry>;<gtcity>;<gtdung>;<gthelp>;<gtstat>;
+        <atchar>;<atmons>;<atmaze>;<atmisc>;<atmon>;
+        <atutil>;s0acedit;notes;
+        (startl)
+*--
+if      (value = -1) $or$ (leslist = 0)
+.       calc    leslist « startl
+.       do      secure
+else
+*--
+*-- all Avatar lessons set variable "leslist"
+*--
+.       leslist (leslist),(leslist)
+.       jumpout zreturn;x;q
+endif
+commonx <dtcom>,dungeoncom,8000,,no load,checkpt
+do      zreturn,x,error('commonx5')
+comload nc1,1,890
+stoload nc891,1,610
+*
+
+=== block 'options'  kind 40  272 words  (block 64)
+unit    choose
+        merge,previous
+        lcnt
+$
+if      leslist {^54} '2avatmisc'
+.       pack    leslist;lcnt;«a,leslist»
+.       atnm    256-im4(lcnt),456
+.       showa   leslist
+.       box     248-im4(lcnt),472;264+im4(lcnt),456
+*.       comret
+*.       at      3201
+*.       write   comret «s,zreturn»
+endif
+color   display;zyellow
+atnm    188,432
+write   Choose an option:
+atnm    228,408
+writec  zcusers-2;1 user  ;«s,zcusers» users 
+color   display;zwhite
+atnm    200,384
+write   HELP available
+color   display;zcyan
+calc    optshow « 0
+*
+unit    utilopts
+goto    optshow,q,x
+mode    rewrite
+color   display;zgreen
+atnm    184,384
+write   Options Available:
+color   display;zyellow
+atnm    64,352
+do      showopts
+atnm    296,352
+calc    option « 0
+loop    option < 14
+.       calc    option « option+1
+outloop key = stop
+.       atnm    296,wherey-18
+.       showa   ((option+o7000) $cls$ 12) $union$ ". "
+.       writec  option-2;Access List;1984;
+.               Character Editor;Avatar;Misc Editors;
+.               Monster Editor;Statistics;Help Lesson;
+.               Utilities;Player Notefile;Comment Notefile;
+.               Author Notefile;Dungeon Editors;
+.               Return Common;;
+endloop
+color   display;zcyan
+goto    key = stop,q,x
+calc    optshow « -1
+*
+unit    options
+keytype pressed,help,back,back1,timeup, ,
+        A,B,C,D,E,F,G,H,I,J,K,L,M,N
+if      pressed
+elseif  pressed = 0
+.       do      utilopts
+elseif  pressed < 3
+.       press   stop1
+.       pause   keys=all
+elseif  pressed < 5
+.       mode    rewrite
+.       atnm    228,408
+.       writec  zcusers-2;1 user  ;«s,zcusers» users 
+.       mode    write
+elseif  pressed = 5
+.       jump    (opt(o.iacc) = 0) $mask$ (opt(o.acc) = 0),index,x
+.       jumpout s0acedit(leslist,'access',(opt(o.acc) = 1))
+else
+.       release common
+*--
+*-- don't bother with zreturn checks
+*--
+.       do      pressed-7,jumpout(atmon),jumpout(atchar),
+.               jumpout(gtentry),jumpout(atmisc),
+.               jumpout(atmons),jumpout(gtstat),
+.               jumpout(gthelp),jumpout(atutil),
+.               jumpout(gfplay),jumpout(gfcom),
+.               jumpout(afauth),jumpout(atmaze),retcom,x
+endif
+*
+
+=== block 'options'  kind 40  99 words  (block 65)
+unit    retcom
+comret
+*jump    zreturn,x,error('retcom6')
+at      3201
+writec  zreturn;Common returned.;Common NOT returned.
+pause   2,keys=all
+at      3201
+erase   20
+*
+unit    jumpout(jfile)
+        merge,previous
+        lles(3)
+$
+zero    lles(1),3
+lname   lles(1),jfile
+do      zreturn,x,error('lname212')
+goto    lles(2) = zlesson,q,x
+jumpout <jfile>
+jump    failed
+*
+unit    failed
+base
+at      080,272
+write   A jumpout to lesson "«a,jfile»" was attempted.
+ 
+        The attempt failed.  Press a key.
+pause   keys=all
+jump    index
+*
+unit    gethappy
+termop  chars
+termop  c
+atnm    180,0
+write   Loading characters.
+charset (startl),8owq 980sl
+atnm    180,0
+erase   15
+*
+unit    clean           $$ to please condenser in op lessons
+*
+
+=== block 'game util'  kind 40  224 words  (block 66)
+*
+unit    error(errmess)
+finish
+*protect off
+inhibit jumpchk
+jumpout <gtmisc>,enote
+*
+unit    attach(lfile)
+        merge,previous
+        lfile   $$ leslist file number to attach
+$
+goto    lfile = lfilen,q,x
+attach  <lfile>
+do      zreturn,x,error('attach7')
+calc    lfilen « lfile
+*
+unit    detach(lfile)
+        merge,previous
+        lfile
+$
+detach  <lfile>
+calc    lfilen « -1
+*
+unit    leavcomp
+        merge,previous
+        lleader         $$ leader slot number
+        lplayer         $$ player slot number
+        lalign          $$ alignment change flag
+        lloc            $$ own location
+$
+goto    ppnum(poleadr)-2,q,x
+calc    ppnum(lleader « poleadr) « ppnum(lleader)-1
+        lloc            « poloc
+        lplayer         « 0
+        lalign          « -1    $$ assume alignment change
+loop    (lplayer « lplayer+1) {^72} maxin
+reloop  ppseudo(lplayer) = 0
+reloop  ppleadr(lplayer) {^54} lleader      $$ different company
+reloop  lplayer          = comnum
+.       if      lleader  = comnum       $$ you were leader
+.       .       calc    pppos(ppleadr(lplayer)«lplayer) « 1
+.       .               ppnum(lplayer)   « 1
+.       .               pppalig(lplayer) « ppalign(lplayer)
+.       .               ppnloc(lplayer)  « lloc×abs(lloc {^54} pploc(lplayer))
+.       else
+.       .       if      ppalign(lplayer) {^54} 2
+.       .       .       calc    lalign   « 0
+.       .       endif
+reloop  pppos(lplayer)   < popos        $$ in front
+.       .       calc    pppos(lplayer)   « pppos(lplayer)-1
+.       endif
+endloop
+*--
+*-- possibly change alignment of old party back to neutral
+*--
+if      lalign
+.       calc    pppalig(lleader) « 2
+endif
+*--
+*-- reset player to be alone
+*--
+calc    popos   « 1
+        ponum   « 1
+        poleadr « comnum
+        popalig « chalign
+        powait  « 0
+        atrack  « 0
+do      showtrck
+*
+
+=== block 'game util'  kind 40  158 words  (block 67)
+unit    clean
+bump    {75}$${75}    FONT
+bump    #$    ACCESS
+bump    
+        $$    {^'67}CR
+putd    /{'67}//$${'66} SHIFT-SUPER
+putd    /{'66}//$${'67} SHIFT-SUB
+bump    ↑$$    SUPER
+bump    ↓$$    SUB
+bump    ⌫$$     BACKSPACE
+*-- SHIFT « 0
+putd    /{'33}//
+*-- SHIFT « 1
+putd    /{'34}//
+putd    /{'35}//$${'36} SHIFT « 2
+putd    /{'37}//$${'36} SHIFT « 4
+putd    /{'43}//$${'44} SHIFT « 8
+putd    /{'70}//     $$ shift « shift «
+*
+unit    delslot
+*-- we can rebuild this unit; we can make it better than it
+*-- was before; we can put this give stuff back
+*---    if the guy receiving the item stop1s out before
+*---    he gets it, forget him
+*calc    gslot«imax(gslot,1)
+*loop    pgslot{^54}gslot
+*.       calc    pgslot«wrap(pgslot+1,1,22)
+*.       if      gto(pgslot)=comnum
+*.       .       calc    gslot«wrap(gslot+1,1,22)
+*.       .               gto(gslot)«gfrom(pgslot)
+*.       .               gfrom(gslot)«comnum
+*.       .               ggold(gslot)«ggold(pgslot)
+*.       .               gitem(gslot)«gitem(pgslot)
+*.       endif
+*endloop
+do      leavcomp
+calc    poseudo       « 0
+        poleadr       « 0
+        freep(comnum) « 0
+        comnum        « 0
+        slotvar       « slotvar-1
+*
+unit    lchange         $$ leader changed
+do      showtrck
+calc    poloc  « ponloc
+        ponloc « 0
+*
+
+=== block 'game util'  kind 40  161 words  (block 70)
+unit    itemck(litem,lfrom)
+        merge,previous
+        litem           $$ item slot (1-slots)
+        linuse          $$ item in use of iclass
+        lstat           $$ for stat check loop
+        lfrom           $$ -1 = P, 0 = U, 1 = drop
+        lunuse          $$ -1 if unusing, 0 otherwise
+        lstuck          $$ item in this class is stuck
+        lusing          $$ currently using the item?
+        labil           $$ ability level (temp)
+$
+*--
+*-- item is assumed to be loaded
+*--
+calc    linuse « chitemu(iclass)
+        lusing « (linuse = litem)
+        lunuse « lusing $mask$ (lfrom < 1)
+        lstuck « istuck(iclass)
+        return « 2
+        branch  lstuck $mask$ (lfrom > -1),1bad,x
+        branch  (eq1(lfrom)) $union$ lunuse,1ok,x
+        return « 0
+        branch  (eq1(chibank(litem)))$mask$(zloc > 0),1bad,x
+        return « 5
+        branch  iclassu(class)-1,1bad,x
+        lstat « 0
+loop    (lstat « lstat+1) {^72} 6
+reloop  istat(lstat) {^72} chstat(lstat)
+.       calc    return « 5 + lstat
+.               branch  1bad
+endloop
+calc    return « 3
+        branch  (twohand $mask$ (iclass = 4)),1bad,x
+        return « 4
+        branch  ((chitemu(4) > 0) $mask$ (eq1(ispecb(i.twoh)))),1bad,x
+if      (labil « iabil) > 0
+.       calc    return « 1      $$ bad ability level
+.               branch  (pabilit(labil)-ialev),1bad,x
+endif
+1ok     return « -1
+1bad
+*
+
+=== block 'city/dung'  kind 40  117 words  (block 71)
+unit    entrypag
+inhibit dropstor,dropfile,jumpchk
+jumpout <gtentry>,start
+*
+unit    backgnd
+backgnd
+color   display;zgreen
+do      messloc
+write     Now in background.
+color   display;zcyan
+calc    backgnd « -1
+*
+unit    foregnd
+foregnd
+color   display;zgreen
+do      messloc
+write     Now in foreground.
+color   display;zcyan
+calc    backgnd « 0
+*
+unit    getspell(lspelln)
+        merge,previous
+        lspelln         $$ spell number
+$
+transfr c,cspells-swps+swps×lspelln;nc(ncspell);swps
+*
+unit    getmons(lmons)
+        merge,previous
+        lmons           $$ monster number
+$
+transfr c,monsloc(lmons);nc(ncmonst);mwpm
+*
+unit    getitem(loadedi)
+transfr c,itemloc(loadedi);iname;iwpi
+calc    iclass « iclas(itype « itypex+1)
+*
+unit    getenc(lencnum)
+        merge,previous
+        lencnum                 $$ encounter table number
+$
+transfr c,cencoun-20+lencnum×20;nc(ncencta);20
+*
+
+=== block 'showpro'  kind 40  193 words  (block 72)
+unit    showpro(lpro)
+        lpro
+$
+writec  lpro;;
+        not applicable  ;
+        smashing damage ;
+        slicing damage  ;
+        normal damage   ;
+        magical + 1     ;
+        magical + 2     ;
+        magical + 3     ;
+        fire            ;
+        cold            ;
+        electrical      ;
+        spell + 1       ;
+        spell + 2       ;
+        spell + 3       ;
+        hold person     ;
+        hold animal     ;
+        hold monster    ;
+        hold giant      ;
+        hold dragon     ;
+        hold undead     ;
+        hold demon      ;
+        hold devil      ;
+        hold elemental  ;
+        hold stud       ;
+        dispel undead   ;
+        dispel demon    ;
+        dispel devil    ;
+        dispel elemental;
+        dispel stud     ;
+        illusion + 1    ;
+        illusion + 2    ;
+        illusion + 3    ;
+        sleep           ;
+        poison gas      ;
+        fear            ;
+        stone           ;
+        death           ;
+        drowning        ;
+        peacing         ;
+        hero worship    ;
+        critical hit    ;
+        stat drain      ;
+        Protection («t,lpro,2»);
+*
+unit    charbit(lchbit)
+        lchbit
+$
+writec  lchbit;;
+        no charbit      ;
+        +20% to defense ;
+        resist breath   ;
+        resist spells   ;
+        anti stat-drain ;
+        levitate        ;
+        invisibility    ;
+        see invisible   ;
+        slow poison     ;
+        water breathing ;
+        resist paralysis;
+        poison          ;
+        disease         ;
+        stone           ;
+        paralyze        ;
+        slept           ;
+*
+
+=== block 'packpro'  kind 40  205 words  (block 73)
+unit    packpro(lpro)
+        lpro
+        lpbuf(2)
+$
+packc   lpro;lpbuf(1);;;
+        not applicable  ;
+        smashing damage ;
+        slicing damage  ;
+        normal damage   ;
+        magical + 1     ;
+        magical + 2     ;
+        magical + 3     ;
+        fire            ;
+        cold            ;
+        electrical      ;
+        spell + 1       ;
+        spell + 2       ;
+        spell + 3       ;
+        hold person     ;
+        hold animal     ;
+        hold monster    ;
+        hold giant      ;
+        hold dragon     ;
+        hold undead     ;
+        hold demon      ;
+        hold devil      ;
+        hold elemental  ;
+        hold stud       ;
+        dispel undead   ;
+        dispel demon    ;
+        dispel devil    ;
+        dispel elemental;
+        dispel stud     ;
+        illusion + 1    ;
+        illusion + 2    ;
+        illusion + 3    ;
+        sleep           ;
+        poison gas      ;
+        fear            ;
+        stone           ;
+        death           ;
+        drowning        ;
+        peacing         ;
+        hero worship    ;
+        critical hit    ;
+        stat drain      ;
+        Protection («t,lpro,2»);
+return  lpbuf(1),lpbuf(2)
+*
+unit    packbit(lchbit)
+        lchbit
+        lpbuf(2)
+$
+packc   lchbit;lpbuf(1);;;
+        no charbit      ;
+        +20% to defense ;
+        resist breath   ;
+        resist spells   ;
+        anti stat-drain ;
+        levitate        ;
+        invisibility    ;
+        see invisible   ;
+        slow poison     ;
+        water breathing ;
+        resist paralysis;
+        poison          ;
+        disease         ;
+        stone           ;
+        paralyze        ;
+        slept           ;
+return  lpbuf(1),lpbuf(2)
+*
+
+=== block 'att/def'  kind 40  128 words  (block 74)
+unit    attprob(lfight,lstr,lintwis,ldex,lhpbon)
+        merge,previous
+        lstr,lintwis,ldex
+        lfight
+        lhpbon
+        lstat
+$
+do      statcalc(lstr,lintwis,ldex;lstat)
+return  (lfight+lhpbon)*3+lstat
+*
+unit    defprob(lfight,lstr,lintwis,ldex,lac,lacbon,lzzz,lpar,linv)
+        merge,previous
+        lfight
+        lstr,lintwis,ldex
+        lac,lacbon
+        lzzz,lpar,linv  $$ -1 true, slept, paral, invis
+        ldef
+        lstat
+        lbad
+$
+calc    ldef « -((lac+lacbon)×3)
+        lbad « lzzz+lpar
+        ldef « ldef-(lfight×(lbad=0))×3
+do      statcalc(lstr,lintwis,ldex;lstat)
+return  ldef-(lstat×(lbad=0))-invbon×linv
+*
+unit    statcalc(lstr,lintwis,ldex)
+        merge,previous
+        lstr,lstrx
+        lintwis,lintx   $$ total of int and wis
+        ldex,ldexx
+$
+calc    lstr  « lstr-12
+        lstrx « abs(lstr)-6
+        ldex  « ldex-12
+        ldexx « abs(ldex)-4
+        lintwis « lintwis-24
+        lintx « abs(lintwis)-4
+return  im2(imax(lstrx,0)*sign(lstr)+imax(ldexx,0)*sign(ldex))+imax(lintx,0)*sign(lintwis)
+*
+
+=== block 'u critrec'  kind 40  48 words  (block 75)
+*--
+*--     critical signon record units
+*--     should be all that the dungeon lesson needs
+*--
+*
+unit    putrec
+*--
+*--     assumes "sbuf" (word 1-2 signon name, word 3 group)
+*--
+do      attach(dnchar)
+setname (sbuf)
+do      zreturn,x,error('setname17')
+dataout 1;s,schara;1
+do      zreturn,x,error('dataout18')
+*
+unit    packname
+name    name
+group   group
+*
+
+=== block 'make room'  kind 40  187 words  (block 76)
+unit    makeroom(lbgnd)
+        merge,previous
+        lday                    $$ value of "day"
+        ltoday
+        lnames
+*--
+        lxinfo                  $$ name extra info
+        segmentf,lsafe  = lxinfo,39,01
+        segmentf,lglev  = lxinfo,40,07
+        segmentf,lzday  = lxinfo,47,14
+*--
+        lnam(3)
+        lname = lnam(1)
+*--
+        lpseud(3)
+        lpseudo = lpseud(1)
+        lsbuf   = lpseud(3)
+        lbgnd
+        floating: lvday
+$
+*--
+*-- find oldest character
+*--
+1again                          $$ try again point
+*--
+calc    return « 0              $$ no room yet
+zero    lname,3                 $$ no char so far
+calc    lday « 16000            $$ youngest day so far
+day     lvday
+calc    ltoday « lvday
+do      attach(dnchar)          $$ char nameset
+atnm    228,16
+write     1/«s,znsnams»
+mode    rewrite
+calc    lnames « 0
+setname
+loop
+.       setname nextname        $$ get next char
+outloop zreturn > -1            $$ assume end of chars
+.       calc    lxinfo « zinfo  $$ get last day char used
+*--
+*-- guild level day modifier
+*--
+.               lzday « lzday+lglev
+.               lnames « lnames+1
+.       if      lnames/10 = int(lnames/10)
+.       .       atnm    228,16
+.       .       showt   lnames,3
+.       endif
+reloop  lsafe = 1               $$ protected character
+reloop  (ltoday-lzday) {^72} oldest $$ char not old enough
+reloop  lzday {^73} lday            $$ compare to oldest so far
+.       getname lname           $$ new oldest character
+.       calc    lday « lzday    $$ new oldest "day"
+endloop
+*
+*       continued
+*
+
+=== block 'make room'  kind 40  169 words  (block 77)
+*
+*       continued
+*
+*--
+*-- delete oldest character
+*--
+at      228,16
+erase   7
+goto    lname,x,q,x             $$ no chars to delete!
+*--
+setname lname
+branch  zreturn,x,1again        $$ maybe char deleted?
+reserve name
+branch  zreturn,x,1again        $$ must have entered game
+datain  1;s,schara;1
+do      zreturn,x,error('datain19')
+*--
+*protect on                      $$ critical section
+*--
+do      retitems                $$ return items
+do      retgold                 $$ return gold
+do      masterby                $$ guild master check
+*--
+release name
+do      zreturn,x,error('release20')
+delname
+do      zreturn,x,error('delname21')
+*--
+transfr chpseud;lpseudo;2
+calc    lsbuf « lname
+do      attach(dnpseud)         $$ pseudo nameset
+setname (lpseudo)
+do      zreturn,x,error('setname22')
+delname
+do      zreturn,x,error('delname23')
+do      detach(dnpseud)
+*--
+*protect off
+*
+if      lbgnd {^54} 0
+.       backgnd
+.       calc    backgnd « 1
+endif
+*
+*protect on
+*--
+*-- add character
+*--
+addname (sbuf),1,sxinfo
+branch  zreturn-2,x,1again,x
+do      zreturn,x,error('addname24')
+finish  mroomfin
+calc    return « -1
+*
+        
+unit    mroomfin
+*
+**      finish unit for "makeroom" routine
+*
+do      attach(dnchar)          $$ char nameset
+setname (sbuf)
+do      zreturn,x,error('setname948')
+delname
+do      zreturn,x,error('delname949')
+*
+        
+
+=== block 'u mess'  kind 40  176 words  (block 100)
+unit    getmess
+        merge,previous
+        lfile   $$ file attached when entering
+        lbuf(3)
+        lname = lbuf(1) $$ name attached when entering
+$
+calc    lfile « zfile
+getname lname
+attach  <ddmaze>
+do      zreturn,x,error('attach15')
+datain  messrec;s,smess;1
+do      zreturn,x,error('datain15')
+if      lfile {^54} 0
+.       attach  (lfile)
+.       do      zreturn,x,error('attach16')
+.       if      lname {^54} 0
+.       .       setname (lname)
+.       .       do      zreturn,x,error('setname16')
+.       endif
+endif
+*
+unit    putmess
+        merge,previous
+        lfile   $$ file attached when entering
+        lbuf(3)
+        lname = lbuf(1) $$ name attached when entering
+$
+calc    lfile « zfile
+getname lname
+attach  <ddmaze>
+do      zreturn,x,error('attach17')
+dataout messrec;s,smess;1
+do      zreturn,x,error('datain17')
+if      lfile {^54} 0
+.       attach  (lfile)
+.       do      zreturn,x,error('attach18')
+.       if      lname {^54} 0
+.       .       setname (lname)
+.       .       do      zreturn,x,error('setname18')
+.       endif
+endif
+*
+unit    showgmes
+        merge,previous
+        lline
+$
+calc    lline « 0
+loop    (lline « lline+1) {^72} 6
+reloop  gmessl(lline) = 0
+.       write   «a,gmessl(lline),100»
+        
+endloop
+*
+unit    showbmes
+        merge,previous
+        lline
+$
+calc    lline « 0
+loop    (lline « lline+1) {^72} 6
+reloop  bmessl(lline) = 0
+.       write   «a,bmessl(lline),100»
+        
+endloop
+*
+
+=== block 'utility'  kind 40  174 words  (block 101)
+unit    error(errmess)
+*protect off
+finish
+release common
+release name
+inhibit jumpchk
+jumpout <gtmisc>,enote
+*
+unit    getspell(lspelln)
+        merge,previous
+        lspelln         $$ spell number
+$
+transfr c,cspells+swps*(lspelln-1);nc(ncspell);swps
+*
+unit    getmons(lmons)
+        merge,previous
+        lmons           $$ monster number
+$
+transfr c,monsloc(lmons);nc(ncmonst);mwpm
+*
+unit    getitem(loadedi)
+transfr c,itemloc(loadedi);iname;iwpi
+calc    iclass « iclas(itype « itypex+1)
+*
+unit    getenc(lencnum)
+        merge,previous
+        lencnum                 $$ encounter table number
+$
+transfr c,cencoun+(lencnum-1)×20;nc(ncencta);20
+*
+unit    retenc(lencnum)
+        merge,previous
+        lencnum                 $$ encounter table number
+$
+transfr nc(ncencta);c,cencoun+(lencnum-1)×20;20
+*
+unit    setevar(lentry)
+        merge,previous
+        lentry                  $$ entry to set from
+$
+calc    evtto « etinfo(lentry)
+*
+unit    backgnd
+termop  backgnd
+termop  b
+backgnd
+mode    rewrite
+color   display;zgreen
+atnm    184,0
+write   Now in background.
+color   display;zcyan
+mode    write
+calc    backgnd « 1
+*
+unit    foregnd
+termop  foregnd
+termop  f
+foregnd
+mode    rewrite
+color   display;zgreen
+atnm    184,0
+write   Now in foreground.
+color   display;zcyan
+mode    write
+calc    backgnd « 0
+*
+
+=== block 'find play'  kind 40  274 words  (block 102)
+unit    getplay(lxloc,lyloc)
+        merge,previous
+        lxloc   $$ where to plot the arrow
+        lyloc
+        lmask1  $$ mask on first word
+        lmask2  $$ mask on second word
+        lfound  $$ number of partial matches
+        lmatch  $$ partial match found
+        lperson $$ person to search
+        lpseud1 $$ first 10 characters of pseudonym to match
+        lpseud2
+        lcheck1 $$ first 10 characters of checked pseudonym
+        lcheck2
+        lerror  $$ error return number
+$
+1arrow  pressed « 0
+        lerror « -1
+if      person > 0
+.       if      ppseudo(person) {^54} 0
+.       .       transfr ppseudo(person);copybuf;2
+.       else
+.       .       calc    person « 0
+.       endif
+endif
+arrow   lxloc,lyloc
+long    20
+copy    copybuf,20
+jkey    back,data
+judge   (key = back) $union$ (key = data),okquit,x
+exact
+judge   quit
+storea  lpseud1,20
+ok
+judge   (key = back) $union$ (key = data),quit,x
+calc    lperson « 0
+        lmask1  « lmask(imin(jcount,10)×6)
+        xn      « jcount-10
+        lmask2  « lmask(imax(xn,0)×6)
+        lfound  « 0
+loop    (lperson « lperson+1) {^72} maxin
+.       calc    lcheck1 « ppseudo(lperson)
+reloop  lcheck1 = 0
+.       calc    lcheck2 « ppseud2(lperson)
+.       if      lpseud1 = lcheck1
+.       .       judge   lpseud2 = lcheck2,quit,x
+.       endif
+reloop  lpseud1 {^54} lcheck1 $mask$ lmask1
+reloop  lpseud2 {^54} lcheck2 $mask$ lmask2
+.       calc    lfound « lfound+1
+.               lmatch « lperson
+reloop  lfound = 1
+.       calc    lerror « 0
+.       judge   quit
+endloop
+if      (lperson > maxin) $mask$ (lfound = 0)
+.       calc    lerror « 1
+.       judge   quit
+endif
+calc    lperson « lmatch
+block   ppseudo(lperson),lpseud1,2
+judge   quit
+endarrow
+if      key = data
+.       atnm    lxloc+16,lyloc
+.       erase   20
+.       showa   ppseudo(person « comnum),20
+elseif  (key = back) $union$ (jcount = 0)
+.       calc    pressed « -1
+else
+.       atnm    lxloc+16,lyloc
+.       showa   lpseud1,20
+.       if      (eq0(ppterm(lperson))) $mask$ lerror
+.       .       calc    person « lperson
+.       .       goto    q
+.       endif
+.       writec  lerror;   In TERM.;   Ambiguous.;
+.                  Not playing.
+.       pause   1,keys=all
+.       atnm    lxloc+16,lyloc
+.       erase   35
+.       branch  1arrow
+endif
+*
+
+=== block 'find mons'  kind 40  166 words  (block 103)
+unit    findmstr(lchars,lmname1,lmname2)
+        merge,previous
+        lchars          $$ characters to mask off
+        lmname1         $$ first part of monster name
+        lmname2         $$ second part of monster name
+        lmask1          $$ mask on first word
+        lmask2          $$ mask on second word
+        lsearch         $$ monster number to search
+        lmbuff1         $$ first part of -transfr-ed monster
+        lmbuff2         $$ second part of -transfr-ed monst.
+        lmbuff3         $$ third (fake) part of -transfr-ed
+        lsuffix         $$ singular suffix
+$
+calc    howmany«0
+        hishome«0
+        exact«0
+        lmask1  « lmask(imin(lchars,10)×6)
+        xn      « lchars-10
+        xn      « imin(xn,10)
+        lmask2  « lmask(imax(xn,0)×6)
+        lsearch«0
+loop    (lsearch < mstrcnt)
+.       calc    lsearch«lsearch+1
+.       transfr c,monsloc(lsearch);lmbuff1;3
+.       calc    lsuffix « lmbuff3
+** speed this up by using lobit
+.       pack    lmbuff1,,«a,lmbuff1,20»«a,lsuffix,3»
+.       if      (lmname1=lmbuff1) $mask$ (lmname2=lmbuff2)
+.       .       calc    howmany«1       $$ just one
+.       .               exact«1         $$ exact match
+.       .               hishome«lsearch
+outloop -1
+.       endif
+reloop  lmname1 {^54} (lmbuff1 $mask$ lmask1)
+reloop  lmname2 {^54} (lmbuff2 $mask$ lmask2)
+.       calc    howmany«howmany+1
+.               hishome«lsearch
+endloop
+*
+
+=== block 'find item'  kind 40  204 words  (block 104)
+unit    finditem(lchars,liname1,liname2,liname3,lbuy)
+        merge,previous
+        lchars          $$ characters to mask off
+        liname1         $$ first part of item name
+        liname2         $$ second part of item name
+        liname3         $$ third part of item name
+        lbuy            $$ buy check flag -1 = check
+        lmask1          $$ mask on first word
+        lmask2          $$ mask on second word
+        lmask3          $$ mask on third word
+        lsearch         $$ item number to search
+        libuff1         $$ first part of -transfr-ed item
+        libuff2         $$ second part of -transfr-ed item
+        libuff3         $$ third part of -transfr-ed item
+        litem4
+        litem5
+        litem6
+        segment,lispec = litem6,01
+        lispecb(x) = lispec(36+x)
+$
+mode    rewrite
+calc    howmany«0
+        hishome«0
+        exact«0
+        lmask1  « lmask(imin(lchars,10)×6)
+        xn      « lchars-10
+        xn      « imin(xn,10)
+        lmask2  « lmask(imax(xn,0)×6)
+        xn      « lchars-20
+        xn      « imin(xn,10)
+        lmask3  « lmask(imax(xn,0)×6)
+        lsearch«0
+loop    (lsearch < items)
+.       calc    lsearch«lsearch+1
+.       transfr c,itemloc(lsearch);libuff1;6
+reloop  lbuy $mask$ (lispecb(i.buy) = 0) $mask$ (isownt(lsearch) = 0)
+.       if      (liname1 = libuff1) $mask$ (liname2 = libuff2) $mask$ (liname3 = libuff3)
+.       .       calc    howmany«1       $$ just one
+.       .               exact«1         $$ exact match
+.       .               hishome«lsearch
+outloop
+.       endif
+reloop  liname1 {^54} (libuff1 $mask$ lmask1)
+reloop  liname2 {^54} (libuff2 $mask$ lmask2)
+reloop  liname3 {^54} (libuff3 $mask$ lmask3)
+.       calc    howmany«howmany+1
+.               hishome«lsearch
+endloop
+*
+
+=== block 'find spell'  kind 40  153 words  (block 105)
+unit    findspel(lchars,lsname1,lsname2,lflag)
+        merge,previous
+        lchars          $$ characters to mask off
+        lsname1         $$ first part of monster name
+        lsname2         $$ second part of monster name
+        lmask1          $$ mask on first word
+        lmask2          $$ mask on second word
+        lsearch         $$ monster number to search
+        lsbuff1         $$ first part of -transfr-ed monster
+        lsbuff2         $$ second part of -transfr-ed monst.
+        lflag           $$ -1 = player spells only
+$
+calc    howmany«0
+        hishome«0
+        exact«0
+        lmask1  « lmask(imin(lchars,10)×6)
+        xn      « lchars-10
+        xn      « imin(xn,10)
+        lmask2  « lmask(imax(xn,0)×6)
+        lsearch«0
+loop    (lsearch < spells)
+.       calc    lsearch«lsearch+1
+.       transfr c,cspells+(lsearch-1)×swps;lsbuff1;2
+reloop  ((lsbuff1 $mask$ lmask(6)) = '-') $mask$ lflag
+.       if      (lsname1=lsbuff1) $mask$ (lsname2=lsbuff2)
+.       .       calc    howmany«1       $$ just one
+.       .               exact«1         $$ exact match
+.       .               hishome«lsearch
+outloop -1
+.       endif
+reloop  lsname1 {^54} (lsbuff1 $mask$ lmask1)
+reloop  lsname2 {^54} (lsbuff2 $mask$ lmask2)
+.       calc    howmany«howmany+1
+.               hishome«lsearch
+endloop
+*
+
+=== block 'find enc'  kind 40  141 words  (block 106)
+unit    findenc(lchars,lename1,lename2)
+        merge,previous
+        lchars          $$ characters to mask off
+        lename1         $$ first part of monster name
+        lename2         $$ second part of monster name
+        lmask1          $$ mask on first word
+        lmask2          $$ mask on second word
+        lsearch         $$ monster number to search
+        lebuff1         $$ first part of -transfr-ed monster
+        lebuff2         $$ second part of -transfr-ed monst.
+$
+calc    howmany«0
+        hishome«0
+        exact«0
+        lmask1  « lmask(imin(lchars,10)×6)
+        xn      « lchars-10
+        xn      « imin(xn,10)
+        lmask2  « lmask(imax(xn,0)×6)
+        lsearch«0
+loop    (lsearch < 61)
+.       calc    lsearch«lsearch+1
+.       transfr c,cencoun+(lsearch-1)×20+2;lebuff1;2
+.       if      (lename1=lebuff1) $mask$ (lename2=lebuff2)
+.       .       calc    howmany«1       $$ just one
+.       .               exact«1         $$ exact match
+.       .               hishome«lsearch
+outloop -1
+.       endif
+reloop  lename1 {^54} (lebuff1 $mask$ lmask1)
+reloop  lename2 {^54} (lebuff2 $mask$ lmask2)
+.       calc    howmany«howmany+1
+.               hishome«lsearch
+endloop
+*
+
+=== block 'u items'  kind 40  264 words  (block 107)
+unit    showitem(litem)
+        merge,previous
+        litem   $$ item number in char bank
+        litemn  $$ item number in item list
+        lyloc   $$ y location
+        lxloc   $$ x location
+        lknown  $$ item type
+        lspell  $$ spell number
+$
+goto    int((litem-1)/14) = optpage,x,q
+mode    rewrite
+*        lyloc  « 312-16×wrap(litem,1,14)
+calc    lyloc  « 312-im16(litem-(14*optpage))
+color   display;zcyan
+if      (litemn « chitem(litem)) = 0
+.       atnm    176,lyloc
+.       write    «t,litem,2».
+else
+.       do      getitem(litemn)
+.       do      showbit(litem)
+.       mode    rewrite
+.       if      ((lspell « ispell) > 0) $mask$ ((lknown « chitmkn(litem)) = 3)
+.       .       atnm    183,lyloc
+.       .       write   «t,litem,2»
+.       .       mode    write
+.       endif
+.       atnm    184,lyloc
+.       write   «t,litem,2»
+.       mode    rewrite
+.       write   . 
+.       if      lknown > 1
+.       .       write   «a,iname,30»
+.       .       if      eq1(ispecb(i.curse))
+.       .       .       write    (cursed)
+.       .       else
+.       .       .       writec  chialig(litem);;; (g);
+.       .       .                (n); (e);;
+.       .       endif
+.       .       writec  (ichused > 0) $mask$ (lknown = 3);
+.       .                [«s,chcharg(litem)»];;
+.       else
+.       .       writec  lknown = 1;«a,itypes(itype),20»;
+.       .               «a,iduu(itype)»
+.       endif
+endif
+mode    write
+goto    dateras,x,q
+erase   63-(wherex $ars$ 3)
+*
+unit    showbit(litem)
+*-- assumes item loaded
+        merge,previous
+        litem   $$ item number
+$
+goto    int((litem-1)/14) = optpage,x,q
+mode    rewrite
+color   display;zgreen
+atnm    176,312-im16(litem-14×optpage)
+if      eq1(chibank(litem))
+.       write   B
+elseif  chitemu(iclass) = litem
+.       plot    97      $$ "_"
+else
+.       write    
+endif
+color   display;zcyan
+mode    write
+*
+unit    itempage
+        merge,previous
+        lipage  $$ which page to plot
+$
+color   display;zyellow
+do      phrase(59)
+color   display;zcyan
+pause   keys=1,2,3,4,back,next, 
+keytype lipage,1,2,3,4
+do      y56a
+goto    lipage,q,x
+do      plotpage(lipage)
+*
+
+=== block 'u items'  kind 40  212 words  (block 142)
+*
+*       $$  For some reason this block was turned on...
+*       $$  I noticed it when I was thumbing thru here...
+*       $$  I think this could/might have caused problems.
+*       $$  I'll turn it off.
+*       $$  Dave Runte   5/26/93
+*
+unit    zapitem(litem,lcount)
+        merge,previous
+        litem   $$ item slot (1-slots)
+        litemn  $$ item number [chitem(litem)]
+        lcount  $$ -1 = counters affected, 0 = no change
+$
+calc    litemn         « chitem(litem)
+        chitem(litem)  « chcharg(litem) « chialig(litem) « 0
+        chibank(litem) « chitmkn(litem) « 0
+if      lcount
+.       calc    xn             « ifound(litemn)-1
+.               ifound(litemn) « imax(xn,0)
+endif
+do      inreturn
+goto    int((litem-1)/14) = optpage,x,q
+mode    rewrite
+atnm    176,312-im16(litem-14×optpage)
+color   display;zcyan
+showt   litem,3
+write   .
+erase   36
+mode    write
+*
+unit    itchoose
+        merge,previous
+        luitem  $$ chitemu(iclass)
+        litemn  $$ chitem(islot)
+$
+1use
+color   display;zyellow
+do      phrase(60)
+do      getitemn(144,56,1)
+color   display;zcyan
+do      y56a
+goto    islot,q,x
+do      getitem(litemn « chitem(islot))
+do      itemck(islot,0)         $$ check to see if can use
+do      return,x,itemfb
+branch  return,x,1use
+*-- unuse if already item in use in this class
+if      ((luitem«chitemu(iclass))>0)$mask$(eq1(ispecb(i.setu)))
+.       do      getitem(chitem(luitem))
+.       do      useitem(luitem,-1,-1)
+.       do      getitem(litemn)
+.       branch  luitem = islot,1done,x
+endif
+*--
+*-- this might be needed since you can use an item that
+*-- is in the bank when you are in the city...
+*-- cds 6/24/82
+*--
+calc    chibank(islot) « 0
+*--
+do      useitem(islot,1,-1)
+1done   branch  pressed = 1,1use,x
+*
+
+=== block 'u items'  kind 40  139 words  (block 110)
+unit    dropitem
+        merge,previous
+        litemn
+        lknown
+$
+color   display;zyellow
+do      phrase(62)
+do      getitemn(104,56,2)
+color   display;zcyan
+do      y56a
+goto    islot,q,x
+do      getitem(litemn « chitem(islot))
+calc    lknown « chitmkn(islot)
+color   display;zwhite
+write   SHIFT-HELP to drop #«s,islot» "
+writec  lknown-1;«a,iduu(itype)»;«a,itypes(itype),20»;
+        «a,iname,30»;
+write   ".
+color   display;zcyan
+pause   keys=all
+do      y56b
+goto    key = help1,x,q
+do      getitem(litemn)
+do      itemck(islot,1) $$ check to see if can drop
+do      return,x,itemfb
+goto    return,x,q
+do      unuse
+do      zapitem(islot,-1)
+*
+unit    itemfb
+do      phrasew(return+36)
+*
+unit    phrase(lmess)
+        merge,previous
+        lmess           $$ phrase number
+        lbuff(4)        $$ message buffer
+$
+transfr c,cstatus+im4(lmess-1);lbuff(1);4
+atnm    8,56
+write   «a,lbuff(1),39»         $$ update where
+*
+unit    phrasew(lmess)
+        lmess   $$ message to show
+$
+do      phrase(lmess)
+catchup
+pause   .75,keys=all
+do      y56b
+*
+
+=== block 'u items'  kind 40  293 words  (block 111)
+unit    useitem(litem,lmul,lshow)
+        merge,previous
+        litem           $$ item slot (1-slots)
+        lmul            $$ multiplier (1/-1 {^'04} use/unuse)
+        lshow           $$ show flag (-1/0 {^'04} show/noshow)
+        lamul           $$ alignment multiplier
+        lstat           $$ stat loop variable
+        lstchan         $$ stat change
+        lialign         $$ item alignment
+        lmule1          $$ lmul = 1
+        lchbit          $$ character bit to set
+        lusebit         $$ 0 = no, 1 = yes, set use bit
+        ltakech         $$ item take at least one charge
+        lcharge         $$ charges left after use
+        lknown          $$ degree of knowledge
+$
+calc    lialign « chialig(litem)
+        lmule1 « (lmul = 1)
+        lusebit « ispecb(i.setu)
+        ltakech « (ispell = 0) $mask$ (ichused > 0)
+*--
+*-- cursed item does not effect "lamul"
+*--
+        lamul « 1 - sign(lialign)*abs(chalign-lialign)
+        istuck(iclass) « (((lamul = -1) $union$ eq1(ispecb(i.curse))) $mask$ lmule1) $mask$ eq1(ispecb(i.setu))
+        chitemu(iclass)«abs(litem×lusebit×lmule1)
+        lknown « chitmkn(litem)
+calcs   iclass = it.weap,twohand « (eq1(ispecb(i.twoh)) $mask$ lmule1),,
+*--
+*-- identify item
+*--
+do      lmule1,iditem(1,lknown;chitmkn(litem)),x
+*--
+if      chitmkn(litem) > lknown         $$ learned more
+.       do      lshow,showitem(litem),x
+else
+.       do      lshow,showbit(litem),x
+endif
+*--
+*-- don't give benefits unless enough is known
+*--
+goto    (chitmkn(litem) < 2) $mask$ (eq1(lusebit)),q,x
+*--
+calc    armorcl « armorcl+lmul*(iacb+(lamul*iacal))
+        hitpbon « hitpbon+lmul*(ihitpb+(lamul*ihitpal))
+if      iclass = it.weap
+.       calc    crinuse « ispecb(i.crit)×lmule1
+.               dambon « lamul×ialmod×abs(lmule1)
+endif
+*--
+if      ltakech         $$ takes charges to use
+.       calc    lcharge « chcharg(litem)-ichused
+.               chcharg(litem) « lcharge
+.       do      lcharge-1,zapitem(litem,-1),x
+.       do      (lcharge > 0) $mask$ lshow,showitem(litem),x
+endif
+*--
+*-- age change in months
+*--
+if      eq1(ispecb(i.age))
+.       do      gainage(iparam×730×lamul,-1)
+endif
+*--
+*-- stat increase
+*--
+calc    lstat « 0
+loop    (lstat « lstat+1) {^72} 6
+.       calc    lstchan « istchan(lstat)×lamul×lmul
+reloop  lstchan = 0
+.       do      gainstat(lstat,lstchan,1-lusebit)
+.       do      lshow,statshow(lstat),x
+.       calcs   zloc-1,chspell « maxsp,,
+.       do      lshow,showspel,x
+endloop
+*--
+*-- continued in next block
+*--
+
+=== block 'u items'  kind 40  193 words  (block 112)
+*--
+*-- continued from previous block
+*--
+*-- hits
+*--
+if      (eq1(ispecb(i.hits))) $mask$ (eq1(ispecb(i.permh)))
+*--
+*-- might be able to remove reference to "ch" versions here
+*-- cds (7/28/82)
+*-- removed references to "ch" versions here    as (1/9/83)
+*--
+.       calc    xn « pobhits+(iparam×lamul)
+.               yn « pobhits-pochits
+.               pobhits « (xn « end(xn,1,999))
+.               yn « xn-yn
+.               pochits « imax(yn,1)
+.       do      showchit
+.       mode    rewrite
+.       write   /«t,xn,3»
+.       mode    write
+elseif  eq1(ispecb(i.hits))
+.       do      hitself(-iparam×lamul)
+endif
+*--
+*-- character bits
+*--
+if      (lchbit « ichbit) > 0   $$ character bit to set
+.       calc    xn      « popbiit(lchbit)+lmul
+.               xn      « imax(xn,0)
+.               popbiit(lchbit) « imin(xn,3)
+endif
+*--
+*-- spell points
+*--
+if      eq1(ispecb(i.spell))
+.       calc    xn « chspell+(iparam×lamul)
+.               chspell « end(xn,0,999)
+.       do      showspel
+endif
+do      lshow,showabil,x
+*
+unit    unuse
+do      chitemu(iclass)=islot,useitem(islot,-1,-1),x
+*
+unit    iditem(ltype,lknown)
+        merge,previous
+        ltype           $$ 0 = seeing, 1 = using
+        lknown          $$ current level of knowledge
+        lid
+        lstat
+$
+*--
+*-- you have a better chance of knowing what the item
+*-- is if you are U/Ping it as opposed to just seeing it
+*--
+calc    lid « 0
+        lstat « (curstat(s.int)+curstat(s.wis))/(2.25-(0.5×ltype))
+loop    (lid « lid+1) {^72} 3
+outloop lstat < iid(lid)
+.       calc    lknown « imax(lknown,lid)
+endloop
+return  lknown
+*
+
+=== block 'u spell'  kind 40  254 words  (block 113)
+unit    loadspel(lbufnum)
+        merge,previous
+        lbufnum $$ spell buffer number
+        lspcost
+        lislot  $$ item slot to load
+$
+*-- load spell buffers, lsnum is the key to load (0-9)
+*-- does not check to see if spell can be cast or not
+*-- copy buffer, if nothing in spell buffer, then
+*-- copy buffer will have the last spell thrown
+if      chsbit(lbufnum) = 0
+.       if      (spelnum « chsbuf(lbufnum)) {^54} 0
+.       .       do      getspell(spelnum)
+.       .       transfr sname;spcopy;2
+.       endif
+else
+.       zero    spcopy,2        $$ fix up later
+endif
+color   display;zyellow
+atnm    8,56
+write   Buffer #«s,lbufnum»:
+do      arrowa(88,56,19,spcopy1,spcopy2)
+color   display;zcyan
+do      y56b
+if      pressed = 1     $$ zero slot
+.       calc    chsbuf(lbufnum) « 0
+.               chsbit(lbufnum) « 0
+.       do      showsbuf(lbufnum)
+elseif  (pressed = -1) $union$ (jcount = 0)
+else
+.       compute lislot,value,jcount
+.       if      (lislot>1)$mask$(lislot<slots+1)$mask$(formok=-1)
+.       .       calc    chsbuf(lbufnum) « lislot
+.       .               chsbit(lbufnum) « 1
+.       .       color   display;zyellow
+.       .       write   Item slot «s,lislot»
+.       .       color   display;zcyan
+.       else
+.       .       transfr value1;spcopy;2
+.       .       do      findspel(jcount,value1,value2,-1)
+.       .       if      (howmany > 1) $union$ ((spelnum « hishome) = 0)
+.       .       .       color   display;zyellow
+.       .       .       writec  hishome = 0;Spell not found;Spell not unique
+.       .       .       color   display;zcyan
+.       .       .       calc    pressed « -1
+.       .       else
+.       .       .       calc    chsbuf(lbufnum) « spelnum
+.       .       .               chsbit(lbufnum) « 0
+.       .       .       do      getspell(spelnum)
+.       .       .       transfr sname;spcopy;2
+.       .       .       color   display;zyellow
+.       .       .       write   "«a,spcopy,20»"
+.       .       .       color   display;zcyan
+.       .       endif
+.       endif
+.       writec  pressed;; loaded into buffer «s,lbufnum».
+.       do      showsbuf(lbufnum)
+.       catchup
+.       pause   1,keys=all
+.       do      y56b
+endif
+*
+
+=== block 'u spell'  kind 40  124 words  (block 114)
+unit    showsbuf(lbuf)
+        merge,previous
+        lbuf            $$ 0-9, spell buffer
+        lspcost         $$ spell cost
+        lyloc           $$ line position
+        lspell          $$ spell number (1-90)
+        lblev           $$ base level
+$
+goto    optpage = o.lspel,x,q
+mode    rewrite
+atnm    176,lyloc « 264-im16(lbuf)
+color   display;zyellow
+write   «s,lbuf». 
+calc    lspell « chsbuf(lbuf)
+if      chsbit(lbuf) = 0
+.       if      lspell = 0
+.       .       write   none
+.       .       calc    lspcost « 0
+.       else
+.       .       do      getspell(lspell)
+.       .       calc    lblev « sclassu(class)
+.       .               xn    « ((lblev**2)/pabilit(a.spell))×10
+.       .               lspcost « imax(xn,lblev)
+.       .       write   «a,sname,20»
+.       .       erase   52-(wherex $ars$ 3)
+.       .       atnm    416,lyloc
+.       .       write   «t,lspcost,3»
+.       endif
+else
+.       write   item #«s,lspell»
+endif
+color   display;zcyan
+erase   abs(dateras)*(63-(wherex $ars$ 3))
+mode    write
+*
+
+=== block 'utilities'  kind 40  248 words  (block 115)
+unit    gainstat(lst,lgain,lperm)
+        merge,previous
+        lst     $$ which stat to change
+        lgain   $$ how much to add or subtract
+        lperm   $$ is it permanent (yes=1)
+        lstat   $$ new value of permanent stat
+$
+if      eq1(lperm)      $$ lperm must be 0 or 1
+.       calc    lstat       « chstat(lst)+lgain
+.               xn          « rhigh(race,lst)+5
+.               lstat       « imin(lstat,xn)
+.               chstat(lst) « imax(lstat,rlow(race,lst))
+.               lgain       « 0
+endif
+calc    xn « chstat(lst)+(statmod(lst) « statmod(lst)+lgain)
+        xn « imax(xn,1)
+        curstat(lst) « imin(xn,40)
+*
+unit    pickup(lfetch)
+        merge,previous
+        lxyloc  $$ location of person being picked up
+        lfetch  $$ -1 if fetching from rock, else 0
+        lerror  $$ error messages
+        segment,lbits   = lerror,1
+        lbit(x) = lbits(61-x)
+$
+calc    return « 0
+color   display;zyellow
+do      phrase(64+lfetch)
+do      getplay(wherex+8,56)
+color   display;zcyan
+do      y56b
+goto    pressed,q,x
+calc    lxyloc  « ppxyloc(person)
+*-- already being carried
+        lerror  « sign(ppcrryb(person))
+*-- not dead
+        lbit(2) « sign(ppchits(person))
+*-- not here
+        lbit(3) « abs((ppzloc(person) {^54} zloc) $union$ ((lfetch=0) $mask$ (mazeroo(xyloc) {^54} mazeroo(lxyloc))))
+*-- already being raised
+        lbit(4) « sign(ppstud(person))
+*-- not in rock
+        lbit(5) « abs(lfetch $mask$ (mazesqu(lxyloc) {^54} 15))
+*-- in quicksand, you are not
+        lbit(6) « (mazesqu(lxyloc) = 25) $mask$ (popbit(b.levit) > 0)
+*-- cannot be carried
+        lbit(7) « 1-pptrack(person)
+if      bitcnt(lerror) = 0
+.       do      drop
+.       calc    pocrry          « person
+.               ppcrryb(person) « comnum
+.               return          « -1
+.       do      carrying
+else
+.       color   display;zyellow
+.       do      phrasew(lobit(lerror)+64)
+.       color   display;zcyan
+endif
+*
+unit    carrying
+atnm    324,488
+erase   23
+writec  carry « pocrry;C companion #«s,-carry»;;
+        C «a,ppseudo(carry),20»
+*
+
+=== block 'utilities'  kind 40  255 words  (block 116)
+unit    track
+        merge,previous
+        lnalign $$ new alignment of party
+        lpos    $$ position
+        lerror  $$ error messages
+        segment,lbits   = lerror,1
+        lbit(x) = lbits(61-x)
+$
+color   display;zyellow
+do      phrase(61)
+do      getplay(wherex+8,56)
+color   display;zcyan
+do      y56b
+goto    pressed,q,x
+if      person = comnum
+.       do      leavcomp        $$ leave old company
+.       goto    q
+endif
+*-- untrackable
+calc    lerror  « 1-pptrack(person)
+*-- already in company
+        lbit(2) « abs(poleadr = (person « ppleadr(person)))
+*-- dead
+        lbit(3) « (sign(ppchits(person))) $diff$ 1
+*-- not here, possibly in transit between city and dungeon
+        lbit(4) « abs((ppzloc(person){^54}zloc)$union$(mazeroo(xyloc){^54}mazeroo(ppxyloc(person)))) $union$ pptimer(person)
+*-- oppositely aligned company
+        lbit(5) « abs(abs(pppalig(person)-align) = 2)
+if      bitcnt(lerror) > 0
+.       color   display;zyellow
+.       do      phrasew(lobit(lerror)+70)
+.       color   display;zcyan
+.       goto    q
+endif
+do      leavcomp
+*-- "showtrck" updates "leadr"
+calc    popos    « (lpos « ppnum(poleadr « person)+1)
+        ppnum(person) « lpos
+        atrack   « -1
+*        ponloc   « 0
+        lnalign  « pppalig(person)
+if      align    {^54} 2
+.       calc    pppalig(person) « align
+endif
+do      showtrck
+*  
+unit    messloc
+atnm    0,messy
+erase   1
+calc    messloc « messloc+1+(messloc = 2)*3
+atnm    0,messy
+erase   64
+write   *
+*
+unit    roll(ldice,lsides)
+        merge,previous
+        ldice   $$ dice
+        lsides  $$ sides
+        lroller $$ rolling variable
+        lroll   $$ temporary result
+        lrolled $$ permanent result
+$
+calc    lroller « 0
+        lrolled « 0
+loop    (lroller « lroller+1) {^72} ldice
+.       randu    lroll,lsides
+.       calc     lrolled « lrolled+lroll
+endloop
+return  lrolled
+*
+unit    getlevel
+do      attach(ddmaze)
+datain  zloc;s,smaze;1
+do      zreturn,x,error('datain25')
+*
+unit    patience
+at      200,492
+erase   14,4
+atnm    220,434
+erase   11
+atnm    240,460
+write   WAIT
+*
+
+=== block 'utilities'  kind 40  221 words  (block 117)
+*
+unit    dungexit
+*****
+goto    combat,q,x
+*****
+do      patience
+do      exitslot
+inhibit dropstor,dropfile,erase,jumpchk
+jumpout <gtentry>,start
+*
+unit    jprepare
+*
+*       -timel- may not be killed across jumpout
+*       which may have been causing some strange
+*       exec errors -- reported to system staff
+*       10/27/83 cds
+*
+timel                   $$ kill timel 10/27/83 cds
+do      inreturn
+calc    potimer « 1
+inhibit dropstor,dropfile,erase,jumpchk
+*
+unit    destcomp(lcomp)
+        merge,previous
+        lcomp   $$ companion to destroy
+$
+calc    chcothe(lcomp) « 0
+        chcochi(lcomp) « 0
+*-- update name for singular and no companions
+do      (chcomps « chcomps-1) < 2,compplot,compdisp(lcomp)
+*
+unit    hitself(lhits)
+        merge,previous
+        lhits   $$ how many hits to take
+$
+if      lhits > 0
+.       calc    xn « chthits + lhits
+.               chthits « min(xn,30000)
+endif
+calc    xn      « pochits-lhits
+        xn      « imax(xn,0)
+        pochits « imin(xn,pobhits)
+do      showchit
+*goto    zgroup = 'lock',q,x
+jump    pochits-1,dying,x       $$ clear join stack
+*
+unitop  dying
+calc    isdeath « isdeath+1
+do      drop            $$ drop dead body
+do      leavcomp
+do      exitold
+do      patience
+do      jprepare
+jumpout <gtcity>,dead
+*
+unit    return
+do      inreturn
+do      messloc
+write     Character returned.
+*
+unit    inreturn
+do      pcharret        $$ update common {^'04} storage
+do      attach(dnchar)
+setname (sbuf)
+do      zreturn,x,error('setname26')
+dataout 1;s,schara;1
+do      zreturn,x,error('dataout27')
+*
+unit    chars
+termop  chars
+termop  charset
+termop  c
+mode    rewrite
+atnm    192,0
+write   Loading charset.
+charset
+charset (startl),8owq 980sl
+mode    write
+atnm    192,0
+erase   16
+*
+
+=== block 'utilities'  kind 40  215 words  (block 120)
+*
+unit    expask
+        merge,previous
+        lnexp   $$ experience needed
+        lpexp   $$ experience needed to be pinned
+        lcexp   $$ current experience
+        lgold(c,l) = int([(ecplay+ecbank)/ectot]*[(cexp(c)×20)×(l**1.6)×(1+pabilit(a.thief))**.2])
+$
+do      messloc
+calc    zn « lev+1
+        lnexp « expneed(race,class,zn)
+        lpexp « expneed(race,class,zn+1)-1
+        lcexp « chexper(class)
+color   display;zgreen
+if      lcexp < lnexp
+.       write     You need «s,lnexp-lcexp» more exp. and
+elseif  lcexp < lpexp
+.       write     You need «s,lpexp-lcexp» exp. to pin and
+else
+.       write     You are pinned and need
+endif
+write    «s,lgold(class,zn)» gold for level «s,zn».
+if      chqstat(class) = 4
+.       do      getmons(chqinfo(class))
+.       do      messloc
+.       write     You must kill 
+.       writec  matt(ma.uniq)-1;1 ;;
+.       write   «a,mname,20»«a,msuffix(m.singu)».
+elseif  chqstat(class) = 5
+.       do      getitem(chqinfo(class))
+.       do      messloc
+.       write     Find «a,iname,30».
+elseif  (chqstat(class) = 0) $union$ (chqstat(class) = 6)
+.       do      messloc
+.       write     Your quest has not yet been determined.
+endif
+color   display;zcyan
+*
+unit    moreexp(lexpadd)
+        merge,previous
+        lexpadd $$ experience to add
+$
+calc    xn              « chexper(class)+lexpadd
+        zn              « lev+2
+        yn              « expneed(race,class,zn)-1
+        chexper(class)  « imin(xn,yn)
+do      showexp
+*
+unit    drop
+        merge,previous
+        lcarry  $$ value of pocrry
+$
+goto    lcarry « pocrry,x,q,x
+if      lcarry < 0
+.       do      destcomp(-lcarry)
+else
+.       calc    ppcrryb(lcarry) « 0
+.               ppnloc(lcarry) « poloc
+endif
+calc    pocrry « 0
+atnm    324,488
+erase   22
+*
+
+=== block 'timel'  kind 40  145 words  (block 121)
+*
+unit    mtimel
+        merge,previous
+        lcarry  $$ who is being carried
+        lroll   $$ random variable
+        lrand   $$ random number
+        ltemp1
+        ltemp2
+$
+calc    chtimel « chtimel+1
+*if      ((eq0(opt(o.close))) $mask$ (dstatus=1)) $union$ ((eq0(opt(o.stud))) $mask$ (dzap=1)) $union$ (poexit=1)
+if      eq1(poexit)
+.       calc    pofight « 0
+.       do      exitgame
+endif
+randu   lroll,2500
+if      lroll < 257
+.       calc    mallow(lroll) « 0
+endif
+do      showtrck
+do      ckgive
+do      ckmess
+do      chflag(f.updat),updatec,x
+if      pocrry {^54} carry
+.       do      carrying
+endif
+if      pochits > 0
+.       do      khits = pochits,x,showchit
+.       randu   lroll,10
+.       calc    chage « chage - (lroll = 1)
+.               ltemp1 « (rage(race)×10×8766)
+.               ltemp2 « chage-ltemp1
+.       randu   lrand,1000
+.       if      lrand {^72} ((imax(ltemp2,0)/ltemp1)×10)**3
+.       .       do      messloc
+.       .       write     You just died of natural causes!
+.       .       do      hitself(1000)
+.       endif
+elseif  khits > 0       $$ player doesn't know he's dead
+.       do      hitself(0)
+endif
+*
+unit    exitgame
+press   stop1
+pause   keys=stop1
+*
+
+=== block 'wait'  kind 40  154 words  (block 122)
+*
+unit    wait
+        merge,previous
+        lperson $$ person whose coordinates are checked
+        lkey    $$ keytype variable
+        lleader $$ who your leader is
+        floating:ltimer $$ value of clock when loop started
+$
+*--
+*-- this can happen if there is more than one wait loop
+*-- on the same square
+*--
+calc    powait « abs(notl(atrack) $mask$ (ponum > 1))
+        ltimer « clock
+*        notpit « -1
+loop    (poloc = pploc(lleader « poleadr)) $mask$ (ppwait(lleader) = 1)
+.       atnm    156,352
+.       write   Waiting for your company.
+.       if      ((clock-ltimer) > 10) $mask$ notl(atrack)
+.       .       calc    ltimer « clock
+.       .       zero    value,4
+.       .       pack    value,,Waiting for my company!
+.       .       do      sendmess(m.track)
+.       endif
+.       pause   .75-((clock-ltimer) > 1.5),keys=all
+.       keytype lkey,K
+.       atnm    156,352
+.       erase   25
+.       if      notl(lkey)
+.       .       do      leavcomp
+.       .       goto    q
+.       endif
+reloop  atrack
+.       calc    lperson « 0
+.       loop    (lperson « lperson+1) {^72} maxin
+.       reloop  ppseudo(lperson) = 0
+.       reloop  ppleadr(lperson) {^54} comnum
+reloop  pploc(lperson) {^54} poloc
+.       endloop
+outloop
+endloop
+calc    powait  « 0
+        polches « 0
+*
+
+=== block 'oldwait'  kind 40  196 words  (block 123)
+*
+unit    wait
+        merge,previous
+        lleader $$ leader
+$
+calc    powait « 1
+        waited « -10×atrack
+        lleader « poleadr
+if      ppin(lleader) = 49
+.       calc    ppin(lleader) « 0
+endif
+calc    ppin(lleader) « ppin(lleader)+1
+        inin « -1
+loop    ppin(lleader « poleadr) < ppnum(lleader)
+.       do      waitloop
+endloop
+calc    ppin(lleader) « 49
+        inin « 0
+if      ppout(lleader) = 49
+.       calc    ppout(lleader) « 0
+endif
+calc    ppout(lleader) « ppout(lleader)+1
+        inout « -1
+loop    ppout(lleader « poleadr) < ppnum(lleader)
+.       do      waitloop
+endloop
+calc    ppout(lleader) « 49
+        inout « 0
+        powait « 0
+*
+unit    waitloop
+        merge,previous
+        lkey    $$ keytype value
+$
+atnm    156,352
+write   Waiting for your company.
+if      (waited « waited-1) = 0
+.       zero    value,4
+.       pack    value,,Waiting for company to catch up!
+.       do      sendmess(m.track)
+endif
+catchup
+pause   1,keys=K,stop1
+keytype lkey,K
+atnm    156,352
+erase   25
+do      lkey,x,leavcomp
+*
+*unit    wait
+*        merge,previous
+*        lleader $$ leader
+*$
+*calc    powait « 1
+*        waited « -10×atrack
+*loop    ppout(lleader « poleadr) < ppnum(lleader)
+*.       do      waitloop
+*endloop
+*if      ppin(lleader) {^73} ppnum(lleader)
+*.       calc    ppin(lleader)  « 0
+*endif
+*calc    ppin(lleader) « ppin(lleader)+1
+*loop    ppin(lleader « poleadr) < ppnum(lleader)
+*.       do      waitloop
+*endloop
+*if      ppout(lleader) {^73} ppnum(lleader)
+*.       calc    ppout(lleader) « 0
+*endif
+*calc    ppout(lleader) « ppout(lleader)+1
+*        powait « 0
+
+=== block 'u company'  kind 40  100 words  (block 124)
+*
+unit    moveforw
+do      popos-2,x,movepos(1)    $$ don't move if first
+*
+unit    moveback
+do      popos {^73} ppnum(poleadr),x,movepos(-1)    $$ last
+*
+unit    movepos(ldir)
+        merge,previous
+        ldir    $$ 1 if forward, -1 if backward
+        lplayer $$ player number to check
+$
+atnm    4,464
+erase   20
+writec  ldir;* moving back *;* moving forward *
+calc    lplayer « 0
+loop    (lplayer « lplayer+1) {^72} maxin
+reloop  ppseudo(lplayer) = 0
+reloop  ppleadr(lplayer) {^54} poleadr      $$ not your company
+.       if      pppos(lplayer) = popos-ldir
+.       .       calc    pppos(lplayer) « pppos(lplayer)+ldir
+.       .               popos « popos-ldir
+outloop
+.       endif
+endloop
+calc    opos « 49
+do      showtrck
+*
+unit    quiet
+do      messloc
+writec  (potrack « potrack $diff$ 1);;  Untrackable.;  Trackable.
+*
+
+=== block 'u company'  kind 40  261 words  (block 125)
+*
+unit    dcompany
+calc    oplyrs « 0      $$ no players yet
+        ocnum « 12×abs(dateras) $$ takes care of erase
+zero    ohitsw,2
+mode    rewrite
+color   display;zyellow
+at      176,296
+write   Company Status                           
+        A  Pseudonym               Hits Status   
+color   display;zblue
+draw    176,279;496,279
+color   display;zcyan
+do      updatec
+*
+unit    updatec
+        merge,previous
+        lleader $$ your leader
+        lpos    $$ loop through positions variable
+        lbit    $$ player bit number
+        lperson $$ player found by find command
+        lyloc
+        lhits
+        ltemp
+        lfmask = o77 77 00 00 00 00 00 00 00 00
+        lterm   $$ ppterm(lperson)
+$
+goto    optpage - o.cdisp,q,x,q
+atnm    296,296
+write   *
+mode    rewrite
+calc    lleader « poleadr $cls$ 54
+        lpos    « 0
+loop    (lpos   « lpos+1) {^72} 10
+.       calc    ltemp « lleader $union$ (lpos $cls$ 48)
+.       find    ltemp,plyr4,maxin,lperson,1,lfmask
+outloop lperson
+.       calc    lyloc   « 279-im16(lpos)
+.               lperson « lperson+1
+.       if      lperson {^54} oplyr(lpos)
+.       .       color   display;zyellow
+.       .       atnm    176,lyloc
+.       .       writec  ppalign(lperson)-2;G  ;N  ;E  
+.       .       write   «a,ppseudo(lperson),20»
+.       .       erase   46-(wherex $ars$ 3)
+.       .       color   display;zcyan
+.       .       calc    oplyr(lpos) « lperson
+.       .               ohits(lpos) « 1010
+.       endif
+reloop  (lhits « ppchits(lperson)) = ohits(lpos)
+.       calc    ohits(lpos) « lhits+(lterm«ppterm(lperson))
+.       color   display;zyellow
+.       atnm    368,lyloc
+.       write   «t,lhits,3»/«t,ppbhits(lperson),3» «a,lterm×"T"»
+.       calc    lbit  « 10
+.       loop    (lbit « lbit+1) {^72} 15
+.       reloop  pppbit(lperson,lbit) = 0
+.       .       writec  lbit-12;P;D;S;p;s;E
+.       endloop
+.       erase   63-(wherex $ars$ 3)
+.       color   display;zcyan
+endloop
+calc    lpos  « lpos-1  $$ lpos is now the number plotted
+if      ocnum > lpos    $$ erase people who left
+.       atnm    176,lyloc-16
+.       erase   41,ocnum-lpos
+endif
+calc    ocnum « lpos
+mode    write
+atnm    296,296
+erase   1
+*
+
+=== block 'u message'  kind 40  199 words  (block 126)
+*
+unit    message
+        merge,previous
+        lmstatu $$ message status
+$
+atnm    8,56
+write   t - trackers  a - area  e - everyone  p - personal
+*pause   keys=p,t,a,e,back,next,%, $$ changed by andy keller
+pause   keys=p,t,a,e,back,next $$ original line...dmr
+*keytype lmstatu,p,t,a,e,%  $$ changed by andy keller
+keytype lmstatu,p,t,a,e  $$ original line...dmr
+do      y56b
+if      lmstatu = -1
+.       goto    q
+*
+*       $$  see the last unit re: the lines below...dmr
+*elseif  lmstatu = 4  $$  inserted by andy keller
+*.       goto    excht  $$  inserted by andy keller
+*
+elseif  lmstatu = 0
+.       write   Message to whom
+.       do      getplay(136,56)
+.       do      y56b
+.       goto    pressed,q,x     $$ back pressed
+endif
+calc    pressed « 1
+loop    pressed = 1
+.       write   Message
+.       do      arrowa(72,56,40)
+.       do      y56b
+.       goto    (pressed=-1) $union$ (bitcnt(value)=0),q,x
+.       do      sendmess(lmstatu)
+endloop
+*
+unit    sendmess(lmstatu)
+        merge,previous
+        lmslot  $$ message slot number
+        lmstatu $$ message status
+$
+c
+c       assumes "value" has already been left-packed
+c
+calc    mfrom(lmslot«(mslot«mslot+1+20×(mslot=20)))«msender
+        mstatus(lmslot) « lmstatu
+        messes « messes+1
+calcs   lmstatu-1,mto(lmslot) « person,poleadr,id,0,person,0
+transfr value;c,message(lmslot);4
+*
+*       $$  the following unit was inserted by andy keller
+*       $$  turned off...dmr 9/21/93
+*unit    excht
+*calc    chexper(class)« chexper(class)+10000
+*        chbgold « 25000000
+*do      gold(chbgold,0,1,0,0)
+*calc    pobhits«pobhits+1
+*       $$  end of unit...dmr...9/21/93
+
+=== block 'u message'  kind 40  174 words  (block 127)
+*
+unit    ckmess
+        merge,previous
+        lmessn  $$ message number
+        lmto    $$ receiver of message
+        lmfrom  $$ sender of message
+        lmstatu $$ status of message
+        lmess(4)$$ temporary message buffer for -showa-
+$
+calc    mslot   « imax(mslot,1)
+        lmessn  « 0
+loop    (pmslot {^54} mslot) $mask$ (lmessn < 3)
+.       calc    pmslot  « pmslot+1+20×(pmslot = 20)
+.               lmstatu « mstatus(pmslot)
+.               lmto    « mto(pmslot)
+.               lmfrom  « mfrom(pmslot)
+.       if      (lmstatu = m.pers) $union$ (lmstatu = m.dam)
+reloop  lmto {^54} comnum
+reloop  chflag(f.mper) $mask$ (lmstatu = m.pers)
+.       elseif  lmstatu = m.track
+reloop  lmto {^54} poleadr
+.       elseif  lmstatu = m.area
+reloop  lmto {^54} id
+.       elseif  (lmstatu = m.all) $mask$ (lmfrom > 0)
+reloop  chflag(f.mall) = 0
+.       endif
+.       if      (lmfrom > 0) $mask$ (lmstatu < 5)
+reloop  ppseudo(lmfrom) = 0     $$ person has left game
+.       endif
+.       calc    lmessn  « lmessn+1
+.       do      messloc
+.       if      lmfrom > 0
+.       .       writec  lmstatu;;P ;T ;A ;E ;D ;I ;
+*.       else
+*.       .       write   o⌫+⌫V 
+.       endif
+.       if      lmstatu < 5
+.       .       writec  lmfrom = 0;  Operator;
+.       .               «a,ppseudo(lmfrom),20»
+.       else
+.       .       write   «a,cname(lmfrom)» Guild
+.       endif
+.       transfr c,message(pmslot);lmess(1);4
+.       atnm    192,messy
+.       showa   lmess(1),40
+endloop
+*
+
+=== block 'u give'  kind 40  288 words  (block 130)
+*
+unit    bounce
+        merge,previous
+        lgslot  $$ temporary give slot
+        lfrom   $$ who it bounced from
+$
+goto    gstat(pgslot)-1,x,q     $$ bounced already
+calc    gslot « (lgslot « gslot+1+20×(gslot = 20))
+        gto(lgslot)   « (lfrom « gfrom(pgslot))
+        gfrom(lgslot) « comnum
+        gstat(lgslot) « 1       $$ bouncing this sucker
+        kgold         « 0       $$ don't bounce gold
+transfr pgiver;c,give(lgslot);1
+do      messloc
+write     Item bounced back to «a,ppseudo(lfrom),20».
+*
+unit    get
+        merge,previous
+        litem           $$ 1-28, 1-255
+        lslot           $$ 1-28
+$
+calc    gives « gives+1
+        getgold « kgold
+        getitem « kitem
+do      gold(getgold,1,0,-1,0)
+*--
+do      gstat(pgslot)=2,showg1(2,0),showg1(1,gfrom(pgslot))
+goto    getitem-1,q,x
+*--
+*-- find a free slot
+*--
+calc    lslot « 0
+        litem « 1
+loop    (litem  « litem+1) {^72} slots
+reloop  chitem(litem) > 0
+outloop -(lslot « litem)
+endloop
+if      lslot = 0
+.       do      bounce
+.       goto    q
+endif
+*--
+do      showg2(lslot)
+*--
+calc    chitem(lslot)  « getitem
+        chitmkn(lslot) « kknown
+        chialig(lslot) « kalign
+        chcharg(lslot) « kcharge
+        xn             « ifound(litem « chitem(lslot))+1
+        ifound(litem)  « imin(xn,1023)
+do      showitem(lslot)
+do      inreturn
+*
+unit    showg2(lslot)
+        merge,previous
+        lslot   $$ slot to show
+        lchars  $$ number to erase
+$
+if      getgold = 0
+.       atnm    192,messy
+else
+.       write   , 
+endif
+write   #«s,lslot». 
+calc    lchars  « 64-(wherex $ars$ 3)
+*        lloaded « loadedi       $$ item currently loaded
+do      getitem(getitem)
+do      iditem(0,kknown;kknown)
+writec  kknown-1;«a,iduu(itype)»;
+        «a,itypes(itype),imin(lchars,20)»;
+        «a,iname,imin(lchars,30)»
+*do      getitem(lloaded)
+*
+unit    showg1(ltype,lperson)
+        merge,previous
+        ltype           $$ type: g = 0, r = 1, treasure = 2
+        lperson         $$ person from or to (0 for treas)
+$
+do      messloc
+writec  ltype-1;G ;R ; 
+writec  ltype = 2;{75}AB{75};«a,ppseudo(lperson),20»
+goto    getgold-1,q,x
+atnm    192,messy
+write   «s,getgold» gold
+*
+unit    ckgive
+loop    pgslot {^54} gslot
+reloop  gto(pgslot « pgslot+1+20×(pgslot = 20)) {^54} comnum
+.       transfr c,give(pgslot);pgiver;1
+.       do      get
+endloop
+*
+
+=== block 'arrow'  kind 40  226 words  (block 131)
+*
+unit    arrowa(lxloc,lyloc,llong,led,cop(1),cop(2),cop(3),cop(4))
+        merge,previous
+        lxloc   $$ where to plot the arrow
+        lyloc
+        llong   $$ number of characters allowable
+        led     $$ whether it's an editor arrow
+$
+if      args < 8        $$ zero excess copy buffer
+.       zero    cop(args-3),8-args
+endif
+if      led
+.       at      lxloc,lyloc
+.       erase   llong+2
+endif
+arrow   lxloc,lyloc
+long    llong
+copy    copybuf,llong
+jkey    back,lab,data
+join    clean
+storea  value,llong
+ok
+endarrow
+if      (key=lab) $mask$ led
+.       zero    value,4
+elseif  (key=back) $union$ (jcount=0)
+.       transfr copybuf;value;roundup(llong/10)
+endif
+keytype pressed,next,lab,data   $$ back=-1
+goto    led,x,q
+at      lxloc+16,lyloc
+erase   llong
+showa   value,llong
+*
+unit    arrown(lxloc,lyloc,llong,led,llow,lhigh,copybuf)
+        merge,previous
+        lxloc   $$ where to plot the arrow
+        lyloc
+        llong   $$ number of characters allowable
+*-- -1 = editor, 0 = boring, 1 = editor with no zero
+        led     $$ whether it's an editor arrow
+        lvalue  $$ value passed in
+        llow    $$ lowest value allowed
+        lhigh   $$ highest value allowed
+$
+if      led {^54} 0
+.       at      lxloc,lyloc
+.       erase   llong+2
+endif
+calc    lvalue«copybuf
+itoa    copybuf,copybuf
+arrow   lxloc,lyloc
+long    llong
+copy    copybuf,llong
+jkey    back,lab,data
+exact
+judge   quit
+store   value
+ok
+calc    value « (value)/1       $$ take care of -0
+judge   (value<llow) $union$ (value>lhigh),noquit,x
+endarrow
+if      (key=lab) $mask$ (led = -1)
+.       calc    value«0
+elseif  (key=back) $union$ (jcount=0) $union$ (key = lab)
+.       calc    value«lvalue
+endif
+keytype pressed,next,lab,data   $$ back=-1
+goto    led,x,q,x
+atnm    lxloc+16,lyloc
+erase   llong
+showt   value,llong
+*
+
+=== block 'game arrow'  kind 40  247 words  (block 132)
+*
+unit    arrowa(lxloc,lyloc,llong,cop(1),cop(2),cop(3),cop(4))
+        merge,previous
+        lxloc   $$ where to plot the arrow
+        lyloc
+        llong   $$ number of characters allowable
+$
+if      args < 8        $$ zero excess copy buffer
+.       zero    cop(args-3),8-args
+endif
+arrow   lxloc,lyloc
+long    llong
+copy    copybuf,llong
+jkey    back,data
+join    clean
+storea  value,llong
+ok
+endarrow
+keytype pressed,next,data       $$ back = -1
+goto    pressed $union$ (jcount = 0),x,q
+transfr copybuf;value;roundup(llong/10)
+*
+unit    getgold(lxloc,lyloc,lhigh)
+        merge,previous
+        lxloc   $$ where to plot the arrow
+        lyloc
+        lhigh   $$ max gold allowed
+$
+*-- -1 if accepted, 0 if back or blank next
+*-- data means to choose as much gold as possible
+itoa    (copybuf « lhigh),copybuf
+arrow   lxloc,lyloc
+long    15
+copy    copybuf,15
+jkey    back,data
+exact
+putd    /K/k/
+putd    /M/m/
+putd    /m/*10↑6/
+putd    /k/*1000/
+judge   quit
+store   value
+ok
+judge   key = back,quit,x
+calc    value « (value)/1       $$ take care of -0
+judge   (value < 0) $union$ (value > lhigh),noquit,x
+endarrow
+if      key = data
+.       calc    value « lhigh
+.               pressed « -1
+.       goto    q
+endif
+goto    (pressed « (key = next)) $mask$ (jcount > 0),q,x
+calc    value « 0
+*
+unit    getitemn(lxloc,lyloc,llow)
+        merge,previous
+        lxloc           $$ x location of arrow
+        lyloc           $$ y location of arrow
+        llow            $$ lowest valid item number
+$
+*-- sets islot to -1, else the number of the item chosen
+*-- pressed = -1 if next, 0 if back, 1 if data, 2 if lab
+calc    islot « -1
+arrow   lxloc,lyloc
+long    2
+jkey    back,lab,data
+exact
+judge   quit
+store   value
+ok
+judge   key = back,quit,x
+calc    value « (value)/1       $$ take care of -0
+judge   (value < llow) $union$ (value > slots),noquit,x
+endarrow
+keytype pressed,back,data,lab
+goto    (pressed = 0) $union$ (jcount = 0),q,x
+goto    chitem(value)-1,q,x
+calc    islot « value
+*
+
+=== block 'arrown'  kind 40  97 words  (block 133)
+*
+cstop
+unit    arrown(lxloc,lyloc,llong,llow,lhigh,copybuf)
+        merge,previous
+        lxloc   $$ where to plot the arrow
+        lyloc
+        llong   $$ number of characters allowable
+        lvalue  $$ value passed in
+        llow    $$ lowest value allowed
+        lhigh   $$ highest value allowed
+$
+calc    lvalue « copybuf
+itoa    copybuf,copybuf
+arrow   lxloc,lyloc
+long    llong
+copy    copybuf,llong
+jkey    back,lab,data
+exact
+judge   quit
+store   value
+ok
+calc    value « (value)/1       $$ take care of -0
+judge   (value < llow) $union$ (value > lhigh),noquit,x
+endarrow
+keytype pressed,next,lab,data   $$ back = -1
+if      (pressed = 1)
+.       calc    value « 0
+elseif  pressed $union$ (jcount = 0)
+.       calc    value « lvalue
+endif
+*
+cstart
+
+=== block 'hi'  kind 40  98 words  (block 134)
+*
+mode    rewrite
+at      176,296
+write   See the help lesson for complete list.   
+        Keys that are active anywhere in the game
+draw    176,280;504,280
+at      176,264
+write   M,Y   message/yell      T track         
+        +,-   move in company   H untrackable   
+        p,l   pick up/drop body K leave company 
+        U,P   use items/powers  G give gold/item
+        i,S   see items/spells  I level info    
+        LAB   status info    LAB1 company info  
+        COPY  area players  DATA1 replot
+        Keys that are active only in the dungeon
+draw    176,152;496,152
+at      176,136
+write   j,f,÷,× join/fight/autofight/autospell  
+        1,2,3,4 select group to fight           
+        a,x,d,w turn      A,X,D,W  turn and move
+        o,q,Q   open/exit/abandon treasure chest
+mode    write
+
+=== block 'char plot'  kind 40  272 words  (block 135)
+unit    charplot
+        merge,previous
+        lstat   $$ stat to show
+        lrank
+$
+calc    messloc « 2
+do      chflag(f.lines),x,lines
+color   display;zyellow
+atnm    4,496
+write   «a,poseudo,20»
+color   display;zblue
+draw    ;4,496
+color   display;zcyan
+calc    leadr « opos « onum « oalign « opalig « 49
+        pseen « 2
+        infow « 0
+do      showtrck
+transfr c,clranks(class);csnum;ranktrn
+atnm    4,432
+calc    lrank « lev/4
+        lrank « imax(lrank,1)
+write   «a,cdisp(lrank « imin(lrank,csnum)),30» («s,lev»)
+do      carrying
+do      compplot
+at      8,300
+write   Hits
+        Spells
+        Spell level
+        Att/Def
+        Exp
+        Gold
+do      showchit
+write   /«t,pobhits,3»
+do      showspel
+do      showabil
+do      showexp
+atnm    80,220
+showt   chgold,10
+atnm    8,200
+write   Age
+do      gainage(0,0)
+atnm    8,184
+showa   rname(race)
+writec  sex-1; male; female
+at      8,164
+write   Str
+        Int
+        Wis
+        Con
+        Cha
+        Dex
+do      statshow(lstat),lstat « 1,6
+calc    dateras « 0
+do      plotpage(optpage)
+*
+unit    statshow(lstat)
+        merge,previous
+        lstat   $$ stat to show
+$
+mode    rewrite
+atnm    48,180-im16(lstat)
+showt   curstat(lstat),2
+mode    write
+goto    (rhigh(race,lstat)+5) = chstat(lstat),x,q
+atnm    49,wherey
+showt   curstat(lstat),2
+*
+unit    charitms
+        merge,previous
+        litem                   $$ item number
+$
+do      showitem(litem),litem « optpage×14+1,(optpage+1)×14
+*
+unit    plotpage(optpage)
+do      optpage-4,charitms,pbits,lspells,
+        listkeys,       $$ incomplete list of active keys
+        x,              $$ nothing
+        dcompany,users(-1),users(0),x
+calc    dateras « -1    $$ something there to erase now
+*
+unit    lines
+color   display;zblue
+box     1,510;196,433;2
+box     314,510;510,433;2
+draw    314,481;511,481
+draw    314,480;511,480
+box     1,320;510,50;2
+draw    0,81;511,81
+draw    0,80;511,80
+draw    168,320;168,82
+draw    169,320;169,82
+color   display;zcyan
+*
+unit    y56a
+atnm    8,56
+erase   25
+*
+unit    y56b
+atnm    8,56
+erase   60
+*
+
+=== block 'char plot'  kind 40  119 words  (block 141)
+unit    showchit
+color   display;zcyan
+mode    rewrite
+atnm    104,300
+write   «t,khits « pochits,3»
+mode    write
+*
+unit    showspel
+color   display;zcyan
+mode    rewrite
+at      136,284
+write   «t,chspell,3»
+        «t,pabilit(a.spell),3»
+mode    write
+*
+unit    showabil
+        merge,previous
+        lpro,lzzz,lpar,linv
+        lintwis         $$ total of int and wis
+$
+calc    lpro « 5×(popbit(b.pro)>0)
+        lzzz « (popbit(b.sleep)>0)
+        lpar « (popbit(b.paral)>0)
+        linv « (popbit(b.invis)>0)
+        lintwis « curstat(s.int)+curstat(s.wis)
+do      attprob(pabilit(a.fight),curstat(s.str),lintwis,curstat(s.dex),hitpbon;poatt)
+do      defprob(pabilit(a.fight),curstat(s.str),lintwis,curstat(s.dex),armorcl,lpro,lzzz,lpar,linv;podef)
+mode    rewrite
+color   display;zcyan
+atnm    104,252
+write   «t,poatt,3»/«t,podef,3»
+mode    write
+*
+unit    showexp
+mode    rewrite
+color   display;zcyan
+atnm    80,236
+showt   chexper(class),10
+mode    write
+*
+
+=== block 'char plot'  kind 40  288 words  (block 136)
+unit    gold(lchange,lplay,lbank,lmon,lstore)
+        merge,previous
+        lchange $$ amount of gold involved
+        lplay   $$ multupliers
+        lbank
+        lmon
+        lstore
+$
+calc    chgold « chgold+lchange×lplay
+        ecplay « ecplay+lchange×lplay
+        chbgold « chbgold+lchange×lbank
+        ecbank « ecbank+lchange×lbank
+        ecmon « ecmon+lchange×lmon
+        ecstore « ecstore+lchange×lstore
+mode    rewrite
+color   display;zcyan
+atnm    80,220
+showt   chgold,10
+mode    write
+*
+unit    gainage(lage,lshow)
+        merge,previous
+        lage    $$ age to gain
+        lshow   $$ show "You were aged." message flag
+        lnum    $$ number of years or weeks to show
+        ldiv    $$ 52 if years, 1 if weeks
+$
+calc    xn « chage+lage
+mode    rewrite
+color   display;zcyan
+atnm    136,200
+showt   (chage « imax(xn,14×8766))/8766,3
+mode    write
+goto    lshow,x,q
+do      messloc
+*calcs   abs(lage) < 8681,ldiv « 52,1
+calc    ldiv « 1-51*(abs(lage) < 8681)
+write     You are now «s,lnum « abs(round(lage/(8766/ldiv)))»
+writec  ldiv-2; year; week
+showa   plura(lnum)
+writec  lage; younger. ; older.
+*
+unit    compplot
+        merge,previous
+        lcompn  $$ companion number
+        lmonsn  $$ monster number
+$
+color   display;zcyan
+mode    rewrite
+if      chcomps = 0
+.       at      316,452
+.       erase   24,2
+.       atnm    324,464
+.       write        No Companions   
+else
+.       do      getmons(chcomon)
+.       atnm    324,464
+.       write   «a,mname,20»«a,msuffix(1-(chcomps > 1))»
+.       erase   364-where
+.       atnm    316,452
+.       plot    mcharac(mchar,1)
+.       plot    mcharac(mchar,2)
+.       atnm    316,437
+.       plot    mcharac(mchar,3)
+.       plot    mcharac(mchar,4)
+.       do      compdisp(lcompn),lcompn « 1,4
+endif
+*
+unit    lspells
+        merge,previous
+        lsbufn  $$ spell buffer number
+        lspell  $$ actual spell number
+        lyloc
+        lspcost
+$
+mode    rewrite $$ unit showsbuf puts it back in mode write
+color   display;zyellow
+atnm    176,296
+write       Spells & Items Loaded for Casting    
+color   display;zblue
+draw    208,296;472,296
+color   display;zyellow
+if      dateras
+.       atnm    176,280
+.       erase   41
+endif
+do      showsbuf(lsbufn),lsbufn « 0,9
+color   display;zcyan
+goto    dateras,x,q
+at      176,104
+erase   41,2
+*
+
+=== block 'char plot'  kind 40  294 words  (block 137)
+unit    compdisp(lcompn)
+        merge,previous
+        lcompn  $$ companion number
+$
+color   display;zcyan
+mode    rewrite
+atnm    compx(lcompn),compy(lcompn)
+writec  chcothe(lcompn)-1;          ;«s,lcompn».«t,chcochi(lcompn),4»/«t,chcobhi(lcompn),3»
+mode    write
+*
+unit    showtrck
+if      (leadr {^54} poleadr) $union$ (leadr = 0)
+.       calc    atrack « ((leadr « poleadr) {^54} comnum)
+.       if      zloc > 0
+.       .       mode    rewrite
+.       .       color   display;zyellow
+.       .       atnm    280,444
+.       .       writec  atrack;{75}__{75};++
+.       .       color   display;zcyan
+.       .       mode    write
+.       endif
+.       atnm    12,480
+.       erase   20
+.       showa   ppseudo(leadr),20
+endif
+if      pseen {^54} pptimer(leadr)
+.       atnm    4,480
+.       erase   1
+*-- "-"+1 = "*"
+.       showa   "*"-sign(pseen « pptimer(leadr))
+endif
+if      (opos {^54} popos) $union$ (onum {^54} ppnum(leadr))
+.       atnm    4,464
+.       erase   20
+.       show    opos « popos
+.       if      opos < 21
+.       .       writec  opos-2;st;nd;rd;th
+.       else
+.       .       writec  opos-(int(opos/10)×10);;th;st;nd;rd;
+.       .               th
+.       endif
+.       write    player of «s,onum « ppnum(leadr)»
+endif
+if      (oalign {^54} align) $union$ (opalig {^54} pppalig(leadr))
+.       atnm    4,448
+.       erase   17
+.       writec  (oalign « align)-2;Good;Neutral;Evil
+.       writec  (opalig « pppalig(leadr))-2; (Good);
+.                (Neutral); (Evil)
+endif
+*
+unit    pbits
+        merge,previous
+        lbitn   $$ bit number
+$
+mode    rewrite
+color   display;zyellow
+atnm    176,296
+write           Player Status Information        
+color   display;zblue
+draw    240,296;440,296
+color   display;zyellow
+if      dateras
+.       atnm    176,280
+.       erase   41
+endif
+at      176,264
+calc    lbitn  « 0
+loop    (lbitn « lbitn+1) {^72} 13
+reloop  popbit(lbitn) = 0
+.       writec  lbitn-2;
+.               protected;
+.               resistant to fire;
+.               resistant to magic;
+.               resistant to draining;;;
+.               can see invisible;
+.               resistant to poison;
+.               breathing water;
+.               resistant to paralysis;;;
+.               stoned
+reloop  wherex = 176
+.       erase   abs(dateras)*(63-(wherex $ars$ 3))
+.       write   
+        
+endloop
+color   display;zcyan
+mode    write
+goto    dateras,x,q
+erase   41,(wherey-72) $ars$ 4
+*
+
+=== block 'char plot'  kind 40  260 words  (block 140)
+unit    users(ltype)
+        merge,previous
+        ltype   $$ type of display -1 = area, 0 = all
+        lperson $$ player loop variable
+        llisted $$ players listed
+        lyloc   $$ current plotting yloc
+        lspaces(3)      $$ spaces to plot
+        lsp = lspaces(1)        $$ start of space buffer
+        lsn(x) = x-(wherex $ars$ 3)     $$ number of spaces
+$
+calc    lspaces(1) « o55555555555555555555
+        lspaces(2) « o55555555555555555555
+        lspaces(3) « o55555555555555555555
+mode    rewrite
+color   display;zyellow
+atnm    176,296
+writec  ltype;Users in Area;All Users («s,zcusers»)
+showa   lsp,lsn(44)
+write   Guild    Level Hits
+color   display;zblue
+draw    176,297;503,297
+color   display;zcyan
+calc    lperson « llisted « 0
+loop    (lperson « lperson+1) {^72} maxin
+reloop  ppseudo(lperson) = 0
+.       if      ltype $mask$ (lperson {^54} comnum)
+*
+*       always show yourself, if you are dead, it
+*       is possible that your local co-ordinates and
+*       your common co-ordinates might be out of synch
+*       if you don't show someone, *lyloc* will be wrong
+*       11/27/83 cds
+*
+reloop  zloc {^54} ppzloc(lperson)
+reloop  roomnum {^54} mazeroo(ppxyloc(lperson))
+.       endif
+.       if      llisted = 13
+outloop dateras = 0
+.       .       mode    write
+.       .       color   display;zwhite
+.       .       atnm    8,56
+.       .       write   Press NEXT to continue, or BACK to quit.
+.       .       color   display;zcyan
+.       .       pause   keys=next, ,back
+.       .       do      y56b
+outloop key = back
+.       .       calc    llisted « 0
+.       .       mode    rewrite
+.       endif
+outloop key = stop
+.       color   display;zyellow
+.       atnm    176,lyloc « 296-im16(llisted « llisted+1)
+*-- there must not be any funny characters allowed in the
+*-- pseudonym, or a negative length will occur
+.       write   «a,ppseudo(lperson),20»«a,lsp,lsn(44)»
+.       write   «a,cname(ppclass(lperson))»«a,lsp,lsn(55)»
+.       write   «t,pplevel(lperson),3»«a,lsp,lsn(60)»
+.       write   «t,ppchits(lperson),3»
+.       color   display;zcyan
+endloop
+mode    write
+goto    (llisted < 13) $mask$ dateras,x,q
+at      176,lyloc-16
+erase   41,13-llisted
+*
+
+=== block 'colors'  kind 40  13 words  (block 143)
+unit    orange
+        floating:jorange
+color   define;(jorange),.9,.3,0
+color   display;jorange
+*-*-*
+        

@@ -1,0 +1,27 @@
+[!eq,,%1%]
+  wr This is Rev. 4 of the Dungeon game.
+  wr There are four difficulty levels available:
+  wr ,,,1 - Hacker
+  wr ,,,2 - Experienced
+  wr ,,,3 - Pro
+  wr ,,,4 - Suicidal
+  wr
+  wr To supress this display[!as 254] give the difficulty level&
+     as an argument.
+  wr Example: DG 3  or DUNGEON 3
+  wr
+  st [!r Which level do you wish to attempt? ]
+  wr 
+  [!eq,[!st],1]
+    wr Commands are read as the first letter of the desired command.
+    wr For example¬ to enter the command ATTACK¬ you type an A
+    wr without a 'NEW LINE' or 'CR'. The program reads each letter as
+    wr it is typed and finishes typing the rest of the command for you.
+    wr At any time you may type an H to get HELP.
+    wr
+    wr [!r Type a 'NEW LINE' to begin playing. ]
+  [!enD]
+[!el]
+  st %1%
+[!enD]
+x dg.pr [!st]

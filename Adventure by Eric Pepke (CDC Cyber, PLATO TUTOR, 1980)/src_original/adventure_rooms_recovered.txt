@@ -1,0 +1,470 @@
+Eric Pepke, "Ninnies and Cretins: a variation on Adventure" (FSU PLATO, 1979-80)
+Recovered rooms and map
+=====================================================================================
+
+Where this comes from
+  The lesson on the packs (v2.2, edited 05/26/80) loads its rooms and map from
+  dataset ADVENTDS in master file CMAST. CMAST is empty both on the NOS 1.3
+  packs and on the plato4nos13 PFDUMP tape they were restored from (it holds
+  only GUESTNOTES, 08/12/89), so ADVENTDS itself is gone. An earlier version
+  kept the rooms in the source as two WRITEC lists and the map in the lesson's
+  common, and both survive inside the lesson file:
+    short names   unused block 16(8)               all 48 rooms
+    long 29-48    unused block 15(8)               start of 29 lost
+    long 2-10     slack after block 'describe'     start of 2 lost
+    map           common 'info', nc1-nc96          all 48 rooms
+  The tape copy and the disk copy of the lesson are word-for-word identical.
+  (On the disk the lesson crosses a NOS track boundary at logical sector 108.)
+
+Numbering
+  WRITEC LOC,(neg),(zero),1,2,... so the first entry is room 1. It agrees with
+  the code: 'climb stalagmite' sets 41; the rubble moves set 15/16 and 46/47;
+  the lit-room test (loc<11, 11 with doors open, 13, 27, 29-34, 36) hits the
+  outdoor rooms, the tower, the shaft-lit rooms, the chasm tunnels, the airy
+  room and the balcony. The map agrees with every surviving description.
+
+Map format (the old in-common version)
+  2 words per room, 6 fields of 9 bits per word (the low 6 bits are always 0):
+  n s e w u d in out, then what magic words 1-4 do in that room (the spells in
+  parchment order: opening, closing, transmutation, power).
+  1-255 = move to that room; 3xx = refusal message; 4xx = special unit.
+  The dataset version keeps the same 12 fields as 10-bit segments.
+
+Still lost: the long descriptions of room 1 and rooms 11-28, and the start of
+rooms 2 and 29.
+
+---  1. You are outside the building.
+[long description lost]
+    n        ->  5 You are south of the cliffs.
+    s        -> [301] I CAN'T SWIM!
+    e        ->  6 You are in the field.
+    w        ->  4 You are in the forest.
+    in       ->  2 You are in the building.
+
+---  2. You are in the building.
+[...start lost...]suse.  A trap door leads into the cellar.
+    e        ->  1 You are outside the building.
+    d        ->  3 You are in the cellar.
+    in       ->  3 You are in the cellar.
+    out      ->  1 You are outside the building.
+
+---  3. You are in the cellar.
+You are in the musty cellar of a small building, dimly
+lit through two dirty windows near the ceiling.  A large
+tank of fuel oil sits in the corner.
+    u        ->  2 You are in the building.
+    out      ->  2 You are in the building.
+
+---  4. You are in the forest.
+You are in a dense forest.  All the directions seem the
+same in this sunless place.
+    n        -> [400] forest: random
+    s        -> [400] forest: random
+    e        -> [400] forest: random
+    w        -> [400] forest: random
+    u        -> [304] That would be stupid!!
+    in       -> [305] I'm already in!!!!!
+    out      -> [302] That's your job!!!
+
+---  5. You are south of the cliffs.
+You are just south of a high range of cliffs from
+which the stream issues down high falls.  The forest
+stops here at the cliffs.
+    s        ->  1 You are outside the building.
+    e        ->  7 You are at the cave entrance.
+    w        ->  9 You are where the forest meets the cliffs
+    u        -> [303] I can't climb that high!
+    in       ->  4 You are in the forest.
+
+---  6. You are in the field.
+You are in a wide field which extends out of sight
+to the east.  To the north a set of cliffs can be seen.
+    n        ->  7 You are at the cave entrance.
+    s        ->  6 You are in the field.
+    e        ->  6 You are in the field.
+    w        ->  1 You are outside the building.
+    in       ->  1 You are outside the building.
+
+---  7. You are at the cave entrance.
+You are at the entrance of a large cave delved in the
+stone of a set of cliffs to the north.  To the west a
+small rivulet issues from the cliffs over a waterfall.
+    n        ->  8 You are in the cave.
+    s        ->  6 You are in the field.
+    e        ->  6 You are in the field.
+    w        ->  5 You are south of the cliffs.
+    u        -> [303] I can't climb that high!
+    in       ->  8 You are in the cave.
+
+---  8. You are in the cave.
+You are inside a large cave, carved by nature or
+ancient craft long ago.  To the rear, a set of brass
+doors has been built into the wall of the cave.
+    n        -> [403] brass doors: 11 if open
+    s        ->  7 You are at the cave entrance.
+    in       -> [403] brass doors: 11 if open
+    out      ->  7 You are at the cave entrance.
+    spell 1  -> [301] The rocks rumble for a few moments, but nothing budges.
+
+---  9. You are where the forest meets the cliffs
+You are just south of the cliffs.  To your south, the
+forest stretches into the darkness.  Some light escapes
+from unguessed heights to light your way.
+    s        ->  4 You are in the forest.
+    e        -> [402] random: stay/9/5
+    w        -> [401] random: stay/9/10
+    u        -> [303] I can't climb that high!
+    out      -> [302] That's your job!!!
+
+--- 10. You are at the tunnel entrance
+You are at a small clearing in the forest where it
+meets the cliffs.  A small tunnel in the cliffs peeks out
+at you from behind some bushes.
+    n        -> 31 You are in the tunnel entrance.
+    s        ->  4 You are in the forest.
+    e        ->  9 You are where the forest meets the cliffs
+    w        ->  4 You are in the forest.
+    u        -> [303] I can't climb that high!
+    in       -> 31 You are in the tunnel entrance.
+
+--- 11. You are behind the brass doors.
+[long description lost]
+    n        -> 17 You are at the north end of the large chamber
+    s        -> [404] brass doors: 8 if open
+    e        -> 12 You're at a middle landing of the staircase.
+    in       -> 12 You're at a middle landing of the staircase.
+    out      -> [403] brass doors: 11 if open
+    spell 1  -> [301] The rocks rumble for a few moments, but nothing budges.
+    spell 4  -> [400] cave-in: you are buried
+
+--- 12. You're at a middle landing of the staircase.
+[long description lost]
+    w        -> 11 You are behind the brass doors.
+    u        -> 13 You are in the tower room.
+    d        -> 14 You are in the little grot.
+    in       -> 11 You are behind the brass doors.
+    out      -> 11 You are behind the brass doors.
+    spell 4  -> [400] cave-in: you are buried
+
+--- 13. You are in the tower room.
+[long description lost]
+    n        -> [306] The window slits are too narrow.
+    s        -> [306] The window slits are too narrow.
+    e        -> [306] The window slits are too narrow.
+    w        -> [306] The window slits are too narrow.
+    d        -> 12 You're at a middle landing of the staircase.
+    in       -> 12 You're at a middle landing of the staircase.
+    out      -> [306] The window slits are too narrow.
+
+--- 14. You are in the little grot.
+[long description lost]
+    w        -> 26 You are in the column room.
+    u        -> 12 You're at a middle landing of the staircase.
+    d        -> [406] rubble: 15, 16 once cleared
+    out      -> [300] Not available at this time.
+    spell 4  -> [400] cave-in: you are buried
+
+--- 15. You're where the staircase is choked with rubble.
+[long description lost]
+    u        -> 14 You are in the little grot.
+    out      -> 14 You are in the little grot.
+    spell 1  -> [301] The rocks rumble for a few moments, but nothing budges.
+    spell 4  -> [401] clears the rubble (15->16, 46->47)
+
+--- 16. You're on the staircase.
+[long description lost]
+    u        -> 14 You are in the little grot.
+    d        -> 48 You're at the foot of the staircase.
+    in       -> [308] Yes, but in what direction?
+    out      -> [308] Yes, but in what direction?
+    spell 1  -> [301] The rocks rumble for a few moments, but nothing budges.
+    spell 4  -> [400] cave-in: you are buried
+
+--- 17. You are at the north end of the large chamber
+[long description lost]
+    n        -> 19 You are on the narrow stone bridge.
+    s        -> 11 You are behind the brass doors.
+    w        -> 18 You're in the little guard room.
+    d        -> [307] The banks are too steep to climb safely.
+    in       -> [307] The banks are too steep to climb safely.
+    out      -> 11 You are behind the brass doors.
+
+--- 18. You're in the little guard room.
+[long description lost]
+    e        -> 17 You are at the north end of the large chamber
+    in       -> 17 You are at the north end of the large chamber
+    out      -> 17 You are at the north end of the large chamber
+
+--- 19. You are on the narrow stone bridge.
+[long description lost]
+    n        -> 20 You are in the immense chamber.
+    s        -> 17 You are at the north end of the large chamber
+    e        -> [405] bridge: 43, dead without staff
+    w        -> [405] bridge: 43, dead without staff
+    d        -> [307] The banks are too steep to climb safely.
+    in       -> [307] The banks are too steep to climb safely.
+    out      -> [308] Yes, but in what direction?
+    spell 1  -> [301] The rocks rumble for a few moments, but nothing budges.
+    spell 4  -> [400] cave-in: you are buried
+
+--- 20. You are in the immense chamber.
+[long description lost]
+    n        -> 32 You are south of the two staircases.
+    s        -> 19 You are on the narrow stone bridge.
+    e        -> 27 You are in the room lit by a shaft.
+    w        -> 21 You are in the long corridor.
+    u        -> [304] That would be stupid!!
+    d        -> [307] The banks are too steep to climb safely.
+    in       -> [307] The banks are too steep to climb safely.
+    spell 1  -> [301] The rocks rumble for a few moments, but nothing budges.
+
+--- 21. You are in the long corridor.
+[long description lost]
+    s        -> 22 You are in the stalagmite room.
+    e        -> 20 You are in the immense chamber.
+    w        -> 42 You're at the T-junction.
+    d        -> 22 You are in the stalagmite room.
+    out      -> 20 You are in the immense chamber.
+    spell 4  -> [400] cave-in: you are buried
+
+--- 22. You are in the stalagmite room.
+[long description lost]
+    n        -> 21 You are in the long corridor.
+    s        -> 25 You are in the boring room.
+    e        -> 23 You are at the foot of the stairs.
+    w        -> [300] Not available at this time.
+    u        -> 21 You are in the long corridor.
+    d        -> 23 You are at the foot of the stairs.
+    spell 1  -> [301] The rocks rumble for a few moments, but nothing budges.
+    spell 4  -> [400] cave-in: you are buried
+
+--- 23. You are at the foot of the stairs.
+[long description lost]
+    n        -> 39 You are in the cubical room.
+    e        -> 24 You are at the shore of the underground lake.
+    w        -> 22 You are in the stalagmite room.
+    u        -> 22 You are in the stalagmite room.
+    d        -> 24 You are at the shore of the underground lake.
+    in       -> 39 You are in the cubical room.
+    spell 1  -> [301] The rocks rumble for a few moments, but nothing budges.
+    spell 4  -> [400] cave-in: you are buried
+
+--- 24. You are at the shore of the underground lake.
+[long description lost]
+    e        -> [301] I CAN'T SWIM!
+    w        -> 23 You are at the foot of the stairs.
+    u        -> 23 You are at the foot of the stairs.
+    in       -> [301] I CAN'T SWIM!
+    spell 1  -> [301] The rocks rumble for a few moments, but nothing budges.
+    spell 4  -> [400] cave-in: you are buried
+
+--- 25. You are in the boring room.
+[long description lost]
+    n        -> 22 You are in the stalagmite room.
+    s        -> 37 You're in the 37 room.
+    e        -> 26 You are in the column room.
+    w        -> [300] Not available at this time.
+    in       -> [308] Yes, but in what direction?
+    out      -> [308] Yes, but in what direction?
+    spell 1  -> [301] The rocks rumble for a few moments, but nothing budges.
+    spell 4  -> [400] cave-in: you are buried
+
+--- 26. You are in the column room.
+[long description lost]
+    e        -> 14 You are in the little grot.
+    w        -> 25 You are in the boring room.
+    in       -> [308] Yes, but in what direction?
+    out      -> [308] Yes, but in what direction?
+    spell 1  -> [301] The rocks rumble for a few moments, but nothing budges.
+
+--- 27. You are in the room lit by a shaft.
+[long description lost]
+    n        -> 28 You are in the wide tunnel
+    w        -> 20 You are in the immense chamber.
+    u        -> 36 You are at the little balcony.
+    out      -> [308] Yes, but in what direction?
+
+--- 28. You are in the wide tunnel
+[long description lost]
+    n        -> [300] Not available at this time.
+    s        -> 27 You are in the room lit by a shaft.
+    out      -> [308] Yes, but in what direction?
+
+--- 29. You are in the n/s tunnel.
+[...start lost...]
+light to the south.
+    n        -> 42 You're at the T-junction.
+    s        -> 30 You are north of the chasm.
+    in       -> [308] Yes, but in what direction?
+    out      -> [308] Yes, but in what direction?
+
+--- 30. You are north of the chasm.
+You are just north of a wide chasm.  To the south you
+can see that a tunnel reaches daylight.
+    n        -> 29 You are in the n/s tunnel.
+    d        -> [307] The banks are too steep to climb safely.
+    in       -> [307] The banks are too steep to climb safely.
+    out      -> 29 You are in the n/s tunnel.
+
+--- 31. You are in the tunnel entrance.
+You are just south of a wide chasm, too wide to jump.
+A tunnel to the south leads to daylight.
+    s        -> 10 You are at the tunnel entrance
+    in       -> [307] The banks are too steep to climb safely.
+    out      -> 10 You are at the tunnel entrance
+
+--- 32. You are south of the two staircases.
+You are in a small chamber with a passage south.  Two
+staircases lead north: one up and the other down.
+    n        -> [309] There are two staircases to the north.  Up or down?
+    s        -> 20 You are in the immense chamber.
+    u        -> 33 You are in the airy room.
+    d        -> 38 You are at the bottom of the stairs.
+    in       -> [308] Yes, but in what direction?
+
+--- 33. You are in the airy room.
+You are in an airy room lit and ventilated by several
+shafts through the ceiling.  A staircase leads down, and
+you can walk to the east.
+    n        -> [300] Not available at this time.
+    s        -> 32 You are south of the two staircases.
+    e        -> 34 You are in the room where the corridor turns.
+    d        -> 32 You are south of the two staircases.
+    in       -> 34 You are in the room where the corridor turns.
+    out      -> 32 You are south of the two staircases.
+
+--- 34. You are in the room where the corridor turns.
+You are in a little room.  You can walk to the west, and
+there is a corridor to the south.
+    s        -> 35 You are in a wide corridor.
+    w        -> 33 You are in the airy room.
+    in       -> [308] Yes, but in what direction?
+    out      -> [308] Yes, but in what direction?
+
+--- 35. You are in a wide corridor.
+You are in a wide north/south corridor.  The walls
+are very smooth.
+    n        -> 34 You are in the room where the corridor turns.
+    s        -> 36 You are at the little balcony.
+    in       -> [308] Yes, but in what direction?
+    out      -> [308] Yes, but in what direction?
+
+--- 36. You are at the little balcony.
+You are in a little balcony.  Below you is a room lit
+by a shaft in the ceiling.  A narrow stone staircase leads
+down.  A corridor goes north.
+    n        -> 35 You are in a wide corridor.
+    d        -> 27 You are in the room lit by a shaft.
+    in       -> 35 You are in a wide corridor.
+    out      -> 35 You are in a wide corridor.
+
+--- 37. You're in the 37 room.
+You are in a room with an immense "37" on the wall.
+The only way to get out is to go north.
+    n        -> 25 You are in the boring room.
+    out      -> 25 You are in the boring room.
+
+--- 38. You are at the bottom of the stairs.
+You are in a chamber at the bottom of a staircase.
+A passage leads west.
+    s        -> 32 You are south of the two staircases.
+    w        -> 40 You are at the way meeting.
+    u        -> 32 You are south of the two staircases.
+    in       -> 40 You are at the way meeting.
+    out      -> [308] Yes, but in what direction?
+
+--- 39. You are in the cubical room.
+You are in a small cubical room with passages leading
+north and south.
+    n        -> 40 You are at the way meeting.
+    s        -> 23 You are at the foot of the stairs.
+    in       -> [308] Yes, but in what direction?
+    out      -> [308] Yes, but in what direction?
+
+--- 40. You are at the way meeting.
+You are at a way meeting where a north/south passage
+intersects with an east/west corridor.
+    n        -> [300] Not available at this time.
+    s        ->  7 You are at the cave entrance.
+    e        -> 38 You are at the bottom of the stairs.
+    w        -> [300] Not available at this time.
+    in       -> [308] Yes, but in what direction?
+    out      -> [308] Yes, but in what direction?
+
+--- 41. You're on the stalagmite.
+You're on top of the giant stalagmite.  Big deal!
+    n        -> 22 You are in the stalagmite room.
+    s        -> 22 You are in the stalagmite room.
+    e        -> 22 You are in the stalagmite room.
+    w        -> 22 You are in the stalagmite room.
+    d        -> 22 You are in the stalagmite room.
+
+--- 42. You're at the T-junction.
+You are at a T-junction where the east/west corridor
+meets a tunnel to the south.
+    s        -> 29 You are in the n/s tunnel.
+    e        -> 21 You are in the long corridor.
+    w        -> [300] Not available at this time.
+    in       -> 29 You are in the n/s tunnel.
+    out      -> [308] Yes, but in what direction?
+
+--- 43. You're at the bottom of the chasm.
+You are at the bottom of a chasm beyond the depth of all
+knowledge.  A small hole leads south.
+    s        -> 44 You're in the crawlway.
+    u        -> [307] The banks are too steep to climb safely.
+    in       -> 44 You're in the crawlway.
+    spell 1  -> [301] The rocks rumble for a few moments, but nothing budges.
+    spell 4  -> [400] cave-in: you are buried
+
+--- 44. You're in the crawlway.
+You are in a narrow north/south crawlspace.
+    n        -> 43 You're at the bottom of the chasm.
+    s        -> 45 You're in the small room.
+    in       -> [308] Yes, but in what direction?
+    out      -> [308] Yes, but in what direction?
+    spell 1  -> [301] The rocks rumble for a few moments, but nothing budges.
+    spell 4  -> [400] cave-in: you are buried
+
+--- 45. You're in the small room.
+You are in a small room with passages leading north
+and east.
+    n        -> 44 You're in the crawlway.
+    e        -> [407] rubble: 46, 47 once cleared
+    in       -> [308] Yes, but in what direction?
+    out      -> [308] Yes, but in what direction?
+    spell 1  -> [301] The rocks rumble for a few moments, but nothing budges.
+    spell 4  -> [400] cave-in: you are buried
+
+--- 46. You're in the large room choked with rubble.
+You are in a large room.  A passage leads west, and
+the east end of the room is choked with rubble.
+    w        -> 45 You're in the small room.
+    in       -> 45 You're in the small room.
+    out      -> 45 You're in the small room.
+    spell 1  -> [301] The rocks rumble for a few moments, but nothing budges.
+    spell 4  -> [401] clears the rubble (15->16, 46->47)
+
+--- 47. You're in the large room.
+You are in a large room.  There is a passage to the
+west, and the foot of a spiral staircase to the east.
+    e        -> 48 You're at the foot of the staircase.
+    w        -> 45 You're in the small room.
+    u        -> 16 You're on the staircase.
+    in       -> [308] Yes, but in what direction?
+    out      -> [308] Yes, but in what direction?
+    spell 1  -> [301] The rocks rumble for a few moments, but nothing budges.
+    spell 4  -> [400] cave-in: you are buried
+
+--- 48. You're at the foot of the staircase.
+You're at the very foot of the spiral staircase.
+    w        -> 47 You're in the large room.
+    u        -> 16 You're on the staircase.
+    out      -> 47 You're in the large room.
+    spell 1  -> [301] The rocks rumble for a few moments, but nothing budges.
+    spell 4  -> [400] cave-in: you are buried
+
+--- unplaced fragment (start lost; a view from above the cliffs, probably the tower room, 13)
+[...]top of the cliffs.  To the south you can see the building
+in the distance.  To the west the river, now wide, runs
+slowly over the falls.

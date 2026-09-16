@@ -1,0 +1,4768 @@
+0moriag  (tutor    a, 70 blocks)
+  af | 5; | 01/31/93 | 11/30/93 | s | coserv | duncombe/b | attin | moria: ma | in game le | sson | 14.44.11. | dave runte | h | s | coserv | coserv | coserv | sysmicro | edit | igl;. | 0moriad | publisis | mu2+ «{75} | lessnotes | coserv | s0edit | b | e | access
+
+=== block '*directory'  kind 00  0 words  (block 0)
+
+=== block 'copyright'  kind 47  17 words  (block 1)
+*
+*  © copyright 1978,1984 by kevet duncombe and jim battin
+*      all rights reserved
+*
+*list   symbols
+*list   eject
+*
+
+=== block 'entry-exit'  kind 00  225 words  (block 2)
+define  global
+use     base/g
+use     g-confunct
+use     g-students
+use     g-skills
+use     g-players
+use     g-ictable
+use     g-magic
+use     d-students
+use     d-ict
+*
+        
+define  local,global
+use     g-montable      $$  to decr shares
+use     g-storage
+use     d-monlocal
+use     d-timel $$ just to init!
+*
+keylist right,d,Rtarr
+keylist right1,D,Rtarr1
+keylist left,a,Lfarr
+keylist left1,A,Lfarr1
+keylist up,w,Uparr
+keylist up1,W,Uparr1
+keylist down,x,Dnarr
+keylist down1,X,Dnarr1
+*
+*
+*                       /////  Ieu  /////
+*
+storage recsize,exactly
+use     global ieu
+day     today
+inhibit jumpchk
+from    tn1;<moria>;
+jumpout tn1;<moria>;x
+*
+initial common,initial
+*
+do      rescom          $$  add player to game!
+do      deghost
+do      getslot
+release common
+*
+do      initslot
+do      effstats
+finish  finish
+jump    main
+*
+        
+unit    deghost
+*
+calc    ind « 0
+loop    incr(ind) {^72} maxslot
+.       in      stashun(ind)
+.       if      zreturn{^73}0 $or$ stashun(ind)=station
+.       .       calc    pseudo(ind) « 0
+.       .               slot(ind) « 0
+.       .               stashun(ind)« nullst
+.       endif
+endloop 
+*
+        
+unit    getslot         $$  get a player slot, set me
+*
+calc    me « 0
+loop    incr(me) {^72} maxslot
+reloop  stashun(me) {^54} nullst
+reloop  Any( Guide=me ) $$  someone's guide JUST left game?
+.       calc    stashun(me) « station
+.       goto    q
+endloop 
+jump    error('no slot')
+*
+        
+unit    initslot                $$  init me!
+randu   tv1
+calc    pseudo(me) « myname
+        myguide « me
+        nextmth « clock + tv1*month
+        uptime  « clock + 3
+        nextcpt « month * page(clock,month)
+        statsup « o17   $$  4 bits
+        findobj « findmon « yes
+        myptr   « buffptr
+        mymons  « 0
+        charat(me) « myat    $$  update common!
+*
+        
+
+=== block 'entry-exit'  kind 00  91 words  (block 3)
+unit    finish
+finish
+do      up.use  $$ update stats
+if      infight=1 $and$ mymons>0  $$ backout while fighting
+.       calc    tn1 « monall(mymons)
+.               bump(shares(mymons),-myshare)
+.       do      iosetup
+.       if      return > 0
+.       .       block   tempmon(2),tempmon(1),2
+.       .       calc    tplayer(3) « return
+.       .               tmonall(3) « tn1
+.       endif
+.       do      ioend
+endif   
+*
+calc    icword « 0
+        whofrom « me
+        groupto « myguide
+        action « acshpty
+        tablew(nextict) « icword
+        pseudo(me) « slot(me) « 0
+        stashun(me)« nullst
+do      putchar
+*
+        
+unit    entry           $$  jump to entry lesson
+do      finish
+inhibit jumpchk
+jumpout <moria>
+*
+        
+unit    initial
+*
+        
+
+=== block 'main'  kind 00  12 words  (block 4)
+define  purge,local
+define  local,global
+use     g-montable
+use     d-map
+use     d-stairs
+
+=== block 'main'  kind 00  278 words  (block 5)
+unit    main
+dataop  showstat
+data1   main
+back1   entry
+inhibit anserase
+base    $$ damn help sequences every time ya press a key..
+calc    messlin « 4     $$  last line
+        pause « yes
+do      screen          $$  plot screen and stats
+catchup                 $$  let screen plot before going on
+do      newplace(no)    $$  generate maze, don't zap spells
+if      infight = 1     $$  left in battle
+.       do      monster $$  fight it out here!
+.       calc    infight « 0
+endif
+loop                            $$  Main Peace Loop
+.       if      mymonsb{^72}0 $or$ findmon=no
+.       elseif  monsbit(mymonsb,x,y) > 0
+.       .       do      monster
+.       endif   
+.       if      object(x,y)>0 $and$ findobj
+.       .       do      object
+.       endif   
+.       calc    busy(me) « 0
+.       if      pause       $$  loop till key {^54} timeup
+.       .       do      pausep
+.       endif
+.       keytype ktype,right,up,left,down,right1,up1,left1,down1
+.       calc    pause « yes     $$ reset for next loop
+.       if      ktype {^73} 0               $$  arrow key
+.       .       do      decode
+.       .       if      terr{^73}cave$and$(ktype=1 $or$ ktype=5)
+.       .       .       seed    $$ back to system seed
+.       .       .       randu   tn1,1000
+.       .       .       do      tn1=1,oneshot,x
+.       .       endif
+.       else                            $$ other key
+.       .       timel   timel,ptimel
+.       .       keytype ktype,J,c,L,R,S,F,G,K,C,n,I,T,U,p
+.       .               lab
+.       .       do      ktype,x,
+.       .               join            $$  join someone
+.       .               pcast           $$  cast peace
+.       .               leave           $$  leave group
+.       .               runto           $$  run to someone
+.       .               stringme        $$  set your string
+.       .               findend         $$  find string end
+.       .               give            $$  give somethin
+.       .               kickit          $$  kick outa group
+.       .               camp            $$  camp options
+.       .               smallplt        $$  replot center
+.       .               info            $$  info, magic item
+.       .               dropitem        $$  drop magic item
+.       .               useitem         $$  use a magic item
+.       .               ppray           $$  peace pray opts
+.       .               gotouser        $$  list & talker
+.       endif
+endloop 
+
+=== block 'main'  kind 00  15 words  (block 6)
+unit    smallplt        $$ replot center stuff
+mode    rewrite         $$ just in case
+do      c(zwhite)
+box     160,335;1845
+
+=== block 'decode'  kind 00  208 words  (block 7)
+do      terrcol
+at      1328
+do      terrcol2
+writec  incorr{^56}Corridor{^56}  Room  {^56}
+do      plot3d(blanks)
+calc    findobj « findmon « yes
+****
+unit    decode          $$  decode arrow keys
+*
+at      1737
+writec  ktype,-,{^'04},{^'27},{^'01},Ö,{^'04},{^'27},{^'01},Ö,+
+*
+if      ktype = 1 $and$ corr    $$ w: take a step
+.       calc    x « x+dx
+.               y « y+dy
+.               incwbas(dx+dy)
+.               incsbas(dx+dy)
+.               findobj « findmon « yes
+.       do      plot3d(blanks)
+elseif  ktype=5 $and$ corr    $$ W: move till wall
+.       calc    ind « 0
+.               findobj « findmon « yes
+.       loop    corr
+.       .       calc    x « x+dx
+.       .               y « y+dy
+.       .               incwbas(dx+dy)
+.       .               incsbas(dx+dy)
+.       .               add1(ind)
+.       outloop nls=1 $or$ nrs=1
+.       outloop (nls=0 $or$ nrs=0) $and$ incorr
+.       outloop object(x,y) > 0
+.       reloop  mymonsb < 1      $$  in a city
+.       outloop monsbit(mymonsb,x,y) > 0
+.       endloop 
+.       calcs   ind, iline«,,
+.               '{75}1 step   '
+.               '{75}2 steps  '
+.               '{75}3 steps  '
+.               '{75}4 steps  '
+.               '{75}5 steps  '
+.               '{75}6 steps  '
+.               '{75}7 steps  '
+.       do      plot3d(iline)
+elseif  ktype=5 $and$ door      $$ break thru door
+.       do      breakdor
+elseif  ktype{^54}5 $and$ ktype{^54}1   $$  just turning
+.       calc    heading « mod4( heading+ktype-1 )
+.               setdx
+.               setdy
+.               wbas« sideptr(x,y,heading)
+.               sbas« sideptr(x,y,mod4(heading-1))
+.               findobj « findmon « no
+.       do      plot3d(blanks)
+endif
+*
+        
+
+=== block 'decode'  kind 00  114 words  (block 10)
+unit    breakdor        $$  do this when going thru a door!
+*
+if      mod(x+dx,7)=0 $or$ mod(y+dy,7)=0
+.       do      mayigo(terr{^54}city)
+.       goto    return=no,q,x
+.       if      (grossx+dx)>levsizx $or$ (grossx+dx)<1              $or$ (grossy+dy)>levsizy $or$ (grossy+dy)<1
+.       .       if      myat = oceanat
+.       .       .       calc    strtt« ocean
+.       .       .               strdl« 0
+.       .       .       goto    newlevel
+.       .       else    
+.       .       .       do      sysmess
+.       .       .       write     Can't go into solid rock!!
+.       .       endif
+.       else    
+.       .       calc    x « x + dx
+.       .               y « y+dy
+.       .       do      newgross(grossx+dx,grossy+dy)
+.       endif   
+else    
+.       calc    x « x+dx
+.               y « y+dy
+.               incwbas(dx+dy)
+.               incsbas(dx+dy)
+.               findobj « findmon « yes
+.       do      plot3d('{75} door    ')
+endif
+*
+        
+
+=== block 'update'  kind 00  213 words  (block 11)
+define  purge,local
+define  local,global
+use     g-messages
+use     g-guilds
+use     d-timel
+use     d-monlocal
+*
+        
+unit    update
+*
+*  this unit and everything it calls MUST⌫⌫⌫⌫____ use only local
+*  vars!  Timel may clone over vars at any⌫⌫⌫___ odd time!
+*
+if      clock > smerase
+.       at      2618
+.       do      c(zgreen)
+.       erase   30
+.       calc    smerase « 10**30        $$  wait a while
+endif
+if      clock > nextcpt
+.       do      putchar
+.       calc    nextcpt « month * page(clock,month)
+endif   
+if      clock > nextmth
+.       if      lexper > 99 999 999     $$ enough is enough
+.       .       jump    dead("old")
+.       elseif  age < 2047
+.       .       calc    age « age + 1
+.       .       if      age > [12*(100+cunning/2)]
+.       .       .       randu   ln1,100000/(age-899)
+.       .       .       if      ln1=1
+.       .       .       .       jump    dead("old")
+.       .       .       endif   
+.       .       endif
+.       endif
+.       calc    nextmth « clock + month
+.               statsup « mircles « 0
+.       calcs   food=0 $or$ havitem(sifood), food« , food-1
+.       calcs   water=0 $or$ havitem(siwater),water«,water-1
+.       do      showstat
+endif   
+*
+randu   ln1,3
+if      terr = ocean $and$ havitem(siair) = no
+.       do      sysmess
+.       write           You're drowning!
+.       do      deadchk(5)
+elseif  food > 0  $and$  water > 0
+.       calc    ln1 « vital
+.       calcs   infight=0 $or$ havitem(siregen),vital «
+.               min(vital+2,100),,
+.       do      ln1<100 $and$ vital=100,shovital,x
+elseif  ln1 = 1
+.       do      sysmess
+.       writec  water < 1
+.                   You're dying of thirst.
+.                   You're dying of hunger.
+.       do      deadchk(1)
+endif   
+*
+*-- continued in next block
+
+=== block 'update'  kind 00  236 words  (block 12)
+*
+*-- NOTE: if you change this loop, fix unit utimel too!
+*
+loop    myptr {^54} buffptr
+.       calc    add1cyc(myptr,50)
+.               icword « tablew(myptr)
+reloop  groupto{^54}myguide $and$ whoto{^54}me $and$ roomto{^54}myroom  $and$ whoto{^54}mall
+.       calc    opcode « action    $$  type of action
+*
+.       if      opcode=acmess
+.       .       do      showmess
+.       elseif  opcode=acenter
+.       .       do      sysmess
+.       .       write     Someone is in this room!
+.       elseif  opcode = acshpty $and$ whofrom {^54} me
+.       .       if      whofrom = myguide
+.       .       .       do      guidegon
+.       .       else    
+.       .       .       do      sysmess
+.       .       .       write         Your group changed.
+.       .       .       do      shopty(yes,1549)
+.       .       endif   
+.       elseif  opcode=acfood $or$ opcode=acwater
+.       .       calcc   opcode=acfood
+.       .               food « min(food+howmuch,30)
+.       .               water « min(water+howmuch,30)
+.       .       do      sysmess
+.       .       write     Someone gave you something.
+.       .       do      showstat
+.       elseif  opcode=acgivem
+.       .       do      haveitem(0)     $$  open slot?
+.       .       if      return > 0
+.       .       .       do      additem1(givitem,return)
+.       .       .       do      sysmess
+.       .       .       write     Someone gave you something.
+.       .       elseif  whofrom{^54}me
+.       .       .       calc    whoto « whofrom
+.       .       .               tablew(nextict) « icword
+.       .       endif   
+.       elseif  opcode = acboot
+.       .       do      sysmess
+.       .       write     Your guide kicked you out!
+.       .       do      shopty(yes,1549)
+.       elseif  opcode=accure $and$infight=0 $and$vital<100
+.       .       calc    vital« 100
+.       .       do      sysmess
+.       .       write     You suddenly feel better!
+.       .       do      showstat
+.       endif
+endloop 
+calc    uptime « clock + 3      $$  next time to update
+*
+        
+
+=== block 'update'  kind 00  294 words  (block 13)
+unit    deadchk(la1)    $$  dead?  la1 = hits to subtract
+*
+jump    (vital-la1) < 1, dead("hits"),x
+calc    bump(vital,-la1)
+do      shovital
+*
+        
+unit    dead(type)
+        merge,previous
+        type
+calc    Util« 0
+pack    utilbuf,length,«a,myname» just bought the farm.
+do      sendmess[mall,mnews,page(length,10)]
+name    name
+if      guild = 0
+elseif  gmaster(guild,1) {^54} name
+elseif  gmaster(guild,2) {^54} name2
+elseif  gmaster(guild,3) {^54} zgroup
+else    
+.       zero    gmaster(guild,1),3
+endif
+calc    Legacy« 0
+doto    1,ind« 1,nmislot
+calc    inherit(ind)« mislot(nmislot+ind)
+1
+calc    Skill« 0
+do      finish
+inhibit jumpchk
+jumpout <moria>,dead(type)
+*
+        
+unit    ptimel          $$  peace loop timel, minus roomchk
+do      update
+do      guidechk
+timel   timel,ptimel
+*
+        
+unit    ftimel          $$  fight loop timel
+do      update
+do      guidechk
+if      clock > mtime
+.       do      monhit
+.       do      monnums
+endif   
+timel   timel,ftimel
+*
+        
+unit    roomchk                 $$  guide out of room?
+*
+*       sets escape to yes when you leave a room
+*
+do      guidechk        $$  guide still here?
+calc    escape « no
+goto    myroom = room(myguide),q,x    $$  moved?
+*
+*--       Hey jack, we ain't where we thought we were
+*
+calc    la1 « grossy            $$  old room & level
+        la2 « grossx
+        myroom « room(myguide)        $$  new room
+        fine « enterxy(myguide)       $$  fine x,y
+*
+do      sysmess
+if      Ltype(me)=0     $$  just left the room
+.       do      enteroom(grossy-la1,grossx-la2)
+.       do      newgross
+else                    $$  {'46} levels
+.       writec  Ltype(me) - 2
+.                        You went up!
+.                       You went down!
+.                You went to another terrain!
+.       do      newplace(yes)   $$  zap spells!
+.       calc    string « 0
+endif
+calc    escape « yes
+        findobj « findmon « yes
+        Ltype(me) « 0
+*
+        
+unit    guidechk        $$  guide still around?
+*
+in      stashun(myguide)
+goto    zreturn<0 $and$ guide(myguide)=myguide,x,guidegon
+*
+        
+unit    guidegon        $$  no need to check, he's gone
+do      sysmess
+write         Your guide is gone.
+calc    myguide « me
+do      shopty(yes,1549)
+*
+        
+unit    enteroom(la1,la2)       $$  la1=dy, la2=dx
+goto    la1=0 $and$ la2=0,q,x
+*
+write     Leaving the room.  ⌫$$_
+writec  la1,S«s,-la1» ,,N«s,la1»  ⌫$$_
+writec  la2,W«s,-la2»,,E«s,la2»
+*
+        
+
+=== block 'update'  kind 00  239 words  (block 14)
+unit    shopty(la1,la2)    $$ show group at la2
+if      la1 = yes
+.       at      la2
+.       erase   11,10
+endif   
+calc    lind « 0
+        ln1 « 0
+loop    incr(lind) {^72} maxslot
+reloop  guide(lind) {^54} myguide
+outloop ln1{^73}10
+.       at      la2 + 100*incr(ln1)-100
+.       writec  lind=myguide,*, ,,
+.       showa   pseudo(lind)
+endloop 
+*
+        
+unit    shoitems(la1)           $$  la1=erase
+if      la1
+.       at      1002
+.       color   display;zwhite;zblack
+.       erase   15,12
+endif
+*
+calc    lind « 0
+loop    incr(lind) {^72} nmislot
+reloop  mislot(lind) = 0
+.       at      902 + 100*lind
+.       showa   iname( mislot(lind) ),nichnam
+endloop 
+*
+if      numuse > 0
+.       draw    902 + 100*numuse ; 127,368-16*numuse
+endif
+do      c(zwhite)
+*
+        
+unit    additem1(la1,la2)       $$  item, slot
+calc    mislot(la2) « la1
+do      shoitems(yes)
+do      effstats
+do      shospell(no)
+*
+        
+unit    groupchg
+calc    icword « 0
+        whofrom « me
+        groupto « myguide
+        action « acshpty
+        tablew(nextict)« icword
+*
+        
+unit    joinpty(la1)    $$ join group of person la1
+calc    myguide« guide(la1)
+goto    groupchg
+*
+        
+unit    sysmess
+if      (smerase-clock)>4 $and$ smerase{^54}10**30
+.       pause   2
+endif
+at      2618    $$  sysmess
+erase   30      $$  sysmlen
+calc    smerase« clock+8
+*
+        
+unit    showmess        $$  show message(myptr)
+*
+at      messat(messlin)         $$  erase old arrow
+erase   1
+calc    add1cyc(messlin,4)      $$  next line
+at      ln1 « messat(messlin)
+erase   64
+write   {^'04}
+showa   pseudo(whofrom)
+writec  mestype,,,-room:,-you:,-talk:,News bulletin:
+at      ln1 + 19
+showa   message(mptr),messlen*10
+*
+        
+unit    shospell(la1)
+color   display;zwhite;zblack
+if      la1
+.       at      402
+.       erase   15,4
+endif   
+at      402
+writec  lite,-,,Light
+at      502
+writec  treas,-,,Detect Treasure
+at      602
+writec  protect,-,,Protection
+do      c(zwhite)
+*
+        
+
+=== block 'group stuf'  kind 00  314 words  (block 15)
+unit    join
+at      3203
+write   Join whom?
+do      whom(mroom,yes)
+at      3203
+erase   25
+goto    escape $or$ return=me,q,x
+*
+if      myguide=me              $$ pass the lead
+.       calcs   guide(return)=me,tn1« return,guide(return),,
+.       calc    Guide « select( Guide=me,tn1,Guide )
+else                            $$ changing groups
+.       goto    guide(return)=myguide,q,x
+.       do      groupchg
+.       do      sysmess
+.       write       You've joined a group.
+endif
+do      joinpty(return)
+do      shopty(yes,1549)
+*
+        
+unit    leave   $$ go off on your own
+do      groupchg
+calc    myguide « me
+do      sysmess
+write      You have left your group.
+do      shopty(yes,1549)
+*
+        
+unit    kickit
+goto    myguide = me,x,q
+at      3203
+write   Kick whom?
+do      whom(mgroup,no)
+at      3203
+erase   25
+goto    escape,q,x
+*
+calc    guide(return) « return
+        icword « 0
+        action « acboot
+        whoto « return
+        tablew(nextict) « icword
+        icword « 0
+        action « acshpty
+        groupto « me
+        tablew(nextict) « icword
+*
+        
+unit    give
+*
+at      2025
+write   Give what, Sire?
+          1) food
+          2) water
+          3) magic item
+do      pausei(3)
+at      2025
+erase   16,4
+goto    ktype,q,q,giveaway(ktype)
+*
+        
+unit    giveaway(givtype)    $$  1=food 2=water 3=magic
+timel   timel,ptimel
+at      2025
+if      givtype = 1       $$  food
+.       write    How much food?
+.       at      2128
+.       do      getnum(1,food)
+elseif  givtype = 2       $$  water
+.       write   How much water?
+.       at      2128
+.       do      getnum(1,water)
+else                    $$  magic item
+.       write   What item, sire?
+.       do      getitem(2225,2,1,1)
+endif   
+at      2025
+erase   17,2
+goto    escape,q,x
+*
+calc    givewrk « return        $$  save return
+at      3203
+write   Give to whom?
+do      whom(mroom,no)
+at      3203
+erase   30
+goto    escape,q,x
+*
+calc    icword « 0
+if      givtype = 1
+.       calc    food « max(food-givewrk,0)
+.               action « acfood
+.               howmuch « givewrk
+.       do      showstat
+elseif  givtype = 2
+.       calc    water « max(water-givewrk,0)
+.               action « acwater
+.               howmuch « givewrk
+.       do      showstat
+elseif  givtype = 3
+.       calc    givitem « givewrk
+.               action « acgivem
+.       do      delitem(givewrk,1)
+.       do      shoitems(yes)
+endif   
+*
+calc    whoto « return
+        whofrom « me
+        tablew(nextict) « icword
+*
+        
+
+=== block 'peace pray'  kind 00  225 words  (block 16)
+unit    ppray
+at      2026
+write   1)  Purify Water
+        2)  Create Food
+        3)  Create Water
+if      guild = PIE
+.       at      2326
+.       write   4)  Cure Group
+.       do      pausei(4)
+else    
+.       do      pausei(3)
+endif
+at      2026
+erase   16,4
+goto    ktype,q,q,purify,createf,createw,cureg
+*
+        
+unit    purify
+do      sysmess
+if      object(x,y) {^54} 3
+.       write        No poison water here!
+else    
+.       do      success(epie,100,100)   $$   piety%
+.       if      return<0
+.       .       write          Water is poison!
+.       else    
+.       .       write           Water is good!
+.       .       calc    water « 30
+.       endif   
+.       randu   tn1,50
+.       do      deadchk(tn1)
+.       do      showstat
+endif   
+*
+        
+unit    createf
+randu   tn1,50
+do      deadchk(tn1)
+do      success(epie,100,100)   $$   piety%
+do      sysmess
+if      return<0
+.       write       No answer from the gods!
+else
+.       write         The food is yours!
+.       calcs   food < 30, food « food + 1,,
+endif   
+do      showstat
+*
+        
+unit    createw
+randu   tn1,50
+do      deadchk(tn1)
+do      success(epie,100,100)   $$   piety%
+do      sysmess
+if      return<0
+.       write       No answer from the gods!
+else    
+.       write        The water is yours!!
+.       calcs   water < 30, water « water + 1,,
+endif   
+do      showstat
+*
+        
+unit    cureg
+do      success(epie,50,100)    $$   piety%
+if      return<0
+.       randu   tn1,50
+.       calc    bump(vital,-tn1)
+.       do      sysmess
+.       write       No answer from the gods!
+.       do      showstat
+else    
+.       do      curegrp
+endif   
+*
+        
+unit    curegrp $$ cure whole group (also done by useitem)
+calc    icword « 0
+        action « accure
+        groupto « myguide
+        whofrom « me
+        tablew(nextict) « icword
+do      sysmess
+write               Done!
+*
+        
+
+=== block 'peace spel'  kind 00  216 words  (block 17)
+define  purge,local
+define  local,global
+use     d-map
+*
+        
+unit    pcast
+do      c(zwhite)
+at      2026
+write   1)  Light
+        2)  Passwall
+        3)  Precognition
+        4)  Protection
+if      guild = WIZ
+.       at      2426
+.       write   5)  Teleport to city
+.       do      pausei(6)
+else    
+.       do      pausei(5)
+endif
+at      2026
+erase   20,5
+goto    ktype,q,q,x
+*
+do      deadchk(spcost(1,wiz))
+do      terr=city $or$ havitem(sicureg),x,statup(WIZ)
+do      success(ewiz,100,10)
+goto    return<0,q,x    $$  spell no work!
+do      ktype,x,x,
+        light
+        move
+        treas
+        protect
+        teleport
+        gldcheat
+*
+        
+unit    light
+calc    lite « 1                $$  on!
+do      shospell(no)
+do      newgross        $$ re-gen maze for lite on
+*
+        
+unit    move
+goto    nmw {^54} 3,q,x     $$  no wall in front of you
+do      sysmess
+write            Opening Way
+*  iff it's an interior wall, make it a secret door
+calcs   mod(x+dx,7){^54}0 $and$ mod(y+dy,7){^54}0, nmw « 2,,
+do      breakdor
+*
+        
+unit    protect
+calc    protect « 1                $$  on!
+do      shospell(no)
+*
+        
+unit    treas
+calc    treas « 1                $$  on!
+do      shospell(no)
+*
+        
+unit    teleport        $$ .. to city (also done by useitem)
+do      mayigo(yes)
+goto    return,x,q
+calcc   terr=city,,string« 0
+calc    findmon« findobj« no
+        myat« stairat
+        Ltype« select(Guide=me,3,Ltype)
+do      newplace(yes)
+*
+        
+unit    gldcheat
+        merge,previous
+        itemnum
+calc    gold « 1000000
+*calc    lexper « lexper + 7000
+calc    lev « lev + 40
+*do      genitem
+arrow   3001
+store   itemnum
+ansv    300,300
+endarrow
+do      additem(itemnum)
+calc    lev « lev - 40
+*
+
+=== block 'monsters'  kind 00  259 words  (block 20)
+define  purge,local
+define  local,global
+use     g-monsters
+use     g-montable
+use     g-quest
+use     d-monlocal
+*
+        
+unit    monster         $$  found a monster via monsbit
+        merge,previous
+        ringing
+*
+calc    myshare « 0     $$  credit for fighting, treasure
+do      getmonst        $$  get/generate monster slot
+if      mondead(mymons) < 1     $$  already dead
+.       calc    monsbit(mymonsb,x,y) « 0
+.       goto    q
+endif   
+*
+calc    ringing« (myat = ringat)        $$ ring encounter
+if      ringing
+.       at      521
+.       write   You've met the guardian
+.                of the Reaper's Ring.
+.                    NEXT to fight
+.                    BACK to leave
+.       do      pausep
+.       at      521
+.       erase   23,4
+.       if      key {^54} next
+.       .       calc    findmon « findobj « no
+.       .       goto    q
+.       endif
+endif
+*
+seed            $$  system seed
+calc    busy(me) « 1    $$  can't move, fighting
+do      roomchk         $$  leader left room yet?
+goto    escape,q,x
+*
+do      shovital        $$  show vital before fighting
+*
+calc    infight « 1     $$  your fight bit in char record
+do      monsloop        $$  loop till monsters Å you dead
+calc    busy(me)« 0
+        infight « 0
+timel           $$  clear monster timel, just in case
+*
+if      monsiat(mymons) {^54} myat        $$%
+.       calc    Util « 0
+.       pack    utilbuf,,«o,moninfo(mymons)»
+.       pack    util4,,«o,atword»
+.       jump    error(util1,util2,util3,util4,util5)
+endif   
+goto    run,q,x         $$  chickened out
+*
+calc    monsbit(mymonsb,x,y) « 0
+catchup
+if      ringing
+.       calc    fndring« lev
+.               bump(mexper,2500*lev)
+.               bump(lexper,2500*lev)
+.       calcc   age>215,bump(age,-60),,
+.       do      showstat
+.       do      sysmess
+.       write   The ring has worked its magic!
+.       if      myat = ringat
+.       .       do      rescom
+.       .       if      myat = ringat
+.       .       .       do      movering
+.       .       endif
+.       .       release common
+.       endif
+endif
+do      genitem
+do      treasure
+do      showstat
+calc    findobj « yes
+*
+        
+
+=== block 'mons loop'  kind 00  218 words  (block 21)
+unit    monsloop        $$  monster fight loop
+        merge,previous
+        floating: now
+*
+*  normal exit if done fighting, death jump otherwise
+*       run = yes means you ran
+*
+calc    run « no
+do      pickmons        $$  sets which monster to fight
+goto    which1 < 1,q,x  $$  no one left
+*
+if      treas = 1
+.       at      2024
+.       writec  tvalue(mymons) > 1,Treasure Detected!,,
+endif   
+do      shomons         $$  show the monsters
+*
+inhibit term,anserase   $$  damn cheaters
+data1
+back1
+data
+*
+catchup
+randu   tn1,100         $$  who gets first hit?
+do      tn1 > ecun, monhit,x
+calc    pmhits« (monhits(mymons,1) + monhits(mymons,2) +             monhits(mymons,3)) * levhits / mh
+loop    not(run) $and$ mondead(mymons) > 0
+.       at      1025
+.       write   Options (HELP) »
+.       do      pausef(7)       $$  hit every seventh sec
+.       do      key=help,fopts,x        $$  fight options
+outloop mondead(mymons) < 1     $$  monster dead
+.       keytype ktype,f,c,p,e,r,t,b
+reloop  ktype < 0               $$  wrong key
+.       at      1025
+.       erase   17
+.       do      ktype,x,
+.               fight     $$  fight monster
+.               fcast     $$  cast spell
+.               pray      $$  pray options
+.               evade     $$  dodge the monsters
+.               run       $$  run away from monsters
+.               trick     $$  trick monsters
+.               bribe     $$  bribe monsters
+.       do      pickmons
+endloop 
+calc    now« (monhits(mymons,1)+ monhits(mymons,2)+               monhits(mymons,3)) * levhits / mh
+        bump(mexper,abs(pmhits-now))
+        bump(lexper,abs(pmhits-now))
+        pmhits« now
+*
+inhibit         $$  clear inhibit term
+inhibit anserase
+data1   main
+back1   entry
+dataop  showstat
+*
+at      420     $$  top box
+erase   26,8
+at      1922    $$  bottom box
+erase   22,7
+*
+        
+
+=== block 'mons loop'  kind 00  127 words  (block 22)
+unit    pausef(rtime)           $$  rtime=time/round
+        merge,previous
+        floating: now
+*
+loop    mondead(mymons) > 0
+.       calc    now« (monhits(mymons,1)+ monhits(mymons,2)+               monhits(mymons,3)) * levhits / mh
+.               bump(mexper,abs(pmhits-now))
+.               bump(lexper,abs(pmhits-now))
+.               pmhits« now
+.       timel   $$% system kludge cuz of error with catchup
+.       do      monnums
+outloop which1 < 1              $$  none left
+.       if      clock > mtime
+.       .       do      monhit
+.       endif   
+.       if      clock > uptime
+.       .       do      update
+.       .       do      guidechk
+.       endif
+.       pause   3,keys=all
+reloop  key = timeup
+.       keytype ktype,m,M,Y,n,h
+outloop ktype < 0
+.       timel   rtime,ftimel
+.       do      ktype,x,
+.               mesroom         $$  message to room
+.               whisper         $$  whisper
+.               messplay        $$  message to a player
+.               smallplt        $$  replot center
+.               cryhelp         $$  scream!!
+endloop 
+*
+        
+
+=== block 'mons opts'  kind 00  275 words  (block 23)
+unit    evade
+*
+at      1020
+erase   26
+write   Evading.  BACK for options
+catchup
+*
+loop
+.       do      pausef(15)
+outloop key=back $or$ mondead(mymons)=0
+endloop 
+at      1020
+erase   26
+*
+        
+unit    trick
+*
+do      success[ ecun,monlev,cltrick(monclas) ]
+if      return > 0
+.       do      hitmonst(levhits) $$  tricked him!
+else
+.       at      1024
+.       write   Trick didn't work.
+endif   
+do      monhit
+pause   2
+do      statup(CUN)
+at      1022
+erase   24
+*
+        
+unit    fight
+*
+at      1022
+do      success[ eval+offen, monlev-lev, clfight(monclas) ]
+*
+goto    monhits(mymons,which1) < 1,q,x
+*
+if      guild = VAL $and$ return > 0
+.       randu   tn1,20
+.       if      tn1 {^72} rank
+.       .       do      hitmonst(levhits)
+.       else
+.       .       do      hitmonst[ page(return,4) ]
+.       endif   
+elseif  return > 0
+.       do      hitmonst[ page(return,7) ]
+else
+.       write         You missed.
+endif   
+do      statup(VAL)
+do      monhit
+pause   2
+at      1022
+erase   24
+*
+        
+unit    run
+do      monhit
+do      runfrom[ ecun - ecun*havitem(sirun) ]
+do      statup(CUN)
+*
+        
+unit    runfrom(a1)     $$  pass in cunning or piety
+pause   2
+do      success[ a1,monlev,clrun(monclas) ]
+goto    return,q,x
+calc    findmon « findobj « no
+        run « yes
+        bump[ shares(mymons),-myshare ]
+        myshare « 0
+at      1027
+write   You made it!
+pause   2
+at      1027
+erase   12
+*
+        
+unit    hitmonst(a1)    $$  hit monster (which1) a1 times
+*
+at      1022
+erase   24
+calcs   a1 < 1, a1 « 1,,
+calcs   a1 > levhits, a1 « levhits,,
+randu   tv1
+calc    tv2« a1*mh/levhits
+        tn1« int(tv2)-(tv1{^72}frac(tv2))   $$ physical hits
+        bump(myshare,tn1)
+if      tn1 < cycle(monhits(mymons,which1),mh)
+.       write     You hit it «s,a1» time«a,'s'$mask$(a1{^54}1)».
+else    
+.       do      c(zwhite)
+.       write    You killed a monster.
+.       if      mtype(monind)=canimal $and$ msflag(monind)=3
+.       .       calc    food « min(food+1,30)
+.       .       do      showstat
+.       endif   
+.       do      shoexper
+endif   
+calcs   monhits(mymons,which1)<tn1,monhits(mymons,which1)«
+        0, monhits(mymons,which1)-tn1
+*
+        
+
+=== block 'mons opts'  kind 00  264 words  (block 24)
+unit    bribe
+atnm    2019
+erase   26,4
+at      2027
+write   Bribe with:
+          1) Item
+          2) Money
+        BACK for options.
+do      pausef(7)
+keytype ktype,1,2,i,m
+at      2026
+erase   18,4
+goto    ktype,q,x
+timel   rtime,ftimel
+if      ktype = 0 $or$ ktype = 2
+.       write   What item, Sire?
+.       do      getitem(2126,2,1,1)
+.       at      2026
+.       erase   20
+.       goto    escape,q,x
+.       do      delitem(return,1)
+.       calcs   weapon(return),return«,
+.               oeffect(return)**4 + deffect(return)**4,
+.               micost(return)**4
+.       do      shoitems(yes)
+else    
+.       write   How much, Sire?
+.       at      2126
+.       do      getnum(1,gold)
+.       at      2026
+.       erase   15,2
+.       goto    escape,q,x
+.       calc    bump(gold,-return)
+.       do      showstat
+endif
+randu   tn1,5000*lev
+goto    return<(7500*lev+tn1),q,x
+if      monhits(mymons,which1) < mh
+.       calc    monhits(mymons,which1)« 0
+else    
+.       calc    bump(monhits(mymons,which1),-mh)
+endif
+calc    findmon « findobj « no
+        run « yes
+        bump[ shares(mymons),-myshare ]
+        myshare « 0
+at      1019
+write   It ran away and you escaped!
+catchup
+pause   2
+at      1019
+erase   28
+*
+        
+unit    monhit          $$  monster hit YOU
+goto    monhits(mymons,which1) < 1,q,x  $$  dead
+calc    mtime « clock + rtime
+do      success[ monlev,eval+defen,clattck(monclas) ]
+at      1121
+erase   25
+calc    return « page(return,7)
+calcc   guild=VAL,return« return/2,,    $$ knights take 1/2
+if      return > 0
+.       write   Monster hit you  ⌫$$_
+.       show    return
+.       write    time«a,'s' $mask$ (return{^54}1)».
+.       do      deadchk(return)
+else    
+.       write        Monster missed.
+endif   
+*
+        
+unit    fopts
+at      2020
+erase   26
+at      2025
+write   f-fight  t-trick
+        p-pray   r-run
+        c-cast   e-evade
+        b-bribe  h-HELP!!
+*
+        
+unit    cryhelp
+*
+do      sysmess
+write          Crying for HELP!
+calc    Util« 0
+pack    utilbuf,length,HELP!!  HELP!!
+do      sendmess[myroom,mroom,page(length,10)]
+*
+        
+
+=== block 'fight pray'  kind 00  175 words  (block 25)
+unit    pray
+*
+at      1019
+erase   29
+write   Praying!  (1,2,3,4,HELP,BACK)
+loop
+.       do      pausef(7)
+.       keytype ktype,back,1,2,3,4
+outloop ktype{^73}0 $or$ mondead(mymons)<1
+.       do      key=help,prayhelp,x
+endloop 
+at      1019
+erase   29
+at      2020
+erase   24,6
+goto    ktype = 0,q,x
+*
+do      statup(PIE)
+*
+do      ktype,x,x,
+        pholywd
+        runfrom(epie)
+        pmiracle
+        punction
+do      monhit
+pause   2
+at      1019
+erase   28
+*
+        
+unit    prayhelp
+at      2020
+erase   24,5
+at      2025
+write   Prayer Options:
+         1) Holy Word
+         2) Escape
+         3) A Miracle
+         4) Unction
+*
+        
+unit    pholywd
+*
+randu   return,10       $$ clerics resist pray
+goto    monclas=ccleric $and$ return > 1,q,x
+do      success[ epie,monlev,clpray(monclas) ]
+do      return,x,hitmonst(levhits)
+*
+        
+unit    pmiracle
+*
+randu   return,10       $$ clerics resist pray
+goto    monclas=ccleric $and$ return > 1,q,x
+goto    mircles > page(piety,33),q,x
+do      success[ epie,monlev,clpray(monclas) ]
+goto    return < 50,q,x
+*
+calc    bump(myshare,monhits(mymons,which1))
+        monhits(mymons,which1)« 0
+        add1(mircles)
+at      1020
+write   Your prayers are answered!
+*
+        
+unit    punction
+do      success[ epie,20*vital,100 ]
+goto    return,q,x
+randu   tn1,101-vital
+calc    bump(vital,tn1-1)
+do      showstat
+*
+        
+
+=== block 'fight spel'  kind 00  283 words  (block 26)
+define  purge,local
+define  local,global
+use     g-monsters
+use     g-montable
+use     g-quest
+use     d-monlocal
+*
+        
+unit    fcast
+*
+at      1018
+write   Casting! (1,2,3,4,5,HELP,BACK)
+loop
+.       do      pausef(7)
+.       keytype ktype,back,1,2,3,4,5
+outloop ktype{^73}0 $or$ mondead(mymons)<1
+.       do      key=help,fspelhlp,x
+endloop 
+at      1018
+erase   30
+at      2020
+erase   24,6
+goto    ktype < 1,q,x
+*
+*-- ok, go ahead and throw it.
+*
+do      deadchk(spcost(1,ewiz))
+randu   return,10       $$ MUs resist spells
+goto    monclas=cmu $and$ return > 1,q,x
+calcs   guild=WIZ,tn1« rank,1
+calc    tn2« mtype(monind)-2
+if      ktype = 1       $$ paralyze
+.       calcs   tn2,tn2« 5,1,5,1,8,2,5,5
+.       do      allnone(tn1,tn2)
+elseif  ktype = 2       $$ charm
+.       calcs   tn2,tn2« 5,1,5,5,8,4,2,5
+.       do      allnone(tn1,tn2)
+elseif  ktype = 3       $$ dispell magic
+.       calcs   tn2,tn2« 1,7,9,7,1,7,9,1
+.       do      allnone(tn1,tn2)
+elseif  ktype = 4       $$ magic missile
+.       calcs   tn2,tn2« 3,5,3,6,6,6,6,6
+.       do      damage(tn1,tn2)
+elseif  ktype = 5       $$ sleep
+.       calcs   tn2,tn2« 5,1,5,3,8,2,5,5
+.       do      allnone(tn1,tn2)
+endif
+catchup
+do      monhit          $$  kick him once for good luck
+pause   2
+at      1019
+erase   26
+*
+        
+unit    fspelhlp
+at      2020
+erase   24,5
+at      2025
+write   Spell Options:
+         1) Paralyze
+         2) Charm
+         3) Dispell Magic
+         4) Magic Missile
+         5) Sleep
+*
+        
+unit    allnone(r,e)    $$ rank [1..5], effectiveness [1..9]
+        merge,previous
+        r,e
+randu   r,r
+calc    ind « 0
+        sind « 8 * clspell(mtype(monind)) * (9/(5+e))
+loop    incr(ind) {^72} r
+outloop monhits(mymons,which1) < 1
+.       do      success[ewiz,mlevel(monind),sind]
+.       do      return>0,hitmonst(levhits),x
+.       do      statup(WIZ)
+endloop 
+*
+        
+unit    damage(r,e)     $$ rank [1..5], effectiveness [1..9]
+        merge,previous
+        r,e
+randu   r,r
+calc    ind « 0
+        sind « 4 * clspell(mtype(monind)) * (9/(5+e))
+loop    incr(ind) {^72} r
+outloop monhits(mymons,which1) < 1
+.       do      success[ewiz,mlevel(monind),sind+e]
+.       randu   tn1,levhits
+.       do      return>0, hitmonst(tn1),x
+.       do      statup(WIZ)
+endloop 
+*
+        
+
+=== block 'getmonster'  kind 00  309 words  (block 27)
+unit    getmonst        $$  generate and store monster
+        merge,previous
+        prmlist(3)      $$ permutation list for -randp-
+*
+*-- calculate (logical) hits per monster
+calcs   terr = wild, levhits « 1, dfact * (page(lev,2)+1)
+*
+loop
+.       do      findmons        $$  one already there?
+.       goto    mymons > 0,q,x  $$  one there
+.       reserve common
+outloop zreturn < 0
+.       pause   .75
+endloop 
+*
+do      findmons        $$  monster there now?
+if      mymons > 0
+.       release common
+.       goto    q
+endif
+*
+calc    ind «  0        $$  find unused slot
+loop    incr(ind) {^72} amlen
+.       calc    sind « cycle(slotind+ind,amlen)
+outloop monsiat(sind) = 0
+.       find    moninfo(sind),slot(1),maxslot,return,1,maskr
+outloop return < 0
+endloop 
+*
+jump    ind > amlen, error('no mslot'),x  $$%
+*
+calc    mymons « slotind « sind
+        mslot(mymons) « 0
+        moninfo(mymons) « 0
+        monsiat(mymons) « myat  $$  location
+        shares(mymons) « 2*mh   $$  finder + opener fees
+        myshare « mh            $$  finder's fee
+*
+seed                    $$  generate monster now
+calcs   page(lev,2), tn2« ,,1,1,2,2,3,3 $$  # of groups
+calcs   page(lev,2), tn4« ,,1,2,2,4,4,6,8,8,8,8,8+dfact
+*
+if      myat = ringat   $$ you found the reaper's ring
+.       calc    ind« 0
+.       loop    add1(ind) {^72} tn2 $$ max groups
+.       .       calcs   ind-2,monnums(mymons,ind)« 95,98,100
+.       .       calc    tn3 « mh*tn4    $$  max monsters
+.       .               monhits(mymons,ind) « tn3
+.       .               bump( shares(mymons),tn3 )
+.       endloop 
+.       release common
+.       goto    q
+endif
+*
+randu   tn2,tn2
+block   monterr(terr),prmlist(1),3
+calc    tn1 « 0         $$  highest monster
+        ind « 0
+loop    incr(ind) {^72} tn2
+.       randp   monind,prmlist(1)       $$  monster index
+.       randu   tn3,tn4                 $$  # monsters
+.       calcs   mlevel(monind) > tn1, tn1 « mlevel(monind),,
+.       calc    monnums(mymons,ind) « monind
+.               tn3 « mh*tn3    $$  total physical hits
+.               monhits(mymons,ind) « tn3
+.               bump( shares(mymons),tn3 )
+endloop 
+*
+randu   tn2,100+tn1
+if      tn2 > 40
+.       randu   tv1
+.       calc    tn2« levhits+shares(mymons)
+.               tn2« 25*[tn2-10+10*tv1] + 100*lev
+.               ttaken(mymons) « 1
+.       randu   tn1,100-lev
+.       calcs   tn1<4, tvalue(mymons)« tn2+1000*lev*tn1,tn2
+endif   
+release common
+*
+        
+unit    findmons        $$  find monster in my room
+*       mymons = index of monster, 0 if not found
+*
+find    atword,moninfo(1),amlen,return,1,maska
+calc    mymons « return+1
+*
+        
+
+=== block 'mons utils'  kind 00  178 words  (block 30)
+unit    shomons         $$  show monster names and chars
+calc    ind« 0
+        allshow« 0
+loop    incr(ind) {^72} 3
+reloop  monhits(mymons,ind) < 1
+.       calc    sind « monnums(mymons,ind)
+.               shown(ind)« yes
+.       at      416 + 8*ind
+.       do      showmons[ mchar( sind ) ]
+.       at      527+100*ind
+.       showa   mname(sind),nmchnam
+endloop 
+*
+        
+unit    monnums         $$  show #s of monsters, erase dead
+*
+findall atword,slot(1),maxslot,return,0,1,maska
+at      1927
+showt   return,2
+writec  return-2
+         Fighter  ⌫$$_
+         Fighters
+*
+calc    ind « 0         $$  erase dead monsters
+loop    incr(ind) {^72} 3
+reloop  shown(ind)=no $or$ monhits(mymons,ind)>0
+.       at      416 + 8*ind
+.       erase   4,2
+.       at      525 + 100*ind
+.       erase   20
+.       calc    shown(ind)« no
+endloop 
+*
+do      monhits(mymons,which1)<1, pickmons,x
+goto    which1 < 1,q,x  $$  none left
+*
+at      624             $$  numbers
+erase   2,3
+calc    ind « 0
+loop    incr(ind) {^72} 3
+.       calc    tn1« ceiling[monhits(mymons,ind)/mh]
+reloop  tn1 {^72} 0
+.       at      100*ind+524
+.       showt   tn1,2
+endloop 
+*
+        
+unit    pickmons
+seed
+setperm 3
+loop
+.       randp   which1
+.       goto    which1 < 1,q,x  $$  none left
+outloop monhits(mymons,which1) > 0
+endloop 
+calc    monind « monnums(mymons,which1)
+        monlev « mlevel(monind) + lev
+        monclas « mtype(monind)
+at      623
+erase   1,3
+at      523 + 100*which1
+write   {^'04}
+*
+        
+
+=== block 'treasure'  kind 00  214 words  (block 31)
+unit    treasure    $$ open the chest, and split the goodies
+goto    tvalue(mymons) < 1,q,x
+*
+at      432
+write   {75}{^'57}{^57}{75}
+at      522
+write   You found a treasure!
+        Press NEXT to open it,
+            BACK to leave.
+catchup
+*
+loop    ttaken(mymons)=1
+.       pause   1,keys=all
+outloop key = back
+.       if      key=next $and$ ttaken(mymons)=1
+.       .       calc    ttaken(mymons)« 0
+.       .               bump( myshare,mh )
+.       .       randu   tn1,ecun
+.       .       at      829
+.       .       if      tn1 = 1
+.       .       .       calc    tn1 « 2*lev-ecun
+.       .       .               tn1 « max(50,tn1)
+.       .       .       randu   tn1,tn1
+.       .       .       write   Trapped!
+.       .       .       do      deadchk(tn1)
+.       .       .       catchup
+.       .       else    
+.       .       .       write   Opening!
+.       .       endif   
+.       else    
+.       .       do      clock > uptime,update,x
+.       .       do      soptions
+.       endif
+endloop 
+at      422
+erase   24,5
+goto    key = back,q,x          $$  no goodies tonight
+*
+calc    tn1 « [myshare/shares(mymons)]*tvalue(mymons)
+        myshare « 0
+        gold« min(gold+tn1,1 000 000)
+write   Your share is $
+show    tn1
+randu   tn3,tn1
+calc    bump(tn1,-tn3)
+at      525
+writec  tn2« page(tn1,20000)-1,-,,
+        A diamond,
+        «s,tn2» diamonds
+writec  tn2« page(bump(tn1,-20000*tn2),4000)-1,-,,
+        An emerald,
+        «s,tn2» emeralds
+writec  tn2« page(bump(tn1,-4000*tn2),800)-1,-,,
+        A ruby,
+        «s,tn2» rubies
+writec  tn2« page(bump(tn1,-800*tn2),150)-1,-,,
+        A pearl,
+        «s,tn2» pearls
+write   
+        «s,tn1+tn3 - 150*tn2» in gold coins
+write   .       $$ quack
+catchup         $$ let him see the message
+*
+do      pausep
+at      422    $$ and then erase it..
+do      c
+erase   24,7
+*
+        
+
+=== block 'strings!'  kind 00  119 words  (block 32)
+define  purge,local
+define  local,global
+use     d-map
+*
+        
+unit    stringme
+*
+at      2022
+write   NEXT to tie your string
+do      pausep
+at      2022
+erase   23
+goto    key = next,x,q
+*
+calc    string « mypos
+do      sysmess
+write                Tied
+*
+        
+unit    findend         $$  find end of string
+*
+do      mayigo(terr{^54}city)
+do      c(zgreen)
+goto    escape,q,x
+if      string = 0
+.       do      sysmess
+.       write    String not tied to anything!
+.       goto    q
+endif
+*
+at      2020
+write   NEXT to find end of string
+do      pausep
+at      2020
+erase   26
+goto    key = next,x,q
+*
+randu   tn1,100
+do      sysmess
+if      tn1 < (1+lev/10)  $and$  terr {^54} city
+.       write            It's BROKEN!
+.       calc    string « 0
+else    
+.       calc    tn1 « stringy - grossy
+.               tn2 « stringx - grossx
+.               mypos « string
+.       do      enteroom(tn1,tn2)
+.       do      newgross
+endif   
+*
+        
+
+=== block 'magic item'  kind 00  312 words  (block 33)
+define  purge,local
+define  local,global
+use     d-monlocal
+*
+        
+unit    genitem         $$  randu a magic item after fightin
+calc    tn1« select(guild=CUN,5,10)*(4-page(lev,20))
+calcs   tn1<5, tn1«5,,
+randu   tn1,tn1
+goto    tn1 > 1,q,x     $$  no item this time
+*
+randu   aitem,nmitem
+calcs   weapon(aitem)=1, tn1 «
+        oeffect(aitem) + deffect(aitem) - 20
+        micost(aitem) - 5
+goto    tn1 > lev,q,x     $$  too nice for puds
+*
+at      521
+write   You have found something:
+        press NEXT to pick up or
+              BACK to leave!
+at      823
+do      shoiname(aitem)
+catchup
+loop
+.       do      pausep
+.       keytype ktype,back,next
+outloop ktype {^73} 0
+endloop 
+at      520
+erase   28,6
+goto    key = next, additem(aitem),x
+*
+        
+unit    additem(aitem)  $$  add item aitem
+loop
+.       do      haveitem(0)     $$  have a zero slot?
+outloop return > 0
+.       at      523
+.       write    Too much to carry!
+.                 1)  drop an item
+.                 2)  info an item
+.                 3)  give an item
+.                  {^55}BACK to leave
+.       catchup
+.       do      pausei(3)
+.       at      523
+.       erase   22,5
+.       goto    ktype=0,q,x
+.       do      ktype-2,dropitem,info,giveaway(3)
+endloop 
+goto    additem1(aitem,return)
+*       Note, additem1 is in block update because of
+*       update calling it when you receive a gift!
+*
+        
+*-------  These units work with slots in the Skill array
+*
+        
+unit    haveitem(a1)         $$  have item a1
+*       return  = index into mislot of the item: 0=not found
+*
+calc    return « 0              $$  find the item
+        ind « 0
+loop    incr(ind) {^72} nmislot
+reloop  mislot(ind) {^54} a1  $$  wrong item
+.       calc    return « ind
+outloop yes
+endloop 
+*
+        
+unit    dropitem
+*       escape  = set if nothing is dropped
+*       return  = index of the dropped slot
+*
+at      2024
+write   Drop which item?
+do      getitem(2226,2,1,1)
+at      2024
+erase   20
+goto    escape,q,x
+do      delitem(return,1)
+do      shoitems(yes)
+*
+        
+unit    delitem(ditem,search)   $$  delete item ditem
+*entry: ditem   = item to delete
+*       search  = 0: either, 1: item slots, 2: guild lockers
+        merge,previous
+        search,limit
+calcs   search-1,ind« 0,0,nmislot
+calcs   search-1,limit« 2*nmislot,nmislot,2*nmislot
+loop    incr(ind) {^72} limit
+outloop mislot(ind) = ditem
+endloop 
+goto    ind > limit,q,x
+calcs   ind {^72} numuse, numuse«numuse-1,,
+loop    ind < limit
+.       calc    mislot(ind) « mislot(ind+1)
+.               add1(ind)
+endloop 
+calc    mislot(limit) « 0
+do      effstats
+*
+        
+
+=== block 'magic item'  kind 00  292 words  (block 34)
+unit    oneshot $$ one shot magic item
+        merge,previous
+        i,j
+at      521
+write   You have found something:
+        press NEXT to pick it or
+              BACK to leave!
+        
+writec  terr-4{^56}
+             A Crystal Crocus{^56}
+               A Wildflower{^56}
+              A Magic Apple{^56}
+               A Mushroom{^56}
+              A Sea Anemone
+catchup
+loop
+.       do      pausep
+.       keytype ktype,back,next
+outloop ktype {^73} 0
+endloop 
+at      520
+erase   28,6
+goto    key=next,x,q
+*
+randu   i,4
+if      i = 1   $$ stat change
+.       if      guild = 0
+.       .       randu   i,4
+.       else    $$ only 1/7 chance of affecting guild stat
+.       .       randu   i,7
+.       .       calc    i« cycle(guild+i,4)
+.       endif
+.       randu   j,3
+.       if      j < 3 $and$ myskill(i) < 100    $$ 2/3 raise
+.       .       calc    bump(myskill(i),1)
+.       .               j« 'more'
+.       elseif  myskill(i) > 2                  $$ 1/3 lower
+.       .       calc    bump(myskill(i),-2)
+.       .               j« 'less'
+.       else    
+.       .       calc    j« 0
+.       endif
+.       if      j = 0
+.       .       do      sysmess
+.       .       write          Nothing happens.
+.       else    
+.       .       do      sysmess
+.       .       writec  i-2{^56}
+.       .                   You feel «a,j» cunning!{^56}
+.       .                    You feel «a,j» pious!{^56}
+.       .                  You feel «a,j» valorous!{^56}
+.       .                  You feel «a,j» wizardly!
+.       .       do      showstat
+.       endif
+elseif  i = 2   $$ toggle a spell
+.       randu   i,3
+.       calcc   i-2,lite« 1-lite,
+.                   protect« 1-protect,
+.                   treas« 1-treas
+.       if      i = 1   $$ re-gen. maze when light changes
+.       .       do      newgross        $$ gen. maze again
+.       endif
+.       do      shospell(yes)
+else            $$ change vitality
+.       randu   i,3
+.       if      i = 1 $and$ vital > 1
+.       .       do      sysmess
+.       .       write          You feel weaker!
+.       .       randu   i,vital-1
+.       .       do      deadchk(i)
+.       elseif  i > 1 $and$ vital < 100
+.       .       calc    vital« 100
+.       .       do      sysmess
+.       .       write         You feel stronger!
+.       .       do      showstat
+.       else    
+.       .       do      sysmess
+.       .       write          Nothing happens.
+.       endif
+endif
+*
+        
+
+=== block 'magic item'  kind 00  78 words  (block 35)
+unit    getitem(at,wflag,oflag,search)  $$  get an item
+        merge,previous
+        search
+*entry: at      = where the question goes
+*       wflag   = 0:special, 1:weapon, 2:either
+*       oflag   = 0:must not own, 1:must own, 2:either
+*       search  = 0: either, 1: item slots, 2: guild lockers
+*exit:  return  = index of item in iname
+*       escape  = set if back pressed
+*
+timel   timel,ptimel
+loop
+.       at      at
+.       erase   20
+.       do      miarrow
+outloop escape = yes    $$ pressed back
+.       do      findiind(return,wflag,oflag,search)
+outloop return > 0      $$ found a match
+endloop 
+at      at
+erase   22,3
+*
+        
+
+=== block 'magic item'  kind 00  270 words  (block 36)
+unit    findiind(a1,wflag,oflag,search) $$ get index of item
+        merge,previous
+        Own(3),ncount,tcount,ocount,limit,search
+          segment,own=Own(1),1  $$ ownership bitmap
+*entry: a1      = number of chars
+*       wflag   = 0:special, 1:weapon, 2:either
+*       oflag   = 0:must not own, 1:must own, 2:either
+*       search  = 0: either, 1: item slots, 2: guild lockers
+*       util1-2 = item name
+*       at      = location of arrow
+*exit:  return  = index of the item, or -1 if no match
+*
+if      a1 > 10         $$ set up partial name mask
+.       calc    util3« lmask(60)
+.               util4« lmask(zbpc*(a1-zcpw))
+else    
+.       calc    util3« lmask(zbpc*a1)
+.               util4« 0
+endif
+*
+calcs   search-1,ind« 0,0,nmislot
+calcs   search-1,limit« 2*nmislot,nmislot,2*nmislot
+calc    Own« 0  $$ build bitmap of things I own
+loop    add1(ind) {^72} limit
+reloop  mislot(ind) < 1
+.       calc    own(mislot(ind))« 1
+endloop 
+*
+calc    ind« return« ncount« tcount« ocount« 0
+loop    add1(ind) {^72} nmitem
+*
+*-- first check for partial match of name
+reloop  util1 {^54} [iname(ind)$mask$util3] $$ test name for
+reloop  util2 {^54} [iname2(ind)$mask$util4]$$   partial match
+.       calc    add1(ncount)    $$ got a partial name
+*
+*-- next check other constraints
+reloop  (weapon(ind)+wflag) = 1
+.       calc    add1(tcount)    $$ the type is right
+reloop  (own(ind)+oflag) = 1
+.       calc    add1(ocount)    $$ ownership is right too
+.               return« ind
+*
+*-- finally check for a perfect match of the name
+reloop  util1 {^54} iname(ind)
+reloop  util2 {^54} (iname2(ind) $mask$ lmask(42))
+.       calc    ncount« ocount« tcount« 1
+outloop 
+endloop 
+*
+at      at
+erase   20
+if      ncount = 0      $$ not even a partial name matched
+.       calc    return« -1
+.       write   Not an item.
+elseif  tcount = 0      $$ no matches of correct type
+.       calc    return« -1
+.       writec  wflag{^56}-{^56}Not a magic item.{^56}Not a weapon.{^56}+
+elseif  ocount = 0      $$ no matches with right ownership
+.       calc    return« -1
+.       writec  oflag{^56}-{^56}Already have one.{^56}Don't own one.{^56}+
+elseif  ocount = 1      $$ exactly one possibility
+.       showa   iname(return),nichnam
+else
+.       calc    return« -1
+.       write   Ambiguous name.
+endif   
+pause   1
+at      at
+erase   20
+*
+        
+
+=== block 'magic item'  kind 00  284 words  (block 37)
+*
+*-------  These units work with index of iname
+*
+        
+unit    info
+*
+at      2025
+do      c(zwhite)
+write   Which item, Sire?
+do      getitem(2225,2,2,1)
+do      c(zwhite)
+at      2025
+erase   20
+goto    escape,q,x
+*
+do      shoiname(return)
+catchup
+do      pausep
+at      2023
+erase   24,3
+*
+        
+unit    useitem
+        merge,previous
+        itemno
+*
+at      2023
+do      c(zwhite)
+write   Use which item, sire?
+do      getitem(2225,2,1,1)
+at      2023
+erase   21
+goto    escape,q,x
+*
+do      haveitem(return)
+goto    return<1,q,x
+*
+do      sysmess
+if      return {^72} numuse     $$  already using!
+.       write          No longer using!
+.       do      switch
+.       calc    sub1(numuse)
+.       do      shoitems(yes)
+else    
+.       calc    itemno« mislot(return)
+.       do      caniuse(itemno)
+.       if      escape
+.       .       writec  abs(escape)-2
+.       .                      Need 15 Valor!
+.       .                      Need 30 Valor!
+.       .                   Takes too many hands!
+.       .               Already using something there!
+.       .                Already using one of those!
+.       elseif  weapon(itemno)=0 $and$ stype(itemno)=sitele
+.       .       do      teleport
+.       .       do      goaway(itemno,1/100)
+.       elseif  weapon(itemno)=0 $and$ stype(itemno)=sicureg
+.       .       do      curegrp
+.       .       do      goaway(itemno,1/100)
+.       else    
+.       .       write               Using!
+.       .       calc    incr(numuse)
+.       .       do      switch
+.       .       do      shoitems(yes)
+.       endif   
+endif   
+do      effstats
+*
+        
+unit    switch
+calc    ind « mislot(numuse)
+        mislot(numuse) « mislot(return)
+        mislot(return) « ind
+*
+        
+unit    shoiname(a1)    $$  show names and propertys of a1
+write       «a,iname(a1),nichnam»
+        $$_
+goto    weapon(a1)=1,x,q
+write   Offense=«s,oeffect(a1)»  Defense=«s,deffect(a1)»
+        $$_
+writec  wbody(a1)-1
+         ⌫$$_
+        Takes 1 hand to use
+        Takes 2 hands to use
+        For use on the body
+        For use on the arms
+        For use on the head
+        For use on the legs
+write   .       $$ quack
+*
+        
+unit    goaway(itemno,chance)
+        integer:  itemno
+        floating: r,chance
+randu   r
+goto    r>chance,q,x
+do      delitem(itemno,1)
+do      sysmess
+write             Item broke!
+*
+        
+
+=== block 'objects'  kind 00  201 words  (block 40)
+define  purge,local
+define  local,global
+use     g-guilds
+use     d-haggle
+*
+        
+unit    object          $$  found an object!
+*
+*-- object #'s:   city          other
+*       1       = stairs        stairs
+*       2       = weapon        good water
+*       3       = magic         bad water
+*       4       = supply
+*       5       = water
+*       6-9     = guilds
+*
+calc    objnum « object(x,y)
+if      objnum = 1         $$  stairs
+.       goto    newlevel
+else
+.       goto    terr-2,cobject(objnum-1),x,oobject(objnum-1)
+endif   
+*
+        
+unit    cobject(objnum)    $$  city objects, type objnum
+*
+calc    busy(me) « 1   $$  can't leave terrain yet!
+at      2020
+do      c(zwhite)
+writec  objnum-1
+        object < 1
+        {^55}You Found a Weaponry Shop
+        {^55} {^55}You Found a Magic Shop
+         You Found a Supply Store
+         {^55}You Found a Water House
+           {^55}You Found a Guild
+write   .       $$ quack
+at      2223
+do      c(zyellow)
+write   Press NEXT to enter.
+*
+do      pausep          $$  peace pause
+at      2020
+erase   28,3
+goto    key = next,x,q
+*
+calc    sgold « gold
+goto    objnum-1,x,wshop,mshop,store,well
+        guild(objnum-4)
+*
+        
+unit    oobject(objnum)
+*
+calc    busy(me) « 1   $$  can't leave terrain yet!
+at      2022
+do      c(zwhite)
+writec  objnum-1
+        object < 1
+        You Found a Water Hole.
+        You Found a Water Hole.
+at      2223
+do      c(zyellow)
+write    Press NEXT to use.
+*
+do      pausep          $$  peace pause
+at      2022
+erase   24,3
+goto    key = next,x,q
+*
+do      objnum-2, goodhole, badhole
+do      showstat
+*
+
+=== block 'shops &'  kind 00  293 words  (block 41)
+unit    wshop           $$  weaponry
+*
+loop    
+.       calc    gold « min(1000000,sgold)
+.       do      showstat
+.       do      c(zgreen)
+.       at      1919
+.       write   Weaponry Shop.  Welcome Sire
+.       catchup
+.       at      2122
+.       do      c(zyellow)
+.       write   1) buy        2) sell
+.               3) price      4) info
+.                 BACK to exit shop
+.                   Gold =
+.       showt   sgold,7
+.       do      pausei(4)
+.       at      2122
+.       erase   22,4
+.       do      c(zgreen)
+outloop ktype=0
+.       do      ktype,x,x,
+.               wbuy
+.               wsell(1)        $$  weapon
+.               priceit
+.               info
+endloop 
+at      1919
+erase   28
+*
+        
+unit    mshop
+*
+loop    
+.       calc    gold « min(1000000,sgold)
+.       do      showstat
+.       at      1920
+.       do      c(zgreen)
+.       write   {^55}Magic Shop.  Welcome Sire
+.       catchup
+.       at      2122
+.       do      c(zyellow)
+.       write   1)  sell a magic item
+.                 BACK to exit shop
+.                   Gold =
+.       showt   sgold,7
+.       do      pausei(1)
+.       at      2122
+.       erase   22,3
+outloop ktype=0
+.       do      ktype,x,x,
+.               wsell(0)        $$  magic item
+endloop 
+at      1920
+erase   26
+*
+        
+unit    wbuy
+at      2125
+do      c(zgreen)
+write   Which item, Sire?
+do      c(zwhite)
+do      getitem(2325,1,2,1)     $$  weapon
+at      2125
+erase   20
+goto    escape,q,x
+*
+at      1919
+erase   28
+calc    aitem « return
+        tn1 « oeffect(aitem)**4 + deffect(aitem)**4
+do      haggle(+1,tn1)
+goto    escape,q,x
+if      sgold < return
+.       do      sysmess
+.       do      c(zred)
+.       write         Not enough money!!
+else    
+.       calc    tn4 « -return
+.       do      additem(aitem)
+.       goto    escape,q,x
+.       calc    bump(sgold,tn4)
+endif   
+*
+        
+unit    wsell(objnum)   $$ 1=weapon & 0=magic item
+at      2125
+do      c(zgreen)
+write   Which item, Sire?
+do      c(zwhite)
+do      getitem(2325,objnum,1,1)
+at      2125
+erase   20
+goto    escape,q,x
+*
+at      1919
+erase   28
+calcs   objnum=1, tn1 «
+        oeffect(return)**4 + deffect(return)**4
+        micost(return)**4
+calc    aitem « return
+*
+do      haggle(-1,tn1)
+goto    escape,q,x
+calc    bump(sgold,return)
+do      delitem(aitem,1)
+do      shoitems(yes)
+*
+        
+
+=== block 'city objs'  kind 00  140 words  (block 42)
+unit    priceit
+*
+at      2118
+write   How much do you wish to spend?
+at      2225
+do      getnum(1,10 000 000)
+at      2118
+do      c
+erase   30,2
+goto    escape,q,x
+*
+at      2021
+do      c(zgreen)
+write    Type of item to price?
+        1) item worn anywhere
+        2) 1 handed  3) 2 handed
+        4) on body   5) on arms
+              6) on head
+do      pausei(6)
+at      2021
+erase   24,5
+goto    ktype,q,q,x
+calc    ktype « ktype-1
+*
+calc    tn1 « 0         $$  closest dollar match so far
+        sind « 0        $$  index of match
+        ind « 0
+loop    incr(ind) {^72} nmitem
+reloop  weapon(ind){^54}1
+reloop  wbody(ind){^54}ktype
+.       calc    tn2 « oeffect(ind)**4 + deffect(ind)**4
+reloop  tn2>return $or$ tn2<tn1
+.       calc    tn1 « tn2
+.               sind « ind
+endloop 
+*
+at      2122
+do      c(zgreen)
+if      sind = 0                $$  nothing found
+.       write   I have nothing in that
+.                 price range, Sire!
+else    
+.       write    May I suggest, Sire!
+.       at      2222
+.       do      shoiname(sind)
+endif   
+do      pausep
+at      2122
+erase   26,4
+*
+        
+
+=== block 'city objs'  kind 00  181 words  (block 43)
+unit    store           $$  buy food, munchies!
+*
+at      1919
+write   Supply Store.  Welcome Sire!
+calc    tn1 « 30 - food
+at      2118
+if      tn1 < 1
+.       write    You have all you can carry!
+.       do      pausep
+.       calc    escape« yes
+else    
+.       write   You can carry «s,tn1» months worth.
+.               How many, Sire?
+.       at      2234
+.       timel   timel,ptimel
+.       do      getnum(1,tn1)
+endif
+at      1918
+do      c
+erase   30,4
+goto    escape,q,x
+*
+do      sysmess
+if      gold < 100*return
+.       write         Not enough money!!
+else    
+.       calc    gold « gold - 100*return
+.               food « food + return
+.       write          It's yours, Sire!
+.       do      showstat
+endif   
+*
+        
+unit    well
+*
+at      1920
+write   Water House.  Welcome Sire.
+calc    tn1 « 30 - water
+at      2118
+if      tn1 < 1
+.       write     You have all you can carry!
+.       do      pausep
+.       calc    escape« yes
+else    
+.       write   You can carry «s,tn1» months worth.
+.               How many, Sire?
+.       at      2234
+.       timel   timel,ptimel
+.       do      getnum(1,tn1)
+endif
+at      1918
+do      c
+erase   30,4
+goto    escape,q,x
+*
+do      sysmess
+if      gold < 20*return
+.       write         Not enough money!!
+else    
+.       calc    gold « gold - 20*return
+.               water « water + return
+.       write          It's yours, Sire.
+.       do      showstat
+endif   
+*
+        
+
+=== block 'other obj'  kind 00  30 words  (block 44)
+unit    goodhole                $$  no comment
+*
+do      sysmess
+write           Water is good!
+calc    water « 30
+*
+        
+unit    badhole
+*
+do      sysmess
+write          Water is poison!
+randu   tn1,40
+do      deadchk(tn1+10)
+*
+        
+
+=== block 'camps'  kind 00  284 words  (block 45)
+unit    camp
+*
+do      c(zwhite)
+if      myroom{^54}camprm
+.       at      2223
+.       if      camprm=0        $$  new camp
+.       .       do      c(zyellow)
+.       .       write   SHIFT-NEXT to set up
+.       .                    a new camp
+.       else
+.       .       do      c(zyellow)
+.       .       write   SHIFT-NEXT to forget
+.       .                  about old camp
+.       .       do      showcamp
+.       endif   
+.       do      c(zwhite)
+.       do      pausep
+.       at      1922
+.       erase   26,5
+.       goto    key=next1,x,q
+.       calc    camprm« myroom
+.               cfood« cgold« 0
+endif   
+*
+do      showcamp
+at      2123
+write   1) leave food in camp
+        2) leave gold in camp
+        3) take food from camp
+        4) take gold from camp
+loop    
+.       do      pausei(4)
+outloop ktype = 0
+.       calcs   ktype,length«,,
+.               min(food,127-cfood)             $$  leave
+.               min(bags(gold),63-cgold)
+.               min(cfood,30-food)              $$  pick up
+.               min(cgold,maxbags(gold))
+reloop  length < 1
+.       at      2022+100*ktype
+.       write   {^'04}
+.       do      chngcamp
+.       at      2022+100*ktype
+.       erase   1
+endloop 
+at      1922
+erase   26,6
+calcs   cfood=0 $and$ cgold=0, camprm«0,,
+*
+        
+unit    chngcamp
+at      2520
+do      c(zwhite)
+write   How many  ⌫$$_
+writec  ktype-2
+        months food? 
+        bags of gold? 
+        months food? 
+        bags of gold? 
+timel   timel,ptimel
+do      getnum(1,length)
+at      2520
+erase   26
+goto    escape,q,x
+if      ktype=1         $$ add food
+.       calc    bump(food,-return)
+.               bump(cfood,return)
+elseif  ktype=2         $$ add gold
+.       calc    bump(gold,-gperbag*return)
+.               bump(cgold,return)
+elseif  ktype=3         $$ remove food
+.       calc    bump(food,return)
+.               bump(cfood,-return)
+elseif  ktype=4         $$ remove gold
+.       calc    bump(gold,gperbag*return)
+.               bump(cgold,-return)
+endif
+do      showstat
+do      showcamp
+*
+        
+unit    showcamp
+at      1925
+do      c(zwhite)
+erase   23,2
+showt   cfood,2
+writec  cfood=1
+         month of food
+         months of food
+at      2025
+showt   cgold,2
+writec  cgold=1
+         bag of gold
+         bags of gold
+*
+        
+
+=== block 'guilds'  kind 00  291 words  (block 46)
+unit    guild(objnum)   $$  guild of type objnum
+*
+at      423
+writec  objnum-1
+        --
+           {^55}Thieves Guild
+          {^55}The Brotherhood
+          Union of Knights
+         {^55}Circle of Wizards
+        ++
+*
+seed            $$  back to system seed!
+goto    guild=objnum, member, visitor
+*
+        
+unit    visitor
+at      1920
+write   1) Steal from this guild
+        2) Join this guild
+        3) Post bond for someone
+        BACK to leave.
+do      pausei(3)
+at      1920
+erase   24,4
+goto    ktype,x,x,
+        gsteal
+        gjoin
+        gpostv
+at      423
+erase   20
+*
+        
+unit    gsteal
+*
+goto    ggold(objnum) < 1,visitor,x
+at      2523
+writec  ggold(objnum)>0{^56}SHIFT-HELP to steal!{^56}Nothing to steal!
+do      pausep
+at      2523
+erase   20
+goto    key=help1 $and$ ggold(objnum)>0,x,visitor
+*
+randu   tn1,20000*ecun  $$  amount depends on cunning
+calcs   tn1 > ggold(objnum), tn1 « ggold(objnum),,
+do      sysmess
+if      (tn1+gold) > 1000000
+.       calc    tn1 « 1000000 - gold
+.               tn2 « ecun/2
+.       write         Too much to carry!
+else
+.       calc    tn2 « ecun
+endif   
+*
+do      sysmess
+do      success[ tn2,100,100 ]
+if      return < 0
+.       calc    jail « 1
+.               ggold(objnum) « ggold(objnum) + gold
+.               gold « tn1      $$  bond needed!
+.               Util « 0
+.       write          You got caught!!
+.       pause   5
+.       do      finish
+.       jumpout <moria>,injail
+else
+.       calc    gold « gold + tn1
+.               bump(ggold(objnum),-tn1)
+.       write              Got it!!
+.       do      showstat
+.       goto    visitor
+endif   
+*
+        
+unit    gjoin
+*
+if      guild>0 $and$ guild{^54}objnum
+.       do      sysmess
+.       write     You're already in a guild!
+.       goto    visitor
+endif   
+at      2524
+write   SHIFT-HELP to join
+do      pausep
+at      2524
+erase   18
+goto    key=help1,x,visitor
+*
+do      sysmess
+if      myskill(objnum) < 20
+.       write         Not skilled enough.
+.       goto    visitor
+else
+.       calc    guild « objnum
+.               rank « 1        $$  first step up
+.               gbank « 0
+.       write      You have joined a guild!
+.       do      showstat
+.       at      1920
+.       erase   26,5
+.       goto    member
+endif   
+*
+        
+unit    gpostv
+do      gpost
+goto    visitor
+*
+        
+
+=== block 'member'  kind 00  320 words  (block 47)
+unit    member
+        merge,previous
+        gmn1=gmaster(guild,1)   $$ gm name word 1
+        gmn2=gmaster(guild,2)   $$ gm name word 2
+        gmg=gmaster(guild,3)    $$ gm group
+name    name
+calc    tn1 « myskill(guild)
+if      rank {^73} 4 $and$ (tn1 > gmskill(guild) $or$ gmn1 = 0)
+.       name    gmaster(guild,1)
+.       group   gmaster(guild,3)
+.       day     gmlast(guild)
+.       calc    rank « 5        $$  guild master!
+.               gmskill(guild) « tn1
+.       do      showstat
+.       do      sysmess
+.       write    You are the new guild master.
+elseif  name = gmn1 $and$ name2 = gmn2 $and$ zgroup = gmg
+.       if      rank > 4
+.       .       do      sysmess
+.       .       write     You are the guild master.
+.       else    $$ you're not the man you used to be
+.       .       zero    gmaster(guild,1),3
+.       endif
+endif   
+*
+entry   mguild
+do      c(zgreen)
+at      1920
+write   1) Bank options
+        2) Post bond for someone
+        3) Raise your guild rank
+        4) Transport options
+        5) Item lockers
+at      2420
+do      c(zyellow)
+write   BACK to leave.
+do      pausei(5)
+at      1920
+erase   25,6
+goto    ktype,x,x,
+        gbank
+        gpostm
+        grank
+        gtrans
+        glocker
+at      423
+erase   20,1
+*
+        
+unit    gbank
+at      2227
+do      c(zyellow)
+write   1) Deposit
+        2) Withdraw
+        BACK to leave.
+loop    
+.       do      c(zgreen)
+.       at      2019
+.       write   Your account:  «t,gbank,9» bags
+.               Treasury:     «t,bags(ggold(guild)),10» bags
+.       do      pausei(2)
+outloop ktype < 1
+.       do      ktype,x,x,
+.               bankin
+.               bankout
+endloop 
+at      2019
+erase   29,5
+goto    mguild
+*
+        
+unit    bankin          $$  deposit
+at      2520
+do      c(zgreen)
+write   Bags to deposit?
+timel   timel,ptimel
+do      getnum(1,bags(gold))
+at      2520
+erase   26
+goto    escape,q,x
+calc    bump( gbank,return )
+        return « gperbag*return
+        bump( ggold(guild),return )
+        bump( gold,-return )
+do      showstat
+*
+        
+unit    bankout         $$  withdrawl
+at      2520
+do      c(zgreen)
+write   Bags to withdraw?
+calc    tn1 « maxbags(gold)
+        tn1 « min(gbank,tn1)    $$  min of bank & carry
+timel   timel,ptimel
+do      getnum(1,tn1)
+at      2520
+erase   26
+goto    escape,q,x
+if      bags(ggold(guild)) < return
+.       do      sysmess
+.       write           Bank is broke!
+else
+.       calc    bump( gbank,-return )
+.               return « gperbag*return
+.               bump( ggold(guild),-return )
+.               bump( gold,return )
+.       do      showstat
+endif   
+*
+        
+
+=== block 'guilds'  kind 00  183 words  (block 50)
+unit    glocker
+        merge,previous
+        itemno
+do      c(zgreen)
+at      720
+erase   26,18
+*at      1328    $$ erase walls, etc.
+*erase   16,6
+at      207,376
+write   GUILD LOCKER
+draw    ;207,376
+do      c(zwhite)
+doto    1,ind« 1,nmislot
+branch  mislot(nmislot+ind),1,1,x
+at      196,368-16*ind
+showa   iname( mislot(nmislot+ind) ),nichnam
+1
+loop    
+.       do      c(zyellow)
+.       at      2321
+.       write   1) Put item in locker
+.               2) Take item from locker
+.               BACK to leave.
+.       do      pausei(2)
+.       at      2321
+.       erase   25,3
+outloop ktype < 1
+.       at      2320
+.       writec  ktype=1{^56}Deposit{^56}Withdraw
+.       write    which item, Sire?
+.        
+.               BACK to leave.
+.       do      ktype=1,
+.               getitem(2420,2,1,1),
+.               getitem(2420,2,1,2)
+.       at      2320
+.       erase   26,3
+reloop  escape
+.       *
+.       calc    itemno« return
+.       do      ktype=1,
+.               delitem(itemno,1),
+.               delitem(itemno,2)
+.       do      ktype=1,
+.               gadditem(itemno,2),
+.               gadditem(itemno,1)
+reloop  escape
+.       at      196,352
+.       erase   nichnam,nmislot
+.       doto    2,ind« 1,nmislot
+.       branch  mislot(nmislot+ind),2,2,x
+.       at      196,368-16*ind
+.       showa   iname( mislot(nmislot+ind) ),nichnam
+.       2
+endloop 
+at      818
+do      c
+erase   30,18
+do      smallplt
+goto    mguild
+*
+        
+
+=== block 'guilds'  kind 00  266 words  (block 51)
+unit    gadditem(itemno,search) $$  add item
+*entry: itemno  = item to add
+*       search  = 0: either, 1: item slots, 2: guild lockers
+        merge,previous
+        itemno,search,limit,i
+loop
+.       do      search(0,search; i)
+outloop i > 0   $$ found an empty slot
+.       at      2220
+.       write   Too much: 1) drop an item
+.               BACK to   2) info on item
+.               leave.    3) give an item
+.       writec  search=0{^56}{^56}«at,2530»4) swap an item
+.       draw    2220;2228;2428;
+.       catchup
+.       do      search=0,pausei(3),pausei(4)
+.       at      2220
+.       erase   28,4
+.       calc    escape« yes
+.       goto    ktype<1,q,x
+.       writec  ktype{^56}{^56}{^56}Drop{^56}Info on{^56}Give{^56}Swap
+.       write    which item, Sire?
+.       do      ktype=2,
+.               getitem(2322,2,1,0),
+.               getitem(2322,2,1,search)
+.       at      2220
+.       erase   25,1
+reloop  escape
+*
+.       if      ktype = 1       $$ drop
+.       .       do      delitem(return,search)
+.       elseif  ktype = 2       $$ info
+.       .       do      shoiname(return)
+.       .       catchup
+.       .       do      pausep
+.       .       at      2220
+.       .       erase   24,3
+.       elseif  ktype = 3       $$ give
+.       .       calc    icword« 0
+.       .               action« acgivem
+.       .               givitem« return
+.       .       at      2220
+.       .       write   Give to whom?
+.       .       do      whom(mroom,no)
+.       .       at      2220
+.       .       erase   28
+.       .       calc    whoto« return
+.       .               whofrom« me
+.       .               tablew(nextict)« icword
+.       .       do      delitem(givitem,search)
+.       elseif  ktype = 4       $$ swap
+.       .       do      search(0,3-search; i)
+.       .       calc    mislot(i)« return
+.       .       do      delitem(return,search)
+.       endif
+endloop 
+calc    mislot(i)« itemno
+do      shoitems(yes)
+do      effstats
+do      shospell(no)
+*
+        
+unit    search(itemno,search)
+        merge,previous
+        itemno,search,i,limit
+calcs   search-1,i« 0,0,nmislot
+calcs   search-1,limit« 2*nmislot,nmislot,2*nmislot
+loop    add1(i) {^72} limit
+reloop  mislot(i) {^54} itemno
+.       return  i
+endloop 
+return  -1
+*
+        
+
+=== block 'guilds'  kind 00  276 words  (block 52)
+unit    grank
+if      rank > 3        $$ a master
+.       do      sysmess
+.       write    Master is the highest rank!
+elseif  myskill(guild) < [ 10*(rank+2) ]
+.       do      sysmess
+.       write         Not skilled enough
+elseif  gbank < 5               $$  cost
+.       do      sysmess
+.       write    Need 5 bags in your account!
+else    
+.       at      2518
+.       write   SHIFT-HELP to raise your rank!
+.       do      pausep
+.       at      2518
+.       do      c(zgreen)
+.       erase   30
+.       goto    key=help1,x,mguild
+.       calc    incr(rank)
+.               bump(gbank,-5)
+.               bump(ggold(guild),1000000)
+.       do      showstat
+endif   
+goto    mguild
+*
+        
+unit    gtrans
+at      1927
+write   Transport to:
+        1) A player
+        2) Your camp
+        BACK to leave.
+do      pausei(2)
+at      1927
+erase   14,4
+goto    ktype<1,mguild,x
+*
+if      -Sum( Guide = myguide ) > 1
+.       do      sysmess
+.       write   Must be alone to transport.
+.       goto    mguild
+elseif  ktype = 1               $$  to some player
+.       at      1924
+.       write   Teleport to whom?
+.       at      2025
+.       do      whom(mall,no)
+.       at      1924
+.       erase   17,2
+.       goto    escape,gtrans,x
+.       calc    myat « charat(return)
+else                            $$  to your camp
+.       if      camprm = 0      $$  no camp
+.       .       do      sysmess
+.       .       write          You have no camp!
+.       .       goto    gtrans
+.       endif   
+.       calc    myroom « camprm
+endif   
+calc    string « 0
+at      423
+erase   20
+goto    newplace(yes)
+*
+        
+unit    gpostm
+do      gpost
+goto    mguild
+*
+        
+unit    gpost
+*
+if      gbond(objnum) > 8 000 000
+.       do      sysmess
+.       write   Guild bond is full
+else    
+.       timel   timel,ptimel
+.       at      1919
+.       write   Bond fund is $«s,gbond(objnum)».
+.               Amount to add?  ⌫$$_
+.               BACK to leave.
+.       at      2034
+.       do      getnum(1,gold)
+.       at      1918
+.       do      c(zgreen)
+.       erase   30,3
+.       goto    escape,q,x
+.       calc    bump(gbond(objnum),return)
+.               bump(gold,-return)
+.       do      showstat
+endif
+*
+        
+
+=== block 'effstats'  kind 00  171 words  (block 53)
+define  purge,local
+define  local,global
+use     d-timel
+*
+        
+unit    effstats        $$ recalc effective stats
+*
+*       NOTE!  this unit must use timel vars because it
+*       is called when someone gives you an item
+*
+calc    eval « valor
+        ecun « cunning
+        ewiz « wiz
+        epie « piety
+        offen « defen « 0
+*
+*-- weapons
+*
+calc    lind« 0
+        itemwrd « 0
+loop    incr(lind) {^72} numuse
+.       calc    ln1 « mislot(lind)
+reloop  ln1 = 0
+.       if      weapon(ln1) = 1
+.       .       calc    bump[ offen,oeffect(ln1) ]
+.       .               bump[ defen,deffect(ln1) ]
+.       else    
+.       .       calc    havitem[ stype(ln1) ] « yes
+.       endif   
+endloop 
+*
+calcs   havitem(silite), lite « 1,,
+calcs   havitem(sitreas), treas « 1,,
+calcs   havitem(sipro), protect « 1,,
+calcs   havitem(sicun), ecun « ecun + 5,,
+calcs   havitem(sipiety), epie « epie + 5,,
+calcs   havitem(sivalor), eval « eval + 5,,
+calcs   havitem(siwiz), ewiz « ewiz + 5,,
+calcs   protect = 1, defen « defen + 5,,
+*
+        
+unit    statup(a1)      $$  myskill(a1) is skill to raise
+goto    statup(a1) = 1,q,x    $$  not time to raise yet
+*
+randu   tv1
+calcs   guild=a1, tv2 « lev/20 + rank + 1, lev/20 + 1
+if      [ (tv1/tv2) < (1/(myskill(a1)/4)**2.5-.00032) ]
+.       calc    statup(a1) « 1
+.               incr(myskill(a1))
+.               incr(eskill(a1))
+.       do      showstat
+endif   
+*
+        
+
+=== block 'effstats'  kind 00  189 words  (block 54)
+unit    caniuse(a1)             $$  can I use item a1?
+*       escape  = 0 if you can use it
+*               = -1 if valor too low for 1 one handed item
+*               = -2 if valor too low for 2 one handed items
+*               = -3 if you'd need three hands
+*               = -4 if already wearing something there
+*               = -5 if duplicate item
+*
+calc    ind « 0
+        tn1 « 0         $$  count of hands!
+        tn2 « 0         $$  # of one handed items
+*
+loop    incr(ind) {^72} numuse   $$ look at presently used items
+.       calc    sind « mislot(ind)      $$  item index
+reloop  sind < 1                        $$  empty slot
+.       calc    escape« -5
+.       goto    a1=sind,q,x             $$  duplicate
+.       calc    tn3 « wbody(sind)       $$  part of the body
+.       if      tn3 = 1         $$ one handed item
+.       .       calc    add1(tn1)
+.       .       calcc   oeffect(sind)>0,add1(tn2),,
+.       elseif  tn3 = 2         $$ two handed item
+.       .       calc    bump(tn1,2)
+.       elseif  tn3 > 0         $$ item for specific place
+.       .       calc    escape« -4
+.       .       goto    tn3 = wbody(a1),q,x
+.       endif   
+endloop 
+if      wbody(a1) = 1 $or$ wbody(a1) = 2        $$ hands
+.       calc    bump[tn1,wbody(a1)]     $$  new total
+.               escape« -3
+.       goto    tn1>2,q,x               $$  too many hands!
+.       if      oeffect(a1)>0 $and$ wbody(a1)=1
+.       .       calc    escape« -2
+.       .       goto    tn2=1 $and$ eval<30,q,x
+.       .       calc    escape« -1
+.       .       goto    tn2=0 $and$ eval<15,q,x
+.       endif
+endif
+*
+calc    escape « 0      $$  passed all the tests!
+*
+        
+
+=== block 'haggle'  kind 00  195 words  (block 55)
+define  purge,local
+define  local,global
+use     d-haggle
+*
+        
+unit    haggle(cashflo,a1)      $$  haggle price
+*
+*  pass
+*       cashflo = cash flow for shop: +1 selling Å -1 buying
+*       a1      = base price of item
+*
+*  returns
+*       escape  = set if no deal made
+*       return  = price agreed upon, if escape not set
+*
+*  tn4  = message line pointer
+*
+seed
+randu   tv1
+randu   tv2
+calc    noffer « (.1+tv1/10)*a1     $$  no offer amount
+        tn4 « 0         $$  set message pointer
+        Flag « no       $$  flags all false
+*
+if      cashflo > 0     $$  shop selling
+.       calc    offer « (1.6+tv2/2)*a1
+.               bestbid « .4*a1
+else    
+.       calc    offer « .3*a1
+.               bestbid « (1.3+tv2/5)*a1
+endif   
+*
+at      1924
+writec  cashflo < 0
+        Selling eh, Sire?
+        Buying eh, Sire?
+*
+loop    deal = no
+.       do      showoff         $$  show shop offer
+.       do      getans          $$  get answer/bid
+outloop escape                  $$  pressed back
+.       do      getoffer        $$  get shop's new offer
+outloop escape          $$  deal made Å no more offers
+*
+.       if      sign(offer-bestbid) = cashflo   $$ keep goin
+.       .       do      feedback
+.       else                    $$  prices meet
+.       .       calc    offer « bestbid
+.       .       do      deal
+.       endif   
+outloop escape
+endloop 
+*
+do      hmessage
+writec  deal = yes
+        What a bargain, Sire!
+        Sorry we can't deal.
+catchup
+at      1918
+do      c(zgreen)
+erase   30,7
+at      3201
+erase   64
+calcs   deal = yes, escape « no,yes
+*
+        
+
+=== block 'haggle'  kind 00  214 words  (block 56)
+unit    deal            $$  do we have a deal?
+*       return  = price agreed upon if he says yes
+*
+do      hmessage
+write   Deal at $
+show    offer
+write    then?
+do      getans
+calc    escape « yes
+if      yesno = yes
+.       calc    return « offer
+.               deal « yes
+endif   
+*
+        
+unit    getoffer        $$  get shop's offer
+*
+calc    tn1 « 0         $$  change in offer
+*
+if      playbid         $$  player bid this time
+.       randu   tv1
+.       calc    bump(offer,-cashflo*[return*(1.1-(tv1/5))])
+*
+elseif  noffer > 0  $and$  yesno = no   $$  no bid, said no
+.       randu   tn1,noffer/2
+.       calc    bump(noffer,-tn1)
+.               bump(offer,-cashflo*tn1)
+.       calcs   noffer < 5, escape « yes,no
+*
+elseif  yesno = yes             $$  he said yes to the offer
+.       do      deal
+endif   
+*
+        
+unit    showoff         $$  get offer back
+do      hmessage
+randu   tn1,6
+writec  tn1-2
+        How about
+        How bout more like
+        Would you consider
+        Well, how's about
+        Let's say around
+        Make it
+write    $
+show    offer
+write   ?
+*
+        
+unit    feedback
+*
+do      hmessage
+if      playbid
+.       randu   tn1,6
+.       write   $
+.       show    bestbid
+.       writec  tn1-2
+.               ?  Can't accept that!
+.                is an insult!
+.               ?  You can do better!
+.               ?!  I have children!
+.                is ridiculous!
+.               ?  I'll go broke!
+else    
+.       randu   tn1,5
+.       writec  tn1-2
+.               You barter well, Sire.
+.               Make me an offer.
+.               Name your price, Sire!
+.               What's it worth to you?
+.               You make a bid, Sire.
+endif   
+*
+        
+
+=== block 'getans'  kind 00  296 words  (block 57)
+vocab   haggle
+        <by,is,a,to,that>
+        (yes,y/a/ah/ea/eah/e/ep/up/upper,ok,fine,
+        deal,bargain,course,grab,guess,good,sure,take,
+        right,great,like,buy,want,okay,okie,into,will)
+        (no,n/ope/a/ah/aw,never,negative,pass,forget,off,
+        too,sorry,out,hurt)
+        (not,dont,wont,cant,shouldnt,why,wouldnt,couldnt
+        isnt)
+*
+        
+unit    getans
+*
+*  get answer of yes or no and bid.
+*  returns      yesno   = yes or no as bid
+*               bestbid = best bid so far, init outside
+*               playbid = yes when a new offer made
+*               return  = amount player bettered his bestbid
+*               escape  = yes means BACK was pressed
+*
+arrow   3210
+jkey    back
+erase   50
+long    45
+*-------
+specs   okextra,okspell,bumpshift
+judge   (escape« key=back),okquit,x
+calc    playbid« no
+if      tn1 < 0         $$  no bid
+elseif  sign(bestbid-tn1) = cashflo     $$  new bid is worse
+.       do      hmessage
+.       writec  cashflo
+.               Too high for me, Sire!
+.               Offer is too low, Sire!
+.       write    ⌫$$_
+.       judge   ignore
+elseif  sign(offer-tn1) = cashflo       $$  ok, but {^54} offer
+.       calc    return « abs(bestbid-tn1)
+.               bestbid « tn1
+.               playbid « yes
+.               yesno « no
+else    
+.       do      hmessage
+.       write   That doesn't make sense!
+.       write    ⌫$$_
+.       judge   ignore
+endif
+*-------
+join    putoffer
+storen  tn1     $$  bid
+calc    tn1 « -1
+judge   continue
+concept yes
+        yes yes
+        yes yes yes
+        not no
+        not yes yes
+        not no yes
+        not not
+        yes not no
+        yes not no yes
+        no yes yes no
+        no yes not no
+        yes no yes no
+calc    yesno « yes
+ok
+calc    yesno « no
+endarrow 
+*
+        
+unit    hmessage
+at      2018
+do      c(zgreen)
+erase   1,6
+calc    add1cyc(tn4,6)
+at      1918 + 100*tn4
+erase   30
+write   {^'04}  ⌫$$_
+*
+        
+unit    putoffer        $$ put exact offers with ' yes '
+storea  utilbuf,jcount
+ok
+move    utilbuf,1,utilbuf,2,jcount
+calc    utilc(1)« " "
+judge   continue
+loada   utilbuf,jcount+1
+ok
+*  NOTE trailing space!          _Ö
+pack    utilbuf,length, «s,offer» 
+*  NOTE trailing space!          ↑↑_{^'27}{^'67}{^'01}{^'66}
+calc    tn3« ' yes '
+judge   continue
+putd    /./ /
+putd    /;/ /
+putd    /?/ /
+putd    /$/ /
+putd    /,/ /
+putv    utilbuf,length,tn3,5
+*
+        
+
+=== block 'message'  kind 00  214 words  (block 60)
+define  purge,local
+define  local,global
+use     g-messages
+use     d-timel
+*
+        
+unit    mesroom         $$  message to the room
+goto    sendto(myroom,mroom)
+*
+        
+unit    whisper         $$  message to one person
+*
+at      3203
+write   Whisper to whom?
+do      whom(mroom,no)
+at      3203
+erase   30
+goto    escape,x,sendto(return,myou)
+*
+        
+unit    messplay        $$  message to a player anywhere!
+*
+at      3203
+write   Message to which player?
+do      whom(mall,no)
+at      3203
+erase   35
+goto    escape,x,sendto(return,mplayer)
+*
+        
+unit    sendto(sendto,sendtyp)
+*
+*       one of the following should be set, other 2 = 0
+*
+*  sendtyp = type sent:  mroom, myou
+*
+at      3201
+erase   64
+calc    k « lab
+loop    k=lab $or$ k=next1   $$ allow continued messages
+.       at      3201
+.       write   To  ⌫$$_
+.       writec  sendtyp,-,0,roomies:,«a,pseudo(sendto)»:
+.       at      3215
+.       do      getstr(nmclen)
+.       at      3201
+.       erase   return+16
+outloop escape $or$ k=back
+.       do      sendmess[sendto,sendtyp,page(return,10)]
+endloop 
+*
+        
+unit    sendmess(sendto,sendtyp,length)
+*
+*  send the message in utilbuf
+*  mestype = message to: mroom, myou
+*
+calc    icword« 0
+*
+if      sendtyp = mroom
+.       calc    roomto « sendto
+.               groupto « myguide
+else                            $$  myou or mplayer or mall
+.       calc    whoto « sendto
+endif
+calcs   (messptr+length)>mesbufl $or$ messptr<1, messptr«1,,
+calc    mptr « messptr
+        messptr « messptr + length
+        mestype « sendtyp
+        messlen « length
+        whofrom « me
+        action« acmess
+        tablew(nextict)« icword $$ grab ict and send
+block   utilbuf,message(mptr),length
+*
+        
+
+=== block 'user list'  kind 00  166 words  (block 61)
+unit    gotouser
+calc    inuser(me) « 1
+do      update
+pause   1
+jump    userlist
+*
+        
+unit    userlist
+data    userlist
+base
+inhibit anserase
+*
+do      ulist
+do      utimel
+catchup
+loop    
+.       do      messplay
+outloop escape
+endloop 
+calc    inuser(me)« 0
+        busy(me) « 0
+jump    main
+*
+        
+unit    utimel
+loop    myptr {^54} buffptr
+.       calc    add1cyc(myptr,50)
+.               icword « tablew(myptr)
+reloop  groupto{^54}myguide $and$ whoto{^54}me $and$ roomto{^54}myroom  $and$ mestype{^54}mnews
+.       if      action = acmess
+.       .       do      showmess
+.       elseif  action=acshpty $and$ whofrom=myguide
+.       .       calc    myguide « me
+.       elseif  action=acfood $or$ action=acwater
+.       .       calcc   action=acfood
+.       .               food « min(food+howmuch,30)
+.       .               water « min(water+howmuch,30)
+.       elseif  action=acgivem
+.       .       do      haveitem(0)     $$  open slot?
+.       .       if      return > 0
+.       .       .       calc    mislot(return) « givitem
+.       .       .       do      effstats
+.       .       elseif  whofrom{^54}me
+.       .       .       calc    whoto « whofrom
+.       .       .               tablew(nextict) « icword
+.       .       endif
+.       elseif  opcode=accure $and$infight=0 $and$vital<100
+.       .       calc    vital« 100
+.       endif   
+endloop 
+timel   timel,utimel
+*
+        
+use     user list
+
+=== block 'plot3d'  kind 00  251 words  (block 62)
+define  purge,local
+define  local,global
+use     g-ptable
+use     d-map
+*
+        
+unit    plot3d(iline)
+*  a: open, b: vline, c:fwd, d:fwd+vline, e:fww
+*  f: fww+vline, g: sd, h: sw, i: nd, j: nw
+*
+do      terrcol2
+calc    charat(me) « myat    $$  update common!
+*-- col1
+if      nls>0
+.       calc    util1« char('ghh',nls)
+elseif  nlw>0
+.       calc    util1« 10
+else    
+.       calc    util1« 1
+endif
+*-- col2
+if      nmw>0
+.       calc    util2« char('ijj',nmw)
+elseif  fls>0
+.       calc    util2« char('ghh',fls)
+elseif  flw>0
+.       if      util1>2
+.       .       calc    util2« char('dff',flw)
+.       else    
+.       .       calc    util2« char('cee',flw)
+.       endif
+else    
+.       calc    util2« char('aabbbbbbbb',util1)
+endif
+*-- col3 & col4
+if      nmw>0
+.       calc    util3« util4« char('ijj',nmw)
+elseif  fmw>0
+.       if      util2>2
+.       .       calc    util3« util4« char('dff',fmw)
+.       else    
+.       .       calc    util3« util4« char('cee',fmw)
+.       endif
+else    
+.       calc    util3« char('aabbbbbbbb',util2)
+.               util4« 1
+endif
+*-- col5
+if      nmw>0
+.       calc    util5« char('ijj',nmw)
+elseif  frs>0
+.       calc    util5« char('ghh',frs)
+elseif  frw>0
+.       if      util4>2
+.       .       calc    util5« char('dff',frw)
+.       else    
+.       .       calc    util5« char('cee',frw)
+.       endif
+else    
+.       calc    util5« char('aabbbbbbbb',util4)
+endif
+*-- col6
+if      nrs>0
+.       calc    util6« char('ghh',nrs)
+elseif  nrw>0
+.       calc    util6« char('ijj',nrw)
+else    
+.       calc    util6« char('aaaaaabbbb',util5)
+endif
+*
+calc    Pltout« '      '        $$ 6_
+        col1« char(Cols1,util1)
+        col2« char(Cols2,util2)
+        col3« char(Cols3,util3)
+        col4« char(Cols4,util4)
+        col5« char(Cols5,util5)
+        col6« char(Cols6,util6)
+at      1429
+altfont on
+text    pltout,4
+altfont off
+writec  heading,-, E , N , W , S 
+writec  x{^56}-,{^56}0,{^56}1,{^56}2,{^56}3,{^56}4,{^56}5,{^56}6,{^56}7,
+writec  y{^56}-{^56}0{^56}1{^56}2{^56}3{^56}4{^56}5{^56}6{^56}7
+*
+        
+
+=== block 'new place'  kind 00  284 words  (block 63)
+define  purge,local
+define  local,global
+use     d-map
+use     d-stairs
+*
+        
+unit    newplace(util1) $$ util1 = flag for zap spells, etc?
+*  done whenever⌫⌫⌫⌫⌫⌫⌫⌫________ a player enters a new level or terr
+*
+if      terr = city  $and$  util1
+.       calc    spelson « 0
+.       do      effstats
+.       do      shospell(yes)
+endif   
+*
+*-- make things just a bit harder on lower levels, heh heh
+calcs   page(lev,10)-3,dfact« 1,2,4,8,16
+do      sholevel        $$  show which level
+do      genstair(lev,terr)
+goto    newgross
+*
+        
+unit    newgross(grossx,grossy) $$ do all gen's for new room
+*  done whenever⌫⌫⌫⌫⌫⌫⌫⌫________ a player enters a new room
+*
+calc    x« cycle(x,6)
+        y« cycle(y,6)
+        enterxy(me) « fine      $$ where to put my followers
+        wbas« sideptr(x,y,heading)      $$ map bases
+        sbas« sideptr(x,y,mod4(heading-1))
+        setdx
+        setdy
+        mymonsb « 0
+        charat(me) « myat    $$  update common!
+findall slot(me),slot(1),maxslot,findmon,0,1,maskr
+findall slot(me),slot(1),maxslot,findobj,0,1,o3740000037777700
+if      findmon > findobj
+.       calc    icword « 0
+.               action « acenter
+.               groupto « me
+.               roomto « myroom
+.               tablew(nextict) « icword
+endif   
+do      terr {^54} city,getroom,x   $$  set mymonsb
+do      getobj          $$  find stairs Å gen object
+*
+do      c(zwhite)
+box     160,335;1845
+at      1328
+do      terrcol2
+if      incorr
+.       write   Corridor
+.       do      gencorr
+else    
+.       write     Room   ⌫$$_
+.       do      genroom
+endif
+do      c(zwhite)
+*
+if      camprm=myroom
+.       do      sysmess
+.       write        You found your camp!
+endif
+*
+if      havitem(silsta) $and$ strind>0
+.       do      sysmess
+.       write   There are stairs in this room!
+endif
+*
+do      terrcol
+*do      paint(256,272,blue,zwhite)
+do      plot3d(blanks)
+calc    findobj « findmon « yes
+*
+        
+unit    mayigo(a1)  $$ may I leave;  check busy if a1=yes
+*
+calc    return« no    $$  default to CAN'T leave
+        escape« yes
+if      myguide{^54}me
+.       do      sysmess
+.       write       Must Leave group first.
+elseif  Sum[ Busy*(Guide=myguide)]{^54}0 $and$ a1=yes
+.       do      sysmess
+.       write         Someone is missing.
+else    
+.       calc    return« yes
+.               escape« no
+endif
+*
+        
+
+=== block 'new level'  kind 00  218 words  (block 64)
+unit    newlevel        $$ do when ya find a stair/shaft
+*
+at      2018
+if      strtt{^54}terr
+.       calc    tn1 « 3         $$  new terrain
+.       do      c(zwhite)
+.       writec  strtt,-,0,
+.                  {^55}You have found the city,
+.                {^55}You've found the wilderness,
+.                  {^55}You have found the cave,
+.                 You've found the mountains,
+.                 {^55}You have found the forest,
+.                 {^55}You have found the desert,
+.                  {^55}You have found the ocean,++
+else    
+.       do      c(zwhite)
+.       if      strdl < 0
+.       .       write      You have found stairs up
+.       .       calc    tn1 « 1
+.       else    
+.       .       write     You have found stairs down
+.       .       calc    tn1 « 2
+.       endif   
+endif
+write   .       $$ quack
+at      2220
+do      c(zyellow)
+writec  myguide{^54}me,,Press SHIFT-NEXT to enter.
+*
+do      pausep
+*
+at      2018
+do      c(zgreen)
+erase   30,3
+goto    key{^54}next1 $or$ myguide{^54}me,q,x  $$  no go down
+*
+do      mayigo(yes)
+if      return=yes
+.       calc    Ltype « select(Guide=me,tn1,Ltype)
+.       do      genstair(lev+strdl,strtt)
+.       calcs   strdl > 0 $or$ strtt > terr, myat«
+.               Supat(strind)
+.               Sdnat(strind)
+.       do      newplace(yes)
+.       calc    findmon « yes
+.               findobj « no
+.               string « 0
+endif
+*
+        
+unit    runto   $$ run to someone
+at      3203
+write   Run to help whom?
+do      whom(mroom,no)
+at      3203
+erase   32
+goto    escape,q,x
+goto    room(return){^54}myroom,q,x
+*
+calc    myat « charat(return)   $$  new location
+        wbas« sideptr(x,y,heading)
+        sbas« sideptr(x,y,mod4(heading-1))
+        setdx
+        setdy
+        findobj « findmon « yes
+do      plot3d('{75}running  ')
+*
+        
+
+=== block 'get object'  kind 00  254 words  (block 65)
+define  purge,local
+define  local,global
+use     g-guilds
+use     d-map
+use     d-stairs
+*
+        
+unit    getobj  $$  find stairs & generate objects in a room
+*
+*  returns
+*       object  = array of objects, 0=blank, {^73}1=object
+*               object(x,y) for accessing
+*
+calc    Object« strind« strinfo« 0
+goto    incorr,q,x      $$ no objects in corridors
+*
+*-- generate object at's
+*
+calc    seed « mhash(grossx,grossy)
+seed    seed
+if      terr = city
+.       setperm 4
+.       calc    ind « 0
+.       loop    incr(ind) {^72} 3
+.       .       randu   tn1,6   $$  x
+.       .       randu   tn2,6   $$  y
+.       .       randp   tn3     $$  type
+.       .       calc    object(tn1,tn2) « tn3+1
+.       endloop 
+.       calc    ind « 0
+.       loop    incr(ind) {^72} 4
+.       reloop  myroom {^54} guildrm(ind)
+.       .       calc    object[guildx(ind),guildy(ind)] «                   ind+5
+.       endloop 
+elseif  terr = wild
+else
+.       randu   tn1,14
+.       randu   tn2,6   $$  x
+.       randu   tn3,6   $$  y
+.       calcs   tn1 < 3, object(tn2,tn3) « tn1+1,,
+.       if      havitem(silwat)=yes $and$ tn1<3     $$ water
+.       .       do      sysmess
+.       .       write    There is water in this room!
+.       endif
+endif
+*
+*-- find stairs, if any
+calc    ind « 0
+loop    incr(ind) {^72} 4
+.       if      Suprm(ind)=myroom
+.       .       calc    strinfo « Sup(ind)
+.       .               strind « ind
+.       .               object(strfx,strfy) « 1
+.       elseif  Sdnrm(ind)=myroom
+.       .       calc    strinfo« Sdn(ind)
+.       .               strind « ind
+.       .               object(strfx,strfy) « 1
+.       endif   
+endloop 
+*
+        
+unit    sholevel        $$  level on top of screen
+at      1221
+erase   24,6
+do      c(zwhite)
+box     160,335;1845
+do      terrcol
+do      c(zwhite)
+at      223
+erase   20
+do      c(zwhite)
+writec  terr,-,0,
+                City,
+             Wilderness,
+              Cave («s,lev»),
+            Mountains («s,lev»),
+             Forest («s,lev»),
+             Desert («s,lev»),
+              Ocean («s,lev»),
+*
+        
+
+=== block 'get room'  kind 00  156 words  (block 66)
+define  purge,local
+define  local,global
+use     g-montable
+use     g-quest
+*
+        
+unit    getroom         $$  set up monsters for this room
+*
+loop
+.       do      findroom
+.       goto    mymonsb > 0,q,x          $$  one there
+.       reserve common
+outloop zreturn < 0
+.       pause   .75
+endloop 
+*
+do      findroom
+if      mymonsb > 0
+.       release common
+.       goto    q
+endif   
+*
+calc    ind « 0
+loop    incr(ind) {^72} arlen
+.       calc    sind « cycle(roomind+ind,arlen)
+outloop monsbrm(sind) = 0          $$  no one there
+.       find    monmap(sind),slot(1),maxslot,return,1,maskr
+outloop return < 0
+endloop 
+*
+if      ind > arlen
+.       release common
+.       pack    tn1,,«s,roomind»
+.       jump    error(tn1,'no r maps')
+endif   
+*
+calc    mymonsb « sind
+        roomind « sind
+        monmap(mymonsb) « 0
+*
+seed
+randu   tn1,3
+calc    ind « 0
+loop    incr(ind) {^72} (tn1+2)
+.       randu   tn2,6
+.       randu   tn3,6
+.       calc    monsbit(mymonsb,tn2,tn3) « 1
+endloop 
+calc    wat« ringat
+if      wroom = myroom
+.       calc    monsbit(mymonsb,wx,wy)« 1
+endif
+calc    monsbrm(mymonsb) « myroom
+release common
+*
+        
+unit    findroom
+*
+find    atword,monmap(1),arlen,return,1,maskr
+calc    mymonsb « return+1
+*
+        
+
+=== block 'gen stairs'  kind 00  143 words  (block 67)
+define  purge,local
+define  local,global
+use     g-quest
+use     d-stairs
+*
+        
+unit    genstair(a1,a2)
+*  generate the stairs for level a1, terr a2
+*  level size must be in range 2..10!
+*
+calc    Stairs « 0
+        Suplev« Sdnlev« a1      $$ level from
+        Supter« Sdnter« a2      $$ terrain from
+        seed« lhash(a1,a2)/3
+seed    seed
+randu   levinfo
+calc    levsizx« 4+cycle(lsizex,5)
+        levsizy« 4+cycle(lsizey,5)
+*
+*-- set up to find stairs only in rooms
+setperm levsizx*levsizy
+doto    1y,ind« 1,levsizy
+doto    1x,sind« 1,levsizx
+if      odd(ind+sind)
+.       remove  levsizx*(ind-1)+sind  $$ remove corr bits
+endif
+1x
+1y
+modperm
+*
+*-- generate stair locations
+doto    1stair,ind« 1,4
+        Sdndl(ind)« levchng(ind)        $$ change in level
+        Supdl(ind)« -levchng(ind)
+randp   tn1     $$ leading down
+calc    Sdngx(ind)« cycle(tn1,levsizx)
+        Sdngy(ind)« page(tn1,levsizx)
+randu   Sdnfx(ind),6
+randu   Sdnfy(ind),6
+*
+randp   tn1     $$ leading up
+calc    Supgx(ind)« cycle(tn1,levsizx)
+        Supgy(ind)« page(tn1,levsizx)
+randu   Supfx(ind),6
+randu   Supfy(ind),6
+1stair
+goto    a1=1,lev=1,lev>1
+*
+        
+
+=== block 'gen stairs'  kind 00  257 words  (block 70)
+unit    lev=1   $$ handle inter-terrain bullshit
+calc    Supdl« 0        $$ no level change going up
+if      a2=city
+.       calc    Sup« 0
+.               Sdntt« wild
+.               Sdndl« 0
+elseif  a2=wild
+.       calc    Suptt« city
+.               Sdntt(1)« cave
+.               Sdntt(2)« mount
+.               Sdntt(3)« forest
+.               Sdntt(4)« desert
+.               Sdndl« 0
+elseif  a2=ocean
+.       seed    $$ back to system seed
+.       randu   strind,4
+.       calc    Suptt« wild
+.               Sdntt« ocean
+.       calcs   down1>0, Sdn(2)« 0,,
+.       calcs   down2>0, Sdn(3)« 0,,
+.       calcs   down3>0, Sdn(4)« 0,,
+else
+.       calcs   a2, tn2 « ,1,1,1,1,2,3,4
+.       calc    Suptt(tn2)« wild
+.               tn1« Sup(tn2)
+.               Sup« 0
+.               Sup(tn2)« tn1
+.               Sdntt« a2
+.       calcs   down1>0, Sdn(2)« 0,,
+.       calcs   down2>0, Sdn(3)« 0,,
+.       calcs   down3>0, Sdn(4)« 0,,
+endif
+*
+        
+unit    lev>1   $$ validate stairs' existance for levels > 1
+calc    Suptt« Sdntt« a2        $$ terrain going to
+*-- validate stairs leading down
+calcs   a1>60, Sdn(1) « 0,,
+calcs   down1>0 $or$ a1>60,Sdn(2)« 0,,
+calcs   down2>0 $or$ a1>58,Sdn(3)« 0,,
+calcs   down3>0 $or$ a1>56,Sdn(4)« 0,,
+*
+*-- validate stairs leading up
+calcs   a1<2,Sup(1)« 0,,
+*
+calc    seed« lhash(a1-1,a2)/3
+seed    seed
+randu   levinfo
+calcs   down1>0 $or$ a1<2,Sup(2)« 0,,
+*
+calc    seed« lhash(a1-3,a2)/3
+seed    seed
+randu   levinfo
+calcs   down2>0 $or$ a1<4,Sup(3)« 0,,
+*
+calc    seed« lhash(a1-5,a2)/3
+seed    seed
+randu   levinfo
+calcs   down3>0 $or$ a1<6,Sup(4)« 0,,
+*
+        
+unit    movering        $$ move reaper's ring one deeper
+calc    wat« ringat
+if      wlev {^73} 61
+.       randu   wlev,11
+.       calc    bump(wlev,50)
+else    
+.       calc    add1(wlev)
+endif
+seed    $$ system seed
+randu   wterr,4
+calcs   wterr-2,wterr« cave,mount,forest,desert
+*
+calc    seed« lhash(wlev,wterr)/3
+seed    seed
+randu   levinfo
+*
+seed    $$ system seed
+randu   wgrossx,4+cycle(lsizex,5)
+randu   wgrossy,4+cycle(lsizey,5)
+randu   wx,6
+randu   wy,6
+calc    ringat« wat
+*
+        
+
+=== block 'gen-rm/cor'  kind 00  281 words  (block 71)
+define  purge,local
+define  local,global
+use     d-map
+use     d-generate
+*
+        
+unit    genroom
+do      c(zblue)
+calc    seed « mhash(grossx,grossy)
+        makdoor(seed)
+        clrmap
+seed    seed
+*------- tn1×tn2, at 1,1
+randu   tn1,3
+randu   tn2,3
+calc    add1(tn1)
+        add1(tn2)
+        tog0(0,1,tn2)
+        tog0(tn1,1,tn2)
+        tog1(1,0,tn1)
+        tog1(1,tn2,tn1)
+*------- tn1,tn2 at 2,1
+randu   tn1,3
+randu   tn2,3
+calc    add1(tn1)
+        add1(tn2)
+        tog0(0+2,1+1,tn2)
+        tog0(tn1+2,1+1,tn2)
+        tog1(1+2,0+1,tn1)
+        tog1(1+2,tn2+1,tn1)
+*------- tn1×tn2 at 1,2
+randu   tn1,3
+randu   tn2,3
+calc    add1(tn1)
+        add1(tn2)
+        tog0(0+1,1+2,tn2)
+        tog0(tn1+1,1+2,tn2)
+        tog1(1+1,0+2,tn1)
+        tog1(1+1,tn2+2,tn1)
+*-------
+doto    1w,ind« 1,10    $$ generate internal doors
+randu   tn1,12
+calc    tn1« (((tn1+1) $ars$ lite) $cls$ lite)-1
+calc    map(ind)« map(ind) $mask$ comp(mskbyte(tn1,1))
+randu   tn1,12
+calc    tn1« (((tn1+1) $ars$ lite) $cls$ lite)-1
+calc    map(ind)« map(ind) $mask$ comp(mskbyte(tn1+12,1))
+1w
+*-------insert external doors
+calc    bounds
+        boundw
+calcs   grossx < levsizx, mapwall(6,doorloc(0)) « 1,3
+calcs   grossy < levsizy, mapside(6,doorloc(1)) « 1,3
+calcs   grossx > 1, mapwall(0,doorloc(2)) « 1,3
+calcs   grossy > 1, mapside(0,doorloc(3)) « 1,3
+*
+        
+unit    gencorr
+calc    clrmap
+*-------dir 0
+calc    tv1 « mhash(grossx+1,grossy)
+        makdoor(tv1)
+        util1« doorloc(2)
+        set1(1,util1-1,6)
+        set1(1,util1,6)
+*-------dir 1
+calc    tv1 « mhash(grossx,grossy+1)
+        makdoor(tv1)
+        util2« doorloc(3)
+        set0(util2-1,1,6)
+        set0(util2,1,6)
+*-------dir 2
+calc    tv1 « mhash(grossx-1,grossy)
+        makdoor(tv1)
+        util3« doorloc(0)
+        set1(1,util3-1,6)
+        set1(1,util3,6)
+*-------dir 3
+calc    tv1 « mhash(grossx,grossy-1)
+        makdoor(tv1)
+        util4« doorloc(1)
+        set0(util4-1,1,6)
+        set0(util4,1,6)
+*-------clean intersections, add border & doors
+calc    bounds
+        boundw
+        clr1(util1)             $$  intersections
+        clr0(util2)
+        clr1(util3)
+        clr0(util4)
+calcs   grossx < levsizx, mapwall(6,util1) « 1,3
+calcs   grossy < levsizy, mapside(6,util2) « 1,3
+calcs   grossx > 1, mapwall(0,util3) « 1,3
+calcs   grossy > 1, mapside(0,util4) « 1,3
+*
+        
+
+=== block 'displays'  kind 00  287 words  (block 72)
+define  purge,local
+define  local,global
+use     g-guilds
+use     m-defines
+*
+        
+unit    screen  $$ boxes & titles
+do      c(zwhite)
+erase
+box     1,495;132,100;2         $$  Left Main Box
+box     379,495;510,100;2       $$  Right Main Box
+do      paint(56,256,zblack,zwhite)
+do      paint(448,256,zblack,zwhite)
+do      c(zwhite)
+box     9,488;124,473           $$  Spells On
+at      31,472
+do      c(zgreen)
+write   SPELLS ON
+do      c(zwhite)
+box     9,392;124,377           $$  Weapons/Items
+at      15,376
+do      c(zgreen)
+write   WEAPONS/ITEMS
+do      c(zwhite)
+box     9,168;124,153           $$  Supplies
+at      35,152
+do      c(zgreen)
+write   SUPPLIES
+do      c(zwhite)
+at      2402
+write   Food     months
+        Water    months
+do      c(zwhite)
+box     387,488;502,473         $$  Stats
+at      405,472
+do      c(zgreen)
+write   CHAR STATS
+do      c(zwhite)
+at      450
+write   Cunning
+        Piety
+        Valor
+        Wizardry
+        Vitality
+        Age
+        Gold
+        Score
+do      c(zwhite)
+box     387,297;502,312         $$  Group Members
+at      393,296
+do      c(zgreen)
+write   GROUP MEMBERS
+do      c(zwhite)
+box     175,479;337,498;2       $$  Header Box
+color   display;zyellow,zblack
+do      shospell(no)
+do      shoitems(no)
+do      showstat
+do      shopty(no,1549) $$  show group members
+do      c(zwhite)
+*
+        
+unit    showstat
+        merge,previous
+        gmn1=gmaster(guild,1)   $$ gm name word 1
+        gmn2=gmaster(guild,2)   $$ gm name word 2
+        gmg=gmaster(guild,3)    $$ gm group
+*
+name    name
+mode    rewrite
+at      2408
+color   display;zyellow,zblack
+write   «t,food,2»
+        «t,water,2»
+at      460
+write   «t,cunning,3»
+        «t,piety,3»
+        «t,valor,3»
+        «t,wiz,3»
+        «t,vital,3»
+at      960
+writec  age{^73}2047,Old,«t,int(age/12),3»
+at      1056
+showt   gold,7
+at      1155
+showt   lexper,8
+at      1250
+color   display;zwhite
+if      rank < 5
+.       writec  rank,-,
+.               Peasant     ,
+.               Apprentice  ,
+.               Journeyman  ,
+.               Counselor   ,
+.               Master      ,
+elseif  name = gmn1 $and$ name2 = gmn2 $and$ zgroup = gmg
+.       write   Guild Master
+else    
+.       write   Past Master  ⌫$$_
+endif
+*
+        
+
+=== block 'utilities'  kind 00  194 words  (block 73)
+unit    shovital        $$  for {'46} vitality
+at      860
+color   display;zyellow;zblack
+erase   3
+showt   vital,3
+do      c(zwhite)
+unit    shoexper        $$  for {'46} experience
+color   display;zyellow,zblack
+at      1155
+erase   8
+showt   lexper,8
+do      c(zwhite)
+unit    whom(a1,a2)     $$  ask for pseudo & return his slot
+*  limit search to:    a1= mgroup, mroom, mplayer
+*       a2      = yes means to limit those to NOT inuser
+*
+arrow   (at « where+1)
+copy    whom,10
+long    10
+jkey    back,lab,next1
+*
+storea  tn1
+ok
+calc    escape « [ jcount=0 $or$ key=back ]
+judge   escape,okquit,x
+*
+calc    ind« return« sind« 0
+        tn2« lmask(6*jcount)
+loop    add1(ind){^72}maxslot
+.       in      stashun(ind)
+reloop  zreturn{^73}0
+reloop  a1=mroom$and$room(ind){^54}myroom$and$myguide{^54}guide(ind)
+reloop  a1=mgroup $and$ myguide{^54}guide(ind)
+reloop  (pseudo(ind) $mask$ tn2) {^54} tn1
+.       calc    add1(sind)      $$ count of all found
+.       calc    return« ind     $$ grab last (only?) one
+.       if      pseudo(ind) = tn1       $$ exact match
+.       .       calc    whom « tn1
+.       .       judge   okquit
+.       endif   
+endloop 
+at      at+jcount+5
+if      sind{^72}0
+.       write   not found«m,e»⌫⌫⌫⌫⌫⌫⌫⌫⌫not found
+.       judge   ignore
+elseif  sind>1
+.       write   ambiguous«m,e»⌫⌫⌫⌫⌫⌫⌫⌫⌫ambiguous
+.       judge   exit
+elseif  inuser(return)=1 $and$ a2=yes
+.       write   on user list«m,e»⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫⌫on user list
+.       judge   exit
+else    $$ ok
+.       calc    whom« pseudo(return)
+.       at      at+2
+.       showa   whom
+.       delay   .2
+endif
+endarrow
+*
+        
+
+=== block 'utilities'  kind 00  180 words  (block 74)
+unit    pausei(indsize)
+loop
+.       do      pausep
+.       keytype ktype,back,1,2,3,4,5,6,7,8,9
+outloop ktype{^73}0 $and$ ktype{^72}indsize
+endloop 
+*
+        
+unit    pausep          $$  pause here till unrecognized key
+*
+calc    pause « no
+        findobj « no
+loop
+.       timel   $$% syskludge for timel bug with catchup
+.       if      clock > uptime
+.       .       do      update
+.       .       do      roomchk
+outloop escape
+.       endif
+.       pause   3,keys=all
+*reloop  key{^73}timeup      $$  {^73} so catchup not break pause
+reloop  key = timeup $or$ key = catchup
+.       keytype ktype,m,M,Y
+outloop ktype<0
+.       do      soptions
+endloop 
+*
+        
+unit    soptions                $$  standard options
+keytype ktype,m,M,Y,n
+goto    ktype,q,x
+timel   timel,ptimel
+do      ktype,x,
+        mesroom   $$  message to room
+        whisper   $$  message to individual
+        messplay  $$  message to a player
+        smallplt  $$  replot center
+*
+        
+unit    success(for,against,diff)
+*       for     = char/monster doing the action
+*       against = char/monster being acted upon
+*       diff    = difficulty factor: % in range 1-100
+*
+*       return  = set to amount of success/failure
+*               positive meaning success
+*               negative meaning didn't work
+*
+randu   tv1
+randu   tv2
+calc    return « tv1*for - tv2*against*(diff/100)
+*
+        
+use     utils
+*
+        
+define  purge,local
+define  local,global
+use     g-storage
+*
+use     char I/O
+use     putchar
+
+=== block 'access'  kind 52  320 words  (block 75)
+ar5c5b/bla5a÷a÷h$«
+        rz9÷
+battin
+
+s
+battin
+
+s
+
+a02bpcae5Other
+coservb5Otherdcoservfsh5OtherjslOther
+Authors↑5Other
+Authors↑5battin
+
+battin
+
+Other
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+=== block 'newfullcol'  kind 00  187 words  (block 76)
+unit    c(ff)
+        merge,previous
+        ff
+        BB
+        blue
+** A color can be set in several ways using this routine:
+*do      c(text)        $$ color description constant
+*do      c(pp)          $$ color abbreviation constant
+*do      c              $$ selects defaults of text,colorb
+*do      c(zwhite)      $$ system color constant
+*
+*
+color   define;blue,.0,.0,.3
+branch  zttype=12 $and$ ztstype<4,1skip,x
+color   define;BB,.2,.2,.2
+color   display;,BB
+if      args=0  $$ if no colors passed, use defaults
+.       color   display;zcyan
+elseif  ff=pp   $$ prompt color wanted
+.       color   display;zyellow
+else
+.       color   display;ff
+endif
+1skip
+*-*
+unit    paint(xlocek,ylocek,ff,BB)
+        merge,previous
+        ff
+        BB
+        brown
+        gray
+        silver
+        brick
+        xlocek
+        ylocek
+color   define;brown,.5,0,0
+*color   define;gray,.5,.5,.5
+color   define;silver,.7,.7,.7
+color   define;brick,.7,0,0
+color   display;ff,BB
+at      xlocek,ylocek
+paint
+*color   display;zwhite,backva2
+color   display;zcyan,BB
+unit    fill(xlocek,ylocek,ff,BB,ch)
+        merge,previous
+        ff
+        BB
+        brown
+        gray
+        silver
+        brick
+        xlocek
+        ylocek
+        ch
+color   define;brown,.5,0,0
+*color   define;gray,.5,.5,.5
+color   define;silver,.7,.7,.7
+color   define;brick,.7,0,0
+color   display;ff,BB
+at      xlocek,ylocek
+paint   ch
+*color   display;zwhite,backva2
+color   display;zcyan,BB
+
+=== block 'newcolover'  kind 00  129 words  (block 77)
+*
+unit    terrcol
+        merge,previous
+        blue
+        green
+        yellow
+color   define;yellow,.5,.3,.0
+color   define;green,.3,.3,.0
+color   define;blue,.0,.0,.3
+*do      paint(256,272,blue,zwhite)
+if      terr=1
+.       do      paint(256,272,blue,zwhite)
+elseif  terr=2
+.       do      paint(256,272,zblack,zwhite)
+elseif  terr=3
+.       do      paint(256,272,blue,zwhite)
+elseif  terr=4
+.       do      paint(256,272,zblack,zwhite)
+elseif  terr=5
+.       do      paint(256,272,green,zwhite)
+elseif  terr=6
+.       do      paint(256,272,yellow,zwhite)
+endif
+unit    terrcol2
+        merge,previous
+        blue
+        green
+        yellow
+color   define;yellow,.5,.3,.0
+color   define;green,.3,.3,.0
+color   define;blue,.0,.0,.3
+if      terr=1
+.       color   display;zwhite,blue
+elseif  terr=2
+.       color   display;zwhite,zblack
+elseif  terr=3
+.       color   display;zwhite,blue
+elseif  terr=4
+.       color   display;zcyan,zblack
+elseif  terr=5
+.       color   display;zwhite,green
+elseif  terr=6
+.       color   display;zwhite,yellow
+endif

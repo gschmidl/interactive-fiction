@@ -20,7 +20,7 @@ static dword PC;
 static int   C;
 static int   halted, trace, verbose;
 static int   fixtrap = 1;   /* the fixed-point overflow trap FXTD/FXTE switch */
-static long  icount, maxinstr;
+static long long icount, maxinstr;
 static dword pr_entry;
 static dword dumplo, dumphi;
 static dword pokepc[8], pokead[8], pokeval[8];
@@ -62,7 +62,7 @@ static void die(const char *why, word ir)
         "    PC=%05X  IR=%04X\n"
         "    AC0=%08X AC1=%08X AC2=%08X AC3=%08X  C=%d\n"
         "    WSP=%08X WFP=%08X WSL=%08X WSB=%08X\n"
-        "    after %ld instructions\n",
+        "    after %lld instructions\n",
         why, PC, ir, AC[0], AC[1], AC[2], AC[3], C,
         DW(WSP_A), DW(WFP_A), DW(WSL_A), DW(WSB_A), icount);
     dump_around(PC, "memory around the PC:");
@@ -182,7 +182,8 @@ static void usage(void)
       "  -F         trace floating point\n"
       "  -P <pc> <addr> <val>  set that word every time the PC reaches <pc>,\n"
       "             for asking what-if questions of a running program\n"
-      "  -n <count> stop after this many instructions\n");
+      "  -n <count> stop after this many instructions\n"
+      "  -Z <secs>  freeze the clock at that time_t, for repeatable sessions\n");
     exit(0);
 }
 
@@ -208,7 +209,8 @@ int main(int argc, char **argv)
         else if (!strcmp(argv[i], "-F")) fptrace = 1;
         else if (!strcmp(argv[i], "-h")) usage();
         else if (!strcmp(argv[i], "-e") && i + 1 < argc) entry = (dword)strtoul(argv[++i], NULL, 16);
-        else if (!strcmp(argv[i], "-n") && i + 1 < argc) maxinstr = strtol(argv[++i], NULL, 10);
+        else if (!strcmp(argv[i], "-n") && i + 1 < argc) maxinstr = strtoll(argv[++i], NULL, 10);
+        else if (!strcmp(argv[i], "-Z") && i + 1 < argc) frozen_clock = strtol(argv[++i], NULL, 10);
         else if (!strcmp(argv[i], "-d") && i + 1 < argc) set_datadir(argv[++i]);
         else if (!strcmp(argv[i], "-s") && i + 1 < argc) set_savedir(argv[++i]);
         else if (!strcmp(argv[i], "-D") && i + 2 < argc) {
@@ -303,7 +305,7 @@ int main(int argc, char **argv)
             break;
         }
     }
-    if (verbose) fprintf(stderr, "\nstopped after %ld instructions, PC=%05X\n", icount, PC);
+    if (verbose) fprintf(stderr, "\nstopped after %lld instructions, PC=%05X\n", icount, PC);
     if (dumphi > dumplo) {
         dword r;
         for (r = dumplo & ~7u; r < dumphi; r += 8) {

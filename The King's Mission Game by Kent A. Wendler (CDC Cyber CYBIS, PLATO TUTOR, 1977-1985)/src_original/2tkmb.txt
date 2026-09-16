@@ -1,0 +1,1282 @@
+2tkmb  (tutor    a, 14 blocks)
+  n | 5m | 09/22/80 | 09/19/85 | coserv | coserv | kent a. we | ndler | aiss/lcs u | iuc | (217) 333- | 6349 | game | anyone | auxiliary | tutor file | for =tkm= | 10.04.00. | lenberg | ae | coserv | coserv | coserv | tkmqrz | 4gl↑/ | authplu | mu2+ «{75} | 0catnote | coserv | edit | 5 | e | a
+
+=== block '*directory'  kind 00  0 words  (block 0)
+
+=== block 'start'  kind 00  236 words  (block 1)
+*       
+*       
+*                       kent wendler/uiuca
+*       
+*       
+*       This is a support file for file =tkm=.  For
+* further information, please see that file.
+*
+*       External file reference: =tkm=
+*               in unit (ieu), statement 2; and 
+*               in unit menu, statement 36
+*
+*list   info
+*list   symbols
+*list   common,tkmers,320,x
+*list   charset
+*list   micro
+inhibit from
+jumpout zfroml{^54}'2tkm';2tkm;x
+*
+*
+*
+unit    menu
+*       select topic
+size    2
+at      213
+write   The King's Mission
+size    0
+at      517
+write   1. Welcome
+        
+        2. Realms
+        
+        3. Resources
+        
+        4. Weapons
+        
+        5. Monsters
+        
+        6. Fighting
+        
+        7. Special Laws
+at      2014
+write   NEXT for the first topic.
+        
+        BACK to return to the Aeolian Kingdom.
+at      2506
+write   Welcome!  I am the King's Scribe.
+at      2706
+write   Press the number of the desired topic.  At any time
+        you may press NEXT to continue with the current or
+        next topic, BACK to review the last topic, or SHIFT-
+        BACK to select a new topic.
+1back
+pause   keys=1,2,3,4,5,6,7,next,back,term
+keytype n1,1,2,3,4,5,6,7,next,back,term
+jump    n1-1,intro,intro1,intro2,intro3,intro4,intro6,intro7,intro,x
+jumpout n1=8;2tkm;x
+branch  1back
+*
+*
+unit    intro
+*       start introductory material
+back    menu
+back1   menu
+size    2.5,2.5
+at      404
+write   The King's Mission Game
+size    0,0
+at      904
+write            You, O noble adventurer, may seek fame and for-  
+        tune in the Aeolian Kingdom by accepting missions from the
+        King to slay all of the goblins, zombies, werewolves, or
+        demons in one of the Kingdom's enchanted realms.  Upon com-
+        pletion of your mission, you will receive the King's reward!
+*
+*
+*
+
+=== block 'intro1'  kind 00  262 words  (block 2)
+unit    intro1
+*       explain enchanted realms
+back    intro
+back1   menu
+at      307
+write   THE ENCHANTED REALMS
+at      507
+write        The Enchanted Realms are square in shape and are
+        composed of from one to one hundred square sections:
+at      42,384
+write   Realm 1
+draw    58,368;66,368;66,360;58,360;58,368;
+at      130,384
+write   Realm 2
+draw    146,368;162,368;162,352;146,352;146,368;skip;
+        154,368;154,352;skip;146,360;162,360;
+at      218,384
+write   Realm 3
+draw    226,368;250,368;250,344;226,344;226,368;skip;
+        234,368;234,344;skip;242,344;242,368;skip;250,360;
+        226,360;skip;226,352;250,352;
+at      290,352
+write   . . .
+at      370,384
+write   Realm 10
+draw    362,368;442,368;442,288;362,288;362,368;skip;
+        370,368;370,288;skip;378,288;378,368;skip;386,368;
+        386,288;skip;394,288;394,368;skip;402,368;402,288;
+        skip;410,288;410,368;skip;418,368;418,288;skip;
+        426,288;426,368;skip;434,368;
+draw    ;434,288;skip;442,296;362,296;skip;362,304;442,304;
+        skip;442,312;362,312;skip;362,320;442,320;skip;
+        442,328;362,328;skip;362,336;442,336;skip;442,344;
+        362,344;skip;362,352;442,352;skip;442,360;362,360;
+pause   keys=next,back,back1,term
+at      2006
+write      Each section of a realm is identified by a pair of
+        numbers.
+at      1207
+write   Section(1,1)
+draw    62,336;62,364;skip;150,356;129,335;
+at      1320
+write   Section(2,1)
+draw    158,320;158,356;skip;238,348;209,319;
+at      1234
+write   Section(2,2)
+draw    238,356;260,334;skip;374,300;354,320;
+pause   keys=next,back,back1,term
+at      2116
+write   The first number tells how close the section
+at      2206
+write   is to the west side of the realm.  The second number 
+        tells how close the section is to the south side of the
+        realm.  This means that section(1,1) is always at the
+        southwest corner of each realm.  It also means that as
+        you travel north, the second number increases, and that
+        the first number increases as you travel east.
+        
+           When you start a mission you will travel to your
+        chosen realm and be placed in a randomly selected
+        section.
+pause   keys=next,back,back1,term
+at      2006
+erase   55,12
+
+=== block 'intro1a'  kind 00  229 words  (block 3)
+at      1804
+write   You may move freely from your present section to another 
+        section, and monsters and pyramids cannot follow you.  You
+        should know, however, that since these realms are enchan-
+        ted, the appearance of each section is fixed only while
+        you are in it.  If you leave and later return, the position
+        of each object in it will have changed--except for trees
+        marking the border of the realm.  Also, any monsters you
+        left injured but still alive will instantly recover their
+        full strength when no longer in your presence.
+catchup
+pause   keys=next,back,back1,term
+at      1804
+erase   59,9
+at      1909
+write   We will now take a closer look at one of these
+        sections.
+atnm    382,292
+circleb 10
+*
+*
+*
+unit    intro1a
+back    intro1
+back1   menu
+do      nscreen
+at      2619
+write      This is a section as you will see it
+        during a mission.  It will be identified
+        in the information on the left.
+box     0,400;74,367
+pause   keys=next,back,back1,term
+at      2619
+erase   40,3
+mode    erase
+box     0,400;74,367
+mode    write
+at      3201
+erase   64
+at      2606
+write      Inside each section there are 100 positions which
+        are marked by dots.  These are the only positions which
+        you (or any other object in the section) can occupy.
+        This means that if you attempt to move from one position
+        to another, you will not pass between positions, but
+        actually pass through and stop on the positions nearest
+        your (straight-line) path.
+pause   keys=next,back,back1,term
+at      2606
+erase   58,7
+at      2606
+write      Each position is identified by a pair of numbers
+        in a manner similar to that used to identify the section.
+        Thus (1,2) marks a position on the western edge of the
+        section near the southwestern corner.
+at      138,164
+circleb 18
+*
+*
+*
+
+=== block 'intro1b'  kind 00  236 words  (block 4)
+unit    intro1b
+back    intro1a
+back1   menu
+do      nscreen
+at      2607
+write      The borders of an enchanted realm are marked in the
+        outermost sections by unbroken walls of trees.
+catchup
+draw    88,129;120,129;112,137;skip;120,129;112,121
+pause   keys=next,back,back1,term
+at      2755
+write   This
+at      2807
+write   means that you cannot leave an enchanted realm--unless
+        aided by a living pyramid.  (Living pyramids will be
+        described elsewhere.)
+pause   keys=next,back,back1,term
+at      2607
+erase   54,5
+mode    erase
+draw    88,129;120,129;112,137;skip;120,129;112,121
+mode    write
+at      2605
+write      However, you may cross freely any of the other 
+        borders of a section to travel to an adjoining section.
+        Beware, though!  You know not what lies in that section!
+*
+*
+*
+unit    intro1c
+back    intro1b
+back1   menu
+do      nscreen
+at      218
+erase   55,24
+box     1,511;132,272
+at      526
+write     At the left is a column of infor-
+        mation about your mission.  This
+        information changes as your mission
+        progresses.
+pause   keys=next,back,back1,term
+mode    erase
+box     1,511;132,272
+mode    write
+at      526
+erase   35,4
+box     1,511;93,479
+at      123
+write     Here you will see indicated the date
+        and time as it is reckoned in the enchan-
+        ted realm.  During the course of your
+        mission you will notice that this reckon-
+        ing differs from that of the outer world.
+pause   keys=next,back,back1,term
+mode    erase
+box     1,511;93,479
+mode    write
+at      176,495
+erase   42,6
+box     1,479;79,431
+at      176,464
+write     Here you will be told how many hits
+        and arrows and how much gold you have.
+        You will be told more about these later.
+pause   keys=next,back,back1,term
+mode    erase
+box     1,479;79,431
+mode    write
+at      323
+erase   40,3
+
+=== block 'intro1c'  kind 00  278 words  (block 5)
+box     1,432;110,400
+at      323
+write     Your bearing and speed show how you
+        are moving at any moment.  Your bearing
+        shows the direction in which you are
+        moving.  This direction is given by a
+        number similar to the numbers on the
+        face of a clock.  For instance, a bearing
+        of 3 shows a direction of due east.  Due
+        south is a bearing of 6.  A bearing of
+        10.5 is to the northwest.  Due north
+        can be given as either 12 or 0, which
+        are the same bearing.
+        
+          Your speed, which can be any whole
+        number from 0 to 3, shows how far you
+        can move at a time if you are moving
+        either due north or south, or east or
+        west.  If you are moving in a diagonal
+        direction, you will move a slightly
+        different amount--to the position nearest
+        the whole-numbered position.
+        
+          You will find that you cannot go from
+        a stop to full speed (or from full speed
+        to a stop) all at once; and if you are
+        traveling at full speed, that you can-
+        not make a turn sharper than a right
+        angle (or a square corner).
+pause   keys=next,back,back1,term
+mode    erase
+box     1,432;110,400
+mode    write
+at      323
+erase   41,27
+box     1,400;76,368
+at      823
+write     As explained before, this is the
+        section of the enchanted realm in
+        which you are currently located.
+pause   keys=next,back,back1,term
+mode    erase
+box     1,400;76,368
+mode    write
+at      823
+erase   34,3
+box     1,368;64,336
+at      719
+write     In order that each adventurer may gauge
+        his progress in the service of the Aeolian
+        Kingdom, the King has devised a system by
+        which every adventurer is rated.  As an
+        adventurer gains more experience and gold
+        this rating increases.
+        
+          The rating shown here is only a provi-
+        sional one and changes almost constantly
+        during the course of a mission.  It will be
+        made permanent only upon completion of the
+        mission.  This permanent rating will be
+        used to decide the difficulty of the next
+        mission to be given to the adventurer.
+pause   keys=next,back,back1,term
+mode    erase
+box     1,368;64,336
+mode    write
+at      719
+erase   43,14
+box     1,336;112,272
+
+=== block 'intro1d'  kind 00  308 words  (block 6)
+at      1023
+write     Here you see a count of all of the
+        monsters (you will be told more of them
+        elsewhere) in all of the sections of
+        this enchanted realm.  Notice that the
+        count of one of the types of monsters is
+        indicated by a small arrow ({^'04}).  You must
+        slay all of these indicated monsters in
+        order to complete your mission.
+*
+*
+*
+*
+unit    intro2
+back    intro1
+back1   menu
+at      307
+write   RESOURCES
+draw    307;316
+at      507
+write         For your first mission you will start with 25
+        bags of gold, 15 arrows, a normal sword, and 200 hits.
+        (Hits and strength are the same; and injuries, such as 
+        a 20 point injury, indicate an equal decrease in the
+        hits you have left.)
+pause   keys=back1,next,back,term
+at      1229
+write   {75}ab
+at      1407
+write         During your mission you may find treasure.  You
+        are free to take it or leave it as you please.
+pause   keys=back1,next,back,term
+at      1829
+write   {75}AB
+        {75}CD
+at      2007
+write         You will also find living pyramids.  These neutral
+        beings are of great importance, for you may use your
+        gold to purchase from them additional arrows (you can
+        carry 100), strength (no limit), or magic swords.  You
+        must also seek their aid to end your mission.  But be
+        most careful not to strike them!  For if you do they
+        will no longer aid you!
+*
+unit    intro3
+back    intro2
+back1   menu
+at      1006
+write   WEAPONS
+draw    1006;1013
+at      1306
+write          Arrows and normal swords inflict 10 point
+        injuries.  If you have purchased a Magic Sword +1
+        or +2, or a Sword Supreme, it will inflict, re-
+        spectively, a 100, 200, or 400 point injury.  How-
+        ever, they cost 2000, 4000, or 8000 bags of gold!
+*
+*
+unit    intro4
+back    intro3
+back1   menu
+at      306
+write   MONSTERS
+draw    306;314
+at      527
+write   {75}kl
+        {75}mn
+at      806
+write          Goblins are the most numerous of the monsters
+        and the easiest to kill, having but 10 hits each.
+pause   keys=back1,next,back,term
+at      1227
+write   {75}st
+        {75}uv
+at      1506
+write          More dangerous but less numerous are the zom-
+        bies.  They have 40 hits each.
+pause   keys=back1,next,back,term
+at      1927
+write   {75}op
+        {75}qr
+at      2206
+write          Still more dangerous are the werewolves, each
+        having 80 hits.
+pause   keys=back1,next,back,term
+
+=== block 'intro2'  kind 00  275 words  (block 7)
+at      2627
+write   {75}ij
+at      2806
+write          The most deadly of all are the demons.  They
+        each have 800 hits and cannot be injured by arrows
+        or normal swords.
+*
+unit    intro6
+back    intro4
+back1   menu
+at      609
+write   FIGHTING
+at      1109
+write       If a monster attacks you, it will inflict
+        an injury equal to the number of remaining hits
+        it has.  An uninjured werewolf will inflict an 
+        80 point injury, but an injured zombie with 20
+        hits remaining will only inflict a 20 point in-
+        jury.
+        
+            When you strike a monster you will receive
+        additional strength equal to the injury you in-
+        flict:  if you shoot a zombie with an arrow you
+        will receive 10 points strength, and if you hit
+        an uninjured werewolf with a magic sword, your
+        strength will increase by 80 points.
+*
+unit    intro7
+back    intro6
+back1   menu
+at      205
+write   SPECIAL LAWS
+draw    205;217;
+at      405
+write           Every adventurer accepting a mission will be
+        entered on the King's Roster, which lists a maximum
+        of sixty.  If there are no vacancies, then the adven-
+        turer with the lowest rating who is not currently 
+        active will be dropped to make room.  The Kingdom,
+        therefore, can accept a simultaneous maximum of sixty
+        adventurers.
+pause   keys=back1,next,back,term
+at      1205
+write           If your mission is terminated before comple-
+        tion, then one of the following laws applies:  If
+        termination was involuntary, then your place in the
+        Roster will be retained, but as it was at the start of
+        your mission.  If your mission is terminated voluntari-
+        ly in the presence of any monsters, then you will be
+        dropped from the Roster.  If no monsters are present
+        in your location, then you will be retained, but as
+        you were at your mission's beginning.  You may also
+        temporarily STOP or suspend your mission.  If you choose
+        to suspend your mission, you may later resume it at the
+        moment of suspension.  However, while your mission is
+        suspended, your listing in the Roster is considered to
+        be inactive and subject to deletion in order to permit
+        another adventurer to accept a mission.
+
+=== block 'intro3'  kind 00  198 words  (block 10)
+unit    intro7a
+next    intro7b
+back    intro7
+back1   menu
+at      407
+write      During the course of your mission you may wish to
+        avail yourself of three spells (or TERMs, as they
+        are known in the enchanted realms) which will always
+        be available to you.
+        
+           The first is useful if some rare enchantment should
+        obscure your vision so as to cause objects in the realm
+        to become unrecognizable.  The spell is invoked by the
+        magic sequence "TERM see" or "TERM s" and will almost
+        always work.
+pause   keys=next,back,back1,term
+at      1507
+write      The next spell is invoked by the magic sequence
+        "TERM paratime" or "TERM p" and can speed the pro-
+        gress of your mission by permitting all actions to
+        complete more rapidly.  However this spell is very
+        unreliable and can also cause all actions to stop
+        or progress only very slowly.  To nullify the effect
+        of paratime and return to normal time, invoke the
+        third spell by the magic sequence "TERM normal" or
+        "TERM n".
+*
+unit    intro7b
+next    menu
+back    intro7a
+back1   menu
+at      805
+write           As an additional aid during your mission,
+        HELP will usually be available.  But remember:
+        you will only be given HELP to do the things for
+        which you are eligible at that⌫⌫⌫⌫____ moment.  For instance,
+        you will only be told how to buy a magic sword from
+        a pyramid when you have enough gold.  So be sure to
+        ask for HELP every time you are uncertain about what
+        to do next.
+end     help
+*
+*
+*
+
+=== block 'aux 1'  kind 00  122 words  (block 11)
+unit    nscreen
+*       show illustration of section
+doto    1tree,n1«1,10   $$ border trees
+at      96+40*n1,136
+write   {75}cd
+        {75}ef
+1tree
+doto    1,n2«2,10       $$ replot section
+doto    1,n1«1,10
+at      96+40*n1,80+40*n2
+write   .
+1       
+at      4,496
+write   Date:
+        Time:
+        Hits:
+        Gold:
+        Arrows:
+        Bearing:
+        Speed:
+        Section:
+        
+        Rating:
+        
+        Goblins:
+        Zombies:
+        Werewolves:
+        Demons:
+draw    4,272;132,272;
+at      52,496
+write   0/0/0
+at      52,480
+write   0:00
+at      52,464
+write   0
+at      52,448
+write   0
+at      68,432
+write   0
+at      76,416
+write   0
+at      60,400
+write   0
+at      28,368
+write   (3,1)
+at      28,336
+write   0
+at      68,320
+write    0
+         0
+at      100,288
+write   0
+at      68,272
+write   0
+at      60,320
+mode    rewrite
+write   {^'04}
+
+=== block 'tkmchars'  kind 42  320 words  (block 12)
+cp         a                     df                                          df        
+g;5)bh     j55)bb/h   j55.7b/h   df         j55)bp     j55)bc;{'00} ia/ha;     df        
+x          ⌫u5b,      kx.pa<     df         k=a45      w×u5.      a1p        df        
+oc{'00}/   ×c5bbp     ×f%;↓o=    df         ;{^42}↓f÷  raq÷bf5d   
+        c{^00}÷ df        
+5lxah      la6g8d     t8jrbea(   df         9f)rbap    t8eh÷71l   tcl÷h5     df        
+ax         g          <%/e;p2    df         4a1⌫ca5    g5gpmc     0A;        df        
+da/        c5d48%n;   xg8;O;5    df         ;;854÷a÷   ÷{^00}p               df        
+a{70}      pg*        o;=4op4)   df         a\4opb     o;=a
+        ÷a            df        
+gα;Pbh     ;5;⌫o;;;   ;;c;O;     df         ;⌫c;{'00}bp ;;c;;;÷;   ;5{75};Q;5 df        
+÷bx        a⌫45c{'00} 3a[;{75}↑; df         {75};;4;÷b5 14⌫a⌫c{'00} c⌫g÷       df        
+bc⌫b/      {^00}dpc;  c;;;{^37}{^00} df         ;c{^00}b÷  ;{'00}4πo; ÷g;5t      df        
+c{^00}dg5c5 add4-d     as⌫{^00}wA df         3e{^00}pc/ n8⌫bg;     >;;÷h      df        
+c÷         5ao]oa     ;⌫15n      df         o÷;÷c{70}  g;;×b      5          df        
+d                                df         h                                df        
+hh         dc÷a;      ;{'37};w;{75} df         4;×4;php   ;{'00}4÷o  d          df        
+a÷;hx      ;÷c;k⌫     0÷c↑c1     df         m÷c↑h5     0÷b;o⌫     ;÷;1       df        
+adh/       satfp      qc5        df         qadh÷      nc÷        p{'00}d    df        
+oh{70}     g;/dp      q{'00}     df         b4i        natep      m          df        
+{'00}ih    qadb5      g;c5       df         uatip      mc÷        p⌫d        df        
+oix        naddp      ng÷        df         db/i5      aq5xrbp9   juh)tria   df        
+dqh/j5i/   emhrk5p    a↓5        df         hai÷       p⌫                    df        
+
+        i{70} qhad5c⌫    {'00}dp    df         q{'00}j    4⌫b5       qadc5      df        
+4⌫jh       i⌫         45d        df         p⌫jp                             df        
+a{'00}kx   a{'00}p    3c5        df         uatk5      mg÷        hab        df        
+{'00}k/    uatcp      a{'00}p    df         ndk÷       3c5        qadc5      df        
+4⌫k{70}    o⌫ad       dph        df         l                                df        
+abhlx      to;e       ]edhh                                                            
+                                                                                       
+                                                                                       
+                                                                                       
+                                                                                       
+                                                                                       
+                                                                                       
+                                                                                       
+                                                                                       
+                                                                                       
+                                                                                       
+                                                                                       
+                                                                                       
+                                                                                       
+
+=== block 'tkmers'  kind 41  320 words  (block 13)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+×>.
+
+
+
+
+j0÷k5m5cvpe/dk{'00}b9abrp{'00}3vpa5[f÷ptctga÷ldgp/s cda⌫
+
+=== block 'tkmers'  kind 41  1 words  (block 14)
+oka       
+
+=== block 'keykill'  kind 43  320 words  (block 15)
+microtable
+
+
+
+a
+b
+c
+d
+e
+f
+g
+h
+i
+j
+k
+l
+m
+n
+o
+p
+q
+r
+s
+t
+u
+v
+w
+x
+y
+z
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
++
+-
+*
+/
+(
+)
+$
+=
+ 
+,
+.
+÷
+[
+]
+%
+×
+«
+
+
+
+
+<
+>
+⌫
+
+
+;
+
+A
+B
+C
+D
+E
+F
+G
+H
+I
+J
+K
+L
+M
+N
+O
+P
+Q
+R
+S
+T
+U
+V
+W
+X
+Y
+Z
+
+
+
+
+
+
+_
+'
+
+
+
+
+
+?
+
+
+
+bn
+"
+!
+
+bpbqbr
+bs
+
+
+bubv
+
+
+
+:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

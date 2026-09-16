@@ -1,0 +1,6 @@
+push;prompt pop pop pop
+dir :games:quest
+char/off/st
+write Don't despair! Quest takes a long time to start up!
+x quest
+pop

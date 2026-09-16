@@ -1,0 +1,45 @@
+look
+inventory
+north
+south
+east
+west
+up
+down
+look
+take all
+examine room
+lift lid
+push lid
+open door
+north
+look
+score
+help
+info
+save "fs1"
+east
+west
+restore "fs1"
+look
+this is a deliberately very long command line that keeps going far past eighty columns to see what the parser and its buffers do with it all
+take everything and drop everything and then take the lamp and turn it on and look around the room carefully
+inventory
+wait
+wait
+n
+n
+e
+e
+s
+s
+w
+w
+u
+d
+diagnose
+time
+score
+quit
+yes
+y

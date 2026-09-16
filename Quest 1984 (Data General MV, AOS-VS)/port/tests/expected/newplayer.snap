@@ -1,0 +1,196 @@
++--------------------------------------------------------------------------------+ 2,25
+|Welcome to quest!                                                               |
+|                                                                                |
+|What are your initials :                                                        |
++--------------------------------------------------------------------------------+
++--------------------------------------------------------------------------------+ 3,14
+|Welcome to quest!                                                               |
+|                                                                                |
+|What are your initials : GS                                                     |
+|Player name ?                                                                   |
++--------------------------------------------------------------------------------+
++--------------------------------------------------------------------------------+ 4,11
+|Welcome to quest!                                                               |
+|                                                                                |
+|What are your initials : GS                                                     |
+|Player name ? GERHARD                                                           |
+|Password ?                                                                      |
++--------------------------------------------------------------------------------+
++--------------------------------------------------------------------------------+ 5,37
+|Welcome to quest!                                                               |
+|                                                                                |
+|What are your initials : GS                                                     |
+|Player name ? GERHARD                                                           |
+|That USERNAME/PASSWORD does not exist                                           |
+|Do you wish to create this character?                                           |
++--------------------------------------------------------------------------------+
++--------------------------------------------------------------------------------+ 3,29
+|To prove your heroism, your first quest is to                                   |
+|slay a dragon. The dragon may be of any dragon variety                          |
+|                                                                                |
+|Hit any character to continue                                                   |
++--------------------------------------------------------------------------------+
++--------------------------------------------------------------------------------+ 14,3
+|  ______________________      INVENTORY           Strength 20                   |
+| |      ff      ffff    |     Nothing             Thy purse is empty            |
+| |                  ff  |                         Experience level 5            |
+| | |              ff    |                         Intelligence level 10         |
+| |    |  |      ff      |                         Vision 4, Perception 1        |
+| |          GS  ff      |                         Quest level 1                 |
+| |  |  |                |                         You have no castles yet       |
+| |                      |                         You havn't slain a dragon yet |
+| |mm            |  |    |                         Rings:                        |
+| |                      |                                                       |
+|  ----------------------                                                        |
+|    Tarton                                                                      |
+|    City of Tartonne                                                            |
+|                                                  Wind direction from the East  |
+|->                                                                              |
++--------------------------------------------------------------------------------+
++--------------------------------------------------------------------------------+ 14,3
+|  ______________________      INVENTORY           Strength 20                   |
+| |    ffff              |     Nothing             Thy purse is empty            |
+| |      ff      ffff    |                         Experience level 5            |
+| |                  ff  |                         Intelligence level 10         |
+| | |              ff    |                         Vision 4, Perception 1        |
+| |    |  |  GS  ff      |                         Quest level 1                 |
+| |              ff      |                         You have no castles yet       |
+| |  |  |                |                         You havn't slain a dragon yet |
+| |                      |                         Rings:                        |
+| |mm            |  |    |                                                       |
+|  ----------------------                                                        |
+|    Tarton                                                                      |
+|    City of Tartonne                                                            |
+|                                                  Wind direction from the East  |
+|->                                                                              |
++--------------------------------------------------------------------------------+
++--------------------------------------------------------------------------------+ 14,3
+|  ______________________      INVENTORY           Strength 20                   |
+| |    ffffff          ff|     Nothing             Thy purse is empty            |
+| |    ffff              |                         Experience level 5            |
+| |      ff      ffff    |                         Intelligence level 10         |
+| |                  ff  |                         Vision 4, Perception 1        |
+| | |        GS    ff    |                         Quest level 1                 |
+| |    |  |      ff      |                         You have no castles yet       |
+| |              ff      |                         You havn't slain a dragon yet |
+| |  |  |                |                         Rings:                        |
+| |                      |                                                       |
+|  ----------------------                                                        |
+|    Tarton                                                                      |
+|    City of Tartonne                                                            |
+|                                                  Wind direction from the East  |
+|->                                                                              |
++--------------------------------------------------------------------------------+
++--------------------------------------------------------------------------------+ 14,3
+|  ______________________      INVENTORY           Strength 20                   |
+| |      ffffff          |     Nothing             Thy purse is empty            |
+| |      ffff            |                         Experience level 5            |
+| |        ff      ffff  |                         Intelligence level 10         |
+| |                    ff|                         Vision 4, Perception 1        |
+| ||  |      GS      ff  |                         Quest level 1                 |
+| |      |  |      ff    |                         You have no castles yet       |
+| |                ff    |                         You havn't slain a dragon yet |
+| |    |  |              |                         Rings:                        |
+| |                      |                                                       |
+|  ----------------------                                                        |
+|    Tarton                                                                      |
+|    City of Tartonne                                                            |
+|                                                  Wind direction from the East  |
+|->                                                                              |
++--------------------------------------------------------------------------------+
++--------------------------------------------------------------------------------+ 14,3
+|  ______________________      INVENTORY           Strength 20                   |
+| |        ffffff        |     Nothing             Thy purse is empty            |
+| |        ffff          |                         Experience level 5            |
+| |mm        ff      ffff|                         Intelligence level 10         |
+| |                      |                         Vision 4, Perception 1        |
+| |  |  |    GS        ff|                         Quest level 1                 |
+| |        |  |      ff  |                         You have no castles yet       |
+| |                  ff  |                         You havn't slain a dragon yet |
+| |mm    |  |            |                         Rings:                        |
+| |                      |                                                       |
+|  ----------------------                                                        |
+|    Tarton                                                                      |
+|    City of Tartonne                                                            |
+|                                                  Wind direction from the East  |
+|->                                                                              |
++--------------------------------------------------------------------------------+
++--------------------------------------------------------------------------------+ 9,21
+|        Help                                                                    |
+|                                                                                |
+|Topics are:                                                                     |
+|                                                                                |
+|    0 - Exit help     1 - Symbols                                               |
+|    2 - Moving        3 - Commands                                              |
+|    4 - Attack        5 - Spells                                                |
+|    6 - Fire          7 - Seige                                                 |
+|                                                                                |
+|Topic number please:                                                            |
++--------------------------------------------------------------------------------+
++--------------------------------------------------------------------------------+ 18,29
+|        Commands:                                                               |
+|                                                                                |
+|The escape key will exit quest.                                                 |
+|The erase page key will refresh the screen.                                     |
+| A     -  attack any being.                                                     |
+| R     -  release an object.                                                    |
+| T     -  take an object from your castle.                                      |
+| M     -  move automatic".                                                      |
+| D     -  display spells status.                                                |
+| G     -  allow use of a spyglass                                               |
+| L     -  list all players or castle status.                                    |
+| C     -  cast non-attack spell.                                                |
+| Q     -  quit seiging any castle.                                              |
+| X     -  allow castle rename within a castle.                                  |
+| K     -  allow killing off of player.                                          |
+| F     -  fire bow or cross bow.                                                |
+| ?     -  examine territory maps                                                |
+|                                                                                |
+|Hit any character to continue                                                   |
++--------------------------------------------------------------------------------+
++--------------------------------------------------------------------------------+ 9,21
+|        Help                                                                    |
+|                                                                                |
+|Topics are:                                                                     |
+|                                                                                |
+|    0 - Exit help     1 - Symbols                                               |
+|    2 - Moving        3 - Commands                                              |
+|    4 - Attack        5 - Spells                                                |
+|    6 - Fire          7 - Seige                                                 |
+|                                                                                |
+|Topic number please:                                                            |
++--------------------------------------------------------------------------------+
++--------------------------------------------------------------------------------+ 14,3
+|  ______________________      INVENTORY           Strength 20                   |
+| |        ffffff        |                         Thy purse is empty            |
+| |        ffff          |                         Experience level 5            |
+| |mm        ff      ffff|                         Intelligence level 10         |
+| |                      |                         Vision 4, Perception 1        |
+| |  |  |    GS        ff|                         Quest level 1                 |
+| |        |  |      ff  |                         You have no castles yet       |
+| |                  ff  |                         You havn't slain a dragon yet |
+| |mm    |  |            |                         Rings:                        |
+| |                      |                                                       |
+|  ----------------------                                                        |
+|    Tarton                                                                      |
+|    City of Tartonne                                                            |
+|                                                  Wind direction from the East  |
+|->                                                                              |
++--------------------------------------------------------------------------------+
++--------------------------------------------------------------------------------+ 14,3
+|  ______________________      INVENTORY           Strength 20                   |
+| |        ffffff        |                         Thy purse is empty            |
+| |        ffff          |                         Experience level 5            |
+| |mm        ff      ffff|                         Intelligence level 10         |
+| |                      |                         Vision 4, Perception 1        |
+| |  |  |    GS        ff|                         Quest level 1                 |
+| |        |  |      ff  |                         You have no castles yet       |
+| |                  ff  |                         You havn't slain a dragon yet |
+| |mm    |  |            |                         Rings:                        |
+| |                      |                                                       |
+|  ----------------------                                                        |
+|    Tarton                                                                      |
+|    City of Tartonne                                                            |
+|                                                  Wind direction from the East  |
+|->                                                                              |
++--------------------------------------------------------------------------------+

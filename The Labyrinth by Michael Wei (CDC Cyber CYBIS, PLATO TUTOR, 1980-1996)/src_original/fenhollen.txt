@@ -1,0 +1,2212 @@
+fenhollen  (tutor    a, 63 blocks)
+  ; | 54 | 04/29/81 | 04/28/93 | dipstick | izcoserv | Michael {70} | m. Wei | (414) 548- | 9889 | D & D | file direc | tors only | Fen Holl | en {^52} The | Closed {70} | door, use/ | edit file | for LAB | YRINT | H | 21.23.40. | jack guinn | ipe | izcoserv | juse | microj | jn4lao) | authplu | mu2+ «{75} | 0catnote | s0edit | e | d
+
+=== block '*directory'  kind 00  0 words  (block 0)
+
+=== block 'print info'  kind 40  20 words  (block 1)
+************************
+*****  Prints  to  *****
+**** Michael M. Wei ****
+** 925 Madison Street **
+** Waukesha, WI 53188 **
+************************
+*list   eject
+
+=== block 'stddefine1'  kind 00  301 words  (block 2)
+lvars   127
+commonx hyborea,dungeoncom,6400
+*
+unit    dungieu
+loop
+.       lineset hyborea,dunglines
+outloop zreturn
+endloop
+*
+define
+*       Standard Working Defines
+*
+*------>Working Variables
+*
+        W =     0       $$ start of working variables
+        Wl  =  43       $$ length of Working Variables Area
+*
+        arg1    = n ( W+1 )     $$  for argument passing
+        arg2    = n ( W+2 )
+        arg3    = n ( W+3 )
+        arg4    = n ( W+4 )
+        arg5    = n ( W+5 )
+        arg6    = n ( W+6 )
+        ind1    = n ( W+7 )     $$  for looping indices
+        ind2    = n ( W+8 )
+        ind3    = n ( W+9 )
+        ind4    = n ( W+10 )
+        ind5    = n ( W+11 )
+        num1    = n ( W+12 )    $$  for temp integer vars
+        num2    = n ( W+13 )
+        num3    = n ( W+14 )
+        num4    = n ( W+15 )
+        num5    = n ( W+16 )
+        num6    = n ( W+17 )
+        var1    = v ( W+18 )    $$  for temp real vars
+        var2    = v ( W+19 )
+        var3    = v ( W+20 )
+        var4    = v ( W+21 )
+        sum1    = n ( W+22 )    $$  for temporary summing
+        sum2    = n ( W+23 )
+        sum3    = n ( W+24 )
+        sum4    = n ( W+25 )
+        kcopya  = n ( W+26 )    $$  for alpha copy key
+        kcopyn  = n ( W+27 )    $$  for numeric copy key
+        line    = n ( W+28 )    $$  for 60-char line entry
+            segment,linec       = n ( W+28 ), 6 $$  chars
+        return  = n ( W+34 )    $$  for function return
+            segment,returnc     = n ( W+34 ), 6 $$  chars
+        ktype   = n ( W+35 )    $$  for keytype command
+        kstore  = n ( W+36 )    $$  for temp key values
+        escape  = n ( W+37 )    $$  for escaping routines
+        place   = n ( W+38 )    $$  coarse grid screen pos
+          segmentf,place1 = n( W+38 ),1,15      $$ "
+          segmentf,place2 = n( W+38 ),16,15     $$ "
+          segmentf,place3 = n( W+38 ),31,15     $$ "
+          segmentf,place4 = n( W+38 ),46,15     $$ "
+        placex  = n ( W+39 )    $$  for fine grid screen pos
+        placey  = n ( W+40 )
+        ptr1    = n ( W+41 )    $$  for pointers
+        ptr2    = n ( W+42 )
+        ptr3    = n ( W+43 )
+*
+*------>Table Variables
+*
+        T   =  Wl + W   $$ start of table variables area
+        Tl  =   6       $$ length of table variables area
+*
+        dcol    = n ( T+1 )     $$  table postion changes
+        drow    = n ( T+2 )
+        col     = n ( T+3 )     $$  table positions
+        row     = n ( T+4 )
+        colmax  = n ( T+5 )     $$  table size
+        rowmax  = n ( T+6 )
+
+=== block 'stddefine2'  kind 00  292 words  (block 3)
+*
+*------>Basic Intro Variables
+*
+        B   =  Tl + T   $$ start of basic intro variables
+        Bl  =   11      $$ length of basic intro variables
+*
+        name    = n ( B+1 )     $$  users name; 2 words
+        name2   = n ( B+2 )     $$  users name, second word
+        group   = n ( B+3 )     $$  users group
+        date    = n ( B+4 )     $$  date of entry
+        day     = v ( B+5 )     $$  day of entry
+*          refday = 2827 $$ lesson starting date (9/29/80)
+          refday = 7417 $$ lesson starting date (4/23/93)
+        entrtim = v ( B+6 )     $$  time of entry
+        entrcpu = v ( B+7 )     $$  starting proctim
+        tips    = v ( B+8 )     $$  tips used in lesson
+        op      = n ( B+9 )     $$  op variable
+        zfrom   = n ( B+10 )    $$  save first zfroml
+        optflag = n ( B+11 )    $$  options flag
+*
+*------>Functions
+*
+        min( xx, yy )   = [ xx - ( yy-xx )( yy<xx ) ]
+        max( xx, yy )   = [ xx - ( yy-xx )( yy>xx ) ]
+        add1( xx )      = [ xx « xx + 1 ]
+        sub1( xx )      = [ xx « xx - 1 ]
+        add1m( xx, yy ) = [ xx « min( yy, xx + 1 ) ]
+        sub1m( xx, yy ) = [ xx « max( yy, xx - 1 ) ]
+        decr( xx, yy )  = [ xx « xx - yy ]
+        incr( xx, yy )  = [ xx « xx + yy ]
+        decrm( xx, yy, zz )     = [ xx«max( zz,xx-yy ) ]
+        incrm( xx, yy, zz )     = [ xx«min( zz, xx+yy ) ]
+        clear( xx )     = [ xx « 0 ]
+        set( xx )       = [ xx « 1 ]
+        tst( xx )       = [ xx = 1 ]
+        toggle( xx )    = [ xx « (xx=1)+1 ]
+        sw( xx, yy )    = [ xx « ( xx + yy - yy « xx ) ]
+        mod( xx, yy )   = [ yy×frac(xx÷yy)-(frac(xx÷yy)<0) ]
+        cycle( xx, yy ) = [ 1 + yy×frac( 1+(xx-1)÷yy ) ]
+        equal( xx, yy ) = [  bitcnt( xx $diff$ yy ) = 0 ]
+        odd( xx )       = [ frac( xx÷2 ) {^54} 0 ]
+        even( xx )      = [ frac( xx÷2 ) = 0 ]
+        ceiling( xx )   = [ int( xx ) - ( frac( xx ) > 0 ) ]
+        floor( xx )     = [int(xx)+(frac(xx){^54}0 $and$ (xx<0)]
+        log2( xx )      = [ log( xx ) ÷ log( 2 ) ]
+        statc( xx )     =  mod[ xx $mask$ rmask(18),32 ]
+        sitec( xx )     =  int{ [ xx $mask$ rmask(18) ]÷32 }
+        inrange( xx, yy, zz )   = [ zz{^73}xx $and$ zz{^72}yy ]
+*
+*------>Constants
+*
+        editlez = 'fenhollen'
+        helplez = 'helpless'
+        entrylz = 'olabyrinth'
+        drivlez = 'odungeon'
+        notelez = 'otavern'
+*        true    = -1
+*        false   =  0
+* 
+name    name
+group   group
+day     day
+calc    entrtim«clock
+        entrcpu«proctim
+
+=== block 'gamdefine1'  kind 00  240 words  (block 4)
+define
+*
+        KD = B+Bl       $$ Labyrinth Dungeon Variables
+        KDl= 51         $$ Length of variables
+*
+        msize   = 14            $$ module size
+        elem    = n( KD+1 )     $$ element of module
+        offset  = n( KD+2 )     $$ offset for maze
+        mnum    = n( KD+3 )     $$ module number
+        off     = n( KD+4 )     $$ fighting advantage
+*
+        monster = n( KD+5 )     $$ monster
+        mdex    = n( KD+6 )     $$ monster dexterity
+        mstr    = n( KD+7 )     $$ monster strength
+        mint    = n( KD+8 )     $$ monster intelligence
+        mexp    = n( KD+9 )     $$ monster experience
+        monlev  = n( KD+10 )    $$ monster level
+        mhits   = n( KD+11 )    $$ monster hits
+        maxmhit = 2{'67}20{'66}-1         $$ maximum monster hits
+        monnum  = n( KD+12 )    $$ number of monsters
+*
+        pgold   = n( KD+13 )    $$ gold
+        player  = n( KD+14 )    $$ player number
+*
+        sucprob = n( KD+15 )    $$ combat spell success prob
+        parasuc = n( KD+16 )    $$ paralyze success
+        maxrnds = n( KD+17 )    $$ maximum rounds this fight
+        chit1   = n( KD+18 )    $$ #1 charmee advant
+        chit2   = n( KD+19 )    $$ #2 charmee advantage
+        pswing  = n( KD+20 )    $$ player's advantage
+        chrmsuc = n( KD+21 )    $$ probability of charming
+        spelln  = n( KD+22 )    $$ spells being cast
+        chesth  = n( KD+23 )    $$ hits a chest can give
+        traptyp = n( KD+24 )    $$ type of trap chest has 
+        chests  = n( KD+25 )    $$ success of opening chest
+        dexadv  = n( KD+26 )    $$ dexterity advantage
+        breaker = n( KD+27 )    $$ breaking probability
+        surpris = n( KD+28 )    $$ who surprised who
+        treasur = n( KD+29 )    $$ weapon/scroll treasure
+        protect = n( KD+30 )    $$ protect from spells/pot
+        chestin = n( KD+31 )    $$ chest inspect success
+        bardsuc = n( KD+32 )    $$ bard success rate
+        drnhits = n( KD+33 )    $$ hits from level drainers
+        shop    = n( KD+34 )    $$ what shop
+
+=== block 'gamdefine2'  kind 00  110 words  (block 5)
+*
+*        roll    = n( KD+35 )    $$ dice roll
+*        dice1   = n( KD+36 )    $$ first die
+*        dice2   = n( KD+37 )    $$ second die
+*        point   = n( KD+38 )    $$ craps point
+        card    = n( KD+39 )    $$ what card
+        suit    = n( KD+40 )    $$ suit of card
+        rank    = n( KD+41 )    $$ rank of card
+        tenp    = n( KD+42 )    $$ player's Ace flag
+        tend    = n( KD+43 )    $$ dealer's Ace flag
+        hidrank = n( KD+44 )    $$ dealer's hidden card rank
+        hidsuit = n( KD+45 )    $$ dealer's hidden card suit
+*
+        segment,dropped = n( KD+46 ),6  $$ what is dropped
+        dropptr = n( KD+48 )    $$ pointer for dropped
+        found   = n( KD+49 )    $$ what is found
+        savepot = n( KD+50 )    $$ last potion used
+*
+        add100( xx )      = [ xx « xx+100 ]
+        newdex( xx,yy,zz )= [ {.75{'67}zz/500yy{'66}}×xx ]
+        upstat( xx,yy )   =[abs{(xx+yy)>10}+abs{(xx+yy)>16}]
+
+=== block 'plydefine1'  kind 00  314 words  (block 6)
+        KC = KD+KDl     $$ start of Labyrinth Character vars
+        KCl =   20      $$ length of "
+*
+        pseudo  = n( KC+1 )     $$ pseudonym
+        passwrd = n( KC+2 )     $$ character password
+        actname = n( KC+3 )     $$ actual name
+        actgrp  = n( KC+5 )     $$ actual group
+        actzid  = n( KC+6 )     $$ actual zid
+*
+        segment,pstats  = n( KC+7 ),7   $$ player stats
+        segmentf,str    = n( KC+7 ),1,7         $$ (0-127)
+        segmentf,intel  = n( KC+7 ),8,7         $$ (0-127)
+        segmentf,wisdom = n( KC+7 ),15,7        $$ (0-127)
+        segmentf,con    = n( KC+7 ),22,7        $$ (0-127)
+        segmentf,dex    = n( KC+7 ),29,7        $$ (0-127)
+        segmentf,charm  = n( KC+7 ),36,7        $$ (0-127)
+        segmentf,plev   = n( KC+7 ),43,7        $$ (0-127)
+        segmentf,numsp  = n( KC+7 ),50,9        $$ (0-511)
+*
+        segmentf,dungloc= n( KC+8 ),1,57
+        segmentf,dungcol= n( KC+8 ),1,15        $$ dungeon
+        segmentf,dungrow= n( KC+8 ),16,15       $$ location
+        segmentf,dlev   = n( KC+8 ),31,19       $$ variables
+        segmentf,mcol   = n( KC+8 ),50,4        $$ (0-15)
+        segmentf,mrow   = n( KC+8 ),54,4        $$ (0-15)
+        segmentf,mface  = n( KC+8 ),58,3        $$ (0-7)
+*
+        segmentf,bank   = n( KC+9 ),1,45        $$ money
+          maxgold       = 2{'67}45{'66}-1
+        segmentf,gems   = n( KC+9 ),46,15       $$ gems
+          maxgems       = 2{'67}15{'66}-1
+*
+        segmentf,bagets = n( KC+10 ),1,12       $$ baguettes
+          maxbags       = 2{'67}12{'66}-1
+        segmentf,gold   = n( KC+10 ),13,23      $$ gold
+         maxgld         = 2{'67}23{'66}-1
+        segmentf,weight = n( KC+10 ),36,25      $$ weight
+*
+        segmentf,hits   = n( KC+11 ),1,15       $$ base hits
+                maxhits = 2{'67}15{'66}-1
+        segmentf,phits  = n( KC+11 ),16,15      $$ pres hits
+        segmentf,exper  = n( KC+11 ),31,30      $$ needed
+*
+        segment,weapons = n( KC+12 ),1  $$ weapons flags
+                weapvar = n( KC+12 )
+        segment,using   = n( KC+13 ),1  $$ using flags
+                usevar  = n( KC+13 )
+*
+        segmentf,steps  = n( KC+14 ),1,18       $$ steps
+        segmentf,week   = n( KC+14 ),19,6       $$ weeks
+        segmentf,usehand= n( KC+14 ),25,2       $$ hands
+        segmentf,usebody= n( KC+14 ),27,1       $$ body
+        segmentf,useskul= n( KC+14 ),28,1       $$ skull
+        segmentf,useoff = n( KC+14 ),29,10,s    $$ using adv
+        segmentf,usedef = n( KC+14 ),39,10,s    $$ using dis
+        segmentf,numweap= n( KC+14 ),49,4       $$ # weapons
+        segmentf,numspel= n( KC+14 ),53,4       $$ # scrolls
+*
+        segmentf,starve = n( KC+14 ),57,1       $$ starving
+
+=== block 'plydefine2'  kind 00  320 words  (block 7)
+        array,cstat(2)  = n( KC+15 )    $$ charmee stats
+        segmentv,charmee= n( KC+15 ),1,5        $$ 2 charmee
+        segmentv,chrmint= n( KC+15 ),6,10       $$ intellige
+        segmentv,chrmhit= n( KC+15 ),16,20      $$ # of hits
+        segmentv,chrmdex= n( KC+15 ),36,10      $$ dexterity
+        segmentv,chrmstr= n( KC+15 ),46,10      $$ strength
+*
+        segment,scrolls = n( KC+17 ),1  $$ spell flags
+        segmentf,zscroll  = n( KC+17 ),1,30
+        potions( xx )   = scrolls( 30+xx )
+        segmentf,zpot     = n( KC+17 ),31,6
+          segmentf,ppara  = n( KC+17 ),31,1     $$ anti-para
+          segmentf,pholy  = n( KC+17 ),32,1     $$ holy H{'66}2{'67}O
+          segmentf,penergy= n( KC+17 ),33,1     $$ prolvldrn
+          segmentf,phumcon= n( KC+17 ),34,1     $$ h control
+          segmentf,pundcon= n( KC+17 ),35,1     $$ u control
+          segmentf,pinvul = n( KC+17 ),36,1     $$ invulnera
+        segmentf,zeropot  = n( KC+17 ),37,24
+          segmentf,ptreas = n( KC+17 ),37,1     $$ treasure
+          segmentf,pdeluse= n( KC+17 ),38,1     $$ delusion
+          segmentf,pdeath = n( KC+17 ),39,1     $$ slow die
+          segmentf,pprot  = n( KC+17 ),40,1     $$ protect
+          segmentf,magshld= n( KC+17 ),41,1     $$ m shield
+          segmentf,spprot = n( KC+17 ),42,1     $$ protect
+          segmentf,light  = n( KC+17 ),43,1     $$ light sw
+          segmentf,visible= n( KC+17 ),44,1     $$ visible?
+          segmentf,invul  = n( KC+17 ),49,4     $$ vulnera?
+          segmentf,energon= n( KC+17 ),53,4     $$ pro{^55}drn{^55}on
+          segmentf,paraon = n( KC+17 ),57,4     $$ para on
+*
+        segmentf,sex    = n( KC+18 ),1,1        $$ sex
+          female=0,male=1
+        segmentf,align  = n( KC+18 ),2,2        $$ N/L/C
+          chaotic=0,lawful=1,neutral=2
+        segmentf,race   = n( KC+18 ),4,4        $$ race
+          dwarf=0,elf=1,gnoll=2,gnome=3,goblin=4,hobbit=5
+          humans=6,kobold=7,ogre=8,orc=9,troll=10
+        segmentf,chestp = n( KC+18 ),8,10       $$ chest pro
+        segmentf,para   = n( KC+18 ),18,1       $$ paralyzed
+        segmentf,xuseday= n( KC+18 ),19,12
+*        segmentf,water  = n( KC+18 ),31,5       $$ water
+        segmentf,sup    = n( KC+18 ),36,5       $$ supplies
+        segmentf,age    = n( KC+18 ),41,7       $$ age
+        segmentf,savemon= n( KC+18 ),48,5       $$ monster
+        segmentf,savelev= n( KC+18 ),53,7       $$ level
+*        segmentf,regen  = n( KC+19 ),1,1        $$ regen on
+*        segmentf,helpflg= n( KC+19 ),2,1        $$ help on?
+        segmentf,savenum= n( KC+19 ),3,4        $$ monnum
+        segmentf,fghtout= n( KC+19 ),8,1        $$ escape ft
+        segmentf,espon  = n( KC+19 ),9,6        $$ #esp uses
+        segmentf,useday = n( KC+19 ),15,15      $$ days use
+
+=== block 'comdefine1'  kind 00  255 words  (block 10)
+define
+*------>
+        DM  =    0      $$ start of maze variables
+        DMl =  294      $$ length of maze variables
+*
+        segment,maze=nc1,2      $$ maze map
+*------>
+        DI  =  DM+DMl   $$ Dungeon Items
+        DIl =     270   $$ Dungeon Items Length
+*
+        array,iname(150)= nc( DI+1 )    $$ item names
+        array,wname(60) = nc( DI+1 )    $$ weapon names
+        array,mname(30) = nc( DI+61 )   $$ monster names
+        array,sname(30) = nc( DI+91 )   $$ spell names
+        array,pname(30) = nc( DI+121 )  $$ potion names
+*------>
+        array,wstat(60) = nc( DI+151 )  $$ weapon stats
+        segmentv,wstr   = nc( DI+151 ),1,6      $$ (0-63)
+        segmentv,wdex   = nc( DI+151 ),7,6      $$ (0-63)
+        segmentv,wwear  = nc( DI+151 ),13,2     $$ (0-3)
+          body = 0, hand = 1, skull = 2, misc = 3
+        segmentv,woff   = nc( DI+151 ),15,8,s   $$ +⌫{'66}-{'67}127
+        segmentv,wdef   = nc( DI+151 ),23,8,s   $$ +⌫{'66}-{'67}127
+        segmentv,wprice = nc( DI+151 ),31,20    $$ (0-1M)
+        segmentv,wbreak = nc( DI+151 ),51,7     $$ (0-100)
+        segmentv,wwgt   = nc( DI+151 ),58,3     $$ weight/10
+*------>
+        array,mstat(30) = nc( DI+211 )  $$ monster stats
+        segmentv,hitd   = nc( DI+211 ),1,13     $$ hit dice
+        segmentv,dexd   = nc( DI+211 ),14,7     $$ dex dice
+        segmentv,strd   = nc( DI+211 ),21,7     $$ str dice
+        segmentv,mspec  = nc( DI+211 ),28,2     $$ spec abil
+          magres = 0, paralyz = 1, drain = 2, nospec = 3
+        segmentv,intd   = nc( DI+211 ),35,7     $$ int dice
+        segmentv,hml    = nc( DI+211 ),42,7     $$ mon lev
+        segmentv,hdl    = nc( DI+211 ),49,5     $$ dung lev
+        segmentv,mnbr   = nc( DI+211 ),54,4     $$ nbr monst
+        segmentv,mtype  = nc( DI+211 ),58,2     $$ mons type
+          beast = 0, human = 1, mythic = 2, undead = 3
+*------>
+        array,sstat(30) = nc( DI+241 )  $$ spell stats
+        segmentv,sint   = nc( DI+241 ),8,7      $$ (0-127)
+        segmentv,swis   = nc( DI+241 ),15,7     $$ (0-127)
+        segmentv,sprice = nc( DI+241 ),22,20    $$ (0-1M)
+        segmentv,sfail  = nc( DI+241 ),42,7     $$ (0-100)
+        segmentv,slev   = nc( DI+241 ),49,4     $$ (0-15)
+
+=== block 'comdefine2'  kind 00  210 words  (block 11)
+*------>
+        I  = DI+DIl     $$ people In the game
+        Il =     65     $$ length of people In the game
+        maxin  = 30     $$ max number of people in game
+*
+        gamemin = nc( I+1 )     $$ minutes game is used
+        numuser = nc( I+2 )     $$ #chars in game
+        totuser = nc( I+3 )     $$ number of users of game
+        openflg = nc( I+4 )     $$ 0=OPEN; 1=CLOSED
+        numred  = nc( I+5 )     $$ number of 'red hands'
+        array,pseudin(30)= nc( I+6 )    $$ in-game pseudo
+        arraysegv,goldin(30)    = nc( I+36 ),1,59  $$ gold
+        arraysegv,gotmess(30)   = nc( I+36 ),60,1  $$ messa
+*------>
+        M   = I+Il
+        Ml  =  184
+*
+        mptr    = nc( M+1 )     $$ Max = 36 messages
+        segment,mfrom   = nc( M+2 ),5   $$ Message From:
+        segment,mto     = nc( M+5 ),5   $$ To Player:
+*
+        message(xx)     = nc( M+8+5xx-4 )       $$ Message
+*------>
+        U  =      0     $$ Start of user list
+        Ul =    181     $$ Length of user list
+        maxent = 30     $$ maximum entries for user list
+*
+        savptr  = nc( U+1 )     $$ list pointer
+        savnam( xx )    = nc( U+6xx-6+2 )       $$ time/nam
+        savgrp( xx )    = nc( U+6xx-6+4 )       $$ group
+        savacc( xx )    = nc( U+6xx-6+5 )       $$ acc/stat
+        savent( xx )    = nc( U+6xx-6+6 )       $$ exit tim
+        savday( xx )    = nc( U+6xx-6+7 )       $$ exit day
+*
+comload
+calcs   name='jack guinn' $and$ zgroup='guest', op « -2,0
+calcs   name='jack guinn' $and$ zgroup='izcoserv', op « -2,,
+jump    title
+**
+        
+define
+        EC = KC+KCl     $$ start of player editor vars
+        ECl =    2      $$ length of "
+*
+        savenm  = n( EC+1 )     $$ save pseudo
+        savepw  = n( EC+2 )     $$ save password
+**
+        
+
+=== block 'entrypage'  kind 00  246 words  (block 12)
+unit    title
+back1   return
+data    title
+data1   switch
+labop   plotit
+*
+comload nc1,4501,1500
+calcs   name='jack guinn' $and$ zgroup='guest', op « -2,0
+calcs   name='jack guinn' $and$ zgroup='izcoserv', op « -2,,
+if      op=0
+.       jumpout (entrylz)
+endif
+backgnd
+zero    n(KC+1),20
+day     var1
+calc    num1 « int(var1 - refday)
+*        gamemin « 0    $$ init stats
+*        totuser « 0
+color   display;zwhite
+at      2216
+write   Users currently in dungeon:    «s,numuser» 
+        Users currently in labyrinth:  «s,zcusers-1»
+        Since 4/23/93 -- [ for «s,num1» days ]
+              Total hours played:   «s,gamemin/60»
+              Total users:          «s,totuser»
+              Average hours/day:    «s,gamemin/60/num1»
+              Average users/day:    «s,totuser/num1»
+at      116,440
+write             OLABYRINTH Editor«c,zyellow»
+          c - clean up all chars
+          d - edit dungeon modules
+          e - edit players characters
+          f - edit magical fighting weapons
+          h - jumpout to help lesson
+          j - jumpout to =olabyrinth=
+          l - list of players
+          m - edit monsters
+          n - jumpout to labyrinth notefile
+          p - edit potions list
+          s - edit spells list
+          u - lesson user list
+          w - edit weapons list
+          x - zero duplicate chars
+          z - zero unused chars
+color   display;zblue
+box     112,460;400,198;3
+draw    112,440;400,440
+color   display;zwhite
+mode    erase
+fill    0,511;511,474
+mode    write
+pause   keys=c,d,e,f,h,j,l,m,n,p,s,u,w,x,z,data,back1,
+        data1,lab,term
+keytype ktype,c,h,j,n,d,e,f,l,m,p,s,u,w,x,z
+if      ktype = 0
+.       comload nc1,4501,1500
+.       jump    cleanit
+elseif  ktype<4
+.       jumpout ktype-1;x;(helplez);(entrylz);(notelez)
+elseif  ktype=11
+.       comload nc1,6001,200
+else
+.       comload nc1,4501,1500
+endif
+jump    ktype-4,x,editdung,pickplay,weaplist(1),playlist,
+        display,potlist,lifelist,userlist,weaplist(0),
+        doubles,delete
+**
+        
+
+=== block 'misc'  kind 00  108 words  (block 13)
+unit    dummy
+jump    title
+**
+        
+unit    return
+jumpout (zfrom)
+**
+        
+unit    charload
+termop  chars
+at      216,10
+write   «m,r»LOADING CHARS«m,w»
+charset
+*charset hyborea,dungedchar
+charset operate,dungedchar
+at      216,10
+erase   13
+**
+        
+unit    editask(arg1)
+at      arg1
+write   Press HELP1 to edit
+pause   keys=next,back,help1,term
+jump    key=help1,x,title
+at      arg1
+erase   25
+**
+        
+unit    writeit         $$ dummy unit
+**
+        
+unit    switch
+jumpout operate
+**
+        
+unit    plotit
+at      3028
+write   *updating*
+mode    rewrite
+at      2247
+write   **⌫⌫«s,numuser»  
+        **⌫⌫«s,zcusers-1»  
+at      2544
+write   *****⌫⌫⌫⌫⌫«s,gamemin/60»  
+        *****⌫⌫⌫⌫⌫«s,totuser»  
+        *****⌫⌫⌫⌫⌫«s,gamemin/60/num1»  
+        *****⌫⌫⌫⌫⌫«s,totuser/num1»  
+write
+mode    write
+at      3028
+erase   10
+**
+        
+
+=== block 'userlist'  kind 00  163 words  (block 14)
+unit    userlist        $$ this routine displays the info
+back    title
+data    userlist
+color   display;zyellow
+at      108
+write   NAME       MINS  GROUP   ACCOUNT   DATE   TIME   SITE TIP
+calc    num1«100maxent+100      $$ draw boxes for maxent lin
+color   display;zblue
+draw    0,496;511,496;skip;0,496-16maxent;511,496-16maxent
+draw    skip;118;num1+18;skip;123;num1+23
+draw    skip;132;num1+32;skip;141;num1+41
+draw    skip;148;num1+48;skip;155;num1+55;skip;162;num1+62
+color   display;zcyan
+calc    num1«cycle(savptr+1,maxent)
+        num2«100
+loop    num2{^72}100maxent
+.       calc    num2«num2+100
+.               num1«cycle(num1-1,maxent)
+reloop  savnam(num1)=0  $$ don't plot empty slots
+.       at      num2+1
+.       showa   savnam(num1),17
+.       at      num2+19
+.       showa   savday(num1) $cls$ 36,3
+.       at      num2+24
+.       showa   savgrp(num1) $cls$ 12,8
+.       at      num2+33
+.       showa   savacc(num1),7
+.       at      num2+41
+.       showa   savday(num1),6
+.       at      num2+48
+.       showa   savent(num1),6
+.       at      num2+56
+.       write   «t,sitec(savacc(num1)),2»-«t,statc(savacc(num1)),2»
+.       at      num2+63
+.       showa   savgrp(num1),2
+endloop
+color   display;zwhite
+at      100maxent+202
+write   BACK to leave; DATA to replot
+pause   keys=back,data,term
+**
+        
+
+=== block 'duplicates'  kind 00  187 words  (block 15)
+unit    doubles
+mode    rewrite
+backgnd
+back    title
+at      1010
+write   HELP1 to delete duplicate names
+loop
+.       pause   keys=all
+outloop key=help1
+endloop
+*
+do      reserve
+at      1110
+write   player #
+calc    ptr1«ptr2«sum1«sum2«0
+        num1«num2«num3«player«0
+loop    [ add1(ptr1) {^72} 3 ]
+.       calc    num1 « 1500
+.       loop    [ num1«num1-20 ] {^73} 0
+.       .       do      comld(ptr1)
+.       reloop  nc(num1+1)=0
+.       .       calc    player « nc(num1+1)
+.       .               sum1 « sum1 + 1
+.       .               ptr2 « ptr1
+.       .       at      1119
+.       .       showt   sum1,3
+.       .       do      inner
+.       endloop
+endloop
+comload
+sort    common,1;225,20,403,7
+comload nc1,4501,1500
+*
+release common
+at      1510
+write   Cleanup completed!
+        «s,sum2» people deleted.
+        «s,sum1» people remain.
+pause   keys=all
+mode    write
+jump    title
+**
+        
+unit    inner
+calc    num3«0
+        num2«num1-20
+loop
+outloop num2{^72}0
+outloop num3
+.       find    player,nc1,num2+1,num3,20
+.       do      num3,x,zap(num3+1)
+endloop
+calc    add1(ptr2)
+loop    [ ptr2 {^72} 3 ]
+.       do      comld(ptr2)
+.       find    player,nc1,1500,num3,20
+.       if      num3
+.       .       calc    add1(ptr2)
+.       else
+.       .       do      zap(num3+1)
+.       endif
+endloop
+**
+        
+unit    zap(arg1)
+pause   .75,keys=next,term
+at      1310
+erase   25
+write   «a,nc(arg1)» Deleted!
+zero    nc(arg1),20
+calc    sum1«sum1-1
+        sum2«sum2+1
+**
+        
+
+=== block 'cleanup'  kind 00  278 words  (block 16)
+unit    cleanit
+back    title
+mode    rewrite
+backgnd
+*
+at      1119
+write   Press HELP1 to begin cleanup.
+        Press anything else to abort.
+catchup
+pause   keys=funct
+if      key{^54}help1
+.       jump    cleanit
+endif
+at      1119
+erase   30,2
+*
+do      reserve
+*
+calc    ptr1 « sum1 « 0
+at      1110
+write   player #
+loop    [ add1(ptr1) {^72} 3 ]
+.       calc    num1 « 1500
+.       loop    [ num1«num1-20 ] {^73} 0
+.       .       do      comld(ptr1)
+.       .       calc    player « nc(num1+1)
+.       reloop  player=0
+.       .       block   nc(num1+1),n(KC+1),20
+.       .       do      clean
+.       .       do      comld(ptr1)
+.       .       block   n(KC+1),nc(num1+1),20
+.       .       calc    sum1 « sum1 + 1
+.       .       at      1119
+.       .       showt   sum1,3
+.       .       zero    n(KC+1),20
+.       endloop
+endloop
+comload
+sort    common,1;225,20,403,7
+comload nc1,4501,1500
+*
+release common
+at      1510
+write   Cleanup completed!
+        «s,sum1» people are clean.
+calc    ptr1 « sum1 « 0
+        player « num1 « 0
+pause   keys=all
+mode    write
+jump    title
+**
+        
+cstop
+unit    dayz
+        merge, global:
+        segmentv,xUsed= nc(18),19,12
+        segmentv,Used= nc(19),15,15      $$ days use
+term    day
+back    title
+erase
+backgnd
+*
+at      1119
+write   Press HELP1 to begin day conversion.
+        Press anything else to abort.
+catchup
+pause   keys=all
+if      key{^54}help1
+.       jump    dayz
+endif
+erase
+mode    rewrite
+*
+do      reserve
+*
+calc    ptr1 « sum1 « num1 « 0
+at      1110
+write   player #
+loop    [ add1(ptr1) {^72} 3 ]
+.       calc    num1 « 1500
+.       loop    [ num1«num1-20 ] {^73} 0
+.       .       do      comld(ptr1)
+.       reloop  nc(num1+1)=0    $$ player name
+.       .       calc    Used(num1+1)«xUsed(num1+1)
+.       .       calcs   Used(num1+1)<1000,Used(num1+1)«Used(num1+1)+4095,,
+.       .       calc    sum1«sum1+1
+.       .       at      1119
+.       .       write   «s,sum1»//«s,xUsed(num1+1)»//«s,Used(num1+1)»       
+.       endloop
+endloop
+comload
+sort    common,1;225,20,403,7
+comload nc1,4501,1500
+*
+release common
+at      1510
+write   Cleanup completed!
+        «s,sum1» people converted!
+calc    ptr1 « sum1 « num1 « num2 « 0
+pause   keys=all
+mode    write
+jump    title
+**
+        
+cstart
+
+=== block 'deletion'  kind 00  226 words  (block 17)
+unit    delete
+back    title
+mode    rewrite
+backgnd
+*
+at      810
+write   Delete characters unused for more than
+do      narrow(849,0,100)
+at      wherex+(jcount*8), wherey+48
+write   «m,r» days,
+calc    num5«return
+*
+at      919
+write   who are also lower than level
+do      narrow(949,0,128)
+at      wherex+(jcount*8), wherey+48
+write   «m,r».  
+calc    num6«return
+*
+at      1119
+write   Press HELP1 to begin deletion.
+        Press anything else to abort.
+catchup
+pause   keys=all
+if      key{^54}help1
+.       jump    delete
+endif
+at      1119
+erase   30,2
+*
+do      reserve
+*
+calc    ptr1 « 0
+        sum1 « sum2 « 0
+        num3 « num4 « 0
+at      1110
+write   player #
+loop    [ add1(ptr1) {^72} 3 ]
+.       calc    num1 « 1500
+.       loop    [ num1«num1-20 ] {^73} 0
+.       .       do      comld(ptr1)
+.       .       calc    player « nc(num1+1)
+.       reloop  player=0
+*.       .       calc    num3«[nc(num1+18) $ars$ 30] $mask$ rmask(12)
+.       .       calc    num3«[nc(num1+19) $ars$ 31] $mask$ rmask(15)
+.       .               num4«[nc(num1+7) $ars$ 11] $mask$ rmask(7)
+.       .               sum1«sum1+1
+.       .       at      1119
+.       .       showt   sum1,3
+.       reloop  [int(day)-num3] {^72} num5
+.       reloop  [num6-num4] {^72} 0
+.       .       pause   .75,keys=next,term
+.       .       at      1310
+.       .       erase   25
+.       .       write   «a,player» Deleted!
+.       .       zero    nc(num1+1),20
+.       .       calc    sum1«sum1-1
+.       .               sum2«sum2+1
+.       endloop
+endloop
+comload
+sort    common,1;225,20,403,7
+comload nc1,4501,1500
+*
+release common
+at      1510
+write   Cleanup completed!
+        «s,sum2» people deleted.
+        «s,sum1» people remain.
+calc    ptr1 « sum1 « sum2 « 0
+        player « 0
+        num1 « num2 « num3 « num4 « num5 « num6 « 0
+pause   keys=all
+mode    write
+jump    title
+**
+        
+
+=== block 'editmons'  kind 00  234 words  (block 20)
+unit    display
+back1   title
+back    title
+at      205
+write   monster     hd  dd  sd  id hml dl m# type    specialties
+calc    ind1«0
+loop    add1(ind1){^72}30
+.       at      place«201+100ind1
+.       showt   ind1,2
+.       at      place+3
+.       showa   mname(ind1)
+.       at      place+14
+.       showt   hitd(ind1),4
+.       at      place+19
+.       showt   dexd(ind1),3
+.       at      place+23
+.       showt   strd(ind1),3
+.       at      place+27
+.       showt   intd(ind1),3
+.       at      place+31
+.       showt   hml(ind1),3
+.       at      place+35
+.       showt   hdl(ind1),2
+.       at      place+38
+.       showt   mnbr(ind1),2
+.       at      place+41
+.       writec  mtype(ind1)-1,Beast,Human,Mythic,Undead,,
+.       at      place+49
+.       writec  mspec(ind1)-1,Resists Magic,Paralyze,Level Drain,None
+endloop
+do      editask(139)
+write   LAB=switch; DATA=replot
+jump    monedit
+**
+        
+unitop  monedit
+lab     switchm
+data    display
+back    title
+back1   title
+calc    row«col«1
+        rowmax«30
+        colmax«10
+loop
+.       calc    escape«-1
+.       loop    escape
+.       .       calcs   col-2,place«203,214,219,223,227,231,235,238,241,249
+.       .       calc    place«place+100row
+.       .       if      col=1
+.       .       .       calc    kcopya«mname(row)
+.       .       .       do      atblarr(105,place,10,15)
+.       .       .       calcs   ktype,mname(row)«return,,
+.       .       elseif  col=9
+.       .       .       do      montype
+.       .       elseif  col=10
+.       .       .       do      monspec
+.       .       else
+.       .       .       do      packit
+.       .       .       do      ntblarr(105,place,0,num1,15)
+.       .       .       do      ktype,unpackit,x
+.       .       endif
+.       endloop
+.       calc    row«cycle(row+1,rowmax)
+endloop
+**
+        
+unit    packit
+calcs   col-3,num1«8191,125,125,125,125,31,15
+calcs   col-3,kcopyn«hitd(row),dexd(row),strd(row),intd(row),hml(row),hdl(row),mnbr(row)
+pack    kcopyn,,«s,kcopyn»
+**
+        
+
+=== block 'editmons'  kind 00  208 words  (block 21)
+unit    unpackit
+calcc   col-3,hitd(row)«return,dexd(row)«return,strd(row)«return,intd(row)«return,hml(row)«return,,
+calcc   col-7,,hdl(row)«return,mnbr(row)«return
+**
+        
+unitop  switchm
+back    display
+at      place
+erase   1
+at      101
+erase   64
+write   First
+do      narrow(107,1,30)
+calc    num1«return
+at      121
+write   Second
+do      narrow(128,1,30)
+calc    sw[ mname(num1),mname(return) ]
+        sw[ mstat(num1),mstat(return) ]
+jump    display
+unit    montype
+at      place
+write   {^'04}
+at      105
+erase   20
+write   »
+pause   keys=q,w,e,d,c,x,z,a,Q,W,E,D,C,X,Z,A,b,m,h,u,data,lab,back1,back,term
+keytype ktype,q,w,e,d,c,x,z,a,Q,W,E,D,C,X,Z,A,b,h,m,u
+if      ktype>15
+.       calc    mtype(row)«ktype-16
+.       at      place+1
+.       erase   6
+.       writec  mtype(row)-1,Beast,Human,Mythic,Undead
+.       calc    row«cycle(row+1,rowmax)
+else
+.       calcs   ktype-1,dcol«-1,0,1,1,1,0,-1,-1,-5,0,5,5,5,0,-5,-5
+.       calcs   ktype-1,drow«-1,-1,-1,0,1,1,1,0,-5,-5,-5,0,5,5,5,0
+.       do      movecur
+endif
+at      place
+erase   1
+**
+        
+unit    monspec
+at      place
+write   {^'04}
+at      105
+erase   20
+write   »
+pause   keys=q,w,e,d,c,x,z,a,Q,W,E,D,C,X,Z,A,m,p,l,n,data,lab,back1,back,term
+keytype ktype,q,w,e,d,c,x,z,a,Q,W,E,D,C,X,Z,A,m,p,l,n
+if      ktype>15
+.       calc    mspec(row)«ktype-16
+.       at      place+1
+.       erase   12
+.       writec  mspec(row)-1,Resists Magic,Paralyze,Level Drain,None
+.       calc    row«cycle(row+1,rowmax)
+else
+.       calcs   ktype-1,dcol«-1,0,1,1,1,0,-1,-1,-5,0,5,5,5,0,-5,-5
+.       calcs   ktype-1,drow«-1,-1,-1,0,1,1,1,0,-5,-5,-5,0,5,5,5,0
+.       do      movecur
+endif
+at      place
+erase   1
+**
+        
+
+=== block 'editdung'  kind 00  168 words  (block 22)
+unit    editdung
+        merge, previous
+        Dlev,Drow,Dcol
+back    title
+back1   title
+*chartst hyborea,dungedchar
+chartst operate,dungedchar
+if      not(zreturn)
+.       do      charload
+endif
+at      1010
+write   Which module
+        ( 0 to enter a dungeon level, row and column )
+do      narrow(1023,0,20)
+if      return{^54}0
+.       calc    mnum«return
+.       jump    plotdung
+endif
+*else
+at      1310
+write   Which level
+do      narrow(1323,1,500000)
+calc    Dlev«return
+at      1510
+write   Which row
+do      narrow(1523,1,500000)
+calc    Drow«return
+at      1710
+write   Which column
+do      narrow(1723,1,500000)
+calc    Dcol«return
+calc    mnum«cycle{int[abs(π×cycle(Dlev,24)×Drow×Dcol)],20}
+jump    plotdung
+**
+        
+unit    plotdung
+at      1010
+write   Wait - Plotting Maze
+calc    mrow«0
+        elem«2msize(msize+1)(mnum-1)
+loop    add1(mrow){^72}msize+1
+.       calc    mcol«0
+.       loop    add1(mcol){^72}msize
+.       .       at      35+17mcol,27+17mrow
+.       .       writec  maze[add1(elem)]-1,,{75}de{75},{75}fg{75},{75}hi{75}
+.       endloop
+endloop
+calc    mrow«0
+loop    add1(mrow){^72}msize
+.       calc    mcol«0
+.       loop    add1(mcol){^72}msize+1
+.       .       at      30+17mcol,35+17mrow
+.       .       writec  maze[add1(elem)]-1,,{75}a{75},{75}b{75},{75}c
+.       endloop
+endloop
+at      154,155
+write   {75}45{75}
+calc    mrow«mcol«1
+jump    editit
+**
+        
+
+=== block 'editdung'  kind 00  259 words  (block 23)
+unitop  editit
+back1   title
+back    editdung
+data    plotdung
+lab     initial
+at      1010
+erase   30
+at      201
+write   DATA to replot                  Module #«s,mnum»
+        BACK1 for entry page
+        BACK for another module
+        LAB to initialize this module
+        Press arrow keys (q,w,e,d,c,x,z,a) to move cursor.
+        Press shifted arrow keys (W,D,X,A) to change maze.
+box     232;144;3
+loop
+.       at      39+17mcol,36+17mrow
+.       write   {75}j{75}
+.       pause   keys=w,x,q,z,e,c,a,d,W,D,X,A,data,back1,term,lab,back
+.       if      key < 65
+.       .       do      movebox
+.       else
+.       .       do      newtype
+.       endif
+endloop
+**
+        
+unit    movebox
+at      39+17mcol,36+17mrow
+write   «m,e»{75}j{75}
+keytype ktype,w,x,q,e,z,c,a,d
+calcs   ktype-1,num1«+1,-1,+1,+1,-1,-1, 0, 0
+calcs   ktype-1,num2« 0, 0,-1,+1,-1,+1,-1,+1
+calc    mrow « cycle ( mrow + num1, msize )
+        mcol « cycle ( mcol + num2, msize )
+**
+        
+unit    newtype
+keytype ktype,=,W,D,X,A
+if      ktype=1         $$ North
+.       calc    elem«mcol+msize[mrow+2(msize+1)(mnum-1)]
+.               add1[maze(elem)]
+.       at      35+17mcol,44+17mrow
+.       write   «m,e»{75}de⌫⌫hi⌫⌫{75}
+.       writec  maze(elem)-1,,{75}de{75},{75}fg{75},{75}hi{75}
+elseif  ktype=3         $$ South
+.       calc    elem«mcol+msize[(mrow-1)+2(msize+1)(mnum-1)]
+.               add1[maze(elem)]
+.       at      35+17mcol,27+17mrow
+.       write   «m,e»{75}de⌫⌫hi⌫⌫{75}
+.       writec  maze(elem)-1,,{75}de{75},{75}fg{75},{75}hi{75}
+elseif  ktype=2         $$ East
+.       calc    elem«msize↑2+mcol+(msize+1)×mrow+2msize(msize+1)(mnum-1)
+.               add1[maze(elem)]
+.       at      47+17mcol,35+17mrow
+.       write   «m,e»{75}a⌫c⌫{75}
+.       writec  maze(elem)-1,,{75}a{75},{75}b{75},{75}c
+else
+.       calc    elem«msize↑2+mcol+(msize+1)×mrow-1+2msize(msize+1)(mnum-1)
+.               add1[maze(elem)]
+.       at      30+17mcol,35+17mrow
+.       write   «m,e»{75}a⌫c⌫{75}
+.       writec  maze(elem)-1,,{75}a{75},{75}b{75},{75}c
+endif
+**
+        
+unit    initial
+back    plotdung
+at      1010
+write   Press HELP1 to initialize Module #«s,mnum»!
+pause   keys=all
+jump    key=help1,x,plotdung
+block   nc281,nc(14mnum-13),14
+jump    plotdung
+**
+        
+
+=== block 'playerlist'  kind 00  268 words  (block 24)
+unit    playlist
+back    title
+back1   title
+comload
+sort    common,1;225,20,481,45  $$ by gold
+sort    common,1;225,20,601,15  $$ by hits
+sort    common,1;225,20,403,7   $$ by level
+comload nc1,4501,1500
+calc    num1«num2«num3«0
+        place«101
+loop    add1(num1){^72}30
+reloop  pseudin(num1)=0
+.       if      num2=29
+.       .       do      takeout
+.       .       erase
+.       .       calc    num2«0
+.       endif
+.       at      place«106+100(add1(num2)-1)
+.       write   '«a,pseudin(num1)»'
+.       at      place+13
+.       write   IN DUNGEON
+endloop
+if      place>200
+.       draw    place-4;place+58
+else
+.       draw    102;164
+endif
+at      place « 202 +100((num2)-1)
+write    #  pseudonym    level  age  race           gold   hits  days
+draw    place;place+62
+*
+calc    ptr1 « 0
+0done
+calc    num1 « 1500
+do      comld[ add1(ptr1) ]
+loop    [num1«num1-20]{^73}0
+reloop  nc(num1+1)=0
+.       if      num2=29
+.       .       do      takeout
+.       .       erase
+.       .       at      102
+.       .       write    #  pseudonym    level  age  race           gold   hits  days
+.       .       draw    102;164
+.       .       calc    num2«0
+.       endif
+.       at      place«101+100add1(num2) $$ rank and pseudo
+.       write   «t,add1(num3),3». '«a,nc(num1+1)»'
+.       at      place+19                $$ player level
+.       showt   [nc(num1+7) $ars$ 11] $mask$ rmask(7),4
+.       at      place+25                $$ player's age
+.       showt   [nc(num1+18) $ars$ 13] $mask$ rmask(7),3
+.       at      place+30                $$ player's race
+.       writec  [nc(num1+18) $ars$ 53] $mask$ rmask(4){^56}{^56}
+.               dwarf{^56}elf{^56}gnoll{^56}gnome{^56}goblin{^56}hobbit{^56}
+.               human{^56}kobold{^56}ogre{^56}orc{^56}troll
+.       at      place+34                $$ gold
+.       showt   [nc(num1+9) $ars$ 15] $mask$ rmask(45),15
+.       at      place+51                $$ hits
+.       showt   [nc(num1+11) $ars$ 45] $mask$ rmask(15),5
+.       at      place+58                $$ days of disuse
+*.       showt   int(day)-int{[nc(num1+18) $ars$ 30] $mask$ rmask(12)},4
+.       showt   int(day)-int{[nc(num1+19) $ars$ 31] $mask$ rmask(15)},4
+endloop
+branch  ptr1{^73}3, x, 0done
+*
+*at      place+100
+*write   *end of list*
+do      takeout
+if      key=next
+.       jump    playlist
+endif
+jump    title
+*
+        
+
+=== block 'playerlist'  kind 00  145 words  (block 25)
+unit    takeout
+if      op{^73}0
+.       at      3101
+.       write   NEXT for next page
+.               BACK for title page
+.       pause   keys=next,back,back1,term
+.       return  
+endif
+at      3101
+write   NEXT for next page      BACK for title page
+0done
+at      3201
+erase   63
+write   HELP1 to take a char out of dungeon.
+pause   keys=next,back,back1,help1,term
+if      key{^54}help1 $or$ op {^73} 0
+.       return  
+endif
+at      3201
+erase   63
+at      3201
+write   Which Player
+do      aarrow(3214,10)
+branch  return=0, 0done, x
+do      reserve
+comload nc1,4501,1500
+calc    num1 « -1
+find    return,pseudin(1),30,num1
+if      num1
+.       at      3231
+.       write   Not found in the game!
+.       release common
+.       pause   keys=all
+.       branch  0done
+else
+.       calc    pseudin(num1+1) « 0
+.               sub1m(numuser,0)
+.       release common
+.       jump    playlist
+.       pause   keys=all
+endif
+**
+        
+unit    fix
+termop  fix
+branch  op<0, x, 1d
+at      3120
+write   number of users?
+do      narrow(3137,0,30)
+calc    numuser « return
+at      3120
+erase   40
+write
+1d
+**
+        
+
+=== block 'editplayer'  kind 00  245 words  (block 26)
+unit    showplay
+comload nc1,4501,1500
+draw    0,495;511,495;skip;248,511;3232;skip;201;511,480
+draw    339,511;339,1;skip;427,511;427,1;skip;2832;2801
+draw    2901;2911;2811;skip;2918;2922;skip;2924;2931
+at      202
+write   Dates: «t,useday,4»/«t,day,4»  ID: «s,actzid»
+        a) Pseudo:      «a,pseudo»
+        b) Password:    «a,passwrd»
+        c) Last user:   «a,actname,20»/«a,actgrp»
+        d) Level:       «s,plev»
+        e) Strength:    «s,str»
+        f) Intelligence:«s,intel»
+        g) Wisdom:      «s,wisdom»
+        h) Constitut:   «s,con»
+        i) Dexterity:   «s,dex»
+        j) Charisma:    «s,charm»
+        k) Hits:        «s,phits»
+        l) Base Hits:   «s,hits»
+        m) Gold:        «s,gold»
+        n) Gems:        «s,gems»
+        o) Baguettes:   «s,bagets»
+        p) Bank:        «s,bank»
+        q) Experience:  «s,exper»
+        r) Spell Units: «s,numsp»
+        s) Dungeon Row: «s,dungrow»
+        t) Dungeon Col: «s,dungcol»
+        u) Dungeon Lev: «s,dlev»
+        v) Module Row:  «s,mrow»
+        w) Module Col:  «s,mcol»
+        x) Age:         «s,age»
+        y) Supplies:    «s,sup»
+at      133
+write   [3]        [4]        [5]
+        Magic Weap Weapons    Scrolls
+at      2902
+write   Charmees:       int   hits
+*         1) numweap=«s,numweap»
+*         2) numspel=«s,numspel»
+at      3006
+writec  charmee(1)>0,«a,mname[charmee(1)]»,none
+at      3018
+write   «t,chrmint(1),4»  «t,chrmhit(1),7»
+at      3106
+writec  charmee(2)>0,«a,mname[charmee(2)]»,none
+at      3118
+write   «t,chrmint(2),4»  «t,chrmhit(2),7»
+calc    ind1«0
+        place«123
+loop    add1(ind1)<31
+.       if      weapons(ind1+30)=1
+.       .       at      233+100ind1
+.       .       showa   wname(ind1+30)
+.       endif
+.       if      weapons(ind1)=1
+.       .       at      244+100ind1
+.       .       showa   wname(ind1)
+.       endif
+.       if      scrolls(ind1)=1
+.       .       at      255+100ind1
+.       .       showa   sname(ind1)
+.       endif
+endloop
+jump    editplay
+**
+        
+
+=== block 'editplayer'  kind 00  285 words  (block 27)
+unit    pickplay
+back    title
+back1   title
+at      1010
+write   Which Player
+inhibit blanks
+do      aarrow(1023,10)
+back
+back1
+do      reserve
+*
+calc    ptr1 « 0
+loop
+.       do      comld[ add1(ptr1) ]
+.       find    return,nc1,1500,player,20
+outloop player{^73}0 $or$ ptr1{^73}3
+endloop
+*
+if      player
+.       comload nc1,4501,1500
+.       find    return,pseudin(1),30,player
+.       at      1110
+.       writec  player{^56}
+.               Player '«a,return»' not found!{^56}
+.               Player '«a,return»' in use!
+.       pause   1,keys=all
+.       release common
+.       jump    pickplay
+else
+.       block   nc(player+1),n(KC+1),20
+.       calc    savepw  « passwrd
+.               savenm  « pseudo
+.               nc(player+2)«passwrd
+.               actzid  « 75(ptr1)-int[ player/20 ]
+endif
+release common
+jump    showplay
+**
+        
+unitop  editplay
+data    showplay
+back    editplay
+next1   sendit
+back1   nosend
+loop
+.       at      place-17
+.       erase   1
+.       at      101
+.       erase   30
+.       write   Change What
+.       do      getlett(32,113)
+reloop  ktype=27 $or$ ktype=3 $or$ ktype=26
+.       calcs   ktype<30,place«218+100ktype,11ktype-176
+.       at      place-17
+.       writec  ktype<30,{^'04},Ö
+.       if      ktype<4
+.       .       at      101
+.       .       erase   30
+.       .       packc   ktype-2,kcopya,,«a,pseudo»,«a,passwrd»,,
+.       .       do      aarrow(101,10)
+.       .       at      place
+.       .       erase   10
+.       .       showa   return
+.       .       calcc   ktype-2,pseudo«return,passwrd«return,,
+.       elseif  ktype<26
+.       .       do      packplay
+.       .       at      101
+.       .       erase   30
+.       .       do      narrow(101,0,num4)
+.       .       do      unpkplay
+.       elseif  ktype<30
+.       .       do      chrmedit
+.       else
+.       .       do      addlist
+.       endif
+endloop
+**
+        
+unit    packplay
+calcs   ktype-5,num4«127,127,127,127,127,127,127,2{'67}15{'66}-1,2{'67}15{'66}-1,2{'67}23{'66}-1,2{'67}15{'66}-1,4098,2{'67}45{'66}-1,10{'67}10{'66},511,,
+calcs   ktype-5,num5«plev,str,intel,wisdom,con,dex,charm,phits,hits,gold,gems,bagets,bank,exper,numsp,,
+calcs   ktype-19,num4«,2{'67}15{'66}-1,2{'67}15{'66}-1,500000,15,15,127,31,,
+calcs   ktype-19,num5«,dungrow,dungcol,dlev,mrow,mcol,age,sup,,
+pack    kcopyn,,«s,num5»
+**
+        
+unit    nosend
+comload nc1,4501,1500
+zero    n(KC+1),20
+jump    pickplay
+**
+        
+
+=== block 'editplayer'  kind 00  304 words  (block 30)
+unit    unpkplay
+calcc   ktype-5,plev«return,str«return,intel«return,wisdom«return,con«return,dex«return,charm«return,phits«return,,
+calcc   ktype-12,,hits«return,gold«return,gems«return,bagets«return,bank«return,exper«return,numsp«return,,
+calcc   ktype-19,,dungrow«return,dungcol«return,dlev«return,mrow«return,mcol«return,age«return,,
+calcc   ktype-25,,sup«return,,
+at      place
+erase   10
+show    return
+**
+        
+unit    addlist
+back    editplay
+at      101
+erase   30
+write   Add/delete what
+do      aarrow(117,10)
+calcs   ktype-30,num1«,31,1,91
+calc    num2«30
+find    return,iname(num1),num2,num2,1,lmask(6jcount)
+if      num2
+.       return  
+endif
+calc    return  « iname(num1+num2)
+        ind1    « 0
+at      119
+mode    rewrite
+write   «a,return»
+mode    write
+loop    add1(ind1){^72}30
+.       if      wname(30+ind1)=return $and$ ktype=30
+outloop numweap>11 $and$ weapons(ind1+30)=0
+.       .       calc    toggle[weapons(ind1+30)]
+.       .               using(ind1+90) « weapons(ind1+30)
+.       .       calcc   weapons(ind1+30)=1,
+.       .               add1m(numweap,12),sub1m(numweap,0)
+.       .       at      233+100ind1
+.       .       erase   10
+.       .       writec  weapons(ind1+30),,,«a,wname(30+ind1)»
+outloop
+.       elseif  wname(ind1)=return $and$ ktype=31
+outloop numweap>11 $and$ weapons(ind1)=0
+.       .       calc    toggle[weapons(ind1)]
+.       .               using(ind1+60) « weapons(ind1)
+.       .       calcc   weapons(ind1)=1,
+.       .               add1m(numweap,12),sub1m(numweap,0)
+.       .       at      244+100ind1
+.       .       erase   10
+.       .       writec  weapons(ind1),,,«a,wname(ind1)»
+outloop
+.       elseif  sname(ind1)=return $and$ ktype=32
+outloop numspel>11 $and$ scrolls(ind1)=0
+.       .       calc    toggle[scrolls(ind1)]
+.       .       calcc   scrolls(ind1)=1,
+.       .               add1m(numspel,12),sub1m(numspel,0)
+.       .       at      255+100ind1
+.       .       erase   10
+.       .       writec  scrolls(ind1),,,«a,sname(ind1)»
+outloop
+.       endif
+endloop
+**
+        
+unit    chrmedit
+**
+        
+unit    sendit
+do      clean
+do      reserve
+*
+calc    ptr1 « 0
+loop
+.       do      comld[ add1(ptr1) ]
+.       find    savenm,nc1,1500,player,20
+outloop player{^73}0 $or$ ptr1{^73}3
+endloop
+if      player
+.       find    0,nc1,1500,player,20
+endif
+*
+if      player
+.       at      1010
+.       write   NO room to store!
+else
+.       block   n(KC+1),nc(player+1),20
+.       comload
+.       sort    common,1;225,20,403,7
+.       comload nc1,4501,1500
+endif
+release common
+zero    n(KC+1),20
+jump    pickplay
+
+=== block 'editweapon'  kind 00  267 words  (block 31)
+unit    weaplist(arg1)
+calc    ptr1«30arg1
+back    title
+back1   title
+at      206
+write   weapon   str dex  price   off  def break weight wear
+calc    ind1«0
+loop    add1(ind1){^72}30
+.       do      showweap(ind1)
+endloop
+do      editask(139)
+jump    weapedit
+**
+        
+unitop  weapedit
+lab     switchw
+data    plotweap
+back    title
+back1   title
+at      101
+erase   64
+at      139
+write   LAB=switch; DATA=replot
+calc    row«col«1
+        rowmax«30
+        colmax«9
+loop
+.       calc    escape«-1
+.       loop    escape
+.       .       calcs   col-2,num1«3,15,19,22,31,36,41,48,53
+.       .       calc    place«num1+100row+200
+.       .       calc    ptr2«ptr1+row
+.       .       if      col=1
+.       .       .       calc    kcopya«wname(ptr2)
+.       .       .       do      atblarr(105,place,10,15)
+.       .       .       calcs   ktype,wname(ptr2)«return,,
+.       .       elseif  col=9
+.       .       .       do      wwear
+.       .       else
+.       .       .       do      weappack
+.       .       .       do      ntblarr(105,place,num1,num2,15)
+.       .       .       do      ktype,weapunpk,x
+.       .       endif
+.       endloop
+.       calc    row«cycle(row+1,rowmax)
+endloop
+**
+        
+unit    plotweap
+jump    weaplist(ptr1/30)
+**
+        
+unit    weappack
+calcs   col-3,num1«0,0,0,-125,-125,0,0
+calcs   col-3,num2«63,63,1000000,125,125,100,70
+calcs   col-3,kcopyn«wstr(ptr2),wdex(ptr2),wprice(ptr2),woff(ptr2),wdef(ptr2),wbreak(ptr2),wwgt(ptr2)
+pack    kcopyn,,«s,kcopyn»
+**
+        
+unit    weapunpk
+calcc   col-3,wstr(ptr2)«return,wdex(ptr2)«return,wprice(ptr2)«return,woff(ptr2)«return,wdef(ptr2)«return,,
+calcc   col-7,,wbreak(ptr2)«return,wwgt(ptr2)«int(return/10)
+if      col>4
+.       at      place
+.       erase   4
+.       showt   return,4
+endif
+**
+        
+unit    showweap(arg1)
+at      place«201+100arg1
+showt   arg1+ptr1,2
+at      place+3
+showa   wname(arg1+ptr1)
+at      place+15
+showt   wstr(arg1+ptr1),2
+at      place+19
+showt   wdex(arg1+ptr1),2
+at      place+22
+showt   wprice(arg1+ptr1),7
+at      place+30
+showt   woff(arg1+ptr1),4
+at      place+35
+showt   wdef(arg1+ptr1),4
+at      place+40
+showt   wbreak(arg1+ptr1),4
+at      place+47
+showt   10wwgt(arg1+ptr1),4
+at      place+53
+writec  wwear(arg1+ptr1)-1,Body,Hands,Skull,Misc,,
+
+=== block 'editweapon'  kind 00  132 words  (block 32)
+unit    wwear
+at      place
+write   {^'04}
+at      105
+erase   20
+write   »
+pause   keys=q,w,e,d,c,x,z,a,Q,W,E,D,C,X,Z,A,o,b,h,s,data,lab,back1,back,term
+keytype ktype,q,w,e,d,c,x,z,a,Q,W,E,D,C,X,Z,A,b,h,s,o
+if      ktype>15
+.       calc    wwear(ptr2)«ktype-16
+.       at      place+1
+.       erase   6
+.       writec  wwear(ptr2)-1,Body,Hands,Skull,Misc,,
+.       calc    row«cycle(row+1,rowmax)
+else
+.       calcs   ktype-1,dcol«-1,0,1,1,1,0,-1,-1,-5,0,5,5,5,0,-5,-5
+.       calcs   ktype-1,drow«-1,-1,-1,0,1,1,1,0,-5,-5,-5,0,5,5,5,0
+.       do      movecur
+endif
+at      place
+erase   1
+**
+        
+unitop  switchw
+back    weapedit
+at      place
+erase   1
+at      101
+erase   64
+write   First
+do      narrow(107,1+ptr1,30+ptr1)
+calc    num1«return
+at      121
+write   Second
+do      narrow(128,1+ptr1,30+ptr1)
+calc    sw[ wname(num1),wname(return) ]
+        sw[ wstat(num1),wstat(return) ]
+at      201+100(num1-ptr1)
+erase   64
+at      201+100(return-ptr1)
+erase   64
+do      showweap(num1-ptr1)
+do      showweap(return-ptr1)
+jump    weapedit
+
+=== block 'editspells'  kind 00  263 words  (block 33)
+unit    lifelist
+back    title
+back1   title
+at      207
+write   spell   lev int wis   price fail
+calc    ind1«0
+loop    add1(ind1){^72}30
+.       do      showlife(ind1)
+endloop
+do      editask(139)
+jump    lifeedit
+**
+        
+unitop  lifeedit
+data    lifelist
+back    title
+back1   title
+lab     switchs
+at      101
+erase   64
+at      139
+write   LAB=switch; DATA=replot
+calc    row«col«1
+        rowmax«30
+        colmax«6
+loop
+.       calc    escape«-1
+.       loop    escape
+.       .       calcs   col-2,place«203,215,218,222,226,234
+.       .       calc    place«place+100row
+.       .       if      col=1
+.       .       .       calc    kcopya«sname(row)
+.       .       .       do      atblarr(105,place,10,15)
+.       .       .       if      ktype
+.       .       .       .       calc    sname(row)«return
+.       .       .       endif
+.       .       else
+.       .       .       do      lifepack
+.       .       .       do      ntblarr(105,place,0,num2,15)
+.       .       .       do      ktype,lifeunpk,x
+.       .       endif
+.       endloop
+.       calc    row«cycle(row+1,rowmax)
+endloop
+**
+        
+unit    lifepack
+calcs   col-3,num2«15,127,127,1000000,100
+calcs   col-3,kcopyn«slev(row),sint(row),swis(row),sprice(row),sfail(row)
+pack    kcopyn,,«s,kcopyn»
+**
+        
+unit    lifeunpk
+calcc   col-3,slev(row)«return,sint(row)«return,swis(row)«return,sprice(row)«return,sfail(row)«return
+**
+        
+unitop  switchs
+back    lifeedit
+at      place
+erase   1
+at      101
+erase   64
+write   First
+do      narrow(107,1,30)
+calc    num1«return
+at      121
+write   Second
+do      narrow(128,1,30)
+calc    sw[ sname(num1),sname(return) ]
+        sw[ sstat(num1),sstat(return) ]
+at      201+100num1
+erase   64
+at      201+100return
+erase   64
+do      showlife(num1)
+do      showlife(return)
+jump    lifeedit
+**
+        
+unit    showlife(arg1)
+at      place«201+100arg1
+showt   arg1,2
+at      place+3
+showa   sname(arg1)
+at      place+14
+showt   slev(arg1),3
+at      place+18
+showt   sint(arg1),3
+at      place+22
+showt   swis(arg1),3
+at      place+26
+showt   sprice(arg1),7
+at      place+34
+showt   sfail(arg1),3
+
+=== block 'editpotion'  kind 00  235 words  (block 34)
+unit    potlist
+back    title
+back1   title
+at      207
+write   potion
+calc    ind1«0
+loop    add1(ind1){^72}30
+.       at      place«201+100ind1
+.       showt   ind1,2
+.       at      place+3
+.       showa   pname(ind1)
+endloop
+do      editask(139)
+jump    potedit
+**
+        
+unitop  potedit
+data    potlist
+back    title
+back1   title
+lab     switchp
+at      101
+erase   64
+at      139
+write   LAB=switch; DATA=replot
+calc    row«col«1
+        rowmax«30
+        colmax«1
+loop
+.       calc    escape«-1
+.       loop    escape
+.       .       calcs   col-2,place«3,,
+.       .       calc    place«place+100row+200
+.       .       if      col=1
+.       .       .       calc    kcopya«pname(row)
+.       .       .       do      atblarr(105,place,10,15)
+.       .       .       calcs   ktype,pname(row)«return,,
+.       .       endif
+.       endloop
+.       calc    row«cycle(row+1,rowmax)
+endloop
+**
+        
+unitop  switchp
+back    potedit
+at      place
+erase   1
+at      101
+erase   64
+write   First
+do      narrow(107,1,30)
+calc    num1«return
+at      121
+write   Second
+do      narrow(128,1,30)
+calc    sw[ pname(num1),pname(return) ]
+at      204+100num1
+erase   10
+showa   pname(num1)
+at      204+100return
+erase   10
+showa   pname(return)
+jump    potedit
+**
+        
+cstop
+unit    master
+mode    rewrite
+termop  master
+branch  op=-2,x,1done
+0done
+calc    arg1 « 0
+at      3101
+erase   62
+at      3109
+write   what n-variable?
+inhibit blanks
+arrow   3126
+store   arg1
+ok
+endarrow
+at      3139
+write   what value?
+inhibit blanks
+arrow   3151
+storen  n( arg1 )
+ok
+endarrow
+at      3101
+erase   62
+at      3124
+write   Is that all? (y/n)
+pause   keys=y,n,term,back1
+keytype arg1,n,y
+branch  arg1,x,0done,x
+at      3101
+erase   62
+1done
+mode    write
+calc    arg1 « 0
+write
+**
+        
+cstart
+
+=== block 'stdrtns1'  kind 00  312 words  (block 35)
+unit    aarrow(Loc,Length)
+        merge, previous
+        Loc     $$ of arrow
+        Length  $$ of return
+*
+at      Loc
+erase   15
+arrow   Loc
+long    Length
+storea  return
+ok
+endarrow
+**
+        
+unit    narrow(Loc,MIN,MAX)
+        merge, previous
+        Loc     $$ of arrow
+        MIN,MAX $$ accepted range
+*
+at      Loc
+erase   15
+arrow   Loc
+long    10
+store   return
+ok
+judge   return<MIN $or$ return>MAX,no,ok
+endarrow
+**
+        
+unit    aarrowjb(Loc)
+        merge, previous
+        Loc     $$ of arrow
+*
+arrow   Loc
+copy    kcopya,10
+long    10
+jkey    back
+storea  return
+ok
+if      key=back
+.       calc    return«0
+.       okword
+.       judge   quit
+endif
+endarrow
+**
+        
+unit    narrowjb(Loc,MIN,MAX)
+        merge, previous
+        Loc     $$ of arrow
+        MIN,MAX $$ accepted range
+*
+arrow   Loc
+noword  no
+jkey    back
+copy    kcopyn,10
+store   return
+if      key=back
+.       calc    return«0
+.       noword
+.       judge   quit
+else
+.       judge   no
+endif
+ok
+if      key=back
+.       calc    return«0
+.       noword
+.       judge   quit
+endif
+judge   return<MIN $or$ return>MAX,no,ok
+endarrow
+**
+        
+unit    comld(Part)
+        merge, previous
+        Part    $$ of common to load
+*
+if      Part = 1
+.       comload nc1,3001,1500
+elseif  Part = 2
+.       comload nc1,1501,1500
+elseif  Part = 3
+.       comload nc1,1,1500
+endif
+**
+        
+unit    reserve
+*
+*  loops until common is available
+*  then it reserves common
+*
+loop
+.       reserve common
+outloop zreturn
+.       at      101
+.       erase   63
+.       at      124
+.       write   Reserving  COMMON
+.       write
+.       at      184,495
+.       erase   17
+.       catchup
+endloop
+**
+        
+unit    backgnd
+termop  b
+backgnd
+at      101
+erase   63
+at      124
+write   Now in BACKGROUND
+**
+        
+unit    foregnd
+termop  f
+foregnd
+at      101
+erase   63
+at      124
+write   Now in FOREGROUND
+**
+        
+*unit    tips
+*termop  t
+*termop  tips
+*calc    tips«1000(proctim-entrcpu)÷(clock-entrtim)
+*at      101
+*erase   63
+*at      120
+*write   TIPS = «s,tips» («s,(clock-entrtim)/60» min)
+**
+        
+unit    normal(Avg,Dev)
+        merge, previous
+        Avg     $$ of curve
+        Dev     $$ standard deviation
+        Rnd1,Rnd2
+*
+randu   Rnd1
+randu   Rnd2
+calc    return « Avg + Dev[ sqrt(-2ln(Rnd1)) × sin(2π×Rnd2)]
+**
+        
+
+=== block 'stdrtns2'  kind 00  276 words  (block 36)
+unitop  ntblarr(arg1,arg2,arg3,arg4,arg5)
+*
+*  This routine used only in map editor
+*  arg1 is the » location
+*  arg2 is the cursor location
+*  arg3 is the min; arg4 is the max
+*  arg5 is the number of spaces to erase after »
+*
+calc    arg6«int(log(max(abs(arg4),1)))+1
+at      arg2
+write   {^'04}
+at      arg1
+erase   arg5
+arrow   arg1
+long    1
+jkey    copy
+match   ktype,q,w,e,d,c,x,z,a,Q,W,E,D,C,X,Z,A
+judge   ok
+calcs   ktype-1,dcol«-1,0,1,1,1,0,-1,-1,-5,0,5,5,5,0,-5,-5
+calcs   ktype-1,drow«-1,-1,-1,0,1,1,1,0,-5,-5,-5,0,5,5,5,0
+if      ktype{^73}0
+.       do      movecur
+.       branch  1end
+endif
+long    arg6
+copy    kcopyn,arg6
+if      key=copy
+.       press   copy1
+.       judge   exit
+else
+.       judge   key=next,rejudge,exit
+endif
+store   return
+ok
+judge   return<arg3 $or$ return>arg4,no,ok
+1end
+endarrow
+if      ktype
+.       pack    kcopyn,,«s,return,arg6»
+.       mode    rewrite
+.       at      arg2
+.       write    «t,return,arg6»
+.       mode    write
+.       calc    escape«0
+endif
+**
+        
+unitop  atblarr(arg1,arg2,arg3,arg5)
+*
+*  This routine used only in map editor
+*  arg1 is the » location
+*  arg2 is the cursor location
+*  arg3 is the return string length
+*  arg5 is the number of spaces to erase after »
+*
+at      arg2
+write   {^'04}
+at      arg1
+erase   arg5
+arrow   arg1
+long    1
+jkey    copy
+match   ktype,q,w,e,d,c,x,z,a,Q,W,E,D,C,X,Z,A
+judge   ok
+calcs   ktype-1,dcol«-1,0,1,1,1,0,-1,-1,-5,0,5,5,5,0,-5,-5
+calcs   ktype-1,drow«-1,-1,-1,0,1,1,1,0,-5,-5,-5,0,5,5,5,0
+if      ktype{^73}0
+.       do      movecur
+.       branch  1end
+endif
+long    arg3
+copy    kcopya,arg3
+if      key=copy
+.       press   copy1
+.       judge   exit
+else
+.       judge   key=next,rejudge,exit
+endif
+storea  return
+ok
+1end
+endarrow
+if      ktype
+.       pack    kcopya,,«a,return,10»
+.       mode    rewrite
+.       at      arg2
+.       erase   arg3+1
+.       write    «a,return,arg3»
+.       mode    write
+.       calc    escape«0
+endif
+**
+        
+unitop  movecur
+*
+*  This routine used only in map editor.
+*
+at      arg2
+erase   1
+calc    col«cycle(col+dcol,colmax)
+        row«cycle(row+drow,rowmax)
+**
+        
+
+=== block 'stdrtns2'  kind 00  256 words  (block 37)
+unit    getlett(arg1,arg2)
+*
+*  gets a letter from "a" to the character with
+*  a key value of arg1 (ie: a=1, b=2,..., z=26).
+*  arg2 is the » location;  returns value in ktype
+*
+at      arg2
+write   »
+loop
+.       pause   keys=all
+outloop (ktype«key){^72}arg1
+endloop
+at      arg2+2
+showa   ktype
+**
+        
+unit    roll(arg1,arg2)
+*
+*  arg1 is the number of die to roll
+*  arg2 is the number of sides to each dice
+*
+calc    arg4«return«0
+loop    add1(arg4){^72}arg1
+.       randu   arg3,max(arg2,0)
+.       calc    return«return+arg3
+endloop
+**
+        
+unit    clean
+comload nc1,4501,1500
+calc    ind2    « 61
+        weight«numweap«numspel«0
+        useoff«usedef«usebody«usehand«useskul«0
+*        actname«n(KC+4)«actgrp«0
+loop    sub1(ind2){^73}1
+reloop  weapons(ind2)=0
+.       if      numweap>11
+.       .       calc    weapons(ind2)«0
+.       .       calc    using(ind2)«0
+reloop  numweap>11
+.       endif
+.       calc    weight « weight + 10wwgt(ind2)
+.               add1m(numweap,12)
+reloop  using(ind2){^54}1
+.       if      wwear(ind2)=0 $and$ usebody=0
+.       .       calc    add1m(usebody,1)
+.       .               useoff « useoff + woff(ind2)
+.       .               usedef « usedef + wdef(ind2)
+.       elseif  wwear(ind2)=1 $and$ usehand{^72}1
+.       .       calc    add1m(usehand,2)
+.       .               useoff « useoff + woff(ind2)
+.       .               usedef « usedef + wdef(ind2)
+.       elseif  wwear(ind2)=2 $and$ useskul=0
+.       .       calc    add1m(useskul,1)
+.       .               useoff « useoff + woff(ind2)
+.       .               usedef « usedef + wdef(ind2)
+.       elseif  wwear(ind2)=3
+.       .       calc    useoff « useoff + woff(ind2)
+.       .               usedef « usedef + wdef(ind2)
+.       else
+.       .       calc    using(ind2)«0
+.       endif
+endloop
+calc    ind2    « 31
+        numspel « 0
+loop    sub1(ind2){^73}1
+reloop  scrolls(ind2)=0
+.       calcs   numspel>11, scrolls(ind2)«0,,
+reloop  numspel>11
+.       calc    add1m(numspel,12)
+endloop
+calc    weight  « weight+5bagets+gems+gold+sup
+        dlev    « min( dlev, 500000 )
+*name    actname
+*group   actgrp
+write
+1d
+*
+        

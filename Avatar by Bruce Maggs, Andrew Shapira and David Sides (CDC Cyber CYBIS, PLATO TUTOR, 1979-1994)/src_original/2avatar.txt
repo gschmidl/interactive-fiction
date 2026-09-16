@@ -1,0 +1,3558 @@
+2avatar  (tutor    a, 49 blocks)
+  [ | 5 | 02/15/93 | 11/05/97 | s | s | Maggs/Sh | apira/Sid | es | avatar | see "auth | ors" | all | intertermi | nal fantas | y role-pla | ying game | 00.47.04. | thunter | a | s | coserv | coserv | publish | juse | microj | 73abm] | 2avatuse | avatarbv | mu2+ «{75} | 0catnote | coserv | s0edit | 5 | e | b
+
+=== block '*directory'  kind 00  0 words  (block 0)
+
+=== block 'start'  kind 00  174 words  (block 1)
+*list   symbols
+*       $$  See the next few lines below
+*       $$  in case of emergency.  ...  dave runte
+*at      1520
+*write   We're fixing a problem, so the
+*        game is temporarily closed.
+*        Press any key to leave.
+*pause   keys=all
+*jumpout q
+*
+*       
+jumpout user = 'multiple';q;x
+if      zcondok > -1
+.       at      1520
+.       write   Condense errors in Avatar!
+.               
+.               This is a system problem.
+.       pause   keys=all
+.       jumpout q
+endif
+*jumpout sitenam = 'link';q;x
+*if      zsyslev > -1
+*.       at      1010
+*.       write   Sorry, you cannot play AVATAR because CYBIS
+*.               is running under degraded service right now.
+*.        
+*.        
+*.               Press NEXT to leave.
+*.       pause   15,keys=next
+*.       jumpout q
+*endif
+storage 738,exactly             $$ last 128 for char bufs
+keylist good,g,G
+keylist neutral,n,N
+keylist evil,e,E
+keylist male,m,M
+keylist female,f,F
+*--
+*--     one define set
+*--
+define  global
+        lessonn = 1     $$ lesson number of city
+use     nc consts
+use     functions
+use     student
+use     stats
+use     players
+use     messages
+use     race/class
+use     log
+use     character
+use     city
+use     items
+use     maze
+use     monsters
+use     spells
+use     cmstats
+if      backgnd = -1
+.       backgnd
+else
+.       calc    backgnd « 0
+endif
+*
+
+=== block 'start'  kind 00  187 words  (block 2)
+*
+use     initial
+*jump    (fromnum = gtcity) $union$ (fromnum = gtdung),charbegn,x
+*jump    (opt(o.stud) = 0) $mask$ (dstatus = 1),closed,x
+set     iclbuf  « o60 31 76 06 10 72 07 61 75 61,
+        o05 22 07 62 76 63 77 24 74 21,
+        o07 60 00 00 00 00 00 00 00 00
+calc    nochars « -1
+        avathlp « 0
+*
+if      fromnum = gttitle       $$ title 
+elseif  fromnum = gthelp        $$ help 
+elseif  fromnum = gtstat        $$ statistics 
+elseif  fromnum = gtcity        $$ city 
+elseif  fromnum = gtdung        $$ dungeon
+elseif  zfroml = 'notes'        $$ notesfile
+else
+.       do      opt(o.stud)-1,authmess,x
+endif
+jump    start
+*
+unit    initcom
+*
+**      intialize common
+*
+do      lock
+*
+if      zsysid {^54} sysid          $$ first time on system
+.       calc    dstatus « 1     $$ close game
+.       comret
+.       finish  abortcom        $$ abort common if STOP1
+.       do      newsys
+.       calc    dstatus « 0     $$ open game
+*elseif  fixflag = -1            $$ cleanup error, sigh
+*.       calc    dstatus « 1     $$ close game
+*.       comret
+*.       finish  abortcom        $$ abort common if STOP1
+*.       do      cleanup
+*.       calc    dstatus « 0     $$ open game
+endif
+*
+finish
+*
+zero    nc(ncpopul),190         $$ population
+zero    nc(ncpoptr),1           $$ pointers
+zero    nc(ncrbitm),64          $$ room bit map
+zero    nc(ncpbank),pblen       $$ player bank
+zero    nc(ncslotv),1           $$ slotvar
+zero    nc(ncslotb),1           $$ free slot list
+calc    gslot « 1
+        mslot « 1
+*
+do      unlock
+*
+
+=== block '**authmes'  kind 00  289 words  (block 3)
+*
+unit    authmess
+*coservmes**authl1*
+* This must reside in this lesson with this block name in
+* order to write messages into the fronts of lessons.
+*
+*
+do      blue
+draw    326,454;185,454;184,453;327,453;328,452;183,452;
+        183,451;328,451;328,450;183,450;183,449;328,449;
+        328,448;183,448;183,447;192,447;skip;319,447;
+        328,447;328,446;320,446;skip;191,446;183,446;
+        183,445;190,445;skip;321,445;328,445;
+*calc    n1 « 183
+*        n2 « 190
+*        n3 « 445
+*        n4 « 1
+*loop    n4 < 84
+*.       draw    n1,n3;n2,n3;skip;n1+138,n3;n2+138,n3;
+*.       calc    n4 « n4 + 1
+*.               n3 « n3 - 1
+*endloop
+box     183,445;190,363;-4
+box     321,445;328,363;-4
+draw    328,362;321,362;skip;190,362;
+draw    ;183,362;skip;183,361;191,361;skip;320,361;328,361;skip;
+        328,360;319,360;skip;192,360;183,360;skip;183,359;
+        328,359;skip;328,358;183,358;skip;183,357;328,357;skip;
+        328,356;183,356;skip;183,355;328,355;skip;331,354;
+draw    328,354;183,354;skip;182,353;189,353;skip;322,353;
+        329,353;skip;330,352;323,352;skip;188,352;181,352;skip;
+        180,351;331,351;
+draw    ;331,351;skip;332,350;179,350;skip;178,349;333,349;skip;
+        334,348;177,348;skip;176,347;335,347;skip;336,346;
+        175,346;skip;174,345;337,345;skip;338,344;173,344;skip;
+        172,343;339,343;skip;340,342;171,342;
+draw    171,341;340,341;skip;340,340;171,340;skip;171,339;
+        178,339;skip;333,339;340,339;skip;340,338;333,338;skip;
+        178,338;171,338;skip;171,337;340,337;skip;340,336;
+        171,336;skip;172,335;339,335;
+do      white
+size    1.50
+at      214,408
+write   Authors
+at      215,408
+write   Authors
+at      214,384
+write   Library
+at      215,384
+write   Library
+size    0
+*
+do      cyan
+at      1604
+write                             NOTICE:«c,zwhite»
+ 
+ 
+                Excellent courseware has been developed by 
+                CYBIS users.  Control Data is pleased to pro-
+                vide this courseware to our CYBIS customers.
+*       $$  changed PLATO to CYBIS...dave runte {^'27}  1/25/93
+                The authors of this courseware, Bruce Maggs,
+                Andrew Shapira and David Sides, are solely
+                responsible for the quality of this material.
+do      yellow
+at      3022
+write   Press NEXT to continue.
+pause   keys=next,term
+*zero    n1,4
+erase
+do      white
+*do      dmr  $$  message for the original coloring
+*do      dmr2  $$  message for coloring 'the monster'...
+*
+
+=== block 'dmrnote1'  kind 40  249 words  (block 52)
+*
+unit    dmr
+do      cyan
+*at      0715
+*write   I'm attempting to add come color
+*        to this lesson and both welcome
+*        and request the players' input.
+*        If you see colors that are ugly,
+*        obscene, or ridiculous, let me
+*        know.
+* 
+*        How to do that?  From the screen
+*        in-question, do a "term comment"
+*        and I'll get the message.  If you
+*        don't know how to use that, go to
+*        the Author Mode page and do a
+*        Shift A.  Then press DATA, enter
+*        "term" and keep reading until 
+*        you get to "term-comment".
+* 
+*        ⌫⌫  This is your chance, folks.  Speak
+*        up now, or forever hold your peace.
+* 
+*        Dave Runte
+at      503
+write   So you've been warned...
+        
+        Various parts of Avatar
+        
+        are in the process of
+        
+        getting some color!
+        
+        Therefore, you may 
+        
+        unexpectedly be kicked
+        
+        out of the game with
+        
+        little or no warning.
+        
+        Please be patient...
+        
+        when it's done, that'll
+        
+        be it and you can play
+        
+             FOREVER.
+*
+*
+do      blue
+*box     513;2751;3  $$ goes with the original message
+box     402;2727;3  $$  goes with the 'Warning' message
+do      yellow
+at      532
+write   -NOTICE-
+        The main display, in the game
+        is using several colors now.
+        This is for YOU to decide
+        which colors you like, where.
+        Please remember that dark
+        colors on a black background
+        are hard or impossible to see
+        on a lot of moniters.
+        
+        Please place any comments/
+        suggestions in the game
+        notesfile, =2avatarn=, where
+        all can see.
+        
+        So, speak up now, or keep
+        quiet later.  It's your 
+        game to play.
+do      blue
+box     430;2763;3
+catchup
+do      green
+*at      3017
+at      3117
+write   Press any key to start Avatar!
+pause   keys=all
+*       
+
+=== block 'dmrnote2'  kind 40  55 words  (block 55)
+*
+unit    dmr2
+do      cyan
+at      1010
+write   The Title Page (aka the monster) needs some colors.
+        Please see lessons =monster= or =monster1= for
+        further information.  Questions?  See Dave Runte.
+do      blue
+box     808;1362;3
+do      yellow
+at      2218
+*write   Press any key to start Avatar!
+write   PRESS ANY KEY TO START AVATAR!
+pause   keys=all
+*end     lesson  $$  turn this off for -avatar-.
+*       
+
+=== block 'start'  kind 00  224 words  (block 4)
+*
+unit    start
+*
+**      first unit
+*
+initial common,initcom
+*
+do      lock            $$ in case initializing common
+do      unlock
+*
+jump    (opt(o.stud) = 0) $mask$ (dstatus = 1),closed,x
+*
+calc    mostin  « imax(mostin,zcusers)
+        lfilen  « -1
+do      cyan
+at      172,256
+write   Finding your essence.
+mode    write
+do      white
+catchup
+do      packname        $$ pack signon name into idbuf
+transfr sbuf;tsbuf;3    $$ for transfer copy buffer
+do      attach(dnchar)  $$ character nameset
+setname (sbuf)
+calc    found « (zreturn = -1)
+if      found           $$ essence is present
+.       reserve name
+.       jump    zreturn,x,inuse
+.       datain  1;s,schara;1
+.       do      zreturn,x,error('datain36')
+.       calc    sxinfo « zinfo
+.       if      ssafe = 0
+.       .       day     sday
+.       .       rename  (sbuf),sxinfo
+.       .       do      zreturn,x,error('rename37')
+.       endif
+endif
+if      nochars
+.       chartst <gtmisc>,8owq 980sl
+.       if      zreturn > -1
+.       .       do      charload
+.       endif
+endif
+inhibit
+inhibit anserase
+jump    found,charbegn,create
+*
+use     secure
+use     game util
+use     u critrec
+use     make room
+use     arrow
+use     u mess          $$ for bulletin etc.
+*--
+*-- random units to please condensor
+*--
+unit    exitold
+unit    comhelp
+unit    showtrck
+unit    statshow(lstat)
+        lstat
+unit    showabil
+*
+unit    putchar1
+transfr s,schara;s,lstorag-63;64
+*
+unit    getchar1
+transfr s,lstorag-63;s,schara;64
+*
+unit    putchar2
+transfr s,schara;s,lstorag-127;64
+*
+unit    getchar2
+transfr s,lstorag-127;s,schara;64
+*
+unit    abortcom
+*
+**      finish unit for initial common unit
+*
+*-- an aborted common will migrate out of EM when
+*-- it has no users, at least it better!
+*
+abort   common
+*
+
+=== block 'units'  kind 00  289 words  (block 5)
+*
+unit    stortime
+date    citydat
+clock   citytim
+*
+unit    jumpout(lless,lunit)
+        lless   $$ lesson number in leslist
+        lunit   $$ actual unit name
+$
+inhibit dropstor,dropfile,jumpchk
+jumpout args-2;<lless>;<lless>,(lunit)
+jump    retfile
+*
+unit    retfile
+jump    start
+*
+*unit    closed
+do      white
+*do      getmess
+*at      232,336
+*write   AVATAR
+*at      64,304
+*do      showgmes
+*pause   15,keys=funct
+*jumpout q
+**
+unit    showuser
+mode    rewrite
+atnm    224,360
+do      green
+write   «t,zcusers,2» user
+writec  zcusers>1;s; ;
+mode    write
+do      white
+*
+unit    bulletin
+        merge,previous
+        lcnt
+$
+do      getmess
+at      64,484
+do      showbmes
+if      leslist {^54} startl
+.       pack    leslist;lcnt;«a,leslist»
+.       atnm    256-4*lcnt,416
+.       showa   leslist
+.       box     248-4*lcnt,432;264+4*lcnt,416
+endif
+goto    dstatus = 0,q,x
+do      white
+box     224,34;286,14
+atnm    3130
+do      red
+write   CLOSED
+do      white
+*
+unit    getsigno
+*--
+*-- function keys can of course rip you out of this unit
+*--
+do      cyan
+at      64,272
+write   CYBIS signon:  name
+*--
+arrow   224,272
+long    18
+exact
+judge   ignore
+storea  tname,20
+ok
+endarrow
+*--
+at      176,240
+write   group
+*--
+arrow   224,240
+long    8
+exact
+judge   ignore
+storea  tgroup
+ok
+attach  (tgroup)
+detach  (tgroup)        $$ does not set zreturn
+*do      red
+if      (zreturn {^54} 0) $and$ (error = 1)         $$ group ok?
+.       if      (zreturn = -1) $and$ (zftype {^54} 'group')
+.       .       write   non-existent group
+.       .       judge   noquit
+.       endif
+else
+.       write   non-existent group
+.       judge   noquit
+endif
+do      white
+endarrow
+*--
+do      attach(dnchar)
+setname (tsbuf)
+do      zreturn-3,x,error('setname38')
+calc    texist « (zreturn = -1)
+*
+unit    retitems
+        merge,previous
+        litem           $$ item slot (1-slots)
+$
+calc    litem « 0
+loop    (litem « litem+1) {^72} slots
+reloop  chitem(litem) = 0
+.       calc    ifound(chitem(litem)) « max(ifound(chitem(litem))-1,0)
+endloop
+*
+unit    retgold
+calc    ecmon « ecmon+chgold+chbgold
+        ecplay « ecplay-chgold
+        ecbank « ecbank-chbgold
+*
+unit    exit
+press   stop1
+pause   keys=stop1
+*
+
+=== block 'create'  kind 00  304 words  (block 6)
+unit    create
+        merge,previous
+        lkey
+*
+*       clear helpop type branches
+*
+base
+data
+help
+lab
+do      bulletin
+atnm    188,392
+do      white
+write   WELCOME TO AVATAR!
+do      blue
+box     623;843;2
+do      showuser
+do      blue
+box     64,328;448,327
+do      yellow
+at      96,304
+write         NEXT
+              HELP
+              DATA
+        SHIFT-LAB
+        SHIFT-NEXT
+        SHIFT-DATA
+        SHIFT-HELP
+        SHIFT-BACK
+at      1330
+write   to create a character
+        to go to the help lesson
+        for a list of users
+        to go to the notesfile
+        to transfer a character
+        to go the the stat lesson
+        to see the title page
+        to leave the game
+do      blue
+box     64,184;448,183
+draw    64,146;448,146;
+do      white
+atnm    2411
+write   Copyright 1979, 1980, 1981, 1982, 1983, 1984
+at      2513
+write   Bruce Maggs, Andrew Shapira, David Sides
+         Tom Kirchman, Greg Janusz, Mark Eastom 
+do      blue
+draw    64,94;448,94;
+do      white
+loop    (dstatus = 0) $union$ (opt(o.stud) = 1)
+.       do      showuser
+.       pause   5,keys=all
+.       keytype lkey,next,data,help1,help,next1,data1,
+.               back1,lab1
+reloop  lkey = -1
+.       jump    lkey-1,makechar,charlist,jumpout(gttitle),
+.               jumpout(gthelp),snagpseu,jumpout(gtstat),
+.               exit,jumpout(gfplay),x
+endloop
+jump    closed
+*
+unit    masterna
+        merge,previous
+        lguild
+        lpseudo(2)
+*-- old name in value
+*-- new name in chpseud
+$
+calc    lguild « 0
+loop    (lguild « lguild+1) {^72} classes
+.       transfr c,gpseudo(lguild);lpseudo(1);2
+reloop  lpseudo(1) {^54} value1
+reloop  lpseudo(2) {^54} value2
+.       transfr chpseud;c,gpseudo(lguild);2
+endloop
+*
+unit    masterby
+        merge,previous
+        lguild
+        lpseudo(2)
+        lbuff(3)
+        segment,lglevel = lbuff(1),10   $$ highest levels
+$
+calc    lguild « 0
+loop    (lguild « lguild+1) {^72} classes
+.       transfr c,gpseudo(lguild);lpseudo(1);2
+reloop  lpseudo(1) {^54} chpseu1
+reloop  lpseudo(2) {^54} chpseu2
+.       transfr c,cgll;lbuff(1);3
+.       calc    lglevel(lguild) « 0
+.       zero    lpseudo(1),2
+.       transfr lbuff(1);c,cgll;3
+.       transfr lpseudo(1);c,gpseudo(lguild);2
+endloop
+*
+unit    closed
+do      red
+at      232,336
+write   AVATAR
+do      getmess
+at      64,288
+do      showgmes
+detach
+pause   30,keys=next,back               $$ no term
+jumpout q
+*
+
+=== block 'make char'  kind 00  309 words  (block 7)
+unit    makechar
+        merge,previous
+        lbufw(3)
+*        lp(3)
+*        lpseudo = lp(1)
+        lkey            $$ keytype variable
+$
+back1   create
+lab     makechar
+zero    chword,chwords
+do      blue
+draw    0,432;511,432;511,431;0,431
+do      cyan
+atnm    64,400
+write   Races
+calc    newrace « 0
+loop    (newrace « newrace+1) {^72} races
+.       atnm    16,384-16×newrace
+.       write   «t,newrace,2». «a,rname(newrace)»
+endloop
+do      blue
+draw    0,128;511,128;511,127;0,127
+do      cyan
+at      48,80
+write   Choose a race, by number
+arrow   248,80
+long    2
+store   newrace
+ok
+judge   (newrace < 1) $union$ (newrace > races),no,x
+endarrow
+atnm    4,384-16×newrace
+write   {^'04}
+atnm    48,80
+erase   29
+do      yellow
+atnm    112,16
+write   LAB to start over
+do      statset
+do      cyan
+atnm    24,80
+write   Enter the first letter of one of these alignments:
+atnm    72,64
+calc    newalig « 0
+loop    (newalig « newalig+1) {^72} 3
+.       if      ralign(newrace,newalig) = 1
+.       .       writec  newalig-2;Good    ;Neutral    ;Evil
+.       endif
+endloop
+loop
+.       pause   keys=good,neutral,evil,back1,term,lab
+.       keytype newalig,good,neutral,evil
+outloop ralign(newrace,newalig « newalig+1) = 1
+endloop
+atnm    200,464
+writec  newalig-2;   Good;Neutral;   Evil
+at      24,80
+erase   58,2
+atnm    100,80
+write   Choose a sex:  m for male, f for female
+pause   keys=male,female,back1,term,lab
+keytype newsex,male,female
+atnm    264,464
+writec  newsex-1;male;female
+atnm    100,80
+erase   39
+atnm    52,80
+write   Enter your pseudonym
+zero    pbuf,3          $$ pseudo buffer
+arrow   220,80
+long    20
+join    clean
+exact
+judge   ignore
+storea  pbuf,20
+ok
+*--
+*-- strip off trailing blanks
+*--
+do      strip(pbufw(1),pbufw(2);pbufw(1),pbufw(2))
+*--
+*-- NOTE: "jcount" will not have valid value
+*--
+judge   pbuf = 0,ignore,x               $$ all blank pseudo
+*--
+judge   pbuf = lmask(60),noquit,x       $$ ';;;;;;;;;;' = 0
+do      attach(dnpseud)
+setname (pbuf)
+do      zreturn-3,x,error('setname39')
+getname (lbufw(1))
+do      detach(dnpseud)
+judge   (lbufw(1) = pbufw(1)) $mask$ (lbufw(2) = pbufw(2)),noquit,x
+endarrow
+mode    erase
+atnm    101
+write   «a,pbuf,20»
+mode    write
+atnm    256-(wherex/2),480
+showa   pbuf,20
+atnm    52,80
+erase   51
+atnm    64,32
+do      yellow
+write   Press SHIFT-NEXT to attempt to store
+mode    write
+pause   keys=next1,lab,back1,term
+*--
+*--     continued
+*--
+
+=== block 'make char'  kind 00  319 words  (block 10)
+*--
+*--     continued
+*--
+atnm    64,32
+erase   48,2
+atnm    184,16
+erase   18
+atnm    168,64
+do      green
+write   Creating your essence.
+do      white
+*
+1again
+*
+do      lock
+*
+*       check for duplicate pseudo
+*
+do      attach(dnpseud)
+setname (pbuf)
+do      zreturn-3,x,error('setname401')
+getname (lbufw(1))
+if      (lbufw(1) = pbufw(1)) $mask$ (lbufw(2) = pbufw(2))
+.       do      detach(dnpseud)
+.       do      unlock
+.       jump    makechar
+else
+.       finish  zapnames
+.       addname (pbuf),0,charid         $$ add pseudonym
+.       do      zreturn,x,error('addname45')
+endif
+do      detach(dnpseud)
+*
+do      attach(dnchar)          $$ char nameset
+calc    sxinfo « 0              $$ zero extra info
+        slesson « lessonn       $$ lesson number
+        sglev « 0               $$ highest guild level / 8
+        ssafe « 0               $$ not a protected char
+day     sday                    $$ last day on
+*
+*protect on                      $$ critical section
+*
+addname (sbuf),1,sxinfo         $$ try and add char
+if      zreturn = 3             $$ no room
+*.       protect off
+.       atnm    168,64
+.       erase   23
+.       atnm    176,64
+.       write   Trying to find room.
+.       do      foregnd
+.       do      makeroom(backgnd)       $$ sets finish unit
+.       if      return = 0
+.       .       do      zapnames
+.       .       finish  q
+.       .       do      unlock
+.       .       atnm    56,64
+.       .       erase   50
+.       .       do      yellow
+.       .       write   Sorry, no room.  NEXT to try again, BACK to quit.
+.       .       pause   keys=next,back,term
+.       .       keytype lkey,back
+.       .       atnm    56,64
+.       .       erase   50
+.       .       jump    lkey,x,start
+.       .       branch  1again
+.       endif
+elseif  zreturn > -1
+*.       protect off
+.       do      zapnames
+.       do      unlock
+.       jump    start
+endif
+*--
+reserve name
+do      zreturn,x,error('reserve41')
+zero    chword,64
+do      setcchar                $$ various initializations
+dataout 1;s,schara;1            $$ store character
+do      zreturn,x,error('dataout42')
+do      attach(dnpseud)
+setname (pbuf)
+do      zreturn,x,error('setname401')
+block   pbufw(1),lbufw(1),3
+calc    lbufw(3) « sbuf
+rename  (lbufw(1))
+block   lbufw(1),pbufw(1),3
+do      zreturn,x,error('setname402')
+do      detach(dnpseud)
+*protect off
+*
+finish  q
+do      unlock
+*--
+atnm    156,64
+erase   40
+atnm    212,64
+do      yellow
+write   Born again!
+do      white
+catchup
+pause   1,keys=next,term
+calc    avathlp « -1
+jump    start
+*
+
+=== block 'make char'  kind 00  224 words  (block 11)
+*
+unit    zapnames
+*-- delete pseudonym and character record, if either exists
+*-- pseudonym
+do      attach(dnpseud)
+setname (pbuf)
+if      zreturn = -1
+.       delname
+endif
+do      detach(dnpseud)
+*-- signon
+do      attach(dnchar)          $$ char nameset
+setname sbuf
+if      zreturn = -1
+.       delname
+endif
+do      detach(dnchar)
+*
+unit    statset
+        merge,previous
+        lstat   $$ loop variable for stats
+        lleft   $$ points left to distribute
+$
+back1   create
+do      cyan
+at      352,400
+write   Stats
+at      272,368
+write   Strength
+        Intelligence
+        Wisdom
+        Constitution
+        Charisma
+        Dexterity
+calc    lstat  « 0
+        lleft  « 75
+loop    (lstat « lstat+1) {^72} 6
+.       calc    newpick(lstat) « rlow(newrace,lstat)
+.               lleft          « lleft-newpick(lstat)
+.       atnm    392+8×(rhigh(newrace,lstat) > 9)+8×(rlow(newrace,lstat) > 9),384-16×lstat
+.       write   («s,rlow(newrace,lstat)»-
+.       write   «s,rhigh(newrace,lstat)»)
+.       atnm    472,384-16×lstat
+.       showt   newpick(lstat),2
+endloop
+do      yellow
+at      64,96
+write   Enter your statistics.  You have «t,lleft,3» stat points
+        left to distribute.
+ 
+        Press NEXT to move on, BACK to move back,
+              DATA when done
+calc    lstat « 1
+loop
+.       calc    lleft « lleft+newpick(lstat)
+.       do      arrown(456,384-16×lstat,2,-1,rlow(newrace,lstat),rhigh(newrace,lstat),newpick(lstat))
+.       jump    key = lab,makechar,x
+.       calc    newpick(lstat) « value
+.               lleft          « lleft-newpick(lstat)
+.               lstat « wrap(lstat+1+2×(key = back),1,6)
+.       mode    rewrite
+.       atnm    328,96
+.       showt   lleft,3
+.       mode    write
+outloop (key = data) $mask$ (lleft {^73} 0)
+endloop
+do      white
+at      64,96
+erase   48,5
+*
+
+=== block 'make char'  kind 00  196 words  (block 12)
+*
+unit    setcchar
+        merge,previous
+        lrandom $$ random die roll
+        lstat   $$ new player stat
+        lclass  $$ classes abandoned
+        lhits   $$ player hits
+        lsgold = 500    $$ starting gold
+$
+transfr pbuf;chpseud;2
+calc    chalign        « newalig
+        chsex          « newsex
+        chrace         « newrace
+        chcomps        « 0
+        chclass        « 1
+        chxyloc        « stxyloc
+        chsxy          « 1
+        chlevel(1)     « 1
+        chqstat(1)     « 1      $$ no quest
+        chage          « 365.25×24×15.75
+*        chgldj(1)      « 1
+        chgjoin        « 0      $$ free guild not yet joined
+        chitem(1)      « 1
+        chitmkn(1)     « 3      $$ know all about it
+        ifound(1)      « imin(ifound(1)+1,999)
+        chgold         « lsgold
+        chbgold        « -lsgold
+        ecplay         « ecplay+lsgold
+        ecbank         « ecbank-lsgold
+randu   lrandom,365.25×24×2
+calc    chage   « chage+lrandom
+        lhits   « 10
+        xn      « chstat(s.con) - 15
+        xn      « imax(int(xn/2),0)
+        chchits « lhits+imin(xn,3)
+        chbhits « chchits
+        chspell « maxsp
+        charid « totchar « totchar+1
+        lstat   « 0
+loop    (lstat  « lstat+1) {^72} 6
+.       calc    chstat(lstat) « newpick(lstat)
+endloop
+*calc    lclass  « 1             $$ don't zero commoners
+*loop    (lclass « lclass+1)    {^72} classes
+*.       calc    chgldj(lclass) « 0
+*endloop
+calc    chflag(f.bgnd)  « -1    $$ backgnd on
+        chflag(f.mall)  « -1
+        chflag(f.updat) « -1    $$ turn on auto update
+        chflag(f.pub)   « 0     $$ privacy
+        chflag(f.ecs)   « 0
+        checs           « 0
+*
+
+=== block 'charset'  kind 00  307 words  (block 13)
+*
+unit    charload
+        merge,previous
+        lmaster
+        lnum
+        segment,lgm = lmaster,02,s
+        lmess
+        lguild
+$
+*
+**      load characters and welcome if guildmaster
+*
+calc    nochars « 0
+if      found
+.       do      setgmast(;lmaster,lnum)
+.       randu   lmess,9
+.       calcs   chchits < .2*chbhits,lmess « 10,,
+.       if      lmess = 1
+.       .       calcs   chgold > 100×10↑6,lmess « 16,,
+.       endif
+.       if      chqstat(chclass) = 4
+.       .       do      getmons(chqinfo(chclass))
+.       .       calcs   matt(ma.uniq)-1,lmess « 13,14
+.       elseif  chqstat(chclass) = 5
+.       .       do      getitem(chqinfo(chclass))
+.       .       calc    lmess « 15
+.       endif
+.       calcs   chchits-1,lmess « 11,,   $$ dead
+.       calcs   chrock-1,lmess « ,12
+else
+.       calc    lnum « 0
+.               lmess « 0
+endif
+erase   abort
+*
+do      green
+at      124,264
+writec  lmess-1{^56}
+               {^55}Welcome to Avatar.{^56}
+                 Building walls.{^56}
+            Sweeping out the dungeon.{^56}
+        Giving monsters your description.{^56}
+             Waking up the dragons.{^56}
+           {^55}   Hiding the treasure.{^56}
+            The monsters are meeting.{^56}
+              {^55}Resetting the traps.{^56}
+               Sharpening weapons.{^56}
+                 Mixing potions.{^56}
+        {^55}Hold on, searching for a healer.{^56}
+           {^55}Monogramming your bodybag.{^56}
+        {^55}     Finding the sculptors.{^56}
+        The «a,mname,20»«a,msuffix(2)» are organizing.{^56}
+               Summoning «a,mname,20».{^56}
+               Destroying «a,itypes(itype),20».{^56}
+             The tax man cometh.
+do      green
+at      184,232
+write   Please be patient.
+do      white
+*
+branch  lnum-1,1nostud,x
+*
+*       welcome a guildmaster
+*
+do      cyan
+at      2217
+write   Welcome, most masterful
+*write   Welcome, most masterful!   $$ original line
+*write   Welcome, most masterful $$$ - 3 hold the space
+*write   Welcome, most masterful $$$
+*
+calc    lguild « 0
+loop    (lguild « lguild+1) {^72} classes
+reloop  lgm(lguild) = 0
+.       at      2241
+*.       write   «a,cname(lguild)»!  $$ original line
+.       write   «a,cname (lguild)»!  $$ dave's line
+outloop
+endloop
+1nostud
+*
+loop
+.       charset (startl),8owq 980sl
+outloop (zreturn = -1) $or$ (zreturn = 1)
+endloop
+break           $$ on CDC systems TIPS higher for charset
+*
+unit    getmons(lmons)
+        merge,previous
+        lmons           $$ monster number
+$
+transfr c,monsloc(lmons);nc(ncmonst);mwpm
+*
+
+=== block 'charbegn'  kind 00  318 words  (block 14)
+unit    charbegn
+        merge,previous
+        lkey    $$ keytype value
+*       clear helpop type branches
+base
+data
+help
+lab
+do      bulletin
+atnm    188,392
+do      white
+write   WELCOME TO AVATAR!
+do      blue
+box     623;843;2
+do      showuser
+jump    key = next,chargo,x
+do      blue
+box     64,328;448,327
+do      yellow
+at      1313
+write         NEXT
+              HELP
+              DATA
+              LAB
+        SHIFT-LAB
+        SHIFT-DATA
+        SHIFT-HELP
+        SHIFT-BACK
+at      1330
+write   to run "«a,chpseud,20»"
+        to go to the help lesson
+        for a list of users
+        for character options
+        to go to the notesfile
+        to go to the stat lesson
+        to see the title page
+        to leave the game
+do      blue
+box     64,184;448,183
+if      avathlp
+.       box     136,288;428,304
+endif
+if      ssafe = 1
+.       do      red
+.       at      144,156
+.       write   This character is protected.
+.       do      blue
+.       box     136,174;374,154
+endif
+draw    64,146;448,146;
+do      white
+atnm    2411
+write   Copyright 1979, 1980, 1981, 1982, 1983, 1984
+at      2513
+write   Bruce Maggs, Andrew Shapira, David Sides
+         Tom Kirchman, Greg Janusz, Mark Eastom
+do      blue
+draw    64,94;448,94;
+*
+do      white
+do      ecsinfo
+loop    (dstatus = 0) $union$ (opt(o.stud) = 1)
+.       do      showuser
+.       pause   5,keys=all
+.       keytype lkey,next,data,help,lab,data1,help1,back1,
+.               lab1
+reloop  lkey = -1
+.       if      lkey = 2
+.       .       release name
+.       endif
+.       jump    lkey-1,chargo,charlist,
+.               jumpout(gthelp),charops,jumpout(gtstat),
+.               jumpout(gttitle),exit,jumpout(gfplay),x
+endloop
+jump    closed
+*
+unit    charops
+        merge,previous
+        lkey    $$ keytype value
+base
+data
+help
+lab
+do      cyan
+at      188,384
+write   Character Options
+do      showuser
+do      blue
+box     1209;448,319
+do      yellow
+at      96,296
+write         NEXT
+              DATA
+              LAB
+              BACK
+        SHIFT-NEXT
+        SHIFT-DATA
+        SHIFT-HELP
+        SHIFT-BACK
+at      232,296
+write   to run "«a,chpseud,20»"
+        to set special options
+        to transfer your character
+        for other options
+        to exchange items
+        to change your password
+        to delete your character
+        to leave the game
+do      blue
+box     2109;448,175
+do      white
+do      ecsinfo
+
+=== block 'specialops'  kind 00  316 words  (block 15)
+*       $$  continued from last block...
+*
+loop    (dstatus = 0) $union$ (opt(o.stud) = 1)
+.       do      showuser
+.       pause   5,keys=all
+.       keytype lkey,next,data,lab,back,data1,help1,
+.               back1,next1
+reloop  lkey = -1
+.       jump    lkey-1,chargo,setspec,chartra,charbegn,
+.               password,chardele,exit,snagent,x
+endloop
+jump    closed
+*
+unit    rcharops
+*--
+*-- restore character
+*--
+do      attach(dnchar)
+setname (sbuf)
+do      zreturn,x,error('setname223')
+datain  1;s,schara;1
+do      zreturn,x,error('datain224')
+jump    charops
+*
+unit    setspec
+        merge,previous
+        lkey
+        lflag
+$
+erase   abort
+do      cyan
+at      64,464
+write   "«a,chpseud,20»"
+atnm    64,384
+write   Special Flags
+do      blue
+draw    ;64,384
+*do      cyan
+do      white
+at      64,336
+write   a.  Default processing mode
+        
+        b.  Receive messages from all
+        
+        c.  Automatic company update
+ 
+        d.  Release signon to public
+ 
+        e.  Inhibit lines on main display
+ 
+        f.  Automatic EM bumping
+ 
+        g.  Receive personal messages
+do      showflag(lflag),lflag « 1,7
+do      red
+at      2709
+do      yellow
+write   HELP available
+atnm    64,48
+write   BACK when done
+do      white
+loop
+.       pause   keys=all
+.       keytype lkey,back,help,a,b,c,d,e,f,g
+reloop  lkey
+outloop lkey < 2
+.       if      (lkey = 7) $mask$ (chflag(f.ecs) = 0)
+.       .       do      getecs
+reloop  (pressed{^54}0) $union$ ((pressed=0) $mask$ (value=0))
+.       endif
+.       calc    chflag(lkey-1) « notl(chflag(lkey-1))
+.       do      showflag(lkey-1)
+endloop
+do      putrec
+jump    lkey-1,charops,spophelp
+*
+unit    showflag(lflag)
+        merge,previous
+        lflag
+$
+mode    rewrite
+at      384,368-32×lflag
+if      lflag = f.bgnd
+.       writec  chflag(f.bgnd);background;foreground
+.       if      (backgnd « chflag(f.bgnd))
+.       .       backgnd
+.       else
+.       .       foregnd
+.       endif
+elseif  lflag = f.mall
+.       writec  chflag(f.mall);yes;no 
+elseif  lflag = f.updat
+.       writec  chflag(f.updat);yes;no 
+elseif  lflag = f.pub
+.       writec  chflag(f.pub);yes;no 
+elseif  lflag = f.lines
+.       writec  chflag(f.lines);yes;no 
+elseif  lflag = f.ecs
+.       writec  chflag(f.ecs);«s,checs» ;no 
+elseif  lflag = f.mper
+.       writec  chflag(f.mper);no ;yes
+endif
+*
+unit    getecs
+do      cyan
+atnm    96,160
+write   Maximum allowed percentage
+do      arrown(312,160,2,0,1,100,75)
+calc    checs « value
+atnm    96,160
+erase   31
+*
+
+=== block 'specialops'  kind 00  215 words  (block 16)
+*
+unit    ecsinfo
+do      cyan
+goto    chflag(f.ecs),x,q
+atnm    32,56
+write   You have chosen to be bumped if EM usage goes above «s,checs»%.
+atnm    96,40
+write   «s,int(100×(muse/mallot))»% of «s,mallot» available words are in use.
+do      white
+*
+unit    spophelp
+*
+**      help for special options
+*
+base
+back    setspec
+next    setspec
+*
+do      cyan
+at      407
+write   Default processing mode: "background" will give you more
+        processing time when it is available.  "foreground" will
+        guarantee you a certain amount of processing, but it is
+        usually not enough to play the game satisfactorily.
+        
+        Receive messages from all: allows you to turn off the
+        ability to see messages sent to "E"veryone.  Some find
+        that the messages slow them down in combat too much.
+        
+        Automatic company update: when on the "SHIFT-LAB page"
+        it will cause your company's status to be updated
+        approximately every 6 seconds.
+        
+        Release signon to public: if "yes" will allow people to
+        find out your signon either from the character transfer
+        options or in the statistics lesson.
+        
+        Inhibit lines on main display: for some people who get
+        tired of seeing the lines.
+        
+        Automatic EM bumping: will kick you out of the game if
+        more than N% (which you specify) of the EM (computer
+        memory) at your site is being used.
+        
+        Receive personal messages: again, some find personal
+        messages to be a distraction so this option is provided.
+do      yellow
+at      3118
+write   NEXT or BACK to exit this page.
+*
+do      blue
+draw    407;430;skip;907;932;skip;1307;1331;skip;1707;
+        1731;skip;2107;2136;skip;2407;2427;skip;2807;
+        2832;
+do      cyan
+*
+
+=== block 'transfer'  kind 00  303 words  (block 17)
+*
+unit    chartra
+*--
+*-- "sbuf" has your signon
+*-- "tsbuf" has the destination signon
+*--
+back    charops
+do      cyan
+at      64,400
+write   "«a,chpseud,20»"
+at      64,320
+write   Transfer character to:
+do      red
+at      2409
+write   WARNING: Don't transfer to a non-existent signon.
+do      white
+do      getsigno
+back    chartra
+if      texist = -1
+.       at      152,208
+.       write   Signon already has a character.
+.       pause   keys=all
+.       jump    chartra
+endif
+if      chcode = 0      $$ unmatchable
+.       do      red
+.       at      152,208
+.       write   WARNING: Unmatchable password.
+.                
+*.       do      yellow
+*       $$ in order for the 'yellow' to work, I need
+*       $$ a new "write" command...dmr 3/13/93
+.               «c,zyellow»Press SHIFT-NEXT to continue, or
+.                           BACK to abort transfer.
+.       pause   keys=next1,back,term
+.       at      152,208
+.       erase   45,4
+endif
+do      white
+*
+do      lock
+*--
+*protect on                      $$ thank you Steve Peltz!
+*--
+*-- rename signon name first
+*--
+do      attach(dnchar)          $$ char nameset
+setname (sbuf)
+jump    (zreturn > -1) $mask$ (zreturn < 3),charops,x
+do      zreturn,x,errorx('setname48')
+finish  oldsign
+rename  (tsbuf)                 $$ change to new signon
+if      zreturn > -1            $$ must have created char
+.       release name
+.       do      zreturn,x,errorx('release49')
+*.       protect off
+.       do      unlock
+.       jump    start
+endif
+release name
+do      zreturn,x,errorx('release50')
+*--
+transfr chpseud;pbuf;2          $$ pseudonym
+calc    pbufw(3) « sbuf         $$ first 10 chars of signon
+*--
+*-- if first 10 characters are the same...
+*--
+branch  sbuf = tsbuf,1noch,x
+do      attach(dnpseud)         $$ pseudo nameset
+setname (pbuf)
+finish  q
+do      zreturn,x,errorx('setname46')
+calc    pbufw(3) « tsbuf        $$ new signon
+rename  (pbuf)                  $$ change pseudo
+do      zreturn,x,errorx('rename47')
+do      detach(dnpseud)
+*--
+1noch
+finish  q
+*--
+do      attach(dnchar)          $$ char nameset
+*--
+*protect off
+*
+do      unlock
+*--
+catchup
+jump    start                   $$ in the beginning
+*
+unit    oldsign
+*-- change signon back to old one since pseudo hasn't
+*-- been updated yet
+do      attach(dnchar)          $$ char nameset
+setname (tsbuf)
+rename  (sbuf)                 $$ change to new signon
+do      detach(dnchar)
+*
+
+=== block 'password'  kind 00  249 words  (block 20)
+*
+unit    password
+jump    chcode,getpword,x,getpword
+erase
+back    charops
+do      cyan
+at      80,400
+write   "«a,chpseud,20»"
+do      red
+at      80,304
+write   Currently you do not have a password, so
+        transfers from another signon are not allowed.
+do      yellow
+at      80,256
+write   Press  NEXT to enter a password, or
+               BACK to leave it unmatchable.
+pause   keys=next,back,term
+do      white
+jump    getpword
+*
+unit    getpword
+        merge,previous
+        lcode1
+        lcode2
+$
+data    unmatch
+back    charops
+do      cyan
+at      96,400
+write   "«a,chpseud,20»"
+do      magent
+at      96,272
+write   Enter new password »
+do      yellow
+at      96,240
+write   Press  NEXT when done, 
+               BACK to leave password unchanged, or
+               DATA for an unmatchable password.
+at      264,272
+getcode lcode1
+mode    rewrite
+do      magent
+at      96,272
+write   Again to make sure »                     
+mode    write
+at      264,272
+getcode lcode2
+if      lcode1 {^54} lcode2
+.       at      96,272
+.       do      red
+.       erase   50
+.       write   You goofed. Try again.
+.       pause   5,keys=all
+.       jump    getpword
+endif
+do      cyan
+calc    chcode « lcode1
+do      putrec
+jump    charops
+*
+unit    unmatch
+base
+data            $$ to clear helpop type branch
+calc    chcode « 0
+do      putrec
+jump    password
+*
+unit    inuse
+do      red
+at      1209
+write   Someone is using your character!
+        
+        (Probably exchanging items.)
+        
+do      yellow
+at      1809
+write   Press NEXT to try again.
+pause   keys=funct
+do      white
+jump    start
+*
+unit    strip(lword1,lword2)
+        lword1
+        lword2
+        segment,lch     = lword1,06
+        lcnt
+$
+calc    lcnt « 21       $$ 20 char pseudonym
+loop    (lcnt « lcnt-1) > 0
+outloop (lch(lcnt) > 0) $mask$ ((lch(lcnt){^54}o55)$mask$(lch(lcnt){^54}o75)$mask$(lch(lcnt){^54}o76)$mask$(lch(lcnt){^54}o70))
+.       calc    lch(lcnt) « 0
+endloop
+return  lword1,lword2
+*
+
+=== block 'snag char'  kind 00  316 words  (block 21)
+*
+unit    snagchar
+        merge,previous
+        lcode
+$
+base
+back1   create
+back    snagchar
+data    snagpseu
+do      cyan
+at      64,320
+write   Transfer character from:
+do      yellow
+at      2509
+write   DATA to find a character by pseudonym
+do      getsigno
+if      texist = 0
+.       do      red
+.       at      240,208
+.       write   No character found.
+.       pause   keys=all
+.       jump    snagchar
+endif
+do      cyan
+*--
+*-- unit "getsigno" already has -attach- and -setname-
+*--
+datain  1;s,schara;1            $$ get character
+do      zreturn,x,errorx('datain54')
+if      (chflag(f.pub)) $mask$ (opt(o.char) = 0)
+.       at      240,208
+.       showa   chpseud,20
+endif
+1again
+if      opt(o.char) = 0         $$ not author/operator
+.       do      magent
+.       at      152,176
+.       write   password »
+.       at      240,176
+.       getcode lcode
+endif
+do      cyan
+if      opt(o.char) = 1
+.       if      chflag(f.pub) = 0
+.       .       at      192,208
+.       .       write   (OFF)
+.       endif
+.       at      240,208
+.       write   «a,chpseud,20»
+.               Character ID -- «s,charid»
+.
+*.       do      yellow
+.               «c,zyellow»SHIFT-NEXT to transfer
+.                     BACK to abort
+.       pause   keys=back,data,next1,term
+elseif  (lcode {^54} chcode) $union$ (chcode = 0)
+.       at      152,176
+.       erase   40
+.       branch  1again
+endif
+if      (chflag(f.pub) = 0) $mask$ (opt(o.char) = 0)
+.       at      240,208
+.       showa   chpseud,20
+.       catchup
+endif
+do      cyan
+reserve name
+jump    (zreturn > -1) $mask$ (zreturn < 5),snagchar,x
+*--
+if      zreturn > 4     $$ can't snag char in the game
+.       do      red
+.       at      184,64
+.       write   Essence is being used.
+.       pause   keys=all
+.       jump    snagchar
+endif
+do      cyan
+*
+do      lock
+*--
+*protect on
+*--
+rename  (sbuf)
+if      zreturn > -1    $$ someone dumped char on you
+*.       protect off
+.       do      unlock
+.       jump    start
+endif
+*--
+transfr chpseud;pbuf;2          $$ pseudo stays the same
+calc    pbufw(3) « tsbuf        $$ old pseudo signon pointer
+do      attach(dnpseud)         $$ pseudo nameset
+setname (pbuf)                  $$ set to old pseudo/ptr
+do      zreturn,x,errorx('setname57')
+calc    pbufw(3) « sbuf         $$ new pseudo signon pointer
+rename  (pbuf)                  $$ change to new pseudo/ptr
+do      zreturn,x,errorx('rename58')
+do      detach(dnpseud)
+*--
+*protect off
+*
+do      unlock
+*--
+do      foregnd
+jump    start
+*
+
+=== block 'snag pseu'  kind 00  239 words  (block 22)
+*
+unit    snagpseu
+        merge,previous
+        lp(3)
+        lpseudo = lp(1)         $$ pseudo buffer
+        lnc(3)
+        lsbuf = lnc(1)          $$ signon buffer
+        lcode                   $$ password
+$
+base
+back1   create
+back    snagpseu
+data    snagchar
+*
+do      cyan
+at      64,320
+write   Transfer character from:
+at      1509
+write   AVATAR pseudonym
+do      yellow
+at      2309
+write   DATA to find a character by signon
+ 
+        SHIFT-BACK to change your mind about transferring
+calc    pbufw(3) « 0
+*--
+do      cyan
+arrow   1526
+long    20
+exact
+judge   ignore
+storea  pbuf,20
+ok
+do      attach(dnpseud)
+setname (pbuf)
+do      zreturn-3,x,errorx('setname59')
+getname (lpseudo)
+do      detach(dnpseud)
+if      zreturn = 2
+.       do      red
+.       at      1728
+.       write   Pseudonym not found.
+.       judge   noquit
+elseif  (zreturn=1) $and$ (lp(1){^54}pbufw(1)$or$lp(2){^54}pbufw(2))
+.       at      1728
+.       write   Ambiguous
+.       judge   noquit
+endif
+do      cyan
+at      1528
+showa   lpseudo,20
+transfr lpseudo;pbuf;2
+endarrow
+*--
+zero    lsbuf,3                 $$ signon buffer
+calc    lsbuf « lp(3)           $$ signon pointer
+do      attach(dnchar)          $$ char nameset
+setname (lsbuf)
+do      zreturn-3,x,errorx('setname60')
+*--
+*-- it is possible that someone deleted the character...
+*--
+jump    zreturn-2,x,snagpseu
+setname backname
+do      zreturn-3,x,errorx('backname61')
+*--
+calc    return « 0              $$ not found yet
+loop
+.       setname nextname
+outloop zreturn > -1            $$ end of signons
+.       getname (tsbuf)
+outloop tsbufw(1) {^54} lsbuf       $$ no longer correct signon
+.       datain  1;s,schara;1
+.       do      zreturn,x,errorx('datain62')
+reloop  (lp(1) {^54}  chpseu1) $union$ (lp(2) {^54} chpseu2)
+outloop (return « -1)
+endloop
+jump    return,x,snagpseu               $$ shouldn't happen
+*--
+*-- check password
+*--
+*-- continued
+*--
+
+=== block 'snag pseu'  kind 00  272 words  (block 23)
+*--
+*-- continued
+*--
+if      opt(o.char) = 1         $$ author/operator
+.       if      chflag(f.pub) = 0
+.       .       do      red
+.       .       at      1722
+.       .       write   (OFF)
+.       endif
+.       do      cyan
+.       at      1728
+.       write   «a,tname,20»/«a,tgroup,10»
+.               Character ID -- «s,charid»
+.
+*.       do      yellow  $$   gotta fix the x,y
+.               «c,zyellow»SHIFT-NEXT to transfer
+.                     BACK to abort
+.       pause   keys=back,next1,data,term
+else
+.       if      chflag(f.pub)   $$ released to public
+.       .       do      cyan
+.       .       at      1728
+.       .       write   «a,tname,20»/«a,tgroup,10»
+.       endif
+.       loop
+.       .       do      magent
+.       .       at      1917
+.       .       write   password »
+.       .       at      1928
+.       .       getcode lcode
+.       outloop (chcode = lcode) $mask$ (chcode {^54} 0)
+.       .       at      1917
+.       .       erase   40
+.       endloop
+endif
+do      cyan
+if      (chflag(f.pub) = 0) $mask$ (opt(o.char) = 0)
+.       at      1728
+.       write   «a,tname,20»/«a,tgroup,10»
+.       catchup
+endif
+reserve name
+if      (zreturn > -1) $mask$ (zreturn < 5)
+*.       do      errorx('reserve63')
+*--
+*-- char renamed probably... someone else snagged it!
+*--
+.       jump    start
+elseif  zreturn > 4
+.       do      red
+.       at      184,64
+.       write   Essence is being used.
+.       pause   keys=all
+.       jump    snagpseu
+endif
+do      cyan
+*--
+*-- all cool, change stuff
+*--
+*-- -attach- and -setname- still valid from loop above
+*--
+do      lock
+*
+*protect on
+rename  (sbuf)                  $$ now your char
+if      zreturn > -1    $$ someone dumped char on you
+*.       protect off
+.       do      unlock
+.       jump    start
+endif
+*--
+calc    pbufw(3) « tsbuf        $$ old signon pointer
+do      attach(dnpseud)         $$ pseudo nameset
+setname (pbuf)
+do      zreturn,x,errorx('setname65')
+calc    pbufw(3) « sbuf         $$ new signon pointer
+rename  (pbuf)                  $$ change pseudo name
+do      zreturn,x,errorx('rename66')
+do      detach(dnpseud)
+*--
+*protect off
+*
+do      unlock
+*--
+jump    start
+*
+
+=== block 'other'  kind 00  156 words  (block 24)
+*
+unit    charlist
+        merge,previous
+        lxloc   $$ plotting coordinates
+        lyloc
+        luser   $$ who to look at
+        lkey    $$ keytype value
+$
+erase   abort
+do      cyan
+atnm    164,496
+write   Current Users of Avatar
+atnm    165,496
+write   Current Users of Avatar
+do      green
+atnm    220,480
+write   («s,zcusers» user
+writec  zcusers-2;);s)
+do      cyan
+atnm    4,464
+write   Pseudonym            Lev  Hits   Pseudonym            Lev  Hits
+do      blue
+draw    000,464;511,464
+do      yellow
+atnm    200,32
+write   ** plotting **
+do      cyan
+calc    luser  « 0
+        lxloc  « 4
+        lyloc  « 464
+loop    (luser « luser+1) {^72} maxin
+reloop  ppseudo(luser) = 0
+outloop key = stop
+.       if      (lyloc « lyloc-16) = 64
+.       .       calc    lxloc « 268
+.       .               lyloc « 448
+.       endif
+.       atnm    lxloc,lyloc
+.       showa   ppseudo(luser),20
+.       atnm    lxloc+168,lyloc
+.       write   «t,pplevel(luser),3»«t,ppchits(luser),6»
+endloop
+atnm    200,32
+erase   14
+do      yellow
+at      144,32
+write   Press NEXT to replot, or
+              BACK for the main page
+do      cyan
+pause   keys=next,back,term
+keytype lkey,next
+jump    lkey,x,charlist
+jump    found,charbegn,create
+*
+
+=== block 'other'  kind 00  225 words  (block 25)
+*
+unit    chardele
+        merge,previous
+        lkey    $$ keytype value
+$
+do      yellow
+at      80,336
+write   Press SHIFT-NEXT to destroy your essence, or
+              any other key not to.
+branch  ssafe-1,1skip,x
+do      red
+at      1911
+write   NOTE: This character is protected from auto-
+        deletion by a disk space donor.  If a new
+        character is created, it must be protected
+        again by using lesson "«a,fundl»".
+1skip
+catchup
+do      cyan
+pause
+keytype lkey,next1
+jump    lkey,charops,x
+erase   abort
+do      magent
+atnm    160,256
+write   Destroying your essence.
+do      cyan
+*protect on
+do      lock
+do      retitems
+do      retgold
+do      masterby
+*--
+do      attach(dnchar)
+setname (sbuf)
+do      zreturn,x,errorx('setname67')
+release name
+do      zreturn,x,errorx('release68')
+delname
+do      zreturn,x,errorx('delname69')
+*--
+transfr chpseud;pbuf;2
+calc    pbufw(3) « sbuf         $$ signon pointer
+do      attach(dnpseud)         $$ pseudo nameset
+setname (pbuf)
+do      zreturn,x,errorx('setname70')
+delname
+do      zreturn,x,errorx('delname71')
+do      detach(dnpseud)
+*protect off
+do      unlock
+jump    start
+*
+unit    backgnd
+        merge,previous
+        lx,ly
+termop  backgnd
+termop  b
+backgnd
+calc    lx « wherex
+        ly « wherey
+mode    rewrite
+do      green
+atnm    184,0
+write   Now in background.
+mode    write
+at      lx,ly
+calc    backgnd « -1
+do      white
+*
+unit    foregnd
+        merge,previous
+        lx,ly
+termop  foregnd
+termop  f
+foregnd
+calc    lx « wherex
+        ly « wherey
+do      green
+mode    rewrite
+atnm    184,0
+write   Now in foreground.
+mode    write
+at      lx,ly
+calc    backgnd « 0
+do      white
+*
+
+=== block 'snag item1'  kind 00  293 words  (block 26)
+*
+unit    snagent
+*--
+*-- entry to item exchange unit
+*--
+***
+*jump    zgroup = 'lock',x,charops
+***
+calc    mycode « chcode
+*
+do      putchar1        $$ save in storage
+jump    snagit2
+*
+unit    snagit1
+        merge,previous
+        lcode
+$
+*jump    opt(o.char)-1,charops,x         $$ studs only
+base
+back1   rcharops
+back    snagit1
+data    snagit2
+*
+do      cyan
+at      64,320
+write   Exchange items with character:
+do      yellow
+at      2509
+write   DATA to find a character by pseudonym
+do      cyan
+do      getsigno
+if      texist = 0
+.       do      red
+.       at      240,208
+.       write   No character found.
+.       pause   keys=all
+.       jump    snagit1
+.       do      cyan
+endif
+jump    (name = tname) $and$ (group = tgroup),snagit1,x
+*--
+*-- unit "getsigno" already has -attach- and -setname-
+*--
+datain  1;s,schara;1            $$ get character
+do      zreturn,x,errorx('datain213')
+if      (chflag(f.pub)) $mask$ (opt(o.char) = 0)
+.       do      cyan
+.       at      240,208
+.       showa   chpseud,20
+endif
+1again
+if      (opt(o.char) = 0) $mask$ (mycode {^54} chcode)
+.       do      magent
+.       at      152,176
+.       write   password »
+.       at      240,176
+.       getcode lcode
+else
+.       calc    lcode « chcode
+.       do      cyan
+endif
+if      opt(o.char) = 1
+.       if      chflag(f.pub) = 0
+.       .       do      red
+.       .       at      192,208
+.       .       write   (OFF)
+.       endif
+.       do      cyan
+.       at      240,208
+.       write   «a,chpseud,20»
+.               Character ID -- «s,charid»
+.
+*       $$  do yellow here...after x,y coords...
+.               «c,zyellow»SHIFT-NEXT to continue
+.                     BACK to abort
+.       pause   keys=back,data,next1,term
+elseif  (lcode {^54} chcode) $union$ (chcode = 0)
+.       at      152,176
+.       erase   40
+.       branch  1again
+endif
+if      (chflag(f.pub) = 0) $mask$ (opt(o.char) = 0)
+.       at      240,208
+.       showa   chpseud,20
+.       catchup
+endif
+*
+reserve name
+jump    (zreturn > -1) $mask$ (zreturn < 5),rcharops,x
+*--
+if      zreturn > 4     $$ can't snag items off char in game
+.       do      red
+.       at      184,64
+.       write   Essence is being used.
+.       pause   keys=all
+.       jump    snagit1
+endif
+do      cyan
+*
+*       $$  continued in next block.
+
+=== block 'snag item2'  kind 00  285 words  (block 27)
+*
+*       $$ continued from last block.
+*
+*       just in case character renamed, sigh
+*
+datain  1;s,schara;1            $$ get character
+do      zreturn,x,errorx('datain213x')
+*--
+*-- save in second char buffer
+*--
+do      putchar2
+jump    xent
+*
+unit    snagit2
+        merge,previous
+        lp(3)
+        lpseudo = lp(1)         $$ pseudo buffer
+        lnc(3)
+        lsbuf = lnc(1)          $$ signon buffer
+        lcode                   $$ password
+$
+base
+back1   rcharops
+back    snagit2
+data    snagit1
+*
+do      cyan
+at      64,320
+write   Exchange items with character:
+at      1509
+write   AVATAR pseudonym
+do      yellow
+at      2309
+write   DATA to find a character by signon
+ 
+        SHIFT-BACK to change your mind about exchanging
+calc    pbufw(3) « 0
+*--
+do      cyan
+arrow   1526
+long    20
+exact
+judge   ignore
+storea  pbuf,20
+ok
+do      attach(dnpseud)
+setname (pbuf)
+do      zreturn-3,x,errorx('setname216')
+getname (lpseudo)
+do      detach(dnpseud)
+if      zreturn = 2
+.       do      red
+.       at      1728
+.       write   Pseudonym not found.
+.       judge   noquit
+elseif  (zreturn=1) $and$ (lp(1){^54}pbufw(1)$or$lp(2){^54}pbufw(2))
+.       at      1728
+.       write   Ambiguous
+.       judge   noquit
+endif
+do      cyan
+at      1528
+showa   lpseudo,20
+transfr lpseudo;pbuf;2
+endarrow
+*--
+zero    lsbuf,3                 $$ signon buffer
+calc    lsbuf « lp(3)           $$ signon pointer
+do      attach(dnchar)          $$ char nameset
+setname (lsbuf)
+do      zreturn-3,x,errorx('setname217')
+*--
+*-- it is possible that someone deleted the character...
+*--
+jump    zreturn-2,x,snagit2
+setname backname
+do      zreturn-3,x,errorx('backnam218')
+*--
+calc    return « 0              $$ not found yet
+loop
+.       setname nextname
+outloop zreturn > -1            $$ end of signons
+.       getname (tsbuf)
+outloop tsbufw(1) {^54} lsbuf       $$ no longer correct signon
+.       datain  1;s,schara;1
+.       do      zreturn,x,errorx('datain219')
+reloop  (lp(1) {^54}  chpseu1) $union$ (lp(2) {^54} chpseu2)
+outloop (return « -1)
+endloop
+jump    return,x,snagit2                $$ shouldn't happen
+*--
+*-- can't be same character
+*--
+jump    (name = tname) $and$ (group = tgroup),snagit2,x
+*--
+*-- check password
+*--
+*-- continued in next block...
+*--
+
+=== block 'snag item2'  kind 00  227 words  (block 30)
+*--
+*-- continued from last block...
+*--
+if      opt(o.char) = 1         $$ author/operator
+.       if      chflag(f.pub) = 0
+.       .       do      red
+.       .       at      1722
+.       .       write   (OFF)
+.       endif
+.       do      cyan
+.       at      1728
+.       write   «a,tname,20»/«a,tgroup,10»
+.               Character ID -- «s,charid»
+.       do      yellow
+.       at      2028
+.       write   SHIFT-NEXT to continue
+.                     BACK to abort
+.       do      cyan
+.       pause   keys=back,next1,data,term
+else
+.       if      chflag(f.pub)   $$ released to public
+.       .       do      cyan
+.       .       at      1728
+.       .       write   «a,tname,20»/«a,tgroup,10»
+.       endif
+.       if      (chcode {^54} mycode) $union$ (chcode = 0)
+.       .       loop
+.       .       .       do      magent
+.       .       .       at      1917
+.       .       .       write   password »
+.       .       .       at      1928
+.       .       .       getcode lcode
+.       .       outloop (chcode = lcode) $mask$ (chcode {^54} 0)
+.       .       .       at      1917
+.       .       .       erase   40
+.       .       endloop
+.       endif
+endif
+do      cyan
+if      (chflag(f.pub) = 0) $mask$ (opt(o.char) = 0)
+.       at      1728
+.       write   «a,tname,20»/«a,tgroup,10»
+.       catchup
+endif
+*
+reserve name
+if      (zreturn > -1) $mask$ (zreturn < 5)
+*--
+*-- char renamed probably... someone else snagged it!
+*--
+.       jump    rcharops
+elseif  zreturn > 4
+.       do      red
+.       at      184,64
+.       write   Essence is being used.
+.       pause   keys=all
+.       jump    snagit2
+endif
+do      cyan
+*
+*       in case character renamed, sigh
+*
+datain  1;s,schara;1
+do      zreturn,x,errorx('datain219x')
+*--
+*-- save in second char buffer
+*--
+do      putchar2
+jump    xent
+*
+
+=== block 'snag item2'  kind 00  135 words  (block 31)
+*--
+unit    xexit(ltype)
+        merge,previous
+        ltype           $$ 0 = charops, 1 = snagent
+$
+*--
+*-- exit from exchange return
+*--
+do      white
+at      64,256
+write   Saving exchange...
+do      cyan
+*--
+do      attach(dnchar)
+*
+do      lock
+*--
+*protect on
+finish  xexitfin
+*--
+do      xexitfin        $$ save both characters
+*--
+finish  q
+*protect off
+*
+do      unlock
+*--
+jump    ltype-1,charops,snagent,xchange
+*
+        
+unit    xexitfin
+*
+**      finish unit for clever people
+*
+*-- save character not being run
+*--
+do      getchar2
+setname (tsbuf)
+do      zreturn,x,errorx('setname223')
+dataout 1;s,schara;1
+do      zreturn,x,errorx('dataout224')
+release name
+do      zreturn,x,errorx('release225')
+*--
+*-- save character being run
+*--
+do      getchar1
+setname (sbuf)
+do      zreturn,x,errorx('setname226')
+dataout 1;s,schara;1
+do      zreturn,x,errorx('setname227')
+*
+        
+unit    getitem(loadedi)
+transfr c,itemloc(loadedi);iname;iwpi
+calc    iclass « iclas(itype « itypex+1)
+*
+
+=== block 'xchange'  kind 00  306 words  (block 32)
+*
+unit    xent
+        merge,previous
+        lxy,lz
+$
+*--
+*-- entry to exchange option, check various things
+*--
+do      getchar1                $$ load your char
+calc    lxy « chxyloc
+        lz  « chzloc
+jump    chbgold,indebt,x
+*
+do      getchar2                $$ other character
+jump    chbgold,indebt,x
+jump    [(lxy {^54} chxyloc) $union$ (lz {^54} chzloc)],badloc,x
+jump    xchange
+*
+unit    indebt
+do      magent
+at      1209
+write   "«a,chpseud,20»" is in debt to the bank so
+        
+        you will not be allowed to exchange items.
+do      cyan
+pause   keys=funct
+*--
+*-- other signon should still be attach/setname here
+*--
+release name
+do      zreturn,x,errorx('release225')
+jump    snagit2
+*
+unit    badloc
+do      magent
+at      1209
+write   The two characters are not in the same location
+ 
+        so you will not be allowed to exchange items.
+do      cyan
+pause   keys=funct
+*--
+*-- other signon should still be attach/setname here
+*--
+release name
+do      zreturn,x,errorx('release226')
+jump    snagit2
+*
+        
+unit    givegold(lfrom)
+        merge,previous
+        lfrom           $$ "from" character
+        lto             $$ "to" character
+        lgold           $$ gold to give
+        lat
+$
+*--
+*-- give gold from *lfrom* char to *lto* char
+*--
+calcs   lfrom = 1,lto « 2,1
+*--
+1again
+if      lfrom = 1
+.       do      getchar1
+.       calc    lat « 601
+else
+.       do      getchar2
+.       calc    lat « 2101
+endif
+*
+do      yellow
+atnm    lat
+write   Gold
+do      cyan
+arrow   where+1
+jkey    back
+long    10
+exact
+putd    /K/k/
+putd    /M/m/
+putd    /m/*10↑6/
+putd    /k/*1000/
+judge   key = back,okquit,ignore
+store   lgold
+ok
+*
+calcs   lgold < 1,lgold « 0,,   $$ -0
+judge   (lgold < 1) $union$ (lgold > chbgold),noquit,x
+endarrow
+at      lat
+erase   20
+goto    (key = back) $union$ (jcount = 0),q,x
+*
+*       give gold
+*
+calc    chbgold « chbgold-lgold
+if      lfrom = 1
+.       atnm    1401
+else
+.       atnm    2901
+endif
+erase   20
+do      yellow
+write   «s,chbgold,12» g (bank)
+do      cyan
+*
+do      lfrom-2,putchar1,putchar2
+*
+do      lto-2,getchar1,getchar2
+*
+calc    chbgold « chbgold+lgold
+if      lto = 1
+.       atnm    1401
+else
+.       atnm    2901
+endif
+erase   20
+do      yellow
+write   «s,chbgold,12» g (bank)
+do      cyan
+*
+do      lto-2,putchar1,putchar2
+*
+
+=== block 'xchange'  kind 00  214 words  (block 33)
+*
+unit    xchange
+        merge,previous
+        lkey
+$
+*--
+*-- main item exchange unit
+*--
+*-- character being run is in buffer 1 (putchar1, getchar1)
+*-- character being exchanged is buf 2 (putchar2, getchar2)
+*-- 
+*-- *sbuf* has the signon buffer of char 1
+*-- *tsbuf* has the signon buffer of char 2
+*--
+do      getchar1
+do      cyan
+at      201
+write   «a,name,20»
+        «a,group»
+        "«a,chpseud,20»"
+do      yellow
+at      1001
+write   i - select page
+        x - exchange items
+        g - give gold
+ 
+        «s,chbgold,12» g (bank)
+do      showits(221,1,0)
+calc    ipage(1) « 1
+do      blue
+draw    1,264;511,264
+do      getchar2
+do      cyan
+at      1701
+write   «a,tname,20»
+        «a,tgroup»
+        "«a,chpseud,20»"
+do      yellow
+at      2501
+write   I - select page
+        X - exchange items
+        G - give gold
+ 
+        «s,chbgold,12» g (bank)
+do      showits(1721,1,0)
+do      cyan
+calc    ipage(2) « 1
+*--
+loop
+.       pause   keys=all
+.       keytype lkey,back1,back,i,I,x,X,g,G
+reloop  lkey = -1
+.       jump    lkey-1,xexit(0),xexit(1),x
+.       do      lkey-2,x,ipage(1),ipage(2),swapitem(1),
+.               swapitem(2),givegold(1),givegold(2),x
+endloop
+*
+unit    showits(lat,lfirst,lerase)
+        merge,previous
+        lat                     $$ at position
+        lfirst                  $$ first item to show
+        litem                   $$ item being shown
+        lline                   $$ line number
+        lerase                  $$ need to erase flag
+$
+calc    litem « lfirst-1
+        lline « -1
+loop    (litem « litem+1) {^72} (lfirst+13)
+.       calc    lline « lline+1
+.       do      showit(lat+100*lline,litem,lerase)
+endloop
+*
+
+=== block 'xchange'  kind 00  111 words  (block 34)
+*
+unit    showit(lat,litem,lerase)
+        merge,previous
+        litem
+        lat
+        lerase          $$ -1 = erase, 0 = don't
+        lknown
+$
+mode    rewrite
+do      cyan
+atnm    lat
+write   «t,litem,2». 
+if      chitem(litem) = 0
+.       goto    lerase,x,q
+.       erase   40
+.       goto    q
+endif
+do      getitem(chitem(litem))
+if      iclass > 0
+.       writec  chitemu(iclass) = litem{^56}{75}_{75} {^56}
+.                 {^56}
+else
+.       write     
+endif
+calc    lknown « chitmkn(litem)
+writec  lknown-1{^56}«a,iduu(itype)»{^56}«a,itypes(itype),20»{^56}
+        «a,iname,30»
+if      lknown > 1
+.       if      eq1(ispecb(i.curse))
+.       .       write    (cursed)
+.       else
+.       .       writec  chialig(litem)-1;; (g); (n); (e)
+.       endif
+.       writec  (ichused > 0) $mask$ (lknown = 3);
+.                [«s,chcharg(litem)»];;
+endif
+goto    lerase,x,q
+erase   63-(wherex/8)
+*
+
+=== block 'xchange'  kind 00  311 words  (block 35)
+*
+unit    ipage(lchar)
+        merge,previous
+        lchar           $$ 1 for char1, 2 for char2
+        lat
+        lkey
+$
+if      lchar = 1
+.       do      getchar1
+.       calc    lat « 601
+else
+.       do      getchar2
+.       calc    lat « 2101
+endif
+do      yellow
+atnm    lat
+write   Which page? (1 - 4)
+do      cyan
+*--
+loop
+.       pause   keys=all
+.       keytype lkey,back,1,2,3,4
+outloop lkey > -1
+endloop
+*--
+at      lat
+erase   19
+goto    lkey-1,q,x
+calc    ipage(lchar) « lkey
+do      lchar-1,x,showits(221,(lkey-1)*14+1,-1),
+        showits(1721,(lkey-1)*14+1,-1),x
+*
+unit    swapitem(lfrom)
+        merge,previous
+        lfrom           $$ "from" character
+        lto             $$ "to" character
+        lfi             $$ from item number
+        lti             $$ to item number
+        lat
+$
+*--
+*-- swap item from *lfrom* char to *lto* char
+*--
+calcs   lfrom = 1,lto « 2,1
+*--
+1again
+if      lfrom = 1
+.       do      getchar1
+.       calc    lat « 601
+else
+.       do      getchar2
+.       calc    lat « 2101
+endif
+do      yellow
+atnm    lat
+write   From item #
+do      cyan
+arrow   where+1
+jkey    back
+long    2
+exact
+judge   key = back,okquit,ignore
+store   lfi
+ok
+*
+judge   (lfi < 2) $union$ (lfi > 56),noquit,x
+if      chitem(lfi) > 0
+.       do      getitem(chitem(lfi))
+.       if      iclass > 0
+.       .       if      chitemu(iclass) = lfi
+.       .       .       judge   ispecb(i.curse)-1,x,noquit
+.       .       .       if      chialig(lfi) > 0
+.       .       .       .       judge   abs(chialig(lfi)-chalign) > 1,noquit,x
+.       .       .       endif
+.       .       endif
+.       endif
+endif
+endarrow
+at      lat
+erase   20
+goto    key = back,q,x
+*--
+if      lto = 1
+.       do      getchar1
+.       calc    lat « 601
+else
+.       do      getchar2
+.       calc    lat « 2101
+endif
+*
+do      yellow
+atnm    lat
+write   To item #
+do      cyan
+arrow   where+1
+jkey    back
+long    2
+exact
+judge   key = back,okquit,ignore
+store   lti
+ok
+judge   (lti < 2) $union$ (lti > 56),noquit,x
+if      chitem(lti) > 0
+.       do      getitem(chitem(lti))
+.       if      iclass > 0
+.       .       if      chitemu(iclass) = lti
+.       .       .       judge   ispecb(i.curse)-1,x,noquit
+.       .       .       if      chialig(lti) > 0
+.       .       .       .       judge   abs(chialig(lti)-chalign) > 1,noquit,x
+.       .       .       endif
+.       .       endif
+.       endif
+endif
+endarrow
+*
+*       $$  continued in next block
+
+=== block 'xchange'  kind 00  301 words  (block 36)
+*       $$  continued from last block
+*
+at      lat
+erase   20
+goto    key = back,q,x
+*--
+*-- transfr from *lfrom* char, item *lfi* to
+*-- *lto* char, item *lti*
+*--
+do      xitems(lfrom,lfi,lto,lti)
+branch  1again
+*
+*
+unit    xitems(lfrom,lfi,lto,lti)
+        merge,previous
+        lfrom           $$ from char
+        lfi             $$ item
+        lto             $$ to char
+        lti             $$ item
+        litem(2)        $$ item index
+        lalign(2)       $$ alignment
+        lknown(2)       $$ knowledge
+        lbank(2)        $$ bank status
+        lcharge(2)      $$ charges
+$
+do      lfrom-2,getchar1,getchar2
+*--
+*-- calc temp(1)
+*--
+if      chitem(lfi) > 0
+.       do      getitem(chitem(lfi))
+.       calc    litem(1) « chitem(lfi)
+.               lalign(1) « chialig(lfi)
+.               lknown(1) « chitmkn(lfi)
+.               lbank(1) « chibank(lfi)
+.               lcharge(1) « chcharg(lfi)
+.       if      chitemu(iclass) = lfi
+.       .       calc    chitemu(iclass) « 0
+.       endif
+else
+.       calc    litem(1)« lalign(1) « lknown(1) « 0
+.               lbank(1) « lcharge(1) « 0
+endif
+*--
+do      lfrom-2,putchar1,putchar2
+do      lto-2,getchar1,getchar2
+*--
+*-- calc temp(2)
+*--
+if      chitem(lti) > 0
+.       do      getitem(chitem(lti))
+.       calc    litem(2) « chitem(lti)
+.               lalign(2) « chialig(lti)
+.               lknown(2) « chitmkn(lti)
+.               lbank(2) « chibank(lti)
+.               lcharge(2) « chcharg(lti)
+.       if      chitemu(iclass) = lti
+.       .       calc    chitemu(iclass) « 0
+.       endif
+else
+.       calc    litem(2)« lalign(2) « lknown(2) « 0
+.               lbank(2) « lcharge(2) « 0
+endif
+*--
+*-- set receiving char data
+*--
+calc    chitem(lti) « litem(1)
+        chialig(lti) « lalign(1)
+        chitmkn(lti) « lknown(1)
+        chibank(lti) « lbank(1)
+        chcharg(lti) « lcharge(1)
+*--
+if      (int((lti-1)/14)+1) = ipage(lto)
+.       do      showit(121+1500*(lto-1)+100*[lti-(ipage(lto)-1)*14],lti,-1)
+endif
+*--
+do      lto-2,putchar1,putchar2
+do      lfrom-2,getchar1,getchar2
+*--
+*-- set sending character
+*--
+calc    chitem(lfi) « litem(2)
+        chialig(lfi) « lalign(2)
+        chitmkn(lfi) « lknown(2)
+        chibank(lfi) « lbank(2)
+        chcharg(lfi) « lcharge(2)
+*--
+if      (int((lfi-1)/14)+1) = ipage(lfrom)
+.       do      showit(121+1500*(lfrom-1)+100*[lfi-(ipage(lfrom)-1)*14],lfi,-1)
+endif
+*--
+do      lfrom-2,putchar1,putchar2
+*
+
+=== block 'enter'  kind 00  309 words  (block 37)
+*
+unit    enter
+        merge,previous
+        luse    $$ which item to use
+        lstat   $$ which stat to change
+        linusex(3)      $$ items to put in use
+        segment,linuse = linusex(1),6
+        lccheck $$ companion to check for carrying
+$
+calc    sex « chsex
+*--
+*-- update common variables
+*--
+        pochits « chchits
+        pobhits « chbhits
+        xyloc   « chxyloc
+        poxyloc « xyloc
+        zloc    « chzloc
+        pozloc  « zloc
+        popbits « chbits
+        race    « chrace
+        porace  « race
+        class   « chclass
+        poclass « class
+        align   « chalign
+        poalign « align
+        popalig « align
+*        popdead « chpdead
+        lev     « max(chlevel(class),1)
+        polevel « lev
+        powait « 0
+transfr chpseud;ppseudo(comnum);2
+*--
+*-- initialize game variables
+*--
+calc    poleadr « comnum
+        popos   « ponum « 1
+        potrack « 1
+        ponloc  « 0
+        pomons  « 0
+        poexit  « 0
+        pochick « 0     $$ hasn't Q'd chest
+        pocrry  « carry « pocrryb « 0
+        postud « 0
+*-- don't pick companions up if dead, because they may not
+*-- been destroyed yet by the dead unit in upstairs
+if      pochits > 0
+.       calc    lccheck « 0
+.       loop    (lccheck « lccheck+1) {^72} 4
+.       reloop  chcothe(lccheck) = 0
+.       reloop  chcochi(lccheck) > 0
+.       .       calc    pocrry « -lccheck
+.       outloop
+.       endloop
+endif
+calc    optpage « o.ip1
+        pgslot  « gslot
+        pmslot  « mslot
+        potimer « 0
+        poterm  « 0
+        direc   « chdirec
+        podirec « direc
+        move    « 0
+        combat  « 0
+        treas   « 0
+        atrack  « 0
+        livenum « 0     $$ 10/7/83 cds
+        person  « 0
+*--
+*-- setup item classes array
+*--
+set     iclbuf  « o60 31 76 06 10 72 07 61 75 61,
+        o05 22 07 62 76 63 77 24 74 21,
+        o07 60 00 00 00 00 00 00 00 00
+set     direcn(0) « 'North','West','South','East'
+set     bitmesw « 'poidispar','stosle'
+set     kword «
+        o0377 7777 7763 7777 4177
+        o4377 7607 7777 7777 7773
+        o4174 3777 0377 7777 7763
+        o7777 7776 4377 0000 0003
+        o7766 6633 0000 7000 0377
+        o6000 0000 6144 6174 0777
+calc    bitchck(1) « b.poiso
+        bitchck(2) « b.disea
+        bitchck(3) « b.paral
+        bitchck(4) « b.stone
+        bitchck(5) « b.sleep
+transfr c,clranks(class);csnum;ranktrn
+if      zloc = 0        $$ in city
+.       calc    chspell « maxsp
+endif
+calc    checs « checs×abs(chflag(f.ecs))
+*-- continued in next block
+
+=== block 'enter'  kind 00  240 words  (block 40)
+*
+*-- continued from previous block
+calc    gchance(1) « 10 $$ good meets good
+        gchance(2) « 25 $$ good meets neutral
+        gchance(3) « 98 $$ good meets evil
+        nchance(1) « 25 $$ neutral meets good
+        nchance(2) « 50 $$ neutral meets neutral
+        nchance(3) « 75 $$ neutral meets evil
+        echance(1) « 98 $$ evil meets good
+        echance(2) « 75 $$ evil meets neutral
+        echance(3) « 25 $$ evil meets evil
+*--                     $$ boy meets monster
+        msender « comnum        $$ message origin
+*        messloc « 0
+*
+unit    chargo
+erase   abort
+do      white
+atnm    192,256
+write   Entering AVATAR.
+do      deghost         $$ delete ghost slots
+do      getslot         $$ get a slot for yourself
+if      chflag(f.bgnd) $mask$ notl(backgnd)
+.       do      backgnd
+.       catchup
+endif
+do      initmove        $$ set up maze character arrays
+do      enter           $$ more initialization
+inhibit erase
+do      jumpout(gtcity,'ientry')
+*
+unit    getslot
+        merge,previous
+        lkey    $$ keytype value
+$
+if      slotvar > 47
+.       do      fullmess
+endif
+loop    slotvar > 47
+.       atnm    256,256
+.       write   *
+.       mode    mode,write,erase
+.       pause   1,keys=next,back,term
+.       keytype lkey,back
+.       jump    lkey,x,charbegn
+endloop
+calc    xn « comp(freewrd)
+        freep(comnum « lobit(xn)) « 1
+        slotvar      « slotvar+1
+        potimer      « 0
+        postat       « station
+        etime « clock           $$ to count elapsed time
+        gentry « gentry+1       $$ one more to the total
+*
+unit    fullmess
+erase   abort
+do      green
+at      56,352
+write   There are no player slots available at this time.
+        You may wait here for a slot to open up.
+ 
+ 
+ 
+                           One moment.
+pause   2
+atnm    208,272
+erase   11
+do      yellow
+at      56,304
+write   Press BACK to stop waiting,
+              SHIFT-STOP to leave.
+do      cyan
+*
+
+=== block 'enter'  kind 00  68 words  (block 41)
+*
+unit    deghost
+        merge,previous
+        lperson $$ slot to try to deghost
+        lpseud1 $$ first word of pseudonym in common
+$
+*--
+*-- only zero someone if they have your station
+*-- this routine is only done if you do not have
+*-- a slot (only in entry lesson when you initially enter)
+*--
+calc    lperson  « 0
+loop    (lperson « lperson+1) {^72} maxin
+reloop  (lpseud1 « ppseud1(lperson)) = 0
+reloop  notl(((chpseu1 = lpseud1) $and$ (chpseu2 = ppseud2(lperson))) $or$ (ppstat(lperson) = station))
+.       calc    comnum « lperson
+.       do      delslot
+endloop
+*
+
+=== block 'enter'  kind 00  234 words  (block 42)
+*
+unit    initmove
+do      smuarr
+set     movewrd « o74042062051435022513,
+        o30656370214516453327,
+        o61472676357404000000
+calc    showex(1) « 24
+        showex(2) « 24
+        showex(3) « 264
+        showex(4) « 264
+        showey(1) « 384
+        showey(2) « 368
+        showey(3) « 384
+        showey(4) « 368
+        compx(1)  « 340
+        compx(2)  « 340
+        compx(3)  « 428
+        compx(4)  « 428
+        compy(1)  « 450
+        compy(2)  « 434
+        compy(3)  « 450
+        compy(4)  « 434 $$ change the last 16 lines to -set-
+        xmove(0)  « 0
+        xmove(1)  « -1
+        xmove(2)  « 0
+        xmove(3)  « 1
+        ymove(0)  « 1
+        ymove(1)  « 0
+        ymove(2)  « -1
+        ymove(3)  « 0
+calc    mview(1,0) « 2+930
+        mview(1,1) « -992+930
+        mview(1,2) « -1+930
+        mview(1,3) « -899+930
+calc    mview(2,0) « -29+930
+        mview(2,1) « -993+930
+        mview(2,2) « 30+930
+        mview(2,3) « -898+930
+calc    mview(3,0) « 33+930
+        mview(3,1) « -991+930
+        mview(3,2) « -32+930
+        mview(3,3) « -900+930
+calc    mview(4,0) « -960+930
+        mview(4,1) « -31+930
+        mview(4,2) « -931+930
+        mview(4,3) « 32+930
+calc    mview(5,0) « -929+930
+        mview(5,1) « -30+930
+        mview(5,2) « -962+930
+        mview(5,3) « 31+930
+calc    mview(6,0) « 1+930
+        mview(6,1) « -961+930
+        mview(6,2) « 0+930
+        mview(6,3) « -930+930
+calc    mview(7,0) « -30+930
+        mview(7,1) « -962+930
+        mview(7,2) « 31+930
+        mview(7,3) « -929+930
+calc    mview(8,0) « 32+930
+        mview(8,1) « -960+930
+        mview(8,2) « -31+930
+        mview(8,3) « -931+930
+calc    mview(9,0) « -961+930
+        mview(9,1) « 0+930
+        mview(9,2) « -930+930
+        mview(9,3) « 1+930
+calc    mview(10,0) « -930+930
+        mview(10,1) « 1+930
+        mview(10,2) « -961+930
+        mview(10,3) « 0+930
+
+=== block 'maze array'  kind 00  303 words  (block 43)
+unit    smuarr
+calc    mmazew1(01) « o77000000007777770000
+        mmazew2(01) « o00007777770000000077
+        umazew1(01) « o00343535110000000255
+        umazew2(01) « o55240000002320201400
+        umazew1(02) « o00343535110000000272
+        umazew2(02) « o73240000002320201400
+calc    mmazew1(02) « o00007777777777000077
+        mmazew2(02) « o77777777000077777777
+        umazew1(03) « o35350000000000550200
+        umazew2(03) « o00000000202000000000
+        umazew1(04) « o35350000000000724000
+        umazew2(04) « o00000000202000000000
+calc    mmazew1(03) « o77777777000077777777
+        mmazew2(03) « o77000077777777770000
+        umazew1(05) « o00000000353500000000
+        umazew2(05) « o00245500000000002020
+        umazew1(06) « o00000000353500000000
+        umazew2(06) « o00447300000000002020
+calc    mmazew1(04) « o00007777777777000077
+        mmazew2(04) « o77777777000077777777
+        umazew1(07) « o12320000000000020200
+        umazew2(07) « o00000000133300000000
+        umazew1(08) « o12320000000000023600
+        umazew2(08) « o00000000133700000000
+calc    mmazew1(05) « o77777777000077777777
+        mmazew2(05) « o77000077777777770000
+        umazew1(09) « o00000000412600000000
+        umazew2(09) « o00242400000000005427
+        umazew1(10) « o00000000412600000000
+        umazew2(10) « o00422400000000004327
+calc    mmazew1(06) « o00000000000077000000
+        mmazew2(06) « o00000077000000000000
+        umazew1(11) « o12616161612600025555
+        umazew2(11) « o55552400136363636327
+        umazew1(12) « o12616161612600025564
+        umazew2(12) « o60552400136325156327
+calc    mmazew1(07) « o00777777777777007777
+        mmazew2(07) « o77777777007777777777
+        umazew1(13) « o07000000000000020000
+        umazew2(13) « o00000000150000000000
+        umazew1(14) « o07000000000000450000
+        umazew2(14) « o00000000100000000000
+calc    mmazew1(08) « o77777777770077777777
+        mmazew2(08) « o77770077777777777700
+        umazew1(15) « o00000000001600000000
+        umazew2(15) « o00002400000000000025
+        umazew1(16) « o00000000001600000000
+        umazew2(16) « o00004600000000000010
+calc    mmazew1(09) « o00777777777777007777
+        mmazew2(09) « o77777777007777777777
+        umazew1(17) « o01000000000000020000
+        umazew2(17) « o00000000030000000000
+        umazew1(18) « o04000000000000050000
+        umazew2(18) « o00000000060000000000
+calc    mmazew1(10) « o77777777770077777777
+        mmazew2(10) « o77770077777777777700
+        umazew1(19) « o00000000003000000000
+        umazew2(19) « o00002400000000000031
+        umazew1(20) « o00000000002100000000
+        umazew2(20) « o00001700000000000022
+*
+
+=== block 'utility'  kind 00  206 words  (block 44)
+*
+unit    lock
+loop
+.       reserve common
+outloop zreturn < 0
+.       do      red
+.       at      3232
+.       write   Waiting -- SHIFT-STOP to exit.
+.       break
+.       at      3232
+.       erase   30
+endloop
+do      cyan
+*
+unit    unlock
+release common
+*
+        
+unit    errorx(lerr)
+        merge,previous
+        lerr
+        llen
+        ltext(20)
+$
+*protect off
+calc    fixflag « -1    $$ force cleanup
+comret
+finish
+release common
+release name
+zero    ltext(1),20
+pack    ltext(1){^56}llen{^56}zreturn «s,zreturn»
+        chpseud    '«a,chpseud,20»'
+        sbuf       «a,name,20»/«a,group»
+        
+pack    ltext(1){^56}llen{^56}«a,ltext(1),llen»tbuf      «a,tname,20»/«a,tgroup»
+        pbuf       '«a,newpseu,20»'
+pack    ltext(1){^56}llen{^56}«a,ltext(1),llen»«a,nsignon»
+erase   abort
+ 
+*
+do      red
+at      504
+write   ERROR! The following is being sent to the notesfile.
+        Do not bother reporting this error.  SHIFT-STOP to leave.
+transfr ltext(1);errmess;errlen « int(llen/10)+2
+do      cyan
+at      804
+text    errmess,errlen
+notes   errmess,errlen,lerr,send
+pause   keys=stop1
+*
+        
+unit    setgmast
+        merge,previous
+        lnum
+        lpseudo(2)
+        lguild
+        lmaster
+        segment,lm = lmaster,02,s
+$
+*
+**      setup a word indicating guild mastership
+*       02/val, 02/val, 02/val ...
+*       -1 = guildmaster, 0 = not
+*
+calc    lguild « lmaster « lnum « 0
+loop    (lguild « lguild+1) {^72} classes
+.       transfr c,gpseudo(lguild);lpseudo(1);2
+reloop  chpseu1 {^54} lpseudo(1)
+reloop  chpseu2 {^54} lpseudo(2)
+.       calc    lm(lguild) « -1
+.               lnum « lnum+1
+endloop
+return  lmaster,lnum
+*
+        
+
+=== block 'cleanup'  kind 00  239 words  (block 45)
+*
+unit    cleanup
+*
+**      simple cleanup and error recovery routine
+*       not all inclusive by any means, but used to
+*       cleanup any linkage problems between pseudo
+*       and character nameset that might be caused
+*       by pressing STOP1 in a critical section
+*
+        merge,previous
+        lnames
+$
+erase   abort
+*
+do      green
+at      1314
+write   Sweeping out the city and the dungeon.
+at      1624
+write   Please be patient.
+*
+do      backgnd         $$ foreground is hopeless
+do      zappnset        $$ clean-out pseudonym nameset
+do      zapcntrs        $$ zero various counters
+do      attach(dnchar)
+at      180,160
+erase   30
+do      cyan
+at      1929
+write      /«s,min(znsrecs,znsnams)»
+mode    rewrite
+setname
+calc    lnames « 0
+loop
+.       setname nextname
+outloop zreturn > -1
+.       calc    lnames « lnames+1
+.       if      int(lnames/10) = (lnames/10)
+.       .       at      1929
+.       .       showt   lnames,3
+.       endif
+.       getname pbuf
+.       datain  1;s,schara;1
+.       do      zreturn,x,error('datain146')
+*--
+.       do      addpseud
+.       if      return = 0      $$ cloned char, for shame
+*
+*-- backup one character, save name, move forward one
+*-- char, delete cloned char, setname to previous char
+*
+.       .       setname backname
+.       .       getname pbuf
+.       .       setname nextname
+.       .       delname
+.       .       do      zreturn,x,error('delname637')
+.       .       setname (pbuf)
+.       .       do      zreturn,x,error('setname638')
+reloop
+.       endif
+.       do      itemcnt         $$ count items
+*
+*-- add player's gold to total
+*
+.       calc    ecplay « ecplay+chgold
+.               ecbank « ecbank+chbgold
+*--
+.       dataout 1;s,schara;1
+.       do      zreturn,x,error('dataout147')
+endloop
+*
+calc    ecmon « ectot-(ecplay+ecbank)   $$ monster's gold
+*
+        fixflag « 0
+*
+comret
+*
+detach  <dnpseud>       $$ drop pseudo nameset
+*
+
+=== block 'cleanup'  kind 00  184 words  (block 46)
+*
+unit    addpseud
+*
+**      add pseudonym back to pseudo nameset
+*
+        merge,previous
+        lname(3)
+$
+block   chpseud;lname(1);2
+calc    lname(3) « 0
+*
+do      attach(dnpseud)
+*
+*-- check for duplicate pseudo
+*
+setname (lname(1))
+if      zreturn < 2             $$ partial match
+.       getname (lname(1))
+.       if      (chpseu1=lname(1)) $mask$ (chpseu2=lname(2))
+.       .       calc    return « 0
+.       .       branch  1out
+.       endif
+.       block   chpseud;lname(1);2
+endif
+*
+calc    lname(3) « pbufw(1)     $$ first 10 of signon
+        return « -1             $$ not a duplicate
+addname lname(1),0,charid
+do      zreturn,x,error('addname634')
+*
+1out
+do      attach(dnchar)          $$ restore attach
+setname (pbuf)
+do      zreturn,x,error('setname635')
+*
+unit    zapcntrs
+*
+**      initialize various common counters
+*
+        merge,previous
+        lguild
+        litem
+$
+calc    ecplay « ecbank « ecstore « 0   $$ ecmon later
+        litem « 0
+loop    (litem « litem+1) {^72} items
+.       calc    ifound(litem) « isowned(litem,0)+isowned(litem,1)+isowned(litem,2)+isowned(litem,3)
+endloop
+*
+unit    itemcnt
+*
+**      add players items to total count
+*
+        merge,previous
+        litem
+        lit             $$ 0-255
+$
+calc    litem « 1
+loop    (litem « litem+1) {^72} slots
+.       calc    lit « chitem(litem)
+reloop  lit = 0         $$ no item in this slot
+.       calc    ifound(lit) « min(ifound(lit)+1,999)
+endloop
+*
+
+=== block 'newsys'  kind 00  246 words  (block 47)
+*
+unit    newsys
+*
+**      initialize common for new system
+*
+        merge,previous
+        lday            $$ current value of day, integer
+        ldate           $$ current date
+        lguild          $$ guild loop counter
+        litem           $$ item loop counter
+        ltemp
+        lzero(2)
+$
+erase   abort
+*
+do      green
+at      44,320
+write   Please wait while Avatar is prepared for this system.
+catchup
+do      cyan
+*
+do      backgnd
+*
+date    ldate
+day     lday
+*
+calc    stday « lday            $$ for elapsed day cnt
+        isday « lday
+        ltemp « 0
+*
+        totchar « 0             $$ chars created so far
+*
+        mostin « 0              $$ most in game
+*
+*       these are not shown, but are still stored
+*
+move    ldate,2,ltemp,1,2
+compute stmonth,ltemp,2
+move    ldate,5,ltemp,1,2
+compute stdatex,ltemp,2
+move    ldate,8,ltemp,1,2
+compute styear,ltemp,2
+*
+*-- initialize stats
+*
+calc    gentry « gtime « gives « messes « 0
+        isdeath « israise « iscomp « 0
+*
+if      sysnew          $$ initialize completely!
+*
+*-- zero store items
+*
+.       calc    litem « 0
+.       loop    (litem « litem+1) {^72} items
+.       .       calc    isowned(litem,0) « isowned(litem,1) « isowned(litem,2) « isowned(litem,3) « 0
+.       endloop
+*
+*-- zero guild masters
+*
+.       zero    lzero(1),2
+.       calc    lguild « 0
+.       loop    (lguild « lguild+1) {^72} classes
+.       .       transfr lzero(1);c,gpseudo(lguild);2
+.       .       calc    glevel(lguild) « 0
+.       endloop
+*
+.       do      zapsnset        $$ zap statistics nameset
+*
+.       do      initlogs        $$ initialize guild logs
+*
+.       do      zapcnset        $$ zap all characters!
+endif
+*
+do      cleanup
+*
+*-- done with new system initialization
+*
+calc    sysnew « 0      $$ don't do it again!
+        sysid « zsysid  $$ now cleared for this system only
+*
+comret
+*
+detach                  $$ clean slate
+*
+erase   abort
+*
+
+=== block 'newsys'  kind 00  266 words  (block 50)
+*
+unit    zapcnset
+*
+**      clear character nameset
+*
+        merge,previous
+        lnames
+$
+at      180,160
+erase   30
+do      green
+write   Clearing Characters
+do      attach(dnchar)
+at      1929
+erase   20
+do      cyan
+write      /«s,min(znsnams,znsrecs)»
+mode    rewrite
+setname
+calc    lnames « 0
+loop    zreturn = -1
+.       setname nextname
+outloop zreturn > -1
+.       calc    lnames « lnames+1
+.       if      int(lnames/10) = (lnames/10)
+.       .       atnm    1929
+.       .       showt   lnames,3
+.       endif
+.       delname
+endloop
+*
+unit    zappnset
+*
+**      clear pseudonym nameset
+*
+        merge,previous
+        lnames
+$
+at      180,160
+erase   30
+do      green
+write   Clearing Pseudonyms
+do      attach(dnpseud)
+at      1929
+erase   20
+do      cyan
+write      /«s,znsnams»
+mode    rewrite
+setname
+calc    lnames « 0
+loop    zreturn = -1
+.       setname nextname
+outloop zreturn > -1
+.       calc    lnames « lnames+1
+.       if      int(lnames/10) = (lnames/10)
+.       .       atnm    1929
+.       .       showt   lnames,3
+.       endif
+.       delname
+endloop
+*
+unit    zapsnset
+*
+**      clear statistics nameset
+*
+do      attach(dnstat)
+setname
+loop    zreturn = -1
+.       setname nextname
+outloop zreturn > -1
+.       delname
+endloop
+*
+do      detach(dnstat)
+*
+unit    initlogs
+        merge,previous
+        lrec            $$ record to zero
+        lclass          $$ class of log to get
+        lname           $$ name in nameset
+$
+do      attach(dnglog)
+setname
+loop    zreturn = -1
+.       setname nextname
+outloop zreturn > -1
+.       delname
+endloop
+calc    lclass « 0
+loop    lclass < classes
+.       calc    lclass « lclass+1
+.               lname  « cname(lclass)
+.       addname (lname),grecs,0
+.       do      zreturn,x,error('addname201')
+.       zero    nc(ncchara),64
+.       calc    lrec « 0
+.       loop    lrec < grecs
+.       .       calc    lrec « lrec+1
+.       .       dataout lrec;s,schara;1
+.       .       do      zreturn,x,error('dataout202')
+.       endloop
+endloop
+do      detach(dnglog)
+*
+
+=== block 'colors'  kind 00  59 words  (block 51)
+*
+unit    blue
+color   display;zblue
+*
+unit    cyan
+color   display;zcyan
+*
+unit    white
+color   display;zwhite
+*
+unit    yellow
+color   display;zyellow
+*
+unit    green
+color   display;zgreen
+*
+unit    red
+color   display;zred
+*
+unit    magent
+color   display;zmagent
+*
+*       $$ colors
+*        fred = v10
+*        fgreen = v11
+*        fblue = v12
+*        orange = v13
+*
+*
+
+=== block 'orange'  kind 40  25 words  (block 53)
+*
+unit    orange
+*       This -define- could be put somewhere else
+color   define;(orange),1,.5,0  $$ per =INFO=...dmr
+*color   define;(orange),.9,.4,0  $$ this is good also.
+color   display;orange
+*
+
+=== block 'tempsave'  kind 40  66 words  (block 54)
+dmrnotes / cdc  3/16/93  5:27 pm  dave runte / p / cdc
+* jack guinnip / guest / cdc  3/16/93  5:16 pm *
+* dave runte / coserv / cdc  3/16/93  4:58 pm *
+{^'01}  Voila!
+  I put a space in there (the second line of the
+  two identical ones) so I'm not sure why it's not taking.
+-------------------------
+*
+do      cyan
+at      2217
+write   Welcome, most masterful! 
+write   Welcome, most masterful $$$ - 3 hold the space
+*
+without the $$$, any spaces at the end of a line are
+trimmed off when compiled.  Remember?  That one has
+bit me a few times.

@@ -1,0 +1,3986 @@
+2upstairs  (tutor    a, 70 blocks)
+  af | 5< | 04/22/86 | 03/07/94 | s | s | Maggs/Sh | apira/Sid | es | Avatar | see "auth | ors" | recreation | anyone | city lesso | n for Ava | tar | 15.21.13. | dave runte | e | s | coserv | coserv | publish | juse | microj | i4a⌫o | 2avatuse | avatarbv | mu2+ «{75} | 0catnote | coserv | s0edit | 5 | e | b
+
+=== block '*directory'  kind 00  0 words  (block 0)
+
+=== block 'start'  kind 00  228 words  (block 1)
+*
+*       copyright 1979, 1980, 1981, 1982, 1983, 1984
+*       Bruce Maggs, Andrew Shapira, David Sides
+*
+*list   symbols
+*--
+*-- 64×4 extra words of storage are used for guild logs
+*--
+storage 866,exactly
+define  global
+        lessonn = 1     $$ lesson number of city
+use     nc consts
+use     functions
+use     student
+use     stats
+use     players
+use     messages
+use     cmstats
+use     race/class
+use     log
+use     character
+use     city
+use     items
+use     maze
+use     monsters
+use     alive
+use     spells
+jumpout user = 'multiple';q;x
+use     initial         $$ set leslist
+initial common,fakeinit
+initial lesson,stortime
+if      (fromnum {^54} gtentry) $mask$ (fromnum {^54} gtdung)
+.       color   display;zcyan
+.       atnm    208,256
+.       write   Please wait.
+.       color   display;zwhite
+.       calc    leslist « 0
+.       inhibit jumpchk
+.       jumpout <gtentry>
+.       jumpout q
+endif
+if      backgnd
+.       backgnd
+endif
+jump    (chpseu1=poseud1)$mask$(chpseu2=poseud2),x,entrypag
+do      initcity
+*
+unit    fakeinit
+*
+unit    stortime
+date    citydat
+clock   citytim
+*
+use     u critrec
+use     game util
+use     city/dung
+use     utilities
+use     timel
+use     wait
+use     u company
+use     find play
+use     find spell
+use     find item
+use     u spell         $$ loading spells only
+use     u message
+use     u items
+use     u give
+use     att/def         $$ attack/defense units
+use     char plot
+use     game arrow
+*--
+*-- random units to please condensor
+*--
+unit    secure
+unit    comhelp
+unit    ncomhelp
+*--
+*-- to be added later
+*--
+unit    ientry
+do      ability         $$ setup abilities
+do      iitems(0,0)     $$ use items, set various things
+if      zloc = 0        $$ in city
+.       calc    chspell « maxsp
+endif
+erase   abort
+do      charplot
+jump    pochits-1,dead,x
+jump    zloc-1,city,getdown
+*
+
+=== block 'city'  kind 00  269 words  (block 2)
+unit    iitems(lcheck,lshow)
+        merge,previous
+        lcheck          $$ check to see if item usable, flag
+        lshow           $$ show changes
+        luse
+        lbit            $$ bit to zero
+        linuse(15)      $$ item to put in use
+        lstat
+        lused           $$ item put in use
+$
+*--
+*-- unuse all items
+*--
+zero    linuse(1),15    $$ zero buffer
+calc    luse  « 0
+loop    (luse « luse+1) {^72} 15
+reloop  (lused « (linuse(luse) « chitemu(luse))) = 0
+.       do      getitem(chitem(lused))
+.       do      useitem(lused,-1,lshow)
+endloop
+*--
+*-- initialize various things set by items
+*--
+do      ability
+calc    armorcl « 0 - pabilit(a.ac)
+        hitpbon « dambon « twohand « crinuse « 0
+        istuckw « 0     $$ nothing stuck yet...
+        lbit « 0
+loop    (lbit « lbit+1) {^72} 15
+.       calc    popbiit(lbit) « 0
+reloop  lbit > 10
+reloop  rbit(race,lbit) = 0
+.       calc    popbiit(lbit) « 1
+endloop
+calc    statvar « 0
+        lstat   « 0
+loop    (lstat  « lstat+1) {^72} 6
+.       calc    curstat(lstat) « chstat(lstat)
+endloop
+*--
+*-- re-use all of the items
+*--
+calc    luse    « 0
+loop    (luse « luse+1) {^72} 15
+reloop  (lused « linuse(luse)) = 0
+.       do      getitem(chitem(lused))
+.       if      lcheck
+.       .       do      itemck(lused,0)
+reloop  return > -1
+.       endif
+.       do      useitem(lused,1,lshow)
+endloop
+goto    lshow,x,q
+do      statshow(lstat),lstat « 1,6
+do      showabil
+*
+unit    ability
+        merge,previous
+        labilit         $$ loop variable
+        lmax            $$ max value
+$
+calc    labilit « 0
+loop    (labilit « labilit+1) {^72} 8
+.       calc    pabilit(labilit) « 0
+reloop  cabil(class,labilit) = 0
+reloop  cabil(class,labilit) > lev
+.       calc    pabilit(labilit) « 1
+reloop  cdiv(class,labilit)  = 0
+.       calcs   labilit-2,lmax « 10,30,4,15,63,120,63,20
+.       calc    xn « lev-cabil(class,labilit)
+.               xn « int(xn/(cdiv(class,labilit)×2))
+.               xn « pabilit(labilit)+xn
+.               pabilit(labilit) « imin(xn,lmax)
+endloop
+calc    xn « int((lev-1)/2)+1
+        pabilit(a.spell) « imin(xn,255)
+        pitmult « rpit(race)/31
+if      (xn « pabilit(a.thief)) > 0
+.       calc    pitmult « pitmult×(1-imin(xn,50)/60)
+endif
+*
+
+=== block 'city'  kind 00  245 words  (block 3)
+unit    replot
+erase   abort
+do      charplot
+catchup
+*jump    pochits-1,dead,city
+*
+unitop  city
+        merge,previous
+        lkey    $$ keytype value
+        lleader $$ who your leader is
+$
+inhibit anserase,term
+do      timel
+color   display;zcyan
+atnm    240,460
+erase   4
+write   CITY
+calc    lkey « -1
+loop
+.       if      lkey {^54} 8
+.       .       color   display;zgreen
+.       .       atnm    220,400
+.       .       write   «t,zcusers,2» user
+.       .       writec  zcusers-2; ;s
+.       .       color   display;zcyan
+.       .       atnm    188,384
+.       .       write   Choose an option:
+.       .       if      cityhlp = 0
+.       .       .       color   display;zyellow
+.       .       .       atnm    200,368
+.       .       .       write   HELP available
+.       .       .       color   display;zcyan
+.       .       endif
+.       endif
+.       loop
+.       .       if      ponloc > 0
+.       .       .       do      lchange
+.       .       endif
+.       .       calc    lleader « poleadr
+.       .       if      ppzloc(lleader) > 0
+.       .       .       calc    poloc « pploc(lleader)
+.       .       .       do      citerase
+.       .       .       do      getdown
+.       .       endif
+.       .       mode    rewrite
+.       .       color   display;zgreen
+.       .       atnm    220,400
+.       .       write   «t,zcusers,2» user
+.       .       writec  zcusers-2; ;s
+.       .       mode    write
+.       .       color   display;zcyan
+.       .       do      pause(p.city,2.5,0;lkey)
+.       reloop  (lkey = 6) $union$ ((lkey = 7) $mask$ cityhlp)
+.       outloop
+.       endloop
+.       if      lkey  = 7
+.       .       do      cityhelp
+.       .       do      plotpage(6)
+.       .       calc    cityhlp « -1
+.       else
+.       .       do      citerase
+.       .       do      lkey-1,exitcity,store,morgue,bank,
+.       .               guild,seespell,x,x,creplot,
+.       .               dungexit
+.       .       calc    cityhlp « 0
+.       endif
+endloop
+*
+unit    creplot
+do      replot
+jump    city
+*
+
+=== block 'city'  kind 00  214 words  (block 4)
+unit    cityhelp
+mode    rewrite
+color   display;zyellow
+at      52,368
+write   b.  Bank        m.  Morgue      s.  General Store
+        g.  Guilds      q.  Spells      t.  Dungeon
+mode    write
+color   display;zcyan
+*
+unit    citerase
+atnm    220,400
+erase   8
+if      cityhlp = -1
+.       atnm    188,384
+.       erase   17
+.       at      52,368
+.       erase   49,2
+.       calc    cityhlp « 0
+else
+.       atnm    184,384
+.       erase   17,2
+endif
+*
+unit    initcity
+finish  exitslot
+calc    cityhlp « 0
+        roomnum « 0
+        mazeroo(xyloc) « 0
+        potimer « 0
+        combat  « 0
+        treas   « 0
+        move    « 0
+timel   5,timel
+*
+unit    exitcity
+do      poleadr {^54} comnum,leavcomp,x
+if      ponum > 1
+.       zero    value,4
+.       pack    value,,Entering the dungeon.
+.       color   display;zgreen
+.       do      sendmess(m.track)
+.       color   display;zwhite
+endif
+calc    pozloc « stzloc
+jump    getdown
+*
+unitop  getdown
+calc    xyloc   « poxyloc
+        zloc    « pozloc
+        combat  « 0
+        treas   « 0
+        sqseen  « 0
+        moved   « -1
+        infow   « 0
+        livenum « 0
+        roomnum « 0
+do      ability $$ do we need this?/ to figure new spell pts
+do      showspel
+do      patience
+do      getlevel
+do      jprepare
+jumpout <gtdung>,'dungeon'
+*
+unit    term
+zero    value,4
+if      ppnum(leadr) > 1
+.       color   display;zgreen
+.       pack    value,,Pressed TERM.
+.       do      sendmess(m.track)
+.       color   display;zcyan
+endif
+do      timel
+calc    poterm « 1
+inhibit
+press   term
+pause   3,keys=term
+inhibit term,anserase
+timel   5,timel
+calc    poterm « 0
+*
+
+=== block 'jumpout/ab'  kind 00  251 words  (block 5)
+*
+unit    refresh 
+        merge,previous
+        lcomp   $$ companion
+        lroll
+$
+*--
+*-- dungeon returns to here
+*--
+calc    xyloc « stxyloc
+        zloc « 0
+do      ageplyr         $$ age the player
+calc    popbit(b.poiso)  « 0
+        popbit(b.disea)  « 0
+        popbit(b.paral)  « 0
+        popbisp(b.water) « 0
+        popbisp(b.levit) « 0
+        popbisp(b.invis) « 0
+        popbisp(b.dinvi) « 0
+        popbisp(b.anti)  « 0
+        popbisp(b.pro)   « 0
+        popbisp(b.fire)  « 0
+        popbisp(b.drain) « 0
+        popbit(b.stone)  « 0
+        popbisp(b.rpar)  « 0
+        chspell          « maxsp
+        pochits          « pobhits
+        chthits          « 0
+        lcomp            « 0
+loop    (lcomp « lcomp+1) {^72} 4
+reloop  chcochi(lcomp) = 0
+.       calc    chcochi(lcomp) « chcobhi(lcomp)
+endloop
+do      inreturn
+do      showchit
+do      compplot
+do      showspel
+do      showabil
+do      mtimel
+do      wait
+at      232,492
+erase   8,4
+jump    city
+*
+unit    ageplyr
+        merge,previous
+        lmaxsp          $$ maximium spells
+*--
+*-- hours lost if you loss "chbhits" hits on a trip
+*-- even if they are healed up when you enter the city
+*--
+        ltage   = 168           $$ 1 week
+*--
+*-- hours lost to heal yourself up "chbhits"
+*--
+        lage    = 504           $$ 3 weeks
+*--
+*-- hours lost to refresh total spell pointer
+*--
+        lsage   = 48            $$ 2 days
+        lhours  $$ hours to age the dink
+$
+calc    lmaxsp « maxsp
+if      (lage*((chbhits-chchits)/chbhits)+ltage*(chthits/chbhits)) < (lsage*((lmaxsp-chspell)/lmaxsp))
+.       calc    lhours « lsage*((lmaxsp-chspell)/lmaxsp)
+else
+.       calc    lhours «lage*((chbhits-chchits)/chbhits)+ltage*(chthits/chbhits)
+endif
+do      gainage(lhours,0)
+if      lhours > 24
+.       do      messloc
+.       write     You spent 
+.       if      lhours < 7×24
+.       .       write   «s,int(lhours/24)» day
+.       .       writec  int(lhours/24);;;;s
+.       else
+.       .       write   «s,int(lhours/(24×7))» week
+.       .       writec  int(lhours/(24×7));;;;s
+.       endif
+.       write    recovering.
+endif
+*
+
+=== block 'bank'  kind 00  231 words  (block 6)
+*
+unit    bank
+        merge,previous
+        lkey
+$
+color   display;zyellow
+atnm    128,400
+write   Branch 46 of The Bank of Avatar
+atnm    92,384
+write   You have «t,chbgold,10» gold in your account.
+loop
+.       color   display;zyellow
+.       at      128,368
+.       write   Press d. to make a deposit
+.                     w. to make a withdrawal
+.                     q. to deposit/withdraw items
+.       color   display;zcyan
+.       1noplot
+.       do      pause(p.bank,0,0;lkey)
+.       if      lkey = 0
+.       .       atnm    128,400
+.       .       erase   32
+.       .       atnm    92,384
+.       .       erase   41
+.       .       at      128,368
+.       .       erase   34,3
+.       .       goto    q
+.       elseif  lkey = 1
+.       .       at      128,368
+.       .       erase   34,3
+*.       .       atnm    120,368
+*.       .       write   NOTE: we charge 4.281% on deposits.
+.       .       color   display;zyellow
+.       .       atnm    172,352
+.       .       write   Deposit how much
+.       .       do      getgold(308,352,chgold)
+.       .       color   display;zcyan
+*.       .       atnm    120,368
+*.       .       erase   35
+.       .       atnm    172,352
+.       .       erase   29
+reloop  pressed {^54} -1
+.       .       do      gold(value,-1,1,0,0)
+*.       .       do      gold(value,-1,0,0,0)
+*.       .       calc    xn « value×.95719
+*.       .               value « value-xn
+*.       .       do      gold(xn,0,1,0,0)
+*.       .       do      gold(value,0,0,1,0)
+.       elseif  lkey=2
+.       .       at      128,368
+.       .       erase   34,3
+.       .       color   display;zyellow
+.       .       atnm    172,352
+.       .       write   Withdraw how much
+.       .       do      getgold(316,352,chbgold)
+.       .       color   display;zcyan
+.       .       atnm    172,352
+.       .       erase   30
+reloop  pressed {^54} -1
+.       .       do      gold(value,1,-1,0,0)
+*--
+*-- continued
+*--
+
+=== block 'bank'  kind 00  149 words  (block 7)
+*-- continued from previous block
+.       elseif  lkey=3
+.       .       atnm    128,336
+.       .       erase   34
+.       .       color   display;zyellow
+.       .       write   Which item #
+.       .       1ibank
+.       .       do      getitemn(232,336,2)
+.       .       color   display;zcyan
+.       .       atnm    248,336
+.       .       erase   2
+.       .       branch  islot,1ibdone,x
+.       .       calc    value « islot
+.       .       do      getitem(chitem(value))
+.       .       if      chitemu(iclass)=value
+.       .       .       do      itemck(value,1)
+.       .       .       branch  return,x,1ibank
+.       .       .       do      useitem(value,-1,-1)
+.       .       endif
+.       .       calc    chibank(value)«chibank(value)$diff$1
+.       .       do      showbit(value)
+.       .       branch  pressed = 1,1ibank,x
+.       .       1ibdone
+.       .       atnm    128,336
+.       .       erase   15
+.       .       color   display;zyellow
+.       .       write         q. to deposit/withdraw items
+.       .       color   display;zcyan
+.       .       branch  1noplot
+.       endif
+.       mode    rewrite
+.       color   display;zyellow
+.       atnm    164,384
+.       showt   chbgold,10
+.       color   display;zcyan
+.       mode    write
+endloop
+*
+
+=== block 'see spells'  kind 00  63 words  (block 66)
+*
+unit    seespell
+        merge,previous
+        lspellw(58)     $$ array of spells
+        segmentv,llevel =lspellw(1),01,30
+        segmentv,lspells=lspellw(1),31,30
+        ltotal  $$ total spells found
+        lspell  $$ current spell
+        lkey    $$ keytype variable
+        lline   $$ line number
+        lerase  $$ whether to erase or not
+        lyloc = 408-16*lline
+$
+color   display;zgreen
+atnm    224,400
+write   - busy -
+color   display;zcyan
+calc    lspell « 0
+        ltotal « 0
+* continued in next block
+
+=== block 'see spells'  kind 00  273 words  (block 10)
+* continued from previous block
+loop    (lspell « lspell+1) {^72} spells
+.       do      getspell(lspell)
+reloop  sclassu(class) = 0
+.       calc    ltotal « ltotal+1
+.               lspells(ltotal) « lspell
+.               llevel(ltotal) « sclassu(class)
+*--
+*-- routine can't handle more than 58 spells for one class
+*--
+outloop ltotal = 58
+endloop
+*--
+*-- sort based on first 30 bits
+*--
+sort    lspellw(1);ltotal,1,1,30
+atnm    224,400
+erase   8
+goto    ltotal-1,q,x
+color   display;zyellow
+atnm    8,412
+write   Spell name            Level  Points
+color   display;zblue
+draw    8,412;288,412
+color   display;zwhite
+at      296,384
+write   SHIFT-NEXT to page forward
+        SHIFT-BACK to page backward
+        BACK to exit
+calc    lspell « 1
+        lline « 1
+        lerase « 0
+color   display;zcyan
+loop
+.       do      getspell(lspells(lspell))
+.       mode    rewrite
+.       atnm    8,lyloc
+.       write   «a,sname,20»
+.       if      lerase
+.       .       erase   (168-wherex)/8
+.       endif
+.       atnm    200,lyloc
+.       showt   xn « llevel(lspell),2
+.       atnm    256,lyloc
+.       calc    yn « (xn**2/pabilit(a.spell))×10
+.               zn « xn
+.       showt   imax(yn,zn),3
+.       mode    write
+.       if      (lline = 5) $union$ (lspell = ltotal)
+.       .       if      (lline < 5) $mask$ lerase
+.       .       .       at      8,lyloc-16
+.       .       .       erase   35,5-lline
+.       .       endif
+.       .       atnm    356,328
+.       .       erase   12
+.       .       do      pause(p.slist,0,0;lkey)
+outloop lkey = 2
+.       .       calc    lspell « lspell+1+10×(lkey = 1)
+.       .               lline « 1
+.       .               lerase « -1
+.       .       if      lspell > ltotal
+.       .       .       calc    lspell « 1
+.       .       elseif  lspell < 1
+.       .       .       calc    lspell« imax(1,ltotal-4)
+.       .       endif
+.       .       atnm    356,328
+.       .       write   - plotting -
+.       else
+.       .       calc    lspell « lspell+1
+.       .               lline « lline+1
+.       endif
+endloop
+color   display;zcyan
+atnm    8,412
+erase   36
+at      296,384         $$ SHIFT-NEXT, SHIFT-BACK, BACK
+erase   27,3
+at      8,392
+erase   35,lline
+*
+
+=== block 'morgue'  kind 00  313 words  (block 11)
+*
+unit    morgue
+        merge,previous
+        lprice  $$ price to raise the body
+        lcprice $$ price to raise companion
+        lkey    $$ keytype variable
+        lcon    $$ constitution
+        llevel  $$ level of raiser
+        floating:lchance        $$ chance raise is made
+        floating:llive          $$ rolled value
+$
+color   display;zyellow
+atnm    216,400
+write   The Morgue
+calc    lcprice « 0
+loop
+.       atnm    56,368
+.       write   Whom do you wish to visit?
+.       if      pocrry < 0
+.       .       do      getmons(chcomon)
+*.       .       calc    lcprice«500+100×2.2**imin(mflev,12)
+.       .       calc    lcprice « (mflev+mslev)**2.2*300
+.       .       atnm    56,352
+.       .       write   (NEXT alone to raise companion #«s,-pocrry» for «s,lcprice» gold)
+.       endif
+.       do      getplay(272,368)
+.       color   display;zcyan
+.       atnm    56,368
+.       erase   52,1-(pocrry < 0)
+.       if      (pressed = -1) $mask$ (key = next) $mask$ (lcprice > 0)
+.       .       atnm    148,368
+.       .       if      max(chbgold,0)+chgold < lcprice
+.       .       .       color   display;zyellow
+.       .       .       write   You don't have enough gold!
+.       .       .       color   display;zcyan
+.       .       .       catchup
+.       .       .       pause   1.5,keys=next, 
+.       .       .       atnm    148,368
+.       .       .       erase   27
+reloop
+.       .       endif
+.       .       if      chgold < lcprice
+.       .       .       do      gold(lcprice-chgold,1,-1,0,0)
+.       .       endif
+.       .       do      gold(lcprice,-1,0,1,0)
+.       .       do      getmons(chcomon)
+.       .       calc    lcon    « mcon
+.       .               llevel « 65     $$ was 55 5/21/83cds
+.       .               lchance « (lcon < 17)×-5×lcon-(lcon > 16)×(lcon+64)
+.       .               lchance « min(lchance+(llevel/5)-2,98.5)
+.       .       randu   llive
+.       .       calc    llive « llive×100
+.       .       if      llive > lchance
+.       .       .       do      destcomp(-pocrry)
+.       .       .       color   display;zyellow
+.       .       .       atnm    156,352
+.       .       .       write   The resurrection failed!
+.       .       .       color   display;zcyan
+.       .       .       catchup
+.       .       .       pause   1.5,keys=next, 
+.       .       .       atnm    156,352
+.       .       .       erase   24
+.       .       else
+.       .       .       calc    chcochi(-pocrry) « chcobhi(-pocrry)
+.       .       .       do      compdisp(-pocrry)
+.       .       endif
+.       .       calc    pocrry « 0
+.       endif
+outloop pressed = -1
+c
+c       continued in next block
+c
+
+=== block 'morgue'  kind 00  244 words  (block 12)
+c
+c       continued from previous block
+c
+.       atnm    56,368
+.       if      (ppchits(person) > 0) $union$ (ppzloc(person) {^54} 0)
+.       .       write   Sorry, «a,ppseudo(person),20» 
+.       .       write   is not in the morgue.
+.       .       catchup
+.       .       pause   1.5,keys=next, 
+.       .       atnm    56,368
+.       .       erase   49
+reloop
+.       elseif  ppstud(person) > 0
+.       .       write   «a,ppseudo(person),20» is already 
+.       .       write   being worked on.
+.       .       catchup
+.       .       pause   1.5,keys=next, 
+.       .       atnm    56,368
+.       .       erase   49
+reloop
+.       endif
+.       calc    lprice « 1500×imin(pplevel(person),542)**1.4
+.       calc    lprice « morguep(pplevel(person))
+.       color   display;zyellow
+.       write   We've found the body!
+.       at      56,344
+.       write   To resurrect «a,ppseudo(person),20», it will cost $«s,lprice».
+.               Are you sure you want to do this?  (y⌫_es/n⌫_o)
+.       color   display;zcyan
+.       do      pause(p.morg,0,0;lkey)
+.       atnm    56,368
+.       erase   21
+.       at      56,344
+.       erase   52,2
+outloop lkey = 2
+reloop  lkey = 1
+.       color   display;zyellow
+.       atnm    148,368
+.       if      (max(chbgold,0)+chgold) < lprice
+.       .       write   You don't have enough gold!
+.       elseif  ppchits(person) > 0
+.       .       write   Somone else has raised him!
+.       else
+.       .       write   Hope for the best...
+.       .       if      chgold < lprice
+.       .       .       do      gold(lprice-chgold,1,-1,0,0)
+.       .       endif
+.       .       do      gold(lprice,-1,0,1,0)
+.       .       calc    pofrais « 1
+.       .               ppstud(person) « comnum
+.       .               ppnloc(person) « pploc(person)
+.       .       catchup
+.       .       atnm    148,368
+.       .       erase   30
+.       .       color   display;zcyan
+outloop
+.       endif
+.       catchup
+.       pause   2,keys=all
+.       atnm    148,368
+.       erase   27
+endloop
+atnm    216,400
+erase   10
+*
+
+=== block 'store'  kind 00  284 words  (block 13)
+*
+unit    store
+zero    siname,3        $$ no garbage in the copy buffer
+color   display;zyellow
+atnm    4,409
+write   General Store
+color   display;zblue
+draw    4,408;508,408
+loop
+.       color   display;zyellow
+.       at      16,376
+.       write   b - buy an item          u - buy, listing usable items only
+.               c - combine items        s - sell or learn about an item
+.               r - remove cursed item   a - change item alignment
+        
+*
+*       CR on above line necessary
+*
+.       writec  frac(chitem(1)/2) = 0;h - heal hands;;
+.       color   display;zcyan
+.       loop
+.       .       do      pause(p.store,0,0;pressed)
+.       outloop pressed {^54} 5
+.       outloop (chitem(1) = 2) $union$ (chitem(1) = 4)
+.       endloop
+.       at      16,376
+.       erase   60,4
+outloop pressed = 0             $$ back
+.       do      smess(pressed)
+.       do      pressed-2,buyitem(0),buyitem(-1),sellitem,
+.               removeit,healhand,combine,realign,x
+.       atnm    120,409
+.       erase   48
+endloop
+mode    erase
+draw    4,408;508,408
+mode    write
+atnm    4,409
+erase   13
+*
+unit    smess(lmess)
+        lmess
+$
+color   display;zyellow
+mode    rewrite
+atnm    120,409
+writec  lmess-2{^56}
+        -- Buying Items{^56}
+        -- Buying Items (list only usable items){^56}
+        -- Selling or Learning about Items{^56}
+        -- Removing Cursed Items{^56}
+        -- Healing Hands{^56}
+        -- Combining Items{^56}
+        -- Realigning Items{^56}{^56}
+mode    write
+color   display;zcyan
+*
+unit    getprice(lknow,licharg,llower)
+        merge,previous
+        lknow   $$ how much is known about the item
+        licharg $$ number of charges on item
+*-- when selling, llower = # left in store after sale
+*-- when buying, # left in store before sale
+        llower 
+        liprice   $$ base price of item
+        floating:lmult  $$ multiplier on price
+*
+calc    liprice « 1.02**ifierce
+if      lknow < 3
+.       calc    licharg « 1
+.       if      eq1(ispecb(i.setu))
+.       .       calc    licharg « 0
+.       endif
+.       calc    liprice « liprice*(2**(lknow-3))
+endif
+if      ichmax > 0
+.       calcs   eq1(ispecb(i.setu)),liprice « liprice*(.75+licharg/(ichmax*4)),
+.                 liprice*(licharg/ichmax)
+endif
+calc    lmult « 1
+if      eq0(ispecb(i.buy))
+.       calcs   llower-1,lmult « 4,3,2.2,1.6,1.2,1,.8,.6
+endif
+return  liprice*lmult
+*
+
+=== block 's buyitem'  kind 00  280 words  (block 14)
+unit    buypause
+        merge,previous
+        lkey
+        lavail  $$ number available when price was computed
+$
+1again
+do      getitem(siitem)
+do      getprice(3,sichar,(lavail « isowned(siitem,sialig))-1;siprice)
+mode    rewrite
+at      4,370
+erase   24
+color   display;zyellow
+if      eq0(ispecb(i.buy))
+.       writec  sialig;;u;g;n;e
+.       write   «s,lavail» price
+else
+.       write   Price   
+endif
+write     : «s,siprice,10»
+color   display;zwhite
+at      4,354
+write   LAB  to buy 
+writec  siuse;          ;(unusable)
+at      4,338
+write   DATA for information   
+        BACK to re-enter item  
+color   display;zcyan
+mode    write
+*do      pause(p.buy,0,0;lkey)
+loop
+.       pause   keys=next, ,back,lab,data,term
+.       keytype lkey,lab,data,term
+.       goto    lkey,q,x
+.       if      lkey = 2
+.       .       do      term
+.       else
+outloop
+.       endif
+endloop
+if      lkey = 0
+.       if      lavail = isowned(siitem,sialig)
+.       .       do      buyingit
+.       .       goto    q
+.       else
+.       .       do      pchange
+.       endif
+else
+.       do      shiinfo(siitem,3,sichar,sialig,0)
+endif
+branch  1again
+*
+unit    buyitem(luse)
+        merge,previous
+        llength $$ length of modified item name
+        luse    $$ display usable items only
+$
+calc    silist « 0
+        sitop « 0
+        sibot « items
+color   display;zyellow
+atnm    4,386
+write   Item name
+do      listops
+1again
+do      packsbuf                $$ pack store copy buffer
+color   display;zyellow
+arrow   84,386
+copy    value,30
+jkey    back,next1,back1,data,lab
+long    30
+exact
+if      key = back      $$ leave the unit
+.       judge   okquit
+elseif  key = next1     $$ list forward
+.       do      itemlist(luse,1)
+.       judge   exit
+elseif  key = back1     $$ list backward
+.       do      itemlist(luse,-1)
+.       judge   exit
+else                    $$ ignore DATA, LAB with only blanks
+.       judge   ignore
+endif
+putd    /'/=/           $$ save apostrophes
+putd    /?/             $$ munch entered shift codes
+putd    / / ?           $$ add shift code after all spaces
+putd    / Of/ of/       $$ set Of back to normal
+putd    / The/ the/     $$ set The back to normal
+putd    /=/'/           $$ replace apostrophes
+* continued in next block
+
+=== block 's buyitem'  kind 00  225 words  (block 67)
+* continued from previous block
+storea  siname,30
+ok
+if      key = back
+.       judge   okquit
+endif
+*-- capitalize the first char
+move    siname,1,siname,2,29
+calc    siname « (siname $mask$ rmask(54) $union$ lmask(3))
+atnm    84,386
+erase   1
+write   -
+search  o00,1,siname,30,1,llength
+do      finditem(llength-1-32×(llength = -1),siname1,siname2,siname3,-1)
+calc    siitem « hishome
+if      siitem = 0      $$ no item found
+.       atnm    84,386
+.       erase   1
+.       write   »
+.       noword  not found
+.       judge   noquit
+endif
+do      packsbuf        $$ new copy buffer
+if      key = next1
+.       calc    sitop « siitem
+.               sibot « siitem
+.       do      itemlist(luse,1)
+.       atnm    84,386
+.       erase   1
+.       write   »
+.       judge   ignore
+elseif  key = back1
+.       calc    sitop « siitem
+.               sibot « siitem
+.       do      itemlist(luse,-1)
+.       atnm    84,386
+.       erase   1
+.       write   »
+.       judge   ignore
+endif
+if      howmany > 1     $$ not unique
+.       atnm    84,386
+.       erase   1
+.       write   »
+.       noword  ambiguous
+.       judge   noquit
+endif
+endarrow
+color   display;zcyan
+if      key = back
+.       noword  no
+.       atnm    0,386
+.       erase   64
+.       at      4,370
+.       erase   24,4
+.       if      silist          $$ something listed
+.       .       at      200,370
+.       .       erase   39,4
+.       endif
+.       goto    q
+endif
+atnm    84,386
+erase   1
+write   :
+do      getitem(siitem)
+mode    rewrite
+color   display;zyellow
+atnm    100,386
+write   «a,iname,30»
+mode    write
+color   display;zcyan
+calc    sialig « 0
+        sichar « 0
+do      canusei         $$ siuse is set
+if      ispecb(i.buy) = 0
+.       do      soialig
+.       branch  key = back,1again,x
+endif
+* continued in next block
+
+=== block 's buyitem'  kind 00  254 words  (block 15)
+* continued from previous block
+*-- item price
+*--
+do      getitem(siitem)
+do      getprice(3,sichar « ichdice*((ichside+1)/2),isowned(siitem,sialig)-1;siprice)
+writec  ichmax > 0; [«s,sichar»];;
+*--
+if      key = data      $$ information
+.       do      shiinfo(siitem,3,sichar,sialig,0)
+.       atnm    84,386
+.       erase   32
+.       branch  1again
+elseif  (key = lab) $mask$ (siuse = -1) $$ all cool
+.       do      buyingit
+.       atnm    84,386
+.       erase   32
+.       branch  1again
+else                            $$ offer options
+.       do      buypause
+.       atnm    4,370
+.       erase   24
+.       do      listops
+.       atnm    84,386
+.       erase   32
+.       branch  1again
+endif
+*
+unit    soialig
+        merge,previous
+        lendx   $$ where item name ended
+        lalign  $$ alignment to count up
+$
+*-- assumes item name was just displayed
+calc    lendx « wherex
+        lalign « 0
+        sialig « -1
+loop    lalign {^72} 3
+.       if      isowned(siitem,lalign) > 0
+.       .       if      sialig = -1
+.       .       .       calc    sialig « lalign
+.       .       else
+.       .       .       calc    sialig « -1
+.       .       .       branch  1noauto
+.       .       endif
+.       endif
+.       calc    lalign « lalign+1
+endloop
+branch  1auto
+1noauto
+at      4,370
+erase   24,4
+loop
+.       atnm    4,354
+.       color   display;zyellow
+.       write   Choose:
+.       calc    lalign « -1
+.       loop    lalign < 3
+.       .       calc    lalign « lalign+1
+.       reloop  isowned(siitem,lalign) = 0
+.       .       writec  lalign;; u; g; n; e
+.       .       show    isowned(siitem,lalign)
+.       endloop
+.       color   display;zcyan
+.       1pause
+.       pause   keys=u,g,n,e,back,next, 
+.       keytype sialig,u,g,n,e,next, 
+.       atnm    4,354
+.       erase   19
+reloop  sialig > 3
+.       if      sialig = -1
+.       .       atnm    84,386
+.       .       erase   32
+.       .       do      listops
+.       .       goto    q
+.       endif
+outloop isowned(siitem,sialig) > 0
+endloop
+1auto
+atnm    lendx,386
+writec  sialig;;; (g); (n); (e)
+*
+
+=== block 's buyitem'  kind 00  167 words  (block 16)
+unit    buyingit
+        merge,previous
+        lislot  $$ slot to put item in
+        lerror  $$ what error occurred
+$
+do      getitem(siitem) $$ in case timel got happy
+calc    lerror « 0
+if      (chgold+max(chbgold,0)) < siprice
+.       calc    lerror « -1
+else
+.       do      findfree(;lislot)
+.       calc    xn « isowned(siitem,sialig)
+.               yn « ispecb(i.buy) = 0
+.       if      lislot = 0
+.       .       calc    lerror « -2
+.       elseif  yn $mask$ (xn = 0)
+.       .       calc    lerror « -3
+.       endif
+endif
+if      lerror
+.       atnm    4,370
+.       erase   24
+.       color   display;zyellow
+.       writec  lerror+2;Someone snagged it!;
+.               Not enough room.;
+.               Not enough gold.
+.       color   display;zcyan
+.       catchup
+.       pause   2,keys=all
+.       goto    q
+endif
+if      yn
+.       calc    isowned(siitem,sialig) « xn-1
+endif
+calc    chitem(lislot) « siitem
+        chitmkn(lislot) « 3
+        chialig(lislot) « sialig
+        chcharg(lislot) « sichar
+        chibank(lislot) « 0
+        ifound(siitem) « min(ifound(siitem)+1,1023)
+if      siprice > chgold        $$ buying on credit
+.       do      gold(siprice-chgold,1,-1,0,0)
+endif
+do      gold(siprice,-1,0,1,1)
+do      showitem(lislot)
+do      inreturn
+do      messloc
+color   display;zgreen
+write   Slot #«s,lislot» now contains your «a,iname,30».
+color   display;zcyan
+*
+
+=== block 's buyitem'  kind 00  55 words  (block 17)
+*
+unit    packsbuf
+transfr siname;value;3
+*
+unit    canusei
+        merge,previous
+        lstat           $$ stat loop variable
+$
+calc    siuse « 0
+goto    iclassu(class)-1,q,x
+calc    lstat « 0
+loop    lstat < 6
+.       calc    lstat « lstat+1
+reloop  istat(lstat) {^72} chstat(lstat)
+.       calc    siuse « lstat
+.       goto    q
+endloop
+calc    siuse « 7
+if      iabil > 0
+.       goto    ialev > pabilit(iabil),q,x
+endif
+calc    siuse « -1
+*
+
+=== block 's buyitem'  kind 00  306 words  (block 20)
+*
+unit    itemlist(luse,lincr)
+        merge,previous
+        luse            $$ -1 if usable items only, else 0
+        lincr           $$ which way to move list
+        litem           $$ item being listed
+        llisted         $$ number of items listed
+        lstop           $$ item to stop at
+        lichar          $$ charges that would be on item
+        liprice         $$ cost of item
+$
+mode    rewrite
+atnm    456,386
+write   u g n e
+color   display;zcyan
+calcs   lincr-1,litem«sitop,sibot
+calcs   lincr-1,lstop«sibot,sitop
+calc    llisted « 0
+loop    (llisted < 4)
+.       calc    litem « wrap(litem+lincr,1,items)
+outloop (litem = lstop)
+.       do      getitem(litem)
+reloop  (ispecb(i.buy) = 0) $mask$ (isownt(litem) = 0)
+.       if      luse
+.       .       do      canusei         $$ siuse is set
+reloop  siuse {^54} -1
+.       endif
+.       calc    llisted « llisted+1
+.       if      llisted = 1
+.       .       calcc   lincr-1,sibot « litem,sitop « litem
+.       elseif  llisted = 4
+.       .       calcc   lincr-1,sitop « litem,sibot « litem
+.       endif
+.       atnm    200,(386+80*(lincr = -1))-16*(lincr)*llisted
+.       write   «a,iname,30»
+.       writec  (lichar « ichdice*((ichside+1)/2))-1;; [«s,lichar»]
+.       if      silist
+.       .       erase   57-wherex/8
+.       endif
+.       atnm    448,wherey
+.       if      eq1(ispecb(i.buy))
+*-- when 5 items are owned by store, the multiplier is 1
+.       .       do      getprice(3,lichar,5;liprice)
+.       .       showt   liprice,8
+.       else
+.       .       write    «s,isowned(litem,0)»
+.       .       write    «s,isowned(litem,1)»
+.       .       write    «s,isowned(litem,2)»
+.       .       write    «s,isowned(litem,3)»
+.       endif
+endloop
+calc    silist « -1
+color   display;zyellow
+mode    write
+*
+unit    findfree
+        merge,previous
+        litem   $$ item slot
+        lreturn $$ return value
+$
+calc    lreturn « 0
+        litem   « 1
+loop    (litem  « litem+1) {^72} slots
+reloop  chitem(litem) > 0
+outloop -(lreturn « litem)
+endloop
+return  lreturn
+*
+unit    listops
+color   display;zwhite
+mode    rewrite
+at      4,370
+write         DATA - item info
+        SHIFT-NEXT - see items
+        SHIFT-BACK - see items
+              BACK - exit     
+mode    write
+color   display;zyellow
+*
+unit    pchange
+at      4,370
+erase   24,4
+color   display;zyellow
+atnm    4,354
+write   The price has changed.
+color   display;zcyan
+catchup
+pause   1,keys=all
+atnm    4,354
+erase   22
+*
+
+=== block 's sellitem'  kind 00  303 words  (block 21)
+*
+unit    sellitem
+        merge,previous
+        livalue $$ item value
+        lidcost $$ cost to id the item
+        lkey    $$ keytype value
+        lcount  $$ whether to affect item counters
+        lavail  $$ number of items available
+        lslot   $$ slot number of item
+        litem   $$ item being bought
+        lcharge $$ original charges
+        liunit  $$ how many charges per unit sale
+        lkeep   $$ does he get to keep it when he is done?
+*        lpass   $$ number to pass in store
+        lcursed $$ -1 if cursed
+        lknow   $$ how much is known about the item
+$
+1again
+color   display;zyellow
+at      4,386
+write   Item number«c,zwhite»
+ 
+        NEXT - prices
+        DATA - see what you know
+        BACK - exit
+loop
+.       atnm    116,386
+.       erase   2
+.       color   display;zyellow
+.       do      getitemn(100,386,2)
+.       color   display;zcyan
+.       at      4,386
+.       if      pressed = 0
+.       .       erase   31,5
+.       .       goto    q
+.       endif
+.       calc    lslot « islot
+reloop  lslot
+.       do      getitem(litem « chitem(lslot))
+.       transfr iname;siname;3
+.       if      pressed = 1
+.       .       do      shiinfo(chitem(lslot),chitmkn(lslot),chcharg(lslot),chialig(lslot),lslot)
+reloop
+.       endif
+outloop
+endloop
+erase   16
+2again  lcharge « chcharg(lslot)
+        liunit  « ichdice*((ichside+1)/2)
+        lkeep   « (lcharge > liunit) $mask$ (ichmax > 0) $mask$ (eq0(ispecb(i.setu)))
+        lcursed « eq1(ispecb(i.curse))
+        lknow   « chitmkn(lslot)
+        lavail  « isowned(litem,chialig(lslot))
+*--
+*-- if not enough charges on a usable item, sell at lowest
+*calcs   (lcharge < liunit) $mask$ (eq1(ispecb(i.setu))),lpass « 7,lavail
+do      getprice(lknow,min(lcharge,liunit),lavail;livalue)
+calc    livalue « livalue*.8
+calcs   lcursed $mask$ (lknow > 1),livalue « 0,,
+mode    rewrite
+color   display;zyellow
+atnm    4,386
+write   Slot #«t,lslot,2»    : 
+if      lknow > 1
+.       showa   iname,30
+.       if      lkeep $mask$ (lknow = 3)
+.       .       write    [«s,lcharge» {^'04} «s,lcharge-liunit»]
+.       elseif  (lcharge > 0) $mask$ (lknow = 3)
+.       .       write    [«s,lcharge»]
+.       endif
+.       erase   12
+.       at      4,370
+.       if      eq0(ispecb(i.buy))
+.       .       writec  chialig(lslot);;u;g;n;e
+.       .       write   «s,lavail» price  
+.       else
+.       .       write   Price     
+.       endif
+else
+.       writec  lknow-1;«a,iduu(itype)»;«a,itypes(itype),20»
+.       at      4,370
+.       write   Price     
+endif
+*-- continued in next block
+
+=== block 's sellitem'  kind 00  250 words  (block 22)
+*-- continued from previous block
+write     : «s,livalue,10»
+erase   (260-wherex)/8
+atnm    260,370
+writec  (istuck(iclass) $mask$ (chitemu(iclass) = lslot));
+        Cursed.;«c,zwhite»SHIFT-HELP to sell
+do      slearni(lknow;lidcost)  $$ puts in mode write
+if      lknow = 3               $$ not overwritten in rewrit
+.       atnm    4,322
+.       erase   11
+endif
+color   display;zcyan
+loop
+.       pause   keys=help1,data,lab,back,next, ,term
+.       keytype lkey,help1,data,lab,term
+outloop lkey = -1
+.       do      getitem(litem)  $$ in case timel got happy
+.       if      lkey = 0
+outloop not(istuck(iclass) $mask$ (chitemu(iclass) = lslot))
+.       elseif  lkey = 1
+.       .       do      shiinfo(chitem(lslot),lknow,chcharg(lslot),chialig(lslot),lslot)
+.       elseif  lkey = 2
+reloop  lidcost = 0
+.       .       do      learn(lslot,lknow,lidcost)
+.       .       branch  2again
+.       elseif  lkey = 3
+.       .       do      term
+.       endif
+endloop
+atnm    4,386
+erase   53,5
+branch  lkey,1again,x
+do      chitemu(iclass) = lslot,useitem(lslot,-1,-1),x
+if      isowned(litem,chialig(lslot)) {^54} lavail
+.       color   display;zyellow
+.       atnm    4,354
+.       write   The price has changed.
+.       color   display;zcyan
+.       catchup
+.       pause   1,keys=all
+.       atnm    4,354
+.       erase   22
+.       branch  2again
+endif
+*calc    lcount « (lcharge < liunit) $union$ (eq1(ispecb(i.buy))) $union$ (lavail > 6) $union$ (lknow < 3)
+calc    lcount « ((lcharge < liunit) $mask$ (eq0(ispecb(i.setu)))) $union$ (eq1(ispecb(i.buy))) $union$ (lavail > 6)
+        lcount « lcount $union$ lcursed $union$ (lknow < 3)
+        isowned(litem,chialig(lslot)) « lavail+1+lcount
+if      lkeep
+.       calc    chcharg(lslot) « chcharg(lslot)-liunit
+.       do      showitem(lslot)
+else
+.       do      zapitem(lslot,lcount)
+endif
+do      lcursed $mask$ (lknow < 2),scursed,gold(livalue,1,0,-1,-1)
+branch  lkeep,2again,1again
+*
+unit    scursed
+color   display;zyellow
+atnm    4,354
+write   We do not pay for cursed items.
+color   display;zcyan
+catchup
+pause   1,keys=all
+atnm    4,354
+erase   32
+*
+
+=== block 's removeit'  kind 00  199 words  (block 23)
+*
+unit    removeit
+        merge,previous
+        lrcost          $$ cost to remove item
+        lkey            $$ keytype value
+$
+1item
+color   display;zyellow
+atnm    4,376
+write   Item number
+do      getitemn(100,376,1)
+color   display;zcyan
+atnm    4,376
+erase   16
+goto    islot,q,x
+do      getitem(chitem(islot))
+if      not(istuck(iclass)) $union$ (chitemu(iclass){^54}islot)
+.       atnm    4,376
+.       color   display;zgreen
+.       write   Item does not need removing.
+.       color   display;zcyan
+.       pause   1,keys=all
+.       atnm    4,376
+.       erase   28
+.       branch  1item
+endif
+calc    lrcost « (1.0033**(5000+lev)-14295139)/2 $$ hands
+*calc    lrcost « 1.0033**(5000+lev)-14295139,   $$ hands
+*        (1.03**(ifierce/4))×350000              $$ other
+do      islot-2,x,getprice(3,chcharg(islot),0;lrcost)
+calc    lrcost « im2(lrcost)
+color   display;zyellow
+atnm    4,376
+write   #«s,islot» 
+if      chitmkn(islot) = 0
+.       showa   iduu(itype)
+elseif  chitmkn(islot) = 1
+.       showa   itypes(itype),20
+else
+.       showa   iname,30
+endif
+at      4,360
+write   «s,lrcost,10» gold«c,zwhite»
+        LAB to unuse this item
+pause   keys=lab,back
+keytype lkey,lab
+at      4,376
+erase   34,3
+goto    lkey,q,x
+if      (max(chbgold,0)+chgold) < lrcost
+.       color   display;zyellow
+.       write   Not enough gold.
+.       color   display;zcyan
+.       catchup
+.       pause   1,keys=all
+.       atnm    4,376
+.       erase   16
+.       goto    q
+endif
+if      chgold < lrcost
+.       do      gold(lrcost-chgold,1,-1,0,0)
+endif
+do      gold(lrcost,-1,0,1,1)
+do      useitem(islot,-1,-1)
+*
+
+=== block 's iteminfo'  kind 00  224 words  (block 24)
+*
+unit    learn(lslot,lknow,lidcost)
+        merge,previous
+        lslot   $$ slot to learn about
+        lknow   $$ how much is known about it
+        lidcost $$ cost to id it
+$
+if      max(chbgold,0)+chgold < lidcost
+.       at      4,354
+.       erase   60,3
+.       color   display;zyellow
+.       atnm    4,338
+.       write   Not enough gold.
+.       color   display;zcyan
+.       catchup
+.       pause   1,keys=all
+.       atnm    4,338
+.       erase   16
+.       goto    q
+endif
+if      chgold < lidcost
+.       do      gold(lidcost-chgold,1,-1,0,0)
+endif
+do      gold(lidcost,-1,0,1,1)
+calc    lknow « lknow+1
+calc    chitmkn(lslot) « lknow
+do      showitem(lslot)
+if      lknow = 3
+.       atnm    4,322
+.       erase   34
+endif
+*
+unit    slearni(lknow)
+        merge,previous
+        linfoy  $$ where to display "You know ..."
+        lknow   $$ how much is known
+        lidcost $$ cost
+$
+mode    rewrite
+*-- assumes item is loaded
+calc    linfoy « 354
+        lidcost « 0
+if      lknow < 3
+*        lidcost « int((1.02**ifierce))*((2**(lknow+1))/10)
+*--
+*-- new id price 2/25/83 courtesy tfk (cds)
+*--
+.       calc    lidcost « 10*(1.3**iid(lknow+1))
+*--
+.       color   display;zyellow
+.       at      4,354
+.       write   Learn price : «s,lidcost,10» gold
+.       color   display;zwhite
+.       atnm    260,354
+.       write   LAB to learn more
+.       calc    linfoy « 338
+endif
+atnm    4,linfoy
+color   display;zyellow
+write   You know 
+writec  lknow-1
+        the item class.
+        the item type.
+        a little about it.
+        all about it.
+erase   (260-wherex)/8
+color   display;zwhite
+atnm    260,linfoy
+write   DATA for info    
+atnm    4,linfoy-16
+write   BACK to enter another item number.           
+color   display;zcyan
+mode    write
+return  lidcost
+*
+
+=== block 's iteminfo'  kind 00  292 words  (block 25)
+*
+unit    shiinfo(litem,lknown,lcharge,lalign,lslot)
+        merge,previous
+        litem   $$ item number (1-255)
+        lknown  $$ how much known (0-3)
+        lcharge $$ number of charges
+        lalign  $$ alignment
+        lslot   $$ slot number (0 if from store)
+        lkey    $$ keytype
+        lreqlev $$ level required to use this item
+$
+calc    optpage « o.iinfo
+atnm    176,296
+erase   41,14
+color   display;zyellow
+do      getitem(litem)
+writec  lslot-1;;«t,islot,2». ;
+if      lknown = 0
+.       showa   iduu(itype)
+elseif  lknown = 1
+.       showa   itypes(itype),20
+else
+.       showa   iname,30
+endif
+if      lknown > 0
+.       at      176,280
+.       writec  lalign-1{^56}(not aligned){^56}(good){^56}(neutral){^56}(evil)
+.       writec  ispecb(i.curse) = 1{^56}  (cursed){^56}{^56}
+.       if      lknown > 1
+.       .       do      figrlev(;lreqlev)
+.       .       writec  lreqlev{^56} never usable{^56}{^56}{^56} level «s,lreqlev»
+.       endif
+.       color   display;zblue
+.       draw    176,272;502,272
+.       color   display;zcyan
+endif
+calc    lkey « 0
+if      lknown = 3
+.       color   display;zyellow
+.       at      176,240
+.       write   g - general information
+.               s - stats needed/changed, guild use
+.       color   display;zcyan
+.       pause   keys=g,s,back,next, 
+.       keytype lkey,g,s
+.       at      176,240
+.       erase   35,2
+.       goto    lkey,q,x
+endif
+do      lkey-1,shiinfo1(litem,lknown,lcharge,lalign),
+        shiinfo2,x
+*
+unit    figrlev
+*
+**      figure required level for this item
+*
+*       *lreqlev* upon exit -1 if never usable
+*                            0 if always usable
+*                            n if usable at level n
+*
+        merge,previous
+        lreqlev
+        lcdiv
+        lcabil
+$
+calc    lreqlev « 0
+*
+*       special case for spell level
+*
+calcs   iabil = 9,lcabil « 1,cabil(class,iabil)
+calcs   iabil = 9,lcdiv « 2,cdiv(class,iabil)*2
+*
+branch  (iabil = 0) $union$ (ialev = 0),1exit,x
+*
+if      lcabil = 0
+*
+*       class never gets required ability
+*
+.       calc    lreqlev « -1
+elseif  lcdiv = 0
+*
+*       class gets ability to level 1, but never advances
+*
+.       if      ialev > 1
+.       .       calc    lreqlev « -1
+.       else
+.       .       calc    lreqlev « lcabil
+.       endif
+else
+*
+*       class gets ability
+*
+.       calc    lreqlev « lcabil+[(ialev-1)*lcdiv]
+endif
+1exit
+return  lreqlev
+*
+        
+
+=== block 's iteminfo'  kind 00  220 words  (block 26)
+unit    shiinfo2
+        merge,previous
+        lcheck
+        linfo
+        llist
+        lyloc
+$
+calc    lcheck « 0
+        linfo  « 0
+loop    lcheck < 6
+.       calc    lcheck « lcheck+1
+.               linfo  « linfo-((istat(lcheck) {^54} 0) $union$ (istchan(lcheck) {^54} 0))
+endloop
+calc    lyloc « 248
+color   display;zgreen
+if      linfo > 0
+.       atnm    216,lyloc
+.       write   Natural Stat
+.       writec  linfo;;;;s
+.       write    needed/changed
+.       calc    lyloc  « lyloc-16
+.               lcheck « 0
+.               llist  « 0
+.       loop    lcheck < 6
+.       .       calc    lcheck « lcheck+1
+.       reloop  (istat(lcheck)=0) $mask$ (istchan(lcheck)=0)
+.       .       atnm    216+llist×92,lyloc
+.       .       write   «t,istat(lcheck),2»/«t,istchan(lcheck),2» 
+.       .       writec  lcheck-2;str;int;wis;con;cha;dex
+.       .       calc    llist « llist+1+3×(llist = 2)
+.       .               lyloc « lyloc+16×(llist = 0)
+.       endloop
+endif
+calc    lcheck « 0
+        linfo  « 0
+loop    lcheck < classes
+.       calc    lcheck « lcheck+1
+.               linfo  « linfo-(iclassu(lcheck) = 1)
+endloop
+calc    lyloc « 200
+branch  linfo-1,1end,x
+atnm    216,lyloc
+if      linfo < int(.6×classes)
+.       write   Allowed class
+.       writec  linfo-2;;es
+.       calc    linfo « 1
+elseif  linfo {^54} classes
+.       write   Restricted class
+.       writec  linfo = classes-1;;es
+.       calc    linfo « 0
+endif
+calc    lyloc  « lyloc-16
+        lcheck « 0
+loop    lcheck < classes
+.       calc    lcheck « lcheck+1
+.       if      iclassu(lcheck) = linfo
+.       .       atnm    240,lyloc
+.       .       showa   cname(lcheck)
+.       .       calc    lyloc « lyloc-16
+.       endif
+endloop
+1end
+if      lyloc = 248
+.       atnm    216,248
+.       write   No class or stat restrictions
+endif
+color   display;zcyan
+*
+
+=== block 's iteminfo'  kind 00  194 words  (block 27)
+unit    shiinfo1(litem,lknown,lcharge,lalign)
+        merge,previous
+        lknown          $$ how much is known
+        litem           $$ item number (1-255)
+        lcharge         $$ number of charges
+        lalign          $$ alignment of item
+        lmust           $$ level to which player must know
+        lnewl           $$ -1 = new line, 0 = no, 1 = maybe
+        lshow           $$ show info?
+        lline           $$ line number
+        linfo           $$ current piece of info
+        lflag           $$ something shown on line
+$
+calc    linfo « lflag « lnewl « 0
+        lline « 1
+atnm    176,264-16×lline
+loop    (linfo « linfo+1) {^72} 18
+.       if      lnewl $mask$ lflag
+.       .       calc    lline « lline+1
+.       .               lflag « 0
+.       .       atnm    176,264-16×lline
+.       endif
+.       calcs   linfo-2,lmust « 2,3,2,3,1,1,1,2,2,2,
+.               3,3,3,3,3,3,3,2
+.       calcs   linfo-2,lnewl « 0,-1,0,-1,0,-1,0,-1,0,-1,-1,
+.               0,-1,0,-1,-1,-1,-1
+reloop  lknown < lmust
+.       calcs   linfo-2,lshow «
+.               ihitpb {^54} 0,ihitpal {^54} 0,
+.               iacb {^54} 0,iacal {^54} 0,
+.               iclass = 1,iclass = 1,
+.               ispecb(i.twoh) = 1,ispecb(i.ifumb) = 1,
+.               ispecb(i.xtra) = 1,ispecb(i.crit) = 1,
+.               ichbit > 0,
+.               ispecb(i.hits) = 1,ispecb(i.spell) = 1,
+.               ispecb(i.age) = 1,0,    $$ perm hit change
+.               ispell > 0,
+.               ispell > 0,
+.               imaxn(litem) {^54} 0,,
+reloop  lshow = 0
+.       calc    lflag « -1
+.       color   display;zgreen
+.       do      infoline(linfo,litem,lknown,lcharge,lalign)
+.       color   display;zcyan
+endloop
+*
+
+=== block 's iteminfo'  kind 00  188 words  (block 30)
+*
+unit    infoline(linfo,litem,lknown,lcharge,lalign)
+        merge,previous
+        linfo
+        litem
+        lknown
+        lcharge
+        lalign
+        labufx(4)       $$ alignment buffer
+        labuf(x) = labufx(1+x)
+        lpmx(2)         $$ +,- buffer
+        lpm(x) = lpmx(2+x)
+        lcommax(2)      $$ comma buffer
+        lcomma(x) = lcommax(2+x)
+$
+set     labufx(1)«'any align','good','neutral','evil'
+set     lpmx(1)«'-','+'
+set     lcommax(1)«', ',''
+if      linfo = 1       $$ base hp
+.       write   «a,lpm(ihitpb<0)»«s,abs(ihitpb)×3» to Att
+elseif  linfo = 2       $$ alignment hp
+.       write   «a,lcomma(ihitpb{^54}0)»«a,lpm((ihitpal+ihitpb)<0)»«s,abs(ihitpb+ihitpal)×3» to Att 
+.       write   if «a,labuf(lalign)»
+elseif  linfo = 3       $$ base Def
+.       write   «a,lpm(iacb>0)»«s,3×abs(iacb)» to Def
+elseif  linfo = 4       $$ alignment Def
+.       write   «a,lcomma(iacb{^54}0)»«a,lpm((iacb+iacal)>0)»«s,3×abs(iacb+iacal)» to Def 
+.       write   if «a,labuf(lalign)»
+elseif  linfo = 5       $$ temperature and size
+.       write   should use against 
+.       writec  itemper-1;fiery;hot;very warm;warm;
+.               warm;cool;cold;freezing
+.       write    
+.       writec  itarget-1;tiny;small;small;
+.               man-sized;man-sized;large;giant;
+.               huge
+elseif  linfo = 6
+elseif  linfo = 7       $$ two handed
+.       write   two handed
+elseif  linfo = 8       $$ fumble
+.       writec  ispecb(i.twoh) = 1; and ;;
+.       write   cannot fumble
+elseif  linfo = 9       $$ extra swings
+.       write   gets extra swings
+*-- continued
+
+=== block 's iteminfo'  kind 00  218 words  (block 31)
+*-- continued
+elseif  linfo = 10      $$ critial hit
+.       writec  ispecb(i.xtra) = 1; and ;;
+.       write   critical hit weapon
+elseif  linfo = 11      $$ user protected
+.       writec  ichbit-2{^56}
+.               protects user{^56}
+.               makes user resistant to fire{^56}
+.               makes user resistant to magic{^56}
+.               makes user resistant to stat drain{^56}
+.               levitates user{^56}
+.               makes user invisible{^56}
+.               allows user to see invisible{^56}
+.               slows poison{^56}
+.               allows user to breath water{^56}
+.               makes user resistant to paralysis
+elseif  linfo = 12      $$ base hits
+.       writec  iparam;subtracts hits;;adds hits
+elseif  linfo = 13      $$ spells
+.       writec  ispecb(i.hits) = 1; and ;;
+.       writec  iparam;subtracts spells;;adds spells
+elseif  linfo = 14      $$ age
+.       writec  iparam;subtracts age;;adds age
+elseif  linfo = 15      $$ perm hit change, never seen
+*.       writec  ispecb(i.age) = 1; and ;;
+*.       write   changes hits
+elseif  linfo = 16      $$ casts spell
+.       do      getspell(ispell)
+.       write   casts "«a,sname,20»"
+.       writec  lcharge-1{^56} [no charges]{^56} [1 charge]{^56}
+.                [«s,lcharge» charges]
+elseif  linfo = 17      $$ trigger word
+.       if      ispecb(i.trig) = 1
+.       .       writec  lknown = 3;
+.       .               you know the trigger word;
+.       .               you do not know the trigger word
+.       else
+.       .       write   no trigger word needed
+.       endif
+elseif  linfo = 18      $$ rare item
+.       write   this item is 
+.       if      imaxn(litem) = 1
+.       .       write   unique
+.       elseif  imaxn(litem) < 5
+.       .       write   extremely rare
+.       elseif  imaxn(litem) < 10
+.       .       write   very rare
+.       else
+.       .       write   rare
+.       endif
+endif
+*
+
+=== block 'help/s hea'  kind 00  216 words  (block 32)
+*
+unit    healhand
+        merge,previous
+        lhcost          $$ cost to heal
+        lkey            $$ keytype value
+$
+if      chitem(1) = 2
+.       calc    lhcost « 500
+else
+.       calc    lhcost « pabilit(a.fight)×1500
+endif
+color   display;zyellow
+at      56,376
+write   It will cost you «s,lhcost» gold to heal your hands.«c,zwhite»
+        
+        Press LAB to heal them, or BACK not to.
+color   display;zcyan
+do      pause(p.hand,0,0;lkey)
+atnm    56,376
+erase   49
+atnm    56,344
+erase   39
+goto    lkey-1,x,q
+if      max(chbgold,0)+chgold < lhcost
+.       color   display;zyellow
+.       atnm    40,392
+.       write   You don't have enough gold!
+.       color   display;zcyan
+.       pause   2
+.       atnm    40,392
+.       erase   27
+else
+.       if      lhcost > chgold
+.       .       do      gold(lhcost-chgold,1,-1,0,0)
+.       endif
+.       do      gold(lhcost,-1,0,1,1)
+.       calc    chitem(1) « chitem(1)-1
+.       do      showitem(1)
+endif
+*
+cstop
+unit    ncomhelp
+mode    rewrite
+at      176,296
+write   Keys available in the city:              
+at      176,280
+write   M - message         i - choose item page 
+        T - track                                
+        Q - untrackable     U - use an item      
+        G - give            L - leave an item    
+        p - pick someone up X - to swap items   
+        l - drop someone    S - see loaded spells
+        + - move forward    - - move back        
+        0-9 to load a spell buffer               
+        LAB to see your status                   
+        SHIFT-LAB to see your company's status   
+        NEXT when on company status to update    
+        COPY to see all users in the city        
+        SHIFT-COPY to see all users in the lesson
+*
+cstart
+
+=== block 's combine'  kind 00  249 words  (block 33)
+unit    combine
+        merge,previous
+        lparray(41)     $$ array of item numbers
+        lslot           $$ current slot
+        lalign          $$ alignment of combined items
+        lpots           $$ number of potions to combine
+        lscan           $$ potion number to scan
+        litemn          $$ potion number in item database
+        lnew            $$ new charges on item
+$
+1comb
+color   display;zyellow
+atnm    52,368
+write   Enter an item number; DATA when done, BACK to quit.
+calc    lpots « 0
+*color   display;zwhite
+loop
+.       atnm    88,352
+.       erase   2
+.       do      getitemn(72,352,2)
+reloop  (pressed = 1) $mask$ (lpots < 2)
+outloop pressed {^54} -1    $$ back or DATA
+.       if      islot = -1
+.       .       atnm    88,336
+.       .       write   Empty.
+.       .       pause   .75,keys=all
+.       .       atnm    88,336
+.       .       erase   6
+reloop
+.       endif
+.       calc    lslot « islot
+.       do      getitem(chitem(lslot))
+.       if      (ichused = 0) $union$ (ispecb(i.setu) = 1)
+.       .       atnm    88,336
+.       .       write   Invalid item type.
+.       .       pause   2,keys=all
+.       .       atnm    88,336
+.       .       erase   19
+reloop
+.       elseif  chitmkn(lslot) < 3
+.       .       atnm    88,336
+.       .       write   Not fully ID-ed, can't combine.
+.       .       pause   2,keys=all
+.       .       atnm    88,336
+.       .       erase   31
+reloop
+.       elseif  lpots = 0
+.       .       atnm    48,384
+.       .       write   Combining into slot «s,lslot»: «a,iname,30»
+.       .       calc    litemn « chitem(lslot)
+.       .               lalign « chialig(lslot)
+.       elseif  litemn {^54} chitem(lslot)
+.       .       atnm    88,336
+.       .       write   Not the same item type.
+.       .       pause   2,keys=all
+.       .       atnm    88,336
+.       .       erase   24
+reloop
+.       elseif  lalign {^54} chialig(lslot)
+.       .       atnm    88,336
+.       .       write   Not the same alignment.
+.       .       pause   2,keys=all
+.       .       atnm    88,336
+.       .       erase   24
+reloop
+*-- continued in next block
+
+=== block 's combine'  kind 00  213 words  (block 34)
+*-- continued from previous block
+.       endif
+.       calc    lscan « 0
+.       loop    lscan < lpots
+.       .       calc    lscan « lscan+1
+.       .       if      lparray(lscan) = lslot
+.       .       .       atnm    88,336
+.       .       .       write   Already on list.
+.       .       .       pause   2,keys=all
+.       .       .       atnm    88,336
+.       .       .       erase   16
+reloop
+.       .       endif
+.       endloop
+.       calc    lpots « lpots+1
+.               lparray(lpots) « lslot
+outloop lpots = 30
+endloop
+atnm    88,352
+erase   2
+atnm    52,368
+erase   51
+if      pressed = 0
+.       atnm    48,384
+.       erase   54
+.       goto    q
+endif
+color   display;zwhite
+at      48,336
+write   Press SHIFT-NEXT to combine the slots above, or
+                    BACK not to.
+atnm    48,368
+calc    lscan « 0
+color   display;zyellow
+loop    lscan < lpots
+.       calc    lscan « lscan+1
+.       show    lparray(lscan)
+.       write    
+.       if      wherex > 400
+.       .       atnm    48,352
+.       endif
+endloop
+color   display;zcyan
+pause   keys=next1,back,next, 
+keytype pressed,next1
+at      48,386
+erase   54,5
+branch  pressed,1comb,x
+calc    lscan « 1
+loop    lscan < lpots
+.       calc    lscan « lscan+1
+.               lnew  « chcharg(lparray(lscan))+chcharg(lparray(1))
+.       if      lnew > 255
+.       .       color   display;zyellow
+.       .       atnm    48,368
+.       .       write   Combining too much!
+.       .       color   display;zcyan
+.       .       pause   2,keys=all
+.       .       atnm    48,368
+.       .       erase   20
+outloop
+.       endif
+.       do      zapitem(lparray(lscan),-1)
+.       calc    chcharg(lparray(1)) « lnew
+endloop
+do      showitem(lparray(1))
+branch  1comb
+*
+
+=== block 's realign'  kind 00  244 words  (block 35)
+unit    realign
+*
+**      realign items
+*
+        merge,previous
+        lcost           $$ cost to change item
+        lkey            $$ keytype value
+        lslot           $$ item slot being changed
+        lasum           $$ sum of alignments
+        lalign          $$ loop variable
+        lnalign         $$ new alignment
+        lwherex
+$
+1again
+color   display;zyellow
+atnm    4,376
+write   Item number
+do      getitemn(100,376,2)
+color   display;zcyan
+atnm    4,376
+erase   16
+goto    (lslot « islot),q,x
+do      getitem(chitem(lslot))
+*
+calc    lasum « igne(1)+igne(2)+igne(3)
+*
+if      lasum < 2
+.       color   display;zyellow
+.       atnm    4,376
+.       write   Item #«s,lslot» cannot be realigned.
+.       color   display;zcyan
+.       pause   2,keys=all
+.       atnm    4,376
+.       erase   30
+.       goto    q
+elseif  chitemu(iclass) = lslot
+.       color   display;zyellow
+.       atnm    4,376
+.       write   Item #«s,lslot» is in use, unuse it first.
+.       color   display;zcyan
+.       pause   2,keys=all
+.       atnm    4,376
+.       erase   45
+.       goto    q
+elseif  chitmkn(lslot) < 3
+.       color   display;zyellow
+.       atnm    4,376
+.       write   Item #«s,lslot» is not fully identified.
+.       color   display;zcyan
+.       pause   2,keys=all
+.       atnm    4,376
+.       erase   33
+.       goto    q
+endif
+color   display;zyellow
+atnm    4,376
+write   #«s,lslot» «a,iname,30»
+at      4,360
+write   Alignment: 
+writec  chialig(lslot)-1{^56}None{^56}Good{^56}Neutral{^56}Evil
+*
+at      4,344
+write   Change to: 
+calc    lwherex « wherex
+*
+calc    lalign « 0
+        lnalign « 0     $$ new alignment
+loop    (lalign « lalign+1) {^72} 3
+reloop  igne(lalign) = 0
+reloop  lalign = chialig(lslot)
+.       if      lasum = 2       $$ only one choice
+.       .       calc    lnalign « lalign
+outloop
+.       endif
+.       writec  lalign-2{^56}g - good {^56}n - neutral {^56}e - evil
+endloop
+*
+*       continued
+*
+
+=== block 's realign'  kind 00  160 words  (block 36)
+*
+*       continued
+*
+color   display;zcyan
+loop    lnalign = 0
+.       pause   keys=all
+.       keytype lkey,back,g,n,e
+.       do      getitem(chitem(lslot))
+reloop  lkey = -1
+.       if      lkey = 0
+.       .       at      4,376
+.       .       erase   45,3
+.       .       goto    q
+.       endif
+reloop  lkey = chialig(lslot)   $$ no change
+reloop  igne(lkey) = 0          $$ invalid alignment
+.       calc    lnalign « lkey
+endloop
+*
+color   display;zyellow
+at      lwherex,344
+erase   30
+writec  lnalign-2{^56}Good{^56}Neutral{^56}Evil
+*
+do      getprice(3,chcharg(lslot),0;lcost)
+calc    lcost « lcost*abs(lnalign-chialig(lslot))
+calcs   ispecb(i.setu)-1,lcost « lcost/6,,
+*
+atnm    4,328
+write   «s,lcost,10» gold,«c,zwhite» LAB to change alignment
+*
+pause   keys=all
+keytype lkey,lab
+*
+at      4,376
+erase   45,4
+branch  lkey,1again,x
+if      (max(chbgold,0)+chgold) < lcost
+.       color   display;zyellow
+.       write   Not enough gold.
+.       color   display;zcyan
+.       catchup
+.       pause   1,keys=all
+.       atnm    4,376
+.       erase   16
+.       goto    q
+endif
+if      chgold < lcost
+.       do      gold(lcost-chgold,1,-1,0,0)
+endif
+do      gold(lcost,-1,0,1,1)
+calc    chialig(lslot) « lnalign
+do      showitem(lslot)
+branch  1again
+*
+
+=== block 'guild'  kind 00  134 words  (block 65)
+unit    guild
+        merge,previous
+        lkey
+        lgplot  $$ list plotted?
+        lstat   $$ stat num
+        lstatr  $$ stat requirement
+        lgname  $$ guild name
+        lreql   $$ length in characters of requirement list
+        lxloc
+        lpseudo(2)      $$ gm's pseudo
+$
+1list   lgplot « 0
+color   display;zyellow
+atnm    0,408
+write   Choose a guild (NEXT for current one), or press HELP for a list.
+color   display;zcyan
+loop
+.       do      pause(p.iguil,0,0;lkey)
+reloop  (lkey-2) > classes
+reloop  (lkey = 1) $mask$ (lgplot = -1)
+.       if      lgplot = -1
+.       .       atnm    40,392
+.       .       erase   56,5
+.       endif
+.       if      lkey = 0        $$ back
+.       .       atnm    0,408
+.       .       erase   64
+.       .       goto    q
+.       elseif  lkey = 1        $$ help
+.       .       do      gldlist
+.       .       calc    lgplot « -1
+.       elseif  lkey = 2        $$ next
+.       .       calc    guild « class
+outloop
+.       elseif  lkey > 2
+.       .       calc    guild « lkey-2
+outloop
+.       endif
+endloop
+* continued in next block
+
+=== block 'guild'  kind 00  249 words  (block 37)
+* continued from previous block
+atnm    0,408
+erase   64
+color   display;zyellow
+atnm    8,408
+write   Guild Requirements:
+calc    lgname « cname(guild)
+        lxloc  « 504-8×int((65-lobit(lgname))/6)
+color   display;zblue
+box     lxloc-4,424;498,408;2
+color   display;zyellow
+atnm    lxloc,408
+showa   lgname
+atnm    8,392
+calc    lstat « 0
+loop    lstat < 6
+.       calc    lstat  « lstat+1
+.               lstatr « cstatr(guild,lstat)
+reloop  lstatr         = 0
+.       writec  lstat;;;Str;Int;Wis;Con;Cha;Dex
+.       write    {^73} «s,lstatr»  
+endloop
+writec  wherex = 8;None;;
+calc    lreql  « (wherex-8)/8
+do      chlevel(guild)-1,x,makemast
+atnm    8,376
+transfr c,gpseudo(guild);lpseudo(1);2
+if      (lpseudo(1) = poseud1) $mask$ (lpseudo(2) = poseud2)
+.       write   You are the Guild Master.
+elseif  glevel(guild) > 0
+.       write   Guild Master «a,lpseudo(1),20» is level «s,glevel(guild)».
+endif
+color   display;zblue
+draw    0,376;511,376
+color   display;zcyan
+do      chlevel(guild) = 0,gldjoin,x
+if      chlevel(guild) = 0
+.       do      eghead(lreql,lxloc)
+.       branch  1list
+endif
+calc    lkey « -1
+loop    lkey {^54} 3
+.       if      (chqstat(guild)=0)$union$(chqstat(guild)=6)
+.       .       do      acquaint(0)
+.       .       do      giveques
+.       .       do      showques
+.       endif
+.       color   display;zyellow
+.       atnm    188,356
+.       write   Choose an option:
+.       at      60,336
+.       write   1.  Acquaint Yourself         2.  Make Level«c,zwhite»
+.               BACK to leave.
+.       color   display;zcyan
+.       do      pause(p.gmemb,0,0;lkey)
+.       atnm    188,356
+.       erase   17
+.       atnm    60,338
+.       erase   49,2
+outloop lkey = 2
+.       do      lkey,x,acquaint(-1),makelev,x
+endloop
+do      eghead(lreql,lxloc)
+*
+unit    showclas
+        merge,previous
+        lrank
+$
+transfr c,clranks(class);csnum;ranktrn
+calc    lrank « lev/4
+        lrank « imax(lrank,1)
+        lrank « imin(lrank,csnum)
+atnm    4,432
+write   «a,cdisp(lrank),30» («s,lev»)
+*
+
+=== block 'guild util'  kind 00  284 words  (block 40)
+unit    makemast
+        merge,previous
+        lmaster $$ -1 if he was already master, 0 if not
+        lpseudo(2)      $$ guild masters pseudonym
+$
+goto    chlevel(guild) > glevel(guild),x,q
+transfr c,gpseudo(guild);lpseudo(1);2
+if      (poseud1 = lpseudo(1)) $mask$ (poseud2 = lpseudo(2))
+.       calc    lmaster « -1
+else
+.       calc    lmaster « 0
+.       transfr poseudo;c,gpseudo(guild);2
+endif
+calc    glevel(guild) « chlevel(guild)
+goto    lmaster,q,x
+atnm    8,377
+erase   49
+atnm    8,376
+color   display;zgreen
+write   You are the Guild Master.
+zero    value,4
+pack    value,,«a,poseudo,20» is the new Master.
+calc    msender « guild
+do      sendmess(m.guild)
+color   display;zcyan
+calc    msender « comnum
+do      logquest(lgmastr)
+*
+unit    gldlist
+        merge,previous
+        lxloc   $$ x location
+        lyloc   $$ y location
+        lguild  $$ absolute guild number
+$
+calc    lxloc  « 40
+        lguild « 0
+color   display;zcyan
+loop    lxloc  < 344+1
+.       calc    lyloc « 392
+.       loop    lyloc > 312
+.       .       calc    lguild « lguild+1
+outloop lguild > classes
+.       .       atnm    lxloc,lyloc
+.       .       write   «a,lguild».  «a,cname(lguild)»
+.       .       if      chlevel(lguild) > 0
+.       .       .       write    («s,chlevel(lguild)»)
+.       .       endif
+.       .       calc    lyloc « lyloc-16
+.       endloop
+.       calc    lxloc « lxloc+152
+endloop
+color   display;zcyan
+*
+unit    eghead(lreql,lxloc)
+        lreql   $$ length in characters of requirement list
+        lxloc   $$ x location
+$
+atnm    8,408
+erase   19
+mode    erase
+box     lxloc-4,424;498,408;2
+mode    write
+atnm    424,408
+erase   10
+atnm    8,392
+erase   lreql
+mode    erase
+draw    0,376;511,376
+mode    write
+atnm    8,376
+erase   49
+*
+unit    gldjoin
+        merge,previous
+        lyears  $$ years of training
+        lprice  $$ price of training
+        lkey    $$ keytype value
+        lcalign $$ class alignment restriction
+        lbstats $$ number of bad stats
+        lbstat  $$ first bad stat
+        lstat   $$ stat number
+$
+calc    lyears « int(cexp(guild)/4)+3
+        lprice « lyears{'67}1.45{'66}×1000
+color   display;zyellow
+atnm    008,360
+write   You are not learned in our ways.
+color   display;zcyan
+c
+c       continued in next block
+c
+
+=== block 'guild join'  kind 00  80 words  (block 70)
+c
+c       continued from previous block
+c
+calc    lcalign « calign(guild,align)
+if      (lcalign+rclass(race,guild)) < 2
+.       color   display;zyellow
+.       atnm    8,328
+.       if      lcalign = 0
+.       .       write   You're 
+.       .       writec  align;;;good;neutral;evil
+.       else
+.       .       write   A
+.       .       writec  rprefix(race);;;n
+.       .       write    «a,rname(race)»
+.       endif
+.       write   !  We don't need your kind in here.
+.       color   display;zcyan
+.       do      pause(p.ghate,0,0;lkey)
+.       atnm    8,360
+.       erase   33
+.       atnm    8,328
+.       erase   49
+.       goto    q
+endif
+
+=== block 'guild join'  kind 00  265 words  (block 41)
+c
+c       continued from previous block
+c
+calc    lstat   « 6
+        lbstats « 0
+loop    lstat > 0
+.       if      chstat(lstat) < cstatr(guild,lstat)
+*--                  {^'27}
+*-- changed from "curstat(lstat)", 04/26/82 cds
+*--
+.       .       calc    lbstats « lbstats+1
+.       .               lbstat  « lstat
+.       endif
+.       calc    lstat « lstat-1
+endloop
+if      lbstats > 0
+.       color   display;zyellow
+.       atnm    8,344
+.       write   Your 
+.       writec  lbstat;;;Strength;Intelligence;Wisdom;
+.               Constitution;Charisma;Dexterity
+.       writec  lbstats;;;;, among other things,
+.       write    is not satisfactory.
+.       atnm    8,328
+.       write   You will not be allowed to train in our guild.
+.       color   display;zcyan
+.       do      pause(p.ghate,0,0;lkey)
+.       atnm    8,360
+.       erase   33
+.       atnm    8,344
+.       erase   59
+.       atnm    8,328
+.       erase   46
+.       goto    q
+endif
+atnm    8,344
+color   display;zgreen
+if      chgjoin = 0
+.       calc    lprice « 0
+.               lyears « 0
+.       write   You may join this guild at no cost.
+else
+.       write   We will educate you in «s,lyears» years for only «s,lprice» gold.
+endif
+atnm    8,328
+write   Do you want to become one of us? (y⌫_es/n⌫_o)
+color   display;zcyan
+do      pause(p.gjoin,0,0;lkey)
+atnm    8,360
+erase   33
+atnm    8,344
+erase   52
+atnm    8,328
+erase   42
+goto    lkey,x,x,q
+if      max(chbgold,0)+chgold < lprice
+.       color   display;zyellow
+.       at      8,352
+.       write   You're welcome to train here, but you don't have enough gold.
+.        
+.               Come back another time.
+.       color   display;zcyan
+.       do      pause(p.ghate,0,0;lkey)
+.       atnm    8,352
+.       erase   62
+.       atnm    8,322
+.       erase   23
+.       goto    q
+endif
+calc    chlevel(guild) « 1
+        chexper(guild) « 0
+        chqstat(guild) « 1      $$ no quest
+        chgjoin « 1
+do      gainage(lyears×8766,0)
+if      chgold < lprice
+.       do      gold(lprice-chgold,1,-1,0,0)
+endif
+do      gold(lprice,-1,0,1,0)
+do      acquaint(0)
+do      logquest(lmemb)
+*
+
+=== block 'acquaint'  kind 00  274 words  (block 42)
+*unit    loselevl(llevels)
+*        merge,previous
+*        llevels $$ levels to lose
+*        lstat   $$ stat to lose from
+*        llose   $$ loop
+*$
+*calc    llose « 0
+*loop    llose < llevels
+*.       calc    llose « llose+1
+*.       randu   lstat,6
+*.       do      gainstat(lstat,-1,1)
+*.       do      statshow(lstat)
+*endloop
+*atnm    8,56
+*write   You were drained!
+*catchup
+*atnm    8,56
+*erase   17
+**
+unit    acquaint(lplot)
+        merge,previous
+        lkey    $$ keytype value
+        lplot   $$ whether or not to plot message
+        lclass  $$ item class
+$
+if      class {^54} guild
+*
+*       see if any items stuck
+*
+.       calc    lclass « 0
+.       loop    (lclass « lclass+1) {^72} 15
+.       reloop  istuck(lclass) = 0
+.       .       color   display;zyellow
+.       .       atnm    68,332
+.       .       write   Your aura is tainted.  Remove your cursed items.
+.       .       color   display;zcyan
+.       .       pause   3,keys=all
+.       .       atnm    68,332
+.       .       erase   50
+.       .       goto    q
+.       endloop
+*
+.       calc    oclass « class  $$ save for finish unit
+.       finish  aqfin           $$ special finish unit
+.       calc    chlevel(class) « polevel
+.       mode    erase
+.       do      showclas
+.       mode    write
+.       calc    poclass « class « guild
+.               lev     « chlevel(guild)
+.               polevel « lev
+.       do      iitems(-1,-1)   $$ items, AC, etc.
+.       do      showclas
+.       do      showexp
+.       do      showspel
+.       finish  exitslot        $$ back to normal -finish-
+.       if      optpage = o.lspel
+.       .       do      plotpage(o.lspel)
+.       endif
+endif
+goto    lplot,x,q
+color   display;zgreen
+atnm    104,332
+write   You are now acquainted with our guild.
+color   display;zcyan
+catchup
+do      pause(p.ghate,3,0;lkey)
+atnm    104,332
+erase   38
+*
+        
+unit    aqfin
+*
+**      aquaint finish unit
+*
+*       special finish unit for clever people who press
+*       stop1 while aquainting with a new guild which
+*       could leave items in use that should not have
+*       been in use             11/3/83 cds
+*
+calc    poclass « class « oclass
+        lev « chlevel(oclass)
+        polevel « lev
+*
+do      exitslot
+*
+        
+
+=== block 'make level'  kind 00  249 words  (block 43)
+unit    makelev
+        merge,previous
+        lnexp   $$ experience needed
+        lkey    $$ keytype value
+        lgold   $$ gold needed
+        lnlev   $$ next level to make
+        lghits  $$ hits to gain when making level
+        lbonus  $$ hit bonus
+        lcheck  $$ guild to check for highest level
+        lhguild $$ guild with highest level
+        lgoldx(c,l) = int([(ecplay+ecbank)/ectot]*[(cexp(c)×20)×(l**1.6)×(1+pabilit(a.thief))**.2])
+$
+calc    lnlev   « lev+1
+        lnexp   « expneed(race,guild,lnlev)
+        lgold   « lgoldx(guild,lnlev)
+if      class {^54} guild
+.       color   display;zyellow
+.       atnm    8,344
+.       write   You are not acquainted with our guild.
+.       color   display;zcyan
+.       do      pause(p.ghate,0,0;lkey)
+.       atnm    8,344
+.       erase   38
+.       goto    q
+elseif  lnlev   = 1000
+.       do      bigstud
+.       goto    q
+elseif  chqstat(guild) > 3
+.       do      chckques(guild)
+endif
+if      lnexp > chexper(guild)
+.       do      badexp
+.       goto    q
+elseif  max(chbgold,0)+chgold < lgold
+.       color   display;zyellow
+.       atnm    8,344
+.       write   You do not have enough gold to make level.
+.       color   display;zcyan
+.       do      pause(p.ghate,0,0;lkey)
+.       atnm    8,344
+.       erase   42
+.       goto    q
+endif
+*--
+*-- tried to avoid quest earlier
+*--
+do      showques
+goto    (chqstat(guild)=4) $union$ (chqstat(guild)=5),q,x
+color   display;zgreen
+atnm    8,352
+write   You need «s,lgold» gold and «s,lnexp,9» experience.
+if      chqstat(guild) > 1
+.       atnm    8,336
+.       write   You have completed your quest.
+endif
+color   display;zwhite
+atnm    8,320
+write   Press SHIFT-NEXT to make level «s,lnlev».
+color   display;zcyan
+do      pause(p.gmake,0,-1;lkey)
+atnm    8,352
+erase   48
+atnm    8,336
+erase   30
+atnm    8,322
+erase   48
+goto    lkey,q,x
+calc    chqstat(guild) « 0      $$ so far no quest
+if      chgold < lgold
+.       do      gold(lgold-chgold,1,-1,0,0)
+endif
+do      gold(lgold,-1,0,1,0)
+*-- continued in next block
+
+=== block 'make level'  kind 00  281 words  (block 44)
+*-- continued from previous block
+mode    erase
+do      showclas
+mode    write
+calc    lev     « lnlev
+        polevel « lev
+        chlevel(guild) « lev
+        lcheck  « 0
+        lhguild « -1
+loop    lcheck  < classes
+.       calc    lcheck  « lcheck+1
+reloop  chlevel(lcheck) < chlevel(guild)
+.       calc    sglev « chlevel(lcheck)/8
+reloop  guild = lcheck
+.       calc    lhguild « 0
+outloop
+endloop
+*--
+*-- set zinfo in name to contain new highest guild
+*--
+do      attach(dnchar)
+setname (sbuf)
+do      zreturn,x,error('setname28')
+if      ssafe = 0
+.       day     sday
+endif
+rename  (sbuf),sxinfo
+do      zreturn,x,error('rename29')
+*--
+if      lhguild
+.       if      lev > cmaxl(guild)
+.       .       calc    lghits « chits(guild)
+.       .               lbonus « 0
+.       else
+.       .       do      roll(cdice(guild),csides(guild);lghits)
+.       .       calc    xn      « chstat(s.con)-15
+.       .               xn      « xn/3
+.       .               xn      « imax(xn,0)
+.       .               lbonus  « imin(xn,3)
+.       endif
+.       calc    xn      « pobhits+lghits+lbonus
+.               chchits « imin(xn,999)
+.               chbhits « chchits
+.               pochits « chchits
+.               pobhits « chchits
+endif
+do      showclas
+do      showchit
+do      ability
+do      showspel
+mode    rewrite
+do      showbhit
+*do      statck
+do      iitems(0,0)     $$ does AC
+do      showabil
+do      makemast
+do      chqstat(guild)-2,x,
+        logquest(lmqcomp,chqinfo(guild)),
+        logquest(liqcomp,chqinfo(guild))
+do      giveques
+do      inreturn
+do      showques
+mode    write
+if      optpage = o.lspel
+.       do      plotpage(o.lspel)
+endif
+*
+unit    badexp
+        merge,previous
+        lkey    $$ keytype value
+$
+color   display;zyellow
+atnm    8,344
+write   You do not have enough experience to make level in this class.
+color   display;zcyan
+do      pause(p.ghate,0,0;lkey)
+atnm    8,344
+erase   63
+*
+unit    bigstud
+        merge,previous
+        lkey    $$ keytype value
+$
+*--
+**-- send a note here?
+*--
+color   display;zgreen
+at      8,360
+write   You have achieved our highest ranking.
+ 
+        Congratulations!
+color   display;zcyan
+do      pause(p.ghate,0,0;lkey)
+atnm    8,360
+erase   38
+atnm    8,328
+erase   16
+*
+
+=== block 'make level'  kind 00  302 words  (block 45)
+unit    chckques
+        merge,previous
+        litem   $$ item
+        lcomp   $$ companion
+$
+*--
+*-- check to see if companion is your quest
+*--
+calc    lcomp « 0
+loop    ((lcomp « lcomp+1) {^72} 4) $mask$ (chqstat(guild) = 4) $mask$ (chcomon = chqinfo(guild))
+reloop  chcothe(lcomp) = 0              $$ companion gone
+.       calc    chqstat(guild) « 2      $$ monster completed
+*-- drop if carrying, which destroys him; else, destroy him
+.       do      pocrry,drop,destcomp(lcomp)
+.       do      messloc
+.       color   display;zgreen
+.       write     You have completed your quest!
+.       color   display;zcyan
+.       goto    q
+endloop
+*--
+calc    litem « 1
+loop    ((litem « litem+1) {^72} slots)$mask$(chqstat(guild) =5)
+reloop  chitem(litem) = 0
+reloop  chitem(litem) {^54} chqinfo(guild)
+.       do      getitem(chitem(litem))  $$ sets *iclass*
+reloop  litem = chitemu(iclass)
+reloop  eq1(chibank(litem))
+.       do      zapitem(litem,-1)
+.       calc    chqstat(guild) « 3
+.       do      messloc
+.       color   display;zgreen
+.       write     You have completed your quest!
+.       color   display;zcyan
+.       goto    q
+endloop
+*
+unit    showques
+        merge,previous
+        lkey    $$ dumb
+$
+if      chqstat(guild) = 4
+.       do      getmons(chqinfo(guild))
+.       color   display;zgreen
+.       atnm    8,352
+.       write   Your quest is to kill 
+.       writec  matt(ma.uniq)-1;1 ;;
+.       showa   mname,20
+.       showa   msuffix(m.singu)
+.       write   .
+.       color   display;zcyan
+.       catchup
+.       do      pause(p.showi,3,-1;lkey)
+.       atnm    8,352
+.       erase   48
+elseif  chqstat(guild) = 5
+.       do      getitem(chqinfo(guild))
+.       color   display;zgreen
+.       atnm    8,352
+.       write   Your quest is to return with an item:
+.       atnm    8,328
+.       showa   iname,30
+.       color   display;zcyan
+.       catchup
+.       do      pause(p.showi,3,-1;lkey)
+.       atnm    8,352
+.       erase   37
+.       atnm    8,328
+.       erase   30
+endif
+*
+unit    gmaster
+*slog
+*        lstart          = 1     $$ quests started
+*        lfinish         = 2     $$ quests fulfilled
+*        ldeath          = 3     $$ deaths
+*        lraise          = 4     $$ successful raises
+*        lperms          = 5     $$ permanent deaths
+*        lmembs          = 6     $$ members
+*        lcycles         = 7     $$ cycles log has undergone
+*
+unit    showbhit
+mode    rewrite
+atnm    128,300
+write   /
+showt   pobhits,3
+mode    write
+*
+
+=== block 'quest'  kind 00  317 words  (block 46)
+unit    giveques
+        merge,previous
+        lmons   $$ monster number
+        litem   $$ item number
+        lroll   $$ random number
+$
+if      chqstat(guild) {^54} 6
+.       randu   lroll,100
+.       calc    xn « 30+lev×.4
+.               xn « imin(xn,75)
+.       if      (lroll > xn) $union$ (lev = 1)
+.       .       calc    chqstat(guild) « 1  $$ no quest
+.       .       goto    q
+.       endif
+endif
+calc    chqstat(guild) « 6      $$ unknown quest
+        litem « lmons « 0       $$ for clerk's pity
+color   display;zgreen
+atnm    8,336
+write   The clerk is searching the records.
+color   display;zcyan
+randu   lroll,5
+if      lroll > 1                       $$ monster quest
+.       do      getquest(lev,0;lmons)   $$ use your level
+.       if      lmons = 0
+.       .       calc    chqstat(guild) « 1
+.       else
+.       .       calc    chqstat(guild) « 4
+.       .               chqinfo(guild) « lmons
+.       .       do      logquest(lmqstrt,chqinfo(guild))
+.       endif
+else
+.       do      getquest(lev,1;litem)   $$ use your level
+.       if      litem = 0
+.       .       calc    chqstat(guild) « 1
+.       else
+.       .       calc    chqstat(guild) « 5
+.       .               chqinfo(guild) « litem
+.       .       do      logquest(liqstrt,chqinfo(guild))
+.       endif
+endif
+if      (lmons = 0) $mask$ (litem = 0)
+.       do      messloc
+.       color   display;zgreen
+.       write     The clerk feels sorry for you.
+.       color   display;zcyan
+endif
+calc    chquest(guild) « chquest(guild)+1       $$ one more
+atnm    8,336
+erase   35
+*
+unit    snaghits
+        merge,previous
+        llevs           $$ hit levels to lose
+        llev            $$ counter
+        llevsa          $$ levels after max lev for con bon
+        llevsb          $$ levels before max lev for con bon
+        lnewh
+        lguild
+        lmaxlev
+$
+*
+*       changed so the player cannot go below the
+*       maximum level he has achieved  10/27/83 cds
+*
+calc    lguild « lmaxlev « 0
+loop    (lguild « lguild+1) {^72} classes
+reloop  chlevel(lguild) < lmaxlev
+.       calc    lmaxlev « chlevel(lguild)
+endloop
+calc    llevs  « chlevel(class)×.2
+        llevsa « max(chlevel(class)-cmaxl(class),0)
+        llevsb « max(cmaxl(class)-chlevel(class),0)
+        llev   « 0
+        lnewh  « pobhits
+loop    (llev « llev+1) {^72} llevs
+.       if      llevsa > 0
+.       .       calc    lnewh « max(lnewh-chits(class),1)
+.       .               llevsa  « llevsa-1
+.       elseif  llevsb > 0
+.       .       calc    lnewh « max(lnewh-(cdice(class)×(csides(class)/2)),1)
+.       .               llevsb  « llevsb-1
+.       endif
+endloop
+calc    lnewh « max(lnewh,lmaxlev)
+        pobhits « lnewh
+*
+
+=== block 'quest'  kind 00  228 words  (block 47)
+unit    getquest(llev,ltype)
+        merge,previous
+        llev            $$ level of character
+        ltype           $$ type of quest, 0=monster, 1=item
+        ltable          $$ table number
+        lindex          $$ index in table
+        lroll           $$ random number
+        ltotal          $$ sum of weights
+$
+*        ltable « min(ltable+(ltype*levels),levels+ltype×levels)
+calc    ltable « int((pabilit(a.quest)×5)**.38)+ltype×levels
+1newtab                         $$ new table reloop point
+do      getenc(ltable)
+calc    ltotal « lindex « 0
+loop    (lindex « lindex+1) {^72} eents
+.       calc    evtto «  etinfo(lindex)
+.       if      evestat = 0             $$ not a table
+.       .       do      ltype-1,getmons(evenumb),
+.       .               getitem(evenumb)
+*--
+*-- check quest status of monster/item
+*--
+reloop  (ltype = 1) $mask$ (ispecb(i.quest) = 0)
+reloop  (ltype = 1) $mask$ ((imaxn(evenumb) > 0) $mask$ (ifound(evenumb) {^73} imaxn(evenumb)))
+reloop  (ltype = 0) $mask$ (mquest(guild) = 0)
+.       endif
+.       calc    ltotal « ltotal+eveweig
+endloop
+if      ltotal = 0      $$ no appropriate items
+.       return  0
+endif
+*--
+randu   lroll,ltotal
+calc    lindex « ltotal « 0
+loop    (lindex « lindex+1) {^72} eents
+.       calc    evtto « etinfo(lindex)
+.       if      evestat = 0             $$ not a table
+.       .       do      ltype-1,getmons(evenumb),
+.       .               getitem(evenumb)
+.       endif
+.       calc    ltotal « ltotal+eveweig
+reloop  ltotal < lroll                  $$ not right one
+.       if      evestat = 1             $$ table entry
+.       .       calc    ltable « evenumb
+.       .       branch  1newtab
+.       endif
+*--
+*-- check quest status of monster/item
+*--
+reloop  (ltype = 1) $mask$ (ispecb(i.quest) = 0)
+reloop  (ltype = 1) $mask$ ((imaxn(evenumb) > 0) $mask$ (ifound(evenumb) {^73} imaxn(evenumb)))
+reloop  (ltype = 0) $mask$ (mquest(guild) = 0)
+.       return  evenumb
+endloop
+return  0
+*
+
+=== block 'log util'  kind 00  317 words  (block 50)
+unit    logquest(logstat,loginfo,loglevl)
+        merge,previous
+        lname           $$ name in nameset
+        logbuff(4)      $$ log buffer
+        logpseu = logbuff(1)    $$ 20 character pseudonym
+        segmentf,logid   = logbuff(3),01,30     $$ char id
+        segmentf,logday  = logbuff(3),31,30     $$ day
+        segmentf,loginfo = logbuff(4),01,08     $$ mon/item
+        segmentf,logstat = logbuff(4),09,06     $$ status
+        segmentf,loglevl = logbuff(4),15,04     $$ level
+        floating:lday   $$ for -day- command
+        integer:logspec $$ special info bits of name
+        segmentf,lentry = logspec,51,10 $$ last entry used
+$
+*--
+*-- loginfo and loglev are irrelevant for certain values
+*-- of logstat, so they are not passed as parameters
+*-- and their values are meaningless and should never
+*-- be displayed
+*--
+transfr chpseud;logpseu;2
+day     lday
+calc    logday « int(lday×100)
+        logid  « charid
+        lname « cname(class)
+do      getlog(class)
+getname lname,logspec
+loop
+.       reserve name
+outloop zreturn < 0
+.       break
+endloop
+datain  1;s,slog;zrecs
+jump    zreturn,x,error('datain30')
+if      lentry = maxlogs
+.       calc    lentry « 1
+.       do      logadd(lcycles)
+else
+.       calc    lentry « lentry+1
+endif
+transfr logbuff(1);s,logloc(lentry);4
+if      (logstat = lmqstrt) $union$ (logstat = liqstrt)
+.       do      logadd(lstart)  $$ quest started
+elseif  (logstat = lmqcomp) $union$ (logstat = liqcomp)
+.       do      logadd(lfinish) $$ quest completed
+elseif  logstat = ldied
+.       do      logadd(ldeath)  $$ death
+elseif  logstat = lraised
+.       do      logadd(lraise)  $$ raise
+elseif  logstat = lpdied
+.       do      logadd(lperms)  $$ permanent death
+elseif  logstat = lmemb
+.       do      logadd(lmembs)  $$ new member
+endif
+dataout 1;s,slog;zrecs
+jump    zreturn,x,error('dataout31')
+rename  lname,logspec
+jump    zreturn,x,error('rename32')
+release name
+jump    zreturn,x,error('release33')
+*--
+*-- detach, char and dungeon only two -attach-s left
+*--
+do      detach(dnglog)
+*
+unit    logadd(logword)
+        merge,previous
+        logword $$ word in log to add 1 to
+        logadd  $$ old and new value
+$
+calc    logword « slog+logword-1
+transfr s,logword;logadd;1
+calc    logadd « logadd+1
+transfr logadd;s,logword;1
+*
+unit    getlog(lclass)
+        merge,previous
+        lclass          $$ class of log to get
+        lname           $$ name in nameset
+$
+calc    lname  « cname(lclass)
+do      attach(dnglog)
+setname (lname)
+if      (zreturn > -1) $and$ (zreturn < 3)
+.       addname (lname),grecs,0
+.       do      zreturn,x,error('addname196')
+endif
+do      zreturn,x,error('setname34')
+*
+
+=== block 'dead'  kind 00  285 words  (block 51)
+unitop  dead
+        merge,previous
+        lkey    $$ keytype variable
+        lmseen  $$ morgue messages seen
+        lcarry  $$ who is carrying
+        lzloc   $$ old level loaded
+        lcheat  $$ -1 if raised from orwell
+        lnewr   $$ new room number
+        lrolled $$ random number
+        lmort   $$ -1 if morgue raise occured
+        lguild
+        lmaxlev
+        floating:llive  $$ determines whether he will live
+        floating:lchance$$ chance of surviving raise
+        floating:llevel $$ chance of cleric throwing raise
+$
+inhibit anserase,term
+do      derase
+calc    lmseen « 0
+        cseen « 0
+        popbit(b.sleep) « 0
+        popbit(b.paral) « 0
+        potrack « 1
+do      messloc
+color   display;zgreen
+write     You may be carried.  (Press "H" to hide.)
+color   display;zcyan
+1nostud postud « 0
+do      deadmess
+if      chldied = 0
+*
+*       changed so the player cannot go below the
+*       maximum level he has achieved  8/7/85 cds
+*
+.       calc    lguild « lmaxlev « 0
+.       loop    (lguild « lguild+1) {^72} classes
+.       reloop  chlevel(lguild) < lmaxlev
+.       .       calc    lmaxlev « chlevel(lguild)
+.       endloop
+*
+.       randu   lrolled,2
+.       if      (lrolled-2) $mask$ (lev {^73} 10)
+.       .       calc    pobhits « imax(chbhits-chits(class),lmaxlev)
+.       .       do      showbhit
+.       endif
+.       calc    chcoths « 0
+.               chcomps « 0
+.       do      compplot
+.       do      logquest(ldied,0,pozloc)
+.       calc    chldied « 1
+endif
+calc    lzloc « 0
+loop
+.       calc    lcarry  « pocrryb
+.       if      lcarry  > 0
+.       .       calc    poloc  « pploc(lcarry)
+.       .       if      postud > 0
+.       .       .       do      uncarry
+.       .       .       calc    lcarry « 0
+.       .       endif
+.       endif
+.       if      ponloc {^54} 0
+.       .       calc    poloc  « ponloc
+.       .               ponloc « 0
+.       endif
+*-- update local copy of your coordinates
+.       calc    xyloc « poxyloc
+.               zloc  « pozloc
+.       if      (zloc {^54} lzloc) $mask$ (zloc > 0)
+.       .       do      exitold
+.       .       do      getlevel
+.       .       calc    lzloc « zloc
+.       endif
+.       if      roomnum {^54} (lnewr « mazeroo(xyloc))
+.       .       do      exitold
+.       .       calc    roomnum « lnewr
+.       .       do      newroom
+.       endif
+*-- continued in next block
+
+=== block 'dead'  kind 00  138 words  (block 52)
+*-- continued from previous block
+.       if      (cseen = 0) $mask$ (lcarry > 0)
+.       .       color   display;zgreen
+.       .       atnm    324,488
+.       .       write   C «a,ppseudo(cseen « lcarry),20»
+.       .       color   display;zcyan
+.       elseif  cseen {^54} lcarry          $$ dropped
+.       .       atnm    324,488
+.       .       erase   22
+.       .       calc    cseen « 0
+.       endif
+.       if      (zloc = 0) $mask$ (lmseen = 0)
+.       .       do      messloc
+.       .       color   display;zyellow
+.       .       write     You are in the morgue.
+.       .       atnm    64,328
+.       .       write   You may press "m" to speak with the mortician.
+.       .       color   display;zcyan
+*.       .       do      unbank
+.       .       calc    lmseen « 1
+.       elseif  (zloc > 0) $mask$ (lmseen = 1)
+.       .       atnm    64,328
+.       .       erase   46
+.       .       do      messloc
+.       .       write     You are no longer in the morgue.
+*.       .       do      gold(chgold,-1,1,0,0)
+.       .       calc    lmseen « 0
+.       endif
+outloop postud {^54} 0
+.       do      deadpaus(;lmort)
+outloop lmort
+endloop
+*-- continued in next block
+
+=== block 'dead'  kind 00  112 words  (block 53)
+*-- continued from previous block
+do      uncarry
+do      raiseras
+calcs   zloc-1,llevel«67.5,porlev    $$ was 57.5 5/21/83cds
+calc    lcheat « (postud = comnum)
+do      raischan(llevel;lchance)
+if      lcheat
+.       calc    lchance « 100
+endif
+catchup
+mode    write
+color   display;zyellow
+at      8,392
+if      (zloc = 0) $union$ (postud = 0)
+.       write   Do you wish the mortician to perform a raise
+else
+.       beep
+.       write   Do you accept a raise
+.       writec  ppseudo(postud) = 0;; from «a,ppseudo(postud),20»
+endif
+write   ?  (y⌫_es/n⌫_o)
+ 
+        This raise has a «s,lchance»% chance of success.
+color   display;zcyan
+do      pause(p.raise,0,0;lkey)
+atnm    8,392
+erase   63
+atnm    8,360
+erase   41
+*-- prevent moves between city and dungeon during raise
+branch  (sign(zloc)=sign(pozloc)) $mask$ (lkey=0),x,1nostud
+randu   llive
+do      raise(llive×100 {^72} lchance,lcheat)
+*
+
+=== block 'dead'  kind 00  208 words  (block 54)
+unit    raise(lsucc,lcheat)
+        merge,previous
+        lsucc           $$ 0 if complications, -1 if not
+        lstone          $$ popbit(b.stone) before raise
+        lstat           $$ stat to update
+        lcheat          $$ -1 if raised from orwell
+$
+do      lsucc,x,complics
+*
+calc    lstone « (popbit(b.stone) > 0)
+if      (lstone $union$ (zloc=0)) $mask$ (lcheat = 0)
+.       do      gainstat(s.con,-1,1)
+.       do      statshow(s.con)
+endif
+do      logquest(lraised,0,pozloc)
+calc    chldied « 0     $$ for next death
+        xn « chthits+chbhits*6
+        chthits « imin(xn,30000)
+        chrock  « 0
+        popbit(b.poiso) « 0
+        popbit(b.disea) « 0
+        popbit(b.paral) « 0
+        popbit(b.stone) « 0
+        israise « israise+1
+calcs   zloc-1,pochits « pobhits,((pobhits-1)×pofrais)+1
+if      lsucc = 0
+.       do      statshow(lstat),lstat « 1,6
+.       do      showbhit
+endif
+do      exitold
+do      showchit
+do      timel
+atnm    240,460
+erase   4
+if      lsucc
+.       color   display;zgreen
+.       atnm    168-148*sign(postud),368
+.       write   You have been 
+.       writec  lstone;unstoned!;raised!
+.       if      postud > 0
+.       .       writec  ppseudo(postud) = 0;;
+.       .                 Give thanks to «a,ppseudo(postud),20».
+.       endif
+.       color   display;zcyan
+.       catchup
+.       pause   1.5,keys=stop1
+.       atnm    20,368
+.       erase   61
+endif
+do      zloc-1,refresh,getdown
+*
+unit    uncarry
+        merge,previous
+        lby     $$ who being carried by
+$
+goto    (lby « pocrryb) > 0,x,q
+calc    poloc « pploc(lby)
+        xyloc « poxyloc
+        zloc « pozloc
+        ppcrry(lby) « 0
+        pocrryb « 0
+atnm    324,488
+erase   22
+*
+
+=== block 'dead'  kind 00  312 words  (block 55)
+unit    deadmess
+color   display;zyellow
+atnm    240,460
+writec  chrock-1;{'37}DEAD;{'37}ROCK
+atnm    204,400
+write   You are dead.
+at      64,376
+write   Wait for someone to carry you or resurrect you,
+        or press SHIFT-BACK and delete your character.
+if      zloc = 0
+.       atnm    64,328
+.       write   You may press "m" to speak with the mortician.
+endif
+color   display;zcyan
+*
+unit    raiseras
+atnm    204,400
+erase   13
+at      64,376
+erase   56,2
+atnm    64,328
+erase   46
+*
+unit    derase
+at      200,444
+erase   14,2    $$ # players and line below
+atnm    2,64    $$ message area
+erase   63
+atnm    2,51
+erase   63
+at      8,416   $$ encounter
+erase   63,6
+atnm    40,322  $$ stairway message
+erase   54
+*
+unit    complics
+        merge,previous
+        lstat   $$ for stat loops
+$
+do      gainstat(lstat,-3,1),lstat « 1,6
+do      gainstat(s.con,-2,1)
+do      showspel
+calc    chage « chage+131400
+        iscomp « iscomp+1
+*--
+*-- steal hits based on what you gained last 20% levels
+*--
+do      snaghits
+do      inreturn
+color   display;zyellow
+atnm    160,368
+write   There are complications.
+color   display;zcyan
+pause   2,keys=all
+atnm    160,368
+erase   24+8
+*
+unit    yell
+        merge,previous
+        lbit    $$ player bit loop
+$
+color   display;zyellow
+atnm    188,56
+write   Yelling for HELP!
+zero    value,4
+pack    value;;HELP!  
+pack    value;;«a,value,11»«s,pochits»/«s,pobhits»
+calc    lbit « 0
+loop    (lbit « lbit+1) {^72} 5
+reloop  popbit(bitchck(lbit)) = 0
+.       pack    value;;«a,value,40» «a,bitmes(lbit)»
+endloop
+do      sendmess(m.area)
+atnm    188,56
+erase   17
+color   display;zcyan
+*
+unit    deadpaus
+        lkey    $$ keytype variable
+        lmort   $$ -1 if morgue raise occured
+$
+pause   1.5,keys=all
+keytype lkey,M,G,L,H,d,X,m,next,R,I,F,B,K,
+        term,data1,back1,i,lab,S,help,help1,lab1,copy,copy1,
+        0,1,2,3,4,5,6,7,8,9
+calc    lmort « 0
+if      lkey < 24
+.       do      lkey,x,message,give,dropitem,deadpick,
+.               uncarry,itemswap,morticia(;lmort),updatec,
+.               return,expask,foregnd,backgnd,leavcomp,term,
+.               dreplot,dungexit,itempage,plotpage(lkey-13)
+else
+.       do      loadspel(lkey-24)
+endif
+return  lmort
+*
+unit    deadpick
+do      uncarry
+do      messloc
+color   display;zyellow
+write     You may 
+writec  (potrack « potrack $diff$ 1);;no longer;now
+write    be carried.
+color   display;zcyan
+*
+unit    dreplot
+calc    cseen « 0
+do      replot
+do      deadmess
+*
+
+=== block 'dead'  kind 00  191 words  (block 56)
+unit    raischan(llevel)
+        merge,previous
+        lcon            $$ constitution
+        floating:lchance$$ chance of surviving raise
+        floating:llevel $$ chance of cleric throwing raise
+$
+calc    lcon    « chstat(s.con)
+        lchance « (lcon < 17)×-5×lcon-(lcon > 16)×(lcon+64)
+        xv « lchance+(llevel/5)-2
+        yv « 98.5-.5×sign(zloc)
+        lchance « min(xv,yv)
+return  lchance×(chrock $diff$ 1)
+*
+unit    morticia
+        merge,previous
+        lkey            $$ keytype value
+        lcost           $$ cost of raise
+$
+if      zloc > 0
+.       return  0
+endif
+calc    lcost « 1.02×morguep(lev)
+do      raiseras
+color   display;zyellow
+at      64,392
+write   For «s,lcost,9» gold, the mortician will prepare a
+        raise.  You may then decide.
+ 
+        Do you want to pay?  (y/n)
+color   display;zcyan
+do      pause(p.raise,0,0;lkey)
+atnm    64,392
+erase   47
+atnm    64,376
+erase   28
+atnm    64,344
+erase   26
+if      (lkey {^54} 0) $union$ (pozloc > 0)
+elseif  (max(chbgold,0)+chgold) < lcost
+.       color   display;zyellow
+.       atnm    148,360
+.       write   You don't have enough gold!
+.       color   display;zcyan
+.       catchup
+.       pause   1.5,keys=all
+.       atnm    148,360
+.       erase   27
+else
+.       if      chgold < lcost
+.       .       do      gold(lcost-chgold,1,-1,0,0)
+.       endif
+.       do      gold(lcost,-1,0,1,0)
+.       calc    pofrais « 1
+.               postud « 0
+.               ppnloc(comnum) « pploc(comnum)
+.       return  -1
+endif
+do      deadmess
+return  0
+*
+
+=== block 'populate'  kind 00  215 words  (block 57)
+unit    newroom
+jump    abs(checs)×((muse/mallot) > (checs/100)),exitgame,x
+goto    zloc-1,q,x
+loop
+.       if      popaliv(zloc,roomnum) = 1
+.       .       loop
+reloop  popaliv(zloc,roomnum) = 0
+.       .       .       do      alifind
+.       .       outloop livenum > 0
+.       .       .       break   
+.       .       endloop
+.       .       loop    aliplay = 49
+.       .       .       break   
+.       .       endloop
+outloop
+.       else
+.       .       calc    popaliv(zloc,roomnum) « 1
+.       .       finish  encstag1
+.       .       calc    livenum « aliapri
+.       .       loop
+.       .       .       calc    xn      « livenum+1
+.       .       .               livenum « wrap(xn,1,maxlive)
+.       .       outloop alitotp = 0
+.       .       endloop
+.       .       if      aliid > 0
+.       .       .       calc    popaliv(alizloc,aliroom) « 0
+.       .       endif
+.       .       calc    aliid   « id
+.       .               aliplay « 50
+.       .               aliapri « livenum
+.       .               xn      « alilive+1
+.       .               alilive « imin(xn,maxlive)
+outloop
+.       endif
+endloop
+calc    alicorp « alicorp+1
+finish  exitslot
+*
+unit    exitold
+if      livenum > 0
+.       calc    alicorp « alicorp-1
+.               livenum « 0
+.               roomnum « 0
+endif
+*
+unit    alifind
+        merge,previous
+        lreturn $$ return argument for find command
+$
+calc    livenum « 0
+find    id $cls$ 48,alibnk1,maxlive,lreturn,1,lmask(12)
+goto    lreturn,q,x
+calc    livenum « lreturn+1
+        a10     « livenum×6-4   $$ alidef(livenum,10)+2
+        a8      « livenum×7-5   $$ alidef(livenum,8)+2
+        a4      « livenum×15-15 $$ alidef(livenum,4)
+*
+unit    encstag1
+calc    popaliv(zloc,roomnum) « 0
+        livenum « 0
+do      exitslot
+*
+
+=== block 'itemswap'  kind 00  89 words  (block 71)
+unit    itemswap
+        merge,previous
+        lswap(2)        $$ which items to swap
+        lclass(2)       $$ each item's class
+        litem           $$ which item to save
+        lalign          $$ alignment of item
+        lknown          $$ player's knowledge
+        lbank           $$ bank status
+        lcharge         $$ charges
+        lagain
+$
+1again
+color   display;zyellow
+atnm    8,56
+write   Swap Items #,#
+arrow   128,56
+jkey    back,data
+long    5
+exact
+judge   quit
+storen  lswap(1)
+judge   ignore
+storen  lswap(2)
+ok
+*judge   key {^54} next,quit,x
+judge   (lswap(1)<2) $union$ (lswap(1)>slots),ignore,x
+judge   (lswap(2)<2) $union$ (lswap(2)>slots),ignore,x
+judge   lswap(1) = lswap(2),ignore,x
+endarrow
+color   display;zcyan
+
+=== block 'itemswap'  kind 00  232 words  (block 60)
+* continued from previous block
+calc    lagain « (key = data)
+atnm    8,56
+erase   22
+goto    (key = back) $union$ (jcount = 0),q,x
+calc    lclass(1)«0
+        lclass(2)«0
+*--
+*-- reset use pointers
+*--
+if      chitem(lswap(1))>0
+.       do      getitem(chitem(lswap(1)))
+.       calc    lclass(1)«iclass
+endif
+if      chitem(lswap(2))>0
+.       do      getitem(chitem(lswap(2)))
+.       calc    lclass(2)«iclass
+endif
+branch  (lclass(1)=0) $mask$ (lclass(2)=0),1again,x
+if      lclass(1)=lclass(2)
+.       if      chitemu(iclass)=lswap(1)
+.       .       calc    chitemu(iclass)«lswap(2)
+.       elseif  chitemu(iclass)=lswap(2)
+.       .       calc    chitemu(iclass)«lswap(1)
+.       endif
+else
+.       if      chitem(lswap(1))>0
+.       .       if      chitemu(lclass(1))=lswap(1)
+.       .       .       calc    chitemu(lclass(1))«lswap(2)
+.       .       endif
+.       endif
+.       if      chitem(lswap(2))>0
+.       .       if      chitemu(lclass(2))=lswap(2)
+.       .       .       calc    chitemu(lclass(2))«lswap(1)
+.       .       endif
+.       endif
+endif
+*--
+*-- save a copy of the first item
+*--
+calc    litem   « chitem(lswap(1))
+        lalign  « chialig(lswap(1))
+        lknown  « chitmkn(lswap(1))
+        lbank   « chibank(lswap(1))
+        lcharge « chcharg(lswap(1))
+*--
+*-- overwrite the first item
+*--
+        chitem(lswap(1))        « chitem(lswap(2))
+        chialig(lswap(1))       « chialig(lswap(2))
+        chitmkn(lswap(1))       « chitmkn(lswap(2))
+        chibank(lswap(1))       « chibank(lswap(2))
+        chcharg(lswap(1))       « chcharg(lswap(2))
+*--
+*-- restore the second item
+*--
+        chitem(lswap(2))        « litem
+        chialig(lswap(2))       « lalign
+        chitmkn(lswap(2))       « lknown
+        chibank(lswap(2))       « lbank
+        chcharg(lswap(2))       « lcharge
+do      showitem(lswap(1))
+do      showitem(lswap(2))
+branch  lagain,1again,x
+*
+
+=== block 'give'  kind 00  116 words  (block 72)
+unit    give
+        merge,previous
+        lgslot  $$ temporary give slot
+        litem   $$ 1-255
+        lkey    $$ keytype variable
+*--
+*-- values of "gstat(x)"
+*-- 0   given by player
+*-- 1   bounced by program
+*-- 2   treasure
+*--
+$
+*branch  (pochits = 0) $mask$ (zloc > 0),1out,x
+if      chgold+chbgold < 0      $$ too far in debt
+.       color   display;zyellow
+.       atnm    8,56
+.       write   In debt to bank.
+.       color   display;zcyan
+.       pause   1,keys=all
+.       atnm    8,56
+.       erase   16
+.       goto    q
+elseif  chbgold < 0             $$ can repay debt
+.       color   display;zyellow
+.       atnm    8,56
+.       write   You are in debt to the bank.  Press LAB to pay your debt.
+.       color   display;zcyan
+.       pause   keys=lab,back,next, 
+.       keytype lkey,lab
+.       do      y56b
+.       goto    lkey,q,x
+*--
+*-- note that chbgold is a negative number
+*--
+.       do      gold(chbgold,1,-1,0,0)
+endif
+
+=== block 'give'  kind 00  232 words  (block 61)
+* continued from previous block
+1give
+color   display;zyellow
+atnm    8,56
+write   Give item #
+do      getitemn(112,56,2)
+color   display;zcyan
+do      y56b
+goto    pressed,x,q
+if      islot {^54} -1
+*-- set iclass
+.       do      getitem(litem « chitem(islot))
+.       goto    istuck(iclass)$mask$(chitemu(iclass)=islot),q,x
+.       do      unuse
+endif
+atnm    8,56    $$ item units change screen location
+if      (chgold+chbgold) > (value « 0)
+.       color   display;zyellow
+.       write   How much gold
+.       do      getgold(120,56,chgold+chbgold*sign(pochits))
+.       color   display;zcyan
+.       do      y56b
+.       goto    pressed,x,q
+endif
+goto    (value = 0) $mask$ (islot = -1),q,x
+color   display;zyellow
+write   Give to whom
+do      getplay(120,56)
+color   display;zcyan
+do      y56b
+goto    pressed,q,x
+if      (zloc {^54} ppzloc(person)) $union$ (mazeroo(xyloc) {^54} mazeroo(ppxyloc(person)))
+.       color   display;zyellow
+.       write   Not here.
+.       color   display;zcyan
+.       pause   2,keys=all
+.       do      y56b
+.       goto    q
+endif
+if      pochits > 0             $$ not dead
+.       in      ppstat(person)  $$ check for ghosts
+.       goto    zreturn = -1,x,q
+endif
+calc    pgive « 0               $$ zero give buffer
+do      chgold-value,gold(value-chgold,1,-1,0,0),x
+do      gold(ggold « value,-1,0,1,0)
+if      islot > 0
+.       calc    gitem « litem
+.               gknown « chitmkn(islot)
+.               galign « chialig(islot)
+.               gcharge « chcharg(islot)
+.       do      zapitem(islot,-1)
+endif
+calc    gto(gslot«(lgslot«(gslot+1+20×(gslot=20)))) « person
+        gfrom(lgslot) « comnum
+        gstat(lgslot) « 0
+transfr pgive;c,give(lgslot);1
+calc    getgold « value         $$ for showg1, showg2
+        getitem « gitem         $$ "
+        kknown « gknown         $$ "
+do      showg1(0,person)
+do      gitem-1,x,showg2(islot)
+do      inreturn
+*
+
+=== block 'exitslot'  kind 00  216 words  (block 62)
+unit    exitslot
+        merge,previous
+        lleader $$ poleadr
+$
+timel
+finish  q
+do      ckgive  $$ don't lose items when you stop1 out
+do      pochits-1,exitold,x
+do      ponloc-1,x,lchange      $$ in case leader just left
+calc    xyloc « ppxyloc(lleader « poleadr)
+        zloc  « ppzloc(lleader)
+if      pocrryb {^54} 0
+.       do      uncarry
+elseif  (carry « pocrry) > 0
+.       calc    ppcrryb(carry)«0
+.               ppnloc(carry) « poloc
+endif
+do      inreturn
+do      delslot
+calc    gtime « gtime+(clock-etime)
+*
+unit    pcharret
+calc    chxyloc « xyloc
+        chzloc  « zloc
+        chdirec « direc
+        chhitb  « pohitb
+        chclass « class
+        chbits  « popbits       $$ all player bits
+*
+unit    timel
+        merge,previous
+        linfo(7)$$ 7 words of player status info
+        lplotl  $$ plotting loop variable
+        lninfo  $$ new info value
+$
+calc    linfo(d.poi) « popbit(b.poiso)
+        linfo(d.dis) « popbit(b.disea)
+        linfo(d.par) « popbit(b.paral)
+        linfo(d.sle) « popbit(b.sleep)
+        linfo(d.lev) « popbit(b.levit)
+        linfo(d.inv) « popbit(b.invis)
+        linfo(d.pro) « popbit(b.pro)    $$ not shown
+        lplotl « 0
+loop    (lplotl « lplotl+1) {^72} 7
+*--
+*-- 1 through 6 are shown; 7 is not
+*--
+reloop  sign(info(lplotl)) = sign(lninfo « linfo(lplotl))
+.       color   display;zyellow
+.       atnm    80,180-im16(lplotl)
+.       writec  (im2(lplotl=7)-(lninfo>0))×lplotl
+.        
+.               {'37}          
+.               Poisoned
+.               Diseased
+.               Paralyzed
+.               Asleep
+.               «c,zgreen»Levitating
+.               «c,zgreen»Invisible
+.       do      showabil
+.       calc    info(lplotl) « lninfo
+endloop
+color   display;zcyan
+do      mtimel
+atnm    3264
+write    
+timel   5,timel
+*
+
+=== block 'pause'  kind 00  301 words  (block 63)
+unit    pause(lpausen,ltimer,lbexit)
+        merge,previous
+        lpausen         $$ pause number
+        lbexit          $$ exit upon random character
+        lkey            $$ keytype value
+        lekey           $$ external keytype value
+        floating:ltimer $$ pause length in time
+$
+loop
+.       if      ltimer  > 0
+.       .       pause   ltimer,keys=all
+.       else
+.       .       pause   keys=all
+.       endif
+.       if      lpausen = p.city
+.       .       keytype lekey,t,s,m,b,g,q,timeup,help,
+.       .               data1,back1
+.       elseif  lpausen = p.showi
+.       .       keytype lekey,back,next
+.       elseif  lpausen = p.bank
+.       .       keytype lekey,back,d,w,q
+.       elseif  lpausen = p.morg
+.       .       keytype lekey,y,n,back
+.       elseif  lpausen = p.iguil
+.       .       keytype lekey,back,help,next,a,b,c,d,e,f,g,
+.       .               h,i,j,k,l,m,n,o
+.       elseif  lpausen = p.gjoin
+.       .       keytype lekey,y,n,back
+.       elseif  lpausen = p.ghate
+.       .       keytype lekey, ,next,back,timeup
+.       elseif  lpausen = p.gmemb
+.       .       keytype lekey,1,2,back
+.       elseif  lpausen = p.gmake
+.       .       keytype lekey,next1
+.       elseif  lpausen = p.store
+.       .       keytype lekey,back,b,u,s,r,h,c,a
+.       elseif  lpausen = p.hand
+.       .       keytype lekey,lab,back
+.       elseif  lpausen = p.slist
+.       .       keytype lekey,next1,back1,back
+*.       elseif  lpausen = p.buy
+*.       .       keytype lekey,back,lab,data
+.       elseif  lpausen = p.trade
+.       .       keytype lekey,back,lab,g,a,r
+*.       elseif  lpausen = p.cial
+*.       .       keytype lekey,u,g,n,e,back
+.       elseif  lpausen = p.raise
+.       .       keytype lekey,y,n
+.       endif
+.       keytype lkey,M,G,U,L,T,H,+,-,X,p,l,next,R,I,F,B,
+.               term,K,i,lab,S,help,help1,lab1,copy,copy1,
+.               0,1,2,3,4,5,6,7,8,9
+.       if      lekey   {^54} -1
+.       .       return  lekey
+.       elseif  lbexit
+.       .       return  -1
+.       elseif  lkey < 26
+.       .       do      lkey,x,message,give,itchoose,
+.       .               dropitem,track,quiet,
+.       .               moveforw,moveback,itemswap,
+.       .               pickup(0),drop,updatec,return,
+.       .               expask,foregnd,backgnd,term,
+.       .               leavcomp,itempage,plotpage(lkey-15)
+.       else
+.       .       do      loadspel(lkey-26)
+.       endif
+reloop  lpausen {^54} p.bank
+.       mode    rewrite
+.       atnm    164,384
+.       showt   chbgold,10
+.       mode    write
+endloop
+*
+
+=== block 'listkeys'  kind 00  119 words  (block 64)
+unit    listkeys
+mode    rewrite
+color   display;zgreen
+at      176,296
+write   See the help lesson for complete list.   
+        Keys that are active in city and dungeon 
+color   display;zblue
+draw    176,280;496,280
+color   display;zyellow
+at      176,264
+write   M,Y   message/yell      T track         
+        +,-   move in company   H untrackable   
+        p,l   pick up/drop body K leave company 
+        U,P   use items/powers  G give gold/item
+        i,S   see items/spells  I level info    
+        LAB   status info    LAB1 company info  
+        COPY  area players  BACK1 char. options «c,zgreen»
+        Keys that are active only in the dungeon
+color   display;zblue
+draw    176,152;496,152
+color   display;zyellow
+at      176,136
+write   j,f,÷,× join/fight/autofight/autospell  
+        1,2,3,4 select group to fight           
+        a,x,d,w turn      A,X,D,W  turn and move
+        o,q,Q   open/exit/abandon treasure chest
+color   display;zcyan
+mode    write
