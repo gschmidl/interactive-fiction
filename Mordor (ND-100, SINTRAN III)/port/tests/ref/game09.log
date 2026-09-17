@@ -1,0 +1,91 @@
+16:08:29 'N\r'                  instructions
+16:08:37 '\x1bC'                cursor
+16:08:37 '\x1bC'                cursor
+16:08:37 '\x1bH'                take Merry
+16:08:37 '\x1bB'                cursor
+16:08:37 '\x1bB'                cursor
+16:08:37 '\x1bC'                cursor
+16:08:37 '\x1bC'                cursor
+16:08:37 '\x1bH'                take Boromir
+16:08:37 '\x1bC'                cursor
+16:08:37 '\x1bC'                cursor
+16:08:37 '\x1bC'                cursor
+16:08:37 '\x1bH'                take Imrahil
+16:08:38 '\x1bC'                cursor
+16:08:38 '\x1bH'                take Halbarad
+16:08:38 '\x1bB'                cursor
+16:08:38 '\x1bC'                cursor
+16:08:38 '\x1bH'                take Gimli
+16:08:38 '\x1bC'                cursor
+16:08:38 '\x1bC'                cursor
+16:08:38 '\x1bH'                take Erestor
+16:08:38 '\x1bC'                cursor
+16:08:38 '\x1bC'                cursor
+16:08:38 '\x1bH'                take Dain
+16:08:38 '\x1bC'                cursor
+16:08:38 '\x1bC'                cursor
+16:08:39 '\x1bC'                cursor
+16:08:39 '\x1bH'                take Erkenbrand
+16:08:39 '\x1bB'                cursor
+16:08:39 'GIMLI\r'              name
+16:08:39 'GIMLI\r'              name
+16:08:39 'e+\r'                 command 1
+16:08:40 'N\r'                  command 2
+16:08:40 '0\r'                  command 3
+16:08:41 'MAP\r'                command 4
+16:08:41 'W\r'                  command 5
+16:08:41 'T\r'                  together/individually
+16:08:41 '0\r'                  command 6
+16:08:42 'F\r'                  fight/run
+16:08:42 'F\r'                  fight/run
+16:08:42 'E\r'                  command 7
+16:08:43 'SW\r'                 command 8
+16:08:43 'R\r'                  fight/run
+16:08:43 'se\r'                 command 9
+16:08:43 'XYZZY\r'              command 10
+16:08:44 'W2\r'                 command 11
+16:08:44 'SW1\r'                command 12
+16:08:45 'OFF\r'                command 13
+16:08:45 'nw1\r'                command 14
+16:08:45 'Erkenbrand\r'         name
+16:08:45 'imrahil\r'            name
+16:08:46 'R\r'                  fight/run
+16:08:46 'sw2\r'                command 15
+16:08:46 '\r'                   fight/run
+16:08:47 'r\r'                  fight/run
+16:08:47 'SE3\r'                command 16
+16:08:47 'Erestor\r'            name
+16:08:48 'F\r'                  fight/run
+16:08:48 'sw\r'                 command 17
+16:08:48 '\r'                   command 18
+16:08:48 '0\r'                  command 19
+16:08:49 'F\r'                  fight/run
+16:08:49 'SW+\r'                command 20
+16:08:49 'sw3\r'                command 21
+16:08:50 '\r'                   command 22
+16:08:50 '0\r'                  command 23
+16:08:50 'MAP\r'                command 24
+16:08:51 'ne+\r'                command 25
+16:08:51 '\r'                   fight/run
+16:08:51 'Boromir\r'            name
+16:08:51 'R\r'                  fight/run
+16:08:52 'sw+\r'                command 26
+16:08:52 'sw+\r'                command 27
+16:08:53 'MAP\r'                command 28
+16:08:53 'KILL\r'               command 29
+16:08:53 'off\r'                command 30
+16:08:53 'SE\r'                 command 31
+16:08:54 'E3\r'                 command 32
+16:08:54 'W\r'                  command 33
+16:08:54 'on\r'                 command 34
+16:08:54 'SE2\r'                command 35
+16:08:55 'e+\r'                 command 36
+16:08:55 '0\r'                  command 37
+16:08:55 'SE2\r'                command 38
+16:08:56 'NE\r'                 command 39
+16:08:56 'kill\r'               command 40
+16:08:56 'W9\r'                 command 41
+16:08:56 'f\r'                  fight/run
+16:08:57 'W+\r'                 command 42
+16:08:57 'NE\r'                 command 43
+16:08:57 'W3\r'                 command 44

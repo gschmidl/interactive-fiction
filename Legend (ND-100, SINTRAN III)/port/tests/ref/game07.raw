@@ -1,0 +1,339 @@
+LEGENDF-REF
+3:G       Legend    v10.0         20.45   17/ 9 1998 
+
+
+
+Din signatur: MB
+
+Vilket scenario? (1-9, 0): 3
+
+Vill du ha instruktioner?  ('J'a / 'N'ej)  <N> ' (Nej.
+                              Var god dr|j...
+I                            L E G E N D           
+
+                         Antal spelare: 11  
+
+
+*** Meddelande fr}n SpelChefen ***      25/ 8  1986
+Om ni hittar n}t fel va,
+s} skriv POST va
+och klaga va...
+\hhhh
+
+
+
+
+                         Tryck RETURN >FaG<' (
+
+
+Du har inga spelare.
+
+
+A/ 
+B/ Skapa spelare
+C/ 
+D/ Sluta
+E/ 
+
+V{lj: B
+
+
+Vad ska din spelare vara?
+
+1. Slagsk{mpe   2. L{rling   3. Magiker   4. Pr{st (1-4): Q
+
+1. Slagsk{mpe   2. L{rling   3. Magiker   4. Pr{st (1-4): 4
+
+
+Ska din Pr{st tillh|ra  1.Orden  eller  2.Klanen? 1
+
+
+Vad ska spelaren heta? OLLE-BOLLE
+
+
+
+Dina spelare:
+
+
+ 1 . OLLE-BOLLE
+
+A/ 
+B/ Skapa spelare
+C/ V{lja spelare och starta Legend
+D/ Sluta
+E/ Status f|r spelare
+
+V{lj: C
+
+Fixar spelare... & Startar Legend!
+Vad heter du? Musse Pigg
+::Du st}r mitt p} stadens huvudgata. H{r h{rskar en f|r|dande stank. Hus
+ligger p} b}da sidor om v{gen. Norrut finns en liten butik.
+
+Du ser:
+
+       Olrog (d|d fiende)
+       Dragon (fiende)
+
+Utg}ngar: Norr S|der \st V{st
+
+:$NORR
+:Du st}r i en liten butik. [garen kommer fram och s{ger:
+- V{lkommen! Vi har allt du kan t{nka dig och mer d{rtill...
+
+
+? ger hj{lp
+
+
+-3
+Du har inga guldmynt att ta ut.
+
+-1
+
+M)at F)acklor ? X
+
+M)at F)acklor ? M
+
+Hur m}nga (1-10) ? 99
+
+-1
+
+M)at F)acklor ? F
+
+Hur m}nga (1-30) ? 99
+
+-?
+
+1. G} till aff{ren.
+2. S{tta in pengar p} banken.
+3. Ta ut pengar p} banken.
+4. ]teruppliva d|da.
+5. \vernatta (sluta sovande).
+6. Sluta Legend.
+0. ]terv{nda till v{rlden.
+
+-7
+
+
+? ger hj{lp
+
+
+-7
+
+
+? ger hj{lp
+
+
+-0
+:Du st}r mitt p} stadens huvudgata. H{r h{rskar en f|r|dande stank. Hus
+ligger p} b}da sidor om v{gen. Norrut finns en liten butik.
+
+Du ser:
+
+       Olrog (d|d fiende)
+       Dragon (fiende)
+
+Utg}ngar: Norr S|der \st V{st
+
+:$V
+:Du st}r i den v{lvda porten till staden. S|derut ser du en liten vaktkur.
+
+Du ser:
+       Ingenting.
+
+Utg}ngar: S|der \st V{st
+
+En niv} 1 Magiker hoppar fram och utmanar dig!
+$TAPPA
+Du b{r inte p} n}gon.
+:$SLUTA SPELA
+Qu`?
+$HJ[LP
+
+
+                          %LEGEND&
+
+     Kommando:              Kort f|rklaring
+       
+     \ST                    G} }t det h}ll som anges  \
+     V[ST                                F|rkortning: V
+     NORR                                             N
+     S\DER                                            S
+     UPP                                              U
+     NED                                              D
+     SOV                    Avsluta sovande
+     SLUTA                  Avsluta vaken
+     LISTA                  Visar vad du har p} dig
+     CLS                    Rensar sk{rmen
+     TITTA                  Ger rumsbeskrivning
+     PAUS, V[NTA            L}ter dig g} och fika utan att sluta spelet
+
+
+
+Tryck n}nstans, helst p} terminal 39 : 
+
+     SKRIK                  Precis vad det st}r
+     T[NK                   Precis vad det st}r
+     STATUS                 Visa din spelares status
+     TID                    Ger tiden
+     [T                     [ta mat
+     T[ND                   T{nda fackla
+     PLOCKA                 Plocka d|d spelare
+     TAPPA                  Tappa d|d spelare
+     AVLIVA                 Ta bort d}lig spelare
+     L[S/SKRIV              P} klotterplanket
+
+
+
+Tryck n}nstans, helst p} terminal 39 : 
+
+     HJ[LP                  Ger denna lista
+     BYT                    Byta namn
+     D\DA                   D|da spelare
+     BLIXT                  Kasta en blixt p} annan spelare (Magiker)
+     HELA                   Hela skada som uppst}tt t.ex. under strid (Pr{ster)
+     VEM                    Se efter vilka som k|r Legend just nu
+     POST                   Posta ett brev till SpelChefen
+     *                      Direktlogout
+     @                      Utf|ra sintrankommando
+
+     Return i b|rjan av kommandoraden upprepar senaste kommandot.
+
+:$S
+Du sl}ss ju med En niv} 1 Magiker!
+:$N
+Du sl}ss ju med En niv} 1 Magiker!
+:$\STER
+Du sl}ss ju med En niv} 1 Magiker!
+:$V[STER
+Du sl}ss ju med En niv} 1 Magiker!
+:$V
+Du sl}ss ju med En niv} 1 Magiker!
+:$BLIXT
+Du kan inte kasta blixtar...?
+Qu`?
+$S\DER
+Du sl}ss ju med En niv} 1 Magiker!
+:$TAPPA
+Du b{r inte p} n}gon.
+:$\STER
+Du sl}ss ju med En niv} 1 Magiker!
+:$T[ND
+Du har inga facklor!
+
+:$UPP
+Du sl}ss ju med En niv} 1 Magiker!
+:$TA SV[RD
+Det finns inget h{r du kan ta med dig.
+:$S\DER
+Du sl}ss ju med En niv} 1 Magiker!
+:$G] S
+Du sl}ss ju med En niv} 1 Magiker!
+:$NED
+Du sl}ss ju med En niv} 1 Magiker!
+:$NED
+Du sl}ss ju med En niv} 1 Magiker!
+:$SE
+
+Du ser:
+ (Allvetande Gud)Ingenting.
+
+Utg}ngar: S|der \st V{st
+
+:$UPP
+Du sl}ss ju med En niv} 1 Magiker!
+:$SL[PP ALLT
+Du b{r inte p} n}got!
+
+:$N
+Du sl}ss ju med En niv} 1 Magiker!
+:$NED
+Du sl}ss ju med En niv} 1 Magiker!
+:$G] S
+Du sl}ss ju med En niv} 1 Magiker!
+:Du b|r {ta om ett tag.
+$NORR
+Du sl}ss ju med En niv} 1 Magiker!
+:Du b|r {ta om ett tag.
+$UTG]NGAR
+S|der:          838 
+\st:            839 
+V{st:           836 
+:Du b|r {ta om ett tag.
+Du sv{lter!
+$NORR
+Du sl}ss ju med En niv} 1 Magiker!
+:Du b|r {ta om ett tag.
+Du sv{lter!
+$V[LJ
+Du har bara en spelare p} detta scenario...
+:Du b|r {ta om ett tag.
+Du sv{lter!
+$\
+Du sl}ss ju med En niv} 1 Magiker!
+:Du b|r {ta om ett tag.
+Du sv{lter!
+$TITTA
+Du st}r i den v{lvda porten till staden. S|derut ser du en liten vaktkur.
+
+Du ser:
+ (Allvetande Gud)Ingenting.
+
+Utg}ngar: S|der \st V{st
+
+:Du b|r {ta om ett tag.
+Du sv{lter!
+$BLIXT 2
+Anfalla vem? EN
+Du kan inte BLIXT EN, Olle-Bolle!
+
+:Du b|r {ta om ett tag.
+Du sv{lter!
+$D
+Du sl}ss ju med !
+:Du b|r {ta om ett tag.
+Du sv{lter!
+$\
+Du sl}ss ju med !
+:Du b|r {ta om ett tag.
+Du sv{lter!
+$STA
+
+> OLLE-BOLLE
+
+> Niv} 1 Pr{st inom Orden
+
+Styrka:      6     Hit Points: 4 /12 
+Iq:          10 
+Visdom:      19    Ruststyrka: 10 
+Skicklighet: 18    Erfarenhet: 37 
+Charm:       3 
+
+Trollkraft: 2 
+Utrustning: 2 matpaket, 0 facklor, 500 guldmynt.
+
+
+Olle-Bolle har g}tt 37 steg och {r 18 }r gammal.
+
+:Du b|r {ta om ett tag.
+Du sv{lter!
+$KLAPPA
+Qu`?
+$S
+Du sl}ss ju med !
+:Du b|r {ta om ett tag.
+Du sv{lter!
+$V
+Du sl}ss ju med !
+:Du b|r {ta om ett tag.
+Du sv{lter!
+$\
+Du sl}ss ju med !
+:Du b|r {ta om ett tag.
+Du sv{lter!
+Du har svultit ihj{l!
+
+
+So Long, MB.
+
+@

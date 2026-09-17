@@ -1,0 +1,46 @@
+16:02:53 '\r'                   instructions
+16:03:00 '\x1bH'                take Frodo
+16:03:00 '\x1bC'                cursor
+16:03:01 '\x1bC'                cursor
+16:03:01 '\x1bH'                take Merry
+16:03:01 '\x1bB'                cursor
+16:03:01 '\x1bC'                cursor
+16:03:01 '\x1bC'                cursor
+16:03:01 '\x1bH'                take Rumil
+16:03:01 '\x1bB'                cursor
+16:03:01 '\x1bC'                cursor
+16:03:01 '\x1bC'                cursor
+16:03:01 '\x1bC'                cursor
+16:03:01 '\x1bH'                take Imrahil
+16:03:01 '\x1bC'                cursor
+16:03:02 '\x1bC'                cursor
+16:03:02 '\x1bH'                take Theodr`d
+16:03:02 '\x1bC'                cursor
+16:03:02 '\x1bH'                take Beregond
+16:03:02 '\x1bC'                cursor
+16:03:02 '\x1bH'                take Mablung
+16:03:02 '\x1bC'                cursor
+16:03:02 '\x1bH'                take Damrod
+16:03:02 '\x1bB'                cursor
+16:03:02 '\x1bB'                cursor
+16:03:02 '\x1bC'                cursor
+16:03:02 '\x1bC'                cursor
+16:03:02 '\x1bH'                take Forlong
+16:03:02 '\x1bC'                cursor
+16:03:03 '\x1bC'                cursor
+16:03:03 'Damrod\r'             name
+16:03:03 'rumil\r'              name
+16:03:03 'O\r'                  command 1
+16:03:04 'S1\r'                 command 2
+16:03:04 'NE\r'                 command 3
+16:03:04 'SE+\r'                command 4
+16:03:05 'FOLLOW\r'             command 5
+16:03:05 'nw\r'                 command 6
+16:03:06 'NE+\r'                command 7
+16:03:06 'MAP\r'                command 8
+16:03:06 'NW+\r'                command 9
+16:03:07 'Frodo\r'              name
+16:03:07 'f\r'                  fight/run
+16:03:07 'r\r'                  fight/run
+16:03:08 'r\r'                  fight/run
+16:03:08 'R\r'                  fight/run

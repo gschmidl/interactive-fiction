@@ -1,0 +1,1885 @@
+PROGRAM MORDOR(INPUT,OUTPUT);
+
+$OPTION I%,I?,I_,I\,T-
+
+CONST  MEMBERS  = 40; MAXMEMB     = 40; MINMEMB   = 1 ; EXISTMEMB = 40;
+       SHELOB_I = 2 ; ANTCOMS     = 14; MAXLEN    = 12; ENEMIES   = 70;
+       ROUGH    = 0 ; GRASS       = 1 ; TREES     = 2 ; SWAMP     = 3 ;
+       MOUNTAIN = 4 ; RIVER       = 5 ; ROAD      = 6 ; MAIN_ROAD = 7 ;
+       FORD     = 8 ; TOWER       = 9 ; MT_DOOM   = 10; BARAD_DUR = 11;
+       TUNNEL   = 12;
+       URUK_HAI = 1 ; WOLF_PACK   = 2 ; BALROG    = 3 ; NAZGUL    = 4 ;
+       HARADRIM = 5 ; OLOG_HAI    = 6 ; GOLLUM    = 7 ; SHELOB    = 8 ;
+       WARGS    = 9 ; FELLOWSHIP  = 10; TRAIT     = 11;
+       DEAD     = 0 ; IN_FELLOW   = 1 ; TRAITOR   = 2 ; AT_MINTIR = 3 ;
+       AT_DALE  = 4 ; RIVENDELL   = 5 ; IN_LORIEN = 6 ; AT_EDORAS = 7 ;
+       CAPTURED = 8 ; UNCONSCIOUS = 9 ;
+
+TYPE   YNANS   = (YES,NO);
+       RINGTYP = (ON,OFF,WRAITH,CAUGHT,TAKEN,THROWN);
+       STRTYP  = PACKED ARRAY [1..MAXLEN] OF CHAR;
+       MAPTYPE = PACKED ARRAY [0..127,0..127] OF 0..255;
+       PLACES  = (MINAS_TIRITH,DALE,IMLADRIS,LORIEN,EDORAS);
+       ENTYP   = ARRAY [URUK_HAI..WARGS] OF STRTYP;
+       ETYP    = RECORD
+                    X,Y,TYP,ANTAL: INTEGER;
+                    SEE: BOOLEAN;
+                 END;
+       EATYP   = ARRAY [1..ENEMIES] OF ETYP;
+       FELLTYP = ARRAY [1..EXISTMEMB,1..4] OF INTEGER;
+
+VAR    OUT_T:      PACKED ARRAY [-1..12] OF CHAR;
+       OUT_L:      PACKED ARRAY [-1..11] OF CHAR;
+       ENEMY_STR:  ARRAY [URUK_HAI..WARGS] OF INTEGER;
+       ENEMY_SING,
+       ENEMY_PLUR: ENTYP;
+       ORIG:       FELLTYP;
+       FELLOW_N:   ARRAY [1..EXISTMEMB] OF STRTYP;
+       PLACE:      ARRAY [1..5] OF STRTYP;
+       COMS:       ARRAY [1..ANTCOMS] OF STRTYP;
+       SCAN_A:     ARRAY [0..5,0..7] OF INTEGER;
+       SCAN_B:     ARRAY [1..64,1..2] OF INTEGER;
+       TCOST:      ARRAY [ROUGH..TUNNEL] OF REAL;
+
+VALUE  OUT_L     = ('  owbnhtgswF?');
+       OUT_T     = (' :.T&M"-=+IDBM');
+       TCOST     = (1.5,1.0,2.0,3.5,3.0,0.0,0.75,0.65,1.5,1.0,2.0,3.0,3.0);
+       ENEMY_STR = ( 3, 2,10, 9, 4, 5, 4,15, 4);
+       ORIG      = ( 6, 3, 6, 9,  6, 4, 6, 9,  5, 3, 6, 9,  5, 3, 6, 7,
+                     5, 3, 6, 7,  4, 5, 2, 8,  5,11, 2, 8,  6, 6, 2, 7,
+                     6, 6, 2, 7,  5, 9, 2, 7,  6,10, 7, 6,  3, 9, 6, 6,
+                     3, 7, 1, 1,  3, 7, 4, 5,  7, 7, 4, 5,  3, 7, 4, 4,
+                     5, 7, 4, 4,  7, 7, 4, 3,  3, 7, 4, 4,  3, 7, 4, 4,
+                     3, 7, 4, 4,  4, 8, 5, 4,  5, 6, 3, 8,  5, 6, 3, 7,
+                     4, 8, 2, 6,  4, 5, 5, 4,  4, 4, 4, 5,  6, 8, 3, 8,
+                     7, 4, 4, 3,  7, 3, 3, 6,  3, 3, 3, 8,  3, 4, 1, 1,
+                     7, 0, 0, 0,  7, 0, 0, 0,  6, 0, 0, 0,  6, 0, 0, 0,
+                     7, 0, 0, 0,  5, 0, 0, 0,  5, 0, 0, 0,  4, 0, 0, 0);
+       FELLOW_N  = ('Frodo     ','Sam       ','Merry     ','Pippin    ',
+                    'Fredegar  ','Legolas   ','Glorfindel','Haldir    ',
+                    'Rumil     ','Gildor    ','Gandalf   ','Aragorn   ',
+                    'Boromir   ','Faramir   ','@omer     ','Imrahil   ',
+                    'Halbarad  ','Theodr`d  ','Beregond  ','Mablung   ',
+                    'Damrod    ','Gimli     ','Elrond    ','Erestor   ',
+                    'Thranduil ','Dain      ','Brand     ','Celeborn  ',
+                    'Erkenbrand','Gamling   ','Forlong   ','Denethor  ',
+                    'Hama      ','Ceorl     ','Orophin   ','Galadriel ',
+                    '@owyn     ','Elladan   ','Ellrohir  ','Grimbeorn ');
+       PLACE = ('Minas Tirith','Dale        ','Rivendell   ','Lothlorien  ',
+                'Edoras      ');
+       ENEMY_SING = ('an Orc    ','a Wolf    ','a Balrog  ','a Nazgul  ',
+                     'a Southron','a Troll   ','Gollum    ','Shelob    ',
+                     'a Warg    ');
+       ENEMY_PLUR = ('Orcs      ','Wolves    ','Balrogs!  ','Nazgul!   ',
+                     'Haradrim  ','Trolls    ','Gollums???','Shelobs???',
+                     'Wargs     ');
+       COMS = ('ON         ','OFF        ','FOLLOW-ROAD','KILL       ',
+               'ASK        ','0          ','THROW      ','HELP       ',
+               'REPORT     ','TIE        ','UNTIE      ','MAP        ',
+               'QUIT-GAME  ','USE        ');
+       SCAN_A = ( 0,63,56,46,31,15, 5, 1,  0,64,58,48,33,17, 7, 3,
+                  0, 0,61,51,35,19,10, 0,  0, 0, 0,53,38,23,12, 0,
+                  0, 0, 0, 0,44,27, 0, 0,  0, 0, 0, 0, 0,29, 0, 0);
+       SCAN_B = ( 0, 6, 5,-7, 1, 6, 7,-7, 0, 5,15,-6, 1, 5, 1, 4,31,-6,
+                  2, 5,19,-7, 2, 5, 3, 5,35,-7, 0, 4,31,-5, 1, 4,33,-5,
+                  2, 4, 1, 4, 1, 3,48,-6, 3, 4, 2, 4, 2, 3,51,-6, 3, 4,
+                 38,-7, 4, 4,44,-7, 0, 3,46,-4, 1, 3,46,-4, 2, 3, 1, 3,
+                 51,-5, 3, 3, 2, 3, 2, 2, 1, 2, 1, 1, 0,-5, 3, 3,53,-6,
+                  0, 2,56,-3, 1, 2, 0, 1, 0,-3, 1, 2,58,-4, 2, 2, 1, 1,
+                  0,-5, 0, 1, 0,-2, 1, 1, 0, 1, 0,-3, 1, 1, 0,-3, 0,-1,
+                  0,-2);
+
+PROCEDURE MAIN;
+
+LABEL  1;
+
+VAR    PLAN:       ^MAPTYPE;
+       I,J,K,L,
+       FX,FY,TRX,
+       TRY,DX,DY,
+       RING_BEARER,
+       LEN,MEMB:   INTEGER;
+       RING_USED,
+       TURN,MP1,
+       GOLLUM_ANGRY,
+       PLACES_FALLEN,
+       WHITE,PUSE,POWN,PREV,
+       BD_INDEX:   INTEGER;
+       GOLLX,
+       GOLLY:      INTEGER;
+       RING:       RINGTYP;
+       GOLLUM_STATUS: (HUNTING,UNTIED,TIED,KILLED,GOT_THE_RING,OFF_MAP);
+       MIST,RING_ON_THIS_TURN,GDEAD,GRES,
+       TAKE_OFF,READY,END?,THROW_IT: BOOLEAN;
+       MP,TIRED:   REAL;
+       STRANG:     STRTYP;
+       ENEMY:      EATYP;
+       TOWERS:     ARRAY [1..9,1..2] OF INTEGER;
+       FELLOWS:    FELLTYP;
+
+FUNCTION RAN: REAL; EXTERN;
+
+FUNCTION IFBYTE: INTEGER; EXTERN;
+
+FUNCTION INBYTE: INTEGER; EXTERN;
+
+PROCEDURE DESCF; EXTERN;
+
+PROCEDURE EESCF; EXTERN;
+
+PROCEDURE TIME(VAR HOUR,MIN,SEC: INTEGER); EXTERN;
+
+PROCEDURE DATE(VAR YEAR,MONTH,DAY: INTEGER); EXTERN;
+
+PROCEDURE CUR(X,Y: INTEGER);
+
+BEGIN  WRITE(CHR(27),'Y',CHR(X+31),CHR(Y+31));
+END;
+
+PROCEDURE SWAP(VAR X,Y: INTEGER);
+
+VAR    Z: INTEGER;
+
+BEGIN  Z:=X; X:=Y; Y:=Z; END;
+
+FUNCTION SIGN(TAL: INTEGER): INTEGER;
+
+BEGIN  SIGN:=0;
+       IF TAL<0 THEN SIGN:=-1;
+       IF TAL>0 THEN SIGN:=1;
+END;
+
+FUNCTION RSIGN(TAL: REAL): INTEGER;
+
+BEGIN  RSIGN:=0;
+       IF TAL<0 THEN RSIGN:=-1;
+       IF TAL>0 THEN RSIGN:=1;
+END;
+
+FUNCTION MOD1(I1: INTEGER): INTEGER;
+
+BEGIN  MOD1:=(I1+256) MOD 128;
+END;
+
+FUNCTION SCAN(X,Y,X0,Y0,R: INTEGER): INTEGER;
+
+LABEL  1,2;
+
+VAR    N,P,X1,Y1,SX,SY,T,FL,F,UX,UY,SLA: INTEGER;
+
+BEGIN  N:=PLAN^[MOD1(X),MOD1(Y)];
+       IF (X=X0) AND (Y=Y0) THEN BEGIN
+         SCAN:=N; GOTO 1; END;
+       X1:=X0-X; Y1:=Y0-Y;
+       IF ABS(X1)>64 THEN X1:=X1-64*SIGN(X1);
+       IF ABS(Y1)>64 THEN Y1:=Y1-64*SIGN(Y1);
+       SX:=SIGN(X1); SY:=SIGN(Y1); X1:=ABS(X1); Y1:=ABS(Y1);
+       T:=0; IF X1>Y1 THEN BEGIN
+         T:=1; SWAP(X1,Y1);
+       END;
+       IF (X1>5) OR (Y1>7) THEN BEGIN
+         SCAN:=-1; GOTO 1; END;
+       FL:=0; F:=0; P:=SCAN_A[X1,Y1]; IF P=0 THEN BEGIN
+         SCAN:=-1; GOTO 1; END;
+2:     WHILE SCAN_B[P,2]>=0 DO BEGIN
+             UX:=SCAN_B[P,1]; UY:=SCAN_B[P,2]; IF T=1 THEN SWAP(UX,UY);
+             UX:=UX*SX; UY:=UY*SY; SLA:=PLAN^[MOD1(UX+X),MOD1(UY+Y)];
+             IF (SLA MOD 16) IN [TREES,MOUNTAIN,TOWER,TUNNEL] THEN BEGIN
+               SCAN:=-1; GOTO 1; END;
+             P:=P+1;
+       END;
+       IF (FL=0) AND (R<-SCAN_B[P,2]) THEN BEGIN
+         SCAN:=-1; GOTO 1; END;
+       IF SCAN_B[P,1]=0 THEN BEGIN
+         SCAN:=N; GOTO 1; END;
+       FL:=1; P:=SCAN_B[P,1]; GOTO 2;
+1:
+END;
+
+(* Port fix, 2026: LARGE subtracted 30, not 32, so a name only matched when
+   typed two letters on ('FTQ' for Frodo).  Now a letter matches in either
+   case, and the Swedish E-acute (@, `) matches E too.  INSTR upper-cases
+   what is typed, so commands and answers work in lower case as well. *)
+
+FUNCTION LARGE(CH: CHAR): CHAR;
+
+BEGIN  IF CH IN ['`'..'~'] THEN CH:=CHR(ORD(CH)-32);
+       IF CH='@' THEN CH:='E';
+       LARGE:=CH;
+END;
+
+PROCEDURE OUTSTR(VAR STRING: STRTYP);
+
+VAR    I1,J1: INTEGER;
+
+BEGIN  J1:=MAXLEN; WHILE STRING[J1]=' ' DO J1:=J1-1;
+       FOR I1:=1 TO J1 DO
+          WRITE(STRING[I1]);
+END;
+
+PROCEDURE INSTR(VAR STRING:STRTYP);
+
+VAR    I1: INTEGER;
+
+BEGIN
+       LEN:=0;
+       IF EOLN THEN READLN;
+       WHILE NOT EOLN DO BEGIN
+          LEN:=LEN+1;
+          IF LEN<MAXLEN THEN BEGIN
+             READ(STRING[LEN]); STRING[LEN]:=LARGE(STRING[LEN]);
+          END;
+       END;
+       FOR I1:=LEN+1 TO MAXLEN DO STRING[I1]:=' ';
+END;
+
+FUNCTION ANSWER(DEFAULT: YNANS): YNANS;
+
+VAR    I1: INTEGER;
+
+BEGIN  INSTR(STRANG);
+       IF STRANG[1]='Y' THEN ANSWER:=YES ELSE
+         IF STRANG[1]='N' THEN ANSWER:=NO ELSE
+           ANSWER:=DEFAULT;
+END;
+
+FUNCTION INCOM: INTEGER;
+
+LABEL  1,2;
+
+VAR    WRONG: BOOLEAN;
+       I1,J1,K1: INTEGER;
+       CH: CHAR;
+
+BEGIN
+       REPEAT
+         INSTR(STRANG); K1:=0; MP1:=1;
+         IF STRANG[1] IN ['N','S','E','W'] THEN BEGIN
+           DX:=0; DY:=0; CH:=STRANG[1]; I1:=1;
+           IF CH='N' THEN DX:=-1; IF CH='S' THEN DX:=1;
+           IF DX<>0 THEN BEGIN CH:=STRANG[2]; I1:=2; END;
+           IF CH='E' THEN DY:=1; IF CH='W' THEN DY:=-1;
+           IF I1<LEN THEN BEGIN I1:=I1+1; CH:=STRANG[I1]; END;
+           IF CH='+' THEN MP1:=99;
+           IF CH IN ['1'..'9'] THEN MP1:=ORD(CH)-48;
+           K1:=-1; GOTO 1;
+         END;
+         FOR I1:=1 TO ANTCOMS DO BEGIN WRONG:=FALSE;
+           FOR J1:=1 TO LEN DO
+             IF J1<12 THEN
+               WRONG:=(WRONG OR (STRANG[J1]<>COMS[I1,J1]));
+           IF NOT WRONG THEN IF K1=0 THEN K1:=I1 ELSE BEGIN
+             WRITELN('Ambigiuos command'); WRONG:=TRUE; GOTO 2; END
+         END;
+         IF K1<>0 THEN GOTO 1;
+         WRITELN('Illegal Command.');
+2:       WRITE('Reenter: ');
+       UNTIL WRONG=FALSE;
+1:     INCOM:=K1;
+END;
+
+PROCEDURE WRITELNS(Q: INTEGER);
+
+VAR    I1: INTEGER;
+
+BEGIN  FOR I1:=1 TO Q DO WRITELN; END;
+
+PROCEDURE INSTRUCTIONS;
+
+TYPE   STRTYP2 = ARRAY [1..80] OF CHAR;
+
+VAR    I1,I2,I3: INTEGER;
+       STRENG: STRTYP2;
+       RULEFILE: TEXT;
+
+       PROCEDURE FINSTR(VAR STRING: STRTYP2);
+
+       VAR   I1: INTEGER;
+
+       BEGIN LEN:=0; WHILE RULEFILE^=' ' DO GET(RULEFILE);
+         REPEAT LEN:=LEN+1; IF LEN<=80 THEN BEGIN
+             READ(RULEFILE,STRING[LEN]);
+             IF STRING[LEN]='''' THEN STRING[LEN]:=' ';
+           END;
+         UNTIL EOLN(RULEFILE);
+           FOR I1:=LEN+1 TO 80 DO STRING[I1]:='''';
+       END;
+
+BEGIN  CONNECT(RULEFILE,'(DNF)MORDOR-RULES-MJ','DATA','R');
+       RESET(RULEFILE);
+       WRITE(CHR(12)); READ(RULEFILE,I1);
+       FOR I2:=1 TO I1 DO BEGIN
+         FINSTR(STRENG); IF STRENG[1]='*' THEN BEGIN
+           WRITE(CHR(27),'Y6 '); (* Position the Cursor on the 23:rd line *)
+           WRITE('Press ''Return'' when you''ve finished reading: ');
+           REPEAT GET(INPUT); UNTIL EOLN; WRITE(CHR(12)); END
+           ELSE BEGIN FOR I3:=1 TO LEN DO WRITE(STRENG[I3]);
+           WRITELN; END;
+       END; DISCONNECT(RULEFILE); WRITELNS(4);
+END;
+
+PROCEDURE SHORT_INSTRUCTIONS;
+
+BEGIN  WRITELN('Commands:');
+       WRITELN('ON,   OFF,    FOLLOW-ROAD, KILL,   ASK,  0,  THROW,');
+       WRITELN('HELP, REPORT, TIE,  UNTIE,  USE,   MAP,  QUIT-GAME.');
+       WRITELN; WRITELN('Map Symbols');
+       WRITELN(': = Rough terrain, . = Grass, T = Trees,    & = Swamp,');
+       WRITELN('M = Mountain,      " = River, - = Road,     = = Main Road,');
+       WRITELN('+ = Ford,          I = Tower, D = Mt. Doom, B = Barad Dur.');
+       WRITELN;
+       WRITELN('o = Orcs,     w = Wolwes, b = Balrog, n = Nazgul,');
+       WRITELN('h = Haradrim, t = Trolls, g = Gollum, F = Fellowship,');
+       WRITELN('? = Traitor?');
+END;
+
+PROCEDURE OUTNAME(I: INTEGER);
+
+BEGIN  OUTSTR(FELLOW_N[I]);
+END;
+
+FUNCTION INNAME: INTEGER;
+
+LABEL  1,2;
+
+VAR    I1,J1,K1: INTEGER;
+       WRONG: BOOLEAN;
+       CH: CHAR;
+
+BEGIN
+       REPEAT
+         INSTR(STRANG); K1:=0;
+         FOR I1:=1 TO MEMBERS DO BEGIN WRONG:=FALSE;
+           FOR J1:=1 TO LEN DO
+             IF J1<MAXLEN THEN
+               WRONG:=(WRONG OR (STRANG[J1]<>LARGE(FELLOW_N[I1,J1])));
+           IF NOT WRONG THEN IF K1=0 THEN K1:=I1 ELSE BEGIN
+             WRITELN('Ambigiouos Name.'); WRONG:=TRUE; GOTO 2; END;
+         END;
+         IF (K1<>0) AND (FELLOWS[K1,1]=IN_FELLOW) THEN GOTO 1;
+         WRITELN('Illegal name.');
+2:       WRITE('Reenter: ');
+       UNTIL WRONG=FALSE;
+1:     INNAME:=K1;
+END;
+
+PROCEDURE MAKEMTS;
+
+VAR    I1,J1,X,Y,NMB,SIZ: INTEGER;
+
+BEGIN  FOR X:=0 TO 26 DO
+         FOR Y:=0 TO 127 DO
+           IF (X<2) OR (X>23) THEN PLAN^[X,Y]:=MOUNTAIN;
+       FOR X:=20 TO 35 DO
+         FOR Y:=0 TO 127 DO BEGIN
+           IF X<24 THEN
+             IF POWER(RAN,ABS(25-X))>0.08 THEN PLAN^[X,Y]:=MOUNTAIN;
+           IF (X>26) AND (RAN*3>SQRT(ABS(25-X))) THEN
+             IF (PLAN^[X-1,Y]=MOUNTAIN) OR (PLAN^[X,Y-1]=MOUNTAIN) THEN
+               PLAN^[X,Y]:=MOUNTAIN;
+         END;
+       NMB:=TRUNC(RAN*43+43);
+       FOR I1:=1 TO NMB DO BEGIN
+         SIZ:=TRUNC(RAN*16+1);
+         X:=TRUNC(RAN*128); Y:=TRUNC(RAN*128);
+         FOR J1:=1 TO SIZ DO BEGIN
+           IF RAN>0.6 THEN X:=X+RSIGN(RAN-0.5);
+           IF RAN>0.6 THEN Y:=Y+RSIGN(RAN-0.5);
+           X:=MOD1(X); Y:=MOD1(Y); PLAN^[X,Y]:=MOUNTAIN;
+         END;
+       END;
+END;
+
+PROCEDURE MAKEGTS;
+
+VAR    I1,J1,X,Y,SIZ,NMB,KIND,DX,SX,SY: INTEGER;
+
+BEGIN  FOR KIND:=GRASS TO SWAMP DO BEGIN
+         NMB:=TRUNC((RAN+0.5)*58+6);
+         IF KIND=GRASS THEN NMB:=TRUNC((RAN+0.5)*32+26);
+         FOR I1:=1 TO NMB DO BEGIN
+           SIZ:=TRUNC(RAN*150+20); IF KIND=GRASS THEN SIZ:=SIZ*8;
+           SX:=TRUNC(RAN*128); SY:=TRUNC(RAN*128); X:=0; Y:=0;
+           FOR J1:=1 TO SIZ DO BEGIN
+             X:=X+TRUNC(RAN*3-1); Y:=Y+TRUNC(RAN*3-1);
+             IF SQRT(1.0*X*X+1.0*Y*Y)<8 THEN BEGIN
+               IF PLAN^[MOD1(SX+X),MOD1(SY+Y)]<KIND THEN
+                 PLAN^[MOD1(SX+X),MOD1(SY+Y)]:=KIND;
+             END ELSE IF SQRT(1.0*X*X+1.0*Y*Y)>10 THEN BEGIN X:=0; Y:=0; END;
+           END;
+         END;
+       END;
+END;
+
+PROCEDURE MAKERIV;
+
+LABEL  1;
+
+VAR    I1,J1,K1,L1,X,Y,NMB,FORD?: INTEGER;
+
+BEGIN  NMB:=TRUNC(RAN*7+4);
+       FOR I1:=1 TO NMB DO BEGIN
+         FORD?:=5; X:=2; Y:=TRUNC(RAN*128);
+         PLAN^[X,Y]:=RIVER; DX:=1; DY:=0;
+         REPEAT
+           J1:=TRUNC(RAN*5+3); K1:=TRUNC(RAN*2+2);
+           X:=MOD1(X+DX); Y:=MOD1(Y+DY);
+           IF (PLAN^[X,Y]=RIVER) AND (RAN>0.8) THEN GOTO 1;
+           FOR L1:=1 TO J1 DO BEGIN
+             FX:=X; FY:=Y-L1+K1; IF DX=0 THEN BEGIN
+               FX:=X-L1+K1; FY:=Y; END;
+             FX:=MOD1(FX); FY:=MOD1(FY);
+             IF PLAN^[FX,FY]=ROUGH THEN PLAN^[FX,FY]:=GRASS;
+           END;
+           IF (PLAN^[X,Y]<>MOUNTAIN) OR (RAN>0.78) THEN PLAN^[X,Y]:=RIVER;
+           IF FORD?>0 THEN FORD?:=FORD?-1;
+           IF (FORD?=0) AND (RAN>0.92) AND (PLAN^[X,Y]=RIVER) THEN BEGIN
+             FORD?:=10; PLAN^[X,Y]:=FORD; END;
+           IF RAN>0.7 THEN DX:=ABS(DX-1);
+           L:=0; IF DX<>0 THEN BEGIN
+             IF RAN>0.7 THEN BEGIN DY:=DY+RSIGN(RAN-0.5); L:=1; END;
+             IF (RAN>0.75) AND (DY=0) AND (L=0) THEN
+               BEGIN DY:=RSIGN(RAN-0.5); L:=1; END;
+           END;
+           IF (L=0) AND (DY=0) THEN DY:=RSIGN(RAN-0.5);
+           IF ABS(DY)>1 THEN DY:=0;
+         UNTIL X=127;
+1:     END;
+END;
+
+PROCEDURE MAKETOR;
+
+LABEL  1;
+
+VAR    I1,J1,X,Y,TOW,KIND: INTEGER;
+       USED: BOOLEAN;
+
+BEGIN  TOW:=0; Y:=0; USED:=FALSE;
+       REPEAT
+         Y:=(Y+TRUNC(RAN*20+10)) MOD 128;
+         X:=22+TRUNC(RAN+0.5);
+         REPEAT X:=X+1 UNTIL NOT (PLAN^[X,Y] IN [MOUNTAIN,TOWER]);
+         X:=X-1; PLAN^[X,Y]:=TOWER; TOW:=TOW+1;
+         TOWERS[TOW,1]:=X; TOWERS[TOW,2]:=Y;
+         PLAN^[X,Y]:=TOWER;
+       UNTIL TOW=7; BD_INDEX:=TRUNC(RAN*2+8);
+       FOR TOW:=8 TO 9 DO BEGIN
+         REPEAT
+           X:=TRUNC(RAN*20); Y:=TRUNC(RAN*128);
+         UNTIL PLAN^[X,Y]<>MOUNTAIN;
+         TOWERS[TOW,1]:=X; TOWERS[TOW,2]:=Y;
+         IF TOW<>BD_INDEX THEN
+           PLAN^[X,Y]:=MT_DOOM ELSE PLAN^[X,Y]:=BARAD_DUR;
+       END;
+       FOR TOW:=1 TO 8 DO BEGIN
+         KIND:=ROAD; IF (RAN>0.03) OR (TOW=8) THEN BEGIN
+           KIND:=MAIN_ROAD;
+         END;
+         DY:=0; Y:=TOWERS[TOW,2];
+         FOR X:=TOWERS[TOW,1]+1 TO 127 DO BEGIN
+           Y:=MOD1(Y+DY);
+           IF (PLAN^[X,Y]=MAIN_ROAD) AND (RAN<0.85) THEN GOTO 1;
+           FOR I1:=Y-1 TO Y+1 DO
+             FOR J1:=X TO X+1 DO
+               IF (PLAN^[MOD1(J1),MOD1(I1)] IN [ROAD,MAIN_ROAD]) AND
+                  (RAN>0.5) AND (X>30) THEN BEGIN
+                 PLAN^[X,Y]:=KIND; GOTO 1;
+               END;
+           IF NOT (PLAN^[X,Y] IN [TOWER,FORD,RIVER]) THEN PLAN^[X,Y]:=KIND;
+           IF PLAN^[X,Y]=RIVER THEN
+             IF RAN>0.75 THEN PLAN^[X,Y]:=KIND ELSE PLAN^[X,Y]:=FORD;
+           IF (TOW=8) AND (X IN [24..26]) THEN PLAN^[X,Y]:=TUNNEL;
+           L:=0; IF RAN>(0.75-ABS(DY)/2) THEN L:=DY+RSIGN(RAN-0.5);
+           DY:=SIGN(L);
+         END;
+1:     END;
+       X:=TOWERS[9,1]; Y:=TOWERS[9,2];
+       REPEAT I1:=TOWERS[8,1]-X; IF RAN>0.65 THEN I1:=I1+TRUNC(RAN*5-2);
+         L:=TOWERS[8,2]-Y; IF RAN>0.65 THEN L:=L+TRUNC(RAN*5-2);
+         X:=X+SIGN(I1);
+         Y:=Y+SIGN(L);
+         IF NOT (PLAN^[X,Y] IN [MT_DOOM,BARAD_DUR]) THEN PLAN^[X,Y]:=MAIN_ROAD;
+       UNTIL PLAN^[X,Y] IN [MT_DOOM,BARAD_DUR];
+END;
+
+PROCEDURE PLACMON;
+
+VAR    I1,J1: INTEGER;
+
+BEGIN  FOR I1:=1 TO ENEMIES DO WITH ENEMY[I1] DO BEGIN
+         CASE I1 OF
+            1:                         TYP:=GOLLUM;
+            2:                         TYP:=OLOG_HAI;
+            3, 4, 5, 6, 7, 8, 9,10,11: TYP:=NAZGUL;
+           12,13,14,15:                TYP:=BALROG;
+           16,17,18,19,20,21,22,23,24,
+           25,26,27,28,29,30:          TYP:=URUK_HAI;
+           31,32,33,34,35,36,37,38,39,
+           40,41,42:                   TYP:=WOLF_PACK;
+           43,44,45,46,47,48,49,50,51,
+           52,53,54,55:                TYP:=HARADRIM;
+           56,57,58,59,60,61,62,63,64,
+           65,66,67,68,69,70:          TYP:=OLOG_HAI;
+         END;
+         IF (TYP=WOLF_PACK) AND (RAN<0.25) THEN TYP:=WARGS;
+         IF I1<13 THEN ANTAL:=1 ELSE
+           IF TYP=BALROG THEN ANTAL:=TRUNC(SQR(RAN)*4+1) ELSE
+             ANTAL:=TRUNC(SQR(RAN)*12+1);
+         IF I1>1 THEN BEGIN
+           IF I1=2 THEN
+             REPEAT
+               X:=TRUNC(RAN*3+24); Y:=TRUNC(RAN*128);
+             UNTIL PLAN^[X,Y]=TUNNEL
+           ELSE BEGIN
+             REPEAT
+               X:=TRUNC(RAN*128); Y:=TRUNC(RAN*128);
+             UNTIL (NOT (PLAN^[X,Y] IN [MOUNTAIN,RIVER,TUNNEL])) AND
+                   (PLAN^[X,Y]<16);
+           END;
+           IF I1>2 THEN PLAN^[X,Y]:=TYP*16+PLAN^[X,Y];
+         END;
+       END;
+       CASE TRUNC(RAN*6) OF
+        0,1,2: BEGIN
+                  GOLLX:=ENEMY[2].X+TRUNC(RAN*3-1);
+                  GOLLY:=ENEMY[2].Y+TRUNC(RAN*3-1);
+               END;
+          3,4: BEGIN
+                  I1:=TRUNC(RAN*9+1);
+                  GOLLX:=TOWERS[I1,1]+TRUNC(RAN*3-1);
+                  GOLLY:=TOWERS[I1,2]+TRUNC(RAN*3-1);
+               END;
+          5:   BEGIN
+                  GOLLX:=26; GOLLY:=TRUNC(RAN*128);
+               END;
+       END;
+END;
+
+PROCEDURE MAKEMAP;
+
+VAR    X,Y: INTEGER;
+       MAPFILE: PACKED FILE OF MAPTYPE;
+       READ?: BOOLEAN;
+
+       PROCEDURE GETMAP;
+
+       BEGIN CONNECT(MAPFILE,'(DNF)MORDOR-MAP-MJ','DATA','R');
+         RESET(MAPFILE); READ?:=FALSE;
+         IF NOT EOF(MAPFILE) THEN BEGIN
+           READ(MAPFILE,PLAN^); READ?:=TRUE;
+         END;
+         DISCONNECT(MAPFILE);
+       END;
+
+       PROCEDURE SAVEMAP;
+
+       BEGIN CONNECT(MAPFILE,'(DNF)MORDOR-MAP-MJ','DATA','W');
+         REWRITE(MAPFILE); WRITE(MAPFILE,PLAN^); DISCONNECT(MAPFILE);
+       END;
+
+BEGIN  GETMAP; IF READ?=FALSE THEN BEGIN
+         FOR X:=0 TO 127 DO FOR Y:=0 TO 127 DO PLAN^[X,Y]:=0;
+         MAKEMTS; MAKEGTS; MAKERIV; SAVEMAP;
+       END;
+       MAKETOR; PLACMON;
+END;
+
+PROCEDURE SELECT_NEW_RINGBEARER;
+
+VAR    I1: INTEGER;
+
+BEGIN  WRITELN('You must now choose a new Ringbearer.');
+       WRITELN('The Fellowship currently consists of:');
+       FOR I1:=1 TO MEMBERS DO IF FELLOWS[I1,1]=IN_FELLOW THEN BEGIN
+         OUTNAME(I1); WRITELN;
+       END;
+       WRITE('Who shall have the honor? '); RING_BEARER:=INNAME;
+       RING:=OFF; RING_USED:=0;
+END;
+
+PROCEDURE NEW_CARRIER;
+
+VAR    I1: INTEGER;
+
+BEGIN  IF (MEMB>0) AND NOT END? THEN BEGIN
+         WRITELN('You must now choose a new carrier for the Palantir.');
+         WRITELN('The Fellowship currently consists of:');
+         FOR I1:=1 TO MEMBERS DO IF FELLOWS[I1,1]=IN_FELLOW THEN BEGIN
+           OUTNAME(I1); WRITELN;
+         END;
+         WRITE('Who shall have the honor? '); POWN:=INNAME; PREV:=PUSE;
+       END;
+END;
+
+PROCEDURE ON_RING;
+
+BEGIN  IF RING=ON THEN WRITELN('The Ring is already on!') ELSE BEGIN
+         IF RING=CAUGHT THEN BEGIN
+           WRITELN('The Ringbearer flees from his captors!');
+           (* Port fix, 2026: count him in only if he was not back already *)
+           IF FELLOWS[RING_BEARER,1]<>IN_FELLOW THEN BEGIN
+             FELLOWS[RING_BEARER,1]:=IN_FELLOW; MEMB:=MEMB+1;
+           END;
+         END;
+         IF (RING=WRAITH) OR (RING=TAKEN) THEN
+           WRITELN('The Ringbearer is not present!') ELSE BEGIN
+             RING:=ON; RING_ON_THIS_TURN:=TRUE;
+             WRITELN('Ahh, that really felt good!');
+           END;
+       END;
+END;
+
+PROCEDURE OFF_RING;
+
+BEGIN  IF RING<>ON THEN WRITELN('Not possible!') ELSE
+         BEGIN IF RING_ON_THIS_TURN THEN BEGIN
+              WRITELN('Why hurry? Keep the Ring on till next turn!');
+              TAKE_OFF:=TRUE;
+           END
+           ELSE IF TAKE_OFF=TRUE THEN BEGIN
+             OUTNAME(RING_BEARER);
+             WRITELN(' cannot take the Ring off, I''ve said, try next turn!');
+           END ELSE BEGIN
+             IF RING_USED>(SQRT(RAN)*FELLOWS[RING_BEARER,3]*5) THEN BEGIN
+               TAKE_OFF:=TRUE; OUTNAME(RING_BEARER);
+               WRITELN(' cannot take the Ring off!');
+             END ELSE BEGIN
+               RING:=OFF; OUTNAME(RING_BEARER);
+               WRITELN(' reluctantly removes the Ring from his finger!');
+             END;
+           END;
+         END;
+END;
+
+(* Port fix, 2026: MEMB is recounted from FELLOWS in every fight.  When it
+   was too high, a fight with nobody left looked for a fighter for ever. *)
+
+FUNCTION FELLOWS_LEFT: INTEGER;
+
+VAR    I1,J1: INTEGER;
+
+BEGIN  J1:=0;
+       FOR I1:=1 TO MEMBERS DO IF FELLOWS[I1,1]=IN_FELLOW THEN J1:=J1+1;
+       FELLOWS_LEFT:=J1;
+END;
+
+PROCEDURE FIGHT(ATTACKER: BOOLEAN);
+
+LABEL  1;
+
+VAR    I1,J1,INDEX,WHO,FIGHTER,NUMBER,STRENGTH,MSTRE: INTEGER;
+
+       PROCEDURE CHECK_FELLOWSHIP;
+
+       BEGIN MEMB:=FELLOWS_LEFT; IF MEMB=0 THEN BEGIN
+           WRITELN('There is noone left of the fellowship!');
+           WRITELN('The mission has failed!'); END?:=TRUE; NUMBER:=0;
+         END;
+       END;
+
+       PROCEDURE PRINT_FIGHTER;
+
+       VAR I1,J1: INTEGER;
+
+       BEGIN
+         IF NUMBER=1 THEN OUTSTR(ENEMY_SING[WHO])
+         ELSE BEGIN
+           WRITE('a bunch of ');
+           OUTSTR(ENEMY_PLUR[WHO]);
+         END; WRITELN('!');
+       END;
+
+       PROCEDURE SELECT_FIGHTER;
+
+       VAR I1: INTEGER;
+
+       BEGIN
+         CASE ATTACKER OF
+           TRUE:
+             BEGIN
+                 WRITE('Will you fight together or individually (T/I): ');
+                 INSTR(STRANG);
+               IF STRANG[1]<>'I' THEN FIGHTER:=-1 ELSE BEGIN
+                 WRITELN('Ok! The fellowship currently consists of:');
+                 FOR I1:=1 TO MEMBERS DO
+                   IF FELLOWS[I1,1]=IN_FELLOW THEN BEGIN
+                     OUTNAME(I1); WRITELN;
+                   END;
+                 WRITE('Who is now going to fight? ');  
+                 FIGHTER:=INNAME;
+               END;
+             END;
+           FALSE: 
+             BEGIN
+               IF NUMBER<=MEMB+TRUNC(RAN*3) THEN
+                 REPEAT
+                   FIGHTER:=TRUNC(RAN*MEMBERS+1)
+                 UNTIL FELLOWS[FIGHTER,1]=IN_FELLOW
+               ELSE FIGHTER:=-1;
+               IF FIGHTER>0 THEN BEGIN
+                 OUTNAME(FIGHTER); WRITELN(' is attacked!');
+               END ELSE
+                 WRITELN('They attack the whole Fellowship!');
+             END;
+         END;
+       END;
+
+PROCEDURE NOW_WHAT?;
+
+BEGIN  WRITE('(F)ight or (R)un away? ');
+       INSTR(STRANG);
+       IF STRANG[1]='R' THEN BEGIN
+         IF (((RAN>NUMBER/(MEMB*2.5)) OR (RAN<0.15) AND     ATTACKER)   OR
+             ((RAN>NUMBER/(MEMB*1.5)) OR (RAN<0.10) AND NOT ATTACKER)) AND
+              (INDEX>11) THEN WITH ENEMY[INDEX] DO BEGIN
+      WRITELN('You got away! The monsters soon give up pursuit!');
+           ANTAL:=NUMBER; NUMBER:=-2;
+           PLAN^[X,Y]:=PLAN^[X,Y] MOD 16+WHO*16;
+           PLAN^[FX,FY]:=PLAN^[FX,FY] MOD 16;
+           REPEAT
+             REPEAT
+               IF FX>120 THEN DX:=127 ELSE
+                  DX:=FX+TRUNC(10*(RAN+0.5));
+             UNTIL DX<128;
+             DY:=MOD1(FY+TRUNC(20*(RAN-0.5)));
+           UNTIL PLAN^[DX,DY] IN [0,1,2,6,7,8];
+           FX:=DX; FY:=DY;
+         END ELSE
+           IF INDEX>11 THEN
+        WRITELN('You did not make it! You will have to stand and fight!')
+             ELSE WRITELN('You can''t run from Nazgul or Shelob!');
+       END;
+END;
+
+BEGIN  INDEX:=0; IF RING=ON THEN WRITELN;
+       FOR I1:=1 TO ENEMIES DO WITH ENEMY[I1] DO
+         IF (X=FX) AND (Y=FY) THEN INDEX:=I1;
+       IF (INDEX=0) THEN BEGIN
+         WRITELN(FX,FY,PLAN^[FX,FY]);
+         FOR I1:=1 TO ENEMIES DO WITH ENEMY[I1] DO
+           IF TYP=PLAN^[FX,FY] DIV 16 THEN
+             WRITELN(I1,TYP,ANTAL,X,Y);
+         HALT('Enemy error!!');
+       END;
+       WHO:=ENEMY[INDEX].TYP; NUMBER:=ENEMY[INDEX].ANTAL;
+       CHECK_FELLOWSHIP;
+       IF NUMBER=0 THEN WITH ENEMY[INDEX] DO
+          WRITELN(INDEX,TYP,ANTAL,X,Y);
+       IF NUMBER>0 THEN BEGIN
+         IF ATTACKER=FALSE THEN
+           WRITE('You are attacked by ')
+         ELSE
+           WRITE('Now you really are in trouble! You have run into ');
+         PRINT_FIGHTER;
+         REPEAT
+           FIGHTER:=0; 
+           SELECT_FIGHTER;
+1:         STRENGTH:=0; IF FIGHTER>0 THEN STRENGTH:=FELLOWS[FIGHTER,2]
+           ELSE FOR I1:=1 TO MEMBERS DO
+             IF FELLOWS[I1,1]=IN_FELLOW THEN STRENGTH:=STRENGTH+FELLOWS[I1,2];
+           IF (RING=ON) AND ((FIGHTER=RING_BEARER) OR (FIGHTER<0))
+             THEN STRENGTH:=STRENGTH+2;
+           IF FIGHTER>0 THEN MSTRE:=ENEMY_STR[WHO] ELSE
+             MSTRE:=NUMBER*ENEMY_STR[WHO];
+           STRENGTH:=STRENGTH+TRUNC(RAN*6); MSTRE:=MSTRE+TRUNC(RAN*6);
+           IF FIGHTER>0 THEN BEGIN
+             IF MSTRE>STRENGTH+TRUNC(RAN*4-2) THEN BEGIN
+               OUTNAME(FIGHTER); WRITELN(' was killed by his enemy!');
+               MEMB:=MEMB-1; FELLOWS[FIGHTER,1]:=DEAD;
+               IF (NUMBER>MEMB) AND (RAN<0.2) THEN BEGIN
+                 WRITELN('But a monster died too!'); NUMBER:=NUMBER-1;
+               END;
+               CHECK_FELLOWSHIP; IF MEMB>0 THEN BEGIN
+                 IF FIGHTER=RING_BEARER THEN
+                   IF (RAN>0.7) AND (NUMBER>0) THEN BEGIN
+                     WRITELN('The Servants of Sauron took the Ring!');
+                     WRITELN('Your mission has failed!'); END?:=TRUE; NUMBER:=0;
+                   END ELSE SELECT_NEW_RINGBEARER;
+                 IF FIGHTER=POWN THEN
+                   IF (RAN>0.7) AND (NUMBER>0) THEN
+                     WRITELN('The Servants of Sauron took the Palantir!')
+                   ELSE NEW_CARRIER;
+               END;
+             END ELSE IF MSTRE>STRENGTH-TRUNC(RAN*4) THEN BEGIN
+               IF (NOT (WHO IN [WOLF_PACK,BALROG,SHELOB])) AND
+                  (RAN<0.35) THEN BEGIN
+                 OUTNAME(FIGHTER); WRITELN(' got captured by the villains!');
+                 FELLOWS[FIGHTER,1]:=-CAPTURED; MEMB:=MEMB-1;
+                 CHECK_FELLOWSHIP;
+                 IF FIGHTER=RING_BEARER THEN RING:=CAUGHT;
+               END ELSE BEGIN
+                 OUTNAME(FIGHTER); WRITELN(' was knocked unconscious!');
+                 FELLOWS[FIGHTER,1]:=UNCONSCIOUS; MEMB:=MEMB-1;
+                 CHECK_FELLOWSHIP;
+               END;
+             END ELSE IF MSTRE<STRENGTH-TRUNC(RAN*5+2) THEN BEGIN
+               OUTNAME(FIGHTER); WRITE(' killed his opponent');
+               NUMBER:=NUMBER-1; IF MSTRE<STRENGTH-10 THEN WRITE(' easily');
+               IF (MSTRE>=STRENGTH-5) AND (RAN<0.34) THEN BEGIN
+                 WRITE(', but he was killed in the fight');
+                 FELLOWS[FIGHTER,1]:=DEAD; MEMB:=MEMB-1;
+               END;
+               WRITELN('!'); CHECK_FELLOWSHIP;
+               IF (FIGHTER=RING_BEARER) AND (MEMB>0) AND
+                  (FELLOWS[RING_BEARER,1]=DEAD) THEN
+                 SELECT_NEW_RINGBEARER;
+               IF (FIGHTER=POWN) AND (MEMB>0) AND (FELLOWS[POWN,1]=DEAD) THEN
+                 NEW_CARRIER;
+             END ELSE IF (RAN<0.2) AND (INDEX<>SHELOB_I) THEN BEGIN
+               WRITELN('The monster(s) flee from the battlegrounds!');
+               ENEMY[INDEX].ANTAL:=NUMBER; NUMBER:=-1;
+               REPEAT
+                 DX:=TRUNC(RAN*128); DY:=TRUNC(RAN*128);
+               UNTIL PLAN^[DX,DY]<3;
+               ENEMY[INDEX].X:=DX; ENEMY[INDEX].Y:=DY;
+               PLAN^[DX,DY]:=PLAN^[DX,DY] MOD 16+WHO*16;
+             END ELSE GOTO 1;
+           END ELSE BEGIN
+             IF (MSTRE>STRENGTH+TRUNC(RAN*4-2)) AND (MEMB>0) THEN BEGIN
+               REPEAT I1:=TRUNC(RAN*MEMBERS+1) UNTIL FELLOWS[I1,1]=IN_FELLOW;
+               OUTNAME(I1); WRITELN(' was killed by his enemy!');
+               MEMB:=MEMB-1; FELLOWS[I1,1]:=DEAD;
+               IF (NUMBER>MEMB) AND (RAN<0.2) THEN BEGIN
+                 WRITELN('But a monster died too!'); NUMBER:=NUMBER-1;
+               END;
+               CHECK_FELLOWSHIP; IF MEMB>0 THEN BEGIN
+                 IF I1=RING_BEARER THEN
+                   IF (RAN>0.73) AND (NUMBER>0) THEN BEGIN
+                     WRITELN('The Servants of Sauron took the Ring!');
+                     WRITELN('Your mission has failed!');
+                     END?:=TRUE; NUMBER:=0;
+                 END ELSE SELECT_NEW_RINGBEARER;
+                 IF I1=POWN THEN
+                   IF (RAN>0.73) AND (NUMBER>0) THEN
+                     WRITELN('The Servants of Sauron took the Palantir!')
+                   ELSE NEW_CARRIER;
+               END;
+             END ELSE IF (MSTRE>STRENGTH-TRUNC(RAN*4)) AND (MEMB>0) THEN BEGIN
+               IF (NOT (WHO IN [WOLF_PACK,BALROG,SHELOB])) AND
+                  (RAN<0.35) THEN BEGIN
+                 REPEAT I1:=TRUNC(RAN*MEMBERS+1) UNTIL FELLOWS[I1,1]=IN_FELLOW;
+                 OUTNAME(I1); WRITELN(' got captured by the villains!');
+                 FELLOWS[I1,1]:=-CAPTURED; MEMB:=MEMB-1; CHECK_FELLOWSHIP;
+                 IF I1=RING_BEARER THEN RING:=CAUGHT;
+                 IF (NUMBER>MEMB) AND (RAN<0.2) THEN BEGIN
+                   WRITELN('But a monster died!'); NUMBER:=NUMBER-1;
+                 END;
+               END ELSE BEGIN
+                 REPEAT I1:=TRUNC(RAN*MEMBERS+1) UNTIL FELLOWS[I1,1]=IN_FELLOW;
+                 OUTNAME(I1); WRITELN(' was knocked unconscious!');
+                 FELLOWS[I1,1]:=UNCONSCIOUS; MEMB:=MEMB-1; CHECK_FELLOWSHIP;
+                 IF (NUMBER>MEMB) AND (RAN<0.2) THEN BEGIN
+                   WRITELN('But a monster died!'); NUMBER:=NUMBER-1;
+                 END;
+               END;
+             END ELSE IF MSTRE<STRENGTH-TRUNC(RAN*5+2) THEN BEGIN
+               WRITE('One villain was killed');
+               NUMBER:=NUMBER-1; IF MSTRE<STRENGTH-10 THEN WRITE(' easily');
+               IF (MSTRE>=STRENGTH-5) AND (RAN<0.34) THEN BEGIN
+                 REPEAT I1:=TRUNC(RAN*MEMBERS+1) UNTIL FELLOWS[I1,1]=IN_FELLOW;
+                 WRITE(', but '); OUTNAME(I1); MEMB:=MEMB-1;
+                 WRITE(' was killed in the fight'); FELLOWS[I1,1]:=DEAD;
+                 IF I1=RING_BEARER THEN SELECT_NEW_RINGBEARER;
+                 IF I1=POWN THEN NEW_CARRIER;
+               END;
+               WRITELN('!'); CHECK_FELLOWSHIP;
+             END ELSE IF (RAN<0.2) AND (INDEX<>SHELOB_I) THEN BEGIN
+               WRITELN('The monster(s) flee from the battlegrounds!');
+               ENEMY[INDEX].ANTAL:=NUMBER; NUMBER:=-1;
+               REPEAT
+                 DX:=TRUNC(RAN*128); DY:=TRUNC(RAN*128);
+               UNTIL PLAN^[DX,DY]<3;
+               ENEMY[INDEX].X:=DX; ENEMY[INDEX].Y:=DY;
+               PLAN^[DX,DY]:=PLAN^[DX,DY] MOD 16+WHO*16;
+             END ELSE GOTO 1;
+           END;
+           IF NUMBER>0 THEN NOW_WHAT?;
+         UNTIL NUMBER<1;
+         IF NUMBER=0 THEN BEGIN
+            ENEMY[INDEX].ANTAL:=0;
+            ENEMY[INDEX].X:=128;
+         END;
+         ENEMY[INDEX].ANTAL:=ABS(ENEMY[INDEX].ANTAL);
+         PLAN^[FX,FY]:=PLAN^[FX,FY] MOD 16;
+         FOR I1:=1 TO MEMBERS DO BEGIN
+           IF FELLOWS[I1,1]=-CAPTURED THEN
+             IF NUMBER<0 THEN FELLOWS[I1,1]:=CAPTURED
+             ELSE BEGIN
+               FELLOWS[I1,1]:=IN_FELLOW; MEMB:=MEMB+1;
+             END;
+           IF FELLOWS[I1,1]=UNCONSCIOUS THEN
+             IF NUMBER>-2 THEN BEGIN
+                 FELLOWS[I1,1]:=IN_FELLOW; MEMB:=MEMB+1;
+               END
+             ELSE FELLOWS[I1,1]:=CAPTURED;
+         END;
+         IF RING_BEARER>0 THEN
+           IF (FELLOWS[RING_BEARER,1]=IN_FELLOW) AND (RING=CAUGHT) THEN
+             RING:=OFF;
+       END;
+END;
+
+PROCEDURE SEIZER(WHO: INTEGER);
+
+BEGIN  IF WHO=0 THEN WRITE('Gollum') ELSE OUTNAME(WHO);
+END;
+
+PROCEDURE SEIZE?(WHO: INTEGER);
+
+VAR    I1,STRENGTH: INTEGER;
+
+BEGIN  IF RING IN [ON,OFF] THEN BEGIN
+         SEIZER(WHO); WRITELN(' attempts to seize the Ring!');
+         STRENGTH:=ENEMY_STR[GOLLUM]+TRUNC(RAN*6);
+         IF WHO>0 THEN STRENGTH:=FELLOWS[WHO,2]+TRUNC(RAN*6);
+         IF STRENGTH>FELLOWS[RING_BEARER,2]+TRUNC(RAN*6) THEN BEGIN
+           SEIZER(WHO);
+           WRITELN(' kills the Ring-bearer and takes the Ring!');
+           IF WHO=0 THEN GOLLUM_STATUS:=GOT_THE_RING
+           ELSE FELLOWS[WHO,1]:=TRAITOR;
+           FELLOWS[RING_BEARER,1]:=DEAD; RING_USED:=0;
+           MEMB:=MEMB-1; RING:=TAKEN;
+           IF WHO>0 THEN BEGIN
+             MEMB:=MEMB-1;
+             TRX:=RSIGN(RAN-0.5)*TRUNC(RAN*2.0+2.0)+FX;
+             TRY:=RSIGN(RAN-0.5)*TRUNC(RAN*2.0+2.0)+FY;
+           END;
+           IF (POWN=RING_BEARER) AND (MEMB>0) THEN NEW_CARRIER;
+           RING_BEARER:=WHO;
+           IF MEMB=0 THEN BEGIN
+             WRITELN('There is noone left of the Fellowship!');
+             SEIZER(WHO); WRITELN(' has won!!!'); END?:=TRUE;
+           END; IF END?=FALSE THEN BEGIN
+             IF RAN<0.65 THEN WRITELN('He dissappears with the Ring!')
+             ELSE BEGIN
+               REPEAT I1:=TRUNC(RAN*MEMBERS+1) UNTIL FELLOWS[I1,1]=IN_FELLOW;
+               WRITE('But '); OUTNAME(I1); WRITELN(' attacks him!');
+               IF STRENGTH>FELLOWS[I1,2]+TRUNC(RAN*6) THEN BEGIN
+                 SEIZER(WHO); WRITE(' kills '); OUTNAME(I1);
+                 WRITELN(' too!');
+                 FELLOWS[I1,1]:=DEAD; MEMB:=MEMB-1; IF MEMB=0 THEN BEGIN
+                   WRITELN('There is noone left of the Fellowship!');
+                   SEIZER(WHO); WRITELN(' has won!!!'); END?:=TRUE;
+                 END;
+                 IF I1=POWN THEN NEW_CARRIER;
+               END ELSE BEGIN
+                 IF WHO=0 THEN BEGIN
+                   WRITELN('He succeeds in capturing Gollum!');
+                   GOLLUM_STATUS:=UNTIED; SELECT_NEW_RINGBEARER;
+                   ENEMY_STR[7]:=ENEMY_STR[7]+TRUNC(RAN*2+1);
+                 END ELSE BEGIN
+                   WRITE('He succeeds in killing '); OUTNAME(WHO);
+                   WRITELN('!'); FELLOWS[WHO,1]:=DEAD; SELECT_NEW_RINGBEARER;
+                   IF WHO=POWN THEN NEW_CARRIER;
+                 END;
+               END;
+             END;
+           END;
+         END ELSE BEGIN
+           WRITELN('He failes!'); IF WHO=0 THEN BEGIN
+             IF RAN>0.6 THEN BEGIN
+               GOLLUM_STATUS:=HUNTING; WRITELN('Gollum flees!');
+             END ELSE BEGIN
+               GOLLUM_STATUS:=UNTIED; WRITELN('Now you got him!');
+             END;
+             ENEMY_STR[7]:=ENEMY_STR[7]+TRUNC(RAN*2+1);
+           END
+           ELSE IF RAN<0.85 THEN BEGIN
+                WRITE('You kill '); OUTNAME(WHO); WRITELN('!');
+                FELLOWS[WHO,1]:=DEAD; MEMB:=MEMB-1;
+                IF WHO=POWN THEN NEW_CARRIER;
+              END ELSE BEGIN
+                WRITELN('He regains his senses and is very remorseful!');
+                WRITELN('He swears by Eru not to try again!');
+                FELLOWS[WHO,4]:=FELLOWS[WHO,4]+3;
+              END;
+         END;
+       END;
+END;
+
+PROCEDURE GET_RING;
+
+VAR    I1,STRENGTH: INTEGER;
+
+BEGIN  WRITELN('You just bumped into Gollum!');
+       STRENGTH:=0; FOR I1:=1 TO MEMBERS DO
+         IF FELLOWS[I1,1]=IN_FELLOW THEN STRENGTH:=STRENGTH+FELLOWS[I1,2];
+       IF STRENGTH>ENEMY_STR[7]+4+TRUNC(RAN*6) THEN BEGIN
+         WRITELN('You take the Ring from him and capture him!');
+         SELECT_NEW_RINGBEARER;
+         GOLLUM_STATUS:=UNTIED;
+       END ELSE BEGIN
+         WRITELN('Gollum has become too strong, and kills the lot of you!');
+         FOR I1:=1 TO MEMBERS DO
+            IF FELLOWS[I,1]=IN_FELLOW THEN FELLOWS[I1,1]:=DEAD;
+         END?:=TRUE;
+       END;
+END;
+
+PROCEDURE FIGHT_TRAITOR;
+
+VAR    I1,STRENGTH: INTEGER;
+
+BEGIN  WRITELN('You have found the traitor!');
+       FOR I1:=1 TO MEMBERS DO
+         IF FELLOWS[I1,1]=IN_FELLOW THEN STRENGTH:=STRENGTH+FELLOWS[I1,2];
+       IF STRENGTH+TRUNC(RAN*6)<FELLOWS[RING_BEARER,2]+TRUNC(RAN*6) THEN BEGIN
+         WRITE('Unfortunately '); OUTNAME(RING_BEARER);
+         WRITELN(' has become VERY strong and killed the lot of you!');
+         WRITELN('Your mission has failed!');
+         END?:=TRUE;
+         FOR I1:=1 TO MEMBERS DO
+            IF FELLOWS[I,1]=IN_FELLOW THEN FELLOWS[I1,1]:=DEAD;
+       END ELSE
+         IF RAN<0.90 THEN BEGIN
+         WRITE('You have killed '); OUTNAME(RING_BEARER);
+         WRITE(' and taken the Ring from his finger');
+         IF (MEMB>2) AND (RAN<0.07*MEMB) THEN BEGIN
+           WRITELN(','); ; WRITE('but ');
+           REPEAT
+             I1:=TRUNC(RAN*MEMBERS+1);
+           UNTIL FELLOWS[I1,1]=IN_FELLOW;
+           MEMB:=MEMB-1; OUTNAME(I1); WRITELN(' died in the fight!');
+           FELLOWS[I1,1]:=DEAD;
+           IF POWN=I1 THEN NEW_CARRIER;
+         END ELSE WRITELN('.');
+         FELLOWS[RING_BEARER,1]:=DEAD;
+         IF POWN=RING_BEARER THEN NEW_CARRIER;
+         SELECT_NEW_RINGBEARER;
+       END
+       ELSE BEGIN
+         OUTNAME(RING_BEARER);
+         WRITELN(' regrets what he has done, and swears by Eru that he will');
+         WRITELN('not do this again.'); FELLOWS[RING_BEARER,1]:=IN_FELLOW;
+         RING:=OFF; RING_USED:=0; MEMB:=MEMB+1;
+       END;
+END;
+
+PROCEDURE MOVER;
+
+LABEL  1,2,3;
+
+VAR    I1,J1,K1,NX,NY,B,STEP: INTEGER;
+       COST: REAL;
+
+BEGIN  I1:=PLAN^[FX,FY] MOD 16; PLAN^[FX,FY]:=I1; STEP:=0;
+1:     NX:=MOD1(FX+DX); NY:=MOD1(FY+DY); J1:=PLAN^[NX,NY] MOD 16;
+       I1:=PLAN^[FX,FY] MOD 16;
+       IF ABS(DX)+ABS(DY)>1 THEN
+         IF (PLAN^[NX,FY] MOD 16 IN [RIVER,FORD]) AND
+            (PLAN^[FX,NY] MOD 16 IN [RIVER,FORD]) AND
+            (I1<>FORD) AND (J1<>FORD) AND (I1<>ROAD) AND (J1<>ROAD) AND
+            (I1<>MAIN_ROAD) AND (J1<>MAIN_ROAD) THEN BEGIN
+           WRITE('You cannot cross the river there,');
+           WRITELN(' try Bridge (-,=) or Ford (+)'); GOTO 2;
+         END;
+       COST:=(TCOST[I1]+TCOST[J1])*SQRT(DX*DX+DY*DY)/2.0;
+       IF COST>MP THEN BEGIN
+         COST:=-99; 
+         IF MP1<=1 THEN B:=0 ELSE B:=1;
+         GOTO 3;
+       END;
+       CASE J1 OF
+         MOUNTAIN: IF I1=MOUNTAIN THEN BEGIN
+                     WRITELN('The mountain is too steep here!');
+                     GOTO 2;
+                   END;
+         SWAMP:    IF NOT (GOLLUM_STATUS IN [TIED,UNTIED]) THEN BEGIN
+                     WRITELN('You can''t cross a Swamp without Gollum!');
+                     GOTO 2;
+                   END
+                   ELSE IF GOLLUM_STATUS=TIED THEN BEGIN
+                     WRITELN('Gollum refuses to help you through the swamp!');
+                     GOTO 2;
+                   END;
+         RIVER:    BEGIN
+                     WRITE('You attempted to drown the fellowship,');
+                     WRITELN(' but that isn''t allowed!'); GOTO 2;
+                   END;
+         TOWER:    BEGIN
+                     WRITELN('Sauron doesn''t like strangers to enter his');
+                     WRITELN('towers, but he lets you stay in his cellar!');
+                     WRITELN('The mission has failed!');
+                     END?:=TRUE; GOTO 2;
+                   END;
+         MT_DOOM:  BEGIN
+                     WRITELN('Congratulations! You have arrived at Mt. Doom!');
+                     IF RING IN [ON,OFF] THEN
+       WRITELN('Now you just have to throw the Ring into the volcano to win!');
+                     K:=0; L:=0; THROW_IT:=TRUE;
+                     FOR K1:=3 TO 11 DO IF ENEMY[K1].ANTAL=1 THEN BEGIN
+                       IF K=0 THEN K:=K1; L:=L+1; ENEMY[K1].ANTAL:=0;
+                       PLAN^[ENEMY[K1].X,ENEMY[K1].Y]:=
+                         PLAN^[ENEMY[K1].X,ENEMY[K1].Y] MOD 16;
+                       ENEMY[K1].X:=128;
+                     END;
+                     IF K>0 THEN BEGIN
+                       ENEMY[K].ANTAL:=L;
+                       REPEAT
+                         ENEMY[K].X:=MOD1(FX+TRUNC(SQR(RAN)*7-3));
+                         ENEMY[K].Y:=MOD1(FY+TRUNC(SQR(RAN)*7-3));
+                       UNTIL PLAN^[ENEMY[K].X,ENEMY[K].Y]<16;
+                       PLAN^[ENEMY[K].X,ENEMY[K].Y]:=
+                         PLAN^[ENEMY[K].X,ENEMY[K].Y]+16*NAZGUL;
+                     END;
+                   END;
+         BARAD_DUR: BEGIN
+                      WRITE('You Fool! You have now entered the Black Tower ');
+                      WRITELN('of evil!');
+                      WRITE('Sauron comes to greet you');
+                      IF RING IN [ON,OFF] THEN
+                        WRITELN(', and he takes the Ring!')
+                      ELSE WRITELN('.');
+                      WRITELN('Your mission has failed!'); END?:=TRUE; GOTO 2;
+                    END;
+         TUNNEL:    IF (NX=ENEMY[SHELOB_I].X) AND (NY=ENEMY[SHELOB_I].Y) AND
+                       (ENEMY[SHELOB_I].ANTAL>0) THEN
+                      BEGIN FX:=NX; FY:=NY;
+                        IF RAN>0.4 THEN FIGHT(FALSE) ELSE FIGHT(TRUE);
+                      END;
+         ROUGH,GRASS,TREES,ROAD,MAIN_ROAD,FORD:
+       END;
+       FX:=NX; FY:=NY; MP:=MP-COST; B:=0;
+       IF PLAN^[FX,FY]>15 THEN IF PLAN^[FX,FY] DIV 16<>GOLLUM THEN FIGHT(TRUE)
+         ELSE IF RING=TAKEN THEN GET_RING ELSE SEIZE?(0);
+       IF ((RING=WRAITH) OR ((RING=TAKEN) AND (RING_BEARER>0))) AND
+          (FX=TRX) AND (FY=TRY) THEN FIGHT_TRAITOR;
+       IF END?=TRUE THEN GOTO 2;
+       IF PLAN^[FX,FY]=FORD THEN IF RAN<0.12 THEN BEGIN
+          WRITELN('You lost your footing and are swept away by the current!');
+          REPEAT
+             REPEAT
+                NX:=TRUNC((RAN-0.5)*20)+FX;
+             UNTIL NX<128;
+             NY:=MOD1(TRUNC((RAN-0.5)*20)+FY);
+          UNTIL PLAN^[NX,NY]=RIVER;
+          WHILE PLAN^[NX,NY]=RIVER DO NX:=NX+1;
+          FX:=NX; FY:=NY;
+       END;
+3:     FOR I1:=FX-1 TO FX+1 DO
+         FOR J1:=FY-1 TO FY+1 DO
+           IF ((I1<>FX) OR (J1<>FY)) AND
+              (TCOST[PLAN^[MOD1(I1),MOD1(J1)] MOD 16]<MP) THEN B:=1;
+       IF (COST=-99) AND (B=1) AND (MP1<=1.0) THEN BEGIN
+         WRITELN('You cannot move that far this turn, type ''0'' to quit!');
+         GOTO 2;
+       END;
+       STEP:=STEP+1; IF (MP1>1) AND ((COST=-99) OR (B=0)) THEN BEGIN
+         WRITELN('You moved ',STEP:1,' steps.'); READY:=TRUE; GOTO 2;
+       END;
+       IF B=0 THEN BEGIN
+         WRITELN('You can''t move anymore this turn!'); READY:=TRUE;
+         GOTO 2;
+       END;
+       IF STEP<MP1 THEN GOTO 1;
+2:     PLAN^[FX,FY]:=FELLOWSHIP*16+(PLAN^[FX,FY] MOD 16);
+END;
+
+PROCEDURE FOLLOW_ROAD;
+
+LABEL  1;
+
+VAR    I1,ROAD?,STEP,NX,NY: INTEGER;
+       COST: REAL;
+
+BEGIN  STEP:=0;
+1:     ROAD?:=0; FOR I1:=FY-1 TO FY+1 DO
+         IF PLAN^[MOD1(FX-1),MOD1(I1)] MOD 16 IN [ROAD,MAIN_ROAD,FORD] THEN
+           ROAD?:=ROAD?*10+I1+2-FY;
+       IF ROAD?=0 THEN WRITELN('Oops! There is something in your way!')
+         ELSE IF ROAD?>3 THEN WRITELN('Oops! Fork in road!')
+           ELSE BEGIN
+             COST:=TCOST[PLAN^[MOD1(FX-1),MOD1(FY-2+ROAD?)] MOD 16];
+             IF ODD(ROAD?)=TRUE THEN COST:=COST*SQRT(2);
+             IF MP-COST<2 THEN BEGIN
+               WRITE('You moved ',STEP:1,' steps. If you proceed, ');
+               WRITELN('you may get tired!');
+             END ELSE BEGIN
+               STEP:=STEP+1; MP:=MP-COST; PLAN^[FX,FY]:=PLAN^[FX,FY] MOD 16;
+               FX:=MOD1(FX-1); FY:=MOD1(FY-2+ROAD?);
+               IF PLAN^[FX,FY]>15 THEN IF PLAN^[FX,FY] DIV 16<>GOLLUM THEN
+                 FIGHT(TRUE) ELSE IF RING=TAKEN THEN GET_RING ELSE SEIZE?(0);
+               IF PLAN^[FX,FY]=FORD THEN IF RAN<0.12 THEN BEGIN
+          WRITELN('You lost your footing and are swept away by the current!');
+                 REPEAT
+                   REPEAT
+                      NX:=TRUNC((RAN-0.5)*20)+FX;
+                   UNTIL NX<128;
+                   NY:=MOD1(TRUNC((RAN-0.5)*20)+FY);
+                 UNTIL PLAN^[NX,NY]=RIVER;
+                 WHILE PLAN^[NX,NY]=RIVER DO NX:=NX+1;
+                 FX:=NX; FY:=NY;
+               END;
+               PLAN^[FX,FY]:=PLAN^[FX,FY] MOD 16+FELLOWSHIP*16;
+               IF END?=FALSE THEN GOTO 1;
+             END;
+           END;
+END;
+
+PROCEDURE KILL_GOLLUM;
+
+BEGIN  IF NOT (GOLLUM_STATUS IN [UNTIED,TIED]) THEN
+         WRITELN('You can''t kill Gollum when he isn''t there!') ELSE BEGIN
+            WRITELN('Ahhhhhhgggghhh????'); GOLLUM_STATUS:=KILLED;
+         END;
+END;
+
+PROCEDURE ASK_GOLLUM;
+
+VAR    CAP: BOOLEAN;
+
+BEGIN  IF NOT (GOLLUM_STATUS IN [TIED,UNTIED]) THEN
+         WRITELN('Gollum is not here!') ELSE
+         IF GOLLUM_ANGRY>0 THEN
+           WRITELN('Gollum is angry, and refuses to speak to you!')
+         ELSE IF FX<GOLLX THEN WRITELN('Gollum won''t speak!') ELSE BEGIN
+             DX:=FX-GOLLX; DY:=FY-GOLLY;
+             IF ABS(DY)>64 THEN DY:=DY-128*SIGN(DY);
+             WRITE('Gollum suggests that you go '); CAP:=TRUE;
+             IF DX>=ABS(DY) THEN BEGIN
+               WRITE('North'); CAP:=FALSE;
+             END;
+             DX:=TRUNC(SQRT(DX*DX+DY*DY)/2); IF DX>=ABS(DY) THEN WRITELN('.')
+             ELSE IF DY>0 THEN BEGIN
+               IF CAP=TRUE THEN WRITE('W') ELSE WRITE('w');
+               WRITELN('est.');
+             END ELSE IF DY<0 THEN BEGIN
+               IF CAP=TRUE THEN WRITE('E') ELSE WRITE('e');
+               WRITELN('ast.');
+             END;
+             IF CAP AND (DY=0) THEN WRITELN('nowhere. (Hehehe.)');
+           END;
+END;
+
+PROCEDURE PLACE_GOLLUM;
+
+BEGIN  WITH ENEMY[1] DO BEGIN
+         REPEAT
+           X:=MOD1(FX+TRUNC(RAN*9-4));
+           Y:=MOD1(FY+TRUNC(RAN*9-4));
+         UNTIL PLAN^[X,Y]<16;
+         PLAN^[X,Y]:=PLAN^[X,Y] MOD 16+GOLLUM*16;
+       END;
+END;
+
+PROCEDURE MOVE_GOLLUM;
+
+VAR    STEG,GX,GY: INTEGER;
+
+BEGIN  GX:=ENEMY[1].X; GY:=ENEMY[1].Y;
+       PLAN^[GX,GY]:=PLAN^[GX,GY] MOD 16;
+       DX:=TRUNC(RAN*4+2); DY:=TRUNC(RAN*9-4);
+       REPEAT
+         DX:=DX-1;
+       UNTIL (PLAN^[MOD1(GX+DX),MOD1(GY+DY)]<16) OR
+             (DX<1) OR
+             (GX+DX>127);
+       IF GX+DX>127 THEN GOLLUM_STATUS:=OFF_MAP
+       ELSE BEGIN
+         GX:=MOD1(GX+DX); ENEMY[1].X:=GX;
+         GY:=MOD1(GY+DY); ENEMY[1].Y:=GY;
+         PLAN^[GX,GY]:=PLAN^[GX,GY] MOD 16+16*GOLLUM;
+       END;
+END;
+
+PROCEDURE MOVE_ENEMIES;
+
+VAR    I1,J1,EX,EY,DIST: INTEGER;
+
+BEGIN  FOR I1:=3 TO ENEMIES DO WITH ENEMY[I1] DO
+         IF (ANTAL>0) AND (END?=FALSE) THEN BEGIN
+           IF ((RING=ON) AND ((TYP=NAZGUL) OR
+               (RAN<SQR(1.0*PLACES_FALLEN)/400.0))) OR
+              (RAN<SQR(1.0*PLACES_FALLEN)/600.0) OR
+              (SCAN(FX,FY,X,Y,7)>-1) OR
+              ((SQRT((FX-X)*(FX-X)+(FY-Y)*(FY-Y))<8) AND (RAN>0.9)) OR
+              ((I1<=PUSE*3+3) AND (RAN<0.65)) OR
+              (SEE=TRUE) THEN BEGIN
+             SEE:=TRUE;
+             DIST:=TRUNC((ABS(X-FX)+ABS(Y-FY))*SQRT(RAN)+2);
+             IF DIST>4 THEN DIST:=TRUNC(RAN*4+2);
+             IF RING=ON THEN WRITE(OUT_L[TYP],DIST:1,' ');
+             REPEAT
+               IF (X=FX) AND (Y=FY) AND (END?=FALSE) THEN
+                 FIGHT(FALSE);
+               DY:=SIGN(FY-Y); IF ABS(FY-Y)>64 THEN DY:=-DY;
+               DX:=SIGN(FX-X); IF ABS(FX-X)>64 THEN DX:=-DX;
+               IF (RAN>0.5) AND (DX<>0) THEN DY:=0 ELSE
+                 IF (RAN>0.5) AND (DY<>0) THEN DX:=0;
+               J1:=PLAN^[MOD1(X+DX),MOD1(Y+DY)];
+               IF (J1 DIV 16 IN [0,FELLOWSHIP]) AND
+                  (NOT (J1 IN [MOUNTAIN,RIVER,TUNNEL])) THEN BEGIN
+                 PLAN^[X,Y]:=PLAN^[X,Y] MOD 16;
+                 X:=MOD1(X+DX); Y:=MOD1(Y+DY);
+               END; DIST:=DIST-1;
+             UNTIL (DIST<=0) OR (ANTAL<1) OR (END?=TRUE);
+             IF (X=FX) AND (Y=FY) AND (END?=FALSE) THEN 
+               FIGHT(FALSE);
+             IF ANTAL>0 THEN 
+               PLAN^[X,Y]:=PLAN^[X,Y] MOD 16+16*TYP;
+             IF ANTAL=0 THEN X:=128;
+             IF (RAN<0.20) AND (SCAN(FX,FY,X,Y,7)<0) THEN
+               SEE:=FALSE;
+           END;
+         END;
+       WRITELN;
+END;
+
+PROCEDURE CHECK_CAPTIVES;
+
+VAR    I1: INTEGER;
+
+BEGIN  FOR I1:=1 TO MEMBERS DO
+         IF FELLOWS[I1,1]=CAPTURED THEN
+           IF RAN<FELLOWS[I1,2]/45 THEN BEGIN
+             WRITE('Suddenly '); OUTNAME(I1);
+             WRITELN(' pops up out of nowhere! He has escaped from the');
+             WRITELN('hords of Sauron that caught him!');
+             FELLOWS[I1,1]:=IN_FELLOW; MEMB:=MEMB+1;
+             (* Port fix, 2026: a Ring-bearer who escapes has the Ring again;
+                it stayed CAUGHT, and ON counted him in a second time *)
+             IF (I1=RING_BEARER) AND (RING=CAUGHT) THEN RING:=OFF;
+           END ELSE
+             IF RAN<(14-FELLOWS[I1,2])/200 THEN BEGIN
+                WRITELN('A little bird comes fluttering by, and tweeks:');
+                WRITE('I am sorry, but '); OUTNAME(I1);
+                WRITELN(' has been tortured to death!');
+                FELLOWS[I1,1]:=DEAD;
+                IF I1=RING_BEARER THEN BEGIN
+          WRITELN('The search of his body resulted in the finding of the Ring!');
+                   WRITELN('Your mission has failed!'); END?:=TRUE;
+                END;
+                IF I1=POWN THEN
+          WRITELN('The search of his body resulted in the finding of the Palantir!');
+             END;
+END;
+           
+FUNCTION FALLEN(PLACE_NAME: PLACES; VAR LEFT: INTEGER): BOOLEAN;
+
+VAR    I1,J1: INTEGER;
+
+BEGIN  J1:=ORD(PLACE_NAME)+3; LEFT:=0;
+       FOR I1:=1 TO EXISTMEMB DO
+         IF FELLOWS[I1,1]=J1 THEN LEFT:=LEFT+1;
+       IF LEFT=0 THEN FALLEN:=TRUE ELSE FALLEN:=FALSE;
+END;
+
+PROCEDURE CHECK_WARS;
+
+VAR    I1,J1,K1: INTEGER;
+       ONE_KILLED: BOOLEAN;
+
+BEGIN  ONE_KILLED:=FALSE;
+       FOR I1:=0 TO 4 DO
+         IF (FALLEN(PLACES(I1),J1)=FALSE) AND (RAN<(10-J1)/150) AND
+            (ONE_KILLED=FALSE) THEN BEGIN
+           WRITELN('Gwaihir, the Lord of the Winds, brings you a sad message:');
+           REPEAT K1:=TRUNC(RAN*EXISTMEMB+1) UNTIL FELLOWS[K1,1]=I1+3;
+           OUTNAME(K1); WRITE(' has just died, fighting in ');
+           OUTSTR(PLACE[I1+1]); WRITELN('!'); J1:=J1-1;
+           IF J1>1 THEN WRITELN('But it can still withstand Saurons attacks!');
+           IF J1=1 THEN WRITELN('The situation there begins to look crucial!');
+           IF J1=0 THEN
+        WRITELN('The Citadel there has fallen to the Dark Lord''s minions!');
+           FELLOWS[K1,1]:=DEAD; ONE_KILLED:=TRUE;
+         END;
+END;
+
+PROCEDURE DO_NOTHING;
+
+VAR    I1,J1: INTEGER;
+       K1:    REAL;
+       PRT:   BOOLEAN;
+
+BEGIN  RING_ON_THIS_TURN:=FALSE; TAKE_OFF:=FALSE; READY:=FALSE;
+       K1:=0;
+       FOR I1:=-3 TO 3 DO
+         FOR J1:=-3 TO 3 DO
+           IF (PLAN^[MOD1(FX+I1),MOD1(FY+J1)] MOD 16=SWAMP) THEN
+              IF (I1=0) AND (J1=0) THEN K1:=K1+1 ELSE
+                 K1:=K1+1/SQRT(I1*I1+J1*J1);
+       IF K1>RAN*20 THEN MIST:=TRUE;
+       IF (PLAN^[FX,FY]=SWAMP) AND (RAN>0.4) THEN MIST:=TRUE;
+       IF (RAN>0.44*K1) AND (RAN<0.72) THEN MIST:=FALSE;
+       THROW_IT:=FALSE;
+       IF GOLLUM_STATUS=TIED THEN GOLLUM_ANGRY:=GOLLUM_ANGRY+2;
+       IF GOLLUM_STATUS=UNTIED THEN GOLLUM_ANGRY:=GOLLUM_ANGRY-1;
+       IF (GOLLUM_STATUS=UNTIED) AND
+          (RAN<SQR((128.0+GOLLUM_ANGRY-FX)/250.0)/2.0) THEN BEGIN
+         IF (FELLOWS[RING_BEARER,3]<ENEMY_STR[7]+TRUNC(RAN*4)) OR
+            (RAN<0.25) THEN SEIZE?(0);
+         IF GOLLUM_STATUS=GOT_THE_RING THEN PLACE_GOLLUM;
+       END;
+       IF (GOLLUM_STATUS=HUNTING) AND (RAN<(128-FX)/200) THEN BEGIN
+         SEIZE?(0);
+         IF GOLLUM_STATUS=GOT_THE_RING THEN PLACE_GOLLUM;
+       END;
+       IF GOLLUM_STATUS=GOT_THE_RING THEN MOVE_GOLLUM;
+       IF GOLLUM_STATUS=OFF_MAP THEN BEGIN
+         WRITELN('Gollum has reached his lair in the Misty Mountains!');
+         WRITELN('Your mission has failed!'); END?:=TRUE; TIRED:=0; MP:=5.0;
+       END;
+       IF NOT END? THEN BEGIN
+         IF (RING=OFF) AND (RAN<0.12) THEN
+           IF (RAN*(4+RING_USED)>FELLOWS[RING_BEARER,3]) THEN BEGIN
+             OUTNAME(RING_BEARER); WRITELN(' suddenly dons the Ring!');
+             RING:=ON;
+           END;
+         CHECK_CAPTIVES; CHECK_WARS; MOVE_ENEMIES;
+         IF GDEAD AND NOT GRES THEN BEGIN
+           IF WHITE>0 THEN WHITE:=WHITE-1;
+           IF (WHITE=0) AND (RAN<0.05) THEN BEGIN
+             WRITELN('Suddenly Gandalf the White comes carried by Gwaihir!');
+             FELLOWS[11,2]:=14; FELLOWS[11,1]:=IN_FELLOW;
+             GRES:=TRUE; GDEAD:=FALSE; MEMB:=MEMB+1;
+           END;
+         END;
+         IF (FELLOWS[11,1]=DEAD) AND NOT (GRES OR GDEAD) THEN BEGIN
+           GDEAD:=TRUE; WHITE:=TRUNC(RAN*20+25);
+         END;
+         PLACES_FALLEN:=0; FOR I1:=0 TO 4 DO
+           IF FALLEN(PLACES(I1),L)=FALSE THEN PLACES_FALLEN:=PLACES_FALLEN+1;
+         PLAN^[FX,FY]:=PLAN^[FX,FY] MOD 16+FELLOWSHIP*16;
+         FOR I1:=1 TO MEMBERS DO
+           IF (RING IN [ON,OFF]) AND (RING_BEARER<>I1) AND
+              (RAN<PLACES_FALLEN/150) AND (FELLOWS[I1,1]=IN_FELLOW) AND
+              (RAN<SQR(9-FELLOWS[I1,4])/500) THEN SEIZE?(I1);
+         IF ((RING=TAKEN) AND (RING_BEARER>0) AND
+             (FELLOWS[RING_BEARER,1]=TRAITOR)) OR
+            (RING=WRAITH) THEN BEGIN
+           IF RING=TAKEN THEN BEGIN
+             TRX:=TRX+TRUNC(RAN*2+1);
+             TRY:=TRY+TRUNC(RAN*3-1);
+           END ELSE BEGIN
+             TRX:=TRX-SIGN(TRX-TOWERS[BD_INDEX,1])*TRUNC(RAN*3);
+             TRY:=TRY-SIGN(TRY-TOWERS[BD_INDEX,2])*TRUNC(RAN*3);
+           END;
+           IF TRX>127 THEN BEGIN
+             OUTNAME(RING_BEARER);
+             WRITELN(' has reached Minas Tirith with the Ring!');
+             IF FALLEN(MINAS_TIRITH,L)=TRUE THEN
+               WRITELN('He singelhandedly kills all of Saurons forces there!')
+             ELSE BEGIN
+               WRITE('He kills '); PRT:=FALSE;
+               FOR I1:=1 TO EXISTMEMB DO
+                 IF FELLOWS[I1,1]=AT_MINTIR THEN BEGIN
+                   IF PRT THEN WRITE(', ');
+                   FELLOWS[I1,1]:=DEAD; OUTNAME(I1); PRT:=TRUE;
+                 END;
+               WRITELN('.');
+             END;
+             WRITELN('He declares himself as the Ruler of the Ring!');
+             WRITELN('Your mission has failed!'); END?:=TRUE;
+           END;
+           TRX:=MOD1(TRX); TRY:=MOD1(TRY);
+           IF PLAN^[TRX,TRY]=BARAD_DUR THEN BEGIN
+             OUTNAME(RING_BEARER);
+             WRITELN(' has reached Barad-Dur with the Ring!');
+             END?:=TRUE; IF RAN>0.5 THEN
+               WRITELN('He kills Sauron and becomes the new master of evil!')
+             ELSE
+               WRITELN('Sauron kills him and regains the Ring!');
+             WRITELN('On your knees!!'); TIRED:=0; MP:=5;
+           END;
+         END;
+         IF (RAN*(PUSE-PREV)>FELLOWS[POWN,3]) AND
+            (FELLOWS[POWN,1]=IN_FELLOW) AND NOT END? THEN BEGIN
+           OUTNAME(POWN); WRITELN(' suddenly got stark raving mad!');
+           WRITELN('Before you could stop him, he incinerated himself!');
+           WRITELN('The Palantir was rendered useless!');
+           FELLOWS[POWN,1]:=DEAD; MEMB:=MEMB-1;
+           IF MEMB>0 THEN BEGIN
+             IF POWN=RING_BEARER THEN SELECT_NEW_RINGBEARER;
+           END ELSE BEGIN
+             WRITELN('There is noone left of the fellowship!');
+             WRITELN('Your mission has failed!'); END?:=TRUE;
+           END;
+         END;
+         IF (MP=(5-TIRED)) OR (MP=0) THEN TIRED:=ABS(TIRED)-2 ELSE
+           TIRED:=TIRED+(2.0-MP)/2.0; IF TIRED<0.06 THEN TIRED:=0;
+         MP:=5-TIRED; IF MP<0.75 THEN BEGIN
+           MP:=0.0; WRITELN('You are very tired and must rest this turn!');
+         END;
+       END;
+END;
+
+PROCEDURE THROW_RING;
+
+BEGIN  IF THROW_IT=TRUE THEN WRITELN('Try again next turn!') ELSE
+         IF RING IN [WRAITH,CAUGHT] THEN
+           WRITELN('You can''t throw something you don''t have!') ELSE
+           IF PLAN^[FX,FY] MOD 16<>MT_DOOM THEN BEGIN
+             WRITELN('You don''t have sufficient willpower to throw the Ring');
+             WRITELN('unless at Mt. Doom!');
+           END ELSE
+             IF RING=ON THEN WRITE('You got to take the Ring off first, Dummy!')
+             ELSE IF RING_USED>(SQRT(RAN)*FELLOWS[RING_BEARER,3]*4) THEN BEGIN
+               THROW_IT:=TRUE; OUTNAME(RING_BEARER);
+               WRITELN(' refuses to throw the Ring!');
+             END ELSE BEGIN
+               OUTNAME(RING_BEARER);
+               WRITELN(' throws the Ring into the volcano!');
+               WRITELN('Sauron and the evil have lost the war and');
+               WRITELN('the good guys will rule for ever after!');
+               END?:=TRUE; RING:=THROWN;
+             END;
+END;
+
+PROCEDURE REPORT;
+
+VAR    I1,J1,K1: INTEGER;
+       CAPT?: BOOLEAN;
+       NOFI:  BOOLEAN;
+
+BEGIN  WRITELN('The fellowship currently consists of:');
+       NOFI:=FALSE;
+       FOR I1:=1 TO MEMBERS DO
+         IF FELLOWS[I1,1]=IN_FELLOW THEN BEGIN
+           IF NOFI THEN WRITE(', ');
+           NOFI:=TRUE;
+           OUTNAME(I1);
+         END; WRITELN('.');
+       CASE GOLLUM_STATUS OF
+         HUNTING:      WRITELN('Gollum is chasing the Ring!');
+         UNTIED:       WRITELN('Gollum is with the Fellowship!');
+         TIED:         WRITELN('Gollum is tied up by the Fellowship!');
+         KILLED:       WRITELN('Gollum is dead!');
+         GOT_THE_RING: WRITELN('Gollum has got the Ring and is heading South!');
+         OFF_MAP:      WRITELN('Gollum has reached the Misty mountains!');
+       END;
+       CASE RING OF
+         OFF,CAUGHT: BEGIN
+                       WRITE('The Ring is in '); OUTNAME(RING_BEARER);
+                       WRITELN('s pocket.');
+                     END;
+         ON:         BEGIN
+                       WRITE('The Ring is on '); OUTNAME(RING_BEARER);
+                       WRITELN('s finger!');
+                     END;
+         WRAITH:     BEGIN
+                       OUTNAME(RING_BEARER); WRITELN(' is a semi-ringwraith!');
+                     END;
+         TAKEN:      IF RING_BEARER>0 THEN BEGIN
+                       OUTNAME(RING_BEARER);
+                       WRITELN(' has seized the Ring!');
+                     END;
+       END;
+       IF FELLOWS[POWN,1]<>DEAD THEN BEGIN
+         OUTNAME(POWN); WRITELN(' carries the Palantir.');
+       END;
+       NOFI:=FALSE; CAPT?:=FALSE;
+       FOR I1:=1 TO MEMBERS DO
+         IF FELLOWS[I1,1]=CAPTURED THEN BEGIN
+           IF CAPT?=FALSE THEN BEGIN
+             WRITELN('These are captured by Servants of Sauron:');
+             CAPT?:=TRUE;   
+           END;
+           IF NOFI THEN WRITE(', ');
+           OUTNAME(I1); NOFI:=TRUE;
+         END;
+       IF CAPT? THEN WRITELN('.');
+       FOR I1:=AT_MINTIR TO AT_EDORAS DO BEGIN
+         K1:=0; FOR J1:=1 TO EXISTMEMB DO IF FELLOWS[J1,1]=I1 THEN K1:=K1+1;
+         IF K1=0 THEN BEGIN
+           OUTSTR(PLACE[I1-2]); WRITELN(' has fallen!');
+         END ELSE BEGIN
+           WRITE('These are still fighting at '); OUTSTR(PLACE[I1-2]);
+           WRITELN; NOFI:=FALSE;
+           FOR J1:=1 TO EXISTMEMB DO IF FELLOWS[J1,1]=I1 THEN BEGIN
+             IF NOFI THEN WRITE(', ');
+             OUTNAME(J1); NOFI:=TRUE;
+           END;
+           WRITELN('.');
+         END;
+       END;
+END;
+
+PROCEDURE TIE_GOLLUM;
+
+BEGIN  IF GOLLUM_STATUS=TIED THEN WRITELN('Gollum is already tied!')
+       ELSE IF GOLLUM_STATUS<>UNTIED THEN
+         WRITELN('You cannot tie someone that aint present!') ELSE BEGIN
+           WRITELN('You have now chained Gollum with elven rope!');
+           GOLLUM_STATUS:=TIED; GOLLUM_ANGRY:=GOLLUM_ANGRY+2;
+         END;
+END;
+
+PROCEDURE UNTIE_GOLLUM;
+
+BEGIN  IF GOLLUM_STATUS=UNTIED THEN WRITELN('Gollum is already untied!')
+       ELSE IF GOLLUM_STATUS<>TIED THEN
+         WRITELN('Gollum is not here!') ELSE BEGIN
+           WRITELN('Gollum is now loose!'); GOLLUM_STATUS:=UNTIED;
+         END;
+END;
+
+PROCEDURE REVERSED;
+
+BEGIN  WRITE(CHR(27),''''); END;
+
+PROCEDURE FLASH;
+
+BEGIN  WRITE(CHR(27),')'); END;
+
+PROCEDURE NORMAL;
+
+BEGIN  WRITE(CHR(27),'S@'); END;
+
+PROCEDURE SCANNER;
+
+VAR    I1,J1,RADIE,K1,K2: INTEGER;
+       DIS: REAL;
+
+BEGIN  RADIE:=5;
+       IF TURN MOD 4=0 THEN BEGIN
+          RADIE:=2; WRITELN('*** Night Turn ***'); END;
+       IF RING=ON THEN RADIE:=RADIE+2;
+       IF MIST=TRUE THEN BEGIN
+         RADIE:=RADIE-2; WRITELN('The mist is thick here!'); END;
+       IF RADIE<=0 THEN WRITELN('You cannot see a thing!!');
+       IF (RING IN [WRAITH,TAKEN]) AND (RING_BEARER>0) THEN BEGIN
+         DIS:=SQRT(POWER(FX-TRX,2)+POWER(FY-TRY,2));
+         IF ABS(FY-TRY)>64 THEN
+            DIS:=SQRT(POWER(FX-TRX,2)+POWER(MOD1(128-FY+TRY),2));
+       END;
+       WRITELN;
+       FOR I1:=-RADIE TO RADIE DO BEGIN
+         FOR J1:=-RADIE TO RADIE DO BEGIN
+           K1:=SCAN(FX+I1,FY+J1,FX,FY,RADIE);
+           K2:=-1; IF K1>0 THEN K2:=K1 DIV 16;
+           IF K1>0 THEN K1:=K1 MOD 16;
+           IF ((RING=WRAITH) OR ((RING=TAKEN) AND (RING_BEARER>0))) AND
+             (K2=0) AND (SQRT(I1*I1+J1*J1)=DIS) AND
+             (((MOD1(FX+I1)=TRX) AND (MOD1(FY+J1)=TRY)) OR
+              (RAN>0.67)) THEN K2:=TRAIT;
+           IF K1=BARAD_DUR THEN BEGIN
+             FLASH; REVERSED; 
+           END;
+           IF (K1<-1) OR (K1>12) THEN WRITE(K1) ELSE
+             WRITE(OUT_T[K1]);
+           IF K1=BARAD_DUR THEN NORMAL;
+           IF (K2<-1) OR (K2>TRAIT) THEN WRITE(K2);
+           IF (K2>0) AND (K2<>FELLOWSHIP) THEN REVERSED;
+           WRITE(OUT_L[K2]);
+           IF (K2>0) AND (K2<>FELLOWSHIP) THEN NORMAL;
+         END; WRITELN;
+       END;
+       IF (RING=WRAITH) OR ((RING=TAKEN) AND (RING_BEARER>0)) THEN
+         WRITELN('The traitor is ',DIS:6:2,' units away!');
+END;
+
+PROCEDURE RINGWRAITH?;
+
+BEGIN  IF RING=ON THEN RING_USED:=RING_USED+1;
+       IF (RING=TAKEN) AND (RING_BEARER>0) THEN RING_USED:=RING_USED+1;
+       IF (RING=ON) AND (RING_USED>SQRT(RAN)*20*FELLOWS[RING_BEARER,3]) THEN
+       BEGIN RING:=WRAITH; IF MEMB=1 THEN BEGIN
+           WRITELN('You suddenly got a strange feeling!');
+     WRITELN('After all, the Ring belongs to you. Why should you destroy it?');
+           WRITELN('You decide to keep the Ring and proclaims as your own!');
+           END?:=TRUE;
+           IF RAN>0.12 THEN
+   WRITELN('Sauron doesn''t like upstarts, so he sent his Nazgul to slay you!')
+           ELSE WRITELN('You kill Sauron and become the new master of evil!');
+         END ELSE BEGIN
+           OUTNAME(RING_BEARER); WRITE(' suddenly dissappears, he has ');
+           WRITELN('become a semi-ringwraith!');
+       WRITELN('He is now heading for Barad-Dur with all speed he can muster!');
+           TRX:=RSIGN(RAN-0.5)*TRUNC(RAN*2.0+2.0)+FX;
+           TRY:=RSIGN(RAN-0.5)*TRUNC(RAN*2.0+2.0)+FY;
+           FELLOWS[RING_BEARER,1]:=TRAITOR; MEMB:=MEMB-1;
+         END;
+       END;
+       IF RING_BEARER>0 THEN
+          IF (RING=TAKEN) AND
+             (RING_USED>SQRT(RAN)*10*FELLOWS[RING_BEARER,3]) THEN BEGIN
+           RING:=WRAITH; OUTNAME(RING_BEARER);
+           WRITELN(' just became a Ringwraith!');
+         END;
+END;
+
+PROCEDURE EVAL;
+
+VAR    SCORE: INTEGER;
+       I,J,K: INTEGER;
+       SURF:  INTEGER;
+       KILE:  INTEGER;
+       CITT:  ARRAY [1..5] OF INTEGER;
+
+BEGIN  SCORE:=0; SURF:=0; KILE:=0; IF RING=THROWN THEN SCORE:=2000;
+       FOR I:=1 TO 5 DO CITT[I]:=0;
+       FOR I:=1 TO EXISTMEMB DO IF FELLOWS[I,1]=DEAD THEN
+          SCORE:=SCORE-50
+       ELSE BEGIN
+          SURF:=SURF+1;
+          IF FELLOWS[I,1] IN [3..7] THEN
+             CITT[FELLOWS[I,1]-2]:=CITT[FELLOWS[I,1]-2]+1;
+       END;
+       FOR I:=1 TO ENEMIES DO IF ENEMY[I].ANTAL<1 THEN BEGIN
+          SCORE:=SCORE+10; KILE:=KILE+1;
+       END;
+       J:=0;
+       FOR I:=1 TO 5 DO
+          IF CITT[I]>0 THEN BEGIN
+             SCORE:=SCORE+100; J:=J+1;
+          END ELSE SCORE:=SCORE-200;
+       IF GOLLUM=DEAD THEN SCORE:=SCORE-300;
+       I:=TRUNC(SQRT(POWER(TOWERS[17-BD_INDEX,1]-FX,2)+
+                     POWER(TOWERS[17-BD_INDEX,2]-FY,2)));
+       SCORE:=SCORE+TRUNC(1000/SQRT(I+1));
+       WRITELN('Surviving heroes:    ', SURF:5,'.');
+       WRITELN('Killed enemy groups: ', KILE:5,'.');
+       WRITELN('Citadels remaining:  ',    J:5,'.');
+       WRITELN('Distance to Mt. Doom.',    I:5,'.');
+       WRITELN('Score:               ',SCORE:5,'.');
+       WRITE('Your overall performance was ');
+       K:=(SCORE+1500) DIV 500; IF K<0 THEN K:=0; IF K>6 THEN K:=6;
+       CASE K OF
+           0: WRITELN('terrible. You are not fit to shine Gollums shoes!');
+           1: WRITELN('very bad. You are only fit to shine Gollums shoes!');
+           2: WRITELN('bad, but you may have a future yet.');
+           3: WRITELN('not so good. However the future looks bright.');
+           4: WRITELN('good. You may sit at the same table as Frodo.');
+           5: WRITELN('very good. You are a true friend of Frodo.');
+           6: WRITELN('excellent. The West is open to you!');
+       END;
+END;
+
+BEGIN  (* Main program *)
+       DESCF; TIME(I,J,K); IF (I IN [8..15]) AND (IFBYTE<>127) THEN BEGIN
+         DISCONNECT(INPUT); DISCONNECT(OUTPUT); EESCF;
+         HALT('You cannot play MORDOR now!');
+       END;
+       WRITE(CHR(12),
+'                    -  Mordor: Land of evil.  v7.52 850211  -');
+       WRITELNS(5); NEW(PLAN); EESCF;
+       WRITE('Do you want instructions (Y/N) <N>: ');
+       IF ANSWER(NO)=YES THEN INSTRUCTIONS;
+       WRITELN('Please wait while I tune the Palantir for Middle Earth.');
+       MAKEMAP; MEMB:=0; RING:=OFF; MIST:=FALSE; TURN:=0; END?:=FALSE; MP:=5.0;
+       GDEAD:=FALSE; WHITE:=0; GRES:=FALSE; PUSE:=0; PREV:=0;
+       GOLLUM_STATUS:=HUNTING; THROW_IT:=FALSE; GOLLUM_ANGRY:=0; TIRED:=0;
+       FOR I:=1 TO 70 DO ENEMY[I].SEE:=FALSE;
+       WRITE(CHR(12));
+       WRITELN('Now you shall decide which of our heroes you would like');
+       WRITELN('to go on the trip. Select 4-12 of those below');
+       WRITELN('by using the arrow-keys and Home to select/deselect.');
+       WRITELN('When finished: Place the cursor on ''Finished''.');
+       DESCF; FELLOWS:=ORIG;
+       (* Port fix, 2026: only the 32 heroes one can choose.  v7.52 added
+          eight people who stay in the citadels (Hama to Grimbeorn, with no
+          strength) and drew them here too, under and after 'Finished',
+          where the cursor never goes. *)
+       FOR I:=1 TO 32 DO BEGIN
+         CUR((I-1) DIV 4+6,((I-1) MOD 4)*20+1);
+         OUTNAME(I);
+       END;
+       CUR(14,1); WRITE(CHR(27),'''Finished.',CHR(27),'(');
+1:     I:=1;
+       REPEAT
+         CUR((I-1) DIV 4+6,((I-1) MOD 4)*20+1);
+         J:=INBYTE; IF J=27 THEN J:=INBYTE;
+         IF J IN [13,65,66,67,68,72] THEN
+         CASE J OF
+           72: BEGIN
+                 IF FELLOWS[I,1]<>IN_FELLOW THEN
+                   IF MEMB<MAXMEMB THEN BEGIN
+                     MEMB:=MEMB+1; FELLOWS[I,1]:=IN_FELLOW;
+                     WRITE(CHR(27),''''); OUTNAME(I); WRITE(CHR(27),'(');
+                   END ELSE WRITE(CHR(7))
+                  ELSE BEGIN
+                     MEMB:=MEMB-1; FELLOWS[I,1]:=ORIG[I,1];
+                     OUTNAME(I);
+                   END
+               END;
+           65: IF I>4  THEN I:=I-4         ELSE WRITE(CHR(7));
+           66: IF I<30 THEN I:=I+4         ELSE WRITE(CHR(7));
+           67: IF I<33 THEN I:=I+1         ELSE WRITE(CHR(7));
+           68: IF I>1  THEN I:=I-1         ELSE WRITE(CHR(7));
+           13: IF I<33 THEN
+                  IF I MOD 4=0 THEN I:=I+1
+                     ELSE I:=I+5-I MOD 4
+                  ELSE WRITE(CHR(7));
+         END;
+       UNTIL I=33;
+       CUR(16,1); WRITE(CHR(27),'J');
+       IF MEMB=0 THEN BEGIN
+         WRITELN('Someone has got to take the Ring!');
+         GOTO 1;
+       END;
+       IF MEMB<MINMEMB THEN BEGIN
+         WRITELN('At least 4 persons have to be in the Fellowship!');
+         GOTO 1;
+       END;
+       EESCF;
+       WRITE('Who shall be the Ringbearer: ');
+       RING_BEARER:=INNAME; RING_USED:=0;
+       WRITE('And who shall carry (and use) the Palantir: ');
+       POWN:=INNAME;
+       REPEAT
+         FX:=120; FY:=TRUNC(RAN*128);
+       UNTIL NOT ((PLAN^[FX,FY] MOD 16) IN [SWAMP,MOUNTAIN,RIVER,FORD]);
+       PLAN^[FX,FY]:=16*FELLOWSHIP+(PLAN^[FX,FY] MOD 16);
+       TURN:=1; SCANNER; RING_ON_THIS_TURN:=FALSE; RINGWRAITH?;
+       REPEAT
+         WRITE('MP= ',MP:4:2,'   X=',FX:3,'   Y=',FY:3,'   ');
+         WRITE('Command: ');
+         CASE INCOM OF
+           -1: BEGIN
+                 MOVER; IF (MP<=0.0) OR (READY=TRUE) THEN BEGIN
+                   DO_NOTHING; IF END?=FALSE THEN BEGIN
+                     TURN:=TURN+1; SCANNER; RING_ON_THIS_TURN:=FALSE;
+                     RINGWRAITH?;
+                   END;
+                 END;
+               END;
+            1: ON_RING;
+            2: OFF_RING;
+            3: FOLLOW_ROAD;
+            4: KILL_GOLLUM;
+            5: ASK_GOLLUM;
+            6: BEGIN
+                 DO_NOTHING; IF END?=FALSE THEN BEGIN
+                   TURN:=TURN+1; SCANNER; RING_ON_THIS_TURN:=FALSE; RINGWRAITH?;
+                 END;
+               END;
+            7: THROW_RING;
+            8: SHORT_INSTRUCTIONS;
+            9: REPORT;
+           10: TIE_GOLLUM;
+           11: UNTIE_GOLLUM;
+           12: SCANNER;
+           13: HALT('Chicken!');
+           14: IF FELLOWS[POWN,1]<>IN_FELLOW THEN
+            WRITELN('You haven''t got access to the Palantir right now.')
+               ELSE BEGIN
+                  PUSE:=PUSE+1;
+                  I:=TRUNC(SQRT(POWER(FX-TOWERS[17-BD_INDEX,1],2)
+                               +POWER(FY-TOWERS[17-BD_INDEX,2],2)));
+                  IF ABS(FY-TOWERS[17-BD_INDEX,2])>64 THEN
+                     I:=TRUNC(SQRT(POWER(FX-TOWERS[17-BD_INDEX,1],2)
+                        +POWER(MOD1(128-FY+TOWERS[17-BD_INDEX,2]),2)));
+                  I:=I+TRUNC(RAN*I/15-I/30);
+                  WRITELN('Distance to Orodruin is approx. ',I:1,' units.');
+                  IF GOLLUM_STATUS=GOT_THE_RING THEN WITH ENEMY[1] DO BEGIN
+                     L:=FX-X; J:=FY-Y; IF ABS(J)>64 THEN J:=MOD1(128-J);
+                     I:=TRUNC(SQRT(L*L+J*J));
+                     K:=I+TRUNC(RAN*I/15-I/30);
+                     WRITE('Gollum is approx. ',K:1,' units to the ');
+                     IF ABS(J)>64 THEN J:=J-128*SIGN(J); K:=0;
+                     IF ABS(L)>=ABS(J) THEN BEGIN
+                        IF L>0 THEN WRITE('North') ELSE WRITE('South');
+                        K:=1;
+                     END;
+                     IF I DIV 2>=ABS(J) THEN WRITELN('.')
+                        ELSE IF J>0 THEN WRITELN(CHR(ORD('W')+32*K),'est.')
+                           ELSE IF J<0 THEN WRITELN(CHR(ORD('E')+32*K),'ast.');
+                  END;
+               END;
+         END;
+       UNTIL END?;
+       EVAL;
+END;
+
+BEGIN  MAIN;
+END.

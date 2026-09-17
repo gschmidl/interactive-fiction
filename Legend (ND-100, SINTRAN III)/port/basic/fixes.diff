@@ -1,0 +1,160 @@
+114,119c114,121
+< 2120 INPUT#1:APL:DIMMEDL$(20),HP(20),MPOS(20),SORT(20),GOD(20),PLAY$(20),NIVA(20),STY(20)
+< 2140 DIMTOT(20),MU$(20),CARRY(20),DODAF(20),DODAL(20),TROLLK(20),ALDER(20),STEG(20)
+< 2160 DIMM$(20),IQ(20),GULD(20),EP(20),NAM$(20),MPKT(20)
+< 2180 DIMVISD(20),SKICK(20),CHARM(20),RUST(20),SOMN(20),KILLED(20),HPMAX(20),PLOCKAT(20)
+< 2200 DIMBANKADE(20),AVLIVA(20),EGEN(20),TROLMAX(20),TEMPEL(20),EGO$(20),TEMPUS$(20)
+< 2210 DIMFACK(20),HUNGRIG(20),SVART(20)
+---
+> 2110 '  Port fix 2026: 21, not 20: in a full scenario MEDL is 21 for someone with no
+> 2111 '  player there, and quitting ended in error 332 (Dimension out of range)
+> 2120 INPUT#1:APL:DIMMEDL$(21),HP(21),MPOS(21),SORT(21),GOD(21),PLAY$(21),NIVA(21),STY(21)
+> 2140 DIMTOT(21),MU$(21),CARRY(21),DODAF(21),DODAL(21),TROLLK(21),ALDER(21),STEG(21)
+> 2160 DIMM$(21),IQ(21),GULD(21),EP(21),NAM$(21),MPKT(21)
+> 2180 DIMVISD(21),SKICK(21),CHARM(21),RUST(21),SOMN(21),KILLED(21),HPMAX(21),PLOCKAT(21)
+> 2200 DIMBANKADE(21),AVLIVA(21),EGEN(21),TROLMAX(21),TEMPEL(21),EGO$(21),TEMPUS$(21)
+> 2210 DIMFACK(21),HUNGRIG(21),SVART(21)
+279,280c281,284
+< 4730 IFSORT(N)<>3.AND.SORT(N)<>0THENPRINTSORT$(SORT(N));" inom ";GOD$(GOD(N)):GOTO4740
+< 4732 IFSORT(N)=0THENPRINT"Allsm{ktig Gud"
+---
+> 4725 '  Port fix 2026: tested SORT (the class) for 3 and 0 where GOD (the order) was meant,
+> 4726 '  so every Magiker showed as Lagl|s; and a god was shown as Lagl|s too
+> 4730 IFGOD(N)<>3.AND.GOD(N)<>0THENPRINTSORT$(SORT(N));" inom ";GOD$(GOD(N)):GOTO4740
+> 4732 IFGOD(N)=0THENPRINT"Allsm{ktig Gud":GOTO4740
+293c297,298
+< 4910 ONERRORGOTO4880
+---
+> 4905 '  Port fix 2026: ask again at 4910, not 4880, which added a player each time
+> 4910 ONERRORGOTO4910
+296c301
+< 4922 IFSORT(APL)<1.OR.SORT(APL)>4THEN4880
+---
+> 4922 IFSORT(APL)<1.OR.SORT(APL)>4THEN4910
+392c397,398
+< 5990 IFPLOCKAT(MEDL)>1THENMPOS(PLOCKAT(MEDL))=MPOS(MEDL)
+---
+> 5985 '  Port fix 2026: >0, not >1: a body you carried did not follow you if it was player 1
+> 5990 IFPLOCKAT(MEDL)>0THENMPOS(PLOCKAT(MEDL))=MPOS(MEDL)
+412a419,420
+> 6231 '  Port fix 2026: +4, not +3: the ranks go Slagsk{mpe-Krigare-Riddare, L{rling-Trollkarl-
+> 6232 '  H{xM{stare, Magiker-Mystiker-[rkeMagiker, Pr{st-Munk-Konung (the class tests agree)
+415c423
+< 6251 IFERU=0THENEP(MEDL)=0:NIVA(MEDL)=1:SORT(MEDL)=SORT(MEDL)+3:PRINT"Du har blivit utn{mnd till ";S$(SORT(MEDL));"."
+---
+> 6251 IFERU=0THENEP(MEDL)=0:NIVA(MEDL)=1:SORT(MEDL)=SORT(MEDL)+4:PRINT"Du har blivit utn{mnd till ";S$(SORT(MEDL));"."
+423c431,432
+< 6325 NOUN$="":DO$="":VRB$=""
+---
+> 6324 '  Port fix 2026: a BLIXT that came to nothing does not carry over (BLIXT=0)
+> 6325 NOUN$="":DO$="":VRB$="":BLIXT=0
+448a458,461
+> 6426 '  Port fix 2026: the search now takes all 96 words of the table (POSITION and
+> 6427 '  POS were never found), and 6451 counts groups of 16 from 1 (SLU, HEL, PO,
+> 6428 '  TIME, STOP and POS fell between the ON lists: "mystifikuskt fel"; the
+> 6429 '  same count as (I-1)/16+1, which would divide 0 by 16: error 315)
+450c463
+< 6431 FORI=1TO94
+---
+> 6431 FORI=1TO96
+469c482
+< 6451 TEMP=I/16+1
+---
+> 6451 TEMP=(I+15)/16
+472c485
+< 6454 I=I-16:ONIGOTO6820,6820,10044,10044,10100,10100,6840,6840,11061,11061,11080,11080,11240,11240,10601,10601
+---
+> 6454 I=I-16:ONIGOTO6820,6820,10044,10044,10087,10087,6840,6840,11061,11061,11080,11080,11240,11240,10601,10601
+502c515,517
+< 7140 DROP$=M$(PLOCKAT(MEDL)):GOTO8260
+---
+> 7130 '  Port fix 2026: TAPPA compared M$ (Ta Mig Med Snabeln) with MEDL$ (TA MIG MED
+> 7131 '  SNABELN), so nothing was ever dropped; and a failed TAPPA no longer lowers CARRY
+> 7140 DROP$=MEDL$(PLOCKAT(MEDL)):GOTO8260
+514c529,533
+< 7395 PRINT"Best{mma position (1-3): ",BEPOS
+---
+> 7391 '  Port fix 2026: the position was printed, not asked for (PRINT, not INPUT)
+> 7392 ONERRORGOTO7395
+> 7395 INPUT"Best{mma position (1-3): ",BEPOS
+> 7396 ONERRORGOTO15980
+> 7397 IFBEPOS<1.OR.BEPOS>3THEN7395
+601,602c620,621
+< 8400 PLOCKAT(MEDL)=0
+< 8420 DROP$="":NOUN$="":CARRY(MEDL)=CARRY(MEDL)-1:GOTO6220
+---
+> 8400 PLOCKAT(MEDL)=0:CARRY(MEDL)=CARRY(MEDL)-1
+> 8420 DROP$="":NOUN$="":GOTO6220
+631c650,652
+< 8680 A=GULD(MEDL):PRINT#GULD$,A:GULD$=SEG$(GULD$,2,LEN(GULD$)-1)
+---
+> 8670 '  Port fix 2026: the amounts typed are compared as numbers; as strings "2" was
+> 8671 '  more than "10" (so only 1 or 10 food parcels could be bought) and "95" more than "9"
+> 8680 ONERRORGOTO15980:A=GULD(MEDL):PRINT#GULD$,A:GULD$=SEG$(GULD$,2,LEN(GULD$)-1)
+642,643c663,664
+< 8750 PRINT"Hur m}nga (1-";ANTMAT$;") ? ";:LINPUT ANTM$:IF ANTM$<"1".OR.ANTM$>ANTMAT$THEN8660
+< 8751 INPUT#ANTM$,ANTM
+---
+> 8750 PRINT"Hur m}nga (1-";ANTMAT$;") ? ";:LINPUT ANTM$:IF ANTM$=""THEN8660
+> 8751 ONERRORGOTO8660:INPUT#ANTM$,ANTM:ONERRORGOTO15980:IFANTM<1.OR.ANTM>ANTMAT THEN8660
+648,649c669,670
+< 8757 PRINT"Hur m}nga (1-";ANTFKL$;") ? ";:LINPUT ANTF$:IFANTF$<"1".OR.ANTF$>ANTFKL$THEN8660
+< 8758 INPUT#ANTF$,ANTF
+---
+> 8757 PRINT"Hur m}nga (1-";ANTFKL$;") ? ";:LINPUT ANTF$:IF ANTF$=""THEN8660
+> 8758 ONERRORGOTO8660:INPUT#ANTF$,ANTF:ONERRORGOTO15980:IFANTF<1.OR.ANTF>ANTFKL THEN8660
+655,656c676,677
+< 8810 IFINSATT$<"0".OR.INSATT$>"9"THEN8800
+< 8820 INPUT#INSATT$,INSATT
+---
+> 8810 ONERRORGOTO8800:INPUT#INSATT$,INSATT:ONERRORGOTO15980
+> 8820 IFINSATT<0THEN8800
+664,665c685,686
+< 8940 IFUTTAG$<"0".OR.UTTAG$>"9"THEN8920
+< 8950 INPUT#UTTAG$,UTTAGET
+---
+> 8940 ONERRORGOTO8920:INPUT#UTTAG$,UTTAGET:ONERRORGOTO15980
+> 8950 IFUTTAGET<0THEN8920
+678,679c699,700
+< 9032 IF ATER$<"1".AND.ATER$>RAKEN$THEN9030
+< 9034 INPUT#ATER$,ATER
+---
+> 9032 ONERRORGOTO9030:INPUT#ATER$,ATER:ONERRORGOTO15980
+> 9034 IFATER<1.OR.ATER>RAKEN THEN9030
+734c755,757
+< 9940 VRB$=SEG$(DO$,1,I-1):NOUN$=SEG$(DO$,I+1,LEN(DO$))
+---
+> 9930 '  Port fix 2026: split at the space found (I19), not at the verb index I;
+> 9931 '  v10.0 had renamed the loop variable, and no two-word command worked
+> 9940 VRB$=SEG$(DO$,1,I19-1):NOUN$=SEG$(DO$,I19+1,LEN(DO$))
+743,744c766,770
+< 10080 IFVRB$<>VERB$(21).AND.VRB$<>VERB$(22)THENBLIXT=1:GOTO10120
+< 10081 ONERRORGOTO6450
+---
+> 10070 '  Port fix 2026: BLIXT=1 was set for every two-word command but BLIXT (after
+> 10071 '  one, a fighter could not attack again) and never for BLIXT itself, which
+> 10072 '  v9.11 did; the class check read X before it was set; BLIXT alone set nothing
+> 10080 IFVRB$<>VERB$(21).AND.VRB$<>VERB$(22)THEN10120
+> 10081 BLIXT=1:ONERRORGOTO6450
+747c773
+< 10084 IFNOUN<1.OR.NOUN>5THEN10090
+---
+> 10084 IFNOUN<1.OR.NOUN>5THEN10088
+748a775
+> 10087 BLIXT=1
+755a783
+> 10223 '  Port fix 2026: switch to the player found (NYOK), not to NYSPE past the end
+762c790
+< 10230 LINPUT"V{lj spelare: ",NYSPE$
+---
+> 10230 NYOK=0:LINPUT"V{lj spelare: ",NYSPE$
+768c796
+< 10236 IFNYOK>0THENMEDL=NYSPE:GOTO5519
+---
+> 10236 IFNYOK>0THENMEDL=NYOK:GOTO5519
+1085c1113,1115
+< 15610  IFTOT(I)=1THENPRINT#1:N$:GOTO15640
+---
+> 15605 '  Port fix 2026: for a dead player SOMN was written as N$ (a NUL line), which
+> 15606 '  INPUT# cannot read back (error 271, Bad character on input): v9.11 wrote 0
+> 15610  IFTOT(I)=1THENPRINT#1:0:GOTO15640

@@ -1,0 +1,178 @@
+MORDOR-REF
+                    -  Mordor: Land of evil.  v7.52 850211  -
+
+
+
+
+Do you want instructions (Y/N) <N>: N
+Please wait while I tune the Palantir for Middle Earth.
+Now you shall decide which of our heroes you would like
+to go on the trip. Select 4-12 of those below
+by using the arrow-keys and Home to select/deselect.
+When finished: Place the cursor on 'Finished'.
+Y% FrodoY%4SamY%HMerryY%\PippinY& FredegarY&4LegolasY&HGlorfindelY&\HaldirY' RumilY'4GildorY'HGandalfY'\AragornY( BoromirY(4FaramirY(H@omerY(\ImrahilY) HalbaradY)4Theodr`dY)HBeregondY)\MablungY* DamrodY*4GimliY*HElrondY*\ErestorY+ ThranduilY+4DainY+HBrandY+\CelebornY, ErkenbrandY,4GamlingY,HForlongY,\DenethorY- HamaY-4CeorlY-HOrophinY-\GaladrielY. @owynY.4ElladanY.HEllrohirY.\GrimbeornY- 'Finished.(Y% Y& Y' Y'4Y'HY'\'Aragorn(Y'\Y(\'Imrahil(Y(\Y) 'Halbarad(Y) Y* Y*4Y*H'Elrond(Y*HY+HY+\Y, Y,4'Gamling(Y,4Y,H'Forlong(Y,HY,\'Denethor(Y,\Y/ JWho shall be the Ringbearer: FQTNQPI
+And who shall carry (and use) the Palantir: X
+Illegal name.
+Reenter: IOTCJKN
+
+                      
+                      
+                      
+                      
+: : :   T T T         
+: : : : : :FT         
+: : : : : : T         
+      T T :           
+          T :         
+            T         
+                      
+MP= 5.00   X=120   Y=  2   Command: UNTIE
+Gollum is not here!
+MP= 5.00   X=120   Y=  2   Command: HELP
+Commands:
+ON,   OFF,    FOLLOW-ROAD, KILL,   ASK,  0,  THROW,
+HELP, REPORT, TIE,  UNTIE,  USE,   MAP,  QUIT-GAME.
+
+Map Symbols
+: = Rough terrain, . = Grass, T = Trees,    & = Swamp,
+M = Mountain,      " = River, - = Road,     = = Main Road,
++ = Ford,          I = Tower, D = Mt. Doom, B = Barad Dur.
+
+o = Orcs,     w = Wolwes, b = Balrog, n = Nazgul,
+h = Haradrim, t = Trolls, g = Gollum, F = Fellowship,
+? = Traitor?
+MP= 5.00   X=120   Y=  2   Command: OFF
+Not possible!
+MP= 5.00   X=120   Y=  2   Command: NW2
+You moved 2 steps.
+
+
+                      
+        :             
+        :             
+          T           
+        M : T         
+        M :FT         
+        : : T         
+    : : : :           
+    : : : : :         
+    : : T T T         
+                      
+MP= 4.03   X=118   Y=  0   Command: W1
+MP= 1.78   X=118   Y=127   Command: NW+
+You moved 1 steps.
+
+
+                      
+                      
+                      
+              T       
+        M M : T       
+        M MF: T       
+        : : : T       
+    : : : : : :       
+    : : : : : : :     
+    : : : T T T :     
+        :             
+MP= 3.91   X=118   Y=127   Command: OFF
+Not possible!
+MP= 3.91   X=118   Y=127   Command: E
+MP= 1.66   X=118   Y=  0   Command: XYZZY
+Illegal Command.
+Reenter: SW2
+You moved 1 steps.
+
+*** Night Turn ***
+
+    T     
+  M : T   
+  M :FT   
+  : : T   
+    :     
+MP= 3.74   X=118   Y=  0   Command: ASK
+Gollum is not here!
+MP= 3.74   X=118   Y=  0   Command: FOLLOW
+Oops! There is something in your way!
+MP= 3.74   X=118   Y=  0   Command: REP
+The fellowship currently consists of:
+Aragorn, Imrahil, Halbarad, Elrond, Gamling, Forlong, Denethor.
+Gollum is chasing the Ring!
+The Ring is in Forlongs pocket.
+Imrahil carries the Palantir.
+These are still fighting at Minas Tirith
+Boromir, Faramir, Beregond, Mablung, Damrod.
+These are still fighting at Dale
+Legolas, Gimli, Thranduil, Dain, Brand, Grimbeorn.
+These are still fighting at Rivendell
+Merry, Pippin, Fredegar, Glorfindel, Gildor, Erestor, Elladan, Ellrohir.
+These are still fighting at Lothlorien
+Frodo, Sam, Haldir, Rumil, Gandalf, Celeborn, Orophin, Galadriel.
+These are still fighting at Edoras
+@omer, Theodr`d, Erkenbrand, Hama, Ceorl, @owyn.
+MP= 3.74   X=118   Y=  0   Command: NW2
+You moved 1 steps.
+Gollum attempts to seize the Ring!
+Gollum kills the Ring-bearer and takes the Ring!
+He dissappears with the Ring!
+
+
+        : : :         
+    : : : :           
+    : : : :           
+      : : :           
+        : : T         
+        M MF: T       
+        M M : T       
+              T       
+                      
+                      
+                      
+MP= 3.03   X=117   Y=127   Command: FOLLOW-ROAD
+Oops! There is something in your way!
+MP= 3.03   X=117   Y=127   Command: S
+The mountain is too steep here!
+MP= 3.03   X=117   Y=127   Command: USE
+Distance to Orodruin is approx. 124 units.
+Gollum is approx. 7 units to the South.
+MP= 3.03   X=117   Y=127   Command: NE2
+You moved 1 steps.
+
+
+        : : :         
+    : : : :           
+    : : : :           
+      : : :           
+        : : T         
+        M MF: T       
+        M M : T       
+              T       
+                      
+                      
+                      
+MP= 5.00   X=117   Y=127   Command: SE1
+MP= 1.82   X=118   Y=  0   Command: 0
+
+
+                      
+        :             
+        :             
+          T           
+        M : T         
+        M :FT         
+        : : T         
+    : : : :           
+    : : : : :         
+    : : T T T         
+                      
+MP= 4.91   X=118   Y=  0   Command: NW+
+You moved 2 steps.
+Gollum has reached his lair in the Misty Mountains!
+Your mission has failed!
+Surviving heroes:       39.
+Killed enemy groups:     0.
+Citadels remaining:      5.
+Distance to Mt. Doom.  139.
+Score:                 534.
+Your overall performance was good. You may sit at the same table as Frodo.
+
+@

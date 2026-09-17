@@ -1,0 +1,40 @@
+16:04:58 'N\r'                  instructions
+16:05:05 '\x1bH'                take Frodo
+16:05:05 '\x1bC'                cursor
+16:05:05 '\x1bC'                cursor
+16:05:05 '\x1bH'                take Merry
+16:05:05 '\x1bB'                cursor
+16:05:05 '\x1bC'                cursor
+16:05:05 '\x1bC'                cursor
+16:05:05 '\x1bC'                cursor
+16:05:05 '\x1bH'                take Gildor
+16:05:06 '\x1bB'                cursor
+16:05:06 '\x1bC'                cursor
+16:05:06 '\x1bC'                cursor
+16:05:06 '\x1bC'                cursor
+16:05:06 '\x1bH'                take Halbarad
+16:05:06 '\x1bB'                cursor
+16:05:06 '\x1bB'                cursor
+16:05:06 '\x1bB'                cursor
+16:05:06 '\x1bC'                cursor
+16:05:06 '\x1bC'                cursor
+16:05:06 '\x1bC'                cursor
+16:05:06 '\x1bH'                take Denethor
+16:05:06 '\x1bC'                cursor
+16:05:07 'Halbarad\r'           name
+16:05:07 'Frodo\r'              name
+16:05:07 'W+\r'                 command 1
+16:05:08 'S2\r'                 command 2
+16:05:08 'r\r'                  fight/run
+16:05:08 'MERRY\r'              name
+16:05:08 '\r'                   fight/run
+16:05:09 'Frodo\r'              name
+16:05:09 '\r'                   fight/run
+16:05:09 'MERRY\r'              name
+16:05:10 'Gildor\r'             name again
+16:05:10 'frodo\r'              name
+16:05:10 'Merry\r'              name again
+16:05:11 'FRODO\r'              name again
+16:05:11 'Frodo\r'              name again
+16:05:11 'GILDOR\r'             name again
+16:05:12 'F\r'                  fight/run

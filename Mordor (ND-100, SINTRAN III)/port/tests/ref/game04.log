@@ -1,0 +1,68 @@
+16:03:30 'N\r'                  instructions
+16:03:37 '\x1bH'                take Frodo
+16:03:37 '\x1bC'                cursor
+16:03:37 '\x1bH'                take Sam
+16:03:38 '\x1bC'                cursor
+16:03:38 '\x1bH'                take Merry
+16:03:38 '\x1bC'                cursor
+16:03:38 '\x1bC'                cursor
+16:03:38 '\x1bH'                take Fredegar
+16:03:38 '\x1bC'                cursor
+16:03:38 '\x1bC'                cursor
+16:03:38 '\x1bC'                cursor
+16:03:38 '\x1bH'                take Haldir
+16:03:38 '\x1bC'                cursor
+16:03:38 '\x1bC'                cursor
+16:03:38 '\x1bH'                take Gildor
+16:03:38 '\x1bC'                cursor
+16:03:38 '\x1bC'                cursor
+16:03:38 '\x1bC'                cursor
+16:03:39 '\x1bH'                take Boromir
+16:03:39 '\x1bB'                cursor
+16:03:39 '\x1bC'                cursor
+16:03:39 '\x1bH'                take Theodr`d
+16:03:39 '\x1bB'                cursor
+16:03:39 '\x1bB'                cursor
+16:03:39 '\x1bB'                cursor
+16:03:39 '\x1bH'                take Gamling
+16:03:39 '\x1bC'                cursor
+16:03:39 '\x1bH'                take Forlong
+16:03:39 '\x1bC'                cursor
+16:03:39 '\x1bC'                cursor
+16:03:39 'Gildor\r'             name
+16:03:40 'Sam\r'                name
+16:03:40 'N3\r'                 command 1
+16:03:40 'NE3\r'                command 2
+16:03:41 'r\r'                  fight/run
+16:03:41 'untie\r'              command 3
+16:03:42 'USE\r'                command 4
+16:03:42 'sw3\r'                command 5
+16:03:42 'f\r'                  fight/run
+16:03:43 'R\r'                  fight/run
+16:03:43 'NE3\r'                command 6
+16:03:43 'SE+\r'                command 7
+16:03:44 'E2\r'                 command 8
+16:03:44 'off\r'                command 9
+16:03:44 'NE9\r'                command 10
+16:03:44 'W\r'                  command 11
+16:03:45 'sw3\r'                command 12
+16:03:45 'NW2\r'                command 13
+16:03:46 'F\r'                  fight/run
+16:03:46 'F\r'                  fight/run
+16:03:46 'r\r'                  fight/run
+16:03:47 'R\r'                  fight/run
+16:03:47 'W\r'                  command 14
+16:03:47 'sw\r'                 command 15
+16:03:48 'REPORT\r'             command 16
+16:03:48 'ON\r'                 command 17
+16:03:48 'E+\r'                 command 18
+16:03:49 'follow-road\r'        command 19
+16:03:49 'sw3\r'                command 20
+16:03:50 'E+\r'                 command 21
+16:03:50 'SW1\r'                command 22
+16:03:51 'R\r'                  fight/run
+16:03:51 'R\r'                  fight/run
+16:03:51 'f\r'                  fight/run
+16:03:52 'F\r'                  fight/run
+16:03:52 '\r'                   fight/run
+16:03:52 'R\r'                  fight/run

@@ -1,0 +1,56 @@
+16:04:39 '\r'                   instructions
+16:04:40 '\x1bC'                cursor
+16:04:40 '\x1bC'                cursor
+16:04:40 '\x1bH'                take Merry
+16:04:40 '\x1bC'                cursor
+16:04:40 '\x1bC'                cursor
+16:04:41 '\x1bC'                cursor
+16:04:41 '\x1bH'                take Legolas
+16:04:41 '\x1bB'                cursor
+16:04:41 '\x1bH'                take Gildor
+16:04:41 '\x1bB'                cursor
+16:04:41 '\x1bB'                cursor
+16:04:41 '\x1bC'                cursor
+16:04:41 '\x1bC'                cursor
+16:04:41 '\x1bH'                take Mablung
+16:04:41 '\x1bB'                cursor
+16:04:41 '\x1bH'                take Erestor
+16:04:41 '\x1bC'                cursor
+16:04:41 '\x1bC'                cursor
+16:04:41 '\x1bC'                cursor
+16:04:42 '\x1bH'                take Brand
+16:04:42 '\x1bB'                cursor
+16:04:42 '\x1bC'                cursor
+16:04:42 '\x1bC'                cursor
+16:04:42 'Brand\r'              name
+16:04:42 'Mablung\r'            name
+16:04:42 'SE\r'                 command 1
+16:04:43 'W\r'                  command 2
+16:04:43 'OFF\r'                command 3
+16:04:44 'se2\r'                command 4
+16:04:44 'E3\r'                 command 5
+16:04:45 'SE3\r'                command 6
+16:04:45 'THROW\r'              command 7
+16:04:45 'THROW\r'              command 8
+16:04:46 'W3\r'                 command 9
+16:04:46 'i\r'                  together/individually
+16:04:46 'MABLUNG\r'            name
+16:04:46 '\r'                   fight/run
+16:04:47 'i\r'                  together/individually
+16:04:47 'GILDOR\r'             name
+16:04:47 'r\r'                  fight/run
+16:04:48 'REPORT\r'             command 10
+16:04:48 'SE9\r'                command 11
+16:04:49 'F\r'                  fight/run
+16:04:49 '\r'                   fight/run
+16:04:49 'R\r'                  fight/run
+16:04:50 's3\r'                 command 12
+16:04:50 'SW1\r'                command 13
+16:04:50 'W+\r'                 command 14
+16:04:51 'nw\r'                 command 15
+16:04:51 'r\r'                  fight/run
+16:04:51 'Gildor\r'             name
+16:04:52 '\r'                   fight/run
+16:04:52 'f\r'                  fight/run
+16:04:52 'Erestor\r'            name
+16:04:52 'R\r'                  fight/run

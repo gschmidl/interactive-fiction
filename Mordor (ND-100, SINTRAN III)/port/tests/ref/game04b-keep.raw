@@ -1,0 +1,331 @@
+MORDORF-REF
+                    -  Mordor: Land of evil.  v7.52 850211  -
+
+
+
+
+Do you want instructions (Y/N) <N>: N
+Please wait while I tune the Palantir for Middle Earth.
+Now you shall decide which of our heroes you would like
+to go on the trip. Select 4-12 of those below
+by using the arrow-keys and Home to select/deselect.
+When finished: Place the cursor on 'Finished'.
+Y% FrodoY%4SamY%HMerryY%\PippinY& FredegarY&4LegolasY&HGlorfindelY&\HaldirY' RumilY'4GildorY'HGandalfY'\AragornY( BoromirY(4FaramirY(H@omerY(\ImrahilY) HalbaradY)4Theodr`dY)HBeregondY)\MablungY* DamrodY*4GimliY*HElrondY*\ErestorY+ ThranduilY+4DainY+HBrandY+\CelebornY, ErkenbrandY,4GamlingY,HForlongY,\DenethorY- 'Finished.(Y% Y& Y' Y'4'Gildor(Y'4Y'HY'\Y( 'Boromir(Y( Y(4Y(HY(\'Imrahil(Y(\Y) Y)4'Theodr`d(Y)4Y*4Y+4Y+HY+\Y, 'Erkenbrand(Y, Y,4Y,HY,\'Denethor(Y,\Y/ JWho shall be the Ringbearer: Imrahil
+And who shall carry (and use) the Palantir: boromir
+
+                      
+                      
+                      
+                      
+: : :   T T T         
+: : : : : :FT         
+: : : : : : T         
+      T T :           
+          T :         
+            T         
+                      
+MP= 5.00   X=120   Y=  2   Command: SW
+MP= 2.88   X=121   Y=  1   Command: SE3
+You moved 1 steps.
+
+
+                      
+    M                 
+    : : T T           
+    : : : :           
+        : : T         
+        T :F: : . . . 
+        T T : : . . . 
+              : . .   
+                . .   
+                      
+                      
+MP= 4.38   X=122   Y=  2   Command: NE3
+You moved 2 steps.
+
+
+                      
+                      
+                      
+  :   T               
+: : : : : T T         
+:'wS@: : : : TFT         
+      T : : :         
+      T T : : . .     
+          T : . .     
+            : . .     
+            T         
+MP= 4.33   X=121   Y=  3   Command: N+
+You moved 2 steps.
+
+*** Night Turn ***
+
+          
+  T T'hS@T   
+  T TFT   
+  : T T   
+          
+MP= 3.50   X=119   Y=  3   Command: N2
+Now you really are in trouble! You have run into a Southron!
+Will you fight together or individually (T/I): I
+Ok! The fellowship currently consists of:
+Gildor
+Boromir
+Imrahil
+Theodr`d
+Erkenbrand
+Denethor
+Who is now going to fight? denethor
+Denethor was killed by his enemy!
+(F)ight or (R)un away? 
+Will you fight together or individually (T/I): I
+Ok! The fellowship currently consists of:
+Gildor
+Boromir
+Imrahil
+Theodr`d
+Erkenbrand
+Who is now going to fight? gildor
+Gildor killed his opponent!
+You moved 1 steps.
+You are attacked by a bunch of Wolves!
+They attack the whole Fellowship!
+One villain was killed easily!
+(F)ight or (R)un away? 
+They attack the whole Fellowship!
+One villain was killed easily!
+(F)ight or (R)un away? 
+Erkenbrand is attacked!
+Erkenbrand was knocked unconscious!
+(F)ight or (R)un away? f
+They attack the whole Fellowship!
+One villain was killed easily!
+(F)ight or (R)un away? R
+You got away! The monsters soon give up pursuit!
+
+
+                      
+                      
+        T             
+      T . T T T       
+        . . . . . T   
+        T .F. . . . T 
+        T M . . . . T 
+              M       
+                      
+                      
+                      
+MP= 3.24   X=126   Y=124   Command: throw
+You don't have sufficient willpower to throw the Ring
+unless at Mt. Doom!
+MP= 3.24   X=126   Y=124   Command: SW2
+You moved 2 steps.
+
+
+                      
+                      
+              T T     
+              . .     
+& & =   T T .         
+& : = & . TFM         
+        M M M         
+                      
+                      
+                      
+                      
+MP= 2.81   X=127   Y=123   Command: MAP
+
+                      
+                      
+              T T     
+              . .     
+& & =   T T .         
+& : = & . TFM         
+        M M M         
+                      
+                      
+                      
+                      
+MP= 2.81   X=127   Y=123   Command: UNTIE
+Gollum is not here!
+MP= 2.81   X=127   Y=123   Command: REP
+The fellowship currently consists of:
+Gildor, Boromir, Imrahil, Theodr`d.
+Gollum is chasing the Ring!
+The Ring is in Imrahils pocket.
+Boromir carries the Palantir.
+These are captured by Servants of Sauron:
+Erkenbrand.
+These are still fighting at Minas Tirith
+Aragorn, Faramir, Beregond, Mablung, Damrod, Forlong.
+These are still fighting at Dale
+Legolas, Gimli, Thranduil, Dain, Brand, Grimbeorn.
+These are still fighting at Rivendell
+Merry, Pippin, Fredegar, Glorfindel, Halbarad, Elrond, Erestor, Elladan, Ellrohir.
+These are still fighting at Lothlorien
+Frodo, Sam, Haldir, Rumil, Gandalf, Celeborn, Orophin, Galadriel.
+These are still fighting at Edoras
+@omer, Gamling, Hama, Ceorl, @owyn.
+MP= 2.81   X=127   Y=123   Command: report
+The fellowship currently consists of:
+Gildor, Boromir, Imrahil, Theodr`d.
+Gollum is chasing the Ring!
+The Ring is in Imrahils pocket.
+Boromir carries the Palantir.
+These are captured by Servants of Sauron:
+Erkenbrand.
+These are still fighting at Minas Tirith
+Aragorn, Faramir, Beregond, Mablung, Damrod, Forlong.
+These are still fighting at Dale
+Legolas, Gimli, Thranduil, Dain, Brand, Grimbeorn.
+These are still fighting at Rivendell
+Merry, Pippin, Fredegar, Glorfindel, Halbarad, Elrond, Erestor, Elladan, Ellrohir.
+These are still fighting at Lothlorien
+Frodo, Sam, Haldir, Rumil, Gandalf, Celeborn, Orophin, Galadriel.
+These are still fighting at Edoras
+@omer, Gamling, Hama, Ceorl, @owyn.
+MP= 2.81   X=127   Y=123   Command: NE
+You can't move anymore this turn!
+
+
+                      
+                      
+        T             
+      T . T T T       
+        . . . . . T   
+        T .F. . . . T 
+        T M . . . . T 
+              M       
+                      
+                      
+                      
+MP= 2.15   X=126   Y=124   Command: follow
+Oops! There is something in your way!
+MP= 2.15   X=126   Y=124   Command: E9
+You moved 2 steps.
+You are attacked by a bunch of Wolves!
+They attack the whole Fellowship!
+One villain was killed easily!
+(F)ight or (R)un away? f
+Gildor is attacked!
+Gildor killed his opponent easily!
+(F)ight or (R)un away? R
+You got away! The monsters soon give up pursuit!
+
+*** Night Turn ***
+
+          
+  T T T   
+: : TFT   
+  M M M   
+          
+MP= 1.22   X=127   Y=  4   Command: N
+You can't move anymore this turn!
+
+
+                      
+                      
+                      
+                      
+        T T'tS@T         
+    T :'wS@: TFT         
+        M M M         
+                      
+                      
+                      
+                      
+MP= 3.22   X=127   Y=  4   Command: se+
+You moved 1 steps.
+You are attacked by a bunch of Wolves!
+Theodr`d is attacked!
+Theodr`d killed his opponent!
+(F)ight or (R)un away? R
+You got away! The monsters soon give up pursuit!
+
+
+        . . T         
+    . . . . . . .     
+  : . . . . . . . :   
+    . . . . . . . :   
+    T . .'oS@. . . : : : 
+    T'wS@: . .F: : : : : 
+        M M M         
+                      
+                      
+                      
+                      
+MP= 5.00   X=127   Y=  8   Command: se
+MP= 2.17   X=  0   Y=  9   Command: SW3
+You moved 1 steps.
+Gollum attempts to seize the Ring!
+He failes!
+Now you got him!
+
+
+        . . .         
+    . . . . . . :     
+    . . . . . . :     
+    . . . . . : :     
+        . : :         
+        M MFM         
+        M M M         
+                      
+                      
+                      
+                      
+MP= 5.00   X=  0   Y=  9   Command: MAP
+
+        . . .         
+    . . . . . . :     
+    . . . . . . :     
+    . . . . . : :     
+        . : :         
+        M MFM         
+        M M M         
+                      
+                      
+                      
+                      
+MP= 5.00   X=  0   Y=  9   Command: ASK
+Gollum won't speak!
+MP= 5.00   X=  0   Y=  9   Command: ne3
+You moved 2 steps.
+You are attacked by a bunch of Orcs!
+They attack the whole Fellowship!
+Boromir was killed by his enemy!
+You must now choose a new carrier for the Palantir.
+The Fellowship currently consists of:
+Gildor
+Imrahil
+Theodr`d
+Who shall have the honor? gildor
+(F)ight or (R)un away? f
+They attack the whole Fellowship!
+Theodr`d was killed by his enemy!
+(F)ight or (R)un away? F
+They attack the whole Fellowship!
+Gildor was killed by his enemy!
+You must now choose a new carrier for the Palantir.
+The Fellowship currently consists of:
+Imrahil
+Who shall have the honor? theodrEd
+Illegal name.
+Reenter: Gildor
+Illegal name.
+Reenter: gildor
+Illegal name.
+Reenter: IMRAHIL
+(F)ight or (R)un away? f
+They attack the whole Fellowship!
+Imrahil was killed by his enemy!
+There is noone left of the fellowship!
+The mission has failed!
+
+Surviving heroes:       35.
+Killed enemy groups:     2.
+Citadels remaining:      5.
+Distance to Mt. Doom.  129.
+Score:                 357.
+Your overall performance was not so good. However the future looks bright.
+
+@

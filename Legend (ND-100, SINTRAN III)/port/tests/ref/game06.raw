@@ -1,0 +1,305 @@
+LEGENDF-REF
+3:G       Legend    v10.0         20.44   17/ 9 1998 
+
+
+
+Din signatur: ABC
+
+Vilket scenario? (1-9, 0): 2
+
+Vill du ha instruktioner?  ('J'a / 'N'ej)  <N> ' (Nej.
+                              Var god dr|j...
+I                            L E G E N D           
+
+                         Antal spelare: 12  
+
+
+*** Meddelande fr}n SpelChefen ***      25/ 8  1986
+Om ni hittar n}t fel va,
+s} skriv POST va
+och klaga va...
+\hhhh
+
+
+
+
+                         Tryck RETURN >FaG<' (
+
+
+Du har inga spelare.
+
+
+A/ 
+B/ Skapa spelare
+C/ 
+D/ Sluta
+E/ 
+
+V{lj: B
+
+
+Vad ska din spelare vara?
+
+1. Slagsk{mpe   2. L{rling   3. Magiker   4. Pr{st (1-4): 1
+
+
+Ska din Slagsk{mpe tillh|ra  1.Orden  eller  2.Klanen? 2
+
+
+Vad ska spelaren heta? ?!
+Otill}tet namn.
+
+
+Vad ska spelaren heta? 
+N}t m}ste han ju heta...?
+
+
+Vad ska spelaren heta? OLLE-BOLLE
+
+
+
+Dina spelare:
+
+
+ 1 . OLLE-BOLLE
+
+A/ 
+B/ Skapa spelare
+C/ V{lja spelare och starta Legend
+D/ Sluta
+E/ Status f|r spelare
+
+V{lj: C
+
+Fixar spelare... & Startar Legend!
+Vad heter du? Kalle Anka
+::Du st}r mitt p} stadens huvudgata. H{r h{rskar en f|r|dande stank. Hus
+ligger p} b}da sidor om v{gen. Norrut finns en liten butik.
+
+Du ser:
+
+       ^bbe (d|d fiende)
+       Rambo (d|d v{n)
+
+Utg}ngar: Norr S|der \st V{st
+
+:$G] N
+:Du st}r i en liten butik. [garen kommer fram och s{ger:
+- V{lkommen! Vi har allt du kan t{nka dig och mer d{rtill...
+
+
+? ger hj{lp
+
+
+-0
+:Du st}r mitt p} stadens huvudgata. H{r h{rskar en f|r|dande stank. Hus
+ligger p} b}da sidor om v{gen. Norrut finns en liten butik.
+
+Du ser:
+
+       ^bbe (d|d fiende)
+       Rambo (d|d v{n)
+
+Utg}ngar: Norr S|der \st V{st
+
+:$
+I$G] N
+:Du st}r i en liten butik. [garen kommer fram och s{ger:
+- V{lkommen! Vi har allt du kan t{nka dig och mer d{rtill...
+
+
+? ger hj{lp
+
+
+-3
+Du har inga guldmynt att ta ut.
+
+-7
+
+
+? ger hj{lp
+
+
+-2
+Hur m}nga? (1-500) 5
+
+-
+
+-7
+
+
+? ger hj{lp
+
+
+-
+
+-1
+
+M)at F)acklor ? X
+
+M)at F)acklor ? 
+
+-1
+
+M)at F)acklor ? 
+
+-0
+:Du st}r mitt p} stadens huvudgata. H{r h{rskar en f|r|dande stank. Hus
+ligger p} b}da sidor om v{gen. Norrut finns en liten butik.
+
+Du ser:
+
+       ^bbe (d|d fiende)
+       Rambo (d|d v{n)
+
+Utg}ngar: Norr S|der \st V{st
+
+En niv} 1 Magiker hoppar fram och utmanar dig!
+$SE
+
+Du ser:
+ (Allvetande Gud)
+       ^bbe (d|d fiende)
+       Rambo (d|d v{n)
+
+Utg}ngar: Norr S|der \st V{st
+
+:$TAPPA
+Du b{r inte p} n}gon.
+:$V
+Du sl}ss ju med En niv} 1 Magiker!
+:$GRINA
+Det kommandot {r inte f{rdigt {n... Lugn!!
+$FLY
+Det kommandot {r inte f{rdigt {n... Lugn!!
+$FLY
+Det kommandot {r inte f{rdigt {n... Lugn!!
+$D
+Du sl}ss ju med En niv} 1 Magiker!
+:$D
+Du sl}ss ju med En niv} 1 Magiker!
+:$UPP
+Du sl}ss ju med En niv} 1 Magiker!
+:$UPP
+Du sl}ss ju med En niv} 1 Magiker!
+:$V[LJ
+Du har bara en spelare p} detta scenario...
+:$V
+Du sl}ss ju med En niv} 1 Magiker!
+:$POST
+Skriv ditt meddelande avslutat med RETURN +  CTRL-L + RETURN
+Hej fr}n slumpen
+
+Ok.
+
+:$TIT
+Du st}r mitt p} stadens huvudgata. H{r h{rskar en f|r|dande stank. Hus
+ligger p} b}da sidor om v{gen. Norrut finns en liten butik.
+
+Du ser:
+ (Allvetande Gud)
+       ^bbe (d|d fiende)
+       Rambo (d|d v{n)
+
+Utg}ngar: Norr S|der \st V{st
+
+:$TA
+Det finns inget h{r du kan ta med dig.
+:$TAPPA
+Du b{r inte p} n}gon.
+:$STA
+
+> OLLE-BOLLE
+
+> Niv} 1 Slagsk{mpe inom Klanen
+
+Styrka:      6     Hit Points: 12 /12 
+Iq:          10 
+Visdom:      19    Ruststyrka: 10 
+Skicklighet: 18    Erfarenhet: 19 
+Charm:       3 
+
+Utrustning: 2 matpaket, 0 facklor, 495 guldmynt.
+
+
+Olle-Bolle har g}tt 19 steg och {r 18 }r gammal.
+
+:$HUBBA
+Hopp!
+:$G] N
+Du sl}ss ju med En niv} 1 Magiker!
+:$SE
+
+Du ser:
+ (Allvetande Gud)
+       ^bbe (d|d fiende)
+       Rambo (d|d v{n)
+
+Utg}ngar: Norr S|der \st V{st
+
+:$LISTA
+
+        Du {r tomh{nt.
+
+:$NED
+Du sl}ss ju med En niv} 1 Magiker!
+:$?
+
+
+                          %LEGEND&
+
+     Kommando:              Kort f|rklaring
+       
+     \ST                    G} }t det h}ll som anges  \
+     V[ST                                F|rkortning: V
+     NORR                                             N
+     S\DER                                            S
+     UPP                                              U
+     NED                                              D
+     SOV                    Avsluta sovande
+     SLUTA                  Avsluta vaken
+     LISTA                  Visar vad du har p} dig
+     CLS                    Rensar sk{rmen
+     TITTA                  Ger rumsbeskrivning
+     PAUS, V[NTA            L}ter dig g} och fika utan att sluta spelet
+
+
+
+Tryck n}nstans, helst p} terminal 39 : 
+
+     SKRIK                  Precis vad det st}r
+     T[NK                   Precis vad det st}r
+     STATUS                 Visa din spelares status
+     TID                    Ger tiden
+     [T                     [ta mat
+     T[ND                   T{nda fackla
+     PLOCKA                 Plocka d|d spelare
+     TAPPA                  Tappa d|d spelare
+     AVLIVA                 Ta bort d}lig spelare
+     L[S/SKRIV              P} klotterplanket
+
+
+
+Tryck n}nstans, helst p} terminal 39 : 
+
+     HJ[LP                  Ger denna lista
+     BYT                    Byta namn
+     D\DA                   D|da spelare
+     BLIXT                  Kasta en blixt p} annan spelare (Magiker)
+     HELA                   Hela skada som uppst}tt t.ex. under strid (Pr{ster)
+     VEM                    Se efter vilka som k|r Legend just nu
+     POST                   Posta ett brev till SpelChefen
+     *                      Direktlogout
+     @                      Utf|ra sintrankommando
+
+     Return i b|rjan av kommandoraden upprepar senaste kommandot.
+
+:$G] N
+Du sl}ss ju med En niv} 1 Magiker!
+:$SOVA
+V{lkommen }ter till Legend.
+
+
+So Long, ABC.
+
+@

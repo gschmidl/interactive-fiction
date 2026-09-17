@@ -1,0 +1,44 @@
+16:04:19 'N\r'                  instructions
+16:04:28 '\x1bC'                cursor
+16:04:28 '\x1bH'                take Sam
+16:04:28 '\x1bC'                cursor
+16:04:28 '\x1bC'                cursor
+16:04:28 '\x1bH'                take Pippin
+16:04:29 '\x1bC'                cursor
+16:04:29 '\x1bC'                cursor
+16:04:29 '\x1bH'                take Legolas
+16:04:29 '\x1bC'                cursor
+16:04:29 '\x1bC'                cursor
+16:04:29 '\x1bH'                take Haldir
+16:04:29 '\x1bB'                cursor
+16:04:29 '\x1bC'                cursor
+16:04:29 '\x1bC'                cursor
+16:04:29 '\x1bC'                cursor
+16:04:30 '\x1bH'                take @omer
+16:04:30 '\x1bB'                cursor
+16:04:30 '\x1bC'                cursor
+16:04:30 '\x1bC'                cursor
+16:04:30 '\x1bH'                take Damrod
+16:04:30 '\x1bB'                cursor
+16:04:30 '\x1bH'                take Thranduil
+16:04:30 '\x1bC'                cursor
+16:04:30 '\x1bC'                cursor
+16:04:31 '\x1bH'                take Brand
+16:04:31 '\x1bB'                cursor
+16:04:31 '\x1bC'                cursor
+16:04:31 '\x1bH'                take Denethor
+16:04:31 '\x1bC'                cursor
+16:04:31 'Haldir\r'             name
+16:04:31 'HALDIR\r'             name
+16:04:32 'map\r'                command 1
+16:04:32 'use\r'                command 2
+16:04:33 'ASK\r'                command 3
+16:04:33 'E\r'                  command 4
+16:04:33 'W1\r'                 command 5
+16:04:34 'w2\r'                 command 6
+16:04:34 'r\r'                  fight/run
+16:04:35 'R\r'                  fight/run
+16:04:35 '\r'                   fight/run
+16:04:35 'R\r'                  fight/run
+16:04:35 'F\r'                  fight/run
+16:04:36 'R\r'                  fight/run

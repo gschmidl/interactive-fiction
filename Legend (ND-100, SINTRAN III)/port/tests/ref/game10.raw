@@ -1,0 +1,458 @@
+LEGENDF-REF
+3:G       Legend    v10.0         20.48   17/ 9 1998 
+
+
+
+Din signatur: ABC
+
+Vilket scenario? (1-9, 0): 1
+
+Vill du ha instruktioner?  ('J'a / 'N'ej)  <N> ' (Nej.
+                              Var god dr|j...
+I                            L E G E N D           
+
+                         Antal spelare: 9  
+
+
+*** Meddelande fr}n SpelChefen ***      25/ 8  1986
+Om ni hittar n}t fel va,
+s} skriv POST va
+och klaga va...
+\hhhh
+
+
+
+
+                         Tryck RETURN >FaG<' (
+
+
+Du har inga spelare.
+
+
+A/ 
+B/ Skapa spelare
+C/ 
+D/ Sluta
+E/ 
+
+V{lj: B
+
+
+Vad ska din spelare vara?
+
+1. Slagsk{mpe   2. L{rling   3. Magiker   4. Pr{st (1-4): 4
+
+
+Ska din Pr{st tillh|ra  1.Orden  eller  2.Klanen? 3
+
+
+Ska din Pr{st tillh|ra  1.Orden  eller  2.Klanen? 2
+
+
+Vad ska spelaren heta? KNATTE
+
+
+
+Dina spelare:
+
+
+ 1 . KNATTE
+
+A/ 
+B/ Skapa spelare
+C/ V{lja spelare och starta Legend
+D/ Sluta
+E/ Status f|r spelare
+
+V{lj: C
+
+Fixar spelare... & Startar Legend!
+Vad heter du? Farbror Joakim
+::Du st}r mitt p} stadens huvudgata. H{r h{rskar en f|r|dande stank. Hus
+ligger p} b}da sidor om v{gen. Norrut finns en liten butik.
+
+Du ser:
+
+       ]lga (d|d fiende)
+       Ful (v{n)
+
+Utg}ngar: Norr S|der \st V{st
+
+:$V
+:Du st}r i den v{lvda porten till staden. S|derut ser du en liten vaktkur.
+
+Du ser:
+
+       Ola (v{n)
+
+Utg}ngar: S|der \st V{st
+
+:$BYT
+Enligt Legend's lag f}r du bara byta efternamnet,
+har du bara ett namn f}r du inte byta det.
+
+:$SL[PP ALLT
+Du b{r inte p} n}got!
+
+:$UPP
+(Dunk!) Rakt in i en v{gg!
+:$U
+(Dunk!) Rakt in i en v{gg!
+:$G] N
+(Dunk!) Rakt in i en v{gg!
+:$S\DER
+:Du st}r i en tom vaktkur. En glugg l}ter dig kika ut mot skogen i v{ster.
+
+Du ser:
+       Ingenting.
+
+Utg}ngar: Norr
+
+En niv} 1 Magiker hoppar fram och utmanar dig!
+$N
+Du sl}ss ju med En niv} 1 Magiker!
+:$U
+Du sl}ss ju med En niv} 1 Magiker!
+:$BLIXT
+Du kan inte kasta blixtar...?
+Qu`?
+$UTG]NGAR
+Norr:           837 
+:$TA SV[RD
+Det finns inget h{r du kan ta med dig.
+:$V
+Du sl}ss ju med En niv} 1 Magiker!
+:$N
+Du sl}ss ju med En niv} 1 Magiker!
+:$LISTA
+
+        Du {r tomh{nt.
+
+:$T[ND
+Du har inga facklor!
+
+:$T[ND
+Du har inga facklor!
+
+:$VILKA
+
+       Niv}   Namn
+
+
+          1   ]lga (d|d fiende)                       Namnl|s
+          1   Rulle (s|mnig fiende)                   Namnl|s
+          50  Ola (v{n)                               Namnl|s
+          1   Ful (v{n)                               Namnl|s
+          1   Lundgren (d|d v{n)                      Namnl|s
+          1   Stefan (d|d fiende)                     Namnl|s
+          1   Niclas (s|mnig v{n)                     Namnl|s
+          1   Stefan (fiende)                         
+          1   Dio 1 (d|d fiende)                      Namnl|s
+*         1   Knatte (du)                             Farbror Joakim
+
+:$?
+
+
+                          %LEGEND&
+
+     Kommando:              Kort f|rklaring
+       
+     \ST                    G} }t det h}ll som anges  \
+     V[ST                                F|rkortning: V
+     NORR                                             N
+     S\DER                                            S
+     UPP                                              U
+     NED                                              D
+     SOV                    Avsluta sovande
+     SLUTA                  Avsluta vaken
+     LISTA                  Visar vad du har p} dig
+     CLS                    Rensar sk{rmen
+     TITTA                  Ger rumsbeskrivning
+     PAUS, V[NTA            L}ter dig g} och fika utan att sluta spelet
+
+
+
+Tryck n}nstans, helst p} terminal 39 : 
+
+     SKRIK                  Precis vad det st}r
+     T[NK                   Precis vad det st}r
+     STATUS                 Visa din spelares status
+     TID                    Ger tiden
+     [T                     [ta mat
+     T[ND                   T{nda fackla
+     PLOCKA                 Plocka d|d spelare
+     TAPPA                  Tappa d|d spelare
+     AVLIVA                 Ta bort d}lig spelare
+     L[S/SKRIV              P} klotterplanket
+
+
+
+Tryck n}nstans, helst p} terminal 39 : 
+
+     HJ[LP                  Ger denna lista
+     BYT                    Byta namn
+     D\DA                   D|da spelare
+     BLIXT                  Kasta en blixt p} annan spelare (Magiker)
+     HELA                   Hela skada som uppst}tt t.ex. under strid (Pr{ster)
+     VEM                    Se efter vilka som k|r Legend just nu
+     POST                   Posta ett brev till SpelChefen
+     *                      Direktlogout
+     @                      Utf|ra sintrankommando
+
+     Return i b|rjan av kommandoraden upprepar senaste kommandot.
+
+:$UPP
+Du sl}ss ju med En niv} 1 Magiker!
+:$HJ[LP
+
+
+                          %LEGEND&
+
+     Kommando:              Kort f|rklaring
+       
+     \ST                    G} }t det h}ll som anges  \
+     V[ST                                F|rkortning: V
+     NORR                                             N
+     S\DER                                            S
+     UPP                                              U
+     NED                                              D
+     SOV                    Avsluta sovande
+     SLUTA                  Avsluta vaken
+     LISTA                  Visar vad du har p} dig
+     CLS                    Rensar sk{rmen
+     TITTA                  Ger rumsbeskrivning
+     PAUS, V[NTA            L}ter dig g} och fika utan att sluta spelet
+
+
+
+Tryck n}nstans, helst p} terminal 39 : 
+
+     SKRIK                  Precis vad det st}r
+     T[NK                   Precis vad det st}r
+     STATUS                 Visa din spelares status
+     TID                    Ger tiden
+     [T                     [ta mat
+     T[ND                   T{nda fackla
+     PLOCKA                 Plocka d|d spelare
+     TAPPA                  Tappa d|d spelare
+     AVLIVA                 Ta bort d}lig spelare
+     L[S/SKRIV              P} klotterplanket
+
+
+
+Tryck n}nstans, helst p} terminal 39 : 
+
+     HJ[LP                  Ger denna lista
+     BYT                    Byta namn
+     D\DA                   D|da spelare
+     BLIXT                  Kasta en blixt p} annan spelare (Magiker)
+     HELA                   Hela skada som uppst}tt t.ex. under strid (Pr{ster)
+     VEM                    Se efter vilka som k|r Legend just nu
+     POST                   Posta ett brev till SpelChefen
+     *                      Direktlogout
+     @                      Utf|ra sintrankommando
+
+     Return i b|rjan av kommandoraden upprepar senaste kommandot.
+
+:$UPP
+Du sl}ss ju med En niv} 1 Magiker!
+:$HJ[LP
+
+
+                          %LEGEND&
+
+     Kommando:              Kort f|rklaring
+       
+     \ST                    G} }t det h}ll som anges  \
+     V[ST                                F|rkortning: V
+     NORR                                             N
+     S\DER                                            S
+     UPP                                              U
+     NED                                              D
+     SOV                    Avsluta sovande
+     SLUTA                  Avsluta vaken
+     LISTA                  Visar vad du har p} dig
+     CLS                    Rensar sk{rmen
+     TITTA                  Ger rumsbeskrivning
+     PAUS, V[NTA            L}ter dig g} och fika utan att sluta spelet
+
+
+
+Tryck n}nstans, helst p} terminal 39 : 
+
+     SKRIK                  Precis vad det st}r
+     T[NK                   Precis vad det st}r
+     STATUS                 Visa din spelares status
+     TID                    Ger tiden
+     [T                     [ta mat
+     T[ND                   T{nda fackla
+     PLOCKA                 Plocka d|d spelare
+     TAPPA                  Tappa d|d spelare
+     AVLIVA                 Ta bort d}lig spelare
+     L[S/SKRIV              P} klotterplanket
+
+
+
+Tryck n}nstans, helst p} terminal 39 : 
+
+     HJ[LP                  Ger denna lista
+     BYT                    Byta namn
+     D\DA                   D|da spelare
+     BLIXT                  Kasta en blixt p} annan spelare (Magiker)
+     HELA                   Hela skada som uppst}tt t.ex. under strid (Pr{ster)
+     VEM                    Se efter vilka som k|r Legend just nu
+     POST                   Posta ett brev till SpelChefen
+     *                      Direktlogout
+     @                      Utf|ra sintrankommando
+
+     Return i b|rjan av kommandoraden upprepar senaste kommandot.
+
+:$N
+Du sl}ss ju med En niv} 1 Magiker!
+:$D
+Du sl}ss ju med En niv} 1 Magiker!
+:$NORR
+Du sl}ss ju med En niv} 1 Magiker!
+:Du b|r {ta om ett tag.
+$G] S
+Du sl}ss ju med En niv} 1 Magiker!
+:Du b|r {ta om ett tag.
+$POST
+Skriv ditt meddelande avslutat med RETURN +  CTRL-L + RETURN
+Hej fr}n slumpen
+
+Ok.
+
+:Du b|r {ta om ett tag.
+Du sv{lter!
+$S\DER
+Du sl}ss ju med En niv} 1 Magiker!
+:Du b|r {ta om ett tag.
+Du sv{lter!
+$S\DER
+Du sl}ss ju med En niv} 1 Magiker!
+:Du b|r {ta om ett tag.
+Du sv{lter!
+$[T
+Ok.
+:$
+I$[T
+Ok.
+:$KLAPPA
+Qu`?
+$XYZZY
+#1: 838 
+:$SE
+
+Du ser:
+ (Allvetande Gud)Ingenting.
+
+Utg}ngar: Norr
+
+:$S
+Du sl}ss ju med En niv} 1 Magiker!
+:$GRINA
+Det kommandot {r inte f{rdigt {n... Lugn!!
+$FLY
+Det kommandot {r inte f{rdigt {n... Lugn!!
+$U
+Du sl}ss ju med En niv} 1 Magiker!
+:$UTG]NGAR
+Norr:           837 
+:$POST
+Skriv ditt meddelande avslutat med RETURN +  CTRL-L + RETURN
+Hej fr}n slumpen
+
+Ok.
+
+:$V[STER
+Du sl}ss ju med En niv} 1 Magiker!
+:$V[STER
+Du sl}ss ju med En niv} 1 Magiker!
+:$TIT
+Du st}r i en tom vaktkur. En glugg l}ter dig kika ut mot skogen i v{ster.
+
+Du ser:
+ (Allvetande Gud)Ingenting.
+
+Utg}ngar: Norr
+
+:$UTG]NGAR
+Norr:           837 
+:$U
+Du sl}ss ju med En niv} 1 Magiker!
+:$\STER
+Du sl}ss ju med En niv} 1 Magiker!
+:$TAPPA
+Du b{r inte p} n}gon.
+:$D
+Du sl}ss ju med En niv} 1 Magiker!
+:$?
+
+
+                          %LEGEND&
+
+     Kommando:              Kort f|rklaring
+       
+     \ST                    G} }t det h}ll som anges  \
+     V[ST                                F|rkortning: V
+     NORR                                             N
+     S\DER                                            S
+     UPP                                              U
+     NED                                              D
+     SOV                    Avsluta sovande
+     SLUTA                  Avsluta vaken
+     LISTA                  Visar vad du har p} dig
+     CLS                    Rensar sk{rmen
+     TITTA                  Ger rumsbeskrivning
+     PAUS, V[NTA            L}ter dig g} och fika utan att sluta spelet
+
+
+
+Tryck n}nstans, helst p} terminal 39 : 
+
+     SKRIK                  Precis vad det st}r
+     T[NK                   Precis vad det st}r
+     STATUS                 Visa din spelares status
+     TID                    Ger tiden
+     [T                     [ta mat
+     T[ND                   T{nda fackla
+     PLOCKA                 Plocka d|d spelare
+     TAPPA                  Tappa d|d spelare
+     AVLIVA                 Ta bort d}lig spelare
+     L[S/SKRIV              P} klotterplanket
+
+
+
+Tryck n}nstans, helst p} terminal 39 : 
+
+     HJ[LP                  Ger denna lista
+     BYT                    Byta namn
+     D\DA                   D|da spelare
+     BLIXT                  Kasta en blixt p} annan spelare (Magiker)
+     HELA                   Hela skada som uppst}tt t.ex. under strid (Pr{ster)
+     VEM                    Se efter vilka som k|r Legend just nu
+     POST                   Posta ett brev till SpelChefen
+     *                      Direktlogout
+     @                      Utf|ra sintrankommando
+
+     Return i b|rjan av kommandoraden upprepar senaste kommandot.
+
+:$UTG]NGAR
+Norr:           837 
+:$U
+Du sl}ss ju med En niv} 1 Magiker!
+:$NED
+Du sl}ss ju med En niv} 1 Magiker!
+:$UTG]NGAR
+Norr:           837 
+:$CLS
+
+:$UPP
+Du sl}ss ju med En niv} 1 Magiker!
+:$SLUTA
+
+
+So Long, ABC.
+
+@

@@ -1,0 +1,60 @@
+clock 1998-9-17 20:33 terminal 39
+20:34:45 'GS\r'                   signature
+20:34:46 '2\r'                    scenario
+20:34:46 'J'                      instructions?
+20:34:50 ' '                      any key
+20:34:51 'A'                      any key
+20:34:52 'A'                      any key
+20:34:54 '\r'                     return
+20:34:54 'B'                      menu
+20:34:55 '3\r'                    class
+20:34:56 '2\r'                    order
+20:34:56 '?!\r'                   player name
+20:34:57 'GURRA\r'                player name
+20:34:58 'C'                      menu
+20:34:58 'Farbror Joakim\r'       your name
+20:35:00 'FLY\r'                  command
+20:35:01 'SE\r'                   command
+20:35:02 'TIT\r'                  command
+20:35:05 'V[LJ\r'                 command
+20:35:06 'HELA\r'                 command
+20:35:07 'n\r'                    command
+20:35:07 '\\STER\r'               command
+20:35:08 'klappa\r'               command
+20:35:09 'XYZZY\r'                command
+20:35:10 'BYT\r'                  command
+20:35:10 'G] S\r'                 command
+20:35:11 'G] N\r'                 command
+20:35:12 'post\r'                 command
+20:35:12 'Hej fr}n slumpen\r\x0c\r' letter
+20:35:13 'S\\DER\r'               command
+20:35:14 'SL[PP ALLT\r'           command
+20:35:14 'S\\DER\r'               command
+20:35:15 'KLAPPA\r'               command
+20:35:15 'V\r'                    command
+20:35:16 'HELA\r'                 command
+20:35:17 'POSITION\r'             command
+20:35:17 '4\r'                    position
+20:35:18 '3\r'                    position
+20:35:18 'GRINA\r'                command
+20:35:19 'LISTA\r'                command
+20:35:20 'N\r'                    command
+20:35:21 'ned\r'                  command
+20:35:21 'sta\r'                  command
+20:35:22 'S\r'                    command
+20:35:23 'u\r'                    command
+20:35:24 'N\r'                    command
+20:35:25 'status\r'               command
+20:35:25 'V\r'                    command
+20:35:26 's\r'                    command
+20:35:27 'TIT\r'                  command
+20:35:28 '\\\r'                   command
+20:35:29 'TITTA\r'                command
+20:35:29 'v\r'                    command
+20:35:30 'D\r'                    command
+20:35:31 'vem\r'                  command
+20:35:32 'U\r'                    command
+20:35:32 'STATUS\r'               command
+20:35:33 'T[ND\r'                 command
+20:35:34 'UPP\r'                  command
+20:35:35 'TIT\r'                  command

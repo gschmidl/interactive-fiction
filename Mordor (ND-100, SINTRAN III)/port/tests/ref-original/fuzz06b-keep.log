@@ -1,0 +1,276 @@
+14:09:16 'N\r'                  instructions
+14:09:17 '\x1bH'                take Frodo
+14:09:18 '\x1bC'                cursor
+14:09:18 '\x1bC'                cursor
+14:09:18 '\x1bC'                cursor
+14:09:18 '\x1bH'                take Pippin
+14:09:18 '\x1bB'                cursor
+14:09:18 '\x1bH'                take Haldir
+14:09:18 '\x1bC'                cursor
+14:09:18 '\x1bC'                cursor
+14:09:18 '\x1bH'                take Gildor
+14:09:18 '\x1bC'                cursor
+14:09:18 '\x1bC'                cursor
+14:09:18 '\x1bH'                take Aragorn
+14:09:18 '\x1bC'                cursor
+14:09:19 '\x1bC'                cursor
+14:09:19 '\x1bH'                take Faramir
+14:09:19 '\x1bC'                cursor
+14:09:19 '\x1bC'                cursor
+14:09:19 '\x1bH'                take Imrahil
+14:09:19 '\x1bC'                cursor
+14:09:19 '\x1bH'                take Halbarad
+14:09:19 '\x1bC'                cursor
+14:09:19 '\x1bH'                take Theodr`d
+14:09:19 '\x1bC'                cursor
+14:09:19 '\x1bC'                cursor
+14:09:19 '\x1bC'                cursor
+14:09:20 '\x1bH'                take Damrod
+14:09:20 '\x1bC'                cursor
+14:09:20 '\x1bC'                cursor
+14:09:20 '\x1bH'                take Elrond
+14:09:20 '\x1bC'                cursor
+14:09:20 '\x1bC'                cursor
+14:09:20 '\x1bH'                take Thranduil
+14:09:20 '\x1bB'                cursor
+14:09:20 '\x1bB'                cursor
+14:09:20 'FCTCOKT\r'            name
+14:09:20 'DCOTQF\r'             name
+14:09:21 'W\r'                  command 1
+14:09:21 'XYZZY\r'              command 2
+14:09:21 'N1\r'                 command 3
+14:09:22 'W1\r'                 command 4
+14:09:22 'W2\r'                 command 5
+14:09:22 'SE1\r'                command 6
+14:09:23 'FOLLOW-ROAD\r'        command 7
+14:09:23 'O\r'                  command 8
+14:09:23 '0\r'                  command 9
+14:09:23 'SW+\r'                command 10
+14:09:24 'F\r'                  fight/run
+14:09:24 'F\r'                  fight/run
+14:09:24 'R\r'                  fight/run
+14:09:24 'N\r'                  command 11
+14:09:25 'USE\r'                command 12
+14:09:25 'REP\r'                command 13
+14:09:25 '0\r'                  command 14
+14:09:26 '\r'                   fight/run
+14:09:26 '\r'                   fight/run
+14:09:26 'ATCIQTP\r'            name
+14:09:27 'R\r'                  fight/run
+14:09:27 'SW1\r'                command 15
+14:09:27 'NE1\r'                command 16
+14:09:27 'SW\r'                 command 17
+14:09:28 'ON\r'                 command 18
+14:09:28 'REPORT\r'             command 19
+14:09:28 '0\r'                  command 20
+14:09:29 'FOLLOW-ROAD\r'        command 21
+14:09:29 'NE+\r'                command 22
+14:09:30 'N9\r'                 command 23
+14:09:30 'R\r'                  fight/run
+14:09:30 'OFF\r'                command 24
+14:09:31 'MAP\r'                command 25
+14:09:31 'E1\r'                 command 26
+14:09:31 'N\r'                  command 27
+14:09:31 'SW3\r'                command 28
+14:09:32 'E\r'                  command 29
+14:09:32 'E\r'                  command 30
+14:09:32 '\r'                   fight/run
+14:09:32 'R\r'                  fight/run
+14:09:33 'S+\r'                 command 31
+14:09:33 'R\r'                  fight/run
+14:09:33 'S2\r'                 command 32
+14:09:34 'SE\r'                 command 33
+14:09:34 'W3\r'                 command 34
+14:09:34 'S2\r'                 command 35
+14:09:35 'SE3\r'                command 36
+14:09:35 'ASK\r'                command 37
+14:09:35 '\r'                   command 38
+14:09:35 'XYZZY\r'              command 39
+14:09:36 'SE2\r'                command 40
+14:09:36 'O\r'                  command 41
+14:09:36 'SE\r'                 command 42
+14:09:36 'SE3\r'                command 43
+14:09:37 'SW1\r'                command 44
+14:09:37 'NW9\r'                command 45
+14:09:37 'N+\r'                 command 46
+14:09:38 'N3\r'                 command 47
+14:09:38 'W\r'                  command 48
+14:09:38 'E2\r'                 command 49
+14:09:39 '\r'                   fight/run
+14:09:39 'R\r'                  fight/run
+14:09:39 'F\r'                  fight/run
+14:09:39 'R\r'                  fight/run
+14:09:40 'W+\r'                 command 50
+14:09:40 'F\r'                  fight/run
+14:09:40 'F\r'                  fight/run
+14:09:40 '\r'                   fight/run
+14:09:41 'R\r'                  fight/run
+14:09:41 'W\r'                  command 51
+14:09:41 '0\r'                  command 52
+14:09:42 'E9\r'                 command 53
+14:09:42 'E9\r'                 command 54
+14:09:43 'MAP\r'                command 55
+14:09:43 'SW9\r'                command 56
+14:09:43 'KILL\r'               command 57
+14:09:44 'S+\r'                 command 58
+14:09:44 'SE+\r'                command 59
+14:09:44 'SE+\r'                command 60
+14:09:45 'NE9\r'                command 61
+14:09:45 '\r'                   command 62
+14:09:45 'S9\r'                 command 63
+14:09:45 'NW\r'                 command 64
+14:09:46 'TIE\r'                command 65
+14:09:46 'NW3\r'                command 66
+14:09:46 'NW3\r'                command 67
+14:09:47 'W3\r'                 command 68
+14:09:47 'REPORT\r'             command 69
+14:09:47 'USE\r'                command 70
+14:09:48 'USE\r'                command 71
+14:09:48 'REP\r'                command 72
+14:09:49 'REPORT\r'             command 73
+14:09:49 'XYZZY\r'              command 74
+14:09:49 'E1\r'                 command 75
+14:09:50 'E1\r'                 command 76
+14:09:50 'NE+\r'                command 77
+14:09:50 'S\r'                  command 78
+14:09:51 'NW\r'                 command 79
+14:09:51 'S+\r'                 command 80
+14:09:51 'SE+\r'                command 81
+14:09:52 'THROW\r'              command 82
+14:09:52 'NE\r'                 command 83
+14:09:52 '0\r'                  command 84
+14:09:53 'XYZZY\r'              command 85
+14:09:53 'O\r'                  command 86
+14:09:53 'E+\r'                 command 87
+14:09:53 'ON\r'                 command 88
+14:09:54 'E1\r'                 command 89
+14:09:54 'ON\r'                 command 90
+14:09:54 'S\r'                  command 91
+14:09:54 'E1\r'                 command 92
+14:09:55 'SE2\r'                command 93
+14:09:55 'SW\r'                 command 94
+14:09:55 'NE+\r'                command 95
+14:09:56 'FOLLOW-ROAD\r'        command 96
+14:09:56 'E9\r'                 command 97
+14:09:56 'ASK\r'                command 98
+14:09:56 'NE\r'                 command 99
+14:09:57 'ON\r'                 command 100
+14:09:57 'S+\r'                 command 101
+14:09:57 'E1\r'                 command 102
+14:09:57 'SE9\r'                command 103
+14:09:58 'O\r'                  command 104
+14:09:58 'HELP\r'               command 105
+14:09:58 'SW9\r'                command 106
+14:09:59 'W+\r'                 command 107
+14:09:59 'OFF\r'                command 108
+14:09:59 'E1\r'                 command 109
+14:10:00 'XYZZY\r'              command 110
+14:10:00 'E\r'                  command 111
+14:10:00 'N\r'                  command 112
+14:10:01 'NE\r'                 command 113
+14:10:01 'N3\r'                 command 114
+14:10:01 'N+\r'                 command 115
+14:10:02 'ON\r'                 command 116
+14:10:02 'N+\r'                 command 117
+14:10:02 'N\r'                  command 118
+14:10:02 'FOLLOW-ROAD\r'        command 119
+14:10:03 'THROW\r'              command 120
+14:10:03 'NW+\r'                command 121
+14:10:03 '0\r'                  command 122
+14:10:04 'SW1\r'                command 123
+14:10:04 'ON\r'                 command 124
+14:10:04 'ON\r'                 command 125
+14:10:04 'SE3\r'                command 126
+14:10:05 'SW+\r'                command 127
+14:10:05 'REP\r'                command 128
+14:10:06 'W3\r'                 command 129
+14:10:06 'W1\r'                 command 130
+14:10:06 'THROW\r'              command 131
+14:10:07 '0\r'                  command 132
+14:10:07 'E+\r'                 command 133
+14:10:07 'SW9\r'                command 134
+14:10:08 '0\r'                  command 135
+14:10:08 'HELP\r'               command 136
+14:10:09 'REPORT\r'             command 137
+14:10:09 'S2\r'                 command 138
+14:10:09 'NE1\r'                command 139
+14:10:10 '\r'                   command 140
+14:10:10 '0\r'                  command 141
+14:10:10 'NW\r'                 command 142
+14:10:11 'REP\r'                command 143
+14:10:11 'W+\r'                 command 144
+14:10:12 'N1\r'                 command 145
+14:10:12 'E\r'                  command 146
+14:10:12 'E+\r'                 command 147
+14:10:13 'S+\r'                 command 148
+14:10:13 'E3\r'                 command 149
+14:10:13 'REPORT\r'             command 150
+14:10:14 '0\r'                  command 151
+14:10:14 'HELP\r'               command 152
+14:10:15 'NE1\r'                command 153
+14:10:15 'N\r'                  command 154
+14:10:15 'THROW\r'              command 155
+14:10:15 'REP\r'                command 156
+14:10:16 'S3\r'                 command 157
+14:10:16 'F\r'                  fight/run
+14:10:16 '\r'                   fight/run
+14:10:17 'R\r'                  fight/run
+14:10:17 'NE2\r'                command 158
+14:10:18 'USE\r'                command 159
+14:10:18 'NW+\r'                command 160
+14:10:19 '0\r'                  command 161
+14:10:19 '\r'                   command 162
+14:10:19 'NE+\r'                command 163
+14:10:20 '0\r'                  command 164
+14:10:20 '0\r'                  command 165
+14:10:21 'SE9\r'                command 166
+14:10:21 'THROW\r'              command 167
+14:10:21 'ASK\r'                command 168
+14:10:21 'SE1\r'                command 169
+14:10:22 'FOLLOW\r'             command 170
+14:10:22 'REP\r'                command 171
+14:10:22 'SW+\r'                command 172
+14:10:23 'HELP\r'               command 173
+14:10:23 'NW9\r'                command 174
+14:10:24 'USE\r'                command 175
+14:10:24 'W9\r'                 command 176
+14:10:24 'SW+\r'                command 177
+14:10:25 'S2\r'                 command 178
+14:10:25 'SW1\r'                command 179
+14:10:25 'SE9\r'                command 180
+14:10:26 'W\r'                  command 181
+14:10:26 'SW3\r'                command 182
+14:10:26 'S+\r'                 command 183
+14:10:27 'REP\r'                command 184
+14:10:27 'SW2\r'                command 185
+14:10:27 'SW3\r'                command 186
+14:10:28 'NE9\r'                command 187
+14:10:28 'N1\r'                 command 188
+14:10:28 '\r'                   command 189
+14:10:29 'ASK\r'                command 190
+14:10:29 'W1\r'                 command 191
+14:10:29 'USE\r'                command 192
+14:10:29 'E+\r'                 command 193
+14:10:30 'HELP\r'               command 194
+14:10:30 'TIE\r'                command 195
+14:10:30 'N1\r'                 command 196
+14:10:31 'UNTIE\r'              command 197
+14:10:31 'N2\r'                 command 198
+14:10:31 '0\r'                  command 199
+14:10:31 'NW2\r'                command 200
+14:10:32 'NE+\r'                command 201
+14:10:32 'N1\r'                 command 202
+14:10:32 'SW9\r'                command 203
+14:10:33 'N+\r'                 command 204
+14:10:33 'ON\r'                 command 205
+14:10:33 '0\r'                  command 206
+14:10:33 'R\r'                  fight/run
+14:10:34 'R\r'                  fight/run
+14:10:34 'KILL\r'               command 207
+14:10:34 '0\r'                  command 208
+14:10:35 'F\r'                  fight/run
+14:10:35 'R\r'                  fight/run
+14:10:35 'R\r'                  fight/run
+14:10:35 'R\r'                  fight/run
+14:10:36 'R\r'                  fight/run
+14:10:36 'F\r'                  fight/run

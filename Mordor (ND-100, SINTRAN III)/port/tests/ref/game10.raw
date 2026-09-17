@@ -1,0 +1,212 @@
+MORDORF-REF
+                    -  Mordor: Land of evil.  v7.52 850211  -
+
+
+
+
+Do you want instructions (Y/N) <N>: N
+Please wait while I tune the Palantir for Middle Earth.
+Now you shall decide which of our heroes you would like
+to go on the trip. Select 4-12 of those below
+by using the arrow-keys and Home to select/deselect.
+When finished: Place the cursor on 'Finished'.
+Y% FrodoY%4SamY%HMerryY%\PippinY& FredegarY&4LegolasY&HGlorfindelY&\HaldirY' RumilY'4GildorY'HGandalfY'\AragornY( BoromirY(4FaramirY(H@omerY(\ImrahilY) HalbaradY)4Theodr`dY)HBeregondY)\MablungY* DamrodY*4GimliY*HElrondY*\ErestorY+ ThranduilY+4DainY+HBrandY+\CelebornY, ErkenbrandY,4GamlingY,HForlongY,\DenethorY- 'Finished.(Y% Y%4Y%HY%\'Pippin(Y%\Y& 'Fredegar(Y& Y' Y'4Y'H'Gandalf(Y'HY(H'@omer(Y(HY)HY)\Y* Y*4'Gimli(Y*4Y+4'Dain(Y+4Y,4'Gamling(Y,4Y,HY,\'Denethor(Y,\Y/ JWho shall be the Ringbearer: Gamling
+And who shall carry (and use) the Palantir: Fredegar
+
+                      
+                      
+  : :           : =   
+  & : : T T T : : =   
+& & : : : : : : : = : 
+: & &'nS@& : :F: : : = : 
+& : & & : : : : : = : 
+  : : & : : : : : =   
+  &'hS@T & T : : : : =   
+    T     T T : =     
+                      
+MP= 5.00   X=120   Y= 90   Command: USE
+Distance to Orodruin is approx. 111 units.
+MP= 5.00   X=120   Y= 90   Command: s
+MP= 3.50   X=121   Y= 90   Command: e
+MP= 2.00   X=121   Y= 91   Command: KILL
+You can't kill Gollum when he isn't there!
+MP= 2.00   X=121   Y= 91   Command: follow-road
+Oops! There is something in your way!
+MP= 2.00   X=121   Y= 91   Command: THROW
+You don't have sufficient willpower to throw the Ring
+unless at Mt. Doom!
+MP= 2.00   X=121   Y= 91   Command: N+
+You moved 1 steps.
+
+
+                      
+                =     
+            T : = :   
+  :   T T T : : = :   
+& : : : : : : : = : : 
+& & & : :'nS@:F: : = : : 
+: & & : : : : : = : : 
+  : & :'hS@: : : : = :   
+  T & T : : : : = :   
+        T T : = :     
+            T         
+MP= 4.25   X=120   Y= 91   Command: report
+The fellowship currently consists of:
+Pippin, Fredegar, Gandalf, @omer, Gimli, Dain, Gamling, Denethor.
+Gollum is chasing the Ring!
+The Ring is in Gamlings pocket.
+Fredegar carries the Palantir.
+These are still fighting at Minas Tirith
+Aragorn, Boromir, Faramir, Imrahil, Beregond, Mablung, Damrod, Forlong.
+These are still fighting at Dale
+Legolas, Thranduil, Brand, Grimbeorn.
+These are still fighting at Rivendell
+Merry, Glorfindel, Gildor, Halbarad, Elrond, Erestor, Elladan, Ellrohir.
+These are still fighting at Lothlorien
+Frodo, Sam, Haldir, Rumil, Celeborn, Orophin, Galadriel.
+These are still fighting at Edoras
+Theodr`d, Erkenbrand, Hama, Ceorl, @owyn.
+MP= 4.25   X=120   Y= 91   Command: UNTIE
+Gollum is not here!
+MP= 4.25   X=120   Y= 91   Command: E
+MP= 2.75   X=120   Y= 92   Command: E9
+You moved 2 steps.
+
+
+        : = :         
+        : = : : :     
+    T T : = : : : :   
+    T : : = : : : :   
+: : : : : = : : : : : 
+: : :'hS@: :'nS@=F: : : : : 
+: : : : : = : : : : : 
+  : : : : = : & & :   
+  : : : : = : & & &   
+    T : = : : & :     
+        = T :         
+MP= 3.34   X=120   Y= 94   Command: XYZZY
+Illegal Command.
+Reenter: S3
+MP= 1.39   X=123   Y= 94   Command: FOLLOW-ROAD
+You moved 0 steps. If you proceed, you may get tired!
+MP= 1.39   X=123   Y= 94   Command: S9
+You moved 1 steps.
+
+*** Night Turn ***
+
+    =     
+  : = :   
+:'hS@= :F: & 
+  = T :   
+          
+MP= 2.49   X=124   Y= 94   Command: W3
+Now you really are in trouble! You have run into a bunch of Haradrim!
+Will you fight together or individually (T/I): I
+Ok! The fellowship currently consists of:
+Pippin
+Fredegar
+Gandalf
+@omer
+Gimli
+Dain
+Gamling
+Denethor
+Who is now going to fight? Pippin
+Pippin was killed by his enemy!
+(F)ight or (R)un away? r
+You got away! The monsters soon give up pursuit!
+You moved 2 steps.
+
+
+          : &         
+          : & & T     
+    M M M : : & T     
+    T : : :'wS@: : T     
+& : : : : : : : T     
+& & : : : :F: : T     
+        M M M         
+                      
+                      
+                      
+                      
+MP= 1.67   X=127   Y= 84   Command: SW3
+You moved 1 steps.
+You are attacked by a bunch of Wolves!
+Gandalf is attacked!
+Gandalf killed his opponent!
+(F)ight or (R)un away? R
+You got away! The monsters soon give up pursuit!
+You are attacked by a bunch of Haradrim!
+Fredegar is attacked!
+Fredegar was killed by his enemy!
+You must now choose a new carrier for the Palantir.
+The Fellowship currently consists of:
+Gandalf
+@omer
+Gimli
+Dain
+Gamling
+Denethor
+Who shall have the honor? Gandalf
+(F)ight or (R)un away? r
+You got away! The monsters soon give up pursuit!
+
+
+                      
+                      
+                      
+      T               
+        : T T         
+        T'hS@:F: T       
+        M M M         
+                      
+                      
+                      
+                      
+MP= 3.67   X=127   Y= 89   Command: untie
+Gollum is not here!
+MP= 3.67   X=127   Y= 89   Command: N
+MP= 1.92   X=126   Y= 89   Command: W+
+You moved 1 steps.
+You are attacked by a Nazgul!
+@omer is attacked!
+@omer got captured by the villains!
+(F)ight or (R)un away? R
+You can't run from Nazgul or Shelob!
+Gamling is attacked!
+Gamling was killed by his enemy!
+You must now choose a new Ringbearer.
+The Fellowship currently consists of:
+Gandalf
+Gimli
+Dain
+Denethor
+Who shall have the honor? Fredegar
+Illegal name.
+Reenter: pippin
+Illegal name.
+Reenter: GANDALF
+(F)ight or (R)un away? 
+Denethor is attacked!
+Denethor was killed by his enemy!
+(F)ight or (R)un away? f
+Gandalf is attacked!
+Gandalf was knocked unconscious!
+(F)ight or (R)un away? r
+You can't run from Nazgul or Shelob!
+Gimli is attacked!
+Gimli was knocked unconscious!
+(F)ight or (R)un away? 
+Dain is attacked!
+Dain was killed by his enemy!
+There is noone left of the fellowship!
+The mission has failed!
+
+Surviving heroes:       35.
+Killed enemy groups:     1.
+Citadels remaining:      5.
+Distance to Mt. Doom.  114.
+Score:                 353.
+Your overall performance was not so good. However the future looks bright.
+
+@

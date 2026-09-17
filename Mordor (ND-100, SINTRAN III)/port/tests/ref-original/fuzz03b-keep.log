@@ -1,0 +1,49 @@
+14:07:24 'N\r'                  instructions
+14:07:26 '\x1bB'                cursor
+14:07:26 '\x1bB'                cursor
+14:07:26 '\x1bC'                cursor
+14:07:26 '\x1bC'                cursor
+14:07:26 '\x1bC'                cursor
+14:07:26 '\x1bH'                take Aragorn
+14:07:26 '\x1bB'                cursor
+14:07:26 '\x1bH'                take Imrahil
+14:07:27 '\x1bC'                cursor
+14:07:27 '\x1bH'                take Halbarad
+14:07:27 '\x1bB'                cursor
+14:07:27 '\x1bC'                cursor
+14:07:27 '\x1bC'                cursor
+14:07:27 '\x1bH'                take Elrond
+14:07:27 '\x1bB'                cursor
+14:07:27 '\x1bC'                cursor
+14:07:27 '\x1bC'                cursor
+14:07:27 '\x1bC'                cursor
+14:07:27 '\x1bH'                take Gamling
+14:07:27 '\x1bC'                cursor
+14:07:28 '\x1bH'                take Forlong
+14:07:28 '\x1bC'                cursor
+14:07:28 '\x1bH'                take Denethor
+14:07:28 '\x1bC'                cursor
+14:07:28 'FQTNQPI\r'            name
+14:07:28 'X\r'                  name
+14:07:28 'IOTCJKN\r'            name again
+14:07:29 'UNTIE\r'              command 1
+14:07:29 'HELP\r'               command 2
+14:07:29 'OFF\r'                command 3
+14:07:30 'NW2\r'                command 4
+14:07:30 'W1\r'                 command 5
+14:07:30 'NW+\r'                command 6
+14:07:31 'OFF\r'                command 7
+14:07:31 'E\r'                  command 8
+14:07:31 'XYZZY\r'              command 9
+14:07:32 'SW2\r'                command 10
+14:07:32 'ASK\r'                command 11
+14:07:32 'FOLLOW\r'             command 12
+14:07:32 'REP\r'                command 13
+14:07:33 'NW2\r'                command 14
+14:07:33 'FOLLOW-ROAD\r'        command 15
+14:07:34 'S\r'                  command 16
+14:07:34 'USE\r'                command 17
+14:07:34 'NE2\r'                command 18
+14:07:34 'SE1\r'                command 19
+14:07:35 '0\r'                  command 20
+14:07:35 'NW+\r'                command 21

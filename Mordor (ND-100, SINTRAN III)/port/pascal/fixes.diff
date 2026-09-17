@@ -1,0 +1,65 @@
+198a199,210
+> (* Port fix, 2026: LARGE subtracted 30, not 32, so a name only matched when
+>    typed two letters on ('FTQ' for Frodo).  Now a letter matches in either
+>    case, and the Swedish E-acute (@, `) matches E too.  INSTR upper-cases
+>    what is typed, so commands and answers work in lower case as well. *)
+> 
+> FUNCTION LARGE(CH: CHAR): CHAR;
+> 
+> BEGIN  IF CH IN ['`'..'~'] THEN CH:=CHR(ORD(CH)-32);
+>        IF CH='@' THEN CH:='E';
+>        LARGE:=CH;
+> END;
+> 
+218c230
+<              READ(STRING[LEN]);
+---
+>              READ(STRING[LEN]); STRING[LEN]:=LARGE(STRING[LEN]);
+324,327d335
+< FUNCTION LARGE(CH: CHAR): CHAR;
+< 
+< BEGIN  IF CH IN ['a'..'}'] THEN LARGE:=CHR(ORD(CH)-30) ELSE LARGE:=CH; END;
+< 
+346c354,355
+<              WRONG:=(WRONG OR (STRANG[J1]<>LARGE(FELLOW_N[I1,J1])));
+---
+>              IF J1<MAXLEN THEN
+>                WRONG:=(WRONG OR (STRANG[J1]<>LARGE(FELLOW_N[I1,J1])));
+610c619,622
+<            FELLOWS[RING_BEARER,1]:=IN_FELLOW; MEMB:=MEMB+1;
+---
+>            (* Port fix, 2026: count him in only if he was not back already *)
+>            IF FELLOWS[RING_BEARER,1]<>IN_FELLOW THEN BEGIN
+>              FELLOWS[RING_BEARER,1]:=IN_FELLOW; MEMB:=MEMB+1;
+>            END;
+641a654,665
+> (* Port fix, 2026: MEMB is recounted from FELLOWS in every fight.  When it
+>    was too high, a fight with nobody left looked for a fighter for ever. *)
+> 
+> FUNCTION FELLOWS_LEFT: INTEGER;
+> 
+> VAR    I1,J1: INTEGER;
+> 
+> BEGIN  J1:=0;
+>        FOR I1:=1 TO MEMBERS DO IF FELLOWS[I1,1]=IN_FELLOW THEN J1:=J1+1;
+>        FELLOWS_LEFT:=J1;
+> END;
+> 
+650c674
+<        BEGIN IF MEMB=0 THEN BEGIN
+---
+>        BEGIN MEMB:=FELLOWS_LEFT; IF MEMB=0 THEN BEGIN
+740a765
+>        CHECK_FELLOWSHIP;
+1313a1339,1341
+>              (* Port fix, 2026: a Ring-bearer who escapes has the Ring again;
+>                 it stayed CAUGHT, and ON counted him in a second time *)
+>              IF (I1=RING_BEARER) AND (RING=CAUGHT) THEN RING:=OFF;
+1741c1769,1773
+<        FOR I:=1 TO MEMBERS DO BEGIN
+---
+>        (* Port fix, 2026: only the 32 heroes one can choose.  v7.52 added
+>           eight people who stay in the citadels (Hama to Grimbeorn, with no
+>           strength) and drew them here too, under and after 'Finished',
+>           where the cursor never goes. *)
+>        FOR I:=1 TO 32 DO BEGIN

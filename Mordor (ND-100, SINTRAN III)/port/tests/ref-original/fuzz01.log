@@ -1,0 +1,59 @@
+14:04:51 'N\r'                  instructions
+14:04:58 '\x1bB'                cursor
+14:04:59 '\x1bC'                cursor
+14:04:59 '\x1bC'                cursor
+14:04:59 '\x1bH'                take Glorfindel
+14:04:59 '\x1bC'                cursor
+14:04:59 '\x1bH'                take Haldir
+14:04:59 '\x1bB'                cursor
+14:04:59 '\x1bC'                cursor
+14:04:59 '\x1bH'                take Boromir
+14:04:59 '\x1bC'                cursor
+14:04:59 '\x1bC'                cursor
+14:04:59 '\x1bH'                take @omer
+14:04:59 '\x1bC'                cursor
+14:04:59 '\x1bH'                take Imrahil
+14:05:00 '\x1bB'                cursor
+14:05:00 '\x1bC'                cursor
+14:05:00 '\x1bH'                take Damrod
+14:05:00 '\x1bB'                cursor
+14:05:00 '\x1bH'                take Thranduil
+14:05:00 '\x1bB'                cursor
+14:05:00 '\x1bC'                cursor
+14:05:00 '\x1bC'                cursor
+14:05:00 '\x1bH'                take Forlong
+14:05:00 '\x1bC'                cursor
+14:05:01 '\x1bC'                cursor
+14:05:01 'GNQTHKPFGN\r'         name
+14:05:01 'TJTCPFWKN\r'          name
+14:05:01 'N9\r'                 command 1
+14:05:02 'W\r'                  command 2
+14:05:02 'ON\r'                 command 3
+14:05:02 'N+\r'                 command 4
+14:05:03 'MAP\r'                command 5
+14:05:03 'O\r'                  command 6
+14:05:04 'SW9\r'                command 7
+14:05:04 'NW2\r'                command 8
+14:05:05 'FOLLOW\r'             command 9
+14:05:05 'ON\r'                 command 10
+14:05:05 'S1\r'                 command 11
+14:05:05 'REPORT\r'             command 12
+14:05:06 'NW+\r'                command 13
+14:05:06 'R\r'                  fight/run
+14:05:07 'SW+\r'                command 14
+14:05:07 'N9\r'                 command 15
+14:05:07 'SE+\r'                command 16
+14:05:08 'UNTIE\r'              command 17
+14:05:08 'NW\r'                 command 18
+14:05:09 'S1\r'                 command 19
+14:05:09 'SE+\r'                command 20
+14:05:10 'N9\r'                 command 21
+14:05:10 'T\r'                  together/individually
+14:05:10 'SE1\r'                command 22
+14:05:11 'W\r'                  command 23
+14:05:11 'XYZZY\r'              command 24
+14:05:11 'XYZZY\r'              command 25
+14:05:12 'NW+\r'                command 26
+14:05:12 '\r'                   fight/run
+14:05:12 'R\r'                  fight/run
+14:05:13 'QUIT\r'               command 27

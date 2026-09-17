@@ -1,0 +1,60 @@
+16:02:06 '\r'                   instructions
+16:02:07 '\x1bB'                cursor
+16:02:07 '\x1bB'                cursor
+16:02:07 '\x1bH'                take Rumil
+16:02:08 '\x1bB'                cursor
+16:02:08 '\x1bH'                take Boromir
+16:02:08 '\x1bC'                cursor
+16:02:08 '\x1bC'                cursor
+16:02:08 '\x1bH'                take @omer
+16:02:08 '\x1bC'                cursor
+16:02:08 '\x1bC'                cursor
+16:02:08 '\x1bC'                cursor
+16:02:08 '\x1bH'                take Theodr`d
+16:02:08 '\x1bB'                cursor
+16:02:08 '\x1bB'                cursor
+16:02:08 '\x1bC'                cursor
+16:02:09 '\x1bH'                take Brand
+16:02:09 '\x1bC'                cursor
+16:02:09 '\x1bH'                take Celeborn
+16:02:09 '\x1bC'                cursor
+16:02:09 '\x1bC'                cursor
+16:02:09 '\x1bH'                take Gamling
+16:02:09 '\x1bC'                cursor
+16:02:09 '\x1bC'                cursor
+16:02:09 '\x1bC'                cursor
+16:02:09 'Celeborn\r'           name
+16:02:09 'Eomer\r'              name
+16:02:10 'n\r'                  command 1
+16:02:10 'SW1\r'                command 2
+16:02:11 'SW2\r'                command 3
+16:02:11 'F\r'                  fight/run
+16:02:11 '\r'                   fight/run
+16:02:12 'R\r'                  fight/run
+16:02:12 'N\r'                  command 4
+16:02:12 '\r'                   command 5
+16:02:13 'SW\r'                 command 6
+16:02:13 '0\r'                  command 7
+16:02:13 'SW1\r'                command 8
+16:02:13 'rep\r'                command 9
+16:02:14 '0\r'                  command 10
+16:02:14 'N9\r'                 command 11
+16:02:15 'xyzzy\r'              command 12
+16:02:15 'REPORT\r'             command 13
+16:02:16 'ON\r'                 command 14
+16:02:16 'se3\r'                command 15
+16:02:16 '\r'                   command 16
+16:02:17 'xyzzy\r'              command 17
+16:02:17 'SW2\r'                command 18
+16:02:17 'report\r'             command 19
+16:02:18 'XYZZY\r'              command 20
+16:02:18 'e\r'                  command 21
+16:02:18 'ON\r'                 command 22
+16:02:18 'SE\r'                 command 23
+16:02:19 'NE9\r'                command 24
+16:02:19 '\r'                   fight/run
+16:02:19 '\r'                   fight/run
+16:02:20 'F\r'                  fight/run
+16:02:20 'r\r'                  fight/run
+16:02:20 'r\r'                  fight/run
+16:02:21 'R\r'                  fight/run

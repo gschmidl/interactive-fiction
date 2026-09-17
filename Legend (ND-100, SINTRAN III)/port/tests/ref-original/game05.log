@@ -1,0 +1,60 @@
+clock 1998-9-17 20:43 terminal 39
+20:48:42 'ABC\r'                  signature
+20:48:43 '6\r'                    scenario
+20:48:43 'N'                      instructions?
+20:48:47 '\r'                     return
+20:48:48 'B'                      menu
+20:48:48 '3\r'                    class
+20:48:49 '2\r'                    order
+20:48:50 'FNATTE\r'               player name
+20:48:50 'C'                      menu
+20:48:51 'Jo\r'                   your name
+20:48:51 'Musse Pigg\r'           your name
+20:48:53 't[nd\r'                 command
+20:48:54 '\\\r'                   command
+20:48:56 'TELEPORT\r'             command
+20:48:56 'D\\DA\r'                command
+20:48:57 'EN\r'                   whom
+20:48:58 'POST\r'                 command
+20:48:58 'Hej fr}n slumpen\r\x0c\r' letter
+20:48:59 'D\r'                    command
+20:49:00 'VEM\r'                  command
+20:49:01 'HJ[LP\r'                command
+20:49:02 'A'                      help page
+20:49:02 '\r'                     help page
+20:49:03 'FLY\r'                  command
+20:49:04 'GRINA\r'                command
+20:49:04 'TAPPA\r'                command
+20:49:05 'POST\r'                 command
+20:49:06 'Hej fr}n slumpen\r\x0c\r' letter
+20:49:07 'NORR\r'                 command
+20:49:11 'sluta spela\r'          command
+20:49:12 'S\\DER\r'               command
+20:49:13 'D\r'                    command
+20:49:13 'TITTA\r'                command
+20:49:14 'V[STER\r'               command
+20:49:15 'NED\r'                  command
+20:49:16 'FLY\r'                  command
+20:49:16 'LISTA\r'                command
+20:49:17 'V[STER\r'               command
+20:49:17 'V\r'                    command
+20:49:18 'u\r'                    command
+20:49:19 'VILKA\r'                command
+20:49:20 'G] S\r'                 command
+20:49:20 'g] n\r'                 command
+20:49:21 'BLIXT\r'                command
+20:49:21 '3\r'                    grade
+20:49:22 '   1   P~N\r'           whom
+20:49:22 'post\r'                 command
+20:49:23 'Hej fr}n slumpen\r\x0c\r' letter
+20:49:24 'plocka\r'               command
+20:49:24 '   1   VIPS FRAGGEL\r'  whom
+20:49:25 'UPP\r'                  command
+20:49:25 'POSITION\r'             command
+20:49:26 'T[ND\r'                 command
+20:49:27 'STA\r'                  command
+20:49:27 'G] S\r'                 command
+20:49:28 'SL[PP ALLT\r'           command
+20:49:29 'OMSTART\r'              command
+20:49:31 '\r'                     return
+20:49:31 'C'                      menu

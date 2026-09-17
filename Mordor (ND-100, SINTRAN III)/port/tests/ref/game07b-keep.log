@@ -1,0 +1,63 @@
+16:07:00 'N\r'                  instructions
+16:07:01 '\x1bB'                cursor
+16:07:01 '\x1bB'                cursor
+16:07:01 '\x1bC'                cursor
+16:07:01 '\x1bH'                take Gildor
+16:07:01 '\x1bC'                cursor
+16:07:01 '\x1bC'                cursor
+16:07:01 '\x1bC'                cursor
+16:07:01 '\x1bH'                take Boromir
+16:07:01 '\x1bC'                cursor
+16:07:01 '\x1bH'                take Faramir
+16:07:01 '\x1bC'                cursor
+16:07:02 '\x1bC'                cursor
+16:07:02 '\x1bH'                take Imrahil
+16:07:02 '\x1bB'                cursor
+16:07:02 '\x1bC'                cursor
+16:07:02 '\x1bH'                take Damrod
+16:07:02 '\x1bB'                cursor
+16:07:02 '\x1bC'                cursor
+16:07:02 '\x1bC'                cursor
+16:07:02 '\x1bH'                take Brand
+16:07:02 '\x1bB'                cursor
+16:07:02 '\x1bC'                cursor
+16:07:02 '\x1bH'                take Denethor
+16:07:02 '\x1bC'                cursor
+16:07:03 'X\r'                  name
+16:07:03 'Damrod\r'             name again
+16:07:03 'Gildor\r'             name
+16:07:03 'e1\r'                 command 1
+16:07:04 'E+\r'                 command 2
+16:07:04 'SE+\r'                command 3
+16:07:05 'W3\r'                 command 4
+16:07:05 'SW\r'                 command 5
+16:07:05 '\r'                   fight/run
+16:07:05 'F\r'                  fight/run
+16:07:06 '\r'                   fight/run
+16:07:06 'F\r'                  fight/run
+16:07:06 'f\r'                  fight/run
+16:07:07 'R\r'                  fight/run
+16:07:07 'N9\r'                 command 6
+16:07:07 'N3\r'                 command 7
+16:07:08 'I\r'                  together/individually
+16:07:08 'Denethor\r'           name
+16:07:08 'F\r'                  fight/run
+16:07:09 '\r'                   together/individually
+16:07:09 'r\r'                  fight/run
+16:07:09 'R\r'                  fight/run
+16:07:10 'SE3\r'                command 8
+16:07:10 'F\r'                  fight/run
+16:07:10 'imrahil\r'            name
+16:07:11 'R\r'                  fight/run
+16:07:11 'f\r'                  fight/run
+16:07:11 'r\r'                  fight/run
+16:07:11 's\r'                  command 9
+16:07:12 'E2\r'                 command 10
+16:07:12 '\r'                   command 11
+16:07:12 'E9\r'                 command 12
+16:07:13 's9\r'                 command 13
+16:07:13 'E+\r'                 command 14
+16:07:13 'THROW\r'              command 15
+16:07:14 's\r'                  command 16
+16:07:14 'N9\r'                 command 17
+16:07:14 'NE2\r'                command 18

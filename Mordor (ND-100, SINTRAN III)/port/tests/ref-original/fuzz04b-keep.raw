@@ -1,0 +1,358 @@
+MORDOR-REF
+                    -  Mordor: Land of evil.  v7.52 850211  -
+
+
+
+
+Do you want instructions (Y/N) <N>: N
+Please wait while I tune the Palantir for Middle Earth.
+Now you shall decide which of our heroes you would like
+to go on the trip. Select 4-12 of those below
+by using the arrow-keys and Home to select/deselect.
+When finished: Place the cursor on 'Finished'.
+Y% FrodoY%4SamY%HMerryY%\PippinY& FredegarY&4LegolasY&HGlorfindelY&\HaldirY' RumilY'4GildorY'HGandalfY'\AragornY( BoromirY(4FaramirY(H@omerY(\ImrahilY) HalbaradY)4Theodr`dY)HBeregondY)\MablungY* DamrodY*4GimliY*HElrondY*\ErestorY+ ThranduilY+4DainY+HBrandY+\CelebornY, ErkenbrandY,4GamlingY,HForlongY,\DenethorY- HamaY-4CeorlY-HOrophinY-\GaladrielY. @owynY.4ElladanY.HEllrohirY.\GrimbeornY- 'Finished.(Y% Y& Y' Y'4'Gildor(Y'4Y'HY'\Y( 'Boromir(Y( Y(4Y(HY(\'Imrahil(Y(\Y) Y)4'Theodr`d(Y)4Y*4Y+4Y+HY+\Y, 'Erkenbrand(Y, Y,4Y,HY,\'Denethor(Y,\Y/ JWho shall be the Ringbearer: IOTCJKN
+And who shall carry (and use) the Palantir: TJGQFT`F
+
+                      
+                      
+                      
+                      
+: : :   T T T         
+: : : : : :FT         
+: : : : : : T         
+      T T :           
+          T :         
+            T         
+                      
+MP= 5.00   X=120   Y=  2   Command: 0
+
+
+                      
+                      
+                      
+                      
+: : :   T T T         
+: : : : : :FT         
+: : : : : : T         
+      T T :           
+          T :         
+            T         
+                      
+MP= 5.00   X=120   Y=  2   Command: OFF
+Not possible!
+MP= 5.00   X=120   Y=  2   Command: SW
+MP= 2.88   X=121   Y=  1   Command: NE+
+You moved 1 steps.
+
+
+                      
+                      
+                      
+                      
+: : :   T T T         
+: : : : : :FT         
+: : : : : : T         
+      T T :           
+          T :         
+            T         
+                      
+MP= 4.38   X=120   Y=  2   Command: E
+MP= 2.63   X=120   Y=  3   Command: HELP
+Commands:
+ON,   OFF,    FOLLOW-ROAD, KILL,   ASK,  0,  THROW,
+HELP, REPORT, TIE,  UNTIE,  USE,   MAP,  QUIT-GAME.
+
+Map Symbols
+: = Rough terrain, . = Grass, T = Trees,    & = Swamp,
+M = Mountain,      " = River, - = Road,     = = Main Road,
++ = Ford,          I = Tower, D = Mt. Doom, B = Barad Dur.
+
+o = Orcs,     w = Wolwes, b = Balrog, n = Nazgul,
+h = Haradrim, t = Trolls, g = Gollum, F = Fellowship,
+? = Traitor?
+MP= 2.63   X=120   Y=  3   Command: FOLLOW
+Oops! There is something in your way!
+MP= 2.63   X=120   Y=  3   Command: N+
+You moved 1 steps.
+
+*** Night Turn ***
+
+          
+  T T T   
+  T TFT   
+  : T T   
+          
+MP= 3.69   X=119   Y=  3   Command: UNTIE
+Gollum is not here!
+MP= 3.69   X=119   Y=  3   Command: W
+MP= 1.69   X=119   Y=  2   Command: E+
+You moved 1 steps.
+
+
+                      
+                      
+                      
+                      
+        T T T         
+        T TFT         
+        : : T         
+    : : : :           
+    T T T :           
+          T           
+            T         
+MP= 3.54   X=119   Y=  2   Command: N2
+You moved 2 steps.
+
+
+                      
+                      
+              & &     
+              & &     
+        T T :         
+        T TFT         
+        T T T         
+                      
+                      
+                      
+                      
+MP= 3.31   X=118   Y=  2   Command: E9
+You moved 1 steps.
+
+The mist is thick here!
+
+    : & &     
+      & & &   
+    T : &     
+    T TFT     
+    T T T     
+              
+              
+MP= 2.96   X=118   Y=  3   Command: N9
+You moved 1 steps.
+
+*** Night Turn ***
+The mist is thick here!
+You cannot see a thing!!
+
+:F
+MP= 2.57   X=117   Y=  3   Command: NW+
+You moved 1 steps.
+
+The mist is thick here!
+
+    : : :     
+      : & &   
+    T : & & & 
+    T :F& & & 
+    T T : & & 
+          T   
+              
+MP= 1.80   X=116   Y=  2   Command: SE+
+You moved 1 steps.
+
+The mist is thick here!
+
+    : : :     
+      : & &   
+    T : & & & 
+    T :F& & & 
+    T T : & & 
+          T   
+              
+MP= 3.80   X=116   Y=  2   Command: SW9
+You moved 1 steps.
+
+The mist is thick here!
+
+              
+          &   
+:   T T :     
+  M : TFT     
+  M : T T     
+  :           
+              
+MP= 3.46   X=117   Y=  1   Command: NW9
+You moved 1 steps.
+
+*** Night Turn ***
+The mist is thick here!
+You cannot see a thing!!
+
+TF
+MP= 2.77   X=116   Y=  0   Command: FOLLOW-ROAD
+Oops! There is something in your way!
+MP= 2.77   X=116   Y=  0   Command: 0
+
+
+                      
+                      
+  : : :               
+  : : :               
+: = : : : T T         
+    M : : TFT         
+        M : T         
+          :           
+          :           
+          :           
+        : :           
+MP= 4.77   X=116   Y=  0   Command: W9
+You moved 3 steps.
+
+
+        . . .         
+    = : : : : : :     
+    = : : : : : :     
+    = : : : : :       
+        : : : T       
+        M :F: T       
+        M M M   T     
+                      
+                      
+                      
+                      
+MP= 4.53   X=116   Y=126   Command: REP
+The fellowship currently consists of:
+Gildor, Boromir, Imrahil, Theodr`d, Erkenbrand, Denethor.
+Gollum is chasing the Ring!
+The Ring is in Imrahils pocket.
+Theodr`d carries the Palantir.
+These are still fighting at Minas Tirith
+Aragorn, Faramir, Beregond, Mablung, Damrod, Forlong.
+These are still fighting at Dale
+Legolas, Gimli, Thranduil, Dain, Brand, Grimbeorn.
+These are still fighting at Rivendell
+Merry, Pippin, Fredegar, Glorfindel, Halbarad, Elrond, Erestor, Elladan, Ellrohir.
+These are still fighting at Lothlorien
+Frodo, Sam, Haldir, Rumil, Gandalf, Celeborn, Orophin, Galadriel.
+These are still fighting at Edoras
+@omer, Gamling, Hama, Ceorl, @owyn.
+MP= 4.53   X=116   Y=126   Command: NE+
+You moved 2 steps.
+Gollum attempts to seize the Ring!
+He failes!
+Now you got him!
+
+
+        " " "         
+    " . . . . . .     
+  " . . . : . : : :   
+  : : : : : : : : :   
+= : : : : : : : : & & 
+= : : : : :F: : & & & 
+: = : : : T T   & & & 
+    M :               
+    M M               
+                      
+                      
+MP= 3.67   X=114   Y=  0   Command: N
+MP= 2.17   X=113   Y=  0   Command: USE
+Distance to Orodruin is approx. 117 units.
+MP= 2.17   X=113   Y=  0   Command: SE1
+You can't move anymore this turn!
+
+*** Night Turn ***
+The mist is thick here!
+You cannot see a thing!!
+
+:F
+MP= 2.70   X=114   Y=  1   Command: NW9
+You moved 1 steps.
+
+
+        : .'wS@.         
+    & " " " " " "     
+  . " . . . . . . .   
+  " . . . : . : : :   
+= : : : : : : : : : : 
+= : :'wS@: : :F: : : & & 
+= : : : : : : : & & & 
+  = : : : T T : & &   
+  = M : :       & &   
+    M M M             
+                      
+MP= 1.99   X=113   Y=  0   Command: S1
+You can't move anymore this turn!
+
+
+        " " "         
+    " . . . . . .     
+  " . . . : . : : :   
+  : : : : : : : : :   
+= : : :'wS@: : : : : & & 
+= : :'nS@: : :F: : & & & 
+: = : : : T T   & & & 
+    M :               
+    M M               
+                      
+                      
+MP= 1.23   X=114   Y=  0   Command: NW9
+You moved 1 steps.
+Gwaihir, the Lord of the Winds, brings you a sad message:
+Gimli has just died, fighting in Dale!
+But it can still withstand Saurons attacks!
+
+
+        " " "         
+    " . . . . . .     
+  " . . . : . : : :   
+  : : : : : : : : :   
+= : : : : : : : : & & 
+= : : :'wS@:'nS@:F: : & & & 
+: = : : : T T   & & & 
+    M :               
+    M M               
+                      
+                      
+MP= 3.23   X=114   Y=  0   Command: HELP
+Commands:
+ON,   OFF,    FOLLOW-ROAD, KILL,   ASK,  0,  THROW,
+HELP, REPORT, TIE,  UNTIE,  USE,   MAP,  QUIT-GAME.
+
+Map Symbols
+: = Rough terrain, . = Grass, T = Trees,    & = Swamp,
+M = Mountain,      " = River, - = Road,     = = Main Road,
++ = Ford,          I = Tower, D = Mt. Doom, B = Barad Dur.
+
+o = Orcs,     w = Wolwes, b = Balrog, n = Nazgul,
+h = Haradrim, t = Trolls, g = Gollum, F = Fellowship,
+? = Traitor?
+MP= 3.23   X=114   Y=  0   Command: E+
+You moved 2 steps.
+You are attacked by a Nazgul!
+Erkenbrand is attacked!
+Erkenbrand was killed by his enemy!
+(F)ight or (R)un away? R
+You can't run from Nazgul or Shelob!
+Denethor is attacked!
+Denethor was killed by his enemy!
+(F)ight or (R)un away? R
+You can't run from Nazgul or Shelob!
+Gildor is attacked!
+Gildor was killed by his enemy!
+(F)ight or (R)un away? R
+You can't run from Nazgul or Shelob!
+Theodr`d is attacked!
+Theodr`d was killed by his enemy!
+You must now choose a new carrier for the Palantir.
+The Fellowship currently consists of:
+Boromir
+Imrahil
+Who shall have the honor? IOTCJKN
+(F)ight or (R)un away? R
+You can't run from Nazgul or Shelob!
+Boromir is attacked!
+Boromir was killed by his enemy!
+(F)ight or (R)un away? F
+Imrahil is attacked!
+Imrahil was killed by his enemy!
+There is noone left of the fellowship!
+The mission has failed!
+
+Surviving heroes:       33.
+Killed enemy groups:     1.
+Citadels remaining:      5.
+Distance to Mt. Doom.  119.
+Score:                 251.
+Your overall performance was not so good. However the future looks bright.
+
+@

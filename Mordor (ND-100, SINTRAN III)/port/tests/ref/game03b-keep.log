@@ -1,0 +1,55 @@
+16:03:11 'N\r'                  instructions
+16:03:12 '\x1bB'                cursor
+16:03:13 '\x1bB'                cursor
+16:03:13 '\x1bC'                cursor
+16:03:13 '\x1bC'                cursor
+16:03:13 '\x1bC'                cursor
+16:03:13 '\x1bH'                take Aragorn
+16:03:13 '\x1bB'                cursor
+16:03:13 '\x1bH'                take Imrahil
+16:03:13 '\x1bC'                cursor
+16:03:13 '\x1bH'                take Halbarad
+16:03:13 '\x1bB'                cursor
+16:03:13 '\x1bC'                cursor
+16:03:13 '\x1bC'                cursor
+16:03:13 '\x1bH'                take Elrond
+16:03:13 '\x1bB'                cursor
+16:03:13 '\x1bC'                cursor
+16:03:14 '\x1bC'                cursor
+16:03:14 '\x1bC'                cursor
+16:03:14 '\x1bH'                take Gamling
+16:03:14 '\x1bC'                cursor
+16:03:14 '\x1bH'                take Forlong
+16:03:14 '\x1bC'                cursor
+16:03:14 '\x1bH'                take Denethor
+16:03:14 '\x1bC'                cursor
+16:03:14 'FORLONG\r'            name
+16:03:14 'aragorn\r'            name
+16:03:15 'UNTIE\r'              command 1
+16:03:15 'n1\r'                 command 2
+16:03:15 'w2\r'                 command 3
+16:03:16 'NW+\r'                command 4
+16:03:16 'ne1\r'                command 5
+16:03:17 'MAP\r'                command 6
+16:03:17 'ASK\r'                command 7
+16:03:17 'SW2\r'                command 8
+16:03:18 'w1\r'                 command 9
+16:03:18 'KILL\r'               command 10
+16:03:18 'SW+\r'                command 11
+16:03:19 'R\r'                  fight/run
+16:03:19 'se+\r'                command 12
+16:03:20 '0\r'                  command 13
+16:03:20 'NW2\r'                command 14
+16:03:20 'NW1\r'                command 15
+16:03:21 'f\r'                  fight/run
+16:03:21 'SE\r'                 command 16
+16:03:21 'e+\r'                 command 17
+16:03:22 '\r'                   fight/run
+16:03:22 'f\r'                  fight/run
+16:03:22 'R\r'                  fight/run
+16:03:23 'R\r'                  fight/run
+16:03:23 'SW9\r'                command 18
+16:03:24 'w+\r'                 command 19
+16:03:24 'Denethor\r'           name
+16:03:24 'r\r'                  fight/run
+16:03:25 '\r'                   fight/run

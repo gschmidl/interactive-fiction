@@ -1,0 +1,40 @@
+clock 1998-9-17 20:49 terminal 39
+20:57:12 'XX\r'                   signature
+20:57:13 '9\r'                    scenario
+20:57:13 'X'                      instructions?
+20:57:18 '\r'                     return
+20:57:18 'E'                      menu
+20:57:22 'X'                      menu
+20:57:25 'B'                      menu
+20:57:25 '2\r'                    class
+20:57:26 '3\r'                    order
+20:57:26 '2\r'                    order
+20:57:27 'MAGDA\r'                player name
+20:57:28 'E'                      menu
+20:57:28 '\r'                     any key
+20:57:29 'C'                      menu
+20:57:29 'Kalle Anka\r'           your name
+20:57:31 'STATUS\r'               command
+20:57:32 'S\\DER\r'               command
+20:57:34 'HELA\r'                 command
+20:57:34 'lista\r'                command
+20:57:35 'V\r'                    command
+20:57:36 'TA SV[RD\r'             command
+20:57:36 'post\r'                 command
+20:57:37 'Hej fr}n slumpen\r\x0c\r' letter
+20:57:37 'N\r'                    command
+20:57:42 'U\r'                    command
+20:57:42 'L\r'                    command
+20:57:43 'V\r'                    command
+20:57:44 'V[STER\r'               command
+20:57:44 'g] s\r'                 command
+20:57:45 'N\r'                    command
+20:57:46 'AVLIVA\r'               command
+20:57:47 'J\r'                    yes/no
+20:57:47 'N\r'                    yes/no
+20:57:48 'NED\r'                  command
+20:57:49 'upp\r'                  command
+20:57:50 'sl[pp\r'                command
+20:57:51 'NORR\r'                 command
+20:57:51 'V\r'                    command
+20:57:52 'SLUTA\r'                command

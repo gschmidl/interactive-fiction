@@ -1,0 +1,51 @@
+16:07:20 'Y\r'                  instructions
+16:07:21 '\r'                   page
+16:07:22 '\r'                   page
+16:07:22 '\r'                   page
+16:07:23 '\r'                   page
+16:07:24 '\r'                   page
+16:07:25 '\r'                   page
+16:07:26 '\r'                   page
+16:07:26 '\r'                   page
+16:07:27 '\r'                   page
+16:07:28 '\r'                   page
+16:07:29 '\r'                   page
+16:07:29 '\r'                   page
+16:07:37 '\x1bC'                cursor
+16:07:37 '\x1bH'                take Sam
+16:07:37 '\x1bC'                cursor
+16:07:37 '\x1bH'                take Merry
+16:07:37 '\x1bC'                cursor
+16:07:37 '\x1bC'                cursor
+16:07:37 '\x1bH'                take Fredegar
+16:07:37 '\x1bC'                cursor
+16:07:37 '\x1bC'                cursor
+16:07:37 '\x1bC'                cursor
+16:07:38 '\x1bH'                take Haldir
+16:07:38 '\x1bB'                cursor
+16:07:38 '\x1bC'                cursor
+16:07:38 '\x1bH'                take Boromir
+16:07:38 '\x1bB'                cursor
+16:07:38 '\x1bB'                cursor
+16:07:38 '\x1bC'                cursor
+16:07:38 '\x1bC'                cursor
+16:07:38 '\x1bH'                take Elrond
+16:07:38 '\x1bB'                cursor
+16:07:38 '\x1bB'                cursor
+16:07:38 '\x1bC'                cursor
+16:07:38 '\x1bC'                cursor
+16:07:39 'boromir\r'            name
+16:07:39 'Sam\r'                name
+16:07:39 'SE9\r'                command 1
+16:07:40 'use\r'                command 2
+16:07:40 'N3\r'                 command 3
+16:07:41 'SE\r'                 command 4
+16:07:41 'S+\r'                 command 5
+16:07:42 'n+\r'                 command 6
+16:07:42 'F\r'                  fight/run
+16:07:42 '\r'                   fight/run
+16:07:42 'r\r'                  fight/run
+16:07:43 'fredegar\r'           name
+16:07:43 'f\r'                  fight/run
+16:07:43 'Fredegar\r'           name
+16:07:43 'r\r'                  fight/run

@@ -1,0 +1,58 @@
+14:07:40 'N\r'                  instructions
+14:07:48 '\x1bH'                take Frodo
+14:07:48 '\x1bC'                cursor
+14:07:48 '\x1bH'                take Sam
+14:07:48 '\x1bC'                cursor
+14:07:48 '\x1bH'                take Merry
+14:07:48 '\x1bC'                cursor
+14:07:48 '\x1bC'                cursor
+14:07:48 '\x1bH'                take Fredegar
+14:07:48 '\x1bC'                cursor
+14:07:49 '\x1bC'                cursor
+14:07:49 '\x1bC'                cursor
+14:07:49 '\x1bH'                take Haldir
+14:07:49 '\x1bC'                cursor
+14:07:49 '\x1bC'                cursor
+14:07:49 '\x1bH'                take Gildor
+14:07:49 '\x1bC'                cursor
+14:07:49 '\x1bC'                cursor
+14:07:49 '\x1bC'                cursor
+14:07:49 '\x1bH'                take Boromir
+14:07:49 '\x1bB'                cursor
+14:07:49 '\x1bC'                cursor
+14:07:50 '\x1bH'                take Theodr`d
+14:07:50 '\x1bB'                cursor
+14:07:50 '\x1bB'                cursor
+14:07:50 '\x1bB'                cursor
+14:07:50 '\x1bH'                take Gamling
+14:07:50 '\x1bC'                cursor
+14:07:50 '\x1bH'                take Forlong
+14:07:50 '\x1bC'                cursor
+14:07:50 '\x1bC'                cursor
+14:07:50 'GKNFQT\r'             name
+14:07:50 'MGTT[\r'              name
+14:07:51 'HELP\r'               command 1
+14:07:51 'N3\r'                 command 2
+14:07:51 'R\r'                  fight/run
+14:07:52 'R\r'                  fight/run
+14:07:52 'R\r'                  fight/run
+14:07:52 'FQTNQPI\r'            name
+14:07:53 'R\r'                  fight/run
+14:07:53 'F\r'                  fight/run
+14:07:53 'R\r'                  fight/run
+14:07:53 '\r'                   fight/run
+14:07:54 'R\r'                  fight/run
+14:07:54 'GKNFQT\r'             name
+14:07:54 'BQTQOKT\r'            name again
+14:07:54 'FTQFQ\r'              name again
+14:07:55 'BQTQOKT\r'            name again
+14:07:55 'HCNFKT\r'             name again
+14:07:55 'BQTQOKT\r'            name again
+14:07:56 'GKNFQT\r'             name again
+14:07:56 'GKNFQT\r'             name again
+14:07:56 'FTGFGICT\r'           name again
+14:07:56 'FTQFQ\r'              name again
+14:07:57 'GKNFQT\r'             name again
+14:07:57 'HCNFKT\r'             name again
+14:07:57 'FQTNQPI\r'            name again
+14:07:57 '\r'                   fight/run

@@ -1,0 +1,57 @@
+16:09:29 'N\r'                  instructions
+16:09:36 '\x1bC'                cursor
+16:09:37 '\x1bC'                cursor
+16:09:37 '\x1bC'                cursor
+16:09:37 '\x1bH'                take Pippin
+16:09:37 '\x1bC'                cursor
+16:09:37 '\x1bC'                cursor
+16:09:37 '\x1bC'                cursor
+16:09:37 '\x1bH'                take Glorfindel
+16:09:37 '\x1bC'                cursor
+16:09:37 '\x1bH'                take Haldir
+16:09:37 '\x1bC'                cursor
+16:09:37 '\x1bC'                cursor
+16:09:37 '\x1bH'                take Gildor
+16:09:37 '\x1bC'                cursor
+16:09:37 '\x1bC'                cursor
+16:09:38 '\x1bC'                cursor
+16:09:38 '\x1bH'                take Boromir
+16:09:38 '\x1bC'                cursor
+16:09:38 '\x1bC'                cursor
+16:09:38 '\x1bC'                cursor
+16:09:38 '\x1bH'                take Imrahil
+16:09:38 '\x1bC'                cursor
+16:09:38 '\x1bC'                cursor
+16:09:38 '\x1bH'                take Theodr`d
+16:09:38 '\x1bC'                cursor
+16:09:38 '\x1bC'                cursor
+16:09:38 '\x1bH'                take Mablung
+16:09:38 '\x1bB'                cursor
+16:09:38 '\x1bC'                cursor
+16:09:39 '\x1bC'                cursor
+16:09:39 '\x1bC'                cursor
+16:09:39 '\x1bH'                take Brand
+16:09:39 '\x1bB'                cursor
+16:09:39 '\x1bC'                cursor
+16:09:39 '\x1bC'                cursor
+16:09:39 'BRAND\r'              name
+16:09:39 'Pippin\r'             name
+16:09:40 'w+\r'                 command 1
+16:09:40 'S3\r'                 command 2
+16:09:40 'BOROMIR\r'            name
+16:09:41 'F\r'                  fight/run
+16:09:41 'R\r'                  fight/run
+16:09:41 'r\r'                  fight/run
+16:09:42 'f\r'                  fight/run
+16:09:42 '\r'                   fight/run
+16:09:42 'f\r'                  fight/run
+16:09:43 'HALDIR\r'             name
+16:09:43 'Boromir\r'            name again
+16:09:43 'Haldir\r'             name again
+16:09:44 'Haldir\r'             name again
+16:09:44 'Haldir\r'             name again
+16:09:44 'Glorfindel\r'         name again
+16:09:45 'boromir\r'            name again
+16:09:45 'mablung\r'            name again
+16:09:45 '\r'                   fight/run
+16:09:46 'F\r'                  fight/run

@@ -1,0 +1,66 @@
+14:08:01 'N\r'                  instructions
+14:08:02 '\x1bB'                cursor
+14:08:02 '\x1bB'                cursor
+14:08:02 '\x1bC'                cursor
+14:08:02 '\x1bH'                take Gildor
+14:08:02 '\x1bC'                cursor
+14:08:02 '\x1bC'                cursor
+14:08:02 '\x1bC'                cursor
+14:08:02 '\x1bH'                take Boromir
+14:08:02 '\x1bC'                cursor
+14:08:03 '\x1bC'                cursor
+14:08:03 '\x1bC'                cursor
+14:08:03 '\x1bH'                take Imrahil
+14:08:03 '\x1bC'                cursor
+14:08:03 '\x1bC'                cursor
+14:08:03 '\x1bH'                take Theodr`d
+14:08:03 '\x1bB'                cursor
+14:08:03 '\x1bB'                cursor
+14:08:03 '\x1bC'                cursor
+14:08:03 '\x1bC'                cursor
+14:08:03 '\x1bC'                cursor
+14:08:03 '\x1bH'                take Erkenbrand
+14:08:03 '\x1bC'                cursor
+14:08:04 '\x1bC'                cursor
+14:08:04 '\x1bC'                cursor
+14:08:04 '\x1bH'                take Denethor
+14:08:04 '\x1bC'                cursor
+14:08:04 'IOTCJKN\r'            name
+14:08:04 'TJGQFT`F\r'           name
+14:08:04 '0\r'                  command 1
+14:08:05 'OFF\r'                command 2
+14:08:05 'SW\r'                 command 3
+14:08:05 'NE+\r'                command 4
+14:08:06 'E\r'                  command 5
+14:08:06 'HELP\r'               command 6
+14:08:06 'FOLLOW\r'             command 7
+14:08:07 'N+\r'                 command 8
+14:08:07 'UNTIE\r'              command 9
+14:08:07 'W\r'                  command 10
+14:08:07 'E+\r'                 command 11
+14:08:08 'N2\r'                 command 12
+14:08:08 'E9\r'                 command 13
+14:08:08 'N9\r'                 command 14
+14:08:09 'NW+\r'                command 15
+14:08:09 'SE+\r'                command 16
+14:08:09 'SW9\r'                command 17
+14:08:10 'NW9\r'                command 18
+14:08:10 'FOLLOW-ROAD\r'        command 19
+14:08:10 '0\r'                  command 20
+14:08:11 'W9\r'                 command 21
+14:08:11 'REP\r'                command 22
+14:08:12 'NE+\r'                command 23
+14:08:12 'N\r'                  command 24
+14:08:12 'USE\r'                command 25
+14:08:13 'SE1\r'                command 26
+14:08:13 'NW9\r'                command 27
+14:08:13 'S1\r'                 command 28
+14:08:14 'NW9\r'                command 29
+14:08:14 'HELP\r'               command 30
+14:08:14 'E+\r'                 command 31
+14:08:15 'R\r'                  fight/run
+14:08:15 'R\r'                  fight/run
+14:08:15 'R\r'                  fight/run
+14:08:15 'IOTCJKN\r'            name
+14:08:16 'R\r'                  fight/run
+14:08:16 'F\r'                  fight/run

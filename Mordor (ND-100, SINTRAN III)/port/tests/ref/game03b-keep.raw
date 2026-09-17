@@ -1,0 +1,244 @@
+MORDORF-REF
+                    -  Mordor: Land of evil.  v7.52 850211  -
+
+
+
+
+Do you want instructions (Y/N) <N>: N
+Please wait while I tune the Palantir for Middle Earth.
+Now you shall decide which of our heroes you would like
+to go on the trip. Select 4-12 of those below
+by using the arrow-keys and Home to select/deselect.
+When finished: Place the cursor on 'Finished'.
+Y% FrodoY%4SamY%HMerryY%\PippinY& FredegarY&4LegolasY&HGlorfindelY&\HaldirY' RumilY'4GildorY'HGandalfY'\AragornY( BoromirY(4FaramirY(H@omerY(\ImrahilY) HalbaradY)4Theodr`dY)HBeregondY)\MablungY* DamrodY*4GimliY*HElrondY*\ErestorY+ ThranduilY+4DainY+HBrandY+\CelebornY, ErkenbrandY,4GamlingY,HForlongY,\DenethorY- 'Finished.(Y% Y& Y' Y'4Y'HY'\'Aragorn(Y'\Y(\'Imrahil(Y(\Y) 'Halbarad(Y) Y* Y*4Y*H'Elrond(Y*HY+HY+\Y, Y,4'Gamling(Y,4Y,H'Forlong(Y,HY,\'Denethor(Y,\Y/ JWho shall be the Ringbearer: FORLONG
+And who shall carry (and use) the Palantir: aragorn
+
+                      
+                      
+                      
+                      
+: : :   T T T         
+: : : : : :FT         
+: : : : : : T         
+      T T :           
+          T :         
+            T         
+                      
+MP= 5.00   X=120   Y=  2   Command: UNTIE
+Gollum is not here!
+MP= 5.00   X=120   Y=  2   Command: n1
+MP= 3.25   X=119   Y=  2   Command: w2
+You moved 1 steps.
+
+
+                      
+                      
+                      
+      M               
+      M : T T         
+: : :'wS@: : TFT         
+: : : : : : :         
+  : : : : : : T       
+  : : T T T :         
+            T :       
+                      
+MP= 4.63   X=119   Y=  1   Command: NW+
+You moved 2 steps.
+
+
+                      
+        :             
+        :             
+          T           
+        M : T         
+        M :FT         
+        : : T         
+    : : : :           
+    : : : : :         
+    : : T T T         
+                      
+MP= 4.70   X=118   Y=  0   Command: ne1
+MP= 2.23   X=117   Y=  1   Command: MAP
+
+                      
+                      
+              & &     
+              & &     
+  M :   T T :         
+      M : TFT         
+      M : T T         
+      :               
+    : :               
+                      
+                      
+MP= 2.23   X=117   Y=  1   Command: ASK
+Gollum is not here!
+MP= 2.23   X=117   Y=  1   Command: SW2
+You moved 1 steps.
+
+*** Night Turn ***
+
+          
+  T T :   
+M : TFT   
+  : T'wS@T   
+          
+MP= 4.81   X=117   Y=  1   Command: w1
+MP= 3.06   X=117   Y=  0   Command: KILL
+You can't kill Gollum when he isn't there!
+MP= 3.06   X=117   Y=  0   Command: SW+
+You moved 1 steps.
+You are attacked by a bunch of Wolves!
+They attack the whole Fellowship!
+One villain was killed easily!
+(F)ight or (R)un away? R
+You got away! The monsters soon give up pursuit!
+
+
+                      
+    & & &             
+    . & &             
+    T . . T           
+: : . . . . T       : 
+: : . . . .F. . . . : 
+T : . . . . . . . : : 
+  : . . . . . . . :   
+  T T . . . . . : :   
+    T : . . : : :     
+        M M M         
+MP= 5.00   X=123   Y=  8   Command: se+
+You moved 3 steps.
+
+
+          T :         
+    . T T . . : :     
+  . . . . . . : : :   
+  . . . . . : : : .   
+. . . . . . : : : . = 
+. . . . . :F: : . = " 
+: . . : : : : : . + . 
+      M M M M M       
+                      
+                      
+                      
+MP= 4.20   X=126   Y= 11   Command: 0
+
+
+          T :         
+    . T T . . : :     
+  . . . . . . : : :   
+  . . . . . : : : .   
+. . . . . . : : : . = 
+. . . . . :F: : . = " 
+: . . : : : : : . + . 
+      M M M M M       
+                      
+                      
+                      
+MP= 5.00   X=126   Y= 11   Command: NW2
+MP= 1.82   X=124   Y=  9   Command: NW1
+You can't move anymore this turn!
+You are attacked by a bunch of Wolves!
+They attack the whole Fellowship!
+One villain was killed easily!
+(F)ight or (R)un away? f
+Elrond is attacked!
+The monster(s) flee from the battlegrounds!
+
+*** Night Turn ***
+
+    T     
+  . . T   
+. . .F. . 
+  . . .   
+    .     
+MP= 4.20   X=123   Y=  8   Command: SE
+MP= 2.79   X=124   Y=  9   Command: e+
+You moved 2 steps.
+Gwaihir, the Lord of the Winds, brings you a sad message:
+Glorfindel has just died, fighting in Rivendell!
+But it can still withstand Saurons attacks!
+You are attacked by a bunch of Orcs!
+They attack the whole Fellowship!
+The monster(s) flee from the battlegrounds!
+You are attacked by a bunch of Trolls!
+They attack the whole Fellowship!
+Gamling was killed by his enemy!
+(F)ight or (R)un away? 
+They attack the whole Fellowship!
+Elrond was killed by his enemy!
+(F)ight or (R)un away? f
+They attack the whole Fellowship!
+Halbarad was killed by his enemy!
+(F)ight or (R)un away? R
+You did not make it! You will have to stand and fight!
+They attack the whole Fellowship!
+Aragorn was killed by his enemy!
+The Servants of Sauron took the Palantir!
+(F)ight or (R)un away? R
+You got away! The monsters soon give up pursuit!
+
+
+        . . .         
+    : . . . . . .     
+    : . . . . . . .'tS@  
+      . . . . . . .   
+      T . . . . . : : 
+      T : .F. : : : : 
+        M M M         
+                      
+                      
+                      
+                      
+MP= 3.60   X=127   Y=  7   Command: SW9
+You moved 1 steps.
+Gwaihir, the Lord of the Winds, brings you a sad message:
+Gildor has just died, fighting in Rivendell!
+But it can still withstand Saurons attacks!
+
+
+        . . .         
+          . . . .     
+          . . . .     
+          . . . .     
+        T : .'tS@        
+        M MFM         
+        M M M         
+                      
+                      
+                      
+                      
+MP= 2.98   X=  0   Y=  6   Command: w+
+You moved 1 steps.
+Gollum attempts to seize the Ring!
+He failes!
+Now you got him!
+Gwaihir, the Lord of the Winds, brings you a sad message:
+Faramir has just died, fighting in Minas Tirith!
+But it can still withstand Saurons attacks!
+You are attacked by a Nazgul!
+Forlong is attacked!
+Forlong was killed by his enemy!
+You must now choose a new Ringbearer.
+The Fellowship currently consists of:
+Imrahil
+Denethor
+Who shall have the honor? Denethor
+(F)ight or (R)un away? r
+You can't run from Nazgul or Shelob!
+Imrahil is attacked!
+Imrahil was killed by his enemy!
+(F)ight or (R)un away? 
+Denethor is attacked!
+Denethor was killed by his enemy!
+There is noone left of the fellowship!
+The mission has failed!
+
+Surviving heroes:       30.
+Killed enemy groups:     1.
+Citadels remaining:      5.
+Distance to Mt. Doom.   40.
+Score:                 166.
+Your overall performance was not so good. However the future looks bright.
+
+@

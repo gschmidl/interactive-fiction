@@ -1,0 +1,84 @@
+clock 1998-9-17 20:31 terminal 39
+20:32:05 'LU\r'                   signature
+20:32:06 '2\r'                    scenario
+20:32:07 'X'                      instructions?
+20:32:12 '\r'                     return
+20:32:12 'E'                      menu
+20:32:13 '3\r'                    which of mine
+20:32:13 '3\r'                    which of mine
+20:32:14 '2\r'                    which of mine
+20:32:14 ' '                      any key
+20:32:15 'E'                      menu
+20:32:15 '1\r'                    which of mine
+20:32:16 '\r'                     any key
+20:32:17 'B'                      menu
+20:32:20 'C'                      menu
+20:32:21 '3\r'                    which of mine
+20:32:25 'C'                      menu
+20:32:25 '2\r'                    which of mine
+20:32:26 'Kalle Anka\r'           your name
+20:32:31 'tit\r'                  command
+20:32:32 'TITTA\r'                command
+20:32:32 'V\r'                    command
+20:32:33 'post\r'                 command
+20:32:34 'Hej fr}n slumpen\r\x0c\r' letter
+20:32:35 'S\\DER\r'               command
+20:32:36 'upp\r'                  command
+20:32:36 'U\r'                    command
+20:32:37 '\\STER\r'               command
+20:32:38 'UPP\r'                  command
+20:32:39 'VEM\r'                  command
+20:32:39 'FLY\r'                  command
+20:32:40 'G] S\r'                 command
+20:32:41 'U\r'                    command
+20:32:42 'FLY\r'                  command
+20:32:42 'position\r'             command
+20:32:43 '4\r'                    position
+20:32:43 '4\r'                    position
+20:32:44 '2\r'                    position
+20:32:45 'NED\r'                  command
+20:32:45 'L\r'                    command
+20:32:46 'HELA\r'                 command
+20:32:46 'S\\DER\r'               command
+20:32:47 'U\r'                    command
+20:32:48 'HUBBA\r'                command
+20:32:49 'V\r'                    command
+20:32:50 '\r'                     command
+20:32:51 'HUBBA\r'                command
+20:32:51 'SLUTA SPELA\r'          command
+20:32:52 'KLAPPA\r'               command
+20:32:52 'V[LJ\r'                 command
+20:32:55 'FLY\r'                  command
+20:32:55 'klappa\r'               command
+20:32:56 'POSITION\r'             command
+20:32:56 '2\r'                    position
+20:32:57 'XYZZY\r'                command
+20:32:58 'd\r'                    command
+20:32:58 'SL[PP\r'                command
+20:32:59 'V\r'                    command
+20:33:00 'HJ[LP\r'                command
+20:33:01 'A'                      help page
+20:33:02 '\r'                     help page
+20:33:02 'upp\r'                  command
+20:33:03 'se\r'                   command
+20:33:04 'blixt\r'                command
+20:33:04 'HJ[LP\r'                command
+20:33:05 ' '                      help page
+20:33:06 ' '                      help page
+20:33:07 '\\STER\r'               command
+20:33:08 'TAPPA\r'                command
+20:33:09 's\\der\r'               command
+20:33:10 'D\r'                    command
+20:33:10 's\r'                    command
+20:33:11 'CLS\r'                  command
+20:33:12 'n\r'                    command
+20:33:13 'N\r'                    command
+20:33:13 'NED\r'                  command
+20:33:14 'g] s\r'                 command
+20:33:15 'POST\r'                 command
+20:33:16 'Hej fr}n slumpen\r\x0c\r' letter
+20:33:17 'TIT\r'                  command
+20:33:18 'TA SV[RD\r'             command
+20:33:18 'ned\r'                  command
+20:33:19 'STA\r'                  command
+20:33:20 'TA\r'                   command

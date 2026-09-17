@@ -1,0 +1,195 @@
+LEGENDF-REF
+3:G       Legend    v10.0         20.47   17/ 9 1998 
+
+
+
+Din signatur: XX
+
+Vilket scenario? (1-9, 0): 6
+
+Vill du ha instruktioner?  ('J'a / 'N'ej)  <N> ' (Nej.
+                              Var god dr|j...
+I                            L E G E N D           
+
+                         Antal spelare: 6  
+
+
+*** Meddelande fr}n SpelChefen ***      25/ 8  1986
+Om ni hittar n}t fel va,
+s} skriv POST va
+och klaga va...
+\hhhh
+
+
+
+
+                         Tryck RETURN >FaG<' (
+
+
+Du har inga spelare.
+
+
+A/ 
+B/ Skapa spelare
+C/ 
+D/ Sluta
+E/ 
+
+V{lj: B
+
+
+Vad ska din spelare vara?
+
+1. Slagsk{mpe   2. L{rling   3. Magiker   4. Pr{st (1-4): 3
+
+
+Ska din Magiker tillh|ra  1.Orden  eller  2.Klanen? 3
+
+
+Ska din Magiker tillh|ra  1.Orden  eller  2.Klanen? 1
+
+
+Vad ska spelaren heta? OLLE-BOLLE
+
+
+
+Dina spelare:
+
+
+ 1 . OLLE-BOLLE
+
+A/ 
+B/ Skapa spelare
+C/ V{lja spelare och starta Legend
+D/ Sluta
+E/ Status f|r spelare
+
+V{lj: X
+Felaktigt val.
+
+Dina spelare:
+
+
+ 1 . OLLE-BOLLE
+
+A/ 
+B/ Skapa spelare
+C/ V{lja spelare och starta Legend
+D/ Sluta
+E/ Status f|r spelare
+
+V{lj: C
+
+Fixar spelare... & Startar Legend!
+Vad heter du? Farbror Joakim
+::Du st}r mitt p} stadens huvudgata. H{r h{rskar en f|r|dande stank. Hus
+ligger p} b}da sidor om v{gen. Norrut finns en liten butik.
+
+Du ser:
+
+       Ta Mig Med Snabeln (fiende)
+
+Utg}ngar: Norr S|der \st V{st
+
+:$S\DER
+:Du st}r inne i en liten stuga. Stugans innev}nare st}r och trycker
+vid en v{gg och ser skr{mda p} dig.
+
+Du ser:
+       Ingenting.
+
+Utg}ngar: Norr
+
+:$\
+(Dunk!) Rakt in i en v{gg!
+:$\STER
+(Dunk!) Rakt in i en v{gg!
+:$LISTA
+
+        Du {r tomh{nt.
+
+:$NED
+:Du st}r mitt p} stadens huvudgata. H{r h{rskar en f|r|dande stank. Hus
+ligger p} b}da sidor om v{gen. Norrut finns en liten butik.
+
+Du ser:
+
+       Ta Mig Med Snabeln (fiende)
+
+Utg}ngar: Norr S|der \st V{st
+
+En niv} 1 Magiker hoppar fram och utmanar dig!
+$CLS
+
+:$XYZZY
+#6: 839 
+:$CLS
+
+:$N
+Du sl}ss ju med En niv} 1 Magiker!
+:$XYZZY
+#6: 839 
+:$S\DER
+Du sl}ss ju med En niv} 1 Magiker!
+:$NED
+Du sl}ss ju med En niv} 1 Magiker!
+:$V[STER
+Du sl}ss ju med En niv} 1 Magiker!
+:$?
+
+
+                          %LEGEND&
+
+     Kommando:              Kort f|rklaring
+       
+     \ST                    G} }t det h}ll som anges  \
+     V[ST                                F|rkortning: V
+     NORR                                             N
+     S\DER                                            S
+     UPP                                              U
+     NED                                              D
+     SOV                    Avsluta sovande
+     SLUTA                  Avsluta vaken
+     LISTA                  Visar vad du har p} dig
+     CLS                    Rensar sk{rmen
+     TITTA                  Ger rumsbeskrivning
+     PAUS, V[NTA            L}ter dig g} och fika utan att sluta spelet
+
+
+
+Tryck n}nstans, helst p} terminal 39 : 
+
+     SKRIK                  Precis vad det st}r
+     T[NK                   Precis vad det st}r
+     STATUS                 Visa din spelares status
+     TID                    Ger tiden
+     [T                     [ta mat
+     T[ND                   T{nda fackla
+     PLOCKA                 Plocka d|d spelare
+     TAPPA                  Tappa d|d spelare
+     AVLIVA                 Ta bort d}lig spelare
+     L[S/SKRIV              P} klotterplanket
+
+
+
+Tryck n}nstans, helst p} terminal 39 : 
+
+     HJ[LP                  Ger denna lista
+     BYT                    Byta namn
+     D\DA                   D|da spelare
+     BLIXT                  Kasta en blixt p} annan spelare (Magiker)
+     HELA                   Hela skada som uppst}tt t.ex. under strid (Pr{ster)
+     VEM                    Se efter vilka som k|r Legend just nu
+     POST                   Posta ett brev till SpelChefen
+     *                      Direktlogout
+     @                      Utf|ra sintrankommando
+
+     Return i b|rjan av kommandoraden upprepar senaste kommandot.
+
+:$SOVA
+V{lkommen }ter till Legend.
+
+
+So Long, XX.
+
+@

@@ -1,0 +1,62 @@
+16:09:03 'N\r'                  instructions
+16:09:10 '\x1bC'                cursor
+16:09:10 '\x1bC'                cursor
+16:09:10 '\x1bC'                cursor
+16:09:10 '\x1bH'                take Pippin
+16:09:10 '\x1bC'                cursor
+16:09:11 '\x1bH'                take Fredegar
+16:09:11 '\x1bB'                cursor
+16:09:11 '\x1bC'                cursor
+16:09:11 '\x1bC'                cursor
+16:09:11 '\x1bH'                take Gandalf
+16:09:11 '\x1bB'                cursor
+16:09:11 '\x1bH'                take @omer
+16:09:11 '\x1bB'                cursor
+16:09:11 '\x1bC'                cursor
+16:09:11 '\x1bC'                cursor
+16:09:11 '\x1bC'                cursor
+16:09:11 '\x1bH'                take Gimli
+16:09:11 '\x1bB'                cursor
+16:09:12 '\x1bH'                take Dain
+16:09:12 '\x1bB'                cursor
+16:09:12 '\x1bH'                take Gamling
+16:09:12 '\x1bC'                cursor
+16:09:12 '\x1bC'                cursor
+16:09:12 '\x1bH'                take Denethor
+16:09:12 '\x1bC'                cursor
+16:09:12 'Gamling\r'            name
+16:09:12 'Fredegar\r'           name
+16:09:13 'USE\r'                command 1
+16:09:13 's\r'                  command 2
+16:09:13 'e\r'                  command 3
+16:09:14 'KILL\r'               command 4
+16:09:14 'follow-road\r'        command 5
+16:09:14 'THROW\r'              command 6
+16:09:15 'N+\r'                 command 7
+16:09:15 'report\r'             command 8
+16:09:16 'UNTIE\r'              command 9
+16:09:16 'E\r'                  command 10
+16:09:16 'E9\r'                 command 11
+16:09:17 'XYZZY\r'              command 12
+16:09:17 'S3\r'                 command 13
+16:09:17 'FOLLOW-ROAD\r'        command 14
+16:09:18 'S9\r'                 command 15
+16:09:18 'W3\r'                 command 16
+16:09:18 'I\r'                  together/individually
+16:09:19 'Pippin\r'             name
+16:09:19 'r\r'                  fight/run
+16:09:20 'SW3\r'                command 17
+16:09:20 'R\r'                  fight/run
+16:09:20 'Gandalf\r'            name
+16:09:21 'r\r'                  fight/run
+16:09:21 'untie\r'              command 18
+16:09:21 'N\r'                  command 19
+16:09:21 'W+\r'                 command 20
+16:09:22 'R\r'                  fight/run
+16:09:22 'Fredegar\r'           name
+16:09:22 'pippin\r'             name again
+16:09:23 'GANDALF\r'            name again
+16:09:23 '\r'                   fight/run
+16:09:23 'f\r'                  fight/run
+16:09:24 'r\r'                  fight/run
+16:09:24 '\r'                   fight/run

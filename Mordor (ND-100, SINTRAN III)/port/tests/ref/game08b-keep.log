@@ -1,0 +1,123 @@
+16:07:47 'N\r'                  instructions
+16:07:48 '\x1bC'                cursor
+16:07:48 '\x1bH'                take Sam
+16:07:48 '\x1bB'                cursor
+16:07:48 '\x1bC'                cursor
+16:07:48 '\x1bH'                take Glorfindel
+16:07:48 '\x1bC'                cursor
+16:07:48 '\x1bC'                cursor
+16:07:48 '\x1bC'                cursor
+16:07:48 '\x1bH'                take Gildor
+16:07:49 '\x1bC'                cursor
+16:07:49 '\x1bC'                cursor
+16:07:49 '\x1bH'                take Aragorn
+16:07:49 '\x1bC'                cursor
+16:07:49 '\x1bH'                take Boromir
+16:07:49 '\x1bC'                cursor
+16:07:49 '\x1bC'                cursor
+16:07:49 '\x1bH'                take @omer
+16:07:49 '\x1bB'                cursor
+16:07:49 '\x1bB'                cursor
+16:07:49 '\x1bB'                cursor
+16:07:49 '\x1bB'                cursor
+16:07:49 '\x1bC'                cursor
+16:07:50 '\x1bH'                take Denethor
+16:07:50 '\x1bC'                cursor
+16:07:50 'Gildor\r'             name
+16:07:50 'Aragorn\r'            name
+16:07:50 'kill\r'               command 1
+16:07:51 'S9\r'                 command 2
+16:07:51 'nw\r'                 command 3
+16:07:52 'ASK\r'                command 4
+16:07:52 'ne3\r'                command 5
+16:07:52 'THROW\r'              command 6
+16:07:53 '0\r'                  command 7
+16:07:53 'e2\r'                 command 8
+16:07:53 'KILL\r'               command 9
+16:07:53 '\r'                   command 10
+16:07:54 'TIE\r'                command 11
+16:07:54 'NE2\r'                command 12
+16:07:54 'W9\r'                 command 13
+16:07:55 'F\r'                  fight/run
+16:07:55 'R\r'                  fight/run
+16:07:55 'FOLLOW-ROAD\r'        command 14
+16:07:55 'sw9\r'                command 15
+16:07:56 's1\r'                 command 16
+16:07:56 'ne\r'                 command 17
+16:07:57 'f\r'                  fight/run
+16:07:57 'F\r'                  fight/run
+16:07:57 'F\r'                  fight/run
+16:07:57 'rep\r'                command 18
+16:07:58 'HELP\r'               command 19
+16:07:58 '0\r'                  command 20
+16:07:59 'f\r'                  fight/run
+16:07:59 'NW\r'                 command 21
+16:07:59 'W2\r'                 command 22
+16:08:00 's9\r'                 command 23
+16:08:00 '\r'                   command 24
+16:08:01 'E\r'                  command 25
+16:08:01 'SW\r'                 command 26
+16:08:01 'N+\r'                 command 27
+16:08:01 'USE\r'                command 28
+16:08:02 'map\r'                command 29
+16:08:02 'w+\r'                 command 30
+16:08:03 'KILL\r'               command 31
+16:08:03 'USE\r'                command 32
+16:08:03 'W\r'                  command 33
+16:08:03 'REPORT\r'             command 34
+16:08:04 'N+\r'                 command 35
+16:08:04 'T\r'                  together/individually
+16:08:04 'R\r'                  fight/run
+16:08:05 'I\r'                  together/individually
+16:08:05 'GILDOR\r'             name
+16:08:05 '\r'                   fight/run
+16:08:05 'T\r'                  together/individually
+16:08:06 '\r'                   fight/run
+16:08:06 't\r'                  together/individually
+16:08:06 'F\r'                  fight/run
+16:08:06 'i\r'                  together/individually
+16:08:07 'Aragorn\r'            name
+16:08:07 'F\r'                  fight/run
+16:08:07 'I\r'                  together/individually
+16:08:07 'GLORFINDEL\r'         name
+16:08:08 'F\r'                  fight/run
+16:08:08 'I\r'                  together/individually
+16:08:08 'Aragorn\r'            name
+16:08:09 'R\r'                  fight/run
+16:08:09 '0\r'                  command 36
+16:08:10 'xyzzy\r'              command 37
+16:08:10 'se+\r'                command 38
+16:08:10 '0\r'                  command 39
+16:08:11 '\r'                   command 40
+16:08:11 'w9\r'                 command 41
+16:08:11 'w1\r'                 command 42
+16:08:12 'O\r'                  command 43
+16:08:12 'e9\r'                 command 44
+16:08:12 'E+\r'                 command 45
+16:08:12 'FOLLOW-ROAD\r'        command 46
+16:08:13 'SW+\r'                command 47
+16:08:13 'SE\r'                 command 48
+16:08:13 'ON\r'                 command 49
+16:08:13 'nw\r'                 command 50
+16:08:14 'untie\r'              command 51
+16:08:14 'NE1\r'                command 52
+16:08:14 'E2\r'                 command 53
+16:08:15 's9\r'                 command 54
+16:08:15 'R\r'                  fight/run
+16:08:16 'S1\r'                 command 55
+16:08:16 'SE3\r'                command 56
+16:08:17 'NW\r'                 command 57
+16:08:17 'USE\r'                command 58
+16:08:18 'FOLLOW\r'             command 59
+16:08:18 'NW\r'                 command 60
+16:08:18 'E1\r'                 command 61
+16:08:19 'SW1\r'                command 62
+16:08:20 'throw\r'              command 63
+16:08:20 'E+\r'                 command 64
+16:08:21 'Boromir\r'            name
+16:08:21 'R\r'                  fight/run
+16:08:21 'R\r'                  fight/run
+16:08:22 'NW\r'                 command 65
+16:08:22 'W\r'                  command 66
+16:08:23 'f\r'                  fight/run
+16:08:23 'r\r'                  fight/run

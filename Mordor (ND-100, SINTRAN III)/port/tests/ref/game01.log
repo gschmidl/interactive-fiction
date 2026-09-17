@@ -1,0 +1,38 @@
+16:01:50 'N\r'                  instructions
+16:01:57 '\x1bB'                cursor
+16:01:58 '\x1bC'                cursor
+16:01:58 '\x1bC'                cursor
+16:01:58 '\x1bH'                take Glorfindel
+16:01:58 '\x1bC'                cursor
+16:01:58 '\x1bH'                take Haldir
+16:01:58 '\x1bB'                cursor
+16:01:58 '\x1bC'                cursor
+16:01:58 '\x1bH'                take Boromir
+16:01:58 '\x1bC'                cursor
+16:01:58 '\x1bC'                cursor
+16:01:58 '\x1bH'                take @omer
+16:01:58 '\x1bC'                cursor
+16:01:58 '\x1bH'                take Imrahil
+16:01:58 '\x1bB'                cursor
+16:01:58 '\x1bC'                cursor
+16:01:59 '\x1bH'                take Damrod
+16:01:59 '\x1bB'                cursor
+16:01:59 '\x1bH'                take Thranduil
+16:01:59 '\x1bB'                cursor
+16:01:59 '\x1bC'                cursor
+16:01:59 '\x1bC'                cursor
+16:01:59 '\x1bH'                take Forlong
+16:01:59 '\x1bC'                cursor
+16:01:59 '\x1bC'                cursor
+16:01:59 'Glorfindel\r'         name
+16:01:59 'Glorfindel\r'         name
+16:02:00 'W\r'                  command 1
+16:02:00 'N\r'                  command 2
+16:02:00 'W+\r'                 command 3
+16:02:01 'f\r'                  fight/run
+16:02:01 'R\r'                  fight/run
+16:02:01 '\r'                   fight/run
+16:02:02 '\r'                   fight/run
+16:02:02 'f\r'                  fight/run
+16:02:02 'R\r'                  fight/run
+16:02:03 'R\r'                  fight/run

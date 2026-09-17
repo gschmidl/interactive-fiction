@@ -1,0 +1,48 @@
+14:07:05 '\r'                   instructions
+14:07:14 '\x1bH'                take Frodo
+14:07:14 '\x1bC'                cursor
+14:07:14 '\x1bC'                cursor
+14:07:14 '\x1bH'                take Merry
+14:07:14 '\x1bB'                cursor
+14:07:14 '\x1bC'                cursor
+14:07:14 '\x1bC'                cursor
+14:07:14 '\x1bH'                take Rumil
+14:07:14 '\x1bB'                cursor
+14:07:14 '\x1bC'                cursor
+14:07:14 '\x1bC'                cursor
+14:07:14 '\x1bC'                cursor
+14:07:15 '\x1bH'                take Imrahil
+14:07:15 '\x1bC'                cursor
+14:07:15 '\x1bC'                cursor
+14:07:15 '\x1bH'                take Theodr`d
+14:07:15 '\x1bC'                cursor
+14:07:15 '\x1bH'                take Beregond
+14:07:15 '\x1bC'                cursor
+14:07:15 '\x1bH'                take Mablung
+14:07:15 '\x1bC'                cursor
+14:07:15 '\x1bH'                take Damrod
+14:07:15 '\x1bB'                cursor
+14:07:15 '\x1bB'                cursor
+14:07:16 '\x1bC'                cursor
+14:07:16 '\x1bC'                cursor
+14:07:16 '\x1bH'                take Forlong
+14:07:16 '\x1bC'                cursor
+14:07:16 '\x1bC'                cursor
+14:07:16 'DCOTQF\r'             name
+14:07:16 'FQTNQPI\r'            name
+14:07:17 'E2\r'                 command 1
+14:07:17 'O\r'                  command 2
+14:07:17 'N\r'                  command 3
+14:07:18 'N3\r'                 command 4
+14:07:18 'HELP\r'               command 5
+14:07:18 'SE+\r'                command 6
+14:07:19 'SW1\r'                command 7
+14:07:19 'R\r'                  fight/run
+14:07:19 'F\r'                  fight/run
+14:07:20 'F\r'                  fight/run
+14:07:20 'R\r'                  fight/run
+14:07:20 '\r'                   fight/run
+14:07:20 'R\r'                  fight/run
+14:07:21 'RWOKN\r'              name
+14:07:21 'R\r'                  fight/run
+14:07:21 '\r'                   fight/run

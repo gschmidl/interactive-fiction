@@ -1,0 +1,106 @@
+clock 1998-9-17 20:36 terminal 39
+20:38:49 'GS\r'                   signature
+20:38:50 '4\r'                    scenario
+20:38:50 'N'                      instructions?
+20:38:55 '\r'                     return
+20:38:55 'B'                      menu
+20:38:56 '3\r'                    class
+20:38:56 '1\r'                    order
+20:38:57 'KNATTE\r'               player name
+20:38:57 'C'                      menu
+20:38:58 'Musse Pigg\r'           your name
+20:39:00 '\\\r'                   command
+20:39:01 'SL[PP\r'                command
+20:39:02 'V\r'                    command
+20:39:06 'D\r'                    command
+20:39:07 'U\r'                    command
+20:39:08 '\\ster\r'               command
+20:39:08 'sluta spela\r'          command
+20:39:09 'G] N\r'                 command
+20:39:09 'BLIXT 2\r'              command
+20:39:10 'S\r'                    command
+20:39:10 '?\r'                    command
+20:39:12 ' '                      help page
+20:39:12 ' '                      help page
+20:39:13 'TELEPORT\r'             command
+20:39:14 '[T\r'                   command
+20:39:15 'HJ[LP\r'                command
+20:39:16 ' '                      help page
+20:39:16 ' '                      help page
+20:39:17 'status\r'               command
+20:39:18 'V[STER\r'               command
+20:39:19 's\r'                    command
+20:39:20 'blixt\r'                command
+20:39:20 '6\r'                    grade
+20:39:21 'NISSE\r'                whom
+20:39:21 'XYZZY\r'                command
+20:39:22 '\r'                     command
+20:39:23 'N\r'                    command
+20:39:23 'GRINA\r'                command
+20:39:24 'TIT\r'                  command
+20:39:25 'n\r'                    command
+20:39:26 's\\der\r'               command
+20:39:26 'V\r'                    command
+20:39:27 'ta\r'                   command
+20:39:28 'HELA\r'                 command
+20:39:29 'TITTA\r'                command
+20:39:30 'HELA\r'                 command
+20:39:31 'blixt\r'                command
+20:39:31 '2\r'                    grade
+20:39:32 'TTRE\r'                 whom
+20:39:32 'L\r'                    command
+20:39:33 'V[LJ\r'                 command
+20:39:34 '\\STER\r'               command
+20:39:34 'NED\r'                  command
+20:39:35 'U\r'                    command
+20:39:36 '\\ster\r'               command
+20:39:37 'N\r'                    command
+20:39:38 'NORR\r'                 command
+20:39:38 'se\r'                   command
+20:39:39 '[T\r'                   command
+20:39:40 'V[STER\r'               command
+20:39:41 'n\r'                    command
+20:39:42 'n\r'                    command
+20:39:43 'teleport\r'             command
+20:39:43 '\\\r'                   command
+20:39:44 'NED\r'                  command
+20:39:45 'titta\r'                command
+20:39:46 'V\r'                    command
+20:39:47 'd\r'                    command
+20:39:47 'lista\r'                command
+20:39:48 'TA SV[RD\r'             command
+20:39:49 'FLY\r'                  command
+20:39:49 'd\\da\r'                command
+20:39:50 'TTRE\r'                 whom
+20:39:50 'V[STER\r'               command
+20:39:51 'UTG]NGAR\r'             command
+20:39:52 'D\\DA\r'                command
+20:39:53 'TTRE\r'                 whom
+20:39:53 'VILKA\r'                command
+20:39:54 'SLUTA SPELA\r'          command
+20:39:54 'ned\r'                  command
+20:39:55 '[t\r'                   command
+20:39:56 'TAPPA\r'                command
+20:39:57 'v\r'                    command
+20:39:57 'tappa\r'                command
+20:39:58 'TAPPA\r'                command
+20:39:59 'status\r'               command
+20:40:00 '\\ster\r'               command
+20:40:01 'ned\r'                  command
+20:40:01 'HELA\r'                 command
+20:40:02 'VEM\r'                  command
+20:40:03 'TA SV[RD\r'             command
+20:40:04 'NORR\r'                 command
+20:40:04 'ned\r'                  command
+20:40:05 'U\r'                    command
+20:40:06 'STA\r'                  command
+20:40:07 'FLY\r'                  command
+20:40:07 'v[lj\r'                 command
+20:40:08 'U\r'                    command
+20:40:09 '[T\r'                   command
+20:40:10 's\\der\r'               command
+20:40:10 'PLOCKA\r'               command
+20:40:11 '   1   DAVID\r'         whom
+20:40:12 's\\der\r'               command
+20:40:12 'UPP\r'                  command
+20:40:13 '\\\r'                   command

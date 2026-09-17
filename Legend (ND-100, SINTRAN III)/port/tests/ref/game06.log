@@ -1,0 +1,57 @@
+clock 1998-9-17 20:44 terminal 39
+20:50:01 'ABC\r'                  signature
+20:50:02 '2\r'                    scenario
+20:50:02 '\r'                     instructions?
+20:50:07 '\r'                     return
+20:50:08 'B'                      menu
+20:50:09 '1\r'                    class
+20:50:09 '2\r'                    order
+20:50:10 '?!\r'                   player name
+20:50:10 '\r'                     player name
+20:50:11 'OLLE-BOLLE\r'           player name
+20:50:11 'C'                      menu
+20:50:12 'Kalle Anka\r'           your name
+20:50:14 'g] n\r'                 command
+20:50:15 '0\r'                    shop
+20:50:17 '\r'                     command
+20:50:18 '3\r'                    shop
+20:50:18 '7\r'                    shop
+20:50:19 '2\r'                    shop
+20:50:19 '5\r'                    how many
+20:50:20 '\r'                     shop
+20:50:20 '7\r'                    shop
+20:50:21 '\r'                     shop
+20:50:21 '1\r'                    shop
+20:50:22 'X\r'                    food or torches
+20:50:23 '\r'                     food or torches
+20:50:23 '1\r'                    shop
+20:50:24 '\r'                     food or torches
+20:50:24 '0\r'                    shop
+20:50:29 'SE\r'                   command
+20:50:30 'tappa\r'                command
+20:50:31 'V\r'                    command
+20:50:31 'GRINA\r'                command
+20:50:32 'FLY\r'                  command
+20:50:32 'FLY\r'                  command
+20:50:33 'd\r'                    command
+20:50:34 'D\r'                    command
+20:50:35 'UPP\r'                  command
+20:50:35 'upp\r'                  command
+20:50:36 'V[LJ\r'                 command
+20:50:37 'V\r'                    command
+20:50:38 'post\r'                 command
+20:50:38 'Hej fr}n slumpen\r\x0c\r' letter
+20:50:39 'TIT\r'                  command
+20:50:40 'TA\r'                   command
+20:50:40 'tappa\r'                command
+20:50:41 'sta\r'                  command
+20:50:42 'hubba\r'                command
+20:50:42 'G] N\r'                 command
+20:50:43 'SE\r'                   command
+20:50:44 'LISTA\r'                command
+20:50:44 'NED\r'                  command
+20:50:45 '?\r'                    command
+20:50:46 '\r'                     help page
+20:50:47 '\r'                     help page
+20:50:48 'G] N\r'                 command
+20:50:48 'sova\r'                 command

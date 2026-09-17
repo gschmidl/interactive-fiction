@@ -1,0 +1,32 @@
+16:02:40 'N\r'                  instructions
+16:02:41 '\x1bC'                cursor
+16:02:41 '\x1bC'                cursor
+16:02:42 '\x1bH'                take Merry
+16:02:42 '\x1bB'                cursor
+16:02:42 '\x1bB'                cursor
+16:02:42 '\x1bB'                cursor
+16:02:42 '\x1bB'                cursor
+16:02:42 '\x1bB'                cursor
+16:02:42 '\x1bC'                cursor
+16:02:42 '\x1bH'                take Erestor
+16:02:42 '\x1bC'                cursor
+16:02:43 '\x1bC'                cursor
+16:02:43 '\x1bC'                cursor
+16:02:43 '\x1bH'                take Brand
+16:02:43 '\x1bB'                cursor
+16:02:43 '\x1bH'                take Forlong
+16:02:43 '\x1bC'                cursor
+16:02:43 '\x1bC'                cursor
+16:02:43 'Erestor\r'            name
+16:02:44 'Brand\r'              name
+16:02:44 'OFF\r'                command 1
+16:02:44 'w\r'                  command 2
+16:02:45 'NE9\r'                command 3
+16:02:45 'N+\r'                 command 4
+16:02:46 'nw1\r'                command 5
+16:02:46 'e3\r'                 command 6
+16:02:46 'Forlong\r'            name
+16:02:47 'f\r'                  fight/run
+16:02:47 'r\r'                  fight/run
+16:02:47 'FORLONG\r'            name
+16:02:48 'R\r'                  fight/run

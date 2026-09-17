@@ -1,0 +1,80 @@
+14:08:37 '\r'                   instructions
+14:08:38 '\x1bC'                cursor
+14:08:38 '\x1bC'                cursor
+14:08:38 '\x1bH'                take Merry
+14:08:38 '\x1bC'                cursor
+14:08:38 '\x1bC'                cursor
+14:08:38 '\x1bC'                cursor
+14:08:38 '\x1bH'                take Legolas
+14:08:38 '\x1bB'                cursor
+14:08:38 '\x1bH'                take Gildor
+14:08:38 '\x1bB'                cursor
+14:08:38 '\x1bB'                cursor
+14:08:38 '\x1bC'                cursor
+14:08:39 '\x1bC'                cursor
+14:08:39 '\x1bH'                take Mablung
+14:08:39 '\x1bB'                cursor
+14:08:39 '\x1bH'                take Erestor
+14:08:39 '\x1bC'                cursor
+14:08:39 '\x1bC'                cursor
+14:08:39 '\x1bC'                cursor
+14:08:39 '\x1bH'                take Brand
+14:08:39 '\x1bB'                cursor
+14:08:39 '\x1bC'                cursor
+14:08:39 '\x1bC'                cursor
+14:08:39 'BTCPF\r'              name
+14:08:40 'BTCPF\r'              name
+14:08:40 'SE+\r'                command 1
+14:08:40 'NW+\r'                command 2
+14:08:41 '0\r'                  command 3
+14:08:41 'NE\r'                 command 4
+14:08:41 'O\r'                  command 5
+14:08:42 '\r'                   command 6
+14:08:42 'W\r'                  command 7
+14:08:42 'S+\r'                 command 8
+14:08:43 'W+\r'                 command 9
+14:08:43 'NW\r'                 command 10
+14:08:43 'SE3\r'                command 11
+14:08:44 'W2\r'                 command 12
+14:08:44 'E2\r'                 command 13
+14:08:44 'R\r'                  fight/run
+14:08:45 'SW2\r'                command 14
+14:08:45 'E+\r'                 command 15
+14:08:45 '\r'                   command 16
+14:08:46 'KILL\r'               command 17
+14:08:46 'S3\r'                 command 18
+14:08:46 'NE3\r'                command 19
+14:08:47 'E\r'                  command 20
+14:08:47 'SW9\r'                command 21
+14:08:47 'MCDNWPI\r'            name
+14:08:47 'R\r'                  fight/run
+14:08:48 'S3\r'                 command 22
+14:08:48 'SE9\r'                command 23
+14:08:48 'NE\r'                 command 24
+14:08:49 '0\r'                  command 25
+14:08:49 'UNTIE\r'              command 26
+14:08:49 'TIE\r'                command 27
+14:08:50 'XYZZY\r'              command 28
+14:08:50 'ON\r'                 command 29
+14:08:50 'W9\r'                 command 30
+14:08:51 'I\r'                  together/individually
+14:08:51 'GKNFQT\r'             name
+14:08:51 '\r'                   fight/run
+14:08:51 'I\r'                  together/individually
+14:08:52 'LGIQNCU\r'            name
+14:08:52 'R\r'                  fight/run
+14:08:52 'I\r'                  together/individually
+14:08:52 'GKNFQT\r'             name
+14:08:53 '\r'                   fight/run
+14:08:53 '\r'                   together/individually
+14:08:53 'X\r'                  name
+14:08:53 'ETGUVQT\r'            name again
+14:08:54 'F\r'                  fight/run
+14:08:54 'I\r'                  together/individually
+14:08:54 'LGIQNCU\r'            name
+14:08:55 'MCDNWPI\r'            name again
+14:08:55 'MCDNWPI\r'            name again
+14:08:55 'LGIQNCU\r'            name again
+14:08:55 'MGTT[\r'              name again
+14:08:56 'R\r'                  fight/run
+14:08:56 '\r'                   together/individually

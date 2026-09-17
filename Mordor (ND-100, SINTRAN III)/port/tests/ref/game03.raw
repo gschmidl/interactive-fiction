@@ -1,0 +1,125 @@
+MORDORF-REF
+                    -  Mordor: Land of evil.  v7.52 850211  -
+
+
+
+
+Do you want instructions (Y/N) <N>: 
+Please wait while I tune the Palantir for Middle Earth.
+Now you shall decide which of our heroes you would like
+to go on the trip. Select 4-12 of those below
+by using the arrow-keys and Home to select/deselect.
+When finished: Place the cursor on 'Finished'.
+Y% FrodoY%4SamY%HMerryY%\PippinY& FredegarY&4LegolasY&HGlorfindelY&\HaldirY' RumilY'4GildorY'HGandalfY'\AragornY( BoromirY(4FaramirY(H@omerY(\ImrahilY) HalbaradY)4Theodr`dY)HBeregondY)\MablungY* DamrodY*4GimliY*HElrondY*\ErestorY+ ThranduilY+4DainY+HBrandY+\CelebornY, ErkenbrandY,4GamlingY,HForlongY,\DenethorY- 'Finished.(Y% 'Frodo(Y% Y%4Y%H'Merry(Y%HY&HY&\Y' 'Rumil(Y' Y( Y(4Y(HY(\'Imrahil(Y(\Y) Y)4'Theodr`d(Y)4Y)H'Beregond(Y)HY)\'Mablung(Y)\Y* 'Damrod(Y* Y+ Y, Y,4Y,H'Forlong(Y,HY,\Y/ JWho shall be the Ringbearer: Damrod
+And who shall carry (and use) the Palantir: rumil
+
+                      
+                      
+  : :           : =   
+  & : : T T T : : =   
+& & : : : : : : : = : 
+: & &'nS@& : :F: : : = : 
+& : & & : : : : : = : 
+  : : & : : : : : =   
+  &'hS@T & T : : : : =   
+    T     T T : =     
+                      
+MP= 5.00   X=120   Y= 90   Command: O
+Ambigiuos command
+Reenter: S1
+MP= 3.50   X=121   Y= 90   Command: NE
+You can't move anymore this turn!
+
+
+                      
+                =     
+            T : = :   
+  :   T T T : : = :   
+& : : : : : : : = : : 
+& & & :'nS@: :F: : = : : 
+: & & : : : : : = : : 
+  : & :'hS@: : : : = :   
+  T & T : : : : = :   
+        T T : = :     
+            T         
+MP= 4.69   X=120   Y= 91   Command: SE+
+You moved 2 steps.
+
+
+        T : =         
+    T T : : = : :     
+  : : : : : = : : :   
+  : : : : : = : : :   
+& : : : : : = : : : : 
+& : : :'hS@:'nS@:F= : & & : 
+  T : : : : = : & & & 
+      T : = : : & :   
+        T = T : & :   
+          =     :     
+          T           
+MP= 3.91   X=122   Y= 93   Command: FOLLOW
+You moved 2 steps. If you proceed, you may get tired!
+MP= 2.34   X=120   Y= 94   Command: nw
+MP= 0.82   X=119   Y= 93   Command: NE+
+You moved 1 steps.
+
+*** Night Turn ***
+
+    :     
+  : : =   
+: : :F= : 
+  :'nS@:'hS@=   
+    :     
+MP= 3.32   X=119   Y= 93   Command: MAP
+*** Night Turn ***
+
+    :     
+  : : =   
+: : :F= : 
+  :'nS@:'hS@=   
+    :     
+MP= 3.32   X=119   Y= 93   Command: NW+
+You moved 1 steps.
+Gwaihir, the Lord of the Winds, brings you a sad message:
+Grimbeorn has just died, fighting in Dale!
+But it can still withstand Saurons attacks!
+You are attacked by a Nazgul!
+Rumil is attacked!
+Rumil was killed by his enemy!
+You must now choose a new carrier for the Palantir.
+The Fellowship currently consists of:
+Frodo
+Merry
+Imrahil
+Theodr`d
+Beregond
+Mablung
+Damrod
+Forlong
+Who shall have the honor? Frodo
+(F)ight or (R)un away? f
+Merry is attacked!
+Merry was killed by his enemy!
+(F)ight or (R)un away? r
+You can't run from Nazgul or Shelob!
+Beregond is attacked!
+Beregond was killed by his enemy!
+(F)ight or (R)un away? r
+You can't run from Nazgul or Shelob!
+Imrahil is attacked!
+Imrahil was killed by his enemy!
+(F)ight or (R)un away? R
+You can't run from Nazgul or Shelob!
+Damrod is attacked!
+Damrod was killed by his enemy!
+The Servants of Sauron took the Ring!
+Your mission has failed!
+
+Surviving heroes:       34.
+Killed enemy groups:     1.
+Citadels remaining:      5.
+Distance to Mt. Doom.  108.
+Score:                 305.
+Your overall performance was not so good. However the future looks bright.
+
+@

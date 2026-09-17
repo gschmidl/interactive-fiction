@@ -1,0 +1,32 @@
+14:09:02 'N\r'                  instructions
+14:09:09 '\x1bH'                take Frodo
+14:09:09 '\x1bC'                cursor
+14:09:09 '\x1bC'                cursor
+14:09:09 '\x1bH'                take Merry
+14:09:09 '\x1bB'                cursor
+14:09:09 '\x1bC'                cursor
+14:09:10 '\x1bC'                cursor
+14:09:10 '\x1bC'                cursor
+14:09:10 '\x1bH'                take Gildor
+14:09:10 '\x1bB'                cursor
+14:09:10 '\x1bC'                cursor
+14:09:10 '\x1bC'                cursor
+14:09:10 '\x1bC'                cursor
+14:09:10 '\x1bH'                take Halbarad
+14:09:10 '\x1bB'                cursor
+14:09:10 '\x1bB'                cursor
+14:09:10 '\x1bB'                cursor
+14:09:10 '\x1bC'                cursor
+14:09:10 '\x1bC'                cursor
+14:09:11 '\x1bC'                cursor
+14:09:11 '\x1bH'                take Denethor
+14:09:11 '\x1bC'                cursor
+14:09:11 'HCNDCTCF\r'           name
+14:09:11 'GKNFQT\r'             name
+14:09:11 'N3\r'                 command 1
+14:09:12 'MGTT[\r'              name
+14:09:12 '\r'                   fight/run
+14:09:12 'F\r'                  fight/run
+14:09:13 'GKNFQT\r'             name
+14:09:13 'F\r'                  fight/run
+14:09:13 '\r'                   fight/run

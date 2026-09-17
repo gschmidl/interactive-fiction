@@ -1,0 +1,23 @@
+16:02:26 'N\r'                  instructions
+16:02:33 '\x1bB'                cursor
+16:02:33 '\x1bC'                cursor
+16:02:34 '\x1bH'                take Legolas
+16:02:34 '\x1bB'                cursor
+16:02:34 '\x1bC'                cursor
+16:02:34 '\x1bH'                take Gandalf
+16:02:34 '\x1bB'                cursor
+16:02:34 '\x1bB'                cursor
+16:02:34 '\x1bC'                cursor
+16:02:34 '\x1bH'                take Mablung
+16:02:34 '\x1bB'                cursor
+16:02:34 '\x1bH'                take Erestor
+16:02:34 '\x1bB'                cursor
+16:02:34 '\x1bB'                cursor
+16:02:34 '\x1bC'                cursor
+16:02:35 'GANDALF\r'            name
+16:02:35 'Gandalf\r'            name
+16:02:35 'O\r'                  command 1
+16:02:36 'SW3\r'                command 2
+16:02:36 'F\r'                  fight/run
+16:02:36 'R\r'                  fight/run
+16:02:37 '\r'                   fight/run

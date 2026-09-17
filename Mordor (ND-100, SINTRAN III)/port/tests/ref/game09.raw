@@ -1,0 +1,432 @@
+MORDORF-REF
+                    -  Mordor: Land of evil.  v7.52 850211  -
+
+
+
+
+Do you want instructions (Y/N) <N>: N
+Please wait while I tune the Palantir for Middle Earth.
+Now you shall decide which of our heroes you would like
+to go on the trip. Select 4-12 of those below
+by using the arrow-keys and Home to select/deselect.
+When finished: Place the cursor on 'Finished'.
+Y% FrodoY%4SamY%HMerryY%\PippinY& FredegarY&4LegolasY&HGlorfindelY&\HaldirY' RumilY'4GildorY'HGandalfY'\AragornY( BoromirY(4FaramirY(H@omerY(\ImrahilY) HalbaradY)4Theodr`dY)HBeregondY)\MablungY* DamrodY*4GimliY*HElrondY*\ErestorY+ ThranduilY+4DainY+HBrandY+\CelebornY, ErkenbrandY,4GamlingY,HForlongY,\DenethorY- 'Finished.(Y% Y%4Y%H'Merry(Y%HY&HY'HY'\Y( 'Boromir(Y( Y(4Y(HY(\'Imrahil(Y(\Y) 'Halbarad(Y) Y* Y*4'Gimli(Y*4Y*HY*\'Erestor(Y*\Y+ Y+4'Dain(Y+4Y+HY+\Y, 'Erkenbrand(Y, Y/ JWho shall be the Ringbearer: GIMLI
+And who shall carry (and use) the Palantir: GIMLI
+
+                      
+                      
+  : :           : =   
+  & : : T T T : : =   
+& & : : : : : : : = : 
+: & &'nS@& : :F: : : = : 
+& : & & : : : : : = : 
+  : : & : : : : : =   
+  &'hS@T & T : : : : =   
+    T     T T : =     
+                      
+MP= 5.00   X=120   Y= 90   Command: e+
+You moved 3 steps.
+
+
+          : =         
+          : = : :     
+        T : = : : :   
+      T : : = : : :   
+: : : : : : = : : : : 
+& :'nS@: : : :F= : : : : 
+& : : : : : = : : : : 
+  :'hS@: : : : = : & &   
+  T : : : : = : & &   
+    T T : = : : &     
+        T = T         
+MP= 4.25   X=120   Y= 93   Command: N
+MP= 2.75   X=119   Y= 93   Command: 0
+
+
+          : :         
+          : = : :     
+          : = : : :   
+      T T : = : : :   
+      T : : = : : : : 
+: : :'hS@: :'nS@:F= : : : : 
+& : : : : : = : : : : 
+  : : : : : = : : :   
+  : : : : : = : & &   
+    : : : : = : &     
+        : = :         
+MP= 4.63   X=119   Y= 93   Command: MAP
+
+          : :         
+          : = : :     
+          : = : : :   
+      T T : = : : :   
+      T : : = : : : : 
+: : :'hS@: :'nS@:F= : : : : 
+& : : : : : = : : : : 
+  : : : : : = : : :   
+  : : : : : = : & &   
+    : : : : = : &     
+        : = :         
+MP= 4.63   X=119   Y= 93   Command: W
+Now you really are in trouble! You have run into a Nazgul!
+Will you fight together or individually (T/I): T
+One villain was killed easily!
+MP= 3.12   X=119   Y= 92   Command: 0
+Gollum attempts to seize the Ring!
+He failes!
+Gollum flees!
+You are attacked by a bunch of Haradrim!
+Erestor is attacked!
+Erestor was knocked unconscious!
+(F)ight or (R)un away? F
+Erkenbrand is attacked!
+Erkenbrand was knocked unconscious!
+(F)ight or (R)un away? F
+Gimli is attacked!
+The monster(s) flee from the battlegrounds!
+
+*** Night Turn ***
+
+    T     
+  T : :   
+: : :F: = 
+  : : :   
+    :     
+MP= 5.00   X=119   Y= 92   Command: E
+MP= 3.50   X=119   Y= 93   Command: SW
+You can't move anymore this turn!
+You are attacked by a bunch of Wolves!
+Dain is attacked!
+Dain was knocked unconscious!
+(F)ight or (R)un away? R
+You got away! The monsters soon give up pursuit!
+
+
+                      
+                      
+                      
+                      
+        T T T         
+        T :FT         
+        T T :         
+              M       
+                      
+                      
+                      
+MP= 4.69   X=126   Y= 88   Command: se
+MP= 2.57   X=127   Y= 89   Command: XYZZY
+Illegal Command.
+Reenter: W2
+You moved 1 steps.
+Suddenly Dain pops up out of nowhere! He has escaped from the
+hords of Sauron that caught him!
+
+
+                      
+                      
+                      
+          T'oS@          
+        T : T         
+        T TF: : T     
+        M M M         
+                      
+                      
+                      
+                      
+MP= 4.10   X=127   Y= 88   Command: SW1
+You can't move anymore this turn!
+
+
+                      
+                      
+    : :               
+    : :               
+        : T T         
+        M MFM         
+        M M M         
+                      
+                      
+                      
+                      
+MP= 3.38   X=  0   Y= 87   Command: OFF
+Not possible!
+MP= 3.38   X=  0   Y= 87   Command: nw1
+You can't move anymore this turn!
+You are attacked by a bunch of Orcs!
+Gimli is attacked!
+Gimli killed his opponent, but he was killed in the fight!
+You must now choose a new Ringbearer.
+The Fellowship currently consists of:
+Merry
+Boromir
+Imrahil
+Halbarad
+Erestor
+Dain
+Erkenbrand
+Who shall have the honor? Erkenbrand
+You must now choose a new carrier for the Palantir.
+The Fellowship currently consists of:
+Merry
+Boromir
+Imrahil
+Halbarad
+Erestor
+Dain
+Erkenbrand
+Who shall have the honor? imrahil
+(F)ight or (R)un away? R
+You got away! The monsters soon give up pursuit!
+
+*** Night Turn ***
+
+    :     
+  T : :   
+T :'wS@:F: : 
+  M M M   
+          
+MP= 2.48   X=127   Y= 95   Command: sw2
+You moved 1 steps.
+You are attacked by an Orc!
+Merry is attacked!
+Merry was knocked unconscious!
+(F)ight or (R)un away? 
+Imrahil is attacked!
+Imrahil was knocked unconscious!
+(F)ight or (R)un away? r
+You got away! The monsters soon give up pursuit!
+
+
+        & : :         
+    : & & & & & :     
+  : : & : & & & & .   
+  T : & : & & & & &   
+  T : : & & & & & : . 
+T : :'wS@:'oS@: :F&'oS@& & & . 
+        M M M         
+                      
+                      
+                      
+                      
+MP= 4.48   X=127   Y= 98   Command: SE3
+You moved 1 steps.
+Gollum attempts to seize the Ring!
+Gollum kills the Ring-bearer and takes the Ring!
+But Erestor attacks him!
+He succeeds in capturing Gollum!
+You must now choose a new Ringbearer.
+The Fellowship currently consists of:
+Boromir
+Halbarad
+Erestor
+Dain
+Who shall have the honor? Erestor
+Gwaihir, the Lord of the Winds, brings you a sad message:
+Legolas has just died, fighting in Dale!
+But it can still withstand Saurons attacks!
+You are attacked by a bunch of Orcs!
+Erestor is attacked!
+Erestor killed his opponent!
+(F)ight or (R)un away? F
+Dain is attacked!
+The monster(s) flee from the battlegrounds!
+
+
+        & & &         
+    & : & & & & .     
+    & : & & & & &     
+    : & & & & & :     
+        :'oS@& &         
+        M MFM         
+        M M M         
+                      
+                      
+                      
+                      
+MP= 4.13   X=  0   Y= 99   Command: sw
+You cannot move that far this turn, type '0' to quit!
+MP= 4.13   X=  0   Y= 99   Command: 
+Ambigiuos command
+Reenter: 0
+You are attacked by an Orc!
+Dain is attacked!
+Dain was knocked unconscious!
+(F)ight or (R)un away? F
+Halbarad is attacked!
+Halbarad killed his opponent, but he was killed in the fight!
+
+
+        & & &         
+    & : & & & & .     
+    & : & & & & &     
+    : & & & & & :     
+        : & &         
+        M MFM         
+        M M M         
+                      
+                      
+                      
+                      
+MP= 5.00   X=  0   Y= 99   Command: SW+
+The mountain is too steep here!
+MP= 5.00   X=  0   Y= 99   Command: sw3
+The mountain is too steep here!
+MP= 5.00   X=  0   Y= 99   Command: 
+Ambigiuos command
+Reenter: 0
+
+*** Night Turn ***
+The mist is thick here!
+You cannot see a thing!!
+
+MF
+MP= 5.00   X=  0   Y= 99   Command: MAP
+*** Night Turn ***
+The mist is thick here!
+You cannot see a thing!!
+
+MF
+MP= 5.00   X=  0   Y= 99   Command: ne+
+You moved 1 steps.
+Suddenly Merry pops up out of nowhere! He has escaped from the
+hords of Sauron that caught him!
+You are attacked by a bunch of Wolves!
+Boromir is attacked!
+Boromir killed his opponent!
+(F)ight or (R)un away? 
+Erestor is attacked!
+Erestor killed his opponent, but he was killed in the fight!
+You must now choose a new Ringbearer.
+The Fellowship currently consists of:
+Merry
+Boromir
+Dain
+Who shall have the honor? Boromir
+(F)ight or (R)un away? R
+You got away! The monsters soon give up pursuit!
+
+The mist is thick here!
+
+    . " .     
+  & . . " .   
+: . . . " . : 
+& . . .F. " . 
+    M M M     
+              
+              
+MP= 4.20   X=127   Y=105   Command: sw+
+You moved 2 steps.
+Gwaihir, the Lord of the Winds, brings you a sad message:
+Brand has just died, fighting in Dale!
+But it can still withstand Saurons attacks!
+
+The mist is thick here!
+
+    & . .     
+  : . . . "   
+    . . .     
+    M MFM     
+    M M M     
+              
+              
+MP= 3.89   X=  0   Y=104   Command: sw+
+You moved 1 steps.
+A little bird comes fluttering by, and tweeks:
+I am sorry, but Imrahil has been tortured to death!
+The search of his body resulted in the finding of the Palantir!
+
+The mist is thick here!
+
+    & . .     
+  : . . . "   
+    . . .     
+    M MFM     
+    M M M     
+              
+              
+MP= 5.00   X=  0   Y=104   Command: MAP
+The mist is thick here!
+
+    & . .     
+  : . . . "   
+    . . .     
+    M MFM     
+    M M M     
+              
+              
+MP= 5.00   X=  0   Y=104   Command: KILL
+Ahhhhhhgggghhh????
+MP= 5.00   X=  0   Y=104   Command: off
+Not possible!
+MP= 5.00   X=  0   Y=104   Command: SE
+The mountain is too steep here!
+MP= 5.00   X=  0   Y=104   Command: E3
+The mountain is too steep here!
+MP= 5.00   X=  0   Y=104   Command: W
+The mountain is too steep here!
+MP= 5.00   X=  0   Y=104   Command: on
+Ahh, that really felt good!
+MP= 5.00   X=  0   Y=104   Command: SE2
+The mountain is too steep here!
+MP= 5.00   X=  0   Y=104   Command: e+
+The mountain is too steep here!
+MP= 5.00   X=  0   Y=104   Command: 0
+n4 n5 n5 n5 n5 n2 n2 n5 b2 b5 o2 o3 o3 o5 o4 o4 o4 w5 w4 h5 h2 h4 t3 t4 t4 t4 
+*** Night Turn ***
+The mist is thick here!
+
+    .     
+  . . .   
+  M MFM   
+  M M M   
+          
+MP= 5.00   X=  0   Y=104   Command: SE2
+The mountain is too steep here!
+MP= 5.00   X=  0   Y=104   Command: NE
+MP= 2.17   X=127   Y=105   Command: kill
+You can't kill Gollum when he isn't there!
+MP= 2.17   X=127   Y=105   Command: W9
+You moved 2 steps.
+n2 n5 n3 n5 n3 n2 n5 n5 b5 b2 o3 o4 o3 o2 o2 o2 w4 
+You are attacked by a Wolf!
+Merry is attacked!
+Merry was killed by his enemy!
+(F)ight or (R)un away? f
+Boromir is attacked!
+Boromir killed his opponent easily!
+
+    38     2     0   127   103
+w5 h2 h2 h2 h4 h3 h4 t4 t3 t5 t3 
+The mist is thick here!
+
+        . " .         
+    & : : . " . :     
+  & & & . . . " . .   
+  & & & & & . . " .   
+& & & & : . . . " . : 
+: &'nS@& & & .F. . . " . 
+        M M M         
+                      
+                      
+                      
+                      
+MP= 4.09   X=127   Y=103   Command: W+
+You can't cross a Swamp without Gollum!
+MP= 4.09   X=127   Y=103   Command: NE
+MP= 2.67   X=126   Y=104   Command: W3
+You moved 2 steps.
+n3 
+You are attacked by a Nazgul!
+Boromir is attacked!
+Boromir was killed by his enemy!
+The Servants of Sauron took the Ring!
+Your mission has failed!
+
+Surviving heroes:       31.
+Killed enemy groups:     4.
+Citadels remaining:      5.
+Distance to Mt. Doom.  120.
+Score:                 180.
+Your overall performance was not so good. However the future looks bright.
+
+@

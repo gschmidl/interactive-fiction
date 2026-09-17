@@ -1,0 +1,215 @@
+LEGENDF-REF
+3:G       Legend    v10.0         20.49   17/ 9 1998 
+
+
+
+Din signatur: XX
+
+Vilket scenario? (1-9, 0): 9
+
+Vill du ha instruktioner?  ('J'a / 'N'ej)  <N> ' (Nej.
+                              Var god dr|j...
+I                            L E G E N D           
+
+                         Antal spelare: 9  
+
+
+*** Meddelande fr}n SpelChefen ***      25/ 8  1986
+Om ni hittar n}t fel va,
+s} skriv POST va
+och klaga va...
+\hhhh
+
+
+
+
+                         Tryck RETURN >FaG<' (
+
+
+Du har inga spelare.
+
+
+A/ 
+B/ Skapa spelare
+C/ 
+D/ Sluta
+E/ 
+
+V{lj: E
+Felaktigt val.
+
+Du har inga spelare.
+
+
+A/ 
+B/ Skapa spelare
+C/ 
+D/ Sluta
+E/ 
+
+V{lj: X
+Felaktigt val.
+
+Du har inga spelare.
+
+
+A/ 
+B/ Skapa spelare
+C/ 
+D/ Sluta
+E/ 
+
+V{lj: B
+
+
+Vad ska din spelare vara?
+
+1. Slagsk{mpe   2. L{rling   3. Magiker   4. Pr{st (1-4): 2
+
+
+Ska din L{rling tillh|ra  1.Orden  eller  2.Klanen? 3
+
+
+Ska din L{rling tillh|ra  1.Orden  eller  2.Klanen? 2
+
+
+Vad ska spelaren heta? MAGDA
+
+
+
+Dina spelare:
+
+
+ 1 . MAGDA
+
+A/ 
+B/ Skapa spelare
+C/ V{lja spelare och starta Legend
+D/ Sluta
+E/ Status f|r spelare
+
+V{lj: E
+
+
+
+> MAGDA
+
+> L[RLING inom KLANEN
+
+Hp-max: 12   Erfarenhet: 0   Niv}: 1 
+
+Tryck n}gon tangent 
+Dina spelare:
+
+
+ 1 . MAGDA
+
+A/ 
+B/ Skapa spelare
+C/ V{lja spelare och starta Legend
+D/ Sluta
+E/ Status f|r spelare
+
+V{lj: C
+
+Fixar spelare... & Startar Legend!
+Vad heter du? Kalle Anka
+::Du st}r mitt p} stadens huvudgata. H{r h{rskar en f|r|dande stank. Hus
+ligger p} b}da sidor om v{gen. Norrut finns en liten butik.
+
+Du ser:
+
+       Zenz (d|d v{n)
+       Zuz (d|d v{n)
+       Ma (s|mnig fiende)
+
+Utg}ngar: Norr S|der \st V{st
+
+:$STATUS
+
+> MAGDA
+
+> Niv} 1 L{rling inom Klanen
+
+Styrka:      6     Hit Points: 12 /12 
+Iq:          10 
+Visdom:      19    Ruststyrka: 10 
+Skicklighet: 18    Erfarenhet: 1 
+Charm:       3 
+
+Trollkraft: 2 
+Utrustning: 2 matpaket, 0 facklor, 500 guldmynt.
+
+
+Magda har g}tt 1 steg och {r 18 }r gammal.
+
+:$S\DER
+:Du st}r inne i en liten stuga. Stugans innev}nare st}r och trycker
+vid en v{gg och ser skr{mda p} dig.
+
+Du ser:
+       Ingenting.
+
+Utg}ngar: Norr
+
+:$HELA
+Du helas 2 po{ng.
+:$LISTA
+
+        Du {r tomh{nt.
+
+:$V
+(Dunk!) Rakt in i en v{gg!
+:$TA SV[RD
+Det finns inget h{r du kan ta med dig.
+:$POST
+Skriv ditt meddelande avslutat med RETURN +  CTRL-L + RETURN
+Hej fr}n slumpen
+
+Ok.
+
+:$N
+:Du st}r mitt p} stadens huvudgata. H{r h{rskar en f|r|dande stank. Hus
+ligger p} b}da sidor om v{gen. Norrut finns en liten butik.
+
+Du ser:
+
+       Zenz (d|d v{n)
+       Zuz (d|d v{n)
+       Ma (s|mnig fiende)
+
+Utg}ngar: Norr S|der \st V{st
+
+En niv} 1 Konung hoppar fram och utmanar dig!
+$U
+Du sl}ss ju med En niv} 1 Konung!
+:$L
+Qu`?
+$V
+Du sl}ss ju med En niv} 1 Konung!
+:$V[STER
+Du sl}ss ju med En niv} 1 Konung!
+:$G] S
+Du sl}ss ju med En niv} 1 Konung!
+:$N
+Du sl}ss ju med En niv} 1 Konung!
+:$AVLIVA
+[r du helt s{ker p} att du vill avliva Magda? (N)J
+Absolut s{ker? (J)N
+
+:$NED
+Du sl}ss ju med En niv} 1 Konung!
+:$UPP
+Du sl}ss ju med En niv} 1 Konung!
+:$SL[PP
+Du kan inte sl{ppa n}got du inte b{r p}!
+:$NORR
+Du sl}ss ju med En niv} 1 Konung!
+:$V
+Du sl}ss ju med En niv} 1 Konung!
+:$SLUTA
+
+
+So Long, XX.
+
+@

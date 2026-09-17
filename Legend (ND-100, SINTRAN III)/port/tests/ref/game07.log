@@ -1,0 +1,68 @@
+clock 1998-9-17 20:45 terminal 39
+20:51:52 'MB\r'                   signature
+20:51:52 '3\r'                    scenario
+20:51:53 'N'                      instructions?
+20:51:58 '\r'                     return
+20:51:58 'B'                      menu
+20:51:59 'Q\r'                    class
+20:51:59 '4\r'                    class
+20:52:00 '1\r'                    order
+20:52:01 'OLLE-BOLLE\r'           player name
+20:52:02 'C'                      menu
+20:52:02 'Musse Pigg\r'           your name
+20:52:04 'NORR\r'                 command
+20:52:05 '3\r'                    shop
+20:52:06 '1\r'                    shop
+20:52:06 'X\r'                    food or torches
+20:52:07 'M\r'                    food or torches
+20:52:07 '99\r'                   how many
+20:52:08 '1\r'                    shop
+20:52:09 'F\r'                    food or torches
+20:52:09 '99\r'                   how many
+20:52:10 '?\r'                    shop
+20:52:10 '7\r'                    shop
+20:52:11 '7\r'                    shop
+20:52:11 '0\r'                    shop
+20:52:13 'v\r'                    command
+20:52:18 'TAPPA\r'                command
+20:52:19 'SLUTA SPELA\r'          command
+20:52:19 'hj[lp\r'                command
+20:52:20 'A'                      help page
+20:52:21 'A'                      help page
+20:52:22 'S\r'                    command
+20:52:23 'N\r'                    command
+20:52:23 '\\STER\r'               command
+20:52:24 'V[STER\r'               command
+20:52:25 'V\r'                    command
+20:52:25 'blixt\r'                command
+20:52:26 'S\\DER\r'               command
+20:52:27 'TAPPA\r'                command
+20:52:27 '\\STER\r'               command
+20:52:28 'T[ND\r'                 command
+20:52:29 'upp\r'                  command
+20:52:30 'TA SV[RD\r'             command
+20:52:30 'S\\DER\r'               command
+20:52:31 'g] s\r'                 command
+20:52:32 'NED\r'                  command
+20:52:32 'NED\r'                  command
+20:52:33 'se\r'                   command
+20:52:34 'UPP\r'                  command
+20:52:35 'sl[pp allt\r'           command
+20:52:35 'n\r'                    command
+20:52:36 'ned\r'                  command
+20:52:37 'G] S\r'                 command
+20:52:38 'NORR\r'                 command
+20:52:38 'UTG]NGAR\r'             command
+20:52:39 'NORR\r'                 command
+20:52:40 'V[LJ\r'                 command
+20:52:40 '\\\r'                   command
+20:52:41 'TITTA\r'                command
+20:52:42 'blixt 2\r'              command
+20:52:43 'EN\r'                   whom
+20:52:43 'D\r'                    command
+20:52:44 '\\\r'                   command
+20:52:45 'STA\r'                  command
+20:52:46 'KLAPPA\r'               command
+20:52:46 'S\r'                    command
+20:52:47 'v\r'                    command
+20:52:48 '\\\r'                   command

@@ -1,0 +1,1533 @@
+MORDOR-REF
+                    -  Mordor: Land of evil.  v7.52 850211  -
+
+
+
+
+Do you want instructions (Y/N) <N>: N
+Please wait while I tune the Palantir for Middle Earth.
+Now you shall decide which of our heroes you would like
+to go on the trip. Select 4-12 of those below
+by using the arrow-keys and Home to select/deselect.
+When finished: Place the cursor on 'Finished'.
+Y% FrodoY%4SamY%HMerryY%\PippinY& FredegarY&4LegolasY&HGlorfindelY&\HaldirY' RumilY'4GildorY'HGandalfY'\AragornY( BoromirY(4FaramirY(H@omerY(\ImrahilY) HalbaradY)4Theodr`dY)HBeregondY)\MablungY* DamrodY*4GimliY*HElrondY*\ErestorY+ ThranduilY+4DainY+HBrandY+\CelebornY, ErkenbrandY,4GamlingY,HForlongY,\DenethorY- HamaY-4CeorlY-HOrophinY-\GaladrielY. @owynY.4ElladanY.HEllrohirY.\GrimbeornY- 'Finished.(Y% 'Frodo(Y% Y%4Y%HY%\'Pippin(Y%\Y&\'Haldir(Y&\Y' Y'4'Gildor(Y'4Y'HY'\'Aragorn(Y'\Y( Y(4'Faramir(Y(4Y(HY(\'Imrahil(Y(\Y) 'Halbarad(Y) Y)4'Theodr`d(Y)4Y)HY)\Y* 'Damrod(Y* Y*4Y*H'Elrond(Y*HY*\Y+ 'Thranduil(Y+ Y, Y/ JWho shall be the Ringbearer: FCTCOKT
+And who shall carry (and use) the Palantir: DCOTQF
+
+                      
+                      
+                      
+                      
+: : :   T T T         
+: : : : : :FT         
+: : : : : : T         
+      T T :           
+          T :         
+            T         
+                      
+MP= 5.00   X=120   Y=  2   Command: W
+MP= 3.50   X=120   Y=  1   Command: XYZZY
+Illegal Command.
+Reenter: N1
+MP= 1.75   X=119   Y=  1   Command: W1
+You can't move anymore this turn!
+
+
+        :             
+                      
+          T           
+          :           
+        M : T         
+: : : : : :FT         
+: : : : : : :         
+  : : : : : : : T     
+  : : : T T T : :     
+    :           :     
+                      
+MP= 5.00   X=119   Y=  0   Command: W2
+MP= 2.00   X=119   Y=126   Command: SE1
+You cannot move that far this turn, type '0' to quit!
+MP= 2.00   X=119   Y=126   Command: FOLLOW-ROAD
+Oops! There is something in your way!
+MP= 2.00   X=119   Y=126   Command: O
+Ambigiuos command
+Reenter: 0
+
+
+                      
+                      
+                      
+                      
+: = :   M M M   T     
+= : : : :'wS@:F: : T     
+= : : : : : : : : : T 
+  : : : : : : : : :   
+  : : : : : T T T :   
+    T T : :           
+        T T           
+MP= 5.00   X=119   Y=126   Command: SW+
+You moved 2 steps.
+You are attacked by a bunch of Wolves!
+Elrond is attacked!
+Elrond killed his opponent!
+(F)ight or (R)un away? F
+Theodr`d is attacked!
+Theodr`d killed his opponent!
+(F)ight or (R)un away? F
+Frodo is attacked!
+Frodo was killed by his enemy!
+(F)ight or (R)un away? R
+You got away! The monsters soon give up pursuit!
+
+*** Night Turn ***
+
+          
+  T T .   
+& .'hS@TFM   
+  M M M   
+          
+MP= 4.38   X=127   Y=123   Command: N
+MP= 2.38   X=126   Y=123   Command: USE
+Distance to Orodruin is approx. 133 units.
+MP= 2.38   X=126   Y=123   Command: REP
+The fellowship currently consists of:
+Pippin, Haldir, Gildor, Aragorn, Faramir, Imrahil, Halbarad, Theodr`d, Damrod, Elrond, Thranduil.
+Gollum is chasing the Ring!
+The Ring is in Faramirs pocket.
+Damrod carries the Palantir.
+These are still fighting at Minas Tirith
+Boromir, Beregond, Mablung, Forlong, Denethor.
+These are still fighting at Dale
+Legolas, Gimli, Dain, Brand, Grimbeorn.
+These are still fighting at Rivendell
+Merry, Fredegar, Glorfindel, Erestor, Elladan, Ellrohir.
+These are still fighting at Lothlorien
+Sam, Rumil, Gandalf, Celeborn, Orophin, Galadriel.
+These are still fighting at Edoras
+@omer, Erkenbrand, Gamling, Hama, Ceorl, @owyn.
+MP= 2.38   X=126   Y=123   Command: 0
+You are attacked by a bunch of Haradrim!
+Halbarad is attacked!
+Halbarad killed his opponent!
+(F)ight or (R)un away? 
+Theodr`d is attacked!
+Theodr`d was knocked unconscious!
+(F)ight or (R)un away? 
+Faramir is attacked!
+Faramir killed his opponent, but he was killed in the fight!
+You must now choose a new Ringbearer.
+The Fellowship currently consists of:
+Pippin
+Haldir
+Gildor
+Aragorn
+Imrahil
+Halbarad
+Damrod
+Elrond
+Thranduil
+Who shall have the honor? ATCIQTP
+(F)ight or (R)un away? R
+You got away! The monsters soon give up pursuit!
+
+
+        : : :         
+    : : : : : : :     
+  : : : : : : : : :   
+  : : : : : & & : :   
+: = : : : : & & & = . 
+: = . . . .F& & : = &'hS@
+        M M M         
+                      
+                      
+                      
+                      
+MP= 4.57   X=127   Y=116   Command: SW1
+MP= 1.74   X=  0   Y=115   Command: NE1
+You cannot move that far this turn, type '0' to quit!
+MP= 1.74   X=  0   Y=115   Command: SW
+You cannot move that far this turn, type '0' to quit!
+MP= 1.74   X=  0   Y=115   Command: ON
+Ahh, that really felt good!
+MP= 1.74   X=  0   Y=115   Command: REPORT
+The fellowship currently consists of:
+Pippin, Haldir, Gildor, Aragorn, Imrahil, Halbarad, Damrod, Elrond, Thranduil.
+Gollum is chasing the Ring!
+The Ring is on Aragorns finger!
+Damrod carries the Palantir.
+These are captured by Servants of Sauron:
+Theodr`d.
+These are still fighting at Minas Tirith
+Boromir, Beregond, Mablung, Forlong, Denethor.
+These are still fighting at Dale
+Legolas, Gimli, Dain, Brand, Grimbeorn.
+These are still fighting at Rivendell
+Merry, Fredegar, Glorfindel, Erestor, Elladan, Ellrohir.
+These are still fighting at Lothlorien
+Sam, Rumil, Gandalf, Celeborn, Orophin, Galadriel.
+These are still fighting at Edoras
+@omer, Erkenbrand, Gamling, Hama, Ceorl, @owyn.
+MP= 1.74   X=  0   Y=115   Command: 0
+Gollum attempts to seize the Ring!
+He failes!
+Now you got him!
+n5 n2 n2 n3 n3 n5 n2 n2 n2 b3 b5 o2 o2 w3 w5 w5 w5 w3 h4 h5 h3 t5 t2 
+
+            : : :             
+        : : : : : : T         
+    M M : : : : : : : : :     
+    = : : : : : : : : : :     
+        : : : : : & &         
+        = : : : : & &         
+            . . .             
+            M MFM             
+            M M M             
+                              
+                              
+                              
+                              
+                              
+                              
+MP= 4.44   X=  0   Y=115   Command: FOLLOW-ROAD
+Oops! There is something in your way!
+MP= 4.44   X=  0   Y=115   Command: NE+
+You moved 2 steps.
+n4 n4 n4 n5 n3 n4 n3 n3 n5 b3 b4 o4 w3 w2 w4 w5 w5 w4 w5 h3 h4 h5 t3 t2 t5 
+The mist is thick here!
+
+        : : :         
+    : : : : : : :     
+  : : : : : : : : :   
+  : : : : : & & : :   
+: = : : : : & & & = . 
+: = . . . .F&'hS@& : = &'wS@
+        M M M         
+                      
+                      
+                      
+                      
+MP= 4.24   X=127   Y=116   Command: N9
+You moved 2 steps.
+Suddenly Theodr`d pops up out of nowhere! He has escaped from the
+hords of Sauron that caught him!
+n2 n5 n5 n4 n3 n4 n5 n3 n4 b4 b3 o3 o2 w3 w5 w5 w3 w5 w4 w4 h5 h4 
+You are attacked by a bunch of Haradrim!
+Thranduil is attacked!
+Thranduil killed his opponent!
+(F)ight or (R)un away? R
+You got away! The monsters soon give up pursuit!
+h3 h3 t3 t5 t3 
+*** Night Turn ***
+The mist is thick here!
+
+    :'wS@    
+  & = .   
+& : =F& . 
+  M M M   
+          
+MP= 3.99   X=127   Y=120   Command: OFF
+Aragorn reluctantly removes the Ring from his finger!
+MP= 3.99   X=127   Y=120   Command: MAP
+*** Night Turn ***
+The mist is thick here!
+You cannot see a thing!!
+
+=F
+MP= 3.99   X=127   Y=120   Command: E1
+MP= 1.91   X=127   Y=121   Command: N
+You cannot move that far this turn, type '0' to quit!
+MP= 1.91   X=127   Y=121   Command: SW3
+You moved 1 steps.
+You are attacked by a bunch of Wolves!
+Aragorn is attacked!
+The monster(s) flee from the battlegrounds!
+
+The mist is thick here!
+
+    : =       
+  : : =       
+& & = . T     
+& :'hS@= &F. T   
+    M M M     
+              
+              
+MP= 3.95   X=127   Y=121   Command: E
+MP= 1.70   X=127   Y=122   Command: E
+You can't move anymore this turn!
+You are attacked by a bunch of Haradrim!
+Imrahil is attacked!
+Imrahil killed his opponent!
+(F)ight or (R)un away? 
+Pippin is attacked!
+Pippin was killed by his enemy!
+(F)ight or (R)un away? R
+You got away! The monsters soon give up pursuit!
+
+
+                      
+                      
+              T T     
+              . .     
+& & =   T T .         
+& : = & . TFM         
+        M M M         
+                      
+                      
+                      
+                      
+MP= 3.04   X=127   Y=123   Command: S+
+You moved 1 steps.
+You are attacked by a bunch of Haradrim!
+Elrond is attacked!
+Elrond killed his opponent!
+(F)ight or (R)un away? R
+You got away! The monsters soon give up pursuit!
+
+
+                      
+    &                 
+    " & T             
+    T & & T T T       
+" " " " : : . T       
+. & . & " .F. . T     
+: & . . . " " " " " " 
+  : : : : : . . . .   
+  : : : : : . . . .   
+    : : : : : : :     
+        : : :         
+MP= 2.32   X= 11   Y=127   Command: S2
+You attempted to drown the fellowship, but that isn't allowed!
+MP= 2.32   X= 11   Y=127   Command: SE
+You attempted to drown the fellowship, but that isn't allowed!
+MP= 2.32   X= 11   Y=127   Command: W3
+You attempted to drown the fellowship, but that isn't allowed!
+MP= 2.32   X= 11   Y=127   Command: S2
+You attempted to drown the fellowship, but that isn't allowed!
+MP= 2.32   X= 11   Y=127   Command: SE3
+You attempted to drown the fellowship, but that isn't allowed!
+MP= 2.32   X= 11   Y=127   Command: ASK
+Gollum won't speak!
+MP= 2.32   X= 11   Y=127   Command: 
+Ambigiuos command
+Reenter: XYZZY
+Illegal Command.
+Reenter: SE2
+You attempted to drown the fellowship, but that isn't allowed!
+MP= 2.32   X= 11   Y=127   Command: O
+Ambigiuos command
+Reenter: SE
+You attempted to drown the fellowship, but that isn't allowed!
+MP= 2.32   X= 11   Y=127   Command: SE3
+You attempted to drown the fellowship, but that isn't allowed!
+MP= 2.32   X= 11   Y=127   Command: SW1
+You cannot cross the river there, try Bridge (-,=) or Ford (+)
+MP= 2.32   X= 11   Y=127   Command: NW9
+You moved 2 steps.
+
+*** Night Turn ***
+
+    T     
+  & & T   
+" " :F: . 
+  & " .   
+    .     
+MP= 1.59   X= 10   Y=126   Command: N+
+You moved 1 steps.
+
+
+                      
+    & & T             
+    & & "             
+      " & T           
+"     T & & T         
+& " " " " :F: . T     
+" . & . & " . . . T   
+  : & . . . " " " "   
+  : : : : : : . . .   
+    : : : : : . .     
+        : : :         
+MP= 3.59   X= 10   Y=126   Command: N3
+You moved 2 steps.
+Gwaihir, the Lord of the Winds, brings you a sad message:
+Mablung has just died, fighting in Minas Tirith!
+But it can still withstand Saurons attacks!
+
+
+                      
+                      
+  & & &               
+    & &               
+    T'wS@" & T T         
+      T & &FT         
+  " " " " : :         
+  . & . & " . . .     
+  : & . . . " " "     
+    : : : : : . .     
+        : : :         
+MP= 3.13   X=  9   Y=126   Command: W
+You cannot move that far this turn, type '0' to quit!
+MP= 3.13   X=  9   Y=126   Command: E2
+You moved 1 steps.
+You are attacked by a bunch of Wargs!
+They attack the whole Fellowship!
+One villain was killed easily!
+(F)ight or (R)un away? 
+They attack the whole Fellowship!
+One villain was killed easily!
+(F)ight or (R)un away? R
+You did not make it! You will have to stand and fight!
+Halbarad is attacked!
+Halbarad killed his opponent!
+(F)ight or (R)un away? F
+Damrod is attacked!
+Damrod killed his opponent!
+(F)ight or (R)un away? R
+You got away! The monsters soon give up pursuit!
+
+
+        " " "         
+    : . . . . . .     
+  : : . . . . . : :   
+  : : : : : : : : :   
+: : : : : : : : : : : 
+: : : : : :F: : : : : 
+: . : : : : : : : : : 
+  . : : :'oS@: : : : :   
+  M : : : : M M : M   
+    M . M :           
+          :           
+MP= 2.33   X= 17   Y=  2   Command: W+
+You moved 1 steps.
+You are attacked by a bunch of Orcs!
+Damrod is attacked!
+Damrod got captured by the villains!
+(F)ight or (R)un away? F
+Gildor is attacked!
+Gildor killed his opponent!
+(F)ight or (R)un away? F
+Thranduil is attacked!
+Thranduil killed his opponent!
+(F)ight or (R)un away? 
+Elrond is attacked!
+Elrond was knocked unconscious!
+(F)ight or (R)un away? R
+You got away! The monsters soon give up pursuit!
+
+*** Night Turn ***
+
+          
+  . M M   
+M . .FM   
+  M M M   
+          
+MP= 1.74   X= 22   Y=125   Command: W
+You can't move anymore this turn!
+
+
+        . . :         
+        . .           
+        . .'oS@          
+          "           
+        M . M         
+        M .F. M       
+        : M M         
+      M               
+                      
+                      
+                      
+MP= 1.11   X= 22   Y=124   Command: 0
+Gollum attempts to seize the Ring!
+He failes!
+Now you got him!
+Gwaihir, the Lord of the Winds, brings you a sad message:
+Beregond has just died, fighting in Minas Tirith!
+But it can still withstand Saurons attacks!
+
+
+        . . :         
+        . .           
+        . .'oS@          
+          "           
+        M . M         
+        M .F. M       
+        : M M         
+      M               
+                      
+                      
+                      
+MP= 3.11   X= 22   Y=124   Command: E9
+You moved 3 steps.
+Suddenly Elrond pops up out of nowhere! He has escaped from the
+hords of Sauron that caught him!
+
+
+                      
+                      
+                      
+                      
+    M   M M M   M     
+    M . . MF" M       
+        M M M         
+                      
+                      
+                      
+                      
+MP= 2.16   X= 22   Y=126   Command: E9
+You attempted to drown the fellowship, but that isn't allowed!
+MP= 2.16   X= 22   Y=126   Command: MAP
+
+                      
+                      
+                      
+                      
+    M   M M M   M     
+    M . . MF" M       
+        M M M         
+                      
+                      
+                      
+                      
+MP= 2.16   X= 22   Y=126   Command: SW9
+You moved 1 steps.
+
+*** Night Turn ***
+
+          
+  M M M   
+. . MF" M 
+  M M M   
+          
+MP= 4.16   X= 22   Y=126   Command: KILL
+Ahhhhhhgggghhh????
+MP= 4.16   X= 22   Y=126   Command: S+
+The mountain is too steep here!
+MP= 4.16   X= 22   Y=126   Command: SE+
+You moved 1 steps.
+Gwaihir, the Lord of the Winds, brings you a sad message:
+Hama has just died, fighting in Edoras!
+But it can still withstand Saurons attacks!
+
+
+                      
+                      
+                      
+                      
+    M   M M M   M     
+    M . . MF" M       
+        M M M         
+                      
+                      
+                      
+                      
+MP= 5.00   X= 22   Y=126   Command: SE+
+The mountain is too steep here!
+MP= 5.00   X= 22   Y=126   Command: NE9
+The mountain is too steep here!
+MP= 5.00   X= 22   Y=126   Command: 
+Ambigiuos command
+Reenter: S9
+The mountain is too steep here!
+MP= 5.00   X= 22   Y=126   Command: NW
+The mountain is too steep here!
+MP= 5.00   X= 22   Y=126   Command: TIE
+You cannot tie someone that aint present!
+MP= 5.00   X= 22   Y=126   Command: NW3
+The mountain is too steep here!
+MP= 5.00   X= 22   Y=126   Command: NW3
+The mountain is too steep here!
+MP= 5.00   X= 22   Y=126   Command: W3
+You moved 3 steps.
+
+
+                      
+                      
+    . "               
+      .       M       
+        : M . M       
+        M MF. . M     
+        M : M         
+          M           
+                      
+                      
+                      
+MP= 5.00   X= 22   Y=123   Command: REPORT
+The fellowship currently consists of:
+Haldir, Gildor, Aragorn, Imrahil, Halbarad, Theodr`d, Elrond, Thranduil.
+Gollum is dead!
+The Ring is in Aragorns pocket.
+Damrod carries the Palantir.
+These are captured by Servants of Sauron:
+Damrod.
+These are still fighting at Minas Tirith
+Boromir, Forlong, Denethor.
+These are still fighting at Dale
+Legolas, Gimli, Dain, Brand, Grimbeorn.
+These are still fighting at Rivendell
+Merry, Fredegar, Glorfindel, Erestor, Elladan, Ellrohir.
+These are still fighting at Lothlorien
+Sam, Rumil, Gandalf, Celeborn, Orophin, Galadriel.
+These are still fighting at Edoras
+@omer, Erkenbrand, Gamling, Ceorl, @owyn.
+MP= 5.00   X= 22   Y=123   Command: USE
+You haven't got access to the Palantir right now.
+MP= 5.00   X= 22   Y=123   Command: USE
+You haven't got access to the Palantir right now.
+MP= 5.00   X= 22   Y=123   Command: REP
+The fellowship currently consists of:
+Haldir, Gildor, Aragorn, Imrahil, Halbarad, Theodr`d, Elrond, Thranduil.
+Gollum is dead!
+The Ring is in Aragorns pocket.
+Damrod carries the Palantir.
+These are captured by Servants of Sauron:
+Damrod.
+These are still fighting at Minas Tirith
+Boromir, Forlong, Denethor.
+These are still fighting at Dale
+Legolas, Gimli, Dain, Brand, Grimbeorn.
+These are still fighting at Rivendell
+Merry, Fredegar, Glorfindel, Erestor, Elladan, Ellrohir.
+These are still fighting at Lothlorien
+Sam, Rumil, Gandalf, Celeborn, Orophin, Galadriel.
+These are still fighting at Edoras
+@omer, Erkenbrand, Gamling, Ceorl, @owyn.
+MP= 5.00   X= 22   Y=123   Command: REPORT
+The fellowship currently consists of:
+Haldir, Gildor, Aragorn, Imrahil, Halbarad, Theodr`d, Elrond, Thranduil.
+Gollum is dead!
+The Ring is in Aragorns pocket.
+Damrod carries the Palantir.
+These are captured by Servants of Sauron:
+Damrod.
+These are still fighting at Minas Tirith
+Boromir, Forlong, Denethor.
+These are still fighting at Dale
+Legolas, Gimli, Dain, Brand, Grimbeorn.
+These are still fighting at Rivendell
+Merry, Fredegar, Glorfindel, Erestor, Elladan, Ellrohir.
+These are still fighting at Lothlorien
+Sam, Rumil, Gandalf, Celeborn, Orophin, Galadriel.
+These are still fighting at Edoras
+@omer, Erkenbrand, Gamling, Ceorl, @owyn.
+MP= 5.00   X= 22   Y=123   Command: XYZZY
+Illegal Command.
+Reenter: E1
+MP= 3.00   X= 22   Y=124   Command: E1
+MP= 2.00   X= 22   Y=125   Command: NE+
+You moved 1 steps.
+Suddenly Damrod pops up out of nowhere! He has escaped from the
+hords of Sauron that caught him!
+
+
+                      
+                      
+    . .               
+      "               
+      M . M M         
+      M . .FM         
+    M   M M M         
+                      
+                      
+                      
+                      
+MP= 5.00   X= 22   Y=125   Command: S
+MP= 3.00   X= 23   Y=125   Command: NW
+You can't move anymore this turn!
+
+*** Night Turn ***
+
+    "     
+  M . M   
+  M .F. M 
+  : M M   
+          
+MP= 4.09   X= 22   Y=124   Command: S+
+You moved 2 steps.
+
+
+        . .           
+          .'oS@          
+          "           
+          . M M       
+        M . .         
+      M : MFM         
+        M M M         
+                      
+                      
+                      
+                      
+MP= 4.13   X= 23   Y=124   Command: SE+
+You moved 1 steps.
+
+
+        . .           
+          .'oS@          
+          "           
+          . M M       
+        M . .         
+      M : MFM         
+        M M M         
+                      
+                      
+                      
+                      
+MP= 5.00   X= 23   Y=124   Command: THROW
+You don't have sufficient willpower to throw the Ring
+unless at Mt. Doom!
+MP= 5.00   X= 23   Y=124   Command: NE
+MP= 2.17   X= 22   Y=125   Command: 0
+
+
+                      
+                      
+    . .               
+      "               
+      M . M M         
+      M . .FM         
+    M   M M M         
+                      
+                      
+                      
+                      
+MP= 5.00   X= 22   Y=125   Command: XYZZY
+Illegal Command.
+Reenter: O
+Ambigiuos command
+Reenter: E+
+You attempted to drown the fellowship, but that isn't allowed!
+MP= 3.00   X= 22   Y=126   Command: ON
+Ahh, that really felt good!
+MP= 3.00   X= 22   Y=126   Command: E1
+You attempted to drown the fellowship, but that isn't allowed!
+MP= 3.00   X= 22   Y=126   Command: ON
+The Ring is already on!
+MP= 3.00   X= 22   Y=126   Command: S
+The mountain is too steep here!
+MP= 3.00   X= 22   Y=126   Command: E1
+You attempted to drown the fellowship, but that isn't allowed!
+MP= 3.00   X= 22   Y=126   Command: SE2
+You moved 1 steps.
+n4 n5 n3 n2 n2 n3 n2 n5 n4 b2 b5 o4 o3 o4 o3 o3 w2 w5 w2 w4 h5 h3 t3 t5 t4 t4 t5 t5 
+*** Night Turn ***
+
+                  
+                  
+                  
+  M   M M M   M   
+  M . . MF" M     
+      M M M       
+                  
+                  
+                  
+MP= 5.00   X= 22   Y=126   Command: SW
+The mountain is too steep here!
+MP= 5.00   X= 22   Y=126   Command: NE+
+The mountain is too steep here!
+MP= 5.00   X= 22   Y=126   Command: FOLLOW-ROAD
+Oops! There is something in your way!
+MP= 5.00   X= 22   Y=126   Command: E9
+You attempted to drown the fellowship, but that isn't allowed!
+MP= 5.00   X= 22   Y=126   Command: ASK
+Gollum is not here!
+MP= 5.00   X= 22   Y=126   Command: NE
+The mountain is too steep here!
+MP= 5.00   X= 22   Y=126   Command: ON
+The Ring is already on!
+MP= 5.00   X= 22   Y=126   Command: S+
+The mountain is too steep here!
+MP= 5.00   X= 22   Y=126   Command: E1
+You attempted to drown the fellowship, but that isn't allowed!
+MP= 5.00   X= 22   Y=126   Command: SE9
+The mountain is too steep here!
+MP= 5.00   X= 22   Y=126   Command: O
+Ambigiuos command
+Reenter: HELP
+Commands:
+ON,   OFF,    FOLLOW-ROAD, KILL,   ASK,  0,  THROW,
+HELP, REPORT, TIE,  UNTIE,  USE,   MAP,  QUIT-GAME.
+
+Map Symbols
+: = Rough terrain, . = Grass, T = Trees,    & = Swamp,
+M = Mountain,      " = River, - = Road,     = = Main Road,
++ = Ford,          I = Tower, D = Mt. Doom, B = Barad Dur.
+
+o = Orcs,     w = Wolwes, b = Balrog, n = Nazgul,
+h = Haradrim, t = Trolls, g = Gollum, F = Fellowship,
+? = Traitor?
+MP= 5.00   X= 22   Y=126   Command: SW9
+The mountain is too steep here!
+MP= 5.00   X= 22   Y=126   Command: W+
+You moved 3 steps.
+n2 n4 n5 n2 n4 n4 n2 n4 n4 b3 b2 b4 o3 o3 o5 o2 w3 w4 w2 w5 w3 w4 h5 h3 t2 t4 t3 t5 t4 t2 t2 
+
+                              
+                              
+    . .                       
+      "                       
+        . "                   
+          .       M           
+            : M . M           
+            M MF. . M         
+            M : M             
+              M               
+                              
+                              
+                              
+                              
+                              
+MP= 5.00   X= 22   Y=123   Command: OFF
+Aragorn reluctantly removes the Ring from his finger!
+MP= 5.00   X= 22   Y=123   Command: E1
+MP= 3.00   X= 22   Y=124   Command: XYZZY
+Illegal Command.
+Reenter: E
+MP= 2.00   X= 22   Y=125   Command: N
+You can't move anymore this turn!
+
+
+                      
+                      
+  : : .               
+  " . .               
+  . " " " M M         
+      M . MFM         
+      M . . M         
+      : M M           
+    M                 
+                      
+                      
+MP= 5.00   X= 21   Y=125   Command: NE
+The mountain is too steep here!
+MP= 5.00   X= 21   Y=125   Command: N3
+The mountain is too steep here!
+MP= 5.00   X= 21   Y=125   Command: N+
+The mountain is too steep here!
+MP= 5.00   X= 21   Y=125   Command: ON
+Ahh, that really felt good!
+MP= 5.00   X= 21   Y=125   Command: N+
+The mountain is too steep here!
+MP= 5.00   X= 21   Y=125   Command: N
+The mountain is too steep here!
+MP= 5.00   X= 21   Y=125   Command: FOLLOW-ROAD
+Oops! There is something in your way!
+MP= 5.00   X= 21   Y=125   Command: THROW
+You don't have sufficient willpower to throw the Ring
+unless at Mt. Doom!
+MP= 5.00   X= 21   Y=125   Command: NW+
+You attempted to drown the fellowship, but that isn't allowed!
+MP= 5.00   X= 21   Y=125   Command: 0
+n4 n3 n3 n4 n5 n3 n3 n3 n5 b5 b2 b2 o4 o3 o4 o2 w4 w4 w4 w3 h2 h4 h4 t3 t5 t2 
+
+                              
+                              
+    : :                       
+    . :                       
+  " + : : .                   
+    . " . .                   
+      . " " " M M             
+          M . MFM             
+          M . . M             
+          : M M               
+        M                     
+                              
+                              
+                              
+                              
+MP= 5.00   X= 21   Y=125   Command: SW1
+MP= 2.17   X= 22   Y=124   Command: ON
+The Ring is already on!
+MP= 2.17   X= 22   Y=124   Command: ON
+The Ring is already on!
+MP= 2.17   X= 22   Y=124   Command: SE3
+You moved 1 steps.
+n4 n4 n3 n5 n4 n5 n2 n5 n4 b5 b5 o5 o2 o4 o4 w5 w4 w4 w3 h2 h2 h3 t4 t2 t5 
+*** Night Turn ***
+
+      . .'wS@        
+      . .'tS@        
+        "         
+      M . M       
+      M .F. M     
+      : M M       
+    M             
+                  
+                  
+MP= 5.00   X= 22   Y=124   Command: SW+
+You moved 2 steps.
+Gwaihir, the Lord of the Winds, brings you a sad message:
+Fredegar has just died, fighting in Rivendell!
+But it can still withstand Saurons attacks!
+n2 n3 n4 n2 n4 n3 n5 n3 n5 b3 b5 b3 o2 o5 o5 o3 w3 w2 w5 w5 w4 h5 h2 h5 t5 t2 t3 
+
+                              
+                              
+                              
+                              
+                    M         
+                  .           
+            M M :             
+            M MFM             
+            M M M             
+                              
+                              
+                              
+                              
+                              
+                              
+MP= 4.03   X= 24   Y=122   Command: REP
+The fellowship currently consists of:
+Haldir, Gildor, Aragorn, Imrahil, Halbarad, Theodr`d, Damrod, Elrond, Thranduil.
+Gollum is dead!
+The Ring is on Aragorns finger!
+Damrod carries the Palantir.
+These are still fighting at Minas Tirith
+Boromir, Forlong, Denethor.
+These are still fighting at Dale
+Legolas, Gimli, Dain, Brand, Grimbeorn.
+These are still fighting at Rivendell
+Merry, Glorfindel, Erestor, Elladan, Ellrohir.
+These are still fighting at Lothlorien
+Sam, Rumil, Gandalf, Celeborn, Orophin, Galadriel.
+These are still fighting at Edoras
+@omer, Erkenbrand, Gamling, Ceorl, @owyn.
+MP= 4.03   X= 24   Y=122   Command: W3
+The mountain is too steep here!
+MP= 4.03   X= 24   Y=122   Command: W1
+The mountain is too steep here!
+MP= 4.03   X= 24   Y=122   Command: THROW
+You don't have sufficient willpower to throw the Ring
+unless at Mt. Doom!
+MP= 4.03   X= 24   Y=122   Command: 0
+n2 n3 n5 n3 n4 n3 n4 n2 n2 b3 b4 b5 o5 o4 o2 o5 w3 w3 w3 w2 w2 h4 h3 h5 h5 t5 t4 t3 t5 t5 
+
+                              
+                              
+                              
+                              
+                    M         
+                  .           
+            M M :             
+            M MFM             
+            M M M             
+                              
+                              
+                              
+                              
+                              
+                              
+MP= 5.00   X= 24   Y=122   Command: E+
+The mountain is too steep here!
+MP= 5.00   X= 24   Y=122   Command: SW9
+The mountain is too steep here!
+MP= 5.00   X= 24   Y=122   Command: 0
+Gwaihir, the Lord of the Winds, brings you a sad message:
+Orophin has just died, fighting in Lothlorien!
+But it can still withstand Saurons attacks!
+n2 n2 n2 n3 n2 n3 n2 n4 n4 b5 b4 o3 o3 o4 o3 o3 o5 w3 w5 w4 w2 h5 h2 h5 h2 t2 t2 t2 t4 t2 t5 
+
+                              
+                              
+                              
+                              
+                    M         
+                  .           
+            M M :             
+            M MFM             
+            M M M             
+                              
+                              
+                              
+                              
+                              
+                              
+MP= 5.00   X= 24   Y=122   Command: HELP
+Commands:
+ON,   OFF,    FOLLOW-ROAD, KILL,   ASK,  0,  THROW,
+HELP, REPORT, TIE,  UNTIE,  USE,   MAP,  QUIT-GAME.
+
+Map Symbols
+: = Rough terrain, . = Grass, T = Trees,    & = Swamp,
+M = Mountain,      " = River, - = Road,     = = Main Road,
++ = Ford,          I = Tower, D = Mt. Doom, B = Barad Dur.
+
+o = Orcs,     w = Wolwes, b = Balrog, n = Nazgul,
+h = Haradrim, t = Trolls, g = Gollum, F = Fellowship,
+? = Traitor?
+MP= 5.00   X= 24   Y=122   Command: REPORT
+The fellowship currently consists of:
+Haldir, Gildor, Aragorn, Imrahil, Halbarad, Theodr`d, Damrod, Elrond, Thranduil.
+Gollum is dead!
+The Ring is on Aragorns finger!
+Damrod carries the Palantir.
+These are still fighting at Minas Tirith
+Boromir, Forlong, Denethor.
+These are still fighting at Dale
+Legolas, Gimli, Dain, Brand, Grimbeorn.
+These are still fighting at Rivendell
+Merry, Glorfindel, Erestor, Elladan, Ellrohir.
+These are still fighting at Lothlorien
+Sam, Rumil, Gandalf, Celeborn, Galadriel.
+These are still fighting at Edoras
+@omer, Erkenbrand, Gamling, Ceorl, @owyn.
+MP= 5.00   X= 24   Y=122   Command: S2
+The mountain is too steep here!
+MP= 5.00   X= 24   Y=122   Command: NE1
+MP= 1.82   X= 23   Y=123   Command: 
+Ambigiuos command
+Reenter: 0
+n4 n2 n4 n5 n4 n3 n4 n3 n2 b2 o5 o5 o2 o2 o4 o2 w3 w4 w3 w5 w5 w3 w3 h3 h2 h5 h4 h3 t3 t4 t2 t5 t3 t5 t3 
+*** Night Turn ***
+
+                  
+                  
+            M     
+      M M .       
+      M :FM       
+      M M M       
+                  
+                  
+                  
+MP= 4.91   X= 23   Y=123   Command: NW
+MP= 1.73   X= 22   Y=122   Command: REP
+The fellowship currently consists of:
+Haldir, Gildor, Aragorn, Imrahil, Halbarad, Theodr`d, Damrod, Elrond, Thranduil.
+Gollum is dead!
+The Ring is on Aragorns finger!
+Damrod carries the Palantir.
+These are still fighting at Minas Tirith
+Boromir, Forlong, Denethor.
+These are still fighting at Dale
+Legolas, Gimli, Dain, Brand, Grimbeorn.
+These are still fighting at Rivendell
+Merry, Glorfindel, Erestor, Elladan, Ellrohir.
+These are still fighting at Lothlorien
+Sam, Rumil, Gandalf, Celeborn, Galadriel.
+These are still fighting at Edoras
+@omer, Erkenbrand, Gamling, Ceorl, @owyn.
+MP= 1.73   X= 22   Y=122   Command: W+
+You moved 1 steps.
+n2 n2 n3 n2 n4 n5 n3 n5 n5 b5 o3 o2 o2 o3 o5 w4 w3 w3 w2 w5 w5 w4 h3 h2 h2 h3 t3 t2 t4 t5 t2 t4 t4 
+
+            : : :             
+          : : : . :           
+            : : .             
+            : : .             
+            " .'wS@.'tS@            
+              "               
+            M : M             
+        M : : MFM             
+    M : :   M M :             
+                  M           
+                              
+                              
+                              
+                              
+                              
+MP= 4.77   X= 22   Y=122   Command: N1
+MP= 2.52   X= 21   Y=122   Command: E
+MP= 0.27   X= 21   Y=123   Command: E+
+You moved 1 steps.
+n2 n4 n5 n5 n2 n5 n3 n4 n5 b3 o2 o3 o5 o3 o5 o5 o5 o3 w4 w2 w5 w5 w2 w4 w3 w5 h3 h2 h5 h2 t3 t2 t4 t3 t2 t3 
+
+            : : :             
+        : : : : : : :         
+    : . : : : . : : : : :     
+    . . . : : . . : : :       
+  " " " + : : . . : .         
+    . . . " .'wS@.'tS@. .'oS@          
+      M . . " " " M           
+          M : MF. M           
+      M :   M M . . M         
+                  M           
+                              
+                              
+                              
+                              
+                              
+MP= 3.91   X= 21   Y=123   Command: S+
+The mountain is too steep here!
+MP= 3.91   X= 21   Y=123   Command: E3
+You moved 2 steps.
+Gwaihir, the Lord of the Winds, brings you a sad message:
+Sam has just died, fighting in Lothlorien!
+But it can still withstand Saurons attacks!
+n2 n2 n4 n4 n4 n5 n4 n3 n4 b2 o4 o5 o5 o4 o5 o3 w3 w3 w4 w3 w4 w3 w4 w4 h5 h4 t3 t3 t5 t4 t3 t5 
+
+            : : :             
+        : : : : : :           
+    . : : : . : :             
+    . . : : . . :             
+        : : . . :             
+        " .'wS@.'tS@.'oS@              
+            " " M             
+            M .FM             
+            M . .             
+              M M M           
+            M                 
+                              
+                              
+                              
+                              
+MP= 3.86   X= 21   Y=124   Command: REPORT
+The fellowship currently consists of:
+Haldir, Gildor, Aragorn, Imrahil, Halbarad, Theodr`d, Damrod, Elrond, Thranduil.
+Gollum is dead!
+The Ring is on Aragorns finger!
+Damrod carries the Palantir.
+These are still fighting at Minas Tirith
+Boromir, Forlong, Denethor.
+These are still fighting at Dale
+Legolas, Gimli, Dain, Brand, Grimbeorn.
+These are still fighting at Rivendell
+Merry, Glorfindel, Erestor, Elladan, Ellrohir.
+These are still fighting at Lothlorien
+Rumil, Gandalf, Celeborn, Galadriel.
+These are still fighting at Edoras
+@omer, Erkenbrand, Gamling, Ceorl, @owyn.
+MP= 3.86   X= 21   Y=124   Command: 0
+n2 n2 n2 n2 n5 n3 n3 n3 n4 b4 o3 o4 o2 o2 o2 o5 o4 o5 o4 o5 w3 w4 w2 w3 w5 w3 w3 w5 h2 h3 t5 t5 t3 t2 t3 t4 t5 
+*** Night Turn ***
+
+      . . :       
+    : . . :       
+  " .'wS@.'tS@.'oS@        
+      " " M       
+      M .FM       
+      M . .       
+        M M M     
+      M           
+                  
+MP= 5.00   X= 21   Y=124   Command: HELP
+Commands:
+ON,   OFF,    FOLLOW-ROAD, KILL,   ASK,  0,  THROW,
+HELP, REPORT, TIE,  UNTIE,  USE,   MAP,  QUIT-GAME.
+
+Map Symbols
+: = Rough terrain, . = Grass, T = Trees,    & = Swamp,
+M = Mountain,      " = River, - = Road,     = = Main Road,
++ = Ford,          I = Tower, D = Mt. Doom, B = Barad Dur.
+
+o = Orcs,     w = Wolwes, b = Balrog, n = Nazgul,
+h = Haradrim, t = Trolls, g = Gollum, F = Fellowship,
+? = Traitor?
+MP= 5.00   X= 21   Y=124   Command: NE1
+MP= 2.17   X= 20   Y=125   Command: N
+MP= 0.17   X= 19   Y=125   Command: THROW
+You don't have sufficient willpower to throw the Ring
+unless at Mt. Doom!
+MP= 0.17   X= 19   Y=125   Command: REP
+The fellowship currently consists of:
+Haldir, Gildor, Aragorn, Imrahil, Halbarad, Theodr`d, Damrod, Elrond, Thranduil.
+Gollum is dead!
+The Ring is on Aragorns finger!
+Damrod carries the Palantir.
+These are still fighting at Minas Tirith
+Boromir, Forlong, Denethor.
+These are still fighting at Dale
+Legolas, Gimli, Dain, Brand, Grimbeorn.
+These are still fighting at Rivendell
+Merry, Glorfindel, Erestor, Elladan, Ellrohir.
+These are still fighting at Lothlorien
+Rumil, Gandalf, Celeborn, Galadriel.
+These are still fighting at Edoras
+@omer, Erkenbrand, Gamling, Ceorl, @owyn.
+MP= 0.17   X= 19   Y=125   Command: S3
+You moved 1 steps.
+n4 n4 n3 n5 n5 n3 n5 n4 n3 b3 o2 
+You are attacked by a bunch of Orcs!
+Gildor is attacked!
+Gildor killed his opponent!
+(F)ight or (R)un away? F
+Gildor is attacked!
+Gildor killed his opponent!
+(F)ight or (R)un away? 
+Elrond is attacked!
+Elrond killed his opponent!
+(F)ight or (R)un away? R
+You got away! The monsters soon give up pursuit!
+o5 o3 o4 o3 o2 o4 o5 o5 w3 w5 w3 w3 w3 w5 w4 h5 h5 t4 t5 t5 t2 t2 t3 t3 t2 t5 
+
+                              
+                              
+                              
+                              
+                              
+              M               
+    M " .   M : M             
+      M & . . .FM             
+    M & & & & . .             
+      M & . . . . T           
+      M . . . . .             
+      . . . . . :             
+    M T . . . . : :           
+        T T T . : :           
+              T :             
+MP= 4.09   X= 28   Y=  3   Command: NE2
+You moved 2 steps.
+Gwaihir, the Lord of the Winds, brings you a sad message:
+Dain has just died, fighting in Dale!
+But it can still withstand Saurons attacks!
+n2 n3 n4 n3 n5 n3 n2 n3 n2 b4 b5 o4 o2 o5 o5 o2 o2 o2 o4 o5 o4 o3 w5 w2 w3 w4 w5 w3 w3 h2 h4 t4 t2 t4 t4 t3 t4 t5 t3 t2 
+
+                              
+                              
+                              
+                              
+                              
+                              
+            M M M             
+          M : MFM             
+      & . . . M M             
+    & & & &                   
+    M & . .                   
+    M .                       
+    . .                       
+                              
+                              
+MP= 3.71   X= 27   Y=  4   Command: USE
+Distance to Orodruin is approx. 48 units.
+MP= 3.71   X= 27   Y=  4   Command: NW+
+You moved 1 steps.
+Gwaihir, the Lord of the Winds, brings you a sad message:
+Boromir has just died, fighting in Minas Tirith!
+But it can still withstand Saurons attacks!
+n2 n3 n3 n5 n5 n5 n4 n5 n5 b3 b3 o3 o3 o3 o5 o5 o4 o3 o5 o4 o5 o3 w3 w2 w2 w2 w3 w4 h4 h2 h2 t3 t5 t2 t5 t3 t2 t2 t5 t4 
+
+                              
+                              
+                              
+                              
+                              
+                              
+            M M M             
+          M : MFM             
+      & . . . M M             
+    & & & &                   
+    M & . .                   
+    M .                       
+    . .                       
+                              
+                              
+MP= 5.00   X= 27   Y=  4   Command: 0
+n2 n3 n2 n4 n2 n5 n2 n3 n4 b3 b4 b5 o5 o4 o2 o3 o5 o4 o3 o3 o5 o5 o4 w5 w5 w2 w3 w3 h2 h5 h5 t3 t3 t4 t3 t2 t5 t3 t4 t4 
+*** Night Turn ***
+
+                  
+                  
+                  
+      M M M       
+    M : MFM       
+& . . . M M       
+  & &             
+    .             
+                  
+MP= 5.00   X= 27   Y=  4   Command: 
+Ambigiuos command
+Reenter: NE+
+The mountain is too steep here!
+MP= 5.00   X= 27   Y=  4   Command: 0
+n2 n3 n4 n3 n2 n2 n4 n5 n5 b3 b5 b2 b2 o5 o5 o4 o3 o4 o3 o3 o3 o5 o2 o4 w3 w5 w5 w2 h5 h5 h5 h3 h3 t5 t3 t5 t4 t3 t2 t3 t3 t3 t2 t4 
+
+                              
+                              
+                              
+                              
+                              
+                              
+            M M M             
+          M : MFM             
+      & . . . M M             
+    & & & &                   
+    M & . .                   
+    M .                       
+    . .                       
+                              
+                              
+MP= 5.00   X= 27   Y=  4   Command: 0
+n3 n2 n3 n5 n5 n3 n5 n2 n3 b5 b4 b2 o5 o2 o2 o5 o5 o3 o5 o5 o5 w4 w5 w3 w5 h3 h3 h3 h5 h4 t2 t2 t4 t5 t4 t4 t4 t5 t5 t4 
+
+                              
+                              
+                              
+                              
+                              
+                              
+            M M M             
+          M : MFM             
+      & . . . M M             
+    & & & &                   
+    M & . .                   
+    M .                       
+    . .                       
+                              
+                              
+MP= 5.00   X= 27   Y=  4   Command: SE9
+The mountain is too steep here!
+MP= 5.00   X= 27   Y=  4   Command: THROW
+You don't have sufficient willpower to throw the Ring
+unless at Mt. Doom!
+MP= 5.00   X= 27   Y=  4   Command: ASK
+Gollum is not here!
+MP= 5.00   X= 27   Y=  4   Command: SE1
+The mountain is too steep here!
+MP= 5.00   X= 27   Y=  4   Command: FOLLOW
+Oops! There is something in your way!
+MP= 5.00   X= 27   Y=  4   Command: REP
+The fellowship currently consists of:
+Haldir, Gildor, Aragorn, Imrahil, Halbarad, Theodr`d, Damrod, Elrond, Thranduil.
+Gollum is dead!
+The Ring is on Aragorns finger!
+Damrod carries the Palantir.
+These are still fighting at Minas Tirith
+Forlong, Denethor.
+These are still fighting at Dale
+Legolas, Gimli, Brand, Grimbeorn.
+These are still fighting at Rivendell
+Merry, Glorfindel, Erestor, Elladan, Ellrohir.
+These are still fighting at Lothlorien
+Rumil, Gandalf, Celeborn, Galadriel.
+These are still fighting at Edoras
+@omer, Erkenbrand, Gamling, Ceorl, @owyn.
+MP= 5.00   X= 27   Y=  4   Command: SW+
+You moved 2 steps.
+Gwaihir, the Lord of the Winds, brings you a sad message:
+Gandalf has just died, fighting in Lothlorien!
+But it can still withstand Saurons attacks!
+n3 n4 n4 n5 n5 n3 n2 n4 n3 b5 b4 b4 o5 o5 o5 o4 o2 o5 o3 o3 o5 w4 w3 w2 w3 h3 h4 h3 h4 h3 h3 h5 t2 t3 t2 t2 t4 t4 t2 t4 t4 t5 t3 
+
+                              
+                              
+                              
+                              
+                              
+              M               
+    M " .   M : M             
+      M & . . .FM             
+    M & & & & . .             
+      M & . . . . T           
+      M . . . . .             
+      . . . . . :             
+    M T . . . . : :           
+        T T T . : :           
+              T :             
+MP= 5.00   X= 28   Y=  3   Command: HELP
+Commands:
+ON,   OFF,    FOLLOW-ROAD, KILL,   ASK,  0,  THROW,
+HELP, REPORT, TIE,  UNTIE,  USE,   MAP,  QUIT-GAME.
+
+Map Symbols
+: = Rough terrain, . = Grass, T = Trees,    & = Swamp,
+M = Mountain,      " = River, - = Road,     = = Main Road,
++ = Ford,          I = Tower, D = Mt. Doom, B = Barad Dur.
+
+o = Orcs,     w = Wolwes, b = Balrog, n = Nazgul,
+h = Haradrim, t = Trolls, g = Gollum, F = Fellowship,
+? = Traitor?
+MP= 5.00   X= 28   Y=  3   Command: NW9
+You moved 2 steps.
+n4 n2 n5 n5 n5 n4 n4 n4 n4 b4 b3 o4 o5 o4 o3 o4 o4 o4 w2 w4 w2 w4 h2 h5 h2 h2 h4 h2 h5 t5 t4 t4 t5 t3 t2 t4 t5 
+*** Night Turn ***
+The mist is thick here!
+
+          
+  M M M   
+. . MF: M 
+  . . .   
+    &     
+MP= 5.00   X= 27   Y=  2   Command: USE
+Distance to Orodruin is approx. 51 units.
+MP= 5.00   X= 27   Y=  2   Command: W9
+You attempted to drown the fellowship, but that isn't allowed!
+MP= 2.00   X= 27   Y=  0   Command: SW+
+You moved 1 steps.
+n4 n5 n3 n5 n4 n3 n5 n2 n3 b2 b4 o3 o2 o4 o4 o3 o4 o5 o2 o2 w3 w3 w2 w2 w4 w4 h4 h2 h5 h2 h4 h3 h3 t2 t5 t2 t4 t5 t3 t2 t4 
+The mist is thick here!
+
+                      
+                      
+                      
+                      
+        M M M         
+      M " .F. M       
+        M & . . . M   
+          & & & . .   
+        M & . . . .   
+          . . . .     
+          . .         
+MP= 5.00   X= 27   Y=  0   Command: S2
+You can't cross a Swamp without Gollum!
+MP= 5.00   X= 27   Y=  0   Command: SW1
+MP= 2.17   X= 28   Y=127   Command: SE9
+You moved 1 steps.
+n2 n2 n5 n2 n2 n3 n3 n5 n2 b4 b4 o3 o3 o3 o2 o5 o4 w2 w4 w2 w5 w4 w4 h2 h5 h2 h2 h4 h3 h3 h4 t4 t4 t2 t2 t2 t3 
+The mist is thick here!
+
+                      
+                      
+                      
+          M M M       
+        M " . . M     
+        M MF& . . . M 
+        M & & & & . . 
+          M & . . .   
+            . . . .   
+            . . .     
+                      
+MP= 5.00   X= 28   Y=127   Command: W
+The mountain is too steep here!
+MP= 5.00   X= 28   Y=127   Command: SW3
+The mountain is too steep here!
+MP= 5.00   X= 28   Y=127   Command: S+
+You can't cross a Swamp without Gollum!
+MP= 5.00   X= 28   Y=127   Command: REP
+The fellowship currently consists of:
+Haldir, Gildor, Aragorn, Imrahil, Halbarad, Theodr`d, Damrod, Elrond, Thranduil.
+Gollum is dead!
+The Ring is on Aragorns finger!
+Damrod carries the Palantir.
+These are still fighting at Minas Tirith
+Forlong, Denethor.
+These are still fighting at Dale
+Legolas, Gimli, Brand, Grimbeorn.
+These are still fighting at Rivendell
+Merry, Glorfindel, Erestor, Elladan, Ellrohir.
+These are still fighting at Lothlorien
+Rumil, Celeborn, Galadriel.
+These are still fighting at Edoras
+@omer, Erkenbrand, Gamling, Ceorl, @owyn.
+MP= 5.00   X= 28   Y=127   Command: SW2
+The mountain is too steep here!
+MP= 5.00   X= 28   Y=127   Command: SW3
+The mountain is too steep here!
+MP= 5.00   X= 28   Y=127   Command: NE9
+You moved 2 steps.
+n2 n4 n4 n2 n3 n4 n4 n3 n4 b4 o4 o3 o4 o4 o4 o4 w3 w2 w4 w4 w3 w3 h4 h3 h2 h5 h2 t2 t4 t4 t4 t5 t3 t5 t5 t3 
+The mist is thick here!
+
+                      
+                      
+                      
+                      
+        M M M         
+      M " .F. M       
+        M & . . . M   
+          & & & . .   
+        M & . . . .   
+          .'wS@. . .     
+          . .         
+Aragorn suddenly dissappears, he has become a semi-ringwraith!
+He is now heading for Barad-Dur with all speed he can muster!
+MP= 5.00   X= 27   Y=  0   Command: N1
+MP= 3.00   X= 26   Y=  0   Command: 
+Ambigiuos command
+Reenter: ASK
+Gollum is not here!
+MP= 3.00   X= 26   Y=  0   Command: W1
+The mountain is too steep here!
+MP= 3.00   X= 26   Y=  0   Command: USE
+Distance to Orodruin is approx. 51 units.
+MP= 3.00   X= 26   Y=  0   Command: E+
+The mountain is too steep here!
+MP= 3.00   X= 26   Y=  0   Command: HELP
+Commands:
+ON,   OFF,    FOLLOW-ROAD, KILL,   ASK,  0,  THROW,
+HELP, REPORT, TIE,  UNTIE,  USE,   MAP,  QUIT-GAME.
+
+Map Symbols
+: = Rough terrain, . = Grass, T = Trees,    & = Swamp,
+M = Mountain,      " = River, - = Road,     = = Main Road,
++ = Ford,          I = Tower, D = Mt. Doom, B = Barad Dur.
+
+o = Orcs,     w = Wolwes, b = Balrog, n = Nazgul,
+h = Haradrim, t = Trolls, g = Gollum, F = Fellowship,
+? = Traitor?
+MP= 3.00   X= 26   Y=  0   Command: TIE
+You cannot tie someone that aint present!
+MP= 3.00   X= 26   Y=  0   Command: N1
+The mountain is too steep here!
+MP= 3.00   X= 26   Y=  0   Command: UNTIE
+Gollum is not here!
+MP= 3.00   X= 26   Y=  0   Command: N2
+The mountain is too steep here!
+MP= 3.00   X= 26   Y=  0   Command: 0
+
+*** Night Turn ***
+The mist is thick here!
+You cannot see a thing!!
+
+MF
+The traitor is 127.00 units away!
+MP= 5.00   X= 26   Y=  0   Command: NW2
+The mountain is too steep here!
+MP= 5.00   X= 26   Y=  0   Command: NE+
+The mountain is too steep here!
+MP= 5.00   X= 26   Y=  0   Command: N1
+The mountain is too steep here!
+MP= 5.00   X= 26   Y=  0   Command: SW9
+You attempted to drown the fellowship, but that isn't allowed!
+MP= 5.00   X= 26   Y=  0   Command: N+
+The mountain is too steep here!
+MP= 5.00   X= 26   Y=  0   Command: ON
+The Ringbearer is not present!
+MP= 5.00   X= 26   Y=  0   Command: 0
+Gwaihir, the Lord of the Winds, brings you a sad message:
+Celeborn has just died, fighting in Lothlorien!
+But it can still withstand Saurons attacks!
+You are attacked by a bunch of Wolves!
+Thranduil is attacked!
+Thranduil killed his opponent, but he was killed in the fight!
+(F)ight or (R)un away? R
+You did not make it! You will have to stand and fight!
+Imrahil is attacked!
+Imrahil killed his opponent!
+(F)ight or (R)un away? R
+You got away! The monsters soon give up pursuit!
+
+The mist is thick here!
+
+    "         
+      T       
+    T " T     
+    T TF" " " 
+    : T T     
+  :           
+              
+The traitor is  13.04 units away!
+MP= 5.00   X= 38   Y=126   Command: KILL
+You can't kill Gollum when he isn't there!
+MP= 5.00   X= 38   Y=126   Command: 0
+You are attacked by a Nazgul!
+Theodr`d is attacked!
+Theodr`d was killed by his enemy!
+(F)ight or (R)un away? F
+Gildor is attacked!
+Gildor was killed by his enemy!
+(F)ight or (R)un away? R
+You can't run from Nazgul or Shelob!
+Elrond is attacked!
+Elrond was killed by his enemy!
+(F)ight or (R)un away? R
+You can't run from Nazgul or Shelob!
+Damrod is attacked!
+Damrod was killed by his enemy!
+The Servants of Sauron took the Palantir!
+(F)ight or (R)un away? R
+You can't run from Nazgul or Shelob!
+Haldir is attacked!
+Haldir was killed by his enemy!
+(F)ight or (R)un away? R
+You can't run from Nazgul or Shelob!
+Imrahil is attacked!
+Imrahil was killed by his enemy!
+(F)ight or (R)un away? F
+Halbarad is attacked!
+Halbarad was killed by his enemy!
+There is noone left of the fellowship!
+The mission has failed!
+
+Surviving heroes:       19.
+Killed enemy groups:     1.
+Citadels remaining:      5.
+Distance to Mt. Doom.   87.
+Score:                -434.
+Your overall performance was bad, but you may have a future yet.
+
+@

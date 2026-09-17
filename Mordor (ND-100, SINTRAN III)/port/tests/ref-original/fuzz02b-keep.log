@@ -1,0 +1,61 @@
+14:06:43 'N\r'                  instructions
+14:06:44 '\x1bC'                cursor
+14:06:44 '\x1bC'                cursor
+14:06:44 '\x1bH'                take Merry
+14:06:44 '\x1bB'                cursor
+14:06:44 '\x1bB'                cursor
+14:06:44 '\x1bB'                cursor
+14:06:44 '\x1bB'                cursor
+14:06:44 '\x1bB'                cursor
+14:06:44 '\x1bC'                cursor
+14:06:44 '\x1bH'                take Erestor
+14:06:44 '\x1bC'                cursor
+14:06:44 '\x1bC'                cursor
+14:06:45 '\x1bC'                cursor
+14:06:45 '\x1bH'                take Brand
+14:06:45 '\x1bB'                cursor
+14:06:45 '\x1bH'                take Forlong
+14:06:45 '\x1bC'                cursor
+14:06:45 '\x1bC'                cursor
+14:06:45 'ETGUVQT\r'            name
+14:06:45 'FQTNQPI\r'            name
+14:06:46 'UNTIE\r'              command 1
+14:06:46 'N\r'                  command 2
+14:06:46 'SW\r'                 command 3
+14:06:47 'E1\r'                 command 4
+14:06:47 'NE9\r'                command 5
+14:06:47 'MAP\r'                command 6
+14:06:48 'N+\r'                 command 7
+14:06:48 '\r'                   command 8
+14:06:48 'NW1\r'                command 9
+14:06:49 'E3\r'                 command 10
+14:06:49 'E+\r'                 command 11
+14:06:50 'MAP\r'                command 12
+14:06:50 'W\r'                  command 13
+14:06:50 'SW9\r'                command 14
+14:06:51 'S1\r'                 command 15
+14:06:51 'W3\r'                 command 16
+14:06:51 'SE\r'                 command 17
+14:06:52 'W1\r'                 command 18
+14:06:52 'W9\r'                 command 19
+14:06:52 'E2\r'                 command 20
+14:06:53 'SE2\r'                command 21
+14:06:54 'E\r'                  command 22
+14:06:54 'T\r'                  together/individually
+14:06:54 'R\r'                  fight/run
+14:06:54 'SE\r'                 command 23
+14:06:55 'E\r'                  command 24
+14:06:55 '0\r'                  command 25
+14:06:56 'N1\r'                 command 26
+14:06:56 'N1\r'                 command 27
+14:06:56 'E1\r'                 command 28
+14:06:56 'W+\r'                 command 29
+14:06:57 'UNTIE\r'              command 30
+14:06:57 'E\r'                  command 31
+14:06:57 'HELP\r'               command 32
+14:06:58 'S2\r'                 command 33
+14:06:58 'NW+\r'                command 34
+14:06:59 'NW3\r'                command 35
+14:06:59 'F\r'                  fight/run
+14:06:59 'MGTT[\r'              name
+14:07:00 'R\r'                  fight/run

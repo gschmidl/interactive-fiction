@@ -1,0 +1,228 @@
+MORDORF-REF
+                    -  Mordor: Land of evil.  v7.52 850211  -
+
+
+
+
+Do you want instructions (Y/N) <N>: 
+Please wait while I tune the Palantir for Middle Earth.
+Now you shall decide which of our heroes you would like
+to go on the trip. Select 4-12 of those below
+by using the arrow-keys and Home to select/deselect.
+When finished: Place the cursor on 'Finished'.
+Y% FrodoY%4SamY%HMerryY%\PippinY& FredegarY&4LegolasY&HGlorfindelY&\HaldirY' RumilY'4GildorY'HGandalfY'\AragornY( BoromirY(4FaramirY(H@omerY(\ImrahilY) HalbaradY)4Theodr`dY)HBeregondY)\MablungY* DamrodY*4GimliY*HElrondY*\ErestorY+ ThranduilY+4DainY+HBrandY+\CelebornY, ErkenbrandY,4GamlingY,HForlongY,\DenethorY- 'Finished.(Y% Y%4Y%H'Merry(Y%HY%\Y& Y&4'Legolas(Y&4Y'4'Gildor(Y'4Y(4Y)4Y)HY)\'Mablung(Y)\Y*\'Erestor(Y*\Y+ Y+4Y+H'Brand(Y+HY,HY,\Y/ JWho shall be the Ringbearer: Brand
+And who shall carry (and use) the Palantir: Mablung
+
+                      
+                      
+                      
+                      
+: : :   T T T         
+: : : : : :FT         
+: : : : : : T         
+      T T :           
+          T :         
+            T         
+                      
+MP= 5.00   X=120   Y=  2   Command: SE
+MP= 2.53   X=121   Y=  3   Command: W
+You can't move anymore this turn!
+
+
+                      
+                      
+  M M                 
+  : : : T T           
+: : : : : : T         
+: : : : : :FT         
+        T : :         
+          T : : .     
+            T : .     
+                .     
+                      
+MP= 4.39   X=121   Y=  2   Command: OFF
+Not possible!
+MP= 4.39   X=121   Y=  2   Command: se2
+You moved 2 steps.
+
+
+                      
+                      
+  : :           & &   
+    : : T T T . . T   
+    T : : : . . . . T 
+      T : :F. . . . . 
+        T : . . . . . 
+          : . . . .   
+          T T . . .   
+                .     
+                      
+MP= 3.46   X=123   Y=  4   Command: E3
+You moved 3 steps.
+
+*** Night Turn ***
+
+    .     
+  . . .   
+. . .F. . 
+  . . .   
+    .     
+MP= 2.57   X=123   Y=  7   Command: SE3
+You moved 2 steps.
+
+
+        &             
+    . & &             
+  T T . .'hS@T           
+  : . . . . T T   .   
+: : . . . . . . . . : 
+T : . . .'wS@.F. . . : : 
+T : . . . . . . . : : 
+    T . . . . . : :   
+    T : . . : : : :   
+    M M M M M M M     
+                      
+MP= 2.14   X=124   Y=  8   Command: THROW
+You don't have sufficient willpower to throw the Ring
+unless at Mt. Doom!
+MP= 2.14   X=124   Y=  8   Command: THROW
+You don't have sufficient willpower to throw the Ring
+unless at Mt. Doom!
+MP= 2.14   X=124   Y=  8   Command: W3
+Now you really are in trouble! You have run into a bunch of Wolves!
+Will you fight together or individually (T/I): i
+Ok! The fellowship currently consists of:
+Merry
+Legolas
+Gildor
+Mablung
+Erestor
+Brand
+Who is now going to fight? MABLUNG
+Mablung killed his opponent!
+(F)ight or (R)un away? 
+Will you fight together or individually (T/I): i
+Ok! The fellowship currently consists of:
+Merry
+Legolas
+Gildor
+Mablung
+Erestor
+Brand
+Who is now going to fight? GILDOR
+Gildor killed his opponent!
+(F)ight or (R)un away? r
+You got away! The monsters soon give up pursuit!
+You moved 2 steps.
+
+
+        . . .         
+    : . . . . . .     
+    : . . .'hS@. . . .   
+      . . . . . . .   
+      T . .'wS@. . . : : 
+      T : .F. : : : : 
+        M M M         
+                      
+                      
+                      
+                      
+MP= 1.71   X=127   Y=  7   Command: REPORT
+The fellowship currently consists of:
+Merry, Legolas, Gildor, Mablung, Erestor, Brand.
+Gollum is chasing the Ring!
+The Ring is in Brands pocket.
+Mablung carries the Palantir.
+These are still fighting at Minas Tirith
+Aragorn, Boromir, Faramir, Imrahil, Beregond, Damrod, Forlong, Denethor.
+These are still fighting at Dale
+Gimli, Thranduil, Dain, Grimbeorn.
+These are still fighting at Rivendell
+Pippin, Fredegar, Glorfindel, Halbarad, Elrond, Elladan, Ellrohir.
+These are still fighting at Lothlorien
+Frodo, Sam, Haldir, Rumil, Gandalf, Celeborn, Orophin, Galadriel.
+These are still fighting at Edoras
+@omer, Theodr`d, Erkenbrand, Gamling, Hama, Ceorl, @owyn.
+MP= 1.71   X=127   Y=  7   Command: SE9
+You moved 1 steps.
+You are attacked by a bunch of Wolves!
+Brand is attacked!
+Brand was knocked unconscious!
+(F)ight or (R)un away? F
+They attack the whole Fellowship!
+One villain was killed easily!
+(F)ight or (R)un away? 
+They attack the whole Fellowship!
+One villain was killed easily!
+(F)ight or (R)un away? R
+You got away! The monsters soon give up pursuit!
+
+
+                      
+                      
+  T T T T             
+  . . . . T           
+T . . . . . T         
+  M . . . .FT         
+        M M M         
+                      
+                      
+                      
+                      
+MP= 3.71   X=127   Y=  0   Command: s3
+You moved 2 steps.
+Gollum attempts to seize the Ring!
+He failes!
+Gollum flees!
+
+*** Night Turn ***
+
+    .     
+  . . T   
+  M MFM   
+  M M M   
+          
+MP= 3.57   X=  0   Y=  0   Command: SW1
+You cannot move that far this turn, type '0' to quit!
+MP= 3.57   X=  0   Y=  0   Command: W+
+The mountain is too steep here!
+MP= 3.57   X=  0   Y=  0   Command: nw
+You can't move anymore this turn!
+You are attacked by a Nazgul!
+Legolas is attacked!
+Legolas was killed by his enemy!
+(F)ight or (R)un away? r
+You can't run from Nazgul or Shelob!
+Mablung is attacked!
+Mablung was killed by his enemy!
+You must now choose a new carrier for the Palantir.
+The Fellowship currently consists of:
+Merry
+Gildor
+Erestor
+Who shall have the honor? Gildor
+(F)ight or (R)un away? 
+Merry is attacked!
+Merry was killed by his enemy!
+(F)ight or (R)un away? f
+Gildor is attacked!
+Gildor was killed by his enemy!
+You must now choose a new carrier for the Palantir.
+The Fellowship currently consists of:
+Erestor
+Who shall have the honor? Erestor
+(F)ight or (R)un away? R
+You can't run from Nazgul or Shelob!
+Erestor is attacked!
+Erestor was killed by his enemy!
+There is noone left of the fellowship!
+The mission has failed!
+
+Surviving heroes:       35.
+Killed enemy groups:     1.
+Citadels remaining:      5.
+Distance to Mt. Doom.  148.
+Score:                 341.
+Your overall performance was not so good. However the future looks bright.
+
+@

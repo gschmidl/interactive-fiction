@@ -1,0 +1,1923 @@
+        PASCAL/ND-100      VERSION J 83-12-07                    98-09-17               11-55-49                       PAGE:   1
+
+     1          000000            PROGRAM MORDOR(INPUT,OUTPUT); 
+     2          000022             
+     3          000022            $OPTION I%,I?,I_,I\,T- 
+     4          000022             
+     5          000022            CONST  MEMBERS  = 40; MAXMEMB     = 40; MINMEMB   = 1 ; EXISTMEMB = 40; 
+     6          000022                   SHELOB_I = 2 ; ANTCOMS     = 14; MAXLEN    = 12; ENEMIES   = 70; 
+     7          000022                   ROUGH    = 0 ; GRASS       = 1 ; TREES     = 2 ; SWAMP     = 3 ; 
+     8          000022                   MOUNTAIN = 4 ; RIVER       = 5 ; ROAD      = 6 ; MAIN_ROAD = 7 ; 
+     9          000022                   FORD     = 8 ; TOWER       = 9 ; MT_DOOM   = 10; BARAD_DUR = 11; 
+    10          000022                   TUNNEL   = 12; 
+    11          000022                   URUK_HAI = 1 ; WOLF_PACK   = 2 ; BALROG    = 3 ; NAZGUL    = 4 ; 
+    12          000022                   HARADRIM = 5 ; OLOG_HAI    = 6 ; GOLLUM    = 7 ; SHELOB    = 8 ; 
+    13          000022                   WARGS    = 9 ; FELLOWSHIP  = 10; TRAIT     = 11; 
+    14          000022                   DEAD     = 0 ; IN_FELLOW   = 1 ; TRAITOR   = 2 ; AT_MINTIR = 3 ; 
+    15          000022                   AT_DALE  = 4 ; RIVENDELL   = 5 ; IN_LORIEN = 6 ; AT_EDORAS = 7 ; 
+    16          000022                   CAPTURED = 8 ; UNCONSCIOUS = 9 ; 
+    17          000022             
+    18          000022            TYPE   YNANS   = (YES,NO); 
+    19          000022                   RINGTYP = (ON,OFF,WRAITH,CAUGHT,TAKEN,THROWN); 
+    20          000022                   STRTYP  = PACKED ARRAY [1..MAXLEN] OF CHAR; 
+    21          000022                   MAPTYPE = PACKED ARRAY [0..127,0..127] OF 0..255; 
+    22          000022                   PLACES  = (MINAS_TIRITH,DALE,IMLADRIS,LORIEN,EDORAS); 
+    23          000022                   ENTYP   = ARRAY [URUK_HAI..WARGS] OF STRTYP; 
+    24          000022                   ETYP    = RECORD 
+    25          000022                                X,Y,TYP,ANTAL: INTEGER; 
+    26          000022                                SEE: BOOLEAN; 
+    27          000022                             END; 
+    28          000022                   EATYP   = ARRAY [1..ENEMIES] OF ETYP; 
+    29          000022                   FELLTYP = ARRAY [1..EXISTMEMB,1..4] OF INTEGER; 
+    30          000022             
+    31          000022            VAR    OUT_T:      PACKED ARRAY [-1..12] OF CHAR; 
+    32          000031                   OUT_L:      PACKED ARRAY [-1..11] OF CHAR; 
+    33          000040                   ENEMY_STR:  ARRAY [URUK_HAI..WARGS] OF INTEGER; 
+    34          000051                   ENEMY_SING, 
+    35          000051                   ENEMY_PLUR: ENTYP; 
+    36          000225                   ORIG:       FELLTYP; 
+    37          000465                   FELLOW_N:   ARRAY [1..EXISTMEMB] OF STRTYP; 
+    38          001045                   PLACE:      ARRAY [1..5] OF STRTYP; 
+    39          001103                   COMS:       ARRAY [1..ANTCOMS] OF STRTYP; 
+    40          001227                   SCAN_A:     ARRAY [0..5,0..7] OF INTEGER; 
+    41          001307                   SCAN_B:     ARRAY [1..64,1..2] OF INTEGER; 
+    42          001507                   TCOST:      ARRAY [ROUGH..TUNNEL] OF REAL; 
+    43          001556             
+*   44          001556            VALUE  OUT_L     = ('  owbnhtgswF?'); 
+    45          001556                   OUT_T     = (' :.T&M"-=+IDBM'); 
+    46          001556                   TCOST     = (1.5,1.0,2.0,3.5,3.0,0.0,0.75,0.65,1.5,1.0,2.0,3.0,3.0); 
+    47          001556                   ENEMY_STR = ( 3, 2,10, 9, 4, 5, 4,15, 4); 
+    48          001556                   ORIG      = ( 6, 3, 6, 9,  6, 4, 6, 9,  5, 3, 6, 9,  5, 3, 6, 7, 
+    49          001556                                 5, 3, 6, 7,  4, 5, 2, 8,  5,11, 2, 8,  6, 6, 2, 7, 
+    50          001556                                 6, 6, 2, 7,  5, 9, 2, 7,  6,10, 7, 6,  3, 9, 6, 6, 
+    51          001556                                 3, 7, 1, 1,  3, 7, 4, 5,  7, 7, 4, 5,  3, 7, 4, 4, 
+    52          001556                                 5, 7, 4, 4,  7, 7, 4, 3,  3, 7, 4, 4,  3, 7, 4, 4, 
+    53          001556                                 3, 7, 4, 4,  4, 8, 5, 4,  5, 6, 3, 8,  5, 6, 3, 7, 
+    54          001556                                 4, 8, 2, 6,  4, 5, 5, 4,  4, 4, 4, 5,  6, 8, 3, 8, 
+    55          001556                                 7, 4, 4, 3,  7, 3, 3, 6,  3, 3, 3, 8,  3, 4, 1, 1, 
+    56          001556                                 7, 0, 0, 0,  7, 0, 0, 0,  6, 0, 0, 0,  6, 0, 0, 0, 
+    57          001556                                 7, 0, 0, 0,  5, 0, 0, 0,  5, 0, 0, 0,  4, 0, 0, 0); 
+    58          001556                   FELLOW_N  = ('Frodo     ','Sam       ','Merry     ','Pippin    ', 
+    59          001556                                'Fredegar  ','Legolas   ','Glorfindel','Haldir    ', 
+    60          001556                                'Rumil     ','Gildor    ','Gandalf   ','Aragorn   ', 
+        PASCAL/ND-100      VERSION J 83-12-07                    98-09-17               11-55-50                       PAGE:   2
+
+    61          001556                                'Boromir   ','Faramir   ','@omer     ','Imrahil   ', 
+    62          001556                                'Halbarad  ','Theodr`d  ','Beregond  ','Mablung   ', 
+    63          001556                                'Damrod    ','Gimli     ','Elrond    ','Erestor   ', 
+    64          001556                                'Thranduil ','Dain      ','Brand     ','Celeborn  ', 
+    65          001556                                'Erkenbrand','Gamling   ','Forlong   ','Denethor  ', 
+    66          001556                                'Hama      ','Ceorl     ','Orophin   ','Galadriel ', 
+    67          001556                                '@owyn     ','Elladan   ','Ellrohir  ','Grimbeorn '); 
+    68          001556                   PLACE = ('Minas Tirith','Dale        ','Rivendell   ','Lothlorien  ', 
+    69          001556                            'Edoras      '); 
+    70          001556                   ENEMY_SING = ('an Orc    ','a Wolf    ','a Balrog  ','a Nazgul  ', 
+    71          001556                                 'a Southron','a Troll   ','Gollum    ','Shelob    ', 
+    72          001556                                 'a Warg    '); 
+    73          001556                   ENEMY_PLUR = ('Orcs      ','Wolves    ','Balrogs!  ','Nazgul!   ', 
+    74          001556                                 'Haradrim  ','Trolls    ','Gollums???','Shelobs???', 
+    75          001556                                 'Wargs     '); 
+    76          001556                   COMS = ('ON         ','OFF        ','FOLLOW-ROAD','KILL       ', 
+    77          001556                           'ASK        ','0          ','THROW      ','HELP       ', 
+    78          001556                           'REPORT     ','TIE        ','UNTIE      ','MAP        ', 
+    79          001556                           'QUIT-GAME  ','USE        '); 
+    80          001556                   SCAN_A = ( 0,63,56,46,31,15, 5, 1,  0,64,58,48,33,17, 7, 3, 
+    81          001556                              0, 0,61,51,35,19,10, 0,  0, 0, 0,53,38,23,12, 0, 
+    82          001556                              0, 0, 0, 0,44,27, 0, 0,  0, 0, 0, 0, 0,29, 0, 0); 
+    83          001556                   SCAN_B = ( 0, 6, 5,-7, 1, 6, 7,-7, 0, 5,15,-6, 1, 5, 1, 4,31,-6, 
+    84          001556                              2, 5,19,-7, 2, 5, 3, 5,35,-7, 0, 4,31,-5, 1, 4,33,-5, 
+    85          001556                              2, 4, 1, 4, 1, 3,48,-6, 3, 4, 2, 4, 2, 3,51,-6, 3, 4, 
+    86          001556                             38,-7, 4, 4,44,-7, 0, 3,46,-4, 1, 3,46,-4, 2, 3, 1, 3, 
+    87          001556                             51,-5, 3, 3, 2, 3, 2, 2, 1, 2, 1, 1, 0,-5, 3, 3,53,-6, 
+    88          001556                              0, 2,56,-3, 1, 2, 0, 1, 0,-3, 1, 2,58,-4, 2, 2, 1, 1, 
+    89          001556                              0,-5, 0, 1, 0,-2, 1, 1, 0, 1, 0,-3, 1, 1, 0,-3, 0,-1, 
+    90          001556                              0,-2); 
+    91          001556             
+    92          001556 L1         PROCEDURE MAIN; 
+    93          177606             
+    94          177606            LABEL  1; 
+    95          177606             
+    96          177606            VAR    PLAN:       ^MAPTYPE; 
+    97          177607                   I,J,K,L, 
+    98          177607                   FX,FY,TRX, 
+    99          177607                   TRY,DX,DY, 
+   100          177607                   RING_BEARER, 
+   101          177607                   LEN,MEMB:   INTEGER; 
+   102          177624                   RING_USED, 
+   103          177624                   TURN,MP1, 
+   104          177624                   GOLLUM_ANGRY, 
+   105          177624                   PLACES_FALLEN, 
+   106          177624                   WHITE,PUSE,POWN,PREV, 
+   107          177624                   BD_INDEX:   INTEGER; 
+   108          177636                   GOLLX, 
+   109          177636                   GOLLY:      INTEGER; 
+   110          177640                   RING:       RINGTYP; 
+   111          177641                   GOLLUM_STATUS: (HUNTING,UNTIED,TIED,KILLED,GOT_THE_RING,OFF_MAP); 
+   112          177642                   MIST,RING_ON_THIS_TURN,GDEAD,GRES, 
+   113          177642                   TAKE_OFF,READY,END?,THROW_IT: BOOLEAN; 
+   114          177652                   MP,TIRED:   REAL; 
+   115          177660                   STRANG:     STRTYP; 
+   116          177666                   ENEMY:      EATYP; 
+   117          177666                   TOWERS:     ARRAY [1..9,1..2] OF INTEGER; 
+   118          177666                   FELLOWS:    FELLTYP; 
+   119          177666             
+*  120          177666 L2         FUNCTION RAN: REAL; EXTERN; 
+        PASCAL/ND-100      VERSION J 83-12-07                    98-09-17               11-55-51                       PAGE:   3
+
+   121          177611             
+*  122          177611 L2         FUNCTION IFBYTE: INTEGER; EXTERN; 
+   123          177607             
+*  124          177607 L2         FUNCTION INBYTE: INTEGER; EXTERN; 
+   125          177607             
+*  126          177607 L2         PROCEDURE DESCF; EXTERN; 
+   127          177606             
+*  128          177606 L2         PROCEDURE EESCF; EXTERN; 
+   129          177606             
+*  130          177606 L2         PROCEDURE TIME(VAR HOUR,MIN,SEC: INTEGER); EXTERN; 
+   131          177611             
+*  132          177611 L2         PROCEDURE DATE(VAR YEAR,MONTH,DAY: INTEGER); EXTERN; 
+   133          177611             
+   134          177611 L2         PROCEDURE CUR(X,Y: INTEGER); 
+   135          177610             
+   136          000000 B1         BEGIN  WRITE(CHR(27),'Y',CHR(X+31),CHR(Y+31)); 
+   137          000023 E1         END; 
+   138          000031             
+   139          000031 L2         PROCEDURE SWAP(VAR X,Y: INTEGER); 
+   140          177610             
+   141          177610            VAR    Z: INTEGER; 
+   142          177611             
+   143          000000 B1 E1      BEGIN  Z:=X; X:=Y; Y:=Z; END; 
+   144          000016             
+   145          000016 L2         FUNCTION SIGN(TAL: INTEGER): INTEGER; 
+   146          177610             
+   147          000000 B1         BEGIN  SIGN:=0; 
+   148          000005 I2                IF TAL<0 THEN SIGN:=-1; 
+   149          000011 I3                IF TAL>0 THEN SIGN:=1; 
+   150          000017 E1         END; 
+   151          000024             
+   152          000024 L2         FUNCTION RSIGN(TAL: REAL): INTEGER; 
+   153          177612             
+   154          000000 B1         BEGIN  RSIGN:=0; 
+   155          000005 I2                IF TAL<0 THEN RSIGN:=-1; 
+   156          000015 I3                IF TAL>0 THEN RSIGN:=1; 
+   157          000024 E1         END; 
+   158          000031             
+   159          000031 L2         FUNCTION MOD1(I1: INTEGER): INTEGER; 
+   160          177610             
+   161          000000 B1         BEGIN  MOD1:=(I1+256) MOD 128; 
+   162          000011 E1         END; 
+   163          000021             
+   164          000021 L2         FUNCTION SCAN(X,Y,X0,Y0,R: INTEGER): INTEGER; 
+   165          177614             
+   166          177614            LABEL  1,2; 
+   167          177614             
+   168          177614            VAR    N,P,X1,Y1,SX,SY,T,FL,F,UX,UY,SLA: INTEGER; 
+   169          177630             
+   170          000000 B1         BEGIN  N:=PLAN^[MOD1(X),MOD1(Y)]; 
+   171          000033 I2 B3             IF (X=X0) AND (Y=Y0) THEN BEGIN 
+   172          000043 E3                  SCAN:=N; GOTO 1; END; 
+   173          000046                   X1:=X0-X; Y1:=Y0-Y; 
+   174          000054 I4                IF ABS(X1)>64 THEN X1:=X1-64*SIGN(X1); 
+   175          000075 I5                IF ABS(Y1)>64 THEN Y1:=Y1-64*SIGN(Y1); 
+   176          000116                   SX:=SIGN(X1); SY:=SIGN(Y1); X1:=ABS(X1); Y1:=ABS(Y1); 
+   177          000142 I6 B7             T:=0; IF X1>Y1 THEN BEGIN 
+   178          000147                     T:=1; SWAP(X1,Y1); 
+   179          000162 E7                END; 
+   180          000162 I8 B9             IF (X1>5) OR (Y1>7) THEN BEGIN 
+        PASCAL/ND-100      VERSION J 83-12-07                    98-09-17               11-55-51                       PAGE:   4
+
+   181          000172 E9                  SCAN:=-1; GOTO 1; END; 
+   182          000204 I10 B11           FL:=0; F:=0; P:=SCAN_A[X1,Y1]; IF P=0 THEN BEGIN 
+   183          000216 E11                 SCAN:=-1; GOTO 1; END; 
+   184          000222 B12        2:     WHILE SCAN_B[P,2]>=0 DO BEGIN 
+   185          000227 I13                     UX:=SCAN_B[P,1]; UY:=SCAN_B[P,2]; IF T=1 THEN SWAP(UX,UY); 
+   186          000256                         UX:=UX*SX; UY:=UY*SY; SLA:=PLAN^[MOD1(UX+X),MOD1(UY+Y)]; 
+   187          000315 I14 B15                 IF (SLA MOD 16) IN [TREES,MOUNTAIN,TOWER,TUNNEL] THEN BEGIN 
+   188          000324 E15                       SCAN:=-1; GOTO 1; END; 
+   189          000335                         P:=P+1; 
+   190          000340 E12               END; 
+   191          000341 I16 B17           IF (FL=0) AND (R<-SCAN_B[P,2]) THEN BEGIN 
+   192          000354 E17                 SCAN:=-1; GOTO 1; END; 
+   193          000360 I18 B19           IF SCAN_B[P,1]=0 THEN BEGIN 
+   194          000365 E19                 SCAN:=N; GOTO 1; END; 
+   195          000371                   FL:=1; P:=SCAN_B[P,1]; GOTO 2; 
+   196          000401            1: 
+   197          000401 E1         END; 
+   198          000404             
+   199          000404 L2         PROCEDURE OUTSTR(VAR STRING: STRTYP); 
+   200          177607             
+   201          177607            VAR    I1,J1: INTEGER; 
+   202          177611             
+   203          000000 B1         BEGIN  J1:=MAXLEN; WHILE STRING[J1]=' ' DO J1:=J1-1; 
+   204          000025                   FOR I1:=1 TO J1 DO 
+   205          000025                      WRITE(STRING[I1]); 
+   206          000052 E1         END; 
+   207          000060             
+   208          000060 L2         PROCEDURE INSTR(VAR STRING:STRTYP); 
+   209          177607             
+   210          177607            VAR    I1: INTEGER; 
+   211          177610             
+   212          000000 B1         BEGIN 
+   213          000000                   LEN:=0; 
+   214          000006 I2                IF EOLN THEN READLN; 
+   215          000013 B3                WHILE NOT EOLN DO BEGIN 
+   216          000016                      LEN:=LEN+1; 
+   217          000022 I4 B5                IF LEN<MAXLEN THEN BEGIN 
+   218          000026                         READ(STRING[LEN]); 
+   219          000042 E5                   END; 
+   220          000042 E3                END; 
+   221          000043                   FOR I1:=LEN+1 TO MAXLEN DO STRING[I1]:=' '; 
+   222          000067 E1         END; 
+   223          000077             
+   224          000077 L2         FUNCTION ANSWER(DEFAULT: YNANS): YNANS; 
+   225          177610             
+   226          177610            VAR    I1: INTEGER; 
+   227          177611             
+   228          000000 B1         BEGIN  INSTR(STRANG); 
+   229          000013 I2 S2             IF STRANG[1]='Y' THEN ANSWER:=YES ELSE 
+   230          000023 I3 S3               IF STRANG[1]='N' THEN ANSWER:=NO ELSE 
+   231          000034                       ANSWER:=DEFAULT; 
+   232          000036 E1         END; 
+   233          000044             
+   234          000044 L2         FUNCTION INCOM: INTEGER; 
+   235          177607             
+   236          177607            LABEL  1,2; 
+   237          177607             
+   238          177607            VAR    WRONG: BOOLEAN; 
+   239          177610                   I1,J1,K1: INTEGER; 
+   240          177613                   CH: CHAR; 
+        PASCAL/ND-100      VERSION J 83-12-07                    98-09-17               11-55-52                       PAGE:   5
+
+   241          177614             
+   242          000000 B1         BEGIN 
+   243          000000 R2                REPEAT 
+   244          000004                     INSTR(STRANG); K1:=0; MP1:=1; 
+   245          000017 I3 B4               IF STRANG[1] IN ['N','S','E','W'] THEN BEGIN 
+   246          000025                       DX:=0; DY:=0; CH:=STRANG[1]; I1:=1; 
+   247          000035 I5 I6                 IF CH='N' THEN DX:=-1; IF CH='S' THEN DX:=1; 
+   248          000053 I7 B8 E8              IF DX<>0 THEN BEGIN CH:=STRANG[2]; I1:=2; END; 
+   249          000064 I9 I10                IF CH='E' THEN DY:=1; IF CH='W' THEN DY:=-1; 
+   250          000102 I11 B12               IF I1<LEN THEN BEGIN I1:=I1+1; CH:=STRANG[I1]; END; 
+   251          000123 I13                   IF CH='+' THEN MP1:=99; 
+   252          000132 I14                   IF CH IN ['1'..'9'] THEN MP1:=ORD(CH)-48; 
+   253          000143                       K1:=-1; GOTO 1; 
+   254          000155 E4                  END; 
+   255          000155 B15                 FOR I1:=1 TO ANTCOMS DO BEGIN WRONG:=FALSE; 
+   256          000163                       FOR J1:=1 TO LEN DO 
+   257          000163 I16                     IF J1<12 THEN 
+   258          000176                           WRONG:=(WRONG OR (STRANG[J1]<>COMS[I1,J1])); 
+   259          000241 I17 I18               IF NOT WRONG THEN IF K1=0 THEN K1:=I1 ELSE BEGIN 
+   260          000250 E19                     WRITELN('Ambigiuos command'); WRONG:=TRUE; GOTO 2; END 
+   261          000262 E15                 END; 
+   262          000265 I20                 IF K1<>0 THEN GOTO 1; 
+   263          000270                     WRITELN('Illegal Command.'); 
+   264          000277            2:       WRITE('Reenter: '); 
+   265          000305 U2                UNTIL WRONG=FALSE; 
+   266          000310            1:     INCOM:=K1; 
+   267          000312 E1         END; 
+   268          000326             
+   269          000326 L2         PROCEDURE WRITELNS(Q: INTEGER); 
+   270          177607             
+   271          177607            VAR    I1: INTEGER; 
+   272          177610             
+   273          000000 B1 E1      BEGIN  FOR I1:=1 TO Q DO WRITELN; END; 
+   274          000026             
+   275          000026 L2         PROCEDURE INSTRUCTIONS; 
+   276          177606             
+   277          177606            TYPE   STRTYP2 = ARRAY [1..80] OF CHAR; 
+   278          177606             
+   279          177606            VAR    I1,I2,I3: INTEGER; 
+   280          177611                   STRENG: STRTYP2; 
+   281          177611                   RULEFILE: TEXT; 
+   282          177611             
+   283          177611 L3                PROCEDURE FINSTR(VAR STRING: STRTYP2); 
+   284          177607             
+   285          177607                   VAR   I1: INTEGER; 
+   286          177610             
+   287          000000 B1                BEGIN LEN:=0; WHILE RULEFILE^=' ' DO GET(RULEFILE); 
+   288          000020 R2 I3 B4            REPEAT LEN:=LEN+1; IF LEN<=80 THEN BEGIN 
+   289          000031                         READ(RULEFILE,STRING[LEN]); 
+   290          000044 I5                      IF STRING[LEN]='''' THEN STRING[LEN]:=' '; 
+   291          000062 E4                    END; 
+   292          000062 U2                  UNTIL EOLN(RULEFILE); 
+   293          000066                       FOR I1:=LEN+1 TO 80 DO STRING[I1]:=''''; 
+   294          000113 E1                END; 
+   295          000115             
+*  296          000000 B1         BEGIN  CONNECT(RULEFILE,'(DNF)MORDOR-RULES-MJ','DATA','R'); 
+   297          000037                   RESET(RULEFILE); 
+   298          000042                   WRITE(CHR(12)); READ(RULEFILE,I1); 
+   299          000053 B2                FOR I2:=1 TO I1 DO BEGIN 
+   300          000061 I3 B4               FINSTR(STRENG); IF STRENG[1]='*' THEN BEGIN 
+        PASCAL/ND-100      VERSION J 83-12-07                    98-09-17               11-55-52                       PAGE:   6
+
+   301          000073                       WRITE(CHR(27),'Y6 '); (* Position the Cursor on the 23:rd line *) 
+   302          000104                       WRITE('Press ''Return'' when you''ve finished reading: '); 
+   303          000112 R5 U5 E4              REPEAT GET(INPUT); UNTIL EOLN; WRITE(CHR(12)); END 
+   304          000123 S3 B6                 ELSE BEGIN FOR I3:=1 TO LEN DO WRITE(STRENG[I3]); 
+   305          000171 E6                    WRITELN; END; 
+*  306          000173 E2                END; DISCONNECT(RULEFILE); WRITELNS(4); 
+   307          000207 E1         END; 
+   308          000217             
+   309          000217 L2         PROCEDURE SHORT_INSTRUCTIONS; 
+   310          177606             
+   311          000000 B1         BEGIN  WRITELN('Commands:'); 
+   312          000013                   WRITELN('ON,   OFF,    FOLLOW-ROAD, KILL,   ASK,  0,  THROW,'); 
+   313          000022                   WRITELN('HELP, REPORT, TIE,  UNTIE,  USE,   MAP,  QUIT-GAME.'); 
+   314          000031                   WRITELN; WRITELN('Map Symbols'); 
+   315          000042                   WRITELN(': = Rough terrain, . = Grass, T = Trees,    & = Swamp,'); 
+   316          000051                   WRITELN('M = Mountain,      " = River, - = Road,     = = Main Road,'); 
+   317          000060                   WRITELN('+ = Ford,          I = Tower, D = Mt. Doom, B = Barad Dur.'); 
+   318          000067                   WRITELN; 
+   319          000071                   WRITELN('o = Orcs,     w = Wolwes, b = Balrog, n = Nazgul,'); 
+   320          000100                   WRITELN('h = Haradrim, t = Trolls, g = Gollum, F = Fellowship,'); 
+   321          000107                   WRITELN('? = Traitor?'); 
+   322          000116 E1         END; 
+   323          000137             
+   324          000137 L2         FUNCTION LARGE(CH: CHAR): CHAR; 
+   325          177610             
+   326          000000 B1 I2 S2   BEGIN  IF CH IN ['a'..'}'] THEN LARGE:=CHR(ORD(CH)-30) ELSE LARGE:=CH; END; 
+   327          000026             
+   328          000026 L2         PROCEDURE OUTNAME(I: INTEGER); 
+   329          177607             
+   330          000000 B1         BEGIN  OUTSTR(FELLOW_N[I]); 
+   331          000013 E1         END; 
+   332          000022             
+   333          000022 L2         FUNCTION INNAME: INTEGER; 
+   334          177607             
+   335          177607            LABEL  1,2; 
+   336          177607             
+   337          177607            VAR    I1,J1,K1: INTEGER; 
+   338          177612                   WRONG: BOOLEAN; 
+   339          177613                   CH: CHAR; 
+   340          177614             
+   341          000000 B1         BEGIN 
+   342          000000 R2                REPEAT 
+   343          000004                     INSTR(STRANG); K1:=0; 
+   344          000014 B3                  FOR I1:=1 TO MEMBERS DO BEGIN WRONG:=FALSE; 
+   345          000022                       FOR J1:=1 TO LEN DO 
+   346          000022                         WRONG:=(WRONG OR (STRANG[J1]<>LARGE(FELLOW_N[I1,J1]))); 
+   347          000106 I4 I5 S5              IF NOT WRONG THEN IF K1=0 THEN K1:=I1 ELSE BEGIN 
+   348          000115 E6                      WRITELN('Ambigiouos Name.'); WRONG:=TRUE; GOTO 2; END; 
+   349          000127 E3                  END; 
+   350          000132 I7                  IF (K1<>0) AND (FELLOWS[K1,1]=IN_FELLOW) THEN GOTO 1; 
+   351          000146                     WRITELN('Illegal name.'); 
+   352          000155            2:       WRITE('Reenter: '); 
+   353          000163 U2                UNTIL WRONG=FALSE; 
+   354          000166            1:     INNAME:=K1; 
+   355          000170 E1         END; 
+   356          000202             
+   357          000202 L2         PROCEDURE MAKEMTS; 
+   358          177606             
+   359          177606            VAR    I1,J1,X,Y,NMB,SIZ: INTEGER; 
+   360          177614             
+        PASCAL/ND-100      VERSION J 83-12-07                    98-09-17               11-55-53                       PAGE:   7
+
+   361          000000 B1         BEGIN  FOR X:=0 TO 26 DO 
+   362          000004                     FOR Y:=0 TO 127 DO 
+   363          000011 I2                    IF (X<2) OR (X>23) THEN PLAN^[X,Y]:=MOUNTAIN; 
+   364          000051                   FOR X:=20 TO 35 DO 
+   365          000051 B3                  FOR Y:=0 TO 127 DO BEGIN 
+   366          000063 I4                    IF X<24 THEN 
+*  367          000067 I5                      IF POWER(RAN,ABS(25-X))>0.08 THEN PLAN^[X,Y]:=MOUNTAIN; 
+   368          000125 I6                    IF (X>26) AND (RAN*3>SQRT(ABS(25-X))) THEN 
+   369          000152 I7                      IF (PLAN^[X-1,Y]=MOUNTAIN) OR (PLAN^[X,Y-1]=MOUNTAIN) THEN 
+   370          000224                           PLAN^[X,Y]:=MOUNTAIN; 
+   371          000241 E3                  END; 
+   372          000251                   NMB:=TRUNC(RAN*43+43); 
+   373          000266 B8                FOR I1:=1 TO NMB DO BEGIN 
+   374          000274                     SIZ:=TRUNC(RAN*16+1); 
+   375          000311                     X:=TRUNC(RAN*128); Y:=TRUNC(RAN*128); 
+   376          000333 B9                  FOR J1:=1 TO SIZ DO BEGIN 
+   377          000341 I10                   IF RAN>0.6 THEN X:=X+RSIGN(RAN-0.5); 
+   378          000363 I11                   IF RAN>0.6 THEN Y:=Y+RSIGN(RAN-0.5); 
+   379          000405                       X:=MOD1(X); Y:=MOD1(Y); PLAN^[X,Y]:=MOUNTAIN; 
+   380          000436 E9                  END; 
+   381          000463 E8                END; 
+   382          000467 E1         END; 
+   383          000471             
+   384          000471 L2         PROCEDURE MAKEGTS; 
+   385          177606             
+   386          177606            VAR    I1,J1,X,Y,SIZ,NMB,KIND,DX,SX,SY: INTEGER; 
+   387          177620             
+   388          000000 B1 B2      BEGIN  FOR KIND:=GRASS TO SWAMP DO BEGIN 
+   389          000011                     NMB:=TRUNC((RAN+0.5)*58+6); 
+   390          000027 I3                  IF KIND=GRASS THEN NMB:=TRUNC((RAN+0.5)*32+26); 
+   391          000051 B4                  FOR I1:=1 TO NMB DO BEGIN 
+   392          000057 I5                    SIZ:=TRUNC(RAN*150+20); IF KIND=GRASS THEN SIZ:=SIZ*8; 
+   393          000103                       SX:=TRUNC(RAN*128); SY:=TRUNC(RAN*128); X:=0; Y:=0; 
+   394          000127 B6                    FOR J1:=1 TO SIZ DO BEGIN 
+   395          000135                         X:=X+TRUNC(RAN*3-1); Y:=Y+TRUNC(RAN*3-1); 
+   396          000211 I7 B8                   IF SQRT(1.0*X*X+1.0*Y*Y)<8 THEN BEGIN 
+   397          000241 I9                        IF PLAN^[MOD1(SX+X),MOD1(SY+Y)]<KIND THEN 
+   398          000276                             PLAN^[MOD1(SX+X),MOD1(SY+Y)]:=KIND; 
+   399          000327 E8 S7 I10               END ELSE IF SQRT(1.0*X*X+1.0*Y*Y)>10 THEN BEGIN X:=0; Y:=0; END; 
+   400          000372 E6                    END; 
+   401          000376 E4                  END; 
+   402          000402 E2                END; 
+   403          000405 E1         END; 
+   404          000420             
+   405          000420 L2         PROCEDURE MAKERIV; 
+   406          177606             
+   407          177606            LABEL  1; 
+   408          177606             
+   409          177606            VAR    I1,J1,K1,L1,X,Y,NMB,FORD?: INTEGER; 
+   410          177616             
+   411          000000 B1         BEGIN  NMB:=TRUNC(RAN*7+4); 
+   412          000021 B2                FOR I1:=1 TO NMB DO BEGIN 
+   413          000027                     FORD?:=5; X:=2; Y:=TRUNC(RAN*128); 
+   414          000044                     PLAN^[X,Y]:=RIVER; DX:=1; DY:=0; 
+   415          000065 R3                  REPEAT 
+   416          000065                       J1:=TRUNC(RAN*5+3); K1:=TRUNC(RAN*2+2); 
+   417          000117                       X:=MOD1(X+DX); Y:=MOD1(Y+DY); 
+   418          000137 I4                    IF (PLAN^[X,Y]=RIVER) AND (RAN>0.8) THEN GOTO 1; 
+   419          000200 B5                    FOR L1:=1 TO J1 DO BEGIN 
+   420          000206 I6 B7                   FX:=X; FY:=Y-L1+K1; IF DX=0 THEN BEGIN 
+        PASCAL/ND-100      VERSION J 83-12-07                    98-09-17               11-55-54                       PAGE:   8
+
+   421          000217 E7                        FX:=X-L1+K1; FY:=Y; END; 
+   422          000226                         FX:=MOD1(FX); FY:=MOD1(FY); 
+   423          000246 I8                      IF PLAN^[FX,FY]=ROUGH THEN PLAN^[FX,FY]:=GRASS; 
+   424          000277 E5                    END; 
+   425          000303 I9                    IF (PLAN^[X,Y]<>MOUNTAIN) OR (RAN>0.78) THEN PLAN^[X,Y]:=RIVER; 
+   426          000347 I10                   IF FORD?>0 THEN FORD?:=FORD?-1; 
+   427          000356 I11 B12               IF (FORD?=0) AND (RAN>0.92) AND (PLAN^[X,Y]=RIVER) THEN BEGIN 
+   428          000411 E12                     FORD?:=10; PLAN^[X,Y]:=FORD; END; 
+   429          000437 I13                   IF RAN>0.7 THEN DX:=ABS(DX-1); 
+   430          000455 I14 B15               L:=0; IF DX<>0 THEN BEGIN 
+   431          000461 I16 B17                 IF RAN>0.7 THEN BEGIN DY:=DY+RSIGN(RAN-0.5); L:=1; END; 
+   432          000506 I18                     IF (RAN>0.75) AND (DY=0) AND (L=0) THEN 
+   433          000524 B19 E19                   BEGIN DY:=RSIGN(RAN-0.5); L:=1; END; 
+   434          000540 E15                   END; 
+   435          000540 I20                   IF (L=0) AND (DY=0) THEN DY:=RSIGN(RAN-0.5); 
+   436          000560 I21                   IF ABS(DY)>1 THEN DY:=0; 
+   437          000573 U3                  UNTIL X=127; 
+   438          000577 E2         1:     END; 
+   439          000631 E1         END; 
+   440          000633             
+   441          000633 L2         PROCEDURE MAKETOR; 
+   442          177606             
+   443          177606            LABEL  1; 
+   444          177606             
+   445          177606            VAR    I1,J1,X,Y,TOW,KIND: INTEGER; 
+   446          177614                   USED: BOOLEAN; 
+   447          177615             
+   448          000000 B1         BEGIN  TOW:=0; Y:=0; USED:=FALSE; 
+   449          000007 R2                REPEAT 
+   450          000007                     Y:=(Y+TRUNC(RAN*20+10)) MOD 128; 
+   451          000027                     X:=22+TRUNC(RAN+0.5); 
+   452          000036 R3 U3               REPEAT X:=X+1 UNTIL NOT (PLAN^[X,Y] IN [MOUNTAIN,TOWER]); 
+   453          000062                     X:=X-1; PLAN^[X,Y]:=TOWER; TOW:=TOW+1; 
+   454          000105                     TOWERS[TOW,1]:=X; TOWERS[TOW,2]:=Y; 
+   455          000125                     PLAN^[X,Y]:=TOWER; 
+   456          000142 U2                UNTIL TOW=7; BD_INDEX:=TRUNC(RAN*2+8); 
+   457          000164 B4                FOR TOW:=8 TO 9 DO BEGIN 
+   458          000171 R5                  REPEAT 
+   459          000171                       X:=TRUNC(RAN*20); Y:=TRUNC(RAN*128); 
+   460          000226 U5                  UNTIL PLAN^[X,Y]<>MOUNTAIN; 
+   461          000245                     TOWERS[TOW,1]:=X; TOWERS[TOW,2]:=Y; 
+   462          000265 I6                  IF TOW<>BD_INDEX THEN 
+   463          000272 S6                    PLAN^[X,Y]:=MT_DOOM ELSE PLAN^[X,Y]:=BARAD_DUR; 
+   464          000325 E4                END; 
+   465          000330 B7                FOR TOW:=1 TO 8 DO BEGIN 
+   466          000335 I8 B9               KIND:=ROAD; IF (RAN>0.03) OR (TOW=8) THEN BEGIN 
+   467          000353                       KIND:=MAIN_ROAD; 
+   468          000355 E9                  END; 
+   469          000355                     DY:=0; Y:=TOWERS[TOW,2]; 
+   470          000364 B10                 FOR X:=TOWERS[TOW,1]+1 TO 127 DO BEGIN 
+   471          000377                       Y:=MOD1(Y+DY); 
+   472          000407 I11                   IF (PLAN^[X,Y]=MAIN_ROAD) AND (RAN<0.85) THEN GOTO 1; 
+   473          000445                       FOR I1:=Y-1 TO Y+1 DO 
+   474          000452                         FOR J1:=X TO X+1 DO 
+   475          000461 I12                       IF (PLAN^[MOD1(J1),MOD1(I1)] IN [ROAD,MAIN_ROAD]) AND 
+   476          000517 B13                          (RAN>0.5) AND (X>30) THEN BEGIN 
+   477          000540                             PLAN^[X,Y]:=KIND; GOTO 1; 
+   478          000557 E13                       END; 
+   479          000567 I14                   IF NOT (PLAN^[X,Y] IN [TOWER,FORD,RIVER]) THEN PLAN^[X,Y]:=KIND; 
+   480          000624 I15                   IF PLAN^[X,Y]=RIVER THEN 
+        PASCAL/ND-100      VERSION J 83-12-07                    98-09-17               11-55-54                       PAGE:   9
+
+   481          000645 I16 S16                 IF RAN>0.75 THEN PLAN^[X,Y]:=KIND ELSE PLAN^[X,Y]:=FORD; 
+   482          000723 I17                   IF (TOW=8) AND (X IN [24..26]) THEN PLAN^[X,Y]:=TUNNEL; 
+   483          000751 I18                   L:=0; IF RAN>(0.75-ABS(DY)/2) THEN L:=DY+RSIGN(RAN-0.5); 
+   484          001014                       DY:=SIGN(L); 
+   485          001024 E10                 END; 
+   486          001027 E7         1:     END; 
+   487          001045                   X:=TOWERS[9,1]; Y:=TOWERS[9,2]; 
+   488          001052 R19 I20           REPEAT I1:=TOWERS[8,1]-X; IF RAN>0.65 THEN I1:=I1+TRUNC(RAN*5-2); 
+   489          001105 I21                 L:=TOWERS[8,2]-Y; IF RAN>0.65 THEN L:=L+TRUNC(RAN*5-2); 
+   490          001141                     X:=X+SIGN(I1); 
+   491          001150                     Y:=Y+SIGN(L); 
+   492          001160 I22                 IF NOT (PLAN^[X,Y] IN [MT_DOOM,BARAD_DUR]) THEN PLAN^[X,Y]:=MAIN_ROAD; 
+   493          001215 U19               UNTIL PLAN^[X,Y] IN [MT_DOOM,BARAD_DUR]; 
+   494          001235 E1         END; 
+   495          001251             
+   496          001251 L2         PROCEDURE PLACMON; 
+   497          177606             
+   498          177606            VAR    I1,J1: INTEGER; 
+   499          177610             
+   500          000000 B1 B2      BEGIN  FOR I1:=1 TO ENEMIES DO WITH ENEMY[I1] DO BEGIN 
+   501          000020 C3                  CASE I1 OF 
+   502          000022                        1:                         TYP:=GOLLUM; 
+   503          000026                        2:                         TYP:=OLOG_HAI; 
+   504          000032                        3, 4, 5, 6, 7, 8, 9,10,11: TYP:=NAZGUL; 
+   505          000036                       12,13,14,15:                TYP:=BALROG; 
+   506          000042                       16,17,18,19,20,21,22,23,24, 
+   507          000042                       25,26,27,28,29,30:          TYP:=URUK_HAI; 
+   508          000046                       31,32,33,34,35,36,37,38,39, 
+   509          000046                       40,41,42:                   TYP:=WOLF_PACK; 
+   510          000052                       43,44,45,46,47,48,49,50,51, 
+   511          000052                       52,53,54,55:                TYP:=HARADRIM; 
+   512          000056                       56,57,58,59,60,61,62,63,64, 
+   513          000056                       65,66,67,68,69,70:          TYP:=OLOG_HAI; 
+   514          000062 E3                  END; 
+   515          000210 I4                  IF (TYP=WOLF_PACK) AND (RAN<0.25) THEN TYP:=WARGS; 
+   516          000226 I5 S5               IF I1<13 THEN ANTAL:=1 ELSE 
+   517          000235 I6 S6                 IF TYP=BALROG THEN ANTAL:=TRUNC(SQR(RAN)*4+1) ELSE 
+   518          000262                         ANTAL:=TRUNC(SQR(RAN)*12+1); 
+   519          000301 I7 B8               IF I1>1 THEN BEGIN 
+   520          000305 I9                    IF I1=2 THEN 
+   521          000311 R10                     REPEAT 
+   522          000311                           X:=TRUNC(RAN*3+24); Y:=TRUNC(RAN*128); 
+   523          000341 U10                     UNTIL PLAN^[X,Y]=TUNNEL 
+   524          000356 S9 B11                ELSE BEGIN 
+   525          000367 R12                     REPEAT 
+   526          000367                           X:=TRUNC(RAN*128); Y:=TRUNC(RAN*128); 
+   527          000413 U12                     UNTIL (NOT (PLAN^[X,Y] IN [MOUNTAIN,RIVER,TUNNEL])) AND 
+   528          000434                               (PLAN^[X,Y]<16); 
+   529          000455 E11                   END; 
+   530          000455 I13                   IF I1>2 THEN PLAN^[X,Y]:=TYP*16+PLAN^[X,Y]; 
+   531          000524 E8                  END; 
+   532          000524 E2                END; 
+   533          000533 C14               CASE TRUNC(RAN*6) OF 
+   534          000544 B15                0,1,2: BEGIN 
+   535          000544                              GOLLX:=ENEMY[2].X+TRUNC(RAN*3-1); 
+   536          000567                              GOLLY:=ENEMY[2].Y+TRUNC(RAN*3-1); 
+   537          000612 E15                       END; 
+   538          000613 B16                  3,4: BEGIN 
+   539          000613                              I1:=TRUNC(RAN*9+1); 
+   540          000630                              GOLLX:=TOWERS[I1,1]+TRUNC(RAN*3-1); 
+        PASCAL/ND-100      VERSION J 83-12-07                    98-09-17               11-55-55                       PAGE:  10
+
+   541          000656                              GOLLY:=TOWERS[I1,2]+TRUNC(RAN*3-1); 
+   542          000703 E16                       END; 
+   543          000710 B17                  5:   BEGIN 
+   544          000710                              GOLLX:=26; GOLLY:=TRUNC(RAN*128); 
+   545          000725 E17                       END; 
+   546          000726 E14               END; 
+   547          000743 E1         END; 
+   548          000745             
+   549          000745 L2         PROCEDURE MAKEMAP; 
+   550          177606             
+   551          177606            VAR    X,Y: INTEGER; 
+   552          177610                   MAPFILE: PACKED FILE OF MAPTYPE; 
+   553          177610                   READ?: BOOLEAN; 
+   554          177611             
+   555          177611 L3                PROCEDURE GETMAP; 
+   556          177606             
+*  557          000000 B1                BEGIN CONNECT(MAPFILE,'(DNF)MORDOR-MAP-MJ','DATA','R'); 
+   558          000027                     RESET(MAPFILE); READ?:=FALSE; 
+   559          000035 I2 B3               IF NOT EOF(MAPFILE) THEN BEGIN 
+   560          000041                       READ(MAPFILE,PLAN^); READ?:=TRUE; 
+   561          000054 E3                  END; 
+*  562          000054                     DISCONNECT(MAPFILE); 
+   563          000060 E1                END; 
+   564          000075             
+   565          000075 L3                PROCEDURE SAVEMAP; 
+   566          177606             
+*  567          000000 B1                BEGIN CONNECT(MAPFILE,'(DNF)MORDOR-MAP-MJ','DATA','W'); 
+*  568          000027                     REWRITE(MAPFILE); WRITE(MAPFILE,PLAN^); DISCONNECT(MAPFILE); 
+   569          000047 E1                END; 
+   570          000063             
+   571          000000 B1 I2 B3   BEGIN  GETMAP; IF READ?=FALSE THEN BEGIN 
+   572          000026                     FOR X:=0 TO 127 DO FOR Y:=0 TO 127 DO PLAN^[X,Y]:=0; 
+   573          000063                     MAKEMTS; MAKEGTS; MAKERIV; SAVEMAP; 
+   574          000077 E3                END; 
+   575          000077                   MAKETOR; PLACMON; 
+   576          000105 E1         END; 
+   577          000134             
+   578          000134 L2         PROCEDURE SELECT_NEW_RINGBEARER; 
+   579          177606             
+   580          177606            VAR    I1: INTEGER; 
+   581          177607             
+   582          000000 B1         BEGIN  WRITELN('You must now choose a new Ringbearer.'); 
+   583          000013                   WRITELN('The Fellowship currently consists of:'); 
+   584          000022 I2 B3             FOR I1:=1 TO MEMBERS DO IF FELLOWS[I1,1]=IN_FELLOW THEN BEGIN 
+   585          000040                     OUTNAME(I1); WRITELN; 
+   586          000047 E3                END; 
+   587          000052                   WRITE('Who shall have the honor? '); RING_BEARER:=INNAME; 
+   588          000065                   RING:=OFF; RING_USED:=0; 
+   589          000070 E1         END; 
+   590          000105             
+   591          000105 L2         PROCEDURE NEW_CARRIER; 
+   592          177606             
+   593          177606            VAR    I1: INTEGER; 
+   594          177607             
+   595          000000 B1 I2 B3   BEGIN  IF (MEMB>0) AND NOT END? THEN BEGIN 
+   596          000014                     WRITELN('You must now choose a new carrier for the Palantir.'); 
+   597          000023                     WRITELN('The Fellowship currently consists of:'); 
+   598          000032 I4 B5               FOR I1:=1 TO MEMBERS DO IF FELLOWS[I1,1]=IN_FELLOW THEN BEGIN 
+   599          000050                       OUTNAME(I1); WRITELN; 
+   600          000057 E5                  END; 
+        PASCAL/ND-100      VERSION J 83-12-07                    98-09-17               11-55-55                       PAGE:  11
+
+   601          000062                     WRITE('Who shall have the honor? '); POWN:=INNAME; PREV:=PUSE; 
+   602          000077 E3                END; 
+   603          000077 E1         END; 
+   604          000114             
+   605          000114 L2         PROCEDURE ON_RING; 
+   606          177606             
+   607          000000 B1 I2 S2   BEGIN  IF RING=ON THEN WRITELN('The Ring is already on!') ELSE BEGIN 
+   608          000017 I4 B5               IF RING=CAUGHT THEN BEGIN 
+   609          000024                       WRITELN('The Ringbearer flees from his captors!'); 
+   610          000033                       FELLOWS[RING_BEARER,1]:=IN_FELLOW; MEMB:=MEMB+1; 
+   611          000047 E5                  END; 
+   612          000047 I6                  IF (RING=WRAITH) OR (RING=TAKEN) THEN 
+   613          000061 S6 B7                 WRITELN('The Ringbearer is not present!') ELSE BEGIN 
+   614          000071                         RING:=ON; RING_ON_THIS_TURN:=TRUE; 
+   615          000075                         WRITELN('Ahh, that really felt good!'); 
+   616          000104 E7                    END; 
+   617          000104 E3                END; 
+   618          000104 E1         END; 
+   619          000120             
+   620          000120 L2         PROCEDURE OFF_RING; 
+   621          177606             
+   622          000000 B1 I2 S2   BEGIN  IF RING<>ON THEN WRITELN('Not possible!') ELSE 
+   623          000017 B3 I4 B5            BEGIN IF RING_ON_THIS_TURN THEN BEGIN 
+   624          000022                          WRITELN('Why hurry? Keep the Ring on till next turn!'); 
+   625          000031                          TAKE_OFF:=TRUE; 
+   626          000034 E5                    END 
+   627          000034 S4 I6 B7              ELSE IF TAKE_OFF=TRUE THEN BEGIN 
+   628          000042                         OUTNAME(RING_BEARER); 
+   629          000050                         WRITELN(' cannot take the Ring off, I''ve said, try next turn!'); 
+   630          000057 E7 S6 B8              END ELSE BEGIN 
+   631          000060 I9 B10                  IF RING_USED>(SQRT(RAN)*FELLOWS[RING_BEARER,3]*5) THEN BEGIN 
+   632          000112                           TAKE_OFF:=TRUE; OUTNAME(RING_BEARER); 
+   633          000122                           WRITELN(' cannot take the Ring off!'); 
+   634          000131 E10 S9 B11              END ELSE BEGIN 
+   635          000147                           RING:=OFF; OUTNAME(RING_BEARER); 
+   636          000157                           WRITELN(' reluctantly removes the Ring from his finger!'); 
+   637          000166 E11                     END; 
+   638          000166 E8                    END; 
+   639          000166 E3                  END; 
+   640          000166 E1         END; 
+   641          000171             
+   642          000171 L2         PROCEDURE FIGHT(ATTACKER: BOOLEAN); 
+   643          177607             
+   644          177607            LABEL  1; 
+   645          177607             
+   646          177607            VAR    I1,J1,INDEX,WHO,FIGHTER,NUMBER,STRENGTH,MSTRE: INTEGER; 
+   647          177617             
+   648          177617 L3                PROCEDURE CHECK_FELLOWSHIP; 
+   649          177606             
+   650          000000 B1 I2 B3          BEGIN IF MEMB=0 THEN BEGIN 
+   651          000010                       WRITELN('There is noone left of the fellowship!'); 
+   652          000017                       WRITELN('The mission has failed!'); END?:=TRUE; NUMBER:=0; 
+   653          000034 E3                  END; 
+   654          000034 E1                END; 
+   655          000045             
+   656          000045 L3                PROCEDURE PRINT_FIGHTER; 
+   657          177606             
+   658          177606                   VAR I1,J1: INTEGER; 
+   659          177610             
+   660          000000 B1                BEGIN 
+        PASCAL/ND-100      VERSION J 83-12-07                    98-09-17               11-55-56                       PAGE:  12
+
+   661          000000 I2                  IF NUMBER=1 THEN OUTSTR(ENEMY_SING[WHO]) 
+   662          000016 S2 B3               ELSE BEGIN 
+   663          000023                       WRITE('a bunch of '); 
+   664          000031                       OUTSTR(ENEMY_PLUR[WHO]); 
+   665          000042 E3                  END; WRITELN('!'); 
+   666          000047 E1                END; 
+   667          000064             
+   668          000064 L3                PROCEDURE SELECT_FIGHTER; 
+   669          177606             
+   670          177606                   VAR I1: INTEGER; 
+   671          177607             
+   672          000000 B1                BEGIN 
+   673          000000 C2                  CASE ATTACKER OF 
+   674          000007                       TRUE: 
+   675          000007 B3                      BEGIN 
+   676          000007                             WRITE('Will you fight together or individually (T/I): '); 
+   677          000015                             INSTR(STRANG); 
+   678          000026 I4 S4 B5                  IF STRANG[1]<>'I' THEN FIGHTER:=-1 ELSE BEGIN 
+   679          000041                             WRITELN('Ok! The fellowship currently consists of:'); 
+   680          000050                             FOR I1:=1 TO MEMBERS DO 
+   681          000050 I6 B7                         IF FELLOWS[I1,1]=IN_FELLOW THEN BEGIN 
+   682          000067                                 OUTNAME(I1); WRITELN; 
+   683          000077 E7                            END; 
+   684          000114                             WRITE('Who is now going to fight? ');   
+   685          000122                             FIGHTER:=INNAME; 
+   686          000130 E5                        END; 
+   687          000130 E3                      END; 
+   688          000131                       FALSE:  
+   689          000131 B8                      BEGIN 
+   690          000131 I9                        IF NUMBER<=MEMB+TRUNC(RAN*3) THEN 
+   691          000151 R10                         REPEAT 
+   692          000151                               FIGHTER:=TRUNC(RAN*MEMBERS+1) 
+   693          000166 U10                         UNTIL FELLOWS[FIGHTER,1]=IN_FELLOW 
+   694          000176 S9                        ELSE FIGHTER:=-1; 
+   695          000206 I11 B12                   IF FIGHTER>0 THEN BEGIN 
+   696          000213                             OUTNAME(FIGHTER); WRITELN(' is attacked!'); 
+   697          000231 E12 S11                   END ELSE 
+   698          000236                             WRITELN('They attack the whole Fellowship!'); 
+   699          000245 E8                      END; 
+   700          000246 E2                  END; 
+   701          000257 E1                END; 
+   702          000261             
+   703          000261 L3         PROCEDURE NOW_WHAT?; 
+   704          177606             
+   705          000000 B1         BEGIN  WRITE('(F)ight or (R)un away? '); 
+   706          000012                   INSTR(STRANG); 
+   707          000023 I2 B3             IF STRANG[1]='R' THEN BEGIN 
+   708          000032 I4                  IF (((RAN>NUMBER/(MEMB*2.5)) OR (RAN<0.15) AND     ATTACKER)   OR 
+   709          000066                         ((RAN>NUMBER/(MEMB*1.5)) OR (RAN<0.10) AND NOT ATTACKER)) AND 
+   710          000122 B5                       (INDEX>11) THEN WITH ENEMY[INDEX] DO BEGIN 
+   711          000137                  WRITELN('You got away! The monsters soon give up pursuit!'); 
+   712          000146                       ANTAL:=NUMBER; NUMBER:=-2; 
+   713          000153                       PLAN^[X,Y]:=PLAN^[X,Y] MOD 16+WHO*16; 
+   714          000252                       PLAN^[FX,FY]:=PLAN^[FX,FY] MOD 16; 
+   715          000307 R6                    REPEAT 
+   716          000307 R7                      REPEAT 
+   717          000307 I8 S8                     IF FX>120 THEN DX:=127 ELSE 
+   718          000326                              DX:=FX+TRUNC(10*(RAN+0.5)); 
+   719          000344 U7                      UNTIL DX<128; 
+   720          000352                         DY:=MOD1(FY+TRUNC(20*(RAN-0.5))); 
+        PASCAL/ND-100      VERSION J 83-12-07                    98-09-17               11-55-57                       PAGE:  13
+
+   721          000377 U6                    UNTIL PLAN^[DX,DY] IN [0,1,2,6,7,8]; 
+   722          000416                       FX:=DX; FY:=DY; 
+   723          000424 E5 S4               END ELSE 
+   724          000441 I9                    IF INDEX>11 THEN 
+   725          000446                    WRITELN('You did not make it! You will have to stand and fight!') 
+   726          000454 S9                      ELSE WRITELN('You can''t run from Nazgul or Shelob!'); 
+   727          000465 E3                END; 
+   728          000465 E1         END; 
+   729          000474             
+   730          000000 B1 I2      BEGIN  INDEX:=0; IF RING=ON THEN WRITELN; 
+   731          000012                   FOR I1:=1 TO ENEMIES DO WITH ENEMY[I1] DO 
+   732          000026 I3                  IF (X=FX) AND (Y=FY) THEN INDEX:=I1; 
+   733          000047 I4 B5             IF (INDEX=0) THEN BEGIN 
+   734          000051                     WRITELN(FX,FY,PLAN^[FX,FY]); 
+   735          000113                     FOR I1:=1 TO ENEMIES DO WITH ENEMY[I1] DO 
+   736          000127 I6                    IF TYP=PLAN^[FX,FY] DIV 16 THEN 
+   737          000153                         WRITELN(I1,TYP,ANTAL,X,Y); 
+*  738          000233                     HALT('Enemy error!!'); 
+   739          000237 E5                END; 
+   740          000237                   WHO:=ENEMY[INDEX].TYP; NUMBER:=ENEMY[INDEX].ANTAL; 
+   741          000257 I7                IF NUMBER=0 THEN WITH ENEMY[INDEX] DO 
+   742          000270                      WRITELN(INDEX,TYP,ANTAL,X,Y); 
+   743          000334 I8 B9             IF NUMBER>0 THEN BEGIN 
+   744          000340 I10                 IF ATTACKER=FALSE THEN 
+   745          000342                       WRITE('You are attacked by ') 
+   746          000350 S10                 ELSE 
+   747          000355                       WRITE('Now you really are in trouble! You have run into '); 
+   748          000363                     PRINT_FIGHTER; 
+   749          000366 R11                 REPEAT 
+   750          000366                       FIGHTER:=0;  
+   751          000367                       SELECT_FIGHTER; 
+   752          000372 I12        1:         STRENGTH:=0; IF FIGHTER>0 THEN STRENGTH:=FELLOWS[FIGHTER,2] 
+   753          000401 S12                   ELSE FOR I1:=1 TO MEMBERS DO 
+   754          000407 I13                     IF FELLOWS[I1,1]=IN_FELLOW THEN STRENGTH:=STRENGTH+FELLOWS[I1,2]; 
+   755          000444 I14                   IF (RING=ON) AND ((FIGHTER=RING_BEARER) OR (FIGHTER<0)) 
+   756          000456                         THEN STRENGTH:=STRENGTH+2; 
+   757          000461 I15 S15               IF FIGHTER>0 THEN MSTRE:=ENEMY_STR[WHO] ELSE 
+   758          000477                         MSTRE:=NUMBER*ENEMY_STR[WHO]; 
+   759          000503                       STRENGTH:=STRENGTH+TRUNC(RAN*6); MSTRE:=MSTRE+TRUNC(RAN*6); 
+   760          000527 I16 B17               IF FIGHTER>0 THEN BEGIN 
+   761          000533 I18 B19                 IF MSTRE>STRENGTH+TRUNC(RAN*4-2) THEN BEGIN 
+   762          000556                           OUTNAME(FIGHTER); WRITELN(' was killed by his enemy!'); 
+   763          000572                           MEMB:=MEMB-1; FELLOWS[FIGHTER,1]:=DEAD; 
+   764          000604 I20 B21                   IF (NUMBER>MEMB) AND (RAN<0.2) THEN BEGIN 
+   765          000617                             WRITELN('But a monster died too!'); NUMBER:=NUMBER-1; 
+   766          000631 E21                       END; 
+   767          000631 I22 B23                   CHECK_FELLOWSHIP; IF MEMB>0 THEN BEGIN 
+   768          000641 I24                         IF FIGHTER=RING_BEARER THEN 
+   769          000646 I25 B26                       IF (RAN>0.7) AND (NUMBER>0) THEN BEGIN 
+   770          000662                                 WRITELN('The Servants of Sauron took the Ring!'); 
+   771          000712                                 WRITELN('Your mission has failed!'); END?:=TRUE; NUMBER:=0; 
+   772          000725 E26 S25                       END ELSE SELECT_NEW_RINGBEARER; 
+   773          000732 I27                         IF FIGHTER=POWN THEN 
+   774          000737 I28                           IF (RAN>0.7) AND (NUMBER>0) THEN 
+   775          000753                                 WRITELN('The Servants of Sauron took the Palantir!') 
+   776          000761 S28                           ELSE NEW_CARRIER; 
+   777          000766 E23                       END; 
+   778          000766 E19 S18                 END ELSE IF MSTRE>STRENGTH-TRUNC(RAN*4) THEN BEGIN 
+   779          001004 I31                       IF (NOT (WHO IN [WOLF_PACK,BALROG,SHELOB])) AND 
+   780          001011 B32                          (RAN<0.35) THEN BEGIN 
+        PASCAL/ND-100      VERSION J 83-12-07                    98-09-17               11-55-57                       PAGE:  14
+
+   781          001017                             OUTNAME(FIGHTER); WRITELN(' got captured by the villains!'); 
+   782          001033                             FELLOWS[FIGHTER,1]:=-CAPTURED; MEMB:=MEMB-1; 
+   783          001047                             CHECK_FELLOWSHIP; 
+   784          001052 I33                         IF FIGHTER=RING_BEARER THEN RING:=CAUGHT; 
+   785          001062 E32 S31                   END ELSE BEGIN 
+   786          001101                             OUTNAME(FIGHTER); WRITELN(' was knocked unconscious!'); 
+   787          001115                             FELLOWS[FIGHTER,1]:=UNCONSCIOUS; MEMB:=MEMB-1; 
+   788          001131                             CHECK_FELLOWSHIP; 
+   789          001134 E34                       END; 
+   790          001134 E30 S29                 END ELSE IF MSTRE<STRENGTH-TRUNC(RAN*5+2) THEN BEGIN 
+   791          001160                           OUTNAME(FIGHTER); WRITE(' killed his opponent'); 
+   792          001173 I37                       NUMBER:=NUMBER-1; IF MSTRE<STRENGTH-10 THEN WRITE(' easily'); 
+   793          001212 I38 B39                   IF (MSTRE>=STRENGTH-5) AND (RAN<0.34) THEN BEGIN 
+   794          001226                             WRITE(', but he was killed in the fight'); 
+   795          001234                             FELLOWS[FIGHTER,1]:=DEAD; MEMB:=MEMB-1; 
+   796          001247 E39                       END; 
+   797          001247                           WRITELN('!'); CHECK_FELLOWSHIP; 
+   798          001257 I40                       IF (FIGHTER=RING_BEARER) AND (MEMB>0) AND 
+   799          001271                              (FELLOWS[RING_BEARER,1]=DEAD) THEN 
+   800          001321                             SELECT_NEW_RINGBEARER; 
+   801          001324 I41                       IF (FIGHTER=POWN) AND (MEMB>0) AND (FELLOWS[POWN,1]=DEAD) THEN 
+   802          001345                             NEW_CARRIER; 
+   803          001350 E36 S35                 END ELSE IF (RAN<0.2) AND (INDEX<>SHELOB_I) THEN BEGIN 
+   804          001364                           WRITELN('The monster(s) flee from the battlegrounds!'); 
+   805          001373                           ENEMY[INDEX].ANTAL:=NUMBER; NUMBER:=-1; 
+   806          001405 R44                       REPEAT 
+   807          001405                             DX:=TRUNC(RAN*128); DY:=TRUNC(RAN*128); 
+   808          001431 U44                       UNTIL PLAN^[DX,DY]<3; 
+   809          001447                           ENEMY[INDEX].X:=DX; ENEMY[INDEX].Y:=DY; 
+   810          001475                           PLAN^[DX,DY]:=PLAN^[DX,DY] MOD 16+WHO*16; 
+   811          001551 E43 S42                 END ELSE GOTO 1; 
+   812          001553 E17 S16               END ELSE BEGIN 
+   813          001554 I46 B47                 IF (MSTRE>STRENGTH+TRUNC(RAN*4-2)) AND (MEMB>0) THEN BEGIN 
+   814          001602 R48 U48                   REPEAT I1:=TRUNC(RAN*MEMBERS+1) UNTIL FELLOWS[I1,1]=IN_FELLOW; 
+   815          001630                           OUTNAME(I1); WRITELN(' was killed by his enemy!'); 
+   816          001644                           MEMB:=MEMB-1; FELLOWS[I1,1]:=DEAD; 
+   817          001656 I49 B50                   IF (NUMBER>MEMB) AND (RAN<0.2) THEN BEGIN 
+   818          001671                             WRITELN('But a monster died too!'); NUMBER:=NUMBER-1; 
+   819          001703 E50                       END; 
+   820          001703 I51 B52                   CHECK_FELLOWSHIP; IF MEMB>0 THEN BEGIN 
+   821          001713 I53                         IF I1=RING_BEARER THEN 
+   822          001720 I54 B55                       IF (RAN>0.73) AND (NUMBER>0) THEN BEGIN 
+   823          001762                                 WRITELN('The Servants of Sauron took the Ring!'); 
+   824          001771                                 WRITELN('Your mission has failed!'); 
+   825          002000                                 END?:=TRUE; NUMBER:=0; 
+   826          002004 E55 S54                     END ELSE SELECT_NEW_RINGBEARER; 
+   827          002010 I56                         IF I1=POWN THEN 
+   828          002015 I57                           IF (RAN>0.73) AND (NUMBER>0) THEN 
+   829          002031                                 WRITELN('The Servants of Sauron took the Palantir!') 
+   830          002037 S57                           ELSE NEW_CARRIER; 
+   831          002044 E52                       END; 
+   832          002044 E47 S46                 END ELSE IF (MSTRE>STRENGTH-TRUNC(RAN*4)) AND (MEMB>0) THEN BEGIN 
+   833          002067 I60                       IF (NOT (WHO IN [WOLF_PACK,BALROG,SHELOB])) AND 
+   834          002074 B61                          (RAN<0.35) THEN BEGIN 
+   835          002102 R62 U62                     REPEAT I1:=TRUNC(RAN*MEMBERS+1) UNTIL FELLOWS[I1,1]=IN_FELLOW; 
+   836          002130                             OUTNAME(I1); WRITELN(' got captured by the villains!'); 
+   837          002144                             FELLOWS[I1,1]:=-CAPTURED; MEMB:=MEMB-1; CHECK_FELLOWSHIP; 
+   838          002207 I63                         IF I1=RING_BEARER THEN RING:=CAUGHT; 
+   839          002217 I64 B65                     IF (NUMBER>MEMB) AND (RAN<0.2) THEN BEGIN 
+   840          002232                               WRITELN('But a monster died!'); NUMBER:=NUMBER-1; 
+        PASCAL/ND-100      VERSION J 83-12-07                    98-09-17               11-55-58                       PAGE:  15
+
+   841          002252 E65                         END; 
+   842          002252 E61 S60                   END ELSE BEGIN 
+   843          002253 R67 U67                     REPEAT I1:=TRUNC(RAN*MEMBERS+1) UNTIL FELLOWS[I1,1]=IN_FELLOW; 
+   844          002301                             OUTNAME(I1); WRITELN(' was knocked unconscious!'); 
+   845          002315                             FELLOWS[I1,1]:=UNCONSCIOUS; MEMB:=MEMB-1; CHECK_FELLOWSHIP; 
+   846          002334 I68 B69                     IF (NUMBER>MEMB) AND (RAN<0.2) THEN BEGIN 
+   847          002347                               WRITELN('But a monster died!'); NUMBER:=NUMBER-1; 
+   848          002361 E69                         END; 
+   849          002361 E66                       END; 
+   850          002361 E59 S58                 END ELSE IF MSTRE<STRENGTH-TRUNC(RAN*5+2) THEN BEGIN 
+   851          002417                           WRITE('One villain was killed'); 
+   852          002425 I72                       NUMBER:=NUMBER-1; IF MSTRE<STRENGTH-10 THEN WRITE(' easily'); 
+   853          002444 I73 B74                   IF (MSTRE>=STRENGTH-5) AND (RAN<0.34) THEN BEGIN 
+   854          002460 R75 U75                     REPEAT I1:=TRUNC(RAN*MEMBERS+1) UNTIL FELLOWS[I1,1]=IN_FELLOW; 
+   855          002506                             WRITE(', but '); OUTNAME(I1); MEMB:=MEMB-1; 
+   856          002525                             WRITE(' was killed in the fight'); FELLOWS[I1,1]:=DEAD; 
+   857          002542 I76                         IF I1=RING_BEARER THEN SELECT_NEW_RINGBEARER; 
+   858          002552 I77                         IF I1=POWN THEN NEW_CARRIER; 
+   859          002565 E74                       END; 
+   860          002565                           WRITELN('!'); CHECK_FELLOWSHIP; 
+   861          002615 E71 S70                 END ELSE IF (RAN<0.2) AND (INDEX<>SHELOB_I) THEN BEGIN 
+   862          002630                           WRITELN('The monster(s) flee from the battlegrounds!'); 
+   863          002637                           ENEMY[INDEX].ANTAL:=NUMBER; NUMBER:=-1; 
+   864          002651 R80                       REPEAT 
+   865          002651                             DX:=TRUNC(RAN*128); DY:=TRUNC(RAN*128); 
+   866          002675 U80                       UNTIL PLAN^[DX,DY]<3; 
+   867          002713                           ENEMY[INDEX].X:=DX; ENEMY[INDEX].Y:=DY; 
+   868          002741                           PLAN^[DX,DY]:=PLAN^[DX,DY] MOD 16+WHO*16; 
+   869          003000 E79 S78                 END ELSE GOTO 1; 
+   870          003020 E45                   END; 
+   871          003020 I81                   IF NUMBER>0 THEN NOW_WHAT?; 
+   872          003027 U11                 UNTIL NUMBER<1; 
+   873          003033 I82 B83             IF NUMBER=0 THEN BEGIN 
+   874          003035                        ENEMY[INDEX].ANTAL:=0; 
+   875          003044                        ENEMY[INDEX].X:=128; 
+   876          003054 E83                 END; 
+   877          003054                     ENEMY[INDEX].ANTAL:=ABS(ENEMY[INDEX].ANTAL); 
+   878          003075                     PLAN^[FX,FY]:=PLAN^[FX,FY] MOD 16; 
+   879          003130 B84                 FOR I1:=1 TO MEMBERS DO BEGIN 
+   880          003135 I85                   IF FELLOWS[I1,1]=-CAPTURED THEN 
+   881          003146 I86                     IF NUMBER<0 THEN FELLOWS[I1,1]:=CAPTURED 
+   882          003155 S86 B87                 ELSE BEGIN 
+   883          003165                           FELLOWS[I1,1]:=IN_FELLOW; MEMB:=MEMB+1; 
+   884          003201 E87                     END; 
+   885          003201 I88                   IF FELLOWS[I1,1]=UNCONSCIOUS THEN 
+   886          003212 I89 B90                 IF NUMBER>-2 THEN BEGIN 
+   887          003216                             FELLOWS[I1,1]:=IN_FELLOW; MEMB:=MEMB+1; 
+   888          003232 E90                       END 
+   889          003232 S89                     ELSE FELLOWS[I1,1]:=CAPTURED; 
+   890          003243 E84                 END; 
+   891          003246 I91                 IF RING_BEARER>0 THEN 
+   892          003253 I92                   IF (FELLOWS[RING_BEARER,1]=IN_FELLOW) AND (RING=CAUGHT) THEN 
+   893          003271                         RING:=OFF; 
+   894          003274 E9                END; 
+   895          003274 E1         END; 
+   896          003276             
+   897          003276 L2         PROCEDURE SEIZER(WHO: INTEGER); 
+   898          177607             
+   899          000000 B1 I2 S2   BEGIN  IF WHO=0 THEN WRITE('Gollum') ELSE OUTNAME(WHO); 
+   900          000022 E1         END; 
+        PASCAL/ND-100      VERSION J 83-12-07                    98-09-17               11-55-59                       PAGE:  16
+
+   901          000032             
+   902          000032 L2         PROCEDURE SEIZE?(WHO: INTEGER); 
+   903          177607             
+   904          177607            VAR    I1,STRENGTH: INTEGER; 
+   905          177611             
+   906          000000 B1 I2 B3   BEGIN  IF RING IN [ON,OFF] THEN BEGIN 
+   907          000012                     SEIZER(WHO); WRITELN(' attempts to seize the Ring!'); 
+   908          000026                     STRENGTH:=ENEMY_STR[GOLLUM]+TRUNC(RAN*6); 
+   909          000040 I4                  IF WHO>0 THEN STRENGTH:=FELLOWS[WHO,2]+TRUNC(RAN*6); 
+   910          000065 I5 B6               IF STRENGTH>FELLOWS[RING_BEARER,2]+TRUNC(RAN*6) THEN BEGIN 
+   911          000110                       SEIZER(WHO); 
+   912          000115                       WRITELN(' kills the Ring-bearer and takes the Ring!'); 
+   913          000124 I7                    IF WHO=0 THEN GOLLUM_STATUS:=GOT_THE_RING 
+   914          000126 S7                    ELSE FELLOWS[WHO,1]:=TRAITOR; 
+   915          000157                       FELLOWS[RING_BEARER,1]:=DEAD; RING_USED:=0; 
+   916          000170                       MEMB:=MEMB-1; RING:=TAKEN; 
+   917          000175 I8 B9                 IF WHO>0 THEN BEGIN 
+   918          000201                         MEMB:=MEMB-1; 
+   919          000205                         TRX:=RSIGN(RAN-0.5)*TRUNC(RAN*2.0+2.0)+FX; 
+   920          000232                         TRY:=RSIGN(RAN-0.5)*TRUNC(RAN*2.0+2.0)+FY; 
+   921          000255 E9                    END; 
+   922          000255 I10                   IF (POWN=RING_BEARER) AND (MEMB>0) THEN NEW_CARRIER; 
+   923          000272                       RING_BEARER:=WHO; 
+   924          000275 I11 B12               IF MEMB=0 THEN BEGIN 
+   925          000277                         WRITELN('There is noone left of the Fellowship!'); 
+   926          000310                         SEIZER(WHO); WRITELN(' has won!!!'); END?:=TRUE; 
+   927          000327 E12 I13               END; IF END?=FALSE THEN BEGIN 
+   928          000332 I15                     IF RAN<0.65 THEN WRITELN('He dissappears with the Ring!') 
+   929          000403 S15 B16                 ELSE BEGIN 
+   930          000405 R17 U17                   REPEAT I1:=TRUNC(RAN*MEMBERS+1) UNTIL FELLOWS[I1,1]=IN_FELLOW; 
+   931          000433                           WRITE('But '); OUTNAME(I1); WRITELN(' attacks him!'); 
+   932          000455 I18 B19                   IF STRENGTH>FELLOWS[I1,2]+TRUNC(RAN*6) THEN BEGIN 
+   933          000500                             SEIZER(WHO); WRITE(' kills '); OUTNAME(I1); 
+   934          000520                             WRITELN(' too!'); 
+   935          000531 I20 B21                     FELLOWS[I1,1]:=DEAD; MEMB:=MEMB-1; IF MEMB=0 THEN BEGIN 
+   936          000546                               WRITELN('There is noone left of the Fellowship!'); 
+   937          000555                               SEIZER(WHO); WRITELN(' has won!!!'); END?:=TRUE; 
+   938          000613 E21                         END; 
+   939          000613 I22                         IF I1=POWN THEN NEW_CARRIER; 
+   940          000623 E19 S18                   END ELSE BEGIN 
+   941          000624 I24 B25                     IF WHO=0 THEN BEGIN 
+   942          000626                               WRITELN('He succeeds in capturing Gollum!'); 
+   943          000635                               GOLLUM_STATUS:=UNTIED; SELECT_NEW_RINGBEARER; 
+   944          000643                               ENEMY_STR[7]:=ENEMY_STR[7]+TRUNC(RAN*2+1); 
+   945          000661 E25 S24                     END ELSE BEGIN 
+   946          000662                               WRITE('He succeeds in killing '); OUTNAME(WHO); 
+   947          000675                               WRITELN('!'); FELLOWS[WHO,1]:=DEAD; SELECT_NEW_RINGBEARER; 
+   948          000714 I27                           IF WHO=POWN THEN NEW_CARRIER; 
+   949          000726 E26                         END; 
+   950          000726 E23                       END; 
+   951          000726 E16                     END; 
+   952          000726 E14                   END; 
+   953          000726 E6 S5 B28           END ELSE BEGIN 
+   954          000736 I29 B30               WRITELN('He failes!'); IF WHO=0 THEN BEGIN 
+   955          000747 I31 B32                 IF RAN>0.6 THEN BEGIN 
+   956          000757                           GOLLUM_STATUS:=HUNTING; WRITELN('Gollum flees!'); 
+   957          000770 E32 S31                 END ELSE BEGIN 
+   958          000771                           GOLLUM_STATUS:=UNTIED; WRITELN('Now you got him!'); 
+   959          001003 E33                     END; 
+   960          001003                         ENEMY_STR[7]:=ENEMY_STR[7]+TRUNC(RAN*2+1); 
+        PASCAL/ND-100      VERSION J 83-12-07                    98-09-17               11-56- 0                       PAGE:  17
+
+   961          001021 E30                   END 
+   962          001021 S29 I34               ELSE IF RAN<0.85 THEN BEGIN 
+   963          001030                            WRITE('You kill '); OUTNAME(WHO); WRITELN('!'); 
+   964          001050                            FELLOWS[WHO,1]:=DEAD; MEMB:=MEMB-1; 
+   965          001063 I36                        IF WHO=POWN THEN NEW_CARRIER; 
+   966          001072 E35 S34                  END ELSE BEGIN 
+   967          001113                            WRITELN('He regains his senses and is very remorseful!'); 
+   968          001122                            WRITELN('He swears by Eru not to try again!'); 
+   969          001131                            FELLOWS[WHO,4]:=FELLOWS[WHO,4]+3; 
+   970          001146 E37                      END; 
+   971          001146 E28                 END; 
+   972          001146 E3                END; 
+   973          001146 E1         END; 
+   974          001153             
+   975          001153 L2         PROCEDURE GET_RING; 
+   976          177606             
+   977          177606            VAR    I1,STRENGTH: INTEGER; 
+   978          177610             
+   979          000000 B1         BEGIN  WRITELN('You just bumped into Gollum!'); 
+   980          000013                   STRENGTH:=0; FOR I1:=1 TO MEMBERS DO 
+   981          000014 I2                  IF FELLOWS[I1,1]=IN_FELLOW THEN STRENGTH:=STRENGTH+FELLOWS[I1,2]; 
+   982          000051 I3 B4             IF STRENGTH>ENEMY_STR[7]+4+TRUNC(RAN*6) THEN BEGIN 
+   983          000070                     WRITELN('You take the Ring from him and capture him!'); 
+   984          000077                     SELECT_NEW_RINGBEARER; 
+   985          000102                     GOLLUM_STATUS:=UNTIED; 
+   986          000105 E4 S3 B5          END ELSE BEGIN 
+   987          000122                     WRITELN('Gollum has become too strong, and kills the lot of you!'); 
+   988          000131                     FOR I1:=1 TO MEMBERS DO 
+   989          000131 I6                     IF FELLOWS[I,1]=IN_FELLOW THEN FELLOWS[I1,1]:=DEAD; 
+   990          000161                     END?:=TRUE; 
+   991          000164 E5                END; 
+   992          000164 E1         END; 
+   993          000167             
+   994          000167 L2         PROCEDURE FIGHT_TRAITOR; 
+   995          177606             
+   996          177606            VAR    I1,STRENGTH: INTEGER; 
+   997          177610             
+   998          000000 B1         BEGIN  WRITELN('You have found the traitor!'); 
+   999          000013                   FOR I1:=1 TO MEMBERS DO 
+  1000          000013 I2                  IF FELLOWS[I1,1]=IN_FELLOW THEN STRENGTH:=STRENGTH+FELLOWS[I1,2]; 
+  1001          000050 I3 B4             IF STRENGTH+TRUNC(RAN*6)<FELLOWS[RING_BEARER,2]+TRUNC(RAN*6) THEN BEGIN 
+  1002          000106                     WRITE('Unfortunately '); OUTNAME(RING_BEARER); 
+  1003          000122                     WRITELN(' has become VERY strong and killed the lot of you!'); 
+  1004          000131                     WRITELN('Your mission has failed!'); 
+  1005          000140                     END?:=TRUE; 
+  1006          000143                     FOR I1:=1 TO MEMBERS DO 
+  1007          000143 I5                     IF FELLOWS[I,1]=IN_FELLOW THEN FELLOWS[I1,1]:=DEAD; 
+  1008          000210 E4 S3             END ELSE 
+  1009          000211 I6 B7               IF RAN<0.90 THEN BEGIN 
+  1010          000217                     WRITE('You have killed '); OUTNAME(RING_BEARER); 
+  1011          000233                     WRITE(' and taken the Ring from his finger'); 
+  1012          000241 I8 B9               IF (MEMB>2) AND (RAN<0.07*MEMB) THEN BEGIN 
+  1013          000262                       WRITELN(','); ; WRITE('but '); 
+  1014          000275 R10                   REPEAT 
+  1015          000275                         I1:=TRUNC(RAN*MEMBERS+1); 
+  1016          000312 U10                   UNTIL FELLOWS[I1,1]=IN_FELLOW; 
+  1017          000323                       MEMB:=MEMB-1; OUTNAME(I1); WRITELN(' died in the fight!'); 
+  1018          000343                       FELLOWS[I1,1]:=DEAD; 
+  1019          000352 I11                   IF POWN=I1 THEN NEW_CARRIER; 
+  1020          000362 E9 S8               END ELSE WRITELN('.'); 
+        PASCAL/ND-100      VERSION J 83-12-07                    98-09-17               11-56- 0                       PAGE:  18
+
+  1021          000406                     FELLOWS[RING_BEARER,1]:=DEAD; 
+  1022          000415 I12                 IF POWN=RING_BEARER THEN NEW_CARRIER; 
+  1023          000425                     SELECT_NEW_RINGBEARER; 
+  1024          000430 E7                END 
+  1025          000430 S6 B13            ELSE BEGIN 
+  1026          000431                     OUTNAME(RING_BEARER); 
+  1027          000437                     WRITELN(' regrets what he has done, and swears by Eru that he will'); 
+  1028          000446                     WRITELN('not do this again.'); FELLOWS[RING_BEARER,1]:=IN_FELLOW; 
+  1029          000465                     RING:=OFF; RING_USED:=0; MEMB:=MEMB+1; 
+  1030          000474 E13               END; 
+  1031          000474 E1         END; 
+  1032          000506             
+  1033          000506 L2         PROCEDURE MOVER; 
+  1034          177606             
+  1035          177606            LABEL  1,2,3; 
+  1036          177606             
+  1037          177606            VAR    I1,J1,K1,NX,NY,B,STEP: INTEGER; 
+  1038          177615                   COST: REAL; 
+  1039          177620             
+  1040          000000 B1         BEGIN  I1:=PLAN^[FX,FY] MOD 16; PLAN^[FX,FY]:=I1; STEP:=0; 
+  1041          000041            1:     NX:=MOD1(FX+DX); NY:=MOD1(FY+DY); J1:=PLAN^[NX,NY] MOD 16; 
+  1042          000100                   I1:=PLAN^[FX,FY] MOD 16; 
+  1043          000117 I2                IF ABS(DX)+ABS(DY)>1 THEN 
+  1044          000135 I3                  IF (PLAN^[NX,FY] MOD 16 IN [RIVER,FORD]) AND 
+  1045          000156                        (PLAN^[FX,NY] MOD 16 IN [RIVER,FORD]) AND 
+  1046          000210                        (I1<>FORD) AND (J1<>FORD) AND (I1<>ROAD) AND (J1<>ROAD) AND 
+  1047          000233 B4                     (I1<>MAIN_ROAD) AND (J1<>MAIN_ROAD) THEN BEGIN 
+  1048          000243                       WRITE('You cannot cross the river there,'); 
+  1049          000251                       WRITELN(' try Bridge (-,=) or Ford (+)'); GOTO 2; 
+  1050          000261 E4                  END; 
+  1051          000261                   COST:=(TCOST[I1]+TCOST[J1])*SQRT(DX*DX+DY*DY)/2.0; 
+  1052          000314 I5 B6             IF COST>MP THEN BEGIN 
+  1053          000320                     COST:=-99;  
+  1054          000323 I7 S7               IF MP1<=1 THEN B:=0 ELSE B:=1; 
+  1055          000350                     GOTO 3; 
+  1056          000351 E6                END; 
+  1057          000351 C8                CASE J1 OF 
+  1058          000353 I9 B10              MOUNTAIN: IF I1=MOUNTAIN THEN BEGIN 
+  1059          000357                                 WRITELN('The mountain is too steep here!'); 
+  1060          000366                                 GOTO 2; 
+  1061          000367 E10                           END; 
+  1062          000370 I11 B12             SWAMP:    IF NOT (GOLLUM_STATUS IN [TIED,UNTIED]) THEN BEGIN 
+  1063          000376                                 WRITELN('You can''t cross a Swamp without Gollum!'); 
+  1064          000405                                 GOTO 2; 
+  1065          000406 E12                           END 
+  1066          000406 S11 I13                       ELSE IF GOLLUM_STATUS=TIED THEN BEGIN 
+  1067          000414                                 WRITELN('Gollum refuses to help you through the swamp!'); 
+  1068          000423                                 GOTO 2; 
+  1069          000425 E14                           END; 
+  1070          000426 B15                 RIVER:    BEGIN 
+  1071          000426                                 WRITE('You attempted to drown the fellowship,'); 
+  1072          000434                                 WRITELN(' but that isn''t allowed!'); GOTO 2; 
+  1073          000444 E15                           END; 
+  1074          000445 B16                 TOWER:    BEGIN 
+  1075          000445                                 WRITELN('Sauron doesn''t like strangers to enter his'); 
+  1076          000454                                 WRITELN('towers, but he lets you stay in his cellar!'); 
+  1077          000463                                 WRITELN('The mission has failed!'); 
+  1078          000472                                 END?:=TRUE; GOTO 2; 
+  1079          000507 E16                           END; 
+  1080          000510 B17                 MT_DOOM:  BEGIN 
+        PASCAL/ND-100      VERSION J 83-12-07                    98-09-17               11-56- 1                       PAGE:  19
+
+  1081          000510                                 WRITELN('Congratulations! You have arrived at Mt. Doom!'); 
+  1082          000517 I18                             IF RING IN [ON,OFF] THEN 
+  1083          000525                   WRITELN('Now you just have to throw the Ring into the volcano to win!'); 
+  1084          000534                                 K:=0; L:=0; THROW_IT:=TRUE; 
+  1085          000541 I19 B20                         FOR K1:=3 TO 11 DO IF ENEMY[K1].ANTAL=1 THEN BEGIN 
+  1086          000566 I21                               IF K=0 THEN K:=K1; L:=L+1; ENEMY[K1].ANTAL:=0; 
+  1087          000606                                   PLAN^[ENEMY[K1].X,ENEMY[K1].Y]:= 
+  1088          000634                                     PLAN^[ENEMY[K1].X,ENEMY[K1].Y] MOD 16; 
+  1089          000677                                   ENEMY[K1].X:=128; 
+  1090          000723 E20                             END; 
+  1091          000726 I22 B23                         IF K>0 THEN BEGIN 
+  1092          000733                                   ENEMY[K].ANTAL:=L; 
+  1093          000745 R24                               REPEAT 
+  1094          000745                                     ENEMY[K].X:=MOD1(FX+TRUNC(SQR(RAN)*7-3)); 
+  1095          001003                                     ENEMY[K].Y:=MOD1(FY+TRUNC(SQR(RAN)*7-3)); 
+  1096          001041 U24                               UNTIL PLAN^[ENEMY[K].X,ENEMY[K].Y]<16; 
+  1097          001073                                   PLAN^[ENEMY[K].X,ENEMY[K].Y]:= 
+  1098          001114                                     PLAN^[ENEMY[K].X,ENEMY[K].Y]+16*NAZGUL; 
+  1099          001160 E23                             END; 
+  1100          001160 E17                           END; 
+  1101          001161 B25                 BARAD_DUR: BEGIN 
+  1102          001161                                  WRITE('You Fool! You have now entered the Black Tower '); 
+  1103          001167                                  WRITELN('of evil!'); 
+  1104          001176                                  WRITE('Sauron comes to greet you'); 
+  1105          001204 I26                              IF RING IN [ON,OFF] THEN 
+  1106          001212                                    WRITELN(', and he takes the Ring!') 
+  1107          001220 S26                              ELSE WRITELN('.'); 
+  1108          001242                                  WRITELN('Your mission has failed!'); END?:=TRUE; GOTO 2; 
+  1109          001255 E25                            END; 
+  1110          001256 I27                 TUNNEL:    IF (NX=ENEMY[SHELOB_I].X) AND (NY=ENEMY[SHELOB_I].Y) AND 
+  1111          001274                                   (ENEMY[SHELOB_I].ANTAL>0) THEN 
+  1112          001303 B28                              BEGIN FX:=NX; FY:=NY; 
+  1113          001310 I29 S29                            IF RAN>0.4 THEN FIGHT(FALSE) ELSE FIGHT(TRUE); 
+  1114          001334 E28                              END; 
+  1115          001346                     ROUGH,GRASS,TREES,ROAD,MAIN_ROAD,FORD: 
+  1116          001346 E8                END; 
+  1117          001372                   FX:=NX; FY:=NY; MP:=MP-COST; B:=0; 
+  1118          001403 I30 I31           IF PLAN^[FX,FY]>15 THEN IF PLAN^[FX,FY] DIV 16<>GOLLUM THEN FIGHT(TRUE) 
+  1119          001447 S31 I32             ELSE IF RING=TAKEN THEN GET_RING ELSE SEIZE?(0); 
+  1120          001473 I33               IF ((RING=WRAITH) OR ((RING=TAKEN) AND (RING_BEARER>0))) AND 
+  1121          001512                      (FX=TRX) AND (FY=TRY) THEN FIGHT_TRAITOR; 
+  1122          001527 I34               IF END?=TRUE THEN GOTO 2; 
+  1123          001535 I35 I36           IF PLAN^[FX,FY]=FORD THEN IF RAN<0.12 THEN BEGIN 
+  1124          001562                      WRITELN('You lost your footing and are swept away by the current!'); 
+  1125          001571 R38                  REPEAT 
+  1126          001571 R39                     REPEAT 
+  1127          001571                            NX:=TRUNC((RAN-0.5)*20)+FX; 
+  1128          001605 U39                     UNTIL NX<128; 
+  1129          001611                         NY:=MOD1(TRUNC((RAN-0.5)*20)+FY); 
+  1130          001631 U38                  UNTIL PLAN^[NX,NY]=RIVER; 
+  1131          001674                      WHILE PLAN^[NX,NY]=RIVER DO NX:=NX+1; 
+  1132          001721                      FX:=NX; FY:=NY; 
+  1133          001726 E37               END; 
+  1134          001726            3:     FOR I1:=FX-1 TO FX+1 DO 
+  1135          001734                     FOR J1:=FY-1 TO FY+1 DO 
+  1136          001747 I40                   IF ((I1<>FX) OR (J1<>FY)) AND 
+  1137          001766                          (TCOST[PLAN^[MOD1(I1),MOD1(J1)] MOD 16]<MP) THEN B:=1; 
+  1138          002037 I41 B42           IF (COST=-99) AND (B=1) AND (MP1<=1.0) THEN BEGIN 
+  1139          002060                     WRITELN('You cannot move that far this turn, type ''0'' to quit!'); 
+  1140          002067                     GOTO 2; 
+        PASCAL/ND-100      VERSION J 83-12-07                    98-09-17               11-56- 1                       PAGE:  20
+
+  1141          002102 E42               END; 
+  1142          002102 I43 B44           STEP:=STEP+1; IF (MP1>1) AND ((COST=-99) OR (B=0)) THEN BEGIN 
+  1143          002121                     WRITELN('You moved ',STEP:1,' steps.'); READY:=TRUE; GOTO 2; 
+  1144          002146 E44               END; 
+  1145          002146 I45 B46           IF B=0 THEN BEGIN 
+  1146          002150                     WRITELN('You can''t move anymore this turn!'); READY:=TRUE; 
+  1147          002162                     GOTO 2; 
+  1148          002163 E46               END; 
+  1149          002163 I47               IF STEP<MP1 THEN GOTO 1; 
+  1150          002171            2:     PLAN^[FX,FY]:=FELLOWSHIP*16+(PLAN^[FX,FY] MOD 16); 
+  1151          002225 E1         END; 
+  1152          002235             
+  1153          002235 L2         PROCEDURE FOLLOW_ROAD; 
+  1154          177606             
+  1155          177606            LABEL  1; 
+  1156          177606             
+  1157          177606            VAR    I1,ROAD?,STEP,NX,NY: INTEGER; 
+  1158          177613                   COST: REAL; 
+  1159          177616             
+  1160          000000 B1         BEGIN  STEP:=0; 
+  1161          000005            1:     ROAD?:=0; FOR I1:=FY-1 TO FY+1 DO 
+  1162          000014 I2                  IF PLAN^[MOD1(FX-1),MOD1(I1)] MOD 16 IN [ROAD,MAIN_ROAD,FORD] THEN 
+  1163          000057                       ROAD?:=ROAD?*10+I1+2-FY; 
+  1164          000072 I3                IF ROAD?=0 THEN WRITELN('Oops! There is something in your way!') 
+  1165          000102 S3 I4               ELSE IF ROAD?>3 THEN WRITELN('Oops! Fork in road!') 
+  1166          000131 S4 B5                 ELSE BEGIN 
+  1167          000133                         COST:=TCOST[PLAN^[MOD1(FX-1),MOD1(FY-2+ROAD?)] MOD 16]; 
+  1168          000174 I6                      IF ODD(ROAD?)=TRUE THEN COST:=COST*SQRT(2); 
+  1169          000206 I7 B8                   IF MP-COST<2 THEN BEGIN 
+  1170          000220                           WRITE('You moved ',STEP:1,' steps. If you proceed, '); 
+  1171          000240                           WRITELN('you may get tired!'); 
+  1172          000247 E8 S7 B9                END ELSE BEGIN 
+  1173          000262                           STEP:=STEP+1; MP:=MP-COST; PLAN^[FX,FY]:=PLAN^[FX,FY] MOD 16; 
+  1174          000323                           FX:=MOD1(FX-1); FY:=MOD1(FY-2+ROAD?); 
+  1175          000350 I10 I11                   IF PLAN^[FX,FY]>15 THEN IF PLAN^[FX,FY] DIV 16<>GOLLUM THEN 
+  1176          000412 S11 I12                     FIGHT(TRUE) ELSE IF RING=TAKEN THEN GET_RING ELSE SEIZE?(0); 
+  1177          000442 I13 I14                   IF PLAN^[FX,FY]=FORD THEN IF RAN<0.12 THEN BEGIN 
+  1178          000467                      WRITELN('You lost your footing and are swept away by the current!'); 
+  1179          000476 R16                         REPEAT 
+  1180          000476 R17                           REPEAT 
+  1181          000476                                  NX:=TRUNC((RAN-0.5)*20)+FX; 
+  1182          000512 U17                           UNTIL NX<128; 
+  1183          000516                               NY:=MOD1(TRUNC((RAN-0.5)*20)+FY); 
+  1184          000536 U16                         UNTIL PLAN^[NX,NY]=RIVER; 
+  1185          000555                             WHILE PLAN^[NX,NY]=RIVER DO NX:=NX+1; 
+  1186          000622                             FX:=NX; FY:=NY; 
+  1187          000627 E15                       END; 
+  1188          000627                           PLAN^[FX,FY]:=PLAN^[FX,FY] MOD 16+FELLOWSHIP*16; 
+  1189          000663 I18                       IF END?=FALSE THEN GOTO 1; 
+  1190          000667 E9                      END; 
+  1191          000667 E5                    END; 
+  1192          000667 E1         END; 
+  1193          000674             
+  1194          000674 L2         PROCEDURE KILL_GOLLUM; 
+  1195          177606             
+  1196          000000 B1 I2      BEGIN  IF NOT (GOLLUM_STATUS IN [UNTIED,TIED]) THEN 
+  1197          000012 S2 B3               WRITELN('You can''t kill Gollum when he isn''t there!') ELSE BEGIN 
+  1198          000022                        WRITELN('Ahhhhhhgggghhh????'); GOLLUM_STATUS:=KILLED; 
+  1199          000034 E3                  END; 
+  1200          000034 E1         END; 
+        PASCAL/ND-100      VERSION J 83-12-07                    98-09-17               11-56- 2                       PAGE:  21
+
+  1201          000047             
+  1202          000047 L2         PROCEDURE ASK_GOLLUM; 
+  1203          177606             
+  1204          177606            VAR    CAP: BOOLEAN; 
+  1205          177607             
+  1206          000000 B1 I2      BEGIN  IF NOT (GOLLUM_STATUS IN [TIED,UNTIED]) THEN 
+  1207          000012 S2                  WRITELN('Gollum is not here!') ELSE 
+  1208          000022 I3                  IF GOLLUM_ANGRY>0 THEN 
+  1209          000027                       WRITELN('Gollum is angry, and refuses to speak to you!') 
+  1210          000035 S3 I4 S4            ELSE IF FX<GOLLX THEN WRITELN('Gollum won''t speak!') ELSE BEGIN 
+  1211          000054                         DX:=FX-GOLLX; DY:=FY-GOLLY; 
+  1212          000063 I6                      IF ABS(DY)>64 THEN DY:=DY-128*SIGN(DY); 
+  1213          000106                         WRITE('Gollum suggests that you go '); CAP:=TRUE; 
+  1214          000116 I7 B8                   IF DX>=ABS(DY) THEN BEGIN 
+  1215          000126                           WRITE('North'); CAP:=FALSE; 
+  1216          000135 E8                      END; 
+  1217          000135 I9                      DX:=TRUNC(SQRT(DX*DX+DY*DY)/2); IF DX>=ABS(DY) THEN WRITELN('.') 
+  1218          000171 S9 I10 B11              ELSE IF DY>0 THEN BEGIN 
+  1219          000224 I12 S12                   IF CAP=TRUE THEN WRITE('W') ELSE WRITE('w'); 
+  1220          000241                           WRITELN('est.'); 
+  1221          000250 E11 S10                 END ELSE IF DY<0 THEN BEGIN 
+  1222          000254 I15 S15                   IF CAP=TRUE THEN WRITE('E') ELSE WRITE('e'); 
+  1223          000271                           WRITELN('ast.'); 
+  1224          000300 E14                     END; 
+  1225          000300 I16                     IF CAP AND (DY=0) THEN WRITELN('nowhere. (Hehehe.)'); 
+  1226          000314 E5                    END; 
+  1227          000314 E1         END; 
+  1228          000321             
+  1229          000321 L2         PROCEDURE PLACE_GOLLUM; 
+  1230          177606             
+  1231          000000 B1 B2      BEGIN  WITH ENEMY[1] DO BEGIN 
+  1232          000010 R3                  REPEAT 
+  1233          000010                       X:=MOD1(FX+TRUNC(RAN*9-4)); 
+  1234          000035                       Y:=MOD1(FY+TRUNC(RAN*9-4)); 
+  1235          000062 U3                  UNTIL PLAN^[X,Y]<16; 
+  1236          000102                     PLAN^[X,Y]:=PLAN^[X,Y] MOD 16+GOLLUM*16; 
+  1237          000142 E2                END; 
+  1238          000142 E1         END; 
+  1239          000152             
+  1240          000152 L2         PROCEDURE MOVE_GOLLUM; 
+  1241          177606             
+  1242          177606            VAR    STEG,GX,GY: INTEGER; 
+  1243          177611             
+  1244          000000 B1         BEGIN  GX:=ENEMY[1].X; GY:=ENEMY[1].Y; 
+  1245          000016                   PLAN^[GX,GY]:=PLAN^[GX,GY] MOD 16; 
+  1246          000051                   DX:=TRUNC(RAN*4+2); DY:=TRUNC(RAN*9-4); 
+  1247          000106 R2                REPEAT 
+  1248          000106                     DX:=DX-1; 
+  1249          000112 U2                UNTIL (PLAN^[MOD1(GX+DX),MOD1(GY+DY)]<16) OR 
+  1250          000147                         (DX<1) OR 
+  1251          000154                         (GX+DX>127); 
+  1252          000164 I3                IF GX+DX>127 THEN GOLLUM_STATUS:=OFF_MAP 
+  1253          000174 S3 B4             ELSE BEGIN 
+  1254          000210                     GX:=MOD1(GX+DX); ENEMY[1].X:=GX; 
+  1255          000225                     GY:=MOD1(GY+DY); ENEMY[1].Y:=GY; 
+  1256          000242                     PLAN^[GX,GY]:=PLAN^[GX,GY] MOD 16+16*GOLLUM; 
+  1257          000276 E4                END; 
+  1258          000276 E1         END; 
+  1259          000300             
+  1260          000300 L2         PROCEDURE MOVE_ENEMIES; 
+        PASCAL/ND-100      VERSION J 83-12-07                    98-09-17               11-56- 3                       PAGE:  22
+
+  1261          177606             
+  1262          177606            VAR    I1,J1,EX,EY,DIST: INTEGER; 
+  1263          177613             
+  1264          000000 B1         BEGIN  FOR I1:=3 TO ENEMIES DO WITH ENEMY[I1] DO 
+  1265          000020 I2 B3               IF (ANTAL>0) AND (END?=FALSE) THEN BEGIN 
+  1266          000027 I4                    IF ((RING=ON) AND ((TYP=NAZGUL) OR 
+  1267          000037                           (RAN<SQR(1.0*PLACES_FALLEN)/400.0))) OR 
+  1268          000056                          (RAN<SQR(1.0*PLACES_FALLEN)/600.0) OR 
+  1269          000075                          (SCAN(FX,FY,X,Y,7)>-1) OR 
+  1270          000121                          ((SQRT((FX-X)*(FX-X)+(FY-Y)*(FY-Y))<8) AND (RAN>0.9)) OR 
+  1271          000224                          ((I1<=PUSE*3+3) AND (RAN<0.65)) OR 
+  1272          000241 B5                       (SEE=TRUE) THEN BEGIN 
+  1273          000246                         SEE:=TRUE; 
+  1274          000251                         DIST:=TRUNC((ABS(X-FX)+ABS(Y-FY))*SQRT(RAN)+2); 
+  1275          000305 I6                      IF DIST>4 THEN DIST:=TRUNC(RAN*4+2); 
+  1276          000326 I7                      IF RING=ON THEN WRITE(OUT_L[TYP],DIST:1,' '); 
+  1277          000351 R8                      REPEAT 
+  1278          000351 I9                        IF (X=FX) AND (Y=FY) AND (END?=FALSE) THEN 
+  1279          000372                             FIGHT(FALSE); 
+  1280          000377 I10                       DY:=SIGN(FY-Y); IF ABS(FY-Y)>64 THEN DY:=-DY; 
+  1281          000443 I11                       DX:=SIGN(FX-X); IF ABS(FX-X)>64 THEN DX:=-DX; 
+  1282          000473 I12 S12                   IF (RAN>0.5) AND (DX<>0) THEN DY:=0 ELSE 
+  1283          000511 I13                         IF (RAN>0.5) AND (DY<>0) THEN DX:=0; 
+  1284          000526                           J1:=PLAN^[MOD1(X+DX),MOD1(Y+DY)]; 
+  1285          000563 I14                       IF (J1 DIV 16 IN [0,FELLOWSHIP]) AND 
+  1286          000572 B15                          (NOT (J1 IN [MOUNTAIN,RIVER,TUNNEL])) THEN BEGIN 
+  1287          000602                             PLAN^[X,Y]:=PLAN^[X,Y] MOD 16; 
+  1288          000641                             X:=MOD1(X+DX); Y:=MOD1(Y+DY); 
+  1289          000702 E15                       END; DIST:=DIST-1; 
+  1290          000705 U8                      UNTIL (DIST<=0) OR (ANTAL<1) OR (END?=TRUE); 
+  1291          000722 I16                     IF (X=FX) AND (Y=FY) AND (END?=FALSE) THEN  
+  1292          000741                           FIGHT(FALSE); 
+  1293          000746 I17                     IF ANTAL>0 THEN  
+  1294          000752                           PLAN^[X,Y]:=PLAN^[X,Y] MOD 16+16*TYP; 
+  1295          001016 I18                     IF ANTAL=0 THEN X:=128; 
+  1296          001023 I19                     IF (RAN<0.20) AND (SCAN(FX,FY,X,Y,7)<0) THEN 
+  1297          001051                           SEE:=FALSE; 
+  1298          001053 E5                    END; 
+  1299          001053 E3                  END; 
+  1300          001066                   WRITELN; 
+  1301          001070 E1         END; 
+  1302          001074             
+  1303          001074 L2         PROCEDURE CHECK_CAPTIVES; 
+  1304          177606             
+  1305          177606            VAR    I1: INTEGER; 
+  1306          177607             
+  1307          000000 B1         BEGIN  FOR I1:=1 TO MEMBERS DO 
+  1308          000004 I2                  IF FELLOWS[I1,1]=CAPTURED THEN 
+  1309          000022 I3 B4                 IF RAN<FELLOWS[I1,2]/45 THEN BEGIN 
+  1310          000047                         WRITE('Suddenly '); OUTNAME(I1); 
+  1311          000062                         WRITELN(' pops up out of nowhere! He has escaped from the'); 
+  1312          000071                         WRITELN('hords of Sauron that caught him!'); 
+  1313          000100                         FELLOWS[I1,1]:=IN_FELLOW; MEMB:=MEMB+1; 
+  1314          000114 E4 S3                 END ELSE 
+  1315          000131 I5 B6                   IF RAN<(14-FELLOWS[I1,2])/200 THEN BEGIN 
+  1316          000163                            WRITELN('A little bird comes fluttering by, and tweeks:'); 
+  1317          000172                            WRITE('I am sorry, but '); OUTNAME(I1); 
+  1318          000210                            WRITELN(' has been tortured to death!'); 
+  1319          000217                            FELLOWS[I1,1]:=DEAD; 
+  1320          000226 I7 B8                      IF I1=RING_BEARER THEN BEGIN 
+        PASCAL/ND-100      VERSION J 83-12-07                    98-09-17               11-56- 4                       PAGE:  23
+
+  1321          000233                      WRITELN('The search of his body resulted in the finding of the Ring!'); 
+  1322          000242                               WRITELN('Your mission has failed!'); END?:=TRUE; 
+  1323          000254 E8                         END; 
+  1324          000254 I9                         IF I1=POWN THEN 
+  1325          000261                      WRITELN('The search of his body resulted in the finding of the Palantir!'); 
+  1326          000270 E6                      END; 
+  1327          000303 E1         END; 
+  1328          000305                        
+  1329          000305 L2         FUNCTION FALLEN(PLACE_NAME: PLACES; VAR LEFT: INTEGER): BOOLEAN; 
+  1330          177611             
+  1331          177611            VAR    I1,J1: INTEGER; 
+  1332          177613             
+  1333          000000 B1         BEGIN  J1:=ORD(PLACE_NAME)+3; LEFT:=0; 
+  1334          000010                   FOR I1:=1 TO EXISTMEMB DO 
+  1335          000010 I2                  IF FELLOWS[I1,1]=J1 THEN LEFT:=LEFT+1; 
+  1336          000034 I3 S3             IF LEFT=0 THEN FALLEN:=TRUE ELSE FALLEN:=FALSE; 
+  1337          000042 E1         END; 
+  1338          000050             
+  1339          000050 L2         PROCEDURE CHECK_WARS; 
+  1340          177606             
+  1341          177606            VAR    I1,J1,K1: INTEGER; 
+  1342          177611                   ONE_KILLED: BOOLEAN; 
+  1343          177612             
+  1344          000000 B1         BEGIN  ONE_KILLED:=FALSE; 
+  1345          000005                   FOR I1:=0 TO 4 DO 
+* 1346          000005 I2                  IF (FALLEN(PLACES(I1),J1)=FALSE) AND (RAN<(10-J1)/150) AND 
+  1347          000044 B3                     (ONE_KILLED=FALSE) THEN BEGIN 
+  1348          000046                       WRITELN('Gwaihir, the Lord of the Winds, brings you a sad message:'); 
+  1349          000055 R4 U4                 REPEAT K1:=TRUNC(RAN*EXISTMEMB+1) UNTIL FELLOWS[K1,1]=I1+3; 
+  1350          000107                       OUTNAME(K1); WRITE(' has just died, fighting in '); 
+  1351          000122                       OUTSTR(PLACE[I1+1]); WRITELN('!'); J1:=J1-1; 
+  1352          000142 I5                    IF J1>1 THEN WRITELN('But it can still withstand Saurons attacks!'); 
+  1353          000155 I6                    IF J1=1 THEN WRITELN('The situation there begins to look crucial!'); 
+  1354          000170 I7                    IF J1=0 THEN 
+  1355          000221                    WRITELN('The Citadel there has fallen to the Dark Lord''s minions!'); 
+  1356          000230                       FELLOWS[K1,1]:=DEAD; ONE_KILLED:=TRUE; 
+  1357          000241 E3                  END; 
+  1358          000244 E1         END; 
+  1359          000250             
+  1360          000250 L2         PROCEDURE DO_NOTHING; 
+  1361          177606             
+  1362          177606            VAR    I1,J1: INTEGER; 
+  1363          177610                   K1:    REAL; 
+  1364          177613                   PRT:   BOOLEAN; 
+  1365          177614             
+  1366          000000 B1         BEGIN  RING_ON_THIS_TURN:=FALSE; TAKE_OFF:=FALSE; READY:=FALSE; 
+  1367          000010                   K1:=0; 
+  1368          000013                   FOR I1:=-3 TO 3 DO 
+  1369          000013                     FOR J1:=-3 TO 3 DO 
+  1370          000020 I2                    IF (PLAN^[MOD1(FX+I1),MOD1(FY+J1)] MOD 16=SWAMP) THEN 
+  1371          000064 I3 S3                    IF (I1=0) AND (J1=0) THEN K1:=K1+1 ELSE 
+  1372          000101                             K1:=K1+1/SQRT(I1*I1+J1*J1); 
+  1373          000125 I4                IF K1>RAN*20 THEN MIST:=TRUE; 
+  1374          000142 I5                IF (PLAN^[FX,FY]=SWAMP) AND (RAN>0.4) THEN MIST:=TRUE; 
+  1375          000174 I6                IF (RAN>0.44*K1) AND (RAN<0.72) THEN MIST:=FALSE; 
+  1376          000215                   THROW_IT:=FALSE; 
+  1377          000217 I7                IF GOLLUM_STATUS=TIED THEN GOLLUM_ANGRY:=GOLLUM_ANGRY+2; 
+  1378          000227 I8                IF GOLLUM_STATUS=UNTIED THEN GOLLUM_ANGRY:=GOLLUM_ANGRY-1; 
+  1379          000240 I9                IF (GOLLUM_STATUS=UNTIED) AND 
+  1380          000245 B10                  (RAN<SQR((128.0+GOLLUM_ANGRY-FX)/250.0)/2.0) THEN BEGIN 
+        PASCAL/ND-100      VERSION J 83-12-07                    98-09-17               11-56- 4                       PAGE:  24
+
+  1381          000272 I11                 IF (FELLOWS[RING_BEARER,3]<ENEMY_STR[7]+TRUNC(RAN*4)) OR 
+  1382          000344                        (RAN<0.25) THEN SEIZE?(0); 
+  1383          000357 I12                 IF GOLLUM_STATUS=GOT_THE_RING THEN PLACE_GOLLUM; 
+  1384          000367 E10               END; 
+  1385          000367 I13 B14           IF (GOLLUM_STATUS=HUNTING) AND (RAN<(128-FX)/200) THEN BEGIN 
+  1386          000414                     SEIZE?(0); 
+  1387          000421 I15                 IF GOLLUM_STATUS=GOT_THE_RING THEN PLACE_GOLLUM; 
+  1388          000431 E14               END; 
+  1389          000431 I16               IF GOLLUM_STATUS=GOT_THE_RING THEN MOVE_GOLLUM; 
+  1390          000441 I17 B18           IF GOLLUM_STATUS=OFF_MAP THEN BEGIN 
+  1391          000446                     WRITELN('Gollum has reached his lair in the Misty Mountains!'); 
+  1392          000455                     WRITELN('Your mission has failed!'); END?:=TRUE; TIRED:=0; MP:=5.0; 
+  1393          000474 E18               END; 
+  1394          000474 I19 B20           IF NOT END? THEN BEGIN 
+  1395          000477 I21                 IF (RING=OFF) AND (RAN<0.12) THEN 
+  1396          000512 I22 B23               IF (RAN*(4+RING_USED)>FELLOWS[RING_BEARER,3]) THEN BEGIN 
+  1397          000563                         OUTNAME(RING_BEARER); WRITELN(' suddenly dons the Ring!'); 
+  1398          000600                         RING:=ON; 
+  1399          000602 E23                   END; 
+  1400          000602                     CHECK_CAPTIVES; CHECK_WARS; MOVE_ENEMIES; 
+  1401          000613 I24 B25             IF GDEAD AND NOT GRES THEN BEGIN 
+  1402          000621 I26                   IF WHITE>0 THEN WHITE:=WHITE-1; 
+  1403          000632 I27 B28               IF (WHITE=0) AND (RAN<0.05) THEN BEGIN 
+  1404          000643                         WRITELN('Suddenly Gandalf the White comes carried by Gwaihir!'); 
+  1405          000652                         FELLOWS[11,2]:=14; FELLOWS[11,1]:=IN_FELLOW; 
+  1406          000664                         GRES:=TRUE; GDEAD:=FALSE; MEMB:=MEMB+1; 
+  1407          000675 E28                   END; 
+  1408          000675 E25                 END; 
+  1409          000675 I29 B30             IF (FELLOWS[11,1]=DEAD) AND NOT (GRES OR GDEAD) THEN BEGIN 
+  1410          000706                       GDEAD:=TRUE; WHITE:=TRUNC(RAN*20+25); 
+  1411          000727 E30                 END; 
+  1412          000727                     PLACES_FALLEN:=0; FOR I1:=0 TO 4 DO 
+* 1413          000731 I31                   IF FALLEN(PLACES(I1),L)=FALSE THEN PLACES_FALLEN:=PLACES_FALLEN+1; 
+  1414          000775                     PLAN^[FX,FY]:=PLAN^[FX,FY] MOD 16+FELLOWSHIP*16; 
+  1415          001031                     FOR I1:=1 TO MEMBERS DO 
+  1416          001031 I32                   IF (RING IN [ON,OFF]) AND (RING_BEARER<>I1) AND 
+  1417          001053                          (RAN<PLACES_FALLEN/150) AND (FELLOWS[I1,1]=IN_FELLOW) AND 
+  1418          001105                          (RAN<SQR(9-FELLOWS[I1,4])/500) THEN SEIZE?(I1); 
+  1419          001163 I33                 IF ((RING=TAKEN) AND (RING_BEARER>0) AND 
+  1420          001175                         (FELLOWS[RING_BEARER,1]=TRAITOR)) OR 
+  1421          001206 B34                    (RING=WRAITH) THEN BEGIN 
+  1422          001213 I35 B36               IF RING=TAKEN THEN BEGIN 
+  1423          001220                         TRX:=TRX+TRUNC(RAN*2+1); 
+  1424          001237                         TRY:=TRY+TRUNC(RAN*3-1); 
+  1425          001257 E36 S35               END ELSE BEGIN 
+  1426          001260                         TRX:=TRX-SIGN(TRX-TOWERS[BD_INDEX,1])*TRUNC(RAN*3); 
+  1427          001314                         TRY:=TRY-SIGN(TRY-TOWERS[BD_INDEX,2])*TRUNC(RAN*3); 
+  1428          001350 E37                   END; 
+  1429          001350 I38 B39               IF TRX>127 THEN BEGIN 
+  1430          001355                         OUTNAME(RING_BEARER); 
+  1431          001363                         WRITELN(' has reached Minas Tirith with the Ring!'); 
+  1432          001372 I40                     IF FALLEN(MINAS_TIRITH,L)=TRUE THEN 
+  1433          001416                           WRITELN('He singelhandedly kills all of Saurons forces there!') 
+  1434          001424 S40 B41                 ELSE BEGIN 
+  1435          001426                           WRITE('He kills '); PRT:=FALSE; 
+  1436          001435                           FOR I1:=1 TO EXISTMEMB DO 
+  1437          001435 I42 B43                     IF FELLOWS[I1,1]=AT_MINTIR THEN BEGIN 
+  1438          001453 I44                           IF PRT THEN WRITE(', '); 
+  1439          001463                               FELLOWS[I1,1]:=DEAD; OUTNAME(I1); PRT:=TRUE; 
+  1440          001501 E43                         END; 
+        PASCAL/ND-100      VERSION J 83-12-07                    98-09-17               11-56- 5                       PAGE:  25
+
+  1441          001504                           WRITELN('.'); 
+  1442          001511 E41                     END; 
+  1443          001511                         WRITELN('He declares himself as the Ruler of the Ring!'); 
+  1444          001520                         WRITELN('Your mission has failed!'); END?:=TRUE; 
+  1445          001532 E39                   END; 
+  1446          001532                       TRX:=MOD1(TRX); TRY:=MOD1(TRY); 
+  1447          001552 I45 B46               IF PLAN^[TRX,TRY]=BARAD_DUR THEN BEGIN 
+  1448          001570                         OUTNAME(RING_BEARER); 
+  1449          001576                         WRITELN(' has reached Barad-Dur with the Ring!'); 
+  1450          001605 I47                     END?:=TRUE; IF RAN>0.5 THEN 
+  1451          001637                           WRITELN('He kills Sauron and becomes the new master of evil!') 
+  1452          001645 S47                     ELSE 
+  1453          001647                           WRITELN('Sauron kills him and regains the Ring!'); 
+  1454          001656                         WRITELN('On your knees!!'); TIRED:=0; MP:=5; 
+  1455          001674 E46                   END; 
+  1456          001674 E34                 END; 
+  1457          001674 I48                 IF (RAN*(PUSE-PREV)>FELLOWS[POWN,3]) AND 
+  1458          001717 B49                    (FELLOWS[POWN,1]=IN_FELLOW) AND NOT END? THEN BEGIN 
+  1459          001733                       OUTNAME(POWN); WRITELN(' suddenly got stark raving mad!'); 
+  1460          001750                       WRITELN('Before you could stop him, he incinerated himself!'); 
+  1461          001757                       WRITELN('The Palantir was rendered useless!'); 
+  1462          001766                       FELLOWS[POWN,1]:=DEAD; MEMB:=MEMB-1; 
+  1463          002001 I50 B51               IF MEMB>0 THEN BEGIN 
+  1464          002005 I52                     IF POWN=RING_BEARER THEN SELECT_NEW_RINGBEARER; 
+  1465          002015 E51 S50               END ELSE BEGIN 
+  1466          002032                         WRITELN('There is noone left of the fellowship!'); 
+  1467          002041                         WRITELN('Your mission has failed!'); END?:=TRUE; 
+  1468          002053 E53                   END; 
+  1469          002053 E49                 END; 
+  1470          002053 I54 S54             IF (MP=(5-TIRED)) OR (MP=0) THEN TIRED:=ABS(TIRED)-2 ELSE 
+  1471          002102 I55                   TIRED:=TIRED+(2.0-MP)/2.0; IF TIRED<0.06 THEN TIRED:=0; 
+  1472          002121 I56 B57             MP:=5-TIRED; IF MP<0.75 THEN BEGIN 
+  1473          002132                       MP:=0.0; WRITELN('You are very tired and must rest this turn!'); 
+  1474          002144 E57                 END; 
+  1475          002144 E20               END; 
+  1476          002144 E1         END; 
+  1477          002173             
+  1478          002173 L2         PROCEDURE THROW_RING; 
+  1479          177606             
+  1480          000000 B1 I2 S2   BEGIN  IF THROW_IT=TRUE THEN WRITELN('Try again next turn!') ELSE 
+  1481          000021 I3                  IF RING IN [WRAITH,CAUGHT] THEN 
+  1482          000027 S3                    WRITELN('You can''t throw something you don''t have!') ELSE 
+  1483          000037 I4 B5                 IF PLAN^[FX,FY] MOD 16<>MT_DOOM THEN BEGIN 
+  1484          000060                         WRITELN('You don''t have sufficient willpower to throw the Ring'); 
+  1485          000067                         WRITELN('unless at Mt. Doom!'); 
+  1486          000076 E5 S4                 END ELSE 
+  1487          000113 I6                      IF RING=ON THEN WRITE('You got to take the Ring off first, Dummy!') 
+  1488          000124 S6 I7 B8                ELSE IF RING_USED>(SQRT(RAN)*FELLOWS[RING_BEARER,3]*4) THEN BEGIN 
+  1489          000157                           THROW_IT:=TRUE; OUTNAME(RING_BEARER); 
+  1490          000167                           WRITELN(' refuses to throw the Ring!'); 
+  1491          000176 E8 S7 B9                END ELSE BEGIN 
+  1492          000201                           OUTNAME(RING_BEARER); 
+  1493          000207                           WRITELN(' throws the Ring into the volcano!'); 
+  1494          000216                           WRITELN('Sauron and the evil have lost the war and'); 
+  1495          000225                           WRITELN('the good guys will rule for ever after!'); 
+  1496          000234                           END?:=TRUE; RING:=THROWN; 
+  1497          000241 E9                      END; 
+  1498          000241 E1         END; 
+  1499          000254             
+  1500          000254 L2         PROCEDURE REPORT; 
+        PASCAL/ND-100      VERSION J 83-12-07                    98-09-17               11-56- 6                       PAGE:  26
+
+  1501          177606             
+  1502          177606            VAR    I1,J1,K1: INTEGER; 
+  1503          177611                   CAPT?: BOOLEAN; 
+  1504          177612                   NOFI:  BOOLEAN; 
+  1505          177613             
+  1506          000000 B1         BEGIN  WRITELN('The fellowship currently consists of:'); 
+  1507          000013                   NOFI:=FALSE; 
+  1508          000014                   FOR I1:=1 TO MEMBERS DO 
+  1509          000014 I2 B3               IF FELLOWS[I1,1]=IN_FELLOW THEN BEGIN 
+  1510          000032 I4                    IF NOFI THEN WRITE(', '); 
+  1511          000042                       NOFI:=TRUE; 
+  1512          000044                       OUTNAME(I1); 
+  1513          000051 E3                  END; WRITELN('.'); 
+  1514          000061 C5                CASE GOLLUM_STATUS OF 
+  1515          000064                     HUNTING:      WRITELN('Gollum is chasing the Ring!'); 
+  1516          000074                     UNTIED:       WRITELN('Gollum is with the Fellowship!'); 
+  1517          000120                     TIED:         WRITELN('Gollum is tied up by the Fellowship!'); 
+  1518          000130                     KILLED:       WRITELN('Gollum is dead!'); 
+  1519          000140                     GOT_THE_RING: WRITELN('Gollum has got the Ring and is heading South!'); 
+  1520          000150                     OFF_MAP:      WRITELN('Gollum has reached the Misty mountains!'); 
+  1521          000160 E5                END; 
+  1522          000200 C6                CASE RING OF 
+  1523          000203 B7                  OFF,CAUGHT: BEGIN 
+  1524          000203                                   WRITE('The Ring is in '); OUTNAME(RING_BEARER); 
+  1525          000217                                   WRITELN('s pocket.'); 
+  1526          000226 E7                              END; 
+  1527          000227 B8                  ON:         BEGIN 
+  1528          000227                                   WRITE('The Ring is on '); OUTNAME(RING_BEARER); 
+  1529          000243                                   WRITELN('s finger!'); 
+  1530          000252 E8                              END; 
+  1531          000253 B9                  WRAITH:     BEGIN 
+  1532          000253                                   OUTNAME(RING_BEARER); WRITELN(' is a semi-ringwraith!'); 
+  1533          000270 E9                              END; 
+  1534          000271 I10 B11             TAKEN:      IF RING_BEARER>0 THEN BEGIN 
+  1535          000276                                   OUTNAME(RING_BEARER); 
+  1536          000304                                   WRITELN(' has seized the Ring!'); 
+  1537          000313 E11                             END; 
+  1538          000325 E6                END; 
+  1539          000337 I12 B13           IF FELLOWS[POWN,1]<>DEAD THEN BEGIN 
+  1540          000346                     OUTNAME(POWN); WRITELN(' carries the Palantir.'); 
+  1541          000363 E13               END; 
+  1542          000363                   NOFI:=FALSE; CAPT?:=FALSE; 
+  1543          000365                   FOR I1:=1 TO MEMBERS DO 
+  1544          000365 I14 B15             IF FELLOWS[I1,1]=CAPTURED THEN BEGIN 
+  1545          000403 I16 B17               IF CAPT?=FALSE THEN BEGIN 
+  1546          000405                         WRITELN('These are captured by Servants of Sauron:'); 
+  1547          000414                         CAPT?:=TRUE;    
+  1548          000416 E17                   END; 
+  1549          000416 I18                   IF NOFI THEN WRITE(', '); 
+  1550          000426                       OUTNAME(I1); NOFI:=TRUE; 
+  1551          000435 E15                 END; 
+  1552          000440 I19               IF CAPT? THEN WRITELN('.'); 
+  1553          000447 B20               FOR I1:=AT_MINTIR TO AT_EDORAS DO BEGIN 
+  1554          000454 I21                 K1:=0; FOR J1:=1 TO EXISTMEMB DO IF FELLOWS[J1,1]=I1 THEN K1:=K1+1; 
+  1555          000507 I22 B23             IF K1=0 THEN BEGIN 
+  1556          000511                       OUTSTR(PLACE[I1-2]); WRITELN(' has fallen!'); 
+  1557          000530 E23 S22             END ELSE BEGIN 
+  1558          000531                       WRITE('These are still fighting at '); OUTSTR(PLACE[I1-2]); 
+  1559          000547                       WRITELN; NOFI:=FALSE; 
+  1560          000552 I25 B26               FOR J1:=1 TO EXISTMEMB DO IF FELLOWS[J1,1]=I1 THEN BEGIN 
+        PASCAL/ND-100      VERSION J 83-12-07                    98-09-17               11-56- 6                       PAGE:  27
+
+  1561          000570 I27                     IF NOFI THEN WRITE(', '); 
+  1562          000600                         OUTNAME(J1); NOFI:=TRUE; 
+  1563          000607 E26                   END; 
+  1564          000624                       WRITELN('.'); 
+  1565          000631 E24                 END; 
+  1566          000631 E20               END; 
+  1567          000634 E1         END; 
+  1568          000636             
+  1569          000636 L2         PROCEDURE TIE_GOLLUM; 
+  1570          177606             
+  1571          000000 B1 I2      BEGIN  IF GOLLUM_STATUS=TIED THEN WRITELN('Gollum is already tied!') 
+  1572          000017 S2 I3             ELSE IF GOLLUM_STATUS<>UNTIED THEN 
+  1573          000026 S3 B4               WRITELN('You cannot tie someone that aint present!') ELSE BEGIN 
+  1574          000036                       WRITELN('You have now chained Gollum with elven rope!'); 
+  1575          000045                       GOLLUM_STATUS:=TIED; GOLLUM_ANGRY:=GOLLUM_ANGRY+2; 
+  1576          000053 E4                  END; 
+  1577          000053 E1         END; 
+  1578          000065             
+  1579          000065 L2         PROCEDURE UNTIE_GOLLUM; 
+  1580          177606             
+  1581          000000 B1 I2      BEGIN  IF GOLLUM_STATUS=UNTIED THEN WRITELN('Gollum is already untied!') 
+  1582          000017 S2 I3             ELSE IF GOLLUM_STATUS<>TIED THEN 
+  1583          000026 S3 B4               WRITELN('Gollum is not here!') ELSE BEGIN 
+  1584          000036                       WRITELN('Gollum is now loose!'); GOLLUM_STATUS:=UNTIED; 
+  1585          000050 E4                  END; 
+  1586          000050 E1         END; 
+  1587          000062             
+  1588          000062 L2         PROCEDURE REVERSED; 
+  1589          177606             
+  1590          000000 B1 E1      BEGIN  WRITE(CHR(27),''''); END; 
+  1591          000021             
+  1592          000021 L2         PROCEDURE FLASH; 
+  1593          177606             
+  1594          000000 B1 E1      BEGIN  WRITE(CHR(27),')'); END; 
+  1595          000021             
+  1596          000021 L2         PROCEDURE NORMAL; 
+  1597          177606             
+  1598          000000 B1 E1      BEGIN  WRITE(CHR(27),'S@'); END; 
+  1599          000025             
+  1600          000025 L2         PROCEDURE SCANNER; 
+  1601          177606             
+  1602          177606            VAR    I1,J1,RADIE,K1,K2: INTEGER; 
+  1603          177613                   DIS: REAL; 
+  1604          177616             
+  1605          000000 B1         BEGIN  RADIE:=5; 
+  1606          000006 I2 B3             IF TURN MOD 4=0 THEN BEGIN 
+  1607          000013 E3                   RADIE:=2; WRITELN('*** Night Turn ***'); END; 
+  1608          000024 I4                IF RING=ON THEN RADIE:=RADIE+2; 
+  1609          000032 I5 B6             IF MIST=TRUE THEN BEGIN 
+  1610          000037 E6                  RADIE:=RADIE-2; WRITELN('The mist is thick here!'); END; 
+  1611          000051 I7                IF RADIE<=0 THEN WRITELN('You cannot see a thing!!'); 
+  1612          000064 I8 B9             IF (RING IN [WRAITH,TAKEN]) AND (RING_BEARER>0) THEN BEGIN 
+* 1613          000101                     DIS:=SQRT(POWER(FX-TRX,2)+POWER(FY-TRY,2)); 
+  1614          000121 I10                 IF ABS(FY-TRY)>64 THEN 
+* 1615          000133                        DIS:=SQRT(POWER(FX-TRX,2)+POWER(MOD1(128-FY+TRY),2)); 
+  1616          000160 E9                END; 
+  1617          000160                   WRITELN; 
+  1618          000162 B11               FOR I1:=-RADIE TO RADIE DO BEGIN 
+  1619          000172 B12                 FOR J1:=-RADIE TO RADIE DO BEGIN 
+  1620          000222                       K1:=SCAN(FX+I1,FY+J1,FX,FY,RADIE); 
+        PASCAL/ND-100      VERSION J 83-12-07                    98-09-17               11-56- 7                       PAGE:  28
+
+  1621          000243 I13                   K2:=-1; IF K1>0 THEN K2:=K1 DIV 16; 
+  1622          000256 I14                   IF K1>0 THEN K1:=K1 MOD 16; 
+  1623          000266 I15                   IF ((RING=WRAITH) OR ((RING=TAKEN) AND (RING_BEARER>0))) AND 
+  1624          000305                         (K2=0) AND (SQRT(I1*I1+J1*J1)=DIS) AND 
+  1625          000321                         (((MOD1(FX+I1)=TRX) AND (MOD1(FY+J1)=TRY)) OR 
+  1626          000347                          (RAN>0.67)) THEN K2:=TRAIT; 
+  1627          000361 I16 B17               IF K1=BARAD_DUR THEN BEGIN 
+  1628          000365                         FLASH; REVERSED;  
+  1629          000376 E17                   END; 
+  1630          000376 I18 S18               IF (K1<-1) OR (K1>12) THEN WRITE(K1) ELSE 
+  1631          000426                         WRITE(OUT_T[K1]); 
+  1632          000435 I19                   IF K1=BARAD_DUR THEN NORMAL; 
+  1633          000444 I20                   IF (K2<-1) OR (K2>TRAIT) THEN WRITE(K2); 
+  1634          000462 I21                   IF (K2>0) AND (K2<>FELLOWSHIP) THEN REVERSED; 
+  1635          000475                       WRITE(OUT_L[K2]); 
+  1636          000504 I22                   IF (K2>0) AND (K2<>FELLOWSHIP) THEN NORMAL; 
+  1637          000517 E12                 END; WRITELN; 
+  1638          000525 E11               END; 
+  1639          000540 I23               IF (RING=WRAITH) OR ((RING=TAKEN) AND (RING_BEARER>0)) THEN 
+  1640          000557                     WRITELN('The traitor is ',DIS:6:2,' units away!'); 
+  1641          000601 E1         END; 
+  1642          000607             
+  1643          000607 L2         PROCEDURE RINGWRAITH?; 
+  1644          177606             
+  1645          000000 B1 I2      BEGIN  IF RING=ON THEN RING_USED:=RING_USED+1; 
+  1646          000013 I3                IF (RING=TAKEN) AND (RING_BEARER>0) THEN RING_USED:=RING_USED+1; 
+  1647          000031 I4                IF (RING=ON) AND (RING_USED>SQRT(RAN)*20*FELLOWS[RING_BEARER,3]) THEN 
+  1648          000066 B5 I6 B7          BEGIN RING:=WRAITH; IF MEMB=1 THEN BEGIN 
+  1649          000075                       WRITELN('You suddenly got a strange feeling!'); 
+  1650          000104                 WRITELN('After all, the Ring belongs to you. Why should you destroy it?'); 
+  1651          000113                       WRITELN('You decide to keep the Ring and proclaims as your own!'); 
+  1652          000122                       END?:=TRUE; 
+  1653          000125 I8                    IF RAN>0.12 THEN 
+  1654          000135               WRITELN('Sauron doesn''t like upstarts, so he sent his Nazgul to slay you!') 
+  1655          000143 S8                    ELSE WRITELN('You kill Sauron and become the new master of evil!'); 
+  1656          000173 E7 S6 B9            END ELSE BEGIN 
+  1657          000175                       OUTNAME(RING_BEARER); WRITE(' suddenly dissappears, he has '); 
+  1658          000211                       WRITELN('become a semi-ringwraith!'); 
+  1659          000220                   WRITELN('He is now heading for Barad-Dur with all speed he can muster!'); 
+  1660          000227                       TRX:=RSIGN(RAN-0.5)*TRUNC(RAN*2.0+2.0)+FX; 
+  1661          000252                       TRY:=RSIGN(RAN-0.5)*TRUNC(RAN*2.0+2.0)+FY; 
+  1662          000277                       FELLOWS[RING_BEARER,1]:=TRAITOR; MEMB:=MEMB-1; 
+  1663          000312 E9                  END; 
+  1664          000312 E5                END; 
+  1665          000312 I10               IF RING_BEARER>0 THEN 
+  1666          000317 I11                  IF (RING=TAKEN) AND 
+  1667          000324 B12                     (RING_USED>SQRT(RAN)*10*FELLOWS[RING_BEARER,3]) THEN BEGIN 
+  1668          000410                       RING:=WRAITH; OUTNAME(RING_BEARER); 
+  1669          000420                       WRITELN(' just became a Ringwraith!'); 
+  1670          000427 E12                 END; 
+  1671          000427 E1         END; 
+  1672          000435             
+  1673          000435 L2         PROCEDURE EVAL; 
+  1674          177606             
+  1675          177606            VAR    SCORE: INTEGER; 
+  1676          177607                   I,J,K: INTEGER; 
+  1677          177612                   SURF:  INTEGER; 
+  1678          177613                   KILE:  INTEGER; 
+  1679          177614                   CITT:  ARRAY [1..5] OF INTEGER; 
+  1680          177621             
+        PASCAL/ND-100      VERSION J 83-12-07                    98-09-17               11-56- 8                       PAGE:  29
+
+  1681          000000 B1 I2      BEGIN  SCORE:=0; SURF:=0; KILE:=0; IF RING=THROWN THEN SCORE:=2000; 
+  1682          000016                   FOR I:=1 TO 5 DO CITT[I]:=0; 
+  1683          000030 I3                FOR I:=1 TO EXISTMEMB DO IF FELLOWS[I,1]=DEAD THEN 
+  1684          000044                      SCORE:=SCORE-50 
+  1685          000044 S3 B4             ELSE BEGIN 
+  1686          000050                      SURF:=SURF+1; 
+  1687          000053 I5                   IF FELLOWS[I,1] IN [3..7] THEN 
+  1688          000065                         CITT[FELLOWS[I,1]-2]:=CITT[FELLOWS[I,1]-2]+1; 
+  1689          000112 E4                END; 
+  1690          000123 I6 B7             FOR I:=1 TO ENEMIES DO IF ENEMY[I].ANTAL<1 THEN BEGIN 
+  1691          000142                      SCORE:=SCORE+10; KILE:=KILE+1; 
+  1692          000150 E7                END; 
+  1693          000153                   J:=0; 
+  1694          000154                   FOR I:=1 TO 5 DO 
+  1695          000154 I8 B9                IF CITT[I]>0 THEN BEGIN 
+  1696          000170                         SCORE:=SCORE+100; J:=J+1; 
+  1697          000176 E9 S8                END ELSE SCORE:=SCORE-200; 
+  1698          000205 I10               IF GOLLUM=DEAD THEN SCORE:=SCORE-300; 
+* 1699          000212                   I:=TRUNC(SQRT(POWER(TOWERS[17-BD_INDEX,1]-FX,2)+ 
+* 1700          000225                                 POWER(TOWERS[17-BD_INDEX,2]-FY,2))); 
+  1701          000245                   SCORE:=SCORE+TRUNC(1000/SQRT(I+1)); 
+  1702          000260                   WRITELN('Surviving heroes:    ', SURF:5,'.'); 
+  1703          000277                   WRITELN('Killed enemy groups: ', KILE:5,'.'); 
+  1704          000316                   WRITELN('Citadels remaining:  ',    J:5,'.'); 
+  1705          000355                   WRITELN('Distance to Mt. Doom.',    I:5,'.'); 
+  1706          000374                   WRITELN('Score:               ',SCORE:5,'.'); 
+  1707          000413                   WRITE('Your overall performance was '); 
+  1708          000421 I11 I12           K:=(SCORE+1500) DIV 500; IF K<0 THEN K:=0; IF K>6 THEN K:=6; 
+  1709          000440 C13               CASE K OF 
+  1710          000442                       0: WRITELN('terrible. You are not fit to shine Gollums shoes!'); 
+  1711          000460                       1: WRITELN('very bad. You are only fit to shine Gollums shoes!'); 
+  1712          000470                       2: WRITELN('bad, but you may have a future yet.'); 
+  1713          000500                       3: WRITELN('not so good. However the future looks bright.'); 
+  1714          000510                       4: WRITELN('good. You may sit at the same table as Frodo.'); 
+  1715          000520                       5: WRITELN('very good. You are a true friend of Frodo.'); 
+  1716          000530                       6: WRITELN('excellent. The West is open to you!'); 
+  1717          000540 E13               END; 
+  1718          000565 E1         END; 
+  1719          000567             
+  1720          000000 B1         BEGIN  (* Main program *) 
+  1721          000000 I2 B3             DESCF; TIME(I,J,K); IF (I IN [8..15]) AND (IFBYTE<>127) THEN BEGIN 
+* 1722          000044                     DISCONNECT(INPUT); DISCONNECT(OUTPUT); EESCF; 
+* 1723          000053                     HALT('You cannot play MORDOR now!'); 
+  1724          000057 E3                END; 
+  1725          000057                   WRITE(CHR(12), 
+  1726          000063            '                    -  Mordor: Land of evil.  v7.52 850211  -'); 
+  1727          000070                   WRITELNS(5); NEW(PLAN); EESCF; 
+  1728          000104                   WRITE('Do you want instructions (Y/N) <N>: '); 
+  1729          000112 I4                IF ANSWER(NO)=YES THEN INSTRUCTIONS; 
+  1730          000123                   WRITELN('Please wait while I tune the Palantir for Middle Earth.'); 
+  1731          000132                   MAKEMAP; MEMB:=0; RING:=OFF; MIST:=FALSE; TURN:=0; END?:=FALSE; MP:=5.0; 
+  1732          000145                   GDEAD:=FALSE; WHITE:=0; GRES:=FALSE; PUSE:=0; PREV:=0; 
+  1733          000152                   GOLLUM_STATUS:=HUNTING; THROW_IT:=FALSE; GOLLUM_ANGRY:=0; TIRED:=0; 
+  1734          000160                   FOR I:=1 TO 70 DO ENEMY[I].SEE:=FALSE; 
+  1735          000237                   WRITE(CHR(12)); 
+  1736          000243                   WRITELN('Now you shall decide which of our heroes you would like'); 
+  1737          000252                   WRITELN('to go on the trip. Select 4-12 of those below'); 
+  1738          000261                   WRITELN('by using the arrow-keys and Home to select/deselect.'); 
+  1739          000270                   WRITELN('When finished: Place the cursor on ''Finished''.'); 
+  1740          000277                   DESCF; FELLOWS:=ORIG; 
+        PASCAL/ND-100      VERSION J 83-12-07                    98-09-17               11-56- 8                       PAGE:  30
+
+  1741          000307 B5                FOR I:=1 TO MEMBERS DO BEGIN 
+  1742          000314                     CUR((I-1) DIV 4+6,((I-1) MOD 4)*20+1); 
+  1743          000335                     OUTNAME(I); 
+  1744          000342 E5                END; 
+  1745          000361                   CUR(14,1); WRITE(CHR(27),'''Finished.',CHR(27),'('); 
+  1746          000407            1:     I:=1; 
+  1747          000411 R6                REPEAT 
+  1748          000411                     CUR((I-1) DIV 4+6,((I-1) MOD 4)*20+1); 
+  1749          000432 I7                  J:=INBYTE; IF J=27 THEN J:=INBYTE; 
+  1750          000446 I8                  IF J IN [13,65,66,67,68,72] THEN 
+  1751          000453 C9                  CASE J OF 
+  1752          000455 B10                   72: BEGIN 
+  1753          000455 I11                         IF FELLOWS[I,1]<>IN_FELLOW THEN 
+  1754          000465 I12 B13                       IF MEMB<MAXMEMB THEN BEGIN 
+  1755          000471                                 MEMB:=MEMB+1; FELLOWS[I,1]:=IN_FELLOW; 
+  1756          000503                                 WRITE(CHR(27),''''); OUTNAME(I); WRITE(CHR(27),'('); 
+  1757          000526 E13 S12                       END ELSE WRITE(CHR(7)) 
+  1758          000542 S11 B14                      ELSE BEGIN 
+  1759          000543                                 MEMB:=MEMB-1; FELLOWS[I,1]:=ORIG[I,1]; 
+  1760          000560                                 OUTNAME(I); 
+  1761          000565 E14                           END 
+  1762          000565 E10                       END; 
+  1763          000566 I15 S15               65: IF I>4  THEN I:=I-4         ELSE WRITE(CHR(7)); 
+  1764          000603 I16 S16               66: IF I<30 THEN I:=I+4         ELSE WRITE(CHR(7)); 
+  1765          000622 I17 S17               67: IF I<33 THEN I:=I+1         ELSE WRITE(CHR(7)); 
+  1766          000641 I18 S18               68: IF I>1  THEN I:=I-1         ELSE WRITE(CHR(7)); 
+  1767          000656 I19                   13: IF I<33 THEN 
+  1768          000662 I20                          IF I MOD 4=0 THEN I:=I+1 
+  1769          000666 S20                             ELSE I:=I+5-I MOD 4 
+  1770          000674 S19                          ELSE WRITE(CHR(7)); 
+  1771          000711 E9                  END; 
+  1772          001022 U6                UNTIL I=33; 
+  1773          001026                   CUR(16,1); WRITE(CHR(27),'J'); 
+  1774          001044 I21 B22           IF MEMB=0 THEN BEGIN 
+  1775          001046                     WRITELN('Someone has got to take the Ring!'); 
+  1776          001055                     GOTO 1; 
+  1777          001056 E22               END; 
+  1778          001056 I23 B24           IF MEMB<MINMEMB THEN BEGIN 
+  1779          001062                     WRITELN('At least 4 persons have to be in the Fellowship!'); 
+  1780          001071                     GOTO 1; 
+  1781          001072 E24               END; 
+  1782          001072                   EESCF; 
+  1783          001075                   WRITE('Who shall be the Ringbearer: '); 
+  1784          001103                   RING_BEARER:=INNAME; RING_USED:=0; 
+  1785          001110                   WRITE('And who shall carry (and use) the Palantir: '); 
+  1786          001116                   POWN:=INNAME; 
+  1787          001122 R25               REPEAT 
+  1788          001122                     FX:=120; FY:=TRUNC(RAN*128); 
+  1789          001135 U25               UNTIL NOT ((PLAN^[FX,FY] MOD 16) IN [SWAMP,MOUNTAIN,RIVER,FORD]); 
+  1790          001157                   PLAN^[FX,FY]:=16*FELLOWSHIP+(PLAN^[FX,FY] MOD 16); 
+  1791          001211                   TURN:=1; SCANNER; RING_ON_THIS_TURN:=FALSE; RINGWRAITH?; 
+  1792          001250 R26               REPEAT 
+  1793          001250                     WRITE('MP= ',MP:4:2,'   X=',FX:3,'   Y=',FY:3,'   '); 
+  1794          001315                     WRITE('Command: '); 
+  1795          001323 C27                 CASE INCOM OF 
+  1796          001327 B28                   -1: BEGIN 
+  1797          001327 I29 B30                     MOVER; IF (MP<=0.0) OR (READY=TRUE) THEN BEGIN 
+  1798          001342 I31 B32                       DO_NOTHING; IF END?=FALSE THEN BEGIN 
+  1799          001347                                 TURN:=TURN+1; SCANNER; RING_ON_THIS_TURN:=FALSE; 
+  1800          001356                                 RINGWRAITH?; 
+        PASCAL/ND-100      VERSION J 83-12-07                    98-09-17               11-56- 9                       PAGE:  31
+
+  1801          001361 E32                           END; 
+  1802          001361 E30                         END; 
+  1803          001361 E28                       END; 
+  1804          001377                        1: ON_RING; 
+  1805          001403                        2: OFF_RING; 
+  1806          001407                        3: FOLLOW_ROAD; 
+  1807          001413                        4: KILL_GOLLUM; 
+  1808          001417                        5: ASK_GOLLUM; 
+  1809          001423 B33                    6: BEGIN 
+  1810          001423 I34 B35                     DO_NOTHING; IF END?=FALSE THEN BEGIN 
+  1811          001430                               TURN:=TURN+1; SCANNER; RING_ON_THIS_TURN:=FALSE; RINGWRAITH?; 
+  1812          001442 E35                         END; 
+  1813          001442 E33                       END; 
+  1814          001443                        7: THROW_RING; 
+  1815          001447                        8: SHORT_INSTRUCTIONS; 
+  1816          001453                        9: REPORT; 
+  1817          001457                       10: TIE_GOLLUM; 
+  1818          001463                       11: UNTIE_GOLLUM; 
+  1819          001502                       12: SCANNER; 
+* 1820          001506                       13: HALT('Chicken!'); 
+  1821          001513 I36                   14: IF FELLOWS[POWN,1]<>IN_FELLOW THEN 
+  1822          001523                        WRITELN('You haven''t got access to the Palantir right now.') 
+  1823          001531 S36 B37                   ELSE BEGIN 
+  1824          001534                              PUSE:=PUSE+1; 
+* 1825          001537                              I:=TRUNC(SQRT(POWER(FX-TOWERS[17-BD_INDEX,1],2) 
+* 1826          001551                                           +POWER(FY-TOWERS[17-BD_INDEX,2],2))); 
+  1827          001570 I38                          IF ABS(FY-TOWERS[17-BD_INDEX,2])>64 THEN 
+* 1828          001615                                 I:=TRUNC(SQRT(POWER(FX-TOWERS[17-BD_INDEX,1],2) 
+* 1829          001627                                    +POWER(MOD1(128-FY+TOWERS[17-BD_INDEX,2]),2))); 
+  1830          001664                              I:=I+TRUNC(RAN*I/15-I/30); 
+  1831          001735                              WRITELN('Distance to Orodruin is approx. ',I:1,' units.'); 
+  1832          001756 I39 B40                      IF GOLLUM_STATUS=GOT_THE_RING THEN WITH ENEMY[1] DO BEGIN 
+  1833          001765 I41                             L:=FX-X; J:=FY-Y; IF ABS(J)>64 THEN J:=MOD1(128-J); 
+  1834          002012                                 I:=TRUNC(SQRT(L*L+J*J)); 
+  1835          002024                                 K:=I+TRUNC(RAN*I/15-I/30); 
+  1836          002055                                 WRITE('Gollum is approx. ',K:1,' units to the '); 
+  1837          002075 I42                             IF ABS(J)>64 THEN J:=J-128*SIGN(J); K:=0; 
+  1838          002117 I43 B44                         IF ABS(L)>=ABS(J) THEN BEGIN 
+  1839          002127 I45 S45                            IF L>0 THEN WRITE('North') ELSE WRITE('South'); 
+  1840          002162                                    K:=1; 
+  1841          002164 E44                             END; 
+  1842          002164 I46                             IF I DIV 2>=ABS(J) THEN WRITELN('.') 
+  1843          002201 S46 I47                            ELSE IF J>0 THEN WRITELN(CHR(ORD('W')+32*K),'est.') 
+  1844          002222 S47 I48                               ELSE IF J<0 THEN WRITELN(CHR(ORD('E')+32*K),'ast.'); 
+  1845          002242 E40                          END; 
+  1846          002242 E37                       END; 
+  1847          002243 E27                 END; 
+  1848          002301 U26               UNTIL END?; 
+  1849          002304                   EVAL; 
+  1850          002307 E1         END; 
+  1851          002313             
+  1852          000000 B1         BEGIN  MAIN; 
+  1853          000012 E1         END. 
+
+ NO ERRORS
+ LENGTH OF PROGRAM:    034542B WORDS
+ LENGTH OF FIXED DATA: 012172B WORDS
+    32 USES OF NON-STANDARD FEATURES
+      18.74 SECONDS COMPILATION TIME
+
+

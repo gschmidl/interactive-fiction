@@ -112,6 +112,18 @@ int fp_div(uint16_t *a, const uint16_t *b)
     a[2] = (uint16_t)m;
     a[0] = (uint16_t)(((e + 16384) & 0x7FFF) | (s << 15));
     if (dd.m == 0 || e < -16383) a[0] = a[1] = a[2] = 0;
+    if (e + 16384 < 0 || e + 16384 > 32767) {
+        /* The exponents are subtracted in the 15-bit field, so a result out
+         * of range - a zero dividend always gives one, its own field being
+         * 0 - borrows or carries out of that field, and the ND-100 makes
+         * that an error.  The BASIC run-time clears Z, divides, and reports
+         * error 315 "Overflow in division.  Result set to zero" if the
+         * division set it; that is its one Z check on a floating operation.
+         * SINTRAN III on the reference machine does this (0/16 errors);
+         * SIMH and nd100x flag division by zero only. */
+        a[0] = a[1] = a[2] = 0;
+        return 1;
+    }
     return 0;
 }
 

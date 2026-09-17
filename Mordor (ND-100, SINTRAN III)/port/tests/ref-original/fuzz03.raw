@@ -1,0 +1,132 @@
+MORDOR-REF
+                    -  Mordor: Land of evil.  v7.52 850211  -
+
+
+
+
+Do you want instructions (Y/N) <N>: 
+Please wait while I tune the Palantir for Middle Earth.
+Now you shall decide which of our heroes you would like
+to go on the trip. Select 4-12 of those below
+by using the arrow-keys and Home to select/deselect.
+When finished: Place the cursor on 'Finished'.
+Y% FrodoY%4SamY%HMerryY%\PippinY& FredegarY&4LegolasY&HGlorfindelY&\HaldirY' RumilY'4GildorY'HGandalfY'\AragornY( BoromirY(4FaramirY(H@omerY(\ImrahilY) HalbaradY)4Theodr`dY)HBeregondY)\MablungY* DamrodY*4GimliY*HElrondY*\ErestorY+ ThranduilY+4DainY+HBrandY+\CelebornY, ErkenbrandY,4GamlingY,HForlongY,\DenethorY- HamaY-4CeorlY-HOrophinY-\GaladrielY. @owynY.4ElladanY.HEllrohirY.\GrimbeornY- 'Finished.(Y% 'Frodo(Y% Y%4Y%H'Merry(Y%HY&HY&\Y' 'Rumil(Y' Y( Y(4Y(HY(\'Imrahil(Y(\Y) Y)4'Theodr`d(Y)4Y)H'Beregond(Y)HY)\'Mablung(Y)\Y* 'Damrod(Y* Y+ Y, Y,4Y,H'Forlong(Y,HY,\Y/ JWho shall be the Ringbearer: DCOTQF
+And who shall carry (and use) the Palantir: FQTNQPI
+
+                      
+                      
+  : :           : =   
+  & : : T T T : : =   
+& & : : : : : : : = : 
+: & &'nS@& : :F: : : = : 
+& : & & : : : : : = : 
+  : : & : : : : : =   
+  &'hS@T & T : : : : =   
+    T     T T : =     
+                      
+MP= 5.00   X=120   Y= 90   Command: E2
+MP= 2.00   X=120   Y= 92   Command: O
+Ambigiuos command
+Reenter: N
+You can't move anymore this turn!
+
+
+                      
+            : = :     
+            : = : :   
+          T : = : :   
+        T : : = : : : 
+: :'nS@: : : :F: = : : : 
+& & : : : : : = : : : 
+  & : : : : : = : :   
+  & : : : : : = : &   
+    T : : : : = :     
+        T : =         
+MP= 4.25   X=119   Y= 92   Command: N3
+You moved 2 steps.
+
+
+                      
+                      
+              : = :   
+              = : :   
+        T T : = : : : 
+        T TF: = : : : 
+        T : : = : : : 
+          : : = : :   
+        : : : = : :   
+        : : : = :     
+        : : :         
+MP= 3.75   X=117   Y= 92   Command: HELP
+Commands:
+ON,   OFF,    FOLLOW-ROAD, KILL,   ASK,  0,  THROW,
+HELP, REPORT, TIE,  UNTIE,  USE,   MAP,  QUIT-GAME.
+
+Map Symbols
+: = Rough terrain, . = Grass, T = Trees,    & = Swamp,
+M = Mountain,      " = River, - = Road,     = = Main Road,
++ = Ford,          I = Tower, D = Mt. Doom, B = Barad Dur.
+
+o = Orcs,     w = Wolwes, b = Balrog, n = Nazgul,
+h = Haradrim, t = Trolls, g = Gollum, F = Fellowship,
+? = Traitor?
+MP= 3.75   X=117   Y= 92   Command: SE+
+You moved 2 steps.
+
+*** Night Turn ***
+
+    :     
+  T : =   
+T : :F= : 
+  : : =   
+    :     
+MP= 3.39   X=118   Y= 93   Command: SW1
+You can't move anymore this turn!
+You are attacked by a Nazgul!
+Beregond is attacked!
+Beregond was killed by his enemy!
+(F)ight or (R)un away? R
+You can't run from Nazgul or Shelob!
+Imrahil is attacked!
+Imrahil got captured by the villains!
+(F)ight or (R)un away? F
+Mablung is attacked!
+Mablung was killed by his enemy!
+(F)ight or (R)un away? F
+Theodr`d is attacked!
+Theodr`d was killed by his enemy!
+(F)ight or (R)un away? R
+You can't run from Nazgul or Shelob!
+Damrod is attacked!
+Damrod was knocked unconscious!
+(F)ight or (R)un away? 
+Merry is attacked!
+Merry was killed by his enemy!
+(F)ight or (R)un away? R
+You can't run from Nazgul or Shelob!
+Forlong is attacked!
+Forlong was killed by his enemy!
+You must now choose a new carrier for the Palantir.
+The Fellowship currently consists of:
+Frodo
+Rumil
+Who shall have the honor? RWOKN
+(F)ight or (R)un away? R
+You can't run from Nazgul or Shelob!
+Frodo is attacked!
+Frodo was killed by his enemy!
+(F)ight or (R)un away? 
+Rumil is attacked!
+Rumil was killed by his enemy!
+But a monster died too!
+There is noone left of the fellowship!
+The mission has failed!
+
+Surviving heroes:       33.
+Killed enemy groups:     1.
+Citadels remaining:      5.
+Distance to Mt. Doom.  109.
+Score:                 255.
+Your overall performance was not so good. However the future looks bright.
+
+@

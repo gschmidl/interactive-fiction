@@ -1,0 +1,30 @@
+clock 1998-9-17 20:47 terminal 39
+20:54:39 'XX\r'                   signature
+20:54:39 '6\r'                    scenario
+20:54:40 'N'                      instructions?
+20:54:44 '\r'                     return
+20:54:45 'B'                      menu
+20:54:45 '3\r'                    class
+20:54:46 '3\r'                    order
+20:54:47 '1\r'                    order
+20:54:47 'OLLE-BOLLE\r'           player name
+20:54:48 'X'                      menu
+20:54:51 'C'                      menu
+20:54:52 'Farbror Joakim\r'       your name
+20:54:54 'S\\DER\r'               command
+20:54:55 '\\\r'                   command
+20:54:56 '\\STER\r'               command
+20:54:56 'LISTA\r'                command
+20:54:57 'NED\r'                  command
+20:55:01 'CLS\r'                  command
+20:55:02 'XYZZY\r'                command
+20:55:03 'CLS\r'                  command
+20:55:03 'n\r'                    command
+20:55:04 'xyzzy\r'                command
+20:55:04 's\\der\r'               command
+20:55:05 'NED\r'                  command
+20:55:05 'v[ster\r'               command
+20:55:06 '?\r'                    command
+20:55:07 ' '                      help page
+20:55:08 '\r'                     help page
+20:55:09 'sova\r'                 command

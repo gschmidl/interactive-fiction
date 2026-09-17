@@ -1,0 +1,41 @@
+16:06:41 'N\r'                  instructions
+16:06:49 '\x1bC'                cursor
+16:06:49 '\x1bH'                take Sam
+16:06:49 '\x1bC'                cursor
+16:06:49 '\x1bH'                take Merry
+16:06:49 '\x1bB'                cursor
+16:06:49 '\x1bB'                cursor
+16:06:49 '\x1bB'                cursor
+16:06:49 '\x1bC'                cursor
+16:06:50 '\x1bC'                cursor
+16:06:50 '\x1bC'                cursor
+16:06:50 '\x1bH'                take Theodr`d
+16:06:50 '\x1bC'                cursor
+16:06:50 '\x1bC'                cursor
+16:06:50 '\x1bC'                cursor
+16:06:50 '\x1bH'                take Damrod
+16:06:50 '\x1bB'                cursor
+16:06:50 '\x1bC'                cursor
+16:06:50 '\x1bH'                take Dain
+16:06:50 '\x1bC'                cursor
+16:06:50 '\x1bH'                take Brand
+16:06:50 '\x1bB'                cursor
+16:06:51 '\x1bC'                cursor
+16:06:51 '\x1bC'                cursor
+16:06:51 'DAIN\r'               name
+16:06:51 'MERRY\r'              name
+16:06:51 'se\r'                 command 1
+16:06:52 'N\r'                  command 2
+16:06:52 '\r'                   command 3
+16:06:52 'SE\r'                 command 4
+16:06:53 'E3\r'                 command 5
+16:06:53 'ne1\r'                command 6
+16:06:54 'w+\r'                 command 7
+16:06:54 'r\r'                  fight/run
+16:06:54 'F\r'                  fight/run
+16:06:55 'f\r'                  fight/run
+16:06:55 'Merry\r'              name
+16:06:55 'r\r'                  fight/run
+16:06:55 'Brand\r'              name
+16:06:56 'Brand\r'              name
+16:06:56 'R\r'                  fight/run

@@ -1,0 +1,22 @@
+16:09:51 'N\r'                  instructions
+16:09:58 '\x1bH'                take Frodo
+16:09:58 '\x1bB'                cursor
+16:09:59 '\x1bB'                cursor
+16:09:59 '\x1bB'                cursor
+16:09:59 '\x1bH'                take Boromir
+16:09:59 '\x1bB'                cursor
+16:09:59 '\x1bB'                cursor
+16:09:59 '\x1bH'                take Damrod
+16:09:59 '\x1bB'                cursor
+16:09:59 '\x1bB'                cursor
+16:09:59 '\x1bC'                cursor
+16:09:59 '\x1bC'                cursor
+16:09:59 '\x1bC'                cursor
+16:09:59 '\x1bH'                take Denethor
+16:09:59 '\x1bC'                cursor
+16:10:00 'damrod\r'             name
+16:10:00 'Damrod\r'             name
+16:10:00 'nw2\r'                command 1
+16:10:01 '\r'                   fight/run
+16:10:01 'F\r'                  fight/run
+16:10:01 'f\r'                  fight/run

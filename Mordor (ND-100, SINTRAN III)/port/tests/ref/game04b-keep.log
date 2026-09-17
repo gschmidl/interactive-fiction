@@ -1,0 +1,70 @@
+16:03:56 'N\r'                  instructions
+16:03:57 '\x1bB'                cursor
+16:03:57 '\x1bB'                cursor
+16:03:57 '\x1bC'                cursor
+16:03:57 '\x1bH'                take Gildor
+16:03:57 '\x1bC'                cursor
+16:03:57 '\x1bC'                cursor
+16:03:57 '\x1bC'                cursor
+16:03:57 '\x1bH'                take Boromir
+16:03:57 '\x1bC'                cursor
+16:03:57 '\x1bC'                cursor
+16:03:58 '\x1bC'                cursor
+16:03:58 '\x1bH'                take Imrahil
+16:03:58 '\x1bC'                cursor
+16:03:58 '\x1bC'                cursor
+16:03:58 '\x1bH'                take Theodr`d
+16:03:58 '\x1bB'                cursor
+16:03:58 '\x1bB'                cursor
+16:03:58 '\x1bC'                cursor
+16:03:58 '\x1bC'                cursor
+16:03:58 '\x1bC'                cursor
+16:03:58 '\x1bH'                take Erkenbrand
+16:03:58 '\x1bC'                cursor
+16:03:58 '\x1bC'                cursor
+16:03:59 '\x1bC'                cursor
+16:03:59 '\x1bH'                take Denethor
+16:03:59 '\x1bC'                cursor
+16:03:59 'Imrahil\r'            name
+16:03:59 'boromir\r'            name
+16:03:59 'SW\r'                 command 1
+16:04:00 'SE3\r'                command 2
+16:04:00 'NE3\r'                command 3
+16:04:01 'N+\r'                 command 4
+16:04:01 'N2\r'                 command 5
+16:04:01 'I\r'                  together/individually
+16:04:02 'denethor\r'           name
+16:04:02 '\r'                   fight/run
+16:04:02 'I\r'                  together/individually
+16:04:03 'gildor\r'             name
+16:04:03 '\r'                   fight/run
+16:04:04 '\r'                   fight/run
+16:04:04 'f\r'                  fight/run
+16:04:04 'R\r'                  fight/run
+16:04:04 'throw\r'              command 6
+16:04:05 'SW2\r'                command 7
+16:04:05 'MAP\r'                command 8
+16:04:06 'UNTIE\r'              command 9
+16:04:06 'REP\r'                command 10
+16:04:06 'report\r'             command 11
+16:04:07 'NE\r'                 command 12
+16:04:07 'follow\r'             command 13
+16:04:08 'E9\r'                 command 14
+16:04:08 'f\r'                  fight/run
+16:04:08 'R\r'                  fight/run
+16:04:09 'N\r'                  command 15
+16:04:09 'se+\r'                command 16
+16:04:09 'R\r'                  fight/run
+16:04:10 'se\r'                 command 17
+16:04:10 'SW3\r'                command 18
+16:04:11 'MAP\r'                command 19
+16:04:11 'ASK\r'                command 20
+16:04:11 'ne3\r'                command 21
+16:04:12 'gildor\r'             name
+16:04:12 'f\r'                  fight/run
+16:04:12 'F\r'                  fight/run
+16:04:13 'theodrEd\r'           name
+16:04:13 'Gildor\r'             name again
+16:04:13 'gildor\r'             name again
+16:04:13 'IMRAHIL\r'            name again
+16:04:14 'f\r'                  fight/run

@@ -1,0 +1,364 @@
+MORDOR-REF
+                    -  Mordor: Land of evil.  v7.52 850211  -
+
+
+
+
+Do you want instructions (Y/N) <N>: 
+Please wait while I tune the Palantir for Middle Earth.
+Now you shall decide which of our heroes you would like
+to go on the trip. Select 4-12 of those below
+by using the arrow-keys and Home to select/deselect.
+When finished: Place the cursor on 'Finished'.
+Y% FrodoY%4SamY%HMerryY%\PippinY& FredegarY&4LegolasY&HGlorfindelY&\HaldirY' RumilY'4GildorY'HGandalfY'\AragornY( BoromirY(4FaramirY(H@omerY(\ImrahilY) HalbaradY)4Theodr`dY)HBeregondY)\MablungY* DamrodY*4GimliY*HElrondY*\ErestorY+ ThranduilY+4DainY+HBrandY+\CelebornY, ErkenbrandY,4GamlingY,HForlongY,\DenethorY- HamaY-4CeorlY-HOrophinY-\GaladrielY. @owynY.4ElladanY.HEllrohirY.\GrimbeornY- 'Finished.(Y% Y%4Y%H'Merry(Y%HY%\Y& Y&4'Legolas(Y&4Y'4'Gildor(Y'4Y(4Y)4Y)HY)\'Mablung(Y)\Y*\'Erestor(Y*\Y+ Y+4Y+H'Brand(Y+HY,HY,\Y/ JWho shall be the Ringbearer: BTCPF
+And who shall carry (and use) the Palantir: BTCPF
+
+                      
+                      
+                      
+                      
+: : :   T T T         
+: : : : : :FT         
+: : : : : : T         
+      T T :           
+          T :         
+            T         
+                      
+MP= 5.00   X=120   Y=  2   Command: SE+
+You moved 2 steps.
+
+
+                      
+                      
+                      
+                      
+: : :   T T T   . T   
+    T : : :F. . . . T 
+      T : : . . . . . 
+      T T : . . . .   
+          : . . . .   
+          T T . .     
+                      
+MP= 4.03   X=122   Y=  4   Command: NW+
+You moved 2 steps.
+
+
+                      
+                      
+                      
+  :   T               
+: : : : : T T         
+: : : : : TFT         
+      T : : :         
+      T T : : . .     
+          T : . .     
+            : . .     
+            T         
+MP= 3.80   X=121   Y=  3   Command: 0
+
+*** Night Turn ***
+
+          
+  : T T   
+: : TFT   
+  : : :   
+    :     
+MP= 5.00   X=121   Y=  3   Command: NE
+MP= 2.17   X=120   Y=  4   Command: O
+Ambigiuos command
+Reenter: 
+Ambigiuos command
+Reenter: W
+You can't move anymore this turn!
+
+
+                      
+                      
+                      
+                      
+:       T T T         
+: : : : : TFT         
+: : : : : T T         
+      T               
+                      
+                      
+                      
+MP= 4.09   X=120   Y=  3   Command: S+
+You moved 2 steps.
+
+
+                      
+                      
+  : : T               
+  : : :               
+  : : : : T T       T 
+      T : :F: . . . . 
+        T : : . . . . 
+          T : . . .   
+            : . . .   
+            T T .     
+                      
+MP= 3.25   X=122   Y=  3   Command: W+
+You moved 2 steps.
+
+
+        :             
+    M M :             
+    : : : T T         
+    : : : : : T       
+        : : : T       
+        T TF: : : . . 
+        T T T   : . . 
+                      
+                      
+                      
+                      
+MP= 2.26   X=122   Y=  1   Command: NW
+You cannot move that far this turn, type '0' to quit!
+MP= 2.26   X=122   Y=  1   Command: SE3
+You moved 1 steps.
+
+*** Night Turn ***
+
+    :     
+  : : :   
+  T TF: : 
+  T T T   
+          
+MP= 4.26   X=122   Y=  1   Command: W2
+You moved 2 steps.
+
+
+            :         
+    : M M M :         
+  : : : : : : T T     
+  : : :'wS@: : : : :     
+: : : : : : :         
+: : : : : TFT         
+    T : : T T         
+      T               
+                      
+                      
+                      
+MP= 3.38   X=122   Y=127   Command: E2
+You moved 1 steps.
+You are attacked by a bunch of Wolves!
+They attack the whole Fellowship!
+One villain was killed easily!
+(F)ight or (R)un away? R
+You got away! The monsters soon give up pursuit!
+
+
+        . . .         
+        . . . . .     
+        . . . . . .   
+          . . . . .   
+        T . . . . . : 
+        T :F. . : : : 
+        M M M         
+                      
+                      
+                      
+                      
+MP= 3.07   X=127   Y=  6   Command: SW2
+You moved 1 steps.
+
+
+        . . .         
+        . . . . .     
+        . . . . . .   
+          . . . . .   
+        T . . . . . : 
+        T :F. . : : : 
+        M M M         
+                      
+                      
+                      
+                      
+MP= 5.00   X=127   Y=  6   Command: E+
+You moved 4 steps.
+
+*** Night Turn ***
+
+    .     
+  . . :   
+. : :F: : 
+  M M M   
+          
+MP= 5.00   X=127   Y= 10   Command: 
+Ambigiuos command
+Reenter: KILL
+You can't kill Gollum when he isn't there!
+MP= 5.00   X=127   Y= 10   Command: S3
+You moved 2 steps.
+
+
+        . . .         
+    . . . . . : :     
+    . . . . . : :     
+    . . . . : : :     
+        : : :         
+        M MFM         
+        M M M         
+                      
+                      
+                      
+                      
+MP= 5.00   X=  0   Y= 10   Command: NE3
+You moved 2 steps.
+
+
+        T . .         
+    . . . . . : :     
+  . . . . .'tS@: : : .   
+  . . . . . : : : .   
+. . . . . : : : . = " 
+: . . : : :F: : . + . 
+        M M M         
+                      
+                      
+                      
+                      
+MP= 4.91   X=127   Y= 11   Command: E
+MP= 3.41   X=127   Y= 12   Command: SW9
+You moved 1 steps.
+Gollum attempts to seize the Ring!
+He failes!
+Gollum flees!
+You are attacked by a bunch of Trolls!
+They attack the whole Fellowship!
+Brand was killed by his enemy!
+You must now choose a new Ringbearer.
+The Fellowship currently consists of:
+Merry
+Legolas
+Gildor
+Mablung
+Erestor
+Who shall have the honor? MCDNWPI
+The Servants of Sauron took the Palantir!
+(F)ight or (R)un away? R
+You got away! The monsters soon give up pursuit!
+
+
+        . . "         
+    . . . . " .       
+  : : : : : .         
+  : : : : . . T       
+: : : : : . . T       
+: : . : : :F. . T     
+. : . . : : . . T     
+  : . . T T . . "     
+  . .       " " " T   
+            T T T     
+                      
+MP= 4.02   X=  8   Y= 18   Command: S3
+You moved 3 steps.
+Gollum attempts to seize the Ring!
+He failes!
+Gollum flees!
+
+*** Night Turn ***
+
+    :     
+  : : .   
+  T TF. . 
+  T T "   
+          
+MP= 3.41   X= 10   Y= 18   Command: SE9
+You attempted to drown the fellowship, but that isn't allowed!
+MP= 3.41   X= 10   Y= 18   Command: NE
+MP= 1.29   X=  9   Y= 19   Command: 0
+
+
+        . "           
+    : : : .           
+  : : : . .     T     
+  : : : . . T "       
+: . : : : . . T       
+: . . : :'wS@.F. T       
+:       T . . " T     
+          " " " T     
+          T T T'oS@T     
+                      
+        T             
+MP= 3.05   X=  9   Y= 19   Command: UNTIE
+Gollum is not here!
+MP= 3.05   X=  9   Y= 19   Command: TIE
+You cannot tie someone that aint present!
+MP= 3.05   X=  9   Y= 19   Command: XYZZY
+Illegal Command.
+Reenter: ON
+Ahh, that really felt good!
+MP= 3.05   X=  9   Y= 19   Command: W9
+
+Now you really are in trouble! You have run into a bunch of Wargs!
+Will you fight together or individually (T/I): I
+Ok! The fellowship currently consists of:
+Merry
+Legolas
+Gildor
+Mablung
+Erestor
+Who is now going to fight? GKNFQT
+Gildor killed his opponent!
+(F)ight or (R)un away? 
+Will you fight together or individually (T/I): I
+Ok! The fellowship currently consists of:
+Merry
+Legolas
+Gildor
+Mablung
+Erestor
+Who is now going to fight? LGIQNCU
+Legolas was killed by his enemy!
+(F)ight or (R)un away? R
+You did not make it! You will have to stand and fight!
+Will you fight together or individually (T/I): I
+Ok! The fellowship currently consists of:
+Merry
+Gildor
+Mablung
+Erestor
+Who is now going to fight? GKNFQT
+Gildor killed his opponent, but he was killed in the fight!
+(F)ight or (R)un away? 
+Will you fight together or individually (T/I): 
+Mablung was killed by his enemy!
+You must now choose a new Ringbearer.
+The Fellowship currently consists of:
+Merry
+Erestor
+Who shall have the honor? X
+Illegal name.
+Reenter: ETGUVQT
+(F)ight or (R)un away? F
+Will you fight together or individually (T/I): I
+Ok! The fellowship currently consists of:
+Merry
+Erestor
+Who is now going to fight? LGIQNCU
+Illegal name.
+Reenter: MCDNWPI
+Illegal name.
+Reenter: MCDNWPI
+Illegal name.
+Reenter: LGIQNCU
+Illegal name.
+Reenter: MGTT[
+Merry was knocked unconscious!
+(F)ight or (R)un away? R
+You did not make it! You will have to stand and fight!
+Will you fight together or individually (T/I): 
+Erestor was killed by his enemy!
+But a monster died too!
+There is noone left of the fellowship!
+The mission has failed!
+Surviving heroes:       35.
+Killed enemy groups:     1.
+Citadels remaining:      5.
+Distance to Mt. Doom.   28.
+Score:                 445.
+Your overall performance was not so good. However the future looks bright.
+
+@
