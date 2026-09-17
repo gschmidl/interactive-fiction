@@ -2,7 +2,8 @@
 REM Build the Adventure port with Strawberry Perl's bundled MinGW gfortran.
 REM Produces build\adventure.exe and copies the game database into place.
 
-set GFORTRAN=C:\tools\strawberry\c\bin\gfortran.exe
+rem gfortran comes from PATH; set GFORTRAN to name one that is not on it.
+if "%GFORTRAN%"=="" set GFORTRAN=gfortran
 
 if not exist "%GFORTRAN%" (
   echo gfortran not found at %GFORTRAN%

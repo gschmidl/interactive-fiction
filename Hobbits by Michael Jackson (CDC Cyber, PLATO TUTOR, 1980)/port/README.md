@@ -62,8 +62,7 @@ Double-click `Hobbits.exe` and press a, b, c or d.
   header is at sector 3990 of `DD844_C02u2`, and the read follows the NOS track
   chain.
 - `..\src_original\ciswork29.txt`: decoded listing.
-- The engine is shared with the other PLATO ports, in
-  `D:\tools\IFBackup\_PLATO_work\engine`. `build.bat` regenerates `src\game_data.c`
+- The engine is shared with the other PLATO ports and is not published here. `build.bat` regenerates `src\game_data.c`
   and relinks.
 
 ## Answers

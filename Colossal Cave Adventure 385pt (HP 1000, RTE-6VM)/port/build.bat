@@ -4,7 +4,8 @@ REM bundled MinGW gfortran.  Produces build\adven.exe with the game
 REM database #ADVZZ beside it.
 
 setlocal
-set GFORTRAN=C:\tools\strawberry\c\bin\gfortran.exe
+rem gfortran comes from PATH; set GFORTRAN to name one that is not on it.
+if "%GFORTRAN%"=="" set GFORTRAN=gfortran
 
 if not exist "%GFORTRAN%" (
   echo gfortran not found at %GFORTRAN%

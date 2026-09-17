@@ -69,6 +69,5 @@ These are bugs in Stollman's own code, and they are kept as they are:
   header is at sector 2092 of `DD844_C02u2`, and the read follows the NOS track
   chain.
 - `..\src_original\ciswork18.txt`: decoded listing.
-- The engine is shared with the other PLATO ports, in
-  `D:\tools\IFBackup\_PLATO_work\engine`. `build.bat` regenerates `src\game_data.c`
+- The engine is shared with the other PLATO ports and is not published here. `build.bat` regenerates `src\game_data.c`
   and relinks.

@@ -28,7 +28,8 @@ import time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 PORT = os.path.dirname(HERE)
-WORK = r'D:/tools/IFBackup/_ND100_work'
+WORK = os.environ.get('ND100_WORK',
+    os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..', '_ND100_work'))
 RC = WORK + '/rc-mordor'
 PACK = RC + '/SMD0.IMG'
 sys.path.insert(0, WORK + '/ext/norskdata-ndfs/ndfs-py/src')

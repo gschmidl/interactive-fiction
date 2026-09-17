@@ -113,5 +113,5 @@ commands (end, pen up, advance). Decoded this way they draw the blackletter
 
 `..\src_original\` holds the nine lesson files as `.words` (every word, read by
 following the NOS track chain) and decoded `.txt` listings. The engine is shared
-with the other PLATO ports, in `D:\tools\IFBackup\_PLATO_work\engine`. `build.bat`
+with the other PLATO ports and is not published here. `build.bat`
 rebuilds both programs.

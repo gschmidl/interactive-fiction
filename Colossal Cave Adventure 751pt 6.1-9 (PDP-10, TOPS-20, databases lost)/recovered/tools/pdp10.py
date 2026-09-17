@@ -1,9 +1,9 @@
 """Shared helpers for reading the two ADVENTURE 6.1 builds.
 
-    6.1/9   archive_original/new-adventure.exe   (fungames.7z, 13-Feb-81)
+    6.1/9   archive_original/new-adventure.exe   (the 1982 archive, 13-Feb-81)
     6.1/3   ../Colossal Cave Adventure 751pt (PDP-10, TOPS-20)/dump_original/ADVENTURE.EXE.36
 
-The fungames archive stores a 36-bit word as five bytes: four 7-bit groups
+That archive stores a 36-bit word as five bytes: four 7-bit groups
 (word bits 0-27), then bits 28-34 in the low seven bits of the fifth byte
 and bit 35 in its top bit.  The 751 port's dumps are eight-byte big-endian
 words.  Both unpack to the same integers.

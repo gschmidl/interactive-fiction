@@ -7,7 +7,7 @@ binary, on a TOPS-20 pack.
 The program's own messages name the machine it was set up for: Stanford's
 LOTS (*NOTE: Open/Closed hours are disabled at LOTS*, *If you want to
 explore, come to campus*). It calls its home directory `SRC:<GAMES>`, and
-that is the directory `D:\GoogleDrive\Mainframe\srinic.7z` holds, with the
+that is the directory a private dump of the SRI-NIC archive holds, with the
 program, its text and its world bit for bit the same as on the pack.
 
 `port\bin\adv751.exe` plays it on Windows. It is the original binary on
@@ -53,7 +53,7 @@ Only `NEW-ADVENTURE.EXE` is incomplete. `<GAMES>` has only the 1982 text
 and the 1984 world, both belonging to 6.1/3, and edition 6.1/9 refuses
 them.
 
-`NEW-ADVENTURE.EXE` turned up again in `fungames.7z`, a 1982 games directory
+`NEW-ADVENTURE.EXE` turned up again in another private archive: a 1982 games directory
 that also kept its configuration, billboard and play logs, though still not
 its text or world. What could be recovered of that edition, 6.1/9, and how
 it differs from 6.1/3, is in

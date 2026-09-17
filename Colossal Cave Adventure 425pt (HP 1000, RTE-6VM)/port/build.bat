@@ -4,7 +4,8 @@ REM bundled MinGW gfortran.  Produces build\adventure.exe, build\abuild.exe
 REM and a freshly built build\ADVENTURE.DAT.
 
 setlocal
-set GFORTRAN=C:\tools\strawberry\c\bin\gfortran.exe
+rem gfortran comes from PATH; set GFORTRAN to name one that is not on it.
+if "%GFORTRAN%"=="" set GFORTRAN=gfortran
 
 if not exist "%GFORTRAN%" (
   echo gfortran not found at %GFORTRAN%

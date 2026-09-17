@@ -1,10 +1,13 @@
 """Find where each intact BASLIBR-H00 unit was loaded in a linked program
 image, by its literal and relocated words."""
+import os
 import struct
 import sys
 from brf import parse, units, layout
 
-LIB = r'D:/tools/IFBackup/_ND100_work/files/basic/BASLIBR-H00.BRF'
+WORK = os.environ.get('ND100_WORK',
+    os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..', '_ND100_work'))
+LIB = os.path.join(WORK, 'files', 'basic', 'BASLIBR-H00.BRF')
 
 
 def image(path):

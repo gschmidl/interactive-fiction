@@ -13,13 +13,13 @@ Nothing from 6.1/3 has been used to fill a gap in 6.1/9. Where the two
 are compared, each side speaks only for itself.
 
 ```
-archive_original\   the files, exactly as they came out of fungames.7z
+archive_original\   the files, exactly as they came out of the archive
 recovered\          what was read out of them, and the scripts that did it
 ```
 
 ## Where it came from
 
-`D:\GoogleDrive\Mainframe\fungames.7z` is a dump of a TOPS-20
+The archive it came from is a private dump of a TOPS-20
 `PS:<GAMES>` directory; its newest files are from mid-October 1982. The
 directory's own guide to its games, `games-status.`, is signed
 *Marty Brookes, MR1-2/E68, 467-6510* — an address in the style of
@@ -117,8 +117,8 @@ ATXT opened in connected directory.
 ** FATAL PROGRAM ERROR (ERRCODE= 25); Wizard has been notified. **
 ```
 
-Nothing else in `D:\GoogleDrive\Mainframe` can stand in either.
-`srinic.7z`'s `<GAMES>` is 6.1/3 again — its program, text and world are
+Nothing else in that collection can stand in either.
+The SRI-NIC dump's `<GAMES>` is 6.1/3 again — its program, text and world are
 bit-identical to the eXo pack's — and no other archive there holds a file
 named ATXT, AVAR or WIZDEF.
 

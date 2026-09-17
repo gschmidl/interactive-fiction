@@ -2,7 +2,7 @@
 
 usage: python tools\\pack_put.py [--data-only]
 
-The pack is _ND100_work\\rc-mordor\\SMD0.IMG (SINTRAN III VSX/500 L under
+The pack is the RetroCore SINTRAN III VSX/500 L image (see NOTES.md) under
 RetroCore, see NOTES.md); RetroCore must be stopped.  User DNF gets:
   LEGEND-LU:ZYMB        the source, as recovered (LUNDIN-4)
   BASLIBR-H00:BRF       the ND BASIC runtime library (HUMBUG, ND-disk-00437)
@@ -20,14 +20,15 @@ with CREATE-FILE as the mode file did.
 import os
 import sys
 
-sys.path.insert(0, r'D:/tools/IFBackup/_ND100_work/ext/norskdata-ndfs/ndfs-py/src')
+WORK = os.environ.get('ND100_WORK',
+    os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..', '_ND100_work'))
+sys.path.insert(0, os.path.join(WORK, 'ext', 'norskdata-ndfs', 'ndfs-py', 'src'))
 from ndfs import NdfsFileSystem  # noqa: E402
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 PORT = os.path.dirname(HERE)
 ORIG = os.path.join(PORT, '..', 'src_original')
 DATA = os.path.join(PORT, 'data')
-WORK = r'D:/tools/IFBackup/_ND100_work'
 PACK = WORK + '/rc-mordor/SMD0.IMG'
 ORIGINALS = (['SPELARE-%d-LU' % n for n in range(1, 10)] + ['SAKKARE-%d-LU' % n for n in range(1, 10)] +
              ['VEMFIL-LU', 'BORT-LU'])

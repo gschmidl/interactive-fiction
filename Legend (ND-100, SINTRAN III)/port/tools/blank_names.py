@@ -24,7 +24,7 @@ reads none of it: it reads the count on the first line and that many
 records.
 
 The unedited files are on the author's floppies in
-_ND100_work\\files\\lundin, which this repository does not publish.
+the author's floppies, which this repository does not publish.
 Everything else the name scan found is the authors' own credit: "(C) A
 Hedstr|m & M Lundin 84-87", the game's joke about "Eru Iluvatar alias
 Magnus Lundin, creator av detta spel", and P{r Anders Nilsson's header in

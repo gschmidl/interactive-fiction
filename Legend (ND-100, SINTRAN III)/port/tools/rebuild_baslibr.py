@@ -32,7 +32,8 @@ sys.path.insert(0, HERE)
 from brf import checksum, code_of, encode, parse, units  # noqa: E402
 from place_units import image  # noqa: E402
 
-WORK = r'D:/tools/IFBackup/_ND100_work/files/basic'
+WORK = os.path.join(os.environ.get('ND100_WORK',
+    os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..', '_ND100_work')), 'files', 'basic')
 HOLE = (2048, 2560)
 
 

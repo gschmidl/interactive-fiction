@@ -143,5 +143,5 @@ other ports already used:
 
 `..\src_original\` holds the seven files as `.words` (every word, read by following the
 NOS track chain) and decoded `.txt` listings. The engine is shared with the other PLATO
-ports, in `D:\tools\IFBackup\_PLATO_work\engine`. `build.bat` regenerates
+ports and is not published here. `build.bat` regenerates
 `src\game_data.c` and relinks.

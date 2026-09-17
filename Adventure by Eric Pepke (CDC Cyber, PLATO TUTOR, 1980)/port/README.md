@@ -65,8 +65,8 @@ segments, then 8 lines of 6 words each).
 - **Room 2:** shows its short name plus its surviving second sentence.
 
 The map agrees with every surviving description. The recovery is documented in
-`..\src_original\adventure_rooms_recovered.txt`, and `tools\adventure_data.py`
-in `_PLATO_work` rebuilds the dataset from the lesson file.
+`..\src_original\adventure_rooms_recovered.txt`, and `tools\adventure_data.py` in the
+shared PLATO working tree rebuilds the dataset from the lesson file.
 
 ## How faithful it is
 
@@ -98,6 +98,5 @@ Known approximations:
   from `DD844_C02u2` starting at sector 46631. The read follows the NOS track
   chain; it matches the PFDUMP tape copy.
 - `..\src_original\adventure.txt`: decoded listing.
-- The engine is shared with the other PLATO ports, in
-  `D:\tools\IFBackup\_PLATO_work\engine`. `build.bat` regenerates `src\game_data.c`
+- The engine is shared with the other PLATO ports and is not published here. `build.bat` regenerates `src\game_data.c`
   and relinks.

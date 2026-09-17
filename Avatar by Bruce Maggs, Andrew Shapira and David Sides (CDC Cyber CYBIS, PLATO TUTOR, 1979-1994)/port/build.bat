@@ -1,6 +1,8 @@
 @echo off
 rem Rebuilds Avatar.exe from the original lesson files, namesets and dataset.
-set "WORK=D:\tools\IFBackup\_PLATO_work"
+rem The shared PLATO engine tree is not published; point PLATO_WORK at it.
+set "WORK=%PLATO_WORK%"
+if "%WORK%"=="" set "WORK=%~dp0..\..\_PLATO_work"
 set "SRC=%~dp0..\src_original"
 python "%WORK%\tools\mkgame.py" --title "Avatar (Bruce Maggs, Andrew Shapira and David Sides, PLATO/CYBIS)" --out "%~dp0." --exe Avatar.exe ^
  --lesson "%SRC%\2avat.words" --lesson "%SRC%\2avatar.words" --lesson "%SRC%\2upstairs.words" ^

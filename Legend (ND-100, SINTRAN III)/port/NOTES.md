@@ -235,12 +235,11 @@ The tool also drops what stood in these files beyond the player count: the
 game writes a file from the beginning and leaves the rest of it standing, so
 SPELARE-1 still held six deleted players, and SPELARE-2 one more whose name
 is nowhere in the live records.  What the members actually typed is on the
-author's floppies (`_ND100_work\files\lundin`), which this repository does
-not publish.
+author's floppies, which this repository does not publish.
 
 ## The reference machine
 
-SINTRAN III VSX/500 L under RetroCore (`_ND100_work\rc-mordor`), user DNF,
+SINTRAN III VSX/500 L under RetroCore, user DNF,
 reached over telnet; `tools\rebuild.py` puts the sources, libraries and the
 game's files on the pack (`tools\pack_put.py`), with pristine copies of the
 files a game changes under user LEGENDORIG.

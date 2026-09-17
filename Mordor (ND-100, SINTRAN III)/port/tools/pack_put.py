@@ -3,11 +3,14 @@ rc-mordor RetroCore pack (user DNF).  RetroCore must be stopped."""
 import os
 import sys
 
-sys.path.insert(0, r'D:/tools/IFBackup/_ND100_work/ext/norskdata-ndfs/ndfs-py/src')
+# set ND100_WORK to the working tree this repository does not publish
+WORK = os.environ.get('ND100_WORK',
+    os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..', '_ND100_work'))
+sys.path.insert(0, os.path.join(WORK, 'ext', 'norskdata-ndfs', 'ndfs-py', 'src'))
 from ndfs import NdfsFileSystem  # noqa: E402
 
-PACK = r'D:/tools/IFBackup/_ND100_work/rc-mordor/SMD0.IMG'
-F = r'D:/tools/IFBackup/_ND100_work/files/mordor'
+PACK = os.path.join(WORK, 'rc-mordor', 'SMD0.IMG')
+F = os.path.join(WORK, 'files', 'mordor')
 
 files = {
     'PASCAL-COD-J:BRF': open(F + '/DNF/PASCAL-COD-J.BRF', 'rb').read(),

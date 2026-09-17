@@ -4,8 +4,7 @@
 
 `svha.exe` is an ND-100 minicomputer with just enough SINTRAN III in it to
 run `SVHA-ADVENTURE:PROG` exactly as it lies on the eXo SINTRAN pack
-(`E:\EXO\SVHA Adventure (1979)\ND-100\SMD0.IMG`, user GAMES), reading its
-five data files the way it did there.  The game is not rewritten: every
+(user GAMES), reading its five data files the way it did there.  The game is not rewritten: every
 message and every dwarf is the original NORD FORTRAN program running on an
 emulated CPU.  The port adds saving, and fixes two bugs that made the game
 impossible to finish and two that undid your moves (below).

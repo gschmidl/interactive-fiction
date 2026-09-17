@@ -26,7 +26,7 @@ title screen at 9300 and an END screen at 14001.
 * **Every GOTO / GOSUB / THEN / ON..GOTO target resolves to a line that exists** — 0 bad
   targets.
 * Checked against the two confusions that survived every structural test on this batch
-  (see `_typein_work/confusecheck.py`): **0 hits**. Those are lowercase `l` read as digit
+  (see the working script `confusecheck.py`, not published): **0 hits**. Those are lowercase `l` read as digit
   `1` inside MML, and capital `O` read as `0` in `OR` — both produce perfectly valid BASIC,
   so nothing but running the program or this scan catches them.
 * **Row mapping validated on all 10 pages** by decoding each row's *printed* line number

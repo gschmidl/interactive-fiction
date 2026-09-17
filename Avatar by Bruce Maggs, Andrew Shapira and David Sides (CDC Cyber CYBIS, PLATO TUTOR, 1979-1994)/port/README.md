@@ -152,5 +152,5 @@ Avatar needed, on top of the CYBIS TUTOR the other ports already used:
 
 `..\src_original\` holds the fifteen files as `.words` (every word, read by following the NOS
 track chain) and decoded `.txt` listings; the five data files also as `.dataset`. The engine is
-shared with the other PLATO ports, in `D:\tools\IFBackup\_PLATO_work\engine`. `build.bat`
+shared with the other PLATO ports and is not published here. `build.bat`
 regenerates `src\game_data.c` and relinks.

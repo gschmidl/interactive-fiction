@@ -2,7 +2,7 @@
 
 usage: reffuzz.py SEED COMMANDS OUTBASE [--original] [--timeout SECONDS]
 
-The machine is _ND100_work\\rc-mordor (NOTES.md, "The reference machine"),
+The machine is the RetroCore pack of NOTES.md, "The reference machine",
 with the game's files put there by tools\\rebuild.py.  The session logs in as
 DNF, puts back every file a game changes, from the pristine copies under user
 LEGENDORIG (SPELARE-1..9, SAKKARE-1..9, VEMFIL, BORT; LEGEND-MSG and

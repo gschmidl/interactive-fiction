@@ -107,6 +107,5 @@ Known differences:
   320-word header followed by 60 records of 150 words.
 - All three files come from `DQ24_PUB1` (sectors 643466, 643606 and 643676). The
   `.txt` files are decoded listings.
-- The engine is shared with the other PLATO ports, in
-  `D:\tools\IFBackup\_PLATO_work\engine`. `build.bat` regenerates `src\game_data.c`
+- The engine is shared with the other PLATO ports and is not published here. `build.bat` regenerates `src\game_data.c`
   and relinks.

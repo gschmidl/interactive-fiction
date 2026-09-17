@@ -1,9 +1,10 @@
 @echo off
 REM Build the C transliteration of the PL/I Adventure with MinGW gcc.
 setlocal
-set GCC=C:\tools\strawberry\c\bin\gcc.exe
-if not exist "%GCC%" (
-  echo gcc not found at %GCC%
+rem gcc comes from PATH; set GCC to name a compiler that is not on it.
+if "%GCC%"=="" set GCC=gcc
+"%GCC%" --version >nul 2>&1 || (
+  echo gcc not found -- put it on PATH or set GCC
   exit /b 1
 )
 if not exist "%~dp0build" mkdir "%~dp0build"

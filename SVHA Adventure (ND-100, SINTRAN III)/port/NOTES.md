@@ -7,7 +7,7 @@ described in the Skattejakt port's `NOTES.md`; the source is shared.
 
 ## Where it came from
 
-`E:\EXO\SVHA Adventure (1979)\ND-100\SMD0.IMG`, directory `PACK-ONE`
+The eXo SVHA Adventure ND-100 pack `SMD0.IMG`, directory `PACK-ONE`
 (SINTRAN III VSX/500 L), user GAMES — the same six files are also on the
 eXo `floppy.img` (directory `BACKUP-GROUP-6`), byte-identical:
 

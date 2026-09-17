@@ -25,7 +25,11 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 from brf import checksum, encode, layout, parse, units  # noqa: E402
 
-SRC = r'D:/tools/IFBackup/_ND100_work/files/basic/LIBRARY-MJ.BRF'
+# the club's own library, from the working tree this repository does not
+# publish; set ND100_WORK to point at it
+WORK = os.environ.get('ND100_WORK',
+    os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..', '_ND100_work'))
+SRC = os.path.join(WORK, 'files', 'basic', 'LIBRARY-MJ.BRF')
 
 
 def main():

@@ -64,8 +64,8 @@ and are verified structurally instead:
 Every printed line ends `:xx`, and `xx` is simply the **last data byte of that line repeated**
 — 544 of 544 lines. It catches a misread final byte and (because a dropped byte shifts
 everything left) most dropped bytes, but it is blind to an error in the middle of a line.
-That is what the runtime page checksum is for. `bhcheck.py` in `_typein_work/` applies the
-line rule plus a strict 16-bytes-per-line and address-contiguity check; it was the
+That is what the runtime page checksum is for. `bhcheck.py`, a working script
+kept out of the repository, applies the line rule plus a strict 16-bytes-per-line and address-contiguity check; it was the
 16-byte rule that caught two dropped bytes during transcription (`A680`, `9E20`).
 
 ## What is in the dump

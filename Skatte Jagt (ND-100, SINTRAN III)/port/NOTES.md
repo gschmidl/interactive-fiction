@@ -5,7 +5,7 @@ to be, and what is still guessed.  Octal throughout, as on the ND.
 
 ## Where it came from
 
-`E:\EXO\Skatte Jagt (19xx)\ND-100\SMD0.IMG` is a 75 MB SMD pack, directory
+The eXo Skatte Jagt ND-100 pack `SMD0.IMG` is a 75 MB SMD pack, directory
 `PACK-ONE`, SINTRAN III VSX/500 L "generated 16 December 1988".  eXo runs it
 with RetroCore.  The game is one file:
 
@@ -13,9 +13,8 @@ with RetroCore.  The game is one file:
     sha1 50600f2aff2f6614de62024ef924ae3dd90bbb06
 
 There is no source, no data file and no other copy on the pack; the
-`note.txt` beside it says to type `skat` as user GAMES.  (The SVHA Adventure
-pack in `E:\EXO\SVHA Adventure (1979)` is a different pack and has no
-Skattejakt.)  `../src_original/SKATTEJAKT.PROG` is the file as extracted.
+`note.txt` beside it says to type `skat` as user GAMES.  (The eXo SVHA
+Adventure pack is a different pack and has no Skattejakt.)  `../src_original/SKATTEJAKT.PROG` is the file as extracted.
 
 The pack was read with a small NDFS reader written for this
 (`tools/ndfs_ls.py`) from the format description in RetroCoreLabs'

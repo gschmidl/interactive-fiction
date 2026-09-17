@@ -6,8 +6,7 @@ game.
 
 ## The files
 
-Eight copies of EXPLOR survive in the Tymshare tape collection
-(`tym-original.7z`):
+Eight copies of EXPLOR survive in the Tymshare tape collection:
 
 | path | bytes | words | date |
 |---|---|---|---|

@@ -176,5 +176,5 @@ and every I/O format reference is defined inside its own program unit. Nothing i
    is A's file followed by zeros, for all five binaries). There is no lossless *byte* rendering of
    a PDP-10 save file; any 8-bit spelling is a convention.
 6. The working copy `work/t10.dsk` has been booted and written (logins, a scratch compile, deletes).
-   The pristine distribution under `D:\SynologyDrive\eXo\emulators\TOPS-10\` was never written.
+   The pristine eXo TOPS-10 distribution was never written.
    The ten distribution files themselves are untouched.

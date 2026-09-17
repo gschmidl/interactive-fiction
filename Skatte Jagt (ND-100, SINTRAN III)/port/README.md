@@ -3,9 +3,8 @@
     skattejakt.exe
 
 `skattejakt.exe` is an ND-100 minicomputer with just enough SINTRAN III in it
-to run one program: `SKATTEJAKT:PROG` exactly as it lies on the eXo SINTRAN pack
-(`E:\EXO\Skatte Jagt (19xx)\ND-100\SMD0.IMG`, user GAMES).  Nothing is
-rewritten or patched.  Every message, parser decision and dwarf's knife is
+to run one program: `SKATTEJAKT:PROG` exactly as it lies on the eXo SINTRAN
+pack (user GAMES).  Nothing is rewritten or patched.  Every message, parser decision and dwarf's knife is
 the original NORD FORTRAN program running on an emulated CPU.
 
     * * N Y H E T * *

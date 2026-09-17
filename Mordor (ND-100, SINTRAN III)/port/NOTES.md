@@ -9,7 +9,7 @@ is a copy of that emulator with the additions below.
 
 ## Where the game came from
 
-**The source.**  `C:\Users\gschm\Downloads\nd\ND-disk-00311.img` is the floppy
+**The source.**  The floppy image `ND-disk-00311.img` is
 `LUNDIN-6` of the Swedish computer club DNF (1985-87 disks from ndlib.hackercorp.no).
 Its directory is empty, but its free pages still hold a deleted file:
 
@@ -60,7 +60,7 @@ Palantir, is not among the commands; the heroes are "4-12" (v7.52 takes 4 to 32)
 No compiled v7.52 survives whole (LUNDIN-6's free pages hold two partly
 overwritten copies with no index blocks), so the programs were built from the
 source with the club's own tools, on SINTRAN III VSX/500 L under RetroCore
-(the eXo set-up, copied to `_ND100_work\rc-mordor`, user DNF added with
+(the eXo set-up, with user DNF added using
 ndfs-py; `tools\pack_put.py`):
 
 - **Compiler**: ND-Pascal version J 83-12-07, `PASCAL-COD-J`, `PASCAL-LIB-J`,
