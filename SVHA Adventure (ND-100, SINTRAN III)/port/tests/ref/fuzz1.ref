@@ -1,0 +1,880 @@
+
+
+
+
+
+
+
+
+
+          WE'RE STILL DIGGING. PLEASE WAIT!!
+
+               WITT CONSTRUCTION COMPANY.
+This ADVENTURE is based on the ADVENTURE originally written by Don Woods
+and Willie Crowther, later expanded by Bob Supnik and Kent Blackett, and
+still later expanded by Nils-Morten Nilssen and Svein Hansen. In the    
+present version some of the added features are taken from an article by 
+Greg Hasset in Creative Computing, which added hitherto unknown parts   
+of the cave. Many thanks to Greg!! This version is reprogrammed by Svein
+Hansen, and maintenance and extensions is presently handled by him.     
+The program is written specially for NORD computers in NORD-FORTRAN 77. 
+As Svein Hansen is responsible for this version, any inconsistencies and
+non-answers that might surface are best reported to him, either directly
+or through RSH, Norsk Data A/S, P.O. Box 25 Bogerud, OSLO 6, Norway.    
+Personal message from Svein Hansen: Although I am responsible for this  
+version, some of the added features are not my own. They are the luna-  
+tic and weird outcroppings from the minds of the Studio 54 Hobbies Group
+at the ND.10-54 community at NIT, Trondheim, Norway. Any nervous break- 
+downs, downbitten fingernails and suicides etc. resulting from these    
+ideas  ARE NOT MY RESPONSIBILITY !! Blame it on that sneaking, no good  
+group that are ever trying to write more vile computer games.           
+                                                                        
+     ***********  Welcome to ADVENTURE!!!! ***********                  
+                                                                        
+     In this ADVENTURE you will meet DWARVES, ORCS, a TROLL,            
+     and various other inhabitants of THE GREAT CAVE. Remem-            
+     ber, there's only an overworked CPU and disc drive to              
+     help you, so don't get mad at some long response time              
+     now and then. Good luck, happy hunting!!                           
+                                                                        
+                 *************************                              
+Welcome to Adventure!!  Would you like instructions?                    
+                                  NO
+OK                                                                      
+You are standing at the end of a road before a small brick building.    
+Around you is a forest. A small stream flows out of the building and    
+down a gully.                                                           
+                                  IN
+You are inside a building, a well house for a large spring.             
+There is a set of keys here.                                            
+There is a shiny brass lamp nearby.                                     
+There is food here.                                                     
+                                  TAKE KEYS
+OK                                                                      
+                                  TAKE LAMP
+OK                                                                      
+                                  OUT
+You're at end of road again.                                            
+                                  S
+You are in a valley in the forest beside a stream tumbling along a rocky
+bed.                                                                    
+                                  S
+At your feet all the water of the stream splashes into a 2-inch slit in 
+the rock. Downstream the streambed is bare rock.                        
+There is a bottle of water here.                                        
+                                  S
+You are in a 20-foot depression floored with bare dirt. Set into the    
+dirt is a strong steel grate mounted in concrete. A dry streambed leads 
+into the depression.                                                    
+The grate is locked.                                                    
+                                  UNLOCK GRATE
+The grate is open.                                                      
+                                  D
+You are in a small chamber beneath a 3*3 steel grate to the surface.    
+A low crawl over cobbles leads inward to the west.                      
+The grate is open.                                                      
+                                  W
+You are crawling over cobbles in a low passage. There is a dim light at 
+the east end of the passage.                                            
+There is a small wicker cage discarded nearby.                          
+                                  TAKE CAGE
+OK                                                                      
+                                  W
+It is now pitch dark. If you proceed you will likely fall into a pit.   
+                                  LIGHT LAMP
+Your lamp is now on.                                                    
+You are in a debris room filled with stuff washed in from the surface.  
+A low wide passage with cobbles becomes plugged with mud and debris     
+here, but an awkward canyon leads upward and west. A note on the wall   
+says "Magic word XYZZY".                                                
+A three foot black rod with a rusty star on an end lies nearby.         
+                                  TAKE ROD
+OK                                                                      
+                                  W
+You are in an awkward sloping east/west canyon.                         
+                                  W
+You are in a splendid chamber 30 feet high. The walls are frozen rivers 
+of orange stone. An awkward canyon and a good passage exit from east and
+west sides of the chamber.                                              
+A cheerful little bird is sitting here singing.                         
+                                  DROP ROD
+OK                                                                      
+                                  TAKE BIRD
+OK                                                                      
+                                  TAKE ROD
+OK                                                                      
+                                  W
+At your feet is a small pit breathing traces of white mist. An east     
+passage ends here except for a small crack leading on.                  
+Rough stone steps lead down the pit.                                    
+                                  D
+You are at one end of a vast hall stretching forward out of sight to the
+west. There are openings to either side. Nearby, a wide stone staircase 
+leads downward. The hall is filled with wisps of white mist swaying to  
+and fro almost as if alive. A cold wind blows up the staircase. There is
+a passage at the top of a dome behind you.                              
+Rough stone steps lead up the dome.                                     
+                                  SAY WITCH
+Okay WITCH                                                       
+                                  HOURS NEST
+You have come into the program. Each time you do that, it's prime time. 
+                                  FORK
+You can't get there from here.                                          
+                                  CUT EGGS
+You don't carry a sword.                                                
+                                  SOUTHWEST
+There is no way to go that direction.                                   
+You're in hall of mists.                                                
+Rough stone steps lead up the dome.                                     
+                                  GULLY
+You can't get there from here.                                          
+                                  SWORD
+What do you want to do with the sword
+                                  RUB KING
+You can't be serious!                                                   
+                                  CUT EMERALD
+You don't carry a sword.                                                
+                                  WAKE SHARDS
+There's nothing here to wake up.                                        
+                                  SHORE
+Nothing happens.                                                        
+                                  HELP
+I know of places, actions, and things.  Most of my vocabulary describes 
+places and is used to move you there.  To move, try words like BUILDING,
+DOWNSTREAM, ENTER, EAST, WEST, NORTH, SOUTH, UP or DOWN.  I know about  
+a few special objects, like a black rod hidden in the cave. These       
+objects can be manipulated using some of the action words that I know.  
+Usually you will need to give both the object and action words (in the  
+right order), but sometimes I can infer the object from the verb alone. 
+Some objects also imply verbs; in particular, "INVENTORY" implies "take 
+inventory", which causes me to give you a list of what you're carrying. 
+The objects have side effects; for instance, the rod scares the bird.   
+Usually people having trouble moving just need to try a few more words. 
+Usually people trying unsuccessfully to manipulate an object are attemp-
+ting something beyond their (or my!) capabilities and should try a comp-
+letely different tack.  To speed the game you can sometimes move long   
+distances with a single word.  For example, "BUILDING" usually gets you 
+to the building from anywhere above ground except when lost in forest.  
+Also, note that cave passages turn a lot, and that leaving a room to the
+north does not guarantee entering the next from the south.  Good luck!  
+                                  EAT WALL
+There is nothing here to eat.                                           
+                                  CLOSE CHEST
+It's not here.                                                          
+                                  BLAST LAMP
+Blasting requires dynamite.                                             
+                                  BOW SHADOW
+I feel a little bit ridicoulus, but OK.                                 
+                                  HILL
+You can't get there from here.                                          
+                                  YES
+I don't understand that!                                                
+                                  DOOR
+What do you want to do with the door
+                                  BEHIND
+There is no way to go that direction.                                   
+                                  DROP WATER
+You aren't carrying it.                                                 
+                                  WALK DRAPERY
+I am unsure how you are facing.  Use compass points or nearby objects.  
+                                  SOUTH
+This is a low room with a crude note on the wall. The note says,        
+"You won't get it up the steps".                                        
+There is a large sparkling nugget of gold here!                         
+                                  ENTER
+I don't know in from out here.  Use compass points or name something in 
+the general direction you want to go.                                   
+You're in nugget of gold room.                                          
+There is a large sparkling nugget of gold here!                         
+                                  KEYS
+What do you want to do with the keys
+                                  TUNNEL
+I don't understand that!                                                
+                                  REMOVE TAPESTRY
+ Can't!
+                                  ORIENTAL
+You can't get there from here.                                          
+                                  GIVE PLANT
+Would you please say what to whom in one sentence?                      
+                                  WEST
+There is no way to go that direction.                                   
+You're in nugget of gold room.                                          
+There is a large sparkling nugget of gold here!                         
+                                  BARREN
+You can't get there from here.                                          
+                                  RUN NUGGET
+Where?                                                                  
+I am unsure how you are facing.  Use compass points or nearby objects.  
+                                  DOWNSTREAM
+There is no way to go that direction.                                   
+You're in nugget of gold room.                                          
+There is a large sparkling nugget of gold here!                         
+                                  DARK
+You can't get there from here.                                          
+                                  LOCK NEST
+                                  SHORE
+Nothing happens.                                                        
+                                  YES
+I don't understand that!                                                
+                                  READ LINTEL
+Well,if you're able to read that,OK.I'm not.                            
+I've just started learning the alphabet,really.                         
+                                  BED
+You can't get there from here.                                          
+                                  YES
+I don't understand that!                                                
+                                  PIT
+You can't get there from here.                                          
+                                  ENTER
+I don't know in from out here.  Use compass points or name something in 
+the general direction you want to go.                                   
+You're in nugget of gold room.                                          
+There is a large sparkling nugget of gold here!                         
+                                  U
+There is no way to go that direction.                                   
+You're in nugget of gold room.                                          
+There is a large sparkling nugget of gold here!                         
+                                  YES
+I don't understand that!                                                
+                                  SING SHOVEL
+Okay SHOVEL                                                      
+                                  BUILDING
+There is no way to go that direction.                                   
+You're in nugget of gold room.                                          
+There is a large sparkling nugget of gold here!                         
+                                  NORTH
+You're in hall of mists.                                                
+Rough stone steps lead up the dome.                                     
+                                  SECRET
+You can't get there from here.                                          
+                                  SOUTH
+You're in nugget of gold room.                                          
+There is a large sparkling nugget of gold here!                         
+                                  ABOVE
+There is no way to go that direction.                                   
+You're in nugget of gold room.                                          
+There is a large sparkling nugget of gold here!                         
+                                  STEPS
+You can't get there from here.                                          
+                                  TAKE ICE
+It's not here!                                                          
+                                  CRAWL
+You can't get there from here.                                          
+                                  PIT
+You can't get there from here.                                          
+                                  SING NUGGET
+Okay NUGGET                                                      
+                                  CHAIN
+What do you want to do with the chain
+                                  KILL CIRCLE
+It's not here!                                                          
+                                  GRATE
+You can't get there from here.                                          
+                                  OPEN SCEPTER
+There is nothing here with a lock.                                      
+                                  THROW SNAKE
+You aren't carrying it.                                                 
+                                  READ MAGAZINE
+"You won't get it up the steps".                                        
+                                  LEAVE
+You're in hall of mists.                                                
+Rough stone steps lead up the dome.                                     
+                                  WAVE TREASURE
+You don't carry that.                                                   
+                                  RUB DOOR
+You can't be serious!                                                   
+                                  RESERVOIR
+You can't get there from here.                                          
+                                  WAKE VASE
+There's nothing here to wake up.                                        
+                                  FEE
+OK                                                                      
+                                  ROOM
+You can't get there from here.                                          
+                                  CUT OIL
+You don't carry a sword.                                                
+                                  FURTHER
+Nothing happens.                                                        
+                                  INVENTORY TABLET
+You are currently holding the following:                                
+Set of keys                                                             
+Brass lantern                                                           
+Wicker cage                                                             
+Little bird in cage                                                     
+Black rod                                                               
+                                  LEFT
+I am unsure how you are facing.  Use compass points or nearby objects.  
+                                  PLUGH
+Nothing happens.                                                        
+                                  GRATE
+You can't get there from here.                                          
+                                  FOLLOW SOUP
+I am unsure how you are facing.  Use compass points or nearby objects.  
+                                  COBBLE
+You can't get there from here.                                          
+                                  YES
+I don't understand that!                                                
+                                  KICK DIAMONDS
+I will not!!                                                            
+                                  DROP PIRATE
+You aren't carrying it.                                                 
+                                  SHAZAM
+Good try, but that is an old worn-out magic word.                       
+                                  YES
+I don't understand that!                                                
+                                  STAIRCASE
+You are in the hall of the Mountain King, with passages of in all       
+directions.                                                             
+There is a barrel with a tap standing here.                             
+A huge green fierce snake bars the way!                                 
+                                  DOWNWARD
+There is no way to go that direction.                                   
+You're in hall of Mt King.                                              
+There is a barrel with a tap standing here.                             
+A huge green fierce snake bars the way!                                 
+                                  EAT NUGGET
+I think I just lost my appetite.                                        
+                                  YES
+I don't understand that!                                                
+                                  HALL
+You can't get there from here.                                          
+                                  PASSAG
+There is no way to go that direction.                                   
+You're in hall of Mt King.                                              
+There is a barrel with a tap standing here.                             
+A huge green fierce snake bars the way!                                 
+                                  FOE
+What's the matter, can't you read?  Now you'd best start over.          
+                                  DRINK LEAVES
+I don't think I quite understood what you said. Would you please re-    
+phrase that?                                                            
+                                  DEBRIS
+You can't get there from here.                                          
+                                  ALIBABA
+Nothing happens.                                                        
+                                  YES
+I don't understand that!                                                
+                                  FLOOR
+You can't get there from here.                                          
+                                  CUT PILLAR
+You don't carry a sword.                                                
+                                  OUT
+You're in hall of mists.                                                
+Rough stone steps lead up the dome.                                     
+                                  GO SOUP
+I am unsure how you are facing.  Use compass points or nearby objects.  
+                                  WAVE MIST
+You don't carry that.                                                   
+                                  THROW FAERIE
+Throw what?
+                                  HALL
+OK                                                                      
+                                  FORK
+You can't get there from here.                                          
+                                  RESERVOIR
+You can't get there from here.                                          
+                                  ENTER
+I don't know in from out here.  Use compass points or name something in 
+the general direction you want to go.                                   
+You're in hall of mists.                                                
+Rough stone steps lead up the dome.                                     
+                                  BACK
+You're in hall of Mt King.                                              
+There is a barrel with a tap standing here.                             
+A huge green fierce snake bars the way!                                 
+                                  SECRET
+You are in a secret canyon which here runs E/W. It crosses over a very  
+tight canyon 15 feet below. If you go down you may not be able to get   
+back up. The word "SINBAD" is hewn into the wall.                       
+                                  BLAST DOOR
+Blasting requires dynamite.                                             
+                                  POCUS
+Good try, but that is an old worn-out magic word.                       
+                                  VIEW
+You can't get there from here.                                          
+                                  WAKE RUG
+There's nothing here to wake up.                                        
+                                  DRINK STONE
+I don't think I quite understood what you said. Would you please re-    
+phrase that?                                                            
+                                  EXTINGUISH PARCHMENT
+Your lamp is now off.                                                   
+                                  RIGHT
+I am unsure how you are facing.  Use compass points or nearby objects.  
+                                  BROKEN
+You can't get there from here.                                          
+                                  CHALICE
+What do you want to do with the chalice
+                                  SINBAD
+Nothing happens.                                                        
+                                  NORTHWEST
+There is no way to go that direction.                                   
+It is now pitch dark. If you proceed you will likely fall into a pit.   
+                                  CROSS
+I don't understand that!                                                
+                                  LOOK SHARDS
+It's pitch dark, you fool!! I can't see a thing!!                       
+                                  YES
+I don't understand that!                                                
+                                  XYZZY
+Nothing happens.                                                        
+                                  DEBRIS
+You can't get there from here.                                          
+                                  LEDGE
+Nothing happens.                                                        
+                                  PILLAR
+What do you want to do with the pillar
+                                  BLAST THRONE
+Blasting requires dynamite.                                             
+                                  CUT KING
+You don't carry a sword.                                                
+                                  LEAVE
+You fell into a pit and broke every bone in your body                   
+Oh dear, you seem to have gotten yourself killed.  I might be able to   
+help you out, but I've never really done this before.  Do you want me to
+try to reincarnate you?                                                 
+                                  ROAD
+Please answer the question.                                             
+                                  RETREAT
+Please answer the question.                                             
+                                  SE
+Please answer the question.                                             
+                                  ORIENTAL
+Please answer the question.                                             
+                                  CROSS
+Please answer the question.                                             
+                                  SHORE
+Please answer the question.                                             
+                                  NORTHEAST
+Please answer the question.                                             
+                                  BUILDING
+Please answer the question.                                             
+                                  PUT RING
+Please answer the question.                                             
+                                  SLAB
+Please answer the question.                                             
+                                  PUT ICE
+Please answer the question.                                             
+                                  YES
+All right.  But don't blame me if something goes wr......               
+                    --- POOF!! ---                                      
+You are engulfed in a cloud of orange smoke.  Coughing and gasping, you 
+emerge from the smoke and find....                                      
+You're inside building.                                                 
+There is food here.                                                     
+                                  CLOSE PIRATE
+                                  RETURN
+Sorry, but I no longer seem to remember how it was you got here.        
+You're inside building.                                                 
+There is food here.                                                     
+                                  DEBRIS
+You can't get there from here.                                          
+                                  LOOK SPICES
+Sorry, but I am not allowed to give more detail. I will repeat the long 
+description of your location.                                           
+You are inside a building, a well house for a large spring.             
+There is food here.                                                     
+                                  E
+There is no way to go that direction.                                   
+You're inside building.                                                 
+There is food here.                                                     
+                                  WAKE PRINCE
+There's nothing here to wake up.                                        
+                                  OPEN LID
+There is nothing here with a lock.                                      
+                                  SAPHIRE
+What do you want to do with the saphire
+                                  NW
+There is no way to go that direction.                                   
+You're inside building.                                                 
+There is food here.                                                     
+                                  CRAWL
+You can't get there from here.                                          
+                                  IN
+I don't know in from out here.  Use compass points or name something in 
+the general direction you want to go.                                   
+You're inside building.                                                 
+There is food here.                                                     
+                                  ORIENTAL
+You can't get there from here.                                          
+                                  CALM MIRROR
+You can't be serious!                                                   
+                                  LIFT HARP
+It's not here!                                                          
+                                  DANCING
+You can't get there from here.                                          
+                                  FIE
+What's the matter, can't you read?  Now you'd best start over.          
+                                  NW
+There is no way to go that direction.                                   
+You're inside building.                                                 
+There is food here.                                                     
+                                  YES
+I don't understand that!                                                
+                                  YES
+I don't understand that!                                                
+                                  EAT BRIDGE
+I think I just lost my appetite.                                        
+                                  HELP
+I know of places, actions, and things.  Most of my vocabulary describes 
+places and is used to move you there.  To move, try words like BUILDING,
+DOWNSTREAM, ENTER, EAST, WEST, NORTH, SOUTH, UP or DOWN.  I know about  
+a few special objects, like a black rod hidden in the cave. These       
+objects can be manipulated using some of the action words that I know.  
+Usually you will need to give both the object and action words (in the  
+right order), but sometimes I can infer the object from the verb alone. 
+Some objects also imply verbs; in particular, "INVENTORY" implies "take 
+inventory", which causes me to give you a list of what you're carrying. 
+The objects have side effects; for instance, the rod scares the bird.   
+Usually people having trouble moving just need to try a few more words. 
+Usually people trying unsuccessfully to manipulate an object are attemp-
+ting something beyond their (or my!) capabilities and should try a comp-
+letely different tack.  To speed the game you can sometimes move long   
+distances with a single word.  For example, "BUILDING" usually gets you 
+to the building from anywhere above ground except when lost in forest.  
+Also, note that cave passages turn a lot, and that leaving a room to the
+north does not guarantee entering the next from the south.  Good luck!  
+                                  BELOW
+The stream flows out through a two-foot diameter sewer pipes. I would   
+recommend the exit.                                                     
+You're inside building.                                                 
+There is food here.                                                     
+                                  NE
+There is no way to go that direction.                                   
+You're inside building.                                                 
+There is food here.                                                     
+                                  SHAKE ELVES
+You don't carry that.                                                   
+                                  FUM
+Nothing happens.                                                        
+                                  SHARDS
+What do you want to do with the shards
+                                  LEAVE
+You're at end of road again.                                            
+There is a shiny brass lamp nearby.                                     
+                                  DOWN
+You're in valley.                                                       
+                                  FOLLOW SERPENT
+You're at slit in streambed.                                            
+There is a bottle of water here.                                        
+                                  GIANT
+You can't get there from here.                                          
+                                  NOTHING
+You're at slit in streambed.                                            
+There is a bottle of water here.                                        
+                                  YES
+I don't understand that!                                                
+                                  KICK CAULDRON
+I will not!!                                                            
+                                  WASH MESSAGE
+You splash the water over you and are now tolerably clean.              
+                                  PEARL
+What do you want to do with the pearl
+                                  SAY DOOR
+Okay DOOR                                                        
+                                  W
+You are in open forest, with a deep valley to one side.                 
+                                  YES
+I don't understand that!                                                
+                                  FUM
+Nothing happens.                                                        
+                                  BUILDING
+There is no way to go that direction.                                   
+You're in forest.                                                       
+                                  YES
+I don't understand that!                                                
+                                  SING TROLL
+Okay TROLL                                                       
+                                  GULLY
+You can't get there from here.                                          
+                                  IN
+I don't know in from out here.  Use compass points or name something in 
+the general direction you want to go.                                   
+You're in forest.                                                       
+                                  DROP GRAPHNEL
+You aren't carrying it.                                                 
+                                  RUB LEATHER
+You can't be serious!                                                   
+                                  KICK PEARL
+I will not!!                                                            
+                                  GULLY
+You can't get there from here.                                          
+                                  RUB TABLET
+You can't be serious!                                                   
+                                  FLOOR
+You can't get there from here.                                          
+                                  BROKEN
+You can't get there from here.                                          
+                                  JUJU
+ Can't!
+                                  WALK CHANDELIER
+I am unsure how you are facing.  Use compass points or nearby objects.  
+                                  EXIT
+I don't know in from out here.  Use compass points or name something in 
+the general direction you want to go.                                   
+You're in forest.                                                       
+                                  FOE
+What's the matter, can't you read?  Now you'd best start over.          
+                                  DROP AXE
+You aren't carrying it.                                                 
+                                  BEHIND
+There is no way to go that direction.                                   
+                                  SOUTHEAST
+There is no way to go that direction.                                   
+You're in forest.                                                       
+                                  SE
+There is no way to go that direction.                                   
+You're in forest.                                                       
+                                  FLOOR
+You can't get there from here.                                          
+                                  STEPS
+You can't get there from here.                                          
+                                  FORK
+You can't get there from here.                                          
+                                  REMOVE SCEPTER
+ Can't!
+                                  BREAK ROD
+Now what do you want to do that for? (Besides, you don't have anything  
+to use for doing that.)                                                 
+                                  BARREN
+You can't get there from here.                                          
+                                  EMERALD
+What do you want to do with the emerald
+                                  PUT MITHRIL
+I cannot do that yet. You'll have to excuse me.
+                                  DIG NUGGET
+Digging without a shovel is quite impractical.  Even with a shovel      
+progress is unlikely.                                                   
+                                  SLAB
+You can't get there from here.                                          
+                                  CHAIN
+What do you want to do with the chain
+                                  NORTHWEST
+There is no way to go that direction.                                   
+You're in forest.                                                       
+                                  FUM
+Nothing happens.                                                        
+                                  SHORE
+Nothing happens.                                                        
+                                  FOE
+What's the matter, can't you read?  Now you'd best start over.          
+                                  FOE
+What's the matter, can't you read?  Now you'd best start over.          
+                                  WAVE FIRE
+You don't carry that.                                                   
+                                  BED
+You can't get there from here.                                          
+                                  REMOVE SATCHEL
+ Can't!
+                                  SLAB
+You can't get there from here.                                          
+                                  DROP PICKAX
+You aren't carrying it.                                                 
+                                  DUNGEON
+You can't get there from here.                                          
+                                  S
+You're in forest.                                                       
+                                  FOREST
+You are in open forest near both a valley and a road.                   
+                                  DRINK PRINCE
+I don't think I quite understood what you said. Would you please re-    
+phrase that?                                                            
+                                  YES
+I don't understand that!                                                
+                                  OIL
+What do you want to do with the oil
+                                  DROP AXE
+You aren't carrying it.                                                 
+                                  CUT SNAKE
+You don't carry a sword.                                                
+                                  PLOVER
+Nothing happens.                                                        
+                                  PLUGH
+Nothing happens.                                                        
+                                  DRAWINGS
+What do you want to do with the drawings
+                                  FIE
+What's the matter, can't you read?  Now you'd best start over.          
+                                  FOLLOW HAG
+You're in valley.                                                       
+                                  DOWNSTREAM
+You're at slit in streambed.                                            
+There is a bottle of water here.                                        
+                                  DARK
+You can't get there from here.                                          
+                                  SE
+There is no way to go that direction.                                   
+You're at slit in streambed.                                            
+There is a bottle of water here.                                        
+                                  RESERVOIR
+You can't get there from here.                                          
+                                  STAIRCASE
+You can't get there from here.                                          
+                                  CLOSE CHAIN
+                                  S
+You're outside grate.                                                   
+The grate is open.                                                      
+                                  RUB CHANDELIER
+You can't be serious!                                                   
+                                  WALK FOOD
+You're in forest.                                                       
+                                  BELOW
+There is no way to go that direction.                                   
+You're in forest.                                                       
+                                  ORNAMENT
+What do you want to do with the ornament
+                                  CLOSE DWARF
+                                  DRINK FISSURE
+I don't think I quite understood what you said. Would you please re-    
+phrase that?                                                            
+                                  CLIMB
+There is no way to go that direction.                                   
+You're in forest.                                                       
+                                  OPEN ORNAMENT
+There is nothing here with a lock.                                      
+                                  DOWN
+You're in valley.                                                       
+                                  POCUS
+Good try, but that is an old worn-out magic word.                       
+                                  LOCK ORNAMENT
+                                  PLOVER
+Nothing happens.                                                        
+                                  NE
+There is no way to go that direction.                                   
+You're in valley.                                                       
+                                  DOWNSTREAM
+You're at slit in streambed.                                            
+There is a bottle of water here.                                        
+                                  SE
+There is no way to go that direction.                                   
+You're at slit in streambed.                                            
+There is a bottle of water here.                                        
+                                  YES
+I don't understand that!                                                
+                                  INFO
+If you want to end your adventure early, say "QUIT".  To suspend your   
+adventure such that you can continue later, say "SUSPEND" (or "PAUSE"   
+or "SAVE").  To see what hours the cave is normally open, say "HOURS".  
+To see how well you're doing, say "SCORE".  To get full credit for a    
+treasure, you must have left it safely in the building, though you get  
+partial credit just for locating it.  You lose points for getting       
+killed, or for quitting, though the former costs you more.  There are   
+also points based on how much (if any) of the cave you've managed to    
+explore; in particular, there is a large bonus just for getting in (to  
+distinguish the beginners from the rest of the pack), and there are     
+other ways to determine whether you've been through some of the more    
+harrowing sections.  If you think you've found all the treasures, just  
+keep exploring for a while.  If nothing interesting happens, you haven't
+found them all yet.  If something interesting *DOES* happen, it means   
+you're getting a bonus and have an opportunity to garner many more      
+points in the master's section.  I may occasionally offer hints if you  
+seem to be having trouble.  If I do, I'll warn you in advance how much  
+it will affect your score to accept the hints.  Finally, if you want the
+full description of a place after the first time you get there, specify 
+"LOOK".                                                                 
+                                  VALLEY
+You can't get there from here.                                          
+                                  LEDGE
+Nothing happens.                                                        
+                                  SING CHAIN
+Okay CHAIN                                                       
+                                  THROW TROLL
+You aren't carrying it.                                                 
+                                  KICK METAL
+I will not!!                                                            
+                                  SING ROD
+Okay ROD                                                         
+                                  JUMP
+There is no way to go that direction.                                   
+You're at slit in streambed.                                            
+There is a bottle of water here.                                        
+                                  WAVE STONE
+You don't carry that.                                                   
+                                  TUNNEL
+There is no way to go that direction.                                   
+You're at slit in streambed.                                            
+There is a bottle of water here.                                        
+                                  LIFT PORTAL
+It's not here!                                                          
+                                  NORTH
+You're in valley.                                                       
+                                  NE
+There is no way to go that direction.                                   
+You're in valley.                                                       
+                                  CALM MIST
+You can't be serious!                                                   
+                                  YES
+I don't understand that!                                                
+                                  WALK STONE
+I am unsure how you are facing.  Use compass points or nearby objects.  
+                                  KNIFE
+What do you want to do with the knife
+                                  TIE GRAPHNEL
+There's nothing to tie anything to here.                                
+                                  Y2
+There is no way to go that direction.                                   
+                                  XYZZY
+Nothing happens.                                                        
+                                  OYSTER
+What do you want to do with the oyster
+                                  FLOOR
+You can't get there from here.                                          
+                                  GRATE
+You're outside grate.                                                   
+The grate is open.                                                      
+                                  WEST
+You're in forest.                                                       
+                                  SOUTHEAST
+There is no way to go that direction.                                   
+You're in forest.                                                       
+                                  SHAKE DRAWINGS
+You don't carry that.                                                   
+                                  ATTACK BIRD
+At the moment there are nothin to attack      
+                                  LEFT
+I am unsure how you are facing.  Use compass points or nearby objects.  
+                                  PUT EMERALD
+I cannot do that yet. You'll have to excuse me.
+                                  DUNGEON
+You can't get there from here.                                          
+                                  NORTHWEST
+There is no way to go that direction.                                   
+You're in forest.                                                       
+                                  EXAMINE TABLE
+Sorry, but I am not allowed to give more detail. I will repeat the long 
+description of your location.                                           
+You're in forest.                                                       
+                                  APPROACH
+Nothing happens.                                                        
+                                  ROOM
+You can't get there from here.                                          
+                                  LEFT
+I am unsure how you are facing.  Use compass points or nearby objects.  
+                                  DOWNSTREAM
+There is no way to go that direction.                                   
+You're in forest.                                                       
+                                  NOTHING
+You're in forest.                                                       
+                                  LEFT
+I am unsure how you are facing.  Use compass points or nearby objects.  
+                                  RUN MAGAZINE
+I am unsure how you are facing.  Use compass points or nearby objects.  
+                                  BOW METAL
+I feel a little bit ridicoulus, but OK.                                 
+                                  TUNNEL
+There is no way to go that direction.                                   
+You're in forest.                                                       
+                                  HOUSE
+There is no way to go that direction.                                   
+You're in forest.                                                       
+                                  CAVERN
+You can't get there from here.                                          
+                                  BED
+You can't get there from here.                                          
+                                  WAVE GATE
+You don't carry that.                                                   
+                                  GRATE
+You can't get there from here.                                          
+                                  DIAMONDS
+What do you want to do with the diamonds
+                                  

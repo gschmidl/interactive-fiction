@@ -1,0 +1,533 @@
+
+                 GENERELL INFORMASJON
+
+        P} de neste sidene f|lger en kort orientering om hvert spill.
+
+
+        Norsk Data kan ikke gi veiledning utover det som st}r p} disse
+        sidene. ND's  service  apparat  tar  heller  ikke  imot  feil-
+        rapporter. Spillene er stort sett skrevet av studenter ved NTH
+        (Norges Tekniske H|yskole),  Trondhjem.  Da  studentene  efter
+        hvert  blir  ferdig  med sine studier, og nye studenter gjerne
+        vil lage sine  egne  spill,  er  det  lite  sannsynlig  at  en
+        eventuell oppf|lger til dette produktet vil inneholde de samme
+        spillene, og f|lgelig lite sannsynlig at rettede versjoner vil
+        bli sendt ut.
+
+        Men  har  noen kommentarer til spillene, eller enda bedre, har
+        noen noen spill som de vil dele  med  andre  (ingen  bel|nning
+        utover  {ren!),  s}  kan  dette  sendes  SKRIFTLIG  (Spill  p}
+        floppy)  til RSH, Norsk Data A/S, Postboks 25 Bogerud, OSLO 6.
+        Kommentarene vil s} bli videresendt til Trondhjem.
+
+
+              ***************************************************
+              *          VEILEDNING  FOR  SPILLET DIGGER        *
+              ***************************************************                                 
+
+                        I samarbeid med en ND-10-maskin er dette
+              produkt skapt i november 1983 p} NTH. Ansvarlig for
+              ud}den er Jostein Bruflot.
+
+    HVORDAN EN STARTER:
+                        Spillet startes ved } skrive
+              (GAMES)DIGGER
+                        DIGGER spilles direkte mot skjermen, der
+              en bygning med flere etasjer vises. N}r spillet
+              starter finnes det fire uhyrer(kr|llalfaer) i 
+              bygningen. I begynnelsen er flere av uhyrene i 
+              samme posisjon, s} en ser bare to kr|llalfaer. 
+                        DU, som er THE DIGGER, vises som en "v",
+              "^","<" eller ">", ettersom hvilken vei du beveger 
+              deg. "]pningen" i tegnet viser fremover. For }
+              bevege deg tastes en av piltastene, en gang for 
+              hver gang du vil endre bevegelsen i pilens retning.
+              For } stoppe vendt mot venstre brukes skr}pilen.
+              "5"-tasten stopper deg vendt mot h|yre. Du kan 
+              grave hull i gulvet ved } taste "6", og grave igjen
+              (og sl}) med "4"-tasten.
+
+    HVA DET G]R UT P].
+                        DIGGER g}r ut p} } f} flest mulig poeng
+              ved } ta knekken p} uhyrene. Uhyrene har en viss
+              intelligens, og s|ker etter deg. Et uhyre kan bare
+              drepes n}r det har falt ned i et hull som du har 
+              gravd i gulvet. (Du kan bare grave n}r du st}r
+              stille.) Hvis du da stiller deg siden av hullet
+              (vendt mot dette), og sl}r tre ganger, vil uhyret 
+              falle ned og d| n}r det treffer gulvet eller toppen
+              av en trapp.
+                        Hvis uhyret ikke blir drept innen en viss
+              tid i hullet, vil det krabbe opp og bli til et 
+              farligere vesen. Da m} det falle ned en etasje
+              mer enn f|r for } d| (du m} grave flere hull rett 
+              over hverandre), men de trenger aldri falle gjennom
+              mer enn tre etasjer. De som m} falle gjennom to
+              etasjer vises som "O", og treetasjers er "*".
+                        N}r alle uhyrene er tatt av dage, kommer
+              man inn i en ny bygning med nye uhyrer.
+                        Du er for{rt tre liv fra starten, og f}r
+              ett nytt liv for hver femte bygning. N}r du 
+              kolliderer med et uvesen, mister du ett liv. Spillet
+              avsluttes n}r DIGGER har null liv igjen.
+                        N}r du starter i en bygning har du en    
+              viss oksygenmengde til disposisjon. Hvis dette tar
+              slutt, mister du ogs} ett liv
+
+    POENGBEREGNING:
+              POENG:    En f}r poeng n}r et uhyre d|r. Poengsummen
+                   beregnes ut fra hvor h|yt uhyret har falt.
+              BONUS:    N}r en har tatt alle uhyrene i en bygning,
+                   f}r en det oksygenet en har igjen, i bonus.
+                        En f}r og bonus n}r et "flere-etasjers"
+                   uhyre d|r.
+                        Bonus blir lagt til poengene n}r spillet 
+                   er slutt.
+
+                        
+
+                         INSTRUKSJONER TIL FIDO
+
+
+         Dette  er et s}kalt "real-time" spill, det vil si at spillet
+         g}r ut p} } reagere hurtig p} ting som foreg}r p}  skjermen.
+         Det  er  skrevet  av  Jan  Bech,  student p} Norges tekniske
+         h|yskole i Trondheim.
+
+         Selve  spillet  foreg}r  i  en  labyrint  som  tegnes opp p}
+         skjermen.  Din posisjon markeres ved  en  hake, hhv. ^,>,V,<
+         avhengig  av  hvilken  vei du har vendt deg.  Du beveger deg
+         forover med en (forh}pentligvis) jevn hastighet, s} lenge du
+         ikke  st|ter  mot  noen  av  veggene.   Du kan n}r som helst
+         skifte retning ved hjelp av piltastaturet p} terminalen. For
+         } stoppe trykker du p} skr}pilen.
+
+         M}let  med spillet er } spise s} mye "mat" som mulig.  Maten
+         symboliseres ved $ .  Maten st}r i ro, s}  det  er  relativt
+         enkelt  }  f} tak i den.  Det vil ogs} dukke opp "supermat",
+         symbolisert ved + . Denne maten gir ekstra mye  energi,  men
+         den  er  bevegelig.    Den vil fors|ke } bevege seg bort fra
+         deg, s} det er om } gj|re } f} stengt den inne i et hj|rne i
+         labyrinten.    Pass  p}:  hvis  du f}r tak i supermaten, vil
+         spillet g} mye kjappere, s} da m}  du  holde  tunga  rett  i
+         munnen!
+
+         N}r   du  har  spist  opp  all  den  stillest}ende  maten  i
+         labyrinten (alle $ ) Vil energien du har opparbeidet deg bli
+         overf|rt  til  poeng,  og du f}r en ny labyrint } spille p}.
+         Denne labyrinten kan v{re lik den gamle, men  vanligvis  vil
+         du  f} et helt nytt "landskap".  Merk: du f}r alts} ikke noe
+         poeng f|r du har spist den siste $ p} et brett!
+
+         Alt  dette kan v{re vel og bra, men for } f} litt spenning i
+         spillet vil det v{re et antall  "kanelboller"  ,alts}  @  ,i
+         labyrinten sammen med deg. Disse er programmert til } bevege
+         seg i retning av deg, og his du kommer  borti  en  av  disse
+         (eller en kommer borti deg) s} d|r du. det vil si at all den
+         energi du fikk i den siste labyrinten, var forgjeves.    Mat
+         du  har  spist  i  andre  labyrinter er allerede omgjort til
+         poeng, s} de kan du ikke miste.   Ditt  eneste  forsvar  mot
+         disse  udyrene er pistolen din, som du fyrer av ved et trykk
+         p} mellomromstasten. Du skyter i samme retning som  du  g}r,
+         s}  hvis  det kommer en @ bak deg m} du f|rst snu deg f|r du
+         skyter.  Hver gang du skyter mister du energi, s} bruk  ikke
+         pistolen i utide!  NB: maten m} ikke skytes ! Hvis du bruker
+         opp all energien din, s} d|r du.
+
+         Etter  at du har blitt drept 3 ganger vil spillet avsluttes.
+         Dersom  resultatet   ditt   er   bedre   en   sistemann   p}
+         resultatlisten,  vil  du  komme inn p} denne.  Dette gjelder
+         ikke hvis du allerede st}r p} listen med en h|yere poengsum.
+
+
+         SAMMENDRAG:
+
+
+         ">" : Dette er deg.  Styres med pilene.
+
+         "$" : Dette er mat.  Gir 50 poeng.
+
+         "+" : Dette er bevegelig supermat.  Gir 300 poeng.
+
+         "@" : Dette er FIDOER.  ] spise dem bel|nnes med d|den.
+
+
+         ******
+         *    *   Dette er en bevegelig sperre som skiller
+         *    *   en eller flere rom i labyrinten fra hverandre.
+         ******
+
+                      INTRODUKSJON TIL MACMAN
+                      =======================
+
+        Et spill skrevet av Witold Sitek, NTH Trondheim.
+
+
+            Macman  er et "real-time" spill. Som spiller kontrollerer
+        du en liten tass "<" rundt i en labyrint. For }  sanke  poeng
+        kan du :
+
+     a) spise kjeksene "-" i labyrinten
+     b) spise evntuelle bonuskuler "o" som dukker opp
+     c) skaffe  deg  bonus  ved  }  spise  Kanelbollene  n}r disse er
+        spiselige "$". Kanelbollene "@" blir bare  spiselige  n}r  du
+        har  spist en pepp-pille "O", og de forblir spiselige bare en
+        kort stund. Spiste Kanelboller "%" er ufarlige.
+
+            Kanelbollene  er selvs|kende og vil pr|ve } f} tak i deg.
+        Dersom de gj|r det, d|r du, men du har heldigvis 3 liv } t{re
+        p}.  Hvis  du  greier  }  spise opp alle kjeks,pepp-piller og
+        stjerner i labyrinten, vil du f} nytt brett, sannsynligvis et
+        annet enn det du hadde. Det finnes 5 forskjellige labyrinter,
+        og de velges tilfeldig.
+
+            Du  styrer  macman  med piltastaturet. Du kan ogs} stoppe
+        v.hj.a. home-tasten.
+
+
+        Poengberegning:
+        --------------
+            1  poeng pr. kjeks
+            5  bonuspoeng pr. pepp-pille
+           10  bonuspoeng pr. "$"
+           50  bonuspoeng pr. bonuskule
+
+
+                      INTRODUKSJON TIL TERRANOVA
+                      ==========================
+
+        Et spillskrevet av Witold Sitek, NTH Trondheim.
+
+
+
+           Terranova    er  et  "real-time"  spill  som  krever  rask
+        reaksjon fra spillerens side. Spillet g}r ut p} } sanke poeng
+        ved  } paralysere og derved uskadelig- gj|re fienden "@", her
+        kalt  Involutene.  Disse  dukker  opp  tilfeldig  p}  spille-
+        brettet,  stadig  oftere ettersom spillet skrider frem. De er
+        selvs|kende og f|lger etter deg. Hvis de n}r deg  igjen,  d|r
+        du.  Du  vil  imidlertid  bli  reinkarnert  i  basen 2 ganger
+        (praktisk,ikke sant?). Paralyserte Involuter  vil  forbli  p}
+        brettet  som  hindringer "Y" som hverken du eller fienden kan
+        g} gjennom. Hvis du f}r fritidsproblemer, kan du ogs}  plukke
+        poeng  ved  } skyte ned astroider "*". Disse m} du ikke kj|re
+        inn i,da d|r du.
+
+           N}r  spillet  starter,  befinner  du  deg  i basen midt p}
+        brettet. Her er du alltid trygg, Involutene kan aldri  trenge
+        inn her.
+
+           Er  du  riktig  flink, blir du utnevnt til Terra-ridder og
+        kommer inn p} resultatlisten.
+
+
+        Poengberegning
+        --------------
+
+            5 poeng pr. Involut
+           10 poeng pr. astroide
+
+
+
+
+                                   Kommandoer
+                                   ==========
+
+
+        Du kan BEVEGE deg p} to m}ter:
+
+        a) kontinuerlig v.hj.a. PILTASTATURET
+        b) steg for steg v.hj.a. TALLTASTATURET (2=ned, 8=opp,
+           4=venstre, 6=h|yre)
+
+
+           Du  SKYTER med "SPACE BAR"- mellomromstasten. Skuddet vil,
+        logisk nok, g} i samme retning som du selv beveger deg. Skudd
+        kan ikke g} gjennom vegger "_" og forhenv{rende Involuter "Y".
+
+           Skulle   du  bli  trengt  opp  i  en  spesielt  ubehagelig
+        situasjon, kan du benytte deg av  "PANIKK"-knappen  "0"-null.
+        Denne  vil  flytte  deg  til  et  tilfeldig  sted p} skjermen
+        samtidig som poengsummen skrumper inn med 50 poeng.
+
+                                         T R O N
+                                        =========
+
+                    Et spill for fra to til fire personer laget av :
+                          P}l Kvamme          ( Monitor-kall )
+                          \ystein Torbj|rnsen ( Pascal-kode  )
+
+              Dette  spillet baserer seg p} en film av samme navn av  'Walt
+              Disney'.  Du  har  havnet i en farlig  duell  p}  'Lyssykkel-
+              arenaen',  hvor kun den beste overlever. Det kan v{re  opptil
+              fire  duellanter som hver har sin egen lys-sykkel (terminal).
+              Sykkelen  (terminalen) styres med piltastaturet.  (Retningene
+              b|r  v{re un|dvendig } forklare.) N}r syklene kj|rer vil  det
+              oppst}  en  hale hvor hver spiller har sitt  spesielle  tegn.
+              Hverken du eller de andre duellantene kan kj|re i sporet ditt
+              da  det  medf|rer  crash,  d|d og fordervelse  for  denne.  I
+              tillegg  vil halen til den uheldige ogs} forsvinne og  dermed
+              ogs} gi bedre plass for de andre deltagerene. Vinneren er den
+              som  er alene igjen og han blir bel|nnet med en poengsum  som
+              tilsvarer  tiden  duellen varte. De andre f}r  intet.  Dersom
+              alle  vil det s} kan det finne sted en reinkarnasjon og en ny
+              duell utf|res. Antall dueller er ubegrenset, dog en poeng sum
+              p}  mer en 32767 er ikke } foretrekke. (Denne poengsummen  er
+              enn}  ikke  oppn}dd og eventuelle resultatene er ikke  kjent.
+              Antagelig  vil det komme en feilmelding fra pascal.)  Spillet
+              kan avbrytes med escape-tasten fra en av terminalene.
+
+         Bruksanvisning :
+
+              Start TRON fra en av terminalene som en |nsker } beytte. TRON
+              vil  da  vise en introduksjon og sp|rre om  brukeren  trenger
+              hjelp  eller om han vil spille. Dersom brukeren svarer "H" s}
+              vil  det vises en kort introduksjon til spillet, og s}  vente
+              til  det trykkes ned en tast p} tastaturet. N} vil spillet be
+              om  antallet deltagere ( 2,3 eller 4 ). Deretter vil det lese
+              inn  de logiske terminalnummerene til de andre terminaler som
+              |nskes  benyttet. ALLE DE ANDRE TERMINALENE M] V[RE LOGGET UT
+              OG  PASSIVE;  ESCAPE M] IKKE V[RE TRYKKET OG  P]LOGGING  IKKE
+              P]BEGYNT  !!! Dersom terminalene er opptatt og ikke mulige  }
+              reservere  vil  spillet  termineres med melding om at  de  m}
+              logges ut, evt. logges inn for s} } logges ut. Programmet vil
+              ogs}  gi feilmelding dersom et nummer blir oppgitt to  ganger
+              eller en ikke-eksisterende terminal fors|kes benyttet. Dersom
+              denne delen g}r smertefritt er opptakspr|ven godkjent og TRON
+              vil  sp|rre  om navnet til alle deltagerene. Alle  spillerene
+              f}r ogs} tildelt et spesiellt haletegn som de kan kjenne selv
+              selv   igjen   p}.  (  o,*,+  eller  x  ).  Fra  n}  av   vil
+              escape-knappen  kunne  benyttes til } stoppe  spillet  dersom
+              noen  blir lei eller |nsker } logge seg inn. Etter innlesning
+              av  navn vil spillet kunne startes ved at alle trykker ned en
+              tast  p} tastaturet. Startposisjonen p} skjermen vil  variere
+              fra  gang  til  gang,  men en kan kjenne seg  selv  igjen  p}
+              haletegnet  man fikk utdelt n}r navnet ble skrevet inn.  Styr
+              med  piltastaturet  og pass opp for veggene og halene til  de
+              andre  deltagerene. Halene vil ha en viss maksimallengde. N}r
+              noen har vunnet s} vil spillet sp|rre om alle vil spille mer.
+              Svar  "J"  eller <space> for ja eller "N" eller <escape>  for
+              nei. Dersom en svarer nei s} vil spillet avsluttes ellers vil
+              det bli et nytt spill.
+
+              Spillet g}r kun p} f|lgende terminaltyper :
+
+              Tandberg TDV 2115, TDV 2215, TDV 2200/9 (NOTIS)
+
+
+                          SPILL
+
+        SPILL er en samling spill der man kan velge spill ut i fra en
+        meny. Av spillene kan nevnes OTHELLO, BONDESJAKK, MASTERMIND,
+        HANGMAN,  ROMINVASJON. Informasjon om de enkelte spillene f}r
+        man ved } svare J p} sp|rsm}l om dette efter at man har valgt
+        et spill ved } taste inn et tall som st}r foran hvert spill i
+        spillmenyen.
+
+        Denne  pakken  er  stort  sett  identisk  med  den  tidligere
+        utsendte NORD-GAMES.
+
+                   INTRODUKSJON TIL MASTERMIND
+                   ===========================
+
+        Spillet   er   skrevet  av  Gunnar  Borthne  og  Ole  Vignes,
+        Bergavdelingen NTH 1983.
+
+        Mastermind   er  et  spill som utfordrer din evne til } tenke
+        klart og logisk. Du er den ene spilleren og jeg (maskinen) er
+        den  andre.  Spillet  g}r  ut  p}  at en  av  oss  setter  en
+        fargekode som den andre skal pr|ve } finne. Vi  bruker  disse
+        fargene:    LILLA  ORANSJE  R\D  GR\NN  BL]  FIOLETT
+
+        Koden best}r av fire farger. Eksempel :
+
+        Du laget denne koden :  BL]   R\D    GR\NN   GR\NN
+
+                  Jeg tipper :  R\D   LILLA  GR\NN   LILLA
+
+        Som du ser har jeg plassert GR\NN p} riktig plass. Da skal du
+        gi meg en SVART pinne ved } trykke p} S. Jeg har ogs}  tippet
+        R\D  som  skal  v{re  med,    men  jeg har  satt  den p} feil
+        plass. Da skal du gi meg en HVIT pinne ved  }  trykke  p}  H.
+        Hvis  du  har  kommet til } trykke feil, er det bare } trykke
+        null (0), og gi meg pinner p} nytt. N}r du er ferdig, trykker
+        du p} RETURN-tasten.
+
+        N}r   det  er  du  som gjetter p} min kode, skal DU trykke p}
+        forbokstaven til fargene du gjetter. Du kan  flytte  mark|ren
+        med h|yre-pilen  og  venstre-pilen og  sette  fargene  der du
+        vil ha dem. Hvis du ombestemmer deg, kan du skrive opp}    en
+        gammel    farge,    og    den   nye  kommer  der  istedenfor.
+        Trykk   p} RETURN-tasten n}r du har gjettet fire  farger  som
+        du  er  forn|yd med. Da f}r du svarte og hvite pinner av meg.
+        Hvis  du  gir  opp,  kan  du  bare  skrive  et  sp|rsm}lstegn
+        (?), og koden r|pes.    Lykke til !
+
+                             VELKOMMEN TIL "ORM"
+
+                   Dette er et spill der du kan f} testa reaksjons- og
+         koordineringsevnen  din(tro det eller ei - det g}r faktisk p}
+         NORD bare den ikke er for hardt kj|rt!)
+                   Spillet  g}r ut p} } styre en orm over skjermen, og
+         }  treffe  visse  m}l som dukker opp. Du kan  styre  den  med
+         cursorpilene  eller bruke tallene. Ormen g}r sj|l om du  ikke
+         trykker  noen tast, s} det gjelder } f|lge med! Dersom du g}r
+         p} veggene eller p} deg sj|l, slutter spillet, og du f}r vite
+         din  poengsum. Dersom du kommer blant de 10 beste  spillerne,
+         vil du bli notert med navn,poengsum og dato.
+                   Det  er ogs} mulig } f} en egen konto for f|ring av
+         personlig  rekord,  og  den vil st} der  sj|l  om  programmet
+         avsluttes. Programmet vil sp|rre etter en kommando etter } ha
+         notert  ned  navnet  ditt,  og skriv da H eller ?  for  }  f}
+         valgmenyen lista opp.
+
+                   Lykke til!
+
+
+                          SVHA-ADVENTURE
+
+        Dette spillet finnes forel|big bare i en engelsk  utgave.  Vi
+        har  en  mer  begrenset  versjon p} norsk, men denne kan bare
+        kj|re p} maskiner med 48 bit floating point. S} vi  valgte  }
+        slippe ut den engelske.
+
+        Spillet  best}r i } vandre rundt i et nettverk av huler for }
+        finne skjulte skatter. Rundt omkring ligger det hint som  kan
+        v{re  nyttige andre steder i hulen. Adventure er et spill man
+        kan spille i ukesvis uten } ha funnet den siste  skatten.  S}
+        for de som liker utfordringer, er det bare } sette i gang.
+
+        Introduksjon og hjelp er innebygget i programmet.
+
+        Lykke til! Kanskje blir du en Stormester?
+
+
+
+
+                                                                
+      A      DDDD  V       V  EEEEE  N   N  TTTTTTT  U     U  RRRR   EEEEE
+     A A     D   D  V     V   E      NN  N     T     U     U  R   R  E
+    A   A    D   D   V   V    EEE    N N N     T     U     U  R   R  EEE
+   AAAAAAA   D   D    V V     E      N  NN     T     U     U  RRRR   E
+  A       A  DDDD      V      EEEEE  N   N     T      UUUUU   R   R  EEEEE
+
+
+
+
+
+      A user's guide to the first faltering steps on the path of the 
+      original ADVENTURE, here expanded to your discomfort and ruin.
+      (On the other hand, if you win through to the finish, your glory  
+      and honour will of course be greater!!)
+
+
+
+
+      If you have the chance to play ADVENTURE, you will probably use
+      some time in the company of this game and a terminal. You will
+      need a little information to help you at the outset, and that's
+      what we intend to try to do in this "user guide".
+
+
+      When you start up this program, you will be greeted with this 
+      question:
+
+
+        Welcome to Adventure!!  Would you like instructions?
+
+
+      And if you answer yes, this is written out for your information:
+
+
+        Somewhere nearby is colossal cave, where others have found fortunes in
+        treasure and gold, though it is rumored that some who enter are never
+        seen again.  Magic is said to work in the cave.  I will be your eyes and
+        hands.  Direct me with commands of 1 or 2 words, or, as I have grown
+        in mind lately, in some cases you may try up to 6 words. I will under-
+        stand you if you want to take all the things from a place, altough I
+        may not take them all, and I will also understand you if you want to
+        drop or take two things at a time (separated by AND). I only look at
+        the first six letters of each word.  Some words may be abbreviated: You
+        can type "NE" instead of "NORTHEAST", "S" instead of "SOUTH" etc. Should
+        you get stuck, type "HELP" for some general hints.  For information on
+        how to end your adventure, etc., type "INFO".
+                                     - - -
+
+
+
+      As you see above, the usual way to move about will be by the 8 main 
+      compass points, and UP or DOWN. (This you'll also find below.)
+
+
+
+
+
+      If you really need help, and ask for it, you'll find something like this:
+
+
+        I know of places, actions, and things.  Most of my vocabulary describes
+        places and is used to move you there.  To move, try words like BUILDING,
+        DOWNSTREAM, ENTER, EAST, WEST, NORTH, SOUTH, UP or DOWN.  I know about
+        a few special objects, like a black rod hidden in the cave. These
+        objects can be manipulated using some of the action words that I know.
+        Usually you will need to give both the object and action words (in the
+        right order), but sometimes I can infer the object from the verb alone.
+        Some objects also imply verbs; in particular, "INVENTORY" implies "take
+        inventory", which causes me to give you a list of what you're carrying.
+        The objects have side effects; for instance, the rod scares the XXXXXX.
+        Usually people having trouble moving just need to try a few more words.
+        Usually people trying unsuccessfully to manipulate an object are attemp-
+        ting something beyond their (or my!) capabilities and should try a comp-
+        letely different tack.  To speed the game you can sometimes move long
+        distances with a single word.  For example, "BUILDING" usually gets you
+        to the building from anywhere above ground except when lost in forest.
+        Also, note that cave passages turn a lot, and that leaving a room to the
+        north does not guarantee entering the next from the south.
+ 
+
+
+
+   And, if you want some information, this is approximately what it looks like:
+
+
+
+        If you want to end your adventure early, say "QUIT".
+        To see what hours the cave is normally open, say "HOURS".
+        To see how well you're doing, say "SCORE".  To get full credit for a
+        treasure, you must have left it safely in the building, though you get
+        partial credit just for locating it.  You lose points for getting
+        killed, or for quitting, though the former costs you more.  There are
+        also points based on how much (if any) of the cave you've managed to
+        explore; in particular, there is a large bonus just for getting in (to
+        distinguish the beginners from the rest of the pack), and there are
+        other ways to determine whether you've been through some of the more
+        harrowing sections.  If you think you've found all the treasures, just
+        keep exploring for a while.  If nothing interesting happens, you haven't
+        found them all yet.  If something interesting *DOES* happen, it means
+        you're getting a bonus and have an opportunity to garner many more
+        points in the master's section.  I may occasionally offer hints if you
+        seem to be having trouble.  If I do, I'll warn you in advance how much
+        it will affect your score to accept the hints.  Finally, if you want the
+        full description of a place after the first time you get there, specify
+        "LOOK".
+
+
+
+
+
+    You should take note that what is written above is not exactly the same
+    as what is written in the game itself. However, you can trust the printed
+    word, what is written above is the correct version. This means that you
+    cannot save your adventure on file, on the other hand, you are not punis-
+    hed for quitting in this game. You may always make a map and save it for
+    your next trip, and it is highly recommended to make a map when you start
+    out, as this will save you quite a lot of time later on.
+
+
+
+
+    Take note that the CTRL button together with the A button will erase the
+    last character written, while on the Tandberg terminals CTRL and Q will
+    erase the whole line which you are presently writing. DEL may be used
+    instead of CTRL and A and CTRL and K instead of CTRL and Q.
+
