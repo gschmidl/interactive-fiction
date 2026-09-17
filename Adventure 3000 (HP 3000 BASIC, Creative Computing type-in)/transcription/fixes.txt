@@ -1,0 +1,16 @@
+# Fixes applied to the playable build (data_play/, ADVENTURE3000_fixed.BAS).
+# data_print/ and ADVENTURE3000.BAS stay exactly as the magazine prints them;
+# --no-fixes in the port selects those instead.
+#
+# Format:  <file>|<record or line>|<before>|<after>|<why>
+# <record> is the 1-based record number for a data file, the line number for the program.
+
+ADESCRIP|71|You'reein the giant room.|You're in the giant room.|the space between "You're" and "in" was typed as an e (the e is fully struck on all three scans); user asked for it to be corrected
+ADESCRIP|34|You're at brink of small  it.|You're at brink of small pit.|the p is missing from the print in all three scans, leaving a one-character gap
+ADESCRIP|46|You are in the soft  oom.|You are in the soft room.|the r is missing from the print in all three scans, leaving a one-character gap
+ADESCRIP|27|You are near a window overlloking the pii.|You are near a window overlloking the pit.|"pii" for "pit" (the double l of "overlloking" is left alone: it is the author's own spelling, and harmless)
+
+# --- program bugs.  Object numbers: 6 ming vase, 16 water, 17 oil, 20 food, 28 velvet pillow, 29 shards of pottery.
+PROGRAM|6070|6070 Z9=FNA(22),S[17]=0,B0=0|6070 Z9=FNA(22),S[16]=0,B0=0|DRINK checks and drinks object 16 (water) but clears 17 (oil): the water stayed in your inventory and any oil in the cave vanished
+PROGRAM|5980|5980 Z9=FNA(73),S[20]=0,B0=0|5980 Z9=FNA(73),S[20]=0|EAT correctly removes the food but also sets B0=0, emptying the bottle you are carrying
+PROGRAM|7580|7580 Z9=FNA(43),S[28]=0,S[29]=L1|7580 Z9=FNA(43),S[6]=0,S[29]=L1|dropping the ming vase with no pillow under it prints "shatters into worthless crockery" and leaves the shards, but zeroes object 28 (the pillow) instead of 6 (the vase), so the vase stayed in your hands and the pillow was removed from the game

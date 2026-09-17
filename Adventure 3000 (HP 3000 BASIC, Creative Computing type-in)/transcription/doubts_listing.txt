@@ -1,0 +1,35 @@
+# glyphs settled by magnified three-scan comparison (original 600dpi / better scan / 800ppi microfilm)
+p128 c1 2100 entry 11: 3090 (third glyph is a 9: loop top, no flat base; 3090 = first statement of OFF)
+p128 c1 2100 entry 13: 3290 (faint 2; 3290 = REM ** LEAVE ***)
+p128 c1 2100 entry 35: 6410 (1 with flag and base bar, not 4; 6410 GOSUB 6430 = SCORE)
+p126 c1 930: GOSUB 8390 - dot test: 8 explains every dot, 6 leaves the upper-right dots unexplained (faint right half of the top loop). First eyeball read 6390 was WRONG; caught because 6390 is ELSE GOTO 9750 (ends the game) while 8390 sets D$ for line 940.
+# still to verify against their target routines
+p128 c1 2100 entries 18-30, 36-40: 4430 4630 4800 4950 5060 5190 5410 5560 5760 5810 5920 6000 6090 / 8970 9080 9220 4490 9330
+p132 c0 4630: original scan damaged ("FEE.   *"); better scan and microfilm read REM *** FEED ***
+p132 c0 4760: IF S[28]=L1 THEN 7600 in all three scans (28 = pillow, 7600 = vase-on-pillow drop message) - looks like an original bug, check when playing
+p132 c2 5870: print damaged in all scans ("]S", "ST]!!"); REM IS DOOR STILL RUSTED
+p132 c2 5880: stray mid-height dot between "1" and "THEN" in all scans; not a character (LIST output)
+p132 c2 6070: S[17]=0 AS PRINTED - dot test: every surviving dot lies on a 7, a 6 leaves 50% unexplained (PyBasic port also reads 17). Logic wants S[16] (drinking water): probable original bug. B0=0: faint mid-right dots belong to 0 not C.
+p132 c2 6130: S[8] (dot test 8 fits, 6/0 leave ink unexplained) THEN 6180
+p132 c2 5980: EAT sets B0=0 as printed in all scans (empties the bottle): probable original quirk
+p134 c0 6180: THEN 6110 (dot test: 1 explains all ink). Once the nest vanishes (S[8]=0) FEE FIE FOE FOO only prints "Nothing happens" - as printed
+p134 c0 6390: ELSE GOTO 9750 (QUIT handler)
+p134 c0 6450: (Z9/T1)*T1 as printed; T1=100 rooms so it equals the percentage
+p134 c0 6600: damaged T in (T=0) and C in (C=1); T=troll state, C=chain state
+p134 c2 7540: dot between line number and GOTO is a speck on the original scan only; better scan and microfilm are clean
+p134 c2 7580: S[28]=0 AS PRINTED (dot test: 2 and 8 explain all ink; user confirmed "S(28)"). 28=pillow, so shattering the vase deletes the pillow and leaves the vase carried; PyBasic changed it to S(6)=0. Original bug.
+p134 c2 7810: "DESCRIPITIONS" (extra serifed I printed in all three scans) - typo in the original
+p134 c2 7850: "CRSTAL BRIDGE" - typo in the original (six cells, all three scans)
+p134 c2 7650: Z5=Z5+INT(...) plus sign confirmed in all three scans
+p136 c0 8080: dot between IF and NOT at period height in all three scans = on the printing plate; not a character (IF.NOT fails BASIC syntax check and LIST regenerates text) -> stray pin/paste-up dot, like 5880
+p136 c0 8390: blot after line number on the original scan only; better scan clean
+p136 c0 8030: REM ends "DESC(BRIEF MODE" with no closing paren, all scans
+p136 c0 8080/8190: maze test is L1>88 AND L1<98 (room 88 excluded; 88 gets FNA(200+88)=FNA(288) anyway)
+p136 c1 8880: "VALAUBLES" - typo in the original (all three scans)
+p136 c1 8970: REM ***** SAVE GAME ****** - five before, six after (all three scans)
+p136 c2 9170/9420: first rows end at col 49/47 with NO "&" (all three scans; 9420's row is followed by blank paper). The third column on pages 128-136 only has room for ~50-60 characters before the running head / page edge, and no other line in those strips is longer - so this strip was listed narrower and these two statements wrapped. Continuation rows indent to col 6 like the "&" ones. Join: 9170 "B1,"+"B2,..."; 9420 "lines"+" "+"(hit" (space assumed at the wrap).
+p136 c2 9420: "Enter you gripe" - "you" is in the original (all three scans); PyBasic has "your"
+p136 c2 9140: IF R<>3 THEN 9170 (load proceeds unless ASSIGN returns 3); 9360: IF R<>0 THEN 9150
+p126 c0 row 0: "A3000" printed above line 10 - listing header (program/file name), not a program line
+p126 c0 15/16: printer output stops at column 72 ("...LAYOUT" / "...M.I."); "OF THE" and "T." are pasted-in typeset text in a different face (typeset.txt) - the listing device TRUNCATES at 72 columns
+p126 c0 15: "VIRGINIA . THE" - blank cell before the period in all three scans

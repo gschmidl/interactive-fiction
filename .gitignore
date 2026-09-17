@@ -54,6 +54,15 @@
 !**/docs/**
 !**/notes/**
 
+# how a scanned type-in was checked against the machine it was written for:
+# the session drivers and the transcripts they recorded (the logs they wrote
+# are not published)
+!**/hp3000/*.py
+!**/hp3000/moves_*.txt
+!**/hp3000/reference_*.txt
+# the script that fetches the page scans back from archive.org
+!**/scans/fetch.sh
+
 # games whose deliverable does not live in a port/ dir
 !/ASCII-Ladden (C64)/**
 !/Google Adventure (Browser)/**
@@ -78,6 +87,10 @@
 # its own tests/ and tools/, so nothing here is needed to build or verify.
 /_*_work/
 **/work/
+# the OCR pipeline's intermediates: ink maps, cut glyph cells, proof sheets.
+# 2.9 GB for the Adventure 3000 transcription alone, all of it regenerable
+# from the scans by the tools in transcription/tools/.
+**/work_*/
 
 # Fisk is not published: it was removed from the repository and its
 # history.  The folder stays on disk.
@@ -105,6 +118,16 @@
 **/port_qemu/build/qemu/
 **/port_qemu/build/rootfs.ext2
 **/port_qemu/build/bzImage
+
+
+# Adventure 3000: the BASIC data files are built from the text records beside
+# them the first time the game runs, and the test script writes its own copies
+# and transcripts while replaying the recorded walkthroughs.
+/Adventure 3000 (HP 3000 BASIC, Creative Computing type-in)/port/data/*/*.dat
+/Adventure 3000 (HP 3000 BASIC, Creative Computing type-in)/port/tests/data/*.dat
+/Adventure 3000 (HP 3000 BASIC, Creative Computing type-in)/port/tests/out_*.txt
+/Adventure 3000 (HP 3000 BASIC, Creative Computing type-in)/port/tests/diff_*.txt
+/Adventure 3000 (HP 3000 BASIC, Creative Computing type-in)/transcription/tools/draft_data.txt
 
 
 # ---- 4. ordinary build and editor litter ----------------------------

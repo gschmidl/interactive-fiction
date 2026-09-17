@@ -1,0 +1,493 @@
+===== AITEMS: printed 35 records, nd 35 lines
+--- replace print[8:9] (p112 c0 y1246) vs nd[8:9]
+  P| There is a jewel-encrusted trident here!
+  N| There is a jewel-encrusted trident here
+--- replace print[10:11] (p112 c0 y1373) vs nd[10:11]
+  P| There is a platinum pyramid here, eight inches on a side!
+  N| There is a platinum pyramd here, eight inches on a side!
+===== ADESCRIP: printed 100 records, nd 100 lines
+--- replace print[21:22] (p112 c0 y4280) vs nd[21:22]
+  P| You are in the hall of the Mountain King.
+  N| You're in the hall of the Mountain King.
+--- replace print[26:27] (p112 c1 y825) vs nd[26:27]
+  P| You are near a window overlloking the pii.
+  N| You are near a window overlloking a pit.
+--- replace print[33:34] (p112 c1 y1253) vs nd[33:34]
+  P| You're at brink of small  it.
+  N| You're at brink of small pit.
+--- replace print[45:46] (p112 c1 y1991) vs nd[45:46]
+  P| You are in the soft  oom.
+  N| You are in the soft room.
+--- replace print[56:57] (p112 c1 y2683) vs nd[56:57]
+  P| You are in an alcove.  A green glow comes from the east.
+  N| You are in an alcove. A green glow comes from the east.
+--- replace print[69:71] (p112 c1 y3490) vs nd[69:71]
+  P| You are in a long narrow E/W corridor.
+  P| You'reein the giant room.
+  N| You are in a long narrow e/w corridor.
+  N| You're in the giant room.
+--- replace print[73:74] (p112 c1 y3736) vs nd[73:74]
+  P| You're in a cavern with a waterfall.
+  N| You're in cavern with waterfall.
+--- replace print[78:79] (p112 c1 y4036) vs nd[78:79]
+  P| You are in a secret N/S canyon above a large room.
+  N| You are in secret N/S canyon above a large room.
+--- replace print[83:84] (p112 c1 y4354) vs nd[83:84]
+  P| You are at a wide place in a very tight N/S canyon.
+  N| You're at a wide place in a tight N/S canyon.
+--- replace print[86:87] (p114 c0 y772) vs nd[86:87]
+  P| The canyon runs into a mass of boulders--dead end.
+  N| The canyon runs into  mass of boulders--dead end.
+===== AMESSAGE: printed 569 records, nd 420 lines
+--- replace print[23:25] (p114 c0 y3116) vs nd[23:24]
+  P| The plant grows explosively, almost filling the bottom
+  P| of the pit.
+  N| The plant grows explosively, almost filling the bottom of the pit.
+--- replace print[32:34] (p114 c0 y3672) vs nd[31:32]
+  P| The bear is quite ferocious, and will no doubt tear you to
+  P| shreds if you approach it!
+  N| The bear is quite ferocious, and will no doubt tear you to shreds if you approach it!
+--- replace print[41:42] (p114 c0 y4227) vs nd[39:40]
+  P| It is beyond your power to do that
+  N| It is beyond your power to do that.
+--- replace print[43:46] (p114 c0 y4356) vs nd[41:42]
+  P| The clam opens momentarily, and a glistening pearl falls out
+  P| and rolls away.  Goodness, this must really be an oyster.
+  P| (I never was any good at identifying bivalves, anyway.)
+  N| The clam opens momentarily, and a glistening pearl falls out and rolls away.  Goodness, this must really be an oyster. (I never was any good at identifying bivalves, anyway.)
+--- replace print[49:51] (p114 c1 y942) vs nd[45:46]
+  P| The oil has freed-up the hinges, and with a slight push
+  P| the door squaks open.
+  N| The oil has freed-up the hinges, and with a slight push the door squaks open.
+--- replace print[56:57] (p114 c1 y1381) vs nd[51:52]
+  P| "Glug, glug, glug, Belch!"
+  N| "Glug, glug, glug, belch!"
+--- replace print[60:62] (p114 c1 y1624) vs nd[55:56]
+  P| You fool! Dwarves only eat coal! Now you've made him
+  P| *** REALLY  MAD ****!
+  N| You fool! Dwarves only eat coal! Now you've made him *** REALLY  MAD ****!
+--- replace print[63:65] (p114 c1 y1801) vs nd[57:58]
+  P| Trolls are brothers of the rocks and have skin like that
+  P| of a rhinocerous. He fends off your blows effortlessly.
+  N| Trolls are brothers of the rocks and have skin like that of a rhinocerous. He fends off your blows effortlessly.
+--- replace print[66:68] (p114 c1 y1988) vs nd[59:60]
+  P| The troll catches the axe, examines it, and tosses it back to
+  P| you saying, "Good workmanship, but not very valuable."
+  N| The troll catches the axe, examines it, and tosses it back to you saying, "Good workmanship, but not very valuable."
+--- replace print[71:73] (p114 c1 y2299) vs nd[63:64]
+  P| The bear lumbers toward the troll, who emits a shriek
+  P| and flees in terror. The bear soon gives up pursuit.
+  N| The bear lumbers toward the troll, who emits a shriek and flees in terror. The bear soon gives up pursuit.
+--- replace print[76:78] (p114 c1 y2613) vs nd[67:68]
+  P| You killed a little dwarf. The body vanishes in a cloud
+  P| of greasy black smoke.
+  N| You killed a little dwarf. The body vanishes in a cloud of greasy black smoke.
+--- replace print[79:80] (p114 c1 y2785) vs nd[69:70]
+  P| There is a threatening litle dwarf in the room with you!
+  N| There is a threatening little dwarf in the room with you!
+--- replace print[83:86] (p114 c1 y3038) vs nd[73:74]
+  P| A bearded pirate steps from the shadows. "Har har",he chortles,
+  P| "I'll jest take this booty an' hide it in me chest deep in the
+  P| maze!" He snatches your treasure and vanishes into the gloom.
+  N| A bearded pirate steps from the shadows. "Har har",he chortles, "I'll jest take this booty an' hide it in me chest deep in the maze!" He snatches your treasure and vanishes into the gloom.
+--- replace print[91:92] (p114 c1 y3534) vs nd[79:80]
+  P| The grate is locked
+  N| The grate is locked.
+--- replace print[93:95] (p114 c1 y3661) vs nd[81:82]
+  P| The bird was unafraid when you entered, but it becomes frightened
+  P| and it flutters up out of your reach.
+  N| The bird was unafraid when you entered, but it becomes frightened and it flutters up out of your reach.
+--- replace print[100:101] (p114 c1 y4092) vs nd[87:88]
+  P| A huge fierece green snake bars the way!
+  N| A huge fierce green snake bars the way!
+--- replace print[116:118] (p116 c0 y1318) vs nd[103:104]
+  P| There is a tweleve-foot beanstalk poking out of the pit,
+  P| bellowing "Water! Water!"
+  N| There is a twelve-foot beanstalk poking out of the pit, bellowing "Water! Water!"
+--- replace print[119:121] (p116 c0 y1506) vs nd[105:106]
+  P| A giant beanstalk stretches clear to the celing and through
+  P| the hole at the top.
+  N| A giant beanstalk stretches clear to the ceiling and through the hole at the top.
+--- replace print[124:126] (p116 c0 y1808) vs nd[109:110]
+  P| The dragon has a rather "volatile" personality, and he will
+  P| probably incinerate you if you get any closer.
+  N| The dragon has a rather "volatile" personality, and he will probably incinerate you if you get any closer.
+--- replace print[127:129] (p116 c0 y1995) vs nd[111:112]
+  P| You have crawled through some little holes and have wound up
+  P| back in the main passage
+  N| You have crawled through some little holes and have wound up back in the main passage
+--- replace print[130:131] (p116 c0 y2179) vs nd[113:114]
+  P| Something you're carrying won't fit throught the tunnel.
+  N| Something you're carrying won't fit through the tunnel.
+--- replace print[132:134] (p116 c0 y2307) vs nd[115:116]
+  P| Your load is too heavy. You'd best take inventory and drop
+  P| something first.
+  N| Your load is too heavy. You'd best take inventory and drop something first.
+--- replace print[139:140] (p116 c0 y2731) vs nd[121:122]
+  P| A rusty iron door ohstructs the passage to the north.
+  N| A rusty iron door obstructs the passage to the north.
+--- replace print[143:145] (p116 c0 y2980) vs nd[125:126]
+  P| It's rather difficult to move a twenty-ton dragon, considering
+  P| he is lying on the rug.
+  N| It's rather difficult to move a twenty-ton dragon, considering he is lying on the rug.
+--- replace print[152:153] (p116 c0 y3538) vs nd[133:134]
+  P| A valliant attempt, but you're not that strong!
+  N| A valliant attempt, but you're not that strong.
+--- replace print[158:160] (p116 c0 y3911) vs nd[139:140]
+  P| a huge dragon blocks the way. The dragon is lying
+  P| on a persioan rug!
+  N| A huge dragon blocks the way. The dragon is lying on a persian rug!
+--- replace print[163:165] (p116 c0 y4219) vs nd[143:144]
+  P| There is a ferocious cave bear eyeing you from the end
+  P| of the room!
+  N| There is a ferocious cave bear eyeing you from the end of the room!
+--- replace print[174:176] (p116 c1 y1126) vs nd[153:154]
+  P| Congratulations!  You have just killed a huge dragon
+  P| with your bare hands (hard to believe, ain't it?)
+  N| Congratulations!  You have just killed a huge dragon with your bare hands (hard to believe, ain't it?)
+--- replace print[187:189] (p116 c1 y1924) vs nd[165:166]
+  P| Oh dear, you seem to have gotten yourself killed.  Do you
+  P| want me to try and patch you?
+  N| Oh dear, you seem to have gotten yourself killed.  Do you want me to try and patch you?
+--- replace print[192:194] (p116 c1 y2230) vs nd[169:170]
+  P| You are engulfed in a cloud of thick orange smoke, and
+  P| you emerge coughing and gasping, and find that...
+  N| You are engulfed in a cloud of thick orange smoke, and you emerge coughing and gasping, and find that...
+--- replace print[198:200] (p116 c1 y2602) vs nd[174:175]
+  P| I'm all out of orange smoke, and you've used up
+  P| all your available lives.  Better luck next time!
+  N| I'm all out of orange smoke, and you've used up all of your available lives.  Better luck next time!
+--- replace print[203:205] (p116 c1 y2909) vs nd[178:179]
+  P| A little dwarf just walked around a corner, threw a little axe at
+  P| you which missed, cursed, and ran away.
+  N| A little dwarf just walked around a corner, threw a little axe at you which missed, cursed, and ran away.
+--- replace print[235:236] (p118 c0 y1203) vs nd[209:210]
+  P| at the east end of the passage.
+  N| at the end of the passage.
+--- replace print[237:238] (p118 c0 y1334) vs nd[211:212]
+  P| You are in a debris room filled with stuff washed in from the surface.
+  N| You're in a debris room filled with stuff washed in from the surface.
+--- replace print[239:240] (p118 c0 y1458) vs nd[213:214]
+  P| here, but an awkward canyon leads upward and west.  A note on the wall
+  N| here, but an awkward canyon leads upward and west. A note on the wall
+--- replace print[242:243] (p118 c0 y1644) vs nd[216:217]
+  P| Your are in an awkward sloping east/west canyon.
+  N| You are in an awkward sloping east/west canyon.
+--- replace print[244:245] (p118 c0 y1758) vs nd[218:219]
+  P| You are in a splendid chamber thirty feet high.  The walls are frozen
+  N| You are in a splendid chamber thirty feet high. The walls are frozen
+--- replace print[261:262] (p118 c0 y2816) vs nd[235:236]
+  P| This is a low room with a crude note on the wall.  The note says
+  N| This is a low room with a crude note on the wall.  The note says,
+--- replace print[278:279] (p118 c0 y3862) vs nd[252:253]
+  P| You are in the west side chamber vf the hall of the Mountain King.
+  N| You are in the west side chamber of the hall of the Mountain King.
+--- replace print[288:289] (p118 c0 y4488) vs nd[262:263]
+  P| You're at a low window overlooking a huge pit, which extends uo out of your
+  N| You're at a low window overlooking a huge pit, which extends to out of your
+--- replace print[307:308] (p118 c1 y1864) vs nd[281:282]
+  P| You ae at a crossover of a high N/S passage and a low E/W one.
+  N| You are at a crossover of a high N/S passage and a low E/W one.
+--- replace print[314:315] (p118 c1 y2306) vs nd[288:289]
+  P| You are on the brink of a small clean climbable pit. Apassage leads west.
+  N| You are on the brink of a small climbable pit. Apassage leads west.
+--- replace print[316:317] (p118 c1 y2427) vs nd[290:291]
+  P| You are at the bottom a small clean pit.  A stream flows out a hole
+  N| You are at the bottom of a small clean pit.  A stream flows out a hole
+--- replace print[319:320] (p118 c1 y2612) vs nd[293:294]
+  P| You are in a large room full of dusty rocks.  There is a big hole in
+  N| You are in a large room full of dusty rocks. There is a big hole in
+--- replace print[323:324] (p118 c1 y2856) vs nd[297:298]
+  P| north joins a hggher crawl from the east to make a walking passage
+  N| north joins a higher crawl from the east to make a walking passage
+--- replace print[327:329] (p118 c1 y3112) vs nd[301:303]
+  P| passages go wwest and up.  The remnants of recent diggings are evident.
+  P| A sign hanging in midair sya "Cave under construction beyond this point.
+  N| passages go west and up.  The remnants of a recent diggings are evident.
+  N| A sign hanging in midair says "Cave under construction beyond this point.
+--- replace print[334:335] (p118 c1 y3540) vs nd[308:309]
+  P| walls are littered with bits of shells imbedded into the stone. A
+  N| walls are littered with bits of shells impeeded into the stone. A
+--- replace print[336:337] (p118 c1 y3668) vs nd[310:311]
+  P| leads up.  A low hands and knees passage enters from the south
+  N| leads up.  A low hands and knees passage enters from the south.
+--- replace print[343:344] (p118 c1 y4104) vs nd[317:318]
+  P| You are in a cul-de-sac about eight feet across
+  N| You are in a cul-de-sac about eight feet across.
+--- replace print[346:347] (p118 c1 y4289) vs nd[320:321]
+  P| everywhere. To explore at random, select up,down, north,or south.
+  N| everywhere. To explore at random, select up, down, north or south.
+--- replace print[349:350] (p118 c1 y4471) vs nd[323:324]
+  P| go west,east,ne,,and NW. Part of the room is occupied by a large bedrock block.
+  N| go west,east,ne,,and NW. Part of the room is occupied by a large bedrock
+--- replace print[351:353] (p120 c0 y813) vs nd[325:326]
+  P| You are in the soft room.  The walls are covered with heavy curtains.
+  P| the floor with a thick pile carpet.  Moss covers the ceiling.
+  N| 
+--- replace print[354:359] (p120 c0 y978) vs nd[327:328]
+  P| You are at the east end of the twopit room.  The floor here is
+  P| littered with thin rock slabs, which make it easy to dessend the pits.
+  P| There is a path here bypassing the pits to connect passages from east
+  P| and west.  There are holes all over, but the only big one is on the
+  P| wall directly over the west pit where you can't get to it.
+  N| 
+--- replace print[360:362] (p120 c0 y1367) vs nd[329:330]
+  P| You are ath the west end of the twopit room. There is a large hole in
+  P| the wall above the pit at this end of the room.
+  N| 
+--- replace print[363:365] (p120 c0 y1548) vs nd[331:332]
+  P| You are at the bottom of the eastern pit in the twopit room.  There is
+  P| a small pool of oil in one corner of the pit.
+  N| 
+--- replace print[366:368] (p120 c0 y1732) vs nd[333:334]
+  P| You are in the bottom of the western pit in the twopit room.  There is
+  P| a large hole directly above you.
+  N| 
+--- replace print[369:374] (p120 c0 y1928) vs nd[335:336]
+  P| You are.in a large low circular chamber whose floor is an immense slab
+  P| fallen from the ceiling (slab room).  East and west there once were
+  P| large passages, but they are now filled with boulders.  Low small
+  P| passages go north and south, and the south one quickly bends west
+  P| around the boulders.
+  N| 
+--- replace print[375:378] (p120 c0 y2293) vs nd[337:338]
+  P| This is the oriental room.  Ancient oriental cave drawings cover the walls.
+  P| A gently sloping passage leads upward to the north, another
+  P| passage leads SE, and a hands and knees crawl leads west.
+  N| 
+--- replace print[379:380] (p120 c0 y2541) vs nd[339:340]
+  P| You are in a large low room. Crawls lead north, SE, and SW.
+  N| 
+--- replace print[381:383] (p120 c0 y2666) vs nd[341:342]
+  P| You are in a long winding corridor sloping out of sight
+  P| in both directions.  A cold wind blows up the corridor.
+  N| 
+--- replace print[384:385] (p120 c0 y2854) vs nd[343:344]
+  P| Dead end crawl.
+  N| 
+--- replace print[386:390] (p120 c0 y2978) vs nd[345:346]
+  P| You are followind a wide path around the outer edge of aflarge cavern
+  P| Far below, througnt a heavy white mist, strange splashing noises can be
+  P| heard.  The mist rises up thru a fissure in the ceiling. The paht
+  P| exits to the south and west.
+  N| 
+--- replace print[391:394] (p120 c0 y3289) vs nd[347:348]
+  P| You are in an alcove.  A small NW path seems to widen after a short
+  P| distance.  An extremely tight tunnel leads east. It looks like avery
+  P| tight squeeze.  An eerie light can be seen ath the other end.
+  N| 
+--- replace print[395:398] (p120 c0 y3529) vs nd[349:350]
+  P| You are in a room lit by an  errie green light emanating from the
+  P| walls.  An extremely tight tunnel leads east, and a dark corridor
+  P| lies to the NE>
+  N| 
+--- replace print[399:402] (p120 c0 y3775) vs nd[351:352]
+  P| You're in the dark-room.  A corridor leading south is the only exit.
+  P| A massive stone tablet imbedded in the wall reads:
+  P| "Congratulations on bringing light into the dark-room."
+  N| 
+--- delete print[403:405] (p120 c0 y4029) vs nd[353:353]
+  P| You are on one side of a large, deep chasm.  A heavy white misth rising
+  P| up from below obscures all view of the far side.  A SW path leads away.
+--- delete print[406:408] (p120 c0 y4211) vs nd[354:354]
+  P| A rickety wooden bridge extens across the chasm, vahisning ihot the
+  P| mist.  A sign psoted on tthe bridge reads, "Stop! Pay troll!"
+--- replace print[409:413] (p120 c0 y4395) vs nd[355:356]
+  P| You are on the far side of the chasm. A NE path leads away from the
+  P| chasm on this side.
+  P| A rickety wooden bridge extends across the chasm, vansihing into the
+  P| gloom.  a sign posted on the bridge reads, "Stop! Pay troll!"
+  N| 
+--- replace print[414:416] (p120 c1 y930) vs nd[357:358]
+  P| You're in along east/west corridor.  A faint rumbling noise can be
+  P| heard in the distance.
+  N| 
+--- replace print[417:420] (p120 c1 y1118) vs nd[359:360]
+  P| The path forks here. The left fork leads northeast.  A dull rumbling
+  P| seems to get louder in that direction. The main corridor enters
+  P| from the west.
+  N| 
+--- replace print[421:423] (p120 c1 y1361) vs nd[361:362]
+  P| You are walking along a gently sloping north/south passage lined with
+  P| oddly shaped limestone formations.
+  N| 
+--- replace print[424:427] (p120 c1 y1542) vs nd[363:364]
+  P| The walls are quite warm here. From the north can be heard a steady
+  P| roar, so loud the the entire cave seems to be trembling. Another
+  P| passage  leads south, and a low crawl goes east.
+  N| 
+--- replace print[428:432] (p120 c1 y1792) vs nd[365:366]
+  P| You are in a small chamber filled with large boulders.  The walls are
+  P| very warm, causing the air in the room to be almost stiflingg from the
+  P| heat.  The only exit is a crawl heading west, through which is
+  P| coming a low rumbling.
+  N| 
+--- replace print[433:452] (p120 c1 y2104) vs nd[367:368]
+  P| You are on the edge of a breath-taking view.  Far below you is an
+  P| active volcano, from which great gouts of molten lava come surging
+  P| out. cascading back into the depths.  The glowing rock fills the
+  P| farthest reaches of the cavern with a blood-red glare, giving
+  P| {nolearn} everything an errie, macabre appearance.  The air if filled with flickering
+  P| sparks of ash and a heavy smell of brimstone.  The walls are hot to
+  P| the touch, and the thundering of the volcano drowns out all other
+  P| sounds.  Embedded in the jagged roff far overhead are myraid twisted
+  P| formations composed of pure white alabastaer, which scatter the murky
+  P| light into sinister apparitions upon the walls.  To one side is a deep
+  P| gorge, filled with a bizarre chaos of tortured rock which seems to
+  P| have been crafted by the devil himself.   An immense river of fire
+  P| crashes out from the depths of the colcano, burns its way through the
+  P| gorge, and plummets into a bottomless pit far off to your left.  To
+  P| the right,an immense geyser of blistering steam erupts continuously
+  P| from a barren island in the center of a sulfurous lake which bubbles
+  P| ominously.  The far right wall is aflame with an incandescence of
+  P| its own, which lends an additional infernal splendor to the already
+  P| hellish scene.  A dark, foreboding passages exits to the south.
+  N| 
+--- replace print[453:455] (p120 c1 y3336) vs nd[369:370]
+  P| YOu are standing at the entrance to a large barren room.  A sign
+  P| posted above the enbtrance reads+ "Caution! Bear in room!"
+  N| 
+--- replace print[456:460] (p120 c1 y3526) vs nd[371:372]
+  P| You are inside a barren room. The center of the room is
+  P| completely empty except for some dust. Marks in the
+  P| dust lead away toward the far end of the room.  The only exit
+  P| is the way you came in.
+  N| 
+--- replace print[461:464] (p120 c1 y3838) vs nd[373:374]
+  P| You are in a long, narrow corridor stretching out of sight to the
+  P| west. At the eastern end is a hole through which you can see a
+  P| profosion of leaves.
+  N| 
+--- replace print[465:468] (p120 c1 y4090) vs nd[375:376]
+  P| You are in the giant room. The ceiling here is too high up for your
+  P| lamp to show it.  Cavernous passages lead east, north, and south. On
+  P| the west wall is scrawled the inscription, "fee fie foe foo" [sic].
+  N| 
+--- replace print[469:470] (p120 c1 y4335) vs nd[377:378]
+  P| The passage here is blocked by a recent cavein.
+  N| 
+--- replace print[471:472] (p120 c1 y4453) vs nd[379:380]
+  P| You are at one end of an immense N/S passage.
+  N| 
+--- replace print[473:476] (p122 c0 y842) vs nd[381:382]
+  P| You are in a magnificent cavern with a rushing stream, which cascades
+  P| over a sparkling waterfall into a roaring whirlpool which disappears
+  P| through a hole in the floor. Passages exit to the south and west.
+  N| 
+--- replace print[477:480] (p122 c0 y1094) vs nd[383:384]
+  P| You are at the top of a steep incline above a large room.  You could
+  P| climb down here, but you would not be able to climb back up.
+  P| There is a passage leading back to the north.
+  N| 
+--- replace print[481:482] (p122 c0 y1334) vs nd[385:386]
+  P| You are in a secret N/S canyon above a sizable passage.
+  N| 
+--- delete print[483:486] (p122 c0 y1452) vs nd[387:387]
+  P| A large stalactite extends from the roof and almost reaches the floor
+  P| below.  You could climb down it, and jump from it to the floor, but
+  P| having done so you would be unable to reach it to climb back up.
+--- delete print[487:488] (p122 c0 y1703) vs nd[388:388]
+  P| The maze continues at this level.
+--- replace print[489:492] (p122 c0 y1822) vs nd[389:390]
+  P| You are in a secret canyon at a junction of three canyons, bearing
+  P| north, south, and SE.  The north one is al tall as the other
+  P| two combined.
+  N| 
+--- replace print[493:494] (p122 c0 y2076) vs nd[391:392]
+  P| You are in a secret N/S canyon above a large room.
+  N| 
+--- replace print[495:502] (p122 c0 y2190) vs nd[393:394]
+  P| YOu are in a north/south canyon about 25 feet across.  The floor
+  P| is covered by white mist seeping in from the north.  The walls extend
+  P| upward for well over 100 feet.  Suspended from some unseen point far
+  P| above you, an enormous two-sided mirror is hanging parallel to and
+  P| midway between the canyon walls. (The mirror is obviously provided
+  P| for use by the dwarves, who, as you know, are extremely vain.) A
+  P| small window can be seen in either wall, some fifty feet up.
+  N| 
+--- replace print[503:508] (p122 c0 y2685) vs nd[395:396]
+  P| You are at the edge of a large underground reservoir.  An opaque cloud
+  P| of white mist fills the room and rises rapidly upward.  The lake is
+  P| fed by a stream which tumbles out of a hole in the wall about 10 feet
+  P| overhead and splashes noisily into the water somewhere within the
+  P| mist.  The only passage goes back toward the south.
+  N| 
+--- replace print[509:510] (p122 c0 y3061) vs nd[397:398]
+  P| You are in a secret canyon with exits to north and east.
+  N| 
+--- replace print[511:512] (p122 c0 y3183) vs nd[399:400]
+  P| You are in a secret E/W canyon above a tight canyon.
+  N| 
+--- replace print[513:514] (p122 c0 y3309) vs nd[401:402]
+  P| You are in a wide place in a very tight N/S canyon.
+  N| 
+--- replace print[515:516] (p122 c0 y3432) vs nd[403:404]
+  P| The canyon here becomes too tight to go on.
+  N| 
+--- replace print[517:519] (p122 c0 y3561) vs nd[405:406]
+  P| You are in a tall E/W canyon.  A low crawl goes three feet
+  P| north and seems to open up.
+  N| 
+--- replace print[520:521] (p122 c0 y3744) vs nd[407:408]
+  P| The canyon runs into a maze of boulders--dead end.
+  N| 
+--- replace print[522:523] (p122 c0 y3876) vs nd[409:410]
+  P| You are in a maze of twisty little tunnels, all alike.
+  N| 
+--- replace print[524:528] (p122 c0 y4003) vs nd[411:412]
+  P| You are near a large pit beside a large orage stalactite in the maze.
+  P| The stalactite is about 30 feet long, allowing you to
+  P| descend it. However, due to the smoothness of the stalactite,
+  P| you will probably be unable to climb back up again.
+  N| 
+--- replace print[531:532] (p122 c0 y4426) vs nd[415:416]
+  P| Welcome to adventure!  Would you like instructions?
+  N| Welcome to adventure. Would you like instructions?
+--- delete print[533:558] (p122 c1 y761) vs nd[417:417]
+  P| Somewhere nearby is Colossal Cave, where many have found gold
+  P| and treasure, though it is rumoured that some who enter are
+  P| never seen again.  I will be your eyes and hands. Direct me with
+  P| commands such as get,take, or look. Since you need to move around,
+  P| you must usually enter compass directions (N,NE,E,SE,S,SW,W,NW, or
+  P| up or down), although you may sometimes use more vague verbs with
+  P| which to move.  I know of several objects in this game, such as
+  P| a lamp and a bottle. I also know of special objects in the cave.
+  P| Some of these objects have side effects, ie there is a rod in the
+  P| cave that scares a little bird.
+  P| ----------------------------------------------------------------
+  P| The object of this game is to gather as many treasures as you can
+  P| and put them back in the house.  You also run the risk of getting
+  P| robbed or killed by some rather unfriendly inhabitants of the cave.
+  P| ----------------------------------------------------------------------
+  P| There are some useful commands that you should know about:
+  P| --- Brief, Long, and Short-these commands control the amount of
+  P| --- detail you get in descriptions.
+  P| --- Look (or L)-gives a detailed description of your surroundings.
+  P| --- Inventory ( or I)-tells you what you are carrying.
+  P| --- Quit, Stop, or End--these are self-explanatory.
+  P| --- Save-by typing this, you may save your game and continue it
+  P| --- at a later time.
+  P| --- Continue- lets you continue an old game.
+  P| --- Score- tells you how well you're doing.
+--- delete print[559:566] (p122 c1 y2362) vs nd[418:418]
+  P| Other helpful functions include:
+  P| * multiple commands on one input line, ie:
+  P| "Go south. Get car, keys. Start car." (example only)
+  P| ----------------------------------------------------------------------
+  P| "Adventure" is a version of the game created by Willy Crowther and
+  P| Don Woods at M.I.T.
+  P| ----------------------------------------------------------------------
+--- delete print[568:569] (p122 c1 y2938) vs nd[420:420]
+  P| #
+
+===== records completed past the dump device's 73-column cut
+  p116 c0 y2857 -> The bear will bite off your hand. Besides, the chain is locked to the wall.
+     source: nd + PyBasic: "locked to the wall."
+  p118 c0 y2509 -> swaying to and fro almost as if alive.  A cold wind blows up the staircase.
+     source: nd: "blows up the staircase."
+  p118 c0 y4488 -> You're at a low window overlooking a huge pit, which extends uo out of your
+     source: nd + PyBasic: "out of your" (the print reads "uo" where nd has "to")
+  p118 c1 y4471 -> go west,east,ne,,and NW. Part of the room is occupied by a large bedrock block.
+     source: PyBasic only: "a large bedrock block."; nd stops where the print stops
+  p120 c0 y2293 -> This is the oriental room.  Ancient oriental cave drawings cover the walls.
+     source: PyBasic only: "cover the walls."; nd has no #252 at all
