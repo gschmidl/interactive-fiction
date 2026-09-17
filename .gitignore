@@ -117,6 +117,12 @@ fisk.log
 zeno.log
 **/saves/
 **/save/
+# world files the Data General Quest emulator writes into the folder it was
+# started from when it is not given a save folder with -s, and the folder an
+# old played world was kept in
+/Quest*(Data General MV, AOS-VS)/port/*_DATA_FILE
+/Quest*(Data General MV, AOS-VS)/port/QUEST
+/Quest*(Data General MV, AOS-VS)/port/run/
 Thumbs.db
 desktop.ini
 .DS_Store
