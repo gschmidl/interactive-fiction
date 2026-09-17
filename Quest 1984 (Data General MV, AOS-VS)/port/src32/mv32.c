@@ -239,6 +239,9 @@ static void proc_start(int pi, const char *nm, int pid, dword entry)
     M = p->mem;
     snprintf(p->name, sizeof p->name, "%s", nm);
     p->pid = pid; p->alive = 1; p->ntask = 1; p->cur = 0; p->rsched = 0;
+    p->term = -1;
+    p->god = 0;
+    p->god_build = god_identify();
     p->task[0].used = 1; p->task[0].id = 1; p->task[0].pri = 1;
     p->task[0].wait = W_NONE;
 
@@ -269,6 +272,8 @@ static void proc_start(int pi, const char *nm, int pid, dword entry)
     shim_save(pi);
 }
 
+#include "host.h"
+
 static void usage(void)
 {
     fprintf(stderr,
@@ -276,6 +281,22 @@ static void usage(void)
       "\n"
       "  aosvs32 [options] [<program>.PR]\n"
       "\n"
+      "QUEST (quest.bat passes --port, -d, -s and the program itself):\n"
+      "      --port <n>       multiplayer: run the world and play at this window,\n"
+      "                       or join the world already running on this computer\n"
+      "      --lan            let players on other computers join too\n"
+      "      --join <host>[:port]  play in a world running on another computer\n"
+      "      --server         run the world with nobody playing at this window\n"
+      "      --god            play with the highest strength, intelligence,\n"
+      "                       experience, vision, perception and wealth, and\n"
+      "                       never die; with --server, for everyone who joins\n"
+      "      --title <file>   type this file on each player's D200 first\n"
+      "      --no-title       leave the title out\n"
+      "      --exit-when-empty  with --server: stop once the last player has left\n"
+      "  -h, --help           this text\n"
+      "\n"
+      "Testing and debugging:\n"
+      "  -p <keys> <screens>  a scripted extra player (up to 14)\n"
       "  -d <dir>   directory holding the .PR and its data files\n"
       "  -s <dir>   where the game saves and restores (default: .)\n"
       "  -e <hex>   entry point (default: from the .PR header)\n"
@@ -291,7 +312,7 @@ static void usage(void)
       "             each key wait), raw, off -- default ansi on a console\n"
       "  -S <file> the server program (default: QUEST_SERVER.PR beside QUEST.PR)\n"
       "  -q        no server\n"
-      "  -c <file> type this file on the D200 first (QUEST.CLI's TYPE CASTLE)\n");
+      "  -c <file> the same as --title (QUEST.CLI's TYPE CASTLE)\n");
     exit(0);
 }
 
@@ -318,7 +339,7 @@ static void type_on_d200(const char *path)
     d2_write("\223\n", 2);                       /* WRITE [!ascii 223]: roll off */
     while ((n = fread(buf, 1, sizeof buf, f)) > 0) {
         d2_write(buf, (int)n);
-        if (term_mode == TM_ANSI) Sleep((unsigned long)(n * 1000 / 1920));
+        if (T->mode == TM_ANSI) Sleep((unsigned long)(n * 1000 / 1920));
     }
     fclose(f);
     d2_write("\222\n", 2);                       /* WRITE [!ascii 222]: roll on  */
@@ -329,9 +350,12 @@ int main(int argc, char **argv)
 {
     int i;
     dword entry = 0;
-    const char *pr = NULL, *server_pr = NULL, *typefile = NULL;
+    const char *pr = NULL, *server_pr = NULL, *typefile = NULL, *join_host = NULL;
     char srvbuf[512];
-    int noserver = 0;
+    int noserver = 0, skip_intro = 0;
+    const char *xp_in[14], *xp_out[14];
+    int nxp = 0, god_mode = 0;
+    long slice = 0;
 
     for (i = 1; i < argc; i++) {
         if      (!strcmp(argv[i], "-t")) trace = 1;
@@ -346,7 +370,6 @@ int main(int argc, char **argv)
             watch_lo = (dword)strtoul(argv[++i], NULL, 16);
             watch_hi = (dword)strtoul(argv[++i], NULL, 16);
         }
-        else if (!strcmp(argv[i], "-F")) fptrace = 1;
         else if (!strcmp(argv[i], "-h")) usage();
         else if (!strcmp(argv[i], "-e") && i + 1 < argc) entry = (dword)strtoul(argv[++i], NULL, 16);
         else if (!strcmp(argv[i], "-n") && i + 1 < argc) maxinstr = strtoll(argv[++i], NULL, 10);
@@ -368,13 +391,51 @@ int main(int argc, char **argv)
         }
         else if (!strcmp(argv[i], "-T") && i + 1 < argc) {
             const char *m = argv[++i];
-            if      (!strcmp(m, "ansi")) { term_d200 = 1; term_mode = TM_ANSI; }
-            else if (!strcmp(m, "snap")) { term_d200 = 1; term_mode = TM_SNAP; }
-            else if (!strcmp(m, "raw"))  { term_d200 = 1; term_mode = TM_RAW; }
+            if      (!strcmp(m, "ansi")) { term_d200 = 1; term_mode_opt = TM_ANSI; }
+            else if (!strcmp(m, "snap")) { term_d200 = 1; term_mode_opt = TM_SNAP; }
+            else if (!strcmp(m, "raw"))  { term_d200 = 1; term_mode_opt = TM_RAW; }
             else if (!strcmp(m, "off"))  term_d200 = -1;
+        }
+        else if (!strcmp(argv[i], "-p") && i + 2 < argc && nxp < 14) {
+            xp_in[nxp] = argv[++i];
+            xp_out[nxp] = argv[++i];
+            nxp++;
+        }
+        else if (!strcmp(argv[i], "--port") && i + 1 < argc) host_port = atoi(argv[++i]);
+        else if (!strcmp(argv[i], "--lan")) host_lan = 1;
+        else if (!strcmp(argv[i], "--join") && i + 1 < argc) join_host = argv[++i];
+        else if (!strcmp(argv[i], "--server")) host_dedicated = 1;
+        else if (!strcmp(argv[i], "--exit-when-empty")) host_exit_empty = 1;
+        else if (!strcmp(argv[i], "--title") && i + 1 < argc) typefile = argv[++i];
+        else if (!strcmp(argv[i], "--no-title")) skip_intro = 1;
+        else if (!strcmp(argv[i], "--god")) god_mode = 1;
+        else if (!strcmp(argv[i], "--help")) usage();
+        else if (argv[i][0] == '-' && argv[i][1] == '-') {
+            fprintf(stderr, "quest: there is no option %s -- quest --help lists them\n", argv[i]);
+            return 1;
+        }
+        else if (!strcmp(argv[i], "/lan") || !strcmp(argv[i], "/join") ||
+                 !strcmp(argv[i], "/server") || !strcmp(argv[i], "/s")) {
+            fprintf(stderr, "quest: options are written --lan, --join HOST, --server"
+                            " and --no-title now\n");
+            return 1;
         }
         else if (argv[i][0] != '-') pr = argv[i];
     }
+
+    /* Joining someone else's world: this program is only a terminal. */
+    if (join_host) {
+        char host[256];
+        const char *colon = strrchr(join_host, ':');
+        int port = host_port ? host_port : 4040;
+        snprintf(host, sizeof host, "%s", join_host);
+        if (colon && strchr(join_host, ':') == colon) {
+            host[colon - join_host] = 0;
+            port = atoi(colon + 1);
+        }
+        return net_join(host, port, god_mode);
+    }
+
     if (!pr) { fprintf(stderr, "aosvs32: name the .PR to run\n"); return 1; }
     set_progname(pr);
     if (!datadir_set()) {
@@ -403,24 +464,98 @@ int main(int argc, char **argv)
      * other games were ported against, unless -T asks. */
     if (server_pr && !term_d200) term_d200 = 1;
     if (term_d200 < 0) term_d200 = 0;
-    if (term_d200) term_init();
-    if (term_d200 && typefile) type_on_d200(typefile);
+
+    /* A multiplayer game: be the world, unless one is already running here,
+     * in which case this window is another player in it. */
+    if (host_port && server_pr && term_d200) {
+        int r = net_listen(host_port, host_lan);
+        if (r == 1) {
+            if (host_dedicated) {
+                fprintf(stderr, "quest: a Quest world is already running on port %d\n", host_port);
+                return 1;
+            }
+            return net_join("127.0.0.1", host_port, god_mode);
+        }
+        if (r < 0) {
+            fprintf(stderr, "quest: cannot listen on port %d\n", host_port);
+            return 1;
+        }
+        netmode = 1;
+        quantum = 100000;
+        host_client_pr = pr;
+        host_god = god_mode;
+        host_intro = (typefile && !skip_intro) ? typefile : NULL;
+        host_ansi = con_interactive();
+        if (!host_dedicated && !host_ansi) host_dedicated = 1;   /* nobody here */
+        if (host_ansi) con_ansi();
+        {
+            char ip[64];
+            if (host_lan && net_local_ip(ip, sizeof ip) == 0)
+                snprintf(host_where, sizeof host_where, "quest --join %s", ip);
+            else
+                snprintf(host_where, sizeof host_where, "quest (in another window)");
+        }
+        net_on_ctrl(&host_stop, &host_stopped);
+    }
+
+    if (!netmode) {
+        if (term_d200) term_init();
+        T = &term[0];
+        if (term_d200 && typefile && !skip_intro) type_on_d200(typefile);
+    }
 
     nproc = 0;
     if (server_pr) {
         if (load_pr(server_pr, nproc)) return 1;
         proc_start(nproc, "QUEST.SERVER", 2, entry);
         nproc++;
+        have_server = 1;
     }
-    if (load_pr(pr, nproc)) return 1;
-    proc_start(nproc, server_pr ? "QUEST" : "MAIN", 3, entry);
-    nproc++;
+    if (!netmode) {
+        if (load_pr(pr, nproc)) return 1;
+        proc_start(nproc, server_pr ? "QUEST" : "MAIN", 3, entry);
+        if (term_d200) { proc[nproc].term = 0; term[0].proc = nproc; }
+        if (god_mode) god_enable(nproc);
+        nproc++;
+        /* -p: more players, each reading keys from a file and writing its
+         * screens to another; they take their keys in turn. */
+        for (i = 0; i < nxp && server_pr && term_d200; i++) {
+            int tix = term_new(TK_FILE);
+            Term *t;
+            if (tix < 0 || nproc >= MAXPROC) break;
+            if (load_pr(pr, nproc)) return 1;
+            proc_start(nproc, "QUEST", 4 + i, entry);
+            t = &term[tix];
+            t->mode = TM_SNAP;
+            t->in = fopen(xp_in[i], "rb");
+            t->out = fopen(xp_out[i], "wb");
+            if (!t->in || !t->out) { perror(t->in ? xp_out[i] : xp_in[i]); return 1; }
+            proc[nproc].term = tix;
+            t->proc = nproc;
+            if (god_mode) god_enable(nproc);
+            nproc++;
+        }
+    } else if (!host_dedicated) {
+        int tix = term_new(TK_CONSOLE);
+        term[tix].out = stdout;
+        term[tix].god = god_mode;
+        if (host_intro) host_intro_start(tix);
+        else            host_start_player(tix);
+    } else {
+        if (host_ansi) printf("\x1b]0;Quest world\x07");
+        printf("Quest world on port %d, %s.\n", host_port,
+               host_lan ? "open to this network" : "for this computer only");
+        printf("Players join with: %s\n", host_lan ? host_where : "quest");
+        if (!host_exit_empty) printf("Ctrl-C stops the world and saves every character.\n");
+        fflush(stdout);
+    }
     /* The server goes first: it has to register its port and leave its PID
      * in the shared data before the player can look either of them up. */
     curproc = 0;
     M = proc[0].mem;
     shim_load(0);
     task_load();
+    T = term_of(0);
     watch_snap();
     if (verbose) fprintf(stderr, "starting at %06X\n\n", PC);
 
@@ -440,16 +575,51 @@ int main(int argc, char **argv)
                 show_bytes("AC2", AC[2], n0);
                 show_bytes("AC3", AC[3], n1);
             } } }
+        if (god_any) god_check_died();
         step();
         if (++icount == maxinstr && maxinstr) {
             fprintf(stderr, "\n*** instruction limit at PC=%06X\n", PC);
             break;
         }
-        if (nproc > 1 && (icount % QUANTUM) == 0) sched_yield();
+        if (!netmode) {
+            if (nproc > 1 && (icount % QUANTUM) == 0) sched_yield();
+            continue;
+        }
+        /* The host: a longer quantum, and the network and keyboards looked
+         * at a hundred times a second while anything runs. */
+        if (--slice <= 0) {
+            slice = (long)quantum;
+            if (nproc > 1) sched_yield();
+        }
+        if ((icount & 0x3FF) == 0) {
+            unsigned long long now = net_now();
+            if (now >= host_next_poll) {
+                host_next_poll = now + 10;
+                host_poll();
+                if (host_stopping && now - host_stop_t0 > 5000) halted = 1;
+            }
+        }
     }
 
-finish:
-    term_done();
+    if (netmode) {
+        int k;
+        for (k = 1; k < MAXTERM; k++) {
+            if (!term[k].used) continue;
+            T = &term[k];
+            term_done();
+            if (T->kind == TK_SOCKET) {
+                t_puts("\r\n  The world has stopped.\r\n");
+                t_flush();
+                net_close(T->conn);
+            }
+            term_free(T);
+        }
+        T = &term_null;
+    } else if (term_d200) {
+        int k;
+        for (k = 0; k < MAXTERM; k++)
+            if (term[k].used && term[k].proc >= 0) { T = &term[k]; term_done(); }
+    }
     /* Whatever ran last has not been switched away from, so its view of the
      * shared files is newer than the files: write it back.  That is the
      * server tidying up after the player's obituary -- without this the
@@ -457,6 +627,17 @@ finish:
      * initials as already in use. */
     if (nproc && proc[curproc].alive) maps_sync(curproc, M, 1);
     if (nproc) sf_flush_all();
+    if (netmode) {
+        unsigned long long t0 = net_now();
+        while (net_closing() && net_now() - t0 < 2000) { net_service(); net_wait(20, 0); }
+        net_shutdown();
+        if (host_dedicated || host_local_gone) {
+            if (host_ansi) printf("\r\x1b[K\x1b]0;Quest\x07");
+            printf("The world is saved.\n");
+            fflush(stdout);
+        }
+        host_stopped = 1;
+    }
     if (verbose) fprintf(stderr, "\nstopped after %lld instructions, PC=%05X\n", icount, PC);
     if (dumphi > dumplo) {
         dword r;

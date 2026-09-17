@@ -450,7 +450,7 @@ static const mvop mvops[] = {
 };
 #define NMVOPS ((int)(sizeof mvops / sizeof mvops[0]))
 
-static const mvop *mvfind(unsigned short ir)
+static const mvop *mvfind_scan(unsigned short ir)
 {
     /* WBR first.  Its displacement occupies the two accumulator fields and
      * the shift field, so it needs a mask of its own (0x873F), and the carry
@@ -529,6 +529,19 @@ static const mvop *mvfind(unsigned short ir)
         for (i = 0; i < NMVOPS; i++) if (mvops[i].op == b) return &mvops[i];
     }
     return 0;
+}
+
+/* The search above depends on nothing but the instruction word, and it is a
+ * walk over nearly 400 entries under up to eight masks -- done for every
+ * wide instruction executed and every one skipped.  That walk was most of
+ * the emulator's time: QUEST_SERVER builds its world in ninety million
+ * instructions, which took twenty seconds.  So remember each answer. */
+static const mvop *mvfind(unsigned short ir)
+{
+    static const mvop *memo[65536];
+    static unsigned char known[65536];
+    if (!known[ir]) { memo[ir] = mvfind_scan(ir); known[ir] = 1; }
+    return memo[ir];
 }
 
 /* Does this format type carry an accumulator in bits 12-11, putting the index

@@ -224,16 +224,96 @@ addresses.  The five-digit ones had turned `15BC75` into `5BC75`.
 
 ## What is left
 
-* Only one player.  The design allows more — each would be another `QUEST`
-  process connected to the same server — and nothing here prevents it except
-  that there is one keyboard.
 * `?UPDATE`, `?RECREATE`, `?DCON`, `?DEBUG` and `?INTWT` are implemented
   thinly.  `?INTWT` never fires: there is no console interrupt (the D200's
-  CTRL-C CTRL-A).
-* Ctrl-C in the console kills the emulator without writing the world back;
-  leave with ESC.
-* Zork's and Ferret's emulators still carry the `WMSP`, `WCMV` and stdio
-  findings unfixed.
+  CTRL-C CTRL-A).  `C_A_LISTENER`, the one task every player starts, waits in
+  it — so whatever CTRL-C CTRL-A did on the MV cannot be done here.
+* `?SIGNL` and `?WTSIG` pair up by AC0 and keep no pending signal: a signal
+  sent before its waiter reaches `?WTSIG` would be lost.  `LOCK_FILE` queues
+  a waiter with `ENQT` before it waits, so that window exists; it was never
+  reached — seven scripted players switching every 4000 instructions made no
+  `?WTSIG` call at all.
+* Without `--port` (one player, no network) Ctrl-C still ends the emulator
+  without writing the world back; `quest.bat` uses `--port`, where Ctrl-C saves.
+
+## Multiplayer (2026-09-17)
+
+`--port <n>` makes the emulator what QUP.CLI and the terminal room were: it
+runs QUEST_SERVER, listens on a TCP port, and gives every player who
+connects a D200 and a QUEST process of their own.  The player at the window
+that started it is the first of them, on the console.  A second `quest` finds
+the port taken (`SO_EXCLUSIVEADDRUSE`) and becomes a terminal for the first
+instead (`net_join`), so every window is a player.  Nothing in the game was
+touched; what it needed was all in the emulator.
+
+**Terminals.**  `d200.h` keeps a D200 per player — screen, cursor, attributes,
+typed-ahead keys, the line a read has so far — and `T` points at the running
+process's own, switched with the process.  A socket gets the same ANSI the
+console gets; its keys arrive as telnet (options skipped, CR LF or CR NUL for
+Enter) and ANSI escape sequences.  ESC on its own is QUEST's key for leaving,
+so an ESC that nothing follows within 60 ms is passed on as a key.
+
+**Waiting.**  With one keyboard the machine could stop in the read.  With
+several, a read with nothing typed blocks its task on that terminal (`W_KEY`,
+re-executed when keys come, carrying on with the line so far), `?WDELAY` waits
+on the wall clock instead of calling `Sleep` for everyone, and when nothing at
+all can run `host_idle` sleeps in `WaitForMultipleObjects` on the sockets and
+the console until a key, a player or a pause comes due.  Scripted sessions
+keep the old instruction clock, so the recorded screens are unchanged.
+
+**One logon at a time.**  A player logs on with three `?IS.R` requests: 9
+asks for a player number, 1 checks the name and password, 2 makes a new
+character.  `IPC_TASK` (17A67A) answers 9 with the count in `SHARED_DATA_FILE`
+word 43, plus one, while that is at most ten — the count is saved with the
+world, so it keeps rising across sessions — and after that with the first
+slot whose in-use bit is clear.  It does not set the bit: request 1 sets it
+on a good login (17AC43) and request 2 on a new character (17B22E).  Fifteen
+scripted players logging on together got numbers 2 to 10 and then six times
+number 1, and those six played one character between them.  Once ten logons
+have gone by, any two players logging on together would do the same, and for
+a new character the window stays open for as long as "Do you wish to create
+this character?" waits.  So `?IS.R` holds a second request 9 until the first
+player's logon has ended — the reply that sets the bit, a request 9 answered
+with player number 0 ("Maximum number of players exceeded"), or that player's
+process ending — with a note on the waiting player's bottom line.
+
+**Leaving.**  ESC ends QUEST through `?RETURN`; a dropped connection, a closed
+window or Ctrl-C at the host hangs the terminal up, and the next read ends the
+process the way AOS/VS ended a process whose terminal hung up.  Either way the
+server gets the obituary and `HANDLE_TERM` saves the character.  The host's
+Ctrl-C handler (and the few seconds Windows allows a closing window) hangs up
+every terminal, waits for the server to save them all, and writes the world
+back.  `SetConsoleCtrlHandler(NULL, FALSE)` first: a program started from a
+shell that ignores Ctrl-C inherits that, and the handler never ran.
+
+**The shared files at a switch.**  Every player maps the 1100-page
+`WORLD_DATA_FILE`, and copying every window out and in at each process switch
+was two megabytes each way.  Each file is now held as words with a stamp per
+512-byte block: going out, a window is compared with the file and only
+changed blocks are copied and stamped; coming in, only blocks stamped since
+the window last looked.  A process that is not running cannot change its copy,
+so this is exactly the copy-everything it replaces.  The host also switches
+processes every 100000 instructions instead of 4000.
+
+**Two things every process now does that one could skip.**  Writes to a file
+are flushed at once: each process has its own stream on `USER_DATA_FILE`, and
+the server read players' records that were still in another process's buffer.
+And a player's files are closed when its process ends.
+
+**Speed.**  `mvfind` — which instruction is this word — walked nearly 400
+table entries under up to eight masks for every wide instruction.  Its answer
+depends only on the word, so it is remembered now, and the emulator runs
+about twenty times faster: the world builds in a second rather than twenty,
+and the recorded sessions in `tests/run.sh` take seven seconds instead of
+about two minutes.
+
+**What the game does with several players**, as far as it has been seen:
+players start in random cities, share the weather and the world, and after a
+move each sees "Waiting for your turn" (`START_TURN`, `SIGNAL_TURN` under
+`LOCK_FILE`) — which so far has always passed at once.  `LIST_PLAYERS`,
+`ALLY_PLAYER`, `KILL_PLAYER` and `DISTANCE_TO_PLAYER` are the rest of it; no
+two scripted players were ever placed within sight of each other, so what one
+player sees of another on the map has not been watched.
 
 ## Later: shared with the 1984 Quest (2026-09-16)
 
@@ -245,3 +325,54 @@ loop instructions now store the stepped index on the way out of the loop as
 well, as the *Principles of Operation* says; 103750 executed as `FRDS 0,0`
 (the older runtime's encoding in `SQR31?3`); and `-c <file>` to type a file
 on the D200 first.  This port's four recorded checks are unchanged.
+
+## God mode (2026-09-17)
+
+`--god` sets the player's values every time the game reads a command and
+keeps DIED from happening.  Where everything is, in both builds:
+
+|                                   | NADGUG            | 1984              |
+|-----------------------------------|-------------------|-------------------|
+| `SD_PTR`, `PLAYER_NUM`            | 210, 216          | 1F4, 1FA          |
+| a player's slot                   | SD_PTR + 686 x n  | SD_PTR + 434 x n  |
+| in-use bit (bit 0 of)             | slot - 591        | slot - 339        |
+| intelligence, experience          | slot - 379, - 378 | slot - 226, - 225 |
+| strength, maximum strength        | slot - 377, - 376 | slot - 224, - 223 |
+| vision, perception                | slot - 375, - 374 | slot - 222, - 221 |
+| wealth                            | slot - 372        | slot - 219        |
+| DIED: its WSAVS, its one WRTN     | 16603D, 1663BA    | 16DD4A, 16E000    |
+
+**The panel is not where the values are.**  DISPLAY_INVENTORY keeps a copy of
+what it last showed (slot - 77 .. - 71) and redraws only what differs, so
+changing that copy changes nothing — the first attempt did exactly that.  A
+`-W` watch on the copy showed who writes it, and the instructions before each
+write name the real value: 167878 loads slot - 377, 16787C loads slot - 75,
+`WSEQ`, and 167882 stores the one into the other.  Setting the real words with
+`-P` at GET_INPUT then showed on the panel.  The 1984 DISPLAY_INVENTORY keeps
+no copy; there the slot was dumped mid-game (`-n`, `-D`) and the values
+confirmed the same way.  1984's in-use bit is IPC_TASK's `WNADI 1,60112` at
+17BB61: 60112 is 16 x -339.
+
+**The values are the authors'.**  SETDAVE.CLI, SETJEFF.CLI and SETBERT.CLI
+run FED with strength 1024 and wealth 20000.  QUEST's operator set-up at
+15C12F puts the operator at 16000,16000 with vision 4, perception 5,
+intelligence and experience 10000, and sets the world's vision limit
+(SD_PTR + 128719, which DISPLAY_SCREEN clamps vision to) to 4.  Slot - 376 is
+the maximum strength REGEN_SPELLS and CAST hold strength to, and GET_QUEST
+raises it; god mode sets it with strength.  NADGUG still caps intelligence by
+class (PLAYER_MAX_INT 10000 6000 5000 3000 2500), so a god fighter shows 3000.
+
+**Every death is DIED.**  MOVE_PLAYER, DEFEND, TOWER_ATTACK, START_TURN,
+SEIGE, REPORT and QUEST call it; it ends the game with I.STOP ("Better luck
+next time!") or puts the player somewhere else.  For a god, the emulator goes
+from the instruction after DIED's WSAVS straight to its WRTN, and the caller
+carries on.  The values are applied again at that moment too.
+
+**Tested** (`tests/run.sh`, `god`): stepping north and south beside Xenobia's
+tower, GERHARD is killed by the tower guards — TOWER_ATTACK tests strength at
+17D3D1 and calls DIED at 17D3E4.  With `--god` he plays on; with `--god` and
+strength zeroed at 17D3D1 he plays on too, DIED skipped 23 times.  Without
+the forced zero DIED is never even reached: the arrow's "Hit any character to
+continue" is a command read, and the values are back before the check.
+Over the network, `quest --join --god` asks for it with IAC SB 198 "GOD"
+IAC SE.

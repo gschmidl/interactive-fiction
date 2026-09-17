@@ -23,9 +23,19 @@
 #ifndef QDEFS_H
 #define QDEFS_H
 
-#define MAXPROC   2
+#include "net.h"
+
+/* The server and up to fifteen players.  QUEST_SERVER itself has room for
+ * ten; the rest let an eleventh player be told "Maximum number of players
+ * exceeded" by the game rather than turned away by the emulator. */
+#define MAXPROC  16
 #define MAXTASK  16
 #define NCHAN    64
+
+/* A multiplayer game (-N): players on terminals of their own, the machine
+ * waiting on the wall clock and the network when nothing can run. */
+static int netmode;
+static int have_server;           /* process 0 is QUEST_SERVER             */
 
 /* Why a task is not runnable.  A blocked task is resumed by re-executing
  * its system call: the gate winds the PC back to the LCALL, so when the
@@ -33,7 +43,7 @@
  * this time succeeds.  Nothing has to be remembered about a half-finished
  * call. */
 enum { W_NONE = 0, W_IREC, W_ISR, W_DELAY, W_SIG, W_INTWT, W_TREC, W_SUS,
-       W_DEAD, W_KEY };
+       W_DEAD, W_KEY, W_GATE };
 
 /* The keyboard is the one thing that blocks the whole emulator, so a task
  * that wants a key waits (W_KEY) until nothing else anywhere can run, and
@@ -52,8 +62,11 @@ typedef struct {
     dword tmsg;             /* ?REC/?XMT message value                    */
     int   hastmsg;
     long long wake;         /* W_DELAY: the instruction count to wake at  */
+    unsigned long long wake_ms; /* W_DELAY on the wall clock (rt)          */
+    int   rt;
     int   woken;            /* an event wait ended: the re-run succeeds   */
     int   isr_sent;         /* ?IS.R: the request is out, awaiting reply  */
+    word  isr_req;          /* ?IS.R: the request's ?IUFL                 */
 } Task;
 
 /* The shim state that belongs to one process rather than to the machine.
@@ -84,6 +97,9 @@ typedef struct {
     int   alive;
     int   rsched;                 /* ?DRSCH nesting: >0 = do not switch   */
     int   con_pid;                /* the server it ?CONed to, or 0        */
+    int   term;                   /* its terminal (d200.h), or -1         */
+    int   god;                    /* --god: this player cannot die        */
+    int   god_build;              /* which QUEST.PR, for god mode, or -1  */
     char  name[32];
     dword entry, ustbl, ustst, ustsz;
     ShimState shim;
@@ -109,13 +125,15 @@ static int   session_ending;
  * Each is held once, in memory, and every ?SPAGE mapping is a window onto
  * it; the windows are synchronised at a process switch. */
 #define MAXSFILE   8
-#define MAXMAP    32
+#define MAXMAP    64
 
 typedef struct {
     int  used;
     char name[64];
-    unsigned char *data;
-    long len;
+    word *w;                      /* the file as words                    */
+    unsigned long long *ver;      /* per 512-byte block: when it changed  */
+    long len;                     /* bytes                                */
+    long cap;                     /* blocks allocated                     */
     int  dirty;
 } SFile;
 
@@ -123,6 +141,8 @@ typedef struct {
     int   used, proc, sf, ro;
     dword addr;                   /* word address in that process         */
     long  blk, nblk;              /* 512-byte blocks                      */
+    unsigned long long seen;      /* sf_clock when it last took the file  */
+    int   full;                   /* just mapped: take every block        */
 } Mapping;
 
 static SFile   sfile[MAXSFILE];
@@ -157,5 +177,10 @@ static int  q_curpid(void);
 static void sched_yield(void);
 static void q_proc_exit(void);
 static int  q_others_runnable(void);
+static int  q_others_want_key(void);
+
+/* Provided by host.h, the multiplayer host. */
+static int  host_idle(void);
+static void host_proc_ended(int pi);
 
 #endif /* QDEFS_H */

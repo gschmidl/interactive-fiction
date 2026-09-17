@@ -413,7 +413,7 @@ static int do_syscall32(word code)
          * chan[] alone hands ?OPEN a channel the shared world is using. */
         for (ch = 1; ch < 64 && (chan[ch] || schan_open[ch]); ch++) ;
         if (ch >= 64) return 0;
-        if (name[0] == 64 && term_d200 && nproc > 1 && curproc == 0) {
+        if (name[0] == 64 && term_d200 && have_server && curproc == 0) {
             /* The server's console.  QUP.CLI started it with /out=quest.out,
              * so what it writes goes to QUEST.OUT and it reads nothing. */
             chan[ch] = server_console(name);
@@ -694,6 +694,12 @@ static int do_rw32(word code, dword pkt)
     if (chan[ch] && !chan_console[ch]) fseek(chan[ch], 0, SEEK_CUR);
     if (chan[ch]) fwrite(buf, 1, (size_t)n, chan[ch]);
     if (fmt == RF_DS && delim < 0 && chan[ch]) fputc(10, chan[ch]);
+    /* Every process opens a file through a stream of its own, so a record
+     * one writes is invisible to the others until it leaves the buffer.  On
+     * AOS/VS a write is in the file when the call returns -- and in a
+     * multiplayer game the server reads USER_DATA_FILE after players have
+     * written to it. */
+    if (chan[ch] && !chan_console[ch]) fflush(chan[ch]);
     M[MADDR(pkt + P_IRLR)] = (word)n;
     return 1;
 }

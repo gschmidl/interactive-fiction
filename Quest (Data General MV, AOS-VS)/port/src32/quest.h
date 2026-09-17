@@ -109,12 +109,26 @@ static void writable_path(char *o, size_t n, const char *nm)
     if (file_exists(src)) copy_file(src, o);
 }
 
-/* ---- the shared files ------------------------------------------------- */
+/* ---- the shared files ------------------------------------------------- *
+ * Each file is held as words in the machine's order, and every 512-byte
+ * block carries the value of sf_clock when it last changed.  A switch then
+ * costs only what changed: going out, a process's window is compared with
+ * the file block by block and only the blocks it wrote are copied back (and
+ * stamped); coming in, only blocks stamped since that window last looked are
+ * copied.  A process that is not running cannot have changed its copy, so
+ * that is exactly the old copy-everything-both-ways -- which, with the
+ * 1100-page WORLD_DATA_FILE mapped by every player, was two megabytes each
+ * way on every switch, and with several players switching often, most of
+ * the emulator's time. */
+static unsigned long long sf_clock = 1;
+
 static int sf_find(const char *nm)
 {
     char path[512];
     FILE *f;
     int i;
+    long k, nb;
+    unsigned char *bytes;
     for (i = 0; i < MAXSFILE; i++)
         if (sfile[i].used && !strcmp(sfile[i].name, nm)) return i;
     for (i = 0; i < MAXSFILE && sfile[i].used; i++) ;
@@ -126,11 +140,17 @@ static int sf_find(const char *nm)
     /* Room to grow: the program maps more blocks than some of these files
      * hold (150 pages over a 504-block SHARED_DATA_FILE), and on the real
      * machine the rest was simply new file. */
-    sfile[i].data = (unsigned char *)calloc(1, (size_t)sfile[i].len + 0x100000);
-    if (!sfile[i].data) { fclose(f); return -1; }
-    if (fread(sfile[i].data, 1, (size_t)sfile[i].len, f) != (size_t)sfile[i].len)
-        { /* short read is not fatal: the tail is zeros either way */ }
+    sfile[i].cap = (sfile[i].len + 0x100000 + 511) / 512;
+    sfile[i].w   = (word *)calloc((size_t)sfile[i].cap * 256, sizeof(word));
+    sfile[i].ver = (unsigned long long *)calloc((size_t)sfile[i].cap, sizeof(unsigned long long));
+    bytes = (unsigned char *)calloc(1, (size_t)sfile[i].len + 2);
+    if (!sfile[i].w || !sfile[i].ver || !bytes) { fclose(f); free(bytes); return -1; }
+    nb = (long)fread(bytes, 1, (size_t)sfile[i].len, f);
+    /* a short read is not fatal: the tail is zeros either way */
     fclose(f);
+    for (k = 0; k < (nb + 1) / 2; k++)
+        sfile[i].w[k] = (word)((bytes[2 * k] << 8) | bytes[2 * k + 1]);
+    free(bytes);
     snprintf(sfile[i].name, sizeof sfile[i].name, "%s", nm);
     sfile[i].used = 1;
     return i;
@@ -140,14 +160,24 @@ static void sf_flush(int i)
 {
     char path[512];
     FILE *f;
+    unsigned char *bytes;
+    long k;
     if (!sfile[i].used || !sfile[i].dirty) return;
     save_path(path, sizeof path, sfile[i].name);
+    bytes = (unsigned char *)malloc((size_t)sfile[i].len + 2);
+    if (!bytes) return;
+    for (k = 0; k < (sfile[i].len + 1) / 2; k++) {
+        bytes[2 * k]     = (unsigned char)(sfile[i].w[k] >> 8);
+        bytes[2 * k + 1] = (unsigned char)sfile[i].w[k];
+    }
     f = fopen(path, "r+b");
     if (!f) f = fopen(path, "wb");
-    if (!f) return;
-    fwrite(sfile[i].data, 1, (size_t)sfile[i].len, f);
-    fclose(f);
-    sfile[i].dirty = 0;
+    if (f) {
+        fwrite(bytes, 1, (size_t)sfile[i].len, f);
+        fclose(f);
+        sfile[i].dirty = 0;
+    }
+    free(bytes);
 }
 
 static void sf_flush_all(void)
@@ -156,25 +186,43 @@ static void sf_flush_all(void)
 /* Copy one mapping between a process's memory and the file image.  `out`
  * means memory -> file.  Called round a process switch, and that is what
  * makes the mapping behave like real shared memory: the process that is
- * not running is not looking. */
-static void map_sync(const Mapping *m, word *mem, int out)
+ * not running is not looking.  A window that has just been mapped (`full`)
+ * takes every block. */
+static void map_sync(Mapping *m, word *mem, int out)
 {
-    long i;
-    unsigned char *d = sfile[m->sf].data;
-    long want = (m->blk + m->nblk) * 512L;
-    if (want > sfile[m->sf].len) sfile[m->sf].len = want;
-    for (i = 0; i < m->nblk * 256L; i++) {
-        long bo = m->blk * 512L + i * 2;
-        dword a = (m->addr + (dword)i) & (MEMWORDS - 1);
+    SFile *f = &sfile[m->sf];
+    long b, nb = m->nblk;
+    if (m->blk + nb > f->cap) nb = f->cap - m->blk;
+    if (nb <= 0) return;
+    if ((m->blk + nb) * 512L > f->len) f->len = (m->blk + nb) * 512L;
+    if (out && m->ro) return;
+    for (b = 0; b < nb; b++) {
+        long fb = m->blk + b;
+        word *fw = f->w + fb * 256;
+        dword a = (m->addr + (dword)(b * 256)) & (MEMWORDS - 1);
+        if (a + 256 > MEMWORDS) {                   /* wraps: word by word */
+            int k, differs = 0;
+            for (k = 0; k < 256; k++) {
+                word *mw = &mem[MADDR(a + (dword)k)];
+                if (out) { if (*mw != fw[k]) { fw[k] = *mw; differs = 1; } }
+                else if (m->full || f->ver[fb] > m->seen) *mw = fw[k];
+            }
+            if (differs) { f->ver[fb] = ++sf_clock; f->dirty = 1; }
+            continue;
+        }
         if (out) {
-            if (m->ro) return;
-            d[bo]     = (unsigned char)(mem[a] >> 8);
-            d[bo + 1] = (unsigned char)(mem[a] & 0xFF);
-        } else {
-            mem[a] = (word)((d[bo] << 8) | d[bo + 1]);
+            if (memcmp(mem + a, fw, 256 * sizeof(word))) {
+                memcpy(fw, mem + a, 256 * sizeof(word));
+                f->ver[fb] = ++sf_clock;
+            }
+        } else if (m->full || f->ver[fb] > m->seen) {
+            memcpy(mem + a, fw, 256 * sizeof(word));
         }
     }
-    if (out) sfile[m->sf].dirty = 1;
+    /* Written back is dirty whether or not a word changed, as it always was:
+     * a file the game has mapped beyond its end is saved at its new length. */
+    if (out) f->dirty = 1;
+    else { m->seen = sf_clock; m->full = 0; }
 }
 
 static void maps_sync(int p, word *mem, int out)
@@ -255,6 +303,185 @@ static Task *task_by_id(int id)
     return NULL;
 }
 
+/* A player's process that ends leaves its files closed, as AOS/VS closes
+ * them.  In a multiplayer game players come and go for hours, and every one
+ * of them opens USER_DATA_FILE. */
+static void shim_close_all(void)
+{
+    int ch;
+    for (ch = 0; ch < NCHAN; ch++) {
+        if (chan[ch] && !chan_console[ch]) fclose(chan[ch]);
+        chan[ch] = NULL;
+        chan_console[ch] = 0;
+        vr_forget(ch);
+        schan_open[ch] = 0;
+    }
+}
+
+/* ---- one logon at a time ------------------------------------------------
+ * A player logs on with three requests to the server over ?IS.R, the same in
+ * both QUESTs: 9 asks for a player number, 1 checks the name and password,
+ * 2 makes a new character.  QUEST_SERVER hands out numbers 1..10 by counting
+ * (the count is kept in SHARED_DATA_FILE, so it runs on across sessions) and
+ * after ten reuses any slot whose in-use bit is clear -- but request 9 does
+ * not set that bit.  Request 1 sets it on a good login (17AC43) and request
+ * 2 on a new character (17B22E).  Two players logging on together once ten
+ * numbers have gone out are therefore handed the same slot, and then share
+ * one character: fifteen scripted players did exactly that.  For a new
+ * character the window stays open while "Do you wish to create this
+ * character?" waits for an answer.
+ *
+ * So the emulator lets one logon through at a time: from a player's request
+ * 9 until the reply that marks the slot, or until that player's process ends.
+ * A player who arrives meanwhile waits in the ?IS.R, with a note on the
+ * bottom line of their screen. */
+static int logon_holder = -1;
+static unsigned long long logon_since;
+
+static int logon_may_begin(int pi)
+{
+    if (logon_holder < 0 || logon_holder == pi) return 1;
+    if (!proc[logon_holder].alive) { logon_holder = -1; return 1; }
+    return 0;
+}
+
+static void logon_begin(int pi)
+{
+    logon_holder = pi;
+    logon_since = netmode ? net_now() : 0;
+}
+
+static void logon_end(int pi)
+{
+    if (logon_holder != pi) return;
+    logon_holder = -1;
+    q_wake(W_GATE, 0);
+}
+
+/* The waiting player's bottom line.  The logon screen uses the top few
+ * rows, and the game is held while the note is up, so nothing else can be
+ * drawn over it or scroll it away. */
+static void logon_note(int pi, int on)
+{
+    static const char msg[] = "  Another player is logging on -- one moment...";
+    Term *t, *was = T;
+    if (proc[pi].term < 0) return;
+    t = &term[proc[pi].term];
+    if (!term_interactive(t) || t->note == on) return;
+    T = t;
+    memset(t->vch[VR - 1], ' ', VC);
+    memset(t->vat[VR - 1], 0, VC);
+    if (on) memcpy(t->vch[VR - 1], msg, sizeof msg - 1);
+    t->note = on;
+    t->dirty = 1;
+    v_show(0);
+    T = was;
+}
+
+/* ---- god mode (--god) -----------------------------------------------------
+ * For testing a world: the player's strength, maximum strength,
+ * intelligence, experience, vision, perception and wealth are set high every
+ * time the game reads a command, and dying does not happen.
+ *
+ * The values are the authors' own.  SETDAVE.CLI, SETJEFF.CLI and SETBERT.CLI
+ * run FED to give their characters strength 1024 and wealth 20000; QUEST
+ * sets up the operator with intelligence and experience 10000, perception 5
+ * and vision 4, and 4 is also the world's own limit on vision.
+ *
+ * Where the values live was read off each build's DISPLAY_INVENTORY, which
+ * compares each one with the copy it last showed: the player's slot is at
+ * SD_PTR + slot size x PLAYER_NUM, and the values sit a fixed distance before
+ * it -- confirmed by setting them and watching the panel.  The in-use bit is
+ * the one IPC_TASK tests (17A6AC, 17BB67), and god mode waits for it, so that
+ * nothing is written before the server has put the character in the slot.
+ *
+ * Cannot die: DIED builds its frame with its first instruction and takes it
+ * down with its only WRTN, so for a god the emulator goes from one straight
+ * to the other and the caller carries on as though death had passed by. */
+#define GOD_STRENGTH  1024
+#define GOD_WEALTH   20000
+#define GOD_INTEL    10000
+#define GOD_EXP      10000
+#define GOD_VISION       4
+#define GOD_PERCEP       5
+
+typedef struct {
+    const char *name;
+    dword sd_ptr, player_num;           /* the client's SD_PTR, PLAYER_NUM  */
+    int   slot, inuse;
+    int   intel, exp, str, maxstr, vision, percep, wealth;
+    dword died, died_body, died_wrtn;
+} GodBuild;
+
+static const GodBuild god_builds[] = {
+    { "QUEST (NADGUG)", 0x210, 0x216, 686, -591,
+      -379, -378, -377, -376, -375, -374, -372, 0x16603D, 0x16603F, 0x1663BA },
+    { "QUEST (1984)",   0x1F4, 0x1FA, 434, -339,
+      -226, -225, -224, -223, -222, -221, -219, 0x16DD4A, 0x16DD4C, 0x16E000 },
+};
+#define NGODBUILD ((int)(sizeof god_builds / sizeof god_builds[0]))
+
+static int god_any;                     /* some process is a god: look at PCs */
+
+/* Which build the program just loaded into M is: DIED's WSAVS and WRTN
+ * where that build has them. */
+static int god_identify(void)
+{
+    int k;
+    for (k = 0; k < NGODBUILD; k++)
+        if (M[MADDR(god_builds[k].died)] == 0xA739 &&
+            M[MADDR(god_builds[k].died_wrtn)] == 0x87A9)
+            return k;
+    return -1;
+}
+
+static void god_enable(int pi)
+{
+    static int warned;
+    if (proc[pi].god) return;
+    if (proc[pi].god_build < 0) {
+        if (!warned++)
+            fprintf(stderr, "quest: --god knows the NADGUG and 1984 QUEST.PR only\n");
+        return;
+    }
+    proc[pi].god = 1;
+    god_any = 1;
+}
+
+/* Set the running player's values, once the server has logged them on. */
+static void god_apply(void)
+{
+    const GodBuild *g;
+    dword sd, slot;
+    int pn;
+    if (!proc[curproc].god) return;
+    g = &god_builds[proc[curproc].god_build];
+    sd = (((dword)M[MADDR(g->sd_ptr)] << 16) | M[MADDR(g->sd_ptr + 1)]) & OFFMASK;
+    pn = (int16_t)M[MADDR(g->player_num)];
+    if (!sd || pn < 1 || pn > 10) return;
+    slot = sd + (dword)(g->slot * pn);
+    if (!(M[MADDR(slot + (dword)g->inuse)] & 0x8000)) return;
+    M[MADDR(slot + (dword)g->str)]    = GOD_STRENGTH;
+    M[MADDR(slot + (dword)g->maxstr)] = GOD_STRENGTH;
+    M[MADDR(slot + (dword)g->intel)]  = GOD_INTEL;
+    M[MADDR(slot + (dword)g->exp)]    = GOD_EXP;
+    M[MADDR(slot + (dword)g->vision)] = GOD_VISION;
+    M[MADDR(slot + (dword)g->percep)] = GOD_PERCEP;
+    M[MADDR(slot + (dword)g->wealth)] = GOD_WEALTH;
+}
+
+/* Called before every instruction once there is a god anywhere. */
+static void god_check_died(void)
+{
+    const GodBuild *g;
+    if (!proc[curproc].god) return;
+    g = &god_builds[proc[curproc].god_build];
+    if (PC != g->died_body) return;
+    if (verbose) fprintf(stderr, "   [--god: %s does not die]\n", proc[curproc].name);
+    god_apply();
+    PC = g->died_wrtn;
+}
+
 /* ---- the player's console ----------------------------------------------
  * Reads and writes on @INPUT/@OUTPUT when the console is a D200.  The
  * interesting part is the extended packet ?READ_SCREEN builds: ?ISTI has
@@ -284,6 +511,7 @@ static int d2_io(word code, dword pkt, int fmt, int rcl)
     word esfc = 0;
     char buf[8192];
     int n = 0;
+    Term *t = T;
 
     if (sti & 0x8000u) {
         sp = pk_dw(pkt, 16) & OFFMASK;
@@ -302,11 +530,11 @@ static int d2_io(word code, dword pkt, int fmt, int rcl)
         }
         if (sp && (esfc & 0x0800u)) {
             word cr = M[MADDR(sp + 2)];
-            vx = (cr >> 8) % VC; vy = (cr & 0xFF) % VR;
+            T->vx = (cr >> 8) % VC; T->vy = (cr & 0xFF) % VR;
         }
         if (verbose) {
             int q;
-            fprintf(stderr, "   [console write %d at %d,%d esfc=%04X: ", n, vy, vx, esfc);
+            fprintf(stderr, "   [console write %d at %d,%d esfc=%04X: ", n, T->vy, T->vx, esfc);
             for (q = 0; q < n && q < 200; q++) {
                 int ch = (unsigned char)buf[q];
                 if (ch >= 32 && ch < 127) fputc(ch, stderr);
@@ -316,62 +544,87 @@ static int d2_io(word code, dword pkt, int fmt, int rcl)
         }
         d2_write(buf, n);
         M[MADDR(pkt + P_IRLR)] = (word)n;
-        if (sp && (esfc & 0x0200u)) M[MADDR(sp + 2)] = (word)((vx << 8) | vy);
+        if (sp && (esfc & 0x0200u)) M[MADDR(sp + 2)] = (word)((T->vx << 8) | T->vy);
         return 1;
     }
 
-    /* A read.  Let everything else run first; the keyboard is the one wait
-     * that stops the whole machine. */
-    if (nproc > 1 && !key_turn && q_others_runnable()) {
-        q_block(W_KEY, 0, 0);
-        return -3;
+    /* A read.  For a scripted player, or the one player at a console, let
+     * everything else run first: that keyboard is the one wait that stops
+     * the whole machine, and scripted players take turns at their keys.  A
+     * player in a multiplayer game only waits for their own keys, and the
+     * others carry on meanwhile. */
+    if (!term_interactive(t)) {
+        if (nproc > 1 && !key_turn && (q_others_runnable() || q_others_want_key())) {
+            q_block(W_KEY, 0, 0);
+            return -3;
+        }
+        key_turn = 0;
     }
-    key_turn = 0;
 
-    if (sp && (esfc & 0x0800u)) {
-        word cr = M[MADDR(sp + 2)];
-        vx = (cr >> 8) % VC; vy = (cr & 0xFF) % VR;
-        v_dirty = 1;
+    /* The read begins: place the cursor and show the screen.  A read that
+     * has to wait for keys is executed again when they come, and it must
+     * carry on rather than begin again -- the echo has moved the cursor on,
+     * and the line so far is kept in the terminal. */
+    if (!t->reading) {
+        if (sp && (esfc & 0x0800u)) {
+            word cr = M[MADDR(sp + 2)];
+            t->vx = (cr >> 8) % VC; t->vy = (cr & 0xFF) % VR;
+            t->dirty = 1;
+        }
+        if (verbose)
+            fprintf(stderr, "   [console read sti=%04X fmt=%d rcl=%d esfc=%04X at %d,%d]\n",
+                    sti, fmt, rcl, esfc, t->vy, t->vx);
+        god_apply();
+        t->dirty = 1;
+        v_show(1);
+        t->reading = 1;
+        t->line_n = 0;
     }
-    if (verbose)
-        fprintf(stderr, "   [console read sti=%04X fmt=%d rcl=%d esfc=%04X at %d,%d]\n",
-                sti, fmt, rcl, esfc, vy, vx);
-    v_dirty = 1;
-    v_show(1);
 
     if ((sti & 0x1000u) || fmt != RF_DS) {
         while (n < rcl) {
             int c = kb_get();
-            if (c == -1) break;
+            if (c == -1 || c == -3) break;
             if (c < 0) continue;
             buf[n++] = (char)c;
-            if (!kbq_n && kb_console) break;
-            if (!kb_console) break;
+            /* one key -- or all of a cursor report the terminal sends --
+             * and a byte at a time from a pipe or a file */
+            if (!t->gen_n && (t->kb_console || term_interactive(t))) break;
+            if (!t->kb_console && !term_interactive(t)) break;
+        }
+        if (n == 0 && term_interactive(t) && !t->hungup) {
+            q_block(W_KEY, (dword)(t - term), 0);
+            return -3;
         }
     } else {
         int echo = !(esfc & 0x0100u), echo_delim = !(esfc & 0x1000u);
         for (;;) {
             int c = kb_get();
+            if (c == -3) { q_block(W_KEY, (dword)(t - term), 0); return -3; }
             if (c == -1) break;
             if (c < 0) continue;
             if (c == 0177) {
-                if (n > 0) {
-                    n--;
+                if (t->line_n > 0) {
+                    t->line_n--;
                     if (echo) { d2_putc(031); d2_putc(' '); d2_putc(031); v_show(0); }
                 }
                 continue;
             }
             if (c == 012 || c == 015 || c == 014 || c == 0) {
-                buf[n++] = (char)c;
+                t->line[t->line_n++] = (char)c;
                 if (echo && echo_delim && c == 012) { d2_putc(012); v_show(0); }
                 break;
             }
-            if (n < rcl - 1) {
-                buf[n++] = (char)c;
+            if (t->line_n < rcl - 1 && t->line_n < (int)sizeof t->line - 1) {
+                t->line[t->line_n++] = (char)c;
                 if (echo && c >= 040) { d2_putc(c); v_show(0); }
             }
         }
+        n = t->line_n;
+        memcpy(buf, t->line, (size_t)n);
     }
+    t->reading = 0;
+    t->line_n = 0;
     if (n == 0) {
         /* The end of the input is the terminal hanging up: the player's
          * process is terminated, and its server hears about it the same way
@@ -384,7 +637,7 @@ static int d2_io(word code, dword pkt, int fmt, int rcl)
     }
     putbstr(pk_dw(pkt, P_IBAD), buf, n);
     M[MADDR(pkt + P_IRLR)] = (word)n;
-    if (sp && (esfc & 0x0200u)) M[MADDR(sp + 2)] = (word)((vx << 8) | vy);
+    if (sp && (esfc & 0x0200u)) M[MADDR(sp + 2)] = (word)((t->vx << 8) | t->vy);
     if (verbose) {
         int q;
         fprintf(stderr, "   [console got %d:", n);
@@ -476,6 +729,7 @@ static int q_syscall(word code, dword pkt)
         mapping[i].used = 1; mapping[i].proc = curproc;
         mapping[i].sf = schan_file[ch]; mapping[i].ro = ro;
         mapping[i].addr = addr; mapping[i].blk = blk; mapping[i].nblk = cnt;
+        mapping[i].full = 1; mapping[i].seen = 0;
         map_sync(&mapping[i], M, 0);
         return 1;
     }
@@ -585,7 +839,19 @@ static int q_syscall(word code, dword pkt)
             int len = (int)M[MADDR(pkt + Q_ILTH)];
             dword buf = pk_dw(pkt, Q_IPTR) & OFFMASK;
             word body[MSGWORDS];
+            word req = M[MADDR(pkt + Q_IUFL)];
             int k;
+            /* One player logs on at a time -- see logon_may_begin. */
+            if (req == 9 && curproc > 0) {
+                if (!logon_may_begin(curproc)) {
+                    logon_note(curproc, 1);
+                    q_block(W_GATE, 0, 0);
+                    return -3;
+                }
+                logon_note(curproc, 0);
+                logon_begin(curproc);
+            }
+            t->isr_req = req;
             if (len > MSGWORDS) len = MSGWORDS;
             for (k = 0; k < len; k++) body[k] = M[MADDR(buf + (dword)k)];
             ipc_dump("is.r out", pkt);
@@ -601,6 +867,14 @@ static int q_syscall(word code, dword pkt)
         mi = mq_take(me);
         if (mi < 0) { q_block(W_ISR, me, 0); return -3; }
         t->isr_sent = 0;
+        /* The logon is over once the server has marked the player's slot in
+         * use: a good login (request 1 answered 0) or a new character
+         * (request 2) -- or no slot at all (request 9 answered with player
+         * number 0, "Maximum number of players exceeded"). */
+        if (logon_holder == curproc &&
+            ((t->isr_req == 1 && mq[mi].uflags == 0) || t->isr_req == 2 ||
+             (t->isr_req == 9 && (mq[mi].iptr & 0xFFFF) == 0)))
+            logon_end(curproc);
         msg_to_buf(mi, pk_dw(pkt, Q_IRPT), (int)M[MADDR(pkt + Q_IRLT)],
                    pkt, Q_IRLT);
         ipc_dump("is.r rep", pkt);
@@ -828,8 +1102,20 @@ static int q_syscall(word code, dword pkt)
         /* On a real console a delay is a real pause: the game uses them to
          * leave a message on the screen long enough to read ("You have been
          * hit by an arrow from an elven archer") before it redraws.  A
-         * scripted run skips them and moves the instruction clock on. */
-        if (term_d200 && term_mode == TM_ANSI) {
+         * scripted run skips them and moves the instruction clock on.
+         *
+         * In a multiplayer game the pause is this task's alone: it waits on
+         * the wall clock while everyone else plays on.  Sleeping here, as the
+         * single player's console does, would stop every player's game. */
+        if (netmode) {
+            unsigned long ms = AC[0] & 0xFFFF;
+            v_show(1);
+            t->rt = 1;
+            t->wake_ms = net_now() + (ms > 3000 ? 3000 : ms);
+            q_block(W_DELAY, 0, 0);
+            return -3;
+        }
+        if (term_d200 && term[0].mode == TM_ANSI) {
             unsigned long ms = AC[0] & 0xFFFF;
             v_show(1);
             Sleep(ms > 3000 ? 3000 : ms);

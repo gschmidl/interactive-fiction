@@ -11,15 +11,27 @@
  * What belongs to what:
  *   the machine   AC, PC, carry, and the four stack registers, which the
  *                 MV keeps in ring page zero at 0x10..0x17.  Per TASK.
- *   the process   its whole memory image, and the shim's channels, shared
- *                 partition and page counts.
+ *   the process   its whole memory image, the shim's channels, shared
+ *                 partition and page counts, and its terminal.
  *   the world     the shared files, the ?SPAGE mappings onto them, the IPC
  *                 message queue and the port names.  One copy, shared.
+ *
+ * Two ways of waiting for the outside.  A scripted session, or one player
+ * at a console, has one keyboard and a clock made of instructions: a task
+ * that wants a key waits until nothing else can run, and then the machine
+ * stops in the read.  A multiplayer game (netmode) has a terminal per player
+ * and the wall clock: a task that wants a key waits for its own terminal,
+ * delays are real, and when nothing at all can run the machine sleeps until
+ * a key, a connection or a delay comes due (host_idle).
  */
 #ifndef SCHED_H
 #define SCHED_H
 
 #define QUANTUM 4000
+
+/* The multiplayer host switches processes less often: every switch
+ * compares each player's view of the shared files with the files. */
+static long long quantum = QUANTUM;
 
 static void shim_save(int pi)
 {
@@ -95,6 +107,11 @@ static void task_load(void)
     for (i = 0; i < 8; i++) M[0x10 + i] = t->pz[i];
 }
 
+static Term *term_of(int pi)
+{
+    return proc[pi].term >= 0 ? &term[proc[pi].term] : &term_null;
+}
+
 static void switch_to(int pi, int ti)
 {
     if (pi == curproc && ti == proc[curproc].cur) return;
@@ -106,6 +123,7 @@ static void switch_to(int pi, int ti)
         M = proc[pi].mem;
         maps_sync(curproc, M, 0);       /* the shared files -> my pages   */
         shim_load(curproc);
+        T = term_of(curproc);
         if (verbose)
             fprintf(stderr, "   [-> process %d %s]\n", pi, proc[pi].name);
     }
@@ -123,7 +141,7 @@ static void q_block(int kind, dword a, dword b)
         server_ready = 1;
         if (verbose) fprintf(stderr, "   [server is ready for customers]\n");
     }
-    if (kind == W_DELAY) t->wake = icount + (long long)a;
+    if (kind == W_DELAY && !t->rt) t->wake = icount + (long long)a;
 }
 
 static void q_wake(int kind, dword a)
@@ -146,6 +164,12 @@ static int eligible(int pi, int ti, int kind)
     return proc[pi].task[ti].used && proc[pi].task[ti].wait == kind;
 }
 
+/* Has this delay run out? */
+static int delay_due(const Task *t)
+{
+    return t->rt ? net_now() >= t->wake_ms : icount >= t->wake;
+}
+
 /* Is anything other than the current task able to run? */
 static int q_others_runnable(void)
 {
@@ -154,16 +178,31 @@ static int q_others_runnable(void)
         for (ti = 0; ti < MAXTASK; ti++) {
             Task *t = &proc[pi].task[ti];
             if (pi == curproc && ti == proc[curproc].cur) continue;
-            if (eligible(pi, ti, W_DELAY) && icount >= t->wake) return 1;
+            if (eligible(pi, ti, W_DELAY) && delay_due(t)) return 1;
             if (eligible(pi, ti, W_NONE)) return 1;
         }
     return 0;
 }
 
+/* Is another process waiting for a key of its own?  Scripted players take
+ * their keys in turn, one read each. */
+static int q_others_want_key(void)
+{
+    int pi, ti;
+    for (pi = 0; pi < nproc; pi++) {
+        if (pi == curproc) continue;
+        for (ti = 0; ti < MAXTASK; ti++)
+            if (eligible(pi, ti, W_KEY)) return 1;
+    }
+    return 0;
+}
+
 /* Pick the next runnable task, starting just after the current one so that
  * equal claims take turns.  When nothing can run, time is what is missing:
- * a task waiting for a key is let through to the keyboard, and failing that
- * the clock is moved on to the earliest delay. */
+ * with one keyboard a task waiting for a key is let through to it, and
+ * failing that the instruction clock is moved on to the earliest delay.  A
+ * multiplayer game does neither -- its keys and its clock come from outside,
+ * and sched_yield waits for them. */
 static int sched_pick(int *ppi, int *pti)
 {
     int n, pi, ti, start, k, pass;
@@ -173,14 +212,15 @@ static int sched_pick(int *ppi, int *pti)
         for (pi = 0; pi < nproc; pi++)
             for (ti = 0; ti < MAXTASK; ti++) {
                 Task *t = &proc[pi].task[ti];
-                if (t->used && t->wait == W_DELAY && icount >= t->wake)
-                    { t->wait = W_NONE; t->woken = 1; }
+                if (t->used && t->wait == W_DELAY && delay_due(t))
+                    { t->wait = W_NONE; t->woken = 1; t->rt = 0; }
             }
         for (k = 1; k <= slots; k++) {
             n = (start + k) % slots;
             pi = n / MAXTASK; ti = n % MAXTASK;
             if (eligible(pi, ti, W_NONE)) { *ppi = pi; *pti = ti; return 1; }
         }
+        if (netmode) break;
         if (pass == 0) {
             for (k = 1; k <= slots; k++) {
                 n = (start + k) % slots;
@@ -196,7 +236,7 @@ static int sched_pick(int *ppi, int *pti)
             long long soonest = -1;
             for (pi = 0; pi < nproc; pi++)
                 for (ti = 0; ti < MAXTASK; ti++)
-                    if (eligible(pi, ti, W_DELAY) &&
+                    if (eligible(pi, ti, W_DELAY) && !proc[pi].task[ti].rt &&
                         (soonest < 0 || proc[pi].task[ti].wake < soonest))
                         soonest = proc[pi].task[ti].wake;
             if (soonest < 0) break;
@@ -210,10 +250,18 @@ static void sched_yield(void)
 {
     int pi, ti;
     if (proc[curproc].rsched > 0) return;       /* inside ?DRSCH          */
-    if (!sched_pick(&pi, &ti)) {
-        Task *t = &proc[curproc].task[proc[curproc].cur];
-        if (t->used && t->wait == W_NONE && proc[curproc].alive)
-            return;                                 /* only me, carry on  */
+    for (;;) {
+        if (sched_pick(&pi, &ti)) { switch_to(pi, ti); return; }
+        {
+            Task *t = &proc[curproc].task[proc[curproc].cur];
+            if (t->used && t->wait == W_NONE && proc[curproc].alive)
+                return;                             /* only me, carry on  */
+        }
+        if (netmode) {
+            if (host_idle()) continue;              /* something came     */
+            halted = 1;                             /* the host is done   */
+            return;
+        }
         if (session_ending) { halted = 1; return; }
         fprintf(stderr, "\n*** every task is blocked -- deadlock\n");
         { int a, b;
@@ -226,7 +274,6 @@ static void sched_yield(void)
         halted = 1;
         return;
     }
-    switch_to(pi, ti);
 }
 
 /* A process ends.  Its pages go back to the shared files and its mappings
@@ -245,6 +292,7 @@ static void sched_yield(void)
 static void q_proc_exit(void)
 {
     int pi, ti, any = 0, i;
+    int me = curproc;
     if (verbose)
         fprintf(stderr, "\n[%s has finished]\n", proc[curproc].name);
     maps_sync(curproc, M, 1);
@@ -254,13 +302,23 @@ static void q_proc_exit(void)
     proc[curproc].alive = 0;
     if (curproc == 0) server_ready = 1;
     for (ti = 0; ti < MAXTASK; ti++) proc[curproc].task[ti].used = 0;
+    logon_end(curproc);
+    /* Replies nobody will collect -- a player gone in the middle of a
+     * request -- would otherwise fill the queue in a long game. */
+    for (i = 0; i < MAXMSG; i++)
+        if (mq[i].used && (int)(mq[i].dst >> 16) == proc[curproc].pid) mq[i].used = 0;
     if (proc[curproc].con_pid) {
         mq_post((dword)proc[curproc].con_pid << 16, 8, 0,
                 (word)(proc[curproc].pid & 0xFF), 0, NULL, 0);
-        session_ending = 1;
+        if (!netmode) session_ending = 1;
         if (verbose)
             fprintf(stderr, "[obituary for pid %d sent to pid %d]\n",
                     proc[curproc].pid, proc[curproc].con_pid);
+    }
+    if (netmode) {
+        shim_close_all();
+        host_proc_ended(me);
+        return;
     }
     for (pi = 0; pi < nproc; pi++) if (proc[pi].alive) any = 1;
     if (!any) { halted = 1; return; }

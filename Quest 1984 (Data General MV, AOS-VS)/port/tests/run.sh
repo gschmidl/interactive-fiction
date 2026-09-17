@@ -35,4 +35,37 @@ check newplayer
     < tests/relogin.txt > tests/work/relogin.snap 2>&1
 check relogin
 rm -rf tests/work
+
+# twoplayers: two players in one world at once (-p), both characters saved
+rm -rf tests/work && mkdir tests/work
+./aosvs32.exe -Z 1000000000 -T snap -d data -s tests/work \
+    -p tests/player2.txt tests/work/player2.snap data/QUEST.PR \
+    < tests/player1.txt > tests/work/player1.snap 2>&1
+if [ "$record" ]; then :
+elif grep -aq GERHARD tests/work/USER_DATA_FILE && grep -aq ALICE tests/work/USER_DATA_FILE &&
+     grep -q INVENTORY tests/work/player1.snap && grep -q INVENTORY tests/work/player2.snap
+then echo "ok    twoplayers"; else echo "FAIL  twoplayers"; fail=1; fi
+rm -rf tests/work
+
+# god: a new player placed in Southwest Dragonia (the frozen clock decides)
+# who walks south is done away with.  With --god, GERHARD walks on at
+# strength 1024 -- and still does when his strength is set to 1 every time
+# DEFEND begins, because then DIED itself is skipped.
+godrun() {
+    rm -rf tests/work && mkdir tests/work
+    ./aosvs32.exe -Z 1000003600 -T snap -d data -s tests/work "$@" data/QUEST.PR \
+        < tests/deadly.txt > tests/work/out.snap 2>&1
+}
+godrun;                          mortal=$(grep -c "Better luck next time" tests/work/out.snap)
+godrun --god;                    god=$(grep -c "Better luck next time" tests/work/out.snap)
+                                 strong=$(grep -c "Strength 1024" tests/work/out.snap)
+godrun --god -P 16D699 180284 1; forced=$(grep -c "Better luck next time" tests/work/out.snap)
+if [ "$record" ]; then :
+elif [ "$mortal" -ge 1 ] && [ "$god" -eq 0 ] && [ "$strong" -ge 1 ] && [ "$forced" -eq 0 ]
+then echo "ok    god"; else echo "FAIL  god (mortal $mortal, god $god, strong $strong, forced $forced)"; fail=1; fi
+rm -rf tests/work
+
+# the multiplayer game itself: players over the network, and at consoles
+python tests/netplay.py || fail=1
+python tests/consoleplay.py || fail=1
 exit $fail
