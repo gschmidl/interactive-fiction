@@ -79,6 +79,10 @@
 /_*_work/
 **/work/
 
+# Fisk is not published: it was removed from the repository and its
+# history.  The folder stays on disk.
+/Fisk */
+
 # Emulator disk images and save states (hundreds of MB each).  This list is
 # by EXTENSION, so a new project using a format not named here would be
 # published by accident — check `git status` before committing a new port.
