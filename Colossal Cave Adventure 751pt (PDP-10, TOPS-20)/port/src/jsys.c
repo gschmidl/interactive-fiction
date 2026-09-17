@@ -176,7 +176,7 @@ int do_jsys(int number)
          * answer goes in AC2 and there is no skip; the game reads AC2
          * apart into AC0 and AC1 in the two words that follow.
          *
-         * The last five lines of ADVWIZ.DAT are the numbers of the CMU
+         * The last five lines of ADVWIZ.DAT are the numbers of the
          * accounts allowed to be wizards -- 4,45 and four others.  This
          * is not one of them, and neither was the account on the pack. */
         AC(2) = XWD(1, 042);

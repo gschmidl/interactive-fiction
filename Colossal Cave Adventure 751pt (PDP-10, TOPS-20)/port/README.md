@@ -1,9 +1,10 @@
 # ADVENTURE 751 — a Windows port
 
 **ADVENTURE < 6.1/ 3>, 14-Jan-82** — the 751 point Colossal Cave, the
-one that grew at Carnegie-Mellon out of Don Woods's 350 points by way of
-a 501 point version, with a safe behind the poster, matches, a cloth
-bag, a castle, and a cave that used to keep opening hours.
+one that grew out of Don Woods's 350 points by way of David Long's 501
+point version, with a safe behind the poster, matches, a cloth bag, a
+castle, and a cave that used to keep opening hours. This build was set up
+for Stanford's LOTS, and says so in its own messages.
 
 It is a **FORTRAN-10 program**, and there is no source for it anywhere.
 What survived is `<GAMES>ADVENTURE.EXE` on a TOPS-20 pack. So this is
@@ -167,7 +168,7 @@ like this possible.
   puts the answer in the scoreboard. Here that is your Windows user
   name, or whatever `--player` says.
 * **Wizards.** The last five lines of `ADVWIZ.DAT` are the numbers of
-  the CMU accounts allowed to be wizards, and the game also asks an
+  the accounts allowed to be wizards, and the game also asks an
   access control job for permission. There is no such job here — and
   there was none on the pack either, so `GETOK%` answers the way it did
   there. Handing the game one of those five numbers instead of the

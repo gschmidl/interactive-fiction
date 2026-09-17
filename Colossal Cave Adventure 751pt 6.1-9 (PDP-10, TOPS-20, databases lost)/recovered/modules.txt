@@ -1,0 +1,172 @@
+ADVENTURE 6.1/9 (new-adventure.exe, 13-Feb-81) against 6.1/3 (ADVENTURE.EXE, the 751 port)
+
+6.1/3: 120 game modules from LINK's symbol table, library from 127627.
+6.1/9: 152 named entry points from SIXBIT name headers, library from 117564.
+Sizes are words from one entry to the next, so they include the
+module's formats, literals and argument blocks.  6.1/3's MAIN. is
+unnamed in the code; 6.1/9's main program starts at 061547.
+
+routine  6.1/9 at   words    6.1/3 at   words
+A1TOA5     000203      11      103013     174
+PUNCT      000216     163           -        
+A5TOA1     000461    8907      103271      70
+RATSUB     021774       3      056020     283
+INKEEP     021777     278           -        
+BITOFF     022425      13      103712      13
+BITON      022442      14      103727      14
+BITSET     022460      22      103745      22
+BLIND      022506     973      103773      85
+BUG        024423     296      036754     379
+BURDEN     025073     301      104235      72
+BURNIT     025550     314           -        
+DLIST      026242      97      112331     104
+DSCARD     026403     390      046102     385
+DWFSEE     027211     105           -        
+DWFSUB     027362     528      046703     747
+EATIT      030402     283           -        
+EVENT      031035     820           -        
+ENVIRN     032521     475      037547     407
+ENVLOG     033454      64      040376      72
+ENVCLR     033554      79           -        
+FEEDIT     033673    1516           -        
+FIN        036647     134           -        
+AJAR       037055      37      103377      37
+AT         037122      24      103444      24
+ATDWRF     037152      40      103474      40
+ATHAND     037222      71      103544      71
+ATPILE     037331      48      103653      31
+BULK       037411      73      104120      77
+BURNS      037522      34      104345      23
+CLROUT     037564      54      104641      54
+CONFUZ     037652      52      104727      52
+CRAN       037736      52      105013      52
+DARK       040022     115      105077     115
+DATIME     040205       7      105262     131
+I2         040214     124           -        
+DEAD       040410      24      105465      20
+DXOR       040440      21      105605      21
+EDIBLE     040465      20      105632      20
+ENCLSD     040511      14      105656      14
+FORCED     040527      22      105674      22
+GETCHR     040555      50      105722      76
+HERE       040637      70      107003      70
+HINGED     040745      20      107111      20
+HOLDNG     040771      15      107135      17
+INSIDE     041010      27      107220      27
+LIVING     041043      22      107520      22
+LOCKED     041071      23      107546      23
+LOCKS      041120      30      107575      23
+NOWAY      041156      85      110007     113
+OMOVE      041303      20      110373      20
+ONFIRE     041327      23      110417      23
+OPAQUE     041356      23      110446      23
+OUTSID     041405      23      110475      23
+PCT        041434      26      110524      26
+PLURAL     041466      23      110556      23
+PORTAL     041515      23      110605      23
+PRINTD     041544      37      110634      34
+RAN        041611      78      111000      64
+SHIFT      041727      62      111157      65
+TOTING     042025      48      111377      48
+TREASR     042105      29      111457      29
+UNIQUE     042142      58      111514      57
+VEHICL     042234      22      111623      22
+VESSEL     042262      22      111651      24
+WEARNG     042310      23      112153      23
+WORN       042337      90      112202      87
+GETOBJ     042471     684      050256     611
+GRIPE      043745     548      041221     367
+HINTER     045011     254      051421     224
+HOURS      045407     119      112501     128
+HOURSX     045576     125      112701     227
+FOO        045773       8           -        
+DIRMOD     046003       8      114514    1196
+INITLZ     046013       8      116770    3252
+MAINT      046023       8      125254      82
+MAINTX     046033       8      125376     270
+NEWHRS     046043       8      126014      57
+XMAP       046053      23      127334     187
+TLIST      046102       8      126542     378
+GETALT     046112      55           -        
+GETIN      046201     300      106036     300
+GETLIN     046655     180      106512     185
+LIQ        047141      32      107315      32
+LIQ2       047201      39      107355      39
+LIQLOC     047250      40      107424      40
+LIQUID     047320      74      107474      20
+LOCKIT     047432     617           -        
+LOG        050603     201      042372     180
+LOOKIN     051114   10572      107624      56
+MOVEIT     075630     301           -        
+MOVFXD     076305     128      051761     127
+MOVOBJ     076505     170      052160     366
+CARRY      076757      64      104374      65
+DROP       077057      39      105511      39
+DSTROY     077126      20      105560      21
+INSERT     077152      35      107156      34
+JUGGLE     077215      32      107253      34
+MOVE       077255      63      107714      59
+PUT        077354      49      110676      66
+REMOVE     077435      42      111100      47
+SWAP       077507     273      111260      79
+PARSER     100130    1069      052736    1488
+CLASS      102205      31      104475      31
+CLRLIN     102244      62      104534      69
+PARADJ     102342     102           -        
+PARALL     102510     144           -        
+PARALX     102730      68           -        
+PARALT     103034     165           -        
+PARBAD     103301     138           -        
+PARDBG     103513     113           -        
+PAREOC     103674      43           -        
+PAREOL     103747      43           -        
+PARNP      104022     330           -        
+PARPRO     104534     128           -        
+PARTAD     104734     153           -        
+ASTACK     105165      31           -        
+RSTACK     105224      20           -        
+VAL        105250      31      111605      14
+PLAYIT     105307     257           -        
+POURIT     105710     364           -        
+RATING     106464     113      055656      98
+READIT     106645     266           -        
+ROOM       107257     121           -        
+SKEDUL     107450      99           -        
+CEASE      107613      42           -        
+CANCEL     107665      84           -        
+RESKED     110011      32           -        
+ESPEAK     110051     113      040506     113
+FILDEF     110232     156      040667     218
+GSPEAK     110466     172      042000     250
+LSPEAK     110742     104      042656     104
+MSPEAK     111112      65      043026      64
+OSPEAK     111213     134      043126     137
+PSPEAK     111421     119      043337     119
+RFILE      111610      99      043526      99
+RSPEAK     111753      50      043671      50
+SPEAK      112035     173      043753     173
+VARGET     112312     212      044230     115
+VARSAV     112636      88      044413     125
+YES        112766      29      045202      29
+YESM       113023      57      045237      57
+YESX       113114     132      045330      88
+START      113320     214      113514     164
+TRAVL      113646     896      056453    1602
+VALUE      115446     131           -        
+VIEW       115651     161           -        
+VOCAB      116112      63      111701      63
+VOCABX     116211     188      112000     107
+WINNER     116505     255      044610     250
+WIZAPR     117104      89      113760      99
+WIZARD     117235     215      114123     249
+ADVMAC          -              045460     274
+MAIN.           -              061555    8862
+MOTD            -              113244     168
+NEWHRX          -              126105     285
+OBJVAL          -              110170     131
+
+Only in 6.1/9: ASTACK BURNIT CANCEL CEASE DWFSEE EATIT ENVCLR EVENT FEEDIT FIN FOO GETALT I2 INKEEP LOCKIT MOVEIT PARADJ PARALL PARALT PARALX PARBAD PARDBG PAREOC PAREOL PARNP PARPRO PARTAD PLAYIT POURIT PUNCT READIT RESKED ROOM RSTACK SKEDUL VALUE VIEW
+
+Only in 6.1/3: ADVMAC MAIN. MOTD NEWHRX OBJVAL
+
+In both:       A1TOA5 A5TOA1 AJAR AT ATDWRF ATHAND ATPILE BITOFF BITON BITSET BLIND BUG BULK BURDEN BURNS CARRY CLASS CLRLIN CLROUT CONFUZ CRAN DARK DATIME DEAD DIRMOD DLIST DROP DSCARD DSTROY DWFSUB DXOR EDIBLE ENCLSD ENVIRN ENVLOG ESPEAK FILDEF FORCED GETCHR GETIN GETLIN GETOBJ GRIPE GSPEAK HERE HINGED HINTER HOLDNG HOURS HOURSX INITLZ INSERT INSIDE JUGGLE LIQ LIQ2 LIQLOC LIQUID LIVING LOCKED LOCKS LOG LOOKIN LSPEAK MAINT MAINTX MOVE MOVFXD MOVOBJ MSPEAK NEWHRS NOWAY OMOVE ONFIRE OPAQUE OSPEAK OUTSID PARSER PCT PLURAL PORTAL PRINTD PSPEAK PUT RAN RATING RATSUB REMOVE RFILE RSPEAK SHIFT SPEAK START SWAP TLIST TOTING TRAVL TREASR UNIQUE VAL VARGET VARSAV VEHICL VESSEL VOCAB VOCABX WEARNG WINNER WIZAPR WIZARD WORN XMAP YES YESM YESX
