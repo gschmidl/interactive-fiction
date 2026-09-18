@@ -86,7 +86,7 @@
 790 MAT K=ZER
 800 Z1=0,Z3=0
 810 REM T3=TOTAL # OF KEYWORDS
-820 IF Z1>T3 THEN 900
+820 IF Z1>T3 THEN 895
 830 READ Z1,B$
 840 B$=" "+B$+" "
 850 REM IF KEYWORD WAS FOUND, NOTE THIS IN K(Z1)
@@ -94,6 +94,7 @@
 870 REM KEYWORD #Z1 NOT FOUND
 880 GOTO 820
 890 REM EXOTIC WORDS...
+895 IF K[113]+K[114]+K[115]+K[118]+K[121]+K[122]+K[130]+K[131]+K[134]+K[135] THEN 1950
 900 Z0=36
 910 FOR X=Z0 TO 46
 920   IF K[X]=0 THEN 960
@@ -846,8 +847,8 @@
 8390 REM FIND FIRST ITEM AT ROOM
 8400 RESTORE 9960
 8410 FOR Z1=1 TO 47
-8420   IF K[Z1] THEN RETURN
-8430   READ D$
+8420   READ D$
+8430   IF K[Z1] THEN RETURN
 8440 NEXT Z1
 8450 RETURN
 8460 REM
@@ -1000,4 +1001,4 @@
 9930 PRINT "Yes or No-";
 9940 GOTO 9870
 9950 REM     ---- SHORT NAMES FOR STUFF ---
-9960 DATA "large gold nugget","bars of silver","precious jewelry","many coins","several diamonds","fragile ming vase","glistening pearl","nest of golden eggs","jewel-encrusted trident","egg-sized emerald","platinum pyramid","golden chain","rare spices","persian rug","treasure chest","water","oil","brass lamp","keys","food","bottle","wicker cage","3-foot black rod","clam","magazine","bear","axe","velvet pillow","shards of pottery","oyster","bird","troll","dragon","snake","dwarf","rock","stairs","house","grate","stream","room","bridge","pit","volcano","road"
+9960 DATA "large gold nugget","bars of silver","precious jewelry","many coins","several diamonds","fragile ming vase","glistening pearl","nest of golden eggs","jewel-encrusted trident","egg-sized emerald","platinum pyramid","golden chain","rare spices","persian rug","treasure chest","water","oil","brass lamp","keys","food","bottle","wicker cage","3-foot black rod","clam","magazine","bear","axe","velvet pillow","shards of pottery","oyster","bird","troll","dragon","snake","dwarf","rock","stairs","steps","house","grate","stream","room","bridge","pit","volcano","road"

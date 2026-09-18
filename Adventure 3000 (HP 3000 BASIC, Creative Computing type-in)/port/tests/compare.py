@@ -19,7 +19,7 @@ def norm(raw, is_machine, moves):
     lines = []
     for line in text.split("\n"):
         line = line.rstrip()
-        if is_machine and line in ("RUN", "ADV3000", "ADV3000T"):
+        if is_machine and (line == "RUN" or re.fullmatch(r"ADV3000[A-Z]?", line)):
             continue
         line = line.lstrip(">")                       # the game's own prompt
         if line.startswith("?"):

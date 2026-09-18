@@ -44,16 +44,28 @@ def main():
     for n, l in enumerate(prog):
         if l[:1].isdigit():
             idx[int(l.split(" ", 1)[0])] = n
+    inserted = []
     for f, rec, before, after, why in fixes:
         if f != "PROGRAM":
             continue
         n = idx.get(rec)
+        if before == "":                       # a new line: it must not exist yet
+            if n is not None:
+                print("FIX INSERTS line %d, which already exists: %r" % (rec, prog[n]))
+                bad += 1
+                continue
+            inserted.append(after)
+            applied += 1
+            continue
         if n is None or prog[n] != before:
             print("FIX DOES NOT MATCH program line %d:\n  file  %r\n  fixes %r" % (rec, prog[n] if n is not None else None, before))
             bad += 1
             continue
         prog[n] = after
         applied += 1
+    if inserted:                               # new lines go in line-number order
+        prog = [l for l in prog if l.strip()] + inserted
+        prog.sort(key=lambda l: int(l.split(" ", 1)[0]))
     open(os.path.join(T, "ADVENTURE3000_fixed.BAS"), "w", encoding="ascii", newline="\n").write("\n".join(prog))
     print("fixes applied %d, problems %d" % (applied, bad))
 

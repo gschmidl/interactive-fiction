@@ -25,9 +25,12 @@ machine produced for them. The port replays the same moves in
 `../port/tests/`, which is where the comparison runs as a regression test.
 
 Results of this pass: all 1,003 statements were accepted with no syntax error,
-the four data files matched the transcription record for record, and the two
-walkthroughs replay in the port identically, line for line.
+the four data files matched the transcription record for record, and the
+recorded walkthroughs replay in the port identically, line for line.
 
-Note that the walkthroughs run a copy of the program with `RND(0)` replaced by
+Note that the walkthroughs run copies of the program with `RND(0)` replaced by
 `.5`, so both sides take the same branches; without that the game picks its
-starting room at random on its very first line.
+starting room at random on its very first line. `ADV3000T` is the program with
+the author's three bugs corrected (walkthroughs a-d); `ADV3000V` has every
+correction in `../transcription/fixes.txt`, made on the machine by retyping the
+changed lines (walkthrough e).

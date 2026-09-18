@@ -142,22 +142,35 @@ were built there as well and verified record by record against
 the transcription, the movement table's binary records included.
 
 `port/` plays the same listing natively, on an HP 3000 BASIC interpreter grown
-from the one written for Adventure ]I[. Two walkthroughs recorded on the
-machine replay **identically, line for line** -- 100 and 138 lines of game
-text, including the inventory's column layout, the score line's number
-formatting, and a game saved to a file:
+from the one written for Adventure ]I[. Four walkthroughs recorded on the
+machine replay **identically, line for line** -- including the inventory's
+column layout, the score line's number formatting, `take all`/`drop all`, and a
+game saved to a file:
 
-    walkthrough b: matches the HP 3000 (100 lines)
-    walkthrough c: matches the HP 3000 (138 lines)
+    walkthrough b (ADV3000T): matches the HP 3000 (100 lines)
+    walkthrough c (ADV3000T): matches the HP 3000 (138 lines)
+    walkthrough d (ADV3000T): matches the HP 3000 (91 lines)
+    walkthrough e (ADV3000V): matches the HP 3000 (84 lines)
 
     port/adventure3000.exe              play
     port/adventure3000.exe --no-fixes   play it exactly as printed
 
-Four corrections are applied by default, each with its reason in
-`transcription/fixes.txt`: three bugs of the author's own (drinking cleared the
-oil instead of the water, eating emptied your bottle, the smashed ming vase
-removed the pillow rather than the vase) and the one data record that reads
-`You'reein the giant room.`  The author's misspellings stay in both variants.
+Corrections are applied by default, each with its reason in
+`transcription/fixes.txt`:
+
+* the parser checks for place words (rock, stairs, grate, bridge ...) before
+  verbs, so `unlock grate`, `open grate`, `cross bridge` and `enter building`
+  get *What do you want to do with the grate?* -- on the real machine too.
+  One added line lets the verbs that act on a place win;
+* the place-word name lookup reads one name behind (`take rock` asked about
+  *the dwarf*);
+* three bugs of the author's own: drinking cleared the oil instead of the
+  water, eating emptied your bottle, the smashed ming vase removed the pillow
+  rather than the vase;
+* four damaged data records (`You'reein`, `small  it.`, `soft  oom.`, `the pii.`).
+
+The corrected program was checked on the real BASIC/3000 as well (walkthrough
+e). The author's misspellings stay in both variants.
 
 ## Status / next
 

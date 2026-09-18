@@ -1,0 +1,103 @@
+RUN
+ADV3000T
+Adventure 3.2 on WED, SEP  9, 2026,  1:00 PM
+Welcome to adventure!  Would you like instructions?
+?n
+You are in a forest, with trees all around you.
+
+>w
+You are inside a building, a well house for a large
+spring.
+There is a bottle of water here.
+There is a brass lantern here.
+There is a set of keys here.
+There is food here.
+There is a glass bottle here.
+
+>take all
+Why not say 'fill'?
+brass lamp:taken.
+keys:taken.
+food:taken.
+Contents and the bottle:taken.
+>inventory
+You are carrying:water        brass lamp     keys           food
+bottle         
+>w
+You are standing at the end of a road before a small
+brick building.  Around you is a forest.  A small stream
+flows out of the building and down a gulley.
+
+>s
+You are in a valley in the forest beside a stream
+tumbling along a rocky bed.
+
+>s
+At your feet all the water of the stream splashes into
+a 2-inch slit in the rock. Downstream the streambed is bare rock.
+
+>s
+You are in a 20 foot depression floored with bare dirt.
+Set into the dirt is a strong steel grate mounted in concrete.
+A dry streambed leads into the depression.
+
+The grate is locked.
+>unlock grate
+What do you want to do with the grate?
+>open grate
+What do you want to do with the grate?
+>unlock it
+The grate is unlocked.
+>d
+You are in a small chamber beneath a 3x3 steel grate to the surface.
+A low crawl over cobbles leads inward to the west.
+
+The grate is unlocked.
+>drop all
+Try saying 'empty'
+brass lamp:dropped.
+keys:dropped.
+food:dropped.
+Contents and bottle:dropped.
+>look
+You are in a small chamber beneath a 3x3 steel grate to the surface.
+A low crawl over cobbles leads inward to the west.
+There is a bottle of water here.
+There is a brass lantern here.
+There is a set of keys here.
+There is food here.
+There is a glass bottle here.
+
+>take all
+Why not say 'fill'?
+brass lamp:taken.
+keys:taken.
+food:taken.
+Contents and the bottle:taken.
+>inventory
+You are carrying:water        brass lamp     keys           food
+bottle         
+>w
+You are crawling over cobbles in a low passage.  There is a dim light
+at the east end of the passage.
+There is a small wicker cage here.
+
+>climb stairs
+What do you want to do with the rock?
+>quit
+Save game?n
+Oh well...
+Your score is now  18   
+You have explored 8    % of the cave.
+That makes you a beginner adventurer.
+
+>
+>EXIT
+
+END OF PROGRAM
+:BYE
+
+CPU=1. CONNECT=1. WED, SEP  9, 2026,  1:00 PM
+
+Disconnected from the HP 3000 simulator
+

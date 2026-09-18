@@ -30,11 +30,15 @@
  *      DAT$(a,b)            the system date and time
  *      NAME/LOCKWORD        an MPE file reference
  *
- * and the output rules the machine showed: numbers print in a field padded
- * to a multiple of three columns (six at least, twelve for a fraction),
- * a PRINT item that will not fit in the 73-column line starts a new one,
- * ASSIGN reports 3 for a file that is not there, CREATE 1 for one that
- * already is, and INPUT prompts with "?" and no blank.
+ * and the rules the machine showed: numbers print in a field padded to a
+ * multiple of three columns (six at least, twelve for a fraction), a PRINT
+ * item that will not fit in the 73-column line starts a new one, ASSIGN
+ * reports 3 for a file that is not there, CREATE 1 for one that already is,
+ * INPUT prompts with "?" and no blank, and a FOR on a variable whose loop was
+ * left open replaces only that loop, keeping the loops opened since.
+ *
+ * On a console the HP terminals' display enhancements (ESC & d x) are shown
+ * as their ANSI equivalents; piped output keeps the HP bytes.
  */
 
 #include <stdio.h>
@@ -136,7 +140,48 @@ static unsigned long g_io_serial = 0;  /* bumped by every terminal read/write */
 static int out_col  = 0;   /* logical carriage column (what HP sees)   */
 static int out_emit = 0;   /* columns actually emitted on this line    */
 
-static void emit(int c) { g_io_serial++; if (!g_silent) fputc(c, stdout); }
+/* The game highlights its ">" prompt with the HP terminals' display
+   enhancement escapes: ESC & d <x>, where x-'@' is a bit set -- 1 blink,
+   2 inverse, 4 underline, 8 half-bright -- and "@" ends the enhancement.
+   A modern terminal does not know them and shows their letters ("B>@"), so
+   on a terminal they become the ANSI equivalents.  Piped output keeps the
+   bytes the HP 3000 sent, which is what the test transcripts compare. */
+static int g_ansi = 0;          /* translate HP escapes (stdout is a tty) */
+static int g_bell = 0;          /* --bell: let the prompt's bell through  */
+
+static void emit_raw(int c) { if (!g_silent) fputc(c, stdout); }
+
+static void emit(int c)
+{
+    static int st = 0;           /* 0 idle, 1 after ESC, 2 after ESC & */
+    g_io_serial++;
+    if (!g_ansi) { emit_raw(c); return; }
+    /* the game rings the bell at every prompt ('7 in line 410); on a console
+       that is a beep after each command, so it is dropped unless --bell */
+    if (c == 7 && !g_bell) return;
+    switch (st) {
+    case 1:
+        if (c == '&') { st = 2; return; }
+        st = 0; emit_raw(27); break;
+    case 2:
+        if (c == 'd') { st = 3; return; }
+        st = 0; emit_raw(27); emit_raw('&'); break;
+    case 3:
+        st = 0;
+        if (c >= '@' && c <= 'O') {
+            int bits = c - '@';
+            char sgr[24];
+            snprintf(sgr, sizeof sgr, "\033[0%s%s%s%sm",
+                     (bits & 8) ? ";2" : "", (bits & 4) ? ";4" : "",
+                     (bits & 1) ? ";5" : "", (bits & 2) ? ";7" : "");
+            if (!g_silent) fputs(sgr, stdout);
+            return;
+        }
+        emit_raw(27); emit_raw('&'); emit_raw('d'); break;
+    }
+    if (c == 27) { st = 1; return; }
+    emit_raw(c);
+}
 
 static void out_lf(void)   { emit(10); out_emit = 0; }
 static void out_cr(void)   { out_col = 0; }
@@ -1645,9 +1690,19 @@ static void do_for(void)
 
     numv[t.L][t.D] = init;
 
-    /* re-entering a loop whose variable is already active reuses its frame */
+    /* A loop on a variable that already has one open replaces that loop,
+       and only that loop.  BASIC/3000 pairs every FOR with its NEXT when the
+       program is entered, so loops opened since are left alone -- unlike the
+       usual unwinding of the stack back to the old frame.  The game depends
+       on it: the parser leaves FOR X open when it finds a verb (980 IF K[X]
+       THEN 1950), and "take" then runs FOR X inside FOR Z3 (3690-3900);
+       unwinding would lose FOR Z3 and "take all" would stop after one item. */
     for (i = nfor - 1; i >= 0; i--)
-        if (fstk[i].L == t.L && fstk[i].D == t.D) { nfor = i; break; }
+        if (fstk[i].L == t.L && fstk[i].D == t.D) {
+            memmove(&fstk[i], &fstk[i + 1], (size_t)(nfor - i - 1) * sizeof fstk[0]);
+            nfor--;
+            break;
+        }
     if (nfor >= FOR_MAX) die("FOR NESTING TOO DEEP");
     fstk[nfor].L = t.L; fstk[nfor].D = t.D;
     fstk[nfor].limit = limit; fstk[nfor].step = step;
@@ -2883,6 +2938,8 @@ static void usage(void)
         "  adventure3000 --no-fixes   play it exactly as the magazine printed it,\n"
         "                             including its own bugs and misspellings\n"
         "  adventure3000 --rebuild    rebuild the data files from the text records\n"
+        "  adventure3000 --bell       ring the bell at every prompt, as the original\n"
+        "                             did on an HP terminal\n"
         "\n"
         "interpreter options (for running any BASIC/3000 program):\n"
         "  -p DIR   directory holding the BASIC source\n"
@@ -2903,6 +2960,7 @@ int main(int argc, char **argv)
     for (i = 1; i < argc; i++) {
         if (!strcmp(argv[i], "--rebuild")) { rebuild = 1; continue; }
         if (!strcmp(argv[i], "--no-fixes")) { variant = "print"; continue; }
+        if (!strcmp(argv[i], "--bell"))     { g_bell = 1; continue; }
         if (!strcmp(argv[i], "--build-data")) { builddata = 1; continue; }
         if (!strcmp(argv[i], "--help") || !strcmp(argv[i], "-h")) usage();
         if (argv[i][0] == 45 && argv[i][1] && !argv[i][2]) {
@@ -2923,6 +2981,20 @@ int main(int argc, char **argv)
 
     g_stdin_tty = ISATTY(stdin) ? 1 : 0;
     setvbuf(stdout, NULL, _IONBF, 0);
+    if (getenv("HP3K_ANSI"))          /* 1 or 0 overrides the detection */
+        g_ansi = getenv("HP3K_ANSI")[0] == '1';
+    else if (ISATTY(stdout))          /* show the HP enhancements as ANSI */
+        g_ansi = 1;
+    if (g_ansi) {
+#ifdef _WIN32
+        {
+            HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
+            DWORD mode;
+            if (GetConsoleMode(h, &mode))
+                SetConsoleMode(h, mode | 0x0004);   /* ENABLE_VIRTUAL_TERMINAL_PROCESSING */
+        }
+#endif
+    }
 
     if (builddata) {                 /* build the data files and stop */
         if (!g_datadir_set) snprintf(g_datadir, sizeof g_datadir, "data");
