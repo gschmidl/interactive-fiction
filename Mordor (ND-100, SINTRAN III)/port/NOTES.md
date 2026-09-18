@@ -4,8 +4,13 @@ How `mordor.exe` came to be: where the source was found, how the original
 ND-Pascal compiler turned it into a program, what the port fixed, what
 SINTRAN III the program needs, and how the port was checked against SINTRAN
 itself.  Octal throughout unless marked.  The ND-100 CPU, floating point and
-the file layout are described in the Skattejakt port's `NOTES.md`; this source
-is a copy of that emulator with the additions below.
+the file layout are described in the Skattejakt port's `NOTES.md`.  Since
+18 September 2026 `src\` is the source all the ND-100 ports share
+(`_ND100_work\emu2\src`, copied into each and built with `GAME=2` here); the
+additions below, the rubbing out and `--no-rubout` among them, are in it for
+every game.  The same recorded games give the same bytes as before the move,
+and the map file is the same: a map written by either build plays on in the
+other, and ends the same.
 
 ## Where the game came from
 
@@ -174,7 +179,7 @@ Two consequences:
 
 ## SINTRAN III as ND-Pascal needs it
 
-Added to the Skattejakt/SVHA monitor calls (`src\sintran.c`):
+What ND-Pascal needs of the monitor calls (`src\sintran.c`), beyond what Skattejakt and SVHA needed:
 
 | call | the port |
 | --- | --- |

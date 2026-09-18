@@ -1,0 +1,123 @@
+'CAVE-ORIG\r'            adventure
+'W\r'                    command 1
+'S\r'                    command 2
+'E\r'                    command 3
+'DOWN\r'                 command 4
+'E\r'                    command 5
+'NW\r'                   command 6
+'GET LAMP\r'             command 7
+'GET LAMP\r'             command 8
+'NUMENOR TROLL\r'        command 9
+'W\r'                    command 10
+'LOOK BOX\r'             command 11
+'UNLOCK PYRAMID\r'       command 12
+'TIE ROD\r'              command 13
+'GET IRON\r'             command 14
+'LOOK\r'                 command 15
+'S\r'                    command 16
+'ON\r'                   command 17
+'CLOSE I\r'              command 18
+'N\r'                    command 19
+'S\r'                    command 20
+'SHAH LIGHT\r'           command 21
+'GET MATCHES\r'          command 22
+'GET MATCHES\r'          command 23
+'GET MATCHES\r'          command 24
+'GET I\r'                command 25
+'OFF ALL\r'              command 26
+'CLOSE ALL\r'            command 27
+'GO UP\r'                command 28
+'TIE PYRAMID\r'          command 29
+'E\r'                    command 30
+'WATER SCORE\r'          command 31
+'N\r'                    command 32
+'S\r'                    command 33
+'SW\r'                   command 34
+'HUGABUGA I\r'           command 35
+'NE\r'                   command 36
+'SE\r'                   command 37
+'W\r'                    command 38
+'GET BOX\r'              command 39
+'N\r'                    command 40
+'NE\r'                   command 41
+'READ\r'                 command 42
+'SW\r'                   command 43
+'NE\r'                   command 44
+'MERRY\r'                command 45
+'S\r'                    command 46
+'MONGOL LAMP\r'          command 47
+'GET KEYS\r'             command 48
+'W\r'                    command 49
+'GET I\r'                command 50
+'GO NORTH\r'             command 51
+'E\r'                    command 52
+'FEED\r'                 command 53
+'L\r'                    command 54
+'SW\r'                   command 55
+'S\r'                    command 56
+'FRODO\r'                command 57
+'SE\r'                   command 58
+'GET OLD\r'              command 59
+'W\r'                    command 60
+'GET KEYS\r'             command 61
+'S\r'                    command 62
+'GET ALL\r'              command 63
+'GET KEYS\r'             command 64
+'SE\r'                   command 65
+'W\r'                    command 66
+'E\r'                    command 67
+'W\r'                    command 68
+'SE\r'                   command 69
+'SE\r'                   command 70
+'OFFICER PYRAMID\r'      command 71
+'CLOSE KEY\r'            command 72
+'ON PYRAMID\r'           command 73
+'GET KEYS\r'             command 74
+'XYZZY MESSAGE\r'        command 75
+'NW\r'                   command 76
+'SE\r'                   command 77
+'W\r'                    command 78
+'D\r'                    command 79
+'ATTACK SWORD\r'         command 80
+'OFF SCORE\r'            command 81
+'SE\r'                   command 82
+'NW\r'                   command 83
+'N\r'                    command 84
+'S\r'                    command 85
+'W\r'                    command 86
+'SE\r'                   command 87
+'N\r'                    command 88
+'JUMP BEANS\r'           command 89
+'SW\r'                   command 90
+'GET IRON\r'             command 91
+'GET KEYS\r'             command 92
+'S\r'                    command 93
+'GET OLD\r'              command 94
+'LIGHT\r'                command 95
+'E\r'                    command 96
+'GO N\r'                 command 97
+'GO NORTH\r'             command 98
+'S\r'                    command 99
+'SW\r'                   command 100
+'L CHAIN\r'              command 101
+'E\r'                    command 102
+'LOOK FOOD\r'            command 103
+'GET IRON\r'             command 104
+'E\r'                    command 105
+'NW\r'                   command 106
+'GET EMPTY\r'            command 107
+'FEED BEANS\r'           command 108
+'W\r'                    command 109
+'OFF BOTTLE\r'           command 110
+'NE\r'                   command 111
+'GET BOTTLE\r'           command 112
+'E\r'                    command 113
+'SW\r'                   command 114
+'N\r'                    command 115
+'GET EMPTY\r'            command 116
+'S\r'                    command 117
+'N\r'                    command 118
+'SW\r'                   command 119
+'GO SOUTH\r'             command 120
+'END\r'                  enough
+'N\r'                    save at the end?

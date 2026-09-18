@@ -1,0 +1,101 @@
+'NW\r'                   command 1
+'FREE LAMP\r'            command 2
+'ON\r'                   command 3
+'off treasure\r'         command 4
+'UNLIGHT CHEST\r'        command 5
+'GO N\r'                 command 6
+'UP\r'                   command 7
+'GET BIRD\r'             command 8
+'THE TAKE THE BOTTLE\r'  command 9
+'FILL FOOD\r'            command 10
+'THROW BOLA\r'           command 11
+' GET THE PILLOW\r'      command 12
+'THROW NUGGET\r'         command 13
+'ON\r'                   command 14
+'D\r'                    command 15
+'GO U,EMPTY BOTTLE\r'    command 16
+'N\r'                    command 17
+'OFF\r'                  command 18
+'N\r'                    command 19
+'N\r'                    command 20
+'GET ALL\r'              command 21
+'XYZZY\r'                command 22
+'GO SCORE\r'             command 23
+'UNLOCK PILLOW\r'        command 24
+'I\r'                    command 25
+'E,LIGHT MITHRIL\r'      command 26
+'off\r'                  command 27
+'NW\r'                   command 28
+'OPEN BIRD\r'            command 29
+'GET CAGE\r'             command 30
+'GO E\r'                 command 31
+'u\r'                    command 32
+'OPEN SILVER\r'          command 33
+'SOUTH\r'                command 34
+'SOUTH\r'                command 35
+'OFF\r'                  command 36
+'E\r'                    command 37
+'LIGHT MITHRIL\r'        command 38
+'inventory\r'            command 39
+'GO U,XYZZY\r'           command 40
+'LIGHT LAMP\r'           command 41
+'l\r'                    command 42
+' UNLIGHT THE BALLS\r'   command 43
+'i\r'                    command 44
+'LIGHT LAMP\r'           command 45
+'get cage\r'             command 46
+'BIRD\r'                 command 47
+'ON\r'                   command 48
+'SW\r'                   command 49
+'GET I\r'                command 50
+'SW\r'                   command 51
+'NORTH\r'                command 52
+'D\r'                    command 53
+'w\r'                    command 54
+'FILL LAMP\r'            command 55
+'east\r'                 command 56
+'PICK BIRD,THROW BOLA\r' command 57
+'FREE PILLOW,THROW NUGGET\r' command 58
+'LIGHT LIGHT\r'          command 59
+'pick pillow\r'          command 60
+'SW\r'                   command 61
+'TROLL\r'                command 62
+'EMPTY BALLS\r'          command 63
+'NORTH\r'                command 64
+'XYZZY,GO SE\r'          command 65
+'THE GO THE GOLD\r'      command 66
+'NE,UNLIGHT GATE\r'      command 67
+'go n\r'                 command 68
+'GO S\r'                 command 69
+'FILL BOTTLE\r'          command 70
+'SCORE\r'                command 71
+' DROP THE SNAKE\r'      command 72
+'UNLIGHT INVENTORY\r'    command 73
+'THE GO THE BARS\r'      command 74
+'FREE BIRD\r'            command 75
+'GO E\r'                 command 76
+'OPEN GATE\r'            command 77
+'MAKE POOL\r'            command 78
+'GO SOUTH\r'             command 79
+'GET ALL\r'              command 80
+'LOOK ALL\r'             command 81
+'get inventory\r'        command 82
+'PILLOW\r'               command 83
+'LIGHT LAMP\r'           command 84
+'PICK SNAKE\r'           command 85
+'SE\r'                   command 86
+'GO SE\r'                command 87
+'PICK IRON,UNLOCK KEYS\r' command 88
+'empty gold,d\r'         command 89
+'OFF TREASURE\r'         command 90
+'THE EMPTY THE SNAKE\r'  command 91
+'THE UNLIGHT THE MITHRIL\r' command 92
+'UNLOCK WATER\r'         command 93
+'EAST\r'                 command 94
+'SE\r'                   command 95
+'DOWN\r'                 command 96
+'U\r'                    command 97
+'OPEN GATE\r'            command 98
+'UP\r'                   command 99
+'GET ALL,LIGHT LAMP\r'   command 100
+'QUIT\r'                 enough

@@ -1,0 +1,170 @@
+==== adventure -d 28-OCT-1980 -t 090000
+
+Are you using a VT100?
+
+->no
+
+Be patient, it takes a while to initialize.....
+
+Now loading sections 1-7
+
+Now loading section   8
+
+Now loading section   9
+
+Now loading section  10
+
+Now loading section  11
+
+Now loading section  12
+
+Message of the Day:
+	"If you type magic mode and you are not a foo,
+	You can change all the hours, just to suit you.
+	This can only be done on your very first turn,
+	If you pass a short test that all wizards must learn:
+	The word that you need is a very small guy,
+	And a number of ones plus the hour that you try.
+	Add to the letters, as viewed on the screen
+	And type them back at this infernal machine."
+							- anonymous
+
+I'm terribly sorry, but colossal cave is closed.  Our hours are:
+
+	Mon-Fri:  7:00 to  9:00
+		 11:00 to 14:00
+		 16:00 to 20:00
+
+	Sat-Sun:  7:00 to 20:00
+
+	Holidays  0:00 to  7:00
+		 20:00 to 24:00
+
+The next holiday will be in 26 days , namely "Wizard Week"
+
+Only wizards are permitted within the cave right now.
+
+Are you a wizard?
+
+->yes
+
+Prove it!  Say the magic word!
+
+->dwarf
+
+That is not what I thought it was.  Do you know what I thought it was?
+
+->no
+
+XJNBV
+
+->htxlf
+
+Oh dear, you really *are* a wizard!  Sorry to have bothered you.....
+
+Welcome to Adventure!! Would you like instructions?
+
+->no
+
+
+You are standing at the end of a road before a small brick building.
+Around you is a forest.  A small stream flows out of the building and
+down a gully.
+
+->magic mode
+
+Are you a wizard?
+
+->yes
+
+Prove it!  Say the magic word!
+
+->dwarf
+
+That is not what I thought it was.  Do you know what I thought it was?
+
+->no
+
+MCWID
+
+->wmgsn
+
+Oh dear, you really *are* a wizard!  Sorry to have bothered you.....
+
+Do you wish to see the hours?
+
+->yes
+
+	Mon-Fri:  7:00 to  9:00
+		 11:00 to 14:00
+		 16:00 to 20:00
+
+	Sat-Sun:  7:00 to 20:00
+
+	Holidays  0:00 to  7:00
+		 20:00 to 24:00
+
+The next holiday will be in 26 days , namely "Wizard Week"
+
+Do you wish to change the hours?
+
+->no
+
+Do you wish to (re)schedule the next holiday?
+
+->no
+
+Length of a short game (zero to leave at  35 turns): 40
+
+New magic word (null to leave unchanged):
+
+
+New magic number (null to leave unchanged):
+0
+
+Latency for restart (zero to leave at  45 minutes):
+0
+
+Do you wish to change the message of the day?
+
+->no
+
+Okay.  This version has been saved.
+
+You may now continue your Adventure.
+
+You're at end of road again.
+
+->hours
+
+Colossal cave is open to regular adventurers at the following hours:
+
+	Mon-Fri:  7:00 to  9:00
+		 11:00 to 14:00
+		 16:00 to 20:00
+
+	Sat-Sun:  7:00 to 20:00
+
+	Holidays  0:00 to  7:00
+		 20:00 to 24:00
+
+The next holiday will be in 26 days , namely "Wizard Week"
+
+->quit
+
+Do you really want to quit now?
+
+->yes
+
+OK
+
+
+You scored  32 out of a possible 350 using   3 turns.
+
+You are obviously a rank amateur.  Better luck next time.
+
+To achieve the next higher rating you need   3 more points.
+
+
+
+---- exit 0

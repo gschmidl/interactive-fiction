@@ -1,0 +1,124 @@
+'CAVE-ORIG\r'            adventure
+'E\r'                    command 1
+'S\r'                    command 2
+'N\r'                    command 3
+'S\r'                    command 4
+'EMPTY\r'                command 5
+'NW\r'                   command 6
+'E\r'                    command 7
+'SW\r'                   command 8
+'W\r'                    command 9
+'E\r'                    command 10
+'GO EAST\r'              command 11
+'E\r'                    command 12
+'GET EMPTY\r'            command 13
+'UNLOCK\r'               command 14
+'GET EMPTY\r'            command 15
+'S\r'                    command 16
+'GET BOTTLE\r'           command 17
+'GET EMPTY\r'            command 18
+'SE\r'                   command 19
+'NW\r'                   command 20
+'DROP ALL\r'             command 21
+'SE\r'                   command 22
+'GET BOTTLE\r'           command 23
+'KILL BEANS\r'           command 24
+'HELP\r'                 command 25
+'E\r'                    command 26
+'GET S\r'                command 27
+'SW\r'                   command 28
+'GET WATER\r'            command 29
+'SAVE "SAV1"\r'          command 30
+'E\r'                    command 31
+'SW\r'                   command 32
+'S\r'                    command 33
+'SE\r'                   command 34
+'SE\r'                   command 35
+'FRODO MESSAGE\r'        command 36
+'DROP ALL\r'             command 37
+'GET WATER\r'            command 38
+'NW\r'                   command 39
+'WATER\r'                command 40
+'GET I\r'                command 41
+'NW\r'                   command 42
+'GO DOWN\r'              command 43
+'CLIMB ALL\r'            command 44
+'SE\r'                   command 45
+'NW\r'                   command 46
+'N\r'                    command 47
+'GET WATER\r'            command 48
+'ON KEYS\r'              command 49
+'S\r'                    command 50
+'TAKE\r'                 command 51
+'SE\r'                   command 52
+'NW\r'                   command 53
+'FEED FOOD\r'            command 54
+'GET WATER\r'            command 55
+'D\r'                    command 56
+'NUMENOR MATCHES\r'      command 57
+'N\r'                    command 58
+'E\r'                    command 59
+'E\r'                    command 60
+'E\r'                    command 61
+'SW\r'                   command 62
+'NORTH\r'                command 63
+'NORTH\r'                command 64
+'OPEN WATER\r'           command 65
+'PLANT LAMP\r'           command 66
+'E\r'                    command 67
+'GET WATER\r'            command 68
+'E\r'                    command 69
+'ATTACK\r'               command 70
+'W\r'                    command 71
+'SE\r'                   command 72
+'E\r'                    command 73
+'GET WATER\r'            command 74
+'E\r'                    command 75
+'MONGOL MATCHES\r'       command 76
+'SOUTH\r'                command 77
+'DOWN\r'                 command 78
+'W\r'                    command 79
+'KILL\r'                 command 80
+'GET WATER\r'            command 81
+'E\r'                    command 82
+'OFFICER ROD\r'          command 83
+'OFF BOTTLE\r'           command 84
+'W\r'                    command 85
+'E\r'                    command 86
+'SHAH TROLL\r'           command 87
+'OFFICER BOTTLE\r'       command 88
+'W\r'                    command 89
+'E\r'                    command 90
+'GET WATER\r'            command 91
+'GO WEST\r'              command 92
+'WAVE SWORD\r'           command 93
+'SW\r'                   command 94
+'NUMENOR SILVER\r'       command 95
+'GET WATER\r'            command 96
+'SAVE "SAV2"\r'          command 97
+'WATER PLATINUM\r'       command 98
+'NW\r'                   command 99
+'SW\r'                   command 100
+'HELP\r'                 command 101
+'E\r'                    command 102
+'E\r'                    command 103
+'NW\r'                   command 104
+'GO WEST\r'              command 105
+'WATER CART\r'           command 106
+'GO UP\r'                command 107
+'E\r'                    command 108
+'GO NORTH\r'             command 109
+'GET S\r'                command 110
+'GET WATER\r'            command 111
+'NW\r'                   command 112
+'SW\r'                   command 113
+'GET WATER\r'            command 114
+'LOAD SAV1\r'            command 115
+'NW\r'                   command 116
+'GO SOUTH\r'             command 117
+'GO WEST\r'              command 118
+'WATER ORC\r'            command 119
+'LIGHT\r'                command 120
+'END\r'                  enough
+'Y\r'                    save at the end?
+'"SAV3"\r'               save file

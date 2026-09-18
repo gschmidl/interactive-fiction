@@ -1,0 +1,101 @@
+'N,FILL BOTTLE\r'        command 1
+'the take the keys\r'    command 2
+'EAST\r'                 command 3
+'TAKE TREASURE,E\r'      command 4
+'WEST\r'                 command 5
+'SOUTH\r'                command 6
+'SOUTH\r'                command 7
+'LIGHT ALL\r'            command 8
+'GO NE\r'                command 9
+'UNLOCK BOTTLE\r'        command 10
+'WALK I\r'               command 11
+'W\r'                    command 12
+'free bird,ne\r'         command 13
+'FILL ELEVATOR\r'        command 14
+'GET ALL\r'              command 15
+'on\r'                   command 16
+'D,THROW BOLA\r'         command 17
+'SW\r'                   command 18
+'close silver\r'         command 19
+'d\r'                    command 20
+'NW\r'                   command 21
+'GO N\r'                 command 22
+' close the cage\r'      command 23
+'TAKE CAGE,W\r'          command 24
+'EAST\r'                 command 25
+'UP\r'                   command 26
+'EAST\r'                 command 27
+'iron\r'                 command 28
+'SW\r'                   command 29
+'ON\r'                   command 30
+'NORTH\r'                command 31
+'PICK WATER\r'           command 32
+'LIGHT LAMP\r'           command 33
+'SOUTH\r'                command 34
+'L CAGE\r'               command 35
+'sw\r'                   command 36
+'LOCK ELEVATOR\r'        command 37
+'GO NE\r'                command 38
+'NORTH\r'                command 39
+'PICK IRON\r'            command 40
+'OFF BIRD\r'             command 41
+'GO UP\r'                command 42
+'DROP WIRE,LIGHT ORC\r'  command 43
+'OFF MITHRIL\r'          command 44
+'GO EAST\r'              command 45
+'LOOK LIGHT\r'           command 46
+'SW\r'                   command 47
+'GO DOWN\r'              command 48
+'NORTH\r'                command 49
+'WALK BIRD\r'            command 50
+'d\r'                    command 51
+'light lamp\r'           command 52
+'NORTH\r'                command 53
+'GET CAGE\r'             command 54
+'D\r'                    command 55
+'OFF\r'                  command 56
+'U\r'                    command 57
+'NE\r'                   command 58
+'go nw\r'                command 59
+'LOOK\r'                 command 60
+'\r'                     command 61
+'keys\r'                 command 62
+'GO NORTH\r'             command 63
+'west\r'                 command 64
+'PILLOW\r'               command 65
+'se\r'                   command 66
+'OFF\r'                  command 67
+'make bridge\r'          command 68
+'U\r'                    command 69
+'sw,the xyzzy the pillow\r' command 70
+'go u\r'                 command 71
+'go plank\r'             command 72
+'POOL\r'                 command 73
+'SE\r'                   command 74
+'PICK,JUMP CAGE\r'       command 75
+'U\r'                    command 76
+' UNLOCK THE MITHRIL\r'  command 77
+'GO E\r'                 command 78
+'GET BOTTLE\r'           command 79
+'INVENTORY,UNLIGHT OIL\r' command 80
+'TAKE ALL\r'             command 81
+'W\r'                    command 82
+'go west\r'              command 83
+'MAKE BRIDGE\r'          command 84
+'go ne\r'                command 85
+'CLOSE LIGHT\r'          command 86
+'GO E\r'                 command 87
+'OPEN GATE\r'            command 88
+'GO U\r'                 command 89
+'I\r'                    command 90
+' throw the nugget\r'    command 91
+'EAST\r'                 command 92
+'s\r'                    command 93
+'UNLIGHT DOOR,MAKE BRIDGE\r' command 94
+'SOUTH\r'                command 95
+'FILL LAMP,A TAKE THE FOOD\r' command 96
+'W\r'                    command 97
+'NORTH\r'                command 98
+'LOOK\r'                 command 99
+'DOWN\r'                 command 100
+'QUIT\r'                 enough

@@ -1,0 +1,153 @@
+'CAVE-FUN\r'             adventure
+'GO UP\r'                command 1
+'N\r'                    command 2
+'S\r'                    command 3
+'SHAH PLATINUM\r'        command 4
+'GO WEST\r'              command 5
+'E\r'                    command 6
+'W\r'                    command 7
+'SE\r'                   command 8
+'GET IRON\r'             command 9
+'GET OLD\r'              command 10
+'HELP WATER\r'           command 11
+'MONGOL\r'               command 12
+'W\r'                    command 13
+'E\r'                    command 14
+'E\r'                    command 15
+'S\r'                    command 16
+'W\r'                    command 17
+'D\r'                    command 18
+'GET MATCHES\r'          command 19
+'L CART\r'               command 20
+'HELP\r'                 command 21
+'JUMP MSG\r'             command 22
+'ATTACK\r'               command 23
+'E\r'                    command 24
+'LOOK\r'                 command 25
+'NW\r'                   command 26
+'GET MATCHES\r'          command 27
+'GET MATCHES\r'          command 28
+'UP\r'                   command 29
+'KILL MSG\r'             command 30
+'GET MATCHES\r'          command 31
+'GET BOX\r'              command 32
+'GO EAST\r'              command 33
+'GET S\r'                command 34
+'TIE KEY\r'              command 35
+'SHAH\r'                 command 36
+'NW\r'                   command 37
+'L BOTTLE\r'             command 38
+'GO EAST\r'              command 39
+'NW\r'                   command 40
+'SW\r'                   command 41
+'SW\r'                   command 42
+'MERRY KEYS\r'           command 43
+'E\r'                    command 44
+'CLOSE\r'                command 45
+'E\r'                    command 46
+'S\r'                    command 47
+'GET I\r'                command 48
+'ON FOOD\r'              command 49
+'SE\r'                   command 50
+'OPEN\r'                 command 51
+'NW\r'                   command 52
+'OPEN MSG\r'             command 53
+'SE\r'                   command 54
+'E\r'                    command 55
+'E\r'                    command 56
+'E\r'                    command 57
+'E\r'                    command 58
+'OFF KEYS\r'             command 59
+'W\r'                    command 60
+'E\r'                    command 61
+'XYZZY MATCHES\r'        command 62
+'GET\r'                  command 63
+'W\r'                    command 64
+'SW\r'                   command 65
+'NW\r'                   command 66
+'GET WATER\r'            command 67
+'UP\r'                   command 68
+'E\r'                    command 69
+'GET WATER\r'            command 70
+'NW\r'                   command 71
+'DROP WATER\r'           command 72
+'ON BOTTLE\r'            command 73
+'GET WATER\r'            command 74
+'GET WATER\r'            command 75
+'SW\r'                   command 76
+'NW\r'                   command 77
+'NW\r'                   command 78
+'W\r'                    command 79
+'U\r'                    command 80
+'NE\r'                   command 81
+'S\r'                    command 82
+'E\r'                    command 83
+'GET EMPTY\r'            command 84
+'NUMENOR\r'              command 85
+'GET I\r'                command 86
+'NW\r'                   command 87
+'SW\r'                   command 88
+'S\r'                    command 89
+'N\r'                    command 90
+'S\r'                    command 91
+'N\r'                    command 92
+'GET OLD\r'              command 93
+'NE\r'                   command 94
+'S\r'                    command 95
+'N\r'                    command 96
+'GET BRASS\r'            command 97
+'GET LAMP\r'             command 98
+'W\r'                    command 99
+'GET S\r'                command 100
+'SAVE "SAV1"\r'          command 101
+'NE\r'                   command 102
+'GET OLD\r'              command 103
+'L BEANS\r'              command 104
+'E\r'                    command 105
+'DOWN\r'                 command 106
+'NW\r'                   command 107
+'HUGABUGA\r'             command 108
+'D\r'                    command 109
+'GET INVENTORY\r'        command 110
+'W\r'                    command 111
+'SE\r'                   command 112
+'N\r'                    command 113
+'OPEN LIGHT\r'           command 114
+'UP\r'                   command 115
+'E\r'                    command 116
+'S\r'                    command 117
+'N\r'                    command 118
+'SW\r'                   command 119
+'W\r'                    command 120
+'S\r'                    command 121
+'E\r'                    command 122
+'N\r'                    command 123
+'E\r'                    command 124
+'SW\r'                   command 125
+'W\r'                    command 126
+'GET I\r'                command 127
+'DOWN\r'                 command 128
+'TAKE PYRAMID\r'         command 129
+'S\r'                    command 130
+'E\r'                    command 131
+'W\r'                    command 132
+'READ CART\r'            command 133
+'GET KEYS\r'             command 134
+'E\r'                    command 135
+'SW\r'                   command 136
+'GET KEYS\r'             command 137
+'E\r'                    command 138
+'GET KEYS\r'             command 139
+'SW\r'                   command 140
+'E\r'                    command 141
+'LOOK SWORD\r'           command 142
+'E\r'                    command 143
+'SW\r'                   command 144
+'SE\r'                   command 145
+'W\r'                    command 146
+'SE\r'                   command 147
+'UP\r'                   command 148
+'W\r'                    command 149
+'GET BOTTLE\r'           command 150
+'END\r'                  enough
+'N\r'                    save at the end?

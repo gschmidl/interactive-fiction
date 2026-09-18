@@ -1,0 +1,28 @@
+'N\r'                    instructions?
+'\x1bH'                  map (command 1)
+'\x1bA'                  towards NW (command 2)
+'\x1bD'                  arrow W (command 3)
+'\x1bH'                  map (command 4)
+'\x1bD'                  towards W (command 5)
+'\x1bB'                  arrow S (command 6)
+'\x1bD'                  arrow W (command 7)
+'L'                      hire (command 8)
+'1\r'                    hire how many
+'5\r'                    pay
+'K'                      anything (command 9)
+'MA\r'                   buy what
+'\x1bH'                  map (command 10)
+'\x1bD'                  arrow W (command 11)
+'\x1bD'                  arrow W (command 12)
+'D'                      anything (command 13)
+'\r'                     return
+'\r'                     return
+'\r'                     return
+'\r'                     return
+'\x1bH'                  map (command 14)
+'\x1bC'                  towards E (command 15)
+'\x1bD'                  arrow W (command 16)
+'V'                      rest (command 17)
+'V'                      rest (command 18)
+'L'                      anything (command 19)
+'\r'                     return

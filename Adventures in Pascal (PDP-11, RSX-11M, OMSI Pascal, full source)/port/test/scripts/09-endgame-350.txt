@@ -1,0 +1,59 @@
+# args: --debug -u -d 28-OCT-1980 -t 120000
+no
+no
+#take 2
+on
+#put 16 108
+#dwarf 1 0
+#dwarf 2 0
+#dwarf 3 0
+#dwarf 4 0
+#dwarf 5 0
+#dwarf 6 0
+#take 50
+#take 51
+#take 52
+#take 53
+#take 54
+#take 55
+#take 56
+#take 57
+#take 58
+#take 59
+#take 60
+#take 61
+#take 62
+#take 63
+#take 64
+#prop 62 0
+#prop 64 0
+#goto 3
+#put 50 3
+#put 51 3
+#put 52 3
+#put 53 3
+#put 54 3
+#put 55 3
+#put 56 3
+#put 57 3
+#put 58 3
+#put 59 3
+#put 60 3
+#put 61 3
+#put 62 3
+#put 63 3
+#put 64 3
+#show
+score
+no
+#goto 15
+#set CLOCK1 1
+look
+#set CLOCK2 1
+look
+sw
+take rod
+ne
+drop rod
+sw
+blast

@@ -1,0 +1,32 @@
+'N\r'                    instructions?
+'\x1bA'                  arrow N (command 1)
+'?'                      look at oneself (command 2)
+'\r'                     return
+'\x1bB'                  arrow S (command 3)
+'\x1bH'                  map (command 4)
+'\x1bA'                  towards NW (command 5)
+'\x1bH'                  map (command 6)
+'\x1bD'                  towards W (command 7)
+'\x1bH'                  map (command 8)
+'\x1bD'                  towards W (command 9)
+'L'                      hire (command 10)
+'7\r'                    hire how many
+'1\r'                    hire how many
+'0\r'                    pay
+'5\r'                    pay
+'\x1bB'                  arrow S (command 11)
+'K'                      buy (command 12)
+'RU\r'                   buy what
+'\x1bA'                  arrow N (command 13)
+'\x1bA'                  arrow N (command 14)
+'F'                      ask the way (command 15)
+'\x1bC'                  towards NE (command 16)
+'\x1bC'                  towards NE (command 17)
+'V'                      rest (command 18)
+'\x1bH'                  map (command 19)
+'V'                      rest (command 20)
+'?'                      look at oneself (command 21)
+'\r'                     return
+'\x1bH'                  map (command 22)
+'\r'                     return
+'\r'                     return

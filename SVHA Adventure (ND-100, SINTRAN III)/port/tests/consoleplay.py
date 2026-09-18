@@ -10,7 +10,8 @@ events and writes to a real console, with nothing on the desktop:
   3. Backspace sends the ND delete key; the game echoes ^.
   4. SAVE asks for a file name at the console and writes the game; the
      player walks off; RESTORE brings the game back.
-  5. ESC stops the game with SINTRAN's USER BREAK message.
+  5. ESC stops the game with SINTRAN's USER BREAK message and its @, where
+     CONTINUE goes back into the game and LOGOUT ends it.
   6. The saved game resumes from the command line, and QUIT ends it.
 
 The program is alone on its pseudo console, as when it is started from
@@ -190,12 +191,21 @@ def main():
         print('ok    SAVE and RESTORE at the console')
         w.type(ESC)
         w.wait_for('USER BREAK AT')
+        w.wait_for('@')
+        w.type('continue' + CR)
+        w.type('inventory' + CR)
+        w.wait_for('Brass lantern')
+        print('ok    ESC is a SINTRAN user break; CONTINUE goes back into the game')
+        w.type(ESC)
+        w.wait_for('USER BREAK AT')
+        w.wait_for('@')
+        w.type('logout' + CR)
         w.wait_for('[press any key]')
         w.type(' ')
         code = w.wait_exit()
         assert code == 1, code
         w.close()
-        print('ok    ESC is a SINTRAN user break')
+        print('ok    LOGOUT at the @ ends it')
 
         w = Window([EXE, '--no-hold', 'lamp taken'], work)
         w.type('inventory' + CR)

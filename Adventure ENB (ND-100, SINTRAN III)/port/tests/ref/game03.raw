@@ -1,0 +1,440 @@
+AENBF-REF
+F
+
+G
+                           
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Vill du ha instruktioner?N
+V{nta ett tag tack
+
+Du {r vid en bro
+
+
+ORDER:Karta
+##. . Sl!!. ####. 
+. ##Gu##!!. . ##. 
+. . . . !!. ##. ##
+. T St. !!. ##. . 
+========Du========
+. . ####!!. T ##Gs
+. ##. . !!T . . ##
+. . SkT !!T St. . 
+. ##T ##!!. ##T ##
+
+
+ORDER:Norrut
+Du {r vid en v{g
+
+
+ORDER:V{sterut
+Du {r vid ett f{lt
+Du ser:
+Norrut:ett f{lt
+S|derut:en flod
+\sterut:en v{g
+V{sterut:en stad
+
+
+ORDER:Karta
+T . . . . !!##. T 
+Gu##. . Sl!!. ####
+. . ##Gu##!!. . ##
+##. . . . !!. ##. 
+. . T StDu!!. ##. 
+==========II======
+T . . ####!!. T ##
+T . ##. . !!T . . 
+##. . SkT !!T St. 
+
+
+ORDER:V{sterut
+Du {r vid en stad
+
+
+ORDER:K|pa
+Vad vill du k|paMA
+ett magiskt sv{rd uppk|pt
+
+
+ORDER:Karta
+. T . . . . !!##. 
+. Gu##. . Sl!!. ##
+. . . ##Gu##!!. . 
+T ##. . . . !!. ##
+. . . T Du. !!. ##
+============II====
+. T . . ####!!. T 
+. T . ##. . !!T . 
+. ##. . SkT !!T St
+
+
+ORDER:Norrut
+Du {r vid ett f{lt
+Du ser:
+Norrut:en gumma
+S|derut:en stad
+\sterut:ett f{lt
+V{sterut:ett f{lt
+
+
+ORDER:Karta
+. Sv. T . T !!T ##
+. T . . . . !!##. 
+. Gu##. . Sl!!. ##
+. . . ##Gu##!!. . 
+T ##. . Du. !!. ##
+. . . T St. !!. ##
+============II====
+. T . . ####!!. T 
+. T . ##. . !!T . 
+
+
+ORDER:S|derut
+Du {r vid en stad
+
+
+ORDER:\sterut
+Du {r vid ett f{lt
+Du ser:
+Norrut:ett f{lt
+S|derut:en flod
+\sterut:en v{g
+V{sterut:en stad
+
+
+ORDER:V{sterut
+Du {r vid en stad
+
+
+ORDER:Leja
+Hur m}nga vill du leja (1-5):7
+Hur m}nga vill du leja (1-5):7
+Hur m}nga vill du leja (1-5):
+2
+Vad betalar du till nr 1      10
+Vad betalar du till nr 2      1
+
+
+ORDER:Vila
+Du {r vid en stad
+
+
+ORDER:K|pa
+Vad vill du k|paSV
+ett sv{rd uppk|pt
+
+
+ORDER:Karta
+. T . . . . !!##. 
+. Gu##Dv. Sl!!. ##
+. . . ##Gu##!!. . 
+T ##. . . . !!. ##
+Or. . T Du. !!. ##
+============II====
+. T . . ####!!. T 
+. T . ##. . !!T . 
+. ##. . SkT !!T St
+
+
+ORDER:\sterut
+Du {r vid ett f{lt
+Du ser:
+Norrut:ett f{lt
+S|derut:en flod
+\sterut:en v{g
+V{sterut:en stad
+Man nr: 2  har deserterat
+
+
+ORDER:Vila
+Du {r vid ett f{lt
+Du ser:
+Norrut:ett f{lt
+S|derut:en flod
+\sterut:en v{g
+V{sterut:en stad
+Du {r |verfallen av en dv{rg
+Tryck 'RETURN' f|r att forts{tta stridenDu tr{ffade dv{rgen i skrevet
+Tryck 'RETURN' f|r att forts{tta striden
+++++en dv{rg d|dad++++
+
+
+ORDER:Karta
+T . . . . !!##. T 
+Gu##. . Sl!!. ####
+. . ##Gu##!!. . ##
+##. . . . !!. ##. 
+. . T StDu!!. ##. 
+==========II======
+T . . ####!!. T ##
+T . ##. . !!T . . 
+##. . SkT !!T St. 
+Slott p} koordinaterna  11 , 53 sk|vlat av en j{tte
+
+
+ORDER:V{sterut
+Du {r vid en stad
+
+
+ORDER:S|derut
+Du kan inte korsa floden
+
+
+ORDER:Leja
+Du har redan lejt  2  personer
+Hur m}nga vill du leja (1-5):0
+
+
+ORDER:Norrut
+Du {r vid ett f{lt
+Du ser:
+Norrut:en gumma
+S|derut:en stad
+\sterut:ett f{lt
+V{sterut:ett f{lt
+
+
+ORDER:Karta
+. Sv. T . T !!T ##
+. T . . . . !!##. 
+. Gu##. . Sl!!. ##
+. . . ##Gu##!!. . 
+T ##. . Du. !!. ##
+. . . T Or. !!. ##
+============II====
+. T . . ####!!. T 
+. T . ##. . !!T . 
+Du {r |verfallen av en orch
+++++en orch d|dad++++
+
+
+ORDER:Norrut
+Du {r vid en gumma
+
+
+ORDER:Fr}ga
+Gumman s{ger att grottan ligger }t nord|st
+
+
+ORDER:Vila
+Du {r vid en gumma
+
+
+ORDER:D|da
+Du d|dade gumman
+men gumman f|rbannade dig i d|ds|gonblicket
+***POOF*** nu har du bara pengarna kvar
+
+
+ORDER:D|da
+H{r finns inget att d|da
+Du {r |verfallen av en orch
+++++en orch d|dad++++
+
+
+ORDER:Fr}ga
+Du kan inte fr}ga ett f{lt dummer
+
+
+ORDER:Vila
+Du {r vid ett f{lt
+Du ser:
+Norrut:ett f{lt
+S|derut:ett f{lt
+\sterut:ett berg
+V{sterut:ett berg
+Du {r |verfallen av en r|vare
+Du tr{ffade r|varen i skrevet
+Tryck 'RETURN' f|r att forts{tta striden
+Tryck 'RETURN' f|r att forts{tta striden++++en r|vare d|dad++++
+
+
+ORDER:Karta
+##T T . . Gu!!. T 
+. Sv. T . T !!T ##
+. T . . Tr. !!##. 
+. Gu##. . Sl!!. ##
+. . . ##Du##!!. . 
+T ##. . . . !!. ##
+. . . T St. !!. ##
+============II====
+. T . . ####!!. T 
+
+
+ORDER:Vila
+Du {r vid ett f{lt
+Du ser:
+Norrut:ett f{lt
+S|derut:ett f{lt
+\sterut:ett berg
+V{sterut:ett berg
+
+
+ORDER:Karta
+##T T . . Gu!!. T 
+. Sv. T . T !!T ##
+. T . . . . !!##. 
+. Gu##. TrSl!!. ##
+. . . ##Du##!!. . 
+T ##. . . . !!. ##
+. . . T St. !!. ##
+============II====
+. T . . ####!!. T 
+
+
+ORDER:V{sterut
+Du {r vid ett berg
+
+
+ORDER:Karta
+####T T Dv. Gu!!. 
+. . Sv. T . T !!T 
+##. T . . . . !!##
+##. Gu##. . Sl!!. 
+. . Tr. DuTr##!!. 
+. T ##. . . . !!. 
+. . . . T St. !!. 
+==============II==
+. . T . . ####!!. 
+Du {r |verfallen av ett troll
+Du tr{ffade trollet i huvudet
+Tryck 'RETURN' f|r att forts{tta striden
+++++ett troll d|dad++++
+
+
+ORDER:S|derut
+Du {r vid ett f{lt
+Du ser:
+Norrut:ett berg
+S|derut:en skog
+\sterut:ett f{lt
+V{sterut:ett f{lt
+
+
+ORDER:Karta
+. . Sv. Dv. T !!T 
+##. T . . . . !!##
+##. Gu##. . Sl!!. 
+. . . . ##. ##!!. 
+. T ##TrDu. . !!. 
+. . . . T St. !!. 
+==============II==
+. . T . . ####!!. 
+T . T . ##. . !!T 
+Du {r |verfallen av ett troll
+Tryck 'RETURN' f|r att forts{tta stridenTryck 'RETURN' f|r att forts{tta stridenDu tr{ffade trollet i skrevet
+Tryck 'RETURN' f|r att forts{tta striden
+++++ett troll d|dad++++
+
+
+ORDER:Vila
+Du {r vid ett f{lt
+Du ser:
+Norrut:ett berg
+S|derut:en skog
+\sterut:ett f{lt
+V{sterut:ett f{lt
+
+
+ORDER:Vila
+Du {r vid ett f{lt
+Du ser:
+Norrut:ett berg
+S|derut:en skog
+\sterut:ett f{lt
+V{sterut:ett f{lt
+
+
+ORDER:Karta
+. . Sv. Dv. T !!T 
+##. T . . . . !!##
+##. Gu##. . Sl!!. 
+. . . . ##. ##!!. 
+. T ##. Du. . !!. 
+. . . . T St. !!. 
+==============II==
+. . T . . ####!!. 
+T . T . ##. . !!T 
+
+
+ORDER:S|derut
+Du {r vid en skog
+
+
+ORDER:Vila
+Du {r vid en skog
+
+
+ORDER:Karta
+##. T . . . . !!##
+##. Gu##. . Sl!!. 
+. . . . ##. ##!!. 
+. T ##. . . . !!. 
+Or. . . DuSt. !!. 
+==============II==
+. . T . . ####!!. 
+T . T . ##. . !!T 
+. . ##. . SkT !!T 
+
+
+ORDER:\sterut
+Du {r vid en stad
+
+
+ORDER:K|pa
+Du har inte r}d att k|pa mer
+
+
+ORDER:Karta
+. T . . . . !!##. 
+. Gu##. DvSl!!. ##
+. . . ##. ##!!. . 
+T ##. . . . !!. ##
+. Or. T DuOrJ{. ##
+============II====
+. T . . ####!!. T 
+. T . ##. . !!T . 
+. ##. . SkT !!T St
+
+
+ORDER:S|derut
+Du kan inte korsa floden
+Du {r |verfallen av en orch
+Du tr{ffade orchen i skrevet
+Tryck 'RETURN' f|r att forts{tta striden
+++++en orch d|dad++++
+
+
+ORDER:Leja
+Du har redan lejt  0  personer
+Hur m}nga vill du leja (1-5):5
+Vad betalar du till nr 1      20
+Du har inga pengar kvar
+
+
+ORDER:Vila
+Du {r vid en stad
+Du {r |verfallen av en j{tte
+Tryck 'RETURN' f|r att forts{tta stridenEn man d|dad
+Du {r ensam kvar
+Tryck 'RETURN' f|r att forts{tta stridenj{tten tr{ffade dig i skrevet
+Tryck 'RETURN' f|r att forts{tta striden
+j{tten tr{ffade dig i solarplexus
+Tryck 'RETURN' f|r att forts{tta striden
+++++Du {r d|dad++++
+
+@

@@ -1,0 +1,19 @@
+# Hire 11 men in the town at 20,38 (north of the bridge, two west): the
+# recovered program stops at the 11th (DIMENSION OUT OF RANGE in LEJA)
+N
+{N}
+{W}
+{W}
+L
+11
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1

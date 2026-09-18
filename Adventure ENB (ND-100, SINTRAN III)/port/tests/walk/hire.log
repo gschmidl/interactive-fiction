@@ -1,0 +1,12 @@
+'N\r'                    script 1
+'\x1bA'                  script 2
+'\x1bD'                  script 3
+'\x1bD'                  script 4
+'L'                      script 5
+'11\r'                   script 6
+'2\r'                    script 7
+'1\r'                    script 8
+'1\r'                    script 9
+'?'                      script 10
+'\r'                     return
+'S'                      end of the script

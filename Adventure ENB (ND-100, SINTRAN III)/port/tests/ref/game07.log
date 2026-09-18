@@ -1,0 +1,23 @@
+'N\r'                    instructions?
+'\x1bH'                  map (command 1)
+'\x1bA'                  arrow N (command 2)
+'\x1bH'                  map (command 3)
+'\x1bD'                  towards W (command 4)
+'\x1bH'                  map (command 5)
+'\x1bD'                  towards W (command 6)
+'\x1bA'                  arrow N (command 7)
+'\x1bH'                  map (command 8)
+'\x1bB'                  towards S (command 9)
+'K'                      buy (command 10)
+'MA\r'                   buy what
+'V'                      anything (command 11)
+'\x1bH'                  map (command 12)
+'\x1bC'                  towards NE (command 13)
+'\x1bA'                  arrow N (command 14)
+'?'                      look at oneself (command 15)
+'\r'                     return
+'\x1bD'                  arrow W (command 16)
+'V'                      rest (command 17)
+'\x1bH'                  map (command 18)
+'\x1bC'                  towards E (command 19)
+'V'                      rest (command 20)

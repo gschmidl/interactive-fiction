@@ -1,0 +1,101 @@
+'.,GO WEST\r'            command 1
+'MAKE PLANK\r'           command 2
+'UNLIGHT TROLL\r'        command 3
+'NORTH\r'                command 4
+'A UNLIGHT THE BOLA\r'   command 5
+'E\r'                    command 6
+'THROW BOLA\r'           command 7
+'UNLIGHT TROLL\r'        command 8
+'BOLA\r'                 command 9
+'LIGHT GATE\r'           command 10
+'XYZZY\r'                command 11
+'A LOCK THE OIL\r'       command 12
+'LIGHT LAMP\r'           command 13
+'FREE POOL\r'            command 14
+'GO U\r'                 command 15
+'GET CAGE\r'             command 16
+'south\r'                command 17
+'INVENTORY\r'            command 18
+'THE UNLIGHT THE BOTTLE\r' command 19
+'GO U,LIGHT LAMP\r'      command 20
+'go north\r'             command 21
+'go se\r'                command 22
+'l orc\r'                command 23
+'pool\r'                 command 24
+'DOWN\r'                 command 25
+'UP\r'                   command 26
+'LIGHT LAMP,GO LIGHT\r'  command 27
+'THE UNLIGHT THE OIL\r'  command 28
+'GO W\r'                 command 29
+'THROW BRIDGE\r'         command 30
+'SE,UNLIGHT KEYS\r'      command 31
+'SW,GO NW\r'             command 32
+'go e\r'                 command 33
+'score\r'                command 34
+'SOUTH,LIGHT FOOD\r'     command 35
+'ON\r'                   command 36
+'GET BIRD\r'             command 37
+' DROP THE SET\r'        command 38
+'GO EAST\r'              command 39
+'I\r'                    command 40
+'north\r'                command 41
+'LIGHT SNAKE\r'          command 42
+'west\r'                 command 43
+'LOOK IRON\r'            command 44
+'fill bottle\r'          command 45
+'W\r'                    command 46
+'GET INVENTORY\r'        command 47
+'fill bottle\r'          command 48
+'MAKE BRIDGE\r'          command 49
+'PLUGH\r'                command 50
+'CLOSE SILVER\r'         command 51
+'SCORE\r'                command 52
+'E\r'                    command 53
+'EMPTY KEYS\r'           command 54
+'W\r'                    command 55
+'U,XYZZY\r'              command 56
+'A THROW THE IRON\r'     command 57
+'MAKE ORC\r'             command 58
+'close bird\r'           command 59
+'U\r'                    command 60
+'EMPTY\r'                command 61
+'GO S\r'                 command 62
+'POOL\r'                 command 63
+'FREE BIRD\r'            command 64
+'go up\r'                command 65
+'LOOK POOL\r'            command 66
+'GO E\r'                 command 67
+'DOWN\r'                 command 68
+'LOCK LAMP\r'            command 69
+'PICK I\r'               command 70
+'XYZZY\r'                command 71
+'LOCK BIRD\r'            command 72
+'UNLIGHT\r'              command 73
+'THE TAKE THE BOLA\r'    command 74
+'WALK LAMP\r'            command 75
+'UP\r'                   command 76
+'OFF WIRE\r'             command 77
+'THE XYZZY THE PILLOWS\r' command 78
+'FREE\r'                 command 79
+'PICK SCORE\r'           command 80
+'GET ALL\r'              command 81
+'DOWN\r'                 command 82
+'UP\r'                   command 83
+'unlock\r'               command 84
+'open gate\r'            command 85
+'FILL SNAKE\r'           command 86
+'SOUTH\r'                command 87
+'E\r'                    command 88
+'CLOSE GOLD\r'           command 89
+'MAKE NUGGET\r'          command 90
+' THROW THE ORC\r'       command 91
+'D\r'                    command 92
+'MAKE BRIDGE,A CLOSE THE BOTTLE\r' command 93
+'NE\r'                   command 94
+'ON LAMP\r'              command 95
+'CLOSE DOOR\r'           command 96
+'d,sw\r'                 command 97
+'SCORE\r'                command 98
+'W\r'                    command 99
+'WALK BIRD\r'            command 100
+'QUIT\r'                 enough

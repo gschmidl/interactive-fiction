@@ -1,0 +1,48 @@
+--- src_original/ADV-INTER-CB-MJ.SYMB (as text)
++++ basic/ADV-INTER-CB-MJ.txt
+62c62
+< 1190 CLOSE #1:
+---
+> 1190 CLOSE #1:: IF LD$><"" GOTO 2095
+72a73,79
+> 1381 '  Port fix 2026: a direction typed alone is GO and that direction, as in
+> 1382 '  Adventure V5.0, so that the rules see it (S at the troll's bridge went
+> 1383 '  past him unpaid); and GO N ... GO D mean what N ... D mean
+> 1384 IF B$><"" GOTO 1386
+> 1385 REPEAT 10: IF A$=ADV$(@,1).OR.A$=DSH$(@) THEN B$=ADV$(@,1): A$="GO"
+> 1386 IF A$><"GO" GOTO 1390
+> 1387 REPEAT 10: IF B$=DSH$(@) THEN B$=ADV$(@,1)
+95c102,104
+< 1570 IF ADV(ROOM,ID-1)=0.AND.(ADV(1,11)>-1.AND.ADV(I,11)><ROOM.OR.SF(1)=0).AND.ADV(ROOM,10)=0 GOTO 1600 
+---
+> 1566 '  Port fix 2026: the lamp is object 1, not I (the last rule looked at), so a
+> 1567 '  lit lamp lying in the room lights the way here too, as it does for LOOK
+> 1570 IF ADV(ROOM,ID-1)=0.AND.(ADV(1,11)>-1.AND.ADV(1,11)><ROOM.OR.SF(1)=0).AND.ADV(ROOM,10)=0 GOTO 1600
+99a109,113
+> 1611 '  Port fix 2026: count what is carried.  The count was kept by hand and went
+> 1612 '  wrong when a rule took something away (TIE, PLANT, FEED) and after a LOAD,
+> 1613 '  and the test below was = where >= was meant: with the cart put down, the
+> 1614 '  limit was never reached again
+> 1615 CAR=0: REPEAT NADV(3): IF ADV(@,11)=-1.AND.ADV$(@,4)><"" THEN CAR=CAR+1
+100a115,118
+> 1621 '  Port fix 2026: FLG starts at 0.  It kept its value from the last GET or
+> 1622 '  DROP, so an unknown word went on to IDX, left by the rule loops: I SEE NO
+> 1624 '  ...HERE, or, DROPped, the Persian rug (IDX 35, the last AUTO rule)
+> 1623 FLG=0
+111c129
+< 1660 IF CAR=NADV(6) GOTO 1671
+---
+> 1660 IF CAR>=NADV(6) GOTO 1671
+116c134
+< 1671  IF CAR=NADV(6) THEN PRINT "YOUR LOAD IS TO HEAVY";!"YOU BEST TAKE INVENTORY AND DROP SOMETHING FIRST": GOTO 2200
+---
+> 1671  IF CAR>=NADV(6) THEN PRINT "YOUR LOAD IS TO HEAVY";!"YOU BEST TAKE INVENTORY AND DROP SOMETHING FIRST": GOTO 2200
+123a142,143
+> 1703 '  Port fix 2026: FLG starts at 0, as in GET
+> 1704 FLG=0
+169a190,194
+> 2091 '  Port fix 2026: read the adventure again first (1010-1190 come back to
+> 2092 '  2095).  A saved game holds only the rooms it had swapped, so a door
+> 2093 '  opened since then stayed open, with its flag saying shut
+> 2094 CLOSE #1:: LD$=B$: GOTO 1010
+> 2095 OPEN #1: FOR INPUT LD$: LD$="": INPUT#1:N$

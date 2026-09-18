@@ -1,0 +1,114 @@
+--- src_original/ADVENTURE-ENB.SYMB (as text)
++++ basic/ADVENTURE-ENB.txt
+5c5
+< 131 ON ERROR GOTO 135
+---
+> 131 ON ERROR GOTO 136
+9a10,12
+> 136 ON ERROR GOTO 0
+> 137 '  Port fix 2026 (131, 136): with no file to open, the error went to 135, whose
+> 138 '  CLOSE of a file never opened was an error too, and went to 135 again, for ever.
+12,13c15,20
+< 150 ON ERROR GOTO 210
+< 155 CALL PATCH
+---
+> 150 ON ERROR GOTO 211
+> 155 CALL PATCH(0%)
+> 156 '  Port fix 2026 (155, 740): PATCH with no argument took one from what lay
+> 157 '  at the address 0 (anything: a program before this one left it there),
+> 158 '  added SAA 0 to it and stored that in BASIC's input routine as an
+> 159 '  instruction; 0 makes the ? of INPUT nothing, as it came out on SINTRAN
+19a27,28
+> 211 ON ERROR GOTO 0
+> 212 '  Port fix 2026 (150, 211): the same, for the instructions
+53c62,65
+< 530 GROTT1=INT(RND*85+2):GROTT2=INT(RND*85+2)
+---
+> 530 GROTT1=INT(RND*84+2):GROTT2=INT(RND*84+2)
+> 531 '  Port fix 2026 (530, 570, 580): RND*85+2 went up to 86, and the map ends at 85:
+> 532 '  a river or road there stopped the game with DIMENSION OUT OF RANGE before it began,
+> 533 '  a cave there was off the map (no way down), and so was the player
+57,58c69,70
+< 570 A=INT(RND*85+2)
+< 580 B=INT(RND*85+2)
+---
+> 570 A=INT(RND*84+2)
+> 580 B=INT(RND*84+2)
+77c89
+< 740 CALL PATCH
+---
+> 740 CALL PATCH(0%)
+105c117,119
+< 1010 IF PLAN(NS,EW)=11 THEN NS=NS+1
+---
+> 1010 IF PLAN(NS,EW)=11.AND.NS<84 THEN NS=NS+1
+> 1011 '  Port fix 2026 (1010, 1070): a road takes two steps at a time, and the second
+> 1012 '  one went off the map, to 86 or 0: nowhere, or DIMENSION OUT OF RANGE
+111c125
+< 1070 IF PLAN(NS,EW)=11 THEN NS=NS-1
+---
+> 1070 IF PLAN(NS,EW)=11.AND.NS>2 THEN NS=NS-1
+131c145,148
+< 1270 IF PLAN(NS,EW)=10.OR. PLAN((NS-1),EW)=10  THEN HI=HI+1:HA$(HI)="vatten":PRINT"vatten medtaget":GOTO 740
+---
+> 1270 IF PLAN(NS,EW)<>10.AND. PLAN((NS-1),EW)<>10  THEN 1274
+> 1271 HI=0:REPEAT 12:IF HA$(13-@)="" THEN HI=13-@
+> 1272 IF HI=0 THEN PRINT"Du kan inte b{ra mer":GOTO 740
+> 1273 HA$(HI)="vatten":PRINT"vatten medtaget":GOTO 740
+134c151,156
+< 1280 HI=HI+1:HA$(HI)=UT$(PLAN(NS,EW)):PRINT UT$(PLAN(NS,EW));" upplockad"
+---
+> 1276 '  Port fix 2026 (1270-1273, 1279-1281, 1355-1405, 3820, 3821): what was taken or bought
+> 1277 '  went into HA$(HI+1), and HA$ has 12: the 13th thing (water, say) stopped the game
+> 1278 '  with DIMENSION OUT OF RANGE.  Now it goes into the first empty place, or is not taken
+> 1279 HI=0:REPEAT 12:IF HA$(13-@)="" THEN HI=13-@
+> 1280 IF HI=0 THEN PRINT"Du kan inte b{ra mer":GOTO 740
+> 1281 HA$(HI)=UT$(PLAN(NS,EW)):PRINT UT$(PLAN(NS,EW));" upplockad"
+141a164,165
+> 1355 HI=0:REPEAT 12:IF HA$(13-@)="" THEN HI=13-@
+> 1356 IF HI=0 THEN PRINT"Du kan inte b{ra mer":GOTO 740
+143,146c167,171
+< 1370 IF SEG$(KOP$,1,2)="SV"THEN HI=HI+1:HA$(HI)="ett sv{rd":LET FORSV=FORSV+30:GP=GP-30:HA=HA+1
+< 1380 IF SEG$(KOP$,1,2)="SK"THEN HI=HI+1:HA$(HI)="en sk|ld":SKYDD=SKYDD+30:GP=GP-30:HA=HA+1
+< 1390 IF SEG$(KOP$,1,2)="MA"THEN HI=HI+1:HA$(HI)="ett magiskt sv{rd":LET FORSV=FORSV+50:GP=GP-40:HA=HA+1
+< 1400 IF SEG$(KOP$,1,2)="RU"THEN HI=HI+1:HA$(HI)="en rustning":SKYDD=SKYDD+50:GP=GP-40:HA=HA+1
+---
+> 1370 IF SEG$(KOP$,1,2)="SV"THEN HA$(HI)="ett sv{rd":LET FORSV=FORSV+30:GP=GP-30:HA=HA+1
+> 1380 IF SEG$(KOP$,1,2)="SK"THEN HA$(HI)="en sk|ld":SKYDD=SKYDD+30:GP=GP-30:HA=HA+1
+> 1390 IF SEG$(KOP$,1,2)="MA"THEN HA$(HI)="ett magiskt sv{rd":LET FORSV=FORSV+50:GP=GP-40:HA=HA+1
+> 1400 IF SEG$(KOP$,1,2)="RU"THEN HA$(HI)="en rustning":SKYDD=SKYDD+50:GP=GP-40:HA=HA+1
+> 1405 IF HA$(HI)="" THEN 740
+184a210,211
+> 1765 IF HUR>5 THEN 1760
+> 1766 '  Port fix 2026: more than 10 stopped the game (DIMENSION OUT OF RANGE in LEJA)
+221a249,252
+> 2111 IF DE=1 THEN DOED=ALL/MAN
+> 2112 '  Port fix 2026 (2111, 2220): as in the caves (2460, 2640).  DOED was never set, so
+> 2113 '  the first blow killed a man, and MAN was never counted down: every blow after it
+> 2114 '  killed him again and took 10 more from defence and armour, until no fight could be won
+244c275
+< 2220 IF DOED<=0 THEN PRINT"En man d|dad":LEJA(MAN)=0:LET FORSV=FORSV-10:SKYDD=SKYDD-10
+---
+> 2220 IF DOED<=0 THEN PRINT"En man d|dad":LEJA(MAN)=0:MAN=MAN-1:LET FORSV=FORSV-10:SKYDD=SKYDD-10
+321c352
+< 2970 ON ERROR GOTO 3040
+---
+> 2970 ON ERROR GOTO 3041
+328a360,361
+> 3041 ON ERROR GOTO 0
+> 3042 '  Port fix 2026 (2970, 3041): the same, for the instructions (H)
+350c383,385
+< 3280 IF IN=70.AND.G3=20.AND.G4=1 THEN PRINT"Fr}ga":PRINSESS=1:STAT=STAT+10:PRINT"Prinsessan f|ljer dig":GOTO 3190
+---
+> 3275 '  Port fix 2026: the princess is at 15,1 (3180), not 20,1: the caves are 15 by 15,
+> 3276 '  so she never followed anyone, and no one could win
+> 3280 IF IN=70.AND.G3=15.AND.G4=1 THEN PRINT"Fr}ga":PRINSESS=1:STAT=STAT+10:PRINT"Prinsessan f|ljer dig":GOTO 3190
+372a408,410
+> 3495 SPN=0:REPEAT 7:IF SPE$(@)<>"" THEN SPN=1
+> 3496 IF SPN=0 THEN 3550
+> 3497 '  Port fix 2026 (3495, 3496): with all seven things taken, 3500 looked for one for ever
+405c443,444
+< 3820 HI=HI+1:IF HI>13 THEN PRINT"Du kan inte b{ra mer":GOTO 3850
+---
+> 3820 HI=0:REPEAT 12:IF HA$(13-@)="" THEN HI=13-@
+> 3821 IF HI=0 THEN PRINT"Du kan inte b{ra mer":GOTO 3850

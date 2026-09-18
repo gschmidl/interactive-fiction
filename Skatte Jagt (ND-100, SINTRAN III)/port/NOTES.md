@@ -103,7 +103,12 @@ implemented stops the port with a message naming the call.
 The same source runs SVHA Adventure (`GAME=1`), which needed files (OPEN,
 RFILE, CLOSE, SETBS), HOLD, BRKM and MGTTY as well; those are described in
 the SVHA port's `NOTES.md` and do not touch Skattejakt, whose 15 recorded
-sessions still replay byte for byte.
+sessions still replay byte for byte.  Since 18 September 2026 it is the one
+source of all the ND-100 ports (`_ND100_work\emu2\src`, copied into each);
+for Skattejakt that changed one thing, Esc: SINTRAN's `@` now follows the
+`USER BREAK` line, as in the recording (the port used to end there), and
+`CONTINUE` at it goes back into the game.  Games saved with `SPAR` are the
+same `:PROG` dumps, byte for byte, and resume in either build.
 
 **The mangled command.**  The program's first COMND is meant to be
 `DISABLE-ESCAPE-FUNCTION`, but the string in the image begins with two blanks
@@ -178,7 +183,7 @@ running a copy of the eXo pack, never the original.
 
 `tests/consoleplay.py` drives the port through a Windows pseudo console:
 letters with Ø and Å both ways, Backspace, `SPAR` and the file prompt,
-resume, Esc.
+resume, Esc with `CONTINUE` and `LOGOUT`.
 
 ## Tools
 

@@ -1,0 +1,132 @@
+==== adventure -u -d 28-OCT-1980 -t 120000
+
+Are you using a VT100?
+
+->yes
+
+Be patient, it takes a while to initialize.....
+
+Now loading sections 1-7
+<
+Now loading section   8
+
+Now loading section   9
+
+Now loading section  10
+
+Now loading section  11
+
+Now loading section  12
+
+Message of the Day:
+	"If you type magic mode and you are not a foo,
+	You can change all the hours, just to suit you.
+	This can only be done on your very first turn,
+	If you pass a short test that all wizards must learn:
+	The word that you need is a very small guy,
+	And a number of ones plus the hour that you try.
+	Add to the letters, as viewed on the screen
+	And type them back at this infernal machine."
+							- anonymous
+
+ #6Welcome to
+ #3       Adventure!!
+ #4       Adventure!!
+ #6Would you like instructions?
+
+->no
+
+
+You are standing at the end of a road before a small brick building.
+Around you is a forest.  A small stream flows out of the building and
+down a gully.
+
+->enter
+
+You are inside a building, a well house for a large spring.
+
+There are some keys on the ground here.
+
+There is a shiny brass lamp nearby.
+
+There is food here.
+
+There is a bottle of water here.
+
+->take lamp
+
+ #6OK
+
+->xyzzy
+
+It is now pitch dark.  If you proceed you will likely fall into a pit.
+
+->on
+
+Your lamp is now on.
+
+You are in a debris room filled with stuff washed in from the surface.
+A low wide passage with cobbles becomes plugged with mud and debris
+here, but an awkward canyon leads upward and west.  A note on the wall
+says:
+
+ #3    "Magic Word XYZZY".
+ #4    "Magic Word XYZZY".
+
+A three foot black rod with a rusty star on an end lies nearby.
+
+->w
+
+You are in an awkward sloping east/west canyon.
+
+->w
+
+You are in a splendid chamber thirty feet high.  The walls are frozen
+rivers of orange stone.  An awkward canyon and good passage exit
+from east and west sides of the chamber.
+
+A cheerful little bird is sitting here singing.
+
+->w
+
+At your feet is a small pit breathing traces of white mist.  An east
+passage ends here except for a small crack leading on.
+
+Rough stone steps lead down the pit.
+
+->w
+
+The crack is far too small for you to follow.
+
+#6You're at top of small pit.
+
+Rough stone steps lead down the pit.
+
+->d
+
+You are at one end of a vast hall stretching forward out of sight to
+the west.  There are openings to either side.  Nearby, a wide stone
+staircase leads downward.  The hall is filled with wisps of white mist
+swaying to and fro almost as if alive.  A cold wind blows up the
+staircase.  There is a passage at the top of the dome behind you.
+
+Rough stone steps lead up the dome.
+
+->quit
+
+Do you really want to quit now?
+
+->yes
+
+ #6OK
+
+
+You scored  57 out of a possible 350 using  10 turns.
+
+Your score qualifies you as a Novice Class Adventurer.
+
+To achieve the next higher rating you need  43 more points.
+
+
+[?2l
+---- exit 0

@@ -1,0 +1,888 @@
+        PASCAL/ND-100      VERSION J 83-12-07                    98-09-18               19-11-24                       PAGE:   1
+
+     1          000000            $OPTION I_,I\,I? 
+     2          000000            PROGRAM MY_WORLD(INPUT,OUTPUT); 
+     3          000022             
+     4          000022            CONST  MAXRUM=100; 
+     5          000022                   MAXVERB=100; 
+     6          000022                   MAXNOUN=100; 
+     7          000022                   MAXSAK=100; 
+     8          000022             
+     9          000022            TYPE   RADPEK = ^RADER; 
+    10          000022                   RADTYP = PACKED ARRAY [1..80] OF CHAR; 
+    11          000022                   RADER = RECORD 
+    12          000022                         RAD: RADTYP; 
+    13          000022                         NEXT: RADPEK; 
+    14          000022                   END; 
+    15          000022                   RUMTYP = RECORD 
+    16          000022                         KORT: RADTYP; 
+    17          000022                         LONG: RADPEK; 
+    18          000022                         EXIT: ARRAY [1..10] OF INTEGER; 
+    19          000022                         LJUS,VARIT: BOOLEAN; 
+    20          000022                   END; 
+    21          000022                   ORDTYP = PACKED ARRAY [1..16] OF CHAR; 
+    22          000022                   SAKTYP = RECORD 
+    23          000022                         BESK,IBESK: RADTYP; 
+    24          000022                         PICK: PACKED ARRAY [1..4] OF ORDTYP; 
+    25          000022                         RUM,VIKT,VARDE: INTEGER; 
+    26          000022                   END; 
+    27          000022                   FILORDTYP = RECORD 
+    28          000022                         STR: ORDTYP; 
+    29          000022                         NUMMER: INTEGER; 
+    30          000022                   END; 
+    31          000022                   FEATURE = SET OF 1..MAXRUM; 
+    32          000022             
+    33          000022            VAR    RUM:  ARRAY [1..MAXRUM]  OF RUMTYP; 
+    34          012306                   VERB: ARRAY [1..MAXVERB] OF FILORDTYP; 
+    35          014112                   NOUN: ARRAY [1..MAXNOUN] OF FILORDTYP; 
+    36          015716                   SAK:  ARRAY [1..MAXSAK]  OF SAKTYP; 
+    37          044272                   STRING:  PACKED ARRAY [1..80] OF CHAR; 
+    38          044342                   LAMPA: RECORD 
+    39          044342                         ON: BOOLEAN; 
+    40          044342                         OLJA_KVAR: INTEGER; 
+    41          044342                   END; 
+    42          044344                   INFIL: TEXT; 
+    43          044355                   SCORE,LEN,RUMNR,OLD_RUMNR,ANTRUM,ANTSAK,ANTVERB,ANTNOUN: INTEGER; 
+    44          044365                   D\DAD,ANTAL,MAXVIKT,VIKT,MAXANT,PLANT: INTEGER; 
+    45          044373                   D\D,MOVED,BOLA,GATE,ORC,SLUTA,BRIDGE,SNAKE,ROST,BEAR: BOOLEAN; 
+    46          044405                   SLAPEK: RADPEK; 
+    47          044406                   BRYT: SET OF CHAR; 
+    48          044416                   WATER,OIL: FEATURE; 
+    49          044456                   BOTTLE: (EMPTY_,OIL_,WATER_); 
+    50          044457                   TROLL: (ON,UNDER,PAYED,DEAD); 
+    51          044460             
+*   52          044460 L1         FUNCTION RAN: REAL; EXTERN; 
+    53          177611             
+    54          177611 L1         PROCEDURE READFILE; 
+    55          177606             
+    56          177606            VAR    I,J,K,L: INTEGER; 
+    57          177612                   CH: CHAR; 
+    58          177613                   COMMA: BOOLEAN; 
+    59          177614             
+    60          177614 L2                PROCEDURE GETLINE; 
+        PASCAL/ND-100      VERSION J 83-12-07                    98-09-18               19-11-24                       PAGE:   2
+
+    61          177606             
+    62          177606                   VAR I: INTEGER; 
+    63          177607             
+    64          000000 B1                BEGIN 
+    65          000000                      LEN:=0; FOR I:=1 TO 80 DO STRING[I]:=CHR(0); 
+    66          000040 R2 U2                REPEAT LEN:=LEN+1; READ(INFIL,CH); STRING[LEN]:=CH; UNTIL EOLN(INFIL); 
+    67          000075                      READLN(INFIL); 
+    68          000101 E1                END; 
+    69          000117             
+*   70          000000 B1         BEGIN  CONNECT(INFIL,'(DNF)MY-DATA-FILE-MJ','ADV','R'); 
+    71          000027                   RESET(INFIL); WHILE INFIL^=' ' DO GET(INFIL); 
+    72          000042                   GETLINE; J:=1; 
+    73          000051 B2                FOR I:=1 TO 4 DO BEGIN 
+    74          000060                      L:=0; 
+    75          000063 R3                   REPEAT 
+    76          000063                         CH:=STRING[J]; J:=J+1; 
+    77          000105 I4                      IF CH IN ['0'..'9'] THEN L:=L*10+ORD(CH)-48; 
+    78          000124 U3                   UNTIL (CH IN [',',CHR(0)]) OR (J>80); 
+    79          000156 C5                   CASE I OF 
+    80          000211                         1: ANTRUM:=L; 
+    81          000216                         2: ANTSAK:=L; 
+    82          000224                         3: ANTVERB:=L; 
+    83          000231                         4: ANTNOUN:=L; 
+    84          000236 E5                   END; 
+    85          000254 E2                END; 
+    86          000257 B6                FOR I:=1 TO ANTRUM DO WITH RUM[I] DO BEGIN 
+    87          000277                      GETLINE; KORT:=STRING; 
+    88          000310                      LONG:=NIL; 
+    89          000314                      GETLINE; 
+    90          000321 I7 B8                IF STRING[1]<>'#' THEN BEGIN 
+    91          000330                         NEW(LONG); LONG^.NEXT:=NIL; SLAPEK:=LONG; 
+    92          000347                         SLAPEK^.RAD:=STRING; SLAPEK^.NEXT:=NIL; GETLINE; 
+    93          000364 B9                      WHILE STRING[1]<>'#' DO BEGIN 
+    94          000373                            NEW(SLAPEK^.NEXT); SLAPEK:=SLAPEK^.NEXT; 
+    95          000410                            SLAPEK^.RAD:=STRING; GETLINE; 
+    96          000422                            SLAPEK^.NEXT:=NIL; 
+    97          000427 E9                      END; 
+    98          000444 E8                   END; 
+    99          000444                      GETLINE; J:=1; 
+   100          000453 B10                  FOR K:=1 TO 10 DO BEGIN 
+   101          000462                         L:=0; 
+   102          000465 R11                     REPEAT 
+   103          000465                            CH:=STRING[J]; J:=J+1; 
+   104          000507 I12                        IF CH IN ['0'..'9'] THEN L:=L*10+ORD(CH)-48; 
+   105          000526 U11                     UNTIL (CH IN [',',CHR(0)]) OR (J>80); 
+   106          000560                         EXIT[K]:=L; 
+   107          000575 E10                  END; 
+   108          000612                      GETLINE; LJUS:=FALSE; VARIT:=FALSE; 
+   109          000622 I13                  IF STRING[1]='Y' THEN LJUS:=TRUE; 
+   110          000634 E6                END; 
+   111          000640 B14               FOR I:=1 TO ANTSAK DO WITH SAK[I] DO BEGIN 
+   112          000660                      FOR K:=1 TO 4 DO FOR L:=1 TO 16 DO PICK[K,L]:=CHR(0); 
+   113          000743                      GETLINE; 
+   114          000750                      BESK:=STRING; GETLINE; IBESK:=STRING; 
+   115          000766                      GETLINE; K:=1; L:=1; 
+   116          000777                      FOR J:=1 TO LEN DO 
+   117          001001 I15 B16                 IF STRING[J]=',' THEN BEGIN 
+   118          001024                            K:=K+1; L:=1; 
+   119          001034 E16 S15                 END ELSE IF K<5 THEN BEGIN 
+   120          001044                            PICK[K,L]:=STRING[J]; L:=L+1; 
+        PASCAL/ND-100      VERSION J 83-12-07                    98-09-18               19-11-25                       PAGE:   3
+
+   121          001112 E18                     END; 
+   122          001125                      GETLINE; K:=1; 
+   123          001134 B19                  FOR J:=1 TO 3 DO BEGIN 
+   124          001143                         L:=0; 
+   125          001146 R20                     REPEAT 
+   126          001146                            CH:=STRING[K]; K:=K+1; 
+   127          001170 I21                        IF CH IN ['0'..'9'] THEN L:=L*10+ORD(CH)-48; 
+   128          001207 U20                     UNTIL CH IN [',',CHR(0)]; 
+   129          001232 C22                     CASE J OF 
+   130          001246                            1: RUM:=L; 
+   131          001254                            2: VIKT:=L; 
+   132          001262                            3: VARDE:=L; 
+   133          001270 E22                  END; 
+   134          001301 E19                  END; 
+   135          001305 E14               END; 
+   136          001311 B23               FOR I:=1 TO ANTVERB DO BEGIN 
+   137          001321                      FOR J:=1 TO 16 DO VERB[I].STR[J]:=CHR(0); 
+   138          001366                      GETLINE; COMMA:=FALSE; FOR J:=1 TO 16 DO 
+   139          001374 I24 I25                 IF NOT COMMA THEN IF STRING[J]<>',' THEN 
+   140          001420 S25                        VERB[I].STR[J]:=STRING[J] ELSE COMMA:=TRUE; 
+   141          001500 R26 U26              J:=0; REPEAT J:=J+1 UNTIL STRING[J]=','; 
+   142          001522 R27                  L:=0; K:=J+1; REPEAT 
+   143          001531                         CH:=STRING[K]; K:=K+1; 
+   144          001553 I28                     IF CH IN ['0'..'9'] THEN L:=L*10+ORD(CH)-48; 
+   145          001572 U27                  UNTIL CH IN BRYT; 
+   146          001601                      VERB[I].NUMMER:=L; 
+   147          001614 E23               END; 
+   148          001627 B29               FOR I:=1 TO ANTNOUN DO BEGIN 
+   149          001637                      FOR J:=1 TO 16 DO NOUN[I].STR[J]:=CHR(0); 
+   150          001704                      GETLINE; COMMA:=FALSE; FOR J:=1 TO 16 DO 
+   151          001712 I30 I31                 IF NOT COMMA THEN IF STRING[J]<>',' THEN 
+   152          001736 S31                        NOUN[I].STR[J]:=STRING[J] ELSE COMMA:=TRUE; 
+   153          002015 R32 U32              J:=0; REPEAT J:=J+1 UNTIL STRING[J]=','; 
+   154          002037 R33                  L:=0; K:=J+1; REPEAT 
+   155          002046                         CH:=STRING[K]; K:=K+1; 
+   156          002070 I34                     IF CH IN ['0'..'9'] THEN L:=L*10+ORD(CH)-48; 
+   157          002107 U33                  UNTIL CH IN BRYT; 
+   158          002116                      NOUN[I].NUMMER:=L; 
+   159          002131 E29               END; 
+*  160          002144                   DISCONNECT(INFIL); 
+   161          002150 E1         END; 
+   162          002154             
+   163          002154 L1         PROCEDURE INIT; 
+   164          177606             
+   165          000000 B1         BEGIN  RUMNR:=TRUNC(RAN*6+1); SCORE:=0; 
+   166          000024                   LAMPA.ON:=FALSE; LAMPA.OLJA_KVAR:=20; D\D:=FALSE; 
+   167          000032                   MAXVIKT:=50; MAXANT:=10; ANTAL:=0; VIKT:=0; D\DAD:=0; 
+   168          000043                   BOLA:=FALSE; GATE:=FALSE; ORC:=FALSE; SLUTA:=FALSE; 
+   169          000051                   BRYT:=[' ',',','.','!',CHR(0)]; BRIDGE:=FALSE; BEAR:=FALSE; 
+   170          000075                   SNAKE:=TRUE; READFILE; LEN:=-1; ROST:=TRUE; PLANT:=1; 
+   171          000111                   BOTTLE:=EMPTY_; WATER:=[9]; OIL:=[24]; TROLL:=UNDER; 
+   172          000136 E1         END; 
+   173          000211             
+   174          000211 L1         PROCEDURE GET_COMMAND; 
+   175          177606             
+   176          177606            VAR    I: INTEGER; 
+   177          177607                   CH: CHAR; 
+   178          177610             
+   179          000000 B1         BEGIN  WRITE('Command: '); LEN:=0; 
+   180          000015                   FOR I:=1 TO 80 DO STRING[I]:=CHR(0); 
+        PASCAL/ND-100      VERSION J 83-12-07                    98-09-18               19-11-25                       PAGE:   4
+
+   181          000050                   WHILE INPUT^=' ' DO GET(INPUT); 
+   182          000061 R2                REPEAT 
+   183          000061                      LEN:=LEN+1; READ(CH); STRING[LEN]:=CH; 
+   184          000110 U2                UNTIL EOLN OR (LEN>79); 
+   185          000124 E1         END; 
+   186          000146             
+   187          000146 L1         PROCEDURE DESCRIBE_ROOM; 
+   188          177606             
+   189          177606            VAR    I: INTEGER; 
+   190          177607             
+   191          000000 B1 I2      BEGIN  IF (RUM[RUMNR].LJUS=FALSE) AND ((LAMPA.ON=FALSE) OR 
+   192          000021                      (NOT ((SAK[1].RUM=-1) OR (SAK[1].RUM=RUMNR)))) THEN 
+   193          000031                      WRITELN('It is now pitch dark!', 
+   194          000041 S2 B3                        ' If you proceed you may fall into a pit!') ELSE BEGIN 
+   195          000050 I4                   IF RUM[RUMNR].VARIT OR (RUM[RUMNR].LONG=NIL) THEN 
+   196          000076                         WRITELN(RUM[RUMNR].KORT) 
+   197          000115 S4 B5                ELSE BEGIN 
+   198          000135                         SLAPEK:=RUM[RUMNR].LONG; 
+   199          000152 B6                      WHILE SLAPEK<>NIL DO BEGIN 
+   200          000156                            WRITELN(SLAPEK^.RAD); SLAPEK:=SLAPEK^.NEXT; 
+   201          000177 E6                      END; 
+   202          000200 E5                   END; 
+   203          000200                      RUM[RUMNR].VARIT:=TRUE; 
+   204          000213 I7 C8                IF (RUMNR=12) OR (RUMNR=13) THEN CASE GATE OF 
+   205          000230                         FALSE: WRITELN('The gate is locked!'); 
+   206          000247                         TRUE:  WRITELN('The gate is unlocked!'); 
+   207          000261 E8                   END; 
+   208          000272 I9 I10               IF (RUMNR=18) OR (RUMNR=20) THEN IF BRIDGE THEN 
+   209          000306                         WRITELN('A 4 yard plank lies over the fissure.'); 
+   210          000317                      FOR I:=1 TO ANTSAK DO 
+   211          000321 I11                     IF SAK[I].RUM=RUMNR THEN WRITELN(SAK[I].BESK); 
+   212          000367 E3                END; 
+   213          000367 E1         END; 
+   214          000404             
+   215          000404 L1         FUNCTION LARGE(CH: CHAR): CHAR; 
+   216          177610             
+   217          000000 B1         BEGIN  LARGE:=CH; 
+   218          000013 I2                IF CH>CHR(95) THEN LARGE:=CHR(ORD(CH)-32); 
+   219          000036 E1         END; 
+   220          000046             
+   221          000046 L1         PROCEDURE REMOVE_FIRST; 
+   222          177606             
+   223          177606            VAR    I: INTEGER; 
+   224          177607             
+   225          000000 B1         BEGIN  FOR I:=2 TO 80 DO STRING[I-1]:=STRING[I]; 
+   226          000045                   LEN:=LEN-1; 
+   227          000053 E1         END; 
+   228          000065             
+   229          000065 L1         FUNCTION NEXTW(SUBS: ORDTYP): BOOLEAN; 
+   230          177617             
+   231          177617            VAR    I,J: INTEGER; 
+   232          177621                   SUB2: ORDTYP; 
+   233          177631             
+   234          000000 B1         BEGIN  WHILE (STRING[1] IN BRYT) AND (LEN>0) DO REMOVE_FIRST; 
+   235          000025                   NEXTW:=FALSE; 
+   236          000030                   FOR I:=1 TO 16 DO SUB2[I]:=' '; 
+   237          000054 B2                I:=1; WHILE NOT (STRING[I] IN BRYT) AND (I<=16) DO BEGIN (* Port fix 2026 *) 
+   238          000100                      SUB2[I]:=STRING[I]; I:=I+1; 
+   239          000134 E2                END; 
+   240          000150 I3 B4             IF SUB2=SUBS THEN BEGIN 
+        PASCAL/ND-100      VERSION J 83-12-07                    98-09-18               19-11-26                       PAGE:   5
+
+   241          000161                      NEXTW:=TRUE; 
+   242          000165 B5                   WHILE I>0 DO BEGIN 
+   243          000173                         I:=I-1; REMOVE_FIRST; 
+   244          000203 E5                   END; 
+   245          000204 E4                END; 
+   246          000204 E1         END; 
+   247          000210             
+   248          000210 L1         PROCEDURE BORT_ARTIKEL; 
+   249          177606             
+   250          177606            VAR    DUMMY: BOOLEAN; 
+   251          177607             
+   252          000000 B1 R2      BEGIN  REPEAT 
+*  253          000004                      DUMMY:=NEXTW('THE') OR NEXTW('A') OR NEXTW('AN') OR 
+*  254          000037                             NEXTW('ONE') OR NEXTW('AND'); 
+   255          000065 U2                UNTIL NOT DUMMY; 
+   256          000072 E1         END; 
+   257          000107             
+   258          000107 L1         FUNCTION WORDNR: INTEGER; 
+   259          177607             
+   260          177607            VAR    I,J,K,FCNVAL,POS: INTEGER; 
+   261          177614                   SUBS,SUB2: ORDTYP; 
+   262          177634             
+   263          000000 B1         BEGIN  WHILE (STRING[1] IN BRYT) AND (LEN>0) DO REMOVE_FIRST; (* Port fix 2026 *) 
+   264          000025                   BORT_ARTIKEL; 
+   265          000031                   I:=0; 
+   266          000034                   FOR J:=1 TO 16 DO SUBS[J]:=CHR(0); 
+   267          000070 R2                REPEAT 
+   268          000070                      I:=I+1; SUBS[I]:=LARGE(STRING[I]); 
+   269          000132 U2                UNTIL (STRING[I] IN BRYT) OR (I=16); 
+   270          000157                   SUBS[I]:=CHR(0); POS:=I; 
+   271          000223                   FCNVAL:=0; 
+   272          000226 B3                FOR I:=1 TO ANTVERB DO BEGIN 
+   273          000236                      FOR J:=1 TO 16 DO 
+   274          000240                         SUB2[J]:=LARGE(VERB[I].STR[J]); 
+   275          000325 I4                   IF (SUBS=SUB2) AND (FCNVAL=0) THEN FCNVAL:=VERB[I].NUMMER; 
+   276          000353 E3                END; 
+   277          000357 B5                FOR I:=1 TO ANTNOUN DO BEGIN 
+   278          000367                      FOR J:=1 TO 16 DO 
+   279          000371                         SUB2[J]:=LARGE(NOUN[I].STR[J]); 
+   280          000462 I6                   IF (SUBS=SUB2) AND (FCNVAL=0) THEN FCNVAL:=NOUN[I].NUMMER+100; 
+   281          000512 E5                END; 
+   282          000516                   FOR I:=1 TO ANTSAK DO 
+   283          000520 B7                   FOR J:=1 TO 4 DO BEGIN 
+   284          000535                         FOR K:=1 TO 16 DO 
+   285          000537                            SUB2[K]:=LARGE(SAK[I].PICK[J,K]); 
+   286          000636 I8                      IF (SUBS=SUB2) AND (FCNVAL=0) THEN FCNVAL:=I+200; 
+   287          000657 E7                   END; 
+   288          000667 R9 U9             REPEAT POS:=POS-1; REMOVE_FIRST; UNTIL POS=0; 
+   289          000702                   WHILE (STRING[1] IN BRYT-[',']) AND (LEN>0) DO REMOVE_FIRST; (* Port fix 2026 *) 
+   290          000732                   WORDNR:=FCNVAL; 
+   291          000736 E1         END; 
+   292          000753             
+   293          000753 L1         PROCEDURE TROLL_D\D; 
+   294          177606             
+   295          177606            VAR    I: INTEGER; 
+   296          177607             
+   297          000000 B1         BEGIN  TROLL:=DEAD; SAK[19].RUM:=0; 
+   298          000011                   FOR I:=1 TO ANTSAK DO 
+   299          000013 I2                   IF SAK[I].RUM=-2 THEN SAK[I].RUM:=RUMNR; 
+   300          000053                   WRITELN('The bear lumbers towards the troll, which emits a skriek'); 
+        PASCAL/ND-100      VERSION J 83-12-07                    98-09-18               19-11-27                       PAGE:   6
+
+   301          000064                   WRITELN('in terror and runs away.'); 
+   302          000075                   WRITELN('The bear soon gives up pursuit.'); 
+   303          000106 E1         END; 
+   304          000130             
+   305          000130 L1         FUNCTION TROLL_KOLL(RUMM,RIKT: INTEGER): BOOLEAN; 
+   306          177611             
+   307          000000 B1         BEGIN  TROLL_KOLL:=FALSE; 
+   308          000007 I2 B3             IF ((RUMM=34) AND (RIKT=5)) OR ((RUMM=35) AND (RIKT=1)) THEN BEGIN 
+   309          000031 I4                   IF TROLL=ON THEN 
+   310          000035                WRITELN('The troll insists on you paying him a treasure before passing.'); 
+   311          000046 I5 B6                IF TROLL=UNDER THEN BEGIN 
+   312          000054                WRITELN('A large, burly troll pops from under the bridge,'); 
+   313          000065                WRITELN('and blocks your way.'); TROLL:=ON; 
+   314          000077 E6 I7                END; IF (TROLL=ON) AND BEAR THEN TROLL_D\D; 
+   315          000107 I8 B9                IF TROLL=ON THEN BEGIN 
+   316          000113                         TROLL_KOLL:=TRUE; SAK[19].RUM:=RUMNR; 
+   317          000121 E9 S8                END ELSE SAK[19].RUM:=0; 
+   318          000143 E3                END; 
+   319          000143 E1         END; 
+   320          000146             
+   321          000146 L1         PROCEDURE MOVE_ME(DIR: INTEGER); 
+   322          177607             
+   323          177607            VAR    I: INTEGER; 
+   324          177610             
+   325          000000 B1         BEGIN  I:=DIR-100; 
+   326          000012 I2 B3             IF RUM[RUMNR].EXIT[I]>0 THEN BEGIN 
+   327          000043 I4                   IF (RUMNR=21) AND (SAK[9].RUM=21) AND (I<>7) THEN 
+   328          000061                         WRITELN('The snake won''t let you through!')  
+   329          000071 S4                   ELSE 
+   330          000073 I5 B6                   IF NOT TROLL_KOLL(RUMNR,I) THEN BEGIN 
+   331          000104                            MOVED:=TRUE; OLD_RUMNR:=RUMNR; RUMNR:=RUM[RUMNR].EXIT[I]; 
+   332          000135 I7                         IF ORC THEN SAK[5].RUM:=RUMNR; 
+   333          000143 I8                         IF (TROLL=PAYED) AND (NOT (RUMNR IN [34,35])) THEN TROLL:=UNDER; 
+   334          000160 E6                      END; 
+   335          000160 E3 S2 I9          END ELSE IF RUM[RUMNR].LJUS OR LAMPA.ON OR (RAN<0.3) THEN 
+   336          000232 S9 B10               WRITELN('You can''t go that way!') ELSE BEGIN 
+   337          000244                      WRITELN('You fell into a pit, and broke every bone in your body!'); 
+   338          000255                      D\D:=TRUE; 
+   339          000261 E10               END; 
+   340          000261 E1         END; 
+   341          000273             
+   342          000273 L1         PROCEDURE NOTHERE(NR: INTEGER); 
+   343          177607             
+   344          000000 B1         BEGIN  WRITELN('I see no ',SAK[NR].IBESK,' here!'); 
+   345          000040 E1         END; 
+   346          000055             
+   347          000055 L1         PROCEDURE TOO_HEAVY; 
+   348          177606             
+   349          000000 B1         BEGIN  WRITELN('You can''t lift THAT! (It would break your back.)'); 
+   350          000015 E1         END; 
+   351          000026             
+   352          000026 L1         PROCEDURE HEAVY; 
+   353          177606             
+   354          000000 B1         BEGIN  WRITELN('Your load is to heavy. You''d better take inventory'); 
+   355          000015                   WRITELN('and drop something first!'); 
+   356          000026 E1         END; 
+   357          000040             
+   358          000040 L1         PROCEDURE MAXLOAD; 
+   359          177606             
+   360          000000 B1         BEGIN  WRITELN('You can''t carry that much. Try dropping something'); 
+        PASCAL/ND-100      VERSION J 83-12-07                    98-09-18               19-11-27                       PAGE:   7
+
+   361          000015 E1         END; 
+   362          000026             
+   363          000026 L1         PROCEDURE FARLIG; 
+   364          177606             
+   365          000000 B1         BEGIN  WRITELN('It would be to dangerous to do that. Besides you can''t lift it.'); 
+   366          000015 E1         END; 
+   367          000026             
+   368          000026 L1         PROCEDURE NOHAVE(NR: INTEGER); 
+   369          177607             
+   370          000000 B1         BEGIN  WRITELN('You don''t have the ',SAK[NR].IBESK,'!'); 
+   371          000036 E1         END; 
+   372          000053             
+   373          000053 L1         PROCEDURE NOT_GOOD; 
+   374          177606             
+   375          000000 B1         BEGIN  WRITELN('A tiny voice says: "Please, don''t take me."'); 
+   376          000015                   WRITELN('"I can be of much better use to you if you don''t."'); 
+   377          000026 E1         END; 
+   378          000040             
+   379          000040 L1         PROCEDURE INVENT; 
+   380          177606             
+   381          177606            VAR    CARRY: BOOLEAN; 
+   382          177607                   I: INTEGER; 
+   383          177610             
+   384          000000 B1         BEGIN  WRITE('You are carrying: '); CARRY:=FALSE; 
+   385          000015 I2 B3             FOR I:=1 TO ANTSAK DO IF SAK[I].RUM=-1 THEN BEGIN 
+   386          000040 I4                   IF CARRY THEN WRITE(' ':18); 
+   387          000050                      CARRY:=TRUE; WRITELN(SAK[I].IBESK); 
+   388          000072 E3                END; 
+   389          000076 I5                IF NOT CARRY THEN WRITELN('Nothing.'); 
+   390          000111 E1         END; 
+   391          000130             
+   392          000130 L1         PROCEDURE PRT_SCORE; 
+   393          177606             
+   394          177606            VAR    I,EXPL: INTEGER; 
+   395          177610             
+   396          000000 B1         BEGIN  SCORE:=0; EXPL:=0; 
+   397          000010 I2 B3             FOR I:=1 TO ANTRUM DO IF RUM[I].VARIT THEN BEGIN 
+   398          000031                      SCORE:=SCORE+1; EXPL:=EXPL+1; 
+   399          000043 E3                END; 
+   400          000047 I4                FOR I:=1 TO ANTSAK DO IF SAK[I].RUM=-1 THEN SCORE:=SCORE+SAK[I].VARDE; 
+   401          000125 I5                FOR I:=1 TO ANTSAK DO IF SAK[I].RUM=10 THEN 
+   402          000150                      SCORE:=SCORE+SAK[I].VARDE*2; 
+   403          000173                   (* IF SPECIALS INCREASE SCORE MORE *) 
+   404          000173 I6                IF GATE THEN SCORE:=SCORE+10; 
+   405          000203 I7                IF BRIDGE THEN SCORE:=SCORE+10; 
+   406          000213 I8                IF SAK[9].RUM=0 THEN SCORE:=SCORE+10; 
+   407          000223                   WRITE('You have explored ',TRUNC(EXPL*100/ANTRUM+0.5):3); 
+   408          000255                   WRITELN(' % of the cave,'); 
+   409          000266                   WRITELN('and reached ',SCORE:1,' points!'); 
+   410          000311                   WRITE('This makes you a'); 
+   411          000321 I9 S9             IF SCORE>240 THEN WRITE('n elite') ELSE 
+   412          000362 I10 S10              IF SCORE>200 THEN WRITE('n expert') ELSE 
+   413          000377 I11 S11                 IF SCORE>160 THEN WRITE('n experienced') ELSE 
+   414          000414 I12 S12                    IF SCORE>120 THEN WRITE('n advanced') ELSE 
+   415          000431 I13 S13                       IF SCORE>080 THEN WRITE(' good') ELSE 
+   416          000457 I14 S14                          IF SCORE>040 THEN WRITE(' beginner') ELSE 
+   417          000474                                     WRITE(' novice'); WRITELN(' adventurer!'); 
+   418          000513 E1         END; 
+   419          000520             
+   420          000520 L1         PROCEDURE FILL(NR,MED: INTEGER); 
+        PASCAL/ND-100      VERSION J 83-12-07                    98-09-18               19-11-28                       PAGE:   8
+
+   421          177610             
+   422          000000 B1 I2 S2   BEGIN  IF SAK[NR].RUM=0 THEN WRITELN('The bottle is already filled.') ELSE 
+   423          000027 I3 S3                IF SAK[NR].RUM<>-1 THEN NOHAVE(NR) ELSE 
+   424          000051 C4                   CASE NR OF 
+   425          000055 C5                   1: CASE MED OF 
+   426          000061 I6                         15: IF LAMPA.OLJA_KVAR=20 THEN 
+   427          000067 S6                             WRITELN('The lamp is already filled.') ELSE 
+   428          000116 I7                                IF (RUMNR IN OIL) OR 
+   429          000124 B8                                   ((BOTTLE=OIL_) AND (SAK[13].RUM=-1)) THEN BEGIN 
+   430          000137 I9 B10                               LAMPA.OLJA_KVAR:=20; IF NOT (RUMNR IN OIL) THEN BEGIN 
+   431          000150                                         BOTTLE:=EMPTY_; SAK[3].RUM:=-1; SAK[12].RUM:=0; 
+   432          000156                                         VIKT:=VIKT-1; 
+   433          000164 E10                                  END; WRITELN('The lamp is now filled with oil.'); 
+   434          000175 E8 S7                             END ELSE WRITELN('I see no oil here.'); 
+   435          000212 I11 B12                    14: IF RUMNR IN WATER THEN BEGIN 
+   436          000221                                WRITELN('You just filled an oil lamp with water.'); 
+   437          000232                                WRITELN('This makes it useless until refilled with oil.'); 
+   438          000243                                LAMPA.OLJA_KVAR:=0; LAMPA.ON:=FALSE; 
+   439          000247 E12 S11                        END ELSE WRITELN('Luckily, there''s no water here.'); 
+   440          000303 E5                      END; 
+   441          000315 C13                  3: CASE BOTTLE OF 
+   442          000321                         WATER_,OIL_: WRITELN('The bottle is already filled.'); 
+   443          000333 C14                     EMPTY_: CASE MED OF 
+   444          000337 I15 B16                    15: IF RUMNR IN OIL THEN BEGIN 
+   445          000346                               WRITELN('The bottle is now filled.'); 
+   446          000357                               BOTTLE:=OIL_; SAK[3].RUM:=0; SAK[13].RUM:=-1; VIKT:=VIKT+1; 
+   447          000372 E16 S15                       END ELSE WRITELN('There''s no oil here.'); 
+   448          000405 I17 B18                    14: IF RUMNR IN WATER THEN BEGIN 
+   449          000414                               WRITELN('The bottle is now filled.'); 
+   450          000425                               BOTTLE:=WATER_; SAK[3].RUM:=0; SAK[12].RUM:=-1; VIKT:=VIKT+1; 
+   451          000440 E18 S17                       END ELSE WRITELN('There''s no water here.'); 
+   452          000465 E14                        END; 
+   453          000477 E13                     END; 
+   454          000510 E4                   END; 
+   455          000521 E1         END; 
+   456          000523             
+   457          000523 L1         PROCEDURE PRE_FILL; 
+   458          177606             
+   459          177606            VAR    NR,MED: INTEGER; 
+   460          177610                   DUMMY: BOOLEAN; 
+   461          177611             
+   462          000000 B1 I2      BEGIN  NR:=0; IF LEN>0 THEN NR:=WORDNR-200; 
+   463          000020 I3                IF NOT (NR IN [1,3]) THEN 
+   464          000027 S3 B4                WRITELN('You can''t fill that.') ELSE BEGIN 
+   465          000041 I5 S5                   IF (RUMNR IN OIL) THEN MED:=15 ELSE MED:=14; 
+   466          000055 I6                      IF NOT (MED IN [15,14]) THEN 
+   467          000064                            WRITELN('That doesn''t fit in the bottle.') 
+   468          000074 S6                         ELSE FILL(NR,MED); 
+   469          000106 E4                   END; 
+   470          000106 E1         END; 
+   471          000132             
+   472          000132 L1         PROCEDURE EMPTY; 
+   473          177606             
+   474          177606            VAR    J: BOOLEAN; 
+   475          177607             
+*  476          000000 B1         BEGIN  J:=NEXTW('BOTTLE'); 
+   477          000021 I2 B3             IF (SAK[3].RUM=-1) OR (SAK[12].RUM=-1) OR (SAK[13].RUM=-1) THEN BEGIN 
+   478          000037 I4                   IF BOTTLE=EMPTY_ THEN 
+   479          000043 S4 B5                   WRITELN('The bottle is already empty.') ELSE BEGIN 
+   480          000055                            SAK[3].RUM:=-1; SAK[12].RUM:=0; 
+        PASCAL/ND-100      VERSION J 83-12-07                    98-09-18               19-11-29                       PAGE:   9
+
+   481          000062                            SAK[13].RUM:=0; BOTTLE:=EMPTY_; VIKT:=VIKT-1; 
+   482          000072                            WRITELN('The fluid spills to the ground and evaporates.'); 
+   483          000103 E5                      END; 
+   484          000103 E3 S2             END ELSE WRITELN('You don''t have the bottle.'); 
+   485          000137 E1         END; 
+   486          000142             
+   487          000142 L1         PROCEDURE GET_BIRD; 
+   488          177606             
+   489          000000 B1 I2      BEGIN  IF SAK[7].RUM=RUMNR THEN 
+   490          000012 I3                   IF SAK[8].RUM=-1 THEN 
+   491          000020 I4 B5                   IF SAK[6].RUM=-1 THEN BEGIN 
+   492          000026                            WRITELN('The bird was unafraid when you entered,'); 
+   493          000037                            WRITELN('but now it flutters away out of reach.'); 
+   494          000050 E5 S4 B6                END ELSE BEGIN 
+   495          000051                            SAK[7].RUM:=0; VIKT:=VIKT-SAK[8].VIKT; SAK[8].RUM:=0; 
+   496          000061                            SAK[10].RUM:=-1; VIKT:=VIKT+SAK[10].VIKT; 
+   497          000071                            WRITELN('Bird: taken.'); 
+   498          000102 E6 S3                   END ELSE WRITELN('You have nowhere to put it.') 
+   499          000135 S2 I7                ELSE IF SAK[10].RUM=-1 THEN 
+   500          000145 S7                      WRITELN('You''ve already got the bird, dummy.') ELSE 
+   501          000157                            WRITELN('There is no bird here.'); 
+   502          000170 E1         END; 
+   503          000175             
+   504          000175 L1         PROCEDURE GETIT(NR: INTEGER); 
+   505          177607             
+   506          177607            VAR    J: INTEGER; 
+   507          177610             
+   508          000000 B1         BEGIN  J:=NR; 
+   509          000010 I2                IF (J=3) AND (SAK[3].RUM=0) THEN 
+   510          000020 I3 S3                IF SAK[12].RUM=0 THEN J:=13 ELSE J:=12; 
+   511          000031 I4                IF (J=7) AND (SAK[7].RUM=0) THEN J:=10; (* Port fix 2026 *) 
+   512          000043 I5                IF J=7 THEN GET_BIRD 
+   513          000051 S5 B6                ELSE BEGIN 
+   514          000056 I7                   IF (J=8) AND (SAK[J].RUM=0) THEN J:=10; 
+   515          000077 I8                   IF (J=22) AND (RUMNR=33) AND (SAK[22].RUM=0) THEN 
+   516          000113                         SAK[22].RUM:=RUMNR; 
+   517          000117 I9 S9                IF (J=14) OR (J=15) THEN FILL(3,J) ELSE 
+   518          000155 I10                     IF SAK[J].RUM=-1 THEN 
+   519          000172                            WRITELN('You''ve already got the ',SAK[J].IBESK,'.') 
+   520          000223 S10 I11                 ELSE IF SAK[J].RUM<>RUMNR THEN NOTHERE(J) ELSE 
+   521          000250 I12 B13                    IF J=21 THEN BEGIN 
+   522          000256                WRITELN('A young girl in an attendants uniforms steps out from a corner'); 
+   523          000267                WRITELN('and says: "Only one pillow, mind you!"'); 
+   524          000300 E13 S12                    END ELSE 
+   525          000312 I14 S14                       IF SAK[J].VIKT=1000 THEN TOO_HEAVY ELSE 
+   526          000332 I15 S15                          IF SAK[J].VIKT=2000 THEN FARLIG ELSE 
+   527          000352 I16 S16                             IF SAK[J].VIKT=3000 THEN NOT_GOOD ELSE 
+   528          000373 I17 S17                                IF VIKT+SAK[J].VIKT>MAXVIKT THEN HEAVY ELSE 
+   529          000436 I18 S18                                   IF ANTAL=MAXANT THEN MAXLOAD ELSE BEGIN 
+   530          000450                                              SAK[J].RUM:=-1; ANTAL:=ANTAL+1; 
+   531          000467                                              VIKT:=VIKT+SAK[J].VIKT; 
+   532          000504                                              WRITELN(SAK[J].IBESK,': Taken.'); 
+   533          000534 E19                                    END; 
+   534          000534 E6                END; 
+   535          000534 E1         END; 
+   536          000545             
+   537          000545 L1         PROCEDURE GET_THING; 
+   538          177606             
+   539          177606            VAR    J: INTEGER; 
+   540          177607             
+        PASCAL/ND-100      VERSION J 83-12-07                    98-09-18               19-11-30                       PAGE:  10
+
+   541          000000 B1         BEGIN  J:=WORDNR; 
+   542          000011 I2 S2             IF J>200 THEN GETIT(J-200) ELSE 
+   543          000026 I3 B4                IF J=112 THEN BEGIN 
+   544          000034                         FOR J:=1 TO ANTSAK DO 
+   545          000036 I5                         IF SAK[J].RUM=RUMNR THEN GETIT(J); 
+   546          000071 E4 S3                END ELSE WRITELN('Get what?'); 
+   547          000103 I6                IF (NOT (STRING[1] IN BRYT)) AND (J>0) AND (LEN>0) THEN GET_THING; 
+   548          000125 E1         END; 
+   549          000154                       
+   550          000154 L1         PROCEDURE DO_BRIDGE; 
+   551          177606             
+   552          000000 B1 I2      BEGIN  IF BRIDGE THEN WRITELN('The plank is already lying over the fissure.') 
+   553          000016 S2 B3             ELSE BEGIN 
+*  554          000020                      BRIDGE:=NEXTW('BRIDGE'); BRIDGE:=TRUE; SAK[6].RUM:=0; 
+   555          000040                      WRITELN('The plank now lies over the fissure!'); 
+   556          000051                      RUM[18].EXIT[7]:=20; RUM[20].EXIT[3]:=18; 
+   557          000057 E3                   ANTAL:=ANTAL-1; VIKT:=VIKT-SAK[6].VIKT; END; (* Port fix 2026 *) 
+   558          000071 E1         END; 
+   559          000117             
+   560          000117 L1         PROCEDURE FREE_BIRD; 
+   561          177606             
+   562          177606            VAR    DUMMY: BOOLEAN; 
+   563          177607             
+   564          000000 B1 I2      BEGIN  IF (SAK[7].RUM<>-1) AND (SAK[10].RUM<>-1) THEN 
+   565          000016 S2 B3                WRITELN('You don''t have the bird!') ELSE BEGIN 
+   566          000030                         SAK[10].RUM:=0; SAK[7].RUM:=RUMNR; SAK[8].RUM:=-1; 
+   567          000037 I4 B5                   IF (RUMNR=21) AND SNAKE THEN BEGIN 
+   568          000047                   WRITELN('The little bird attacks the snake, and drives it off!'); 
+   569          000060                            SNAKE:=FALSE; SAK[9].RUM:=0; 
+   570          000064 E5 S4                   END ELSE WRITELN('Freed.'); 
+*  571          000076 E3                END; DUMMY:=NEXTW('BIRD'); 
+   572          000113 E1         END; 
+   573          000140             
+   574          000140 L1         PROCEDURE DROP_IT(NR: INTEGER); 
+   575          177607             
+   576          177607            VAR    J: INTEGER; 
+   577          177610             
+   578          000000 B1         BEGIN  J:=NR; 
+   579          000010 I2                IF (J=3) AND (SAK[3].RUM=0) THEN 
+   580          000020 I3 S3                IF SAK[12].RUM<>0 THEN J:=12 ELSE J:=13; 
+   581          000031 I4                IF (J=7) OR (J=8) AND (SAK[10].RUM<>0) THEN J:=10; 
+   582          000047 I5 S5             IF (J=14) OR (J=15) THEN EMPTY ELSE 
+   583          000064 I6 S6                IF SAK[J].RUM<>-1 THEN NOHAVE(J) ELSE 
+   584          000121 I7 S7 B8                IF (J=6) AND (RUMNR IN [18,20]) THEN DO_BRIDGE ELSE BEGIN 
+   585          000137                            SAK[J].RUM:=RUMNR; VIKT:=VIKT-SAK[J].VIKT; ANTAL:=ANTAL-1; 
+   586          000171                            WRITELN(SAK[J].IBESK,': Dropped.'); 
+   587          000216 E8                      END; 
+   588          000216 E1         END; 
+   589          000233             
+   590          000233 L1         PROCEDURE DROP; 
+   591          177606             
+   592          177606            VAR    J: INTEGER; 
+   593          177607             
+   594          000000 B1 I2 S2   BEGIN  J:=WORDNR; IF J>200 THEN DROP_IT(J-200) ELSE 
+   595          000024 I3 B4                IF J=112 THEN BEGIN 
+   596          000032                         FOR J:=1 TO ANTSAK DO 
+   597          000034 I5                         IF SAK[J].RUM=-1 THEN DROP_IT(J); 
+   598          000067 E4 S3                END ELSE WRITELN('Drop what?'); 
+   599          000101 I6                IF (NOT (STRING[1] IN BRYT)) AND (J>0) AND (LEN>0) THEN DROP; 
+   600          000123 E1         END; 
+        PASCAL/ND-100      VERSION J 83-12-07                    98-09-18               19-11-30                       PAGE:  11
+
+   601          000151             
+   602          000151 L1         PROCEDURE THROW; 
+   603          177606             
+   604          177606            VAR    J: INTEGER; 
+   605          177607             
+   606          000000 B1 I2      BEGIN  BORT_ARTIKEL; IF NOT ORC THEN 
+   607          000012 I3 B4                IF (TROLL=ON) AND (RUMNR IN [34,35]) THEN BEGIN 
+   608          000023 I5 B6                   J:=WORDNR; IF J=204 THEN BEGIN 
+   609          000034            WRITELN('The troll catches the bola, examines it, and throws it back, saying:'); 
+   610          000045            WRITELN('"Good workmanship, but not very valuable."'); 
+   611          000056 E6 S5 I7                END ELSE IF J>200 THEN IF SAK[J-200].VARDE=0 THEN 
+   612          000100 S8 B9                      WRITELN('The troll won''t take it.') ELSE BEGIN 
+   613          000140                               ANTAL:=ANTAL-1; SAK[J-200].RUM:=-2; 
+   614          000161                               VIKT:=VIKT-SAK[J-200].VIKT; TROLL:=PAYED; 
+   615          000202                               SAK[19].RUM:=0; 
+   616          000205            WRITELN('The troll catches the treasure and scurries away.'); 
+   617          000222 E9                         END; 
+   618          000222 E4 S3                END ELSE DROP 
+*  619          000223 S2 I10 B11        ELSE IF NEXTW('BOLA') THEN BEGIN 
+   620          000240 I12 S12              IF SAK[4].RUM<>-1 THEN NOHAVE(4) ELSE BEGIN 
+   621          000265 I14 B15                 IF RAN<0.25 THEN BEGIN 
+   622          000274                            WRITELN('The bola strangled a little orc, the body vanishes.'); 
+   623          000305                            ORC:=FALSE; SAK[5].RUM:=0; 
+   624          000311 E15 S14                 END ELSE 
+   625          000312                  WRITELN('You attack a little orc, but he jumps out of the way.'); 
+   626          000323                         ANTAL:=ANTAL-1; VIKT:=VIKT-SAK[4].VIKT; SAK[4].RUM:=RUMNR; 
+   627          000337 E13                  END; 
+   628          000337 E11 S10           END ELSE DROP; 
+   629          000344 E1         END; 
+   630          000361             
+   631          000361 L1         PROCEDURE DO_COMMAND(I: INTEGER); 
+   632          177607             
+   633          177607            VAR    J,K: INTEGER; 
+   634          177611             
+   635          000000 B1         BEGIN 
+   636          000000 I2 C3             IF I<101 THEN CASE I OF 
+   637          000014                      1: GET_THING; 
+   638          000021                      2: (* GO   *) 
+   639          000021 B4                      BEGIN 
+   640          000021                            J:=WORDNR; 
+   641          000026 I5                         IF J IN [101..110] THEN MOVE_ME(J) 
+   642          000037 S5                            ELSE WRITELN('Go what?'); 
+   643          000053 E4                      END; 
+   644          000054                      3: DROP; 
+   645          000061 B6                   4: BEGIN 
+   646          000061                            RUM[RUMNR].VARIT:=FALSE; DESCRIBE_ROOM; 
+   647          000075 E6                      END; 
+   648          000120 B7 I8 B9             5: BEGIN IF (RUMNR=10) OR (RUMNR=14) THEN BEGIN 
+   649          000132                               MOVED:=TRUE; RUMNR:=24-RUMNR; 
+   650          000142 I10                           IF ORC THEN SAK[5].RUM:=RUMNR; 
+   651          000150 E9 S8                      END ELSE WRITELN('Thad had no effect!'); 
+   652          000162 E7                      END; 
+   653          000166 B11 I12              6: BEGIN IF ((RUMNR=12) OR (RUMNR=13)) THEN 
+   654          000200 I13                        IF ((LEN<1) OR (WORDNR=115)) THEN 
+   655          000213 I14                           IF SAK[2].RUM=-1 THEN 
+   656          000221 I15 B16                          IF GATE=FALSE THEN BEGIN 
+   657          000225                                     GATE:=TRUE; WRITELN('The gate is now open!'); 
+   658          000240                                     RUM[12].EXIT[5]:=13; RUM[13].EXIT[1]:=12; 
+   659          000246 E16 S15                          END ELSE WRITELN('The gate is already open!') 
+   660          000275 S14                           ELSE WRITELN('You can''t do that yet!') 
+        PASCAL/ND-100      VERSION J 83-12-07                    98-09-18               19-11-31                       PAGE:  12
+
+   661          000307 S13                        ELSE WRITELN('Open what?') 
+   662          000321 S12                     ELSE WRITELN('Open what?'); 
+   663          000335 E11                     END; 
+   664          000336 B17 I18              7: BEGIN IF ((RUMNR=12) OR (RUMNR=13)) THEN 
+   665          000350 I19                        IF (LEN<1) OR (WORDNR=115) THEN 
+   666          000363 I20                           IF SAK[2].RUM=-1 THEN 
+   667          000371 I21 B22                          IF GATE=TRUE THEN BEGIN 
+   668          000377                                     GATE:=FALSE; WRITELN('The gate is now locked!'); 
+   669          000411                                     RUM[12].EXIT[5]:=0; RUM[13].EXIT[1]:=0; 
+   670          000415 E22 S21                          END ELSE WRITELN('The gate is already locked!') 
+   671          000441 S20                           ELSE WRITELN('You can''t do that yet!') 
+   672          000453 S19                        ELSE WRITELN('Open what?') 
+   673          000465 S18                     ELSE WRITELN('Open what?'); 
+   674          000500 E17                     END; 
+   675          000502 B23 I24              8: BEGIN IF (LEN<1) OR (WORDNR=201) THEN BEGIN 
+   676          000515 I26                        IF SAK[1].RUM<>-1 THEN 
+   677          000523 S26                           WRITELN('You don''t have the lamp!') ELSE 
+   678          000545 I27                           IF LAMPA.ON THEN 
+   679          000551 S27                              WRITELN('The lamp is already on!') ELSE 
+   680          000563 I28                              IF LAMPA.OLJA_KVAR<1 THEN 
+   681          000571 S28 B29                             WRITELN('There is no oil in the lamp!') ELSE BEGIN 
+   682          000603                                        LAMPA.ON:=TRUE; WRITELN('The lamp is now on!'); 
+   683          000616                                        DESCRIBE_ROOM; 
+   684          000622 E29                                 END; 
+   685          000622 E25 S24                    END ELSE 
+   686          000623                               WRITELN('Light what?'); 
+   687          000634 E23                     END; 
+   688          000635 B30 I31              9: BEGIN IF (LEN<1) OR (WORDNR=201) THEN BEGIN 
+   689          000650 I33                        IF SAK[1].RUM<>-1 THEN 
+   690          000656 S33                           WRITELN('You don''t have the lamp!') ELSE 
+   691          000706 I34                           IF LAMPA.ON=FALSE THEN 
+   692          000712 S34 B35                          WRITELN('The lamp is already off!') ELSE BEGIN 
+   693          000724                                     LAMPA.ON:=FALSE; WRITELN('The lamp is now off'); 
+   694          000736 E35                              END; 
+   695          000736 E32 S31                    END ELSE 
+   696          000737                               WRITELN('Unlight what?'); 
+   697          000750 E30                     END; 
+   698          000751                     10: SLUTA:=TRUE; 
+   699          000756 B36                 11: BEGIN 
+   700          000756 I37 B38                    IF (RUMNR=18) OR (RUMNR=20) THEN BEGIN 
+   701          000770                               WRITELN('You lie at the bottom of a bottomless fissure'); 
+   702          001001 E38                           WRITELN('with a broken neck!'); D\D:=TRUE; END 
+   703          001014 S37                        ELSE WRITELN('You jump up and down, but nothing happens!'); 
+   704          001037 E36                     END; 
+   705          001040 B39 I40             12: BEGIN IF (LEN<1) OR (WORDNR=116) THEN 
+   706          001053 I41 B42                    IF RUMNR=18 THEN BEGIN 
+   707          001061 I43                           IF SAK[6].RUM=-1 THEN 
+   708          001067 S43                              DO_BRIDGE ELSE WRITELN('I can''t do that yet!'); 
+   709          001103 E42 S41                    END ELSE WRITELN('I can''t do that yet!') 
+   710          001114 S40                        ELSE WRITELN('I can''t do that yet!') 
+   711          001130 E39                     END; 
+   712          001145                     13: FREE_BIRD; 
+   713          001152                     14: PRE_FILL; 
+   714          001157                     15: EMPTY; 
+   715          001164                     16: THROW; 
+   716          001171 E3 S2 I44         END ELSE IF I IN [101..110] THEN MOVE_ME(I) 
+   717          001236 S44 I45              ELSE IF I IN [113..114] THEN CASE I OF 
+   718          001252                         113: INVENT; 
+   719          001257                         114: PRT_SCORE; 
+   720          001264 E46 S45              END ELSE 
+        PASCAL/ND-100      VERSION J 83-12-07                    98-09-18               19-11-31                       PAGE:  13
+
+   721          001302                      WRITELN('That word doesn''t make sense there!'); 
+   722          001313 E1         END; 
+   723          001316             
+   724          001316 L1         PROCEDURE ORC_ATTACK; 
+   725          177606             
+   726          000000 B1 I2 B3   BEGIN  IF RAN<0.30 THEN BEGIN 
+   727          000013                      WRITELN('One sharp nasty battle-axe is hewn at you!'); 
+   728          000024 I4 B5                IF RAN<0.22 THEN BEGIN 
+   729          000033                         WRITELN('It gets you!'); D\D:=TRUE; 
+   730          000046 E5 S4                END ELSE WRITELN('It misses!'); 
+   731          000060 E3                END; 
+   732          000060 E1         END; 
+   733          000103             
+   734          000103 L1         PROCEDURE PIRATE; 
+   735          177606             
+   736          177606            VAR    I,SKATT: INTEGER; 
+   737          177610             
+   738          000000 B1         BEGIN  SKATT:=0; 
+   739          000007                   FOR I:=1 TO ANTSAK DO 
+   740          000011 I2                   IF (SAK[I].VARDE>0) AND (SAK[I].RUM=-1) THEN SKATT:=SKATT+1; 
+   741          000057 I3 B4             IF SKATT>150*RAN THEN BEGIN (* Port fix 2026 *) 
+   742          000077                WRITELN('A bearded pirate steps from the shadows. "Har Har". he chortles,'); 
+   743          000110                WRITELN('"I''ll jest take this booty an'' hide it in me chest deep in the'); 
+   744          000121                WRITELN('maze!". He snatches your treasure and vanishes into the gloom.'); 
+   745          000132                      FOR I:=1 TO ANTSAK DO 
+   746          000134 I5 B6                   IF (SAK[I].VARDE>0) AND (SAK[I].RUM=-1) THEN BEGIN 
+   747          000213                            SAK[I].RUM:=47; ANTAL:=ANTAL-1; VIKT:=VIKT-SAK[I].VIKT; 
+   748          000245 E6                      END; 
+   749          000252 E4                END; 
+   750          000252 E1         END; 
+   751          000256             
+   752          000256 L1         PROCEDURE CHEST; 
+   753          177606             
+   754          000000 B1 I2      BEGIN  IF (SAK[20].RUM IN [0,47]) AND (RAN<0.02) THEN (* Port fix 2026 *) 
+   755          000022                      SAK[20].RUM:=47-SAK[20].RUM; 
+   756          000030 E1         END; 
+   757          000045             
+   758          000045 L1         PROCEDURE SPECIALS; 
+   759          177606             
+   760          000000 B1 I2 B3   BEGIN  IF (RAN<0.05) AND (RUM[RUMNR].LJUS=FALSE) AND (BOLA=FALSE) THEN BEGIN 
+   761          000026                      WRITELN('A little orc just threw a bola at you, which missed,'); 
+   762          000037                      WRITELN('cursed, and ran away!'); BOLA:=TRUE; 
+   763          000052                      SAK[4].RUM:=RUMNR; 
+   764          000056 E3                END; 
+   765          000056 I4                IF BOLA AND (RUM[RUMNR].LJUS=FALSE) AND (RAN<0.04) AND (ORC=FALSE) THEN 
+   766          000102 B5 E5                BEGIN SAK[5].RUM:=RUMNR; ORC:=TRUE; END; 
+   767          000110 I6                IF (LAMPA.ON) AND (RAN<0.02) THEN LAMPA.OLJA_KVAR:=LAMPA.OLJA_KVAR-1; 
+   768          000125 I7                IF (LAMPA.ON) AND (LAMPA.OLJA_KVAR<3) THEN 
+   769          000135 I8 B9                IF LAMPA.OLJA_KVAR=0 THEN BEGIN 
+   770          000141                         WRITELN('The lamp just ran out of oil!'); LAMPA.ON:=FALSE; 
+   771          000153 E9 S8                END ELSE WRITELN('The lamp is running low on oil!'); 
+   772          000223 I10               IF ORC THEN ORC_ATTACK; 
+   773          000231                   PIRATE; CHEST; 
+   774          000237 E1         END; 
+   775          000245             
+   776          000245 L1         PROCEDURE RESURRECT?; 
+   777          177606             
+   778          177606            VAR    I: INTEGER; 
+   779          177607                   CH: CHAR; 
+   780          177610             
+        PASCAL/ND-100      VERSION J 83-12-07                    98-09-18               19-11-32                       PAGE:  14
+
+   781          177610 L2         PROCEDURE GET_YORN; 
+   782          177606             
+   783          177606            VAR    I: INTEGER; 
+   784          177607             
+   785          000000 B1         BEGIN  LEN:=0; 
+   786          000007                   FOR I:=1 TO 80 DO STRING[I]:=CHR(0); 
+   787          000042                   WHILE INPUT^=' ' DO GET(INPUT); 
+   788          000053 R2                REPEAT 
+   789          000053                      LEN:=LEN+1; READ(CH); STRING[LEN]:=CH; 
+   790          000105 U2                UNTIL EOLN OR (LEN>79); 
+   791          000121                   STRING[LEN+1]:=CHR(32); 
+   792          000146 E1         END; 
+   793          000165             
+   794          000000 B1 I2 B3   BEGIN  D\DAD:=D\DAD+1; IF D\DAD<3 THEN BEGIN 
+   795          000016 C4                   CASE D\DAD OF 
+   796          000022                         1: WRITELN('Oh dear. You seem to have gotten your self killed!'); 
+   797          000034 B5                      2: BEGIN 
+   798          000034                               WRITELN('You clumsy oaf, you''ve done it again!'); 
+   799          000045                               WRITELN('I don''t know how long i can keep this up.'); 
+   800          000056 E5                         END; 
+   801          000057 E4                   END; 
+   802          000102                      WRITE('Do you want me to try and patch you? '); GET_YORN; 
+   803          000115 I6 B7                IF STRING[1]='Y' THEN BEGIN 
+   804          000124 I8                      FOR I:=1 TO ANTSAK DO IF SAK[I].RUM=-1 THEN SAK[I].RUM:=RUMNR; 
+   805          000165                         SAK[1].RUM:=10; D\D:=FALSE; ANTAL:=0; VIKT:=0; 
+   806          000174                         WRITELN('--- POOF ---'); 
+   807          000205                         WRITELN('You are engulfed in a cloud of thick orange smoke,'); 
+   808          000216                         WRITELN('and find that'); 
+   809          000227                         RUMNR:=TRUNC(RAN*6+1); LEN:=-1; 
+   810          000250 E7                   END; 
+   811          000250 E3 S2 B9          END ELSE BEGIN 
+   812          000273                      WRITELN('I am all out of orange smoke, and you have used up'); 
+   813          000304                      WRITELN('all your available lives. Better luck next time!'); 
+   814          000315 E9                END; 
+   815          000315                   ORC:=FALSE; SAK[5].RUM:=0; LAMPA.ON:=FALSE; 
+   816          000322 E1         END; 
+   817          000335             
+   818          000335 L1         PROCEDURE EXECUTE_COMMAND; 
+   819          177606             
+   820          177606            VAR    I: INTEGER; 
+   821          177607             
+   822          177607 L2                PROCEDURE WHAT; 
+   823          177606             
+   824          000000 B1                BEGIN 
+   825          000000 C2                   CASE TRUNC(RAN*5+1) OF 
+   826          000023                         1: WRITELN('What?'); 
+   827          000035                         2: WRITELN('That had little meaning, if any at all!'); 
+   828          000047                         3: WRITELN('I don''t understand what you''re talking about!'); 
+   829          000061                         4: WRITELN('Speak up, please!'); 
+   830          000073                         5: WRITELN('That had no effect!'); 
+   831          000122 E2                   END; 
+   832          000135 E1                END; 
+   833          000137             
+   834          000000 B1         BEGIN  I:=WORDNR; 
+   835          000011 I2 B3 E3          IF I=0 THEN BEGIN WHAT; LEN:=-1; END ELSE DO_COMMAND(I); 
+   836          000027                   SPECIALS; 
+   837          000033 E1         END; 
+   838          000045             
+   839          000000 B1         BEGIN  INIT; 
+   840          000014 R2                REPEAT 
+        PASCAL/ND-100      VERSION J 83-12-07                    98-09-18               19-11-33                       PAGE:  15
+
+   841          000014                      DESCRIBE_ROOM; MOVED:=FALSE; 
+   842          000021 R3                   REPEAT 
+   843          000021 I4                      IF LEN<1 THEN GET_COMMAND; 
+   844          000031                         EXECUTE_COMMAND; 
+   845          000035 U3                   UNTIL MOVED OR D\D OR SLUTA; 
+   846          000043 I5                   IF D\D THEN RESURRECT?; 
+   847          000051 U2                UNTIL D\D OR SLUTA; 
+   848          000056            (*     IF NOT D\D THEN SAVE?; *) 
+   849          000056                   PRT_SCORE; 
+   850          000062 E1         END. 
+
+ NO ERRORS
+ LENGTH OF PROGRAM:    015565B WORDS
+ LENGTH OF FIXED DATA: 051065B WORDS
+    12 USES OF NON-STANDARD FEATURES
+       8.68 SECONDS COMPILATION TIME
+
+

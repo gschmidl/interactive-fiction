@@ -161,7 +161,7 @@ worlds, run `python tools\make_data.py`.
 | `basic\` | the source with the port's fixes, and `fixes.diff` |
 | `..\src_original\` | LEGEND v10.0 as recovered (`LEGEND-LU.ZYMB`), v10.0 of 19 May and v9.11, the data as the author left it, his mode files |
 | `build\` | the compiler's listing and object file, the rebuilt `BASLIBR-H00.BRF` and fixed `LIBRARY-MJ.BRF`; `build\original\` the program from the source as recovered |
-| `src\` | the emulator (shared with the Skattejakt, SVHA and Mordor ports) |
+| `src\` | the emulator, shared by all the ND-100 ports (Skattejakt, SVHA, Mordor, Cave Fun, Adventure ENB, DOD, My World); built with `GAME=3` |
 | `tests\run.py` | replays games recorded on SINTRAN III and compares every byte |
 | `tools\` | the random player, the reference machine's drivers, the BRF tools, the data converter |
 

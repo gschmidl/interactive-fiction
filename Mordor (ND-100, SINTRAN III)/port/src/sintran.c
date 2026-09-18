@@ -35,6 +35,7 @@ Sintran snt;
 /* SINTRAN background error numbers (ND-860228.2 appendix A) */
 #define E_EOF               03
 #define E_NO_SUCH_FILE      056
+#define E_AMBIGUOUS         057
 #define E_NO_SUCH_ACCESS    0104
 #define E_NOT_WRITE_ACCESS  0106
 #define E_TOO_MANY_FILES    0107
@@ -60,6 +61,8 @@ void sintran_init(void)
     snt.escape_enabled = 1;
     snt.break_strategy = 1;
     snt.terminal_type = 0;            /* "not set", as the RetroCore telnet terminals answer */
+    snt.line_start = 1;
+    snt.uptime_start = -1;
 }
 
 static void logcall(Cpu *c, int n, const char *what)
@@ -138,7 +141,16 @@ static void command(const char *cmd)
     word[i] = 0;
     if (!word[0] || abbrev(word, "CC"))
         return;
-    if (abbrev(word, "DISABLE-ESCAPE-FUNCTION"))
+    if (abbrev(word, "TERMINAL-MODE")) {
+        /* @TERMINAL-MODE capital-letters?, delay-after-CR?, stop-on-full-page?, ...:
+           only the first matters here; an empty or other answer leaves it */
+        while (*cmd == ' ' || *cmd == ',')
+            cmd++;
+        if (toupper((unsigned char)*cmd) == 'Y')
+            snt.capitals = 1;
+        else if (toupper((unsigned char)*cmd) == 'N')
+            snt.capitals = 0;
+    } else if (abbrev(word, "DISABLE-ESCAPE-FUNCTION"))
         snt.escape_enabled = 0;
     else if (abbrev(word, "ENABLE-ESCAPE-FUNCTION"))
         snt.escape_enabled = 1;
@@ -165,6 +177,12 @@ static void out_char(int ch)
 static void echo(int ch)
 {
     ch &= 0x7F;
+    if (snt.echo_login && ch == '\r') {
+        out_char('\r');                       /* the strategy of log-in: CR alone */
+        return;
+    }
+    if (snt.echo_strategy == 1 && (ch < 32 || ch == 127))
+        return;                               /* ECHOM 1: all but the control characters */
     if (ch == '\r') {
         out_char('\r');
         out_char('\n');
@@ -191,7 +209,7 @@ static SinFile *file_of(int no)
 
 static int is_terminal(int no)
 {
-    return no == 0 || no == 1;
+    return no == 0 || no == 1 || (snt.terminal_no && no == snt.terminal_no);
 }
 
 /* (USER)NAME:TYPE or NAME:TYPE or NAME, with a default type, to a host path */
@@ -230,6 +248,100 @@ static int host_path(const char *sname, const char *deftype, char *out, size_t n
     else
         snprintf(out, n, "%s%s%s", name, type[0] ? "." : "", type);
     return 0;
+}
+
+/* does the typed part-by-part abbreviation fit the name?  Each hyphen-separated
+   part typed begins the name's part in the same place; parts may be left off
+   at the end ("CAVE" and "CAVE-F" both fit CAVE-FUN-MJ) */
+static int fits(const char *typed, const char *name)
+{
+    for (;;) {
+        size_t tl = strcspn(typed, "-"), nl = strcspn(name, "-");
+        if (tl > nl || strncmp(typed, name, tl) != 0)
+            return 0;
+        typed += tl;
+        name += nl;
+        if (!*typed)
+            return 1;
+        if (!*name)
+            return 0;
+        typed++;
+        name++;
+    }
+}
+
+/* a name a new file could be given without quotes: letters (the national
+   ones too), digits and hyphens, at most 16 */
+static int plain_name(const char *w)
+{
+    size_t k;
+    for (k = 0; w[k]; k++)
+        if (!isalnum((unsigned char)w[k]) && w[k] != '-' && !strchr("[\\]{|}", w[k]))
+            return 0;
+    return k > 0 && k <= 16;
+}
+
+/* SINTRAN's file-name abbreviation: a file named exactly wins, otherwise the
+   one file whose name (and type) the typed ones begin.  On the reference
+   machine, "CAVE" opens CAVE-FUN-MJ:ADV.  path gets the host file, full the
+   file's SINTRAN name; returns 0 or a SINTRAN error number */
+static int find_file(const char *sname, const char *deftype, char *path, size_t n, char *full, size_t fn)
+{
+    char name[1200], type[16], dir[1024], *dot;
+    int found = 0;
+    FILE *f;
+    if (host_path(sname, deftype, path, n) < 0)
+        return E_NO_SUCH_FILE;
+    if ((f = fopen(path, "rb")) != NULL) {
+        fclose(f);
+        dot = strrchr(path, '\\');
+        snprintf(full, fn, "%.70s", dot ? dot + 1 : path);
+        if ((dot = strrchr(full, '.')) != NULL)
+            *dot = ':';
+        return 0;
+    }
+    /* the typed name and type, as host_path took them apart */
+    dot = strrchr(path, '\\');
+    snprintf(name, sizeof name, "%s", dot ? dot + 1 : path);
+    type[0] = 0;
+    if ((dot = strrchr(name, '.')) != NULL) {
+        snprintf(type, sizeof type, "%s", dot + 1);
+        *dot = 0;
+    }
+    snprintf(dir, sizeof dir, "%s", snt.data_dir && *snt.data_dir ? snt.data_dir : ".");
+#ifdef _WIN32
+    {
+        WIN32_FIND_DATAA fd;
+        char pat[1100], stem[MAX_PATH], *e;
+        HANDLE h;
+        snprintf(pat, sizeof pat, "%s\\*", dir);
+        h = FindFirstFileA(pat, &fd);
+        if (h == INVALID_HANDLE_VALUE)
+            return E_NO_SUCH_FILE;
+        do {
+            size_t k;
+            if (fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+                continue;
+            snprintf(stem, sizeof stem, "%s", fd.cFileName);
+            for (k = 0; stem[k]; k++)
+                stem[k] = (char)toupper((unsigned char)stem[k]);
+            e = strrchr(stem, '.');
+            if (!e)
+                continue;
+            *e++ = 0;
+            if (strncmp(type, e, strlen(type)) != 0 || !fits(name, stem))
+                continue;
+            if (++found > 1)
+                break;
+            snprintf(path, n, "%.900s\\%.200s", dir, fd.cFileName);
+            snprintf(full, fn, "%.60s:%.8s", stem, e);
+        } while (FindNextFileA(h, &fd));
+        FindClose(h);
+    }
+#endif
+    if (found > 1)
+        return E_AMBIGUOUS;
+    return found ? 0 : E_NO_SUCH_FILE;
 }
 
 void sintran_close_all(void)
@@ -273,8 +385,8 @@ int sintran_reopen(int index, const char *name, int access, int blocksize, long 
    (a name in quotes creates it); the program sets the size with SMAX. */
 static int mon_open(Cpu *c)
 {
-    char name[80], type[16], path[1200];
-    int access = (int16_t)R(T), i, ro;
+    char name[80], type[16], path[1200], full[80];
+    int access = (int16_t)R(T), i, ro, quoted;
     FILE *f;
     getstr(c, R(X), name, sizeof name);
     getstr(c, R(A), type, sizeof type);
@@ -285,15 +397,50 @@ static int mon_open(Cpu *c)
     ro = read_only_access(access);
     if (!ro && !snt.allow_write)
         return fail(c, E_NOT_WRITE_ACCESS);
-    if (host_path(name, type, path, sizeof path) < 0)
-        return fail(c, E_NO_SUCH_FILE);
     for (i = 0; i < SIN_MAXFILES && snt.files[i].f; i++)
         ;
     if (i == SIN_MAXFILES)
         return fail(c, E_TOO_MANY_FILES);
-    f = fopen(path, ro ? "rb" : "r+b");
-    if (!f && !ro && name[strspn(name, " ")] == '"')
-        f = fopen(path, "w+b");
+    /* On SINTRAN a name in quotes is a new file: it is created, and it must
+       not exist yet; a name without them must exist.  Asked for a file to
+       save a game in, a player had to know which.  With easy_files the port
+       takes either for either (a new file is created, an old one written). */
+    quoted = name[strspn(name, " ")] == '"';
+    if (quoted) {
+        if (host_path(name, type, path, sizeof path) < 0)
+            return fail(c, E_NO_SUCH_FILE);
+        f = fopen(path, ro ? "rb" : "r+b");
+        if (f && !ro && !snt.easy_files) {
+            fclose(f);                        /* already there (SINTRAN's error number not known) */
+            return fail(c, E_NO_SUCH_FILE);
+        }
+        if (!f && !ro)
+            f = fopen(path, "w+b");
+        snprintf(full, sizeof full, "%s", name);
+    } else {
+        int e = find_file(name, type, path, sizeof path, full, sizeof full);
+        char word[80];
+        size_t k;
+        /* not one of the user's files: SYSTEM's TERMINAL (the user's own
+           terminal, logical device 1) is next in line, abbreviated or not */
+        for (k = 0; name[k] && name[k] != ':' && k < sizeof word - 1; k++)
+            word[k] = (char)toupper((unsigned char)name[k]);
+        word[k] = 0;
+        if (e == E_NO_SUCH_FILE && word[0] && abbrev(word, "TERMINAL")) {
+            R(A) = 1;
+            skip(c);
+            return SIN_RUN;
+        }
+        if (e == E_NO_SUCH_FILE && !ro && snt.easy_files && plain_name(word)
+            && host_path(name, type, path, sizeof path) == 0) {
+            f = fopen(path, "w+b");
+            snprintf(full, sizeof full, "%s", name);
+        } else if (e) {
+            return fail(c, e);
+        } else {
+            f = fopen(path, ro ? "rb" : "r+b");
+        }
+    }
     if (!f)
         return fail(c, E_NO_SUCH_FILE);
     memset(&snt.files[i], 0, sizeof snt.files[i]);
@@ -303,7 +450,7 @@ static int mon_open(Cpu *c)
     snt.files[i].writable = !ro;
     if (access == 5)                          /* sequential write append */
         fseek(f, 0, SEEK_END);
-    snprintf(snt.files[i].name, sizeof snt.files[i].name, "%s", name);
+    snprintf(snt.files[i].name, sizeof snt.files[i].name, "%s", full);
     R(A) = (uint16_t)(SIN_FIRSTFILE + i);
     skip(c);
     return SIN_RUN;
@@ -453,10 +600,12 @@ static int mon_rfile(Cpu *c)
     for (i = 0; i < words; i++) {
         int hi = fgetc(sf->f), lo = hi == EOF ? EOF : fgetc(sf->f);
         if (hi == EOF) {
-            if (i == 0) {                     /* the block starts at or past the end */
+            if (i == 0 && !sf->writable) {    /* the block starts at or past the end */
                 R(A) = E_EOF;
                 return SIN_RUN;
             }
+            /* a file open for writing reads as 0 past its end: ND BASIC reads a
+               block of a virtual array (DIM #) before it first writes it */
             for (; i < words; i++)            /* the last, short block: the rest reads as 0 */
                 M(buf + i) = 0;
             break;
@@ -659,7 +808,7 @@ int sintran_mon(Cpu *c, int n)
         return SIN_EXIT;
 
     case 1: {                                   /* INBT: T = device, A = byte */
-        int ch, echoed = 0, no = (int16_t)R(T);
+        int ch, typed, echoed = 0, no = (int16_t)R(T);
         if (!is_terminal(no)) {
             SinFile *sf = file_of(no);
             if (!sf)
@@ -679,26 +828,76 @@ int sintran_mon(Cpu *c, int n)
             skip(c);
             return SIN_RUN;
         }
-        if (snt.typeahead_len > 0) {
-            ch = (uint8_t)snt.typeahead[0];
-            memmove(snt.typeahead, snt.typeahead + 1, (size_t)--snt.typeahead_len);
-        } else if (snt.line_edit && snt.echo_strategy >= 0) {
-            ch = line_getc();                   /* echoed there, as it is typed */
-            echoed = 1;
-        } else {
-            term_set_escape(snt.escape_enabled);
-            ch = term_getc();
+        for (;;) {
+            if (snt.typeahead_len > 0) {
+                ch = (uint8_t)snt.typeahead[0];
+                memmove(snt.typeahead, snt.typeahead + 1, (size_t)--snt.typeahead_len);
+            } else if (snt.line_edit && snt.echo_strategy >= 0) {
+                ch = line_getc();               /* echoed there, as it is typed */
+                echoed = 1;
+            } else {
+                term_set_escape(snt.escape_enabled);
+                ch = term_getc();
+            }
+            /* --debug: a line typed beginning with # is the port's, not the program's
+               (at the start of a line, or as a key read without echo: a one-key
+               command, as ADVENTURE-ENB's, reads none of the line it follows) */
+            if (ch == '#' && snt.debug_hook && (snt.line_start || snt.echo_strategy < 0)) {
+                char line[200];
+                int k = 0, d, tail = snt.out_tail_len;
+                if (!echoed)
+                    out_char('#');
+                while ((d = snt.line_at < snt.line_len ? snt.line[snt.line_at++] & 0xFF : term_getc()) >= 0
+                       && d != '\r' && d != '\n') {
+                    if ((d == 8 || d == 0177) && k > 0) {
+                        k--;
+                        term_puts("\b \b");
+                    } else if (d >= 32 && d < 127 && k < (int)sizeof line - 1) {
+                        line[k++] = (char)d;
+                        if (!echoed)
+                            out_char(d);
+                    }
+                }
+                line[k] = 0;
+                term_puts("\r\n");
+                snt.out_tail_len = tail;        /* the prompt, for the hook to show again */
+                snt.debug_hook(c, line);
+                if (d < 0)
+                    return SIN_EOF;
+                continue;
+            }
+            break;
         }
         if (ch < 0)
             return SIN_EOF;
+        snt.line_start = ch == '\r' || ch == '\n';
         if ((ch == 033 && snt.escape_enabled) || ch == 3) {
             snt.exit_pc = (uint16_t)(R(P) - 1);
             return SIN_BREAK;
         }
+        /* Capital letters: SINTRAN echoes a key as it comes in (STTIN) and makes
+           it a capital only when the program reads it (TTGET).  A break character
+           is echoed there, though, after it is made one: so with every key a break
+           (BRKM 0, as LEGEND sets) the echo is the capital.  My World's small
+           letters echoed as typed on the reference machine, Legend's as
+           capitals. */
+        typed = ch;
+        if (snt.capitals && ch >= 0141 && ch <= 0175) {    /* a-z { | }: not ~, as SINTRAN */
+            ch -= 040;
+            if (snt.break_strategy == 0)
+                typed = ch;
+        } else if (snt.key_capitals && snt.echo_strategy < 0 && ch >= 'a' && ch <= 'z')
+            ch -= 040;                          /* a single key read without echo: a command */
         if (snt.input_hook && snt.input_hook(c, ch))
             return SIN_RUN;
         if (snt.sintran_echo && snt.echo_strategy >= 0 && !echoed)
-            echo(ch);
+            echo(typed);
+        if (snt.input_parity && no != 0) {
+            int b, ones = 0;
+            for (b = ch & 0177; b; b >>= 1)
+                ones += b & 1;
+            ch = (ch & 0177) | (ones & 1 ? 0200 : 0);
+        }
         R(A) = (uint16_t)ch;
         skip(c);
         return SIN_RUN;
@@ -717,7 +916,8 @@ int sintran_mon(Cpu *c, int n)
             skip(c);
             return SIN_RUN;
         }
-        out_char(R(A));
+        if (R(A) & 0x7F)                      /* a NUL never reaches the reference terminal */
+            out_char(R(A));
         skip(c);
         return SIN_RUN;
     }
@@ -725,6 +925,7 @@ int sintran_mon(Cpu *c, int n)
     case 3:                                     /* ECHOM: A = strategy, X = table */
         logcall(c, n, "ECHOM");
         snt.echo_strategy = (int16_t)R(A);
+        snt.echo_login = 0;
         return SIN_RUN;
 
     case 4:                                     /* BRKM: A = strategy, D = count, X = table */
@@ -853,17 +1054,32 @@ int sintran_mon(Cpu *c, int n)
 
     case 011: {                                 /* TIME: AD = basic time units (1/50 s) since start */
         unsigned long t = 0;
-        if (!snt.fixed_clock) {
+        if (snt.fixed_clock)
+            ;
+        else if (snt.uptime_start >= 0)
+            t = (unsigned long)snt.uptime_start + (unsigned long)(c->icount / (snt.cpu_ticks ? snt.cpu_ticks : 20000));
+        else {
 #ifdef _WIN32
             t = (unsigned long)(GetTickCount64() / 20);
 #else
             t = (unsigned long)time(NULL) * 50UL;
 #endif
+            if (snt.cpu_ticks)
+                t += (unsigned long)(c->icount / snt.cpu_ticks);
         }
         R(A) = (uint16_t)(t >> 16);
         R(D) = (uint16_t)t;
         return SIN_RUN;
     }
+
+    case 013:                                   /* CIBUF: T = device; clear its input buffer */
+        logcall(c, n, "CIBUF");
+        if (is_terminal((int16_t)R(T))) {
+            snt.typeahead_len = 0;
+            term_clear_input();
+        }
+        R(A) = 0;
+        return SIN_RUN;
 
     case 066:                                   /* ISIZE: T = device -> A = bytes waiting */
         logcall(c, n, "ISIZE");
@@ -885,10 +1101,25 @@ int sintran_mon(Cpu *c, int n)
     case 0143:                                  /* RSIO: A = mode, T/D = command in/out, X = owner */
         logcall(c, n, "RSIO");
         R(A) = 0;                               /* interactive */
-        R(T) = 1;                               /* the user's terminal */
-        R(D) = 1;
+        R(T) = (uint16_t)(snt.terminal_no ? snt.terminal_no : 1);   /* the user's terminal */
+        R(D) = R(T);
         R(X) = 0;
         return SIN_RUN;
+
+    case 0214: {                                /* GUSNA: A -> 16-byte string, X = user index */
+        static const char user[] = "DNF'";      /* the club's user; the port has no other */
+        uint16_t a = R(A);
+        int i;
+        logcall(c, n, "GUSNA");
+        for (i = 0; i < 16; i++) {
+            int ch = user[i < (int)sizeof user - 1 ? i : (int)sizeof user - 2];
+            uint16_t w = M(a + i / 2);
+            if (i >= (int)sizeof user - 1) break;
+            M(a + i / 2) = (uint16_t)(i % 2 ? (w & 0xFF00) | ch : (w & 0x00FF) | (ch << 8));
+        }
+        skip(c);
+        return SIN_RUN;
+    }
 
     default:
         fprintf(stderr, "\n[unimplemented monitor call MON %o at %06o: A=%06o D=%06o T=%06o X=%06o]\n",

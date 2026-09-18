@@ -67,14 +67,15 @@ The game echoes and edits its own input, so the keys are the ND ones:
 | Backspace | deletes a character (the port sends the game Ctrl-A, the ND delete key) |
 | Ctrl-Q | throws away the line typed so far |
 | Enter | ends the line; an empty line just rings the bell |
-| Esc | SINTRAN *user break*: the program stops (Ctrl-C does the same) |
+| Esc | SINTRAN *user break*: the program stops, at SINTRAN's `@` (Ctrl-C does the same); `CONTINUE` there goes back into the game, `LOGOUT` ends it |
 
 Esc stopping the game is original.  The program tries to switch Esc off at
 start-up with the SINTRAN command `DISABLE-ESCAPE-FUNCTION`, but in this copy
 the text reads `  SABLE-ESCAPE-FUNCTION` — the first two letters are blanks —
 and SINTRAN quietly ignores it.  On the real system Esc prints
-`USER BREAK AT   53031B` and returns to SINTRAN's `@`; the port prints the
-same line and ends.  Use `SPAR` if you want to come back.
+`USER BREAK AT   53031B` and returns to SINTRAN's `@`; so does the port, and
+there `CONTINUE` goes back into the game where it stood (SINTRAN would start
+it again from the beginning), and `LOGOUT` ends it.
 
 ## Options
 
@@ -91,8 +92,9 @@ same line and ends.  Use `SPAR` if you want to come back.
 | `-T`, `--trace` | trace every instruction on standard error |
 | `-h`, `--help`, `--version` | |
 
-`--help` also lists `--no-hold` and `--vdu`; they belong to the SVHA Adventure
-port, which is built from the same source, and change nothing here.
+`--help` also lists options of the other ND-100 ports, built from the same
+source (`--norwegian` is this one's default; `--swedish`, `--no-hold`,
+`--terminal`, `--vdu`); they change nothing that matters here.
 
 Started from Explorer, the window stays open at the end with
 `[press any key]`, so the final score does not vanish with it.
@@ -131,8 +133,9 @@ and Esc.
     make
 
 needs gcc (Strawberry Perl's works).  The emulator is `src\` — the same
-source as the SVHA Adventure port, built with `GAME=0`; see `NOTES.md`
-for how the machine and SINTRAN were worked out.
+source as the other ND-100 ports (SVHA Adventure, Mordor, Legend, Cave Fun,
+Adventure ENB, DOD, My World), built with `GAME=0`; see `NOTES.md` for how
+the machine and SINTRAN were worked out.
 
 ## A Norwegian SVHA Adventure?
 

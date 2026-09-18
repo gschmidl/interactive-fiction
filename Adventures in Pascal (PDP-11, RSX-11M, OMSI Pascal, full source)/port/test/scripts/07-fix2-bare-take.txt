@@ -1,0 +1,11 @@
+# args: --debug -u -d 28-OCT-1980 -t 120000
+no
+no
+#take 2
+on
+#goto 15
+take
+#goto 1
+take
+quit
+yes

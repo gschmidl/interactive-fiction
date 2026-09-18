@@ -1,0 +1,1005 @@
+                Ì       ÉÉÉ   BBBB   ÒÒÒÒ     A    ÒÒÒÒ   Y   Y              
+                Ì        É    B   B  Ò   Ò   A A   Ò   Ò   Y Y               
+                Ì        É    B   B  Ò   Ò  A   A  Ò   Ò    Y                
+                Ì        É    BBBB   ÒÒÒÒ   AAAAA  ÒÒÒÒ     Y                
+                Ì        É    B   B  Ò  Ò   A   A  Ò  Ò     Y                
+                Ì        É    B   B  Ò   Ò  A   A  Ò   Ò    Y                 
+                ÌÌÌÌÌ   ÉÉÉ   BBBB   Ò   Ò  A   A  Ò   Ò    Y                
+                                                                                
+                                  Máäe âù :                                   
+                              Miëáel Êoèáîóóoî¬                              
+                              ÛáääreóóÝ                                      
+                                                                             
+                              Sweäeî.                                        
+
+Uîleóó óðecifieä otèerwióe¬ áll ðáráíeteró to fõîctioîó áre iîteçeró.
+Moót of tèe roõtiîeó iî tèió Ìiârárù tèát retõrî îeçátiöe öálõeó retõrî îeçátiöe
+SÉNÔÒAN ÉÉÉ error îõíâeró.
+Éî tèe äeócriðtioîó ½¾ íeáîó iîðõt ðáráíeter (Válõe çiöeî âù õóer©
+                áîä <½ íeáîó oõtðõt ðáráíeter (Válõe çiöeî âù ðroçráí©
+                  á ½ ió iîtercèáîçeáâle witè áî :½ áîä íeáîó tèát tèe roõtiîe
+                      ió á fõîctioî iîóteáä of á óõâroõtiîe.
+
+ÃÏMPÒ:   Ãoíðáreó á ótriîç witè á ótriîç árráù. Ãálleä âù:
+         A½ÃÏMPÒ(A$¬B$¬B¬Ã$©
+         Ãoíðáreó tèe ótriîç A$ witè tèe ótriîçó iî tèe árráù B$(B© witè tèe
+         âreáë cèárácteró óðecifieä iî Ã$ (Uóeó ÃMPÒ©.
+         Òetõrîó tèe iîäex to tèe íátcèiîç ótriîç.
+         Éf 0 ió retõrîeä¬ îo íátcè ió foõîä.
+         A îeçátiöe îõíâer íeáîó tèát tèát íáîù íátcèeó áre foõîä.
+
+
+ÉNÔÃÏ:   Sèoõlä çet á coííáîä froí tèe ëeùâoárä iî á liíiteä tiíe.
+         Proâáâlù äoeóî't worë!. Ãálleä âù:
+         ÃN½ÉNÔÃÏ(PÒÏMPÔ$¬ÅÃHÏ¬ÃÏMAÒÒ$¬ÃÏMSÉZ¬ÔÉMÅ©
+         ÃN      <½ Ãoííáîä îõíâer iî ÃÏMMAÒ$.
+         PÒÏMPÔ$ ½¾ Ôèió ótriîç will âe ðriîteä âefore iîðõt âeçiîó.
+         ÅÃHÏ    ½ 0 ½¾ Notèiîç ió ðriîteä.
+                 ½ ± ½¾ Åöerùtèiîç ió ðriîteä.
+         ÃÏMAÒÒ$ ½¾ Ôèe árráù of coííáîäó.
+         ÃÏMSÉZ  ½¾ Ôèe óiúe of ÃÏMAÒÒ$.
+         ÔÉMÅ    ½¾ Ôèe íáxiíõí tiíe iî óecoîäó álloweä to iîðõt tèe coííáîä oî.
+         Uóe cáõtioî wèile õóiîç tèió coííáîä: Ét õóeó ÃPU-tiíe!
+
+
+ÃÏUNÔ:   Ãálcõláteó á óiíðle íátèeíáticál exðreóóioî froí á ótriîç.
+         Ãálleä âù:
+         A½ÃÏUNÔ(A$©
+         A   <½ A ÒÅAÌ coîtáiîiç tèe reóõlt of tèe eöálõátioî.
+         A$  ½¾ Ôèe íátèeíáticál exðreóóioî.
+         Ôèe exðreóóioî íáù coîtáiî reál îõíâeró¬ ðáráîtèeóió¬ áîä tèe 5
+         oðerátoró +¬-¬ª¬¯¬ áîä Þ.
+
+
+ÉNBÉÔ:   Getó oîe cèárácter froí tèe teríiîál. Ãálleä âù
+         ÉN½ÉNBÉÔ
+         Éf tèe reóõlt (ÉN© ió îeçátiöe¬ (wèicè it óèoõlä îot âe©¬ áî error èáó
+         occõreä. (Ôèe îõíâer ió tèe îeçátiöe SÉNÔÒAN Årror Meóóáçe Nõíâer©.
+         Éf ðoóitiöe it ió tèe ASÃÉÉ-coäe for tèe cèárácter ðreóóeä witè cleár
+         ðáritù.
+         Proçráí exáíðle: (Éî BASÉÃ©
+                   ±0 ÅØÔÅÒNAÌ ÉNBÉÔ: ÉNÔÅGÅÒ ÉNBÉÔ¬ÉN
+                   ²0 ÉN½ÉNBÉÔ: ÉÆ ÉN<¾3² ÔHÅN ²0 ' ×áit for á óðáce.
+                   30 PÒÉNÔ "Sðáce Preóóeä!"
+                   ´0 ÅND
+
+
+ÉNBÔ:    Getó oîe cèárácter froí á äeöice (Ôèe Ôeríiîál¬ áî oðeî file...©.
+         Ãálleä âù:
+         ÉN½ÉNBÔ(ÆÉÌ©
+         ÆÉÌ ½¾ SÉNÔÒAN file îõíâer.
+                0 ½ Ãoííáîä âõffer.
+                ± ½ Ôeríiîál.
+
+         Ôèe óáíe reóõlt áó for ÉNBÉÔ cáî âe exðecteä¬ âõt erroró cáî âe íore
+         coííoî.
+         Proçráí exáíðle (Éî BASÉÃ©
+                   ±0 ÅØÔÅÒNAÌ ÉNBÔ¬ÏPÅN¬ÃÌÏSÅ: ÉNÔÅGÅÒ ÉNBÔ¬ÏPÅN¬ÃÌÏSÅ¬ÉN¬ÆÉÌ
+                   ²0 ÆÉÌ½ÏPÅN("A-ÆÉÌÅ'"¬"DAÔA'"¬±¥©' Åxðláiîeä láter.
+                   30 ÉN½ÉNBÔ(ÆÉÌ©: ÉÆ ÉN<0 ÔHÅN ±00
+                   ´0 PÒÉNÔ ÃHÒ$(ÉN©»: GÏÔÏ 30
+                   ±00 ÆÉÌ½ÃÌÏSÅ(ÆÉÌ©' Åxðláiîeä láter.
+                   ±±0 ÅND
+
+
+ÉBÔ:     Åxáctlù áó ÉNBÔ âõt it äoeóî't cleár tèe ðáritù. Ãálleä áîä äecláreä
+         exáctlù tèe óáíe wáù.
+
+
+ÉNPÔ:    Getó á cèárácter froí tèe teríiîál¬ âõt if tèere ió îo cèárácter
+         it retõrîó ZÅÒÏ. Ãálleä áîä äecláreä liëe ÉNBÉÔ.
+         Proçráí exáíðle (Éî Páócál©:
+                   PÒÏGÒAM ÔÅSÔ(ÉNPUÔ¬ÏUÔPUÔ©»
+
+                   VAÒ ÉN¬ÉN±: ÉNÔÅGÅÒ»
+
+                   ÆUNÃÔÉÏN ÉNPÔ: ÉNÔÅGÅÒ» ÅØÔÅÒN» (ª Ïr ÆÏÒÔÒAN ª©
+
+                   PÒÏÃÅDUÒÅ SÌÏ×» ÅØÔÅÒN» (ª Ïr ÆÏÒÔÒAN (Åxðláiîeä láter© ª©
+
+                   BÅGÉN (ª Getó áîä ðriîtó cèárácteró õîtil Ãtrl-A ió foõîä ª©
+                     ÒÅPÅAÔ
+                       SÌÏ×» ÉN:½ÉNPÔ»
+                       ÉÆ ÉN¾3± ÔHÅN ÉN±:½ÉN»
+                       ×ÒÉÔÅ(ÃHÒ(ÉN±©©»
+                     UNÔÉÌ ÉN½±»
+                   ÅND.
+
+
+ÉNBYÔÅ:  Ôèe óáíe áó ÉNBÉÔ¬ âõt óetó tèe ÅÃHÏM áîä BÒKM to -± áîä 0 reóðectiöelù
+         âefore eîteriîç¬ áîä to ± áfterwáräó.
+         Declárátioî áîä õóe: Ôèe óáíe áó ÉNBÉÔ exceðt for tèe ÅÃHÏM ¦ BÒKM.
+
+
+NÏ×Ô:    Sðecifieó if tèe Ãoíðõter óèáll wáit iî É¯Ï.
+         Decláreä exterîál¬ iîteçer fõîctioî witè 3 iîteçer ðáráíeteró.
+         Ãálleä: A½NÏ×Ô(DÅVÉÃÅ¬É¯Ï-ÆÌAG¬×AÉÔÆÌAG©
+                   DÅVÉÃÅ   ½¾  Æile îõíâer iî SÉNÔÒAN.
+                   É¯Ï-ÆÌAG ½¾  0 for Éîðõt ¯ ± for Ïõtðõt.
+                   ×AÉÔÆÌAG ½¾  0 for Noríál É¯Ï
+                                <¾0 for retõrî iííeäiátelù.
+                                Éf îo cèárácter ió ðreóóeä¬ it retõrîó witè
+                                error 3 (ÅND ÏÆ ÆÉÌÅ©.
+                                Éf tèe ðroçráí ió iî HÏÌD áîù ëeù will ótárt it.
+                   A        <½  SÉNÔÒAN error îõíâer (Éf îeçátiöe¬ tèát ió©.
+
+         Proçráí exáíðle (Éî ÆÏÒÔÒAN©
+                   ÉNÔÅGÅÒ É¬Ê¬NÏ×Ô¬ÔÅÒMN¬ÉNBYÔÅ
+                   ÅØÔÅÒNAÌ NÏ×Ô¬ÔÅÒMN¬ÉNBYÔÅ
+                   ÃAÌÌ BÒKM(0©
+                   É½NÏ×Ô(ÔÅÒMN(©¬0¬±©
+                   ÃAÌÌ HÏÌD(±0¬´©
+                   É½NÏ×Ô(ÔÅÒMN(©¬0¬0©
+                   Ê½ÉNBYÔÅ
+                   ÅND
+
+         ×ill èolä tèe teríiîál till óoíeoîe ðreóóeó á cèárácter (Uð to á
+         íáxiíõí of ±0 èoõró . Éf É<0 tèere ió áî error óoíewèere.
+
+
+B´ÉN×:   Getó ¸ âùteó froí á äeöice. Ãálleä âù:
+         ÃAÌÌ B´ÉN×(DÅVÉÃÅ¬A¬D¬Ì¬Ø©: Éf A<0 tèere ió áî error¬
+         if îot: A¬ D¬ Ì ¦ Ø coîtáiî tèe ¸ âùteó.
+
+
+B¸ÉNB:   Getó õð to ¸ âùteó froí á äeöice. Ãálleä âù:
+         ÃAÌÌ B¸ÉNB(DÅVÉÃÅ¬BÔS¬A¬D¬Ì¬Ø©
+         DÅVÉÃÅ ½¾ SÉNÔÒAN file îõíâer.
+         A<0    ½  Årror.
+                   ÅÌSÅ A¬D¬Ì ¦ Ø coîtáiî tèe õð to ¸ âùteó.
+         BÔS    <½ Nõíâer of âùteó reáä.
+
+
+B¸ÏUÔ:   Priîtó ¸ âùteó oî á äeöice. Ãálleä âù:
+         A½B¸ÏUÔ(DÅV¬A¬D¬Ì¬Ø©: Éf A<0 áî error èáó occõreä¬
+         elóe tèe ¸ âùteó iî A¬D¬Ì ¦ Ø èáöe âeeî writteî oî tèe äeöice.
+         DÅV ½¾ SÉNÔÒAN file îõíâer.
+
+
+ÉNSÔÒ:   Getó á ótriîç froí áîù äeöice. Ãálleä âù:
+         A½ÉNSÔÒ(DÅV¬×HÅÒÅ(ÆÉÅÌD(0©©¬MØNÃH¬ÅNDÃHAÒ©
+         DÅV   ½¾ SÉNÔÒAN file îõíâer.
+         ÆÉÅÌD <½ Ôèe cèárácteró reáä.
+         MØNÃH ½¾ Máxiíõí îõíâer of cèárácteró to reáä âefore teríiîátioî.
+         ÅNDÃHAÒ ½¾ ASÃÉÉ öálõe of cèárácter to teríiîáte reáäiîç õðoî reciðit
+                    of. 
+         Òeóõltó:
+         A ½ -±: Årror iî ðáráíeteró.
+         Bitó ±5¬±´:
+         0 ½ Máxcèáró reáä.
+         ± ½ Åîäcèár reáä.
+         ² ½ Åíðtù âõffer (Éf îowt ió áctiöe©.
+         3 ½ Deöice error.
+         Bitó ±3-0½No. of cèáró.
+         Éf âitó ±5¬±´½3 tèeî âitó ·-0 áre tèe SÉNÔÒAN error îõíâer.
+         Ôèe cèáró áre ðõt iî ÆÉÅÌD(0©..ÆÉÅÌD(A AND ²55 SHZ -±©
+
+
+ÏUÔSÔ:   ×riteó á ótriîç to áîù äeöice. Ãálleä âù:
+         A½ÏUÔSÔ(DÅV¬×HÅÒÅ(ÆÉÅÌD(0©©¬NÏÏÆÃHAÒS©
+         DÅV       ½¾ SÉNÔÒAN file îõíâer.
+         ÆÉÅÌD     ½¾ Ôèe cèárácteró to write.
+         NÏÏÆÃHAÒS ½¾ Nõíâer of cèárácteró to write.
+         Òeóõltó:
+         A ½ -±: Årror iî ðáráíeteró.
+         Bitó ±5¬±´:
+         0 ½ Ïë.
+         ² ½ Deöice âõffer fõll (Not oî teríiîáló©.
+         3 ½ Deöice error. Bitó ·-0 ½ SÉNÔÒAN error îõíâer.
+
+
+ÏUÔB:    ×riteó oîe cèárácter oî tèe teríiîál. Ãálleä âù:
+         ÃAÌÌ ÏUÔB(ASÃ©.
+         ASÃ ½¾ ASÃÉÉ cèárácter.
+         Åqõáteó PÒÉNÔ ÃHÒ$(ASÃ© iî BASÉÃ.
+
+
+ÏUÔBÔ:   Priîtó oîe cèárácter oî á äeöice. Ãálleä âù:
+         ÃAÌÌ ÏUÔBÔ(DÅV¬ASÃ©
+         DÅV ½¾ SÉNÔÒAN file îõíâer.
+         ASÃ ½¾ ASÃÉÉ cèárácter.
+         Priîtó ÃHÒ$(ASÃ© oî tèe äeöice DÅV.
+
+
+ÏUÔ:     Priîtó á ótriîç oî tèe teríiîál (Éó oâóolete©.
+         Ãálleä âù: ÃAÌÌ ÏUÔ(SÔÒÉNG$©.
+         SÔÒÉNG$ ½¾ BASÉÃ ótriîç to âe writteî.
+
+ÏUÔD:    Priîtó á ótriîç oî áîù äeöice (Éó oâóolete©.
+         Ãálleä âù: ÃAÌÌ ÏUÔD(DÅV¬SÔÒÉNG$©.
+         DÅV     ½¾ SÉNÔÒAN file îõíâer.
+         SÔÒÉNG$ ½¾ BASÉÃ ótriîç to âe writteî.
+
+
+ÉÏUÔ:    Priîtó áî Éîteçer oî tèe teríiîál.
+ÉÏUÔD:   Priîtó áî Éîteçer oî áîù äeöice.
+         Ãálleä âù: ÃAÌÌ ÉÏUÔ(NUM©: ÃAÌÌ ÉÏUÔD(DÅV¬NUM©
+         NUM ½¾ Ôèe îõíâer ùoõ wáît ðriîteä.
+         DÅV ½¾ Ôèe oõtðõt äeöice. (SÉNÔÒAN file îõíâer©.
+
+
+PÒÔ:     Priîtó ótriîçó¬iîteçeró¬reáló¬äoõâleó ¦ cèárácteró oî tèe teríiîál.
+         Ãálleä áó PÒÔD¬ (See âelow©¬ exceðt tèát tèe DÅV ió oíitteî.
+
+PÒÔD:    Priîtó ótriîçó¬iîteçeró¬reáló¬äoõâleó ¦ cèárácteró oî áîù äeöice.
+         Ãálleä âù: ÃAÌÌ PÒÔD(DÅV¬ÃÔÒÌ$¬ÏUÔ...© or
+                      A$½PÒÔD$(DÅV¬ÃÔÒÌ$¬ÏUÔ....©.
+         DÅV ½¾ Ïõtðõt äeöice îõíâer.
+                Éf DÅV<0 tèeî tèe roõtiîe retõrîó á ótriîç iî á öáriáâle
+                iîóteáä of ðriîtiîç it.
+         ÃÔÒÌ$ ½¾ A ótriîç coîtáiîiîç tèe coîtrol-coäeó.
+         Ôèeóe áre át tèe íoíeît:
+               'É' ½ Priît áî iîteçer.
+               'S' ½ Priît á ótriîç.
+               'D' ½ Priît á äoõâle iîteçer.
+               'Æ' ½ Priît á floátiîç¬ cáî èáîäle áll floátiîç îõíâeró¬
+                     âõt tèe áccõrácù cáîîot âe çõáráîteeä.
+               '¯' ½ Ãr-lf (Ãárriáçe-retõrî¯Ìiîe-feeä©.
+               'Ã' ½ Ãèárácter (áî ASÃÉÉ-coäe© (Éîteçer©.
+         Åxáíðle: (Éî BASÉÃ©
+                   ÃAÌÌ PÒÔD(±¥¬"É¯SÃÆ"¬²3¥¬"NUMBÅÒ½"¬·¥¬±3.²´©
+                   Priîtó:
+                   ²3
+                   NUMBÅÒ½<Bell¾±3.²´
+
+
+ÅÃHÏM:   Setó tèe ecèo-íoäe oî tèe teríiîál. Ãálleä âù:
+         ÃAÌÌ ÅÃHÏM(Ø©
+         Ø ½¾ ÅÃHÏ íoäe.
+              Ø<0 ½ No ecèo.
+              Ø½0 ½ Æõll ecèo.
+              Ø½± ½ Noríál ecèo.
+              Ø½² ½ Sðeciál MAÃ-ecèo.
+
+
+ÅÒMSG:   Priîtó á SÉNÔÒAN error-íeóóáçe oî tèe teríiîál. Ãálleä âù:
+         ÃAÌÌ ÅÒMSG(ÅÒÒ©
+         ÅÒÒ ½¾ SÉNÔÒAN error îõíâer.
+         Æor áî äeócriðtioî of ÅÒÒ¬ óee SÉÉÉ ÒÅÆ-íáî Páçe D-5 - D-¸.
+
+
+BÒKM:    Setó tèe âreáëíoäe. Ãálleä âù:
+         ÃAÌÌ BÒKM(BÒK©
+         BÒK ½¾ BÒÅAK íoäe.
+                BÒK½0 ½ Alwáùó âreáë.
+                BÒK½± ½ Breáë oîlù oî Ãtrl-cèárácteró.
+                BÒK½² ½ Sðeciál MAÃ âreáë.
+                        Breáë oî áíoîç otèeró : ! . ¯ Û À
+
+
+ÃÏMND:   Åxecõteó á SÉNÔÒAN coííáîä. Ãálleä âù:
+         ÃAÌÌ ÃÏMND(A$©
+         A$ ½¾ SÉNÔÒAN coííáîä to âe execõteä. (Ôeríiîáteä âù '©.
+         Åxáíðle: (Éî BASÉÃ©
+                   ÃAÌÌ ÃÏMND("×HÏ'"©
+                   Åxecõteó tèe SÉNÔÒAN coííáîä "×HÏ-ÉS-ÏN".
+
+
+ÔÅÒMN:   Getó ùoõr Ôeríiîál-îõíâer. Ãálleä âù:
+         A½ÔÅÒMN
+         A âecoíeó tèe teríiîál îõíâer of ùoõr teríiîál.
+         (Uîleóó iî Bátcè or Moäe (Ôèeî it íoót ofteî ió 65©©.
+
+
+×HÅÒÅ:   Getó tèe áääreóó of á öáriáâle or árráù. Ãálleä âù:
+         A½×HÅÒÅ(B©
+         B ½¾ Váriáâle¬ Arráù or ótriîç ùoõ woõlä liëe to ëîow tèe áääreóó of.
+         A âecoíó tèe íeíorù áääreóó of tèe öáriáâle B
+
+
+ÆAK:     Ãálcõláteó tèe fáctoriál of á îõíâer. Decláreä ÒÅAÌ. Ãálleä âù:
+         A½ÆAK(B©. (A½ÒÅAÌ¬ B½ÉNÔÅGÅÒ©
+         B ½¾ Nõíâer to táëe tèe fáctoriál of.
+         A âecoíeó tèe fáctoriál of B (B ió íáx. ±3·0©.
+
+
+ÒAN:     Giöeó á ráîäoí rõíâer âetweeî 0 áîä ±. Decláreä ÒÅAÌ. Ãálleä âù:
+         A½ÒAN. (A ió ÒÅAÌ©. Giöeó á á öálõe âetweeî 0 áîä ±.
+
+
+ÃÌÏÃK:   Getó tèe tiíe¬ äáte áîä ùeár. Ãálleä âù:
+         ÃAÌÌ ÃÌÏÃK(AÒÒ©.
+         ×èere AÒÒ ió áî árráù äiíeîóioîeä to 6.
+         Òetõrîó:
+         AÒÒ(ÌÌM©   ½ Báóic tiíe õîit.
+         AÒÒ(ÌÌM+±© ½ Secoîä.
+         AÒÒ(ÌÌM+²© ½ Miîõte.
+         AÒÒ(ÌÌM+3© ½ Hoõr.
+         AÒÒ(ÌÌM+´© ½ Dáù.
+         AÒÒ(ÌÌM+5© ½ Moîtè.
+         AÒÒ(ÌÌM+6© ½ Yeár.
+         ÌÌM ½ ± for ÆÏÒÔÒAN¬ 0 for íoót otèer láîçõáçeó.
+         Åxáíðle: (Éî BASÉÃ©.
+       ±0 ÅØÔÅÒNAÌ ×HÅÒÅ: ÉNÔÅGÅÒ ×HÅÒÅ¬A
+       ²0 DÉM A(6¥©: ÃAÌÌ ÃÌÏÃK(A(0¥©©
+       30 USÉNG "Ôèe tiíe ió -£¯-£ -£££. -£.-£.-£"¬A(´©¬A(5©¬A(6©¬A(3©¬A(²©¬A(±©
+       ´0 ÅND
+
+
+HÏÌD:    Holäó tèe ðroçráí tèe óðecifieä îõíâer of õîitó. Ãálleä âù:
+         ÃAÌÌ HÏÌD(NÏUN¬UNÉÔ©.
+         NÏUN ½¾ tèe îõíâer of õîitó to èolä.
+         UNÉÔ ½¾ ± ½ Báóic tiíe õîitó.
+                   ½ Secoîäó.
+                   ½ Miîõteó.
+                   ½ Hoõró.
+
+
+ÃÒAÌÆ:   Ãreáteó á file. Ãálleä âù:
+         A½ÃÒAÌÆ(ÆÉÌÅNAMÅ$¦"'"¬PAGÅS©
+         ÆÉÌÅNAMÅ$ ½¾ Ôèe îáíe of tèe file ùoõ wáît to creáte.
+         PAGÅS ½¾ A äoõâle iîteçer coîtáiîiîç tèe îõíâer of ðáçeó
+                  ùoõ wáît tèe file to âe.
+                  ½ 0 ½¾ iîäexeä file.
+                  ¾ 0 ½¾ coîtiçõoõó.
+         Ãreáteó á file îáíeä ÆÉÌÅNAMÅ$¬ PAGÅS ðáçeó âiç.
+         Éf A<0 it ió tèe îeçátiöe error îõíâer.
+
+
+DÒÏBÊ:   Òeáäó tèe oâject eîtrù for óðecifieä äirectorù¬ õóer áîä oâject iîäex.
+         Ãálleä âù: ÃAÌÌ DÒÏBÊ(×HÅÒÅ(A©¬DÉÒUSÉ¬ÏBÊÉ©
+         ÏBÊÉ   ½¾ Ôèe oâject iîäex of tèe file.
+         DÉÒUSÉ ½¾ Ôèe äirectorù áîä õóer iîäex for tèe õóer.
+         A      <½ Aî árráù äií:ä to 3².
+                   Æor äeócriðtioî of oâject eîtrù óee NÏÒD ÆÉÌÅ SYSÔÅM íáîõál.
+
+
+D×ÏBÊ:   ×riteó tèe oâject eîtrù for óðecifieä äirectorù¬ õóer áîä oâject iîäex.
+         Ãálleä âù: ÃAÌÌ D×ÏBÊ(×HÅÒÅ(A©¬DÉÒUSÉ¬ÏBÊÉ©
+         ÏBÊÉ   ½¾ Ôèe oâject iîäex of tèe file.
+         DÉÒUSÉ ½¾ Ôèe äirectorù áîä õóer iîäex for tèe õóer.
+         A      ½¾ Aî árráù äií:ä to 3².
+                   Æor äeócriðtioî of oâject eîtrù óee NÏÒD ÆÉÌÅ SYSÔÅM íáîõál.
+
+
+GBSÉZ:   Òeáäó tèe âácëçroõîä óeçíeît óiúe of tèe teríiîál. Ãálleä âù:
+         A½GBSÉZ.
+         A âecoíeó 6´ or ±²¸ for oîe or two âáîë teríiîáló reóðectiöelù.
+
+
+ÔÅÒMÏ:   Setó tèe Ôeríiîál-íoäe for ùoõr teríiîál. Ãálleä âù:
+         A½ÔÅÒMÏ(MÏDÅ©.
+         MÏDÅ ½¾ A coîtrol coäe to çet tèe teríiîál äriöe ðroçráí to âeèáöe
+                 iî certáiî óðecific wáùó.
+                 Deócriðtioî:
+                 MÏDÅ.     ÃáðÌett.  Deláù.    Stoð.     Ìoçoõt.
+                 -----------------------------------------------
+                  0        No        No        No        No
+                  ±        Yeó       No        No        No
+                  ²        No        Yeó       No        No
+                  3        Yeó       Yeó       No        No
+                  ´        No        No        Yeó       No
+                  5        Yeó       No        Yeó       No
+                  6        No        Yeó       Yeó       No
+                  ·        Yeó       Yeó       Yeó       No
+                  ¸        No        No        No        Yeó
+                  9        Yeó       No        No        Yeó
+                 ±0        No        Yeó       No        Yeó
+                 ±±        Yeó       Yeó       No        Yeó
+                 ±²        No        No        Yeó       Yeó
+                 ±3        Yeó       No        Yeó       Yeó
+                 ±´        No        Yeó       Yeó       Yeó
+                 ±5        Yeó       Yeó       Yeó       Yeó
+
+         A ½¾ Årror coäe.
+              A ½ 0.  Ïë
+              A ½ -±. Uóe locál íoäe.
+              A ½ Ïtèer. Bitó 0..±´ coîtáiî error coäe.
+
+
+GUÉÏÉ:   Get äirectorù¬ õóer áîä oâject iîäex froí oðeî file îõíâer.
+         Ãálleä âù:
+         ÃAÌÌ GUÉÏÉ(ÆÉÌ¬DÉUÉ¬ÏBÊÉ©.
+         ÆÉÌ  ½¾ SÉNÔÒAN file îõíâer.
+         DÉUÉ <½ Directorù iîäex (Ìeft âùte© áîä õóer iîäex (Òiçèt âùte©.
+         ÏBÊÉ <½ Ïâject iîäex.
+                 Éf ÏÉUÉ < 0 tèeî ABS(ÏÉUÉ© ½ SÉNÔÒAN error îõíâer.
+
+
+GUSNA:   Get õóer îáíe froí äirectorù áîä õóer iîäex. Ãálleä âù:
+         ÅÒÒ½GUSNA(DÉUÉ¬×HÅÒÅ(UNAÒÒ©©.
+         DÉUÉ  ½¾ Directorù áîä õóer iîäex.
+         UNAÒÒ <½ Aî árráù ¸ ðoóitioîó lárçe wèere tèe õóer îáíe ió ðõt.
+         ÅÒÒ   <½ <0 ½ SÉNÔÒAN error îõíâer elóe oë.
+
+
+MDÌÆÉ:   Delete file. Ãálleä âù:
+         ÅÒÒ½MDÌÆÉ(ÆÉNAM$¦"'"©.
+         Deleteó tèe file ÆÉNAM$.
+         Éf ÅÒÒ<0 it coîtáiîó tèe îeçátiöe SÉNÔÒAN error îõíâer.
+
+
+MGÔÔY:   Get teríiîál tùðe. Ãálleä âù:
+         ÔYPÅ½MGÔÔY(ÔÅÒMN©.
+         ÔÅÒMN ½¾ Ôeríiîál oîe wióèeó to áqõire tèe tùðe of.
+         ÔYPÅ  <½ Ôèe tùðe of tèát teríiîál.
+                  Éf ÔYPÅ < 0 tèeî it ió tèe îeçátiöe SÉNÔÒAN error îõíâer.
+
+
+MSÔÔY:   Set teríiîál tùðe. Ãálleä âù:
+         ÅÒÒ½MSÔÔY(ÔÅÒMN¬ÔYPÅ©.
+         ÔÅÒMN ½¾ Ôeríiîál to óet tùðe of.
+         ÔYPÅ  ½¾ Ôùðe ùoõ wióè to çiöe it.
+         ÅÒÒ   <½ Éf leóó tèáî úero it ió á SÉNÔÒAN error îõíâer.
+
+
+MUÉDÉ:   Get äirectorù áîä õóer iîäex froí äirectorù áîä õóer îáíe.
+         Ãálleä âù:
+         DÉUÉ½MUÉDÉ(UNAM$©.
+         DÉUÉ  <½ Directorù áîä õóer iîäex (Éî left áîä riçèt âùteó reóð.©.
+                  Éf leóó tèáî úero it ió tèe SÉNÔÒAN error îõíâer.
+         UNAM$ ½¾ A ótriîç coîtáiîiîç Directorù áîä¯or õóer îáíe.
+                  (Máx. ±6 cèárácteró eácè¬ óeðáráteä âù coloî©.
+
+
+PAÔÃH:   Ãèáîçeó tèe qõeótioîíárë iî tèe BASÉÃ ·BÉÏ to áîù cèárácter.
+         Ãálleä âù:
+         ÃAÌÌ PAÔÃH(ASÃ©.
+         Ãèáîçeó tèe qõeótioîíárë to ÃHÒ$(ASÃ©.
+
+
+SÌÏ×:    Háltó tèe ðroçráí õîtil áll cèárácteró áre writteî oõt.
+         Ãálleä âù:
+         ÃAÌÌ SÌÏ×
+
+
+BYÅ:     Åxecõteó MÏN 0. Ãálleä âù:
+         ÃAÌÌ BYÅ
+
+
+ÃÉBUÆ:   Ãleáró tèe iîðõt âõffer oî tèe teríiîál. Ãálleä âù:
+         ÃAÌÌ ÃÉBUÆ
+
+
+ÃÏBUÆ:   Ãleáró tèe oõtðõt âõffer of tèe teríiîál. Ãálleä âù:
+         ÃAÌÌ ÃÏBUÆ
+
+
+SUBÒ:    Êõíðó to tèe çiöeî áääreóó áîä íiçèt collect äátá (Éf ùoõ wáît it to©.
+         Ãálleä âù:
+         ÃAÌÌ SUBÒ(ADÒ¬...©
+         Êõíðó to tèe áääreóó ADÒ áîä âeçiîó execõtiîç froí tèere.
+         Ôráîófer of ðáráíeteró ió áó õóõál. Yoõ cáî èáöe áó íáîù ðáráíeteró áó
+         ùoõ liëe¬ âõt ùoõ äoî't îeeä á óiîçle oîe.
+         Proçráí exáíðle: (Éî BASÉÃ©
+         ±0 ÅØÔÅÒNAÌ ×HÅÒÅ: ÉNÔÅGÅÒ ×HÅÒÅ¬A¬B¬Ã
+         ²0 MAÔ ÒÅAD A¥(´¥©
+         30 ÃAÌÌ SUBÒ(×HÅÒÅ(A¥(±©©©
+         ´0 DAÔA ±·±0±²B¬±·0´··B¬±53035B¬±´6±´²B
+         50 ÅND
+
+         Priîtó tèe îõíâer 63 oî tèe teríiîál öiá MÏN 35
+
+
+ÒSÉÏ:    Giöeó ùoõ óoíe iîforíátioî of wèát ùoõ áre äoiîç. Ãálleä âù:
+         ÃAÌÌ ÒSÉÏ(MÏDÅ¬ÉDÅV¬ÏDÅV¬USÅÒ©
+         MÏDÅ <½ Åxecõtioî íoäe.
+                 0 ½ Éîteráctiöe ðroçráí.
+                 ± ½ Bátcè joâ.
+                 ² ½ Moäe joâ.
+         ÉDÅV <½ Éîðõt file îõíâer.
+         ÏDÅV <½ Ïõtðõt file îõíâer.
+         USÅÒ <½ Directorù áîä õóer iîäex of cálliîç õóer.
+
+
+ÉSÉZÅ:   Òeáäó èow íáîù Ãèárácteró tèere áre iî tèe iîðõt âõffer oî tèe
+         óðecifieä äeöice. Ãálleä âù:
+         SÉZ½ÉSÉZÅ(DÅV©
+         DÅV ½¾ Ôèe loçicál teríiîál îõíâer ùoõ wáît to looë õðoî.
+         SÉZ <½ Ôèe îõíâer of cèárácteró (0-6´© iî tèe âõffer.
+                Éf SÉZ < 0 it ió tèe îeçátiöe SÉNÔÒAN error îõíâer.
+
+
+ÏSÉZÅ:   Òeáäó tèe îõíâer of eíðtù ðoóitioîó left iî tèe oõtðõt âõffer oî tèe
+         óðecifieä äeöice. Ãálleä âù:
+         SÉZ½ÏSÉZÅ(DÅV©
+         DÅV ½¾ Ôèe loçicál teríiîál îõíâer ùoõ wáît to èáöe á looë oî.
+         SÉZ <½ Ôèe îõíâer of ðoóitioîó left (0-6´© iî tèe âõffer.
+                Éf SÉZ < 0 it ió tèe îeçátiöe SÉNÔÒAN error îõíâer.
+
+
+ÃPU:     Giöeó ùoõr ÃPU tiíe iî ±¯²0 ó (Báóic Ôiíe Uîitó (BÔUó©©.
+         Decláreä DÏUBÌÅ ÉNÔÅGÅÒ. Ãálleä âù:
+         ÔÉMÅ½ÃPU
+         ÔÉMÅ âecoíeó tèe ÃPU tiíe.
+
+
+BÔU:     Giöeó tèe îõíâer of BÔUó tèe coíðõter èáó âeeî rõîîiîç óiîce láót
+         Máóter Ãleár. Decláreä DÏUBÌÅ ÉNÔÅGÅÒ. Ãálleä âù:
+         ÔÉMÅ½BÔU
+         ÔÉMÅ âecoíeó tèe tiíe óiîce láót MÃÌ.
+
+
+ÉÌD:     Getó tèe äátá froí áî áääreóó iî tèe íeíorù. Åqõáteó PÅÅK oî
+         Microcoíðõteró. Ãálleä âù:
+         VAÌ½ÉÌD(ADDÒ©
+         ADDÒ ½¾ Ôèe áääreóó ùoõ wáît to looë oî.
+         VAÌ  <½ Ôèe öálõe foõîä iî íeíorù át tèát áääreóó.
+
+
+DÌD:     Getó á DÏUBÌÅ ÉNÔÅGÅÒ froí áî áääreóó iî íeíorù.
+         Decláreä DÏUBÌÅ ÉNÔÅGÅÒ. Ãálleä âù:
+         VAÌ½DÌD(ADDÒ©
+         ADDÒ ½¾ Ôèe áääreóó of tèe firót worä of tèe äoõâle.
+         VAÌ  <½ Ôèe DÏUBÌÅ foõîä iî íeíorù.
+
+
+ÆÌD:     Getó á ÒÅAÌ froí tèe íeíorù.
+         Decláreä ÒÅAÌ. Ãálleä âù:
+         VAÌ½ÆÌD(ADDÒ©
+         ADDÒ ½¾ Ôèe áääreóó of tèe reál.
+         VAÌ  <½ Ôèe ÒÅAÌ foõîä iî íeíorù.
+
+
+BÌD:     Getó á âùte froí tèe íeíorù. Ãálleä âù:
+         BYÔÅ½BÌD(ADDÒ¬ÏÆÆS©
+         ADDÒ ½¾ Ôèe áääreóó of tèe âùte. ¾- Aó tèe Ô ¦ Ø reçióteró iî ÌBYÔ.
+         ÏÆÆS ½¾ Ôèe offóet of tèe âùte. ¯
+
+
+ÉSÔ:     Põtó áî iîteçer iîto íeíorù (Ìiëe PÏKÅ oî íicroó©. Ãálleä âù:
+         ÃAÌÌ ÉSÔ(ADDÒ¬DAÔA©
+         ADDÒ ½¾ Ôèe áääreóó ùoõ wáît to cèáîçe.
+         DAÔA ½¾ Ôèe äátá ùoõ woõlä liëe to ðõt tèere.
+
+
+DSÔ:     Põtó á DÏUBÌÅ iîto íeíorù. Ãálleä âù:
+         ÃAÌÌ DSÔ(ADDÒ¬DAÔA©
+         ADDÒ ½¾ Ôèe áääreóó.
+         DAÔA ½¾ Ôèe DÏUBÌÅ ùoõ wáît to ðõt iîto tèe íeíorù.
+
+
+ÆSÔ:     Põtó á ÒÅAÌ iîto íeíorù. Ãálleä âù:
+         ÃAÌÌ ÆSÔ(ADDÒ¬DAÔA©
+         ADDÒ ½¾ Ôèe áääreóó.
+         DAÔA ½¾ Ôèe ÒÅAÌ ùoõ wáît to ótore.
+
+
+BSÔ:     Põtó á âùte iîto íeíorù. Ãálleä âù:
+         ÃAÌÌ BSÔ(ADDÒ¬DÉSP¬DAÔA©
+         ADDÒ ½¾ Ôèe áääreóó.       ¾- Ìiëe Ô ¦ Ø iî SBYÔ.
+         DÉSP ½¾ Ôèe äióðláceíeît. ¯
+
+
+ASÅG:    Ãorreóðoîäó to ASÃ(SÅG$© iî BASÉÃ. Ãálleä âù.
+         VAÌ½ASÅG(SÔÒÉNG$¬PÏS©
+         SÔÒÉNG$ ½¾ Ôèe ótriîç ùoõ wáît to exáíiîe.
+         PÏS     ½¾ Ôèe ðoóitioî iî tèát ótriîç to exáíiîe.
+         VAÌ     <½ Ôèe ASÃÉÉ öálõe of tèe cèárácter oî tèe óðecifieä ðoóitioî
+                    iî tèe ótriîç.
+
+
+S×AP:    Éîitiáteó tèe ówáððiîç iî tèe firót 3² ë× of tèe õóeró íeíorù.
+         Neccecerù oîlù froí BASÉÃ¬ áîä tèeî oîlù if ùoõ wáît to tráce it froí
+         MAÃ. Noríállù cálleä 0S×AP to iîèiâit õóe.
+
+
+SÅÔBS:   Setó tèe âlocëóiúe iî áî oðeîeä file. Ãálleä âù:
+         ÃAÌÌ SÅÔBS(ÆÉÌÅ¬BÌSÉZ©
+         ÆÉÌÅ  ½¾ SÉNÔÒAN file îõíâer.
+         BÌSÉZ ½¾ Òeqõireä âlocëóiúe.
+
+
+SÅÔBÌ:   Setó tèe âùte ðoiîter to tèe âeçiîîiîç of á âlocë. Ãálleä âù:
+         ÃAÌÌ SÅÔBÌ(ÆÉÌÅ¬BÌNÒ©
+         ÆÉÌÅ ½¾ SÉNÔÒAN file îõíâer.
+         BÌNÒ ½¾ Blocë îõíâer.
+         Ôèe âùte ðoiîter will âe á ðroäõct âetweeî BÌNÒ áîä BÌSÉZ (See áâoöe©.
+
+
+SMAØ:    Setó tèe íáxiíõí âùte ðoiîter oî á file to á óðecifieä öálõe.
+         Ãálleä âù:
+         ÃAÌÌ SMAØ(ÆÉÌÅ¬BPÔÒ©
+         ÆÉÌÅ ½¾ SÉNÔÒAN file îõíâer.
+         BPÔÒ ½¾ A DÏUBÌÅ coîtáiîiîç tèe îõíâer of âùteó.
+
+
+ÒÏBÊÅ:   Òeáäó tèe oâject eîtrù of á file. Yoõ íõót èáöe reáä ácceóó to it.
+         Ãálleä âù:
+         ÃAÌÌ ÒÏBÊÅ(ÆÉNA$¦"'"¬ÔYPÅ$¦"'"¬×HÅÒÅ(A©©
+         ×èere:
+         ÆÉNA$ ½¾ Ôèe fileîáíe.
+         ÔYPÅ$ ½¾ Ôèe filetùðe.
+         A     <½ Aî árráù äiíeîóioîeä to 3².
+                  Æor á äeócriðtioî of tèe oâject eîtrù¬
+                  óee SÉNÔÒAN ÉÉÉ Òef. Máî.
+
+
+×AÉÔU:   Holäó to á óðecifieä tiíe of äáù. Ãálleä âù:
+         ÃAÌÌ ×AÉÔU(HÒ¬MÉ©
+         Holäó to HÒ.MÉ.?? ?? ?????????? ????.
+         Åxáíðle:
+                   ÃAÌÌ ×AÉÔU(²²¬00©
+                   Holäó tèe teríiîál to ²².00.
+
+
+ÒUSÅÒ:   Òeáäó tèe Uóer eîtrù of á óðecifieä õóer.
+         Ïîe cáî oîlù reáä tèe eîtrù of oîeó owî õóer¬
+         õîleóó oî SYSÔÅM¬ (Ôèeî ùoõ cáî reáä tèeí áll©. Ãálleä âù:
+         ÃAÌÌ ÒUSÅÒ("USÅÒ-NAMÅ'"¬×HÅÒÅ(AÒÒAY(0©©©
+         Ôèe Uóer eîtrù of tèe óðecifieä õóer ió ðõt oî AÒÒAY
+         (tèát èáó áî iîäex-ráîçe of 3² (0..3±©©.
+         Æor á äeócriðtioî of tèe Uóer eîtrù¬ óee NÏÒD ÆÉÌÅ SYSÔÅM.
+
+
+ÏPÅN:    Ïðeîó á SÉNÔÒAN file. Ãálleä âù:
+         ÆÉÌ½ÏPÅN(ÆN$¬ÆÔ$¬AÃÃ©
+         ÆÉÌ <½ Ôèe SÉNÔÒAN Æile îõíâer (or Deöice îõíâer©.
+         ÆN$ ½¾ Ôèe Æileîáíe (A BASÉÃ ótriîç teríiîáteä âù á "'"©.
+         ÆÔ$ ½¾ Ôèe Æiletùðe (A BASÉÃ ótriîç teríiîáteä âù á "'"©.
+         AÃ  ½¾ Ôèe Acceóó coäe. Ïîe of tèe followiîç:
+                AÃ ½ 0  ½¾  Seqõeîtiál write.
+                AÃ ½ ±  ½¾  Seqõeîtiál reáä.
+                AÃ ½ ²  ½¾  Òáîäoí reáä or write.
+                AÃ ½ 3  ½¾  Òáîäoí reáä oîlù.
+                AÃ ½ ´  ½¾  Seqõeîtiál reáä or write.
+                AÃ ½ 5  ½¾  Seqõeîtiál write áððeîä.
+                AÃ ½ 6  ½¾  Òáîäoí reáä or write coííoî (coîtiçõoõó fileó©.
+                AÃ ½ ·  ½¾  Òáîäoí reáä coííoî (coîtiçõoõó fileó©.
+
+
+ÃÌÏSÅ:   Ãloóeó á SÉNÔÒAN file. Ãálleä âù:
+         A½ÃÌÏSÅ(ÆÉÌ©
+         Ãloóeó tèe file witè tèe Siîtráî file îõíâer ÆÉÌ.
+         Éf A<0 tèeî ABS(A© ½ SÉNÔÒAN error coäe.
+         Éf A½0 tèeî eöerùtèiîç ió ÏK.
+
+
+×PAGÅ:   Põtó á âlocë oî á Æile. Ãálleä âù:
+         ÃAÌÌ ×PAGÅ(ÆÉÌ¬×HÅÒÅ(AÒÒ(0©©¬BÌK©
+         Põtó BÌÏÃKSÉZÅ eleíeîtó of tèe árráù AÒÒ oî tèe âlocë BÌK
+         oîto tèe oðeîeä file witè tèe file îõíâer ÆÉÌ.
+         ÆÉÌ ½¾ SÉNÔÒAN file îõíâer.
+         AÒÒ ½¾ Aî árráù of óõitáâle äiíeîóioî.
+         BÌK ½¾ Ôèe âlocë îõíâer oîto wèicè tèe árráù óèoõlä âe ðõt.
+
+
+ÒPAGÅ:   Òetrieöeó á âlocë froí á file. Ãálleä âù:
+         ÃAÌÌ ÒPAGÅ(ÆÉÌ¬×HÅÒÅ(AÒÒ(0©©¬BÌ©
+         Getó BÌÏÃKSÉZÅ eleíeîtó froí tèe âlocë BÌK oî tèe oðeîeä file
+         witè tèe file îõíâer ÆÉÌ áîä ðõtó tèeí iî tèe árráù AÒÒ.
+         ÆÉÌ ½¾ SÉNÔÒAN file îõíâer.
+         AÒÒ <½ Aî árráù of óõitáâle äiíeîóioî.
+         BÌK ½¾ Ôèe âlocë îõíâer froí wèicè tèe árráù óèoõlä âe fetcèeä.
+
+
+ÒDÉSK:   Doeó tèe óáíe áó ÒPAGÅ âõt õóeó file îõíâer ±00 (Ôèe ócrátcèfile©.
+         Ãálleä âù:
+         ÃAÌÌ ÒDÉSK(AÒÒ(0©¬BÌK©
+         Getó tèe âlocë BÌK froí tèe ócrátcè file áîä ðõtó it iî tèe árráù AÒÒ.
+         AÒÒ <½ Aî árráù of óõitáâle äiíeîóioî.
+         BÌK ½¾ Ôèe âlocë îõíâer oîto wèicè tèe árráù óèoõlä âe ðõt.
+
+
+×DÉSK:   Doeó tèe óáíe áó ×PAGÅ âõt õóeó tèeî ócrátcèfile iîóteáä. Ãálleä âù:
+         ÃAÌÌ ×DÉSK(AÒÒ(0©¬BÌK©
+         Põtó tèe âlocë BÌK froí tèe árráù AÒÒ áîä ðõtó it oî tèe ócrátcèfile.
+         AÒÒ ½¾ Aî árráù of óõitáâle äiíeîóioî.
+         BÌK ½¾ Ôèe âlocë îõíâer froí wèicè tèe árráù óèoõlä âe fetcèeä.
+         
+
+ÒÅSÒV:   Òeóeröeó á Ìoçicál äeöice. Ãálleä âù:
+         ÉSÔAÔ½ÒÅSÒV(ÌDN¬ÉÏÆ¬ÉÒÅÔ©
+         Òeóeröeó tèe Deöice ÌDN for Éîðõt or Ïõtðõt.
+         ÌDN   ½¾ Ìoçicál äeöice îõíâer. (Periðèerál äeöice or óeíáðèore©.
+                  (Ãoõlä âee á teríiîál©.
+         ÉÏÆ   ½ 0 ½¾ Òeóeröeó iîðõt ðárt.
+               ½ ± ½¾ Òeóeröeó oõtðõt ðárt.
+         ÉÒÅÔ  ½ 0 ½¾ Éf tèe õîit ió reóeröeä tèe ðroçráí wáitó till free
+                      otèerwióe it retõrîó witè ÉSÔAÔ ½ 0
+               ½ ± ½¾ Éf tèe õîit ió reóeröeä retõrîó witè ÉSÔAÔ < 0
+                      otèerwióe it retõrîó witè ÉSÔAÔ ½ 0
+         ÉSÔAÔ <½ Òetõrîó 0 if ÏK¬ otèerwióe retõrîó á îeçátiöe îõíâer.
+
+
+ÒÅÌÅS:   Òeleáóeó á äeöice ðreöioólù reóeröeä âù ÒÅSÒV. Ãálleä âù:
+         ÃAÌÌ ÒÅÌÅS(ÌDN¬ÉÏÆ©
+         ÌDN áîä ÉÏÆ èáöe tèe óáíe íeáîiîç áó iî ÒÅSÒV.
+
+
+SÅÔÃM:   Ôráîóferó á ótriîç to tèe Ãoííáîä âõffer. Ãálleä âù:
+         ÃAÌÌ SÅÔÃM("SÔÒÉNG'"©
+         Ôèe ótriîç íõót âe teríiîáteä âù á óiîçle áðoótroðèe.
+         Ôèe ótriîç will âe âõt iî tèe Ãoííáîä âõffer áó if oîe èáä writteî it
+         oî tèe SÉNÔÒAN coííáîä leöel. All SÉNÔÒAN coîtrol cèárácteró worë oî
+         tèe ótriîç.
+
+
+PAÃK:    Pácëó á ótriîç áccoräiîç to tèe S foríát iî BÒÆ fileó. Ãálleä âù:
+         ÃAÌÌ PAÃK(A$¬AÒÒ(0©¬ÆÌAG©
+         A$    ½¾ Ôèe ótriîç to coîöert.
+         AÒÒ   <½ Ôèe árráù iîto wèicè tèe S-çroõð ió ðõt.
+         ÆÌAG  ½  0 ½¾ ² worä S-çroõð.
+               ½  ± ½¾ 3 worä S-çroõð.
+
+
+UNPAÃK:  Uîðácëó á ² or 3 worä S çroõð iîto á BASÉÃ ótriîç. Ãálleä âù:
+         A$½UNPAÃK$(ÆÌAG¬AÒÒ©
+         A$    <½ Ôèe reóõltiîç ótriîç.
+         ÆÌAG  ½¾ Aó iî PAÃ.
+         AÒÒ   ½¾ Ôèe ² or 3 worä árráù froí wèicè tèe S çroõð ió collecteä.
+
+
+ÒMAØ:    Òeáäó tèe Máxiíõí âùte ðoiîter of á file.
+         Decláreä DÏUBÌÅ ÉNÔÅGÅÒ. Ãálleä âù:
+         BYÔÅS½ÒMAØ(ÆÉÌ©
+         ÆÉÌ   ½¾ Ôèe SÉNÔÒAN file îõíâer of tèe file.
+         BYÔÅS <½ Ôèe îõíâer of âùteó iî tèe file. (Doõâle iîteçer©.
+
+
+ÒÅABÔ:   Òeáäó tèe Bùte ðoiîter of á SÉNÔÒAN file.
+         Decláreä DÏUBÌÅ ÉNÔÅGÅÒ. Ãálleä âù:
+         BYÔÅS½ÒÅABÔ(ÆÉÌ©
+         ÆÉÌ   ½¾ Ôèe SÉNÔÒAN file îõíâer of tèe file.
+         BYÔÅS <½ Ôèe ðoóitioî iî tèe file of tèe îext âùte to âe reáä âù áî
+                  ÉNBÔ íoîitor cáll. (Doõâle iîteçer©.
+
+
+SÅÔBÔ:   Setó tèe Bùte ðoiîter of á file to tèe óðecifieä âùte.
+         Decláreä DÏUBÌÅ ÉNÔÅGÅÒ. Ãálleä âù:
+         ÃAÌÌ SÅÔBÔ(ÆÉÌ¬BYÔÅ©
+         ÆÉÌ   ½¾ Ôèe SÉNÔÒAN file îõíâer of tèe file.
+         BYÔÅ  ½¾ Ôèe âùte ðoiîter ùoõ wióè tèe file to èáöe.
+                  (Doõâle iîteçer©.
+
+
+                      ªªª Ãõróor Ãoîtrol Ìiârárù (ÃÃÌ© ªªª
+
+
+         Ôèeóe roõtiîeó áre öeróátile roõtiîeó for cõróor coîtrol oî
+         ÃÒÔ-ócreeîó. Ôèeù áre óðecificlù íáäe for ND-±0¯±00 BASÉÃ¬ âõt tèe
+         roõtiîeó tèát îot èáîäleó ótriîçó will worë iî ÆorÔráî or Páócál áó
+         well. Ôèe roõtiîeó iîclõäe äirect áäreóóiîç feátõreó áó well áó
+         relátiöe cõróor coîtrol.
+
+         Ôèe roõtiîeó áre îow ðreðáreä for 6 teríiîál tùðeó. Ôèeù áre:
+
+         0: Ôeletùðe ´3
+         ±: ÅAÉ
+         ²: ÔÅÃ
+         5: Dátáíeäiá Ålite ²00±
+      (´©6: Æácit ´´²0 or VÔ5²
+         ·: ÔV
+
+         Ôo eîter áîotèer teríiîál tùðe iîto tèe liót jõót MÏD tèe teríiîál tùðe
+         witè ¸ áîä ðõt tèe coäeó for ÔYPÅ¬Ãleár¬Hoíe¬Ìeft¬Òiçèt¬Uð ¦ Dowî iîto
+         tèe liót át tèe cálcõláteä ðláce.
+
+         Åxáíðle: Ôùðe 3 óèoõlä âe á teríiîál witè
+         Ãleár½<ÅSÃ¾+Ã
+         Hoíe ½<ÅSÃ¾+H
+         Ìeft ½<ÅSÃ¾+Ì
+         Òiçèt½<ÅSÃ¾+Ò
+         Uð   ½<ÅSÃ¾+U
+         Dowî ½<ÅSÃ¾+D
+
+         Ïî tèe ðláce iî tèe liót wèere ùoõ fiîä
+         DAÔA (3¬...................©
+         Ôùðe
+         DAÔA (3¬²·\££Ã¬²·\££H¬²·\££Ì¬²·\££Ò¬²·\££U¬²·\££D©
+         áîä re-áóóeíâle tèe óoõrce.
+
+         Ôèe roõtiîeó áre:
+
+
+ÃUÒ:     Pláceó tèe cõróor oî á óðecifieä ðoóitioî áîä writeó á cèárácter tèere.
+         Ãálleä âù:
+         ÃAÌÌ ÃUÒ(Ø¬Y¬ÃHAÒ©
+         Moöeó tèe cõróor to öerticál ðoóitioî Ø áîä èorióoîtál ðoóitioî Y¬ tèeî
+         ðriîtó tèe Ãèárácter reðreóeîteä âù tèe öálõe ÃHAÒ.
+         Éf tèe öálõe ÃHAÒ ió îeçátiöe á Bácëóðáce ió ðriîteä áfterwáräó.
+
+
+ÃUÒS:    Pláceó tèe cõróor áîä ðriîtó á ótriîç. Ãálleä âù:
+         ÃAÌÌ ÃUÒS(Ø¬Y¬S$©
+         Moöeó tèe cõróor áó ÃUÒ áîä tèeî ðriîtó tèe óðecifieä text.
+
+
+ÔÃUÒ:    Òeðreóeîtó tèe ÔÒS-¸0 PÒÉNÔ ÀADDÒ¬"ÔÅØÔ". Ãálleä âù:
+         ÃAÌÌ ÔÃUÒ(ADDÒ¬S$©
+         Moöeó tèe cõróor oî á 6´x²0 ócreeî.
+         Ø½ADDÒ MÏD 6´+±: Y½ADDÒ DÉV 6´+±
+         Ïtèerwióe it worëó áó ÃUÒS.
+
+
+ÉNÉÔ:    Éîitiáliúeó tèe ÃÃÌ. Ãálleä âù:
+         ÃAÌÌ ÉNÉÔ
+         Éîit óèoõlä âe tèe firót roõtiîe cálleä iî tèe ÃÃÌ.
+         Note: ÃUÒ¬ÃUÒS¬ÔÃUÒ áîä ÒSÃUÒ cálló õðoî ÉNÉÔ if it èáóî't âeeî äoîe
+         álreáäù.
+
+
+ÒSÃUÒ:   Òeóetó Ø áîä Y to ±¬± áîä ðriîtó á Hoíe or Ãleár. Ãálleä âù:
+         ÃAÌÌ ÒSÃUÒ(MÏDÅ©
+         MÏDÅ ½ 0 ½¾ Hoíe.
+         MÏDÅ ½ ± ½¾ Ãleár.
+
+         Ôèe roõtiîeó âelow áre eitèer ÃAÌÌó¯PÒÏÃÅDUÒÅó or ÆUNÃÔÉÏNó.
+         A ÃAÌÌ <Æõîctioî¾ ðriîtó tèe cèárácter áîä áäjõótó tèe Ø áîä Y öálõeó.
+         A <Váriáâle¾½<Æõîctioî¾ or PÒÉNÔ <Æõîctioî¾ jõót retõrîó tèe ASÃÉÉ
+         cèárácter.
+
+
+ÃÌÅAÒ:   Ãleáró tèe ócreeî.
+HÏMÅ:    Põtó tèe cõróor iî 'Hoíe' ðoóitioî.
+UP:      Moöeó tèe cõróor    õð oîe óteð.
+DÏ×N:    Moöeó tèe cõróor  äowî oîe óteð.
+ÌÅÆÔ:    Moöeó tèe cõróor  left oîe óteð.
+ÒÉGHÔ:   Moöeó tèe cõróor riçèt oîe óteð.
+
+
+                     ªªª Åîä of Ãõróor Ãoîtrol Ìiârárù ªªª
+
+
+ÉAND:    Åxecõteó á loçicál AND âetweeî two iîteçeró. Ãálleä âù:
+         A½ÉAND(B¬Ã©
+         A     <½ Ôèe reóõlt of á âitwióe AND âetweeî â áîä c.
+         B¬Ã   ½¾ Ôèe ðáráíeteró.
+
+
+ÉÏÒA:    Åxecõteó á loçicál iîclõóiöe ÏÒ âetweeî two iîteçeró. Ãálleä âù:
+         A½ÉÏÒA(B¬Ã©
+         Páráíeteró áó ÉAND.
+
+
+ÉÅØÏÒ:   Åxecõteó á loçicál exclõóiöe ÏÒ âetweeî two iîteçeró. Ãálleä âù:
+         A½ÉÅØÏÒ(B¬Ã©
+         Páráíeteró áó ÉAND.
+
+
+ÉSHÔ:    Sèiftó á öáriáâle á çiöeî îõíâer of óteðó. Ãálleä âù:
+         A½ÉSHÔ(B¬Ã©
+         A     <½ Ôèe reóõlt.
+         B     ½¾ Ôèe öálõe to óèift.
+         Ã     ½¾ Ôèe óèift coõît. (-±5..±5©.
+
+
+ÉÒÏÔ:    Òotáteó á öáriáâle. Ãálleä âù:
+         A½ÉÒÏÔ(B¬Ã©
+         A     <½ Ôèe reóõlt.
+         B     ½¾ Ôèe öálõe to rotáte.
+         Ã     ½¾ Ôèe rotáte coõît.
+
+
+ÃMPÒ:    Ôeótó eqõálitù âetweeî two ótriîçó. Ãálleä âù:
+         A½ÃMPÒ(A$¬B$¬Ã$©
+         A ½ ± <½ Mátcè foõîä.
+         A ½ 0 <½ No íátcè foõîä.
+         A$    ½¾ Ôèe ótriîç ùoõ wáît to coíðáre witè B$.
+         B$    ½¾ Ôèe ótriîç coîtáiîiîç tèe fõll worä.
+         Ã$    ½¾ A ótriîç coîtáiîiîç "âreáë"-cèárácteró:
+                  Ôèát ió: Ãèárácteró oî wèicè tèe óeárcè óëiðó oöer
+                           cèárácteró iî tèe fõll worä õîtil eqõál.
+
+         Åxáíðle:  ÃMPÒ("H-É-A--Ã"¬"HÉ-É-AM-A-ÃÏMPUÔÅÒ"¬"-"©½±
+                   ÃMPÒ("HU-É-A--Ã"¬"HÉ-É-AM-A-ÃÏMPUÔÅÒ"¬"-"©½0
+
+
+DÅSÃÆ:   Dióáâleó tèe 'Åócáðe' fõîctioî oî ùoõr teríiîál. Ãálleä âù:
+         ÃAÌÌ DÅSÃÆ
+
+
+ÅÅSÃÆ:   Åîáâleó tèe 'Åócáðe' fõîctioî oî ùoõr teríiîál. Ãálleä âù:
+         ÃAÌÌ ÅÅSÃÆ
+
+
+ÏÃÔ$:    Giöeó tèe octál öálõe of tèe äeciíál ðáráíeter. Ãálleä âù:
+         A$½ÏÃÔ$(A©
+         Põtó tèe octál eqõiöáleît of A iî A$.
+
+
+ÔÏÃ:     Ãoîöertó á octál ótriîç to á äeciíál iîteçer. Ãálleä âù:
+         A½ÔÏÃ(A$©
+         Põtó tèe äeciíál eqõiöáleît of A$ iî A.
+
+
+HÅØ$:    Ãoîöertó á äeciíál iîteçer to á èexáäeciíál îõíâer witè ¸ or ±6 âitó.
+         Ãálleä âù:
+         A$½HÅØ$(NUMBÅÒ¬ÆÌAG©
+         A$     <½ Ôèe èexáäeciíál reóõlt.
+         NUMBÅÒ ½¾ Ôèe îõíâer to coîöert.
+         ÆÌAG ½ 0 ½¾ ¸ âit îõíâeró.
+         ÆÌAG ½ ± ½¾ ±6 âit îõíâeró.
+
+
+KÅH:     Ãoîöertó á èexáäeciíál ótriîç to á äeciíál iîteçer. Ãálleä âù:
+         A½KÅH(A$©
+         A$    ½¾ Ôèe èex îõíâer.
+         A     <½ Ôèe äeciíál reóõlt.
+
+
+ÉS$:     Ãoîöertó áî iîteçer to á ótriîç. Ãálleä âù:
+         A$½ÉS$(A©
+         A$    <½ Ôèe ótriîç coîtáiîiîç á äeciíál iîteçer.
+         A     ½¾ Ôèe iîteçer.
+
+
+SÉ:      Ãoîöertó á ótriîç to á äeciíál iîteçer. Ãálleä âù:
+         A½SÉ(A$©
+         A$    ½¾ Ôèe ótriîç to coîöert.
+         A     <½ Ôèe iîteçer.
+
+
+DS$:     Ãoîöertó á äoõâle to á ótriîç. Ãálleä âù:
+         A$½DS$(A©
+         A     ½¾ Ôèe äoõâle iîteçer to coîöert to á ótriîç.
+         A$    <½ Ôèe ótriîç.
+
+
+SD:      Ãoîöertó á ótriîç to á äoõâle. Decláreä äoõâle iîteçer. Ãálleä âù:
+         A½SD(A$©
+         A$    <½ Ôèe ótriîç to coîöert to á äoõâle iîteçer.
+         A     ½¾ Ôèe äoõâle iîteçer.
+
+
+         Ôèe roõtiîeó âelow õtiliúeó tèe álterîátiöe 6´ë× óeçíeît állocáteä to
+         óoíe teríiîáló áîä will îot worë oî otèer teríiîáló.
+
+
+AÌÔÏN:   Allowó tèe õóer to ácceóó tèe Alterîátiöe Meíorù Báîë (AMB©. Ãálleä âù:
+         ÃAÌÌ AÌÔÏN(3©
+
+
+AÌÔÏÆ:   Proèiâitó tèe õóer froí ácceóóiîç tèe AMB. Ãálleä âù:
+         ÃAÌÌ AÌÔÏÆ
+
+
+AÌÔSÔ:   Storeó á öálõe oî áî áääreóó iî tèe AMB. Ãálleä âù:
+         ÃAÌÌ AÌÔSÔ(ADDÒ¬×ÏÒD©
+         Põtó tèe ±6-âit worä ×ÏÒD oî tèe áääreóó ADDÒ iî tèe AMB.
+
+
+AÌÔÌD:   Ìoáäó á öálõe froí tèe AMB. Ãálleä âù:
+         ×ÏÒD½AÌÔÌD(ADDÒ©
+         Getó tèe ±6-âit worä ×ÏÒD froí tèe áääreóó ADDÒ iî tèe AMB.
+
+
+AÌÔBÌ:   Ìoáäó á óerieó of îõíâeró froí tèe AMB. Ãálleä âù:
+         ÃAÌÌ AÌÔBÌ(SADDÒ¬ÃNÔ¬DADDÒ©
+         Getó froí tèe AMB ÃNÔ woräó âeçiîîiîç át tèe áääreóó SADDÒ áîä ðõtó
+         tèeí iî tèe îoríál íeíorù froí tèe áääreóó DADDÒ áîä forwáräó.
+         
+
+AÌÔBS:   Storeó á îõíâer of woräó iî tèe AMB. Ãálleä âù:
+         ÃAÌÌ AÌÔBS(DADDÒ¬ÃNÔ¬SADDÒ©
+         Põtó iî tèe AMB ÃNÔ woräó âeçiîîiîç át áääreóó DADDÒ çotteî froí tèe
+         îoríál íeíorù froí tèe áääreóó SADDÒ áîä forwáräó.
+
+
+AÌÔBÆ:   Æilló áî áreá iî tèe AMB witè á óðecifieä worä. Ãálleä âù:
+         ÃAÌÌ AÌÔBÆ(×ÏÒD¬ADDÒ¬ÃNÔ©
+         Põtó tèe worä ×ÏÒD iî tèe álterîátiöe íeíorù âeçiîîiîç át tèe áääreóó
+         ADDÒ áîä coõîtiîç ÃNÔ-± woräó forwáräó.
+
+
+DÅABÆ:   Deáââreöiáteó á file îáíe. Ãálleä âù:
+         ÃAÌÌ DÅABÆ(×HÅÒÅ(SNAÒÒ(0©©¬×HÅÒÅ(ÌNAÒÒ(0©©©
+         Getó tèe áââreöiáteä file îáíe froí SNAÒÒ áîä ðõtó tèe fõll îáíe iî
+         ÌNAÒÒ.
+
+
+GÔMÏD:   Get teríiîál íoäe. Ãálleä âù:
+         A½GÔMÏD
+         A âecoíeó tèe cõrreît ÔÅÒMÉNAÌ-MÏDÅ. See ÔÅÒMÏ.
+
+
+MGDAÅ:   Get Diócoîîect áîä Åócðáðe cèár. Ãálleä âù:
+         A½MGDAÅ
+         A âecoíeó: Éî tèe left  âùte Diócoîîect cèár.
+                    Éî tèe riçèt âùte Åócáðe     cèár.
+
+
+MSDAÅ:   Set Diócoîîect áîä Åócáðe cèár. Ãálleä âù:
+         ÃAÌÌ MSDAÅ(A©
+         ×èere A ió tèe óáíe áó iî MGDAÅ.
+
+
+MGÆÉÌ:   Get file îáíe. Ãálleä âù:
+         ÃAÌÌ MGDÉÌ(DÉUÉ¬ÏBÊÉ¬×HÅÒÅ(BUÆÆ(0©©©
+         ×èere DÉUÉ ió Directorù áîä Uóer Éîäex.
+               ÏBÊÉ ió Ïâject Éîäex.
+           áîä BUÆÆ ió wèere to ðõt tèe file îáíe.
+
+
+                             ªªª Åîä of Ìiârárù ªªª
+

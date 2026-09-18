@@ -1,0 +1,101 @@
+'up\r'                   command 1
+'WEST\r'                 command 2
+'SW\r'                   command 3
+'go north\r'             command 4
+'NW,EMPTY CHEST\r'       command 5
+'NE\r'                   command 6
+'\r'                     command 7
+'OPEN GATE\r'            command 8
+'GET CAGE\r'             command 9
+'N,OFF\r'                command 10
+'THROW GOLD\r'           command 11
+'GO DOWN\r'              command 12
+'FILL BRIDGE\r'          command 13
+'THROW SILVER\r'         command 14
+'the open the bola\r'    command 15
+'SCORE\r'                command 16
+'OPEN LIGHT\r'           command 17
+'ne\r'                   command 18
+'GET ALL\r'              command 19
+'NW,GO NW\r'             command 20
+'ON\r'                   command 21
+'SE\r'                   command 22
+'JUMP I\r'               command 23
+'GO WEST\r'              command 24
+'D,LIGHT LAMP\r'         command 25
+'on\r'                   command 26
+'SOUTH\r'                command 27
+'W\r'                    command 28
+'inventory\r'            command 29
+'GO SE\r'                command 30
+'A ON THE WATER\r'       command 31
+'open treasure\r'        command 32
+'pool\r'                 command 33
+'THE XYZZY THE GOLD\r'   command 34
+'LIGHT INVENTORY\r'      command 35
+'SE,THE CLOSE THE TREASURE\r' command 36
+'LIGHT LAMP\r'           command 37
+'W\r'                    command 38
+'UNLIGHT ELEVATOR,D\r'   command 39
+'GO N,THE UNLOCK THE PILLOWS\r' command 40
+'GO DOWN\r'              command 41
+'MAKE BRIDGE\r'          command 42
+'GO NW\r'                command 43
+'ON\r'                   command 44
+'look\r'                 command 45
+'THE THROW THE BOTTLE\r' command 46
+'GO NORTH,D\r'           command 47
+'UNLIGHT BOTTLE\r'       command 48
+'SE\r'                   command 49
+'FREE NUGGET\r'          command 50
+'MAKE FOOD\r'            command 51
+'get cage\r'             command 52
+'lock gold\r'            command 53
+'GO SE\r'                command 54
+'FILL BOTTLE\r'          command 55
+'SE\r'                   command 56
+'GO NORTH\r'             command 57
+'OPEN\r'                 command 58
+'PICK IRON\r'            command 59
+'THE FREE THE TREASURE\r' command 60
+'A FREE THE IRON\r'      command 61
+'W\r'                    command 62
+'FILL LAMP\r'            command 63
+'NORTH\r'                command 64
+'THROW BOLA\r'           command 65
+'WATER,FREE BIRD\r'      command 66
+'THROW\r'                command 67
+'S\r'                    command 68
+'pick orc\r'             command 69
+'UP\r'                   command 70
+'THROW BOLA\r'           command 71
+'n\r'                    command 72
+'GO WEST\r'              command 73
+'get,\r'                 command 74
+'I\r'                    command 75
+'GET ALL\r'              command 76
+'FILL LAMP\r'            command 77
+'WEST\r'                 command 78
+'EMPTY BOTTLE\r'         command 79
+'UNLOCK ORC,NORTH\r'     command 80
+'MAKE BRIDGE\r'          command 81
+'A THROW THE PILLOW\r'   command 82
+'DROP ALL\r'             command 83
+'NW\r'                   command 84
+' TAKE THE PILLOWS\r'    command 85
+' MAKE THE ORC\r'        command 86
+'PICK BARS\r'            command 87
+'THROW KEYS\r'           command 88
+'throw\r'                command 89
+'S,OPEN WIRE\r'          command 90
+'GO NORTH\r'             command 91
+'GET KEYS,LOOK TROLL\r'  command 92
+'LOCK FOOD\r'            command 93
+'DROP ALL\r'             command 94
+'UNLIGHT FOOD\r'         command 95
+'GO W\r'                 command 96
+'OFF\r'                  command 97
+'\r'                     command 98
+'NE,E\r'                 command 99
+'GO SE\r'                command 100
+'QUIT\r'                 enough

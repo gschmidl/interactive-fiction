@@ -172,7 +172,7 @@ Started from Explorer, the window stays open at the end with
 | `pascal\` | the source with the port's fixes, and `fixes.diff` |
 | `..\src_original\MORDOR-MJ.SYMB` | the recovered source; `other-versions\` holds v7.1 and Magnus Domellöf's BASIC original |
 | `build\` | the compiler's listing and object file; `build\original\` the same, and the program, for the source as recovered |
-| `src\` | the emulator (shared with the Skattejakt and SVHA ports) |
+| `src\` | the emulator, shared by all the ND-100 ports (Skattejakt, SVHA, Legend, Cave Fun, Adventure ENB, DOD, My World); built with `GAME=2` |
 | `tests\run.py` | replays games recorded on SINTRAN III, with both programs, and compares every byte |
 | `tests\consoleplay.py` | plays through a real Windows console |
 | `tools\` | the random player, the recording drivers for the reference machine, `portfuzz.py` |

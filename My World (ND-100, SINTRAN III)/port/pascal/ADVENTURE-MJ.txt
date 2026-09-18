@@ -1,0 +1,850 @@
+$OPTION I_,I\,I?
+PROGRAM MY_WORLD(INPUT,OUTPUT);
+
+CONST  MAXRUM=100;
+       MAXVERB=100;
+       MAXNOUN=100;
+       MAXSAK=100;
+
+TYPE   RADPEK = ^RADER;
+       RADTYP = PACKED ARRAY [1..80] OF CHAR;
+       RADER = RECORD
+             RAD: RADTYP;
+             NEXT: RADPEK;
+       END;
+       RUMTYP = RECORD
+             KORT: RADTYP;
+             LONG: RADPEK;
+             EXIT: ARRAY [1..10] OF INTEGER;
+             LJUS,VARIT: BOOLEAN;
+       END;
+       ORDTYP = PACKED ARRAY [1..16] OF CHAR;
+       SAKTYP = RECORD
+             BESK,IBESK: RADTYP;
+             PICK: PACKED ARRAY [1..4] OF ORDTYP;
+             RUM,VIKT,VARDE: INTEGER;
+       END;
+       FILORDTYP = RECORD
+             STR: ORDTYP;
+             NUMMER: INTEGER;
+       END;
+       FEATURE = SET OF 1..MAXRUM;
+
+VAR    RUM:  ARRAY [1..MAXRUM]  OF RUMTYP;
+       VERB: ARRAY [1..MAXVERB] OF FILORDTYP;
+       NOUN: ARRAY [1..MAXNOUN] OF FILORDTYP;
+       SAK:  ARRAY [1..MAXSAK]  OF SAKTYP;
+       STRING:  PACKED ARRAY [1..80] OF CHAR;
+       LAMPA: RECORD
+             ON: BOOLEAN;
+             OLJA_KVAR: INTEGER;
+       END;
+       INFIL: TEXT;
+       SCORE,LEN,RUMNR,OLD_RUMNR,ANTRUM,ANTSAK,ANTVERB,ANTNOUN: INTEGER;
+       D\DAD,ANTAL,MAXVIKT,VIKT,MAXANT,PLANT: INTEGER;
+       D\D,MOVED,BOLA,GATE,ORC,SLUTA,BRIDGE,SNAKE,ROST,BEAR: BOOLEAN;
+       SLAPEK: RADPEK;
+       BRYT: SET OF CHAR;
+       WATER,OIL: FEATURE;
+       BOTTLE: (EMPTY_,OIL_,WATER_);
+       TROLL: (ON,UNDER,PAYED,DEAD);
+
+FUNCTION RAN: REAL; EXTERN;
+
+PROCEDURE READFILE;
+
+VAR    I,J,K,L: INTEGER;
+       CH: CHAR;
+       COMMA: BOOLEAN;
+
+       PROCEDURE GETLINE;
+
+       VAR I: INTEGER;
+
+       BEGIN
+          LEN:=0; FOR I:=1 TO 80 DO STRING[I]:=CHR(0);
+          REPEAT LEN:=LEN+1; READ(INFIL,CH); STRING[LEN]:=CH; UNTIL EOLN(INFIL);
+          READLN(INFIL);
+       END;
+
+BEGIN  CONNECT(INFIL,'(DNF)MY-DATA-FILE-MJ','ADV','R');
+       RESET(INFIL); WHILE INFIL^=' ' DO GET(INFIL);
+       GETLINE; J:=1;
+       FOR I:=1 TO 4 DO BEGIN
+          L:=0;
+          REPEAT
+             CH:=STRING[J]; J:=J+1;
+             IF CH IN ['0'..'9'] THEN L:=L*10+ORD(CH)-48;
+          UNTIL (CH IN [',',CHR(0)]) OR (J>80);
+          CASE I OF
+             1: ANTRUM:=L;
+             2: ANTSAK:=L;
+             3: ANTVERB:=L;
+             4: ANTNOUN:=L;
+          END;
+       END;
+       FOR I:=1 TO ANTRUM DO WITH RUM[I] DO BEGIN
+          GETLINE; KORT:=STRING;
+          LONG:=NIL;
+          GETLINE;
+          IF STRING[1]<>'#' THEN BEGIN
+             NEW(LONG); LONG^.NEXT:=NIL; SLAPEK:=LONG;
+             SLAPEK^.RAD:=STRING; SLAPEK^.NEXT:=NIL; GETLINE;
+             WHILE STRING[1]<>'#' DO BEGIN
+                NEW(SLAPEK^.NEXT); SLAPEK:=SLAPEK^.NEXT;
+                SLAPEK^.RAD:=STRING; GETLINE;
+                SLAPEK^.NEXT:=NIL;
+             END;
+          END;
+          GETLINE; J:=1;
+          FOR K:=1 TO 10 DO BEGIN
+             L:=0;
+             REPEAT
+                CH:=STRING[J]; J:=J+1;
+                IF CH IN ['0'..'9'] THEN L:=L*10+ORD(CH)-48;
+             UNTIL (CH IN [',',CHR(0)]) OR (J>80);
+             EXIT[K]:=L;
+          END;
+          GETLINE; LJUS:=FALSE; VARIT:=FALSE;
+          IF STRING[1]='Y' THEN LJUS:=TRUE;
+       END;
+       FOR I:=1 TO ANTSAK DO WITH SAK[I] DO BEGIN
+          FOR K:=1 TO 4 DO FOR L:=1 TO 16 DO PICK[K,L]:=CHR(0);
+          GETLINE;
+          BESK:=STRING; GETLINE; IBESK:=STRING;
+          GETLINE; K:=1; L:=1;
+          FOR J:=1 TO LEN DO
+             IF STRING[J]=',' THEN BEGIN
+                K:=K+1; L:=1;
+             END ELSE IF K<5 THEN BEGIN
+                PICK[K,L]:=STRING[J]; L:=L+1;
+             END;
+          GETLINE; K:=1;
+          FOR J:=1 TO 3 DO BEGIN
+             L:=0;
+             REPEAT
+                CH:=STRING[K]; K:=K+1;
+                IF CH IN ['0'..'9'] THEN L:=L*10+ORD(CH)-48;
+             UNTIL CH IN [',',CHR(0)];
+             CASE J OF
+                1: RUM:=L;
+                2: VIKT:=L;
+                3: VARDE:=L;
+          END;
+          END;
+       END;
+       FOR I:=1 TO ANTVERB DO BEGIN
+          FOR J:=1 TO 16 DO VERB[I].STR[J]:=CHR(0);
+          GETLINE; COMMA:=FALSE; FOR J:=1 TO 16 DO
+             IF NOT COMMA THEN IF STRING[J]<>',' THEN
+                VERB[I].STR[J]:=STRING[J] ELSE COMMA:=TRUE;
+          J:=0; REPEAT J:=J+1 UNTIL STRING[J]=',';
+          L:=0; K:=J+1; REPEAT
+             CH:=STRING[K]; K:=K+1;
+             IF CH IN ['0'..'9'] THEN L:=L*10+ORD(CH)-48;
+          UNTIL CH IN BRYT;
+          VERB[I].NUMMER:=L;
+       END;
+       FOR I:=1 TO ANTNOUN DO BEGIN
+          FOR J:=1 TO 16 DO NOUN[I].STR[J]:=CHR(0);
+          GETLINE; COMMA:=FALSE; FOR J:=1 TO 16 DO
+             IF NOT COMMA THEN IF STRING[J]<>',' THEN
+                NOUN[I].STR[J]:=STRING[J] ELSE COMMA:=TRUE;
+          J:=0; REPEAT J:=J+1 UNTIL STRING[J]=',';
+          L:=0; K:=J+1; REPEAT
+             CH:=STRING[K]; K:=K+1;
+             IF CH IN ['0'..'9'] THEN L:=L*10+ORD(CH)-48;
+          UNTIL CH IN BRYT;
+          NOUN[I].NUMMER:=L;
+       END;
+       DISCONNECT(INFIL);
+END;
+
+PROCEDURE INIT;
+
+BEGIN  RUMNR:=TRUNC(RAN*6+1); SCORE:=0;
+       LAMPA.ON:=FALSE; LAMPA.OLJA_KVAR:=20; D\D:=FALSE;
+       MAXVIKT:=50; MAXANT:=10; ANTAL:=0; VIKT:=0; D\DAD:=0;
+       BOLA:=FALSE; GATE:=FALSE; ORC:=FALSE; SLUTA:=FALSE;
+       BRYT:=[' ',',','.','!',CHR(0)]; BRIDGE:=FALSE; BEAR:=FALSE;
+       SNAKE:=TRUE; READFILE; LEN:=-1; ROST:=TRUE; PLANT:=1;
+       BOTTLE:=EMPTY_; WATER:=[9]; OIL:=[24]; TROLL:=UNDER;
+END;
+
+PROCEDURE GET_COMMAND;
+
+VAR    I: INTEGER;
+       CH: CHAR;
+
+BEGIN  WRITE('Command: '); LEN:=0;
+       FOR I:=1 TO 80 DO STRING[I]:=CHR(0);
+       WHILE INPUT^=' ' DO GET(INPUT);
+       REPEAT
+          LEN:=LEN+1; READ(CH); STRING[LEN]:=CH;
+       UNTIL EOLN OR (LEN>79);
+END;
+
+PROCEDURE DESCRIBE_ROOM;
+
+VAR    I: INTEGER;
+
+BEGIN  IF (RUM[RUMNR].LJUS=FALSE) AND ((LAMPA.ON=FALSE) OR
+          (NOT ((SAK[1].RUM=-1) OR (SAK[1].RUM=RUMNR)))) THEN
+          WRITELN('It is now pitch dark!',
+                  ' If you proceed you may fall into a pit!') ELSE BEGIN
+          IF RUM[RUMNR].VARIT OR (RUM[RUMNR].LONG=NIL) THEN
+             WRITELN(RUM[RUMNR].KORT)
+          ELSE BEGIN
+             SLAPEK:=RUM[RUMNR].LONG;
+             WHILE SLAPEK<>NIL DO BEGIN
+                WRITELN(SLAPEK^.RAD); SLAPEK:=SLAPEK^.NEXT;
+             END;
+          END;
+          RUM[RUMNR].VARIT:=TRUE;
+          IF (RUMNR=12) OR (RUMNR=13) THEN CASE GATE OF
+             FALSE: WRITELN('The gate is locked!');
+             TRUE:  WRITELN('The gate is unlocked!');
+          END;
+          IF (RUMNR=18) OR (RUMNR=20) THEN IF BRIDGE THEN
+             WRITELN('A 4 yard plank lies over the fissure.');
+          FOR I:=1 TO ANTSAK DO
+             IF SAK[I].RUM=RUMNR THEN WRITELN(SAK[I].BESK);
+       END;
+END;
+
+FUNCTION LARGE(CH: CHAR): CHAR;
+
+BEGIN  LARGE:=CH;
+       IF CH>CHR(95) THEN LARGE:=CHR(ORD(CH)-32);
+END;
+
+PROCEDURE REMOVE_FIRST;
+
+VAR    I: INTEGER;
+
+BEGIN  FOR I:=2 TO 80 DO STRING[I-1]:=STRING[I];
+       LEN:=LEN-1;
+END;
+
+FUNCTION NEXTW(SUBS: ORDTYP): BOOLEAN;
+
+VAR    I,J: INTEGER;
+       SUB2: ORDTYP;
+
+BEGIN  WHILE (STRING[1] IN BRYT) AND (LEN>0) DO REMOVE_FIRST;
+       NEXTW:=FALSE;
+       FOR I:=1 TO 16 DO SUB2[I]:=' ';
+       I:=1; WHILE NOT (STRING[I] IN BRYT) AND (I<=16) DO BEGIN (* Port fix 2026 *)
+          SUB2[I]:=STRING[I]; I:=I+1;
+       END;
+       IF SUB2=SUBS THEN BEGIN
+          NEXTW:=TRUE;
+          WHILE I>0 DO BEGIN
+             I:=I-1; REMOVE_FIRST;
+          END;
+       END;
+END;
+
+PROCEDURE BORT_ARTIKEL;
+
+VAR    DUMMY: BOOLEAN;
+
+BEGIN  REPEAT
+          DUMMY:=NEXTW('THE') OR NEXTW('A') OR NEXTW('AN') OR
+                 NEXTW('ONE') OR NEXTW('AND');
+       UNTIL NOT DUMMY;
+END;
+
+FUNCTION WORDNR: INTEGER;
+
+VAR    I,J,K,FCNVAL,POS: INTEGER;
+       SUBS,SUB2: ORDTYP;
+
+BEGIN  WHILE (STRING[1] IN BRYT) AND (LEN>0) DO REMOVE_FIRST; (* Port fix 2026 *)
+       BORT_ARTIKEL;
+       I:=0;
+       FOR J:=1 TO 16 DO SUBS[J]:=CHR(0);
+       REPEAT
+          I:=I+1; SUBS[I]:=LARGE(STRING[I]);
+       UNTIL (STRING[I] IN BRYT) OR (I=16);
+       SUBS[I]:=CHR(0); POS:=I;
+       FCNVAL:=0;
+       FOR I:=1 TO ANTVERB DO BEGIN
+          FOR J:=1 TO 16 DO
+             SUB2[J]:=LARGE(VERB[I].STR[J]);
+          IF (SUBS=SUB2) AND (FCNVAL=0) THEN FCNVAL:=VERB[I].NUMMER;
+       END;
+       FOR I:=1 TO ANTNOUN DO BEGIN
+          FOR J:=1 TO 16 DO
+             SUB2[J]:=LARGE(NOUN[I].STR[J]);
+          IF (SUBS=SUB2) AND (FCNVAL=0) THEN FCNVAL:=NOUN[I].NUMMER+100;
+       END;
+       FOR I:=1 TO ANTSAK DO
+          FOR J:=1 TO 4 DO BEGIN
+             FOR K:=1 TO 16 DO
+                SUB2[K]:=LARGE(SAK[I].PICK[J,K]);
+             IF (SUBS=SUB2) AND (FCNVAL=0) THEN FCNVAL:=I+200;
+          END;
+       REPEAT POS:=POS-1; REMOVE_FIRST; UNTIL POS=0;
+       WHILE (STRING[1] IN BRYT-[',']) AND (LEN>0) DO REMOVE_FIRST; (* Port fix 2026 *)
+       WORDNR:=FCNVAL;
+END;
+
+PROCEDURE TROLL_D\D;
+
+VAR    I: INTEGER;
+
+BEGIN  TROLL:=DEAD; SAK[19].RUM:=0;
+       FOR I:=1 TO ANTSAK DO
+          IF SAK[I].RUM=-2 THEN SAK[I].RUM:=RUMNR;
+       WRITELN('The bear lumbers towards the troll, which emits a skriek');
+       WRITELN('in terror and runs away.');
+       WRITELN('The bear soon gives up pursuit.');
+END;
+
+FUNCTION TROLL_KOLL(RUMM,RIKT: INTEGER): BOOLEAN;
+
+BEGIN  TROLL_KOLL:=FALSE;
+       IF ((RUMM=34) AND (RIKT=5)) OR ((RUMM=35) AND (RIKT=1)) THEN BEGIN
+          IF TROLL=ON THEN
+    WRITELN('The troll insists on you paying him a treasure before passing.');
+          IF TROLL=UNDER THEN BEGIN
+    WRITELN('A large, burly troll pops from under the bridge,');
+    WRITELN('and blocks your way.'); TROLL:=ON;
+          END; IF (TROLL=ON) AND BEAR THEN TROLL_D\D;
+          IF TROLL=ON THEN BEGIN
+             TROLL_KOLL:=TRUE; SAK[19].RUM:=RUMNR;
+          END ELSE SAK[19].RUM:=0;
+       END;
+END;
+
+PROCEDURE MOVE_ME(DIR: INTEGER);
+
+VAR    I: INTEGER;
+
+BEGIN  I:=DIR-100;
+       IF RUM[RUMNR].EXIT[I]>0 THEN BEGIN
+          IF (RUMNR=21) AND (SAK[9].RUM=21) AND (I<>7) THEN
+             WRITELN('The snake won''t let you through!') 
+          ELSE
+             IF NOT TROLL_KOLL(RUMNR,I) THEN BEGIN
+                MOVED:=TRUE; OLD_RUMNR:=RUMNR; RUMNR:=RUM[RUMNR].EXIT[I];
+                IF ORC THEN SAK[5].RUM:=RUMNR;
+                IF (TROLL=PAYED) AND (NOT (RUMNR IN [34,35])) THEN TROLL:=UNDER;
+             END;
+       END ELSE IF RUM[RUMNR].LJUS OR LAMPA.ON OR (RAN<0.3) THEN
+          WRITELN('You can''t go that way!') ELSE BEGIN
+          WRITELN('You fell into a pit, and broke every bone in your body!');
+          D\D:=TRUE;
+       END;
+END;
+
+PROCEDURE NOTHERE(NR: INTEGER);
+
+BEGIN  WRITELN('I see no ',SAK[NR].IBESK,' here!');
+END;
+
+PROCEDURE TOO_HEAVY;
+
+BEGIN  WRITELN('You can''t lift THAT! (It would break your back.)');
+END;
+
+PROCEDURE HEAVY;
+
+BEGIN  WRITELN('Your load is to heavy. You''d better take inventory');
+       WRITELN('and drop something first!');
+END;
+
+PROCEDURE MAXLOAD;
+
+BEGIN  WRITELN('You can''t carry that much. Try dropping something');
+END;
+
+PROCEDURE FARLIG;
+
+BEGIN  WRITELN('It would be to dangerous to do that. Besides you can''t lift it.');
+END;
+
+PROCEDURE NOHAVE(NR: INTEGER);
+
+BEGIN  WRITELN('You don''t have the ',SAK[NR].IBESK,'!');
+END;
+
+PROCEDURE NOT_GOOD;
+
+BEGIN  WRITELN('A tiny voice says: "Please, don''t take me."');
+       WRITELN('"I can be of much better use to you if you don''t."');
+END;
+
+PROCEDURE INVENT;
+
+VAR    CARRY: BOOLEAN;
+       I: INTEGER;
+
+BEGIN  WRITE('You are carrying: '); CARRY:=FALSE;
+       FOR I:=1 TO ANTSAK DO IF SAK[I].RUM=-1 THEN BEGIN
+          IF CARRY THEN WRITE(' ':18);
+          CARRY:=TRUE; WRITELN(SAK[I].IBESK);
+       END;
+       IF NOT CARRY THEN WRITELN('Nothing.');
+END;
+
+PROCEDURE PRT_SCORE;
+
+VAR    I,EXPL: INTEGER;
+
+BEGIN  SCORE:=0; EXPL:=0;
+       FOR I:=1 TO ANTRUM DO IF RUM[I].VARIT THEN BEGIN
+          SCORE:=SCORE+1; EXPL:=EXPL+1;
+       END;
+       FOR I:=1 TO ANTSAK DO IF SAK[I].RUM=-1 THEN SCORE:=SCORE+SAK[I].VARDE;
+       FOR I:=1 TO ANTSAK DO IF SAK[I].RUM=10 THEN
+          SCORE:=SCORE+SAK[I].VARDE*2;
+       (* IF SPECIALS INCREASE SCORE MORE *)
+       IF GATE THEN SCORE:=SCORE+10;
+       IF BRIDGE THEN SCORE:=SCORE+10;
+       IF SAK[9].RUM=0 THEN SCORE:=SCORE+10;
+       WRITE('You have explored ',TRUNC(EXPL*100/ANTRUM+0.5):3);
+       WRITELN(' % of the cave,');
+       WRITELN('and reached ',SCORE:1,' points!');
+       WRITE('This makes you a');
+       IF SCORE>240 THEN WRITE('n elite') ELSE
+          IF SCORE>200 THEN WRITE('n expert') ELSE
+             IF SCORE>160 THEN WRITE('n experienced') ELSE
+                IF SCORE>120 THEN WRITE('n advanced') ELSE
+                   IF SCORE>080 THEN WRITE(' good') ELSE
+                      IF SCORE>040 THEN WRITE(' beginner') ELSE
+                         WRITE(' novice'); WRITELN(' adventurer!');
+END;
+
+PROCEDURE FILL(NR,MED: INTEGER);
+
+BEGIN  IF SAK[NR].RUM=0 THEN WRITELN('The bottle is already filled.') ELSE
+          IF SAK[NR].RUM<>-1 THEN NOHAVE(NR) ELSE
+          CASE NR OF
+          1: CASE MED OF
+                15: IF LAMPA.OLJA_KVAR=20 THEN
+                    WRITELN('The lamp is already filled.') ELSE
+                       IF (RUMNR IN OIL) OR
+                          ((BOTTLE=OIL_) AND (SAK[13].RUM=-1)) THEN BEGIN
+                          LAMPA.OLJA_KVAR:=20; IF NOT (RUMNR IN OIL) THEN BEGIN
+                             BOTTLE:=EMPTY_; SAK[3].RUM:=-1; SAK[12].RUM:=0;
+                             VIKT:=VIKT-1;
+                          END; WRITELN('The lamp is now filled with oil.');
+                       END ELSE WRITELN('I see no oil here.');
+                14: IF RUMNR IN WATER THEN BEGIN
+                    WRITELN('You just filled an oil lamp with water.');
+                    WRITELN('This makes it useless until refilled with oil.');
+                    LAMPA.OLJA_KVAR:=0; LAMPA.ON:=FALSE;
+                    END ELSE WRITELN('Luckily, there''s no water here.');
+             END;
+          3: CASE BOTTLE OF
+             WATER_,OIL_: WRITELN('The bottle is already filled.');
+             EMPTY_: CASE MED OF
+                15: IF RUMNR IN OIL THEN BEGIN
+                   WRITELN('The bottle is now filled.');
+                   BOTTLE:=OIL_; SAK[3].RUM:=0; SAK[13].RUM:=-1; VIKT:=VIKT+1;
+                   END ELSE WRITELN('There''s no oil here.');
+                14: IF RUMNR IN WATER THEN BEGIN
+                   WRITELN('The bottle is now filled.');
+                   BOTTLE:=WATER_; SAK[3].RUM:=0; SAK[12].RUM:=-1; VIKT:=VIKT+1;
+                   END ELSE WRITELN('There''s no water here.');
+                END;
+             END;
+          END;
+END;
+
+PROCEDURE PRE_FILL;
+
+VAR    NR,MED: INTEGER;
+       DUMMY: BOOLEAN;
+
+BEGIN  NR:=0; IF LEN>0 THEN NR:=WORDNR-200;
+       IF NOT (NR IN [1,3]) THEN
+          WRITELN('You can''t fill that.') ELSE BEGIN
+             IF (RUMNR IN OIL) THEN MED:=15 ELSE MED:=14;
+             IF NOT (MED IN [15,14]) THEN
+                WRITELN('That doesn''t fit in the bottle.')
+                ELSE FILL(NR,MED);
+          END;
+END;
+
+PROCEDURE EMPTY;
+
+VAR    J: BOOLEAN;
+
+BEGIN  J:=NEXTW('BOTTLE');
+       IF (SAK[3].RUM=-1) OR (SAK[12].RUM=-1) OR (SAK[13].RUM=-1) THEN BEGIN
+          IF BOTTLE=EMPTY_ THEN
+             WRITELN('The bottle is already empty.') ELSE BEGIN
+                SAK[3].RUM:=-1; SAK[12].RUM:=0;
+                SAK[13].RUM:=0; BOTTLE:=EMPTY_; VIKT:=VIKT-1;
+                WRITELN('The fluid spills to the ground and evaporates.');
+             END;
+       END ELSE WRITELN('You don''t have the bottle.');
+END;
+
+PROCEDURE GET_BIRD;
+
+BEGIN  IF SAK[7].RUM=RUMNR THEN
+          IF SAK[8].RUM=-1 THEN
+             IF SAK[6].RUM=-1 THEN BEGIN
+                WRITELN('The bird was unafraid when you entered,');
+                WRITELN('but now it flutters away out of reach.');
+             END ELSE BEGIN
+                SAK[7].RUM:=0; VIKT:=VIKT-SAK[8].VIKT; SAK[8].RUM:=0;
+                SAK[10].RUM:=-1; VIKT:=VIKT+SAK[10].VIKT;
+                WRITELN('Bird: taken.');
+             END ELSE WRITELN('You have nowhere to put it.')
+          ELSE IF SAK[10].RUM=-1 THEN
+             WRITELN('You''ve already got the bird, dummy.') ELSE
+                WRITELN('There is no bird here.');
+END;
+
+PROCEDURE GETIT(NR: INTEGER);
+
+VAR    J: INTEGER;
+
+BEGIN  J:=NR;
+       IF (J=3) AND (SAK[3].RUM=0) THEN
+          IF SAK[12].RUM=0 THEN J:=13 ELSE J:=12;
+       IF (J=7) AND (SAK[7].RUM=0) THEN J:=10; (* Port fix 2026 *)
+       IF J=7 THEN GET_BIRD
+          ELSE BEGIN
+          IF (J=8) AND (SAK[J].RUM=0) THEN J:=10;
+          IF (J=22) AND (RUMNR=33) AND (SAK[22].RUM=0) THEN
+             SAK[22].RUM:=RUMNR;
+          IF (J=14) OR (J=15) THEN FILL(3,J) ELSE
+             IF SAK[J].RUM=-1 THEN
+                WRITELN('You''ve already got the ',SAK[J].IBESK,'.')
+             ELSE IF SAK[J].RUM<>RUMNR THEN NOTHERE(J) ELSE
+                IF J=21 THEN BEGIN
+    WRITELN('A young girl in an attendants uniforms steps out from a corner');
+    WRITELN('and says: "Only one pillow, mind you!"');
+                END ELSE
+                   IF SAK[J].VIKT=1000 THEN TOO_HEAVY ELSE
+                      IF SAK[J].VIKT=2000 THEN FARLIG ELSE
+                         IF SAK[J].VIKT=3000 THEN NOT_GOOD ELSE
+                            IF VIKT+SAK[J].VIKT>MAXVIKT THEN HEAVY ELSE
+                               IF ANTAL=MAXANT THEN MAXLOAD ELSE BEGIN
+                                  SAK[J].RUM:=-1; ANTAL:=ANTAL+1;
+                                  VIKT:=VIKT+SAK[J].VIKT;
+                                  WRITELN(SAK[J].IBESK,': Taken.');
+                            END;
+       END;
+END;
+
+PROCEDURE GET_THING;
+
+VAR    J: INTEGER;
+
+BEGIN  J:=WORDNR;
+       IF J>200 THEN GETIT(J-200) ELSE
+          IF J=112 THEN BEGIN
+             FOR J:=1 TO ANTSAK DO
+                IF SAK[J].RUM=RUMNR THEN GETIT(J);
+          END ELSE WRITELN('Get what?');
+       IF (NOT (STRING[1] IN BRYT)) AND (J>0) AND (LEN>0) THEN GET_THING;
+END;
+          
+PROCEDURE DO_BRIDGE;
+
+BEGIN  IF BRIDGE THEN WRITELN('The plank is already lying over the fissure.')
+       ELSE BEGIN
+          BRIDGE:=NEXTW('BRIDGE'); BRIDGE:=TRUE; SAK[6].RUM:=0;
+          WRITELN('The plank now lies over the fissure!');
+          RUM[18].EXIT[7]:=20; RUM[20].EXIT[3]:=18;
+          ANTAL:=ANTAL-1; VIKT:=VIKT-SAK[6].VIKT; END; (* Port fix 2026 *)
+END;
+
+PROCEDURE FREE_BIRD;
+
+VAR    DUMMY: BOOLEAN;
+
+BEGIN  IF (SAK[7].RUM<>-1) AND (SAK[10].RUM<>-1) THEN
+          WRITELN('You don''t have the bird!') ELSE BEGIN
+             SAK[10].RUM:=0; SAK[7].RUM:=RUMNR; SAK[8].RUM:=-1;
+             IF (RUMNR=21) AND SNAKE THEN BEGIN
+       WRITELN('The little bird attacks the snake, and drives it off!');
+                SNAKE:=FALSE; SAK[9].RUM:=0;
+             END ELSE WRITELN('Freed.');
+       END; DUMMY:=NEXTW('BIRD');
+END;
+
+PROCEDURE DROP_IT(NR: INTEGER);
+
+VAR    J: INTEGER;
+
+BEGIN  J:=NR;
+       IF (J=3) AND (SAK[3].RUM=0) THEN
+          IF SAK[12].RUM<>0 THEN J:=12 ELSE J:=13;
+       IF (J=7) OR (J=8) AND (SAK[10].RUM<>0) THEN J:=10;
+       IF (J=14) OR (J=15) THEN EMPTY ELSE
+          IF SAK[J].RUM<>-1 THEN NOHAVE(J) ELSE
+             IF (J=6) AND (RUMNR IN [18,20]) THEN DO_BRIDGE ELSE BEGIN
+                SAK[J].RUM:=RUMNR; VIKT:=VIKT-SAK[J].VIKT; ANTAL:=ANTAL-1;
+                WRITELN(SAK[J].IBESK,': Dropped.');
+             END;
+END;
+
+PROCEDURE DROP;
+
+VAR    J: INTEGER;
+
+BEGIN  J:=WORDNR; IF J>200 THEN DROP_IT(J-200) ELSE
+          IF J=112 THEN BEGIN
+             FOR J:=1 TO ANTSAK DO
+                IF SAK[J].RUM=-1 THEN DROP_IT(J);
+          END ELSE WRITELN('Drop what?');
+       IF (NOT (STRING[1] IN BRYT)) AND (J>0) AND (LEN>0) THEN DROP;
+END;
+
+PROCEDURE THROW;
+
+VAR    J: INTEGER;
+
+BEGIN  BORT_ARTIKEL; IF NOT ORC THEN
+          IF (TROLL=ON) AND (RUMNR IN [34,35]) THEN BEGIN
+             J:=WORDNR; IF J=204 THEN BEGIN
+WRITELN('The troll catches the bola, examines it, and throws it back, saying:');
+WRITELN('"Good workmanship, but not very valuable."');
+             END ELSE IF J>200 THEN IF SAK[J-200].VARDE=0 THEN
+                WRITELN('The troll won''t take it.') ELSE BEGIN
+                   ANTAL:=ANTAL-1; SAK[J-200].RUM:=-2;
+                   VIKT:=VIKT-SAK[J-200].VIKT; TROLL:=PAYED;
+                   SAK[19].RUM:=0;
+WRITELN('The troll catches the treasure and scurries away.');
+                END;
+          END ELSE DROP
+       ELSE IF NEXTW('BOLA') THEN BEGIN
+          IF SAK[4].RUM<>-1 THEN NOHAVE(4) ELSE BEGIN
+             IF RAN<0.25 THEN BEGIN
+                WRITELN('The bola strangled a little orc, the body vanishes.');
+                ORC:=FALSE; SAK[5].RUM:=0;
+             END ELSE
+      WRITELN('You attack a little orc, but he jumps out of the way.');
+             ANTAL:=ANTAL-1; VIKT:=VIKT-SAK[4].VIKT; SAK[4].RUM:=RUMNR;
+          END;
+       END ELSE DROP;
+END;
+
+PROCEDURE DO_COMMAND(I: INTEGER);
+
+VAR    J,K: INTEGER;
+
+BEGIN
+       IF I<101 THEN CASE I OF
+          1: GET_THING;
+          2: (* GO   *)
+             BEGIN
+                J:=WORDNR;
+                IF J IN [101..110] THEN MOVE_ME(J)
+                   ELSE WRITELN('Go what?');
+             END;
+          3: DROP;
+          4: BEGIN
+                RUM[RUMNR].VARIT:=FALSE; DESCRIBE_ROOM;
+             END;
+          5: BEGIN IF (RUMNR=10) OR (RUMNR=14) THEN BEGIN
+                   MOVED:=TRUE; RUMNR:=24-RUMNR;
+                   IF ORC THEN SAK[5].RUM:=RUMNR;
+                END ELSE WRITELN('Thad had no effect!');
+             END;
+          6: BEGIN IF ((RUMNR=12) OR (RUMNR=13)) THEN
+                IF ((LEN<1) OR (WORDNR=115)) THEN
+                   IF SAK[2].RUM=-1 THEN
+                      IF GATE=FALSE THEN BEGIN
+                         GATE:=TRUE; WRITELN('The gate is now open!');
+                         RUM[12].EXIT[5]:=13; RUM[13].EXIT[1]:=12;
+                      END ELSE WRITELN('The gate is already open!')
+                   ELSE WRITELN('You can''t do that yet!')
+                ELSE WRITELN('Open what?')
+             ELSE WRITELN('Open what?');
+             END;
+          7: BEGIN IF ((RUMNR=12) OR (RUMNR=13)) THEN
+                IF (LEN<1) OR (WORDNR=115) THEN
+                   IF SAK[2].RUM=-1 THEN
+                      IF GATE=TRUE THEN BEGIN
+                         GATE:=FALSE; WRITELN('The gate is now locked!');
+                         RUM[12].EXIT[5]:=0; RUM[13].EXIT[1]:=0;
+                      END ELSE WRITELN('The gate is already locked!')
+                   ELSE WRITELN('You can''t do that yet!')
+                ELSE WRITELN('Open what?')
+             ELSE WRITELN('Open what?');
+             END;
+          8: BEGIN IF (LEN<1) OR (WORDNR=201) THEN BEGIN
+                IF SAK[1].RUM<>-1 THEN
+                   WRITELN('You don''t have the lamp!') ELSE
+                   IF LAMPA.ON THEN
+                      WRITELN('The lamp is already on!') ELSE
+                      IF LAMPA.OLJA_KVAR<1 THEN
+                         WRITELN('There is no oil in the lamp!') ELSE BEGIN
+                            LAMPA.ON:=TRUE; WRITELN('The lamp is now on!');
+                            DESCRIBE_ROOM;
+                         END;
+                END ELSE
+                   WRITELN('Light what?');
+             END;
+          9: BEGIN IF (LEN<1) OR (WORDNR=201) THEN BEGIN
+                IF SAK[1].RUM<>-1 THEN
+                   WRITELN('You don''t have the lamp!') ELSE
+                   IF LAMPA.ON=FALSE THEN
+                      WRITELN('The lamp is already off!') ELSE BEGIN
+                         LAMPA.ON:=FALSE; WRITELN('The lamp is now off');
+                      END;
+                END ELSE
+                   WRITELN('Unlight what?');
+             END;
+         10: SLUTA:=TRUE;
+         11: BEGIN
+                IF (RUMNR=18) OR (RUMNR=20) THEN BEGIN
+                   WRITELN('You lie at the bottom of a bottomless fissure');
+                   WRITELN('with a broken neck!'); D\D:=TRUE; END
+                ELSE WRITELN('You jump up and down, but nothing happens!');
+             END;
+         12: BEGIN IF (LEN<1) OR (WORDNR=116) THEN
+                IF RUMNR=18 THEN BEGIN
+                   IF SAK[6].RUM=-1 THEN
+                      DO_BRIDGE ELSE WRITELN('I can''t do that yet!');
+                END ELSE WRITELN('I can''t do that yet!')
+                ELSE WRITELN('I can''t do that yet!')
+             END;
+         13: FREE_BIRD;
+         14: PRE_FILL;
+         15: EMPTY;
+         16: THROW;
+       END ELSE IF I IN [101..110] THEN MOVE_ME(I)
+          ELSE IF I IN [113..114] THEN CASE I OF
+             113: INVENT;
+             114: PRT_SCORE;
+          END ELSE
+          WRITELN('That word doesn''t make sense there!');
+END;
+
+PROCEDURE ORC_ATTACK;
+
+BEGIN  IF RAN<0.30 THEN BEGIN
+          WRITELN('One sharp nasty battle-axe is hewn at you!');
+          IF RAN<0.22 THEN BEGIN
+             WRITELN('It gets you!'); D\D:=TRUE;
+          END ELSE WRITELN('It misses!');
+       END;
+END;
+
+PROCEDURE PIRATE;
+
+VAR    I,SKATT: INTEGER;
+
+BEGIN  SKATT:=0;
+       FOR I:=1 TO ANTSAK DO
+          IF (SAK[I].VARDE>0) AND (SAK[I].RUM=-1) THEN SKATT:=SKATT+1;
+       IF SKATT>150*RAN THEN BEGIN (* Port fix 2026 *)
+    WRITELN('A bearded pirate steps from the shadows. "Har Har". he chortles,');
+    WRITELN('"I''ll jest take this booty an'' hide it in me chest deep in the');
+    WRITELN('maze!". He snatches your treasure and vanishes into the gloom.');
+          FOR I:=1 TO ANTSAK DO
+             IF (SAK[I].VARDE>0) AND (SAK[I].RUM=-1) THEN BEGIN
+                SAK[I].RUM:=47; ANTAL:=ANTAL-1; VIKT:=VIKT-SAK[I].VIKT;
+             END;
+       END;
+END;
+
+PROCEDURE CHEST;
+
+BEGIN  IF (SAK[20].RUM IN [0,47]) AND (RAN<0.02) THEN (* Port fix 2026 *)
+          SAK[20].RUM:=47-SAK[20].RUM;
+END;
+
+PROCEDURE SPECIALS;
+
+BEGIN  IF (RAN<0.05) AND (RUM[RUMNR].LJUS=FALSE) AND (BOLA=FALSE) THEN BEGIN
+          WRITELN('A little orc just threw a bola at you, which missed,');
+          WRITELN('cursed, and ran away!'); BOLA:=TRUE;
+          SAK[4].RUM:=RUMNR;
+       END;
+       IF BOLA AND (RUM[RUMNR].LJUS=FALSE) AND (RAN<0.04) AND (ORC=FALSE) THEN
+          BEGIN SAK[5].RUM:=RUMNR; ORC:=TRUE; END;
+       IF (LAMPA.ON) AND (RAN<0.02) THEN LAMPA.OLJA_KVAR:=LAMPA.OLJA_KVAR-1;
+       IF (LAMPA.ON) AND (LAMPA.OLJA_KVAR<3) THEN
+          IF LAMPA.OLJA_KVAR=0 THEN BEGIN
+             WRITELN('The lamp just ran out of oil!'); LAMPA.ON:=FALSE;
+          END ELSE WRITELN('The lamp is running low on oil!');
+       IF ORC THEN ORC_ATTACK;
+       PIRATE; CHEST;
+END;
+
+PROCEDURE RESURRECT?;
+
+VAR    I: INTEGER;
+       CH: CHAR;
+
+PROCEDURE GET_YORN;
+
+VAR    I: INTEGER;
+
+BEGIN  LEN:=0;
+       FOR I:=1 TO 80 DO STRING[I]:=CHR(0);
+       WHILE INPUT^=' ' DO GET(INPUT);
+       REPEAT
+          LEN:=LEN+1; READ(CH); STRING[LEN]:=CH;
+       UNTIL EOLN OR (LEN>79);
+       STRING[LEN+1]:=CHR(32);
+END;
+
+BEGIN  D\DAD:=D\DAD+1; IF D\DAD<3 THEN BEGIN
+          CASE D\DAD OF
+             1: WRITELN('Oh dear. You seem to have gotten your self killed!');
+             2: BEGIN
+                   WRITELN('You clumsy oaf, you''ve done it again!');
+                   WRITELN('I don''t know how long i can keep this up.');
+                END;
+          END;
+          WRITE('Do you want me to try and patch you? '); GET_YORN;
+          IF STRING[1]='Y' THEN BEGIN
+             FOR I:=1 TO ANTSAK DO IF SAK[I].RUM=-1 THEN SAK[I].RUM:=RUMNR;
+             SAK[1].RUM:=10; D\D:=FALSE; ANTAL:=0; VIKT:=0;
+             WRITELN('--- POOF ---');
+             WRITELN('You are engulfed in a cloud of thick orange smoke,');
+             WRITELN('and find that');
+             RUMNR:=TRUNC(RAN*6+1); LEN:=-1;
+          END;
+       END ELSE BEGIN
+          WRITELN('I am all out of orange smoke, and you have used up');
+          WRITELN('all your available lives. Better luck next time!');
+       END;
+       ORC:=FALSE; SAK[5].RUM:=0; LAMPA.ON:=FALSE;
+END;
+
+PROCEDURE EXECUTE_COMMAND;
+
+VAR    I: INTEGER;
+
+       PROCEDURE WHAT;
+
+       BEGIN
+          CASE TRUNC(RAN*5+1) OF
+             1: WRITELN('What?');
+             2: WRITELN('That had little meaning, if any at all!');
+             3: WRITELN('I don''t understand what you''re talking about!');
+             4: WRITELN('Speak up, please!');
+             5: WRITELN('That had no effect!');
+          END;
+       END;
+
+BEGIN  I:=WORDNR;
+       IF I=0 THEN BEGIN WHAT; LEN:=-1; END ELSE DO_COMMAND(I);
+       SPECIALS;
+END;
+
+BEGIN  INIT;
+       REPEAT
+          DESCRIBE_ROOM; MOVED:=FALSE;
+          REPEAT
+             IF LEN<1 THEN GET_COMMAND;
+             EXECUTE_COMMAND;
+          UNTIL MOVED OR D\D OR SLUTA;
+          IF D\D THEN RESURRECT?;
+       UNTIL D\D OR SLUTA;
+(*     IF NOT D\D THEN SAVE?; *)
+       PRT_SCORE;
+END.

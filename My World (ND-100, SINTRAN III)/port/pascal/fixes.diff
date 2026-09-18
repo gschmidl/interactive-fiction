@@ -1,0 +1,34 @@
+--- pascal/recovered/ADVENTURE-MJ.SYMB (as text)
++++ pascal/ADVENTURE-MJ.txt
+237c237
+<        I:=1; WHILE NOT (STRING[I] IN BRYT) DO BEGIN
+---
+>        I:=1; WHILE NOT (STRING[I] IN BRYT) AND (I<=16) DO BEGIN (* Port fix 2026 *)
+263c263
+< BEGIN  WHILE STRING[1] IN BRYT DO REMOVE_FIRST;
+---
+> BEGIN  WHILE (STRING[1] IN BRYT) AND (LEN>0) DO REMOVE_FIRST; (* Port fix 2026 *)
+289c289
+<        WHILE STRING[1] IN BRYT-[','] DO REMOVE_FIRST;
+---
+>        WHILE (STRING[1] IN BRYT-[',']) AND (LEN>0) DO REMOVE_FIRST; (* Port fix 2026 *)
+511,513c511,513
+<        IF J=7 THEN BEGIN
+<           IF SAK[7].RUM<>0 THEN GET_BIRD ELSE J:=10;
+<           END ELSE BEGIN
+---
+>        IF (J=7) AND (SAK[7].RUM=0) THEN J:=10; (* Port fix 2026 *)
+>        IF J=7 THEN GET_BIRD
+>           ELSE BEGIN
+557c557
+<        END;
+---
+>           ANTAL:=ANTAL-1; VIKT:=VIKT-SAK[6].VIKT; END; (* Port fix 2026 *)
+741c741
+<        IF (SKATT/150)>RAN THEN BEGIN
+---
+>        IF SKATT>150*RAN THEN BEGIN (* Port fix 2026 *)
+754c754
+< BEGIN  IF (SAK[20].RUM IN [0,47]) AND (RAN>0.02) THEN
+---
+> BEGIN  IF (SAK[20].RUM IN [0,47]) AND (RAN<0.02) THEN (* Port fix 2026 *)

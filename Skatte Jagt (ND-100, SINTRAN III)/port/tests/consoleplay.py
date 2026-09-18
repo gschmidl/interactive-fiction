@@ -11,7 +11,8 @@ events and writes to a real console, with nothing on the desktop:
   4. Backspace deletes a typed character.
   5. SPAR suspends; the file name prompt appears; the game is written.
   6. The saved game resumes (with the clock moved past the 90 minutes).
-  7. ESC stops the game with SINTRAN's USER BREAK message.
+  7. ESC stops the game with SINTRAN's USER BREAK message and its @, where
+     CONTINUE goes back into the game and LOGOUT ends it.
 
 The program is alone on its pseudo console, as when it is started from
 Explorer, so it holds the window with [press any key] at the end.
@@ -199,12 +200,21 @@ def main():
         print('ok    the saved game resumes with the keys carried')
         w.type('\x1b')
         w.wait_for('USER BREAK AT')
+        w.wait_for('@')
+        w.type('continue\r')
+        w.type('innhold\r')
+        w.wait_for('Sett med nøkler')
+        print('ok    ESC is a SINTRAN user break; CONTINUE goes back into the game')
+        w.type('\x1b')
+        w.wait_for('USER BREAK AT')
+        w.wait_for('@')
+        w.type('logout\r')
         w.wait_for('[press any key]')
         w.type(' ')
         code = w.wait_exit()
         assert code == 1, code
         w.close()
-        print('ok    ESC is a SINTRAN user break')
+        print('ok    LOGOUT at the @ ends it')
         return 0
     finally:
         shutil.rmtree(work, ignore_errors=True)

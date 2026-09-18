@@ -23,17 +23,45 @@ typedef struct {
     int      blocksize;     /* in words; 256 until SETBS */
     long     next_block;    /* for block number -1 */
     char     name[80];      /* as the program gave it */
+    int      writable;      /* opened with a write access code */
+    int      last_op;       /* 'r' or 'w': stdio needs a seek between the two */
 } SinFile;
 
 typedef struct {
     time_t fixed_clock;     /* nonzero: the host time the program sees (-Z) */
+    unsigned long cpu_ticks;/* nonzero: the uptime (MON 11) also advances a basic time
+                               unit every so many instructions.  The host runs a program
+                               hundreds of times faster than the ND-100 did (about a
+                               million instructions a second, 20000 in a unit), so two
+                               RANDOMs a moment apart would otherwise read the same
+                               uptime and draw the same numbers */
+    long uptime_start;      /* >= 0: the uptime starts here and runs with the instructions
+                               alone, not the host clock (--uptime): a repeatable game */
     int    year_shift;      /* years subtracted from the host date */
     int    verbose;         /* log monitor calls on stderr */
     int    no_hold;         /* HOLD returns at once */
+    int    allow_write;     /* files may be opened for writing */
+    int    easy_files;      /* a new file need not be quoted, nor an old one unquoted */
+    int    sintran_echo;    /* SINTRAN echoes the terminal (the FORTRAN runtimes echo for themselves) */
+    int    capitals;        /* @TERMINAL-MODE's CAPITAL LETTERS: small letters typed become capitals */
+    int    key_capitals;    /* a-z read with the echo off (single-key commands) become capitals */
+    int    input_parity;    /* terminal input comes with even parity, as SINTRAN delivered it
+                               (ND BASIC's line input waits for 0215, not 015) */
+    char   command_rest[80];/* what device 0 still holds of the command line (its CR) */
+    int    command_rest_len;
+    char   typeahead[16];   /* typed at the terminal before the program started */
+    int    typeahead_len;
+    int    line_edit;       /* hold a line being typed in the port, to rub it out */
+    char   line[128];       /* the line held: line_at of line_len handed over */
+    int    line_len;
+    int    line_at;
     int    escape_enabled;
     int    echo_strategy;
+    int    echo_login;      /* no ECHOM yet: SINTRAN's log-in echo, Return as a bare CR
+                               (seen with ND BASIC programs that never set one) */
     int    break_strategy;
     uint16_t terminal_type; /* what GetTerminalType answers for the user's terminal */
+    int    terminal_no;     /* the user's terminal's logical device number (RSIO), besides 1 */
     uint16_t exit_pc;       /* address of the MON that stopped the program */
     const char *data_dir;   /* where the user's files are: (USER)NAME:TYPE -> NAME.TYPE */
     SinFile files[SIN_MAXFILES];
@@ -43,6 +71,9 @@ typedef struct {
        gets it; nonzero means the hook has dealt with it and replaced the
        machine state, so the monitor call must not touch the registers */
     int  (*input_hook)(Cpu *c, int ch);
+    /* --debug: called with a line the user typed after # at the start of a line */
+    void (*debug_hook)(Cpu *c, const char *line);
+    int    line_start;      /* the next character typed begins a line */
 } Sintran;
 
 extern Sintran snt;

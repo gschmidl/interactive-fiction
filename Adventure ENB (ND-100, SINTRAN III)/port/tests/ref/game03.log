@@ -1,0 +1,69 @@
+'N\r'                    instructions?
+'\x1bH'                  map (command 1)
+'\x1bA'                  towards NW (command 2)
+'\x1bD'                  arrow W (command 3)
+'\x1bH'                  map (command 4)
+'\x1bD'                  towards W (command 5)
+'K'                      buy (command 6)
+'MA\r'                   buy what
+'\x1bH'                  map (command 7)
+'\x1bA'                  towards NE (command 8)
+'\x1bH'                  map (command 9)
+'\x1bB'                  towards S (command 10)
+'\x1bC'                  arrow E (command 11)
+'\x1bD'                  arrow W (command 12)
+'L'                      hire (command 13)
+'7\r'                    hire how many
+'7\r'                    hire how many
+'\r'                     hire how many
+'2\r'                    hire how many
+'10\r'                   pay
+'1\r'                    pay
+'V'                      rest (command 14)
+'K'                      buy (command 15)
+'SV\r'                   buy what
+'\x1bH'                  map (command 16)
+'\x1bC'                  towards NE (command 17)
+'V'                      rest (command 18)
+'\r'                     return
+'\x1bH'                  map (command 19)
+'\x1bD'                  towards W (command 20)
+'\x1bB'                  arrow S (command 21)
+'L'                      hire (command 22)
+'0\r'                    hire how many
+'\x1bA'                  arrow N (command 23)
+'\x1bH'                  map (command 24)
+'\x1bA'                  towards N (command 25)
+'F'                      ask the way (command 26)
+'V'                      rest (command 27)
+'D'                      kill (command 28)
+'D'                      kill (command 29)
+'F'                      ask the way (command 30)
+'V'                      rest (command 31)
+'\r'                     return
+'\x1bH'                  map (command 32)
+'V'                      rest (command 33)
+'\x1bH'                  map (command 34)
+'\x1bD'                  arrow W (command 35)
+'\x1bH'                  map (command 36)
+'\r'                     return
+'\x1bB'                  arrow S (command 37)
+'\x1bH'                  map (command 38)
+'\r'                     return
+'V'                      rest (command 39)
+'V'                      rest (command 40)
+'\x1bH'                  map (command 41)
+'\x1bB'                  towards SE (command 42)
+'V'                      rest (command 43)
+'\x1bH'                  map (command 44)
+'\x1bC'                  towards E (command 45)
+'K'                      buy (command 46)
+'\x1bH'                  map (command 47)
+'\x1bB'                  towards S (command 48)
+'\r'                     return
+'L'                      hire (command 49)
+'5\r'                    hire how many
+'20\r'                   pay
+'V'                      rest (command 50)
+'\r'                     return
+'\r'                     return

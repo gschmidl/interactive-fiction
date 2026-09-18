@@ -146,6 +146,9 @@ zeno.log
 /Quest*(Data General MV, AOS-VS)/port/*_DATA_FILE
 /Quest*(Data General MV, AOS-VS)/port/QUEST
 /Quest*(Data General MV, AOS-VS)/port/run/
+# games saved in Cave Fun (SAVE writes NAME.SYMB beside the game file); the
+# game, the programs and the editor's adventures are .ADV and .PROG
+/Cave Fun (ND-100, SINTRAN III)/port/data/*.SYMB
 Thumbs.db
 desktop.ini
 .DS_Store
@@ -154,3 +157,4 @@ desktop.ini
 *~
 .vscode/
 .idea/
+Adventures in Pascal (PDP-11, RSX-11M, OMSI Pascal, full source)/port/build/*

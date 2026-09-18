@@ -1,0 +1,18 @@
+'N\r'                    instructions?
+'\x1bA'                  arrow N (command 1)
+'?'                      look at oneself (command 2)
+'\r'                     return
+'\x1bB'                  arrow S (command 3)
+'\x1bH'                  map (command 4)
+'\x1bA'                  towards NW (command 5)
+'\x1bH'                  map (command 6)
+'\x1bD'                  towards W (command 7)
+'\x1bH'                  map (command 8)
+'\x1bD'                  towards W (command 9)
+'\x1bA'                  arrow N (command 10)
+'\x1bD'                  arrow W (command 11)
+'V'                      rest (command 12)
+'\x1bD'                  arrow W (command 13)
+'\x1bD'                  arrow W (command 14)
+'E'                      no such command (command 15)
+'V'                      rest (command 16)

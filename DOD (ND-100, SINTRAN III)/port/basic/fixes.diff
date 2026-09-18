@@ -1,0 +1,52 @@
+--- src_original/DOD-ENB.SYMB (as text)
++++ basic/DOD-ENB.txt
+47,50d46
+< 600 LET LUP=INT(RND*10+1)
+< 570 IF SLUMP=6 THEN2890
+< 580 IF SLUMP=7 THEN670
+< 590 IF SLUMP=8 THEN2680
+51a48,52
+> 592 '  Port fix 2026: 570-590 stood twice in the file, the second time after 600,
+> 593 '  with 591 (the compiler refused the second ones); once, in order, here.
+> 594 '  Nothing leads to 850 (two giant rats) or 2090 (the hydra): SLUMP 2-5 had
+> 595 '  lines 530-560 once, it seems, and they are lost.  Not made up again.
+> 600 LET LUP=INT(RND*10+1)
+70c71,73
+< 790IF A<0THEN3130
+---
+> 790IF A<0THEN3115
+> 791 '  Port fix 2026 (790, 2000, 2790): with the company all dead the game ended
+> 792 '  there and then, without a word: now it says so, at 3115, which nothing led to
+191c194
+< 2000 IF A<0THEN3130
+---
+> 2000 IF A<0THEN3115
+270c273
+< 2790 A=A-DE:IF A<0THEN3130
+---
+> 2790 A=A-DE:IF A<0THEN3115
+288c291,294
+< 2970IF A$="F"THEN PRINT "FEM PERSONER DOG N[R NI GICK FRAM":GOTO 2920
+---
+> 2970IF A$="F"THEN 2975
+> 2975 PRINT "FEM PERSONER DOG N[R NI GICK FRAM":A=A-5:IF A<0 THEN 3115
+> 2976 GOTO 2920
+> 2977 '  Port fix 2026 (2970-2976): the five who died going on were still counted
+316c322
+< 3106 IF FLOD$="E" THEN 3108
+---
+> 3106 IF FLOD$="E" THEN DOD=0:GOTO 3108
+320,321c326,327
+< 3110 PRINT"PERSON NR.";A;"\VERLEVDE":GOTO 3112
+< 3111 PRINT"PERSON NR.";A;"DOG":DOD=DOD+1
+---
+> 3110 PRINT"PERSON NR.";KJG;"\VERLEVDE":GOTO 3112
+> 3111 PRINT"PERSON NR.";KJG;"DOG":DOD=DOD+1
+326a333,335
+> 3117 '  Port fix 2026: 3120 is lost, and 610 goes there: the way out, the only way
+> 3118 '  to 3124, "you are out in freedom" (nothing else leads there)
+> 3120 GOTO 3124
+330a340,342
+> 3126 '  Port fix 2026 (3106, 3110, 3111): at every crossing of the river after the first,
+> 3127 '  the dead of the ones before were counted again (DOD was never set back to 0), and
+> 3128 '  every person crossing was given the company's number, not their own

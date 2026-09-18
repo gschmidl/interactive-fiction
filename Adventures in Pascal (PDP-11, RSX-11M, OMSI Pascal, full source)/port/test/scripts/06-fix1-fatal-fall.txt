@@ -1,0 +1,14 @@
+# args: --debug -u -d 28-OCT-1980 -t 120000
+no
+no
+#take 2
+on
+#goto 17
+jump
+yes
+look
+inventory
+out
+take lamp
+quit
+yes

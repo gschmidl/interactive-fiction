@@ -1,0 +1,101 @@
+'go e\r'                 command 1
+'GO SOUTH\r'             command 2
+'MAKE BRIDGE\r'          command 3
+'make bridge\r'          command 4
+'UP\r'                   command 5
+'go up\r'                command 6
+'south\r'                command 7
+'GO D\r'                 command 8
+'GET BIRD\r'             command 9
+'EMPTY BOTTLE\r'         command 10
+'NW\r'                   command 11
+'ON\r'                   command 12
+'S\r'                    command 13
+'N\r'                    command 14
+'on bird\r'              command 15
+'.\r'                    command 16
+'UNLOCK IRON,OPEN PLANK\r' command 17
+'THE ON THE OIL\r'       command 18
+'UNLOCK BALLS,UNLIGHT GATE\r' command 19
+'UNLIGHT I\r'            command 20
+'E\r'                    command 21
+'w\r'                    command 22
+'look set\r'             command 23
+'TREASURE\r'             command 24
+'u\r'                    command 25
+'OFF INVENTORY\r'        command 26
+'go e\r'                 command 27
+' CLOSE THE PILLOWS\r'   command 28
+'east\r'                 command 29
+'GET TROLL\r'            command 30
+'CHEST\r'                command 31
+'LOOK SCORE\r'           command 32
+'FILL CAGE,PICK NUGGET\r' command 33
+'light\r'                command 34
+'FILL BOTTLE\r'          command 35
+'NW\r'                   command 36
+'LOOK I\r'               command 37
+'UNLOCK SNAKE\r'         command 38
+'EMPTY GATE\r'           command 39
+'free troll\r'           command 40
+'unlight bola\r'         command 41
+'XYZZY PILLOWS\r'        command 42
+'UNLOCK POOL\r'          command 43
+'GO U\r'                 command 44
+'LIGHT BARS\r'           command 45
+'ON\r'                   command 46
+'CLOSE BOLA\r'           command 47
+'pick\r'                 command 48
+'EMPTY WATER,OPEN GATE\r' command 49
+'ne\r'                   command 50
+'THE FILL THE TREASURE\r' command 51
+'TAKE NUGGET\r'          command 52
+'walk\r'                 command 53
+'LOCK PILLOW\r'          command 54
+'empty bottle\r'         command 55
+'score\r'                command 56
+'GO SET,DROP PLANK\r'    command 57
+'GO D\r'                 command 58
+'CHEST\r'                command 59
+'DROP ALL\r'             command 60
+'LIGHT OIL\r'            command 61
+'FILL BOTTLE\r'          command 62
+'FILL BOTTLE\r'          command 63
+'D\r'                    command 64
+'WEST\r'                 command 65
+'GET ALL\r'              command 66
+'N\r'                    command 67
+'north\r'                command 68
+'PICK BIRD\r'            command 69
+'ON BALLS\r'             command 70
+'MITHRIL\r'              command 71
+'UNLOCK\r'               command 72
+'NW\r'                   command 73
+'ON TROLL\r'             command 74
+'THROW NUGGET,ORC\r'     command 75
+'throw bola\r'           command 76
+'DOWN\r'                 command 77
+'GO WEST\r'              command 78
+'OFF ELEVATOR\r'         command 79
+'LOCK ALL\r'             command 80
+'SE\r'                   command 81
+'WEST\r'                 command 82
+'GO SOUTH,ON\r'          command 83
+'NORTH\r'                command 84
+'GET KEYS\r'             command 85
+'A L THE PILLOW,LOOK\r'  command 86
+'go u\r'                 command 87
+'GO NW\r'                command 88
+'LOOK LIGHT\r'           command 89
+'N\r'                    command 90
+'NORTH\r'                command 91
+'THROW SNAKE\r'          command 92
+'OFF ORC\r'              command 93
+'PICK PILLOW\r'          command 94
+' OFF THE SILVER\r'      command 95
+'FREE PLANK\r'           command 96
+'FREE PLANK\r'           command 97
+'GET CAGE\r'             command 98
+'GO NE\r'                command 99
+'FREE TREASURE\r'        command 100
+'QUIT\r'                 enough

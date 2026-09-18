@@ -1,0 +1,101 @@
+'LOCK GATE,LIGHT LAMP\r' command 1
+'THE LOCK THE BARS\r'    command 2
+'south\r'                command 3
+'a drop the chest\r'     command 4
+'WALK WIRE,THE LOOK THE BOLA\r' command 5
+'GO SOUTH\r'             command 6
+'n,,s\r'                 command 7
+'GET ALL\r'              command 8
+'MAKE LAMP\r'            command 9
+'WEST\r'                 command 10
+'DROP ALL,TAKE\r'        command 11
+'FILL LAMP,LOCK CHEST\r' command 12
+'SE\r'                   command 13
+'DOWN\r'                 command 14
+'FREE BIRD\r'            command 15
+'UNLOCK KEYS\r'          command 16
+'NW\r'                   command 17
+' PICK THE ORC\r'        command 18
+'FILL ORC\r'             command 19
+'INVENTORY,CLOSE KEYS\r' command 20
+'xyzzy all\r'            command 21
+'pool,on\r'              command 22
+'WALK PILLOWS\r'         command 23
+'GO WEST\r'              command 24
+' LIGHT THE BARS\r'      command 25
+'E\r'                    command 26
+'DROP ALL\r'             command 27
+'SW\r'                   command 28
+'SCORE\r'                command 29
+'EMPTY KEYS\r'           command 30
+'XYZZY I\r'              command 31
+'open bird\r'            command 32
+'OFF\r'                  command 33
+'NW\r'                   command 34
+'on mithril\r'           command 35
+'A LOCK THE PLANK\r'     command 36
+'GO D\r'                 command 37
+'DROP GATE\r'            command 38
+'fill pool\r'            command 39
+'SE\r'                   command 40
+'take inventory\r'       command 41
+'THE OPEN THE BOLA\r'    command 42
+'FILL BOTTLE\r'          command 43
+'L TROLL,OFF\r'          command 44
+' JUMP THE BIRD\r'       command 45
+'W\r'                    command 46
+'GET ALL\r'              command 47
+'LOCK ALL\r'             command 48
+'ON\r'                   command 49
+'I\r'                    command 50
+' WALK THE PLANK\r'      command 51
+'EMPTY BOTTLE\r'         command 52
+'FILL LAMP\r'            command 53
+'WEST\r'                 command 54
+'go d\r'                 command 55
+'LIGHT BARS\r'           command 56
+'GET INVENTORY\r'        command 57
+'PILLOW,GET ALL\r'       command 58
+'D\r'                    command 59
+'THE GET THE CHEST\r'    command 60
+'free oil\r'             command 61
+'E,EAST\r'               command 62
+'I\r'                    command 63
+'THROW INVENTORY\r'      command 64
+'ON\r'                   command 65
+'UNLOCK LAMP\r'          command 66
+'GO WEST\r'              command 67
+'A JUMP THE BOTTLE\r'    command 68
+'GO SW\r'                command 69
+'go ne\r'                command 70
+'l iron\r'               command 71
+'GO E\r'                 command 72
+'N\r'                    command 73
+'xyzzy set\r'            command 74
+'GET CAGE\r'             command 75
+'D\r'                    command 76
+'THE THROW THE ORC\r'    command 77
+'THROW BOLA\r'           command 78
+'west\r'                 command 79
+'UP\r'                   command 80
+'PICK KEYS,S\r'          command 81
+'UNLOCK\r'               command 82
+'fill lamp,go s\r'       command 83
+'A LOOK THE BOTTLE\r'    command 84
+'UNLOCK GOLD\r'          command 85
+'CLOSE WIRE\r'           command 86
+'NW\r'                   command 87
+'drop all\r'             command 88
+'N\r'                    command 89
+'LOCK LAMP\r'            command 90
+'BOTTLE\r'               command 91
+'NE\r'                   command 92
+'THE JUMP THE WIRE\r'    command 93
+'EMPTY BARS,A LOCK THE PLANK\r' command 94
+'EMPTY ALL\r'            command 95
+'WEST\r'                 command 96
+'pick\r'                 command 97
+'UP\r'                   command 98
+'drop all\r'             command 99
+'BALLS\r'                command 100
+'QUIT\r'                 enough

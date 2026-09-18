@@ -1,0 +1,33 @@
+# args: -d 28-OCT-1980 -t 120000
+no
+no
+enter building
+take lamp
+take keys
+suspend
+yes
+bilbo baggins
+# run: -d 28-OCT-1980 -t 121000
+no
+yes
+bilbo baggins
+# run: -d 28-OCT-1980 -t 130000
+no
+yes
+frodo baggins
+no
+quit
+yes
+# run: -d 28-OCT-1980 -t 130500
+no
+yes
+bilbo baggins
+inventory
+look
+quit
+yes
+# run: -d 28-OCT-1980 -t 131000
+no
+no
+quit
+yes

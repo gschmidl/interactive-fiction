@@ -1,0 +1,122 @@
+==== adventure --debug -u -d 28-OCT-1980 -t 120000
+
+Are you using a VT100?
+
+->no
+
+Be patient, it takes a while to initialize.....
+
+Now loading sections 1-7
+
+Now loading section   8
+
+Now loading section   9
+
+Now loading section  10
+
+Now loading section  11
+
+Now loading section  12
+
+Message of the Day:
+	"If you type magic mode and you are not a foo,
+	You can change all the hours, just to suit you.
+	This can only be done on your very first turn,
+	If you pass a short test that all wizards must learn:
+	The word that you need is a very small guy,
+	And a number of ones plus the hour that you try.
+	Add to the letters, as viewed on the screen
+	And type them back at this infernal machine."
+							- anonymous
+
+Welcome to Adventure!! Would you like instructions?
+
+->no
+
+
+You are standing at the end of a road before a small brick building.
+Around you is a forest.  A small stream flows out of the building and
+down a gully.
+
+->#take 2
+# carrying 2, holding 1, tally 15
+->on
+
+Your lamp is now on.
+
+->#goto 17
+
+Sorry, but I am not allowed to give more detail.  I will repeat the
+long description of your location.
+
+You are on the east bank of a fissure slicing clear across the hall.
+The mist is quite thick here, and the fissure is too wide to jump.
+
+->jump
+
+You didn't make it.
+
+Oh dear, you seem to have gotten yourself killed.  I might be able to
+help you out, but I've never really done this before.  Do you want me
+to try to reincarnate you?
+
+->yes
+
+All right.  But don't blame me if something goes wr............
+             ---------- POOF!! ----------
+You are engulfed in a cloud of orange smoke.  Coughing and gasping,
+you emerge from the smoke and find..........
+
+You are inside a building, a well house for a large spring.
+
+There are some keys on the ground here.
+
+There is food here.
+
+There is a bottle of water here.
+
+->look
+
+Sorry, but I am not allowed to give more detail.  I will repeat the
+long description of your location.
+
+You are inside a building, a well house for a large spring.
+
+There are some keys on the ground here.
+
+There is food here.
+
+There is a bottle of water here.
+
+->inventory
+
+You're not carrying anything.
+
+->out
+
+You're at end of road again.
+
+There is a shiny brass lamp nearby.
+
+->take lamp
+
+OK
+
+->quit
+
+Do you really want to quit now?
+
+->yes
+
+OK
+
+
+You scored  47 out of a possible 350 using   8 turns.
+
+Your score qualifies you as a Novice Class Adventurer.
+
+To achieve the next higher rating you need  53 more points.
+
+
+
+---- exit 0

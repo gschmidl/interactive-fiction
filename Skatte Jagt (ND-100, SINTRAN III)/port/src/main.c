@@ -4,6 +4,17 @@
  * One source for the ND-100 game ports; GAME picks the game at build time:
  *   GAME=0  skattejakt.exe  Skattejakt (1995 dump of SKATTEJAKT:PROG)
  *   GAME=1  svha.exe        SVHA Adventure (SVHA-ADVENTURE:PROG and its files)
+ *   GAME=2  mordor.exe      Mordor (MORDOR-MJ:SYMB compiled with ND-Pascal J)
+ *   GAME=3  legend.exe      Legend (LEGEND-LU:ZYMB compiled with ND BASIC)
+ *   GAME=4  cavefun.exe     Cave Fun (ADV-INTER-CB-MJ:SYMB, ND BASIC, and CAVE-FUN-MJ:ADV)
+ *   GAME=5  advenb.exe      Adventure (ENB) (ADVENTURE-ENB:SYMB, ND BASIC)
+ *   GAME=6  dod.exe         DOD (DOD-ENB:SYMB, ND BASIC)
+ *   GAME=7  myworld.exe     My World (ADVENTURE-MJ:SYMB, ND-Pascal J, and MY-DATA-FILE-MJ:ADV)
+ *
+ * Mordor is an ND-Pascal program for the club's Facit screens: SINTRAN echoes
+ * what is typed, the program writes its map file back, and the terminal
+ * speaks Facit.  It locks itself between 08 and 16 unless DEL is typed ahead
+ * (--unlimited types it).
  *
  * Saving works two ways:
  *
@@ -17,8 +28,8 @@
  *   RESTORE (or naming the file on the command line) puts it back.  The game
  *   never sees those words.
  *
- * SVHA Adventure also has two bugs that stop it being finished; the port fixes
- * them in memory (svha_fixes), unless --no-fixes.
+ * SVHA Adventure also has bugs, two of them in the way of finishing it; the
+ * port fixes them in memory (svha_fixes), unless --no-fixes.
  */
 #include <stdio.h>
 #include <stdlib.h>
@@ -115,23 +126,52 @@ typedef struct {
     uint16_t cmd_frame;       /* frame of the input subroutine ... */
     uint16_t cmd_link;        /* ... whose return link says "the command prompt" */
     uint16_t line_vars;       /* editor's buffer base, end index, start index */
-    const Fix *fixes;         /* bugs in the game the port fixes */
+    int nd_pascal;            /* an ND-Pascal program on a Facit screen (see above) */
+    int nd_basic;             /* an ND BASIC program on a Facit screen: files written,
+                                 SINTRAN echoes, input with parity */
+    const char *map_file;     /* a file the program keeps its world in (--new-map) */
+    int easy_files;           /* files to save in need no SINTRAN quoting (sintran.c) */
+    const char *editor;       /* a second program in data\ that --editor runs */
+    int capitals;             /* 1: the terminal starts in @TERMINAL-MODE's capital letters
+                                 (the program knows no small ones); 2: only single keys
+                                 read without echo become capitals (commands), lines are
+                                 left as typed */
+    int arrows;               /* an ND BASIC program that reads the Facit arrow and Home
+                                 keys (ESC A-D, ESC H), with Esc switched off */
+    int cpu_clock;            /* a program that seeds its random numbers from the uptime
+                                 more than once: the uptime also runs with the instructions
+                                 done, at an ND-100's pace (sintran.h, cpu_ticks) */
+    const Fix *fixes;         /* bugs in the game's code the port fixes (--no-fixes) */
     int nfixes;
 } Game;
 
 static const Game games[] = {
     /* SETUP (Woods' name) is -1 after "SPAR"/"UTSETT"/"PAUSE" */
-    { "skattejakt", "Skattejakt", "SKATTEJAKT.PROG", CS_NORWEGIAN, SAVE_DUMP, 071144, 0177777,
-      0, 0, 0, 0, 0, NULL, 0 },
+    { .exe = "skattejakt", .title = "Skattejakt", .image = "SKATTEJAKT.PROG", .charset = CS_NORWEGIAN,
+      .save = SAVE_DUMP, .suspend_word = 071144, .suspend_value = 0177777 },
     /* the library line editor at 116275; GETIN (frame 017047) called from the main loop at 013010 */
-    { "svha", "SVHA Adventure", "SVHA-ADVENTURE.PROG", CS_ASCII, SAVE_SNAPSHOT, 0, 0,
-      0116334, 0116350, 017047, 013011, 0116430,
-      svha_fixes, (int)(sizeof svha_fixes / sizeof svha_fixes[0]) },
+    { .exe = "svha", .title = "SVHA Adventure", .image = "SVHA-ADVENTURE.PROG", .charset = CS_ASCII,
+      .save = SAVE_SNAPSHOT, .brkm_pc = 0116334, .inbt_pc = 0116350, .cmd_frame = 017047,
+      .cmd_link = 013011, .line_vars = 0116430,
+      .fixes = svha_fixes, .nfixes = (int)(sizeof svha_fixes / sizeof svha_fixes[0]) },
+    { .exe = "mordor", .title = "Mordor", .image = "MORDOR-MJ.PROG", .charset = CS_SWEDISH,
+      .nd_pascal = 1, .map_file = "MORDOR-MAP-MJ.DATA" },
+    { .exe = "legend", .title = "Legend", .image = "LEGEND-LU.PROG", .charset = CS_SWEDISH,
+      .nd_basic = 1 },
+    { .exe = "cavefun", .title = "Cave Fun", .image = "ADV-INTER-CB-MJ.PROG", .charset = CS_ASCII,
+      .nd_basic = 1, .easy_files = 1, .editor = "ADV-EDIT-CB-MJ.PROG", .capitals = 1 },
+    { .exe = "advenb", .title = "Adventure (ENB)", .image = "ADVENTURE-ENB.PROG", .charset = CS_SWEDISH,
+      .nd_basic = 1, .capitals = 2, .arrows = 1, .cpu_clock = 1 },
+    { .exe = "dod", .title = "DOD", .image = "DOD-ENB.PROG", .charset = CS_SWEDISH,
+      .nd_basic = 1, .capitals = 1, .cpu_clock = 1 },
+    { .exe = "myworld", .title = "My World", .image = "ADVENTURE-MJ.PROG", .charset = CS_ASCII,
+      .nd_pascal = 1, .capitals = 1, .cpu_clock = 1 },
 };
 
 static Cpu cpu;
 static const Game *game = &games[GAME];
 static const char *save_dir;
+
 static int no_fixes;
 
 /* put the fixes in (or, for --no-fixes, take them out) wherever the code is loaded */
@@ -160,19 +200,50 @@ static void usage(FILE *o)
         fprintf(o,
             "  -s, --save-dir DIR   where saved games are written and looked for\n"
             "                       (default: the current directory)\n");
+    if (game->map_file)
+        fprintf(o,
+            "  -u, --unlimited      play at any hour: types DEL ahead of the program, as\n"
+            "                       players did between 08 and 16 when it refused to start\n"
+            "      --new-map        forget Middle Earth: the game builds a new map\n"
+            "                       (it keeps the one it made the first time)\n");
+    if (game->nd_pascal)
+        fprintf(o,
+            "      --no-rubout      the delete keys go to the program, not rubbing out\n"
+            "                       (SINTRAN's terminal driver rubbed out, and so does the port)\n");
     fprintf(o,
         "  -d, --data DIR       the game's files (default: data next to the program)\n"
-        "      --ascii          show the 7-bit national characters as [ \\ ] { | }\n"
-        "      --norwegian      show them as Æ Ø Å æ ø å\n"
+        "      --ascii          show the 7-bit national characters as [ \\ ] { | }%s\n"
+        "      --norwegian      show them as Æ Ø Å æ ø å%s\n"
+        "      --swedish        show them as Ä Ö Å ä ö å, and @ ` as É é%s\n"
         "      --raw            pass the terminal bytes through untranslated\n"
         "      --no-hold        do not wait where the program pauses\n"
-        "      --vdu            tell the program the terminal is a screen (VT100)\n");
+        "      --terminal N     the terminal's logical device number (default 1)\n",
+        game->charset == CS_ASCII ? " (default)" : "",
+        game->charset == CS_NORWEGIAN ? " (default)" : "",
+        game->charset == CS_SWEDISH ? " (default)" : "");
+    if (!game->nd_pascal)
+        fprintf(o,
+            "      --vdu            tell the program the terminal is a screen (VT100)\n");
+    fprintf(o,
+        "  -Z, --clock SECONDS  fix the clock at SECONDS since 1970 (before the\n"
+        "                       28-year shift), for repeatable sessions%s\n",
+        game->nd_pascal || game->nd_basic ?
+        ";\n                       the uptime the random numbers stir in stays 0" : "");
+    if (game->cpu_clock)
+        fprintf(o,
+            "      --uptime UNITS   start the uptime at UNITS (1/50 s) and run it with the\n"
+            "                       instructions alone: the same game every time\n");
     if (game->nfixes)
         fprintf(o,
             "      --no-fixes       play the game with the bugs the port fixes\n");
+    if (game->editor)
+        fprintf(o,
+            "      --editor         run the adventure editor (%s) instead\n", game->editor);
+    if (game->easy_files)
+        fprintf(o,
+            "      --sintran-files  a new file must be named in quotes, an old one without,\n"
+            "                       as SINTRAN III wanted (the port takes either)\n");
     fprintf(o,
-        "  -Z, --clock SECONDS  fix the clock at SECONDS since 1970 (before the\n"
-        "                       28-year shift), for repeatable sessions\n"
         "      --prog FILE      run another :PROG image instead\n"
         "  -v, --verbose        log monitor calls on standard error\n"
         "  -T, --trace          trace every instruction on standard error\n"
@@ -285,20 +356,21 @@ static void exe_dir(char *out, size_t n, const char *argv0)
 #endif
 }
 
-static const char *find_image(char *buf, size_t n, const char *argv0, const char *data_dir)
+static const char *find_image(char *buf, size_t n, const char *argv0, const char *data_dir,
+                              const char *image)
 {
     char dir[1024], tmp[1200];
     if (data_dir) {
-        snprintf(tmp, sizeof tmp, "%s%c%s", data_dir, PATHSEP, game->image);
+        snprintf(tmp, sizeof tmp, "%s%c%s", data_dir, PATHSEP, image);
         if (exists(tmp)) { snprintf(buf, n, "%s", tmp); return buf; }
         return NULL;
     }
     exe_dir(dir, sizeof dir, argv0);
-    snprintf(tmp, sizeof tmp, "%s%cdata%c%s", dir, PATHSEP, PATHSEP, game->image);
+    snprintf(tmp, sizeof tmp, "%s%cdata%c%s", dir, PATHSEP, PATHSEP, image);
     if (exists(tmp)) { snprintf(buf, n, "%s", tmp); return buf; }
-    snprintf(tmp, sizeof tmp, "%s%c%s", dir, PATHSEP, game->image);
+    snprintf(tmp, sizeof tmp, "%s%c%s", dir, PATHSEP, image);
     if (exists(tmp)) { snprintf(buf, n, "%s", tmp); return buf; }
-    snprintf(tmp, sizeof tmp, "data%c%s", PATHSEP, game->image);
+    snprintf(tmp, sizeof tmp, "data%c%s", PATHSEP, image);
     if (exists(tmp)) { snprintf(buf, n, "%s", tmp); return buf; }
     return NULL;
 }
@@ -335,6 +407,149 @@ static void save_suspended(Cpu *c)
     term_puts(" ");
     term_puts(name);
     term_puts("\r\n");
+}
+
+/* Esc (or Ctrl-C) while the program has the break enabled: SINTRAN stops it,
+   says where, and gives its command level.  MORDOR turns the break on itself
+   (EESCF) whenever it asks for a command, so this is how a player got out of
+   the game - and it is what makes an Esc struck by accident so expensive.
+   On the reference machine:
+
+     Command: <Esc>
+     USER BREAK AT    2177B
+     @NONSENSE
+     "NONSENSE"
+     NO SUCH FILE NAME
+
+     @CONTINUE
+     <the title again: the game starts from the beginning>
+
+   The port's CONTINUE goes back into the game where it stood instead, since
+   there is no other way back into it and nothing here to lose it for.
+   1 = go on at `at`, 0 = the program is done. */
+static int user_break(uint16_t at)
+{
+    char line[120], msg[160];
+    int told = 0;
+    /* as SINTRAN prints it: "USER BREAK AT   53031B" */
+    snprintf(msg, sizeof msg, "\r\nUSER BREAK AT %7oB\r\n", at);
+    term_puts(msg);
+    for (;;) {
+        char *p = line, *q;
+        term_puts("@");
+        if (term_gets(line, (int)sizeof line) < 0)
+            return 0;
+        while (*p == ' ')
+            p++;
+        for (q = p; *q; q++)
+            if (*q >= 'a' && *q <= 'z')
+                *q = (char)(*q - 32);
+        while (q > p && q[-1] == ' ')
+            *--q = 0;
+        if (!*p)
+            continue;
+        if (!strncmp("CONTINUE", p, strlen(p)))
+            return 1;
+        if (!strncmp("LOGOUT", p, strlen(p)) || !strcmp(p, "EXIT") || !strcmp(p, "QUIT"))
+            return 0;
+        snprintf(msg, sizeof msg, "\"%s\"\r\nNO SUCH FILE NAME\r\n\r\n", p);
+        term_puts(msg);
+        if (!told) {
+            told = 1;
+            term_puts("(CONTINUE goes back into the game, LOGOUT leaves it.)\r\n");
+        }
+    }
+}
+
+/* ---- --debug: #peek, #poke, #find ---- */
+
+/* octal, or decimal with a trailing '.'; a leading '-' negates */
+static long number(const char *s, int *ok)
+{
+    char *e;
+    long v;
+    int neg = *s == '-';
+    if (neg) s++;
+    v = (*s && s[strlen(s) - 1] == '.') ? strtol(s, &e, 10) : strtol(s, &e, 8);
+    *ok = *ok && e != s && (*e == 0 || (*e == '.' && e[1] == 0));
+    return neg ? -v : v;
+}
+
+/* a line typed as "#..." at the start of a line (sintran.c): the program never
+   sees it.  #peek ADDR [COUNT], #poke ADDR VALUE..., #find VALUE... [in
+   FROM TO] finds that run of words; octal unless a number ends in '.' */
+static void debug_command(Cpu *c, const char *line)
+{
+    char buf[256], out[200];
+    char *tok[48];
+    int nt = 0, ok = 1, i;
+    long a, cnt;
+    snprintf(buf, sizeof buf, "%s", line);
+    for (tok[nt] = strtok(buf, " ,"); tok[nt] && nt < 47; tok[++nt] = strtok(NULL, " ,"))
+        ;
+    if (nt >= 2 && !strcmp(tok[0], "peek")) {
+        a = number(tok[1], &ok);
+        cnt = nt >= 3 ? number(tok[2], &ok) : 1;
+        for (i = 0; ok && i < cnt && i < 1024; i++) {
+            if (i % 8 == 0) {
+                snprintf(out, sizeof out, "%s%06lo:", i ? "\r\n" : "", (unsigned long)(uint16_t)(a + i));
+                term_puts(out);
+            }
+            snprintf(out, sizeof out, " %06o", c->mem[(uint16_t)(a + i)]);
+            term_puts(out);
+        }
+        term_puts("\r\n");
+    } else if (nt >= 3 && !strcmp(tok[0], "poke")) {
+        a = number(tok[1], &ok);
+        for (i = 2; ok && i < nt; i++) {
+            uint16_t v = (uint16_t)number(tok[i], &ok);
+            if (ok)
+                c->mem[(uint16_t)(a + i - 2)] = v;
+        }
+        term_puts(ok ? "ok\r\n" : "");
+    } else if (nt >= 2 && !strcmp(tok[0], "find")) {
+        uint16_t v[40];
+        int nv = 0, hits = 0, k;
+        long from = 0, to = 0177777;
+        for (i = 1; i < nt && ok; i++) {
+            if (!strcmp(tok[i], "in") && i + 2 < nt) {
+                from = number(tok[i + 1], &ok);
+                to = number(tok[i + 2], &ok);
+                break;
+            }
+            if (nv < 40)
+                v[nv++] = (uint16_t)number(tok[i], &ok);
+        }
+        for (a = from; ok && nv && a + nv - 1 <= to && hits < 64; a++) {
+            for (k = 0; k < nv && c->mem[(uint16_t)(a + k)] == v[k]; k++)
+                ;
+            if (k == nv) {
+                snprintf(out, sizeof out, " %06lo", a);
+                term_puts(out);
+                if (++hits % 10 == 0)
+                    term_puts("\r\n");
+            }
+        }
+        term_puts(hits ? "\r\n" : " none\r\n");
+    } else if (nt == 2 && !strcmp(tok[0], "dump")) {
+        FILE *f = fopen(tok[1], "wb");
+        for (a = 0; f && a < 65536; a++) {
+            fputc(c->mem[a] >> 8, f);
+            fputc(c->mem[a] & 0xFF, f);
+        }
+        term_puts(f && fclose(f) == 0 ? "written\r\n" : "cannot write it\r\n");
+    } else {
+        term_puts("#peek ADDR [COUNT] | #poke ADDR VALUE... | #find VALUE... [in FROM TO]"
+                  " | #dump FILE  (octal; decimal with '.')\r\n");
+    }
+    if (!ok)
+        term_puts("bad number\r\n");
+    if (snt.out_tail_len) {                 /* the program's prompt again */
+        char p[260];
+        memcpy(p, snt.out_tail, (size_t)snt.out_tail_len);
+        p[snt.out_tail_len] = 0;
+        term_puts(p);
+    }
 }
 
 /* ---- snapshots (SVHA) ---- */
@@ -512,76 +727,18 @@ static void command_line(Cpu *c, char *w, int n)
     w[k] = 0;
 }
 
+/* --debug in a game that reads its own command lines (SVHA): a line typed
+   beginning with # reaches the port as the game's command, so the machine goes
+   back to the prompt's snapshot, the command runs, and what it pokes goes into
+   the snapshot as well */
 static int debug_mode;
 
-/* octal, or decimal with a trailing '.'; a leading '-' negates */
-static long number(const char *s, int *ok)
+static void snapshot_debug(Cpu *c, const char *line)
 {
-    char *e;
-    long v;
-    int neg = *s == '-';
-    size_t n = strlen(s);
-    if (neg) s++;
-    if (n && s[strlen(s) - 1] == '.')
-        v = strtol(s, &e, 10);
-    else
-        v = strtol(s, &e, 8);
-    *ok = e != s && (*e == 0 || (*e == '.' && e[1] == 0));
-    return neg ? -v : v;
-}
-
-/* --debug: "#peek ADDR [COUNT]", "#poke ADDR VALUE...", "#find VALUE [FROM [TO]]" at the
-   command prompt, octal unless a number ends in '.'; the game never sees the line */
-static void debug_command(Cpu *c, const char *line)
-{
-    char buf[400], out[200];
-    char *tok[40];
-    int nt = 0, ok = 1, i;
-    long a, cnt;
-    snprintf(buf, sizeof buf, "%s", line + 1);
-    for (tok[nt] = strtok(buf, " "); tok[nt] && nt < 39; tok[++nt] = strtok(NULL, " "))
-        ;
     term_puts("\r\n");
     snap_put(&line_snap, c);
-    if (nt >= 2 && !strcmp(tok[0], "peek")) {
-        a = number(tok[1], &ok);
-        cnt = nt >= 3 ? number(tok[2], &ok) : 1;
-        for (i = 0; ok && i < cnt && i < 512; i++) {
-            uint16_t v = c->mem[(uint16_t)(a + i)];
-            if (i % 8 == 0) {
-                snprintf(out, sizeof out, "%s%06lo:", i ? "\r\n" : "", (unsigned long)(uint16_t)(a + i));
-                term_puts(out);
-            }
-            snprintf(out, sizeof out, " %06o", v);
-            term_puts(out);
-        }
-        term_puts("\r\n");
-    } else if (nt >= 3 && !strcmp(tok[0], "poke")) {
-        a = number(tok[1], &ok);
-        for (i = 2; ok && i < nt; i++) {
-            uint16_t v = (uint16_t)number(tok[i], &ok);
-            if (!ok) break;
-            c->mem[(uint16_t)(a + i - 2)] = v;
-            line_snap.mem[(uint16_t)(a + i - 2)] = v;
-        }
-        term_puts(ok ? "ok\r\n" : "bad number\r\n");
-    } else if (nt >= 2 && !strcmp(tok[0], "find")) {
-        long v = number(tok[1], &ok), from = nt >= 3 ? number(tok[2], &ok) : 0;
-        long to = nt >= 4 ? number(tok[3], &ok) : 0177777;
-        int hits = 0;
-        for (a = from; ok && a <= to && hits < 64; a++)
-            if (c->mem[a] == (uint16_t)v) {
-                snprintf(out, sizeof out, " %06lo", a);
-                term_puts(out);
-                if (++hits % 10 == 0) term_puts("\r\n");
-            }
-        term_puts("\r\n");
-    } else {
-        term_puts("#peek ADDR [COUNT] | #poke ADDR VALUE... | #find VALUE [FROM [TO]]  (octal, or decimal with '.')\r\n");
-    }
-    if (!ok)
-        term_puts("bad number\r\n");
-    show_prompt();
+    debug_command(c, line + 1);
+    memcpy(line_snap.mem, c->mem, sizeof line_snap.mem);
 }
 
 static int input_hook(Cpu *c, int ch)
@@ -594,7 +751,7 @@ static int input_hook(Cpu *c, int ch)
         char line[200];
         command_line(c, line, sizeof line);
         if (line[0] == '#') {
-            debug_command(c, line);
+            snapshot_debug(c, line);
             return 1;
         }
     }
@@ -662,9 +819,26 @@ int main(int argc, char **argv)
     const char *prog = NULL, *saved = NULL, *data_dir = NULL;
     static char image[1500], path[1500], image_dir[1500];
     int raw = 0, charset = game->charset, trace = 0, played = 0, i, rc = 0, lr;
+    int unlimited = 0, new_map = 0, editor = 0, strict_files = 0, no_rubout = 0;
     uint16_t start = 0;
 
     sintran_init();
+    if (game->nd_pascal) {
+        snt.allow_write = 1;
+        snt.sintran_echo = 1;
+        snt.command_rest[0] = '\r';
+        snt.command_rest_len = 1;
+    }
+    if (game->nd_basic) {
+        snt.allow_write = 1;
+        snt.sintran_echo = 1;
+        snt.input_parity = 1;
+        /* SINTRAN's echo at log-in, until the program sets one with ECHOM:
+           printable characters, and Return as a bare CR (the runtime then
+           starts the new line itself).  LEGEND sets ECHOM 1 at once. */
+        snt.echo_strategy = 1;
+        snt.echo_login = 1;
+    }
     for (i = 1; i < argc; i++) {
         const char *a = argv[i];
         if (!strcmp(a, "-h") || !strcmp(a, "--help")) { usage(stdout); return 0; }
@@ -676,16 +850,26 @@ int main(int argc, char **argv)
         else if (!strncmp(a, "--data=", 7)) data_dir = a + 7;
         else if (!strcmp(a, "--ascii")) charset = CS_ASCII;
         else if (!strcmp(a, "--norwegian")) charset = CS_NORWEGIAN;
+        else if (!strcmp(a, "--swedish")) charset = CS_SWEDISH;
         else if (!strcmp(a, "--raw")) { raw = 1; charset = CS_ASCII; }
         else if (!strcmp(a, "--no-hold")) snt.no_hold = 1;
-        else if (!strcmp(a, "--vdu")) snt.terminal_type = 0166006;   /* VT100: screen, handles BS */
+        else if (!strcmp(a, "--terminal") && i + 1 < argc) snt.terminal_no = atoi(argv[++i]);
+        else if ((!strcmp(a, "-u") || !strcmp(a, "--unlimited")) && game->map_file) unlimited = 1;
+        else if (!strcmp(a, "--new-map") && game->map_file) new_map = 1;
+        else if (!strcmp(a, "--no-rubout") && game->nd_pascal) no_rubout = 1;
+        else if (!strcmp(a, "--vdu") && !game->nd_pascal) snt.terminal_type = 0166006;   /* VT100: screen, handles BS */
         else if ((!strcmp(a, "-Z") || !strcmp(a, "--clock")) && i + 1 < argc)
             snt.fixed_clock = (time_t)strtoll(argv[++i], NULL, 10);
+        else if (!strcmp(a, "--uptime") && i + 1 < argc && game->cpu_clock)
+            snt.uptime_start = strtol(argv[++i], NULL, 10);
         else if (!strcmp(a, "--prog") && i + 1 < argc) prog = argv[++i];
+        else if (!strcmp(a, "--editor") && game->editor) editor = 1;
+        else if (!strcmp(a, "--sintran-files") && game->easy_files) strict_files = 1;
+        else if (!strcmp(a, "--no-fixes") && game->nfixes) no_fixes = 1;
+        else if (!strcmp(a, "--debug") && game->save == SAVE_SNAPSHOT) debug_mode = 1;
+        else if (!strcmp(a, "--debug")) snt.debug_hook = debug_command;
         else if (!strcmp(a, "-v") || !strcmp(a, "--verbose")) snt.verbose = 1;
         else if (!strcmp(a, "-T") || !strcmp(a, "--trace")) trace = 1;
-        else if (!strcmp(a, "--no-fixes") && game->nfixes) no_fixes = 1;
-        else if (!strcmp(a, "--debug")) debug_mode = 1;
         else if (a[0] == '-' && a[1]) {
             fprintf(stderr, "%s: unknown option %s (try --help)\n", game->exe, a);
             return 2;
@@ -699,7 +883,7 @@ int main(int argc, char **argv)
         }
     }
 
-    if (!find_image(image_dir, sizeof image_dir, argv[0], data_dir))
+    if (!find_image(image_dir, sizeof image_dir, argv[0], data_dir, editor ? game->editor : game->image))
         image_dir[0] = 0;
     if (prog)
         snprintf(image_dir, sizeof image_dir, "%s", prog);
@@ -717,7 +901,7 @@ int main(int argc, char **argv)
     } else if (image_dir[0]) {
         snprintf(image, sizeof image, "%s", image_dir);
     } else {
-        fprintf(stderr, "%s: cannot find %s in %s\n", game->exe, game->image,
+        fprintf(stderr, "%s: cannot find %s in %s\n", game->exe, editor ? game->editor : game->image,
                 data_dir ? data_dir : "data\\ next to the program");
         return 1;
     }
@@ -750,6 +934,12 @@ int main(int argc, char **argv)
     } else if (lr == 0) {
         apply_fixes(cpu.mem);
         cpu.r[R_P] = start;
+        /* below the program is what SINTRAN left there.  An ND BASIC program on
+           the reference machine found 0177 at address 0: ADVENTURE-ENB's CALL
+           PATCH without its argument takes it from there, and every INPUT
+           after it prompts with DEL */
+        if (game->nd_basic && !cpu.mem[0])
+            cpu.mem[0] = 0177;
     }
     switch (lr) {
     case 0: break;
@@ -759,8 +949,44 @@ int main(int argc, char **argv)
     }
     if (game->save == SAVE_SNAPSHOT)
         snt.input_hook = input_hook;
+    snt.easy_files = game->easy_files && !strict_files;
+    snt.capitals = game->capitals == 1;
+    snt.key_capitals = game->capitals == 2;
+    snt.cpu_ticks = game->cpu_clock ? 20000 : 0;
+    if (game->map_file) {
+        /* the club had the file created empty; an empty file means "make a map" */
+        FILE *mf;
+        if (snt.data_dir && *snt.data_dir)
+            snprintf(path, sizeof path, "%s%c%s", snt.data_dir, PATHSEP, game->map_file);
+        else
+            snprintf(path, sizeof path, "%s", game->map_file);
+        if (new_map || !exists(path)) {
+            if (!(mf = fopen(path, "wb"))) {
+                fprintf(stderr, "%s: cannot write %s\n", game->exe, path);
+                return 1;
+            }
+            fclose(mf);
+        }
+    }
+    if (unlimited) {
+        snt.typeahead[0] = 0177;
+        snt.typeahead_len = 1;
+    }
 
+    term_set_facit(game->nd_pascal || game->nd_basic);
+    /* the port holds a line while it is typed, so that the delete keys rub
+       characters out of it as SINTRAN's terminal driver does (sintran.c) */
+    if (game->nd_pascal && !no_rubout)
+        snt.line_edit = 1;
     term_init(raw, charset);
+    if (game->nd_basic) {
+        /* LEGEND reads no arrow keys (and Esc is off, so they would arrive as text).
+           At a console, SINTRAN is told the terminal is a screen that can back up,
+           and ND BASIC rubs out a deleted character instead of printing ^ */
+        term_set_arrows(game->arrows);
+        if (term_is_console() && !raw && !snt.terminal_type)
+            snt.terminal_type = 0166006;
+    }
     if (have_snap)
         show_prompt();
     for (;;) {
@@ -778,8 +1004,17 @@ int main(int argc, char **argv)
             fprintf(stderr, "[Z set at %06o by %06o %s]\n", cpu.trap_pc, cpu.trap_word,
                     cpu_dis(cpu.trap_word, cpu.trap_pc, buf));
         }
-        if (r == TRAP_NONE)
+        if (r == TRAP_NONE) {
+            /* SINTRAN breaks a busy program the moment Esc is struck (if it is
+               enabled); MORDOR can spin for ever in a fight (see NOTES.md) */
+            if ((cpu.icount & 0xFFFF) == 0 && term_break_pending(snt.escape_enabled)) {
+                if (user_break(cpu.r[R_P]))
+                    continue;
+                rc = 1;
+                break;
+            }
             continue;
+        }
         if (r == TRAP_MON) {
             int s;
             if (game->save == SAVE_DUMP) {
@@ -807,10 +1042,10 @@ int main(int argc, char **argv)
                     cpu.mem[game->suspend_word] == game->suspend_value)
                     save_suspended(&cpu);
             } else if (s == SIN_BREAK) {
-                char msg[64];
-                /* as SINTRAN prints it: "USER BREAK AT   53031B" */
-                snprintf(msg, sizeof msg, "\r\nUSER BREAK AT %7oB\r\n", snt.exit_pc);
-                term_puts(msg);
+                if (user_break(snt.exit_pc)) {
+                    cpu.r[R_P] = snt.exit_pc;      /* CONTINUE: read the byte again */
+                    continue;
+                }
                 rc = 1;
             } else if (s == SIN_EOF) {
                 term_puts("\r\n");

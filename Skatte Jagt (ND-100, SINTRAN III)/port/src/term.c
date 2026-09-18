@@ -1,14 +1,20 @@
 /*
  * term.c - the SINTRAN terminal on a Windows console or a pipe.
  *
- * The game prints 7-bit ASCII in the Norwegian national variant (NS 4551):
- * [ \ ] { | } are Æ Ø Å æ ø å.  On a console these are shown as the letters
- * and the letters typed are sent back as the 7-bit codes.  A pipe gets UTF-8
- * the same way unless raw mode is on, which passes the ND bytes untouched
- * (that is what the reference transcripts in tests\ are compared against).
+ * The programs print 7-bit ASCII in a national variant: Norwegian (NS 4551,
+ * [ \ ] { | } are Æ Ø Å æ ø å) or Swedish (SEN 850200, [ \ ] { | } are
+ * Ä Ö Å ä ö å, @ ` ^ ~ are É é Ü ü).  On a console these are shown as the
+ * letters and the letters typed are sent back as the 7-bit codes.  A pipe
+ * gets UTF-8 the same way unless raw mode is on, which passes the ND bytes
+ * untouched (that is what the reference transcripts in tests\ are compared
+ * against).
  *
- * Input is one keystroke at a time with no host echo: the game's own
- * runtime echoes and edits (Ctrl-A deletes a character, Ctrl-Q the line).
+ * A program written for the club's Facit screens (term_set_facit) moves the
+ * cursor and sets video attributes with Facit escape codes; they are turned
+ * into VT sequences, and the arrow and Home keys are sent the Facit way.
+ *
+ * Input is one keystroke at a time with no host echo: the program's own
+ * runtime echoes and edits.
  */
 #include <stdio.h>
 #include <string.h>
@@ -21,7 +27,11 @@
 #include <fcntl.h>
 #endif
 
-static int raw_mode, charset;
+#ifndef ENABLE_VIRTUAL_TERMINAL_PROCESSING
+#define ENABLE_VIRTUAL_TERMINAL_PROCESSING 0x0004
+#endif
+
+static int raw_mode, charset, facit;
 static unsigned char obuf[4096];
 static int olen;
 
@@ -32,8 +42,20 @@ static int in_console, out_console;
 static UINT old_cp;
 #endif
 
-static const char nd_national[] = "[\\]{|}";
-static const wchar_t uni_national[] = L"ÆØÅæøå";
+static const char nd_norwegian[] = "[\\]{|}";
+static const wchar_t uni_norwegian[] = L"ÆØÅæøå";
+static const char nd_swedish[] = "[\\]{|}@`^~";
+static const wchar_t uni_swedish[] = L"ÄÖÅäöåÉéÜü";
+
+static const char *nd_national(void)
+{
+    return charset == CS_SWEDISH ? nd_swedish : nd_norwegian;
+}
+
+static const wchar_t *uni_national(void)
+{
+    return charset == CS_SWEDISH ? uni_swedish : uni_norwegian;
+}
 
 int term_is_console(void)
 {
@@ -42,6 +64,23 @@ int term_is_console(void)
 #else
     return 0;
 #endif
+}
+
+void term_set_facit(int on)
+{
+    facit = on;
+}
+
+static int escape_on = 1, arrows = 1;
+
+void term_set_escape(int on)
+{
+    escape_on = on;
+}
+
+void term_set_arrows(int on)
+{
+    arrows = on;
 }
 
 void term_init(int raw, int cs)
@@ -57,6 +96,8 @@ void term_init(int raw, int cs)
     out_console = GetConsoleMode(hout, &old_out_mode) != 0;
     if (in_console)
         SetConsoleMode(hin, ENABLE_EXTENDED_FLAGS | (old_in_mode & ENABLE_QUICK_EDIT_MODE));
+    if (out_console && facit && !raw_mode)
+        SetConsoleMode(hout, old_out_mode | ENABLE_PROCESSED_OUTPUT | ENABLE_VIRTUAL_TERMINAL_PROCESSING);
     old_cp = GetConsoleOutputCP();
 #endif
 }
@@ -82,10 +123,14 @@ void term_hold(void)
 
 void term_restore(void)
 {
+    if (facit && !raw_mode)
+        term_puts("\033[0m\033(B");
     term_flush();
 #ifdef _WIN32
     if (in_console)
         SetConsoleMode(hin, old_in_mode);
+    if (out_console)
+        SetConsoleMode(hout, old_out_mode);
 #endif
 }
 
@@ -121,30 +166,124 @@ static void put_byte(unsigned char b)
     obuf[olen++] = b;
 }
 
-void term_putc(int ch)
+static void put_str(const char *s)
+{
+    while (*s)
+        put_byte((unsigned char)*s++);
+}
+
+/* a Facit escape sequence, complete once args[] holds what it needs */
+static void facit_escape(int cmd, const int *args)
+{
+    char buf[32];
+    switch (cmd) {
+    case 'Y':                                   /* ESC Y row col, both offset by 32 */
+        snprintf(buf, sizeof buf, "\033[%d;%dH", args[0] - 31, args[1] - 31);
+        put_str(buf);
+        break;
+    case 'S':                                   /* set video attributes; '@' = none */
+        put_str("\033[0m");
+        if (args[0] & 0x01) put_str("\033[7m");
+        if (args[0] & 0x02) put_str("\033[5m");
+        if (args[0] & 0x04) put_str("\033[4m");
+        if (args[0] & 0x08) put_str("\033[2m");
+        break;
+    case '\'': put_str("\033[7m"); break;       /* reverse video field */
+    case '(':  put_str("\033[27m"); break;
+    case ')':  put_str("\033[5m"); break;       /* blinking field */
+    case '*':  put_str("\033[25m"); break;
+    case '%':  put_str("\033[4m"); break;       /* underline field */
+    case '&':  put_str("\033[24m"); break;
+    case ',':  put_str("\033[2m"); break;       /* reduced intensity */
+    case '+':  put_str("\033[22m"); break;
+    case 'A':  put_str("\033[A"); break;
+    case 'B':  put_str("\033[B"); break;
+    case 'C':  put_str("\033[C"); break;
+    case 'D':  put_str("\033[D"); break;
+    case 'H':  put_str("\033[H"); break;
+    case 'I':  put_str("\033M"); break;         /* reverse line feed */
+    case 'J':  put_str("\033[J"); break;        /* erase to end of screen */
+    case 'K':  put_str("\033[K"); break;        /* erase to end of line */
+    case 'L': case 'M': case '`':               /* home and clear */
+        put_str("\033[H\033[2J");
+        break;
+    case 'F':  put_str("\033(0"); break;        /* graphic mode: the same line-drawing letters */
+    case 'G':  put_str("\033(B"); break;
+    case 'T':  put_str("\033[L"); break;        /* insert line */
+    case 'U':  put_str("\033[M"); break;        /* delete line */
+    default:   break;                           /* keyclick, wrap, printer, ...: nothing to show */
+    }
+}
+
+static int esc_state;         /* 0, or the Facit command letter being collected */
+static int esc_args[2], esc_nargs;
+
+static int facit_argc(int cmd)
+{
+    switch (cmd) {
+    case 'Y': return 2;
+    case 'S': case '.': case '/': return 1;
+    default: return 0;
+    }
+}
+
+static void put_text(int ch)
 {
     const char *p;
-    ch &= 0x7F;
-    if (raw_mode) {
-        put_byte((unsigned char)ch);
-        return;
-    }
     if (ch < 32) {
         /* keep what a terminal acts on; the start-up EM (031) and the
            kill-line echo (004) show nothing on the terminal either */
         if (ch == '\r' || ch == '\n' || ch == '\a' || ch == '\b' || ch == '\t')
             put_byte((unsigned char)ch);
+        else if (ch == 014 && facit)
+            put_str("\033[H\033[2J");
         return;
     }
     if (ch == 0x7F)
         return;
-    if (charset == CS_NORWEGIAN && (p = strchr(nd_national, ch)) != NULL) {
-        wchar_t u = uni_national[p - nd_national];
+    if (charset != CS_ASCII && (p = strchr(nd_national(), ch)) != NULL) {
+        wchar_t u = uni_national()[p - nd_national()];
         put_byte((unsigned char)(0xC0 | (u >> 6)));
         put_byte((unsigned char)(0x80 | (u & 0x3F)));
         return;
     }
     put_byte((unsigned char)ch);
+}
+
+void term_putc(int ch)
+{
+    ch &= 0x7F;
+    if (raw_mode) {
+        put_byte((unsigned char)ch);
+        return;
+    }
+    if (!facit) {
+        put_text(ch);
+        return;
+    }
+    if (esc_state == 033) {                     /* the command letter */
+        if (facit_argc(ch)) {
+            esc_state = ch;
+            esc_nargs = 0;
+        } else {
+            esc_state = 0;
+            facit_escape(ch, esc_args);
+        }
+        return;
+    }
+    if (esc_state) {                            /* an argument */
+        esc_args[esc_nargs++] = ch;
+        if (esc_nargs == facit_argc(esc_state)) {
+            facit_escape(esc_state, esc_args);
+            esc_state = 0;
+        }
+        return;
+    }
+    if (ch == 033) {
+        esc_state = 033;
+        return;
+    }
+    put_text(ch);
 }
 
 void term_puts(const char *s)
@@ -160,29 +299,51 @@ static int map_unicode(unsigned u)
     const wchar_t *p;
     if (u < 0x80)
         return (int)u;
-    if (charset == CS_NORWEGIAN || !raw_mode) {
-        for (p = uni_national; *p; p++)
+    if (charset != CS_ASCII || !raw_mode) {
+        for (p = uni_national(); *p; p++)
             if (*p == u)
-                return nd_national[p - uni_national];
-        /* Ä and Ö as typed on Swedish/German keyboards stand in for Æ and Ø */
-        if (u == 0xC4) return '[';
-        if (u == 0xE4) return '{';
-        if (u == 0xD6) return '\\';
-        if (u == 0xF6) return '|';
+                return nd_national()[p - uni_national()];
+        if (charset == CS_NORWEGIAN) {
+            /* Ä and Ö as typed on Swedish/German keyboards stand in for Æ and Ø */
+            if (u == 0xC4) return '[';
+            if (u == 0xE4) return '{';
+            if (u == 0xD6) return '\\';
+            if (u == 0xF6) return '|';
+        }
     }
     return -2;   /* not on an ND terminal: ignore */
 }
 
 #ifdef _WIN32
+static int queue[8], qhead, qlen;
+#define FKEY 0x100              /* in the queue: part of an arrow or Home key */
+
+static void enqueue(int c)
+{
+    if (qlen < (int)(sizeof queue / sizeof queue[0]))
+        queue[(qhead + qlen++) % 8] = c;
+}
+
+/* The arrow and Home keys send ESC and a letter.  The game reads them on its
+   hero screen, with Esc disabled; anywhere else the ESC would break the
+   program at once -- a key pressed once too often on that screen, or held
+   down, broke the game just after it.  So they are dropped while Esc is
+   enabled, whenever they were struck. */
 static int console_key(void)
 {
     INPUT_RECORD r;
     DWORD n;
-    static int pending, repeat;
     for (;;) {
-        if (repeat > 0) {
-            repeat--;
-            return pending;
+        if (qlen > 0) {
+            int c = queue[qhead];
+            qhead = (qhead + 1) % 8;
+            qlen--;
+            if (c & FKEY) {
+                if (escape_on)
+                    continue;
+                c &= ~FKEY;
+            }
+            return c;
         }
         if (!ReadConsoleInputW(hin, &r, 1, &n) || n == 0)
             return -1;
@@ -191,9 +352,26 @@ static int console_key(void)
         {
             KEY_EVENT_RECORD *k = &r.Event.KeyEvent;
             unsigned u = k->uChar.UnicodeChar;
-            int c;
+            int c, times = k->wRepeatCount > 0 ? k->wRepeatCount : 1, fkey = 0;
+            if (facit) {
+                switch (k->wVirtualKeyCode) {
+                case VK_UP:    fkey = 'A'; break;
+                case VK_DOWN:  fkey = 'B'; break;
+                case VK_RIGHT: fkey = 'C'; break;
+                case VK_LEFT:  fkey = 'D'; break;
+                case VK_HOME:  fkey = 'H'; break;
+                default: break;
+                }
+            }
+            if (fkey) {
+                while (times-- > 0 && qlen < 7 && !escape_on && arrows) {
+                    enqueue(FKEY | 033);
+                    enqueue(FKEY | fkey);
+                }
+                continue;
+            }
             if (k->wVirtualKeyCode == VK_BACK)
-                c = 1;                         /* the ND delete key was Ctrl-A */
+                c = facit ? 0x7F : 1;          /* Facit sends DEL; the ND delete key was Ctrl-A */
             else if (k->wVirtualKeyCode == VK_RETURN)
                 c = '\r';
             else if (u == 0)
@@ -202,9 +380,10 @@ static int console_key(void)
                 continue;
             if (c == '\n')
                 c = '\r';
-            pending = c;
-            repeat = k->wRepeatCount > 0 ? k->wRepeatCount - 1 : 0;
-            return c;
+            if (c == 033 && !arrows && !escape_on)
+                continue;                      /* a program that reads no escape codes, Esc off */
+            while (times-- > 0)
+                enqueue(c);
         }
     }
 }
@@ -239,6 +418,59 @@ static int pipe_key(void)
         }
         /* other 8-bit bytes cannot come from an ND terminal: drop them */
     }
+}
+
+int term_pending(void)
+{
+#ifdef _WIN32
+    INPUT_RECORD r[64];
+    DWORD n, i;
+    int keys = qlen;
+    if (in_console && PeekConsoleInputW(hin, r, 64, &n)) {
+        for (i = 0; i < n; i++)
+            if (r[i].EventType == KEY_EVENT && r[i].Event.KeyEvent.bKeyDown &&
+                (r[i].Event.KeyEvent.uChar.UnicodeChar || r[i].Event.KeyEvent.wVirtualKeyCode == VK_BACK))
+                keys++;
+        return keys;
+    }
+#endif
+    return 0;
+}
+
+void term_clear_input(void)
+{
+#ifdef _WIN32
+    if (in_console) {
+        qlen = 0;
+        FlushConsoleInputBuffer(hin);
+    }
+#endif
+}
+
+/* Esc or Ctrl-C struck while the program computes: SINTRAN breaks at once.
+   Looks at the console's waiting keys; if one of them is Esc (when esc_counts)
+   or Ctrl-C, everything up to it is consumed and 1 returned.  Other keys stay
+   typed ahead.  A pipe never breaks this way. */
+int term_break_pending(int esc_counts)
+{
+#ifdef _WIN32
+    INPUT_RECORD r[64];
+    DWORD n, i, got;
+    if (!in_console || !PeekConsoleInputW(hin, r, 64, &n))
+        return 0;
+    for (i = 0; i < n; i++) {
+        KEY_EVENT_RECORD *k = &r[i].Event.KeyEvent;
+        if (r[i].EventType != KEY_EVENT || !k->bKeyDown)
+            continue;
+        if ((esc_counts && k->wVirtualKeyCode == VK_ESCAPE) || k->uChar.UnicodeChar == 3) {
+            ReadConsoleInputW(hin, r, i + 1, &got);
+            return 1;
+        }
+    }
+#else
+    (void)esc_counts;
+#endif
+    return 0;
 }
 
 int term_getc(void)

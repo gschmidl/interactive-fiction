@@ -1,0 +1,123 @@
+'CAVE-ORIG\r'            adventure
+'LOCK ROD\r'             command 1
+'UNLOCK INVENTORY\r'     command 2
+'W\r'                    command 3
+'GET KEYS\r'             command 4
+'NE\r'                   command 5
+'S\r'                    command 6
+'SAVE "SAV1"\r'          command 7
+'W\r'                    command 8
+'GET OLD\r'              command 9
+'SE\r'                   command 10
+'GO WEST\r'              command 11
+'LOOK\r'                 command 12
+'NE\r'                   command 13
+'W\r'                    command 14
+'ATTACK ALL\r'           command 15
+'E\r'                    command 16
+'GET INVENTORY\r'        command 17
+'E\r'                    command 18
+'GET EMPTY\r'            command 19
+'HELP ROD\r'             command 20
+'WAVE\r'                 command 21
+'GET EMPTY\r'            command 22
+'NW\r'                   command 23
+'D\r'                    command 24
+'E\r'                    command 25
+'NW\r'                   command 26
+'GET OLD\r'              command 27
+'U\r'                    command 28
+'S\r'                    command 29
+'E\r'                    command 30
+'S\r'                    command 31
+'L INVENTORY\r'          command 32
+'SE\r'                   command 33
+'S\r'                    command 34
+'GET BOTTLE\r'           command 35
+'SE\r'                   command 36
+'NW\r'                   command 37
+'SE\r'                   command 38
+'GET WATER\r'            command 39
+'NW\r'                   command 40
+'N\r'                    command 41
+'ATTACK WATER\r'         command 42
+'MONGOL SWORD\r'         command 43
+'S\r'                    command 44
+'GET WATER\r'            command 45
+'WAVE\r'                 command 46
+'TIE WATER\r'            command 47
+'GET WATER\r'            command 48
+'N\r'                    command 49
+'S\r'                    command 50
+'SE\r'                   command 51
+'NW\r'                   command 52
+'GO N\r'                 command 53
+'SE\r'                   command 54
+'NW\r'                   command 55
+'DOWN\r'                 command 56
+'SE\r'                   command 57
+'GET WATER\r'            command 58
+'SE\r'                   command 59
+'SW\r'                   command 60
+'NW\r'                   command 61
+'NW\r'                   command 62
+'EAST\r'                 command 63
+'CLIMB HOOK\r'           command 64
+'SE\r'                   command 65
+'FILL\r'                 command 66
+'SE\r'                   command 67
+'GET INVENTORY\r'        command 68
+'NW\r'                   command 69
+'OPEN CART\r'            command 70
+'NW\r'                   command 71
+'WEST\r'                 command 72
+'L ROD\r'                command 73
+'N\r'                    command 74
+'S\r'                    command 75
+'D\r'                    command 76
+'GO WEST\r'              command 77
+'N\r'                    command 78
+'SE\r'                   command 79
+'GET I\r'                command 80
+'UP\r'                   command 81
+'LOAD SAV1\r'            command 82
+'GET S\r'                command 83
+'E\r'                    command 84
+'NW\r'                   command 85
+'GO WEST\r'              command 86
+'ATTACK ROD\r'           command 87
+'GET ALL\r'              command 88
+'E\r'                    command 89
+'ATTACK\r'               command 90
+'GET BRASS\r'            command 91
+'SW\r'                   command 92
+'GET LAMP\r'             command 93
+'SE\r'                   command 94
+'CLIMB\r'                command 95
+'N\r'                    command 96
+'SW\r'                   command 97
+'S\r'                    command 98
+'E\r'                    command 99
+'N\r'                    command 100
+'S\r'                    command 101
+'GET OLD\r'              command 102
+'MERRY MSG\r'            command 103
+'E\r'                    command 104
+'GET INVENTORY\r'        command 105
+'OFF KEYS\r'             command 106
+'EAST\r'                 command 107
+'GET BOTTLE\r'           command 108
+'LOOK MATCHES\r'         command 109
+'NW\r'                   command 110
+'FILL\r'                 command 111
+'GET OLD\r'              command 112
+'S\r'                    command 113
+'GET BRASS\r'            command 114
+'NUMENOR ALL\r'          command 115
+'GET OLD\r'              command 116
+'E\r'                    command 117
+'XYZZY HOOK\r'           command 118
+'GET LAMP\r'             command 119
+'SW\r'                   command 120
+'END\r'                  enough
+'NO\r'                   save at the end?

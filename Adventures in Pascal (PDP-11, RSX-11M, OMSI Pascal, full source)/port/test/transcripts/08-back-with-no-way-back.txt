@@ -1,0 +1,78 @@
+==== adventure -u -d 28-OCT-1980 -t 120000
+
+Are you using a VT100?
+
+->no
+
+Be patient, it takes a while to initialize.....
+
+Now loading sections 1-7
+
+Now loading section   8
+
+Now loading section   9
+
+Now loading section  10
+
+Now loading section  11
+
+Now loading section  12
+
+Message of the Day:
+	"If you type magic mode and you are not a foo,
+	You can change all the hours, just to suit you.
+	This can only be done on your very first turn,
+	If you pass a short test that all wizards must learn:
+	The word that you need is a very small guy,
+	And a number of ones plus the hour that you try.
+	Add to the letters, as viewed on the screen
+	And type them back at this infernal machine."
+							- anonymous
+
+Welcome to Adventure!! Would you like instructions?
+
+->no
+
+
+You are standing at the end of a road before a small brick building.
+Around you is a forest.  A small stream flows out of the building and
+down a gully.
+
+->n
+
+You are in an open forest, with a deep valley to one side.
+
+->retreat
+
+You can't get there from here.
+
+You're in forest.
+
+->s
+
+You're in forest.
+
+->back
+
+Sorry, but I no longer seem to remember how it was you got here.
+
+You're in forest.
+
+->quit
+
+Do you really want to quit now?
+
+->yes
+
+OK
+
+
+You scored  32 out of a possible 350 using   5 turns.
+
+You are obviously a rank amateur.  Better luck next time.
+
+To achieve the next higher rating you need   3 more points.
+
+
+
+---- exit 0

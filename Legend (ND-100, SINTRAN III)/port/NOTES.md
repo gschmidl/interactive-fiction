@@ -4,6 +4,14 @@ How LEGEND was recovered and rebuilt, what was wrong with it and with its
 libraries, what SINTRAN III the program needs, and how the port was checked
 against SINTRAN III itself.
 
+Since 18 September 2026 `src\` is the source all the ND-100 ports share
+(`_ND100_work\emu2\src`, copied into each and built with `GAME=3` here).  The
+recorded sessions give the same bytes as before the move, and the data files
+are the same: a session played by either build on the players, scenarios and
+messages the other left gives the same screen and the same files (48
+crossings of the recorded games, `legend.exe` of 17 September against the
+shared source).
+
 ## Where the game came from
 
 Six NDFS floppies of the Swedish computer club DNF, from ndlib.hackercorp.no:
@@ -192,19 +200,19 @@ floating operation), so every `NORR` typed in full ended in the error trap.
 The port's `FDV` did not set Z there and so played on: three of the recorded
 sessions were the only difference left between the port and SINTRAN III, and
 they are what turned this up.  `src\fpu.c` now flags a result whose exponent
-field cannot hold it, and the ports of Skattejakt, SVHA and Mordor have the
-same fix (SIMH and nd100x flag division by zero only, so this is not
+field cannot hold it, and so does every ND-100 port, since they share the
+source (SIMH and nd100x flag division by zero only, so this is not
 something another emulator would have told us).
 
 ## SINTRAN III as ND BASIC needs it
 
-Added to the Skattejakt/SVHA/Mordor monitor calls (`src\sintran.c`), each
-checked on the reference machine:
+What ND BASIC needs of the monitor calls (`src\sintran.c`), beyond what
+Skattejakt, SVHA and Mordor needed, each checked on the reference machine:
 
 | | the port |
 | --- | --- |
 | terminal input | **with even parity**: ND BASIC's line input ends at 0215, rubs out at 0377 or 0201, clears the line at 021 |
-| `@TERMINAL-MODE Y,...` (COMND) | capital letters: `a`-`z` and `{ \| }` (ä ö å) typed become capitals, echo included; `~` and `` ` `` stay as typed |
+| `@TERMINAL-MODE Y,...` (COMND) | capital letters: `a`-`z` and `{ \| }` (ä ö å) typed become capitals, echo included; `~` and `` ` `` stay as typed.  The echo is the capital because LEGEND makes every key a break character (BRKM 0): SINTRAN echoes a break character when the program reads it, after making it a capital, and any other key as it comes in, as typed (My World's small letters echoed small) |
 | MON 3 ECHOM 1 | echo everything but control characters: Return is not echoed (the program starts the new line) |
 | output NUL | not sent: the runtime writes one after every prompt, and the reference terminal shows none |
 | MON 13 CIBUF | forgets the console's typed-ahead keys (a pipe's bytes are kept) |

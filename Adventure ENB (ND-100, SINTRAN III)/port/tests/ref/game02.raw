@@ -1,0 +1,259 @@
+AENBF-REF
+F
+
+G
+                           
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Vill du ha instruktioner?N
+V{nta ett tag tack
+
+Du {r vid en bro
+
+
+ORDER:Karta
+##. . Sl!!. ####. 
+. ##Gu##!!. . ##. 
+. . . . !!. ##. ##
+. T St. !!. ##. . 
+========Du========
+. . ####!!. T ##Gs
+. ##. . !!T . . ##
+. . SkT !!T St. . 
+. ##T ##!!. ##T ##
+
+
+ORDER:\sterut
+Du {r vid en flod
+
+
+ORDER:Ta
+vatten medtaget
+
+
+ORDER:Karta
+. . Sl!!. ####. Gu
+##Gu##!!. . ##. ##
+. . . !!. ##. ##T 
+T St. !!. ##. . T 
+======IIDu========
+. ####!!. T ##Gs. 
+##. . !!T . . ##. 
+. SkT !!T St. . . 
+##T ##!!. ##T ##. 
+
+
+ORDER:V{sterut
+Du {r vid en bro
+
+
+ORDER:\sterut
+Du {r vid en flod
+
+
+ORDER:Ta
+vatten medtaget
+
+
+ORDER:Karta
+. . Sl!!. ####. Gu
+##Gu##!!. . ##. ##
+. . . !!. ##. ##T 
+T St. !!. ##. . T 
+======IIDu========
+. ####!!. T ##Gs. 
+##. . !!T . . ##. 
+. SkT !!T St. . . 
+##T ##!!. ##T ##. 
+
+
+ORDER:Ta
+vatten medtaget
+
+
+ORDER:?
+Dina koordinater {r  19 , 41 
+
+Du b{r med dig:
+ett l{derharnesk
+en dolk
+vatten
+vatten
+vatten
+Du har  0  m{n lejda
+prinsessan {r i grottan
+
+Du har  100 gulddubloner
+Avst}nd till floden: 0 
+Avst}nd till v{gen: 1 
+
+Ditt f|rsvar: 10 
+
+Ditt skydd: 10 
+
+Din styrka: 100 
+TRYCK 'RETURN' N[R DU L[ST F[RDIGT
+
+
+
+ORDER:Ta
+vatten medtaget
+
+
+ORDER:S|derut
+Du {r vid ett f{lt
+Du ser:
+Norrut:en flod
+S|derut:en skog
+\sterut:en skog
+V{sterut:en v{g
+
+
+ORDER:Karta
+##Gu##!!. . ##. ##
+. . . !!. ##. ##T 
+T St. !!. ##. . T 
+======II==========
+. ####!!DuT ##Gs. 
+##. . !!T . . ##. 
+. SkT !!T St. . . 
+##T ##!!. ##T ##. 
+##. T !!T . . ##. 
+
+
+ORDER:S|derut
+Du {r vid en skog
+
+
+ORDER:Karta
+. . . !!. ##. ##T 
+T St. !!. ##. . T 
+======II==========
+. ####!!. T ##Or. 
+##. . !!Du. . ##. 
+. SkT !!T St. . . 
+##T ##!!. ##T ##. 
+##. T !!T . . ##. 
+T . . !!##. T ##. 
+
+
+ORDER:\sterut
+Du {r vid ett f{lt
+Du ser:
+Norrut:en skog
+S|derut:en stad
+\sterut:ett f{lt
+V{sterut:en skog
+
+
+ORDER:\sterut
+Du {r vid ett f{lt
+Du ser:
+Norrut:ett berg
+S|derut:ett f{lt
+\sterut:ett berg
+V{sterut:ett f{lt
+Du har |verfallit en orch
+orchen tr{ffade dig i huvudet
+Tryck 'RETURN' f|r att forts{tta striden
+Du tr{ffade orchen i solarplexus
+Tryck 'RETURN' f|r att forts{tta striden
+++++en orch d|dad++++
+
+
+ORDER:Karta
+. !!. ##. ##T . . 
+. !!. ##. . T GsT 
+==II==============
+##!!. T ##Gs. ##. 
+. !!T . Du##. T . 
+T !!T St. . . . ##
+##!!. ##T ##. T ##
+T !!T . . ##. . . 
+. !!##. T ##. ##. 
+
+
+ORDER:S|derut
+Du {r vid ett f{lt
+Du ser:
+Norrut:ett f{lt
+S|derut:en skog
+\sterut:ett f{lt
+V{sterut:en stad
+
+
+ORDER:Karta
+. !!. ##. . T GsT 
+==II==============
+##!!. T ##Gs. ##. 
+. !!T . . ##. T . 
+T !!T StDu. . . ##
+##!!. ##T ##. T ##
+T !!T . . ##. . . 
+. !!##. T ##. ##. 
+Dr!!. . ####. . . 
+
+
+ORDER:V{sterut
+Du {r vid en stad
+
+
+ORDER:K|pa
+Vad vill du k|paRUSTNING
+en rustning uppk|pt
+
+
+ORDER:Vila
+Du {r vid en stad
+
+
+ORDER:Karta
+St. !!. ##. . T Gs
+====II============
+####!!. T ##Gs. ##
+. . !!T . . ##. T 
+OrDv!!T Du. . . . 
+T ##!!. ##T ##. T 
+. T !!T . . ##. . 
+. . !!##. T ##. ##
+T Dr!!. . ####. . 
+
+
+ORDER:V{sterut
+Du {r vid en skog
+
+
+ORDER:Vila
+Du {r vid en skog
+
+
+ORDER:Felaktigt kommando
+Du {r |verfallen av en orch
+Du tr{ffade orchen i huvudet
+Tryck 'RETURN' f|r att forts{tta striden
+++++en orch d|dad++++
+
+
+ORDER:Vila
+Du {r vid en skog
+Du {r |verfallen av en dv{rg
+dv{rgen tr{ffade dig i huvudet
+Tryck 'RETURN' f|r att forts{tta striden
+dv{rgen tr{ffade dig i skrevet
+Tryck 'RETURN' f|r att forts{tta striden
+++++Du {r d|dad++++
+
+@

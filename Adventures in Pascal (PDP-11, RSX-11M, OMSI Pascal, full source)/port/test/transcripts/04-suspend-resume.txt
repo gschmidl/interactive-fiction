@@ -1,0 +1,353 @@
+==== adventure -d 28-OCT-1980 -t 120000
+
+Are you using a VT100?
+
+->no
+
+Be patient, it takes a while to initialize.....
+
+Now loading sections 1-7
+
+Now loading section   8
+
+Now loading section   9
+
+Now loading section  10
+
+Now loading section  11
+
+Now loading section  12
+
+Message of the Day:
+	"If you type magic mode and you are not a foo,
+	You can change all the hours, just to suit you.
+	This can only be done on your very first turn,
+	If you pass a short test that all wizards must learn:
+	The word that you need is a very small guy,
+	And a number of ones plus the hour that you try.
+	Add to the letters, as viewed on the screen
+	And type them back at this infernal machine."
+							- anonymous
+
+Welcome to Adventure!! Would you like instructions?
+
+->no
+
+
+You are standing at the end of a road before a small brick building.
+Around you is a forest.  A small stream flows out of the building and
+down a gully.
+
+->enter building
+
+You are inside a building, a well house for a large spring.
+
+There are some keys on the ground here.
+
+There is a shiny brass lamp nearby.
+
+There is food here.
+
+There is a bottle of water here.
+
+->take lamp
+
+OK
+
+->take keys
+
+OK
+
+->suspend
+
+I can suspend your Adventure so you can resume later, but you will have
+wait at least  45 minutes before continuing.
+
+Is this acceptable?
+
+->yes
+
+OK
+
+Type your first and last names, please.
+
+->bilbo baggins
+
+Thank you, your Adventure is now being saved...
+
+....done!  See you later.
+
+---- exit 0
+==== adventure -d 28-OCT-1980 -t 121000
+
+Are you using a VT100?
+
+->no
+
+Be patient, it takes a while to initialize.....
+
+Now loading sections 1-7
+
+Now loading section   8
+
+Now loading section   9
+
+Now loading section  10
+
+Now loading section  11
+
+Now loading section  12
+
+Message of the Day:
+	"If you type magic mode and you are not a foo,
+	You can change all the hours, just to suit you.
+	This can only be done on your very first turn,
+	If you pass a short test that all wizards must learn:
+	The word that you need is a very small guy,
+	And a number of ones plus the hour that you try.
+	Add to the letters, as viewed on the screen
+	And type them back at this infernal machine."
+							- anonymous
+
+I have a few saved Adventures on file, are you restarting a saved game?
+
+->yes
+
+Very well.
+
+Type the name under which this Adventure was saved.
+
+->bilbo baggins
+
+Found it!
+
+This Adventure was suspended a mere  10 minutes ago.
+
+Even wizards have to wait longer than that!
+
+---- exit 0
+==== adventure -d 28-OCT-1980 -t 130000
+
+Are you using a VT100?
+
+->no
+
+Be patient, it takes a while to initialize.....
+
+Now loading sections 1-7
+
+Now loading section   8
+
+Now loading section   9
+
+Now loading section  10
+
+Now loading section  11
+
+Now loading section  12
+
+Message of the Day:
+	"If you type magic mode and you are not a foo,
+	You can change all the hours, just to suit you.
+	This can only be done on your very first turn,
+	If you pass a short test that all wizards must learn:
+	The word that you need is a very small guy,
+	And a number of ones plus the hour that you try.
+	Add to the letters, as viewed on the screen
+	And type them back at this infernal machine."
+							- anonymous
+
+I have a few saved Adventures on file, are you restarting a saved game?
+
+->yes
+
+Very well.
+
+Type the name under which this Adventure was saved.
+
+->frodo baggins
+
+I have no record of an Adventure being saved under that name, so I guess
+you'll have to start from scratch...
+
+Welcome to Adventure!! Would you like instructions?
+
+->no
+
+
+You are standing at the end of a road before a small brick building.
+Around you is a forest.  A small stream flows out of the building and
+down a gully.
+
+->quit
+
+Do you really want to quit now?
+
+->yes
+
+OK
+
+
+You scored  32 out of a possible 350 using   1 turns.
+
+You are obviously a rank amateur.  Better luck next time.
+
+To achieve the next higher rating you need   3 more points.
+
+
+
+---- exit 0
+==== adventure -d 28-OCT-1980 -t 130500
+
+Are you using a VT100?
+
+->no
+
+Be patient, it takes a while to initialize.....
+
+Now loading sections 1-7
+
+Now loading section   8
+
+Now loading section   9
+
+Now loading section  10
+
+Now loading section  11
+
+Now loading section  12
+
+Message of the Day:
+	"If you type magic mode and you are not a foo,
+	You can change all the hours, just to suit you.
+	This can only be done on your very first turn,
+	If you pass a short test that all wizards must learn:
+	The word that you need is a very small guy,
+	And a number of ones plus the hour that you try.
+	Add to the letters, as viewed on the screen
+	And type them back at this infernal machine."
+							- anonymous
+
+I have a few saved Adventures on file, are you restarting a saved game?
+
+->yes
+
+Very well.
+
+Type the name under which this Adventure was saved.
+
+->bilbo baggins
+
+Found it!
+
+A giant Wizard clothed in grey appears.
+
+He waves his magic wand and....
+
+....incoherently mumbles a few secret magic words.
+
+Suddenly there is a great puff of green smoke....
+
+            **> POOF! <**
+
+...and you look around to find...
+
+You are inside a building, a well house for a large spring.
+
+There is food here.
+
+There is a bottle of water here.
+
+->inventory
+
+You are currently holding the following:
+set of keys
+brass lantern
+
+->look
+
+Sorry, but I am not allowed to give more detail.  I will repeat the
+long description of your location.
+
+You are inside a building, a well house for a large spring.
+
+There is food here.
+
+There is a bottle of water here.
+
+->quit
+
+Do you really want to quit now?
+
+->yes
+
+OK
+
+
+You scored  32 out of a possible 350 using   7 turns.
+
+You are obviously a rank amateur.  Better luck next time.
+
+To achieve the next higher rating you need   3 more points.
+
+
+
+---- exit 0
+==== adventure -d 28-OCT-1980 -t 131000
+
+Are you using a VT100?
+
+->no
+
+Be patient, it takes a while to initialize.....
+
+Now loading sections 1-7
+
+Now loading section   8
+
+Now loading section   9
+
+Now loading section  10
+
+Now loading section  11
+
+Now loading section  12
+
+Message of the Day:
+	"If you type magic mode and you are not a foo,
+	You can change all the hours, just to suit you.
+	This can only be done on your very first turn,
+	If you pass a short test that all wizards must learn:
+	The word that you need is a very small guy,
+	And a number of ones plus the hour that you try.
+	Add to the letters, as viewed on the screen
+	And type them back at this infernal machine."
+							- anonymous
+
+Welcome to Adventure!! Would you like instructions?
+
+->no
+
+
+You are standing at the end of a road before a small brick building.
+Around you is a forest.  A small stream flows out of the building and
+down a gully.
+
+->quit
+
+Do you really want to quit now?
+
+->yes
+
+OK
+
+
+You scored  32 out of a possible 350 using   1 turns.
+
+You are obviously a rank amateur.  Better luck next time.
+
+To achieve the next higher rating you need   3 more points.
+
+
+
+---- exit 0

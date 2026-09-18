@@ -3,7 +3,14 @@
 How SVHA-ADVENTURE runs on the ND-100/SINTRAN emulator built for Skattejakt,
 what it needed beyond that game, and how the added SAVE works.  Octal
 throughout.  The machine itself (CPU, floating point, the terminal) is
-described in the Skattejakt port's `NOTES.md`; the source is shared.
+described in the Skattejakt port's `NOTES.md`; the source is shared, since
+18 September 2026 with all the ND-100 ports (`_ND100_work\emu2\src`, copied
+into each).  For SVHA that changed Esc, which now leaves SINTRAN's `@` with
+`CONTINUE` and `LOGOUT` as the other ports do, and the debug commands (below).
+A saved game keeps the names of the game's open files, as the program gave
+them (`(GAMES)SVHA-STLOTEXT`) before and as found (`SVHA-STLOTEXT:SYMB`) now;
+either build reopens either, and a game saved by one plays on in the other
+byte for byte.
 
 ## Where it came from
 
@@ -229,10 +236,14 @@ broader version of that scan).
 
 `tests/fixtest.py` plays each case, with the fixes and with `--no-fixes`.  It
 uses `--debug`, which the port keeps for this kind of work and does not list
-in `--help`: at the command prompt `#peek ADDR [COUNT]`, `#poke ADDR VALUE...`
-and `#find VALUE [FROM [TO]]` (octal, COUNT too; a trailing `.` makes a number
-decimal).  A `#` line is limited by the game's editor to the width of the
-line, so a long poke goes in pieces.
+in `--help`: at the command prompt `#peek ADDR [COUNT]`, `#poke ADDR VALUE...`,
+`#find VALUE... [in FROM TO]` (the words in a row) and `#dump FILE` (all of
+memory), octal, COUNT too; a trailing `.` makes a number decimal.  They are
+the shared ones of all the ND-100 ports; SVHA reads its lines itself, so the
+port takes a `#` line from the game's buffer, puts the machine back as it was
+at the prompt, and keeps what was poked.  A `#` line is limited by the game's
+editor to the width of the line, so a long poke, or a long file name, goes in
+pieces.
 
 `tools/fixscan.py` types every vocabulary word, alone and with each of eight
 objects, and then TAKE, OPEN and LOOK, from five places (the building, the

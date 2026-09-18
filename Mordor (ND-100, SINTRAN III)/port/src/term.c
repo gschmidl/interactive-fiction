@@ -71,11 +71,16 @@ void term_set_facit(int on)
     facit = on;
 }
 
-static int escape_on = 1;
+static int escape_on = 1, arrows = 1;
 
 void term_set_escape(int on)
 {
     escape_on = on;
+}
+
+void term_set_arrows(int on)
+{
+    arrows = on;
 }
 
 void term_init(int raw, int cs)
@@ -359,7 +364,7 @@ static int console_key(void)
                 }
             }
             if (fkey) {
-                while (times-- > 0 && qlen < 7 && !escape_on) {
+                while (times-- > 0 && qlen < 7 && !escape_on && arrows) {
                     enqueue(FKEY | 033);
                     enqueue(FKEY | fkey);
                 }
@@ -375,6 +380,8 @@ static int console_key(void)
                 continue;
             if (c == '\n')
                 c = '\r';
+            if (c == 033 && !arrows && !escape_on)
+                continue;                      /* a program that reads no escape codes, Esc off */
             while (times-- > 0)
                 enqueue(c);
         }
@@ -428,6 +435,16 @@ int term_pending(void)
     }
 #endif
     return 0;
+}
+
+void term_clear_input(void)
+{
+#ifdef _WIN32
+    if (in_console) {
+        qlen = 0;
+        FlushConsoleInputBuffer(hin);
+    }
+#endif
 }
 
 /* Esc or Ctrl-C struck while the program computes: SINTRAN breaks at once.

@@ -1,0 +1,435 @@
+'CAVE-FUN\r'             adventure
+'N\r'                    script 1
+'GET LAMP\r'             script 2
+'S\r'                    script 3
+'SW\r'                   script 4
+'GET MATCHES\r'          script 5
+'N\r'                    script 6
+'GET KEYS\r'             script 7
+'SE\r'                   script 8
+'E\r'                    script 9
+'GET BOTTLE\r'           script 10
+'S\r'                    script 11
+'SE\r'                   script 12
+'E\r'                    script 13
+'FILL\r'                 script 14
+'E\r'                    script 15
+'E\r'                    script 16
+'E\r'                    script 17
+'UNLOCK\r'               script 18
+'E\r'                    script 19
+'ON LAMP\r'              script 20
+'N\r'                    script 21
+'NW\r'                   script 22
+'GET MAIL\r'             script 23
+'E\r'                    script 24
+'E\r'                    script 25
+'GET ROD\r'              script 26
+'HUGABUGA\r'             script 27
+'S\r'                    script 28
+'S\r'                    script 29
+'S\r'                    script 30
+'W\r'                    script 31
+'READ MESSAGE\r'         script 32
+'WAVE ROD\r'             script 33
+'W\r'                    script 34
+'DROP KEYS\r'            script 35
+'DROP ROD\r'             script 36
+'GET SWORD\r'            script 37
+'NE\r'                   script 38
+'E\r'                    script 39
+'E\r'                    script 40
+'GET AXE\r'              script 41
+'W\r'                    script 42
+'N\r'                    script 43
+'N\r'                    script 44
+'E\r'                    script 45
+'E\r'                    script 46
+'SE\r'                   script 47
+'NUMENOR\r'              script 48
+'S\r'                    script 49
+'S\r'                    script 50
+'SW\r'                   script 51
+'SE\r'                   script 52
+'NE\r'                   script 53
+'S\r'                    script 54
+'GET CART\r'             script 55
+'N\r'                    script 56
+'SE\r'                   script 57
+'NE\r'                   script 58
+'N\r'                    script 59
+'XYZZY\r'                script 60
+'W\r'                    script 61
+'GET KEY\r'              script 62
+'E\r'                    script 63
+'S\r'                    script 64
+'SW\r'                   script 65
+'NW\r'                   script 66
+'NE\r'                   script 67
+'UNLOCK\r'               script 68
+'N\r'                    script 69
+'GET CHEST\r'            script 70
+'SW\r'                   script 71
+'S\r'                    script 72
+'SW\r'                   script 73
+'NW\r'                   script 74
+'N\r'                    script 75
+'N\r'                    script 76
+'E\r'                    script 77
+'GET JEWEL\r'            script 78
+'W\r'                    script 79
+'SE\r'                   script 80
+'GET STATUE\r'           script 81
+'NW\r'                   script 82
+'SW\r'                   script 83
+'W\r'                    script 84
+'W\r'                    script 85
+'SW\r'                   script 86
+'S\r'                    script 87
+'NE\r'                   script 88
+'GET EGG\r'              script 89
+'E\r'                    script 90
+'SW\r'                   script 91
+'GET HOOK\r'             script 92
+'W\r'                    script 93
+'GET ROPE\r'             script 94
+'TIE HOOK\r'             script 95
+'SE\r'                   script 96
+'NE\r'                   script 97
+'E\r'                    script 98
+'N\r'                    script 99
+'N\r'                    script 100
+'E\r'                    script 101
+'NE\r'                   script 102
+'N\r'                    script 103
+'W\r'                    script 104
+'NE\r'                   script 105
+'OFFICER\r'              script 106
+'N\r'                    script 107
+'NE\r'                   script 108
+'GET CROWN\r'            script 109
+'W\r'                    script 110
+'SE\r'                   script 111
+'GET GOLD\r'             script 112
+'NW\r'                   script 113
+'S\r'                    script 114
+'W\r'                    script 115
+'W\r'                    script 116
+'W\r'                    script 117
+'W\r'                    script 118
+'W\r'                    script 119
+'SW\r'                   script 120
+'NW\r'                   script 121
+'SW\r'                   script 122
+'NW\r'                   script 123
+'NW\r'                   script 124
+'DROP AXE\r'             script 125
+'DROP CHEST\r'           script 126
+'DROP JEWEL\r'           script 127
+'DROP STATUE\r'          script 128
+'DROP EGG\r'             script 129
+'DROP CROWN\r'           script 130
+'DROP GOLD\r'            script 131
+'DROP KEY\r'             script 132
+'GET S\r'                script 133
+'SE\r'                   script 134
+'SE\r'                   script 135
+'E\r'                    script 136
+'E\r'                    script 137
+'E\r'                    script 138
+'E\r'                    script 139
+'E\r'                    script 140
+'E\r'                    script 141
+'NE\r'                   script 142
+'D\r'                    script 143
+'E\r'                    script 144
+'E\r'                    script 145
+'FRODO\r'                script 146
+'E\r'                    script 147
+'NE\r'                   script 148
+'E\r'                    script 149
+'GET MAIL\r'             script 150
+'W\r'                    script 151
+'SW\r'                   script 152
+'E\r'                    script 153
+'E\r'                    script 154
+'GET BANNER\r'           script 155
+'W\r'                    script 156
+'W\r'                    script 157
+'W\r'                    script 158
+'W\r'                    script 159
+'NE\r'                   script 160
+'NE\r'                   script 161
+'MERRY\r'                script 162
+'E\r'                    script 163
+'GET HORN\r'             script 164
+'W\r'                    script 165
+'SW\r'                   script 166
+'SW\r'                   script 167
+'W\r'                    script 168
+'S\r'                    script 169
+'SW\r'                   script 170
+'NW\r'                   script 171
+'GET GOLD\r'             script 172
+'N\r'                    script 173
+'N\r'                    script 174
+'S\r'                    script 175
+'S\r'                    script 176
+'S\r'                    script 177
+'SW\r'                   script 178
+'S\r'                    script 179
+'S\r'                    script 180
+'S\r'                    script 181
+'SHAH\r'                 script 182
+'S\r'                    script 183
+'GET RUG\r'              script 184
+'N\r'                    script 185
+'N\r'                    script 186
+'N\r'                    script 187
+'N\r'                    script 188
+'NE\r'                   script 189
+'NE\r'                   script 190
+'SE\r'                   script 191
+'E\r'                    script 192
+'E\r'                    script 193
+'N\r'                    script 194
+'GET SILVER\r'           script 195
+'S\r'                    script 196
+'SE\r'                   script 197
+'SE\r'                   script 198
+'NE\r'                   script 199
+'E\r'                    script 200
+'GET MINERALS\r'         script 201
+'W\r'                    script 202
+'SE\r'                   script 203
+'S\r'                    script 204
+'SE\r'                   script 205
+'GET EMERALD\r'          script 206
+'NW\r'                   script 207
+'N\r'                    script 208
+'N\r'                    script 209
+'SW\r'                   script 210
+'NW\r'                   script 211
+'SW\r'                   script 212
+'W\r'                    script 213
+'S\r'                    script 214
+'SE\r'                   script 215
+'GET PLATINUM\r'         script 216
+'NW\r'                   script 217
+'N\r'                    script 218
+'N\r'                    script 219
+'NW\r'                   script 220
+'NW\r'                   script 221
+'N\r'                    script 222
+'U\r'                    script 223
+'SW\r'                   script 224
+'W\r'                    script 225
+'W\r'                    script 226
+'W\r'                    script 227
+'SW\r'                   script 228
+'NW\r'                   script 229
+'SW\r'                   script 230
+'NW\r'                   script 231
+'NW\r'                   script 232
+'DROP BANNER\r'          script 233
+'DROP HORN\r'            script 234
+'DROP GOLD\r'            script 235
+'DROP RUG\r'             script 236
+'DROP SILVER\r'          script 237
+'DROP MINERALS\r'        script 238
+'DROP EMERALD\r'         script 239
+'DROP PLATINUM\r'        script 240
+'DROP MAIL\r'            script 241
+'GET S\r'                script 242
+'SE\r'                   script 243
+'SE\r'                   script 244
+'E\r'                    script 245
+'E\r'                    script 246
+'E\r'                    script 247
+'E\r'                    script 248
+'E\r'                    script 249
+'E\r'                    script 250
+'SE\r'                   script 251
+'U\r'                    script 252
+'N\r'                    script 253
+'N\r'                    script 254
+'NE\r'                   script 255
+'GET JEWELS\r'           script 256
+'NW\r'                   script 257
+'GET GLOBE\r'            script 258
+'S\r'                    script 259
+'S\r'                    script 260
+'S\r'                    script 261
+'E\r'                    script 262
+'NE\r'                   script 263
+'HELP\r'                 script 264
+'NE\r'                   script 265
+'N\r'                    script 266
+'GET KEY\r'              script 267
+'N\r'                    script 268
+'NW\r'                   script 269
+'GET KEY\r'              script 270
+'SE\r'                   script 271
+'NE\r'                   script 272
+'GET BEANS\r'            script 273
+'S\r'                    script 274
+'S\r'                    script 275
+'S\r'                    script 276
+'SW\r'                   script 277
+'SW\r'                   script 278
+'W\r'                    script 279
+'S\r'                    script 280
+'UNLOCK\r'               script 281
+'S\r'                    script 282
+'W\r'                    script 283
+'W\r'                    script 284
+'S\r'                    script 285
+'S\r'                    script 286
+'GET SPICES\r'           script 287
+'N\r'                    script 288
+'N\r'                    script 289
+'E\r'                    script 290
+'S\r'                    script 291
+'S\r'                    script 292
+'GET HONEY\r'            script 293
+'N\r'                    script 294
+'N\r'                    script 295
+'E\r'                    script 296
+'S\r'                    script 297
+'S\r'                    script 298
+'GET NUTS\r'             script 299
+'N\r'                    script 300
+'N\r'                    script 301
+'E\r'                    script 302
+'S\r'                    script 303
+'S\r'                    script 304
+'GET COCONUTS\r'         script 305
+'N\r'                    script 306
+'N\r'                    script 307
+'E\r'                    script 308
+'S\r'                    script 309
+'S\r'                    script 310
+'GET WINE\r'             script 311
+'N\r'                    script 312
+'E\r'                    script 313
+'E\r'                    script 314
+'S\r'                    script 315
+'GET FOOD\r'             script 316
+'N\r'                    script 317
+'W\r'                    script 318
+'W\r'                    script 319
+'N\r'                    script 320
+'W\r'                    script 321
+'W\r'                    script 322
+'N\r'                    script 323
+'N\r'                    script 324
+'D\r'                    script 325
+'N\r'                    script 326
+'NE\r'                   script 327
+'D\r'                    script 328
+'S\r'                    script 329
+'SE\r'                   script 330
+'E\r'                    script 331
+'E\r'                    script 332
+'SE\r'                   script 333
+'SE\r'                   script 334
+'NE\r'                   script 335
+'E\r'                    script 336
+'NE\r'                   script 337
+'NE\r'                   script 338
+'PLANT BEANS\r'          script 339
+'WATER\r'                script 340
+'SW\r'                   script 341
+'SW\r'                   script 342
+'W\r'                    script 343
+'SW\r'                   script 344
+'NW\r'                   script 345
+'NW\r'                   script 346
+'W\r'                    script 347
+'W\r'                    script 348
+'NW\r'                   script 349
+'SW\r'                   script 350
+'NW\r'                   script 351
+'N\r'                    script 352
+'N\r'                    script 353
+'FILL\r'                 script 354
+'S\r'                    script 355
+'S\r'                    script 356
+'S\r'                    script 357
+'NE\r'                   script 358
+'SE\r'                   script 359
+'E\r'                    script 360
+'E\r'                    script 361
+'SE\r'                   script 362
+'SE\r'                   script 363
+'NE\r'                   script 364
+'E\r'                    script 365
+'NE\r'                   script 366
+'NE\r'                   script 367
+'WATER\r'                script 368
+'CLIMB\r'                script 369
+'S\r'                    script 370
+'S\r'                    script 371
+'MONGOL\r'               script 372
+'S\r'                    script 373
+'GET CALIFORNIUM\r'      script 374
+'N\r'                    script 375
+'N\r'                    script 376
+'N\r'                    script 377
+'CLIMB\r'                script 378
+'SW\r'                   script 379
+'SW\r'                   script 380
+'W\r'                    script 381
+'SW\r'                   script 382
+'NW\r'                   script 383
+'NW\r'                   script 384
+'W\r'                    script 385
+'W\r'                    script 386
+'NW\r'                   script 387
+'SW\r'                   script 388
+'SW\r'                   script 389
+'S\r'                    script 390
+'SW\r'                   script 391
+'DROP WINE\r'            script 392
+'S\r'                    script 393
+'S\r'                    script 394
+'FEED BEAR\r'            script 395
+'UNLOCK\r'               script 396
+'GET CHAIN\r'            script 397
+'N\r'                    script 398
+'N\r'                    script 399
+'N\r'                    script 400
+'JUMP\r'                 script 401
+'GET BASKET\r'           script 402
+'GET WINE\r'             script 403
+'CLIMB\r'                script 404
+'NE\r'                   script 405
+'N\r'                    script 406
+'NE\r'                   script 407
+'NE\r'                   script 408
+'N\r'                    script 409
+'U\r'                    script 410
+'SW\r'                   script 411
+'W\r'                    script 412
+'W\r'                    script 413
+'W\r'                    script 414
+'SW\r'                   script 415
+'NW\r'                   script 416
+'SW\r'                   script 417
+'NW\r'                   script 418
+'NW\r'                   script 419
+'DROP JEWELS\r'          script 420
+'DROP GLOBE\r'           script 421
+'DROP SPICES\r'          script 422
+'DROP HONEY\r'           script 423
+'DROP NUTS\r'            script 424
+'DROP COCONUTS\r'        script 425
+'DROP WINE\r'            script 426
+'DROP CALIFORNIUM\r'     script 427
+'DROP CHAIN\r'           script 428
+'DROP BASKET\r'          script 429
+'DROP MAIL\r'            script 430
+'DROP SWORD\r'           script 431
+'GET S\r'                script 432
+'END\r'                  end of the script
+'N\r'                    save at the end?

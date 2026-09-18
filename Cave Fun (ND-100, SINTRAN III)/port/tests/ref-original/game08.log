@@ -1,0 +1,123 @@
+'CAVE-ORIG\r'            adventure
+'SW\r'                   command 1
+'SE\r'                   command 2
+'SE\r'                   command 3
+'NW\r'                   command 4
+'N\r'                    command 5
+'GET BOTTLE\r'           command 6
+'NW\r'                   command 7
+'W\r'                    command 8
+'E\r'                    command 9
+'TIE BOTTLE\r'           command 10
+'W\r'                    command 11
+'SAVE "SAV1"\r'          command 12
+'SE\r'                   command 13
+'LOOK\r'                 command 14
+'SW\r'                   command 15
+'N\r'                    command 16
+'NE\r'                   command 17
+'GET LAMP\r'             command 18
+'GET OLD\r'              command 19
+'GET OLD\r'              command 20
+'GO SOUTH\r'             command 21
+'TAKE\r'                 command 22
+'GET S\r'                command 23
+'SE\r'                   command 24
+'GET LAMP\r'             command 25
+'CLIMB HOOK\r'           command 26
+'NW\r'                   command 27
+'W\r'                    command 28
+'SE\r'                   command 29
+'GET ALL\r'              command 30
+'THROW BEAR\r'           command 31
+'E\r'                    command 32
+'SW\r'                   command 33
+'GET OLD\r'              command 34
+'THROW CART\r'           command 35
+'GET S\r'                command 36
+'N\r'                    command 37
+'S\r'                    command 38
+'SW\r'                   command 39
+'E\r'                    command 40
+'READ BOX\r'             command 41
+'SE\r'                   command 42
+'N\r'                    command 43
+'S\r'                    command 44
+'N\r'                    command 45
+'MONGOL MESSAGE\r'       command 46
+'FEED XYZZY\r'           command 47
+'SW\r'                   command 48
+'GET MATCHES\r'          command 49
+'W\r'                    command 50
+'NE\r'                   command 51
+'E\r'                    command 52
+'L MSG\r'                command 53
+'NW\r'                   command 54
+'GET OLD\r'              command 55
+'LOOK\r'                 command 56
+'S\r'                    command 57
+'W\r'                    command 58
+'SE\r'                   command 59
+'SE\r'                   command 60
+'NW\r'                   command 61
+'W\r'                    command 62
+'E\r'                    command 63
+'W\r'                    command 64
+'NE\r'                   command 65
+'S\r'                    command 66
+'GET IRON\r'             command 67
+'MONGOL S\r'             command 68
+'SW\r'                   command 69
+'GO S\r'                 command 70
+'SE\r'                   command 71
+'NW\r'                   command 72
+'GET MATCHES\r'          command 73
+'GET BOX\r'              command 74
+'SW\r'                   command 75
+'N\r'                    command 76
+'SAVE "SAV2"\r'          command 77
+'N\r'                    command 78
+'WEST\r'                 command 79
+'GET KEYS\r'             command 80
+'THROW ROPE\r'           command 81
+'GET S\r'                command 82
+'GET IRON\r'             command 83
+'GET KEYS\r'             command 84
+'GET OLD\r'              command 85
+'SE\r'                   command 86
+'WEST\r'                 command 87
+'S\r'                    command 88
+'E\r'                    command 89
+'SW\r'                   command 90
+'HELP\r'                 command 91
+'FRODO BOTTLE\r'         command 92
+'E\r'                    command 93
+'CLIMB TROLL\r'          command 94
+'WAVE ROD\r'             command 95
+'W\r'                    command 96
+'SHAH SILVER\r'          command 97
+'S\r'                    command 98
+'L CART\r'               command 99
+'GET INVENTORY\r'        command 100
+'HELP ORC\r'             command 101
+'E\r'                    command 102
+'THROW ROPE\r'           command 103
+'E\r'                    command 104
+'NW\r'                   command 105
+'READ KEY\r'             command 106
+'SW\r'                   command 107
+'TIE\r'                  command 108
+'THROW PLATINUM\r'       command 109
+'S\r'                    command 110
+'N\r'                    command 111
+'GO NORTH\r'             command 112
+'GET MATCHES\r'          command 113
+'E\r'                    command 114
+'E\r'                    command 115
+'MONGOL SCORE\r'         command 116
+'GO EAST\r'              command 117
+'UNLOCK\r'               command 118
+'ON INVENTORY\r'         command 119
+'GO DOWN\r'              command 120
+'END\r'                  enough
+'NO\r'                   save at the end?

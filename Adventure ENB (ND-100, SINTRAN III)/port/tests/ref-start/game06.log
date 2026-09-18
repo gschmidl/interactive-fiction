@@ -1,0 +1,20 @@
+'NEJ\r'                  instructions?
+'?'                      look at oneself (command 1)
+'\r'                     return
+'\x1bH'                  map (command 2)
+'\x1bD'                  towards NW (command 3)
+'T'                      take (command 4)
+'?'                      look at oneself (command 5)
+'\r'                     return
+'T'                      take (command 6)
+'\x1bA'                  arrow N (command 7)
+'T'                      take (command 8)
+'\x1bC'                  arrow E (command 9)
+'\x1bA'                  arrow N (command 10)
+'\x1bH'                  map (command 11)
+'\x1bC'                  arrow E (command 12)
+'\x1bH'                  map (command 13)
+'\x1bD'                  towards W (command 14)
+'\x1bH'                  map (command 15)
+'\x1bC'                  arrow E (command 16)
+'\x1bB'                  arrow S (command 17)

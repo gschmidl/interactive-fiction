@@ -12,6 +12,8 @@ void term_set_facit(int on);
 /* whether Esc breaks the program now; while it does, the arrow and Home
    keys are dropped, as their ESC could only break it */
 void term_set_escape(int on);
+/* whether the arrow and Home keys mean anything to the program at all */
+void term_set_arrows(int on);
 void term_hold(void);       /* wait for a key if this is the only process on the console */
 void term_restore(void);
 int  term_is_console(void);
@@ -20,6 +22,8 @@ int  term_is_console(void);
 int  term_getc(void);
 /* how many typed characters are waiting (never blocks; a pipe reports 0) */
 int  term_pending(void);
+/* forget what has been typed ahead on the console (a pipe keeps its bytes) */
+void term_clear_input(void);
 /* Esc (if esc_counts) or Ctrl-C struck on the console while the program runs */
 int  term_break_pending(int esc_counts);
 /* one character from the program (parity is stripped here) */

@@ -1,0 +1,213 @@
+AENBF-REF
+F
+
+G
+                           
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Vill du ha instruktioner?N
+V{nta ett tag tack
+
+Du {r vid en bro
+
+
+ORDER:Norrut
+Du {r vid en v{g
+
+
+ORDER:?
+Dina koordinater {r  20 , 40 
+
+Du b{r med dig:
+ett l{derharnesk
+en dolk
+Du har  0  m{n lejda
+prinsessan {r i grottan
+
+Du har  100 gulddubloner
+Avst}nd till floden: 1 
+Avst}nd till v{gen: 0 
+
+Ditt f|rsvar: 10 
+
+Ditt skydd: 10 
+
+Din styrka: 100 
+TRYCK 'RETURN' N[R DU L[ST F[RDIGT
+
+
+
+ORDER:S|derut
+Du {r vid en bro
+
+
+ORDER:Karta
+##. . Sl!!. ####. 
+. ##Gu##!!. . ##. 
+. . . . !!. ##. ##
+. T St. !!. ##. . 
+========Du========
+. . ####!!. T ##Gs
+. ##. . !!T . . ##
+. . SkT !!T St. . 
+. ##T ##!!. ##T ##
+
+
+ORDER:Norrut
+Du {r vid en v{g
+
+
+ORDER:Karta
+. . . . !!##. T T 
+##. . Sl!!. ####. 
+. ##Gu##!!. . ##. 
+. . . . !!. ##. ##
+. T St. Du. ##. . 
+========II========
+. . ####!!. T ##Gs
+. ##. . !!T . . ##
+. . SkT !!T St. . 
+
+
+ORDER:V{sterut
+Du {r vid ett f{lt
+Du ser:
+Norrut:ett f{lt
+S|derut:en flod
+\sterut:en v{g
+V{sterut:en stad
+
+
+ORDER:Karta
+T . . . . !!##. T 
+Gu##. . Sl!!. ####
+. . ##Gu##!!. . ##
+##. . . . !!. ##. 
+. . T StDu!!. ##. 
+==========II======
+T . . ####!!. T ##
+T . ##. . !!T . . 
+##. . SkT !!T St. 
+
+
+ORDER:V{sterut
+Du {r vid en stad
+
+
+ORDER:Leja
+Hur m}nga vill du leja (1-5):7
+Hur m}nga vill du leja (1-5):1
+Vad betalar du till nr 1      0
+Vad betalar du till nr 1      5
+
+
+ORDER:S|derut
+Du kan inte korsa floden
+
+
+ORDER:K|pa
+Vad vill du k|paRU
+en rustning uppk|pt
+
+
+ORDER:Norrut
+Du {r vid ett f{lt
+Du ser:
+Norrut:en gumma
+S|derut:en stad
+\sterut:ett f{lt
+V{sterut:ett f{lt
+
+
+ORDER:Norrut
+Du {r vid en gumma
+Man nr: 1  har deserterat
+
+
+ORDER:Fr}ga
+Gumman s{ger att grottan ligger }t nord|st
+
+
+ORDER:\sterut
+Du {r vid ett berg
+
+
+ORDER:\sterut
+Du {r vid en v{g
+
+
+ORDER:Vila
+Du {r vid en v{g
+Slott p} koordinaterna  7 , 54 sk|vlat av en j{tte
+
+
+ORDER:Karta
+T . TrGu!!. T T . 
+. T . T !!T ##. . 
+. . . . !!##. T T 
+##. . Sl!!. ####. 
+. OrGu##Du. . Or. 
+. . . . !!. ##. ##
+. T St. !!. ##. . 
+========II========
+. . ####!!. T ##Gs
+
+
+ORDER:Vila
+Du {r vid en v{g
+
+
+ORDER:?
+Dina koordinater {r  22 , 40 
+
+Du b{r med dig:
+ett l{derharnesk
+en dolk
+en rustning
+Du har  0  m{n lejda
+prinsessan {r i grottan
+
+Du har  55 gulddubloner
+Avst}nd till floden: 3 
+Avst}nd till v{gen: 0 
+
+Ditt f|rsvar: 10 
+
+Ditt skydd: 60 
+
+Din styrka: 101 
+TRYCK 'RETURN' N[R DU L[ST F[RDIGT
+
+
+
+ORDER:Karta
+T . . GuR|. T T . 
+. T . T TrT ##. . 
+. . . . !!##. T T 
+##. . Sl!!. ####. 
+Dv##GuOrDu. Or##. 
+. . . . !!. ##. ##
+. T St. !!. ##. . 
+========II========
+. . ####!!. T ##Gs
+Du {r |verfallen av en orch
+orchen tr{ffade dig i skrevet
+Tryck 'RETURN' f|r att forts{tta striden
+orchen tr{ffade dig i benet
+Tryck 'RETURN' f|r att forts{tta striden
+++++Du {r d|dad++++
+
+@

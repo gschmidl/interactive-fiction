@@ -1,0 +1,101 @@
+'pick i\r'               command 1
+'nw\r'                   command 2
+'ON\r'                   command 3
+'LOOK\r'                 command 4
+'XYZZY BOLA\r'           command 5
+'GO SW\r'                command 6
+'UNLOCK BALLS\r'         command 7
+'NW\r'                   command 8
+'NORTH\r'                command 9
+'fill bottle\r'          command 10
+' LOOK THE SET\r'        command 11
+'CLOSE INVENTORY\r'      command 12
+'THROW GATE,GET GOLD\r'  command 13
+'FREE FOOD\r'            command 14
+'d,fill lamp\r'          command 15
+'SCORE\r'                command 16
+'A CLOSE THE TREASURE,OPEN GATE\r' command 17
+'SCORE\r'                command 18
+'DROP ALL,OFF\r'         command 19
+'OFF\r'                  command 20
+'EMPTY BOTTLE\r'         command 21
+'GET CAGE\r'             command 22
+'WEST\r'                 command 23
+'DROP ALL\r'             command 24
+'GET CAGE\r'             command 25
+'TROLL\r'                command 26
+'down\r'                 command 27
+'MAKE IRON\r'            command 28
+'wire\r'                 command 29
+'GO NORTH\r'             command 30
+'score\r'                command 31
+'GET ALL\r'              command 32
+'east\r'                 command 33
+'SCORE\r'                command 34
+'GO NE\r'                command 35
+' LIGHT THE BARS\r'      command 36
+'GO DOWN\r'              command 37
+'GO NE\r'                command 38
+'DROP\r'                 command 39
+'down\r'                 command 40
+'GO S\r'                 command 41
+'go south\r'             command 42
+'GO TREASURE\r'          command 43
+'SCORE\r'                command 44
+'lock\r'                 command 45
+'UP\r'                   command 46
+'throw wire\r'           command 47
+'NORTH\r'                command 48
+'up\r'                   command 49
+'unlight bridge\r'       command 50
+'nw\r'                   command 51
+'e\r'                    command 52
+'GO EAST\r'              command 53
+'U\r'                    command 54
+'a pick the bars,inventory\r' command 55
+'go iron\r'              command 56
+'GET PILLOW\r'           command 57
+'ON\r'                   command 58
+'on\r'                   command 59
+'unlock\r'               command 60
+'take troll\r'           command 61
+'TAKE\r'                 command 62
+'n\r'                    command 63
+'down\r'                 command 64
+'XYZZY SILVER\r'         command 65
+'GO UP\r'                command 66
+'OFF\r'                  command 67
+'GO EAST\r'              command 68
+'UNLIGHT PLANK\r'        command 69
+'XYZZY\r'                command 70
+'LOOK CHEST\r'           command 71
+'the open the snake\r'   command 72
+'FILL BOTTLE\r'          command 73
+'s\r'                    command 74
+'GET ALL\r'              command 75
+'GO N\r'                 command 76
+'GO UP\r'                command 77
+'EAST\r'                 command 78
+'hello\r'                command 79
+'PICK BOLA\r'            command 80
+'SE\r'                   command 81
+'GO S\r'                 command 82
+'look\r'                 command 83
+'CLOSE\r'                command 84
+'pool\r'                 command 85
+'TAKE LIGHT\r'           command 86
+'EAST\r'                 command 87
+'go nw\r'                command 88
+'OFF TREASURE\r'         command 89
+'THE GO THE SILVER\r'    command 90
+'XYZZY\r'                command 91
+'SOUTH\r'                command 92
+'A OPEN THE WIRE\r'      command 93
+'SW\r'                   command 94
+'TAKE SCORE\r'           command 95
+'GET GATE\r'             command 96
+'DROP ALL\r'             command 97
+' unlock the balls\r'    command 98
+'THROW TROLL\r'          command 99
+'PICK MITHRIL\r'         command 100
+'QUIT\r'                 enough

@@ -98,7 +98,7 @@ The game echoes and edits its own input:
 | Backspace | the ND delete key (the port sends Ctrl-A); see below |
 | Ctrl-Q or Ctrl-K | throws away the line typed so far — only with `--vdu`, see below |
 | other control keys | refused with the bell |
-| Esc or Ctrl-C | SINTRAN *user break*: the program stops |
+| Esc or Ctrl-C | SINTRAN *user break*: the program stops, at SINTRAN's `@`; `CONTINUE` there goes back into the game where it stood (SINTRAN would start it again from the beginning), `LOGOUT` ends it |
 
 **Backspace does not really work, and that is the game.**  Its line editor
 blanks the position *after* the last character and then steps back, so the
@@ -169,7 +169,8 @@ console.
     make
 
 needs gcc (Strawberry Perl's works).  `src\` is the same ND-100 and SINTRAN
-emulator as the Skattejakt port, built with `GAME=1`; see `NOTES.md`.
+emulator as the other ND-100 ports (Skattejakt, Mordor, Legend, Cave Fun,
+Adventure ENB, DOD, My World), built with `GAME=1`; see `NOTES.md`.
 
 ## The Norwegian version
 

@@ -1,0 +1,31 @@
+'N\r'                    instructions?
+'\x1bH'                  map (command 1)
+'\x1bC'                  arrow E (command 2)
+'T'                      take (command 3)
+'\x1bH'                  map (command 4)
+'\x1bD'                  arrow W (command 5)
+'\x1bC'                  arrow E (command 6)
+'T'                      take (command 7)
+'\x1bH'                  map (command 8)
+'T'                      take (command 9)
+'?'                      look at oneself (command 10)
+'\r'                     return
+'T'                      take (command 11)
+'\x1bB'                  arrow S (command 12)
+'\x1bH'                  map (command 13)
+'\x1bB'                  towards S (command 14)
+'\x1bH'                  map (command 15)
+'\x1bB'                  towards S (command 16)
+'\x1bC'                  arrow E (command 17)
+'\x1bH'                  map (command 18)
+'\x1bB'                  arrow S (command 19)
+'\x1bH'                  map (command 20)
+'\x1bA'                  towards NW (command 21)
+'V'                      rest (command 22)
+'?'                      look at oneself (command 23)
+'\r'                     return
+'\x1bH'                  map (command 24)
+'\x1bD'                  arrow W (command 25)
+'\r'                     return
+'\r'                     return
+'\r'                     return

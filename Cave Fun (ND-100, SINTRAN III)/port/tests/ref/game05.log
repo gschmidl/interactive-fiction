@@ -1,0 +1,153 @@
+'CAVE-FUN\r'             adventure
+'GO S\r'                 command 1
+'W\r'                    command 2
+'S\r'                    command 3
+'XYZZY TROLL\r'          command 4
+'N\r'                    command 5
+'S\r'                    command 6
+'MONGOL HOOK\r'          command 7
+'N\r'                    command 8
+'E\r'                    command 9
+'S\r'                    command 10
+'DOWN\r'                 command 11
+'N\r'                    command 12
+'W\r'                    command 13
+'NE\r'                   command 14
+'GET\r'                  command 15
+'S\r'                    command 16
+'OFF\r'                  command 17
+'CLIMB MESSAGE\r'        command 18
+'N\r'                    command 19
+'EMPTY BOX\r'            command 20
+'NORTH\r'                command 21
+'W\r'                    command 22
+'SE\r'                   command 23
+'E\r'                    command 24
+'SW\r'                   command 25
+'W\r'                    command 26
+'GET KEYS\r'             command 27
+'NORTH\r'                command 28
+'SE\r'                   command 29
+'WATER ALL\r'            command 30
+'SW\r'                   command 31
+'GET BOX\r'              command 32
+'N\r'                    command 33
+'JUMP\r'                 command 34
+'DROP HOOK\r'            command 35
+'HELP LAMP\r'            command 36
+'GET BOX\r'              command 37
+'GET BOX\r'              command 38
+'W\r'                    command 39
+'E\r'                    command 40
+'KILL\r'                 command 41
+'SW\r'                   command 42
+'OFFICER KEY\r'          command 43
+'GET LAMP\r'             command 44
+'HELP FOOD\r'            command 45
+'S\r'                    command 46
+'LOCK\r'                 command 47
+'SE\r'                   command 48
+'S\r'                    command 49
+'N\r'                    command 50
+'SW\r'                   command 51
+'N\r'                    command 52
+'GO S\r'                 command 53
+'LOOK\r'                 command 54
+'N\r'                    command 55
+'W\r'                    command 56
+'SE\r'                   command 57
+'KILL TROLL\r'           command 58
+'N\r'                    command 59
+'W\r'                    command 60
+'S\r'                    command 61
+'N\r'                    command 62
+'E\r'                    command 63
+'WEST\r'                 command 64
+'S\r'                    command 65
+'N\r'                    command 66
+'CLIMB MATCHES\r'        command 67
+'GET LAMP\r'             command 68
+'L WATER\r'              command 69
+'NORTH\r'                command 70
+'SAVE "SAV1"\r'          command 71
+'GET BRASS\r'            command 72
+'GET OLD\r'              command 73
+'E\r'                    command 74
+'DOWN\r'                 command 75
+'FILL SCORE\r'           command 76
+'GET LAMP\r'             command 77
+'THROW MSG\r'            command 78
+'SW\r'                   command 79
+'GET ALL\r'              command 80
+'SE\r'                   command 81
+'SE\r'                   command 82
+'OFFICER KEY\r'          command 83
+'SOUTH\r'                command 84
+'W\r'                    command 85
+'GO EAST\r'              command 86
+'WATER HOOK\r'           command 87
+'FRODO ORC\r'            command 88
+'SE\r'                   command 89
+'JUMP MSG\r'             command 90
+'W\r'                    command 91
+'READ MSG\r'             command 92
+'FILL\r'                 command 93
+'ATTACK MSG\r'           command 94
+'L\r'                    command 95
+'N\r'                    command 96
+'SE\r'                   command 97
+'WATER\r'                command 98
+'N\r'                    command 99
+'GET ALL\r'              command 100
+'W\r'                    command 101
+'SE\r'                   command 102
+'LOAD SAV1\r'            command 103
+'GET LAMP\r'             command 104
+'NW\r'                   command 105
+'FILL TROLL\r'           command 106
+'LOOK\r'                 command 107
+'OFF\r'                  command 108
+'E\r'                    command 109
+'S\r'                    command 110
+'GET LAMP\r'             command 111
+'SW\r'                   command 112
+'SE\r'                   command 113
+'GO EAST\r'              command 114
+'W\r'                    command 115
+'E\r'                    command 116
+'GO UP\r'                command 117
+'N\r'                    command 118
+'DROP ALL\r'             command 119
+'E\r'                    command 120
+'GET BOTTLE\r'           command 121
+'NW\r'                   command 122
+'GET MATCHES\r'          command 123
+'GO EAST\r'              command 124
+'SW\r'                   command 125
+'HELP WATER\r'           command 126
+'W\r'                    command 127
+'S\r'                    command 128
+'ON\r'                   command 129
+'SOUTH\r'                command 130
+'GET LAMP\r'             command 131
+'SE\r'                   command 132
+'N\r'                    command 133
+'NW\r'                   command 134
+'MONGOL LIGHT\r'         command 135
+'S\r'                    command 136
+'GET OLD\r'              command 137
+'MONGOL\r'               command 138
+'E\r'                    command 139
+'GET LAMP\r'             command 140
+'SHAH ROD\r'             command 141
+'S\r'                    command 142
+'W\r'                    command 143
+'GET LAMP\r'             command 144
+'N\r'                    command 145
+'S\r'                    command 146
+'N\r'                    command 147
+'PLANT INVENTORY\r'      command 148
+'GET IRON\r'             command 149
+'S\r'                    command 150
+'END\r'                  enough
+'N\r'                    save at the end?

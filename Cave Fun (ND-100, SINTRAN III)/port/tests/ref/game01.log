@@ -1,0 +1,154 @@
+'CAVE-FUN\r'             adventure
+'N\r'                    command 1
+'W\r'                    command 2
+'WATER TROLL\r'          command 3
+'E\r'                    command 4
+'E\r'                    command 5
+'MONGOL LIGHT\r'         command 6
+'N\r'                    command 7
+'GET INVENTORY\r'        command 8
+'SAVE "SAV1"\r'          command 9
+'S\r'                    command 10
+'DROP\r'                 command 11
+'N\r'                    command 12
+'MONGOL\r'               command 13
+'LOOK\r'                 command 14
+'SAVE "SAV2"\r'          command 15
+'TAKE HOOK\r'            command 16
+'S\r'                    command 17
+'UP\r'                   command 18
+'DROP\r'                 command 19
+'N\r'                    command 20
+'NW\r'                   command 21
+'HUGABUGA KEYS\r'        command 22
+'W\r'                    command 23
+'GET KEYS\r'             command 24
+'SE\r'                   command 25
+'GET IRON\r'             command 26
+'THROW LAMP\r'           command 27
+'GET OLD\r'              command 28
+'GET KEYS\r'             command 29
+'READ ORC\r'             command 30
+'W\r'                    command 31
+'HELP SCORE\r'           command 32
+'NE\r'                   command 33
+'L ROPE\r'               command 34
+'W\r'                    command 35
+'LOAD SAV2\r'            command 36
+'DROP ALL\r'             command 37
+'GET BOTTLE\r'           command 38
+'SW\r'                   command 39
+'GET EMPTY\r'            command 40
+'NUMENOR LAMP\r'         command 41
+'GET BOTTLE\r'           command 42
+'GET BOTTLE\r'           command 43
+'GO WEST\r'              command 44
+'GET\r'                  command 45
+'E\r'                    command 46
+'GET LAMP\r'             command 47
+'E\r'                    command 48
+'GET BRASS\r'            command 49
+'GET OLD\r'              command 50
+'READ\r'                 command 51
+'GET BRASS\r'            command 52
+'S\r'                    command 53
+'GET LAMP\r'             command 54
+'MERRY WATER\r'          command 55
+'GET OLD\r'              command 56
+'GO SOUTH\r'             command 57
+'GET OLD\r'              command 58
+'OFFICER I\r'            command 59
+'LOOK SCORE\r'           command 60
+'ATTACK INVENTORY\r'     command 61
+'TIE BAR\r'              command 62
+'SE\r'                   command 63
+'E\r'                    command 64
+'SW\r'                   command 65
+'GET WATER\r'            command 66
+'GO UP\r'                command 67
+'LOOK\r'                 command 68
+'LOOK\r'                 command 69
+'GET WATER\r'            command 70
+'S\r'                    command 71
+'N\r'                    command 72
+'S\r'                    command 73
+'THROW SILVER\r'         command 74
+'FEED\r'                 command 75
+'DROP BAR\r'             command 76
+'N\r'                    command 77
+'E\r'                    command 78
+'SW\r'                   command 79
+'GET WATER\r'            command 80
+'W\r'                    command 81
+'L WATER\r'              command 82
+'NW\r'                   command 83
+'W\r'                    command 84
+'WEST\r'                 command 85
+'E\r'                    command 86
+'E\r'                    command 87
+'SHAH SCORE\r'           command 88
+'SHAH CART\r'            command 89
+'WEST\r'                 command 90
+'NW\r'                   command 91
+'E\r'                    command 92
+'GET BOX\r'              command 93
+'GET BOX\r'              command 94
+'E\r'                    command 95
+'GET BOX\r'              command 96
+'SW\r'                   command 97
+'W\r'                    command 98
+'WEST\r'                 command 99
+'GET IRON\r'             command 100
+'S\r'                    command 101
+'E\r'                    command 102
+'W\r'                    command 103
+'CLIMB INVENTORY\r'      command 104
+'SE\r'                   command 105
+'ON MESSAGE\r'           command 106
+'SE\r'                   command 107
+'EAST\r'                 command 108
+'JUMP\r'                 command 109
+'GO WEST\r'              command 110
+'LOOK\r'                 command 111
+'XYZZY SCORE\r'          command 112
+'LOAD SAV1\r'            command 113
+'NW\r'                   command 114
+'SW\r'                   command 115
+'U\r'                    command 116
+'SE\r'                   command 117
+'E\r'                    command 118
+'TAKE MATCHES\r'         command 119
+'GET EMPTY\r'            command 120
+'SW\r'                   command 121
+'E\r'                    command 122
+'MERRY S\r'              command 123
+'EAST\r'                 command 124
+'NW\r'                   command 125
+'E\r'                    command 126
+'HELP\r'                 command 127
+'HUGABUGA WATER\r'       command 128
+'CLOSE SWORD\r'          command 129
+'SW\r'                   command 130
+'N\r'                    command 131
+'E\r'                    command 132
+'UNLOCK SILVER\r'        command 133
+'NW\r'                   command 134
+'E\r'                    command 135
+'GET EMPTY\r'            command 136
+'S\r'                    command 137
+'NW\r'                   command 138
+'CLIMB HOOK\r'           command 139
+'SW\r'                   command 140
+'N\r'                    command 141
+'NE\r'                   command 142
+'SW\r'                   command 143
+'LOAD SAV2\r'            command 144
+'S\r'                    command 145
+'W\r'                    command 146
+'KILL\r'                 command 147
+'N\r'                    command 148
+'WATER ORC\r'            command 149
+'E\r'                    command 150
+'END\r'                  enough
+'Y\r'                    save at the end?
+'"SAV3"\r'               save file

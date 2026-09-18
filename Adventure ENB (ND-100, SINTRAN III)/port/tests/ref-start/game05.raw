@@ -1,0 +1,240 @@
+AENBS-REF
+F
+
+G
+                           
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Vill du ha instruktioner?NEJ
+V{nta ett tag tack
+
+Du {r vid en bro
+
+
+ORDER:Karta
+. . Sl##!!####. Gu
+##Gu####!!. ##. ##
+. . . . !!##. ##T 
+T St. . !!##. . T 
+========Du========
+. ####T !!T ##Gs. 
+##. . . !!. . ##. 
+. SkT . !!St. . . 
+##T ##Gu!!##T ##. 
+
+
+ORDER:Norrut
+Du {r vid en v{g
+
+
+ORDER:S|derut
+Du {r vid en bro
+
+
+ORDER:Norrut
+Du {r vid en v{g
+
+
+ORDER:V{sterut
+Du {r vid ett f{lt
+Du ser:
+Norrut:ett f{lt
+S|derut:en flod
+\sterut:en v{g
+V{sterut:ett f{lt
+
+
+ORDER:Fr}ga
+Du kan inte fr}ga ett f{lt dummer
+
+
+ORDER:Karta
+. . . . . !!. T T 
+##. . Sl##!!####. 
+. ##Gu####!!. ##. 
+. . . . . !!##. ##
+. T St. Du!!##. . 
+==========II======
+. . ####T !!T ##Gs
+. ##. . . !!. . ##
+. . SkT . !!St. . 
+
+
+ORDER:V{sterut
+Du {r vid ett f{lt
+Du ser:
+Norrut:ett f{lt
+S|derut:en flod
+\sterut:ett f{lt
+V{sterut:en stad
+
+
+ORDER:S|derut
+Du kan inte korsa floden
+
+
+ORDER:Karta
+T . . . . . !!. T 
+Gu##. . Sl##!!####
+. . ##Gu####!!. ##
+##. . . . . !!##. 
+. . T StDu. !!##. 
+============II====
+T . . ####T !!T ##
+T . ##. . . !!. . 
+##. . SkT . !!St. 
+
+
+ORDER:Norrut
+Du {r vid ett f{lt
+Du ser:
+Norrut:ett berg
+S|derut:ett f{lt
+\sterut:ett f{lt
+V{sterut:ett f{lt
+
+
+ORDER:Karta
+Sv. T . T ##!!##. 
+T . . . . . !!. T 
+Gu##. . Sl##!!####
+. . ##Gu####!!. ##
+Dv. . . Du. !!##. 
+. . T St. . !!##. 
+============II====
+T . . ####T !!T ##
+T . ##. . . !!. . 
+
+
+ORDER:\sterut
+Du {r vid ett f{lt
+Du ser:
+Norrut:ett berg
+S|derut:ett f{lt
+\sterut:en v{g
+V{sterut:ett f{lt
+
+
+ORDER:Vila
+Du {r vid ett f{lt
+Du ser:
+Norrut:ett berg
+S|derut:ett f{lt
+\sterut:en v{g
+V{sterut:ett f{lt
+
+
+ORDER:S|derut
+Du {r vid ett f{lt
+Du ser:
+Norrut:ett f{lt
+S|derut:en flod
+\sterut:en v{g
+V{sterut:ett f{lt
+
+
+ORDER:Vila
+Du {r vid ett f{lt
+Du ser:
+Norrut:ett f{lt
+S|derut:en flod
+\sterut:en v{g
+V{sterut:ett f{lt
+
+
+ORDER:Karta
+. . . . . !!. T T 
+##. . Sl##!!####. 
+. ##Gu####!!. ##. 
+. . . . . !!##. ##
+DvT St. Du!!##. . 
+==========II======
+. . ####T !!T ##Gs
+. ##. . . !!. . ##
+. . SkT . !!St. . 
+
+
+ORDER:V{sterut
+Du {r vid ett f{lt
+Du ser:
+Norrut:ett f{lt
+S|derut:en flod
+\sterut:ett f{lt
+V{sterut:en stad
+
+
+ORDER:Vila
+Du {r vid ett f{lt
+Du ser:
+Norrut:ett f{lt
+S|derut:en flod
+\sterut:ett f{lt
+V{sterut:en stad
+
+
+ORDER:Karta
+T . . . . . !!. T 
+Gu##. . Sl##!!####
+. . ##Gu####!!. ##
+##. . . . . !!##. 
+. . DvStDu. !!##. 
+============II====
+T . . ####T !!T ##
+T . ##. . . !!. . 
+##. . SkT . !!St. 
+
+
+ORDER:\sterut
+Du {r vid ett f{lt
+Du ser:
+Norrut:ett f{lt
+S|derut:en flod
+\sterut:en v{g
+V{sterut:ett f{lt
+
+
+ORDER:Vila
+Du {r vid ett f{lt
+Du ser:
+Norrut:ett f{lt
+S|derut:en flod
+\sterut:en v{g
+V{sterut:ett f{lt
+Slott p} koordinaterna  15 , 58 sk|vlat av en r|vare
+
+
+ORDER:Karta
+. Tr. . . !!. T T 
+##. . Sl##!!####. 
+. ##Gu####!!. ##. 
+. . . . . !!##. ##
+. T Dv. Du!!##. Or
+==========II======
+. . ####T !!T ##Gs
+. ##. . . !!. . ##
+. . SkT . !!St. . 
+
+
+ORDER:\sterut
+Du {r vid en v{g
+
+
+ORDER:Vila
+Du {r vid en v{g
+Du {r |verfallen av en dv{rg
+++++Du {r d|dad++++
+
+@
