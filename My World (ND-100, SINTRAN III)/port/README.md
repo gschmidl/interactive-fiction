@@ -44,6 +44,45 @@ You have three lives.
   out of its own: this is the terminal driver's, and `--no-rubout` leaves the
   keys to the program.
 
+## Walkthrough (spoilers)
+
+**The forest.** The game starts you in one of six forest rooms, chosen at
+random, and they all say the same thing.  The only way out is one exit of
+one of them, onto a road, and wandering takes about 50 moves.  From any of
+the six, `NE, SW, W, SE` puts you on the road (`You are at a road in a
+forest.`).  Every room seen counts toward the score, so if you want the
+forest's points, go round it from the road: `N, N, NE, SE, NE, N, N, S, SE`
+brings you back there.  Then `S, S, E` gets you to the cottage.
+
+**The rest**, one command at a time (the moves in brackets only visit rooms,
+for their points):
+
+    GET LAMP, GET KEYS, GET BOTTLE, LIGHT LAMP, W, S, S, OPEN GATE, S, S,
+    GET CAGE, S, SE, GET BIRD, NW, GET PLANK, SE, SE, D, W, MAKE BRIDGE,
+    W, W, N, GET NUGGET, S, S, S, S, GET MITHRIL,
+    (SW, W, E, NE, SE, S, N, NW,) N, N, N, E, E, E, E, E,
+    FREE BIRD, GET BIRD, NE, GET SILVER, SW, (SW, D, U, NE,) NE,
+    N, N, S, SW, S, N, S, N, N, U, S
+
+The last `S` is the pirate's den, deep in the maze.  The pirate's chest is
+only sometimes there, so `LOOK` until it is, then `GET CHEST`, and take
+anything else lying there.  Then home: `N, U, D, NW, N, XYZZY` (the magic
+word takes you to the cottage), drop the treasures there (they count double),
+`FREE BIRD`, and `SCORE`.  This comes to 213 points, "an expert adventurer";
+the two rooms beyond the troll's bridge are left unseen, because crossing it
+costs a treasure.
+
+Two things the dice may bring:
+
+- **The pirate** may take every treasure you carry, on any move, and hide
+  it in his den: the last room above, where you then pick it up.
+- **An orc**, in the dark, first throws a bola at you and runs.  Later it
+  comes back with a battle-axe and follows you from room to room.  Pick up
+  the bola and `THROW BOLA`: one throw in four kills it; if it misses,
+  pick the bola up again.  If the orc kills you, you can be patched up.
+  You then wake in the forest (use the route above), with the lamp back in
+  the cottage and everything you carried left where you died.
+
 ## The port's fixes
 
 The source as recovered had one bad sector; with it read again

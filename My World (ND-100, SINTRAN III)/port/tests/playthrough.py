@@ -9,7 +9,9 @@ taken away (a battle-axe kills at random, once they have come), and what
 the pirate snatched given back (he hides it in his den, in the maze, which
 the route passes before it; it would only be a longer walk).
 
-The route: round the forest; to the cottage, the lamp, the keys, the
+The route: round the forest (from the room -Z starts in: a game on the host
+clock starts in any of the six, and the README's walkthrough begins with the
+moves that leave the forest from all of them); to the cottage, the lamp, the keys, the
 bottle; the gate (OPEN GATE); the cage, the bird (GET BIRD: not while the
 plank is carried), the plank; the fissure (MAKE BRIDGE); the gold, the
 mithril, the soft room, the animal room, the troll's bridge (not crossed:
