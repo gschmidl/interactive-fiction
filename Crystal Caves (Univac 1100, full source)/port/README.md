@@ -164,7 +164,7 @@ module, plus a few new ones (`darkrm.f`, `upperc.f`, `savefile.f`,
 The sibling `page212-213/` source tree — the ISD Univac port of the
 *original* Crowther/Woods game (as opposed to Cave's new setting) — is
 now ported too, at
-`../../Colossal Cave Adventure 400pt (Univac 1100, full source)/port/`.
+`../../(KURL0400) Colossal Cave Adventure 400pt (Univac 1100, full source)/port/`.
 
 ## Correctness pass, 2026-08-31
 

@@ -1,0 +1,469 @@
+69632 0 1 255 0 17
+69648  KuF`Ig16)
+69662  JuF`Kg8)
+69675  CuKe8bJ
+69688 "LUM= ",J," HUE= ",C
+69719  XuM`32774,zK),K)
+69775 CbSbKb
+69859 C LDI
+69866 0400       DCX H
+69884 0410       MOV A,B
+69904 0420   ANA A
+69918 0430        JNZ LOOPC
+69941 0440      MOV A,C
+69960 0450   ANA A
+69974 0460      JNZ LOOPC
+69995 0470      EXX
+70010 0480      DCR B
+70027 0490      MOV A,B
+70046 0500   ANA A
+70060 0510      JZ RTN
+70078 0520      JMP AGAIN
+70099 0530 RTN  EXX
+70114 0540   POP H
+70128 0560      RET
+70159 >tSQ> SP>
+70173 SSSTI{v
+70205 xm +j>
+70214 x'JN
+70222 YI*b
+70247 M" :f
+70276 Ibk>
+70290 N#FmCb
+70303 SREMP
+70321 iI!h
+70340 sIY!
+70352 m0YIY!u
+70366 m0YI
+70374 0YNO SUCH FILE
+70389 H FILE
+70398 "3DUfw
+70406 *;L]n
+70414 "3DUfw
+70422 *;L]n
+70430 "3DUfw
+70438 *;L]n
+70446 "3DUfw
+70454 *;L]n
+70462 "3DUfw
+70470 *;L]n
+70478 "3DUfw
+70486 *;L]n
+70494 "3DUfw
+70502 *;L]n
+70510 "3DUfw
+70518 *;L]n
+70526 "3DUfw
+70534 *;L]n
+70542 "3DUfw
+70550 *;L]n
+70558 "3DUfw
+70566 *;L]n
+70574 "3DUfw
+70582 *;L]n
+70590 "3DUfw
+70598 *;L]n
+70606 "3DUfw
+70614 *;L]n
+70622 "3DUfw
+70630 *;L]n
+70638 "3DUfw
+70646 *;L]n
+70654 "3DUfw
+70662 *;L]n
+70670 "3DUfw
+70678 *;L]n
+70686 "3DUfw
+70694 *;L]n
+70702 "3DUfw
+70710 *;L]n
+70718 "3DUfw
+70726 *;L]n
+70734 "3DUfw
+70742 *;L]n
+70750 "3DUfw
+70758 *;L]n
+70766 "3DUfw
+70774 *;L]n
+70782 "3DUfw
+70790 *;L]n
+70798 "3DUfw
+70806 *;L]n
+70814 "3DUfw
+70822 *;L]n
+70830 "3DUfw
+70838 *;L]n
+70846 "3DUfw
+70854 *;L]n
+70862 "3DUfw
+70870 *;L]n
+70878 "3DUfw
+70886 *;L]n
+70894 "3DUfw
+70902 *;L]n
+70910 "3DUfw
+70918 *;L]n
+70926 "3DUfw
+70934 *;L]n
+70942 "3DUfw
+70950 *;L]n
+70958 "3DUfw
+70966 *;L]n
+70974 "3DUfw
+70982 *;L]n
+70990 "3DUfw
+70998 *;L]n
+71006 "3DUfw
+71014 *;L]n
+71022 "3DUfw
+71030 *;L]n
+71038 "3DUfw
+71046 *;L]n
+71054 "3DUfw
+71062 *;L]n
+71070 "3DUfw
+71078 *;L]n
+71086 "3DUfw
+71094 *;L]n
+71102 "3DUfw
+71110 *;L]n
+71118 "3DUfw
+71126 *;L]n
+71134 "3DUfw
+71142 *;L]n
+71150 "3DUfw
+71158 *;L]n
+71166 "3DUfw
+71174 *;L]n
+71182 "3DUfw
+71190 *;L]n
+71198 "3DUfw
+71206 *;L]n
+71214 "3DUfw
+71222 *;L]n
+71230 "3DUfw
+71238 *;L]n
+71246 "3DUfw
+71254 *;L]n
+71262 "3DUfw
+71270 *;L]n
+71278 "3DUfw
+71286 *;L]n
+71294 "3DUfw
+71302 *;L]n
+71310 "3DUfw
+71318 *;L]n
+71326 "3DUfw
+71334 *;L]n
+71342 "3DUfw
+71350 *;L]n
+71358 "3DUfw
+71366 *;L]n
+71374 "3DUfw
+71382 *;L]n
+71390 "3DUfw
+71398 *;L]n
+71406 "3DUfw
+71414 *;L]n
+71422 "3DUfw
+71430 *;L]n
+71438 "3DUfw
+71446 *;L]n
+71454 "3DUfw
+71462 *;L]n
+71470 "3DUfw
+71478 *;L]n
+71486 "3DUfw
+71494 *;L]n
+71502 "3DUfw
+71510 *;L]n
+71518 "3DUfw
+71526 *;L]n
+71534 "3DUfw
+71542 *;L]n
+71550 "3DUfw
+71558 *;L]n
+71566 "3DUfw
+71574 *;L]n
+71582 "3DUfw
+71590 *;L]n
+71598 "3DUfw
+71606 *;L]n
+71614 "3DUfw
+71622 *;L]n
+71630 "3DUfw
+71638 *;L]n
+71646 "3DUfw
+71654 *;L]n
+71662 "3DUfw
+71670 *;L]n
+71697 NuN`0)
+71715 "YOU ARE ON THE SLOPES OF A VERY OLD, POSSIBLY"
+71767 "EXTINCT VOLCANO.   BEHIND YOU THE CRIES OF"
+71816 "THOUSANDS OF SCREEMING HEADHUNTERS, WHO ARE"
+71866 "PURSUING YOU, CAN BE HEARD.  SUDDENLY, THE GROUND"
+71922 "BEGINS TO SHAKE, AND A DEEP RUMBLING SOUND COMES"
+71977 "FROM DEEP DOWN INSIDE THE VOLCANO.  THE AWAKENING"
+72033 "VOLCANO FRIGHTENS THE SAVAGES--- THEY PAUSE, GIVING"
+72091 "YOU A CHANCE TO ESCAPE"
+72130  A$q"U" 2 
+72150 "POISED ON THE EDGE OF THE VOLCANO'S RIM, YOU"
+72201 "CAN BARELY SEE THE OUTLINES OF CRAGGY SLOPES"
+72252 "BELOW, BECAUSE OF THE RISING SULPHURUS FUMES,"
+72304 "BUT YOU CAN CLEARLY HEAR THE HEADHUNTERS CRIES"
+72357 "WHO ARE ALMOST UPON YOU NOW"
+72401  A$q"D" 2 
+72421 "YOU PLUNGE OVER THE EDGE OF THE PRECIPICE AND FALL"
+72478 "HEADLONG INTO AN ANCIENT LAVA TUBE.  A VIOLENT"
+72531 "WRENCHING SHAKES THE EARTH, AND BLACKNESS CLOSES"
+72586 "IN AROUND YOU...   WHEN YOU AWAKE, YOU FIND THAT"
+72641 "AN EARTHQUAKE HAS SHUT THE ENTRANCE TO THE LAVA"
+72695 "TUBE.  LIKE A SMALL TUNNEL, IT LEADS STEEPLY DOWN"
+72751 "INTO THE DARKNESS, BUT LIKE IT OR NOT IT, IT IS"
+72805 "THE ONLY WAY YOU CAN GO."
+72846  A$q"D" 2 
+72866 "YOU FOLLOW THE TUBE DOWN, AND SOON YOU SEE A FAINT"
+72923 "GLIMMER OF LIGHT."
+72947 "YOU ARE STANDING UNDER A"
+72978 "SMALL SHAFT THAT APPARENTLY LEADS TO THE SURFACE"
+73043  A$u"U" 2 
+73054 "TOO SMALL"
+73071  A$u"B" 2 
+73082 "NO EXIT.. CAVE IN"
+73106  A$q"D" 2 
+73126 "AHEAD THE DARKNESS CLOSES IN."
+73163  Lu0 2 
+73187 "SOMETHING, AND DISCOVER A FASCINATING"
+73231 "LANTERN-SHAPED OBJECT, COVERED WITH DIRT"
+73278 "RUBBING IT VIGOROUSLY WITH YOUR SHIRT CAUSES"
+73329 "IT TO GLOW, CASTING A BALEFUL LIGHT. "
+73373 "YOU PRESS ON, AND SOON COME TO A SMALL"
+73418 "SIDE PASSAGE, LEADING OFF AND DOWN TO THE RIGHT."
+73473 "AHEAD OF YOU, THE SMOOTH-WALLED LAVA TUBE"
+73521 "CONTINUES ITS GENTLE SLOPE DOWNWARDS."
+73575  A$u"B" 2 
+73595  A$u"R" 2 
+73616  A$u"D" 2 
+73636  A$q"F" 2 
+73666 "THE NARROW DIRT FLOORED PASSAGE CURVES SHARPLY"
+73719 "TO THE LEFT, THEN DESCENDS"
+73752  Gu1 2 
+73760 "YOU NEARLY TRIP OVER A GOLD BRICK"
+73809  A$q"T" 2 
+73829 "YOU NOW HAVE THE GOLD BRICK"
+73869 Su10
+73888  A$u"U" 2 
+73909  A$q"D" 2 
+73938 "YOU ARE BACK AT THE LAVA TUBE/SIDE PASSAGE"
+73987 "JUNCTION"
+74011  10000uMAZE NUMBER 
+74037 "YOU HAVE TRIPPED IN THE SEMI-DARKNESS OF THE"
+74088 "MAZE, AND FALLEN HEADLONG INTO A BLACK PIT"
+74137 "AS YOUR STARTLED BODY HURTLES DOWN, EVER DOWN"
+74189 "INTO THE PITCH BLACK, YOU HEAR THE SOUND OF"
+74239 "WATER RUSHING, FAR, FAR BELOW YYOU...."
+74292 "SUDDENLY A SIGN SAYS ... 'DEAD END, DUNGEON"
+74342 "UNDER CONSTRUCTION, PLEASE COME BACK NEXT WEEK"
+74400 "YOU ARE VIN A NARROW, DIRT FLOORED PASSAGE,"
+74450 "LEADING UP AND CURVING TO THE RIGHT"
+74502 "YOU ARE IN A NARROW, SMOOTH-WALLED PASSAGE"
+74551 "LWEADING UP.  A FAINT LIGHT CAN BE SEEN AHEAD"
+74613  A$q"U" 2 
+74634 "YOU SOON COME TO A SMALL SIDE PASSAGE"
+74678 "LEADING OFF AND DOWN TO THE LEFT"
+74727  A$u"D" 2 
+74754 'Nu`F`6.1bN`0)))c1
+74775 'KuKc1
+74823 "YOU ARE IN A BIG MAZE OF LITTLE TWISTY TUNNELS"
+74896 "YOU ARE IN A TWISTY BIG MAZE OF LITTLE TUNNELS"
+74965 6V' 
+74970 "YOU ARE IN A TWISTY LITTLE MAZE OF BIG TUNNELS"
+75039 6`' 
+75044 "YOU ARE IN A LITTLE TWISTY MAZE OF BIG TUNNELS"
+75113 6j' 
+75118 "YOU ARE IN A BIG TWISTY MAZE OF LITTLE TUNNELS"
+75191 "YOU ARE IN A LITTLE MAZE OF BIG TWISTY TUNNELS"
+75261 ~'Nu`F`3.499bN`e1)))c1
+75313 "YOU MANAGE TO SQUEEZE YOUR WAY INTO A TEN INCH"
+75366 "HIGH CREVICE, WHICH IS ABOUT 6 FEET WIDE"
+75413 "AS YOU INCH YOUR WAY INTO IT, IT NARROWS,"
+75461 "BUT YOU CAN FEEL A WARM, SLIGHTLY SULPHUROUS"
+75512 "BREEZE EMANATING FROM IT.  THINKING IT MIGHT"
+75563 "LEAD TO THE VOLCANO, AND PERHAPS FREEDOM, YOU"
+75615 "PRESS ON.  SOON,  YOU COME TO A LARGE ROOM, WITH"
+75670 "A IRON-BOUND TRAP DOOR IN THE FLOOR THAT IS"
+75720 "ENORMOUS.  A  GIANT IRON RING IS SET INTO THE"
+75772 "DOOR, EVIDENTLY FOR LIFTING IT.  SULFUR FUMES"
+75824 "ARE ESCAPING FROM SMALL HOLES SPACED AROUND THE"
+75878 "PERIPHERY OF THE ROOM"
+75906 "<<<<<<PRESS ENTER TO CONTINUE>>>>>>"
+75956 "IN ONE CORNER LIES A LARGE SKELETON.  ON CLOSER"
+76010 "INSPECTION, IT IS EVIDENTLY NON-HUMAN, THOUGH"
+76062 "HUMANOID."
+76078 "A SPIRAL STAIRCASE LEADS UP TO THE TOP OF THE"
+76130 "OF THE ROOM, TO A BLACKENED HOLE IN THE CEILING"
+76184 "FROM WHICH SCRAPING SOUNDS EMANATE"
+76234  A$u"LIFT" 2 
+76248 "TOO HEAVY"
+76264  A$u"B" 2 
+76284  A$u"T" 2 
+76295 "WHY DO YOU WANT A SKELETON?"
+76326 t; NuN`0)
+76340  Nt.3 2 
+76358  A$q"U"2 
+76377 Nt.152
+76401 "THE TRAP DOOR SUDDENLY OPENS WITH A TREMENDOUS"
+76454 "CRASH.  GIANT ORCS SWARM OUT OF THE HOLE, LOP OFF"
+76510 "YOUR HEAD AND PLAY SOCCER WITH IT FOR A WHILE"
+76562 "BEFORE DINING ON YOUR PUNY BODY... TOUGH LUCK."
+76621 "THE TRAP DOOR SUDDENLY OPENS WITH A TREMENDOUS"
+76674 "CRASH.  GIANT ORCS SWARM OUT OF THE HOLE, AND"
+76726 "DRAG YOU UP THE SPIRIAL STAIRCASE INTO A DIM,"
+76778 "FOUL-SMELLING ROOM.  THE ORCS CHAIN YOU TO THE"
+76831 "WALL, LAUGH OBSCENLY, AND LEAVE.  YOU ARE "
+76880 "EVIDENTLY GOING TO BE IMPRISONED FOR A SHORT"
+76931 "TIME BEFORE BEING EATEN"
+76961 "AS YOUR EYES SLOWLY BECOME ACCOSTOMED TO THE"
+77012 "DIM LIGHT, YOU CAN MAKE OUT HALF A DOZEN OR"
+77062 "SO LUCKLESS CREATURES CHAINED TOO THE WALLS"
+77112 ".... SOME HUMANOID, SOME INDETERMINATE."
+77164 "THE HEADHUNTERS FIRST NEATLY LOP OFF YOUR HEAD"
+77217 "AS A TROPHY, THEN HAVE A MERRY FEAST-- AT YOUR"
+77270 "EXPENSE.  TOUGH LUCK FOR YOU....."
+77313 }A$u""
+77324 "MOVE? ",A$
+77340  A$u"MAZE1" 2 
+77364  A$u"TRAPDOOR" 2 
+77391  A$u"PIT" 2 
+77413  A$u"SHAFT" 2 
+77437  A$u"INVENTORY" 2 
+77474 "YOU HAVE THE FOLLOWING ITEMS:"\
+77514  Lu0 2 
+77522 "LANTERN"
+77536  Gu0 2 
+77544 "GOLD BRICK"
+77662 D         
+77824                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 -
+81924   THIS PROGRAM DISPLAYS 4THE MOST PLEAKG
+81969   COLm SUBSET OF THE
+81994   /e100, AT 2 SEC
+82012 D FER7S
+82024   SEE PAGE 21 OF THE USER MANUAL 
+82058  DETAILS.
+82077 bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+82140    M`32768,X) INITIALIZES THE /e100
+82180    M`32771,V) SETS THE PAGE 1 "V"
+82218    M`32774,V) SETS VIDEO BUFFER 1 7UE "V"
+82269         USE " 32767 l ISSUE "LF CATBIN 8000" CMD
+82322         1 DOS BE
+82339 E  NING.
+82357 bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+82421 ,X,Y
+82436 A`1)u51\A`2)u119\A`3)u153\A`4)u238\A`5)u255
+82483 XuM`32768,V)
+82500  Iu1 1 5
+82512 KuA`I)
+82522  XuM`32774,K)
+82541  Ju1 1 2500\
+82579 "CAT100"
+82718 0430        JNZ LOOPC
+82741 0440      MOV A,C
+82760 0450   ANA A
+82774 0460      JNZ LOOPC
+82795 0470      EXX
+82810 0480      DCR B
+82827 0490      MOV A,B
+82846 0500   ANA A
+82860 0510      JZ RTN
+82878 0520      JMP AGAIN
+82899 0530 RTN  EXX
+82914 0540   POP H
+82928 0560      RET
+83459 XuM`32768,V)
+83476 "DO YOU WISH TO CLEAR THE SCREEN? (Y/N)",C$
+83524  C$u"Y" 2 XuM`32774,0)
+83551 "FILE NAME=",A$
+83571 "READ OR WRITE? (R/W)",B$
+83601  B$u"R" 2 XuM`32777,zA$))
+83631  B$u"W" 2 XuM`32780,zA$))
+83662  "CAT100"
+83738 Y         
+83755 PIC1,2    
+83772 R         FER 1 7UE "V"
+83805         USE " 32767 l ISSUE "LF CATBIN 8000" CMD
+83858         1 DOS BE
+83875 E  NING.
+83893 bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+83958 A`1)u51\A`2)u119\A`3)u153\A`4)u238\A`5)u255
+84005 XuM`32768,V)
+84022  Iu1 1 5
+84034 KuA`I)
+84044  XuM`32774,K)
+84063  Ju1 1 2500\
+84254 0430        JNZ LOOPC
+84277 0440      MOV A,C
+84296 0450   ANA A
+84310 0460      JNZ LOOPC
+84331 0470      EXX
+84346 0480      DCR B
+84363 0490      MOV A,B
+84382 0500   ANA A
+84396 0510      JZ RTN
+84414 0520      JMP AGAIN
+84435 0530 RTN  EXX
+84450 0540   POP H
+84464 0560      RET
+84483 XuM`32768,V)
+84500  Pu0 1 15
+84513 XuM`32771,P)
+84530  Au0 1 2047
+84545 CuAe16bF`Ag16)
+84563 CuCb17
+84574  63488cA,C
+84594 "PAGE ",P," WRITTEN"
+84687 $a5a
+84762 Y         
+84779 PIC1,2    
+84796 R         FER 1 7UE "V"
+84829         USE " 32767 l ISSUE "LF CATBIN 8000" CMD
+84882         1 DOS BE
+84899 E  NING.
+84917 bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+84982 A`1)u51\A`2)u119\A`3)u153\A`4)u238\A`5)u255
+85029 XuM`32768,V)
+85046  Iu1 1 5
+85058 KuA`I)
+85068  XuM`32774,K)
+85087  Ju1 1 2500\
+85278 0430        JNZ LOOPC
+85301 0440      MOV A,C
+85320 0450   ANA A
+85334 0460      JNZ LOOPC
+85355 0470      EXX
+85370 0480      DCR B
+85387 0490      MOV A,B
+85406 0500   ANA A
+85420 0510      JZ RTN
+85438 0520      JMP AGAIN
+85459 0530 RTN  EXX
+85474 0540   POP H
+85488 0560      RET
+85513 ,X,Y
+85521 XuN`0)
+85531 IuF`15bX)
+85544 IuIb16
+85555  81,I
+85565  Ku0 1 100\
+85593  QuM`32768,V)
+85612 "CAT100"
+85680  81,X
+85699  Ku0 1 50
+85731 XuN`0)
+85741 IuF`15bX)
+85754 IuIb16
+85765  81,I
+85775  Ku0 1 100\
+85918 B BE
+85923 E  NING.
+85941 bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+86006 A`1)u51\A`

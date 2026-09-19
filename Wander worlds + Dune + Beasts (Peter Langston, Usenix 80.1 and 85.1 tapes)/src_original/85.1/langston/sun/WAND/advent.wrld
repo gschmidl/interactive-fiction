@@ -1,0 +1,141 @@
+: @(#)advent.wrld	1.1 8/13/81 -- P.S.L. games (c) P. Langston
+#1      Would you like instructions?
+Welcome to Adventure!!  Would you like instructions?
+	yes     ... m="\
+    Somewhere nearby is Colossal Cave, where others have found fortunes in
+    treasure and gold, though it is rumored that some who enter are never
+    seen again.  Magic is said to work in the cave.  I will be your eyes
+    and hands.  Direct me with commands of 1 or 2 words.  I should warn
+    you that I look at only the first five letters of each word, so you'll
+    have to enter \"northeast\" as \"ne\" to distinguish it from \"north\".
+    (Should you get stuck, type \"help\" for some general hints.  For infor-
+    mation on how to end your adventure, etc., type \"info\".)"
+	yes 101 m="\
+				- - -
+This version of Adventure is running under Wander, a game metalanguage
+written by Peter Langston.  The credit blurb on the prior version read:
+    This program was originally developed by Willie Crowther.  Most of the
+    features of the current program were added by Don Woods (DON @ SU-AI).
+    Address complaints about the UNIX version to Jim Gillogly at
+    Interactive Systems Corporation, 1526 Cloverfield Blvd,
+    Santa Monica, CA 90404.  (213) 829-7741
+
+"
+	n|no    101
+	*       m="Please answer the question"
+
+#2      Do you really want to quit now?
+Do you really want to quit now?
+	yes -1  m="OK"
+	n|no  %101%
+	*       m="Please answer the question"
+
+#101    You're at end of road again.
+You are standing at the end of a road before a small brick building.
+Around you is a forest.  A small stream flows out of the building and
+down a gully.
+	n       103
+	s|d     105
+	building|e|in|enter  102
+	w|u     104
+
+#102    You're inside building.
+You are inside a building, a well house for a large spring.
+	w|out|leave 101
+	xyzzy   110 v=3.1
+	plugh   150 v=3.1
+
+#103    You're in forest.
+You are in open forest, with a deep valley to one side.
+	n|s|w   103
+	e|d     105
+
+#104    You're at hill in road.
+You have walked up a hill, still in the forest.  The road slopes back
+down the other side of the hill.  There is a building in the distance.
+	building|n|e|d   101
+	s       103
+
+#105    You're in valley.
+You are in a valley in the forest beside a stream tumbling along a
+rocky bed.
+	building|n  101
+	s|d     106
+	e|w|u   103
+
+#106    You're at slit in streambed.
+At your feet all the water of the stream splashes into a 2-inch slit
+in the rock.  Downstream the streambed is bare rock.
+	n       105
+	s       107
+	e|w     103
+
+#107.0  You're outside grate.\n\nThe grate is locked.
+"You are in a 20-foot depression floored with bare dirt.  Set into the
+dirt is a strong steel grate mounted in concrete.  A dry streambed
+leads into the depression.
+
+The grate is locked.
+"
+	n       106
+	s|e|w   103
+	d       m="You can't go through a locked steel grate!"
+	unlock  s=107.1 s=108.1 m="The grate is now unlocked."
+	close|lock  m="It was already locked."
+
+#107.1  You're outside grate.\n\nThe grate is open.
+"You are in a 20-foot depression floored with bare dirt.  Set into the
+dirt is a strong steel grate mounted in concrete.  A dry streambed
+leads into the depression.
+
+The grate is open.
+"
+	n       106
+	s|e|w   103
+	d       108
+	lock    s=107.0 s=108.0 m="The grate is now locked."
+
+#108.0  You're below the grate.\n\nThe grate is locked.
+"You are in a small chamber beneath a 3x3 steel grate to the surface.
+A low crawl over cobbles leads inward to the west.
+
+The grate is locked."
+	w   109
+	u       m="You can't go through a locked steel grate!"
+	unlock  s=107.1 s=108.1 m="The grate is now unlocked."
+
+#108.1  You're below the grate.\n\nThe grate is open.
+"You are in a small chamber beneath a 3x3 steel grate to the surface.
+A low crawl over cobbles leads inward to the west.
+
+The grate is open."
+	w   109
+	u   107
+	lock    s=107.0 s=108.0 m="The grate is now locked."
+
+#109    You're in cobble crawl.
+You are crawling over cobbles in a low passage.  There is a dim light
+at the east end of the passage.
+	e       108
+	w       110 v=3.1
+
+#110    You're in Debris Room.
+You are in a debris room filled with stuff washed in from the surface.
+A low wide passage with cobbles becomes plugged with mud and debris
+here, but an awkward canyon leads upward and west.  A note on the wall
+says \"Magic word xyzzy\".
+	e   109 v=3.0
+	w|u 111
+	xyzzy   102 v=3.0
+
+#111    You're in sloping east/west canyon.
+You are in an awkward sloping east/west canyon.
+	e|d 110
+	w       m="Under construction"
+
+#150    You're at \"Y2\".
+You are in a large room, with a passage to the south, a passage to the
+west, and a wall of broken rock to the east.  There is a large "Y2" on
+a rock in the room's center.
+	plugh   102 v=3.0
+	s|e|w   m="Under construction"

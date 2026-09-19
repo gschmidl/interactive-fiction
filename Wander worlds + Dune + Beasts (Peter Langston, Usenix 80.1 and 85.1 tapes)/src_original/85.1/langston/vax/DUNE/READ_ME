@@ -1,0 +1,19 @@
+
+	Dune Installation
+
+This game should be easy to install.  Here's the sequence:
+
+0)	Make sure the routines in ../GLIB work okay on your system and that
+	they are compiled and archived into ../glib.a
+1)	Make sure the routines in ../TCAP work okay on your system and that
+	they are compiled and archived into ../libtcap.a
+2)      Check over path names and other misc in duneglb.c and compile it:
+	    cc -O -c duneglb.c
+3)      Load the object files:
+	    cc dune.o duneglb.o ../glib.a ../libtcap.a -lm -o dune
+4)      Change the mode to 2755 (setgid)
+	    chmod 2755 dune
+5)      Make sure "dunerec" is mode 664
+	    cat /dev/null >dunerec; chmod 664 dunerec
+6)      Run "dune" and enjoy!
+Tue Feb 26 18:09:42 EST 1985

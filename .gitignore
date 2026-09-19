@@ -91,6 +91,27 @@
 # 2.9 GB for the Adventure 3000 transcription alone, all of it regenerable
 # from the scans by the tools in transcription/tools/.
 **/work_*/
+# the same folders under the dot names they carry since 2026-09-19 (the Synology
+# Drive client skips dot-folders, so regenerable bulk is kept in them): the
+# Adventure 3000 OCR intermediates are now transcription/.work, .work_data and
+# .work_moving, which the !**/transcription/** rule above would otherwise admit.
+**/.work/
+**/.work_*/
+**/.tmp/
+**/.logs/
+**/.build/
+
+# Staged (not yet ported) projects: whole-system or whole-site media that hold
+# far more than the game - an operating system kit, a site's disc save, a
+# licensed source tape.  They stay on disk; the game files cut out of them and
+# the READMEs are published.  All of them came from bitsavers.org/bits.
+/(ANON0350) Abenteuer (Harris VULCAN, German Colossal Cave, full source)/archive_original/fast.tap
+/(ANON0550) Colossal Cave Adventure 550pt (VAX VMS 1.5, 1979, exe only)/archive_original/
+/(ANON0350) Colossal Cave Adventure 350pt (TI 990, DX10, binary)/archive_original/DX10_system_tapes/
+/Dave's Dungeon - DAVESCAVE (PDP-11 TRAX, MITRE, FORTRAN source)/archive_original/
+/Wander worlds + Dune + Beasts (Peter Langston, Usenix 80.1 and 85.1 tapes)/archive_original/
+/ARNA0660 Colossal Cave Adventure 660pt Glaxo 4.3 (Prime 50-Series, A-code, 1984)/archive_original/
+/Mystery Mansion (HP 1000, RTE, FORTRAN source)/archive_original/f1_dskup_f2_rte2250sys.tap.gz
 
 # Fisk is not published: it was removed from the repository and its
 # history.  The folder stays on disk.
@@ -123,11 +144,11 @@
 # Adventure 3000: the BASIC data files are built from the text records beside
 # them the first time the game runs, and the test script writes its own copies
 # and transcripts while replaying the recorded walkthroughs.
-/Adventure 3000 (HP 3000 BASIC, Creative Computing type-in)/port/data/*/*.dat
-/Adventure 3000 (HP 3000 BASIC, Creative Computing type-in)/port/tests/data/*.dat
-/Adventure 3000 (HP 3000 BASIC, Creative Computing type-in)/port/tests/out_*.txt
-/Adventure 3000 (HP 3000 BASIC, Creative Computing type-in)/port/tests/diff_*.txt
-/Adventure 3000 (HP 3000 BASIC, Creative Computing type-in)/transcription/tools/draft_data.txt
+/MOSE0350 Adventure 3000 (HP 3000 BASIC, Creative Computing type-in)/port/data/*/*.dat
+/MOSE0350 Adventure 3000 (HP 3000 BASIC, Creative Computing type-in)/port/tests/data/*.dat
+/MOSE0350 Adventure 3000 (HP 3000 BASIC, Creative Computing type-in)/port/tests/out_*.txt
+/MOSE0350 Adventure 3000 (HP 3000 BASIC, Creative Computing type-in)/port/tests/diff_*.txt
+/MOSE0350 Adventure 3000 (HP 3000 BASIC, Creative Computing type-in)/transcription/tools/draft_data.txt
 
 
 # ---- 4. ordinary build and editor litter ----------------------------
@@ -157,4 +178,4 @@ desktop.ini
 *~
 .vscode/
 .idea/
-Adventures in Pascal (PDP-11, RSX-11M, OMSI Pascal, full source)/port/build/*
+/BREE0350 Adventures in Pascal (PDP-11, RSX-11M, OMSI Pascal, full source)/port/build/*

@@ -1,0 +1,1481 @@
+      INCLUDE ADV:C
+      WRITE (OUTUNIT, '(1X)')
+      CALL OPENDB
+      CALL WEBSTER
+      DO 100 KEY=INIT*1000,  INIT*1000+NINIT-1
+100   CALL PROCESS(KEY * 1000, &200)
+200   CONTINUE
+      DO 999 KEY=REPEAT * 1000, REPEAT * 1000 + NREP - 1
+999   CALL PROCESS(KEY * 1000, &200)
+      GOTO 200
+      END
+      SUBROUTINE COMMAND
+      INCLUDE ADV:C
+      LINELEN = 0
+      DO 5 I=1, LINESIZE
+5     LINEWORD(I) = -1
+      CALL READIN
+10    CALL PARSE(&100)
+      LINEVAL = FIND($LEX, &50)
+      IF (CLASS(LINEVAL) .EQ. NULL) GOTO 10
+20    LINELEN = LINELEN + 1
+      LINEWORD(LINELEN) = LINEVAL
+      $ARG(LINELEN)=$LEX
+      IF (LINELEN .LT. LINESIZE) GOTO 10
+      GOTO 100
+50    LINEVAL = -1
+      GOTO 20
+100   CONTINUE
+      DO 99 I=1, LINESIZE
+      K = 0
+      J = CLASS(LINEWORD(I))
+      IF (J .EQ. OBJECT .OR. J .EQ. PLACE) K = BITVAL(LINEWORD(I))
+      IF (J .EQ. VERB) K = XVERB
+      IF (LINEWORD(I) .LT. 0) K = BADWORD
+      CALL SETVAL(ARGWORDS(I), LINEWORD(I))
+99    CALL SETBIT(ARGWORDS(I), K)
+      CALL SETVAL(STATUS, LINELEN)
+      IF (LINELEN .EQ. 0) GOTO 999
+      I = CLASS(LINEWORD(1))
+      IF (I .EQ. VERB)
+     + CALL SETBIT(STATUS, IOR(BITVAL(STATUS), XVERB))
+      IF (I .EQ. OBJECT)
+     + CALL SETBIT(STATUS, IOR(BITVAL(STATUS), XOBJECT))
+      IF (I .EQ. PLACE)
+     + CALL SETBIT(STATUS, IOR(BITVAL(STATUS), XPLACE))
+      IF (LINELEN .LT. 2) GOTO 999
+999   CONTINUE
+      RETURN
+      END
+      LOGICAL FUNCTION NEAR(I)
+      INCLUDE ADV:C
+      WHRE = WHERE(I)
+      BTS = BITVAL(I)
+      HEAH = EVAL(HERE)
+     +       (WHRE .EQ. HEAH-1 .AND. IAND(BTS, DUAL) .NE. 0)
+      RETURN
+      END
+      SUBROUTINE PROCESS(RECNO, *)
+      INCLUDE ADV:C
+      CHARACTER*1 $RESP
+      LOGICAL NEAR
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+C                                                                              C
+C      The PROCESS module contains the actual interpreter code for             C
+C      the ADVENTURE program.  The following definitions and notes             C
+C      should be observed:                                                     C
+C                                                                              C
+C      The things being manipulated herein consist of variables,               C
+C      objects, places, verbs, words on the command line entered               C
+C      by the user, and numerical values.  Each of these things has            C
+C      certain characteristics, to wit:                                        C
+C                                                                              C
+C        Variables have both numerical values and bit values.  The             C
+C      numerical values are sixteen bits in magnitude and are signed.          C
+C      The bits for each variable are numbered 0 through 15; each one          C
+C      may be either set or reset.  The numerical and bit values               C
+C      do not interact.                                                        C
+C                                                                              C
+C        Objects have both bit values and numerical values (or "states").      C
+C      The state of an object is used to select the text to be printed         C
+C      when the object is visible to the player.  Certain of the bit           C
+C      "SCHIZOID" bit indicates that the object is visible in two              C
+C      adjacent places) and must not be changed in the program unless          C
+C      they are changed in the database;  other bits are available for         C
+C      arbitrary use by the database code.                                     C
+C                                                                              C
+C        Places have bit settings, but no numerical values.                    C
+C                                                                              C
+C        The words entered on the command line are available through the       C
+C      special variables ARG1 and ARG2.  They cannot be saved from one         C
+C      input to another.  Special bits in ARG1 and ARG2 may be examined        C
+C      to see what kind of word was entered (verb/object/place/invalid).       C
+C      If the "NAME" opcode uses ARG1 or ARG2 as the second argument, the      C
+C      actual text entered by the user will be substituted for any             C
+C      occurrance of the character "#" when the text is printed.               C
+C                                                                              C
+C        Numerical values may range from -32768 through 999.  Values of        C
+C      0 through 15 may be used to specify bit numbers in any of the           C
+C      bit-manipulation opcodes.                                               C
+C                                                                              C
+C        Most references to arguments get run through a procedure called       C
+C      "EVAL", which figures out the difference between constant values        C
+C      and variables/places/objects, etc.  EVAL returns the real value to      C
+C      and returned;  references to objects, and variables are transformed     C
+C      into the actual values of the indicated entities.                       C
+C                                                                              C
+C        Special things will happen if the argument of an opcode is a          C
+C      variable and if the variable's numerical value is the same as           C
+C      the reference number ("address", for you assembler freaks) of           C
+C      a text string, object, or place.  In this case, any non-                C
+C      arithmetic operation performed on the variable (i.e., any               C
+C      bit-manipulation operation, a "SAY" or "NAME", an "IFNEAR" or           C
+C      "IFAT", an "APPORT", and so on will act upon the entity whose           C
+C      reference number is in the variable rather than on the variable         C
+C      itself (i.e., one automatic level of indirection).  This indirection    C
+C      does not occur for arithmetic operations on variables (including        C
+C      the "SET" operation), but can be kludged up by way of the "EVAL"        C
+C      and "DEPOSIT" opcodes which do indirect loads and stores.               C
+C                                                                              C
+C      The following major command codes may be used to create an              C
+C      ADVENTURE database:                                                     C
+C                                                                              C
+C        LIST - produce a compile-time list of the following statements.       C
+C                                                                              C
+C        NOLIST - turn LIST feature off                                        C
+C        INCLUDE file - read commands from indicated file until EOF, then      C
+C               revert to reading from standard input device (M:SI).           C
+C                                                                              C
+C        SYNON  a,b1,b2,b3,.... - "a" must be an expression consisting of      C
+C               self-defining constant terms and/or already-defined symbols.   C
+C               b1, b2, and so on will be set to be "synonymous" with a.       C
+C                                                                              C
+C        PLACE placename - defines a place called "placename" - the next       C
+C               available place referece number will be assigned.  The         C
+C               following lines (up to the next major command) contain         C
+C               the text used to describe the place - the first set of         C
+C               lines give the "quick" description, the next set of lines      C
+C               gives the "full" description.                                  C
+C                                                                              C
+C        OBJECT objectname - defines an object - the next available object     C
+C               reference number is assigned.  The following lines give the    C
+C               object's description - the first set gives its "inventory"     C
+C               description (i.e., a short one-liner denoting what it's        C
+C               described as when you're carrying it);  the second set gives   C
+C               its "state 0" description, the third set gives its "state 1"   C
+C               description, and so on as necessary.  59 states maximum,       C
+C               please.                                                        C
+C        VERB verb1,verb2,..... - defines a set of synonymous verbs.  All of   C
+C               the verbs listed will be defined with the same verb reference  C
+C               number, so that the player can enter any of them.  NOTE -      C
+C               all action definitions for this set of verbs should be         C
+C               entered using only 1 of the possible choices (all with verb1,  C
+C               or all with verb2, etc., but not a mixture) or terrible        C
+C               things may happen!                                             C
+C                                                                              C
+C        TEXT textname - defines a text string (one or more lines) called      C
+C               "textname".  The following lines should consist of one set     C
+C               of text defining the message to be output when this            C
+C               text set is invoked.  The character "#" may be used as a       C
+C               special symbol - if a "#" is encountered during the            C
+C               processing of a "NAME" or "VALUE" opcode, the "#" will be      C
+C               deleted from the string and the name or value of the variable  C
+C               indicated in the "NAME" or "VALUE" command will be substituted C
+C               in its place.                                                  C
+C                                                                              C
+C        VARIABLE v1,v2,v3,.... - defines one or more variables.  These        C
+C               variables are *not* synonymous with one another!               C
+C                                                                              C
+C        LABEL labelname - defines a set of executable code called             C
+C                                                                              C
+C        AT place - defines code to be executed when the player is at          C
+C               the indicated place - the following lines contain the actual   C
+C               code.  More than 1 "AT" command may be defined for a           C
+C               particular place (in fact, up to 499);  they will be           C
+C               executed in the order encountered during compilation.          C
+C                                                                              C
+C        ACTION verb [keyword,keyword,....] - defines code to be executed      C
+C               when a particular verb is entered.  The keywords are           C
+C               optional - if used, the code will be executed iff all          C
+C               keywords given were actually entered by the user on an         C
+C               input command line (this is the same as if the keywords        C
+C               were entered seperately on a "KEYWORD" op-code directly        C
+C               following the "ACTION" statement - see "KEYWORD" for           C
+C               details).  Note that it is perfectly permissible to use        C
+C               the name of an object as a verb (e.g., "WATER").               C
+C                                                                              C
+C        INITIAL - defines once-only code to be executed at initialization     C
+C               time.  Multiple INITIAL commands may be used and are           C
+C               executed in the order encountered.                             C
+C                                                                              C
+C        REPEAT - defines the main action-processing code that is executed     C
+C               during each player input.  After the INITIAL code has been     C
+C               executed, the REPEAT statements are executed.  Once the last   C
+C               REPEAT statement is executed, the program loops back and startsC
+C               again with the first.  The REPEAT process may be cut short at  C
+C               any time by the use of the "QUIT" opcode, which will restart   C
+C               execution at the beginning of the REPEAT set.                  C
+C                                                                              C
+C        Each of the above "major command" words must appeat in column         C
+C      1.  The command will consist of all following lines up to but           C
+C      not including the next major command statement (i.e., all lines         C
+C      in which column 1 is blank).  Any line with an asterisk in column       C
+C      1 is considered to be a comment and is ignored.  Comments may be        C
+C      placed on major-command and opcode-control lines (but not on            C
+C      text-string lines) by starting the comment portion of the line          C
+C      with an asterisk or a left-brace ( "{" ).  At the moment, only one      C
+C      opcode (with arguments) can be placed on each line;  this may           C
+C      change if I get around to adding the code to the parser.                C
+C                                                                              C
+C        In the description of objects and places above, the term "set of      C
+C      lines" was used.  A set of lines is simply one or more lines of         C
+C      text.  The first line in each set except the first is denoted by        C
+C      a percent sign ( "%" ) placed immediately before the first              C
+C      significant character.  Any line that begins with an asterisk           C
+C      ( "*" ) or with the sequence ">$<" is considered to be a null           C
+C      file.  Normally, leading blanks are stripped by the compiler -          C
+C      to suppress this, place a slash ( "/" ) before the first blank          C
+C      that you wish to be included in the text record.                        C
+C                                                                              C
+C      The following is a list of the available op-codes and a quickie         C
+C      description of what they do:                                            C
+C                                                                              C
+C       KEYWORD a,b,c,...        If all indicated words appear in input,       C
+C                                do following; otherwise PROCEED               C
+C                                                                              C
+C       HAVE   a,b,c,...         If all indicated objects are in hand,         C
+C                                do following; else PROCEED                    C
+C                                                                              C
+C       NEAR   a,b,c             If all indicated objects are in hand or       C
+C                                nearby do following; else PROCEED             C
+C                                                                              C
+C       AT     a,b,c,..          If at any of indicated places do following;   C
+C                                else PROCEED                                  C
+C                                                                              C
+C       ANYOF  a,b,c,...         If any of indicated words are in command do   C
+C                                following; else PROCEED                       C
+C                                                                              C
+C                                                                              C
+C       IFLT   i,j               If i<j do following                           C
+C                                                                              C
+C       IFGT   i,j               If i>j do following                           C
+C                                                                              C
+C       IFAT   i                 If at place "i" do following                  C
+C                                                                              C
+C       CHANCE i                 Do following i% of the time.                  C
+C                                                                              C
+C       ELSE                     Do following if current "if" wasn't done      C
+C                                                                              C
+C       FIN                      End of "if" group                             C
+C                                                                              C
+C       EOF                      End of all "if" groups                        C
+C                                                                              C
+C       GET    i                 Move object i into my hands                   C
+C                                                                              C
+C       DROP   i                 Remove object i from hands, leave it          C
+C                                here.                                         C
+C                                                                              C
+C       APPORT i,j               Move object i to place j.                     C
+C                                                                              C
+C                                                                              C
+C       ADD    i,j               Set i to i+j                                  C
+C                                                                              C
+C       SUB    i,j               Set i to i-j                                  C
+C                                                                              C
+C       GOTO   i                 Go to place i                                 C
+C                                                                              C
+C       MOVE   i,j               If you said "i" or "MOVE i", go to            C
+C                                place j and then quit                         C
+C                                                                              C
+C       CALL   i                 Call and execute code defined for "i"         C
+C                                (label, place, verb, etc.)                    C
+C                                                                              C
+C       SAY    i                 Say text string/object description/place      C
+C                                description i.                                C
+C                                                                              C
+C       NAME   i,j               Like SAY, but replace "#" with name of        C
+C                                object j.                                     C
+C                                                                              C
+C       VALUE  i,j               Like SAY, but replace "#" with value          C
+C                                of variable/object/place j.                   C
+C                                                                              C
+C                                If none left, go back up one CALL level.      C
+C                                                                              C
+C       QUIT                     Flush all CALLs and go to first REPEAT        C
+C                                routine.                                      C
+C                                                                              C
+C       STOP                     Terminate program immediately.                C
+C                                                                              C
+C       IFHAVE i                 Do following if object i is in hand.          C
+C                                                                              C
+C       IFNEAR i                 Do following if object i is nearby.           C
+C                                                                              C
+C       RANDOM i,j               Set i to random number in range [0, j-1]      C
+C                                                                              C
+C       BITST  i,j               Do following if bit j in entity i is set      C
+C                                                                              C
+C       BISET  i,j               Set bit j in variable i                       C
+C                                                                              C
+C       BICLEAR i,j              Reset bit j in variable i                     C
+C                                                                              C
+C       ITOBJ  i                 Loop to EOI running i through range of        C
+C                                object reference values.                      C
+C                                                                              C
+C                                place reference values.                       C
+C                                                                              C
+C       EOI                      End of ITOBJ/ITLIST/ITPLACE loop              C
+C                                                                              C
+C       IFLOC  i,j               Do following if object i is at                C
+C                                place j                                       C
+C                                                                              C
+C       INPUT                    Input and parse a command, set ARG1/ARG2      C
+C                                                                              C
+C       LOCATE i,j               Set i equal to reference value of object      C
+C                                j's location.                                 C
+C                                                                              C
+C       NOT                      Invert following IF test                      C
+C                                                                              C
+C       IFKEY  i                 Do following code if word i appeared          C
+C                                in last command input.                        C
+C                                                                              C
+C       LDA    i,j               Set i equal to reference value of j -         C
+C                                gets address rather than value.               C
+C                                                                              C
+C       EVAL   i,j               j has ref. value of a variable or object -    C
+C                                set i equal to value of var. or obj.          C
+C       MULTIPLY i,j             set i = i * j                                 C
+C                                                                              C
+C       DIVIDE i,j               set i = i / j                                 C
+C                                                                              C
+C       SVAR   i,j               set i equal to "system variable" j            C
+C                                (see SVAR listing)                            C
+C                                                                              C
+C       EXEC   i,j               Perform "executive action" i, set             C
+C                                results into variable j (see EXECUTIVE module)C
+C                                                                              C
+C       QUERY  i                 Do a "SAY i", ask for yes/no answer -         C
+C                                do following code if "yes".                   C
+C                                                                              C
+C       DEPOSIT i,j              i is var. containing ref(k) - set k           C
+C                                to j.                                         C
+C                                                                              C
+C       ITLIST i                 Like ITOBJ but omits most objects that        C
+C                                aren't nearby (but not all!)                  C
+C                                                                              C
+C       SMOVE  i,j,k             Like MOVE but if move performed, do           C
+C                                "SAY k" before quitting.                      C
+C                                                                              C
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+      REC=RECNO
+      CALLS=0
+      DOS=0
+ 1000 BP=1
+ 1100 CALL READBUFF(REC,&1500)
+      SKIPFLAG=0
+      NEGATE=.FALSE.
+      PASSON=.FALSE.
+      LOGICMODE = 1
+ 1200 OPCODE=BUFFER(BP)
+      BP=BP+1
+      IF(OPCODE.GT.0) GO TO 2000
+      IF (BP.EQ.2) GOTO 1500
+1300  REC = REC + 1
+      GOTO 1000
+1500  IF (CALLS.EQ.0) RETURN
+      REC=CALLREC(CALLS)
+      BP=CALLBP(CALLS)
+      DOS=CALLDOS(CALLS)
+      CALLS=CALLS-1
+      GO TO 1100
+ 2000 GO TO (2100,2200,2300,2400,2500,2600,2700,2800,
+     + 2900,3000,3100,3200,3300,3400,3500,3600,3700,
+     + 3800,3900,4000,4100,4200,4300,4400,4500,4600,
+     + 4700,4800,4900,5000,5100,5200,5400,5500,
+     + 5600,5700,5800,5900,6000,6100,6200,6300,6400,
+     + 6500, 6600, 6700, 6800, 6900, 7000, 7100, 5100, 5100,
+     + 7200, 7300, 7400, 7500), OPCODE
+      WRITE (OUTUNIT, 2010) OPCODE, FLOAT(REC)/1000, BP
+2010  FORMAT (' Glitch! Bad opcode: ',I5,' - rec = ',F10.3,
+     + ' after loc ',I4)
+      GOTO 1300
+C
+C     "KEYWORD"
+C
+ 2100 CONTINUE
+      WORD1=BUFFER(BP)
+      BP=BP+1
+      DO 2110 I=1,LINELEN
+ 2110 IF(WORD1.EQ.LINEWORD(I)) GO TO 1200
+      GO TO 1300
+C
+C     "HAVE"
+C
+ 2200 CONTINUE
+      WORD1=BUFFER(BP)
+      BP=BP+1
+      IF(WHERE(REF(WORD1)).EQ.INHAND) GO TO 1200
+      GO TO 1300
+C
+C     "NEAR"
+C
+ 2300 CONTINUE
+      WORD1=BUFFER(BP)
+      BP=BP+1
+      I=REF(WORD1)
+      J=WHERE(I)
+      IF (J .EQ. INHAND .OR. NEAR(I)) GOTO 1200
+      GO TO 1300
+C
+C     "AT"
+C
+ 2400 CONTINUE
+      TRUTH=.FALSE.
+ 2410 CONTINUE
+      BP=BP+1
+      TRUTH=TRUTH.OR.(WORD1.EQ.EVAL(HERE))
+      IF(BUFFER(BP).NE.4) GO TO 2420
+      BP=BP+1
+      GO TO 2410
+ 2420 IF(TRUTH) GO TO 1200
+      GO TO 1300
+C
+C     "ANYOF"
+C
+ 2500 CONTINUE
+      TRUTH=.FALSE.
+ 2510 CONTINUE
+      WORD1=BUFFER(BP)
+      BP=BP+1
+      DO 2520 I=1,LINELEN
+ 2520 TRUTH=TRUTH.OR.(WORD1.EQ.LINEWORD(I))
+      IF(BUFFER(BP).NE.5) GO TO 2530
+      BP=BP+1
+      GO TO 2510
+ 2530 IF(TRUTH) GO TO 1200
+      GO TO 1300
+C
+C     "IFEQ"
+C
+ 2600 CONTINUE
+      WORD1=BUFFER(BP)
+      WORD2=BUFFER(BP+1)
+      BP=BP+2
+      IF (SKIPFLAG.GT.0) GOTO 2610
+      TRUTH=(EVAL(WORD1).EQ.EVAL(WORD2))
+C
+C     -- GENERAL "IF" PROCESSING --
+C
+ 2610 TRUTH = TRUTH .EOR. NEGATE
+      IF (LOGICMODE .EQ. 1) TRUTH = TRUTH .OR. PASSON
+      IF (LOGICMODE .EQ. 2) TRUTH = TRUTH .AND. PASSON
+      IF (LOGICMODE .EQ. 3) TRUTH = TRUTH .EOR. PASSON
+      PASSON=.FALSE.
+      NEGATE=.FALSE.
+      DO 2615 LOGICMODE = 1, 3
+2615  IF (BUFFER(BP) .EQ. LOGICALS(LOGICMODE)) GOTO 2616
+      LOGICMODE = 1
+      GOTO 2620
+2616  CONTINUE
+      BP=BP+1
+      PASSON=TRUTH
+      GO TO 1200
+ 2620 IF(SKIPFLAG.EQ.0) GO TO 2630
+      SKIPFLAG=SKIPFLAG+1
+      GO TO 1200
+ 2630 IF (.NOT.TRUTH) SKIPFLAG=1
+      GO TO 1200
+C
+C     "IFLT"
+C
+ 2700 CONTINUE
+      WORD1=BUFFER(BP)
+      WORD2=BUFFER(BP+1)
+      BP=BP+2
+      IF (SKIPFLAG.GT.0) GOTO 2610
+      TRUTH=(EVAL(WORD1).LT.EVAL(WORD2))
+      GO TO 2610
+C
+C     "IFGT"
+C
+ 2800 CONTINUE
+      WORD1=BUFFER(BP)
+      WORD2=BUFFER(BP+1)
+      BP=BP+2
+      IF (SKIPFLAG.GT.0) GOTO 2610
+      TRUTH=(EVAL(WORD1).GT.EVAL(WORD2))
+      GO TO 2610
+C
+C     "IFAT"
+C
+ 2900 CONTINUE
+      WORD1=BUFFER(BP)
+      BP=BP+1
+      IF (SKIPFLAG.GT.0) GOTO 2610
+      TRUTH=(REF(WORD1).EQ.EVAL(HERE))
+      GO TO 2610
+C
+C     "CHANCE"
+C
+ 3000 CONTINUE
+      WORD1=BUFFER(BP)
+      BP=BP+1
+      IF (SKIPFLAG.GT.0) GOTO 2610
+      TRUTH=(EVAL(WORD1).GT.RND(100))
+      GO TO 2610
+C
+C     "ELSE"
+C
+ 3100 CONTINUE
+      IF(SKIPFLAG.GT.1) GO TO 1200
+      SKIPFLAG=1-SKIPFLAG
+      GO TO 1200
+C
+C     "FIN"
+C
+ 3200 CONTINUE
+      SKIPFLAG=MAX(SKIPFLAG-1,0)
+      GO TO 1200
+C
+C     "EOF"
+C
+ 3300 CONTINUE
+      SKIPFLAG=0
+      GO TO 1200
+C
+C     "GET"
+C
+ 3400 CONTINUE
+      WORD1=BUFFER(BP)
+      BP=BP+1
+      IF(SKIPFLAG.GT.0) GO TO 1200
+      CALL MOVEOBJ(REF(WORD1), INHAND)
+      I = EVAL(REF(WORD1))
+      IF (I .LT. 0) CALL SETVAL(REF(WORD1), -1 - I)
+      GO TO 1200
+C
+C     "DROP"
+C
+ 3500 CONTINUE
+      WORD1=BUFFER(BP)
+      BP=BP+1
+      IF(SKIPFLAG.GT.0) GO TO 1200
+      CALL MOVEOBJ(REF(WORD1), EVAL(HERE))
+      GO TO 1200
+C
+C     "APPORT"
+C
+3600  CONTINUE
+      WORD1=BUFFER(BP)
+      WORD2=BUFFER(BP+1)
+      BP=BP+2
+      IF(SKIPFLAG.GT.0) GO TO 1200
+      CALL MOVEOBJ(REF(WORD1), REF(WORD2))
+      GO TO 1200
+C
+C     "SET"
+C
+ 3700 CONTINUE
+      WORD1=BUFFER(BP)
+      WORD2=BUFFER(BP+1)
+      BP=BP+2
+      IF(SKIPFLAG.GT.0) GO TO 1200
+      CALL SETVAL(WORD1,EVAL(WORD2))
+      GO TO 1200
+C
+C     "ADD"
+C
+ 3800 CONTINUE
+      WORD1=BUFFER(BP)
+      WORD2=BUFFER(BP+1)
+      BP=BP+2
+      IF(SKIPFLAG.GT.0) GO TO 1200
+      CALL SETVAL(WORD1,EVAL(WORD1)+EVAL(WORD2))
+      GO TO 1200
+C
+C     "SUB"
+C
+ 3900 CONTINUE
+      WORD1=BUFFER(BP)
+      WORD2=BUFFER(BP+1)
+      BP=BP+2
+      IF(SKIPFLAG.GT.0) GO TO 1200
+      CALL SETVAL(WORD1,EVAL(WORD1)-EVAL(WORD2))
+      GO TO 1200
+C
+C     "GOTO"
+C
+ 4000 CONTINUE
+      WORD1=BUFFER(BP)
+      BP=BP+1
+      IF(SKIPFLAG.GT.0) GO TO 1200
+      I = EVAL(HERE)
+      J = BITVAL(HERE)
+      CALL SETVAL(HERE, REF(WORD1))
+      CALL SETBIT(HERE, BITVAL(REF(WORD1)))
+      CALL SETVAL(THERE, I)
+      CALL SETBIT(THERE, J)
+      CALL SETBIT(STATUS, IOR(BITVAL(STATUS), MOVED))
+      GO TO 1200
+C
+C     "MOVE"
+C
+ 4100 CONTINUE
+      WORD1=BUFFER(BP)
+      WORD2=BUFFER(BP+1)
+      BP=BP+2
+      IF(SKIPFLAG.GT.0) GO TO 1200
+      IF (WORD1 .NE. LINEWORD(1) .AND. (LINELEN .LT. 2 .OR.
+     + WORD1 .NE. LINEWORD(2) .OR. (LINEWORD(1) .NE. EXPLORE
+     + .AND. LINEWORD(1) .NE. SAYXX))) GOTO 1200
+      I = EVAL(HERE)
+      J = BITVAL(HERE)
+      CALL SETVAL(HERE, REF(WORD2))
+      CALL SETBIT(HERE, BITVAL(REF(WORD2)))
+      CALL SETVAL(THERE, I)
+      CALL SETBIT(THERE, J)
+      CALL SETBIT(STATUS, IOR(BITVAL(STATUS), MOVED))
+      RETURN 1
+C
+C     "CALL"
+C
+ 4200 CONTINUE
+      BP=BP+1
+      IF(SKIPFLAG.GT.0) GO TO 1200
+      CALLS=CALLS+1
+      CALLREC(CALLS)=REC
+      CALLBP(CALLS)=BP
+      CALLDOS(CALLS)=DOS
+      REC=REF(WORD1)*1000
+      J = CLASS(REF(WORD1))
+      IF(J.EQ.OBJECT.OR.J.EQ.PLACE) REC=REC+500
+      GO TO 1000
+C
+C     "SAY"
+C
+ 4300 CONTINUE
+      WORD1=BUFFER(BP)
+      BP=BP+1
+      IF(SKIPFLAG.GT.0) GO TO 1200
+      CALL SAY(REF(WORD1))
+      GO TO 1200
+C
+C     "NAME"
+C
+ 4400 CONTINUE
+      WORD1=BUFFER(BP)
+      WORD2=BUFFER(BP+1)
+      BP=BP+2
+      IF(SKIPFLAG.GT.0) GO TO 1200
+      DO 4410 I=1,4
+4410  IF(WORD2.EQ.ARGWORDS(I)) GO TO 4420
+      GOTO 4430
+4420  CALL SAYNAME(REF(WORD1), WORD2)
+      GOTO 1200
+4430  CONTINUE
+      CALL SAYNAME(REF(WORD1),REF(WORD2))
+      GO TO 1200
+C
+C     "VALUE"
+C
+ 4500 CONTINUE
+      WORD1=BUFFER(BP)
+      WORD2=BUFFER(BP+1)
+      BP=BP+2
+      IF(SKIPFLAG.GT.0) GO TO 1200
+      CALL SAYVALUE(REF(WORD1),REF(WORD2))
+      GO TO 1200
+C
+C     "PROCEED"
+C
+ 4600 CONTINUE
+      IF(SKIPFLAG.GT.0) GO TO 1200
+      GOTO 1300
+C
+C     "QUIT"
+C
+ 4700 CONTINUE
+      IF(SKIPFLAG.GT.0) GO TO 1200
+      RETURN 1
+C
+C     "STOP"
+C
+ 4800 CONTINUE
+      IF(SKIPFLAG.GT.0) GO TO 1200
+      STOP 0
+C
+C     "IFHAVE"
+C
+ 4900 CONTINUE
+      WORD1=BUFFER(BP)
+      BP=BP+1
+      IF (SKIPFLAG.GT.0) GOTO 2610
+      TRUTH=(WHERE(REF(WORD1)).EQ.INHAND)
+      GO TO 2610
+C
+C     "IFNEAR"
+C
+ 5000 CONTINUE
+      WORD1=BUFFER(BP)
+      BP=BP+1
+      IF (SKIPFLAG.GT.0) GOTO 2610
+      I=REF(WORD1)
+      J=WHERE(I)
+      TRUTH = (J .EQ. INHAND .OR. NEAR(I))
+      GO TO 2610
+C
+C     "OR" - SHOULD NEVER GET HERE!
+C
+ 5100 CONTINUE
+      WRITE (OUTUNIT,5110)FLOAT(REC)/1000,BP
+ 5110 FORMAT(' Glitch! Ill-placed logical in record ',F10.3,'after loc ',
+     + I4)
+      GO TO 1200
+C
+C     "RANDOM"
+C
+ 5200 CONTINUE
+      WORD1=BUFFER(BP)
+      WORD2=BUFFER(BP+1)
+      BP=BP+2
+      IF (SKIPFLAG.GT.0) GOTO 1200
+      CALL SETVAL(WORD1,RND(EVAL(WORD2)))
+      GOTO 1200
+C
+C     "BITST"
+C
+ 5400 CONTINUE
+      WORD1=BUFFER(BP)
+      WORD2=BUFFER(BP+1)
+      BP=BP+2
+      IF (SKIPFLAG.GT.0) GOTO 2610
+      TRUTH=IAND(BITVAL(WORD1),BITVAL(WORD2)).NE.0
+      GO TO 2610
+C
+C     "BISET"
+C
+ 5500 CONTINUE
+      WORD1=BUFFER(BP)
+      WORD2=BUFFER(BP+1)
+      BP=BP+2
+      IF(SKIPFLAG.GT.0) GO TO 1200
+      CALL SETBIT(WORD1,IOR(BITVAL(WORD1),BITVAL(WORD2)))
+      GO TO 1200
+C
+C     "BICLEAR"
+C
+ 5600 CONTINUE
+      WORD1=BUFFER(BP)
+      WORD2=BUFFER(BP+1)
+      BP=BP+2
+      IF(SKIPFLAG.GT.0) GO TO 1200
+      CALL SETBIT(WORD1,IAND(BITVAL(WORD1),INOT(BITVAL(WORD2))))
+      GO TO 1200
+C
+C     "ITOBJ"
+C
+ 5700 CONTINUE
+      WORD1=BUFFER(BP)
+      BP=BP+1
+      DOS=DOS+1
+      IF(SKIPFLAG.GT.0) GO TO 1200
+      DOVAR(DOS)=WORD1
+      CALL SETVAL(WORD1,OBJECT*1000)
+      DOPOINT(DOS)=BP
+      DOMODE(DOS)=1
+      GO TO 1200
+C
+C     "ITPLACE"
+C
+ 5800 CONTINUE
+      WORD1=BUFFER(BP)
+      BP=BP+1
+      DOS=DOS+1
+      IF(SKIPFLAG.GT.0) GO TO 1200
+      DOVAR(DOS)=WORD1
+      CALL SETVAL(WORD1,PLACE*1000)
+      DOPOINT(DOS)=BP
+      DOMODE(DOS)=2
+      GO TO 1200
+C
+C     "EOI"
+C
+ 5900 CONTINUE
+      IF(SKIPFLAG.EQ.0) GO TO 5910
+5905  DOS=DOS-1
+      GO TO 1200
+ 5910 I=EVAL(DOVAR(DOS))+1
+      CALL SETVAL(DOVAR(DOS),I)
+      GOTO (5920,5930,5940), DOMODE(DOS)
+5920  IF (MOD(I, 1000) .EQ. NOBJ) GOTO 5905
+      GOTO 5980
+5930  IF (MOD(I, 1000) .EQ. NPLACE) GOTO 5905
+      GOTO 5980
+5940  IF (MOD(I, 1000) .EQ. NOBJ) GOTO 5905
+5945  J = WHERE(I)
+      IF ( .NOT. NEAR(I) .AND. MOD(I, 1000) .NE. NOBJ-1) GOTO 5900
+      GOTO 5980
+5980  BP=DOPOINT(DOS)
+      GOTO 1200
+C
+C     "IFLOC"
+C
+6000  CONTINUE
+      WORD1=BUFFER(BP)
+      WORD2=BUFFER(BP+1)
+      BP=BP+2
+      IF (SKIPFLAG.GT.0) GOTO 2610
+      TRUTH=(WHERE(REF(WORD1)).EQ.REF(WORD2))
+      GOTO 2610
+C
+C     "INPUT"
+C
+ 6100 CONTINUE
+      IF(SKIPFLAG.GT.0) GO TO 1200
+      CALL COMMAND
+      GO TO 1200
+C
+C     "LOCATE"
+C
+6200  CONTINUE
+      WORD1=BUFFER(BP)
+      WORD2=BUFFER(BP+1)
+      BP=BP+2
+      IF(SKIPFLAG.GT.0) GO TO 1200
+      CALL SETVAL(WORD1,WHERE(REF(WORD2)))
+      GOTO 1200
+C
+C     "NOT"
+C
+ 6300 CONTINUE
+      IF (SKIPFLAG.GT.0) GO TO 1200
+      NEGATE = .NOT. NEGATE
+      GO TO 1200
+C
+C     "IFKEY"
+C
+ 6400 CONTINUE
+      WORD1 = BUFFER(BP)
+      BP = BP + 1
+      IF (SKIPFLAG.GT.0) GOTO 2610
+      TRUTH = .FALSE.
+      DO 6410 I = 1,LINELEN
+      TRUTH = TRUTH .OR. (WORD1 .EQ. LINEWORD(I))
+6410  IF (TRUTH) GOTO 6420
+ 6420 CONTINUE
+      GOTO 2610
+C
+C     "LDA"
+C
+ 6500 CONTINUE
+      WORD1=BUFFER(BP)
+      WORD2=BUFFER(BP+1)
+      BP=BP+2
+      IF(SKIPFLAG.GT.0) GOTO 1200
+      CALL SETVAL(WORD1, WORD2)
+      GOTO 1200
+C
+C     "EVAL"
+C
+ 6600 CONTINUE
+      WORD1 = BUFFER(BP)
+      WORD2 = BUFFER(BP+1)
+      BP=BP+2
+      IF(SKIPFLAG.GT.0) GOTO 1200
+      CALL SETVAL(WORD1, EVAL(REF(WORD2)))
+      GOTO 1200
+C
+C     "MULTIPLY"
+C
+ 6700 CONTINUE
+      WORD1=BUFFER(BP)
+      WORD2=BUFFER(BP+1)
+      BP=BP+2
+      IF(SKIPFLAG.GT.0) GO TO 1200
+      CALL SETVAL(WORD1,EVAL(WORD1)*EVAL(WORD2))
+      GO TO 1200
+C
+C     "DIVIDE"
+C
+ 6800 CONTINUE
+      WORD1=BUFFER(BP)
+      WORD2=BUFFER(BP+1)
+      BP=BP+2
+      IF(SKIPFLAG.GT.0) GO TO 1200
+      CALL SETVAL(WORD1,EVAL(WORD1)/EVAL(WORD2))
+      GO TO 1200
+C
+C     "SVAR"
+C
+ 6900 CONTINUE
+      WORD1 = BUFFER(BP)
+      WORD2 = BUFFER(BP+1)
+      BP=BP+2
+      IF(SKIPFLAG.GT.0) GOTO 1200
+      I = EVAL(WORD2)
+      CALL SVAR(EVAL(WORD1), I)
+      CALL SETVAL(WORD2, I)
+      GOTO 1200
+C
+C     "EXEC"
+C
+ 7000 CONTINUE
+      WORD1 = BUFFER(BP)
+      WORD2 = BUFFER(BP+1)
+      BP=BP+2
+      IF (SKIPFLAG.GT.0) GOTO 1200
+      CALL EXECUTIVE
+      GOTO 1200
+C
+C     "QUERY"
+C
+7100  CONTINUE
+      WORD1 = BUFFER(BP)
+      BP = BP + 1
+      IF (SKIPFLAG .GT. 0) GOTO 2610
+7110  CALL SAY(REF(WORD1))
+      READ (INUNIT, '(A1)', END=7120, ERR=7120) $RESP
+      TRUTH = ($RESP .EQ. 'Y') .OR. ($RESP .EQ. 'y')
+      IF (TRUTH .OR. ($RESP.EQ.'N'.OR.$RESP.EQ.'n')) GOTO 2610
+7120  WRITE (OUTUNIT, '($ Please answer the question.$)')
+      GOTO 7110
+C
+C        "DEPOSIT"
+C
+ 7200 CONTINUE
+      WORD1 = BUFFER(BP)
+      WORD2 = BUFFER(BP+1)
+      BP=BP+2
+      IF (SKIPFLAG.GT.0) GOTO 1200
+      CALL SETVAL(REF(WORD1),EVAL(WORD2))
+      GOTO 1200
+C
+C     "ITLIST"
+C
+ 7300 CONTINUE
+      WORD1=BUFFER(BP)
+      BP=BP+1
+      DOS=DOS+1
+      IF(SKIPFLAG.GT.0) GO TO 1200
+      DOVAR(DOS)=WORD1
+      I=OBJECT*1000
+      CALL SETVAL(WORD1,I)
+      DOPOINT(DOS)=BP
+      DOMODE(DOS)=3
+      GO TO 5945
+C
+C     "SMOVE"
+C
+ 7400 CONTINUE
+      WORD1=BUFFER(BP)
+      WORD2=BUFFER(BP+1)
+      WORD3=BUFFER(BP+2)
+      BP=BP+3
+      IF(SKIPFLAG.GT.0) GO TO 1200
+      IF (WORD1 .NE. LINEWORD(1) .AND. (LINELEN .LT. 2 .OR.
+     + WORD1 .NE. LINEWORD(2) .OR. (LINEWORD(1) .NE. EXPLORE
+     + .AND. LINEWORD(1) .NE. SAYXX))) GOTO 1200
+      I = EVAL(HERE)
+      J = BITVAL(HERE)
+      CALL SETVAL(HERE, REF(WORD2))
+      CALL SETBIT(HERE, BITVAL(REF(WORD2)))
+      CALL SETVAL(THERE, I)
+      CALL SETBIT(THERE, J)
+      CALL SETBIT(STATUS, IOR(BITVAL(STATUS), MOVED))
+      CALL SAY(WORD3)
+      RETURN 1
+C
+C     "DEFAULT"
+C
+7500  CONTINUE
+      WORD1 = BUFFER(BP)
+      BP = BP + 1
+      IF (SKIPFLAG.GT.0) GOTO 1200
+      IF (LINELEN .NE. 1) GOTO 1200
+      K = 0
+      DO 7510 I=OBJECT*1000,OBJECT*1000+NOBJ-1
+      IF ( .NOT. NEAR(I) .OR. IAND(BITVAL(I), BITVAL(WORD1)) .EQ. 0)
+     + GOTO 7510
+      IF (K .NE. 0) GOTO 1200
+      K = I
+7510  CONTINUE
+      IF (K .EQ. 0) GOTO 1200
+      CALL SETVAL(ARGWORDS(2), K)
+      CALL SETBIT(ARGWORDS(2), BITVAL(K))
+      LINEWORD(2) = K
+      CALL SETVAL(STATUS, 2)
+      LINELEN = 2
+      GOTO 1200
+      END
+      SUBROUTINE READIN
+      INCLUDE ADV:C
+      LINEX = -1
+5     READ (INUNIT, '(A139)', END=999) $LINE
+      DO 10, LINEX = 1, 140
+10    IF ($LINE(LINEX:LINEX) .NE. ' ') GOTO 20
+      LINEX = 140
+20    DO 30, LINEND = 140, LINEX, -1
+30    IF ($LINE(LINEND:LINEND) .NE. ' ') GOTO 40
+      LINEND = LINEX
+40    RETURN
+999   STOP 'Eof'
+      END
+      SUBROUTINE PARSE(*)
+      INCLUDE ADV:C
+      DO 10 I=LINEX,LINEND
+10    IF ($LINE(I:I) .NE. ' ') GOTO 15
+      RETURN 1
+15    DO 20 J=I,LINEND + 1
+      $SEP = $LINE(J:J)
+20    IF ($SEP .EQ. ' ' .OR. $SEP .EQ. ',') GOTO 25
+      J = LINEND + 1
+25    $LEX = $LINE(I:J - 1)
+      LINEX = J + 1
+Z     WRITE (OUTUNIT,27) LINEX,LINEND,I,J
+27    FORMAT (4I6)
+Z     WRITE (OUTUNIT, 30) $LINE(I:J-1),$SEP
+30    FORMAT (' $LEX = "',A,'" - $SEP = "',A,'"')
+      RETURN
+      END
+      INTEGER FUNCTION FIND($ID, *)
+      CHARACTER*(*) $ID
+      INCLUDE ADV:C
+      CHARACTER*6  $IDE
+      $IDE = $ID // BLANKS(1: 140 - LEN($ID))
+      LOW = 1
+      HIGH = SYMCNT
+      DO 5 I=1,6
+      DO 3 J=1,26
+3     IF ($IDE(I:I) .EQ. $LC(J:J)) GOTO 4
+      GOTO 5
+4     $IDE(I:I) = $UC(J:J)
+5     CONTINUE
+10    FIND = (LOW + HIGH) / 2
+      IF ($IDE .EQ. $WORD(FIND)) GOTO 30
+      IF (LOW .GE. HIGH) $BADVAR=$IDE; RETURN 1
+      IF ($IDE .LT. $WORD(FIND)) GOTO 20
+      LOW = FIND + 1
+      GOTO 10
+20    HIGH = FIND - 1
+      GOTO 10
+30    FIND = FILEKEY(FIND)
+      RETURN
+      END
+      INTEGER FUNCTION CLASS(EDITKEY)
+      INCLUDE ADV:C
+      CLASS = EDITKEY / 1000
+      RETURN
+      ENTRY EVAL(ID)
+      CLASS = ID / 1000
+      INDEX = MOD (ID, 1000)
+      IF (CLASS .EQ. 0) GOTO 1300
+      IF (CLASS .EQ. OBJECT) GOTO 1100
+      IF (CLASS .EQ. VARIABLE) GOTO 1200
+                        PRINT (OUTUNIT, 1010) ID, FLOAT(REC)/1000, BP
+1010  FORMAT (' Glitch! Bad EVAL - key = ',I4,' on record ',F9.3,
+     + ' after loc ',I4)
+      EVAL = 0
+      RETURN
+1100  EVAL = OBJVAL(INDEX)
+      RETURN
+1200  EVAL = VARVAL(INDEX)
+      RETURN
+1300  EVAL = INDEX
+      RETURN
+C
+C
+C
+      ENTRY BITVAL(ID)
+      ID1 = ID
+1900  CLASS = ID1 / 1000
+      INDEX = MOD(ID1, 1000)
+      IF (CLASS .EQ. OBJECT ) GOTO 2100
+      IF (CLASS .EQ. VARIABLE) GOTO 2200
+      IF (CLASS .EQ. PLACE) GOTO 2300
+      IF (CLASS .EQ. INIT) GOTO 2400
+                        PRINT (OUTUNIT, 2010) ID, FLOAT(REC)/1000, BP
+2010  FORMAT (' Glitch! Bad BITVAL - key = ',I4,' on record ',F9.3,
+     + ' after loc ',I4)
+      EVAL = 0
+      RETURN
+2100  BITVAL = OBJBIT(INDEX)
+      RETURN
+2200  CLASS = VARVAL(INDEX) / 1000
+      ID1 = VARVAL(INDEX)
+      GOTO 1900
+2210  BITVAL = VARBIT(INDEX)
+      RETURN
+2300  BITVAL = PLACEBIT(INDEX)
+      RETURN
+C
+C
+C
+      ENTRY REF(ID)
+      CLASS = ID / 1000
+      IF (CLASS .EQ. VARIABLE) GOTO 3100
+      REF = ID
+      RETURN
+3100  REF = VARVAL(MOD(ID, 1000))
+      RETURN
+2400  BITVAL = ISL(1, ID)
+      RETURN
+C
+C
+C
+      ENTRY WHERE(I)
+      INDEX = I / 1000
+      IF (INDEX .EQ. OBJECT) GOTO 4100
+      WRITE                  (OUTUNIT, 4000) I, FLOAT(REC)/1000, BP
+4000  FORMAT (' Glitch! Bad WHERE - key = ',I4,' on record ',F9.3,
+     + ' after loc ',I4)
+      RETURN
+4100  INDEX = MOD(I, 1000)
+      WHERE = OBJLOC(INDEX)
+      RETURN
+      END
+      SUBROUTINE SETVAL(I, J)
+      INCLUDE ADV:C
+      CLASS = I / 1000
+      INDEX = MOD(I, 1000)
+      IF (CLASS .EQ. OBJECT) GOTO 1100
+      IF (CLASS .EQ. VARIABLE) GOTO 1200
+      WRITE                  (OUTUNIT, 1000) I, FLOAT(REC)/1000, BP
+1000  FORMAT (' Glitch! Bad SETVALUE - key = ',I4,' on record ',F9.3,
+     + ' after loc ',I4)
+      RETURN
+1100  OBJVAL(INDEX) = J
+      RETURN
+1200  VARVAL(INDEX) = J
+      RETURN
+C
+C
+C
+      ENTRY SETBIT(I, J)
+      CLASS = I / 1000
+      INDEX = MOD(I, 1000)
+1999  IF (CLASS .EQ. OBJECT) GOTO 2100
+      IF (CLASS .EQ. VARIABLE) GOTO 2200
+      IF (CLASS .EQ. PLACE) GOTO 2300
+      WRITE                  (OUTUNIT, 2000) I, FLOAT(REC)/1000, BP
+2000  FORMAT (' Glitch! Bad SETBIT - key = ',I4,' on record ',F9.3,
+     + ' after loc ',I4)
+      RETURN
+      RETURN
+2200  VARBIT(INDEX) = J
+      INDEX = VARVAL(INDEX) / 1000
+      IF (INDEX .NE. PLACE .AND. INDEX .NE. OBJECT) RETURN
+      CLASS = INDEX
+      INDEX = MOD(REF(I), 1000)
+      GOTO 1999
+2300  PLACEBIT(INDEX) = J
+      RETURN
+C
+C
+C
+      ENTRY MOVEOBJ(I, J)
+      CLASS = I / 1000
+      INDEX = MOD(I, 1000)
+      IF (CLASS .EQ. OBJECT) GOTO 3100
+      WRITE                  (OUTUNIT, 3000) I, FLOAT(REC)/1000, BP
+3000  FORMAT (' Glitch! Bad MOVEOBJ - key = ',I4,' on record ',F9.3,
+     + ' after loc ',I4)
+      RETURN
+3100  INDEX = MOD(I, 1000)
+      OBJLOC(INDEX) = J
+      RETURN
+      END
+      SUBROUTINE READTEXT(KEY, *)
+      INCLUDE ADV:C
+      READ (UNIT=DBT, FMT=10, KEY=KEY, ERR=100) $TEXT
+      INQUIRE(UNIT=DBT,RECSIZE=RSIZE)
+      $TEXT = $TEXT(1:RSIZE) // BLANKS(1:140-RSIZE)
+      RETURN
+10    FORMAT (A140)
+100   RETURN 1
+      ENTRY READBUFF(KEY, *)
+      IF (.NOT. ENABLED) GOTO 18
+      CALL GET$(&18, KEY, BUFFER)
+      GOTO 200
+18    CONTINUE
+      READ (UNIT=DBI, FMT=20, KEY=KEY, ERR=199) RSIZE,
+     + (BUFFER(I), I=1, MIN(RSIZE, BUFFSIZE-1))
+      IF (RSIZE .GE. BUFFSIZE) GOTO 998
+180   BUFFER(RSIZE+1) = -999
+      DO 181 I=1, RSIZE
+181   BUFFER(I) = ISA(ISL(BUFFER(I), 16), -16)
+      IF (FULL .OR. .NOT. ENABLED) GOTO 200
+      IF (.NOT. CACHEOK(KEY/1E6)) GOTO 200
+      CALL ADD$(&19, KEY, BUFFER)
+      GOTO 200
+19    FULL = .TRUE.
+200   CONTINUE
+      RETURN
+199   RSIZE = 0
+      GOTO 180
+20    FORMAT (1024R2)
+998   WRITE (OUTUNIT, 999) KEY,RSIZE
+999   FORMAT (' Glitch! Buffer too small: ',2I)
+      END
+      SUBROUTINE WEBSTER
+      INCLUDE ADV:C
+      READ (UNIT=DBI, FMT=100, KEY=9000*1000) SYMCNT
+      KEY = 9001
+      DO 10, I=1, SYMCNT, 200
+      READ (UNIT=DBI, FMT=200, KEY=KEY*1000)
+     + ($WORD(J), FILEKEY(J), J=I, MIN(I+199, SYMCNT))
+10    KEY = KEY + 1
+      HERE = FIND('HERE', &9999)
+      THERE = FIND('THERE', &9999)
+      STATUS = FIND('STATUS', &9999)
+      ARG1 = FIND('ARG1', &9999)
+      ARG2 = FIND('ARG2', &9999)
+      NOBJ = FIND('NOBJ', &9999)
+      NPLACE = FIND('NPLACE', &9999)
+      NREP = FIND('NREP', &9999)
+      NINIT = FIND('NINIT', &9999)
+      NVARS = FIND('NVARS', &9999)
+      EXPLORE = FIND ('EXPLORE', &9999)
+      SAYXX = FIND('SAY', &9999)
+      IF (NOBJ .GT. OBJECTS) STOP 'Too many objects'
+      IF (NPLACE .GT. PLACES) STOP 'Too many places'
+      IF (NVARS .GT. VARS) STOP 'Too many vars'
+      CHECKSUM = MOD(NVARS*17**2 + NOBJ*17 + NPLACE*1, 10000)
+C
+C     DEFINE "STATUS" BITS
+C
+         MOVED = BITVAL(0)
+         BRIEF = BITVAL(1)
+         FAST = BITVAL(2)
+         LOOKING = BITVAL(3)
+         BEEN = BITVAL(1)
+      DUAL = BITVAL(3)
+         XOBJECT = BITVAL(15)
+         XVERB = BITVAL(14)
+         XPLACE = BITVAL(13)
+         BADWORD = BITVAL(12)
+      DO 50 I=0,OBJECTS
+      OBJVAL(I) = 0
+      OBJLOC(I)=0
+50    OBJBIT(I) = XOBJECT
+      DO 60 I=0,VARS
+      VARVAL(I) = 0
+60    VARBIT(I) = XVERB
+      DO 70 I=0,PLACES
+70    PLACEBIT(I) = XPLACE
+      CALL START$(&80)
+      ENABLED=.TRUE.
+80    CONTINUE
+      RETURN
+9999  WRITE (OUTUNIT, '($ Missing variable: $,A)') $BADVAR
+      STOP ' '
+200   FORMAT (200(A6,R2))
+      END
+      SUBROUTINE OPENDB
+      INCLUDE ADV:C
+      CALL GETACCT($ACCT, $MYACCT)
+      BADUNIT = DBI
+      OPEN (UNIT=DBI, NAME='ADVI',ACCOUNT=$ACCT,
+     + USAGE='INPUT', STATUS='OLD', RECL=2048,
+     + FORM='FORMATTED', ACCESS='KEYED', ERR=100)
+      BADUNIT = DBT
+      OPEN (UNIT=DBT, NAME='ADVT',ACCOUNT=$ACCT,
+     + USAGE='INPUT', STATUS='OLD', RECL=2048,
+     + FORM='FORMATTED', ACCESS='KEYED', ERR=100)
+      CALL CIPHER(195402697)
+      RETURN
+100   INQUIRE (UNIT=BADUNIT, ERRCODE=OOPS)
+      WRITE (OUTUNIT, '($ Open of DB failed: $,Z4)') OOPS
+      STOP 'Gaah!'
+      END
+      SUBROUTINE SAY(KEY)
+      INCLUDE ADV:C
+      CHARACTER $SUB*160,$CODE*15
+      MODE  = 1
+      GOTO 100
+      ENTRY SAYNAME(KEY,EVL)
+      MODE = 2
+      GOTO 100
+      ENTRY SAYVALUE(KEY,EVL)
+      MODE = 3
+      VALUTA = EVL
+100   GOTO (9999,9998,9997),KEY-3999
+      KEYVAL = KEY * 1000
+      IF (CLASS(KEY) .EQ. TEXT) GOTO 200
+      IF (CLASS(KEY) .EQ. OBJECT) GOTO 50
+      IF (CLASS(KEY) .EQ. PLACE) GOTO 70
+      WRITE                  (OUTUNIT, 20) KEY, FLOAT(REC)/1000, BP
+20    FORMAT (' Glitch! Bad SAY - key = ',I4,' at rec ',
+     + I7,' after loc ',I4)
+      RETURN
+50    IF (WHERE(KEY) .EQ. INHAND) GOTO 200
+         IF (EVAL(KEY) .LT. 0) GOTO 9999
+      KEYVAL = KEYVAL + 10 * (EVAL(KEY) + 1)
+      GOTO 200
+70    I = BITVAL(STATUS)
+         IF (IAND(I, LOOKING) .NE. 0) GOTO 80
+      IF ((IAND(I, BRIEF) .NE. 0 .AND. IAND(BITVAL(KEY), BEEN)
+     + .NE. 0) .OR. IAND(I, FAST) .NE. 0) GOTO 200
+80    KEYVAL = KEYVAL + 10
+200   CALL READTEXT(KEYVAL, &9999)
+      KEYVAL = KEYVAL + 1
+      IF ($TEXT(1:3) .EQ. '>$<') GOTO 200
+      IF (MODE .EQ. 1) GOTO 1000
+300   DO 400 I=1, 140
+400   IF ($TEXT(I:I) .EQ. '#') GOTO 410
+      GOTO 1000
+410   IF (MODE .EQ. 3) GOTO  500
+      DO 412 J=1,4
+412   IF(EVL.EQ.ARGWORDS(J)) GO TO 413
+      GOTO 417
+413   $CODE=$ARG(J)
+411   DO 416 K=1,15
+      IF ($CODE(K:K) .LT. $UC(1:1) .OR. $CODE(K:K) .GT. $UC(26:26))
+     + GOTO 416
+      DO 414   J=1,26
+414   IF ($CODE(K:K) .EQ. $UC(J:J)) GOTO 415
+      GOTO 416
+415   $CODE(K:K) = $LC(J:J)
+416   CONTINUE
+      GOTO 600
+417   CONTINUE
+      DO 420 J=1, SYMCNT
+420   IF (FILEKEY(J) .EQ. EVL) GOTO 430
+      GOTO 1000
+430   $CODE = $WORD(J)
+      GOTO 411
+500   $CODE = ' '
+      DO 510 J=6,1,-1
+      K=MOD(VALUTA, 10)+1
+      VALUTA = VALUTA / 10
+      $CODE(J:J) = $DIGITS(K:K)
+      IF (VALUTA .EQ. 0) GOTO 520
+510   CONTINUE
+520   REPEAT 530, WHILE ($CODE(1:1) .EQ. ' ')
+530   $CODE = $CODE(2:6)
+600   $SUB = $TEXT(1:I-1) // $CODE
+      J = 160
+      REPEAT 610, WHILE ($SUB(J:J) .EQ. ' ')
+610   J = J - 1
+      $SUB = $SUB(1:J) // $TEXT(I+1:140)
+      $TEXT = $SUB
+1000  WRITE (OUTUNIT, '(1X,A140)') $TEXT
+      GOTO 200
+9997  WRITE (OUTUNIT, '($ Ok.$)')
+      GOTO 9999
+9998  WRITE (OUTUNIT, '(1X)')
+9999  RETURN
+      END
+      INTEGER FUNCTION RND(X)
+      INTEGER X
+      INTEGER SEED
+      COMMON /SEEDS/ SEED
+      DATA SEED/0/
+      INTEGER TYPE
+      DATA TYPE/7/
+      CALL SVAR(TYPE, I)
+      SEED = ABS(SEED / 10000) + ABS(SEED * 452) + I
+      RND = (X * MOD(SEED, 10000) ) / 10000
+      END
+      SUBROUTINE EXECUTIVE
+      INCLUDE ADV:C
+      COMMON /COMTEMP/ COMTEMP
+      CHARACTER*12 $KEY
+      MAXREC = (((NOBJ + 1) * 3) + ((NVARS + 1) * 2) +
+     + ((NPLACE + 1) * 1) + 1) * 2
+      LINELEN = EVAL(STATUS)
+      IF (LINELEN .EQ. 1) $KEY = $MYACCT
+      IF (LINELEN .GT. 1) $KEY = $MYACCT // $ARG(2)
+      DO 3 I=1,12
+      DO 1 J=1, 26
+1     IF ($KEY(I:I) .EQ. $LC(J:J)) GOTO 2
+      GOTO 3
+2     $KEY(I:I) = $UC(J:J)
+3     CONTINUE
+      GOTO (100, 200, 300, 400, 500, 600, 700, 800), WORD1
+      WRITE (OUTUNIT, 5) WORD1, FLOAT(REC) / 1000, BP
+5     FORMAT (' Glitch! Bad EXEC code: ',I4,' on rec ',F10.3,
+     + ' after loc ',I4)
+      RETURN
+100   CONTINUE
+C
+C     EXEC 1 - "SAVE"
+C
+      OPEN (UNIT=FREEZER, NAME='*ADVFREEZE', ACCOUNT=$ACCT,
+     + USAGE = 'UPDATE', ACCESS='KEYED', STATUS='OLD', ERR=150,
+     + RECL=MAXREC, FORM='FORMATTED')
+      WRITE (UNIT=FREEZER, FMT=999, KEY=$KEY) CHECKSUM,
+     + (OBJLOC(I), OBJVAL(I), OBJBIT(I), I=0, NOBJ),
+     + (VARVAL(I), VARBIT(I), I=0, NVARS),
+     + (PLACEBIT(I), I=0, NPLACE)
+130   CALL SETVAL(WORD2, 0)
+140   CLOSE (UNIT=FREEZER,STATUS='KEEP')
+      RETURN
+150   CONTINUE
+      INQUIRE (UNIT=FREEZER, ERRCODE=I)
+      IF (I .NE. 4Z0300 .OR. $ACCT .NE. $MYACCT) GOTO 9999
+      OPEN (UNIT=FREEZER, NAME='*ADVFREEZE',
+     + ACCESS='KEYED', USAGE='OUTPUT', STATUS='NEW', KEYM=12,
+     + FORM='FORMATTED', RECL=MAXREC)
+      CLOSE (UNIT=FREEZER, STATUS='KEEP')
+      GO TO 100
+999   FORMAT(5000R2)
+9999  CALL SETVAL(WORD2, 1)
+      RETURN
+200   CONTINUE
+C
+C     EXEC 2 - "RESTORE"
+C
+     + USAGE = 'INPUT',  ACCESS='KEYED', STATUS='OLD', ERR=9999,
+     + RECL=MAXREC)
+      READ (UNIT=FREEZER, FMT=999, KEY=$KEY, ERR=220) CHECK
+      IF (CHECK .NE. CHECKSUM) GOTO 210
+      READ  (UNIT=FREEZER, FMT=999, KEY=$KEY) CHECKSUM,
+     + (OBJLOC(I), OBJVAL(I), OBJBIT(I), I=0, NOBJ),
+     + (VARVAL(I), VARBIT(I), I=0, NVARS),
+     + (PLACEBIT(I), I=0, NPLACE)
+      DO 202 I=0, NOBJ
+      OBJLOC(I)=ISA(ISL(OBJLOC(I), 16), -16)
+202   OBJVAL(I) = ISA(ISL(OBJVAL(I), 16), -16)
+      DO 204 I=0, NVARS
+204   VARVAL(I) = ISA(ISL(VARVAL(I), 16), -16)
+      GOTO 130
+210   CALL SETVAL(WORD2, 2)
+      GOTO 140
+220   CALL SETVAL(WORD2, 1)
+      GOTO 140
+300   CONTINUE
+C
+C     EXEC 3 - "DELETE"
+C
+      OPEN (UNIT=FREEZER, NAME='*ADVFREEZE', ACCOUNT=$ACCT,
+     + USAGE = 'UPDATE', ACCESS='KEYED', STATUS='OLD', ERR=9999,
+     + RECL=MAXREC, FORM='FORMATTED')
+      WRITE (UNIT=FREEZER, KEY=$KEY, FMT='()')
+      GO TO 130
+400   CONTINUE
+C
+C     EXEC 4 - "CLEAR CACHE"
+C
+      IF (.NOT. ENABLED) GOTO 130
+      CALL CLEAR$
+      CALL START$(&410)
+      GOTO 130
+410   ENABLED = .FALSE.
+      GOTO 130
+500   CONTINUE
+C
+C     EXEC 5 - "PRIME TIME" REQUEST
+C
+      I = PRIME()
+      CALL SETVAL(WORD2, I)
+      RETURN
+600   CONTINUE
+C
+C     EXEC 6 - PRINT HOURS
+C
+      CALL HOURS
+      GOTO 130
+700   CONTINUE
+C
+C     EXEC 7 - SAVE A VARIABLE
+C
+      COMTEMP = EVAL(WORD2)
+      RETURN
+800   CONTINUE
+C
+C     EXEC 8 - RESTORE SAVED VARIABLE
+C
+      RETURN
+      END
+      BLOCK DATA
+      INCLUDE ADV:C,LIST
+      DATA INUNIT, OUTUNIT, DBI, FREEZER, INHAND /105, 108, 10, 11, -1/
+      DATA DBT /9/
+      DATA LOGICALS/31, 51, 52/
+      DATA BLANKS/'            '/
+      DATA $DIGITS/'0123456789'/
+      DATA $UC/'ABCDEFGHIJKLMNOPQRSTUVWXYZ'/
+      DATA $LC/'abcdefghijklmnopqrstuvwxyz'/
+      DATA ENABLED/.FALSE./, FULL/.FALSE./
+      DATA CACHEOK/.FALSE., .TRUE., .TRUE., .TRUE., .FALSE.,
+     + .TRUE., .TRUE., .FALSE., .FALSE./
+      END

@@ -1,0 +1,179 @@
+         SYSTEM   BPM
+         SYSTEM   SIG9
+         SYSTEM   FLIBMODE
+         DEF      START$
+         DEF      ADD$
+         DEF      GET$
+         DEF      CLEAR$
+         DEF      CACHE
+         DEF      V#CACHE
+         REF      9SET1
+         REF      9SETN
+         REF      9ASGOTO
+         REF      F:10,F:11
+         PCC      0
+CACHE    CSECT    1
+START$   BAL,LL   9SET1
+         EVRY     ALTRET
+         STW,LC   RETURN
+         M:GP     PAGES
+         BCS,8    ALTRETURN
+         STW,R9   POINTAB
+         SLS,R8   8
+         STW,R8   POINTCT
+         M:GP     1
+         BCS,8    ALTRETURN
+         MTW,-1   MAXPGS
+         SLS,R9   1
+         STW,R9   CACHELOC
+         LI,R9    1024
+         STW,R9   CACHESIZE
+         B        *RETURN
+ALTRETURN LW,X7   ALTRET
+         BAL,LL   9ASGOTO
+         SPACE    3
+ADD$     LI,ND    3
+         BAL,LL   9SETN
+         EVRY     ALTRET
+         INTG     KEY
+         INTG     BUFFER
+         STW,LC   RETURN
+         LI,R1    0
+SIZEIT   LW,R2    *BUFFER,R1
+         CI,R2    -999
+         BE       GOTSIZE
+         AI,R1    1
+         B        SIZEIT
+GOTSIZE  AI,R1    1
+         LCW,R1   R1
+         AWM,R1   CACHESIZE
+         BGEZ     CACHEOK
+         MTW,-1   MAXPGS
+         BLZ      ALTRETURN
+         M:GP     1
+         BCS,8    ALTRETURN
+         LI,R2    1024
+         AWM,R2   CACHESIZE
+CACHEOK  MTW,-1   POINTCT
+         BLZ      ALTRETURN
+         LW,R2    ENTCOUNT
+         MTW,1    ENTCOUNT
+         LW,R6    *KEY
+         LW,R7    CACHELOC
+MOVEUP   AI,R2    -1
+         BLZ      STOPHERE
+         LD,R8    *POINTAB,R2
+         CW,R6    R8
+         BG       STOPHERE
+         AI,R2    1
+         STD,R8   *POINTAB,R2
+         AI,R2    -1
+         B        MOVEUP
+STOPHERE AI,R2    1
+         STD,R6   *POINTAB,R2
+         LCW,R1   R1
+         AWM,R1   CACHELOC
+         LI,R3    0
+STOREIT  LW,R4    *BUFFER,R3
+         STH,R4   0,R7
+         AI,R3    1
+         AI,R7    1
+         BDR,R1   STOREIT
+         B        *RETURN
+         SPACE    3
+GET$     LI,ND    3
+         BAL,LL   9SETN
+         EVRY     ALTRET
+         INTG     KEY
+         INTG     BUFFER
+         STW,LC   RETURN
+         LI,R2    0
+         LW,R3    ENTCOUNT
+         BEZ      ALTRETURN
+         AI,R3    -1
+LOOP     LW,R1    R2
+         AW,R1    R3
+         SLS,R1   -1
+         LD,R4    *POINTAB,R1
+         CW,R4    *KEY
+         BE       GOTIT
+         CW,R2    R3
+         BGE      ALTRETURN
+         CW,R4    *KEY
+         BL       SETLOW
+         LW,R3    R1
+         AI,R3    -1
+         B        LOOP
+SETLOW   LW,R2    R1
+         AI,R2    1
+         B        LOOP
+GOTIT    LI,R3    0
+MOVEBFR  LH,R1    0,R5
+         STW,R1   *BUFFER,R3
+         CI,R1    -999              ** RESERVED VALUE **
+         BE       *RETURN
+         AI,R3    1
+         AI,R5    1
+         B        MOVEBFR
+         SPACE    3
+CLEAR$   LI,ND    0
+         BAL,LL   9SETN
+         STW,LC   RETURN
+         MTW,0    POINTAB
+         BEZ      *RETURN
+         LI,R1    MAXPAGES+PAGES
+         SW,R1    MAXPGS
+         M:FP     *R1
+         LI,R1    0
+         STW,R1   POINTAB
+         STW,R1   POINTCT
+         STW,R1   CACHELOC
+         STW,R1   CACHESIZE
+         STW,R1   ENTCOUNT
+         LI,R1    MAXPAGES
+         STW,R1   MAXPGS
+         B        *RETURN
+         PAGE
+V#CACHE  CSECT    0
+PARAM    CNAME
+         PROC
+         RES      1
+LF       RES      1
+         PEND
+RETURN   RES      1
+ALTRET   PARAM
+KEY      PARAM
+BUFFER   PARAM
+CACHELOC DATA     0
+CACHESIZE DATA    0
+POINTAB  DATA     0
+POINTCT  DATA     0
+ENTCOUNT DATA     0
+MAXPGS   DATA     MAXPAGES
+MAXPAGES EQU      16
+PAGES    EQU      4
+         END
+!JOB
+!LIMIT (CORE,24),(TIME,20),(ORDER),(RERUN),(UO,1000)
+!PCL
+D ADVT,ADVI
+COPYALL D:,D:X TO DP(LN)
+!EOD
+!RUN (LMN,MUNGE)
+!DATA
+LIST
+INCLUDE  D:NULLS
+INCLUDE  D:BITS
+INCLUDE  D:PLACE
+INCLUDE  D:OBJECTS
+INCLUDE  D:OBJSYN
+INCLUDE  D:VERBS
+INCLUDE  D:TEXT
+INCLUDE  D:VARS
+INCLUDE  D:LABELS
+INCLUDE  D:MOVES
+INCLUDE  D:ACTION
+INCLUDE  D:DEFINE
+INCLUDE  D:INIT
+INCLUDE  D:REPEAT
+!EOD

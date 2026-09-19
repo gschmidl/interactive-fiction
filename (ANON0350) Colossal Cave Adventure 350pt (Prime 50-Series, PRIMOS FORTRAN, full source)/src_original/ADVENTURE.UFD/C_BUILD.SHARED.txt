@@ -1,0 +1,48 @@
+COMO ADVENTURE.COMO
+*   C_BUILD.SHARED - Build shared ADVENTURE run file and home structure
+*
+*   NOTE: This command file assumes that there exists a 'GAMES' UFD
+*         on the system as a final resting place for ADVENTURE
+*
+FUTIL
+FROM GAMES
+TO   GAMES
+PROT ADVCOM 7 7
+TREDEL ADVCOM
+DELETE ADVENTURE
+QUIT
+*
+*   Start building source
+*
+CO C_COMPILE 7
+CLOSE        7
+CO C_SHARED  7
+CLOSE        7
+*
+*   Now build the home structure
+*
+ATTACH GAMES 100000 177777
+CREATE ADVCOM
+PROTECT ADVCOM 0 0
+ATTACH
+*
+*   Now copy the run file and common initialization file
+*
+FUTIL
+TO GAMES
+COPY AD4000 ADVENTURE
+DELETE AD4000
+TO SYSTEM
+COPY AD2032
+DELETE AD2032
+TO GAMES>ADVCOM
+COPY COMMON
+COPY ADVCOM
+QUIT
+*
+*   Go to the system console and 'SHARE SYSTEM>AD2032 2032'
+*   Now you are all set.  Go to the GAMES UFD and 'RESUME ADVENTURE'
+*
+COMO -E
+*
+CO TTY

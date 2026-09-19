@@ -1,0 +1,19 @@
+/* Compile and load the A-code EXECUTIVE. MLA Aug 1983.
+Binary EXECUTIVE.bin
+F77 EXECUTIVE -Ints -Logs -Big
+Pma EXECUTIVE -Listing no
+Close 3
+&data Seg -Load
+Symbol TXTBF1 4004 0
+Load EXECUTIVE
+Library VAPPLB
+Library
+Map 6
+Save
+Quit
+&end
+Delete EXECUTIVE.bin
+Type
+Type Now copy EXECUTIVE.seg as ADVENTURE.seg to wherever you've
+Type installed the four ADVINIT files.
+&return

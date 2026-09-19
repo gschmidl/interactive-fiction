@@ -1,0 +1,19 @@
+         SYSTEM   BPM
+         SYSTEM   SIG9
+         SYSTEM   FLIBMODE
+         DEF      CIPHER,V#CIPHER
+         REF      9SETN,F:10,F:9
+CIPHER   CSECT    1
+         LI,ND    1
+         BAL,LL   9SETN
+         INTG     KEY
+         LW,R1    *KEY
+         STW,R1   KEY
+         M:SETDCB F:9,(CRPT,KEY)
+         M:SETDCB F:10,(CRPT,KEY)
+         B        *LC
+V#CIPHER CSECT    0
+         RES      1                 PAD SPACE FOR 9SET1
+KEY      RES      1
+         USECT    CIPHER
+         END

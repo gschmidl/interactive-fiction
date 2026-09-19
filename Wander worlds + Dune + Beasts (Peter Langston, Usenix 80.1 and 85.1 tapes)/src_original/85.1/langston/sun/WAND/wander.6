@@ -1,0 +1,57 @@
+.TH WANDER 6
+.SH NAME
+wander \- fantasy game tool (whimsical C.A.I.?)
+.SH SYNOPSIS
+.B wander
+[
+.BI -r [file-name]
+] [
+.I world-name
+]
+.SH DESCRIPTION
+.PP
+.I Wander
+is a tool for writing non-deterministic stories.  An alternative
+statement is that 
+.I wander
+is a table-driven equivalent of Adventure or Zork.
+.I Wander
+strives to make as few assumptions as possible about
+the source material of the story and simply provides an interface
+to the description of settings, actions, and consequences that make
+up a particular "world".  The input syntax that the "reader" or
+"player" uses is rather limited in that it can only handle a simple
+form of directive, (e.g. "read sign", "push red button hard"),
+being a sentence of up to a five words.  However, the popularity of
+Adventure attests to the possibilities of even simpler syntaxes.
+.PP
+The
+.I world
+argument selects the environment for your experience.  There are several
+stock worlds -
+.IR a3 ,
+.IR castle ,
+and
+.IR library .
+If no particular
+.I world
+is specified then a default is chosen (as of this writing,
+.IR a3 ).
+.PP
+The
+.B -r
+option allows
+.I Wander
+to resume a saved game.  If a file name is provided that file is used
+otherwise a default file name is used (the name of the world with
+.B .save
+appended, thus
+.B a3.save
+is the default).
+.PP
+.I Wander
+is being broadened and improved, based largely
+on comments from both "authors" and "readers"
+so please feel free to comment.
+.SH AUTHOR
+Peter S. Langston

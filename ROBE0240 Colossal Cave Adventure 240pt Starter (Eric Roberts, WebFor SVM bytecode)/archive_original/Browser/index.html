@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Adventure!</title>
+<style>
+body {
+  background-color: tan;
+}
+h1 {
+  font-family: 'Zapfino','Lucida Calligraphy','Sans-Serif';
+  font-weight: bold;
+  font-size: 1.5em;
+  margin-bottom: -0.5em;
+}
+.control {
+  border: solid 1px black;
+  border-radius: 6px;
+  background-color: #FFCC00;
+  font-size: 18px;
+  position: absolute;
+  bottom: 0.3in;
+  width: 2in;
+  height: 0.8in;
+}
+#hourglass {
+  position: absolute;
+  width: 0.8in;
+  left: 3.8in;
+  bottom: 1in;
+  visibility: hidden;
+}
+#narrative {
+  color: #FFCC00;
+  font-family: 'Helvetica Neue','Sans-Serif';
+  font-size: 25px;
+  position: absolute;
+  width: 8in;
+  top: 0in;
+  left: 0in;
+  margin: 16px;
+}
+#console {
+  background-color: tan;
+  font-size: 24px;
+  margin-left: 8px;
+  width: 8.4in;
+  height: 6.3in;
+}
+</style>
+<script>
+
+  const INTRO =
+    "Somewhere nearby is Colossal Cave, which served as the setting for\n" +
+    "Willie Crowther's Adventure, an interactive computer game from the\n" +
+    "mid-1970s.  The buttons on this page let you explore two versions of\n" +
+    "the game: a Starter Adventure reminiscent of the early releases and\n" +
+    "a larger Wellesley Adventure, available online for the first time.";
+
+  function slowIntro() {
+      let cp = 0;
+      let narrative = document.getElementById("narrative");
+      if (narrative) setTimeout(nextChar, 200);
+
+      function nextChar() {
+	  if (cp < INTRO.length) {
+	      let ch = INTRO[cp++];
+	      if (ch === "'") {
+		  ch = "&rsquo;";
+	      } else if (ch === "\n") {
+		  ch = "<br />";
+	      }
+	      narrative.innerHTML += ch;
+	      setTimeout(nextChar, 25);
+	  }
+      }
+  }
+
+  function setupDone() {
+      let consoleWindow = document.getElementById("console");
+      let adventurePanel = document.getElementById("adventure");
+      if (consoleWindow) {
+	  consoleWindow.style.display = "block";
+      }
+      if (adventurePanel) {
+	  adventurePanel.style.display = "none";
+      }
+  }
+
+  function gameOver() {
+      let consoleWindow = document.getElementById("console");
+      let adventurePanel = document.getElementById("adventure");
+      let hourglass = document.getElementById("hourglass");
+      if (consoleWindow) {
+	  consoleWindow.style.display = "none";
+      }
+      if (adventurePanel) {
+	  adventurePanel.style.display = "block";
+      }
+      if (hourglass) {
+	  hourglass.style.visibility = "hidden";
+      }
+  }
+
+</script>
+<script src="Small.js"></script>
+<script src="Big.js"></script>
+</head>
+<body onload="slowIntro()">
+<h1 style="text-align:center;">Welcome to Adventure!</h1>
+<table style="margin:auto; border-spacing:0;">
+<tr><td style="padding:0;">
+<div id="console" style="display:none;"></div>
+<div id="adventure" style="position:relative;">
+<img src="images/MammothCave.png" style="position:relative; width:8.4in;" />
+<!-- Image source: Wikimedia public domain -->
+<div id="narrative"></div>
+<img id="hourglass" src="images/Hourglass.png" />
+<button class=control id="Starter" style="left:1.8in;">
+Starter Adventure<br />(240 points)
+</button>
+<button class=control id="Wellesley" style="left:4.6in;">
+Wellesley Adventure<br />(665 points)
+</button>
+</div>
+</td></td>
+</table>
+<script data-main="NewAdv.js" src="js/requirejs/require.js"></script>
+</body>
+</html>

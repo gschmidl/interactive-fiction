@@ -1,0 +1,404 @@
+Tue Feb 26 18:09:00 EST 1985
+
+	GAMES EXPORT                (c) psl N.Y.C. 1979
+
+Directories used are:
+
+Directory   Use
+---------   ---
+.           miscellaneous games and useful files
+./BEASTS    Beastly guessing game (the computer does the guessing)
+./BOG       Word game
+./BOLO      Automated gladiator game
+./CONVOY    Submarine/destroyer/freighter game
+./DUNE      Sand worm game
+./EMP       Empire -- Global simulation game
+./EMP/INFO  Empire
+./EMP/UTIL  Empire
+./FF        Fast Food -- stock manipulation game
+./FF/INFO   Fast Food
+./GLIB	    A library of games subroutines -- many system-dependent
+./GOMOKU    A program that learns to play an interesting game
+./GRAMS     Anagram game
+./MM        A masterful mind game
+./ORACLE    Answers those hard questions
+./RACE	    Road racing game
+./SPBT      Spacebattle -- Arcade without quarters
+./ST        StarDrek -- 3-D excitement
+./TCAP	    A modified version of termcap
+./WAR       Micro-Empire?
+./WAND      Wander -- fantasy game tool (whimsical C.A.I.?)
+
+A common practice is to create a directory, ("/fun/games" for example),
+containing user-runnable games executables and to include in it a
+directory named "..." which is the "." of this tape.
+The name "..." is chosen so that users can run anything they see when
+they do "ls /fun/games" and needn't be confused with source directories,
+etc.
+
+A file called "gamesdef.h" is included which defines miscellaneous things
+of general interest for all the games.  The items defined are:
+GAMESPATH()	This should give the path to the "..." directory itself.
+		Other games use GAMESPATH to find find their own directories,
+		(although you don't have to do it this way you'll find
+		installation MUCH easier if you do).
+PRVUID		The uid of the person generally responsible for maintenance
+		of the games locally.
+PRVLOG		The login name of the person generally responsible for
+		maintenance of the games locally.
+PRVNAM		The full name (optionally with phone number) of the local
+		games guru (how cute).
+There are also a few choices to be made among competing methods for doing
+non-blocking I/O or reading /etc/utmp, etc.
+
+A program called "sucker" is included which provides simple maintenance of
+the sucker lists used by various games (e.g. Convoy, Grid).  That program
+uses a sucker list list in the games directory called ".../sucker.lists"
+which should also be included.
+
+These games use the standard I/O package (either in libc.a or libS.a), as
+described in D. M. Ritchie, "A New Input-Output Package", for portability.
+If you don't have it -- get it.
+
+Most, if not all, of the games use one or more routines from the library called
+glib.a whose source resides in the directory ./GLIB.  The first thing to do is
+to go through the routines in that directory and make sure they are right for
+your system and then generate glib.a.  GET THE GLIB ROUTINES WORKING FIRST!
+Until they work nothing else will work right (some things won't even load).
+
+Some of the games may require system-dependent decisions to be made even beyond
+those made in GLIB.  I'm slowly collecting all the system dependencies in GLIB,
+but some may still exist in *sys.c or *glb.c modules; the individual READ_ME files
+should give particulars.
+
+Beasts	This guessing game reverses the usual roles -- the computer does
+	the guessing and you get to sit back smugly and dole out the answers.
+	Beasts are kept in "beastfile", questions are kept in "questfile",
+	(do a create on them to start over with no beasts).  Locking is done
+	internlly by linking "beastfile" to "beastlock".
+	Each run of Beasts takes 2 or 3 minutes.
+
+Bog     Parker Bros. calls it "boggle" and no doubt makes millions on it.
+	They've recently come out with "super-boggle", (5x5 instead
+	of 4x4), this version gives you everything from "micro-bog),
+	(2x2), to "extra-super-industrial-size-bog", (8x8).
+	A single round of Bog takes about five minutes to play.
+
+Bolo	In this game players use a simple programming language to program
+	"intelligent" tanks (Bolos) for gladiatorial combat.  Tools are
+	provided for debugging and testing the Bolo programs as well as the
+	eventual show down in the arena.  This game could be used to make
+	learning the concepts of computer programming fun.  Once the tanks
+	are programmed they are turned loose in the arena and the players
+	cheer their creations on...
+	A Bolo contest takes from 5 minutes to half an hour.
+
+Convoy  Multi-player, real-time game where destroyers chase subs and subs
+	chase freighters.  The "empty(fh)" system call is helpful, but
+	can be fairly easily replaced with non-blocking input of other
+	types.  Players can join the game and drop out at any time.
+	A list of "hard-core" Convoy players can be specified; when
+	someone starts the game a message is sent to all "hard-core"
+	Convoy players that are logged in.
+	Records are kept for all players.
+	A reasonable Convoy game takes from fifteen minutes to three hours
+	to play depending on the enthusiasm of the players.
+	N.B.: See the note at the end of this file about "GRID & CONVOY".
+
+Dune	A rewrite of a game called "snake" with a twist or two.
+	There's a trick that makes it possible to run up huge scores.
+	Inexperienced players get eaten in about 5 minutes; a pro can
+	play for hours.
+
+Empire is a global economic/political/military simulation game wherein
+	players, representing national governments, make "real-time"
+	decisions concerning resource allocation, national goals, inter-
+	national diplomatic efforts, etc.
+	Extensive records are kept for all players.
+	Empire can take from fifteen minutes to three or more hours a day
+	over a period of months to play.
+	WARNING -- This game is not only addictive but often peels back
+	the thin veneer of civilization that hides the maniac within...
+
+Fast Food is a Stock Market game that is loosely modeled after the commercial
+	game "Acquire".  Tycoons develop plots of land into Fast Food joints
+	and buy & sell stock in the chains of FF joints.
+	Records are kept for all players.
+	Fast Food takes from 15 minutes to an hour a day to play for a
+	period of a few weeks.
+
+Gomoku	Supposedly oriental game that falls somewhere between "go" and
+	"tic-tac-toe" in complexity, [what game doesn't?], and form of
+	play.  "gom_txt" contains user documentation which the program
+	will spit out as instructions.
+	Gomoku take 15 minutes to half an hour to play.
+
+Grams is an infuriating game based on anagrams and brute competitiveness.
+	Like "bog", this is the result of finding a nice word list
+	on the computer.  I'm working on a version that uses a really
+	BIG word list but it's still cooking...
+	Records are kept for the best players.
+	Grams takes 5 or 10 minutes to play.
+
+Grid is loosely modeled after the games "Mazewar" and "Rogue"; it has some
+	features from each of those games.  It is a multi-player, real-time
+	game of exploration (and mayhem) in a three-dimensional grid of
+	walls and halls.  You have a point-of-view display showing what you
+	are seeing ahead of you; you also have a "map" showing the places
+	you've been with walls and trapdoors marked.  There are hidden
+	treasures and magic artifacts that give you interesting powers; you
+	can gamng up with other players in overcoming the "others" that
+	inhabit the grid, or you can go it alone...
+	Grid can take anywhere from 5 minutes to a few hours to play,
+	depending on how many other people join in.
+	N.B.: See the note at the end of this file about "GRID & CONVOY".
+
+MM	I'm told that the Israeli postman who "invented" the game called
+	"mastermind" is now a millionaire.  The computer plays both sides
+	of the game (alternately) and smirks whenever it can.
+	A game of mm can take anywhere from 3 to 20 minutes to play,
+	depending on the player's choice of parameters.
+
+Oracle solves an annoying problem in Computer Science Appreciation.
+	Have you ever given a snazzy demo only to have your victim say,
+	"Let's ask the computer what the meaning of life is!" or some
+	such?  Well, now you have a way out of that one; ask the oracle!
+	The Oracle answers the trivial questions directly and uses an
+	amusing heuristic to answer the tough ones.
+	An Oracle session takes but a few minutes.
+
+Qotd is a tiny program with a big data file that provides a quote for each
+	day of the year.  This is not one of those pick-a-random-aphorism
+	programs; each quote has something to do with the day it appears
+	(although I'm not sure I could prove that).  I've found that the
+	quotes are more interesting if they are kept secret until their
+	day comes along.  For instance very few people know the quote for
+	February 29...
+
+Race is a road race game in which the players can "design" their own cars
+	and race tracks.  The players drive the cars using the terminal
+	screen to display the view out the windshield, the rear-view mirror,
+	two side windows and the dashboard.
+	Records are kept for the best time on each track.
+	Since Race runs in "real" time a mile long race will take about a
+	minute and the Indy 500 will take quite a while...
+
+Spbt is Arcade on a low budget, (assuming you've already spent the $250,000
+	for a pdp11).  This game lets you shoot down those pesky orbiting
+	space platforms for Big Points!
+	Records are kept for the best player.
+	Spbt takes 10 minutes -- no more, no less.
+
+StarDrek is unrelated to the numerous "star-trek" games that abound except
+	in inspiration.  It is a three-dimensional space game played in the
+	volume of a four space toroid, [strictly speaking it is a three-space
+	toroid in the same sense that a doughnut is a two-space toroid, but
+	this sounds better].
+	Extensive records are kept for all players.
+	A StarDrek mission takes from half an hour to two hours.
+
+Today is a program that gives interesting birthdays, holidays, anecdotes,
+	or events associated with today.  It, like qotd, is a very small
+	program with a lot of data.  It's a natural for .login or .profile
+	inclusion.
+
+Wander	A tool for writing non-deterministic stories.  An alternative
+	statement is that Wander is a table driven equivalent of Adventure.
+	The program strives to make as few assumptions as possible about
+	the source material of the story and simply provides an interface
+	to the description of settings, actions and consequences that make
+	up a particular "world".  The input syntax that the "reader" or
+	"player" uses is rather limited in that it can only handle a simple
+	form of directive, (e.g. "read sign", "push red button hard"),
+	containing up to a five word sentence.  However, the popularity of
+	Adventure attests to the possibilities of even simpler syntaxes.
+	Wander is constantly being broadened and improved, based largely
+	on comments from both "authors" and "readers".
+	A Wander session is typically 15 minutes to an hour long.
+
+War is a two-person game not unlike some arcade games.  The goal is to
+	move your troops into your enemy's capital while protecting your own.
+	I wrote this several years ago and then forgot about it after an
+	amusing incident with the automated version.  Recently I rediscovered
+	it and decided it was interesting enough to export.  In particular,
+	C programmers may find writing their own automated play module to be
+	great fun.  I've even been considering having an AutoWar competition.
+	War takes about half an hour to play.
+
+Each of these has a READ_ME file to fill in any details that I may have
+glossed over in these short descriptions.
+
+
+
+The best procedure for bringing up the games is the following:
+
+0)	Edit gamesdef.h putting the path for the games source directory
+	(i.e. the directory that contains the subdirectories BEASTS, BOG,
+	BOLO, CONVOY, DUNE, EMP, FF, etc.) in the definition for GAMESPATH.
+	Select from the other options there.
+1)	Edit the file "install", putting the path for the public games
+	directory in the definition of PGDIR.
+2)	Look over the files in the GLIB directory and assure yourself that
+	they will work for your system.  This is probably the hardest part.
+3)	If you're using csh run "makeall.ccl >&makeall.1"
+	If you're using sh run "makeall.ccl >makeall.1 2>&1"
+4)	Examine makeall.1 for error diagnostics and correct them.
+5)	Install the manuals, e.g. "cp */*.6 /usr/man/man6"
+
+	Easy, huh?
+
+
+===========================================================================
+
+
+	    MISCELLANEOUS NOTES
+
+
+THE "BUG PATENT" RULE
+
+This rule is meant to allow the "inventor" of a bug abuse to profit from
+his/her effort without destroying the fun of the game for others.
+
+Acceptance of this rule is a precondition for playing any of the games.
+
+    If you find a bug in a game you can exploit it for 1 time period
+    if and ONLY if you then report it to the person "in charge" of the game.
+
+"1 time period" means 1 day in Empire, 1 update time in Fast Food, 1 game
+in Convoy, 1 battle in Bolo (a major one, not a practice run), etc.
+If it's not obvious what 1 time period should be then the default is 1 day.
+Local games administrators should make sure that this rule is understood
+by players and should pass along the bugs with or without fixes to me.
+
+
+---------------------------------------------------------------------------
+
+V6 vs. V7 vs. 3.0 vs. ...
+
+Some of these programs were written on a V5 UNIX system, some were written on
+a V6 system, quite a few were written and most were modified to run under
+a modified PWB (i.e. V6) system that became more and more like a V7 system.
+Recently they have all been brought up on 4.1 BSD system.
+So far I have been bridging the gap between V6, V7, 3.0, 4.1, and ...
+by providing routines that either help V6 look like V7, or V7 look like V6,
+or 3.0 look like BSD, or ...
+
+Specifically:
+
+./GLIB
+	This directory contains the source of routines that perform
+	commonly-used and/or system-dependent functions.  When someone calls
+	and asks "What does `arcpsltan' do and where is a copy of it?" I add
+	it to this directory.
+
+./glib.a
+	An archive of the routines in ./GLIB described above.  This archive
+	is referred to by many of the makefiles as "../glib.a".
+
+getenv.o
+	I have provided a routine called "getenv()" in libtcap.a which
+	fakes V7-style environments for V6 systems.
+	It looks in the user's login directory for a file called
+	".ENVIRONMENT" which should contain lines of the form "NAME=value".
+	Thus a line like "TERM=adm3a" indicates that your terminal is an
+	adm3a (tough break).  Similarly "CONVOYOPTS=-ss,-nJOE" will tell Convoy
+	that you want a submarine and that your name is "JOE".
+
+crt*.o kbd*.o
+	These routines, (also in libtcap.a), are used by most of the games that
+	do any cursor addressing or fancy keyboard input.
+	They are particularly convenient for programs that need to control
+	several types of terminals at once.
+
+Added terminal capabilities
+	I've added another capability to termcap: character repeat.
+	The associated termcap capability names are:
+	    rp	bool  can terminal do repeats?
+	    rs	str   "repeat start" format to repeat following character
+	    re	str   "repeat end" format to repeat previous character
+	The last two use a "cm"-like coding scheme as follows:
+	    %d      as in printf
+	    %2      like %2d
+	    %3      like %3d
+	    %.      gives %c
+	    %d      as in printf
+	    %2      like %2d
+	    %3      like %3d
+	    %.      gives %c
+	    %Q      where Q is anything else gives Q, (e.g. %% gives %)
+	    The codes below affect the count but don't generate characters:
+	    %+x     adds x to count (i.e. %+^A adds one to count)
+	    %-x     subtracts x from count
+	Example: the Ann Arbor Ambassador (ANSI std) uses :rp:rs=:re=%-^A\E[%db:
+	which means 25 X's comes out as:  X<ESC>[24b  (which does work)
+
+
+
+---------------------------------------------------------------------------
+
+
+SYSINIT.C
+	You may want to delete the line that says:
+		ioctl(0, TIOCSETD, &ttydisc);	/* needed by 4.1BSD systems */
+	It was included in a (mostly) vain attempt to get around some of the
+	more bizarre internal clevernesses of 4.1 (and 4.2).  A side effect
+	is that the terminal line is left in "old tty" mode when the game ends.
+
+GRID & CONVOY
+	These two suffer the worst from the "feature"-laden clevernesses of 4.1
+	and 4.2 in regards terminal modes, process groups, controlling ttys,
+	and the signal system.  Apparently some very strange special cases were
+	built into the kernel to support the C shell; there's a moral here...
+
+	In brief, if the following conditions apply:
+	1) A process tries to read from a /dev/tty? file
+	2) The /dev/tty? is in "new tty" mode
+	3) The /dev/tty? entry is the same as that process's "controlling tty"
+	4) The controlling tty is "owned" by a process group different from
+	   that of the current process.
+	Then a signal is sent to the process to warn it that it no longer
+	"owns" that tty.  The signal "normally" stops the process.  If the
+	signal is set to be ignored then I/O proceeds normally.
+	Unless:
+	5) The process that's trying to open the /dev/tty? entry is a child
+	   of the init process (an "orphan").
+	In which case the process is killed (although the SUN 4.2 manual says
+	the process will merely get EOFs from the reads which is almost as bad).
+	For a while I thought changing back to "old tty" mode should solve it,
+	but it still hangs up if the above set of events occurs.
+	This will happen in Grid or Convoy if you start the daemon from
+	a process spawned by the C shell and then  enter the game again (the
+	C shell assigns a new process group number to each command).
+	
+	The only quick cure is to avoid using the C shell when playing Grid
+	or Convoy.  I usually use a shell command file anyway.  For example:
+
+		#! /bin/sh
+		while echo "Here we go again"
+		do
+		    grid
+		    echo "Quit?"
+		    sleep 1
+		done
+	The 1 second sleep is to give me a chance to interrupt out of it.
+
+	I expect to have a better solution to this problem soon, but for the
+	moment you may want to avoid the C shell.
+
+	Peter Langston
+	7/28/84
+
+---------------------------------------------------------------------------
+
+
+
+  HAVE FUN!
+
+						Peter Langston
+
+						Bell Communications Research
+						Rm 2E-338
+						435 South Street
+						Morristown, NJ  07960
+						bellcore!psl
+						(201) 829-4332

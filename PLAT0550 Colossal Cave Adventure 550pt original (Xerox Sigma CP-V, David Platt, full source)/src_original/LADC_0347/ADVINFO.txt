@@ -1,0 +1,89 @@
+                                12/1/79
+
+The trouble with keeping cats is that they often have kittens.
+I had hoped that the 7/20 release of Adventure would be the last
+ever (for CP-V), but two problems turned up afterwards that are
+severe enough to require fixing.  Thus:  two files on this SST
+have been updated.... CACHESI now contains REFs to F:10 and
+F:11, to keep the interpreter from branching off into hyperspace
+when you try to do a SAVE or RESTORE;  and D:MOVES has had a patch
+made to the cylindrical-room code to plug a security loophole by
+means of which a player could escape from the room in one move,
+without having to know the real secret of getting out the correct
+way.
+
+
+                              7/20/79
+
+Well, folks, here it is - the full source for CP-V Adventure in all
+of its smouldering glory.  I've had enough requests for it that I
+decided to relent and do a general release.  This release incorporates
+a number of bug fixes that didn't make it onto the previous SST's - to
+wit:
+
+      If you dropped the vial and it exploded, it was still there,
+   undamaged, when you came back after being killed.
+
+      If you were standing by the safe and said "SAY xxxxxx" where xxxxxx
+   was the correct magic word to open the safe, it did the wrong thing.
+
+      Saying "OFF" when you didn't have the lamp would cause a
+   very strange response.
+
+      You could steal the clam from the shell room by saying "GO BACK".
+
+      You could retreat across the quicksand - same method.
+
+      Throwing an object to the troll got a bad message (I don't remember
+   whether the most recent SST version had this problem or not).
+
+   state (ditto).
+
+To get runnable copies of the Adventure translator and runtime
+interpreter:
+
+   !BATCH ADVJOB
+   !BATCH MUNGEJOB
+
+To compile the cave database and produce the ADVT and ADVI files:
+
+   !BATCH COMPILE_CAVE
+
+         or
+
+   !BATCH COMPILE_AND_LIST_CAVE
+
+I apologize in advance for the revoltingness of much of the
+ANS FORTRAN code, especially in the munger (translator) - it was
+written using the "quick and dirty" method and I never got around to
+rewriting it.  A version of Adventure has been implemented on CP-6,
+using the same database and implemented in PL-6 - I'm much prouder of
+that one.
+
+I'm sure that many (most?) of you are going to wish to make
+changes, enhancements, and cleanups of the cave and the interpreter
+(for example, a smarter command parser with a memory could be
+implemented without too much trouble (and has been in the CP-6
+version)).  Have fun doing so!  If you develop some reasonably
+comprehensive set of enhancements to the cave, I'd enjoy seeing
+a list of the changes;  I can't promise to implement them in the
+CP-6 cave, but I might well do so if they look good.  I will
+almost certainly not be doing any further work on the CP-V
+cave or game - this set of files will probably be the last
+revision of Adventure released via the SST mechanism.
+
+For the official stuff:  permission is hereby granted to all
+users to possess, use, copy, distribute, and modify (but not to
+sell) the programs and files in this package.
+
+If you have any problems getting this turkey installed, feel
+free to write or call - and have fun, folks!
+
+
+         David Platt
+         Honeywell Los Angeles Development Center
+         5250 West Century Boulevard
+         Los Angeles, California  90045
+         (213) 649-6870 x253
+         HVN 369-1253
+

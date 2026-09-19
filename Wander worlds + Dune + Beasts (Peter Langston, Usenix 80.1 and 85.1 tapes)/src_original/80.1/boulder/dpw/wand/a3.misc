@@ -1,0 +1,173 @@
+: (c) P. Langston, 1978
+"                        Just Imagine ...
+
+You are travelling as First Under-secretary to the Ambassador for
+the   Corps   Diplomatique  Terrestrienne,  (CDT).   Your  direct
+superior, Mr. Magnan, has managed to duck out of the  action  and
+leave   you   as  sole  assistant  to  his  superior,  Ambassador
+Pouncetrifle.  (The Ambassador is a classic bungler and would, if
+left on his own, mess things up badly.)
+
+You have been sent to Aldebaran III where you  are  to  avert  an
+expected uprising against Terran nationals, if possible.
+
+During your trip you  were  able  to  peruse  the  ship's  meager
+library  and  make  a  few  notes  on the history, life-forms and
+society of Aldebaran III, but much of Aldebaran culture is  still
+a mystery.
+
+The ship on which you arrived has just departed  from  the  small
+spaceport, which you find to be windy and deserted."
+
+	words (verbs)
+ask
+question  1
+hit
+attack    1
+beat      2
+kick      3
+buy
+purchase  1
+steal
+borrow    1
+purloin   2
+read
+translate 1
+in
+enter     1
+exit
+out       1
+leave     2
+push
+press     1
+
+	words (objects)
+i
+me
+you
+official\ identity\ papers  0   -1
+papers          1
+notes           0   -1
+credit\ card    0    1
+card            1
+electronic\ all-dialect\ dictionary
+dictionary      1
+cigarette\ pack
+pack            1
+cigarettes      2
+drink
+beer            1
+liquor          2
+wine            3
+subwalk\ tokens
+tokens          1
+one
+1               1
+two
+2               1
+three
+3               1
+four
+4               1
+five
+5               1
+
+     pre actions
+     *         t?tokens  v?2.0  t-tokens  ,,,
+     *         o~tokens  v>2.0  v=2.0  ,,,  m="\
+I understand that theft is not uncommon on Aldebaran III."
+     insert\ token  t~tokens  m="You don't have any tokens!"
+     insert\ card   o~card  m="You don't have one!"
+
+     post actions
+     date   m="the date is %NOW_MONTH%/%NOW_DOM%/%NOW_YEAR%"
+     read\ dictionary t?dictionary    m=\
+"The dictionary is not in itself readable like a book,
+it is a machine that allows you to read documents
+written in Aldebaranese dialects."
+     smoke\ cigarette t?pack  v?3.1  v=3.0  m=\
+"That last butt always tastes so awful!"
+     smoke\ cigarette t?pack  v>3.1   v-3.1   m="\
+Your head spins slightly as you light up."
+     smoke\ cigarette m="You're all out of smokes."
+     balance o?card  v?6.1   m="Your account holds %6% credit."
+     balance o?card  m="Your account holds %6% credits."
+     balance m="You need a card to find out your balance."
+     count\ cigarettes   t?pack  m="You have %3%."
+     count\ cigarettes   m="You have no cigarettes."
+     count\ tokens    t?tokens        m="You have %2%."
+     count\ tokens    m="You have no tokens."
+     *       o~tokens  v>2.0  c?50  v=2.0  ,,,  m="\
+I understand that theft is not uncommon on Aldebaran III."
+     go      m="\
+If you want to go some direction just type the direction.
+e.g. To go north just type \"north\"."
+     help|info   m="\
+I will carry out any actions that you ask me to (assuming I understand what
+you ask).  In general, you should type commands of one or two words; like
+`take card', `count cigarettes' or `quit'.  To move around type the direction
+you want to go; e.g. `north', `up', etc.  The following commands are handy:
+take, inventory, drop, quit, shell.\n"
+     read\ notes    o~notes  m="I don't see any notes here ... "
+     read\ notes    v?7.6  v=7.0    ,,,   m=\
+"That's all you wrote.  Going back to the beginning ..."
+     read\ notes    v?7.0  v+7.1  m=\
+"The ruling species on Aldebaran III is a large, six \"legged\", (actually
+\"pseudopoded\"), mammal with a roughly Humanoid torso and a perfectly
+spherical \"brain-case\" containing, in most cases, a brain the size of
+a filbert.  (In a few, exceptional cases the brain is believed to be quite
+large.  This increased \"brain-power\" has no effect on intelligence but
+does provide the ability to alter body appearance at will.)"
+     read\ notes    v?7.1 v+7.1 m=\
+"In general, Aldebaranites make up for lack of intellect with sensitive
+organs for sight and smell located on stalk-like extremities which radiate
+from the \"brain-case\"."
+     read\ notes    v?7.2 v+7.1 m=\
+"Aldebaranites are deeply religious.  They display fierce devotion to causes
+which they espouse without apparent rhyme or reason and which they may also
+disavow for no apparent reason."
+     read\ notes    v?7.3 v+7.1 m=\
+"The currency in use is the Galactic Credit but \"magic\" artifacts are
+highly valued.  Very little is known about these artifacts."
+     read\ notes    v?7.4 v+7.1 m=\
+"Government is a representative democracy with all laws being made by the
+head governmental representative (called the \"Rep\").  Apparently these
+laws are binding only on outworlders and are viewed by Aldebaran natives,
+who take their citizenship very seriously, merely as fallible indications
+of the current trends in public opinion."
+     read\ notes    v?7.4 v+7.1 m=\
+"The official diplomatic language on Aldebarran is Glottus but very few,
+if any, Aldebaranites are believed to speak it.  Instead, approximately
+213 varieties of local dialect are used.  The dialectic differences
+between neighboring regions are small enough that most natives can under-
+stand the dialects of all neighboring regions but rarely the dialects
+of further regions."
+     read\ papers  t?papers m=\
+"Your identity papers have a picture of you, (not flattering), and say:
+
+
+
+	OFFICIAL IDENTITY PAPERS
+    Corps Diplomatique Terrestrienne
+
+NAME:    Jaime Retief
+       -------------------------------------
+TITLE:  1st Under-Sec'y to the Amb. to the Aldebarran System
+       -------------------------------------
+CDT ID: # 5375865346a547
+
+Affiliations: C.I.B., Hero's Guild, A.S.P.C.T., Unix User's Group, Est
+
+
+"
+     why?   m="Because, (natch)"
+
+	variables
+1           0   temp variable (used for customs)
+2           0   number of tokens
+3           0   number of cigarettes
+4           0   temp variable used for barkeep/map
+5           0   temp for left/right hint
+6           0   credits left
+7           0   the current page of notes
+MAX_CARRY   4   we can only carry 4 things at once

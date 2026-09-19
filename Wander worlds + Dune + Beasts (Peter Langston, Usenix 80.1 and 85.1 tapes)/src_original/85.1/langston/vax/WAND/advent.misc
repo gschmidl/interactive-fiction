@@ -1,0 +1,95 @@
+: @(#)advent.misc	1.1 8/13/81 -- P.S.L. games (c) P. Langston
+
+	words (objects)
+keys                0   102
+shiny\ brass\ lamp  0   102
+lamp                1
+food                0   102
+bottle\ of\ water   0   102
+water               1
+three\ foot\ black\ rod\ with\ a\ rusty\ star\ on\ an\ end  0   110
+black\ rod          1
+rod                 1
+ancient\ dog-eared\ Dwarvish-English\ dictionary    0   99
+dictionary          1
+
+
+	pre actions
+	version m="This is version 8/13/81"
+: run down lamp batteries
+	*       v>2.0   v-4.1   ,,,
+	*       v>2.0   v?4.25  ,,, m="Your lamp is getting dim."
+	*       v>2.0   v?4.10  ,,, m="Your lamp is getting dim."
+	*       v>2.0   v?4.2  ,,, m="Your lamp is about to go out."
+	*       v>2.0   v?4.0  v=2.0 ,,, m="Your lamp fades out."
+: check for underground with lamp off
+	*   -1  v>3.1   c?33    m="You fell into a pit and died"
+	*       v>3.0   v?2.0   v+3.1   ,,,  m="\
+It is now pitch dark.  If you proceed you will likely fall into a pit."
+
+	post actions
+	lamp\ on|light\ lamp  o~lamp  m="I don't see any lamp here."
+	lamp\ on|light\ lamp  v>2.0  v=2.1  m="Your lamp is already lit."
+	lamp\ on|light\ lamp  v=2.1  m="Your lamp is now lit."
+	lamp\ off|extinguish\ lamp  o~lamp  m="I don't see any lamp here."
+	lamp\ off|extinguish\ lamp  v?2.0   m="Your lamp is already off."
+	lamp\ off|extinguish\ lamp  v=2.0  ...  m="Your lamp is now off."
+	lamp\ off|extinguish\ lamp  v=2.0  m="\
+It is now pitch dark.  If you proceed you will likely fall into a pit."
+	check\ lamp  o~lamp  m="I don't see any lamp here."
+	check\ lamp  v>2.0  m="Your lamp is on & has a charge of %4%"
+	check\ lamp         m="Your lamp is off & has a charge of %4%"
+	quit    2
+	help    ... m="\
+I know of places, actions, and things.  Most of my vocabulary
+Describes places and is used to move you there.  To move, try words
+like forest, building, downstream, enter, east, west, north, south,
+up, or down.  I know about a few special objects, like a black rod
+hidden in the cave.  These objects can be manipulated using some of
+the action words that I know.  usually you will need to give both the
+object and action words (in either order), but sometimes I can infer
+the object from the verb alone.  Some objects also imply verbs; in
+particular, \"inventory\" implies \"take inventory\", which causes me to
+give you a list of what you're carrying.  The objects have side
+effects; for instance, the rod scares the bird.  Usually people having"
+	help    m="\
+trouble moving just need to try a few more words.  Usually people
+trying unsuccessfully to manipulate an object are attempting something
+beyond their, (or my!), capabilities and should try a completely
+different tack.  To speed the game you can sometimes move long
+distances with a single word.  For example, \"building\" usually gets
+you to the building from anywhere above ground except when lost in the
+forest.  Also, note that cave passages turn a lot, and that leaving a
+room to the north does not guarantee entering the next from the south.
+Good luck!
+"
+	info    ... m="\
+If you want to end your adventure early, say \"quit\".  To suspend your
+adventure such that you can continue later, say \"suspend\" (or \"pause\"
+or \"save\").  To see what hours the cave is normally open, say \"hours\".
+To see how well you're doing, say \"score\".  To get full credit for a
+treasure, you must have left it safely in the building, though you get
+partial credit just for locating it.  You lose points for getting
+killed, or for quitting, though the former costs you more.  There are
+also points based on how much (if any) of the cave you've managed to
+explore; in particular, there is a large bonus just for getting in (to
+distinguish the beginners from the rest of the pack), and there are
+other ways to determine whether you've been through some of the more"
+	info    m="\
+harrowing sections.  If you think you've found all the treasures, just
+keep exploring for a while.  If nothing interesting happens, you
+haven't found them all yet.  If something interesting DOES happen,
+it means you're getting a bonus and have an opportunity to garner many
+more points in the Master's Section.  I may occasionally offer hints
+if you seem to be having trouble.  If I do, I'll warn you in advance
+how much it will affect your score to accept the hints.  Finally, to
+save paper, you may specify \"brief\", which tells me never to repeat
+the full description of a place unless you explicitly ask me to.
+"
+	unlock|lock t~keys  m="You have no keys!"
+
+	variables
+1       0       question to be answered when != 0
+2       0       1 when light is on
+3       0       0 when above ground, when under ground = number warnings
+4       150     charge in lamp batteries

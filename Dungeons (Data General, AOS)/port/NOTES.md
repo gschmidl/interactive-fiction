@@ -1,7 +1,7 @@
 # Notes — what Dungeons needed
 
 `src/` began as a copy of the emulator from the 500-point Adventure port
-(`../../Colossal Cave Adventure 500pt (Data General, AOS)/port`), which
+(`../../(ANON0500) Colossal Cave Adventure 500pt (Data General, AOS)/port`), which
 already ran an original AOS program: the `.PR` as the 32K address space, the
 SVC system call path, the AOS agent call numbers, overlays through `?LODO`.
 `NOTES.md` there explains those.  Everything below is new with `DG.PR`.

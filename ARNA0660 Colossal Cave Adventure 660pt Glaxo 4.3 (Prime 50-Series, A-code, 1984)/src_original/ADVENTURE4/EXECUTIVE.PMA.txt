@@ -1,0 +1,39 @@
+      SEG
+      DYNT IOA$
+      END
+*
+* SUBROUTINE MOVE(LIST1,LIST2,N)
+*
+*        Version of IMOVE for BIG arrays which may cross segment boundaries
+*        Wodehouse 10 May 1982.
+*
+         ENT       MOVE,MOVECB         (LIST1,LIST2,N)
+         SEG
+MOVE     ARGT
+*
+XREG     EQU       0
+*
+         LDA       N,*
+         BEQ       OUT             If zero NOP
+         STA       XREG            Save value as loop counter
+*
+*        We handle the BIG arrays by working with indirect addressing and
+*        manually incrementing the word part for each array. If we cross
+*        to zero we also increment the segment number. This allows simple
+*        boundary spanning code. XREG is used as a loop counter only as we
+*        are doing the 'indexing' ourselves.
+*
+LOOP     LDA       LIST1,*         Get contents of LIST1
+         IRS       LIST1+1         Increment LIST1 address
+         SKP                       Skip next instruction if here
+         IRS       LIST1           Increment LIST1 segment if required
+         STA       LIST2,*         Store in LIST2
+         IRS       LIST2+1         Increment LIST2 address
+         SKP                       Skip next instruction if here
+         IRS       LIST2           Increment LIST2 segment if required
+         BDX       LOOP            Loop back if we are not finished
+OUT      PRTN
+         DYNM      LIST1(3),LIST2(3),N(3)
+         LINK
+MOVECB   ECB       MOVE,,LIST1,3
+         END

@@ -1,0 +1,41 @@
+
+		D U N E     (with apologies to Frank Herbert)
+
+You are in a strange, barren world consisting of nothing but sand dunes that
+stretch in all directions as far as the eye can see ...
+
+After a little exploration you discover that this world is rectangular!  It is
+bounded on the north, south, east and west by high cliffs formed from a glassy
+substance which you cannot climb.
+
+As you wander you discover that:
+  a) Periodically a large bag of `spice' appears on the surface of the dunes,
+  b) There is a hole which probably leads back where you came from.
+  c) An immense WORM prowls around ready to eat anyone who desecrates the
+     sacred spice bags.
+You also observe that:
+  d) The worm shows great deference to the bags of spice and the hole and will
+     not pass over, (or under), them.
+
+The symbols used to represent the various objects on Dune are:
+    U       You
+    $       A bag of spice
+    O       The hole leading home [?]
+    oooo@   The Worm
+
+Your motion is controlled by six keys on the terminal:
+  4  --  move left, west
+  6  --  move right, east
+  8  --  move up, north
+  2  --  move down, south
+  h  --  move horizontally until you are directly N or S of the spice
+  v  --  move vertically until you are directly E or W of the spice
+Several other keys have special meaning:
+  $  --  drop a bag of spice where you are
+  ^  --  re-draw the screen
+  n  --  stop displaying motion on the screen
+  d  --  resume displaying motion on the screen
+  H  --  equivalent to `nhd'
+  V  --  equivalent to `nvd'
+Collect as much spice as you dare ...
+

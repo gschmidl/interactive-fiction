@@ -1,0 +1,103 @@
+This is a stand-alone version of ADVENTURE4 (the complete 660 pt Glaxo
+version 4.3, 26th Jul 1984).  It consists of:
+
+1) The A-code executive (source, CPL build-file and seg run-file)
+2) The four Adventure pseudo-binary files (the database) to be run  by
+   the executive (ADVINIT1.dat to ADVINIT4.dat)
+3) Adventure manual  (ADVENTURE.runi) to be issued to  players  asking
+   for it.
+
+The A-code source and compiler will only be released to those who  can
+demonstrate their mastery of this version of Adventure.
+
+Adventure4 is (almost) a proper superset of  Adventures  1,  2  and  3
+(known  as Adventure 550).  Adventure2 had removed food from the well-
+house,  Adventure4  also  removes  the  bottle.  In all other respects
+this  version  is  believed  to  be  fully  compatible with Adventure1
+(except  for  having  a  richer set of responses and comebacks and for
+closing  some  of  the  more  blatant  loopholes).    In  merging  the
+divergent   supersets   2   and  3,  priority  was  largely  given  to
+Adventure2.
+
+To  play  Adventure4  type  SEG  EXECUTIVE.  Games   are   dumped   as
+'A_usname_gamname'  where  usname  is  the  login  name  of the player
+truncated  to  six  characters  and  gamname  is  the  name the player
+supplied to Adventure.
+
+If Adventure4 is to be released  to  general  public,  copy  the  four
+ADVINIT   files   to  GAMES.  Also  copy  EXECUTIVE.seg  to  GAMES  as
+ADVENTURE.seg  (or  any  other obvious name not clashing with existing
+versions).  It  is inadvisable to release the source of the executive.
+
+
+Some customisation of the interface with the operating system  may  be
+required  to  define  prime  hours  (within  which only demo games are
+permitted)  and/or to modify the mechanism for saving/restoring games.
+To  achieve  this  the  EXECUTIV  module  of  EXECUTIVE.f77  should be
+(carefully!) modified.
+
+Good luck!
+                                           M.L.Arnautov.
+
+P.S. Here is the list of user-visible A-code modifications made  since
+the first (undated) public release:
+
+14 Oct 83
+1) The WEAR verb introduced.
+2) The REMOVE verb (opposite to WEAR) introduced.
+3) The SCRY (or GAZE) verb introduced.
+4) EXAMINE ORB made equivalent to SCRY.
+5) Few textual changes made to improve clarity and consistency.
+
+25 Oct 83
+1) The owl logic heavily modified. This involved altering somewhat the
+   order of PLACE declarations. Warning: earlier saved games may get a
+   bit strange as a result.
+2) DRINK OIL (yuk!) coded for.
+3) Orb vision logic re-done.
+4) Modified DRINK logic.
+
+19 Dec 83
+1) Expanded the WEAR logic.
+2) Modified the RING effect logic.
+3) Can now open and close the cage (does nothing but says OK)
+4) Few minor textual changes.
+
+23 Mar 84
+1) Snake made sleepy in demo games.
+2) The USE verb coded for (just a quip).
+3) The shadowy figure deviousness (omitted by mistake)
+   reinstated in its full glory and various related quips added.
+4) The stalactite entrance into maze made predictable on JUMP
+   (as in Adventure2).
+5) Few minor textual changes.
+
+15 May 84
+1) Orb vision logic modified.
+
+19 Jun 84
+1) The TRANSLATE verb coded for.
+2) On sniffing vial vapours dwarves now stagger out BEFORE
+   the object dropped (if any) is described.
+3) Examine verb domain slightly enlarged.
+4) Like other magic words, FEE, FIE etc now work when said.
+5) Attempts to open the rusty door now result in a clearer response.
+6) Some textual changes.
+
+27 Jun 84
+1) Vanilla flavoured help text re-written.
+2) The EMPTY verb coded for.
+3) Lava gorge made hintable.
+4) Orc mutter referring to the orb added.
+5) Lamp life extended.
+6) Yet more minor textual changes.
+
+19 Jul 84
+1) A messed up FEE, FIE... sequence commented upon (as Adventure1).
+2) The hungry giant message re-activated (omitted by mistake).
+3) Textual changes here and there.
+
+26 Jul 84
+1) Bug fix: oiling the plant now epmties the bottle.
+2) Bug fix: the response to OPEN DOOR now depends on the state
+   of the door.

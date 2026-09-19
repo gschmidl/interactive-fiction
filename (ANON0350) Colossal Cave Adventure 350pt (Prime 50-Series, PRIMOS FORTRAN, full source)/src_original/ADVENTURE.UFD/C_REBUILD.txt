@@ -1,0 +1,26 @@
+COMO REBUILD.COMO
+*   C_REBUILD - Build ADVENTURE run file
+*
+*   NOTE: This command file assumes that there exists a 'GAMES' UFD
+*         on the system as a final resting place for ADVENTURE
+*
+*   Start building source
+*
+CO C_COMPILE 7
+CLOSE        7
+CO C_LOAD    7
+CLOSE        7
+*
+*   Now copy the run file and common initialization file
+*
+FUTIL
+TO GAMES
+COPY AD4000 ADVENTURE
+* DELETE AD4000
+QUIT
+*
+*   Now you are all set.  Go to the GAMES UFD and 'RESUME ADVENTURE'
+*
+COMO -E
+*
+CO TTY

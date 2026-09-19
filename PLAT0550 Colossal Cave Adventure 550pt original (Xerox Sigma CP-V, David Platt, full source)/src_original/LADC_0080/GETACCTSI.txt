@@ -1,0 +1,26 @@
+         SYSTEM   SIG9
+         SYSTEM   FLIBMODE
+         SYSTEM   FORTLIB
+         DEF      GETACCT,V#GETACCT
+         REF      9SET2,MXFPL,J:ACCN
+GETACCT  CSECT    1
+         BAL,LL   9SET2
+         CHAR     STRING
+         CHAR     MYSTRING
+         LI,R2    BA(MXFPL+5)
+         LW,R3    STRING            GET BA(PARAMETER)
+         LI,R4    8
+         STB,R4   R3
+         MBS,R2   0
+         LI,R2    BA(J:ACCN)
+         LW,R3    MYSTRING
+         LI,R4    8
+         STB,R4   R3
+         MBS,R2   0
+         B        *LC
+V#GETACCT CSECT   0
+         RES      1
+STRING   RES      3
+         RES      1
+MYSTRING RES      3
+         END

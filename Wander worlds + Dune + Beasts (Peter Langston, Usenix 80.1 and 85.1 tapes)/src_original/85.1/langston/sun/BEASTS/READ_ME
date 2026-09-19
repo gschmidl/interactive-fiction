@@ -1,0 +1,57 @@
+
+	Beasts Installation
+
+This game should be very easy to install.  Here's the sequence:
+
+1)	Make sure the routines in ../GLIB work on your system and that they
+	are compiled and archived into ../glib.a 
+2)	Make sure the definitions in ../gamesdef.h are correct (reference is
+	made to them in beaglb.c)
+3)	Set mnqlog & mnblog in beaglb.c to be a log name or 0 depending on
+	whether you want to get mail when new questions or beasts are added,
+	(0 suppresses the mail).
+4a)	If you have "make" then:
+	    make
+	and watch while it makes "beasts" and "bsnoop"
+4b)	If you don't have "make" then:
+	b1) Compile beaglb.c
+		cc -O -c beaglb.c
+	b2) Load beasts
+		cc -O beasts.o beaglb.o -lS ../glib.a -o beasts    (V6)
+		cc -O beasts.o beaglb.o ../glib.a -o beasts        (V7)
+	b3) Change the mode to 2755 (setgid)
+		chmod 4755 beasts
+	b4) Load bsnoop
+		cc -O bsnoop.o beaglb.o -lS ../glib.a -o bsnoop    (V6)
+		cc -O bsnoop.o beaglb.o ../glib.a -o bsnoop        (V7)
+5)	Make sure both "beastfile" & "questfile" are mode 664.
+6)      Run "beasts" and have fun!
+
+7)      From time to time run "bsnoop" and do the following:
+	a)  Look at the names of the beasts that have been added
+		op? list beasts     (can be abbreviated "l b")
+	b)  Correct spellings using "mod beast 23" (for instance).
+	c)  Remove duplicates (created by spelling corrections) and other
+	    ridiculous or boring beasts.
+		op? d b 23	will delete beast 23
+		op? d b 23-25	will delete beasts 23, 24, & 25
+	d)  Look at the questions that have been added ("l q").
+	e)  Correct grammar, spelling etc. (e.g. "m q 47") and/or get rid
+	    of ridiculous or boring questions (e.g. "d q 6").
+	f)  At this point you need to check the beastbase integrity with
+	    the "check" command.  It will find beasts that have identical
+	    question answers or questions that are unnecessary.
+	    If everything is in order bsnoop will just print "op? " again.
+	    If not you will either need to modify question answers
+	    (it's amazing how many wrong answers you'll find), or else
+	    delete beasts or questions.
+	g)  If you're lazy you can use the "CLEANUP" command (note caps)
+	    which is a little like "fsck -y" ...
+8)	Check the contents of the file "oops" periodically; the beasts
+	program will log any unusual errors there.
+
+I enjoy playing beasts from time to time, but what's \really/ fun is looking
+through people's additions and trying to straighten them out...
+
+
+Tue Feb 26 19:10:13 EST 1985
