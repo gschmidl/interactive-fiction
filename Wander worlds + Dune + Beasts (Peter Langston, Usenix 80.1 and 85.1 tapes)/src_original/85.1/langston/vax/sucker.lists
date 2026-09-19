@@ -1,0 +1,4 @@
+convoy	CONVOY/sucker.list
+grid	GRID/sucker.list
+race	RACE/sucker.list
+# file names either start with "/" or are relative to GAMESPATH()

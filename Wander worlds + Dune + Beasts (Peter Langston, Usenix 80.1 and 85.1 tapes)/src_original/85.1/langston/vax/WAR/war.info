@@ -1,0 +1,79 @@
+WAR is a cross between Capture-the-Flag and touch typing drill.
+
+It is a quick, (compared to Empire), territorial conquest game in which two
+players participate.  Each player tries to occupy the oponent's capital while
+protecting his or her own.
+
+
+WAR COMMANDS
+--- --------
+In the following list of commands "#" is used to represent an arbitrary
+number and "XY" is used to represent a location coordinate.  "XY" is of
+the form  letter number; e.g. "c5".
+
+All WAR commands are followed by a Carriage Return <CR>.
+
+?               Redraw the screen.
+
+a XY D          Attack from location XY in the direction D.
+	"D" is one of the letters 'l', 'r', 'u', or 'd', standing
+	for "left", "right", "up" or "down".
+	The battle rages until one side is vanquished (which can result
+	from one side retreating) at which point half of the victor's
+	troops move into the contested spot.
+
+m # XY D        Move # many troops from location XY in the direction D.
+	"#" is a one or two digit decimal number; if it is larger than the
+	number of troops in location XY they will all be moved.
+
+m # XY DE...    Move # many troops from location XY in the direction D,
+	leave one military there and move the rest in the direction E.
+	Up to five directions can be specified at once.
+	E.g. "m 9 b2 rrrrr" will move 9 troops out of b2, leave one in c2,
+	one in d2, one in e2, one in f2 and five in g2.
+
+p XY            Drop a paratrooper into location XY.  You may drop a
+	paratrooper anywhere on the board.  He (she) will appear for two
+	iterations as a "P" on the left side of the cell and then land.
+	When the paratrooper lands she (he) will fight with any enemy
+	forces already there or simply occupy the cell.
+
+s XY            Fire an artillery shell at location XY.  You may fire a
+	shell anywhere on the board except the enemy's capital.  The shell
+	will appear for two iterations as an "S" on the left side of the cell
+	and then hit.  A shell does 50% damage in the cell in which it hits.
+
+t # XY AB       Transfer # many troops from location XY to location AB.
+	The two locations, (XY and AB), MUST be connected by a chain of
+	occupied spots for the transfer to take place.
+
+Note that spaces are optional in all commands;
+	e.g. "m6a1urr" and "m 6 a1 urr" are equivalent.
+
+When the program is first run it will ask how many paratroops and how many
+shells you wish to employ.  It costs $4,000 to outfit one paratrooper and
+$8,000 for each shell.  Your budget for the war is $99,000; any money not
+spent on paratroops and shells is spent outfitting foot soldiers at $1,000
+each.
+
+
+INITIALIZATION
+--------------
+
+Whichever program starts first will be asked to specify the board size and
+the "delay".  The delay that the program requests is the time (in multiples
+of two seconds) between commands.  A value of 2 or 3 seems reasonable.
+
+
+
+AWAR
+----
+
+Awar is an automated WAR opponent that plays the usual good-tactical and
+lousy-strategic game that many automata do.
+
+The syntax for running awar is:   awar [XY]
+If XY is specified it is the location of the capital.  When running awar
+against awar one of the two must have the capital positioned in this way,
+(the other will select a capital location based on the opponent's
+capital).

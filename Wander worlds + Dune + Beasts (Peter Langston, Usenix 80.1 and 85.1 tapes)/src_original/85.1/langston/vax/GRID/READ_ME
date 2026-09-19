@@ -1,0 +1,62 @@
+The files used by Grid are:
+
+  ".gnode"	This file normally exists but will be created by the
+		program if not; it is linked to g.file to create a lock.
+  "g.file"	This file must only exist when a new player is entering
+		the game; it is created and removed by the program.
+		If it exists when the game is started up the game may
+		run erratically.
+  ".dnode"	This file normally exists but will be created by the
+		program if not; it is linked to d.file to create a lock.
+  "d.lock"	This file must only exist when the Grid daemon is running;
+		it is created and removed by the daemon program.
+		If it exists when the game is started up the game may
+		not start; (the message "The daemon seems to be dead.
+		Try again?" will appear).
+  "gridinfo"	Contains instructions for the game.  Running "grid -i"
+		will print out the instructions.
+		Mode should be: 644
+  "sucker.list"	This file contains a list of habitual players.  Anytime the
+		game is started up all the players in this list will be
+		notified (if they're logged in).
+		Mode should be: 644
+  "gridrec"	The Grid records are kept in this file.
+		Mode should be: 644
+  "gridnp"	This file contains information about a new player who wants
+		to join the game.  This file should only appear very briefly.
+		Mode should be: 644
+  "gtmp##"	Files of this form (with "##" replaced by digits) are used as
+		temporary files.
+  "grid"	This program admits new users to the game & prints out the
+		records and the info files, etc.
+		Unfortunately, this program must be setuid and setgid will
+		not work (since it needs to send signals to the daemon and
+		vice versa).
+		Mode should be: 4755
+  "daemon"	This program contains all the interesting code.
+		Mode should be: 755
+  "oops"	Diagnostic output from the daemon goes here, if there is any.
+		You must create an empty file for it to use; otherwise any
+		diagnostic output is discarded.
+
+
+To install Grid do the following:
+
+0)  Make sure the routines in ../GLIB work okay on your system and that
+	they are compiled and archived into ../glib.a
+
+1)  Set up path names by modifying the definition of PATH() in grid.h.
+
+2)  Run the Makefile (i.e. say "make" or fake it by hand).
+
+3)  Run "grid" and get a few friends to run it at the same time.
+
+NOTE to 4.? BSD users
+---------------------
+Because of the some strangeness of process groups and SIGTTOU and the like
+you may encounter situations in which the game seems to ignore someone
+playing on the terminal that started the game after they've been killed and
+re-entered the game.  It turns out that this will only happen if csh ran
+grid (i.e. if you use the Bourne shell, thereby ignoring process groups,
+it won't happen).
+Tue Feb 26 18:11:33 EST 1985

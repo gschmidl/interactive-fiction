@@ -1,0 +1,37 @@
+.TH "INFO COMMAND"
+The info command either gives a list of info topics or
+gives a brief description of a particular concept or command.
+.s1
+To get a list of available info topics type:
+.EX info
+and a list will be given.
+.s1
+To get information on a particular topic type:
+.EX info topic-name
+The program will type out the date of the last modification
+to that particular info topic and then print the first page.
+The program will then
+wait for a carriage-return before printing the second page,
+and before the third, etc.
+.s3
+Note that although the command "info" can be abbreviated, the names
+of the topics can not be abbreviated.
+.s1
+For example:
+.NF
+[TIME] ::: inf inf
+There is no info on inf
+.FI
+While:
+.NF
+[TIME] ::: inf info
+Info on info -- Last mod : Sun Sep 13 14:55:58 1981
+                         INFO COMMAND
+
+The info command either gives a list of info topics  or  gives  a
+brief description of a particular concept or command.
+
+etc.
+.FI
+(For reasons that are, I hope, obvious this example is not included
+in its entirety...)

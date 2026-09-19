@@ -1,0 +1,48 @@
+.TH BOG 6
+.SH NAME
+bog \- word game
+.SH SYNOPSIS
+.B bog
+[\fB-d\fRFILE]
+[\fB-s\fR#]
+[\fB-t\fR#]
+[\fB-w\fR#]
+.SH DESCRIPTION
+.PP
+Parker Bros. calls it "Boggle" (r) and no doubt makes millions on it.
+.PP
+The object of the game is to get more points than the computer gets;
+points are won by finding paths through a grid of letters that form
+words.  The paths can connect vertically, horizontally and diagonally
+and can bend back and forth, but may not use the same grid letter
+twice.  For example:
+.PP
+.nf
+.ta 0.5i 1i 1.5i 2i 3i 3.75i 4.5i 5.25i 6i
+					Starting in the lower left corner
+	G	A	G	O	at  "Y"  and going up to "O" then
+					right to "R" and then down to "E"
+	N	O	Y	X	gives the word  "yore".   All the
+					following words can also be found
+	O	R	L	A
+					along	gore	long	relax	role
+	Y	E	N	R	axle	lane	loon	relay	royal
+					gang	loan	lore	rely	yarn
+.fi
+.PP
+The optional \fB-d\fR argument allows you to specify your own
+dictionary (word list).
+.PP
+Parker Bros. has recently come out with "Super-Boggle" (5x5 instead
+of 4x4).  This version gives you everything from "Micro-Bog"
+(2x2) to "Extra-Super-Industrial-Family-Bog" (8x8).
+The \fB-s\fR argument supplies the board size (always square).
+The 4x4 (default) and 5x5 boards use the same letter distributions as
+the Boggle game.
+.PP
+You can specify a time limit by using the \fB-t\fR argument, (it is
+interpreted as seconds).  \fB-t180\fR is the default.
+.PP
+The \fB-w\fR argument resets the minimum word size (default is \fB-w4\fR).
+.SH AUTHOR
+Peter S. Langston

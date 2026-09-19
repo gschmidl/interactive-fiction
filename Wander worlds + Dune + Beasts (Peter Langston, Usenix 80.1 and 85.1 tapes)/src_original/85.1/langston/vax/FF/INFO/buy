@@ -1,0 +1,62 @@
+.TH "BUY COMMAND"
+The buy command is used to offer to buy shares of stock.
+The general form of the command is:
+.EX "buy [ chain_name [ number [ max-price ] ] ]"
+Only stock in existing chains can be traded.
+.s3
+Here are some examples of the buy command.
+.NF
+[15m] ::: buy
+Chain name? u
+Outstanding buy offers for Uncle Jerry's Place
+  4 @ $54 (The Bank)
+Outstanding sell offers for Uncle Jerry's Place
+ 96 @ $66 (The Bank)
+You have $742
+Number of shares? 9
+Price you're bidding? 66
+9 bought from The Bank
+.FI
+In this case we were willing to pay the Bank's price so we got them right away.
+.s3
+.NF
+[23m] ::: buy o
+Outstanding buy offers for Oh Fred's
+  40 @ $190 (The Bank)
+  10 @ $195 (Uncle Jerry)
+Outstanding sell offers for Oh Fred's
+ 60 @ $220 (The Bank)
+ 1 @ $200 (Scrooge)
+You have $547
+Number of shares? 2
+Price you're bidding? 200
+1 bought from Scrooge
+Offer to buy 1 posted.
+.FI
+In this case we weren't willing to pay the Bank's high price so we got
+one share from Scrooge at $200 and an offer to buy one share at $200
+was left posted.
+.s3
+.NF
+[3m] ::: buy k 20
+Outstanding buy offers for Krunch Korral
+  20 @ $195 (Big Bob)
+  10 @ $198 (Gypsy Gyppo)
+  2 @ $210 (Bonzo)
+Do you want to retract that offer? yes
+  10 @ $200 (JP)
+No outstanding sell offers for Krunch Korral
+You have $1108
+Price you're bidding? 250
+Maximum price you're willing to pay? 250
+Offer to buy 4 posted.
+.FI
+Apparently Krunch Korral is in great demand so we've decided to pull out all
+the stops and offer $250 for it, so we retract our offer to buy 2 at $210
+and try for 20 at $250.  Unfortunately we have less than $1250 on hand so an
+offer to buy 4 at $250 is posted (although we tried to ask for 20 the program
+trimmed it back to the number we could afford).
+.s3
+Trading activity is reported in the "Fast Food Journal".
+.s3
+See also: finance, journal, param, price, sell, tycoon

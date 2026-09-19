@@ -1,0 +1,487 @@
+.nr B 2
+.nr N 2
+.nr O 8n
+.so /usr/lib/tmac/tmac.m
+.de HX
+\\fB\\c
+..
+.de HZ
+\\fR\\c
+..
+.nr Pt 1
+.nr Pi 0
+.ds T \t
+.ds X \\fB
+.TL
+.nf
+
+
+
+\f(RBDRAFT\fR
+
+THE BOLO PROGRAMMING LANGUAGE
+REFERENCE MANUAL
+\(bu \(bu \(bu
+.AF "Ballistic Machines, (div. of General Products Co.), Terra"
+.AU "Peter S. Langston" PSL
+.MT 4
+.PF ''DRAFT \*(DT''
+.H 1 "Introduction"
+This manual describes the language used to program the
+Continental Siege Units known as "Bolos" after the stories
+of Keith Laumer.\f(RS\*F\fR
+.FS
+A reference to the Laumer stories and a little Bolo history goes in here.
+.FE
+As of this writing only the Mark I Bolos are supported.
+.P
+The language presented is a very simple one that is intended to be
+accessible to the complete novice.  Experienced
+programmers may feel cramped by the lack of sophistication or the presence
+of the "goto" construct.  It could be worse.
+.P
+For instructions on compiling Bolo programs refer to \fIBCC - The Bolo
+Command Compiler\fR.
+For a general description of the Bolo hardware and machine language see
+\fIThe Bolo Owner's Manual\fR.
+Also see \fIBDB -- The Bolo DeBugger\fR for information on debugging Bolo
+programs without risk of damage to the actual hardware.
+The theoretical work on \fIBS - The Bolo Assembler\fR.
+is progressing slowly.\f(RS\*F\fR
+.FS
+The B.M. Research Staff is committed to solving the problems that are
+holding up the production of \fIBS\fR, even if they have
+to "work it out with a pencil".
+.FE
+.H 1 "Lexical conventions"
+There are five classes of tokens in Bolo: identifiers, keywords, constants,
+operators, and other separators.
+Blanks, tabs, newlines, and comments (collectively, "white space") as described
+below are ignored except as they serve to separate tokens.  Some white space
+is required to separate otherwise adjacent identifiers, keywords, and
+constants.
+.H 2 Comments
+The semicolon character (\*X;\fR) introduces a comment which terminates
+with the next line-feed character.
+.H 2 "Identifiers (Labels and Variables)"
+An identifier is a sequence of capital letters.  The underscore character
+(\*X_\fR) counts as a letter.
+An identifier may be up to fifteen characters in length.
+There are only two types of identifiers in Bolo; labels and variables.
+.H 3 "Labels"
+Labels identify points in a program to which control is passed by
+\*Xgoto\fR statements.\f(RS\*F\fR
+.FS
+In the early Computer Age theological doctrine held that the "goto" statement
+was the cause of program malfunctions; later research uncovered typeclash
+stress syndrome, wherein strongly-typed languages were inducing high-frequency
+radiation over power lines which, being goto-resonant, induced bugs in
+unprotected gotos.
+.FE
+.H 3 "Variables"
+Variables identify storage locations for data.
+All variables represent indirect references to memory or the Bolo machine
+registers through the Symbol Association Table.\f(RS\*F\fR
+.FS
+c.f. \fIBolo Owner's Manual\fR for details.
+.FE
+.H 3 "Reserved identifiers"
+The following identifiers are reserved for use as variables and may not
+be used otherwise:
+.nf
+.ne 1i
+.ta 1.5i
+    XLOC\*T- Current X location
+    YLOC\*T- Current Y location
+    HEADING\*T- Direction of motion
+    SPEED\*T- Specified speed of motion
+    RSPEED\*T- Real speed of motion
+    SCAN\*T- Direction of radar scan
+    DIST\*T- Distance to radar-detected object
+    TYPE\*T- Type of radar-detected object
+    AIM\*T- Direction of gun
+    RANGE\*T- Distance of gun shot
+    DAMAGE\*T- Percentage of damage
+    RANDOM\*T- A random number
+.P
+These identifiers refer to control registers in the Bolo hardware.
+.H 2 Keywords
+Keywords consist of sequences of lower case letters.
+The following keywords are defined:
+.nf
+	\*Xgoto
+	if\fR
+.fi
+.H 2 Constants
+A constant is a sequence of digits and is interpreted as a decimal integer.
+The most negative constant is \-32768 and the most positive is 32767.
+.H 1 "What's in a name?"
+Bolo supports one type of storage class: eternal.
+Any variable is automatically eternal as is any label.
+.P
+Bolo supports one type of object: integer.  Integers may contain
+any integral (whole number) value between \-32768 and 32767 inclusive.
+.H 1 Expressions
+The precedence of expression operators is the same as the order of the major
+subsections of this section, highest precedence first.  Within each subsection
+the operators have the same precedence.  Left- or right-associativity is
+specified in each subsection for the operators discussed therein.
+.H 2 "Primary expressions"
+Bolo supports only three types of primary expressions.
+.nf
+.in +0.5i
+\fIprimary-expression:
+.in +0.5i
+identifier
+constant
+\*X(\fI expression \*X)\fI
+\fR
+.in -1i
+.fi
+There is nothing terribly interesting to say about any of these.
+.H 2 "Unary operators"
+Bolo supports no unary operators.\f(RS\*F\fR
+.FS
+Let's face it, everyone knows unary operators are for sissies anyway!
+.FE
+Any situation which requires a unary operator
+(e.g. negating the variable \*XX\fR) must be expressed using
+a binary operator, (e.g. \*XX <- 0 - X\fR).
+.H 2 "Multiplicative binary operators"
+The multiplicative operators \*X*\fR and \*X/\fR group left-to-right.
+.nf
+.in +0.5i
+\fImultiplicative-expression:
+.in +0.5i
+expression \*X*\fI expression
+expression \*X/\fI expression\fI
+\fR
+.in -1i
+.fi
+The binary \*X*\fR operator indicates multiplication.
+.P
+The binary \*X/\fR operator indicates division.
+Non-integral quotients are truncated towards 0,
+(e.g. \*X3/2\fR yields \*X1\fR and
+\*X\-3/2\fR yields \*X\-1\fR).
+.H 2 "Additive binary operators"
+The additive operators \*X+\fR and \*X\-\fR group left-to-right.
+.nf
+.in +0.5i
+\fIadditive-expression:
+.in +0.5i
+expression \*X+\fI expression
+expression \*X\-\fI expression
+\fR
+.in -1i
+.fi
+The binary \*X+\fR operator indicates addition.
+.P
+The binary \*X\-\fR operator indicates subtraction.
+.H 2 "Relational binary operators"
+Relational expressions may only be used in the \*Xif\fR statement and
+have the following forms:
+.nf
+.in +0.5i
+\fIrelation:
+.in +0.5i
+expression \*X=\fI expression
+expression \*X#\fI expression
+expression \*X<\fI expression
+expression \*X>\fI expression
+expression \*X<=\fI expression
+expression \*X>=\fI expression
+\fR
+.in -1i
+.fi
+The \*X=\fR relation tests for equality.
+.br
+The \*X#\fR relation tests for inequality.
+.br
+The \*X<\fR relation tests for the condition commonly called less-than.
+.br
+The \*X>\fR relation tests for the condition commonly called greater-than.
+.br
+The \*X<=\fR relation tests for the condition commonly called
+less-than-or-equal.
+.br
+The \*X>=\fR relation tests for the condition commonly called
+greater-than-or-equal.
+.H 1 Declarations
+There are no declarations in Bolo.\f(RS\*F\fR
+.FS
+Declarations are just more sissy stuff.
+.FE
+All variables are initialized to zero
+(with the exception of the Bolo machine register variables) and any labels
+referenced in \*Xgoto\fR statements but not appearing as part of a labeled
+statement are set to zero (the begining of the program).
+.H 1 Statements
+Bolo programs consist entirely of statements.
+All statements, with the exception of the \*Xif\fR statement,
+occupy a single line (i.e. lie between line-feeds).
+Except as indicated statements are executed in sequence.
+.H 2 "Assignment statement"
+The assignment statement has the form:
+.nf
+.in +0.5i
+\fIassignment-statement:
+.in +0.5i
+variable \*X<-\fI expression\fR
+.in -1i
+.fi
+.P
+The value of the expression replaces that of the variable.
+The variable may be user-defined or any reserved Bolo machine register
+identifier with the exception of \*XXLOC\fR, \*XYLOC\fR, \*XDAMAGE\fR,
+or \*XRSPEED\fR which are \fIREAD-ONLY\fR registers.
+Assignment to the other Bolo registers has side effects as follows:
+.ne 1i
+.BL
+.LI
+\*XHEADING\fR - Rotates the body of the Bolo to point in the indicated
+direction\f(RS\*F\fR
+.FS
+All directions are expressed in \fBpissel\fRs, (sometimes called "old psls",
+"bang8", or "8 bit binary angles").
+512 \fBpissel\fRs are equal to pi radians or 180 degrees.
+A full circle is 1024 \fBpissel\fRs.
+.FE
+.LI
+\*XSPEED\fR - Starts the engines.  The Bolo can only accelerate so much
+per second so \*XRSPEED\fR (the "real" speed) approaches \*XSPEED\fR.
+.LI
+\*XAIM\fR - Points the gun in the specified direction (absolute).
+.LI
+\*XRANGE\fR - Fires the gun the specified distance in the direction
+indicated by \*XAIM\fR.
+.LI
+\*XSCAN\fR - Points the radar sensor in the specified direction and
+initiates a radar scan which will always detect something,
+(usually the wall).  The
+scan sets \*XDIST\fR to the distance to the detected object and \*XTYPE\fR
+to the type of object: \-1 for wall, 0 for Bolo 0, 1 for Bolo 1, etc.
+.LI
+\*XDIST\fR - Replaces the distance generated by the last radar scan,
+(\*XDIST\fR is normally set by the radar scan initiated by assigning to
+\*XSCAN\fR).
+.LI
+\*XTYPE\fR - Replaces the type generated by the last radar scan,
+(\*XTYPE\fR is normally set by the radar scan initiated by assigning to
+\*XSCAN\fR).
+.LI
+\*XRANDOM\fR - Re-initializes the random number seed,
+(useful for testing).
+.LE
+.H 2 "If statement"
+The if statement has the form:
+.nf
+.in +0.5i
+\fIif-statement:
+.in +0.5i
+\*Xif\fI relation \*X{\fI
+.in +0.5i
+statement
+statement
+\&. . .
+.in -0.5i
+\*X}\fR
+.in -1i
+.fi
+All the statements with the braces are executed iff the specified
+relation is true.
+.H 2 "Goto statement"
+Control may be transferred unconditionally by means of the statement:
+.nf
+.in +0.5i
+\fIgoto-statement:
+.in +0.5i
+\*Xgoto \fIlabel\fR
+.in -1i
+.fi
+If the label does not appear on any labeled statement it refers to the
+beginning of the program.
+.H 2 "Labeled statement"
+Any statement, including an empty one, may be preceded by a label prefix
+of the form:
+.nf
+.in +0.5i
+\fIlabel\*X:\fR
+.in -0.5i
+.fi
+Thus, the following are all examples of valid labeled statements:
+.nf
+.in +0.5i
+.ta 1i
+\*X
+START:\*TX <- 3
+TEST:\*TJUNK <- FOO \- 3 * DIST
+THE_END:\fR
+.in -0.5i
+.fi
+.H 1 "Syntax Summary"
+This summary of Bolo syntax is intended more as a comparison to C\f(RS\*F\fR
+.FS
+c.f. \fIThe C Programming Language -- Reference Manual\fR, Dennis M. Ritchie
+.FE
+than as an accurate statement of the language.
+Note the elegant sparsity of the Bolo design.
+.H 2 Expressions
+The basic expressions are:
+.nf
+.in +0.5i
+\fI
+expression:
+.in +0.5i
+primary
+expression binop expression
+.in -0.5i
+
+primary:
+.in +0.5i
+identifier
+constant
+\*X(\fI expression \*X)\fI
+.in -0.5i
+
+variable:
+.in +0.5i
+identifier
+\fR
+.in -1i
+.fi
+Binary operators group left-to-right; they have priority decreasing as
+indicated below.
+.nf
+.in +0.5i
+\fI
+binop:
+.in +0.5i
+\*X*       /
++       -\fI
+\fR
+.in -1i
+.fi
+.H 2 "Miscellaneous operators"
+The miscellaneous operators can not be used to form expressions, i.e. they
+do not return values.
+.nf
+.in +0.5i
+\fI
+relop:
+.in +0.5i
+\*X=
+#
+<
+>
+<=
+>=\fI
+
+.in -0.5i
+asgnop:
+.in +0.5i
+\*X<-\fI
+\fR
+.in -1i
+.fi
+.H 2 Statements
+.nf
+.in +0.5i
+\fI
+statement:
+.in +0.5i
+identifier\*X:\fI statement
+\*Xgoto\fI identifier
+variable asgnop expression
+\*Xif\fI expression relop expression \*X{\fI
+	statement
+	statement
+	. . .
+\*X}\fI
+\fR
+.in -1i
+.fi
+.H 1 Examples
+Here are a few examples of syntactically correct Bolo programs:
+.nf
+.in +0.5i
+.ta 1i 3i
+\*X
+; zigzag.b -- the moving target, psl 12/81
+ZIGZAG:\*THEADING <- RANDOM\*T; pick a random direction
+\*TSCAN <- HEADING\*T; point the radar and scan
+\*TSPEED <- DIST\*T; set speed according to distance
+\*Tgoto ZIGZAG\*T; loop around
+\fR
+.in -0.5i
+.fi
+Zigzag should run around the field, moving faster when it
+is moving toward the center and slower when moving away from it.
+Note that all the identifiers here are Bolo machine registers except
+for \*XZIGZAG\fR which is a label.
+.nf
+.in +0.5i
+.ta 1i 1.5i 4i
+\*X
+; lump.b -- Example of a less pacific Bolo program, psl 12/81
+\*TDIR <- 0\*T; start with an angle of zero
+LOOP:
+\*TSCAN <- DIR\*T; initiate a radar scan
+\*Tif TYPE = \-1 {\*T; is there a bolo there?
+\*T\*TAIM <- DIR\*T; if so, aim at it
+\*T\*TRANGE <- DIST\*T; and shoot
+\*T\*Tgoto LOOP\*T; check to see if it's still there
+\*T}
+\*TDIR <- DIR + 32\*T; rotate about 12 degrees clockwise
+\*Tgoto LOOP\*T; go back and try again
+\fR
+.in -0.5i
+.fi
+Lump will sit still and scan around for other Bolos at which to shoot.
+Here the variable \*XDIR\fR is being used to keep track of the direction
+we're checking out,\f(RS\*F\fR
+.FS
+This program could be rewritten to be more efficient by using one of
+the machine registers, e.g. \*XAIM\fR, to keep this information.
+.FE
+\*XLOOP\fR is a label, and the other
+identifiers are Bolo machine registers.
+The obvious problem with lump is that once someone finds him they can
+pound him into the ground quite easily.
+.nf
+.in +0.5i
+.ta 1i 1.5i 4i
+\*X
+; p1 -- P1 is a pacifist; he runs if hit, sits otherwise
+START:
+	DAM <- DAMAGE		; remember our "original" damage
+IDLE:
+	if DAM = DAMAGE {	; just loop until we get damaged
+	    goto IDLE
+	}
+	SPEED <- 15		; damage!  start the engines turning
+SEARCH:				; while we find a good direction to go
+	SCAN <- RANDOM		; pick a random direction
+	if DIST < 200 {		; don't want to run right at the wall
+	    goto SEARCH
+	}
+	HEADING <- SCAN		; point the engine in the right direction
+	SPEED <- DIST / 3	; set speed fast, but slow enough
+RUN:
+	if RSPEED < SPEED {	; wait a while to build up speed
+	    goto RUN
+	}
+	SPEED <- 0		; stop moving and ...
+	goto START		; ... back to idle loop
+\fR
+.in -0.5i
+.fi
+This program is a little smarter.  Notice how it turns the engines on
+even before they're needed by setting speed to 15; it does this because
+the engines take a long time to accelerate and by the time they're half-
+way up to speed a good direction will have been found.
+The 15 was chosen to avoid the chance that the Bolo will be moving too
+fast to turn (over 16) by the time a direction has been chosen.
+.if o .bp
+.CS
+.if o .bp

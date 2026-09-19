@@ -1,0 +1,27 @@
+.TH Command LIST
+.SY list
+The list command gets you a list of commands with their associated
+B.T.U. costs, (see "info time" for description of B.T.U.s).
+This should not be confused with "info {commands}" which generates
+a brief summary of each command.
+.s3
+.EX list
+.NF
+		Current EMPIRE Command List
+		------- ------ ------- ----
+Initial number is cost in B.T.U. units.
+Text enclosed in {braces} is comment rather than part of the command.
+Args in [brackets] are optional, but can only appear on the command line.
+Args in <angle brackets> have the following meanings:
+  <CNUM/CNAME> :: a country number or name
+  <ITEM> :: commodity such as `ore', `guns', etc
+  <LOAN> :: loan number
+  <SECT> :: sector coordinates in the form:   x,y
+  <SECTS> :: sector(s) in the form:   lox:hix,loy:hiy/d ?cond&cond&...  
+  <SHIP> :: one ship number
+  <FLEET> :: fleet designation, or area
+2 annex <SECTS> {from} <CNUM/CNAME> 2 announce
+2 assault <SECT> {from ship}        2 attack <SECT> {from sect}
+     etc.
+.FI
+See also : {commands}, syntax, time

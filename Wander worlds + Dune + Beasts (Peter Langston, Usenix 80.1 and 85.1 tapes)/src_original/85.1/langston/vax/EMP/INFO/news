@@ -1,0 +1,22 @@
+.TH Command NEWS
+.SY "news <DAYS>"
+The news command prints a copy of the local newspaper published by
+The Empire News.
+.s3
+This "morning after" daily recounts financial exploits,
+the telegram traffic between countries,
+and political maneuvering
+in addition to the chronicling of such mundanities as shelling, attacking,
+and nuclear testing.
+.s3
+It's great breakfast reading!
+.s3
+Normally your edition of the news will only contain events that have
+occurred since you last read the news.
+You can specify what time period you'd like it to cover with the optional
+"<DAYS>" argument in the command line as in:
+.s3
+.EX news 2
+Which will print the news for the last two days.
+.s3
+See also : headlines

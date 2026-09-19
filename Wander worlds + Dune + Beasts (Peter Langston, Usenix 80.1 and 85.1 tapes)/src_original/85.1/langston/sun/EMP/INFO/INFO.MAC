@@ -1,0 +1,95 @@
+.\" EMPIRE MACRO FILE
+.de TH
+.de x1
+.ev 1
+.if \\n(.p>24v .sp 3
+.ce 1
+\\*(nF\\$1\\\\0:\\\\0\\$2\\*(pF
+.if \\n(.p>24v .sp 2
+.sp
+.ev
+\\..
+.wh 0 x1
+.if \\n(.p>24v .bp
+.in 0
+.am TC
+\\$2\t\\n%
+.br
+\\..
+\\*(nF\\c
+..
+.de TC
+.rm x1
+.if o .bp
+.de x1
+.sp 5
+\*(lFCONTENTS\*(pF
+.sp 3
+\\..
+.wh 0 x1
+.bp
+.ev 2
+.nr % 1
+.af % i
+.in 1i
+.ta 3.5iR
+..
+.de EX
+.ti +0.3i
+.cs \*(EF 26
+.lg 0
+.ps 8
+\*(eF[##:##] Command: \\$1 \\$2 \\$3 \\$4 \\$5 \\$6 \\$7 \\$8 \\$9\*(nF
+.ps 10
+.lg 2
+.cs \*(EF
+.br
+..
+.de SY
+.if \\n(.p>24v .s1
+\*(bFSYNTAX:\*(pF
+.ti +0.3i
+.cs \*(EF 26
+.lg 0
+.ps 8
+\*(eF[##:##] Command: \\$1\*(pF
+.ps 10
+.lg 2
+.cs \*(EF
+.s1
+..
+.de L
+.br
+.ti -\w'\\$1\\0\\0'u
+\\$1\0\0\c
+..
+.de NF
+.nf
+.di Nf
+.cs \*(EF 26
+.lg 0
+.ps 8
+\*(eF
+.nr nF \\n(.i
+.in +0.3i
+..
+.de FI
+.in \\n(nFu
+\*(nF
+.di
+.ne \\n(dnu
+.Nf
+.ps 10
+.lg 2
+.cs \*(EF
+.fi
+..
+.hy 15
+.de s1
+.sp 1
+.ne 4
+..
+.de s3
+.sp 1
+..
+.ds HT \t

@@ -1,0 +1,33 @@
+.TH "VIEW COMMAND"
+The view command prints out a view of the developed plots in the game
+and the plots which you are able to develop.
+.s3
+The form of the command is:
+.EX view
+.s3
+A typical output looks like:
+
+.NF
+   a b c d e f g h i j k l m n o p q r s t
+ 0                                 J        0
+ 1   7       D D       5         J J J      1
+ 2         *       3                     *  2
+ 3   H   R       1   0 *         2          3
+ 4   H   R R R                         *    4
+ 5   H     R                     9          5
+ 6           *         6 *                  6
+ 7       8                         B B   *  7
+ 8     X X X X   4             B B B        8
+ 9 *         X         *                    9
+   a b c d e f g h i j k l m n o p q r s t
+.FI
+
+The upper case letters represent fast food chains;
+the asterisks represent single fast food joints;
+the numeric digits are the plots for which you have
+the development rights.  In this example j3 will be
+developed next unless there are already the maximum number
+of chains (e.g. if max number of chains is 6 in our example)
+in which case h3 will be developed instead.
+.s3
+See also: exhibit, reorder

@@ -1,0 +1,32 @@
+.TH Command CONTRACT
+.SY "contract <ITEM> <SECTS>"
+The contract command allows you to sell items in a particular
+sector directly to the outside world (via The Deity, country 0).
+.s3
+For instance, to sell the shells built in a
+shell industry located at -3,3 type:
+.EX contract s -3,3
+and the program will reply with something like:
+.NF
+The Deity offers $3.15 per unit of shells in -3,3  Do you accept?
+.FI
+At which point you can take it or leave it (answer "yes" or "no").
+If you already have a contract for the given sector a "yes" answer
+will reset the sale price to the current offer
+(the prices offered vary slightly with time)
+and a "no" answer will end the contract.
+.s3
+The list of commodities that can be contracted includes:
+shells, guns, planes, iron, dust (gold), bars of gold, oil,
+light construction materials, heavy construction materials,
+civilians (slavery!), military (slavery?), and food.
+Only the initial letter is required to identify these commodities.
+.s3
+The presence of a contracted sale in a sector is indicated by a dollar sign,
+("$") in the census or commodity report.
+The actual exchange of goods and money takes place as the sector is
+being updated (as a result of the update command or as done periodically
+by the program).  At the time of the contract sale only 1/2 the available goods
+will be sold (especially convenient with food).
+.s3
+See also : census, commodity

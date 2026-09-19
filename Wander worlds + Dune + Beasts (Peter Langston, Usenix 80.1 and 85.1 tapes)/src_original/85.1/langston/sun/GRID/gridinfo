@@ -1,0 +1,127 @@
+Grid is a game loosely modeled after "maze war" and "rogue".
+It is a multi-player, real-time game of exploration (and mayhem)
+in a three-dimensional grid of walls and halls.
+
+The screen is broken up into three areas during the game as follows:
++--------------------------------------------------------------+
+|     \                          |        +-+-+-+-+-+          |
+|      \                         |        |         |          |
+|       \                        |        + +-+-+ + + + +-+    |
+|        \            /----------|        | | |d| |       |    |
+|         \          /|          |        + + + +-+ +-+-+-+    |
+|          \        / |          |        |   |   |   |   |    |
+|           \      /  |          |        +-+ +^+ +-+ + + +    |
+|            |----|   |          |        |   |   | | | |u|    |
+|            |    |   |          |        + +-+ +-+ + + +-+    |
+|            |    |   |          |        |     |   |     |    |
+|            |----|   |          |    + + + +-+-+   +-+-+-+    |
+|           / /--\ \  |          |    |     |                  |
+|          / /----\ \ |          |    + + + +                  |
+|         /          \|          |        |                    |
+|        /            \----------|        +-+                  |
+|       /                        |                             |
+|      /                         |                             |
+|     /                          |                             |
+|You're on level 1 with 6 `others' score:98 gold:86 health:100 |
+|psl has entered your level                                    |
+|                                                              |
++--------------------------------------------------------------+
+
+The area at the left shows you what you are seeing ahead of you,
+(or ahead and to the left or right with the "peek" commands).
+
+The area at the right shows you a "map" of the places you've been
+with the sysmbols "u" and "d" representing "up" and "down" trapdoor
+locations, and the symbols "^", ">", "v", and "<" representing your
+position and orientation.  Note that you can see the "down" trapdoor
+in the floor of the view at left.
+
+Up to three lines at the bottom of the screen give useful information
+or responses to commands.  A line enclosed in quotes (") is an utterance
+from another player (see the "y" command).
+
+The commands in Grid are:
+
+MOTION COMMANDS
+f	move forward
+b	move backward
+u	go up through a trap door
+	(Note that simply stepping on a "down" trapdoor gets you through.)
+
+TURNING COMMANDS
+l	turn left
+r	turn right
+L	peek to the left (like "fl" except you don't move)
+R	peek to the right (like "fr" except you don't move)
+<SP>	look straight ahead
+s	shoot (straight ahead)
+
+INFORMATION COMMANDS
+?	print location & other statistics
+w	print list of active players & levels
+y	yell something; type a message ended with a <RETURN>
+
+MAGIC COMMANDS
+(# is a talisman number, except in '#o' where it's number of gold pieces)
+#o	make an offering to the dark spirits, hoping for a talisman in return
+#i	print information about the specified talisman
+#d	drop a talisman
+#z	zap - invoke the power of a talisman
+
+MISCELLANEOUS COMMANDS
+Q	quit
+^D	quit
+^L	redraw the screen
+
+The grid is inhabited by human players and "others".  The others are always
+unfriendly and will shoot you if they notice you.  The players, on the other
+hand, aren't necessarily unfriendly.
+
+Players and "others" don't appear on the map, but do appear in the view area.
+"Others" are composed of a diamond shaped array of the letter "o" with an eye
+composed of the symbol "#".  Players are composed of a diamond shaped array of
+upper case letters with an eye of "#".  The four orientations of "other" are:
+
+	o                o                o                o
+       ooo              ooo              ooo              ooo
+      ooooo            ooooo            oo#oo            ooooo
+     ooooooo          #oooooo          oo###oo          oooooo#
+    ooooooooo        ###oooooo        oo#####oo        oooooo###
+     ooooooo          #oooooo          oo###oo          oooooo#
+      ooooo            ooooo            oo#oo            ooooo
+       ooo              ooo              ooo              ooo
+	o                o                o                o
+  looking away      looking left    looking at you   looking right
+				      (beware!)
+
+Players look similar, except the "o"s are "A"s or "B"s or "C"s, etc.
+
+Magic talismans and piles of gold pieces may also occur in the grid.
+A talisman is shown as a single '*'.  Piles of gold pieces appear as
+differing sized trangles of '$'.
+
+	 			     $    
+	 			    $$$   
+	 			   $$$$$  
+	 			  $$$$$$$ 
+	 			 $$$$$$$$$
+	*			$$$$$$$$$$$
+     A Talisman			A Gold Pile
+
+
+The Grid program has the following syntax:
+
+    grid [-info] [-nNAME] [-records] [-tTERMTYPE]
+
+The optional arguments are:
+
+-info		Print this information file.
+-nNAME		Call yourself NAME instead of your logname.
+-records	Print the Grid records.
+-tTERMTYPE	Ignore the environment TERM and use TERMTYPE instead.
+
+You can arrange to have the program notify you whenever anyone starts the
+game up by putting your name on the "sucker list".  To do this run the
+program "sucker".  The sucker program allows you to add your name, delete
+your name, check whether you're on the list, and print a list of all the
+games with sucker lists.

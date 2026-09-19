@@ -1,0 +1,47 @@
+.TH Command MINE
+.SY "mine <SHIP> <NUMBER>"
+The mine command drops mines in the sea and is only functional
+from destroyers.
+.s3
+Each mine introduces a 5% chance that a passing ship will be hit.
+The probabilities are additive, e.g. twenty mines produce a 100%
+chance of a mine collision.
+The damage is dependent upon the size of the ship and the spot that the
+mine hits.
+.s1
+Some damage ranges are:
+.NF
+patrol boat         60% - 80%
+fishing boat       100% -100%
+minesweep           51% - 71%
+destroyer           38% - 58%
+submarine           41% - 61%
+tender              38% - 58%
+heavy cruiser       27% - 47%
+cargo ship          35% - 55%
+aircraft carrier    27% - 47%
+battleship          23% - 43%
+yacht               70% - 90%
+.FI
+.s3
+In the command syntax
+"<SHIP>" is the number of one of your destroyers and "<NUMBER>" is
+the number of mines you wish to drop.
+That number of shells, (assuming you've got them),
+will be dropped in the sector that destroyer occupies,
+magically becoming mines as they hit the water.
+.s3
+Mines can only be removed safely by a minesweeper.
+(Other ships can remove them by hitting them, but...)
+.s3
+Harbors and the water under bridge spans can be mined.
+Your ships will automatically avoid these mines when passing through,
+(and minesweepers will not not pick them up).
+.s3
+Note that the sector is checked for possible mine hits only when a ship
+moves into it; thus, a destroyer may safely drop mines in a sector and
+then move out.
+On the other hand, the mines know no allegiance, so moving back into
+a mined sector is foolish at best unless it is a harbor or under a bridge span.
+.s3
+See also : navigate

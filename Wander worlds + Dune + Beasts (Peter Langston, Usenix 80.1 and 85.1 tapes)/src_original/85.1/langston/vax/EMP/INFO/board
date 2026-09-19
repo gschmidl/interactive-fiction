@@ -1,0 +1,23 @@
+.TH Command BOARD
+.SY "board [<SHIP> [(from ship)]]"
+The board command enables two ships' crews to engage in hand-to-hand
+combat. To board ship #16 from ship #93 you might type:
+.EX board 16
+.s3
+The program will ask from which ship you wish to board,
+(you may only board from one ship at a time).
+.s3
+Five interesting points:
+.s3
+    Boarding costs BTUs -- in direct proportion to the
+number of military killed.
+.s3
+    The boarding party is at a disadvantage while swinging
+across to the other ship, e.g. 10 against 10 is not even odds.
+.s3
+    Other ships belonging to the victim will fire on you when you
+try to board, (if you're within range).
+.s3
+    Bad weather can prevent boarding when the sea is too rough.
+.s3
+See also : fire

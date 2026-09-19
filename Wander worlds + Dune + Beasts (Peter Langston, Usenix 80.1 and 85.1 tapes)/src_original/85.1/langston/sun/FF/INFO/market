@@ -1,0 +1,38 @@
+.TH "MARKET REPORT"
+The market report prints information about the trading action to date.
+The number of unowned shares (i.e. shares owned by "The Bank"),
+chain size, the size of the per-share dividend at the last update,
+the opening price, the current stock price,
+the volume of trading,
+the number of shares in offers to buy (O.T.B),
+and
+the number of shares in offers to sell (O.T.S. "for sale)
+are printed for each chain.
+.s3
+The general form of the command is:
+.EX "market"
+.s3
+Here is a sample market report:
+.NF
+[19h] ::: m
+        ~~~~~ Fast Food Market Report ~~~~~
+\&................Chain Shares Size  Div Open Price Volume  O.T.B.  O.T.S.
+       Chicken Licken     57    2    9   99   101     10    43      50
+             E-Z Eats     92    2    8   80    80      3    13      90
+            Gyro Guru     80    7   16  110   112      5    22      75
+      Home Brew Haven     30   18   29  230   260     30    63      34
+            Oh Fred's     98    2    8  100    85     10    11      88
+  Xaviera's Frog Farm     84    6   12  140   140      6    20      79
+.FI
+The opening price ("Open") is calculated from the dividend ("Div") and
+the average price ("Price") from the previous trading period by the
+following relationship:
+.NF
+        Price + 10 * Div
+Open = ------------------
+              2
+.FI
+In other words the opening price is the arithmetic average of the
+"price" and ten times the dividend.
+.s3
+See also: price

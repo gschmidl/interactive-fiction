@@ -1,0 +1,136 @@
+.de AB
+.s3
+.in 0.3i
+.ti -0.3i
+..
+.TH Concept "Command Syntax"
+.s1
+The Empire Shell, (command interpreter), expects input in the form:
+.EX VERB ARG1 ARG2 ...
+VERB is any one of the command words in "command list",
+("map", "move", "info", etc).
+.s1
+The number of ARGs varies from command to command.
+In most cases the ARGs need not be supplied on the command line; any that
+are not supplied will be obtained by prompting.
+The exception to this rule are those that are enclosed in [square brackets]
+in the command list.
+The presence of these ARGs changes the way the command is carried out.
+.s1
+Certain basic argument types recur often and are abbreviated in the
+following ways.
+.AB
+<CNUM/CNAME> ::= either a country number or a country name
+.AB
+<ITEM> ::= any one, (or unambiguous abbreviation), of:
+.NF +0i
+xloc            civilians       c_delivery   c_price
+yloc            military        m_delivery   m_price
+owner           shells          s_delivery   s_price
+designation     guns            g_delivery   g_price
+efficiency      planes          p_delivery   p_price
+mobility        iron ore        i_delivery   i_price
+minerals        dust (gold)     d_delivery   d_price
+gold mineral    bars of gold    b_delivery   b_price
+fertility       food            f_delivery   f_price
+petro content   oil             o_delivery   o_price
+fleet           lcm             l_delivery   l_price
+checkpoint      hcm             h_delivery   h_price
+.FI
+Note that c_delivery is the encoded delivery direction for civilians,
+b_delivery is that for bars of gold, etc.  Although this coding is arcane
+at best it is guaranteed that the value 0 means "no delivery"; (at least
+that's what it means today).
+.AB
+<LOAN> ::= loan number
+.AB
+<SECT> ::= sector coordinates in the form:   x,y
+.AB
+.ne 4
+<SECTS> ::= sector(s) in the form:
+.NF +0i
+lox:hix,loy:hiy ?cond&cond&...
+.FI
+"lox", "hix", "loy", "hiy" are coordinates bounding
+the rectangular area to be considered
+.s3
+"cond" is a condition of the form:
+.NF +0i
+<VALUE><OPERATOR><VALUE>
+.FI
+<VALUE> is either an <ITEM>, as above,
+a number in the range 0 to 999,
+or a sector designation,
+("m" for mine, "c" for capitol, etc),
+.br
+<OPERATOR> can be any one of:
+.NF +0i
+<  less than
+=  equal
+>  greater than
+#  not equal
+.FI
+.s3
+Thus "mob=100", "ore#0", "7=guns", "civ#mil", "des=b" are examples
+of legitimate conditions, (note lack of imbedded spaces),
+and
+.EX census -3:3,-3:3 ?des=+&gun=5&mil>civ
+will list all highways
+within 3 of your capital
+with exactly 5 guns and more military than civilians.
+.sp
+Similarly,
+.EX deliver f -9:9,-9:9 ?f_del=0
+will allow you to set up food delivery
+in all the sectors that don't already
+have food delivery.
+.sp
+Note that "hix", "hiy", and "?cond" are all optional.
+Also, the entire "lox:hix,loy:hiy" section may be replaced by
+either "#", "#0", "#1", "#2", or "#3" which refer to the four
+"realm"s that you can define.
+(See "info realm".)
+Note that "#" and "#0" are equivalent.
+.AB
+<SHIP> ::= one ship number
+.AB
+<FLEET> ::= fleet designation, which may be
+a list of ships separated by slashes, `/', a fleet letter,
+the character tilde (~) which means all ships not in a specific fleet,
+or a rectangular sector area.
+.AB
+<SHIP/FLEET> ::= either a single ship number or a fleet designation.
+.sp
+Note that <FLEET> specifications may have an optional ?cond&cond...
+argument like that used for <SECTS> arguments.
+For instance:
+.EX ship ~ ?des=d&mil>5
+will list all destroyers not currently in any fleet with more than 5 military.
+
+.in \\n(in
+.sp 2
+.ne 2
+The output from commands may also be sent to a file or another
+process by utilizing these alternate syntaxes:
+
+.ne 2
+.EX VERB ARG1 ... >FILE
+which sends the output both to the terminal and the file "FILE".
+NOTE that no spaces are allowed between ">" and "FILE".
+
+.ne 2
+.EX VERB ARG1 ... >>FILE
+which sends the output to the terminal and appends it to the file "FILE".
+NOTE that no spaces are allowed between ">>" and "FILE".
+.sp 2
+The Empire shell also recognizes a few control characters:
+.s3
+.NF
+name        code    meaning
+----        ----    -------
+interrupt   <DEL>   Abort command and return to Empire command level
+quit        ^\\\\      Exit Empire
+EOT         ^D      Exit Empire
+.FI
+.s3
+See also : realm, command

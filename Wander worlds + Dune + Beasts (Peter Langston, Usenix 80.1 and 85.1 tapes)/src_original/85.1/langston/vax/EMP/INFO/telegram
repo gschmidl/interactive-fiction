@@ -1,0 +1,47 @@
+.TH Command TELEGRAM
+.SY "telegram <CNUM/CNAME> [<FILE>]"
+The telegram command allows non-treaty communication
+to take place between representatives.  Currently you
+are given only 512 characters per telegram, so telegrams
+encourage succinct diplomacy.
+.s3
+The "<CNUM/CNAME>" argument is either the number or name of
+the recipient nation.
+Telegrams sent to country #0 appear as prayers,
+(favors are best obtained in this manner.)
+.s3
+While entering your telegram the system tells you how many characters
+you have left.  You end the telegram by typing ^D on a line by itself.
+.s3
+For example:
+.EX tel 7
+.NF
+Enter telegram for Groonland; end with ^D
+ 512 left:
+ 511 left: B.F.D. Pouncetrifle
+ 491 left: Groonland Embassy
+ 472 left:
+ 471 left: Dear Ambassador Pouncetrifle,
+ 441 left:
+ 440 left: Just a little note to express the friendly wishes that all of us
+ 375 left: in Curmudgeon feel toward you backward savages in Groonland.  As
+ 310 left: to the matter of the treaty you've proposed please remember that
+ 245 left: if we wished we could TRASH your capital.
+ 203 left:
+ 202 left:                         As always I remain,
+ 176 left:                         Your humble and obedient servant, etc, etc
+ 126 left:                         E. D. Amen Dada
+ 104 left:                         Under Asst. West Coast Promo.
+  68 left:                         the Sovereign State of Curmudgeon
+  28 left: <EOT>
+.FI
+.s1
+The "<FILE>" argument allows you to send a telegram
+from a file.
+For example:
+.EX telegram Groonland threat
+would send the file "threat" to Groonland.
+The last character in "threat" MUST be a line feed, and the whole telegram
+file must be no longer than 512 characters.
+.s3
+See also : announce, prayers, read

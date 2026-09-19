@@ -1,0 +1,60 @@
+Tue Feb 26 18:11:17 EST 1985
+	GLIB -- psl Games Library
+
+These routines perform common functions and are used throughout the various
+games.  Some routines are system dependent while others are included here
+merely for convenience.
+
+The individual files and their contents are:
+
+Makefile	Commands to create the archive ../glib.a
+announce.c	Send a message to all terminals in use by specified user.
+anonmail.c	A sleazy hack.
+arcpsltan.c	A fast arctangent routine using new PSLs (32768 PSLs = 2 PI).
+arcptan.c	A fast arctangent routine using old PSLs (512 PSLs = 2 PI).
+atoi.c		ASCII to integer (version that recognizes octal).
+atoip.c		ASCII to integer (pointer version).
+copy.c		I find this much more useful than strcpy().
+echo_off.c	Routines to turn echoing on & off at the terminal.
+empty.c		Routine to allow non-blocking reads.
+equal.c		Simple string comparison routine.
+filesize.c	Return the size (bytes) of the specified file.
+fmod.c		Floating modulus with the bug taken out.
+fsqrt11.s	Fast square root for the pdp11.
+fsqrtvax.c	Fast square root for the VAX someday
+getch.c		Read an input character and strip parity.
+getspd.c	Return output speed of specified tty.
+gpath		Return local path to specified game file. (being phased out)
+gtmod.c		Return mode of specified file.
+iceil.c		Provide integer ceiling and floor routines.
+inflush.c	Flush any input.
+instruct.c	Print game instructions.
+isatty.c	Return 1 if arg fh is for a tty.
+lock.c		Provide resource locking (and unlocking)
+logdir.c	Return login directory path.
+maxmin.c	Return max or min of two integers.
+mesgoff.c	Disallow/allow messages on controlling tty.
+modtime.c	Return the modification time of the specified file.
+muldiv.c	Return (a * b) / c of ints without losing precision.
+myrlog.c	Return "real" log name of the current user.
+myruid.c	Return "real" or "effective" uid.
+namuid.c	Return uid for given name or "login" user.
+notify.c	Send a canned message to a list of users iff logged in.
+parse.c		Split response into separate tokens.
+plur.c		Routines for pluralizing nouns.
+pslsin.c	Fast sine/cosine/tangent routines.
+pswdsub.c	Routines for reading /etc/passwd info.
+pythag.c	Generate sqrt(a*a+b*b) quickly.
+questn.c	Ask question and collect answer.
+resetid.c	Set "effective" uid & gid to "real" uid & gid.
+sendmsg.c	Interface to local mail system.
+sendtext.c	Another interface to local mail system.
+setmodes.c	Set/reset modes on ttys.
+sm.c		Screen manager package.
+snooze.c	A short sleep routine, argument in milliseconds.
+sread.c		Turn off echo and read a line of input.
+stmtch.c	Minimal match with structured options.
+sysinit.c	General initialization routine called in all "main()"s.
+ttyname.c	V6 routine to fake V7 ttyname().
+uidnam.c	Return logname from uid.
+vopen.c		File open() that complains when it can't.

@@ -1,0 +1,83 @@
+.TH Concept Plague
+.s3
+Plague is used in Empire to symbolize all forms of disease and is
+the only health hazard associated with the Empire game, (ignoring
+it's effects on the players).
+The characteristics of plague are, therefore, a compromise of disease
+features (or "bugs").
+.s1
+The Empire Plague takes between 96 and 189 time units to
+run its course on land, (i.e. 2 to 4 days in any particular sector
+if an Empire time unit is 1/2 and hour),
+and twice as long on ships, (4 to 8 days).
+In so doing the plague goes through three stages:
+.s1
+.in +3
+.ti -3
+Stage I -- The gestatory or incubation phase in which no symptoms appear.
+Sectors or ships that are in this stage of the plague are indistinguishable
+from healthy sectors or ships.  This stage lasts 32 to 63 time units,
+(less than a day and a half).
+.s1
+.ti -3
+Stage II -- The infectious phase in which the symptoms first appear --
+orange blotches on the face and hands, sometimes accompanied
+by grey stripes on the genitalia, itching of the liver and spleen,
+an uncontrollable fear of ripe tomatoes, etc.
+During this phase the plague is extremely communicable;
+for example, a simple delivery from an infectious sector
+will infect the destination sector.
+.s1
+.ti -3
+Stage II -- The terminal phase in which people die,
+often in the act of fleeing from (real or imagined) tomatoes.
+The number of people that die is roughly inversely proportional
+to the research level of the country (plus 100).
+.in -3
+.s1
+All three phases are of roughly equal average duration,
+(about 48 time periods or 1 day).
+.s1
+Plague usually arises in countries with high technological development
+and comparatively little medical research.  It arises specifically
+in sectors with high population density and low efficiency.
+.s3
+Recently archaeologists have uncovered a treatise by a
+Dr. M. Welby entitled "Demographic considerations and
+the Empire Plague".  In part it states:
+.s1
+.in +0.8i
+.ll 5.5i
+It appeared that our original hypothesis based on the high percentage
+of Lumbagan Legionnaires among the afflicted had led us down a blind
+alley and that if we were to solve this complex puzzle before the
+end of the series in the spring \*[possibly a reference to the series
+of tests leading to the mysterious "Neilson Rating"\*] we would have to
+turn to other disciplines for help.  It was only by the merest
+lucky coincidence that as I drove home one evening ...
+\*[here Dr. Welby relates
+an amusing anecdote about a Brownie Scout and the director
+of a film entitled "Close Encounters of the Third Grade"\*] ... leading
+us to the following amazing formulation of the relationship between
+medical research, technology, population, standard of living and
+the Empire Plague:
+.ll 6.5i
+.in
+.s3
+.NF +0.4i
+likelihood    civ + mil     t_level + (iron + oil) / 10 + 100
+    of     =  ---------  *  ---------------------------------
+  plague         999          r_level + effic + mobil + 100
+.FI
+.s1
+Later formulations of this relationship show great similarity
+to his statement (see info "innards").
+.s3
+Many researchers have commented on the surprising lack of correlation
+between food supply and plague outbreak.
+.s1
+Fortunately the plague is not infectious during the gestatory stage
+so that the most effective method for curing plague has been to
+isolate it by emptying adjoining sectors during the gestation period.
+.s3
+See also : innards, research, sector-types, technology

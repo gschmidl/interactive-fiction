@@ -1,0 +1,53 @@
+.TH Command CHANGE
+.SY "change [country | representative | user]"
+This simple command enables you
+to rename your country, your representative
+or to change the computer account ("user")
+associated with your country.
+.s3
+.s1
+CHANGING COUNTRY NAME
+.s3
+.EX change country name
+.NF
+New name -- Mountainia
+.FI
+This will change the name of your country to "Mountainia".
+.s3
+.s1
+CHANGING REPRESENTATIVE NAME
+.s3
+.EX change representative
+.NF
+New name -- quasimodo
+.FI
+Your representative's name will now be "quasimodo".
+Note that the new name you
+type WILL print out, (in case of a typing error).
+As a consequence
+you won't want to do this while your arch-enemy is watching.
+.s3
+.s1
+CHANGING USER NAME
+.s3
+.EX change user
+.NF
+Currently only kissinger can use this country.
+You may reset it to only you (kissinger) or to anyone.
+Which? (answer "me" or "any")  any
+.FI
+This will allow anyone who knows your representative's name to log
+in to your country.
+This would be handy if several people were running one
+country as a "team" (polite word for "committee"),
+or if you log in under different user names.
+Similarly, to reestablish the check on user identity:
+.EX change user
+.NF
+Currently anyone can use this country.
+You may reset it to only you (kissinger) or to anyone.
+Which? (answer "me" or "any")  me
+.FI
+This will disallow anyone but you logging in to your country.
+The switch to "any" and then back to "me" could also be used
+to transfer control of a country from one user to another.

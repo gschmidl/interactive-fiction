@@ -1,0 +1,80 @@
+.TH "GENERAL INFORMATION"
+\fBFast Food\fR is a crass capitalistic simulation of a particularly
+American phenomenon -- the Fast Food Joint, or "FFJ".
+.s3
+Each player controls the development of FFJs on a unique set of plots,
+(see "info view").
+.s3
+The actual development of the plots takes place during the market "update",
+(see below and "info update").
+.s3
+FFJs, once developed, are NOT the property of the developer;
+they become independent entities.
+.s3
+When a plot is developed next to an existing FFJ a CHAIN is formed.
+The newly formed chain issues stock, (100 shares), with a small number
+of shares going to the person who developed the second plot and the other
+shares being put up for public sale.
+.s3
+The value of shares of stock is determined by the trading activity
+in that stock and by barter among the players in the game, (see "info price").
+.s3
+The stocks pay dividends based on the earnings of that particular chain,
+both current and historical,
+and the dividend rate in the game, (see "info dividend").
+.s3
+Each player earns interest on the cash he/she has on hand.
+This "bank interest" is paid at a fixed rate throughout the game,
+(see "info param").
+.s3
+When a plot is developed next to an existing chain that chain simply
+incorporates the new FFJ and increases in size,
+(which increases stock value, etc.).
+.s3
+When a plot is developed next to more than one existing chain the larger,
+(or largest), chain merges with the smaller chain, (or chains), absorbing
+it, (or them), (see "info merger").
+.s3
+Once a day (or more often) a market "update" is performed.
+At this time plots are developed in the order specified by the Tycoons,
+chains are formed, stock dividends are paid, and so forth.
+"Info param" should indicate the update times.
+.s3
+The market updates take place automatically (assuming at least one player is
+logged in at the update time to trigger it by running any command).
+.s3
+The game ends when no one can develop a plot; the winner is the person
+with the highest net worth.
+.s3
+There are two different ways to run the game.
+In the first you simply execute the program
+(which should be in your system's games directory, often "/usr/games"),
+and it will ask who you are:
+.NF
+% /usr/games/ff
+Who are you? Mr. Big
+Welcome to Fast Food!
+.FI
+In this example we gave the complete pathname for \fBff\fR.
+If we had the shell path variable set up to search the games directory
+automatically then we wouldn't have to mention "/usr/games" explicitly
+as in the following example.
+Here we include the tycoon name on the command line:
+.NF
+% ff "Mr. Big"
+Welcome to Fast Food!
+.FI
+Notice that we put the name in quotes this time because it's two words.
+.s3
+Once you've started the game you will be presented with a prompt that looks
+something like:
+.NF
+[12m] :::
+.FI
+The "12m" means there will be a market update in 12 minutes.
+At this point you can give any of the twenty or so Fast Food commands
+shown under "command list" (or "info commands" on-line).
+Each command is described in a separate entry in this manual (check the
+table of contents in the hard copy version or give the "info" command on-line).
+.s3
+See also: commands dividend info merger param price view

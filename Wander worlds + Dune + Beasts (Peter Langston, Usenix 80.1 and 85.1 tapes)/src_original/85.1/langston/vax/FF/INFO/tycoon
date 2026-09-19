@@ -1,0 +1,25 @@
+.TH "TYCOON REPORT"
+The tycoon report lists all your holdings including stocks owned by you
+(along with the number of shares and the value for each), cash on hand,
+and your total worth.
+There will be an indication if
+you are the major or minor holder in any of the chains involved.
+.s3
+The general form of the command is:
+.EX "tycoon"
+.s3
+Notice in this example of a tycoon report that Daddy Warbucks is involved
+in a three way tie for minor holder in Oh Fred's.
+.NF
+[19h] ::: t
+        ~~~~~ Daddy Warbucks Tycoon Report ~~~~~
+\&..................Chain Shares Value
+        Home Brew Haven      7 $  2310  (minor holder)
+          New Wave Eats      2 $   288
+              Oh Fred's      3 $   285  (minor holder / 3)
+ Xaviera's Frogurt Farm      1 $   188    
+           Cash-on-hand        $   450
+                                ------
+                  TOTAL        $  3521
+.FI
+See also: market, trade

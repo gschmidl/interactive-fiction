@@ -1,0 +1,43 @@
+
+	    G R A M S
+
+Grams is a game based on anagrams.
+
+The computer selects a word and then rearranges the letters in the word
+and prints out the result.
+
+You then try to figure out the original word and type it in, (followed by
+a [RETURN]).
+
+If your word is the one the computer started with you win some points.
+The number of points you get is based on how long it took you to find the
+word.
+
+If your guess is different from the one the computer "has in mind" you
+get to try again.  Remember, you're trying to guess the word the computer
+chose, not just any word that uses those letters.
+
+If you want to give up on a word just type an empty line, (hit [RETURN]).
+The computer will tell you the word it had in mind and go on to the next.
+
+At the end of ten rounds your score is reported.  A score of 100 points
+is considered pretty good.  If your score is the highest so far the
+computer remembers it and brags about you to other players!
+
+You can select the number of letters in the words you are guessing by
+specifying an extra argument in the command line.  For example:
+
+% grams			This will play the game with five letter words.
+
+% grams -w7		This will play with seven letter words.
+
+% grams -w3		This gets you three letter words (kid's stuff).
+
+A separate record is kept for each word length, so if you have trouble
+beating the record for 5 letters you can always try establishing a new
+one for 25 letters!
+
+If you just want to see the records then run:
+
+% grams -r
+

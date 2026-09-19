@@ -1,0 +1,43 @@
+.TH Command FORECAST
+.SY "forecast <SECTS>"
+The forecast command is used to predict the weather around a
+weather station.
+.s3
+It requires one civilian for each hour in the future
+you wish to peruse.
+The range of the prediction depends on its efficiency;
+a 100% weather station can predict up to about 7.7 sectors away.
+Neither the range nor the accuracy of a weather station depend on
+education level or technology level (naturally).
+.s3
+The program will request the location of the weather station and
+list the location of the high and low pressure areas at the hour
+you requested and then one hour later, (thus you can plot the motion
+of the weather centers).
+It will also give you a weather map of the area as it will
+appear at the time for which you're requesting a forecast.
+.s3
+For example:
+.EX "fore #"
+.NF
+weather station at 4,-4.
+efficiency 100% range 7.7
+forecast for how many hours in the future? 4
+In 4 hours there will be an extreme low pressure center at -47,-24 and
+an extreme high at -33,-21.
+An hour later the low should be at -50,-22 and the high at -35,-20
+     ---0000000000111
+     3210123456789012
+ -5 -1-2-2-2-2-2-2-2  -5
+ -4  -2-2-2-2-2-2-2-2 -4
+ -3 -2-2-2-2-2-2-2-2  -3
+ -2  -2-2-2-2-2-2-2-2 -2
+ -1 -2-2-2-2-2-2-2-2  -1
+  0  -2-2-2-2-2-3-2-3 0
+  1 -2-2-2-2-2-3-3-3  1
+  2  -2-2-2-3-3-3-3-3 2
+     ---0000000000111
+     3210123456789012
+.FI
+.s3
+See also : weather, map, sector-types

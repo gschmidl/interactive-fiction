@@ -1,0 +1,46 @@
+.TH Command DETONATE
+.SY "detonate <SECT>"
+The detonate command is used to explode nuclear devices.
+.s3
+Each nuclear device has a set of fail-safe coordinates associated with it.
+The fail-safe coordinates identify the spot at which the device is "aimed".
+Nuclear devices can be detonated by the nearby explosion of another nuclear
+device (assuming the device is "armed", see "info fail-safe"), or by the
+detonate command.
+.s3
+You must know the fail-safe code to detonate a nuclear device.
+If the fail-safe code is not given in the allotted time and the device is
+armed it will detonate.
+.s3
+An example of detonating a nuclear device:
+.EX "detonate 12,-2"
+.NF +0.3i
+  1 megaton device in 12,-2 aimed at 10,-6
+Fail-safe code? (CR to abort) 99
+
+K A B O O M ! in 10,-6
+
+did 20% damage in 7,-9
+did 40% damage in 9,-9
+did 40% damage in 11,-9
+	.
+	.
+	.
+did 20% damage in 4,-6
+did 70% damage in 6,-6
+did 100% damage in 8,-6
+turned 10,-6 into a radioactive wasteland
+did 100% damage in 12,-6
+did 70% damage in 14,-6
+did 20% damage in 16,-6
+	.
+	.
+	.
+did 40% damage in 9,-3
+did 40% damage in 11,-3
+did 20% damage in 13,-3
+.FI
+Note that when you are first asked for the fail-safe code you can
+chicken out by hitting Carriage Return.
+.s3
+See Also : fail-safe, nuke, transport

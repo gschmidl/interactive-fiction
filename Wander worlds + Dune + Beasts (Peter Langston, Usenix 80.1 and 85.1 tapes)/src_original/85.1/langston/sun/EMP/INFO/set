@@ -1,0 +1,15 @@
+.TH Command SET PRICE
+.SY "set <SHIP/FLEET> <PRICE>"
+The set price command allows you to set the prices on ships for sale.
+.s3
+<SHIP/FLEET> is a ship number or fleet designation and
+<PRICE> is the cost per ton.
+.s1
+If you don't supply the price on the command line the program
+will ask the per ton cost.
+.s3
+Negative prices can't be used, (no more Crazy Eddie).
+.s3
+You may withdraw an offer by setting the price to zero.
+.sp
+See also : trade

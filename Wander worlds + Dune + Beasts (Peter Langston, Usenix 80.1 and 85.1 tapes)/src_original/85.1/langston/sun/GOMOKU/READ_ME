@@ -1,0 +1,21 @@
+This game is really easy to install.  Here's the sequence:
+
+If you have the "make" command:
+  0)	Make sure the routines in ../GLIB work okay on your system and that
+	they are compiled and archived into ../glib.a
+  1)    Put the appropriate path in the definition of "infofil" in gomsys.c
+  2)    Run "make"
+  3)    Run "gomoku".
+
+If you don't have the "make" command:
+  0)	Make sure the routines in ../GLIB work okay on your system and that
+	they are compiled and archived into ../glib.a
+  1)    Put the appropriate path in the definition of "infofil" in gomsys.c
+  2)    Compile gomsys.c
+	    cc -O -c gomsys.c
+  3)    Load gomoku
+	    cc -O gomoku.o gomsys.o -lS -o gomoku    (V6)
+	    cc -O gomoku.o gomsys.o -o gomoku        (V7)
+  4)    Run "gomoku".
+
+Tue Feb 26 19:13:22 EST 1985

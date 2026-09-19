@@ -1,0 +1,92 @@
+.TH Concept Products
+.s3
+Many Empire sector types exist specifically to turn "raw" materials into
+products.  Some of those products may, in turn, be considered raw materials
+for other industries which produce other products.
+.s3
+This table gives the constituents and costs for each type of product.
+.s3
+NOTE ==> All costs given in the table are for 100% production efficiency.
+Many processes depend on technology level or educational level of the
+country; a note like "p.e.=(tlev+10)/(tlev+20)" means that a country
+with a technology level of 0 has a production efficiency of 50% and will
+only produce one-half of the specified product amount for the given costs,
+whereas a country with a technology level of 100 will have a production
+efficiency of 92%.
+.s3
+The rate at which constituents are turned into products is governed by the
+"work" accrued to a sector (see "info innards") divided by the units of
+constituents per unit of product.  E.g. it takes 3 units of "work" to
+produce 1 shell; two units to incorporate the light construction materials
+and 1 unit for the heavy.  "Natural resources" such as fertility count as
+one unit of constituents; e.g. it takes 1 unit of work per unit of food
+produced.
+.s1
+.in \w'technology\0\0'u
+.L shells
+Shell production efficiency depends on technology level;
+p.e.=(tlev+10)/(tlev+20)
+Shells cost $3 each to manufacture.  Each requires 2 units
+of light construction materials and 1 unit of heavy construction materials.
+.L guns
+Gun production depends on technology level;
+p.e.=(tlev+10)/(tlev+20)
+Guns cost $15 each to manufacture.  Each requires 5 units
+of light construction materials, 10 units of heavy construction materials,
+and 1 unit of oil.
+.L planes
+Plane production depends on technology level;
+p.e.=(tlev+10)/(tlev+20).
+Planes cost $30 each to manufacture.  Each requires 10 units
+of light construction materials, 20 units of heavy construction materials,
+and 2 units of oil.
+.L iron
+Iron ore production depends on mineral content in mines.
+Iron ore costs $1 / ton to extract.  The mineral content of the sector is
+not depleted by mining iron.
+.L dust
+Gold dust production depends on gold mineral content in gold mines.
+Gold dust costs $1 / ton to extract.  The gold mineral content of the sector is
+depleted by mining gold dust.
+.L bars
+Gold bar production depends on gold dust in gold mines.
+Gold bars cost $5 to produce and require 5 units of gold dust each.
+.L food
+Food production efficiency depends on education level and the fertility of
+the sector;
+p.e.=(elev+10)/(elev+20).
+Food costs $1 / ton to grow.  The fertility of the sector is
+not depleted by growing food.
+.L oil
+Oil production efficiency depends on technology level and the oil content of
+the sector;
+p.e.=(tlev+10)/(tlev+20).
+oil costs $1 / ton to produce.  The oil content of the sector is
+depleted by extracting and refining oil.
+.L lcm
+Light construction material production efficiency depends on technology level;
+p.e.=(tlev+10)/(tlev+20).
+An lcm costs $1 / ton to produce and requires 1 unit of iron ore. 
+.L hcm
+Heavy construction material production efficiency depends on technology level;
+p.e.=(tlev+10)/(tlev+20).
+An hcm costs $2 / ton to produce and requires 2 units of iron ore. 
+.L education
+A unit of education (a "class of graduates"), costs $10 to produce
+and requires 1 unit of light construction materials.
+.L happiness
+A unit of happiness ("happy strollers"), costs $5 to produce
+and requires 1 unit of light construction materials.
+.L technology
+Technology production efficiency depends on education level;
+p.e.=elev/(elev+50).
+A unit of technology (a "technological breakthrough"), costs $25 to produce
+and requires 10 units of light construction materials, 5 units of oil and
+1 unit of gold dust.
+.L research
+Research production efficiency depends on education level;
+p.e.=elev/(elev+50).
+A unit of research (a "medical discovery"), costs $25 to produce
+and requires 10 units of light construction materials, 5 units of oil and
+1 unit of gold dust.
+.in

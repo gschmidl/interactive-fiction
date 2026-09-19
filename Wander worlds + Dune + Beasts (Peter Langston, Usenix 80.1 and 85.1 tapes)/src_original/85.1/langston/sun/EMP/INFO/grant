@@ -1,0 +1,52 @@
+.TH Command GRANT
+.SY "grant <SECTS> <CNUM/CNAME>"
+The grant command is used to give one or more sectors to another
+country.
+.s3
+There are a few restrictions on the use of this command:
+.s1
+1) You can only offer a sector to an adjacent country,
+i.e. the recipient country must own a sector next to the sector being granted.
+.br
+2) You must own the sector you are donating.
+.br
+3) When a sanctuary is granted it becomes a capital.
+.s3
+Although whole areas of land can be granted at once, rule 1 above may
+influence the way in which you describe the area.  For example, if country 2,
+"Nice Guys", has a sector at 14,-4 as in this map:
+.NF
+    00111111
+    89012345
+ -6 - - ^ .  -6
+ -5  a a - . -5
+ -4 ^ g a ?  -4
+ -3  ^ ^ ^ - -3
+    00111111
+    89012345
+.FI
+A reasonable attempt to grant the other four sectors would be:
+.EX gra 9:12,-5:-4
+.NF
+Grant to which country? 2
+Sector 9,-5  not bounded by Nice Guys
+Sector 11,-5  not bounded by Nice Guys
+Sector 10,-4  not bounded by Nice Guys
+Sector 12,-4 granted
+1 sectors granted
+.FI
+Not too successful.  A more effective command would be:
+.EX gra 12:9,-4:-5
+.NF
+Grant to which country? 2
+Sector 12,-4 granted
+Sector 10,-4 granted
+Sector 11,-5 granted
+Sector 9,-5 granted
+4 sectors granted
+.FI
+.s3
+Snoopy newspaper reporters are quick to notice land grants and
+report them to their readers.
+.s3
+See also : annex, collect

@@ -1,0 +1,103 @@
+.ds T \t
+.so /usr/lib/tmac/tmac.an
+.th bdb 6 5/1/84
+.sh NAME
+bdb \*- Bolo debugger
+.sh SYNOPSIS
+.bd bdb
+[ b_prog ... ]
+.sh DESCRIPTION
+.it Bdb
+is an interactive debugger for use with Bolo programs.
+An important feature of \fIbdb\fR
+is that no advance planning is necessary to use it;
+in particular it is not necessary to compile or load the program
+in any special way or to include any special routines.
+The first argument to \fIbdb\fR is the name of a Bolo executable program;
+if it is not given, \fBb.out\fR is used.
+Any following arguments are Bolo executable programs which are to be
+loaded with the first.
+.s3
+Commands to \fIbdb\fR
+consist of a command letter followed by zero, one, or two numeric parameters.
+Any required parameter that is omitted is assumed to be zero.
+Numeric parameters are either decimal numbers, hexadecimal numbers
+(which begin with "0x"), or variables.
+Names of variables are written just as they are in Bolo.
+Commands which take two parameters expect them to be separated by a comma.
+.s3
+The commands are:
+.s3
+.lp +0.5i 0.5i
+<CR>\*TExecute the next instruction for the current Bolo program and
+display the status line for the next Bolo instruction.
+.lp +0.5i 0.5i
+\fBa\fR#\*TAutomatically execute the next # machine cycles.
+If there are 3 Bolo programs in the cycle (see the \fBc\fR command)
+and the command \fBa12\fR is given, each program will execute four
+instructions unless one of them encounters a breakpoint first
+(see the \fBb\fR command).
+.lp +0.5i 0.5i
+\fBb\fR#\*TSet a breakpoint at memory location #.
+A breakpoint turns off automatic execution (see the \fBa\fR command)
+when the instruction at the specified location is about to be executed.
+Only one breakpoint can be set at a time for each Bolo
+program being run.
+.lp +0.5i 0.5i
+\fBc\fR#\fB,\fR#\*TSet the high and low Bolo cycle numbers.
+The default setting is 0,N-1 where N is the number of
+Bolo programs specified on the command line.
+If the comma and second parameter are omitted
+the first parameter is used for both, (i.e. only that Bolo program
+will be run).
+.lp +0.5i 0.5i
+\fBg\fR#\*TSet current Bolo pc to #, ("goto" location # in memory).
+.lp +0.5i 0.5i
+\fBM\fR\*TDisplay the current Bolo memory (in hex).
+.lp +0.5i 0.5i
+\fBp\fR#\*TPrint the contents of memory location (or machine register) #.
+.br
+Examples:
+.ti +0.3i
+"\fBp0\fR" prints the contents of memory location 0;
+.ti +0.3i
+"\fBp0x1ff\fR" prints the contents of memory location 1ff (hex);
+.ti +0.3i
+"\fBpAIM\fR" prints the contents of the \fBAIM\fR register
+.lp +0.5i 0.5i
+\fBS\fR\*TDisplay the current Bolo Symbol Association Table
+.lp +0.5i 0.5i
+\fBs\fR#,#\*TSet memory location (or machine register) # to #
+.br
+Examples:
+.ti +0.3i
+"\fBs13,0xc000\fR" puts a no-op in memory location 13 (decimal)
+.ti +0.3i
+"\fBsAIM,512\fR" puts 512 in the \fBAIM\fR register
+.lp +0.5i 0.5i
+\fBt\fR#\*TSet trace level to #.
+The trace level affects \fBbdb\fR output in the following way:
+.lp +0.8i 0.3i
+0\*TIn manual execution mode suppress all but the status line.
+In automatic execution mode don't output anything.
+.lp +0.8i 0.3i
+1\*TAs for level 0 with error messages added in both modes.
+.lp +0.8i 0.3i
+2\*TOutput the status line and instruction descriptions in manual execution
+mode.
+In automatic execution mode output the instruction descriptions but not the
+status line..
+.lp +0.8i 0.3i
+3\*TOutput status line and instruction descriptions in both modes.
+.i0
+.s1
+Depending on the setting of the trace level a status line is printed before
+each instruction is executed.
+The status line contains the Bolo number, the position counter (pc), and
+x,y location in the following format:
+\fBB#0 pc:1c x,y:44,214\fR
+.s3
+.sh "SEE ALSO"
+bcc (6), bolo (6), bs (6), "\fIBolo Programming Language Reference Manual\fR",
+"\fIBolo Owner's Guide\fR"
+.if o .bp

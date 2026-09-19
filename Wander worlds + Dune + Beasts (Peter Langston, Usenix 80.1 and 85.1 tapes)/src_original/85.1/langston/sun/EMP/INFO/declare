@@ -1,0 +1,22 @@
+.TH Command DECLARE
+.SY "declare <POSITION> <CNUM/CNAME>"
+The declare command allows you to make official your diplomatic relations
+with other countries.
+.s3
+<POSITION> may be "alliance", "neutrality", or "war";
+<CNUM/CNAME> is either the name or number of the other country in question.
+.s3
+Your official relations with other countries affect various aspects of the
+game; for instance, if a country with whom you are at war spies on one of
+your sectors and you catch the spy he/she will be shot.  If you
+had been neutral to the spy's country she/he would merely have been
+deported.  If the spy was from an allied country he/she would never be
+caught in the first place.
+.s3
+Similarly, a plane from an allied country will not be shot at by your
+sectors when it flies over them.
+.s3
+The newspaper is very interested in declarations of war or alliance --
+don't expect to keep such declarations secret.
+.s3
+See also : checkpoint, fly, nation, spy

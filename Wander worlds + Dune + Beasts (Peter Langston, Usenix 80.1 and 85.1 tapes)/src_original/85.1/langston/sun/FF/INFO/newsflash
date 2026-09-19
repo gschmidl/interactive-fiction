@@ -1,0 +1,29 @@
+.TH "- = [ NEWS FLASH ] = -"
+News flashes alert you to unusual circumstances that affect stock prices.
+They consist of a short news story which
+mentions the name of a fast-food chain and the amount of the potential
+increase or decrease in stock prices.
+This amount is always given as a percentage
+and indicates the maximum effect the news flash could have.
+.s3
+All news flashes are reported in the "Fast Food Journal".
+.s3
+News flashes occur "randomly" at the time of an update and
+are not influenced by the actions of the players.  The
+actual effect does not show up until the next update, (giving you
+a chance to dump or buy the stock in question), and is a randomly
+chosen value between 0% and the percentage mentioned.  For example:
+.s3
+.NF
+	- = [ NEWS FLASH ] = -
+Due to probes from the A.S.P.C.A. and the National Wildlife Assoc. the food
+chain known as Beastly Feasts has dropped two items from its menu.  Denying
+that the abbreviated menu may cause as much as a 40% loss of business, a
+spokesman noted, "The Bowser Burger and Rat-A-Tooey weren't selling anyway".
+.FI
+
+From this you should conclude that the stock price of "Beastly Feasts" will
+drop to as little as 60% of it's current price (or somewhere else in the
+60% - 100% range) at the next update.
+.s3
+See also: journal, update

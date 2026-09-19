@@ -1,0 +1,106 @@
+.TH Command FIRE
+.SY "fire [<VSECT> | <VSHIP>] [<ASECT> | <ASHIP>] <NUMBER>"
+The fire command is used to shoot up land sectors or ships.
+.s1
+The general form for shooting at land from land is:
+.EX fire <VSECT> <ASECT>
+Where "<VSECT>" is the victim sector, (the sector AT which you are shooting,
+not the sector FROM which you are shooting).
+.s1
+The general form for shooting at land from ships is:
+.EX fire <VSECT> <ASHIP> <NUMBER>
+.s1
+The general form for firing at ships from land is:
+.EX fire <VSHIP> <ASECT>
+Again, "<VSHIP>" is the victim ship number.
+.s1
+The general form for firing at ships from ships is:
+.EX fire <VSHIP> <ASHIP> <NUMBER>
+.s1
+If not specified on the command line
+the program will ask for the sector or ship FROM which you are firing,
+(<ASECT> or <ASHIP>).
+.s3
+The only sector that may fire is a fortress which must have at least
+5 military for a firing crew, at least 1 shell to fire, and a gun big
+enough to reach the victim location; range is equal to the "number"
+of guns, (with a maximum of 7), times the technology factor,
+(which has a maximum of 1. see "info technology").
+.s1
+Any military ship may fire as long as it has
+at least one gun, at least one shell,
+and has at least 60% efficiency.
+If the ship can fire more than one gun and "<NUMBER>" was not
+specified on the command line the program will ask how many
+you wish to fire.
+See info "ship-types" for gun ranges.
+.s3
+The program then prints a satisfying "Kaboom!!!" and,
+assuming you were in range, inflicts damage.
+.s3
+Ships lose 20 mobility points for each shot fired.
+.s1
+The damages inflicted vary with efficiency of the attacker,
+the size of the guns (battleship guns are four times as big as
+patrol boat guns), the number of guns fired, etc.
+.s1
+A table of approximate damages looks like:
+.NF
+From    To      Range of damages
+----    ----    ----------------
+land    land    11% .. 16%
+land    sea     14% .. 49%
+pat *   land    7%
+pat *   sea     9% .. 28%
+bat **  land    25%
+bat **  sea     30% .. 64%
+.FI
+* pat here is a patrol boat firing a single gun,
+(the wimpiest sea gun available)
+.br
+** bat means a battleship firing four guns at once.
+
+An illustrative example of shelling land:
+.EX fir 34,18 36,18
+.NF
+Kaboom!!!
+13% damage done to sector 34,18
+.FI
+Meanwhile, the owner of sector 35,18 might be logged on and would
+perhaps see the following:
+.NF
+[15:98] Command: cen 34,18
+Sat Jul 30 16:18:01 1984
+CENSUS              del cnt
+  sect      eff mob cmf cmf % * civ mil food min gmin fert oil
+ 34,18  i  100% 127 ... ...     200 100   23  23   31   73  18
+	1 sector
+You have a telegram waiting ...
+.FI
+.NF
+[15:98] Command: read
+BULLETIN!       dated Sat Jul 30 16:18:02 1984
+Country #9 shelled 34,18
+Shall I burn it? y
+.FI
+.NF
+[15:98] Command: cen 34,18
+Sat Jul 30 16:18:26 1984
+CENSUS              del cnt
+  sect      eff mob cmf cmf % * civ mil food min gmin fert oil
+ 34,18  i   87% 110 ... ...     175  83   20  23   31   73  18
+	1 sector
+.FI
+Note that the shell did about 13% damage in the sector.
+
+If the sector fired on is a fort with guns and shells it will fire back
+with approximately the same damages (assuming it has the range).
+.br
+If the sector is near a fort that is within range of the attacker
+that fort will fire back.
+.br
+If a ship fired on has guns and shells it will fire back AND
+any other ships of the same nationality that are in range will also
+fire on you.
+.s3
+See also : attack, assault, torpedo, technology

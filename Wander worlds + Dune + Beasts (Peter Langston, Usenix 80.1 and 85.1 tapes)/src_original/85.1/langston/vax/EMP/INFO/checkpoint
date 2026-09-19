@@ -1,0 +1,26 @@
+.TH Command CHECKPOINT
+.SY "checkpoint [<SECTS>]"
+The checkpoint command allows you to grant access privileges to
+other countries.  Anyone knowing the checkpoint code can pass
+through the sector or remove anything residing in the sector
+provided you have not declared war on them.
+.s3
+To checkpoint all the sectors in the area saved in "realm 1" you would type:
+.EX checkpoint #1
+.s3
+The program will request the code for each sector.
+The code can be any number between 0 and 999 (inclusive) but if it
+is 0 the checkpoint is removed...
+.s3
+A census report will indicate checkpointed sectors with a `*'.
+.s1
+Note that whereas most sectors are closed to general access unless
+they are checkpointed (and then open only to people who know the code),
+highway sectors are normally open to access from
+everyone (i.e. anyone can move people in and, more importantly,
+out) unless they are checkpointed (or you're at war with them).
+.s1
+Note also that foreign ships may not move into a
+checkpointed harbor or bridge sector without giving the code.
+.s3
+See also : census, declare, move

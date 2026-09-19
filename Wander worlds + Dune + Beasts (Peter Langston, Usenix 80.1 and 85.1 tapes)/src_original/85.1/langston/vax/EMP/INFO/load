@@ -1,0 +1,40 @@
+.TH Command LOAD
+.SY "load <SHIP/FLEET> [(percent)]"
+The load command carries out the loading of ships.
+.s3
+The ship(s) must be in a harbor and
+the harbor must be at least 2% efficient.
+If the harbor is not yours but has been checkpointed you may
+still load from it if you know the checkpoint code.
+.s3
+The optional percent argument indicates that you wish to load
+the specified percentage of the maximum amount possible of
+each commodity.
+.s3
+For example:
+.EX load 31 50
+.NF
+	patrol boat #31 at -1, -3
+food : load 15
+shells : load 5
+military : load 5
+.FI
+.s1
+If you do not use the percent argument
+the program will ask you how many of each item to load.
+It will indicate the maximum number of units you can load and will
+not ask about items whose maximum is zero.
+.s3
+For example:
+.EX load 31
+.NF
+	patrol boat #31 at -1, -3
+food? (max 20) 20
+shells? (max 10) 5
+military? (max 10) 10
+.FI
+.s3
+See "info ship-types" for a table of the maximum amounts of
+each items that can be carried on each ship type.
+.s3
+See also : unload, checkpoint, navigate, ship-types

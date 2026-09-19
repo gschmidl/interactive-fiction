@@ -1,0 +1,16 @@
+.TH Command TEST
+.SY "test <ITEM> <SECT> <NUMBER> <ROUTE>"
+The test command lets you check the effect of a proposed move.
+This can be helpful when you're not sure whether you have enough
+mobility to reach a certain location or you wish to compare two
+possible routes for a move.
+.s3
+The test command has exactly the same arguments as the move command
+and acts almost the same.  There are two important differences:
+.ti +0.3i
+1) Nothing is actually moved and no mobility is used.
+.ti +0.3i
+2) Sectors that are not owned by you, even though they may be highways
+or checkpointed, can not be traversed.
+.s3
+See also: move

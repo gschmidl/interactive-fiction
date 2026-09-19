@@ -1,0 +1,31 @@
+.TH DIVIDEND
+The dividends accruing from a particular stock each update are
+based on the earnings of that stock:
+.NF
+
+	dividend = shares_of_stock * earnings * dividend_rate
+
+
+.FI
+where "dividend_rate" is a fixed percentage, (see "param").
+The earnings for each stock is calculated by the following formula:
+.NF
+
+	earnings = (size_of_chain + 2) * (100 + trend) / 4
+
+
+.FI
+where "trend" is an indication of the product "appeal".
+The trend factor is calculated each update by the following:
+.NF
+
+	trend = trend * 2 / 3
+	trend = trend - shares_owned_by_the_bank / 10
+	trend = trend + newflash_effects
+
+.FI
+.s3
+It should be noted that cash on hand pays interest compounded at every update;
+run the "param" command to find the current interest rate.
+.s3
+See also: General, param, price

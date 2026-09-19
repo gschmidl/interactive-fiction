@@ -1,0 +1,307 @@
+.TH Concept "Sector Types"
+.NF +0.2i
+ BASICS                     INDUSTRIES
+ .  sea                     d  defense plant
+ ^  mountain                i  shell industry
+ s  sanctuary               m  mine
+ /  wasteland               g  gold mine
+ -  wilderness              h  harbor
+ c  capital                 w  warehouse
+ u  urban area              *  airfield
+ p  park                    a  agribusiness
+ COMMUNICATIONS             o  oil field
+ +  highway                 j  light manufacturing
+ )  radar installation      k  heavy manufacturing
+ !  weather station         MILITARY / SCIENTIFIC
+ #  bridge head             t  technical center
+ =  bridge span             f  fortress
+ FINANCIAL                  r  research lab
+ b  bank                    n  nuclear plant
+                            l  library/school
+.FI
+.s3
+.s1
+	BASICS
+.s3
+SEA - Sea sectors form natural barriers that can
+only be crossed by ships, (made in harbors, below),
+or spanned by bridges, (also below).
+You can not designate anything else to be sea
+nor can sea be designated to be anything else.
+.s1
+MOUNTAIN - Mountain sectors form another natural
+barrier that cannot be redesignated; however, they can be
+moved through (at great expense in terms of mobility units).
+.s1
+SANCTUARY - Sanctuary sectors are created when
+a new nation is created.
+They are inviolate in that no one can fire at them or attack them.
+This protection ends
+when the new country first moves out of the sanctuary
+(called "breaking sanctuary"); the sector then becomes a capital.
+NOTE: in games with multiple sanctuaries per country ALL sanctuaries
+become capitals when any one does!
+.s1
+WASTELAND - This is the result of the explosion of a nuclear device.
+Wastelands are uninhabitable forever.
+.s1
+WILDERNESS - Most of the world is wilderness
+at the beginning of the game.
+Wilderness has no particular attributes;
+you can move into it if unoccupied, thereby
+making it your territory, but will probably want to
+designate it as something else once you own it.
+.s1
+CAPITAL - Capitals are the source of bureaucracy
+time units (B.T.U.s) they accrue in proportion to the efficiency
+of the capital and the number of civilians at work in
+it.
+If a country has a 100% efficient capital with 100
+civilians in it B.T.U.s will accrue at the rate of 4 per
+hour, (assuming half-hour time units).
+Most commands use up B.T.U.s, (see "list of commands" for numbers of
+B.T.U.s used per command).
+A nation may only have one active capital at a time
+(although many sectors may be designated as capitals).
+The last sector designated as a capital is the currently active one.
+If an active capital is captured by an attack a new one
+must be designated by the victim in order to be able to collect B.T.U.s.
+Further, holding another country's capital allows the free
+annexation of that country's sectors.
+Capitals are twice as efficient at defending
+against attack as other sectors (except fortresses).
+.s1
+URBAN - Urban areas are cities.
+People move into and out of cities in groups of 10 (families).
+An urban sector can hold up to 9990 civilians but only 999 military.
+The urban area consumes iron ore in providing essential services
+for the city-dwellers leaving them more time to "fool
+around" therefore the birth rate in cities is particularly
+high.
+However, if no iron ore is supplied to an urban area the
+lack of essential services allows the death rate to be
+as high as the birth rate.
+And of course, as in any sector, a shortage of food will lower the
+birth rate.
+.s1
+PARK - Parks are provided solely for the convenience of the people.
+Parks require construction materials to provide maintenance services and
+add to a nation's "happiness" level.
+The conversion of "raw" materials takes place automatically
+at a rate dependent on the efficiency of the sector,
+the presence of the required materials,
+and the number of workers in the sector.
+.s3
+.s1
+	COMMUNICATIONS
+.s3
+HIGHWAY - Whenever you move civilians, ore, gold,
+etc, mobility units ("mu" on the census) are consumed dependent
+on how far and how much you move.
+However if the movement is through 100% efficient highway
+it costs nothing to move.
+In addition, highway sectors are useful for international
+trade in that any nation may move onto and/or
+from highway sectors owned by any other nation unless the
+sector has been checkpointed (see "info checkpoint").
+.s1
+RADAR - Radar stations can scan the surrounding
+area (up to 6 units away for 100% efficiency) and generate
+a radar plot identifying sector types at distances up to 1/3
+their range and ships up to their full range.
+.s1
+WEATHER - Weather stations are used to
+forecast the weather conditions at any particular spot or
+spots for a given time in the future.
+The area for which
+they can predict is governed by their efficiency and the
+length of time in the future that they can foresee is dependent
+on the size of their civilian staff.
+.s1
+BRIDGE HEAD - Bridge heads are the land based ends of bridges.
+They, like harbors, turn construction materials into
+bridge spans; see "info build" for the details of this process.
+.s1
+BRIDGE SPAN - A bridge span is the suspended part of a bridge that
+crosses water sectors.  They are built and supported by bridge heads
+and are much like highways except for three things:
+.br
+(1) Bridge spans provide food through fishing,
+(the fertility can be thought of as fish-count).
+.br
+(2) Bridge spans must maintain at least 20% efficiency or else they
+collapse.
+.br
+(3) If the only bridge head supporting a particular bridge span is
+redesignated as something else the bridge span will collapse.
+.s3
+.s1
+	FINANCIAL
+.s3
+BANK - Banks are used for smelting and storing gold bars.  
+They include a smelter to refine gold dust into gold bars.
+While the bars are stored in the bank the busy little bankers 
+invest them and return a profit on their use.
+Banks are of the fort knox variety; they are more impervious to shelling
+than any other sector and military in them fight twice as hard
+against attack as those in industries.
+.s1
+	INDUSTRIES
+.s3
+DEFENSE - In defense plants construction materials are turned into guns.
+The conversion of "raw" materials into guns takes place automatically
+at a rate dependent on the efficiency of the sector,
+the presence of the required materials,
+the technology level of the country,
+and the number of workers in the sector.
+See "info products" for information on the materials required to
+produce guns.
+.s1
+SHELL INDUSTRY - These sectors are similar to defense
+plant sectors except they turn construction materials into
+shells.
+The conversion of "raw" materials takes place automatically
+at a rate dependent on the efficiency of the sector,
+the presence of the required materials,
+the technology level of the country,
+and the number of workers in the sector.
+See "info products" for information on the materials required.
+One shell is used each time you fire,
+(except for submarines which use three shells to make one torpedo).
+.s1
+MINE - Mines produce iron ore by digging it out of the ground.
+The rate at which it is produced is dependent on three factors;
+the efficiency of the mine,
+the number of civilians working in the mine,
+and the mineral sample for the sector ("min" on the census report).
+Iron is a "renewable" resource; i.e. digging up iron does not
+deplete the mineral content of the sector.
+.s1
+GOLD MINE - Gold mines are similar to ordinary
+mines, (above), except that they produce gold dust.
+The rate at which it is extracted is dependent on three factors;
+the efficiency of the sector,
+the size of the labor force in the sector,
+and the gold sample for the sector ("gmin" on the census report).
+The raw gold dust can be transported to any sector but if it is left
+in a bank sector it will be refined into bars automatically .
+Gold is a non-renewable resource; i.e. extracting the gold depletes
+the gold content of the sector.
+.s1
+HARBOR - Harbors combine shipyard facilities and docks.
+Construction materials are converted into ships
+and the ships can be loaded and unloaded in the harbor, (see "info load").
+No ships are constructed until the "build" command is given,
+(see "info build").
+.s1
+WAREHOUSE - Warehouses are used to store shells,
+guns, iron, gold dust, food, oil, light construction materials, and
+heavy construction materials.
+These items are stored in lots of ten (containerized)
+so that they may be moved more cheaply (costing
+1/10 as many mobility units).
+Note that moving 19 shells
+into a warehouse will only result in a lot of ten being
+stored, with the other 9 being returned to the originating sector.
+.s1
+AIRFIELD - Airfields turn construction materials into planes;
+see "info products" for details.
+The conversion of "raw" materials takes place automatically
+at a rate dependent on the efficiency of the sector,
+the presence of the required materials,
+the technology level of the country,
+and the number of workers in the sector.
+Airfields are also particularly good for landing and taking off.
+As a matter of fact it is impossible to take off from any other sector
+although you can often land in other sectors.
+.s1
+AGRIBUSINESS - These sectors are large farms and provide food.
+Agribusiness sectors produce as much as five times as much food
+as other sectors.
+The harvesting takes place automatically
+at a rate dependent on the efficiency of the sector,
+the fertility of the sector ("fert" in the census),
+the education level of the country,
+and the number of workers in the sector.
+See "info products" for details.
+.s1
+OIL - Oil fields produce oil by sucking it out of the ground.
+The extraction of oil takes place automatically
+at a rate dependent on the efficiency of the sector,
+the oil content of the sector ("oil" on the census report),
+the technology level of the country,
+and the number of workers in the sector.
+Oil is a "non-renewable" resource; i.e. extracting oil
+depletes the oil content of the sector.
+.s1
+LIGHT - Light manufacturing plants produce light construction materials
+from iron.
+This production takes place automatically
+at a rate dependent on the efficiency of the sector,
+the iron in the sector,
+the technology level of the country,
+and the number of workers in the sector.
+.s1
+HEAVY - Heavy manufacturing plants produce heavy construction materials
+from iron.
+This production takes place automatically
+at a rate dependent on the efficiency of the sector,
+the iron in the sector,
+the technology level of the country,
+and the number of workers in the sector.
+.s3
+.s1
+	MILITARY / SCIENTIFIC
+.s3
+FORTRESS - Fortress sectors have many special characteristics;
+you can fire guns from fortresses,
+whenever an attack is launched from a fort or on
+a fort the military in the fort are stronger than military
+in any other type of sector by an amount proportional to
+the efficiency of the fort. e.g. 100 military in a wilderness
+attacking a 100% efficient fort that has 25 military
+gives even odds; see "info attack" for details.
+.s1
+TECHNOLOGY - Technical centers are bastions of "pure" technology research,
+which is to say universities with massive defense department grants.
+They turn construction materials
+into technological advances thereby raising the technology
+level of the country (which affects gun ranges, pollution, etc.).
+The conversion of "raw" materials takes place automatically
+at a rate dependent on the efficiency of the sector,
+the presence of the required materials,
+the education level of the country,
+and the number of workers in the sector.
+.s1
+RESEARCH - The research lab is a bastion of "pure" medical research,
+which is to say it is a large university with massive March-of-Dimes funding.
+The research lab turns construction materials into medical
+discoveries which raise the research level of the country and
+help retard the spread of disease, (usually caused by the pollution
+from technical centers).
+The conversion of "raw" materials takes place automatically
+at a rate dependent on the efficiency of the sector,
+the presence of the required materials,
+the education level of the country,
+and the number of workers in the sector.
+.s1
+NUCLEAR - The nuclear lab is a bastion of applied technology,
+which is to say it is an immense underground building filled with
+evil geniuses playing Adventure on huge computers.
+The nuclear lab turns construction materials into nuclear weapons.
+No devices are constructed until the "build" command is given,
+(see "info build").
+.s1
+LIBRARY/SCHOOL - The library/school sector is the foundation of a country's
+educational structure.
+They use up construction materials to produce units of education
+which raise the educational
+level of the country (which affects the efficiency of research and
+technology sectors).
+The conversion of "raw" materials takes place automatically
+at a rate dependent on the efficiency of the sector,
+the presence of the required materials,
+and the number of workers in the sector.
+.s1
+.s3
+See also : designate

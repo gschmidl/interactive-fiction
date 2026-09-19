@@ -1,0 +1,26 @@
+.TH Command TEND
+.SY "tend <SHIP> <FROM-SHIP>"
+The tend command allows your tender ships to resupply patrol boats,
+submarines, battleships, etc. while at sea.
+.s3
+To tend ship #16 you could type:
+.EX tend 16
+You would then be asked the number of the tender providing the
+goodies.
+.s3
+If the tender is in the same sector as the tendee, and
+they're both yours, and so forth the program will ask how many military,
+guns, etc. you want to transfer.  A negative value indicates
+a transfer from the ship back to the tender.
+.s3
+For example:
+.EX tend
+.NF
+Ship to be tended? 20
+From tender #43
+How many military (max 35, min -2)? 20
+How many shells (max 25, min -5)? 10
+How much food (max 15, min -55)? -25
+.FI
+.s3
+See also : load, unload

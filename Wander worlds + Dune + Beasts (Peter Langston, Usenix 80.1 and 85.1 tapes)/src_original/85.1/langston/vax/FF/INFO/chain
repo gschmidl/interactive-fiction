@@ -1,0 +1,23 @@
+.TH "CHAIN COMMAND"
+The chain command gives miscellaneous information about a specific chain
+including number of unowned shares, stock price, size of the chain,
+and the holdings of all investors in the chain.
+.s3
+The general form of the command is:
+.EX "chain [ chain_name ]"
+Note that this command can be abbreviated to a single letter, (as can
+all FF commands).
+.NF
+[19h] ::: c h
+	~~~~~ Home Brew Haven Chain Report ~~~~~
+size: 8   shares unsold: 60   last dividend: $18
+cur. price: $147   trading volume: 10   opened at: $135
+\&............Stockholder Shares
+                 J.Paul     15 (major holder)
+         Daddy Warbucks      7 (minor holder)
+               Good Sam      6
+                Lazarus      5
+                Scrooge      5
+               Dog Dish      2
+.FI
+See also: graph, market

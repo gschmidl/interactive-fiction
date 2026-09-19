@@ -1,0 +1,32 @@
+.TH Command SHELL
+.SY "shell"
+Empire, not wanting to be left standing alone by other sophisticated
+programs such as teco, ppl, ingres, basic, etc.
+has a shell command which will spawn a shell "below"
+empire allowing you to "sub-shell", print your census, read your mail, etc.
+then say "bye" and return to Empire ... great huh??!!
+.s1
+For example:
+.NF
+[36:102] Command : map -3:3,-1:1 >mapfile
+   ---------0000000000
+   9876543210123456789
+-3     - ^ - - - -     -3
+-2  - - - - ^ ^ - -    -2
+-1   - m - f m - - .   -1
+ 0  - - * c c h - .    0
+ 1   . - - i a . . .   1
+ 2  . . . . - . . .    2
+ 3     . . . . . .     3
+   ---------0000000000
+   9876543210123456789
+
+[36:101] Command : shell
+Toodles...type 'by<cr>' to return to Empire
+& print mapfile
+& bye
+Welcome back to Empire.
+[37:100] Command :
+.FI
+.s3
+See also : syntax, map

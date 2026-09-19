@@ -1,0 +1,517 @@
+.nr B 2
+.nr N 2
+.nr O 8n
+.so /usr/lib/tmac/tmac.m
+.de HX
+\\fB\\c
+..
+.de HZ
+\\fR\\c
+..
+.nr Pt 1
+.nr Pi 0
+.ds T \t
+.ds X \\fB
+.ds tm \s-4\v'-4p'TM\v'+4p'\s+4
+.TL
+.nf
+
+
+
+\f(RBDRAFT\fR
+
+BOLO\*(tm OWNER'S MANUAL
+\(bu \(bu \(bu
+.AF "Ballistic Machines, (div. of General Products Co.), Terra
+.AU "Peter S. Langston" PSL
+.MT 4
+.PF ''DRAFT \*(DT''
+.H 1 General
+CONGRATULATIONS!
+You have just purchased the finest example of Terran craftsmanship
+and technology available anywhere in known space.
+Your Bolo is made to exacting specifications by androids
+with a thousand years experience (collectively) in the defense
+industry.
+.P
+No other continental siege unit \fIat any price\fR can match up to the
+Bolo on a feature-to-feature basis.
+.H 2 Peripherals
+Top of the line peripherals provided with \fIevery\fR Bolo Mark I include:
+.BL
+.LI
+\fBPorta-Scan\fR\*(tm radar detection system.  The system that ranges
+\fIand\fR classifies remote objects with a single scan!
+.LI
+\fBBig Bang\fR\*(tm ballistic projectile delivery system.
+"When you come in with a \fBBig Bang\fR they'll go out with a whimper!"
+.LI
+surface propulsion system that combines the well known \fBDrag-o-Matic\fR\*(tm
+38 speed automatic transmission and a \fBBrutForce\fR\*(tm 11/980 engine.
+Together they can provide an awesome 6 g. (Terra) acceleration
+\fIall day long!\fR
+.LI
+\fBHumaNature\fR\*(tm Organic Random Number Source.  If you thought sub-atomic
+radioactive decay was random wait until you try \fBHumaNature\fR!
+Licensed by the G.S.P.C.A. for use in all environment classes.
+.LE
+.H 2 Intelligence
+The \fBNegatronic\fR\*(tm brain in your Bolo provides every deluxe option available
+on a siege unit:
+.BL
+.LI
+Twelve special purpose machine registers
+.LI
+BC microcode\f(RS\*F\fR
+.FS
+A three laws of robotics microcode option is also available;
+(required if purchased for use within five light-years of Sol).
+.FE
+(in ROM)
+.LI
+512 words of Writable Control Store (in static RAM)
+.LI
+1K words of Variable Symbol Association Table (in static RAM)
+.LI
+64 words of scratchpad memory (in dynamic RAM)
+.LE
+Control program customization is accomplished using
+the Bolo Command Compiler, \fBbcc\fR, 
+or the Bolo Assembler, \fBbs\fR,
+and testing is child's play using the Bolo Debugger, \fBbdb\fR.
+.P
+Once customized with an appropriate control program
+your Bolo will give you years of service at a level unattainable by any
+other comparable equipment.
+.ne 30
+.H 1 Unpacking
+Caution!  Your Bolo has undergone extensive testing prior to shipment
+and every possible precaution has been taken to assure an even-tempered,
+malleable personality.  However, please remember that your Bolo has
+been cooped up in a cramped little shipping crate for as long as two years
+(depending on the transit time to your area) and may be a little restless
+when first unpacked.  This will be especially true of models not equipped
+with the "Three Laws" option.  Follow the directions on the crate carefully
+and have a sturdy duralloy (or similar material) enclosure available
+for the initial "limbering up" sequence.
+.ne 30
+.H 1 "Special purpose machine registers"
+The twelve special purpose registers and their functions are:
+.VL 0.75i
+.LI XLOC
+The XLOC register contains the X coordinate (in meters) of the current
+Bolo location.
+This is a \fIREAD-ONLY\fR register; any attempt to write a value into it
+will fail.
+.LI YLOC
+The YLOC register contains the Y coordinate (in meters) of the current
+Bolo location.
+This is a \fIREAD-ONLY\fR register; any attempt to write a value into it
+will fail.
+.LI HEADING
+The HEADING register controls the direction in which the surface propulsion
+system is pointed.  This angle is expressed in \*Xpissel\fRs.\f(RS\*F\fR
+.FS
+All directions are expressed in \fBpissel\fRs, (sometimes called "old psls",
+"bang8", or "8 bit binary angles").
+512 \fBpissel\fRs are equal to pi radians or 180 degrees.
+A full circle is 1024 \fBpissel\fRs.
+.FE
+If HEADING is 0 positive SPEED will increase YLOC and not alter XLOC.
+If HEADING is 128 positive SPEED will increase YLOC and XLOC equally.
+At ground speeds of greater than 16 mps changing the heading would cause
+the Bolo to tip over.  For this reason internal circuitry aborts any
+attempt to alter heading at high speeds.
+This register is READ-WRITE, i.e. writing it changes the direction and
+reading it returns the current direction.
+.LI SPEED
+The SPEED register specifies the desired motion rate, in meters per second,
+for the surface propulsion system.
+It does not necessarily indicate the actual motion
+rate, (see "RSPEED" below).
+The Bolo can accelerate at most 64 meters
+per second squared (six Terra gravities).
+Thus setting SPEED to 128
+(assuming a "standing start"), will cause the Bolo to accelerate for
+two seconds and then hold the 128 meters per second speed until SPEED
+is set to something else (or it runs into a wall).
+This register is READ-WRITE, but reading it returns the requested speed
+rather than the "real" speed.
+.LI RSPEED
+The RSPEED register contains the actual or "real" speed of the engines
+expressed in meters per second.
+To determine the actual rate of motion DAMAGE must be taken into account;
+see "DAMAGE".
+This is a \fIREAD-ONLY\fR register and any attempt to write a value into
+it directly will fail.
+.LI SCAN
+The SCAN register specifies the direction for a radar scan (in \*Xpissel\fRs).
+Writing a value into the SCAN register causes, as a side effect, the DIST and
+TYPE registers to be loaded with the distance and the object
+type of the nearest item in the scanned direction.
+The SCAN direction is independent of the HEADING direction.
+There is a four cycle delay involved in each radar scan.
+This is a READ-WRITE register.
+.LI DIST
+The DIST register contains the distance, in meters, to the most recently
+scanned object.
+This is a READ-WRITE register.
+.LI TYPE
+The TYPE register contains a code indicating the type of object detected
+by the most recent radar scan.  A code of -1 indicates a wall; a code of
+0 or greater indicates another Bolo.
+This is a READ-WRITE register.
+.LI AIM
+The AIM register determines the direction in which the projectile delivery
+system (gun) points.  The value in this register is interpreted as
+\*Xpissel\fRs and is independent of HEADING and SCAN.
+This is a READ-WRITE register.
+.LI RANGE
+The RANGE register sets the distance, in meters, to which to deliver a
+projectile and then effects delivery; i.e. it raises/lowers the gun and
+shoots it.
+There is a ten cycle delay following each projectile delivery.
+This is a READ-WRITE register; reading it returns the last value written to it.
+.LI DAMAGE
+The DAMAGE register contains the percentage damage sustained by the Bolo.
+At a value of 91 (91% damage) the Bolo ceases to function.
+Damage affects the motion speed of the Bolo according to the following
+relationship:\f(RS\*F\fR
+.FS
+Beware of integer truncation in this formula.
+.FE
+.ti +0.5i
+rate of motion = RSPEED * (100 - DAMAGE) / 100
+.br
+This is a \fIREAD-ONLY\fR register; any attempt to write a value into
+it will fail.
+.LI RANDOM
+The RANDOM register contains a "random" number which changes each time it is
+read.  The number is always in the range 0 through 32767.
+This is a READ-WRITE register.
+Writing a value into it "seeds" the random number generator.
+.LE
+.ne 30
+.H 1 "Bolo Commands"
+The Bolo command microcode implements a powerful machine language that
+features 14 separate instructions and 4 addressing modes.
+Unique Bit Pattern Encoding (UBPE) disambiguates instructions and data
+and the 16 bit wide word structure leaves ample room for future enhancement.
+.H 2 "Addressing modes"
+The four addressing modes are designated memory, variable, scratchpad,
+and hardware.  The mode in use for a given operand is indicated by the
+high-order three bits of the operand.
+.VL 0.5i
+.LI 0xxx
+MEMORY ADDRESSING; The operand is interpreted as the address of a word in
+the Bolo memory.
+.LI 2xxx
+VARIABLE ADDRESSING; The operand is interpreted as an index into the Bolo
+variable symbol association table which contains the variable name and an
+operand which is reinterpreted according to these addressing modes.
+.LI 4xxx
+SCRATCHPAD ADDRESSING; The operand is interpreted as the address of a
+word in the Bolo scratchpad memory.
+.LI 8xxx
+HARDWARE ADDRESSING; The operand is interpreted as one of the Bolo
+hardware registers.
+The coding is as follows:
+.in +0.5i
+.nf
+\*X
+8000 XLOC	8004 RSPEED	8008 SCAN
+8001 YLOC	8005 DAMAGE	8009 DIST
+8002 HEADING	8006 AIM	800A TYPE
+8003 SPEED	8007 RANGE	800B RANDOM
+\fR
+.fi
+.in -0.5i
+.LE
+.H 2 "Instructions"
+The following table includes
+the hexadecimal machine code,
+the instruction mnemonic,
+and a description for each Bolo instruction.
+.VL 1i
+.LI "C000 nop"
+This instruction does nothing.
+It is useful as a replacement for an existing instruction that
+you wish to remove without recompiling.
+.br
+Ex. \*XC000\fR
+.in +0.5i
+Do nothing.
+.in -0.5i
+.LI "C001 goto"
+This is a one operand instruction that alters control flow.
+The operand replaces the contents of the Program Counter (PC)
+thereby causing the next instruction to be fetched from the
+specified address.
+.br
+Ex. \*XC001 0000\fR
+.in +0.5i
+Go back to the beginning of the program, (location 0).
+.in -0.5i
+.LI "C002 set"
+This is a two operand instruction.  It causes the datum indicated by the
+second operand to be stored at the location indicated by the first 
+operand.
+.br
+Ex. \*XC002 4001 01FF\fR
+.in +0.5i
+Move word from memory location 01FF to scratchpad register 1
+.in -0.5i
+.LI "C003 ifeq"
+This is a two operand instruction that compares the values indicated by
+the first and second operands and skips to the next unbalanced "endif"
+if they are not equal.  It is sometimes called "skne" (skip if not equal).
+.br
+Ex. \*XC003 8001 01FE\fR
+.in +0.5i
+Compare YLOC and the contents of memory location 01FF;
+skip to the next unbalanced "endif" if they are not equal.
+.in -0.5i
+Note that the search for an "unbalanced endif" allows nesting of conditional
+instructions; e.g. the sequence: \*XC003 ... C003 ... C009 ... C009\fR
+will skip the second comparison and its endif if the first comparison
+is unequal.
+.LI "C004 ifne"
+This is a two operand instruction that compares the values indicated by
+the first and second operands and skips to the next unbalanced "endif"
+if they are equal.  It is sometimes called "skeq" (skip if equal).
+.br
+Ex. \*XC004 8000 01FF\fR
+.in +0.5i
+Compare XLOC and the contents of memory location 01FF;
+skip to the next unbalanced "endif" if they are  equal.
+.in -0.5i
+.LI "C005 ifgt"
+This is a two operand instruction that compares the values indicated by
+the first and second operands and skips to the next unbalanced "endif"
+if the first is not greater than the second.
+It is sometimes called "skle" (skip if less or equal).
+.br
+Ex. \*XC005 2005 8002\fR
+.in +0.5i
+Skip to the next unbalanced "endif" if the value of the fifth variable is
+less than or equal to HEADING.
+.in -0.5i
+.LI "C006 iflt"
+This is a two operand instruction that compares the values indicated by
+the first and second operands and skips to the next unbalanced "endif"
+if the first is not less than the second.
+It is sometimes called "skge" (skip if greater or equal).
+.br
+Ex. \*XC006 8005 2002\fR
+.in +0.5i
+Skip to the next unbalanced "endif" if DAMAGE is greater than or equal to
+the value of the second variable.
+.in -0.5i
+.LI "C007 ifle"
+This is a two operand instruction that compares the values indicated by
+the first and second operands and skips to the next unbalanced "endif"
+if the first is not less than or equal to the second.
+It is sometimes called "skgt" (skip if greater than).
+.br
+Ex. \*XC007 01FA 8003\fR
+.in +0.5i
+Skip to the next unbalanced "endif" if the contents of memory location 01FF
+is greater than SPEED.
+.in -0.5i
+.LI "C008 ifge"
+This is a two operand instruction that compares the values indicated by
+the first and second operands and skips to the next unbalanced "endif"
+if the first is not greater than or equal to the second.
+It is sometimes called "sklt" (skip if less than).
+.br
+Ex. \*XC008 2002 8005\fR
+.in +0.5i
+Skip to the next unbalanced "endif" if
+the value of the second variable is less than DAMAGE.
+.in -0.5i
+.LI "C009 endif"
+This is a zero operand instruct which ends
+the skip caused by a ifeq, ifne, ifgt, iflt, ifle, or ifge instruction.
+.br
+Ex. \*XC004 8004 8003 C001 0002 C009\fR
+.in +0.5i
+Compare RSPEED and SPEED; if they are not equal go to location 2 otherwise
+continue.  If the first instruction (ifne) were at location 2 then this
+code fragment would loop until RSPEED equalled SPEED.
+.in -0.5i
+.LI "C00A add"
+This is a three operand instruction which adds the first two operands and
+stores the sum in the location specified by the third operand.
+.br
+Ex. \*XC00A 8002 01F0 8002\fR
+.in +0.5i
+Add the current value of HEADING and the value in memory location 01FE;
+store the sum back in HEADING.
+.in -0.5i
+.LI "C00B sub"
+This is a three operand instruction which subtracts the second operand from
+the first and
+stores the difference in the location specified by the third operand.
+.br
+Ex. \*XC00B 4000 4001 4002\fR
+.in +0.5i
+Subtract the contents of scratchpad register 1 from the contents of
+scratchpad register 0 and store the difference in scratchpad register 2.
+.in -0.5i
+.LI "C00C mul"
+This is a three operand instruction which multiplies the first operand and
+the second operand and
+stores the product in the location specified by the third operand.
+.br
+Ex. \*XC00C 8001 01FF 4000\fR
+.in +0.5i
+Multiply YLOC and the contents of memory location 01FF and store the product
+in scratchpad register 0.
+.in -0.5i
+.LI "C00D div"
+This is a three operand instruction which divides the first operand by
+the second operand and
+stores the quotient in the location specified by the third operand.
+.br
+Ex. \*XC00D 4000 01F0 8002\fR
+.in +0.5i
+Divide the contents of scratchpad register 0 by 
+the contents of memory location 01F0 and store the quotient
+in HEADING.
+.in -0.5i
+.LE
+.ne 30
+.H 1 Specifications
+.H 2 "Intelligence"
+The Negatronic Brain has the following characteristics:\f(RS\*F\fR
+.FS
+The Bolo Mark I Negatronic Brain is guaranteed not to exceed the
+Class I Inorganic Intelligence Limit of 60 established by the
+Galactic Federation; G.F. Spec. 31-Y34.6c1IIL.
+.FE
+.BL
+.LI
+Processor Cycle time - 31.25 msec. (3.2x10\u\f(RS-5\fR\d M.I.P.S.)
+.LI
+Word Size - 16 bits
+.LI
+Memory Size - 512 words
+.LI
+Variable Symbol Association Table Size - 128 entries
+.LI
+Scratchpad Memory Size - 16 words
+.LI
+Instruction Repertoire - 14 instructions
+.LI
+Addressing Modes - 4 discrete addressing modes
+.LI
+Peripheral Control Registers - 12 machine registers
+.LE
+
+.H 2 "Transport Mechanism"
+The BrutForce / Drag-o-Matic combination
+produces the following transport specifications:
+.BL
+.LI
+Maximum Accelleration - 64 meters / second\u\f(RS2\fR\d
+.LI
+Maximum Deccelleration - 64 meters / second\u\f(RS2\fR\d
+.LI
+Maximum Speed - in excess\f(RS\*F\fR
+.FS
+Note that at ground speeds greater than 16 mps the Bolo is unable to
+change direction heading.
+.FE
+of 512 meters / second
+.LE
+
+.H 2 "Projectile Delivery System"
+The Big Bang system provides:
+.BL
+.LI
+Maximum Range - in excess of 1 Km.
+.LI
+Projectile Burst - circular effect with 20m. radius
+.LI
+Processor Wait States - 10 cycles
+.LI
+Angular Error - \(+-0.5 pissels
+.LI
+Radial Error - \(+-0.5 meters
+.LE
+
+.H 2 "Radar System"
+The Porta-Scan Radar Ranger I meets or exceeds the following specifications:
+.BL
+.LI
+Type - Auto-ranging with object identification
+.LI
+Maximum Detection Range - 1 Km.
+.LI
+Processor Wait States - 4 cycles
+.LI
+Angular Error - \(+-0.5 pissels
+.LI
+Radial Error - \(+-0.5 meters
+.LE
+
+.H 2 "Physical"
+The Bolo Mark I superstructure and defensive packaging:
+.BL
+.LI
+Size - 7.0m high x 17.6m long x 11.2m wide\*(RS\*F\fR
+.FS
+will fit within a hemisphere with 10 m. radius
+.FE
+.LI
+Weight - 2x10\u\f(RS6\fR\d Kg.
+.LI
+Operating Temperature - -300\u\f(RSo\fR\d C. to 450\u\f(RSo\fR\d C.
+.LI
+Storage Temperature - -300\u\f(RSo\fR\d C. to 450\u\f(RSo\fR\d C.
+.LI
+Humidity - 1% to 99%
+.LI
+Altitude - to 6.5 Km.
+.LI
+External Construction - Plasmeld reinforced with Monofilament Duralloy
+.LI
+Exposed Hardware - Anti-Laser-Mirror finish throughout
+.LE
+.ne 30
+.H 1 Warranty
+B.M. warrants the Bolo Mark I against faulty workmanship or the use
+of defective materials (except in those cases where materials are
+supplied by the BUYER) for a period of one (1) year from the date of
+shipment.
+.P
+The liability of B.M. under this Warranty is limited to replacing,
+or repairing any devices which are returned by BUYER during such period
+provided that:
+.AL A 0.75i
+.LI
+B.M. Contract Administration Department, Terra is promptly notified
+in writing upon discovery of such defects by BUYER.
+.LI
+PRIOR to return of any defective unit, BUYER obtains from B.M. a
+"Return Authorization Number" and references said number on all documents
+relating to the return including the notification mentioned above.
+.LI
+Should the defective unit be returned to B.M. transportation charges
+are prepaid by BUYER.
+.LI
+B.M.'s examination of such unit shall establish warrantability in that
+such defects have not been caused by misuse, neglect, repair, alteration,
+hostile environment, accident, or witchcraft.
+IN NO EVENT SHALL B.M. BE LIABLE TO BUYER FOR CONSEQUENTIAL, SPECIAL,
+INCIDENTAL, OR DIRECT DAMAGES OF ANY KIND.
+.LE
+.in +1.5i
+.ll 5i
+THIS WARRANTY IS EXPRESSLY IN LIEU OF ALL OTHER WARRANTIES,
+EXPRESSED OR IMPLIED.
+.in -1.5i
+.ll 6.5i
+.if o .bp
+.CS
+.if o .bp

@@ -1,0 +1,61 @@
+.ds T \t
+.so /usr/lib/tmac/tmac.an
+.th bcc 6 5/1/84
+.sh NAME
+bcc \- Bolo command compiler
+.sh SYNOPSIS
+.bd bcc
+[\c
+.bd \-d\c
+] [\c
+.bd \-O\c
+] files ... [\c
+.bd \-o\c
+filename]
+.sh DESCRIPTION
+.it Bcc
+is the Ballistic Machines Bolo command compiler.
+It accepts two types of arguments: flags and source files.
+.s3
+An argument that does not begin with "\-" is interpreted as a
+Bolo source program; it is compiled and an executable Bolo module is either
+written into the file "b.out" or into the file specified by the
+\fB\-o\fR flag, (see below).
+Conventionally Bolo source file names end with "\fB.b\fR".
+.s3
+An argument that begins with "\fB\-\fR" is interpreted as a flag.
+The following options are interpreted by
+.it bcc.
+.s3
+.lp +12 11
+.bn -d
+Output debugging information during the compilation.
+.s3
+.lp +12 11
+.bn -O
+Invoke an (unimplemented) object-code improver.
+.s3
+.lp +12 11
+\fB\-o\fRname\*TWrite the resulting executable module into the file named
+"name" instead of the default "b.out".
+.i0
+.dt
+.s3
+Other arguments are flagged as an error and the compiler aborts.
+.sh FILES
+.lp +12 11
+file.b\*Tinput Bolo source file
+.lp +12 11
+b.out\*Tdefault output file name
+.i0
+.sh "SEE ALSO"
+bdb (6), bolo (6), bs (6), "\fIBolo Owner's Manual\fR",
+"\fIBolo Programming Language Reference Manual\fR"
+.sh DIAGNOSTICS
+The diagnostics produced by
+.it bcc
+are almost meaningless.
+Although a few diagnostics are self-explanatory,
+most of them consist of a line number and the words "syntax error".
+The experienced observer will detect yet another YACC compiled compiler.
+.if o .bp

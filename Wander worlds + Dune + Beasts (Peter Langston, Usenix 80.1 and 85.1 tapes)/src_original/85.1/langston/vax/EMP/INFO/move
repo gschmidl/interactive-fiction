@@ -1,0 +1,85 @@
+.TH Command MOVE
+.SY "move <ITEM> <SECT> <NUMBER> <ROUTE>"
+The move command is crucial to Empire; it carries out the movement
+of civilians, military, ore, guns, shells, food, planes, etc. on land.
+.s3
+"<ITEM>" can be any one of:
+.NF
+c       civilians
+m       military
+f       food
+g       guns
+s       shells
+p       planes
+i       iron ore
+d       gold dust
+b       bars of gold
+l       light construction materials
+h       heavy construction materials
+.FI
+.s1
+If not provided by "<SECT>" in the command line, the program will
+request the starting sector then display
+the number of mobility units in that sector,
+its designation, and its coordinates in the form:
+.s1
+.NF
+<97.0: a -6,4>
+.FI
+.s3
+which indicates 97 mobility units in agribusiness sector -6,4.
+You may respond with any combination of:
+.s1
+.NF
+y  for up-left
+u  for up-right               y    u
+g  for left                    \\\\  /
+j  for right               g  --  --  j
+b  for down-left               /  \\\\
+n  for down-right             b    n
+v  for view
+h  for end of movement
+.FI
+.s3
+The "view" command shows the sector efficiency and some of the contents
+of the sector you are currently occupying.
+.s3
+Since the "<ROUTE>" can be specified in the command line, simple
+movements are often typed as a single line; such as:
+.EX move m 2,0 20 jjjh
+Or some movements may be done partly on the command line and partly
+interactively:
+.EX move c 2,2 18 jj
+.NF
+<32.3: g 6,2> v
+10% gold mine with 3 civilians.
+<32.3: 6,2> h
+.FI
+.s1
+Typical mobility costs are:
+.s1
+.NF
+ 1 mu per 5 civilians
+ 1 mu per 5 military
+ 2 mu per 5 shells
+ 2 mu per gun
+ 4 mu per plane
+ 1 mu per 5 tons of iron ore
+ 1 mu per 5 tons of gold dust
+10 mu per bar of gold
+ 1 mu per 5 tons of food
+ 1 mu per 5 units of oil
+ 1 mu per 5 tons of light construction materials
+ 1 mu per 5 tons of heavy construction materials
+.FI
+.s1
+These costs are for movement through a
+100% efficient "regular" sector in "good" weather.
+Wildernesses cost twice as much mobility,
+mountains cost \fIlots\fP more,
+and highways can cost as little as nothing (if 100% efficient).
+When the barometer is at 745 or above the weather is considered "good".
+At lower barometric pressures movement costs more mobility; at 718
+mobility costs raise by about 10%; at 683 they raise by about 20%.
+.s3
+See also : navigate, transport

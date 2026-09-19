@@ -157,6 +157,10 @@ __pycache__/
 .pytest_cache/
 *.o
 *.obj
+# ...except Peter Langston's 1980/1985 objects: Wander's interpreter core, Dune and
+# Beasts were only ever distributed as PDP-11, VAX and Sun .o files, so here the
+# object IS the original.
+!/Wander worlds + Dune + Beasts (Peter Langston, Usenix 80.1 and 85.1 tapes)/src_original/**/*.o
 fisk.log
 zeno.log
 **/saves/

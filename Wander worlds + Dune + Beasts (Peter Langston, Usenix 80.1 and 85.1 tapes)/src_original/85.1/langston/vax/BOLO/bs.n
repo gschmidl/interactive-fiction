@@ -1,0 +1,55 @@
+.ds T \t
+.so /usr/lib/tmac/tmac.an
+.th bs 6 5/1/84
+.sh NAME
+bs \- Bolo Assembler
+.sh SYNOPSIS
+.bd bs
+[\c
+.bd \-d\c
+] files ... [\c
+.bd \-o\c
+filename]
+.sh DESCRIPTION
+.it Bs
+will be the Ballistic Machines (B.M.) Bolo assembler.
+It will accept two types of arguments: flags and assembler source files.
+.s3
+An argument that does not begin with "\-" will be interpreted as a
+Bolo assembler source program; it will be assembled and an executable Bolo module
+will be written into the file "b.out" or into the file specified by the
+\fB\-o\fR flag, (see below).
+Conventionally Bolo assembler source file names will end with "\fB.ass\fR".
+.s3
+An argument that begins with "\fB\-\fR" will be interpreted as a flag.
+The following options will be interpreted by
+.it bs.
+.s3
+.lp +12 11
+.bn -d
+Output debugging information during the assembly.
+.s3
+.lp +12 11
+\fB\-o\fRname\*TWrite the resulting executable module into the file named
+"name" instead of the default "b.out".
+.i0
+.dt
+.s3
+Other arguments will be flagged as an error and the assembler will abort.
+.sh FILES
+.lp +12 11
+file.b\*Tinput Bolo source file
+.lp +12 11
+b.out\*Tdefault output file name
+.i0
+.sh "SEE ALSO"
+bcc (6), bdb (6), bolo (6), "\fIBolo Owner's Manual\fR",
+"\fIBolo Programming Language Reference Manual\fR"
+.sh DIAGNOSTICS
+The diagnostics produced by
+.it bs
+will be almost meaningless.
+Although a few diagnostics will be self-explanatory,
+most of them will consist of a line number and the words "syntax error".
+The experienced observer may detect YAYCA (yet another YACC compiled assembler).
+.if o .bp

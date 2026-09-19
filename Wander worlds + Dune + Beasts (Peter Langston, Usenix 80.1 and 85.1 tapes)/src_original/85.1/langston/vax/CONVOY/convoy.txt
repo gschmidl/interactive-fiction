@@ -1,0 +1,230 @@
+
+    CONVOY GENERAL INFORMATION
+    ------ ------- -----------
+
+Convoy is a real-time, multi-player game that allows each participant to
+control either a submarine or a destroyer and attempt to aid or thwart
+a fleet of freighters on their journey to a fixed destination.
+
+The field of play is a rectangular ocean, (40 x 19 in arbitrary units),
+which contains the freighter destination port, a secret submarine base
+and a secret destroyer base.
+
+Players may join and drop out of the game at any point and may switch
+sides at will.  Each time a participant joins, (or re-joins), enough new
+freighters are added to bring the total to ten.
+
+Convoy has several optional command line arguments:
+  -info     Print out this information and quit
+  -nFOO     Use the name "FOO" for your captain.
+  -quiet    Don't print out the battle history or hello message
+  -records  Show player records
+  -ssub     You want a submarine, ("-sdest" for a destroyer)
+  -verbose  Do print battle history & hello message
+
+These can also be specified by a CONVOYOPTS environment entry.  For example:
+	CONVOYOPTS=-nGonzo the Great,-quiet,-sdestroyer
+
+You can arrange to have the program notify you whenever anyone starts the
+game up by putting your name on the "sucker list".  To do this run the
+program "sucker" (which should be in your games directory).  The sucker
+program allows you to add your name, delete your name, check whether you're
+on the list, and print a list of all the games with sucker lists.
+
+
+    CONVOY SHIP TYPES
+    ------ ---- -----
+
+Freighters move at a speed of 10 knots.  They start somewhere in the upper
+right corner of the map and move to the point marked 'f' and disappear.
+The course for each freighter is selected by the program and no human
+player controls them.
+
+Submarines move at a maximum speed of 30 knots.  The actual speed is set at
+the request of the controlling player.  When a sub is damaged its maximum
+speed is derated.  As a sub is repaired its maximum speed increases again
+but the actual speed doesn't unless the player instructs the sub to speed
+up.  Note that submerged subs can only be repaired at sub base.
+
+Destroyers move at a maximum speed of 40 knots.  The same considerations
+apply to destroyers as subs regarding the effect of damage and repair on
+speed.
+
+A ship moving at a speed of 50 knots would move one map space, vertical or
+horizontal, per second.
+
+Ships of all three types, (freighters, submarines and destroyers), can
+repair themselves when damaged at the rate of 1% per second, although subs
+must surface to repair themselves away from sub base.
+
+
+    CONVOY COMMANDS
+    ------ --------
+
+The commands can be broken down into three groups; General Commands,
+available to all ships; Submarine Commands, available only to submarines
+and Destroyer Commands, available only to destroyers.
+
+The command characters are shown here in upper case, but lower case works
+equally well.
+
+GENERAL
+COMMAND         MEANING
+  ?             where am I?
+  ^             redraw screens
+  M		set engine speed to full ahead, (30 for subs, 40 for dest)
+  N		set engine speed to 1/2 ahead, (15 for subs, 20 for dest)
+  B		set engine speed to 1/4 ahead, (7.5 for subs, 10 for dest)
+  V		set engine speed to stop
+  C		set engine speed to 1/4 astern, (-7.5 for subs, -10 for dest)
+  X		set engine speed to 1/2 astern, (-15 for subs, -20 for dest)
+  Z		set engine speed to full astern, (-30 for subs, -40 for dest)
+  8             set heading to   0 degrees, (north)
+  9             set heading to  60 degrees, (east by northeast)
+  6             set heading to  90 degrees, (east)
+  3             set heading to 120 degrees, (east by southeast)
+  2             set heading to 180 degrees, (south)
+  1             set heading to 240 degrees, (west by southwest)
+  4             set heading to 270 degrees, (west)
+  7             set heading to 300 degrees, (west by northwest)
+  [             turn 10 degrees to port
+  ]             turn 10 degrees to starboard
+  Ratext...<CR> Radio text (ended by Carriage Return) to all players
+  Rstext...<CR> Radio text to all submarines
+  Rdtext...<CR> Radio text to all destroyers
+  R#text...<CR> Radio text to player #
+  Q             Quit honorably, this can only be done at your secret base
+  ^C            Quit any way possible, (usually dishonorably)
+  W             show Who is playing
+<BS>            discard the previous character
+<ESC>           discard all type-ahead characters waiting to be processed
+ ^U             same as <ESC> above
+  !		special mystery command [?]
+
+Note that the speed commands form a row:
+
+	 ------- ------- ------- ------- ------- ------- ------- 
+	|  full |  1/2  |  1/4  |  full |  1/4  |  1/2  |  full |
+	| astern| astern| astern|  stop | ahead | ahead | ahead |
+	|   Z   |   X   |   C   |   V   |   B   |   N   |   M   |
+	 ------- ------- ------- ------- ------- ------- ------- 
+
+Also note that a numeric keypad can be very handy:
+
+	     ------- ------- -------
+	    |  WNW  |   N   |  ENE  |
+	    |   7   |   8   |   9   |
+	    |       |       |       |
+	     ------- ------- -------
+	    |   W   | shoot |   E   |
+	    |   4   |   5   |   6   |
+	    |       |       |       |
+	     ------- ------- -------
+	    |  WSW  |   S   |  ESE  |
+	    |   1   |   2   |   3   |
+	    |       |       |       |
+	     ------- ------- -------
+
+
+SUBMARINE
+COMMAND         MEANING
+  D             Dive to periscope depth, (invisible on the map if radar off)
+  P             raise/lower Periscope (alternates with radar)
+  S             Surface, necessary to perform repairs at sea
+  T             launch Torpedo
+  5             launch Torpedo
+  Y             launch 3 Torpedoes in a 20 degree spread
+
+DESTROYER
+COMMAND         MEANING
+  D             drop Depth charge
+  5             drop Depth charge
+  A             Abandon aerial radar probe
+  P             launch aerial radar Probe
+
+
+    CONVOY WEAPONS
+    ------ -------
+
+Each ship can carry up to 100 weapons, (torpedoes or depth charges),
+and may only reload at the appropriate secret base.  Each second spent
+at your secret base is enough to reload 10 weapons and do 10% repair.
+
+Torpedoes last for twelve seconds and travel at a speed of 15 knots, which
+means you can't torpedo anything further than 3.6 map spaces away.  They
+will hit anything that comes within 0.3 map spaces of them (except
+submerged subs).  With an equal number of submarines and destroyers playing
+two or three torpedo hits are usually required to sink a freighter and
+three or four hits are usually required to sink a destroyer or sub.  See
+the paragraph below on "Uneven Fights".
+
+Depth charges are "instantaneous" and hit any sub within 1.5 map spaces of
+them, (an area approximately 18x6 on the radar display).  The effect of a
+depth charge's hit depends on the distance to the target.  In an "even"
+fight two direct depth charge hits will sink a sub, while a sub may survive
+up to fifteen hits at a distance of 1.  See the paragraph below on "Uneven
+Fights".
+
+Aerial radar probes move at a speed of 75 knots in the direction that the
+destroyer was headed when they were launched.  During the time that the
+probe is in the air the radar display for the destroyer that launched it
+shows the area beneath the probe, NOT the area around the destroyer.  Each
+radar probe uses up 5 "arms" on the destroyer.  If the probe is "abandoned",
+(caused to fall into the water), it will damage anything within 0.75 map
+spaces, (an area approximately 9x3 on the radar display), by an amount
+depending on the nearness of the object.  Beware!  Abandoned probes hit
+freighters and destroyers as well as subs.
+
+
+Uneven Fights
+-------------
+The effectiveness of each weapon on other player's ships varies according
+to the number of ships of each type, submarines and destroyers, in the game.
+This variance is a multiplicative factor:
+	    2 * V     where V is the number of ships of the victim's tyope
+	f = -----     and A is the number of ships of the other type.
+	    V + A
+Thus, if there are 2 submarines and 1 destroyer each depth charge will have
+1.33 times the effect it has in an even fight, while the destroyer will
+only be damaged 0.67 times as much by torpedoes as it would in an even fight.
+
+
+    CONVOY VISUAL DISPLAY
+    ------ ------ -------
+
+The visual display is divided into two sections.
+
+The right side of the screen contains a map of the entire sea with your
+ship marked as 'X', other ships marked as either '?', or, if nearby, as one
+of 'D', 'F' or 'S'.  All ships appear on the map except submerged submarines
+with their radar off (i.e. with the periscope being displayed).  Your secret
+base appears as an 's' for submarines and 'd' for destroyers; the freighter
+destination port appears as an 'f'.  Torpedoes appear as '.' and radar probes
+appear as '?' at a distance or '*' if nearby.
+
+The area on the left side of the screen contains either a periscope view
+or a radar/sonar screen.
+
+Periscope
+---------
+The periscope view is 60 degrees wide and shows ships as rectangular blobs
+composed of 'F's for freighters, 'D's for destroyers and 'S's for
+submarines on a sea of '^' characters.  If you get close enough you can
+read the ship numbers on the blobs.  Torpedoes are represented by '*' in
+the periscope view.
+
+Radar/Sonar
+-----------
+The radar/sonar screen shows objects as single characters:
+    'F' for freighters,
+    'D' for destroyers,
+    'S' for submarines,
+    '+' for you, (always at the center),
+    '.' for torpedoes, and
+    '*' for aerial radar probes.
+The radar/sonar screen is like a magnified section of the map except that
+submarines always appear, even if they are submerged and have their radar off.
+
+
+This is SCCS @(#)convoy.txt	1.19, last modification 10/5/84.
+

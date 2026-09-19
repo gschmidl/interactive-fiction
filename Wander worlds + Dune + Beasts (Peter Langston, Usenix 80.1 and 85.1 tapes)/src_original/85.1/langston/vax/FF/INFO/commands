@@ -1,0 +1,27 @@
+.TH "COMMAND LIST"
+.nf
+.ta 1i
+Command	Meaning
+-------	-------
+?	Command list
+a	Run an ad in the "Fast Food Journal"
+b	Offer to buy stocks
+c	Chain report
+e	Exhibit board (w/o plot options)
+f	Finance report; each tycoon's cash & stocks
+g	Graph chain or tycoon history
+i	Information
+j	Print the "Fast Food Journal"
+m	Market report; trading activity
+n	Change chain name, tycoon name, or user name
+p	Display game parameters
+q	Quit (for a while, at least)
+r	Re-order plot plot development sequence
+s	Offer to sell stocks
+t	tycoon report; all your stocks
+u	Update report
+v	View board (with plot options)
+w	Write to another tycoon, privately
+x	Transfer money or stock
+.fi
+.sp

@@ -1,0 +1,14 @@
+.TH Command NUKE
+.SY "nuke <SECTS>"
+The nuke report prints a listing of all the nuclear "devices" in a given area.
+.s3
+.EX "nuke #1"
+.NF +0.3i
+nuke x,y   fail x,y  size
+   2,-12     14,64     1
+   2,-12     14,62     2
+   2,-12     14,60     1
+   8,-10      8,54     1
+.FI
+.s3
+See Also : build, detonate, fail-safe, transport

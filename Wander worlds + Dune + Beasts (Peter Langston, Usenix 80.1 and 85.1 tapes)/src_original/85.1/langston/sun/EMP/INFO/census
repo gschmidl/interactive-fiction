@@ -1,0 +1,74 @@
+.TH Command CENSUS
+.SY "census <SECTS>"
+The census command displays specific information on
+some or all of the sectors you occupy.
+.s3
+In the syntax of the census command
+<SECTS> is the area on which you wish information, (see "info syntax").
+.s1
+A typical usage might be:
+.EX census 0:9,0:9 ?des=m
+which would list data for mines in an area to the south-east of the capital.
+.s1
+A census lists each of your sectors in the specified area headed by:
+.NF
+CENSUS             del cnt
+sect       eff mob cmf cmf *  civ mil food  min gmin fert oil
+.FI
+These columns represent:
+.s3
+.in \w'gmin\0\0'u
+.L sect
+the x and y coordinates of the sector
+.L eff
+the efficiency of the sector (affects all benefits
+of a designated sector except mobility units)
+.L mob
+the number of mobility units, (see "move")
+.L cmf
+Three delivery columns corresponding to:
+civilians, military, and food.
+.L cmf
+Three contract columns corresponding to:
+civilians, military, and food.
+.L *
+a checkpointed sector (see "info checkpoint")
+.L civ
+the number of civilians
+.L mil
+the number of military troops
+.L food
+the amount of food
+.L min
+the percentage richness of non-gold minerals,
+(range is 0-100, not used up, i.e. a renewable resource)
+.L gmin
+the amount of gold ore,
+(range is 0-100, in absolute tons, i.e. non-renewable)
+.L fert
+the fertility of the soil in relative terms,
+(rnge is 0-100, not used up, i.e. a renewable resource)
+.L oil
+the petroleum content of the soil in relative terms,
+(range is 0-100, in absolute tons, i.e. non-renewable)
+.in \\n(in
+.s1
+For example:
+.EX cens -9:9,-9:9 ?des=f&mil<25&mob>20
+.NF
+CENSUS             del cnt
+  sect     eff mob cmf cmf % *  civ mil food  min gmin fert oil
+  0,-4  f 100% 127 ..b ...      120  10   99   49   18   76 100
+  2,-4  f 100% 127 ..g ...      999  10  229   14   17  113  10
+ -1,-3  f 100% 127 ..j ..$       90  10    3   39   30   82  62
+  1,-3  f   5% 127 ..y ...        1   1   55   49   25   68  65
+  9,-3  f 100% 127 ... ...      203   5   12   30   46   97  36
+  5,-1  f  62% 127 ... ...       49  10    9   10   13  109  31
+  7,-1  f 100% 127 ... ..$       85   8    4   84   13   48  12
+  9,-1  f   1% 127 ... ...        1   0   42   30   15  102  30
+ -2,0   f  80% 127 ... ...        9   1   18   50   11   66  25
+  2,0   f  11%  66 ... ...       20   6  103    6   19  116  33
+    10 sectors
+.FI
+.s3
+See also : commodity

@@ -1,0 +1,29 @@
+.TH Command VERSION
+.SY "version"
+The version command prints out the current settings of parameters
+affecting the Empire game.
+Included are the creation date for this version,
+the size of the world, (X by Y),
+etc.
+.s1
+For example:
+.s3
+.EX version
+.NF
+Version of Apr  4 1981
+(Probably out of date by now.)
+
+The following parameters have been set for this game:
+World size is 64 by 32
+Each country is allowed to be logged in 60 minutes a day.
+There can be up to 16 countries.
+Food growth rate is 0.0050 in agribusiness, 0.0010 elsewhere.
+Food harvest rate is 0.0100 in agribusiness, 0.0020 elsewhere.
+People eat 0.0010 units of food per time unit.
+Babies eat 0.1000 units of food becoming adults.
+Birth rate is 0.0100 in urban centers, 0.0050 elsewhere.
+Banks pay $0.1250 interest per gold bar per time unit.
+The person to annoy if something goes wrong is Peter Langston (psl).
+.FI
+.s3
+See also : innards

@@ -1,0 +1,133 @@
+
+	EXPORT STARDREK
+
+
+	The modules that make up Stardrek are:
+
+stardrek.c      Small routine that executes appropriate program, (log),
+		(must be setuid to owner of records files)
+
+log.o           Print welcome message, display standings, check identity of
+		player and exec playing part for appropriate CRT if requested.
+
+sd_def.h	definitions and structures for all progs
+
+sd_glb.c	global data areas
+
+sd_main.o       most of the game part
+
+sd_com.o        command input and interpretation
+
+sd_sub.o        subroutines for sd_main and sd_com
+
+sd_sys.c        system dependent stuff related to reading player commands
+
+tcapviz.c       device dependent routines for bridge monitor and misc display
+		this version uses getenv("TERM"), /etc/termcap, & ../libtcap.a
+		to gather information about the type of terminal being used.
+		Note that it uses gtty() to get the terminal speed.  Make sure
+		this works with your system.
+
+../glib.a       miscellaneous subroutines used by many games.
+
+snoop.o         utility to snoop on questionnaire answers
+
+helm.o          Independent process that gathers input chars and passes
+		them to sd_com routines.  This is ONLY needed for systems
+		without the empty() system call, (see below).
+
+sd_fix.o	utility to do surgery in the records file
+
+sd_txt.nr       "Brief" instructions.  This should be nroff'ed into "sd_txt".
+		Note that any changes to the keyboard characters used for
+		commands should be reflected in this document.
+
+sd_10q          Thank-you letter automatically sent to members of the
+		Starfleet who get squeezed out by new members.
+
+sendmail.c      Interface to std Unix "mail" program for systems without
+		the Interactive Systems Corp. version of the "sendmail" program.
+
+../termcap      Termcap entries for my favorite terminals; in case I should
+		need to play StarDrek on your system, (for medicinal purposes
+		only...)
+
+To install:
+
+0)	Make sure the routines in ../GLIB work okay on your system and that
+	they are compiled and archived into ../glib.a
+
+1)      The game, as supplied, is set up to use UCB's termcap concept.
+	Somewhere on this tape there should be a copy of my version of
+	libtermlib.a (called libtcap.a) which includes the termcap interface.
+	My version differs from the standard libtermlib.a library; in
+	particular:
+	  I include a version of getenv() for V6 systems which should be
+	    deleted if you don't have V6 or PWB.
+	  The routines crt(), crtinit(), kbd(), kbdinit(), etc. are added.
+	  StarDrek will use the "rp", "rs", and "re" capabilities if they are
+	    there and give much better performance.
+	Systems that "have the empty() system call" include those systems that
+	can fake it like 4.1 BSD.  If you have a routine in ../glib.a that
+	implements the empty() function your system is one that "has the
+	empty() system call".
+
+2)        Look though "sd_glb.c", find all path names, (marked with /*PATH*/),
+	and modify them to work with your file structure.  If you've set up a
+	central games directory with the SD directory as a descendent and the
+	file "gamesdef.h" in it has the macro GAMESPATH() set up then you won't
+	need to change anything.
+
+3)        In "sd_glb.c" initialize "privuid" to be the your uid.
+	If you want to be notified every time someone joins the Starfleet
+	put your logname in the initialization of "sd_mother" in sd_glb.c;
+        otherwise make it "char  *sd_mother  = (char *) 0;".
+
+4)	  StarDrek uses the routine "sendmsg()" from ../glib.a to interface
+	with the local mailer program.  That routine (and others from ../GLIB)
+	should be functional for StarDrek to work.
+
+5)        Check the various subroutines in sd_sys.c.  The versions included
+	there are known to work on some systems (if that's any help).
+
+NOTE: steps 5 through 8 can be replaced with "make all" if you have "make".
+
+6)        Compile the ".c" pieces of the playing part:
+    cc -O -c sd_glb.c sd_sys.c *viz.c   : if you have empty sys call or you 
+					: can simulate it
+    cc -O -c -DNOEMPTY sd_glb.c sd_sys.c *viz.c : if not
+
+7)        Load the playing part:
+    cc -n sd_main.o sd_com.o tcapviz.o sd_sub.o sd_glb.o ../glib.a ../libtcap.a
+    mv a.out foomain
+	  Include "-lS" in the "cc" line if you have V6.
+	  This assumes that libtcap.a is installed as /usr/lib/libtcap.a
+
+8)        If you're unfortunate enough not to have the empty() system call:
+    cc -n helm.o sd_glb.o ../glib.a (again, -lS if V6)
+    mv a.out helm
+
+9)        Load the rest
+    cc stardrek.c sd_glb.o ../glib.a 
+    mv a.out stardrek
+    chmod 4755 stardrek
+    cc -n log.o sd_glb.o ../glib.a (-lS if V6)
+    cop a.out log
+    cc snoop.o sd_glb.o ../glib.a (-lS if V6)
+    mv a.out snoop
+
+10)	  Create the empty data files:
+    cat /dev/null >sd_rec; chmod 660 sd_rec
+    cat /dev/null >sd_cum; chmod 660 sd_cum
+
+        You're all set.
+	Run "stardrek", (which in turn may run "log", "*main" and "helm").
+	Note: neither "*main" nor "helm" should be run directly.
+	The program "snoop" allows you to display all the information
+	stored for each Stardrekker.
+
+		    Have fun!                           psl
+
+(c) 1978, P. Langston, NYC NY
+Not to be copied or further distributed -- please.
+Tue Feb 26 19:14:11 EST 1985

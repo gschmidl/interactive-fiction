@@ -1,0 +1,35 @@
+.TH Command NATION
+.SY "nation"
+The nation report command displays various data about your country.
+.s3
+The data displayed by the nation command is formatted as a single page
+report and should be self explanatory.
+For example:
+.EX nation
+.NF
+	Groonland Nation Report       Sun Jan 18 17:19:31 1981
+Nation status is ACTIVE     Bureaucratic Time Units: 255
+Last nation update occurred on Sun Jan 18 17:17:49 1981
+Capital is 100% efficient and has 87 civilians and 80 military
+No specific user-id
+Telegram file contains 0 characters
+#0  -2:5,-7:2       #1  -7:13,-17:-7    #2  -9:12,-3:4   #3  -11:13,-17:3    
+#4  -12:-6,-17:-8   #5  12:19,12:20     #6  0:0,0:0      #7  0:0,0:0
+     The treasury has $10671
+.FI
+.NF
+Education.......... 64.80       Happiness....... 55.35
+Technology......... 12.47       Research........  0.00
+Technology factor : 33.83%      Plague factor :   1.12%
+
+  Formal Relations         yours     theirs
+(0) POGO                   Neutral   Neutral
+(1) Dog Dish               Neutral   Neutral
+(2) Doctor Fate            Neutral   Allied
+(3) Disneyland             Neutral   Neutral
+(5) Megrathea              Allied    Allied
+(6) Curmudgeon             At war    At war
+(7) Wretched Refuse        Allied    Allied
+.FI
+.s3
+See also : power, country-roster

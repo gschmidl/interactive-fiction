@@ -1,0 +1,37 @@
+.so /usr/lib/tmac/tmac.an
+.hy 15
+.th bolo 6 5/3/84
+.sh NAME
+bolo \*- Bolo competition
+.sh SYNOPSIS
+.bd bolo
+b_prog b_prog [ b_prog ... ]
+.sh DESCRIPTION
+.it Bolo
+is the program that pits Continental Siege units (the Bolo mark I)
+against each other under the control of different player's control
+programs.  It is the Olympics of Bolodom.
+.s3
+All the arguments to \fIbolo\fR are names of Bolo executable programs.
+A minimum of two such arguments are required (it takes two to tango)
+although as many as 8 may be involved in a single competition.
+.s3
+Once the participant's programs have been read in, the Bolos will be placed
+randomly in the arena and execution of the Bolo control programs will begin.
+Each Bolo program will be given time slices in strict rotation.
+Each time slice represents one clock cyle \(em sufficient to execute
+one instruction or one wait state.
+.s3
+The display shows an aerial view of the arena on the left side of the screen
+and the names and other information on the right side.
+The information displayed for each Bolo program is its number and name on one
+line, and the number of shots it has fired and the amount of damage
+it has sustained (as a percent) on a second line.
+.s3
+The battle rages until only one Bolo is left with less than 91% damage.
+That Bolo is the winner.
+.s3
+.sh "SEE ALSO"
+bcc (6), bdb (6), bs (6), "\fIBolo Programming Language Reference Manual\fR",
+"\fIBolo Owner's Guide\fR"
+.if o .bp

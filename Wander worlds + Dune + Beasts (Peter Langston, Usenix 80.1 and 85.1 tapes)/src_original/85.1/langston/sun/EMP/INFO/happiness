@@ -1,0 +1,28 @@
+.TH Concept Happiness
+.sp
+The happiness level of an Empire country is determined by
+the presence of park sectors in the following way.
+Whenever a park sector is updated and there are the proper amounts
+of raw materials (usually light construction materials and money,
+see "info products" for exact figures),
+those materials are turned into "happy strollers";
+for each group of happy strollers the happiness level of the country is
+raised by 1.
+.s3
+The happiness level decays away with time however,
+(all work and no play...), at a rate of 1% per 48 time units,
+(i.e. 1% per day in games with half-hour time units).
+Therefore if a country has 10 park sectors each of which is
+supplied with enough materials and has enough workforce
+to produce 2 groups of happy strollers a day the total national production
+of strollers will be 20 groups per day and the
+happiness level of the country will approach 2000, where the 1%
+daily loss exactly equals the daily gain of 20.
+.s3
+Happiness is thought to affect many aspects of Empire life although
+enlistment rate is the only strongly documented effect to date.
+.s3
+The "nation" command will display, among other things, your current
+happiness level.
+.s3
+See also : education, enlist, innards, nation, products, research, technology

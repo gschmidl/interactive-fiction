@@ -1,0 +1,46 @@
+	BOG Installation
+
+Bog uses either the "empty()" system call, V3.0 open() with "O_NDELAY",
+or two processes, (one to collect input and one to play the game),
+to avoid blocking on read() calls.
+
+If you have the empty() system call or can simulate it (as 4.1BSD can)
+either define EMPTY in bogsys.c or set "OPT = EMPTY" in the Makefile.
+If you have Bell V3.0 or V4.0 define NODELAY in the same ways.
+If you have neither define TWOPROC.
+
+Check over the rest of bogsys.c to make sure it looks right for your system.
+
+Make sure the routines in ../GLIB work okay on your system and that
+they are compiled and archived into ../glib.a
+
+Look over the definitions and routines in bogsys.c to make sure they will
+work properly on your system.  In particular note the definition of
+"BOGPATH" which sets up the path to the words file, monitor file, etc.
+
+If you have "make" look over the Makefile supplied for system inconsistencies.
+
+Bog uses a modified version of the U.C.B. termcap package to specify crt
+control sequences.  This stuff should be in ../libtcap.a.
+
+If you don't have "make" you can compile bog with:
+
+	cc bog.o bogsys.c ../libtcap.a -lS -o bog
+
+(Leave out the "-lS" if you have V7, V3.0, or V4.0.  I'm not sure about the
+BSD versions.)
+
+The file "boginfo" is the playing instructions and the file "bogwds" is the
+game's word source.
+
+NOTE: Since bogwds is rather big I'm now sending a packed version.  This
+was NOT created with the Huffman "pack", but rather with the program
+"bpack" which is included.  To unpack the file (called "bw.bpack"), do:
+
+	bpack -u <bw.bpack >bogwds
+
+If you create a file called "bog.mon" in the bog directory it will slowly
+fill up with words that players use that bog doesn't know about.  This is
+useful both for making the word list (bogwds) more complete and for finding
+out who the really "creative" players are ...
+Tue Feb 26 19:10:22 EST 1985

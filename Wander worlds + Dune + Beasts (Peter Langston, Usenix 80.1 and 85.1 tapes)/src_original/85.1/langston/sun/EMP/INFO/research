@@ -1,0 +1,27 @@
+.TH Concept Research
+.sp
+The research level of an Empire country is determined
+by the output of research sectors in the following way.
+Whenever a research sector is updated and there are the proper amounts
+of raw materials (usually light production materials, oil and gold dust,
+see "info products" for exact figures),
+those materials are turned into "medical discoveries";
+for each medical discovery the research level of the country is
+raised by 1.
+.s3
+The research level decays away with time however,
+(the diseases mutate), at a rate of 1% per 48 time units,
+(i.e. 1% per day in games with half-hour time units).
+Therefore if a country has 5 research labs each of which is supplied with
+enough materials and has enough workforce
+to produce 1.5 medical discoveries a day the total national production
+of medical discoveries will be 7.5 per day and the
+research level of the country will approach 750, where the 1%
+daily loss exactly equals the daily gain of 7.5.
+.s3
+The research level affects the likelihood of plague outbreaks.
+.s3
+The "nation" command will display, among other things, your current
+research level.
+.s3
+See also : innards, nation, products, technology

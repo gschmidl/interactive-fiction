@@ -1,0 +1,7 @@
+# The makefiles use this to install the games in the public games dir
+PGDIR=/usr/local/games
+for GAME
+do
+	cp $GAME $PGDIR/$GAME
+	ls -lg $PGDIR/$GAME
+done

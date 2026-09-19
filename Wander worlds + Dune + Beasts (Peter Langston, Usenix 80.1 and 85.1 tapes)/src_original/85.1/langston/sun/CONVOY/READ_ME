@@ -1,0 +1,113 @@
+	C O N V O Y
+
+The Convoy release consists of:
+    convoy.h    header file
+    conglb.c    system dependencies & settable parameters
+    convoy.o    the innards
+    convoy.up   described below
+    cleanup	handy utility
+
+    It also requires my version of UCB's termcap called ../libtcap.a and some
+    miscellaneous routines in ../glib.a.
+    The version of libtcap.a that I provide has some extra routines in it.
+    One is crt() which is used to to cursor positioning, etc.  Another is
+    getenv() which fakes environments for V6 systems.  See the notes at the
+    end of ../READ_ME for more details.
+
+The general procedure for bringing up Convoy is:
+0)  Make sure the routines in ../GLIB work okay on your system and that
+    they are compiled and archived into ../glib.a
+1)  Look through conglb.c -- in particular choose the various defines that
+    best characterize your system.  Modify any routines there that won't
+    work for you "as is".
+2)  Compile conglb.c.   (a Makefile is provided)
+3)  Load convoy
+    cc convoy.o conglb.o ../glib.a ../libtcap.a -o convoy (-lS [V6], -lm [V7])
+4)  Run "convoy"
+
+NOTE to 4.? BSD users
+---------------------
+Because of some strangeness involving process groups, SIGTTOU and the like
+you may encounter situations in which the game seems to ignore someone
+playing on the terminal that started the game after they've been sunk and
+re-entered the game.  It turns out that this will only happen if csh ran
+convoy (i.e. if you use the Bourne shell, thereby ignoring process groups,
+it won't happen).
+
+
+CONVOY FILES
+The files used by Convoy may be renamed in any way you'd like, (in conglb.c);
+some are mandatory, some are optional, and some must NOT already exist when
+the program is first run.
+
+#define CPIDFIL     "/tmp/convoy.pid"
+    This file is created by the program, it must not be pre-existing.
+    It contains the process id of the convoy daemon.
+
+#define METOOFIL    "/tmp/convoy.me_too"
+    This file is created by the program, it must not be pre-existing.
+    It contains information about the next player to join the game.
+
+#define LOGFIL      "/tmp/convoy.log"
+    This file is created by the program, it should not be pre-existing.
+    It contains a record of players' joinings and quittings.
+
+#define OLOGFIL     "/tmp/convoy.olog"
+    This file is created by the program, it may be pre-existing.
+    It contains a copy of the previous game's LOGFIL.
+
+#define LOCKFIL     CONVOYPATH(convoylock)
+    This file is created by the program, it must not be pre-existing.
+    It is used to avoid simultaneous updates & other concurrency problems
+
+#define LOCKNODE    CONVOYPATH(convoy.up)
+    This file will be created by the program if it doesn't already exist.
+    It will be linked to LOCKFIL and "creat(2)ed" periodically.
+
+#define UPFILE    CONVOYPATH(convoy.up)
+    This file must exist for convoy to be "up".  It contains the welcome
+    message.  To make convoy unavailable you can "mv convoy.up convoy.down"
+    and then reverse that to make it available again.
+
+#define INFOFIL     CONVOYPATH(convoy.txt)
+    This file is the playing info and is output in response to "convoy -i".
+
+#define RECFIL      CONVOYPATH(convoy.rec)
+    This file contains records of players' performance and is optional.
+
+#define SLISFIL     CONVOYPATH(sucker.list)
+    This optional file contains a list of log-names, one per line, of "hard-
+    core" players who want to be notified whenever a convoy game starts.  The
+    program "sucker" can be used to add, delete, and check names on the list.
+
+#define ERLOGFIL    CONVOYPATH(convoy.oops)
+    This file contains any error diagnostics that the daemon can't figure
+    out what else to do with.  Inspect it from time to time or whenever
+    you suspect trouble.
+
+"/tmp/convoy.tty?"
+    These are the command intermediate files used in the TWOPROC version,
+    (for systems with neither non-blocking reads (N_DELAY open), or the
+    empty() system call.
+
+						Peter Langston
+						May, 1981
+
+p.s.
+In case it's of any help in diagnosing problems here are the possible
+exit statuses.
+
+0	Successful exit
+1       Couldn't open records
+1	Locknode file not found ("Convoy is down")
+1	Caught sig 1 or sig 15
+2       Syntax error
+2	TERM not set in current environment
+2	Unknown terminal type
+2	Weird screen dimensions
+5       Couldn't read /tmp/convoy.me_too file
+6       Couldn't kill daemon whose pid is in /tmp/convoy.pid
+7       Lock not set on entering start() (internal error)
+8       Couldn't open /tmp/convoy.pid file for writing
+33-63   Killed by misc signal exstat-32
+Tue Feb 26 19:10:58 EST 1985

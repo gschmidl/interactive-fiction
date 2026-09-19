@@ -1,0 +1,11 @@
+
+	MM Installation
+
+This game should be extremely easy to install.  Here's the sequence:
+
+0)	Make sure the routines in ../GLIB work okay on your system and that
+	they are compiled and archived into ../glib.a
+1)	"Make" mm; or, if you don't have "make" do:
+	    cc mm.o ../glib.a -lm -o mm
+5)      Run "mm" and enjoy!
+Tue Feb 26 18:11:43 EST 1985

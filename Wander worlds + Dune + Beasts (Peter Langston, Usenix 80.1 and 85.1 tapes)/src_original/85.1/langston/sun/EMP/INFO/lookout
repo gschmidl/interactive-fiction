@@ -1,0 +1,39 @@
+.TH Command LOOKOUT
+.SY "lookout <SHIP/FLEET>"
+The lookout command allows ships to report sightings of other ships
+and land sectors.
+.s3
+The various ranges over which lookout is effective break down into
+two groups:
+.s1
+SHIP to SHIP
+.s3
+.in +0.2i
+This range is dependent on both the visibility of the ship
+being observed and the visual range of the observing ship.
+(see "info ship-types")
+Destroyers seeing Submarines is a special case; if the sub
+is out of "regular" visual range (i.e. not in the same sector)
+but within 3 or so of the destroyer the message "Snorkel at X,Y"
+is printed.
+.in \\n(in
+.s1
+SHIP to LAND
+.s3
+.in +0.2i
+This range is 1.0 in good weather (barometer > 700.)
+and less in bad weather (barometer < 700.).
+.in \\n(in
+.s3
+For example:
+.EX lookout 24
+.NF
+Groonland (#1) patrol boat #10 @-13,7
+Curmudgeon (#4) heavy cruiser #36 @-14,6
+Groonland (#1) oil derrick #41 @-14,6
+Groonland (#1) tender #53 @-14,6
+Groonland (#1) mine 100% eff with approx. 300 civilians @-12,6
+Groonland (#1) heavy manufacturing 23% eff with approx. 10 civilians @-11,7
+.FI
+.s3
+See also : coastwatch, ship-types, sector-types, radar

@@ -1,0 +1,31 @@
+.TH PRICE
+The price of a stock is calculated as the average sale price during the
+last trading period (since the last update).
+As an example, assume players named A, B, C, D, and E are trading in the
+stock "Fu Bar" as follows:
+.NF
+The Bank offers to sell shares for $110
+The Bank offers to buy shares for $90
+A offers to buy 4 shares for $110
+	A gets 4 shares for $110 from the Bank : avg price is now $110
+B offers to sell 4 shares for $92
+C offers to buy 6 share for $120
+	C gets 4 shares for $106 from B : avg price is now $108
+	C gets 2 shares for $115 from The Bank : avg price is now $109
+D offers to sell 4 shares for $84
+	The Bank gets 4 shares for $87 from D : avg price is now $103
+etc.
+.FI
+The column headed "Open" in the Market Report
+is calculated from the dividend ("Div") and
+the average price ("Price") from the previous trading period by the
+following relationship:
+.NF
+        Price + 10 * Div
+Open = ------------------
+              2
+.FI
+In other words the opening price is the arithmetic average of the
+"price" and ten times the dividend.
+.s3
+See also: dividend, market

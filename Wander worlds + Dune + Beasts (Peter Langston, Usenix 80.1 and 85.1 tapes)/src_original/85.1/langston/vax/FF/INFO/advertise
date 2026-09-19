@@ -1,0 +1,27 @@
+.TH "ADVERTISE COMMAND"
+The advertise command allows you to place advertisements in the
+Fast Food Journal.
+This service is very inexpensive.
+.s3
+An example:
+.NF
+[16h] ::: advertise
+Our rates are $20 a line.  Type your copy, end with ^D.
+ > Unless someone offers to sell me 4 shares of Doggy Diner by 11:30 (a.m.)
+ > I will merge D.D. into Wretched Waffles (there's no more stock in either).
+ > (EOF)
+2 lines ... $40.00
+[15h] ::: journal
+	~~~~~ Fast Food Journal ~~~~~
+Fri May  7 12:20 Caliban gave Slab Inc. 13 shares of Nasty and Tasty Foods
+Fri May  7 12:24 Caliban gave Slab Inc. 8 shares of Gastrointestinals'
+Sun May  9 18:33 Slab Inc. becomes `Freddy'
+Sun May  9 18:57 Freddy gave Caliban $3900.00
+Sun May  9 19:57 -------- From Dr. Death (advertisement) --------
+   Unless someone offers to sell me 4 shares of Doggy Diner by 11:30 (a.m.)
+   I will merge D.D. into Wretched Waffles (there's no more stock in either).
+.FI
+Advertisements can be fairly long (given you have the necessary money)
+and are usually used to offer stock for sale or to solicit a stock offer.
+.s3
+See also: journal

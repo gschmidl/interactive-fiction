@@ -1,0 +1,87 @@
+.TH Command BUILD
+.SY "build <SECTS> [(ship-type) | (direction)]"
+The build command is used to specify the types of ships
+to be built in your harbors, the directions in which bridge spans are
+to be built from bridge head sectors, and the construction of nuclear
+devices.
+.s3
+The ability to produce ships, bridges, or nuclear devices is based on
+several factors:
+labor force, light production units, heavy production units,
+available cash, and technology level.
+The quantities or levels required vary with the object being built.
+.s1
+HARBOR SECTORS
+.s3
+If you type:
+.EX build -4:2,3:16 ?des=h
+You build in any harbor sectors within the -4:2,3:16 area.
+The program responds:
+.s1
+.NF
+lcm is 37 and hcm is 87 in -2,14 kind of ship?
+.FI
+.s1
+You now have your choice as to what kind of ship
+to build.
+The choices range from patrol boats through battleships and yachts.
+For a brief table indicating the production costs of the
+different ship types respond with "?".
+For a table describing the costs and capabilities of the
+different ship types see "info ship-types".
+.s3
+The labor force required to build a particular ship type is equal
+to the lcm cost plus twice the hcm cost.  Labor force is defined
+as the number of civilians plus one-fifth the number of military.
+.s1
+Only the first letter of the ship type is required to indicate your choice.
+.s1
+If the optional "<ship-type>" argument is used in the command itself
+the program will try to build
+the specified ship type in all harbors in the given area and will not
+ask you to specify ship type for each harbor.
+.s1
+Note that ships first appear at 20% efficiency and a 19% efficient ship
+will not float, (i.e. it sinks).
+As time passes they grow to 100% efficiency.
+.s1
+BRIDGE HEAD SECTORS
+.s3
+If you type
+.EX build 2,2
+and 2,2 is a bridge head that has enough hcm (heavy construction materials),
+the workforce in the sector is large enough (as defined above),
+you have enough money, and your technology level is high enough,
+then the program will respond:
+.NF
+Bridge head at 2,2; build span in what direction? j
+Bridge span built over 4,2
+.FI
+To find out the required amounts of materials, workforce, and money
+try to build in an underdeveloped bridge head sector and the program will
+tell you the current amounts (may be changed by the local deity).
+.s1
+If the optional "(direction)" argument is used in the command line
+the program will try to build
+a span in the specified direction from all bridge heads in the given area
+that have the necessary heavy production units.
+.s1
+NUCLEAR PLANT SECTORS
+.s3
+If you type
+.EX build 6,2
+and 6,2 is a nuclear plant that has enough hcm (heavy construction materials),
+lcm (light construction materials), and gold dust,
+the workforce in the sector is large enough (as defined above),
+you have enough money, and your technology level is high enough,
+then the program will either build a new 1 megaton nuclear device in 6,2
+or add 1 megaton to a pre-existing nuclear device in that sector.
+.s3
+To find out the required amounts of materials, workforce, and money
+try to build in an underdeveloped nuclear plant sector and the program will
+tell you the current amounts (may be changed by the local deity).
+.s3
+A new device will be given a fail-safe code of 0 and will have its fail-safe
+coordinates set to the sector holding it.
+.s3
+See also : failsafe

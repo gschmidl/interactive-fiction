@@ -1,0 +1,46 @@
+.TH "WRITE COMMAND"
+The write command allows you to communicate privately with other
+Fast Food tycoons.
+The general form of the command is:
+.EX "write [ tycoon ]"
+This service is extremely affordable; stamps are a mere $1.00 each.
+.s3
+An example; suppose you, playing as "Syndicate" have control over a plot
+that will merge a small, inexpensive chain into a large, expensive chain
+and you have almost enough money to become major holder in the smaller
+chain.  Meanwhile another player, "Mr. Big", has a lot of cash lying
+around as the result of some bonuses and has a long-standing feud going
+with the player "FatJack"...
+
+.NF
+[17h] ::: write
+Write to whom? Mr. Big
+ > Just thought you'd like to know about a little merger I can arrange.
+ > You and I could really make a killing if we played it just right!
+ > With your money and my convenient little plot we could squeeze FatJack
+ > right out of the top spot...  Let me know if you're interested.
+ > ^D Message sent.
+[17h] :::
+.FI
+
+When the player who is "Mr.Big" reads his system mail he will see
+a message that looks something like:
+
+.NF
+From FastFood Tue Jun 26 18:41:24 1984
+Received: by kessel; 26 JUN 84 18:41:24 PDT
+From: FastFood 
+Subject: Food-O-Gram from Syndicate ...
+Status: R
+
+Just thought you'd like to know about a little merger I can arrange.
+You and I could really make a killing if we played it just right!
+With your money and my convenient little plot we could squeeze FatJack
+right out of the top spot...  Let me know if you're interested.
+.FI
+
+A $1.00 stamp will cover Food-O-Grams of up to 1000 characters or so.
+If your message is longer you'll have to break it into two and pay
+$1.00 for each part.
+.s3
+See also: advertise

@@ -1,0 +1,28 @@
+.TH Command "TRADE REPORT"
+.SY "trade"
+The trade report lists
+all ships that are being sold and allows you to buy them.
+.s3
+Typical output looks like:
+.EX trade
+.NF
+
+	Empire Naval Trade Report
+    Sun Feb  5 19:27:06 1984
+100% oil derrick civ:0 mil:0 guns:0 shells:0 @$472.50  lot #0
+100% aircraft carrier civ:0 mil:0 guns:0 shells:0 @$535.50  lot #1
+100% battleship civ:1 mil:0 guns:0 shells:0 @$582.75  lot #2
+100% yacht civ:1 mil:2 guns:0 shells:0 @$535.50  your own lot
+Which lot? (<CR> for none) 0
+You are now $473.00 poorer.
+You have just bought ship #8
+Which lot? (<CR> for none) 
+.FI
+.s3
+Note that the yacht was merely identified as "your own lot" since you
+can't buy from yourself.
+Also note that the purchase should have cost $472.50, but the total
+amount is always rounded up.
+.s3
+See also : set
+

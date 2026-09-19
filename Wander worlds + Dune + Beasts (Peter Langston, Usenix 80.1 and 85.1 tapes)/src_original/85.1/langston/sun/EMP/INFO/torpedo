@@ -1,0 +1,48 @@
+.TH Command TORPEDO
+.SY "torpedo <SHIP> <SUB>"
+The torpedo command is used to shoot up ships in a sneaky manner.
+.s3
+The <SHIP> argument is the victim ship number and
+the <SUB> argument is the number of your submarine.
+The program will ask for these if not provided on the command line.
+.s3
+Your <SUB> must meet the following criteria:
+.nf
+.in +0.3i
+1) It must be a submarine
+2) It must have at least 1 gun (torpedo tube)
+3) It must have at least 3 shells (3 shells = 1 torpedo)
+4) It must be at least 60% efficient
+5) It must have some mobility
+.in -0.3i
+.fi
+Meeting all these criteria, your torp will be launched toward the
+victim ship and a countdown of seconds until the expected detonation
+will commence.
+.s3
+Since the range of torpedos is a maximum of 1.99999 or so,
+anything a distance of 2 or more from you will be out of range and you will
+be told so, (after your torp is in the water).
+If you are in range,
+your chance of making a hit will be dependent on your distance from the
+target: 90% if you're in the same sector, 22% if you're in an adjacent
+sector.
+.s3
+A hit will be reported to you
+as "BOOM!" followed by a report of the damage done to the victim ship.
+The damage done is dependent on the size of the victim ship.
+A torpedo does between 63% and 100% damage to a patrol boat and
+between 28% and 56% damage to a battleship or aircraft carrier.
+.s3
+In order to simulate the "real-time" situation your mobility will be
+decremented by 50 for each torpedo fired; if it goes to zero (or beyond)
+you will be forced to stick around.  If your torpedo
+scores a hit your victim will be informed of the fact and will be told
+the number of the sub, but not the country (so you can deny it).
+.s3
+The victim's only automatic protection against sub attacks is that
+any destroyer of his/hers that is in the same sector as you
+and that has shells will drop them on you as depth charges.  Each
+depth charge does 30% to 40% damage to your sub.
+.s3
+See also : attack, assault, fire

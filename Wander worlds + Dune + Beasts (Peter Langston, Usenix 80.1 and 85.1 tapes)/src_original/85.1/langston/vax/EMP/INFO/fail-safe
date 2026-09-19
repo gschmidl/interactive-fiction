@@ -1,0 +1,35 @@
+.TH Command FAIL-SAFE
+.SY "fail-safe <SECT>"
+The fail-safe command allows you to change the fail-safe code and coordinates
+associated with a nuclear device.
+.s3
+When a nuclear device is first created it is given a fail-safe code of
+0 and its fail-safe coordinates are set to the sector in which it resides.
+In order to arm the device the fail-safe code must be set to some non-zero
+value (1 through 999).
+Once a device is armed it will be launched (automatically) at its fail-safe
+coordinates if the blast from another nuclear device affects the
+sector containing it.
+.s3
+You must know the fail-safe code to reset the fail-safe code or coordinates.
+If the fail-safe code is not given in the allotted time and the device is
+armed it will detonate.
+.s3
+An example of forgetting the fail-safe code:
+.EX "fail 12,-2"
+.NF +0.3i
+1 megaton device in 12,-2 aimed at 25,3
+Fail-safe code? (CR to abort) 0
+0 is not correct ... The bomb has started ticking!
+You have 20 seconds to enter the correct code...
+>> 99
+Too high!
+>> 12
+Whew!  Got it!
+New fail-safe code? 99
+New fail-safe coordinates? 20,4
+.FI
+Note that when you are first asked for the fail-safe code you can
+safely chicken out by hitting Carriage Return.
+.s3
+See Also : detonate, nuke, transport

@@ -1,0 +1,26 @@
+
+	Grams Installation
+
+This game should be very easy to install.  Here's the sequence:
+
+0)	Make sure the routines in ../GLIB work okay on your system and that
+	they are compiled and archived into ../glib.a
+1)      Put appropriate path names in gramglb.c -- Note that Grams uses
+	The Bog word list (../BOG/bogwds).
+2)	Either use "make all" with the Makefile supplied and then skip to (5) 
+	or compile gramglb.c with the grams.o object file:
+	    cc -O gramglb.c grams.o -lS ../glib.a -o grams    (V6)
+	    cc -O gramglb.c grams.o ../glib.a -o grams        (V7, BSD)
+3)      Change the mode to 2755 (setgid)
+	    chmod 2755 grams
+4)      Make sure "gramsrec" is mode 664
+	    chmod 664 gramsrec
+5)      Run "grams".
+
+I notice that this game is a big favorite with secretaries.
+
+
+Addendum
+
+I've added the a program called "degram" which takes one or more anagrams
+as arguments and looks for words in the dictionary that match.

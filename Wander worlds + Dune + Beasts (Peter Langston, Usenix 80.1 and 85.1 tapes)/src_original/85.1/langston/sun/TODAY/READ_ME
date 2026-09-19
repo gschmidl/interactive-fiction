@@ -1,0 +1,26 @@
+	TODAY PROGRAMS
+
+The today programs are "qotd" and "today".
+
+"Qotd", which stands for quote-of-the-day, prints a quote associated with
+today in some way (however abstruse).
+
+"Today", which stands for temporally-oganized-data-and-yuks, describes
+interesting facts associated with today; national holidays (in many nations)
+and birthdays of famous people are spiced with historic disasters and other,
+more humorous references.
+
+To bring these two programs up:
+
+0) Check qotd.c to make sure the definition of qfile is okay (it will probably
+   be fine if you've gotten GLIB/gpath.c in shape).
+1) Say "make qotd" (or fake it if you don't have make).
+2) Make sure "qotd.txt" is mode 0400 and "qotd" is mode 4755.
+3) Try running "qotd"; if it works put it in your games directory; else goto 0.
+4) Check today.c to make sure the definition of dfile is okay (it will probably
+   be fine if you've gotten ../gamesdef.h in shape).
+5) Say "make today" (or fake it if you don't have make).
+6) Make sure "dates" is mode 0400 and "today" is mode 4755.
+7) Try running "today"; if it works put it in your games directory; else goto 4.
+
+Tue Feb 26 19:15:11 EST 1985

@@ -1,0 +1,6 @@
+.TH Command UNLOAD
+.SY "unload <SHIP/FLEET> [(percent)]"
+The unload command is the opposite of load and follows the
+exact same syntax ... so why look here for documentation?
+.s3
+See also (instead): load

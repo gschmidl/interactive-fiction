@@ -1,0 +1,55 @@
+.TH "GRAPH COMMAND"
+The graph command displays information about chains or tycoons in a
+graphic manner.
+.s3
+The command:
+.EX "graph chains"
+will display the price per share for each stock both before and after
+each update so far.
+.s3
+The command:
+.EX "graph tycoons"
+will display the net worth for each tycoon both before and after
+each update so far.
+.s3
+.NF
+[19h] ::: graph c
+             91                                                           530
+             |--------------------------------------------------------------|
+             
+Dec 24 13:22 
+             
+Dec  9 16:01 
+             
+Dec 10 16:01 G
+             G
+Dec 11 16:01 G
+               G
+Dec 12 16:01    G
+                G
+Dec 13 16:01    G
+                G
+Dec 14 16:02 O  G
+             O  G
+Dec 15 16:01 O  G
+             O HG
+Dec 16 16:01 O  H
+             O  H
+Dec 17 16:00 O  H
+             O  B HG
+Dec 18 16:01 O  B  H  G
+             O  B  H  G
+Dec 19 16:03 O  B  H  G
+             O  B    H  G
+Dec 20 16:01 X  B     H   G
+             X  B     H   G
+Dec 21 16:01 X  B     H   G
+             O  B X        G   H
+Dec 22 16:01 O  B      X     G         H
+             O  B      X     G         H
+Dec 23 16:01 O  B      X     G         H
+             O           X    G                           H
+Dec 24 16:01 O             X   G                                       H
+         NOW O             X   G                                            H
+.FI
+See also: chain, finance, market

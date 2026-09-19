@@ -1,0 +1,80 @@
+Tue Feb 26 19:15:43 EST 1985
+WAR is a quick, (compared to Empire), territorial conquest game in which
+two players participate.  Each player tries to occupy the oponent's capital
+while protecting his or her own.
+
+This program uses my routine "crt()" which in turn uses a variant of UCB's
+termcap routines.  Crt() provides cursor positioning and screen clearing
+strings based on terminal type (and termcap entries).
+
+Terminal type is determined by a call to getenv("TERM").  For V6 systems
+I provide a version of getenv() that looks in the the user's login directory
+for a file called ".ENVIRONMENT" which contains environment-like strings,
+
+Crt(), getenv(), and misc termcap routines are in the libtcap.a archive
+(../libtcap.a).
+
+
+Warinit sets up the field of battle and enables two particular tty ports
+to play.  On our system tty ports are distinguished by a single letter,
+but in the interests of compatibility the full tty path names are used and
+a dummy ttyname() routine is provided in ../glib.a for V6 systems.
+
+NOTE: you must run warinit in the same directory that the players will be in.
+This means that many "War"s can be fought simultaneously in different
+directories.
+
+
+Awar is an automated WAR opponent that plays the usual good tactical and
+lousy strategic game that many automata do.  See "war.info" for further
+details.
+
+To install:
+
+0)	Make sure the routines in ../GLIB work okay on your system and that
+	they are compiled and archived into ../glib.a
+1)	Select the appropriate definitions in Makefile.
+2)	Run "make".
+3)	If you don't have "make" then imagine what it does and do it.
+4)	Run "warinit" and answer the questions.  The responses to the
+	handicap questions govern how often the program will accept
+	commands from the player, (a handicap of 2 means "accept a
+	command every 2 seconds").
+5)	Run "war" or "awar" on one of the specified terminals.
+6)	Run "war" or "awar" on the other specified terminal.
+	(If you run "awar" on both at least one "awar" must be given
+	a capital location argument.)
+
+					Peter Langston
+					esquire!psl
+
+p.s.
+	The routines myruid(), copy() and logdir() can be found elsewhere
+on this tape (in ../glib.a).
+
+
+	NOTE	NOTE	NOTE	NOTE	NOTE	NOTE
+
+Both war.c and awar.c are provided in order to encourage people to write their
+own automated playing routines.  I would love to see any auto-wars that get
+written and am interested in getting together some form of auto-war 
+competition.  Ideas?
+
+For testing versions of awar I like to use a command file like:
+
+
+set tty = `tty`
+warinit <<! >/dev/null
+12
+7
+/dev/$tty
+/dev/$tty
+2
+2
+17
+!
+awar1 >awar1.1 &
+awar2 b1 | tee awar2.1
+
+I then watch the battle on the terminal and when it's finished I can go through
+it one command at a time with the program "caat <awar1.1" or "caat <awar2.1".

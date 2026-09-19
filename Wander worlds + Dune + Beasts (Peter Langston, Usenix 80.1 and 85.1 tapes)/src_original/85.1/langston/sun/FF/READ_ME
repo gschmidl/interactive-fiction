@@ -1,0 +1,169 @@
+Fast-Food
+
+In brief, the modules are:
+
+    ffdef.h	Global definitions
+    ff.o	The Fast-Food mainline
+    ffglb.c	Parameters and allocation of global data areas
+    init.o	Initial set up of players, chains, etc
+    update.o	The process that carries out player moves, mergers, etc
+    fix.o	Data file surgery program.
+    rush.o	Utility program to speed up the game.
+    fflib.a	Miscellaneous subroutines required.
+    INFO/*	On-line documentation, (playing instructions).
+    info.mac	Macros to be used with the documentation
+    upfile	Log on message, (must be present else ff is "down").
+    Makefile	If you have the same PWB "make" that we have you're in clover.
+    locknode	Must exist to allow the necessary locking.
+    lock*.ff	Lock files; these are links to "locknode"
+
+
+The calling sequences for the programs are:
+
+ff [-/path] [tycoon_name]
+	"path", if given, tells where the data files are and must be a path
+	from the root.
+	"tycoon_name" is your identity in the game; if you don't give it
+	on the command line the program will prompt for it.
+
+init [-/path] [PARAM ...] hr:min ...
+	"path" is as described above and the various "PARAM" options are as
+	described in steps 4 and 5 below.  There must be at least one "hr:min"
+	time specified (see below).
+
+update -/path
+	"path" is as described above and must be provided.  This program is not
+	meant to be run independently; it is run by "ff" when the time is right.
+
+fix g [-/path]
+	The "g" is required and should not show up on a ps; it is there as an
+	impediment to unauthorized use so don't talk about.  "path" is as
+	described above and is optional.
+
+rush [seconds] [-/path]
+	"seconds", if provided, is the amount of time to delay before the next
+	update is to be performed; the default is 0 (i.e. do the update now).
+	"path" is as described above and must be placed last if both arguments
+	are present.
+
+
+What you need to do is:
+
+0)	Make sure the routines in ../GLIB work okay on your system and that
+	they are compiled and archived into ../glib.a
+
+1)      Change path names in "ffglb.c" to reflect your directory structure;
+	in particular, look for the definition of FFPATH(x).
+	FFPATH() is currently set up to use the definition of GAMESPATH()
+	from ../gamesdef.h but you can set it any way you'd like.
+	"data_dir" is the default location for data files and can be overridden
+	by an argument like "-/usr/zippy/ff" to ff, init, or fix.
+	Thus "ff -/u/psl/FF" would play the game whose data files are in the
+	directory /u/psl/FF.
+
+2)	Set up "infols" to be a printf string that generates the appropriate
+	"ls"-like command to print the contents of a directory in columns.
+	This string is used in "sprintf(junk, infols, infodir); system(junk);"
+
+3)      If you have PWB "make" then execute "make".
+	If you don't then read the Makefile and wing it...
+
+4)	Choose parameters.  Assuming you know the number of players
+	you'll have; (call that "np"):
+
+	x_size, y_size  --  26x10 is "big", 10x6 is "small".  Try:
+	    y_size ~= 0.6 * x_size (a nice rectangle)
+	    x_size * y_size ~= np * 16
+	num_plots  --  the number of land plots each player controls.
+	    num_plots ~= (x_size * y_size) / (4 * np)
+	num_chains  --  How many different chains can co-exist
+	    num_chains ~= 4 + (x_size * y_size) / 50
+	trans_limit  --  How many shares of stock each player can buy per period
+	    trans_limit ~= (12 * num_chains) / np
+	safe_size  --  above this size a chain is "safe" and can't be merged out
+	    safe_size ~= (x_size * y_size) / num_chains
+	satsun  --  whether the game shold run on Saturdays & Sundays (1=yes)
+	start_time  --  how long to wait before letting people log in (seconds).
+	    This is just to assure everyone an equal chance at being first.
+	plot_cost  --  how much it costs to develop a new plot
+	    $100 or $200 is usual.
+	new_bonus  --  number of stock shares going to the creator of a chain
+	    I've tried values from 2 to 10 with roughly equal success.
+	mrg1_bonus  --  bonus paid to major holder during a merger
+	    Around $1000 to $2000 seems reasonable.
+	mrg2_bonus  --  bonus paid to minor holder during a merger
+	    Half of mrg1_bonus seems to be a good value.
+	initial_cash  --  how much each tycoon starts with
+	    Changing this affects the game radically; I like values
+	    like $1000 - $3000, but experiment around.
+	bank_int  --  how much interest is paid on cash
+	    We've almost always used 0.12 ...
+	stock_div  --  how much dividend is paid on stock
+	    We've almost always used 0.10 ...
+
+	Note that cash usually pays a higher return than stock, implying that
+	chains must grow to be a good investment (well, sort of).
+	The formulae given for the other parameters are just rough,
+	rule-of-thumb estimates of good values.
+
+5)      Run "init" with update-time arguments, the parameters chosen above,
+	and player names.
+	For example:
+	    init 12:00 15:00 tycoon=dmr:dmr tycoon=ken:ken tycoon=fred:fred
+	to have a game with default parameters, updates at noon and
+	3 p.m. each day, and three players [?].  Or, at the other extreme:
+
+	init    satsun=0 \
+		x_size=26 \
+		y_size=4 \
+		num_plots=10 \
+		num_chains=6 \
+		safe_size=20 \
+		plot_cost=200 \
+		new_bonus=4 \
+		mrg1_bonus=1200 \
+		mrg2_bonus=600 \
+		initial_cash=2000 \
+		bank_int=0.12 \
+		stock_div=0.10 \
+		start_time=120 \
+		tycoon=dmr:dmr \
+		tycoon=ken:ken \
+		tycoon=Scrooge:psl \
+		tycoon="Dr. Death":ber \
+		tycoon=rob:rob \
+		tycoon=nrh:nrh \
+		8:00 12:00 16:00
+
+	to have a game with very specific parameter settings, updates
+	at 8:00 a.m., noon, and 4:00 p.m., that starts two minutes after
+	init has been run, etc.  Note that most players start out with
+	their "tycoon" names the same as their user names; the two that
+	didn't are "Scrooge" and "Dr. Death" and quotes were needed
+	for the latter.
+
+6)	Make sure "upfile" exists; if not, do something like:
+	    echo "Welcome to Fast Food" >upfile
+
+7)      Now players can run "ff" to play the game.  If there's less
+	than 10 minutes until the game starts the program will sleep
+	the time away otherwise it will just inform them of the
+	starting time and exit.  Good Luck.
+
+					-- Peter Langston
+					   SF April, 1983
+p.s.
+If you would like to force an update to happen, the program "rush" can be
+helpful.  Running rush with no arguments makes the time of next update be
+"now".  Running rush with an argument, e.g. "rush 7" makes the time of next
+update be 7 minutes in the future.  Rush returns exit status 1 when the
+game is over.
+
+Some people may want to play "Blitz" ff by setting the update times
+to a sequence like:
+        99:00 99:03 99:06 99:09 99:12 99:15 99:18 99:21 99:24 99:27 \
+	99:30 99:32 99:34 99:36 99:38 99:40 99:42 99:44 99:46 99:48 \
+	99:50 99:51 99:52 99:53 99:54 99:55 99:56 99:57 99:58 99:59
+which starts out with 3 minute updates, then goes to 2 minute and ends
+up with 1 minute updates, (99 as an hour means "any hour").
+Tue Feb 26 19:12:43 EST 1985

@@ -1,0 +1,89 @@
+.\" FF MACRO FILE
+.if \n(PL=0 .pl 23
+.de TH
+.de x1
+.ev 1
+.if \\n(.p>24v .sp 3
+.ce 1
+\\fR\\$1\\fP
+.if \\n(.p>24v .sp 2
+.sp
+.ev
+\\..
+.wh 0 x1
+.if \\n(.p>24v .bp
+.in 0
+.am TC
+\\$1\t\\n%
+.br
+\\..
+\\fR\\c
+..
+.de TC
+.rm x1
+.if o .bp
+.de x1
+.sp 5
+.ps 16
+.ft B
+CONTENTS
+.ft R
+.ps
+.sp 3
+\\..
+.wh 0 x1
+.bp
+.ev 2
+.nr % 1
+.af % i
+.in 1i
+.ta 3.5iR
+..
+.de EX
+.ti +0.3i
+.BE
+[TIME] ::: \\$1 \\$2 \\$3 \\$4 \\$5 \\$6 \\$7 \\$8 \\$9
+.EE
+.br
+..
+.de SY
+.if \\n(.p>24v .s1
+\fBSYNTAX:\fP
+.ti +0.3i
+.ft CW
+[TIME] ::: \\$1
+.ft R
+.s1
+..
+.de L
+.br
+.ti -\w'\\$1\\0\\0'u
+\\$1\0\0\c
+..
+.de NF
+.nf
+.di Nf
+.nr nF \\n(.i
+.ie \\n(.$ .in \\$1
+.el .in +0.3i
+.BE
+..
+.de FI
+.in \\n(nFu
+.ft R
+.di
+.ne \\n(dnu
+.Nf
+.fi
+.EE
+..
+.hy 15
+.de s1
+.sp 1
+.ne 4
+..
+.de s3
+.sp 1
+..
+.ds HT \t
+.ds " \&"\"

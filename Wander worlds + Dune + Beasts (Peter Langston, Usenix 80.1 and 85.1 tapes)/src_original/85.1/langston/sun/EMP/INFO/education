@@ -1,0 +1,26 @@
+
+.TH Concept Education
+.sp
+The education level of an Empire country is determined by
+the output of library/school sectors in the following way.
+Whenever a library/school sector is updated and there are the proper amounts
+of raw materials (usually light construction materials and money,
+see "info products" for exact figures),
+those materials are turned into "classes of graduates";
+for each class of graduates the education level of the country is
+raised by 1.
+.s3
+The education level decays away with time however,
+(superstitious beliefs reassert themselves), at a rate of 1% per 48 time units,
+(i.e. 1% per day in games with half-hour time units).
+Therefore if a country has 5 library/school sectors each of which is
+supplied with enough materials and has enough workforce
+to produce 1 class of graduates a day the total national production
+of graduates will be 5 classes per day and the
+education level of the country will approach 500, where the 1%
+daily loss exactly equals the daily gain of 5.
+.s3
+The "nation" command will display, among other things, your current
+education level.
+.s3
+See also : happiness, innards, nation, products, research, technology

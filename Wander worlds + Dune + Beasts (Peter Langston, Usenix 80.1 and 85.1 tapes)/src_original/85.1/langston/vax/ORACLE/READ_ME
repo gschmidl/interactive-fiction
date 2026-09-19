@@ -1,0 +1,62 @@
+	Have you ever given a snazzy demo only to have your victim say,
+	"Let's ask the computer what the meaning of life is!", or "Why don't
+	you ask it why the sky is blue?", or some such?
+	Well, now you have a way out of that one; ask the oracle!
+	An Oracle session takes but a few minutes.
+
+The Oracle
+
+To install the Oracle on your system do the following:
+
+0)	Make sure the routines in ../GLIB work okay on your system and that
+	they are compiled and archived into ../glib.a
+
+1)      Look through "oraglb.c" and set path names to suit your directory
+	structure.  Also set "privuid" to be your uid.
+
+2)      Figure some way to have the anonmail() routine in "oraglb.c"
+	disguise the identity of the sender of mail.  A couple of ways
+	are represented there; e.g. for PWB the routine logpost() is used
+	to change the name of the current user in the user page before
+	executing "sendtext" (from ../glib.a) which actually sends the mail,
+	for PWD a routine is provided that uses a uucp address, etc.
+	Choose the appropriate one or devise your own.
+
+3)      Compile it all:
+	Either use "make" (e.g. "% make oracle")
+	or:
+	cc -O oraglb.c oracle.o ../glib.a -lS -o oracle  (for V6)
+	or:
+	cc -O oraglb.c oracle.o ../glib.a -o oracle      (for V7)
+
+4)      Move oracle into your games directory.  If it is using some routine
+	like logpost() that requires being super-user make it setuid root.
+	Otherwise make it setuid to the games acct or setgid to some special
+	group.  If you use the setgid approach be sure to make the file
+	"oracleindex" mode 660 and the directory it lives in 771.
+
+5)      The file "oracleq+a" contains commonly asked questions and snappy
+	answers to go with them.  You may want to change them to reflect
+	your environment.  The format is one or several lines that start
+	with a "Q" followed by one or more lines that start with an "A".
+	Each "Q" line is a complete question (all in lower case with all
+	punctuation removed).  Glob metacharacters can be used in questions.
+	Anytime a match is found with a "Q" line the program skips to the
+	next series of "A" lines and outputs all the "A" lines up to the
+	next "Q" line.  Before attempting to match the user's question all
+	capitals are converted to lower case and any characters that are
+	not alphabetic or numeric are discarded, (so a line like
+	    Qwhere is Mt. McKinley
+	will never match because of the capitals and period; whereas:
+	    Qwhere is mt mckinley
+	will match "Where is Mt. McKinley?".
+	Periodically you may want to use the "sno" option, (see the comment
+	in oraglb.c), to see what kinds of questions are being asked and
+	handle some of them in the oracleq+a file.  Make sure that privuid
+	is set to your uid or you won't ne allowed to "snoop".
+	I have never yet seen "Why is the sky blue?", but we get "What
+	color is the sky?" all the time...
+
+						Have fun
+						Peter Langston
+Tue Feb 26 18:11:47 EST 1985

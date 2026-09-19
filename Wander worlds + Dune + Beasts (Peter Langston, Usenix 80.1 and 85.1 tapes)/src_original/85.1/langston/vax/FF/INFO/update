@@ -1,0 +1,82 @@
+.TH "UPDATE REPORT"
+The update report tells what plots were developed at the last update,
+what mergers occurred, etc.
+.s3
+The general form of the update command is:
+.EX update [ old ]
+.s3
+If the optional argument "old" is included all the update reports since
+the beginning of the game (up to, but not including, the most recent)
+are listed.
+.s3
+Here is a sample report:
+.NF
+        ~~~~~ Fast Food Update Report ~~~~~
+
+Fast Food update as of Wed Jul 23 16:00:01 1980
+
+\&................Chain   DIVIDEND (per share)
+         Broadway Diner  $16
+           Eat_Here_Now  $65
+           Greasy Gumbo  $41
+
+\&................Tycoon   DIVIDEND  INTEREST
+              H. Alger   $420      $3033
+                 Getty   $2520     $3747
+                  J.R.   $3990     $2393
+               Scrooge   $3780     $3593
+              Fat Jack   $840      $3105
+                   GUS   $1921     $1391
+              BigBucks   $3990     $1768
+                   JFK   $5460     $3767
+
+.FI
+.NF
+	 -=[ Plot Development ]=-
+H. Alger   plots last rearranged Mon Jul 21 11:52:25 1980
+ a1 -- Add to Eat_Here_Now (now 33 large)
+BigBucks   plots last rearranged Tue Jul 22 17:04:57 1980
+ h5 -- Add to Greasy Gumbo (now 20 large)
+Getty   plots last rearranged Wed Jul 23 15:22:20 1980
+ j2 -- MERGE into Eat_Here_Now (now 40 large)
+  Broadway Diner merged out
+  Major & Minor Holder's Bonuses:
+	GUS gets $2000
+	Fat Jack gets $1000
+  2 Broadway Diner traded for 1 Eat_Here_Now by GUS
+  8 Broadway Diner sold back by GUS for $1920
+  4 Broadway Diner sold back by Fat Jack for $960
+Scrooge   plots last rearranged Wed Jul 23 15:22:26 1980
+ b4 -- Create new chain Qwispy Qwitters (now 3 large)
+Fat Jack   plots last rearranged Wed Jul 23 15:22:29 1980
+ j5 -- Add to Greasy Gumbo (now 21 large)
+.FI
+.NF
+GUS   plots last rearranged Wed Jul 23 15:41:06 1980
+ e4 -- illegal
+ k0 -- Add to Eat_Here_Now (now 41 large)
+JFK   plots last rearranged Wed Jul 23 15:47:02 1980
+ f2 -- Add to Eat_Here_Now (now 42 large)
+J.R.   plots last rearranged Wed Jul 23 15:49:01 1980
+ l4 -- Add to Greasy Gumbo (now 22 large)
+.FI
+.s1
+The first item in the report is the time at which the update took place.
+.s3
+Next comes the calculation of dividend amounts for each chain.
+.s3
+Next comes the payment of stock dividends and interest on cash.
+The tycoons are listed in the order that they were put into the game
+(i.e. order has little significance here).
+.s3
+The next section shows the plot developments.
+The order here, (which \fIis\fR significant), is based on the time of
+last plot rearrangement.
+The player who has rearranged his/her plots most recently goes last.
+In this section appears the formation of new chains, development of
+isolated Fast Food Joints ("single store"), mergers, etc.
+Note that GUS's plot #0 was at e4 and was illegal (it probably would
+have connected Eat_Here_Now and Greasy Gumbo, both of which are too
+large to merge).  His plot #1, k0, was legal and became his play.
+.s3
+See also: dividend, merger, newsflash, xchange

@@ -1,0 +1,34 @@
+.TH GOMOKU 6
+.SH NAME
+gomoku \- oriental board game
+.SH SYNOPSIS
+.B gomoku
+.SH DESCRIPTION
+.PP
+.I Gomoku
+is an oriental game that falls somewhere between "go" and
+"tic-tac-toe" in complexity, (what game doesn't?), and form of
+play.
+.PP
+Players alternate placing markers ("stones") on a square gridded
+board.
+The object of the game is to be the first to get five (and ONLY 5)
+plays in a row vertically, horizontally, or diagonally.
+.PP
+Moves are entered as letter-number representing column-row of
+the spot played.
+A move of "?" will redraw the board and a move of "q" will
+quit the game.
+.PP
+This program is a "learning" program; it develops its understanding
+of the game by analyzing your plays.  Therefore it learns to play
+about as well as you do and only gets better when you do.
+.PP
+The learning algorithm can handle the play of beginner and intermediate
+players but doesn't always cope very well with advanced players
+(although the results are often amusing).
+.SH AUTHOR
+Peter S. Langston
+.SH FILES
+gomoku.mem - The lessons learned to date; delete this file to make
+\fIgomoku\fR forget everything it's learned and start over.

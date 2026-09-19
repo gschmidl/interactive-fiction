@@ -1,0 +1,34 @@
+.\" EMPIRE MACRO FILE FOR TROFF
+.\" normal Font
+.ds nF \\fR
+.\" example Font
+.ds eF \\fB
+.\" Example Font name (used with .cs requests)
+.ds EF B
+.\" bold Font
+.ds bF \\fB
+.\" italic Font
+.ds iF \\fI
+.\" large Font
+.ds lF \\fB
+.\" previous Font
+.ds pF \\fP
+.ds <= \(<=
+.ds >= \(>=
+.pl 11i
+.ll 6i
+.lt 5i
+.po 0.75i
+..tr [(])<(>)`'|l^l~-{(})
+.so INFO.MAC
+.am TH
+.de fo
+.ev 1
+.sp 1
+.ce 1
+\\*(nF- \\\\n% -\\*(pF
+.bp
+.ev
+\\..
+.wh -6v fo
+..

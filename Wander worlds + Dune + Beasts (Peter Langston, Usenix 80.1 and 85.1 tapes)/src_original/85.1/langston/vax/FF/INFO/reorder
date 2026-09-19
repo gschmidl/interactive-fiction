@@ -1,0 +1,52 @@
+.TH "REORDER PLOTS COMMAND"
+The reorder command allows you to specify the order in which your plots
+of land are to be developed into fast food joints.
+The plot marked 0, (see "view"), is developed at the next update;
+the plot marked 1 is developed at the update after that, etc.
+.s3
+If, at update time, it would be illegal to develop your 0 plot,
+(e.g. if it would join two chains that were both too big to be
+merged out), then the program will try to develop your 1 plot, then
+your 2 plot, etc.
+.s3
+Plot reordering is effected by switching pairs of plots.
+To switch a single pair of plots use:
+.EX reorder 4,0
+which will switch plots 0 and 4.
+.s3
+To switch several pairs of plots use "reorder" with no arguments.
+For example:
+.NF
+[24s] ::: view
+   a b c d e f g h i j k l m n o p q
+ 0   C       D D       5         A A  0
+ 1   C     *       *               A  1
+ 2   C           0   4 *         2    2
+ 3   C                                3
+ 4           *         3 *            4
+ 5       1                     B B B  5
+   a b c d e f g h i j k l m n o p q
+[18s] ::: reorder
+Switch which pair? 0,4
+Switch which pair? 1,3
+Switch which pair?      (just hit [RETURN] to end)
+
+[12s] ::: view
+   a b c d e f g h i j k l m n o p q
+ 0   C       D D       5         A A  0
+ 1   C     *       *               A  1
+ 2   C           4   0 *         2    2
+ 3   C                                3
+ 4           *         1 *            4
+ 5       3                     B B B  5
+   a b c d e f g h i j k l m n o p q
+.FI
+which will put 0 where 4 was, 4 where 0 was, 1 where 3 was,
+and 3 where 1 was.
+.s3
+The time at which you last reordered the plots is recorded and used
+at update time to determine whose plot should be developed first.
+The person whose last plot reorder was the earliest will have the
+first plot developed.
+.s3
+See also: view

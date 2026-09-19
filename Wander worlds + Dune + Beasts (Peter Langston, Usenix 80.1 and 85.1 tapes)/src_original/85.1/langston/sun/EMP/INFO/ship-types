@@ -1,0 +1,110 @@
+.TH Concept "Ship Types"
+The ships currently available in Empire are:
+.s3
+.NF +8
+patrol boat     submarine       oil derrick
+fishing boat    tender          aircraft carrier
+minesweep       heavy cruiser   battleship
+destroyer       cargo ship      yacht
+.FI
+.s1
+These ship types differ in their fundamental
+capabilities; some can fire two guns, some only one;
+the sizes of the guns differ on all of them;
+cargo ships can carry many guns but can't fire them;
+etc.  The following tables contain all these parameters:
+
+.NF
+ $$$ lcm hcm tec def spd vis spy rng fir
+ 270  20  10   0  30  50  10   4   1   1 patrol boat
+ 360  25  15   5  10  15  10   2   0   0 fishing boat
+ 450  25  25   5  60  20  20   3   1   1 minesweep
+ 540  25  35   5  80  35  15   4   3   2 destroyer
+ 630  40  30  20  30  25   2   3   2   2 submarine
+ 720  40  40  20  60  30  20   3   1   2 tender
+ 810  40  50  20 100  30  20   5   6   3 heavy cruiser
+ 900  60  40  40  50  20  20   3   0   0 cargo ship
+ 900  50  50  30  20  10  25   4   0   0 oil derrick
+ 990  50  60  30  80  25  25   4   2   2 aircraft carrier
+1080  55  65  35 150  25  25   6   8   4 battleship
+1170  90  40  70  15  40  15   2   0   0 yacht
+.FI
+.NF
+food civ mil  sh gun pln irn dst bar oil
+  30   0  10  10   2   0   0   0   0   0   patrol boat
+ 100  20   0   0   0   0   0   0   0   0   fishing boat
+  25   0  25  60   2   0   0   0   0   0   minesweep
+  80   0  80  40   4   0   0   0   0   0   destroyer
+  25   0  25  25   4   0   0   0   0   0   submarine
+ 100   0 100 200  30   0   0   0   0   0   tender
+  80   0  80  60   6   0   0   0   0   0   heavy cruiser
+ 100 100   0  50  50   0 100 100  50 100   cargo ship
+ 200  80  80   0   0   0   0   0   0 200   oil derrick
+  80   0  60 100   4  40   0   0   0   0   aircraft carrier
+ 200   0 200 100   8   0   0   0   0   0   battleship
+  50  25   0   0   0   0   0 100  25   0   yacht
+.FI
+.s1
+The column headings have the following meanings:
+.in 1i
+.L $$$
+money required to build it
+.L lcm
+light construction materials required to build it
+.L hcm
+heavy construction materials required to build it
+.L tec
+technology required to build it
+.L def
+defensive armament of the ship
+.L spd
+the distance/mu for moving (in relative units)
+.L vis
+how visible the ship is, (relative units)
+.L spy
+how far the ship can see, (i.e. how good the
+communication equipment is), again in relative units
+.L rng
+twice the distance the guns can fire,
+(assuming a high technology level)
+.L fir
+the number of guns the ship can fire at once
+.L food
+the amount of food the ship can carry
+.L civ
+the number of civilians the ship can carry
+.L mil
+the number of military the ship can carry
+.L sh
+the number of shells the ship can carry
+.L gun
+the number of guns the ship can carry
+.L pln
+the number of planes the ship can carry
+.L irn
+the amount of iron the ship can carry
+.L dst
+the amount of gold dust the ship can carry
+.L bar
+the number of gold bars the ship can carry
+.L oil
+the amount of oil the ship can carry
+.in
+.s1
+Note that some ship differences are not listed in these tables.
+.s3
+Only fishing boats accumulate food by fishing.
+.s3
+Only oil derricks accumulate oil at sea.
+.s3
+Only destroyers will drop depth charges.
+.s3
+Only submarines can fire torpedos.
+.s3
+Only destroyers and heavy cruisers can lay mines.
+.s3
+Only minesweeps can reclaim mines from the sea.
+.s3
+Only tenders can tend other ships.
+.s3
+See also: coastwatch, fire, load, lookout, mine, navigate, tend, torpedo

@@ -1,0 +1,64 @@
+.TH Command WEATHER
+.SY "weather <SECTS>"
+The weather command prints out a weather map of a specified area.
+.s3
+For each sector in a weather map an integer indicates the
+local barometric pressure.
+Negative integers show low-pressure sectors, ("bad" weather),
+and positive integers show high-pressure sectors ("good" weather).
+A barometric pressure of 760 mm. of mercury is considered
+"normal" at sea level in Empire.
+.s3
+A map gives you an instantaneous picture of the current pressure
+centers, (for weather prediction you must build a weather
+station).
+.s1
+A typical example might be:
+.EX weather -10:20,-5:10
+.NF
+     1---------000000000011111111112
+     0987654321012345678901234567890
+ -5  -3-4-5-6-6-8-8-8-6-6-4-3-3-2-2  -5
+ -4 -3-3-4-5-6-8-9-9-8-6-4-3-3-2-2-2 -4
+ -3  -3-4-5-6-8-9-9-9-8-6-4-3-3-2-2  -3
+ -2 -3-3-4-5-6-8-9-9-8-6-4-3-3-2-2-1 -2
+ -1  -3-4-5-6-6-8-8-8-6-6-4-3-3-2-2  -1
+  0 -3-3-4-4-4-6-6-6-6-4-4-3-2-2-2-1 0
+  1  -3-3-4-3-4-4-6-4-4-3-3-2-2-1-1  1
+  2 -2-3-3-3-3-3-4-4-3-3-2-2-1-1-1-1 2
+  3  -2-2-2-3-3-3-3-3-2-2-1-1-1-1 0  3
+  4 -2-2-2-2-2-3-3-2-2-2-1-1-1 0 0 0 4
+  5  -2-2-2-2-2-2-2-2-1-1-1 0 0 0 0  5
+  6 -2-1-2-2-2-2-2-1-1-1-1 0 0 0 0 0 6
+  7  -1-1-1-1-1-1-1-1-1 0 0 0 0 0 1  7
+  8 -1-1-1-1-1-1-1-1 0 0 0 0 0 1 1 1 8
+  9  -1-1-1-1-1-1-1 0 0 0 0 0 1 3 3  9
+ 10 -1-1-1-1-1-1-1 0 0 0 0 0 1 3 5 5 10
+     1---------000000000011111111112
+     0987654321012345678901234567890
+extreme low pressure center at 3,-3; extreme high at 21,12
+.FI
+.s3
+(Historical note: this weather map was taken during the great storm of '77
+right after two battleships sank off the coast of East Eden at 5,-3.)
+.s1
+The correllation between weather map integers and the barometric pressure
+(in mm. of mercury) is as follows:
+.NF
+map         average
+code        pressure
+----        --------
+ -9          < 658
+ -7           676
+ -5           700
+ -3           725
+ -1           748
+ 0            760
+ 1            772
+ 3            796
+ 5            820
+ 7            844
+ 9            868
+.FI
+.s3
+See also : forecast

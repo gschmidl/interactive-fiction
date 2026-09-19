@@ -1,0 +1,53 @@
+.TH Command TRANSPORT
+.SY "transport <SECT> <ROUTE>"
+The transport command is used to move nuclear devices from one sector to
+another.
+.s1
+If not provided by <SECT> in the command line, the program will
+request the starting sector then display the characteristics of the
+first nuclear device stored in that sector; asking if that is the one
+to be transported.  If the answer is not "yes" the program will display
+the characteristics of the next nuclear device stored in that sector and
+ask again, and so forth until the correct device is identified or all
+possibilities have been exhausted.
+.s1
+Once the device is identified the program will
+ask for the fail-safe code for the device.
+If you do not give the correct fail-safe code the device will be
+activated.  You can still keep it from exploding if you can enter
+the correct fail-safe code in 20 seconds, (see "info failsafe").
+Once you have given the correct fail-safe code the program will
+print the number of mobility units in that sector and its
+coordinates in the form:
+.s1
+.NF
+<97.0: -6,4>
+.FI
+.s3
+which indicates 97 mobility units and sector -6,4.
+You may respond with any combination of:
+.s1
+.NF
+y  for up-left
+u  for up-right               y    u
+g  for left                    \\\\  /
+j  for right               g  --  --  j
+b  for down-left               /  \\\\
+n  for down-right             b    n
+h  for end of movement
+.FI
+Since the <ROUTE> can be specified in the command line, simple
+movements are often typed as a single line; such as:
+.EX transport 1,0 jjjh
+.NF
+Transport 2 megaton device aimed at 12,-3? yes
+.FI
+.s1
+A move through a 100% efficient "regular" sector in "good" weather
+costs about 20 mobility units;
+wildernesses cost twice as much, mountains cost lots more & highways can
+cost as little as nothing, (if 100% efficient).  If the barometer is
+at 718 the move will cost 10% more; if the barometer is 683 the move will
+cost 20% more.
+.s3
+See also : detonate, fail-safe, move, navigate, nuke

@@ -1,0 +1,26 @@
+.TH Command REPAY
+.SY "repay <LOAN>"
+The repay command is used to repay loans from other countries.
+.s3
+The "<LOAN>" argument is the number of the loan you are repaying
+and if not included on the command line it will be solicited by the program.
+.s3
+You can repay all or part of the loan with this command, however
+beware of letting the loan become overdue -- the lender may
+decide to force collection (see "info collect").
+.s3
+When you repay on a loan a telegram is sent to the lender
+informing her/him of the amount repaid.
+.s3
+.EX repay 12
+.NF
+You presently owe $4515    payment : $2000
+.FI
+or,
+.EX repay 12
+.NF
+You presently owe $4515   payment : $4515
+Congratulations, you've paid off the loan!
+.FI
+.s3
+See also : collect, consider, ledger, offer

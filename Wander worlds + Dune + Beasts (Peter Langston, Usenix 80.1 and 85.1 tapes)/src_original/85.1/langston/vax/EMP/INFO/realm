@@ -1,0 +1,36 @@
+.TH Command REALM
+.SY "realm <NUMBER> <SECTS>"
+The realm command allows you to manipulate the contents of the
+"realm"s associated with your country
+which provide a convenient way to save coordinates that are
+frequently used, (see "info syntax" for use of realm arguments).
+.s3
+In the syntax of the realm command
+<NUMBER> is the number of the realm to be set.
+Note that the update command manipulates realm 0 (see "info update").
+.s1
+The "<SECTS>" argument is optional; if included the specified realm will be
+set to "<SECTS>"; if omitted the coordinates of the specified realm will
+be printed.  e.g.
+.sp
+.EX realm 1
+.NF
+Realm 1 is -3:3,3:3
+.FI
+.EX realm 1 -3:2,4
+.EX realm 1
+.NF
+Realm 1 is now set to -3:2,4:4
+.FI
+.s3
+If the <NUMBER> argument is omitted the coordinates of all realms will be
+printed.
+.s3
+Also note that the <SECTS> argument may use the "#" form of realm
+specification.
+.EX realm 0 #1
+Now realm 0 is set to -3:2,4:4.
+.s3
+The nation report includes the coordinates of all four realms.
+.s3
+See also : syntax, nation, update

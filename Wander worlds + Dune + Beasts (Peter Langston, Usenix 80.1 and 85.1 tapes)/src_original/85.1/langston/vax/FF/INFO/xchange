@@ -1,0 +1,33 @@
+.TH "XCHANGE"
+The xchange (transfer) command is used to carry out "deals" with other tycoons
+for which the "buy" and "sell" commands don't provide the specific
+service required.
+Using this command you can transfer funds or stock "unilaterally".
+.s3
+To transfer funds the command is:
+.EX "xfer $ [amount [ recipient ] ]"
+.s3
+To transfer stock the command is:
+.EX "xfer chain-name [number-of-shares [ recipient ] ]"
+.s3
+If you don't specify the optional arguments, (those enclosed in brackets),
+on the command line ff will prompt you for them.
+.s3
+For instance, if player "Fat Freddie" makes a deal with "Franklin" to trade
+ten shares of "Midnight Munchies" for five shares of "Oregano Substitute",
+Fat Freddie would log in to ff and say:
+.EX "x O 5 Franklin"
+and Franklin would log in and say:
+.EX "x M 10" \*"Fat Freddie\*"
+thereby trading 10 shares of chain M for 5 shares of chain O.
+Notice that tycoon names that include spaces must be enclosed in quotes
+if given on the command line.
+.s3
+Since transfers are unilateral the person who makes the first transfer
+has no way to assure that the other person will actually
+make the agreed-upon transfer, (e.g. Fat Freddie took a chance).
+.s3
+A record is kept of all transfers; this record can be viewed with the
+journal command.
+.s3
+See also: journal, trade

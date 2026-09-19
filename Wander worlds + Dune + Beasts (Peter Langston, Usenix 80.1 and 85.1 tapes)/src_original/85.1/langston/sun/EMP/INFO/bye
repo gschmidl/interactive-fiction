@@ -1,0 +1,13 @@
+.TH Command BYE
+.SY bye
+The bye command is how you go "bye-bye" to log out of the game.
+.s3
+This command costs zero BTUs.  You can use it often.
+.s3
+If, for some obscure reason,
+you would like to end an Empire session but prefer not to use the "bye"
+command you may achieve the same result by typing either
+the quit character, (currently control-backslash),
+or the EOT character, (control-D).
+.s3
+See also : shell

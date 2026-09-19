@@ -30,3 +30,14 @@ Not in eXo at all: **tut** (1978, a tutorial on binary logic written as a world,
 So nothing needs porting: the job is to try `tut`, `advent` and the 1980 `a3`/`library` editions under the existing
 WANDER.EXE (rename .wrld/.misc to .wld/.msc) and add the ones that load as eXo entries. The interpreter already accepts
 1980-format files, because its castle is byte-for-byte the 1980 one. Dune and Beasts remain object-only.
+
+## Objects and the rest of the 1985 distribution (added 2026-09-19)
+`src_original/85.1/langston/` is now the complete `langston/` tree of the 85.1 tape (744 files, 3.8 MB; `vax/` and `sun/`
+builds): besides WAND, DUNE and BEASTS it has GLIB and TCAP (the libraries Dune links against, see DUNE/READ_ME), EMP
+(Empire), CONVOY, WAR, BOG, BOLO, GOMOKU, GRID, MM, ORACLE, SD, FF and others.
+The `.o` files are kept in git on purpose - they are the only form these programs were released in:
+- 80.1 `wander.o`, `Fwander.o`, `NFwander.o`: PDP-11 a.out objects, `@(#)wander.c 2.5 WITH FTELL() last mod 12/27/79 --
+  (c) psl 1978` - the 1979 Wander interpreter itself (with / without `ftell`).
+- 85.1 `WAND/wand1.o`, `wand2.o` (VAX and Sun): the 1984-85 interpreter core; only `wander.c`, `wandglb.c`, `wandsys.c` came as source.
+- 85.1 `DUNE/dune.o`: `@(#)dune.c 1.7 2/6/84 -- (c) psl 1980` - a termcap screen game about hauling spice home, not a parser adventure.
+- 85.1 `BEASTS/beasts.o`, `bsnoop.o`: "Welcome to the bestiary!" - the animal-guessing game with `beastfile` / `questfile` data.

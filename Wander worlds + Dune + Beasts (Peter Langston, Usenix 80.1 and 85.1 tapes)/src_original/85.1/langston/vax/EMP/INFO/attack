@@ -1,0 +1,116 @@
+.TH Command ATTACK
+.SY "attack <SECT>"
+The attack command is used to conquer sectors owned by other
+countries.  It should not be used to take over unoccupied
+sectors ("move" does that more efficiently).
+.s1
+To attack sector 12,-6 you would type:
+.EX attack 12,-6
+This will initiate the attack sequence against sector
+12,-6 (note: you may only attack one sector at a time).
+You will be informed of the sector's status, e.g.
+.ti 3
+.NF
+Sector 12,-6 is a 15% fortress with 40 military or so.
+.FI
+At this point you will be asked how many military you
+wish to dedicate from each sector of yours that adjoins the
+victim's sector;
+(thus you could attack with up to 5994 military).
+.s1
+Troops from each type of sector normally fight with equal stamina,
+however troops in fortresses fight especially hard, as do troops
+defending a capital.
+Troops defending forts at 100% efficiency
+have a 4-to-1 advantage over ordinary troops
+and troops defending 100% efficient capitals have a 2-to-1 advantage
+over ordinary attacking troops.
+Troops attacking from forts have up to a 2-to-1 advantage over other types.
+Of course these effects are degraded by lower efficiency;
+for instance the figures for defending forts, defending capitals and
+attacking forts at 50% efficiency are 2.5-to-1, 1.5-to-1 and 1.5-to-1
+respectively.
+.s1
+Before considering an attack on a sector one should weigh the possibilities
+of that sector being defended by one or more guns!
+The sector in question need not be a fort to be defended since any forts
+within range will join the fray at the least provocation;
+however attacking forts can be doubly deadly, for if the fort has a
+gun and is within the defense range of another fort, both will fire
+at your troops with devastating effect.
+.s1
+The next big question - cost??
+
+Attacking costs you in three ways:
+
+.br
+.ne 2
+1) B.T.U. cost -- the cost of "flying desks" and "telling the next of kin".
+.br
+Each attack costs a number of BTUs equal to
+the total # of troops killed * .15
+
+.br
+.ne 2
+2) Mobility cost -- gasoline, K-rations, etc
+.br
+The cost in mobility to the attacking sector(s) depends on the terrain:
+.s1
+.ne 8
+.NF
+\&              Mobility Cost (Per Military) in Attacks
+\&
+\&                      sector type being attacked
+\&
+\&                      |  (+) |  (-) |  (^) |  (?) |
+\&                  ----+------+------+------+------+
+\&          Highway (+) | .125 | .291 | 21.3 | .208 |
+\&   F              ----+------+------+------+------+
+\&   R   Wilderness (-) | .208 | .375 | 21.4 | .291 |
+\&   O              ----+------+------+------+------+
+\&   M     Mountain (^) | 10.7 | 10.9 | 31.9 | 10.8 |
+\&                  ----+------+------+------+------+
+\&           others (?) | .167 | .333 | 21.3 | .250 |
+\&                  ----+------+------+------+------+
+.FI
+.s3
+The cost in mobility to the defending sector is the same as for the attacking
+sector if the attack is unsuccessful.  If the attack is successful the mobility
+in the conquered sector goes to 0, (the populace destroys the goodies before
+being captured).
+.s3
+and finally
+.br
+.ne 2
+3) Ill-will cost -- distrust from peaceniks & bleeding hearts
+.br
+This is a cost that you can only learn from experience ...
+.s1
+The battle will rage until someone is wiped out,
+(the victim fights with all of his troops).
+Each time a soldier is killed a character is typed;
+"!" if a defending soldier got it,
+"@" if an attacking soldier went down and
+"*" if the last attacking soldier from a specific sector was nailed.
+.s3
+If you lose, tough!
+However, if you win, some of your surviving attacking forces will move into
+the victim's sector.  For example, if three sectors were attacking one quarter
+of the attack forces will occupy the conquered sector.
+.s3
+When planning an attack remember that
+overwhelming forces greatly increases your odds; i.e.
+attacking 10 men with 40 will result in your losing
+fewer troops than if you had attacked with 20.
+.s1
+A few notes:
+.s3
+The deity (country 0) is believed to be pacifistic and unlikely to
+help attackers,
+(except in response to a large offering on the Religious Holidays).
+.s3
+Finally, before initiating an attack you should consider whether
+the real answer to your problem might lie in diplomacy,
+(you heavy-handed clod!)
+.s3
+See also : assault, fire, move, prayers, telegram

@@ -1,0 +1,29 @@
+.TH Command SPY
+.SY "spy <SECTS>"
+The spy command allows reconnaisance operations to enforce
+an oral treaty or as preparation for an attack
+(or even for a prayer to the Deity).
+.s3
+The spy report will reveal, (in round figures), the numbers of troops,
+civilians, guns, shells, iron, and planes and the sector designation and
+efficiency in neighboring sectors.
+.s3
+The sectors denoted by "<SECTS>"
+are those from which you are spying,
+(see "info syntax" for format).
+.s1
+Note that the number of BTUs consumed is dependent upon the number
+of sectors into which you spy, e.g. A 5x8 area costs one full BTU.
+.s3
+If you are spying on an unallied country
+your spy could be apprehended...
+his/her chances are dependent upon the number
+of patrolling military in the sector.
+.s3
+If the other country has declared itself at war with you the spy
+will be shot and the other country, (and the rest of the world,
+through the news), will be warned that you tried to spy on him...
+.s3
+If the other country is neutral towards you the spy will be deported.
+.s3
+See also : census, read, declare

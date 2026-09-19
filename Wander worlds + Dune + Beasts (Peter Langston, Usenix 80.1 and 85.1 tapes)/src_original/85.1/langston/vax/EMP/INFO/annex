@@ -1,0 +1,47 @@
+.TH Command ANNEX
+.SY "annex <SECTS> <CNUM/CNAME>"
+The annex command purveys the spoils of war.
+It is only effective if you currently hold the capital of the specified
+enemy country.
+.s3
+All sectors in the specified area owned by your opponent will become yours.
+.s3
+The paperwork and organization necessary for such an undertaking costs
+1/2 BTU for each sector annexed.  If you run out of BTUs while annexing
+sectors the annexation stops at that point.
+.s3
+Note that your opponent can redesignate his/her capital and make this
+command ineffective.
+.s1
+A typical sequence might be:
+.NF
+[10:10] Command : attack -25,-2
+-25,-2 is a 100% capital with 20 military or so.
+Number of troops from fortress at -24,-2 (max 126) : 125
+Your combat odds are 86.2%
+!!!!@!!!!!!!!!!!!!!!!@!!!@!!!!!!!!!!!!@!!!!!You have captured -25,-2!
+123 of your troops now occupy -25,-2
+You have captured Lilliput's capital!
+Casualties :
+Yours ... 2.0
+Theirs .. 20.0
+Papershuffling ... 3.3 B.T.U
+
+[10:5] Command : annex -35:-20,-12:-2 Lilliput
+Annexed -35,-12
+Annexed -34,-12
+Annexed -33,-12
+Annexed -32,-12
+Annexed -16,-12
+Annexed -15,-12
+Annexed -35,-11
+Annexed -33,-11
+Annexed -32,-11
+Annexed -29,-11
+You've run out of BTUs
+10 sectors annexed.
+
+[11:-2] Command :
+.FI
+.s3
+See also : attack, collect

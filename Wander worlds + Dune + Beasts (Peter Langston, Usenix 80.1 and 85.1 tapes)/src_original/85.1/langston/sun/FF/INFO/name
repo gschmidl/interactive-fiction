@@ -1,0 +1,32 @@
+.TH "NAME CHANGE COMMAND"
+The name change command is used to change your "tycoon" name,
+the name of a chain in which you are a major holder,
+or the name (logname) of the person who is allowed to speak for you.
+.s3
+To change your tycoon name the command is:
+.EX "name t [ new-name ]"
+You may change your name to any character
+string of 23 or fewer characters, but remember that you'll have to
+type this name fairly often and you'll need to put quotes around it
+if it contains blanks...
+.s3
+To change the name of a chain the command is:
+.EX "name c [ old-name [ new-name ] ]"
+If you are the major holder (or one of the major holders) in the chain
+you may change chain names to any character
+string of 23 or fewer characters that begins with the same initial
+letter as the old chain name.
+Only the initial letter need be specified fo rthe "old-name".
+.s3
+To change the "user" or "login" name of the person who represents
+you use the command:
+.EX "name u [ log-name ]"
+This command allows you to give someone your "proxy".
+If you're going to be away from the office but want someone to take care of
+your interests without needing to know your password, etc. this is the
+command to use.
+BEWARE: Unpredictable behaviour is likely if two tycoons have the same "tycoon"
+name and the same "user" name.
+.s3
+If you don't specify the arguments shown here in brackets
+on the command line ff will prompt you for them.

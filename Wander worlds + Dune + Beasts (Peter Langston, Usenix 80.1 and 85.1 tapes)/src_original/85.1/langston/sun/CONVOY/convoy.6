@@ -1,0 +1,57 @@
+.TH CONVOY 6
+.SH NAME
+convoy \- sea battle game
+.SH SYNOPSIS
+.B convoy
+[
+.BR \-n NAME
+] [
+.B \-quiet
+] [
+.BR \-s SHIPTYPE
+] [
+.B \-verbose
+]
+.PP
+.B "convoy -info"
+.PP
+.B "convoy -records"
+.SH DESCRIPTION
+.PP
+.I Convoy
+is a real-time, multi-player game that allows each participant to
+control either a submarine or a destroyer and attempt to aid or thwart
+a fleet of freighters on their journey to a fixed destination.
+.PP
+The field of play is a rectangular ocean, (40 x 19 in arbitrary units),
+which contains the freighter destination port, a secret submarine base
+and a secret destroyer base.
+.PP
+Players may join and drop out of the game at any point and may switch
+sides at will.  Each time a participant joins, (or re-joins), enough new
+freighters are added to bring the total to ten.
+.PP
+Convoy has several optional command line arguments:
+.IP "-info"
+Print out information about the game and quit.
+.IP "-nFOO"
+Use the name "FOO" for your captain.
+.IP "-quiet"
+Don't print out the battle history.
+.IP "-records"
+Show player records.
+.IP "-ssub"
+You want a submarine, ("-sdest" for a destroyer)
+.IP "-verbose"
+Do print out the battle history (default, but see below).
+.PP
+These options may also be specified as part of the CONVOYOPTS
+environment variable, e.g.
+.br
+CONVOYOPTS=-nAHAB,-ssub,-quiet
+.PP
+Since command line options are read after CONVOYOPTS is interpreted
+a command like "convoy -verbose" will override a "-quiet" in the
+environment.
+.SH AUTHOR
+Peter S. Langston

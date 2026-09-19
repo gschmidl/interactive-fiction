@@ -1,0 +1,26 @@
+.TH Concept "Technology"
+.s3
+The technological level of an Empire country is determined
+by the output of technology sectors, (see "info products" for
+the specifics).
+Whenever a "technological breakthrough" is produced the technology
+level of the country is raised by 1.
+.s3
+The technology level decays away with time however,
+(the technology becomes passe), at a rate of 1% per 48 time units,
+(i.e. usually 1% per day).
+Therefore if a country has 6 technology centers each of which is able
+to produce 1 technological breakthrough a day the total daily production
+of technological breakthroughs will be 6 and the
+technology level of the country will approach 600, where the 1%
+daily loss exactly equals the daily gain of 6.
+.s3
+The technology level affects the range that guns can fire,
+the range over which radar is effective,
+the range that planes can fly
+and the range that torpedoes can travel, among other things.
+.s3
+The "nation" command will display your current technology level
+and technology factor.
+.s3
+See also : innards, nation, research

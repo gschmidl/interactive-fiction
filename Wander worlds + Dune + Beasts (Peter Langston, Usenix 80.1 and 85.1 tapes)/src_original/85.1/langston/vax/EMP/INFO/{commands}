@@ -1,0 +1,76 @@
+.TH Empire "Command Summary"
+.s3
+This list contains one-line descriptions of each Empire command;
+further information on a particular command may be obtained by running
+info on that command (e.g. "info attack").
+.s1
+.nf
+EMPIRE COMMANDS
+.ta 1.2i
+Annex\*(HTClaim sectors from a defeated enemy
+Announce\*(HTSend an announcement to all players
+Assault\*(HTAttack coastal sector from ship
+Attack\*(HTAttempt to seize a sector from another country
+Board\*(HTBoard enemy ship
+Build\*(HTBuild ships or bridges in specified sectors
+Bye\*(HTLog out of Empire
+Census\*(HTReport contents of sectors
+Change\*(HTChange country name, representative's name or user
+Checkpoint\*(HTDesignate checkpoint code for sector(s)
+Coastwatch\*(HTCheck from sectors for nearby ships
+Collect\*(HTForeclose an overdue loan
+Commodity\*(HTReport commodities in sectors
+Consider\*(HTAccept, decline or postpone consideration of a loan or treaty
+Contract\*(HTArrange to sell production (automatically) to country #0
+Country\*(HTList last access, BTUs, status and name for each country
+Declare\*(HTFormally declare alliance, neutrality or war
+Deliver\*(HTEstablish delivery routes for shells, ore, etc
+Designate\*(HTSpecify sector utilization
+Detonate\*(HTDetonate nuclear device
+Dissolve\*(HTDissolve your government and country (suicide)
+Enlist\*(HTTurn civilians into military
+Execute\*(HTTake commands from the specified file
+Fail-safe\*(HTSet fail-safe code & coordinates on nuclear device
+Fire\*(HTFire artillery from sector/ship on sector/ship
+Fleetadd\*(HTDesignate members of a "fleet"
+Fly\*(HTFly planes from sector/ship to sector/ship and bomb or snoop
+Forecast\*(HTPredict future weather conditions
+Grant\*(HTGive away sectors to another (adjacent) country
+Headlines\*(HTSummarize the weeks events (part of "news")
+Info\*(HTProvide information on various topics
+Ledger\*(HTReport on outstanding loans
+List\*(HTBrief command list
+Load\*(HTLoad goods, people, etc onto a ship
+Lookout\*(HTCheck from ships for other ships and/or sector types
+Map\*(HTGenerate a map showing sector types, seas, etc
+Mine\*(HTDrop mines from destroyer
+Move\*(HTTransport ore, civilians, guns, etc
+Nation\*(HTThe state of your nation
+Navigate\*(HTMove ship or fleet around
+News\*(HTThe yellow press
+Offer\*(HTOffer a loan or treaty to another country
+Power\*(HTDisplay arbitrarily measured strengths of all countries
+Quit\*(HTLog out of Empire
+Radar\*(HTPerform radar scan from ship or sector
+Read\*(HTRead your telegrams
+Realm\*(HTPrint out or modify one of your four "realms"
+Repay\*(HTRepay a loan (all or part)
+Route\*(HTDisplay delivery routes
+Set\*(HTEstablish price for a ship
+Shell\*(HTSpawn a shell
+Ship\*(HTReport status of ship, fleet or ships in a given area
+Spy\*(HTSnoop on adjacent enemy sectors
+Telegram\*(HTSend "diplomatic" communique to another country
+Tend\*(HTSupply ships with guns and/or shells
+Test\*(HTCheck the effect of a proposed move
+Torpedo\*(HTSlip a torpedo to some poor sucker (from a sub)
+Trade\*(HTGenerate a report on ships for sale and perhaps buy some
+Transport\*(HTMove a nuclear device around
+Treaty\*(HTListing of all current and pending treaties
+Unload\*(HTInverse of load (above)
+Update\*(HTPerform updates in all sectors and set "realm"
+Version\*(HTDisplay parameters of this game
+Weather\*(HTProduce a weather map
+.fi
+.s3
+See also : list

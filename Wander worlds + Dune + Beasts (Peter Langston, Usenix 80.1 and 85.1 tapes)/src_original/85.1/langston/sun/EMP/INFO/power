@@ -1,0 +1,57 @@
+.TH Command POWER
+.SY "power [new]"
+The power report provides one view of national strengths.
+It can be particularly helpful in planning defense strategies
+and treaty voting.
+.s3
+If the optional "\fBnew\fP" argument is given the program will take
+several minutes to gather information and generate a power report based
+on that up-to-date information.  This costs several BTUs (typically 10).
+.s3
+If the optional "\fBnew\fP" argument is not given the program will
+shown you the report generated the last time someone asked for new data.
+.s3
+In the power report the countries are listed in order of decreasing
+"power factor", each being represented by a line in the following format:
+.s3
+.NF
+sects eff civ mil shell gun pln iron dust gold food oil ship money
+  a    b   c   d    e    f   g    h    i    j    k   l    m    n
+.FI
+
+Each column represents a different commodity or aspect for that country.
+The columns and values used in computing the "power factor" are:
+.NF
+a       # of sectors
+b       average sector efficiency
+c       # of civilians
+d       # of military
+e       # of shells
+f       # of guns
+g       # of planes
+h       tons of iron ore
+i       tons of gold dust
+j       # of gold bars
+k       tons of food
+l       tanks of oil
+m       # of ships
+mm      tons of ships (not displayed)
+n       # of dollars
+oo	units of light construction materials (not displayed)
+pp	units of heavy construction materials (not displayed)
+qq	megatons of nuclear weaponry (not displayed)
+.FI
+.s3
+The "power factor" is determined by the following equation:
+.s3
+.NF
+power factor = n / 100
+               + (c + d + e + h + i + k + l + mm + oo) / 10
+               + pp / 5
+               + (f + a * b) / 3
+               + g + m + j
+               + a * 3
+               + qq * 100
+.FI
+.s3
+See also : census, country-roster

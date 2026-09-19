@@ -1,0 +1,28 @@
+.TH Command COUNTRY-ROSTER
+.SY "country"
+The country roster command allows you to determine the number,
+names and various other information about countries currently in the game.
+.s3
+The country roster contains
+the country number ("#"),
+the time that each country last logged out of the game ("last access"),
+the number of Bureaucratic Time Units (B.T.U.s) remaining ("time"),
+each nation's status ("status"),
+and each country's full name ("country name").
+.sp
+For example:
+.EX country
+.NF
+Wed Feb  2 18:06:51 1984
+  #   last access       time    status	 country name
+  0  Tue Feb  1 18:14   [255]   DEITY    POGO
+  1   Now logged on     [227]   Active   Amerika
+  2  Fri Jan 28 18:15   [73]    Active 	 Bongo - Bongo
+  3  Tue Feb  1 18:40   [81]    Active   Caspar
+  4  Mon Jan 31 21:04   [54]    Active   Doinkers
+  5  Fri Jan 28 20:00   [106]   Active 	 East Eden
+  6  Tue Feb  1 12:15   [0]     Active 	 Frodo
+  7   Now logged on     [120]   Active   Groonland
+.FI
+.sp
+See Also : nation, power

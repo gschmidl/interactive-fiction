@@ -1,0 +1,39 @@
+.TH "JOURNAL COMMAND"
+The journal command prints out either the latest edition of the
+"Fast Food Journal" or all the editions since the game began.
+.s3
+The form of the command is:
+.EX journal [ all ]
+.s3
+If the argument "all" is included on the command line all the editions
+will be printed, one after another.
+.s3
+The Fast Food Journal contains reports on stock transactions and
+exchanges, advertisements, name changes, etc.
+.s3
+A typical output looks like:
+.NF
+[17h] ::: journal
+	~~~~~ Fast Food Journal ~~~~~
+Fri May  7 09:33 The Bank sold Pollyanna 2 shares of McDonnel's @ $155
+Fri May  7 11:57 Dr. Death sold The Bank 8 shares of Eat 'n' Bleat @ $123
+Fri May  7 11:59 Caliban gave Slab Inc. 13 shares of Eat 'n' Bleat
+Fri May  7 12:01 Caliban sold Scrooge 8 shares of Ubiquitous Comestibles @ $575
+Fri May  7 12:01 The Bank sold Dr. Death 8 shares of Ubiquitous Comestibles @ $625
+Fri May  7 12:02 The Bank sold BenGay 3 shares of Ubiquitous Comestibles @ $625
+Fri May  7 12:04 Caliban becomes `BenGay'
+Fri May  7 12:05 Slab Inc. gave BenGay $3500.00
+Fri May  7 12:05 BenGay becomes 'Caliban'
+Fri May  7 17:22 Pollyanna sold Caliban 4 shares of Gastritus Deli @ $250
+Fri May  7 17:23 The Bank sold Pollyanna 5 shares of McDonnel's @ $155
+Mon May 10 10:33 Scrooge gave BenGay $1000.00
+Mon May 10 10:35 BenGay gave Scrooge 1 share of Ubiquitous Comestibles
+Mon May 10 10:43 -------- From Dr. Death (advertisement) --------
+   Willing to trade McDonnel's for U.C. at 10 to 1!
+	YOU CAN'T BEAT OUR DEAL!
+   This offer good for a limited time only (until 12:00).
+Mon May 10 11:07 Dr. Death gave Pollyanna 10 shares of McDonnel's
+Mon May 10 11:09 Pollyanna gave Dr. Death 1 share of Ubiquitous Comestibles
+.FI
+.s3
+See also: finance, market, stock, update

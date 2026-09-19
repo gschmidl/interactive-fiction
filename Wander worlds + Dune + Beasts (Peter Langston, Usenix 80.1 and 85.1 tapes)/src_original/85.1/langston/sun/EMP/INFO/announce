@@ -1,0 +1,27 @@
+.TH Command ANNOUNCE
+.SY "announce [(file]]"
+The announce command is a variant of the telegram command.
+It sends your message to \fIall\fR players in the game.
+This convenient service costs money, however, ($100).
+.s3
+In all other respects it is the same as telegram; length is limited
+to 512 characters, the text of the announcement can be supplied
+in a file, etc.
+.s3
+For example:
+.EX announce
+.NF
+Enter telegram for everyone; end with ^D
+ 512 left:
+ 511 left:               For Immediate Release
+ 475 left:                     from
+ 447 left:                 Groonland Embassy
+ 413 left:
+ 412 left:
+ 440 left: HELP!  Curmudgeon just TRASHED our capital!  We had even proposed
+ 345 left: a very fair treaty, but they did it anyway!  People of the World,
+ 279 left: UNITE!  Overthrow the slavemasters of Curmudgeon!
+ 229 left: <EOT>
+.FI
+.s3
+See also : prayers, read, telegram

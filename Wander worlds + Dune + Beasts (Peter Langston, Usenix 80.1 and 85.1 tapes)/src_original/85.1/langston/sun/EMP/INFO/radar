@@ -1,0 +1,110 @@
+.TH Command RADAR
+.SY "radar [<SHIP/FLEET> | <SECTS>]"
+The radar command bears some resemblance to modern high-resolution
+radar.  It has a circular range dependent upon its efficiency.
+
+To run land radar type:
+.EX radar <SECTS>
+where "<SECTS>" must be the sector where the radar station resides,
+or an area that contains one or more radar stations.
+.s3
+The program will respond with the station's efficiency and range
+and then display the area.
+.s3
+What is displayed is dependent upon the range.
+Sectors and ships within 1/2 of the range
+are displayed with their sector or ship designations.
+Sectors at greater distances are indicated by a '?' if they are inhabited
+by another country.
+.s3
+A 100% radar station in a country with infinite technology
+on a clear day has a range of 8.
+The range is linearly related to efficiency thus a 50% radar station
+can see half as far as a 100% radar station.
+The range is related to technology level in the "usual" way,
+i.e. it varies linearly with "technology level" as indicated in the
+nation report; see "info nation" and "info technology" for details.
+Radar can only see through moderate bad weather so you may get some
+areas of "/" indicating inclement weather.
+.s1
+!!WARNING!! Land radar cannot spot submarines.
+.s3
+!!FURTHER WARNING!! Even worse, should your
+cunning enemy move troops right to your
+doorstop and leave the sector designated a wilderness it would
+show up on your very efficient radar as '-'. Thus you would
+never know he was there....well almost never. If you worry
+about this try taking a map -- he can't hide there!
+.s1
+An example of land radar:
+.EX radar 5,1
+.NF
+5,1 efficiency 100%, barometer at 721, max range 6.1
+       . a a - ^ ? ?       
+      T k o ! - ^ ? ?      
+   . a h j a ^ ^ ^ ^ ^ ?   
+  . h . a w a ^ - ? a ? -  
+   . . a m a b f a ^ ^ -   
+  . . m c * a a - ^ - ^ -  
+ . - . a + . ) a - - ^ - . 
+  - ^ ^ a + ) ^ a - - ^ .  
+   - - a m + a f . . - ^   
+  - ^ a - a + a ^ - - - ^  
+   - - ^ - - ^ - - / / /   
+      - ^ - - / / / /      
+       - - / / / / /       
+.FI
+.s1
+To run naval radar type:
+.EX radar <SHIP/FLEET>
+where <SHIP/FLEET> is the number of a ship or a fleet designation.
+.s3
+Sea radar is highly dependent upon what kind of ship you
+have and what kind the opponent has...
+e.g. Battleships can see battleships far away
+but fishing boats must be close together to see each other.
+.s3
+The maximum distance at which ship A can see ship B is dependent
+on two factors: the "spying" ability of ship A, and the "visibility"
+of ship B.
+Battleships have sophisticated communications equipment which give them
+a maximum spying range of 6 while fishing boats, having little such equipment,
+have a maximum range of 2.
+This factor is shown in a table in "info ship-types" under the heading "spy".
+On the other hand, the ships vary in size and consequently,
+vary in visibility.  Battleships, oil derricks, and carriers
+are the easiest to see, next come cargo ships, heavy cruisers and tenders,
+and so on.  See "info ship-types" for a chart.
+.s3
+Ship A will see ship B if the distance between them is less than:
+.NF + 0.3i
+             spy factor of ship A * visibility of ship B
+efficiency * ------------------------------------------- * technology factor
+                               20
+.FI
+.s1
+Note that, although subs can not be found via radar,
+destroyers automatically use sonar so they can see subs.
+Destroyer A will see submarine B if the distance between them is less than:
+.NF + 0.3i
+             spy factor of ship A * visibility of ship B
+efficiency * ------------------------------------------- * technology factor
+                               20
+.FI
+.s1
+An example of ship radar:
+.EX radar 50
+.NF
+patrol boat 50 at -1, -3 efficiency 100%, barometer at 762, max range 4.0
+     . . . . .   
+    . . . . - -  
+   . . - . a a - 
+  . . . T k o ! -
+ . - F a P j a ^ ^
+  . . - . a w a ^
+   . . . a m a b 
+    . . m c * a  
+     - . a + .   
+.FI
+.s3
+See also : census, map, nation, ship-types, technology

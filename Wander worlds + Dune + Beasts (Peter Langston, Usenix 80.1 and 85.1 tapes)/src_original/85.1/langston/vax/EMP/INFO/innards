@@ -1,0 +1,252 @@
+.TH Concept Innards
+This topic contains fairly nitty-gritty descriptions of
+some of the underlying mechanisms in the Empire system.
+It is not meant for the weak-of-heart or casual reader.
+(And it's usually out of date.)
+.s3
+.s1
+Sector Updates
+.s1
+Several characteristics of the empire game are dependent on
+sector updates --
+mobility, efficiency, mining of ore, generation
+of production units, etc.
+
+An understanding of the calculations
+involved is often helpful in planning the timing of various
+actions
+and although it is unlikely that this description is strictly up to date,
+it should provide a feel for the overall philosophy.
+.s1
+All commodities in a sector are kept as integers,
+some as 8 bits but most as 10 bits.
+The 8 bit values are therefore limited to the range -128 to 127
+although the program usually limits these to the values 0 to 127.
+The 10 bit values are limited to the range 0 to 999 by the program.
+Because of this an update that gives a population
+growth of .9 civilians becomes a growth of 0.
+On the other hand,
+an update that produces 450 units of iron in a sector that already has
+800 units can at most add 199 units.
+.s1
+Here is an approximate description of the algorithm that is
+called whenever a sector is accessed:
+.s1
+Variables used are:
+.in +0.3i
+.nf
+.ta 1.2i
+curup\*(HTthe present time (in half hours)
+lstup\*(HTthe time of the last update for the sector
+dt\*(HTelapsed time since last update
+civ\*(HTcivilians in the sector
+mil\*(HTmilitary in the sector
+desig\*(HTdesignation of the sector
+effic\*(HTefficiency of the sector
+miner\*(HTiron mineral content of the sector
+gmin\*(HTgold mineral content of the sector
+t_level\*(HTtechnology level of the country
+r_level\*(HTresearch level of the country
+p_stage\*(HTplague stage in the sector
+p_time\*(HTplague stage duration
+workforce\*(HTan intermediate variable that represents work potential
+work\*(HTthe amount of work done in the sector
+.in -0.3i
+.s1
+Parameters used are (see the "version" command for actual values):
+.in +0.3i
+.nf
+.ta 1.2i
+s_p_etu\*(HTseconds per Empire time unit
+fgrate\*(HTthe food growth rate
+fcrate\*(HTthe food cultivation rate
+eatrate\*(HThow much food people eat
+ubrate\*(HTurban birth rate
+obrate\*(HTbirth rate elsewhere
+babyeat\*(HThow much babies eat growing up
+bankint\*(HTbank interest rate in $/bar
+.in -0.3i
+.s1
+If lstup == 0 (i.e. never been updated) set lstup = curup
+workforce = (civ + mil / 5.) / 100.
+If workforce = 0 go away and don't update anything
+
+/* calculate how many time units to use */
+dt = (curup - lstup) / s_p_etu
+If dt > 127 then set it to 127 and remember that more can be done.
+work = dt * workforce
+If work < 1. and we weren't told to ignore time, don't update anything.
+    A few other strange considerations enter here, e.g. if the sector
+    does not belong to the current player and work is less than 24.
+    then don't update unless absolutely necessary, etc
+Add dt * s_p_etu to lstup
+Check the weather, if it's bad enough do some damage to the sector
+
+/* increase sector efficiency */
+If the weather is good enough for construction and we're not broke then
+  effic becomes effic + work (if possible) and costs $1 for each
+  percentage point gained.
+Otherwise charge the $1 for each percentage point that would have been
+  gained, (pay for workers to play cards).
+
+/* grow some food */
+Set dd = dt * sector_fertility * fgrate
+    (this is the amount of food that can be grown in dt time units)
+Set dtemp = work * 100. * fcrate
+    (this is the amount of food that the people there can harvest)
+If (dtemp < dd)     (if there aren't enough people to harvest it all)
+    set dd = dtemp
+Set foodtmp to the amount of food in the sector plus dd
+
+/* feed the masses */
+If desig is sanctuary then
+    set dd equal to 0.
+Else
+    set dd equal to dt * (civ + mil) * eatrate
+	(this is the amount of food the people need to eat)
+If (dd > foodtmp) then some people will starve
+    figure out what percentage of the population can be fed and kill the rest
+    set food = 0
+Otherwise
+    set food = foodtmp - dd (with a maximum of 999)
+
+/* population growth */
+If desig is urban then
+    set q = dt * civ * ubrate
+	the number of births possible in an urban sector
+    if q is bigger than iron * 2 set q to iron * 2
+	essential urban services available to support this many births
+Else
+    set q = dt * civ * obrate
+	the number of births possible in other sectors
+If q is bigger than food / (2 * babyeat) set q to food / (2 * babyeat)
+	food available to mature this many babies into civilians
+If q is bigger than 999 - civ set q to 999 - civ
+	enough room for that many
+If desig is urban then set iron = iron - q / 2
+Set food = food - q * babyeat
+Set civ = civ + q
+
+/* mobility */
+Add dt to mobil (to a max of 127)
+
+/* military cost */
+Pay the military
+    set q = mil / 8 (drop any fraction)
+    set q = (q * dt) / 32 (ditto)
+    if q is greater than zero
+	if the player is broke then
+	    kill q military, (they run amok when they're not paid)
+	otherwise
+	    pay q dollars for supplies and salaries
+
+/* plague */
+If p_stage = "third" kill off a bunch of people,
+   alert the owner and the news and decrement p_time by dt.
+   If p_time \*(<= 0 set p_stage = zero (plague has burned itself out).
+If p_stage = "second" report
+   to the owner and the news and decrement p_time by dt.
+   If p_time \*(<= 0 set p_stage = "third"
+      and randomly reset p_time in the range of 32 to 64.
+If p_stage = "first" decrement p_time by dt.
+   If p_time \*(<= 0 set p_stage = "second"
+      and randomly reset p_time in the range of 32 to 64.
+If p_stage = zero and a random number in the range 0-99
+   is less than the figure generated by the equation in "info plague"
+   then set p_stage = "first"
+   and set p_time to a random number of half hours between 32 and 64.
+.s1
+
+/* delivery & contract sales */
+If anything is being delivered from this sector and there is
+more of it than the delivery threshold (always a multiple of 8)
+and the country is not broke
+    deliver as much of the excess as mobility allows.
+    If plague_stage is "second" (the infectious stage)
+	set plague_stage and plague_time in the destination sector.
+Sell any items that have been contracted.
+
+/* production */
+If effic is less than 60 skip the rest.
+.in +3
+.s1
+.ti -3
+If desig is bank then accrue  dt * bankint  interest per gold bar
+.ti -3
+If desig is capital pay dt * $1 for government salaries
+.ti -3
+If this sector produces something (mines, research labs, etc.)
+   calculate how much can be produced (see "info products")
+       (Note that the amount that can be produced is limited by "work")
+   produce it
+   pay for it (money, iron, gold mineral, oil, etc.)
+.fi
+.in \\n(in
+.s1
+Several points are noteworthy:
+.s3
+\(bu The work done in a sector (ore dug up, efficiency growth,
+population growth, products generated, etc) is dependent on the
+product of time since last update and work force ("work" above)
+while the accumulation of mobility is independent of work force.
+.s1
+\(bu If the population of a sector is very low it may take a long time
+before work is greater than 1 so the sector may not be updated
+for quite a while.
+.s1
+\(bu If a sector has not been updated for a long time a single pass through
+this process may not bring it all the way up to date since dt is limited to
+127 each time through.
+
+Ship Updates
+.s1
+Ships are also updated only when accessed however the mechanism is simpler.
+The only characteristics that are changed by ship updates are
+the mobility,
+the efficiency, (if less than 100%).
+the food, (and therefore the crew if starvation occurs),
+the amount of oil,
+and
+plague status, (which can also change the size of the crew).
+
+The algorithm is essentially:
+.in +3
+.nf
+t = curup - lstup
+if t < 3
+    don't update anything
+add t to mobility (with a maximum of 127)
+add t to efficiency (with a maximum of 100)
+add t * civil * sector_oil / 10000. to oil if ship type is oil derrick
+add t * civil * sector_fertil / 10000. to food if ship type is fishing boat
+feed the crew and passengers
+    starve a few if not enough food
+check for plague progress,
+    (the same as in sectors except each stage lasts twice as long on a ship)
+.fi
+.in -3
+Note that since an Empire Time Unit is half an hour, 
+(assuming s_p_etu is 1800, check the version command to be sure),
+ships will not be updated more frequently than
+once every one and a half hours.
+.s1
+Bureaucratic Time Units
+.s3
+There is one further update that is not handled in the sector
+update routine; that is the update of bureaucracy time units (B.T.U.).
+These are the numbers printed in brackets before the command
+prompt.
+Most commands given use B.T.U.s, some use 1, some use 2 and some use
+more, making B.T.U.s a vital commodity. The generation of B.T.U.s is
+dependent on the efficiency and the work force in the capital sector.
+Note that no capital implies no B.T.U.s.
+.s1
+The relationship governing the
+accumulation of B.T.U.s is:
+.NF
+B.T.U. = B.T.U. + (curup-lstup) * civil * effic / 50
+.FI
+Therefore, a 100% capital with 100 civilians gains 96 B.T.U. a day,
+while a 30% capital with 38 civilians only gains 11 (10.94) B.T.U. a day.
+.s3
+See also : education, happiness, products, research, technology, time

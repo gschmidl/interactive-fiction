@@ -1,0 +1,38 @@
+.TH MM 6
+.SH NAME
+mm \- mastermind game
+.SH SYNOPSIS
+.B mm
+[\fBquiet\fR]
+[\fBverbose\fR]
+.SH DESCRIPTION
+.PP
+Rumor has it that the Israeli postman who "invented" the game called
+"mastermind" is now a millionaire.
+In this program the computer plays both sides
+of the game (alternately) and smirks whenever it can.
+.PP
+The game of Mastermind involves discovering a hidden pattern by making guesses
+and learning how close those guesses come to the pattern.  It is an analog to
+the "Scientific Method" where the guesses are the experiments performed and
+the replies are the experimental results which confirm or refute hypotheses.
+.PP
+In this version the patterns and guesses are coded as strings of characters;
+e.g.    guess : abcc
+.PP
+The replies are coded as a number pair representing the number of symbols in
+the right position followed by the number of symbols in the wrong position;
+e.g. if the pattern were "ebab" the reply to a guess of "abcc" would be 1,1
+indicating 1 in the right position (-b--) and 1 in the wrong position (--a-).
+(Note that 4,0 would then be a win in a 4 position game.)
+.PP
+First the computer picks a pattern and you guess, (use "?" for your guess if
+you want to give up), and then you pick a pattern and the computer guesses.
+.PP
+When the computer thinks you have wasted a guess it says "Dumb guess".
+.PP
+If you run "mm verbose" it will also tell you why it thinks the guess was dumb.
+.PP
+If you run "mm quiet" it will refrain from all kibbitzing.
+.SH AUTHOR
+Peter S. Langston

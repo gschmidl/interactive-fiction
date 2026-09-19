@@ -1,0 +1,40 @@
+.TH GRID 6
+.SH NAME
+grid \- multi-player exploration game
+.SH SYNOPSIS
+.B grid
+[
+.BI \-n name
+] [
+.BI \-t termtype
+]
+.PP
+.B "grid -info"
+.PP
+.B "grid -records"
+.SH DESCRIPTION
+.PP
+.I Grid
+is a game loosely modeled after "maze wars" and "rogue".
+It is a multi-player, real-time game of exploration (and mayhem)
+in a three-dimensional grid of walls and halls.
+.PP
+The grid is inhabited by players and "others".  The others are always unfriendly
+and will shoot you if they see you.  The players, on the other hand, aren't
+necessarily unfriendly.
+.PP
+The optional arguments are:
+.IP "-info"
+Print the information file.
+.IP "-nNAME"
+Call yourself NAME instead of your logname.
+.IP "-records"
+Print the Grid records.
+.IP "-tTERMTYPE"
+Use TERMTYPE instead of the environment TERM.
+.PP
+\fIGrid\fR has a "sucker list" of frequent players.
+If you would like to be informed when a \fIgrid\fR game starts
+you can add your name to the list with the command "sucker".
+.SH AUTHOR
+Peter S. Langston

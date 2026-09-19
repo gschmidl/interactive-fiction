@@ -1,0 +1,28 @@
+	BOLO MARK I
+
+This game involves programming fighting machines and then sitting back and
+watching them grind each other into the dust.  Some fun!
+
+The general idea and the specifics of the programming are covered in
+the various Bolo manuals:
+bcc.man - the Bolo Command Compiler manual
+bdb.man - the Bolo DeBugger manual
+bom	- the Bolo Owner's Manual
+bref	- the Bolo Reference manual
+
+The Bolo Disassembler (bds) is not documented, but it doesn't do much except
+print a list of instructions and memory contents anyway, so it's not too hard
+to figure out.
+
+Make sure the routines in ../GLIB work okay on your system and that
+they are compiled and archived into ../glib.a
+
+A makefile is provided to create the various executable pieces of the system
+and to format the documentation.
+
+The module tcviz.c is provided in source form to allow modification for 
+terminals with greater resolution than the usual 24x80.  I would be interested
+in seeing any modifications that produce better output.
+
+						Peter Langston
+Tue Feb 26 19:10:42 EST 1985

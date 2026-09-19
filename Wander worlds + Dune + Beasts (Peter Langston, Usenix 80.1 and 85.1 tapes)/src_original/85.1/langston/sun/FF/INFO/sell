@@ -1,0 +1,53 @@
+.TH "SELL COMMAND"
+The sell command is used to offer to sell shares of stock.
+The general form of the command is:
+.EX "sell [ chain_name [ number [ min-price ] ] ]"
+Only stock in existing chains can be sold.
+.s3
+Here are some examples of the sell command.
+.s3
+.NF
+[5m] ::: sell
+Chain name? u
+Outstanding buy offers for Undone Hun's
+  4 @ $90 (The Bank)
+Outstanding sell offers for Undone Hun's
+ 96 @ $110 (The Bank)
+Number of shares? 5
+Price you're asking? 90
+5 sold to The Bank
+.FI
+In this case we were willing to accept the Bank's price
+so we sold them right away.
+.s3
+.NF
+[10h] ::: sell o
+Outstanding buy offers for Oily Doily
+  40 @ $190 (The Bank)
+  2 @ $210 (Bonzo)
+Do you want to retract that offer? yes
+  10 @ $195 (Uncle Jerry)
+Outstanding sell offers for Oily Doily
+ 60 @ $220 (The Bank)
+Number of shares? 2
+Price you're asking? 200
+Offer to sell 2 posted.
+.FI
+In this case we are willing to come down from $210 per share,
+but we still want to hold out for $200.
+.s3
+.NF
+[33m] ::: sell a 20 250
+Outstanding buy offers for Aldebaran Muffins
+  20 @ $195 (Big Bob)
+  2 @ $250 (JP)
+No outstanding sell offers for Aldebaran Muffins
+2 sold to JP
+Offer to sell 8 posted.
+.FI
+Apparently we only had 10 shares of Aldebaran Muffins, so two are sold
+to JP for $250 and the remaining eight are offered for sale for $250 each.
+.s3
+Trading activity is reported in the "Fast Food Journal".
+.s3
+See also: buy, finance, journal, param, price, tycoon

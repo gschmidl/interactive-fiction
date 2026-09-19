@@ -1,0 +1,72 @@
+.TH Command DELIVER
+.SY "deliver <ITEM> <SECTS> <THRESH>"
+The deliver command is used to specify to which sector
+the various commodities in a sector
+will be delivered at each update.
+.s3
+In the syntax "<SECTS> is the sector or sectors from which the deliveries
+are made, <ITEM> is one of the following:
+.NF
+c       civilians
+m       military
+f       food
+s       shells
+g       guns
+p       planes
+i       iron ore
+d       gold dust
+b       bars of gold
+o       oil
+l       light construction materials
+h       heavy construction materials
+.FI
+and "<THRESH>" can be one of three optional arguments.
+.s3
+.in +4
+I. A numeric argument in parentheses, specifies a minimum amount to
+be left in each delivering sector.
+For example, "(64)" specifies that only the amount in excess of 64
+can be delivered.  This is particularly handy in cases where you wish
+to maintain some stock in a given sector but pass along any extra to
+an adjoining sector.
+.s1
+II. A numeric argument preceded by a plus sign, (e.g. "+32"), specifies that
+all thresholds in the specified area should be set to the thresh value and no
+delivery destinations should be changed.
+.s1
+III. A thresh argument of "-" requests a list of deliveries and thresholds
+for all sectors in the specified area and changes nothing.
+This is the only way to examine the delivery thresholds.
+.in
+.s1
+Except in the "+" and "-" cases described above,
+the program asks the direction for each sector's delivery of the
+designated item.
+.s1
+The direction must be specified as one of the six direction characters,
+(usually `y' `h' `b' `v' `f' or `t'), the "no-direction" character,
+(usually `h'), or just a carriege return, (in which case the
+delivery will not be changed in that sector).
+.s1
+You may also specify a threshold at this time which will override
+any threshold specified by the command arguments by following the
+direction with a number in parentheses.
+.s1
+NOTE: delivery thresholds are stored as a multiple of 8.
+Thus specifying a threshold of "(25)" will actually become
+a threshold of 24.
+.s1
+The census and commodity reports will indicate deliveries by the 
+same characters used to specify them in this command.
+.s3
+If accessing a sector causes an update to be performed
+and the destination sector is not owned by you 
+and is not checkpointed the message "delivery
+walkout between x,y & x,y" will be printed and none will be delivered.
+If the destination sector is checkpointed delivery
+will proceed normally.  This facilitates exchange of goods between
+adjoining countries.
+.s1
+Delivery routes may also be mapped out with the "route" command.
+
+See also : census, commodity, route, innards, syntax
