@@ -135,4 +135,4 @@ never makes; they are test tools.
 
 - Nothing in the port. Two things Knuth might like to hear (his errata pay 0x$1.00): SAY with an unknown word reads
   `hash_table[-1]` in his 2026 text too, and that text lacks his own vase erratum of 3 September 2012 (and four
-  cosmetic ones). The report is drafted in `..\knuth_erratum_report.txt`, for the user to send.
+  cosmetic ones). The report, `..\knuth_erratum_report.txt`, was mailed to Knuth by the user on 2026-09-22.

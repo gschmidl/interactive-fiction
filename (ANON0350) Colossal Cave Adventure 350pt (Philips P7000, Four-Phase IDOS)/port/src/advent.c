@@ -349,8 +349,44 @@ static int row_has(int r, const char *s)
     return strstr(b, s) != NULL;
 }
 
+/* debugging: ADVENT_CODES=FILE counts, at every step once the game runs, the
+ * screen bytes that are not plain ASCII (the high bit, control codes other
+ * than the cursor; the entry line's last column holds a 012) and appends the
+ * counts, where they were and when to FILE at the end.  In play there are
+ * none: only while IDOS loads the game (about 3.2M-4.7M instructions) do the
+ * top five rows hold the saved memory image passing through. */
+static FILE *codes_fp;
+static unsigned long code_count[256], code_where[ROWS][COLS];
+static unsigned long long code_first, code_last;
+
+static void count_codes(void)
+{
+    int r, c, n = 0;
+
+    for (r = 0; r < ROWS; r++)
+        for (c = 0; c < COLS; c++) {
+            word v = mem[(screen_base + (word)(r * 32 + c / 3)) & A15];
+            int b = (int)(v >> (16 - 8 * (c % 3))) & 0377;
+
+            if ((b >= 0177 || (b < 040 && b != 0 && b != 032)) && !(r == 0 && c == COLS - 1)) {
+                code_count[b]++;
+                code_where[r][c]++;
+                n++;
+            }
+        }
+    if (n) {
+        if (!code_first) {
+            code_first = icount;
+            fprintf(codes_fp, "first at %llu, pc %05o\n", icount, last_pc);
+        }
+        code_last = icount;
+    }
+}
+
 static void operator_step(void)
 {
+    if (codes_fp && state == S_GAME)
+        count_codes();
     switch (state) {
     case S_BOOT:                                /* $BATCH is up */
         if (row_has(1, "// $BATCH") && kbd_waiting() && !kbd_pending(0)) {
@@ -620,6 +656,19 @@ static void finish(int code)
         if (f)
             fclose(f);
     }
+    if (codes_fp) {
+        int b;
+
+        fprintf(codes_fp, "last at %llu, end at %llu\n", code_last, icount);
+        for (b = 0; b < 256; b++)
+            if (code_count[b])
+                fprintf(codes_fp, "%03o %lu\n", b, code_count[b]);
+        for (b = 0; b < ROWS * COLS; b++)
+            if (code_where[b / COLS][b % COLS])
+                fprintf(codes_fp, "at %d,%d %lu\n", b / COLS, b % COLS,
+                        code_where[b / COLS][b % COLS]);
+        fclose(codes_fp);
+    }
     disc_close();
     if (trace_fp)
         fclose(trace_fp);
@@ -739,6 +788,8 @@ int main(int argc, char **argv)
         stop_at = strtoull(getenv("ADVENT_STOP_AT"), NULL, 10);
     if (getenv("ADVENT_WATCH"))                 /* report the registers at PC (octal) */
         watch_pc = strtol(getenv("ADVENT_WATCH"), NULL, 8);
+    if (getenv("ADVENT_CODES"))                 /* count the screen bytes not plain ASCII */
+        codes_fp = fopen(getenv("ADVENT_CODES"), "a");
     stdin_tty = isatty(fileno(stdin));
     transcript = opt_transcript || !stdin_tty || !isatty(fileno(stdout));
 #ifndef _WIN32

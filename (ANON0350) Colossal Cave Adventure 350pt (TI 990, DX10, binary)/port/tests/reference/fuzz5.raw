@@ -1,0 +1,272 @@
+ADVENTUR
+Adventure thru a Cave
+ Will/did you save your game?: NO  NO
+Welcome to ADVENTURE!!  Would you like instructions?
+
+[=]  NO
+You are standing at the end of a road before a small brick building.
+Around you is a forest.  A small stream flows out of the building and 
+down a gully. 
+
+[=]  IN
+You are inside a building, a well house for a large spring. 
+There are some keys on the ground here. 
+There is a shiny brass lamp nearby. 
+There is food here. 
+There is a bottle of water here.
+
+[=]  GET LAMP
+OK
+
+[=]  GET KEYS
+OK
+
+[=]  OUT
+You're at End of Road again.
+
+[=]  S
+You are in a valley in the forest beside a stream tumbling along a
+rocky bed.
+
+[=]  S
+At your feet all the water of the stream splashes into a 2-inch slit
+in the rock.  Downstream the streambed is bare rock.
+
+[=]  S
+You are in a 20-foot depression floored with bare dirt.  Set into the 
+dirt is a strong steel grate mounted in concrete.  A dry streambed
+leads into the depression.
+The grate is locked.
+
+[=]  UNLOCK GRATE
+The grate is now unlocked.
+
+[=]  D
+You are in a small chamber beneath a 3x3 steel grate to the surface.
+A low crawl over cobbles leads inward to the west.
+The grate is open.
+
+[=]  W
+You are crawling over cobbles in a low passage.  There is a dim light 
+at the east end of the passage. 
+There is a small wicker cage discarded nearby.
+
+[=]  ON
+Your lamp is now on.
+
+[=]  W
+You are in a debris room filled with stuff washed in from the surface.
+A low wide passage with cobbles becomes plugged with mud and debris 
+here, but an awkward canyon leads upward and west.  A note on the wall
+says "MAGIC WORD XYZZY".
+A three foot black rod with a rusty star on an end lies nearby. 
+
+[=]  GET CAGE
+
+I see no cage here.
+
+[=]  W
+You are in an awkward sloping east/west canyon. 
+
+[=]  W
+You are in a splendid chamber thirty feet high.  The walls are frozen 
+rivers of orange stone.  An awkward canyon and a good passage exit
+from east and west sides of the chamber.
+A cheerful little bird is sitting here singing. 
+
+[=]  JUMP ROD
+I don't know how to apply that word here. 
+You're in Bird Chamber. 
+A cheerful little bird is sitting here singing. 
+
+[=]  KEYS INVENTORY
+You are already carrying it!
+
+[=]  D
+There is no way to go that direction. 
+You're in Bird Chamber. 
+A cheerful little bird is sitting here singing. 
+
+[=]  SE
+There is no way to go that direction. 
+You're in Bird Chamber. 
+A cheerful little bird is sitting here singing. 
+
+[=]  ATTACK
+The little bird is now dead.  Its body disappears.
+
+[=]  NE
+There is no way to go that direction. 
+You're in Bird Chamber. 
+
+[=]  U
+There is no way to go that direction. 
+You are in a splendid chamber thirty feet high.  The walls are frozen 
+rivers of orange stone.  An awkward canyon and a good passage exit
+from east and west sides of the chamber.
+
+[=]  SE
+There is no way to go that direction. 
+You're in Bird Chamber. 
+
+[=]  CLIMB
+I don't know how to apply that word here. 
+You're in Bird Chamber. 
+
+[=]  U
+There is no way to go that direction. 
+You're in Bird Chamber. 
+
+[=]  N
+There is no way to go that direction. 
+You're in Bird Chamber. 
+
+[=]  IN
+I don't know in from out here.  Use compass points or name something
+in the general direction you want to go.
+You are in a splendid chamber thirty feet high.  The walls are frozen 
+rivers of orange stone.  An awkward canyon and a good passage exit
+from east and west sides of the chamber.
+
+[=]  WATER OUT
+
+I see no water  here.
+
+[=]  S
+There is no way to go that direction. 
+You're in Bird Chamber. 
+
+[=]  SE
+There is no way to go that direction. 
+You're in Bird Chamber. 
+
+[=]  U
+There is no way to go that direction. 
+You're in Bird Chamber. 
+
+[=]  U
+There is no way to go that direction. 
+You're in Bird Chamber. 
+
+[=]  E
+You are in an awkward sloping east/west canyon. 
+
+[=]  W
+You are in a splendid chamber thirty feet high.  The walls are frozen 
+rivers of orange stone.  An awkward canyon and a good passage exit
+from east and west sides of the chamber.
+
+[=]  NW
+There is no way to go that direction. 
+You're in Bird Chamber. 
+
+[=]  CAGE
+
+I see no cage here.
+
+[=]  N
+There is no way to go that direction. 
+You're in Bird Chamber. 
+
+[=]  HOURS FILL
+
+fill what ?
+
+[=]  U
+There is no way to go that direction. 
+You're in Bird Chamber. 
+
+[=]  NE
+There is no way to go that direction. 
+You're in Bird Chamber. 
+
+[=]  SE
+There is no way to go that direction. 
+You are in a splendid chamber thirty feet high.  The walls are frozen 
+rivers of orange stone.  An awkward canyon and a good passage exit
+from east and west sides of the chamber.
+
+[=]  OFF FEED
+
+feed what ?
+
+[=]  IN
+I don't know in from out here.  Use compass points or name something
+in the general direction you want to go.
+You're in Bird Chamber. 
+
+[=]  W
+At your feet is a small pit breathing traces of white mist.  An east
+passage ends here except for a small crack leading on.
+Rough stone steps lead down the pit.
+
+[=]  W
+The crack is far too small for you to follow. 
+You're at Top of Small Pit. 
+Rough stone steps lead down the pit.
+
+[=]  IN
+I don't know in from out here.  Use compass points or name something
+in the general direction you want to go.
+You're at Top of Small Pit. 
+Rough stone steps lead down the pit.
+
+[=]  IN
+I don't know in from out here.  Use compass points or name something
+in the general direction you want to go.
+You're at Top of Small Pit. 
+Rough stone steps lead down the pit.
+
+[=]  Y
+I don't understand that!
+
+[=]  SW
+There is no way to go that direction. 
+You're at Top of Small Pit. 
+Rough stone steps lead down the pit.
+
+[=]  S
+There is no way to go that direction. 
+At your feet is a small pit breathing traces of white mist.  An east
+passage ends here except for a small crack leading on.
+Rough stone steps lead down the pit.
+
+[=]  W
+The crack is far too small for you to follow. 
+You're at Top of Small Pit. 
+Rough stone steps lead down the pit.
+
+[=]  PLANT LOOK
+
+I see no plant  here.
+
+[=]  LAMP
+
+What do you want to do with the lamp ? 
+
+[=]  TAKE
+You are already carrying it!
+
+[=]  ROD
+
+I see no rod  here.
+
+[=]  QUIT
+
+You scored  36 out of a possible 350, using   56 turns.
+Your score qualifies you as a Novice Class Adventurer.
+
+To achieve the next higher rating, you need 65 more points.
+
+Do you really want to quit now? 
+
+[=]  YES
+OK
+STOP 1
+
+
+
+
+NORMAL PROGRAM COMPLETION
+22:51:16 SATURDAY, SEP 19, 2026 (262)
+[] 

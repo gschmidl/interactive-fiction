@@ -12,9 +12,10 @@ the block transfer that saves the game).
 
 ## Ten things wrong with the transcription
 
-Nine of them stop the game working; the tenth is a typo in a message. All are reported to Arthur
-O'Dwyer, who offers a bounty for them. Each is marked `C  PORT: TRANSCRIPTION:` in the generated
-source, or listed in `convert.py`.
+Nine of them stop the game working; the tenth is a doubled letter in a message, and may be on the
+printout itself (see below). `../TRANSCRIPTION_ERRORS.md` writes them up for Arthur O'Dwyer, who offers
+a bounty for them, with the line numbers and the evidence. Each is marked `C  PORT: TRANSCRIPTION:` in
+the generated source, or listed in `convert.py`.
 
 | where | as transcribed | read as |
 |---|---|---|
@@ -23,11 +24,11 @@ source, or listed in `convert.py`.
 | `ADVENTUR` | `.GAVEUP.=TRUE` | `GAVEUP=.TRUE.` |
 | `ADVENTUR` | `CODE1('RESID')` | `CODE1('RESTO')` - nothing could ever match `RESID`, so RESTORE never worked |
 | `GETIN` | `1010 WDST=1` | `WDST=I` - with 1 the scan restarts at the beginning of the line and no second word is ever found, so "TAKE KEYS" answers "TAKE WHAT?" |
-| `GETIN` | `SUBROUTINE GETIN(WORD1,WORD1X,WORD2,WORD2X)` | `...,NULLOK)` - the comment above it describes `NULLOK`, the body tests it, and all fourteen calls pass it |
+| `GETIN` | `SUBROUTINE GETIN(WORD1,WORD1X,WORD2,WORD2X)` | `...,NULLOK)` - the comment above it describes `NULLOK`, the body tests it, and all twelve calls pass it |
 | `SPEAK` | `IF LINES(K).GE.0)GOTO 10` | `IF(LINES(K).GE.0)GOTO 10` |
 | `MOTD` | `CVLTUC(TEXT,K)` | `CALL CVLTUC(TEXT,K)` |
 | `RAN` | no label on `R = R * 16807` | `1     R = R * 16807`, the target of `IF (R.NE.0) GOTO 1` |
-| database, message 66 | `DDIGGING WITHOUT A SHOVEL` | `DIGGING` |
+| database, message 66 | `DDIGGING WITHOUT A SHOVEL` | `DIGGING`, as in MSU's database - but WOOD0350 has the doubled D too, so the printout may have it; the port prints `DIGGING` |
 
 `convert.py` also checks, on every build, that no unit branches to a label it does not define and that
 no continued declaration list is missing its separator - the two checks that caught the `RAN` label and
@@ -58,7 +59,7 @@ checked there against the original running on MVS 3.8j. 32 differences, every on
   of an 80-column truncation somewhere in MSU's history: a ninth exit from room 108, and room 87 in the
   list of places where the maze hint may be offered. The SEL read 128-column records (`FORMAT(16I8)`),
   so nothing was lost here;
-- and the one typo, `DDIGGING`, listed above.
+- and `DDIGGING`, listed above (WOOD0350 has it too).
 
 ## What the SEL 32 did differently
 
@@ -124,6 +125,7 @@ prints a blank line before every message.
 
 - Deferred (user, 2026-09-21: bugs and fuzzing only): a play-through to a win; the prime-time machinery
   (`HOURS`, `NEWHRS`, the holiday, the `LATNCY` wait before a restored game); `MOTD(.TRUE.)`.
-- For the user to decide: telling O'Dwyer about the ten transcription findings, and about two suspects
-  this port does *not* change: `WILLE CROWTHER` in message 1 (Willie), and `YOU'RE IN HALL OF MT KING.`
-  where the MSU database has no full stop.
+- Written up for O'Dwyer (user, 2026-09-22): `../TRANSCRIPTION_ERRORS.md` - nine claimed errors, and four
+  questions for the printout (`DDIGGING`; `WILLE CROWTHER` in message 1; `YOU'RE IN HALL OF MT KING.`, where
+  WOOD0350 and MSU have no full stop; `CVLTUC`'s blank lower-case alphabet). Mailed to O'Dwyer by the user on
+  2026-09-22.

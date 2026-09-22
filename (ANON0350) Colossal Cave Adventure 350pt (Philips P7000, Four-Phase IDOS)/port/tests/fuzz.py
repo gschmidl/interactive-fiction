@@ -7,7 +7,10 @@ rebuild the database ("INITIALIZING..."), or a run that never ends.
 Each game is up to three runs on one scratch pack, so that a SUSPENDed game
 is resumed and a finished one is followed by a new one.
 
-    python fuzz.py [GAMES] [TURNS] [SEED]
+    python fuzz.py [GAMES] [TURNS] [SEED] [--real-clock]
+
+--real-clock runs on the real 60 Hz clock, as play.bat does (not repeatable:
+the random numbers then start from the time).
 """
 import os
 import random
@@ -43,10 +46,11 @@ def random_lines(rng, turns):
     return lines
 
 
-def one_run(lines, pack):
+def one_run(lines, pack, real=False):
     data = ''.join(ln + '\n' for ln in lines).encode()
+    clock = [] if real else ['--fixed-clock']
     try:
-        p = subprocess.run([EXE, '--fixed-clock', '-u', '--pack=' + pack], input=data,
+        p = subprocess.run([EXE] + clock + ['-u', '--pack=' + pack], input=data,
                            capture_output=True, timeout=120)
     except subprocess.TimeoutExpired:
         return 'timed out', ''
@@ -58,9 +62,11 @@ def one_run(lines, pack):
 
 
 def main():
-    games = int(sys.argv[1]) if len(sys.argv) > 1 else 100
-    turns = int(sys.argv[2]) if len(sys.argv) > 2 else 300
-    seed = int(sys.argv[3]) if len(sys.argv) > 3 else 1
+    real = '--real-clock' in sys.argv[1:]
+    argv = [a for a in sys.argv[1:] if a != '--real-clock']
+    games = int(argv[0]) if len(argv) > 0 else 100
+    turns = int(argv[1]) if len(argv) > 1 else 300
+    seed = int(argv[2]) if len(argv) > 2 else 1
     rng = random.Random(seed)
     bad = runs = 0
     for i in range(games):
@@ -69,7 +75,7 @@ def main():
         try:
             for k in range(3):
                 lines = random_lines(rng, turns)
-                err, out = one_run(lines, pack)
+                err, out = one_run(lines, pack, real)
                 runs += 1
                 if err:
                     bad += 1

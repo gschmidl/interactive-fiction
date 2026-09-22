@@ -16,3 +16,5 @@ two-word command - and one thing the paper cannot have held: `CVLTUC`'s lower-ca
 the listing shows as 26 blanks. All are listed in `port\README.md`, which also compares this database
 against the MSU port's, message by message: 32 differences, every one explained, two of them places
 where *this* database has more than MSU's because the SEL read 128-column records.
+`TRANSCRIPTION_ERRORS.md` writes the findings up for Arthur O'Dwyer's bounty, with line numbers: nine
+claimed (the tenth, `DDIGGING`, is also in WOOD0350, so it became one of four questions for the printout).

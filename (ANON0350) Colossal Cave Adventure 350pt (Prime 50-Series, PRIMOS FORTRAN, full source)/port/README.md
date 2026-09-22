@@ -105,5 +105,13 @@ counts). `--auto` is for the wizard's test. There are no behavioural fixes in th
   Prime (the generator matches; the original's clock seed would have to be read out of a suspended
   game's file and fed to `--seed`); a play-through to a win; the prime-time machinery (`WKDAY=130560`,
   09:00-17:00 on weekdays); `MAINT`, the wizard's dialogue and `MOTD(.TRUE.)`.
-- `IT.FTN` and `ADVSUB2.FTN` on the tape are further variants; `SCOTT>ADVENTURE.LIST` is a compiler
-  listing of a third. None is ported.
+- Nothing to port among the other copies on the tape (checked 2026-09-22); they are all this game:
+  - `ADVSUB2.FTN` is `ADVSUB.FTN`.
+  - `BADVENTURE.FTN` (and its runfile `RUN_GAMES>BADVENTURE`) is this source with `TRACE` on and the
+    message output commented out, a debugging build.
+  - `SCOTT>ADVENTURE.FTN` (and its `.LIST`) is this source with a different debugging printout in PSPEAK.
+  - `ADVENTURE.FTN.001` and `IT.FTN` (one blank line apart) are this source for a split build. Twenty-odd
+    subroutines are stubs that print their name and exit, so they come from ADVSUB. It also calls LEGAL at
+    start-up. LEGAL is ADVSUB's copy trap: run from anywhere but UFD GAMES, it prints "Can't! Not attached
+    to UFD=GAMES", unprotects and deletes the runfile named on the command line, and says "... deleted".
+    The installed build does not call it.

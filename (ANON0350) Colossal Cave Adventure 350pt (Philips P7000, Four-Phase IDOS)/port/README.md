@@ -98,7 +98,9 @@ What had to be inferred about the machine (the manuals do not say):
 
     python tests/regress.py            options, the reference walk, new/old games, SUSPEND, -u, endings
     python tests/regress.py --record   rewrite tests/reference/walk.out from this build
-    python tests/fuzz.py [GAMES] [TURNS] [SEED]   random commands; three runs per game on one pack
+    python tests/fuzz.py [GAMES] [TURNS] [SEED] [--real-clock]   random commands; three runs per game on
+                                       one pack (--real-clock: on the 60 Hz clock as play.bat runs it;
+                                       20 games, 60 runs clean on 2026-09-22)
     python tests/consoleplay.py        at a real console (ConPTY): SUSPEND and resume, QUIT, typing shown under
                                        the prompt, Backspace, Ctrl+C, play.bat
 
@@ -109,10 +111,14 @@ game's random numbers start elsewhere: the dwarves, the hollow voice and the rep
 
 Debugging (environment variables): `ADVENT_DUMP=FILE` writes memory at the end, `ADVENT_TRACE_FROM=N` and
 `ADVENT_TRACE_TO=N` limit `--trace`, `ADVENT_STOP_AT=N` stops the machine, `ADVENT_WATCH=OCTAL` reports the
-registers at each visit to an address.
+registers at each visit to an address, `ADVENT_CODES=FILE` counts the screen bytes that are not plain ASCII.
+
+**Display codes (checked 2026-09-22 with `ADVENT_CODES` over a fuzz and the walk).** In play the screen holds only
+plain ASCII, the cursor (032) and a line feed (012) in the last column of the entry line, so the console's 7-bit
+mirror shows it all. Only while IDOS loads the game (about 3.2M to 4.7M instructions) do the top five rows hold
+binary: the saved memory image passes through them. The P7000's screen showed that too, and the game's first output
+overwrites it.
 
 ## Still to do (refine pass)
-- Fuzz with the real-time clock.
-- The console mirror assumes an 81 x 25 window. Check it in Windows Terminal, and at other sizes.
-- The screen shows 7-bit ASCII only. Check whether the 7200's other codes (attributes, graphics) occur in the game.
 - Instructions IDOS and ADVENT never execute are emulated from the manual alone and are untested.
+- Decided not to do (user, 2026-09-22): checking the console mirror at other window sizes and in Windows Terminal.

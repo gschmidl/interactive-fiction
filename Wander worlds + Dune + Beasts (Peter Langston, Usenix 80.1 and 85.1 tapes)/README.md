@@ -1,6 +1,8 @@
 # Peter Langston's games on the Usenix distribution tapes
 
-**Status: STAGED 2026-09-19 - not ported, nothing built.** Files here are verified copies (md5) of the originals named below.
+**Status: EMULATION ONLY (user's decision, 2026-09-19) - nothing to port: eXo's DOS `WANDER.EXE` runs the Wander
+worlds, and Dune and Beasts exist only as object files (see "what eXo already has" below).** Files here are verified
+copies (md5) of the originals named below.
 
 Sources: `F:\bits\Usenix\usenix_80.1_tp.tap` (tp format; `boulder/dpw/wand/...`, `boulder/dpw/emp/...`) and
 `F:\bits\Usenix\usenix_85.1.zip` (tar; `langston/vax/` and `langston/sun/`). `src_original\85.1\` = the WAND, DUNE and

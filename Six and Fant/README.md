@@ -1,30 +1,35 @@
-# six.py – an interpreter for SIX/FANT worlds (`*.6`)
+# six – an interpreter for SIX/FANT worlds (`*.6`)
 
-Runs SIX source files directly, following the grammar in *Doc.txt*
-("The SIX/FANT System"). It does not emulate the FANT machine and cannot read
-compiled `.f` world files.
+SIX is the language of the SIX/FANT system (University of Alberta, late 1970s) for writing games like ADVENTURE;
+FANT was the machine that ran the compiled worlds. `six` runs SIX source files directly, following the grammar in
+*Doc.txt* ("The SIX/FANT System"). It does not emulate the FANT machine and cannot read compiled `.f` world files.
 
-Needs Python 3.8+ (standard library only). Tested on Linux; written to be
-portable (CRLF source and input files, Windows console, Ctrl+C).
+## What is here
 
-**`six.exe`** is the same interpreter as a native Windows program (66 KB,
-no Python needed; `six.c` is its source, a statement-for-statement
-translation of six.py). Same options and the same output byte for byte,
-including the numbers `?` gives with `--seed`. Build it with
+| File | What |
+|---|---|
+| `Doc.txt` | "The SIX/FANT System", the language's documentation |
+| `adventure.6` | ADVENTURE Fantasy World by Chris Gray, University of Alberta, last changed 6 June 1980 |
+| `mansion.6` | MANSION Fantasy World by Chris Gray, last changed 27 March 1980 |
+| `this.6` | a larger world (7,418 lines; its score limit is 619) - play it with `--fix-typos` (see below) |
+| `ex.6` | a small example world (a candle that burns down) |
+| `six.c` | the interpreter, in C |
+| `six.exe` | its Windows build (66 KB) |
+
+`six.c` is a statement-for-statement translation of `six.py` 1.0, a Python version of the interpreter that is not in
+this folder: the same output byte for byte, the same warnings and error messages, and the same numbers for `?` with
+`--seed` (Python's Mersenne Twister and `randrange(10000)` are reproduced). Build it with
 
     gcc -O2 -s -o six.exe six.c -Wl,--stack,268435456
 
-In a folder with both, `six adventure.6` runs `six.exe`. The one known
-difference: six.py's own stack gives out between 7000 and 8000 nested SIX
-calls (and it crashes outright near 20000), while six.exe goes on to the
-`--max-depth` limit, 20000 by default.
+The stack is large because SIX procedures may nest 20,000 deep (`--max-depth`).
 
 ## Usage
 
-    six adventure.6                 (Windows: six.bat)
-    python six.py this.6 --fix-typos
-    python six.py world.6 < commands.txt --echo
-    python six.py world.6 --check   (parse only, list problems)
+    six adventure.6
+    six this.6 --fix-typos
+    six world.6 --echo < commands.txt
+    six world.6 --check              (parse only, list problems)
 
 | Option | Meaning |
 |---|---|
@@ -38,6 +43,8 @@ calls (and it crashes outright near 20000), while six.exe goes on to the
 | `--strict` | undeclared words and questionable operations are errors |
 | `--warn` | report tolerated problems on stderr |
 | `--quiet` | suppress the startup note about tolerated problems |
+| `--max-depth N` | the deepest SIX procedure nesting (default 20000) |
+| `--version`, `-h`, `--help` | the version, the help |
 
 ## What is implemented
 
@@ -74,7 +81,3 @@ being visited) works as it did on the original machine.
 * `this.6` tests `submarine in _hung` on a boolean.
 * In adventure.6, `throw dwarves` puts an object without a `LONG` entry in the
   room.
-
-## Tests
-
-    python tests/test_six.py
