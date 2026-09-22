@@ -14,9 +14,10 @@ shows the machine's 24 x 81 video screen in the console window.
 It keeps the working copy of the pack in `saves\advent.pack`, which is made from `p7000.pack` on first use. A
 suspended game lives in that pack.
 
-Type commands and press Enter; Backspace deletes a character. Ctrl+C leaves at once. The game ends with QUIT, with
-a death you decline to be reincarnated from, or with SUSPEND. The status line then says the game is over, and a key
-closes the window.
+Type commands and press Enter; Backspace deletes a character. What you type shows on the line under the game's
+text, and the game prints it after its `==>` when you press Enter. Ctrl+C leaves at once. The game ends with QUIT,
+with a death you decline to be reincarnated from, or with SUSPEND. The status line then says the game is over, and
+a key closes the window.
 
     advent [OPTION]...
       -u, --unlimited    clear the wizard's prime-time hours and the wait before a resume
@@ -24,6 +25,7 @@ closes the window.
       --transcript       follow the screen as a scrolling log and read lines from stdin
                          (the default when stdin or stdout is not a console)
       --fixed-clock      the 60 Hz clock counts instructions instead of real time (repeatable runs)
+      --entry-line-top   show what you type on the screen's top line, where the P7000 showed it
       --pack=FILE        the working copy of the pack (default advent.pack)
       --trace=FILE       an instruction trace (debugging)
       -h, --help
@@ -60,6 +62,13 @@ It is the Crowther/Woods 350-point game with the wizard's machinery, but the sit
   - at the `// $BATCH` screen it types `// ADVENT` NEW LINE `//` NEW LINE;
   - it mirrors the screen in the console, or follows it as a log (`--transcript`);
   - keys go to the machine only when the program is waiting for one (see the keyboard notes in `io.c`).
+- **The entry line.** IDOS and ADVENT's run-time library take keys in the screen's top line: ADVENT's input call
+  passes 0140 (the word after `BAL 63601` at 061602, straight from the load file), and the library blanks that line,
+  puts the cursor in it and echoes each key there. Only when NEW LINE ends the line does the game print it after
+  its `==>`. The whole screen scrolls up, and the next entry blanks whatever reached the top line. Mirrored as it
+  is, the typing appeared at the top while the player looked at the prompt at the bottom (user, 2026-09-22: "my
+  input is invisible"). So the console shows lines 1-23 in order and, under them, the entry line while the program
+  has its cursor in it; `--entry-line-top` shows the machine's own layout.
 - **New or old game.** ADVENT loads its whole state from ADSAVE at every start. Word 0 of ADSAVE is 1 for a game
   to play (fresh or suspended); the end of a game clears it. A start from a cleared ADSAVE tries to build the
   database from scratch ("INITIALIZING...", then "ERROR CODE = 5"), which this installation cannot do. The site had
@@ -90,8 +99,8 @@ What had to be inferred about the machine (the manuals do not say):
     python tests/regress.py            options, the reference walk, new/old games, SUSPEND, -u, endings
     python tests/regress.py --record   rewrite tests/reference/walk.out from this build
     python tests/fuzz.py [GAMES] [TURNS] [SEED]   random commands; three runs per game on one pack
-    python tests/consoleplay.py        at a real console (ConPTY): SUSPEND and resume, QUIT, Backspace,
-                                       Ctrl+C, play.bat
+    python tests/consoleplay.py        at a real console (ConPTY): SUSPEND and resume, QUIT, typing shown under
+                                       the prompt, Backspace, Ctrl+C, play.bat
 
 `tests/reference/walk.out` is this port's own output: there is no other P7000 to compare with. The walk goes in by
 ZYXXY, catches the bird, drives off the snake, and comes back by CLUNK with the gold and silver. Dwarves then kill

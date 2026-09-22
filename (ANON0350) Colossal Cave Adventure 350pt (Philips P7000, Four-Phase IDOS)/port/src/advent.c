@@ -29,7 +29,7 @@ static const char *prog = "advent";
 
 /* ---- options -------------------------------------------------------------- */
 
-static int opt_unlimited, opt_transcript, opt_fixed_clock;
+static int opt_unlimited, opt_transcript, opt_fixed_clock, opt_entry_top;
 static const char *opt_pack = "advent.pack";
 static unsigned long long trace_to;     /* debugging: end the trace here */
 static unsigned long long stop_at;      /* debugging: stop the machine here */
@@ -52,6 +52,9 @@ static void usage(FILE *f)
 "                    stdin (the default when stdin or stdout is not a console)\n"
 "      --fixed-clock let the 60 Hz clock count instructions instead of real\n"
 "                    time, so that a run can be repeated exactly\n"
+"      --entry-line-top  show what you type on the top line of the screen,\n"
+"                    where the P7000 showed it (by default the console shows\n"
+"                    that line at the bottom, under the game's text)\n"
 "      --pack=FILE   the working copy of the disc pack (default advent.pack;\n"
 "                    made from p7000.pack next to the program when missing).\n"
 "                    Suspended games are kept on it.\n"
@@ -83,6 +86,8 @@ static void options(int argc, char **argv)
             opt_transcript = 1;
         else if (!strcmp(a, "--fixed-clock"))
             opt_fixed_clock = 1;
+        else if (!strcmp(a, "--entry-line-top"))
+            opt_entry_top = 1;
         else if (!strncmp(a, "--pack=", 7)) {
             if (!a[7])
                 bad_option("missing file name in", a);
@@ -443,6 +448,32 @@ static void con_init(void)
                        ~(DWORD)(ENABLE_LINE_INPUT | ENABLE_ECHO_INPUT | ENABLE_PROCESSED_INPUT));
 }
 
+/* IDOS and ADVENT's run-time library take keys in the top line of the
+ * screen, the entry line: ADVENT's input call passes 0140 (the word after
+ * its BAL 63601 at 061602), and the library blanks that line, puts the
+ * cursor in it and echoes each key there; only when NEW LINE ends the line
+ * does the game print it after its "==>".  The whole screen scrolls up, and
+ * the next entry blanks whatever reached the top line.  So the console
+ * shows lines 1-23 in order and, below them, the entry line while the
+ * program has its cursor in it: what the player types appears under the
+ * game's text.  --entry-line-top shows the machine's own layout. */
+static int entry_active;                /* the cursor has been in line 0 since the last scroll */
+
+static void con_scroll(void)
+{
+    entry_active = 0;
+}
+
+/* the screen line shown at console row R, or -1 for a blank row */
+static int shown_line(int r)
+{
+    if (opt_entry_top)
+        return r;
+    if (r < ROWS - 1)
+        return r + 1;
+    return entry_active ? 0 : -1;
+}
+
 static void con_refresh(void)
 {
     CHAR_INFO buf[(ROWS + 1) * COLS];
@@ -450,16 +481,21 @@ static void con_refresh(void)
 
     if (!have_console)
         return;
+    for (c = 0; c < COLS; c++)
+        if (screen_char(0, c) == 032)
+            entry_active = 1;
     for (r = 0; r <= ROWS; r++)
         for (c = 0; c < COLS; c++) {
-            int i = r * COLS + c, ch;
+            int i = r * COLS + c, ch, line = r < ROWS ? shown_line(r) : -1;
             WORD attr = FOREGROUND_GREEN | FOREGROUND_INTENSITY;
 
             if (r == ROWS) {                    /* the port's own status line */
                 ch = c < (int)strlen(status) ? status[c] : ' ';
                 attr = FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED;
-            } else {
-                ch = screen_char(r, c);
+            } else if (line < 0)
+                ch = ' ';
+            else {
+                ch = screen_char(line, c);
                 if (ch == 032) {                /* the block cursor */
                     cr = r;
                     cc = c;
@@ -665,6 +701,7 @@ static void run_transcript(void)
 #ifdef _WIN32
 static void run_console(void)
 {
+    scroll_hook = con_scroll;
     con_init();
     for (;;) {
         run_some(4096);

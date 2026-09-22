@@ -8,7 +8,9 @@ console and reads real key events, and nothing appears on the desktop.
   1. A game: NO to the instructions, IN, SUSPEND, YES; the status line then
      says the game is over, and a key closes the window with exit 0.
   2. The next window goes on inside the building: QUIT, YES, a key.
-  3. Backspace: "NOX", Backspace, Enter is taken as NO.
+  3. What is typed shows on the line under the "==>" prompt (the machine's
+     entry line is its top line; the console shows it at the bottom).
+     Backspace: "NOX", Backspace, Enter is taken as NO.
   4. Ctrl+C in the middle of a game leaves at once with exit 0.
   5. play.bat (from a copy of the port in a scratch folder) makes the saves
      folder and its pack, and plays.
@@ -74,6 +76,67 @@ k32.WaitForSingleObject.argtypes = [W.HANDLE, W.DWORD]
 k32.GetExitCodeProcess.argtypes = [W.HANDLE, ctypes.POINTER(W.DWORD)]
 k32.CloseHandle.argtypes = [W.HANDLE]
 k32.TerminateProcess.argtypes = [W.HANDLE, W.UINT]
+
+
+def screen_rows(raw, cols=81, rows=25):
+    """the rows a terminal shows after RAW: the text, cursor moves and erases
+    a pseudo console writes (CSI H, f, A-D, G, d, J, K, X; CR, LF, BS)"""
+    cells = [[' '] * cols for _ in range(rows)]
+    r = c = 0
+    i = 0
+    while i < len(raw):
+        m = re.match(r'\x1b\[([?]?)([0-9;]*)[ -/]*([@-~])', raw[i:])
+        if m:
+            i += m.end()
+            if m.group(1):
+                continue
+            ps = [int(p) if p else 0 for p in m.group(2).split(';')] if m.group(2) else []
+            n = ps[0] if ps and ps[0] else 1
+            f = m.group(3)
+            if f in 'Hf':
+                r = min((ps[0] if ps and ps[0] else 1) - 1, rows - 1)
+                c = min((ps[1] if len(ps) > 1 and ps[1] else 1) - 1, cols - 1)
+            elif f == 'A':
+                r = max(0, r - n)
+            elif f == 'B':
+                r = min(rows - 1, r + n)
+            elif f == 'C':
+                c = min(cols - 1, c + n)
+            elif f == 'D':
+                c = max(0, c - n)
+            elif f == 'G':
+                c = min(n - 1, cols - 1)
+            elif f == 'd':
+                r = min(n - 1, rows - 1)
+            elif f == 'J' and (ps[0] if ps else 0) in (2, 3):
+                cells = [[' '] * cols for _ in range(rows)]
+            elif f == 'J':
+                cells[r][c:] = [' '] * (cols - c)
+                for k in range(r + 1, rows):
+                    cells[k] = [' '] * cols
+            elif f == 'K':
+                cells[r][c:] = [' '] * (cols - c)
+            elif f == 'X':
+                cells[r][c:c + n] = [' '] * len(cells[r][c:c + n])
+            continue
+        m = re.match(r'\x1b\][^\x07\x1b]*(\x07|\x1b\\)', raw[i:])
+        if m:
+            i += m.end()
+            continue
+        ch = raw[i]
+        i += 1
+        if ch == '\r':
+            c = 0
+        elif ch == '\n':
+            r = min(rows - 1, r + 1)
+        elif ch == '\b':
+            c = max(0, c - 1)
+        elif ch >= ' ' and ch != '\x7f':
+            if c >= cols:
+                c, r = 0, min(rows - 1, r + 1)
+            cells[r][c] = ch
+            c += 1
+    return [''.join(row).rstrip() for row in cells]
 
 
 def squeezed(raw):
@@ -211,7 +274,18 @@ def main():
         w = Window('Backspace', [EXE, '-u', pack])
         windows.append(w)
         w.wait_for('WOULD YOU LIKE INSTRUCTIONS?')
-        w.type('NOX\b\r')
+        w.type('NOX')
+        end = time.time() + 20
+        while True:
+            with w.lock:
+                rows = screen_rows(w.raw)
+            prompt = max((k for k, row in enumerate(rows) if row.startswith('==>')), default=-1)
+            if 0 <= prompt < len(rows) - 1 and rows[prompt + 1].strip() == 'NOX':
+                break
+            assert time.time() < end, 'what was typed is not under the prompt:\n' + '\n'.join(rows)
+            time.sleep(0.1)
+        print('ok    what is typed shows on the line under the prompt')
+        w.type('\b\r')
         w.wait_for('END OF A ROAD')
         print('ok    Backspace deletes the last character typed')
         w.type('\x03')

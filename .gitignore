@@ -172,6 +172,9 @@ zeno.log
 /Quest*(Data General MV, AOS-VS)/port/*_DATA_FILE
 /Quest*(Data General MV, AOS-VS)/port/QUEST
 /Quest*(Data General MV, AOS-VS)/port/run/
+# the P7000 ADVENT's working pack (with a suspended game in it) when advent.exe
+# is run in its own folder without play.bat's --pack=saves\advent.pack
+/(ANON0350) Colossal Cave Adventure 350pt (Philips P7000, Four-Phase IDOS)/port/advent.pack
 # games saved in Cave Fun (SAVE writes NAME.SYMB beside the game file); the
 # game, the programs and the editor's adventures are .ADV and .PROG
 /Cave Fun (ND-100, SINTRAN III)/port/data/*.SYMB
