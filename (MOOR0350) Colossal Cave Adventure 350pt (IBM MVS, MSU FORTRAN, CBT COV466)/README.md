@@ -7,7 +7,7 @@ routines only `ADVENT` calls both come out byte-identical. `ADVENT` itself is to
 FORTRAN compiler on that system - the author used VS FORTRAN G1 (`IGIFORT`), which MVS 3.8j has not.
 Files in `src_original\` are verified copies (md5) of the originals named below.
 
-Source: `C:\Users\gschm\Downloads\nd\CBT.COV466.FILE119.PDS\` (IEBCOPY members as .txt, complete copy, 61 files).
+Source: `CBT.COV466.FILE119.PDS`, a folder in a batch of downloaded files (IEBCOPY members as .txt, complete copy, 61 files).
 Doug Moore (901 area code). IBM FORTRAN IV G + one assembler helper (`GETDTM`; AND OR XOR SHIFT CVLTUC
 CVSTB are FORTRAN) + JCL (`$ADVASM $ADVFORT $ADVLINK $WIZLINK`, doc in `$ADVDOC`). `ADVWIZ` builds an
 unformatted init file from `ADVTDATA`; `ADVENT2` = test build with SAVE/RESTORE. 350 points; adds a

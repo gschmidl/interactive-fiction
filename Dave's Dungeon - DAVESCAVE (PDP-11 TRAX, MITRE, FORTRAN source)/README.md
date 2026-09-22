@@ -10,7 +10,7 @@ that can compile it was at hand, so there is no reference transcript yet.
 
 Files here are verified copies (md5) of the originals named below.
 
-Source: `F:\bits\DEC\pdp11\trax\tape6_traxSrc_3-29-86.tap` - a SIMH tape image of a V7 tar archive (10240-byte
+Source: `bitsavers.org/bits/DEC/pdp11/trax/tape6_traxSrc_3-29-86.tap` - a SIMH tape image of a V7 tar archive (10240-byte
 records, 3278 members: `rsx/`, `stl/`, `res/`, `trax/`, `pics/`). The game is in `res/`, a VAX/VMS directory:
 `PROGRAM DAVESCAVE / C DUNGEONS AND DRAGONS WRITTEN BY DAVE PARKER / C DISTRIBUTED BY: MITRE CORP. DEPT W-45
 WESTGATE PARK MC LEAN, VA.`, "VERSION 1.0, DATED SEPT 1980". "WELCOME TO DAVE'S DUNGEON / ENTER YOUR THREE

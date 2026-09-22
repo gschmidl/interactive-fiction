@@ -1,6 +1,6 @@
 @echo off
 rem Build WANG 928 ADVENTURE for Windows. Needs gcc (MinGW-w64) on PATH;
-rem Strawberry Perl's bundled compiler works: C:\Strawberry\c\bin.
+rem Strawberry Perl's bundled compiler works (its c\bin folder).
 
 setlocal
 set CFLAGS=-O2 -Wall -Wextra -std=c99

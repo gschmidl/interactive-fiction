@@ -2,7 +2,7 @@
 # Build script for the SHARE Adventure PL/I port (Iron Spring PL/I / WSL2)
 set -e
 cd "$(dirname "$0")"
-PLIDIR=${PLIDIR:-~/tapecave/pli/pli-1.4.1}
+PLIDIR=${PLIDIR:?set PLIDIR to the unpacked Iron Spring PL/I folder (pli-1.4.1/)}
 PLIC="$PLIDIR/plic"
 INC="$PLIDIR/lib/include"
 LIB="$PLIDIR/lib/libprf.a"

@@ -13,7 +13,7 @@ source). The files here were cut out of that tape by DX10 itself, then checked a
 
 ## How they were extracted (2026-09-21)
 
-The reference machine is Dave Pitts' sim990 3.3.0 for Windows (`D:\SynologyDrive\_\_EMULATORS\Mainframes\sim990win-3.3.0`)
+The reference machine is Dave Pitts' sim990 3.3.0 for Windows (`sim990win-3.3.0`)
 with its DX10 3.7 disk. The run copy is in `..\..\_TI990_work\run370`: `dx10run.cfg` attaches the tape on MT01 and
 puts the system console on telnet port 2099. The tools are in `..\..\_TI990_work\tools`.
 

@@ -3,7 +3,7 @@
 `ADV.F4`, `ADV.DAT` and `IOFIL.FOR` are Will Crowther's original Adventure, abandoned
 unfinished in early 1976, as it sits in `DSKB:[1,2]` on the RP06 pack `t10.dsk` of Jimmy
 Maher's **"TOPS-10 in a Box" v1.1** (2011).  The user's copy of that distribution is
-`F:\eXo\eXoIF\eXo\emulators\TOPS-10\`; the pack is never written to — every run works on a
+the one in eXoIF (`eXo\emulators\TOPS-10\`); the pack is never written to — every run works on a
 copy.
 
 ## These are not a fresh extraction

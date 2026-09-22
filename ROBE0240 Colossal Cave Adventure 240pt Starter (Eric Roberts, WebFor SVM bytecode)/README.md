@@ -4,7 +4,7 @@
 `port\play.bat`, see `port\README.md`; refinement pending.** Files here are verified copies (md5) of the originals
 named below.
 
-Source: `E:\EXO\Colossal Cave Adventure (1976)\0665-Point Adventure\Browser\` (eXo's `0240-Point Adventure\Browser` is
+Source: eXo's `Colossal Cave Adventure (1976)\0665-Point Adventure\Browser\` (eXo's `0240-Point Adventure\Browser` is
 the identical folder). This project = **Small.js / const SMALL - "Starter Adventure (240 points)"**; the sibling folder covers the other game.
 
 ## What it is

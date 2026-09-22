@@ -6,7 +6,7 @@ restored with MAGRST onto a scratch PRIMOS 23.4 pack under p50em - come out iden
 measured but not yet reproduced, so the sessions keep off the dice. See `port\README.md`. Files here are verified
 copies (md5) of the originals named below.
 
-Source: `F:\bits\Prime\pulse_library.zip` -> `pulse_library.tap` (PRIMOS MAGSAV, the PULSE user-group library),
+Source: `bitsavers.org/bits/Prime/pulse_library.zip` -> `pulse_library.tap` (PRIMOS MAGSAV, the PULSE user-group library),
 directory `PULSE>ADVENTURE4`. Files cut out with `..\_bits_sweep_work\tools\primex.py` (raw + decoded `.txt`).
 
 `*INFO*` (saved as `@INFO@`): "stand-alone version of ADVENTURE4 (the complete 660 pt Glaxo version 4.3, 26th Jul 1984)":

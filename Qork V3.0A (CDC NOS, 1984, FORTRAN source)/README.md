@@ -5,8 +5,8 @@ against the original compiled by FTN5 on NOS 2.8.7 (Qork needs FORTRAN 77, so no
 sessions identical, the endgame won 600/600 on both. Files here are verified copies (md5) of the originals named
 below.
 
-Source: `C:\Users\gschm\Downloads\nd\Cyb\qork.src` + `qork.txt`.
+Source: `qork.src` + `qork.txt`, in the folder `Cyb` of a batch of downloaded files.
 **Older version of a game we already run**: eXo has Lidie's own 2022.04.01 V5.0a gfortran build
-(`E:\EXO\Zork (Mainframe) (1978)\Qork\Windows\qork.exe`). DECUS-lineage Dungeon without the endgame or Bank; the 1984 text
+(`Zork (Mainframe) (1978)\Qork\Windows\qork.exe`). DECUS-lineage Dungeon without the endgame or Bank; the 1984 text
 differs from the 2022 one in ~120 lines (typos, three later messages, NOS/BE -> NOS/VE jokes). Kept because the download
 is going away; it was ported last in the plan, as the optional step it was.

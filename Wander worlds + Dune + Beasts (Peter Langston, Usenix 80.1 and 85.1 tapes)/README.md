@@ -4,8 +4,8 @@
 worlds, and Dune and Beasts exist only as object files (see "what eXo already has" below).** Files here are verified
 copies (md5) of the originals named below.
 
-Sources: `F:\bits\Usenix\usenix_80.1_tp.tap` (tp format; `boulder/dpw/wand/...`, `boulder/dpw/emp/...`) and
-`F:\bits\Usenix\usenix_85.1.zip` (tar; `langston/vax/` and `langston/sun/`). `src_original\85.1\` = the WAND, DUNE and
+Sources: `bitsavers.org/bits/Usenix/usenix_80.1_tp.tap` (tp format; `boulder/dpw/wand/...`, `boulder/dpw/emp/...`) and
+`bitsavers.org/bits/Usenix/usenix_85.1.zip` (tar; `langston/vax/` and `langston/sun/`). `src_original\85.1\` = the WAND, DUNE and
 BEASTS directories cut from the 85.1 tar.
 
 - WANDER (1974-): 85.1 has `WAND/castle.wrld + .misc`, `advent.wrld + .misc`, `wander.c wandglb.c wandsys.c wanddef.h`,
@@ -20,7 +20,7 @@ The 80.1 tape has not been unpacked (tp format, 512-byte blocks, directory at bl
 
 ## Update 2026-09-19 - what eXo already has, and what is left
 eXo runs three Wander worlds with one DOS interpreter (`WANDER.EXE`, DJGPP, identical md5 in all three):
-`E:/EXO/Castle (1974)`, `E:/EXO/Aldebarran III (1977)` (a3), `E:/EXO/Library (1978)` - each `MS-DOS/drives/c/` with `<world>.wld` + `.msc`.
+`Castle (1974)`, `Aldebarran III (1977)` (a3), `Library (1978)` - each `MS-DOS/drives/c/` with `<world>.wld` + `.msc`.
 The 80.1 tape's second file is a binary cpio archive (not tp); `work/bcpio.py <tape> <path-substring> <outdir>` unpacks it.
 `src_original/80.1/boulder/dpw/wand/` = the complete "Export Wander Tape" of 29 Jan 1980: READ_ME, `a3 castle library tut`
 worlds (.wrld + .misc), `wanddef.h wandglb.c`, PDP-11 objects `wander.o Fwander.o NFwander.o`, nroff docs

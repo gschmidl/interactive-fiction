@@ -30,7 +30,8 @@ import tempfile
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 FOLDER = os.path.dirname(os.path.dirname(HERE))
-DOSBOX = r'C:\Program Files (x86)\DOSBox-0.74-3\DOSBox.exe'
+# DOSBox 0.74-3: DOSBOX in the environment names its DOSBox.exe, else it is found on PATH
+DOSBOX = os.environ.get('DOSBOX') or shutil.which('dosbox') or 'dosbox'
 REF = {'pohl': os.path.join(FOLDER, 'reference', 'pohl-dos'),
        'daimler': os.path.join(FOLDER, 'reference', 'daimler-dos')}
 CREDIT = b'\t-Conversion to TurboC 2.0 by Daimler\r\n'

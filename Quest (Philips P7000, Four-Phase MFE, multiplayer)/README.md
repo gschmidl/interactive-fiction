@@ -12,7 +12,7 @@ Four-Phase IV/90 Model 2, starts MFE/7000 BN03-C and QUEST as the operator did, 
 The emulator, its tools and the manuals it was built from are in `_FourPhase_work` (`docs/ISA_NOTES.md` sums up the
 machine). The notes below are from before the port.
 
-Source: `F:\bits\Philips\P7000\DTUX_QUEST_ADV_HGHSEC.TAP` (the only file in that folder).
+Source: `bitsavers.org/bits/Philips/P7000/DTUX_QUEST_ADV_HGHSEC.TAP` (the only file in that folder).
 
 ## What it is
 A SIMH-format tape written by the site's disk-to-tape utility ("DTUX UTILITY --09 APR 80", "COPY FROM DRIVE 000 TO DECK 0
@@ -33,7 +33,7 @@ QUEST strings (offsets into the concatenated record payloads, 7-bit masked):
 - 1645143 `A P7000 MODEL 40/45 IS REQUIRED`, MFE system initialisation messages (MFE itself is on the tape)
 
 ## What a port needs
-No source. The P7000 is Philips' badge for Four-Phase hardware; nothing in F:\bits documents the CPU. Work order:
+No source. The P7000 is Philips' badge for Four-Phase hardware; nothing in bitsavers' bits/ documents the CPU. Work order:
 find the instruction set (bitsavers pdf/fourPhase), write the emulator, boot MFE from this dump, run QUEST with N terminals.
 The same tape holds ADVENT under IDOS - see the sibling folder `Colossal Cave Adventure 350pt (Philips P7000, Four-Phase IDOS)`.
 

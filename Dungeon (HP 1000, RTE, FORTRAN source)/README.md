@@ -9,7 +9,7 @@ Fota". The main game only (500 points); the endgame is a sign, "Soon to be const
 
 Sources (verified copies, md5, in `archive_original`; all eleven CSL-1000 zips are in `..\_HP1000_work\CSL-1000\`):
 
-- `F:\bits\HP\HP_1000_software_collection\specials\CSL-1000_Rev-2240.zip` - TF tape, release 2240 (22 Sep 1986 copy):
+- `bitsavers.org/bits/HP/HP_1000_software_collection/specials/CSL-1000_Rev-2240.zip` - TF tape, release 2240 (22 Sep 1986 copy):
   contribution **F042 "DUNGN - DUNGEONS AND DRAGONS"** by Tom Hutchinson - the main program and five segments
   (#DUNGA-#DUNGF), the subroutine library #DUNGL, the segment linker #DLINK and #A2A1/#A1A2 in assembler, the LOADR
   command file and the messages and initialisation file @DUNGN; plus contribution F017 "SUBS" (the same group's

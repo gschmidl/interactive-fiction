@@ -16,7 +16,7 @@ Folders:
   - the program-file map.
 - `port\`: the port.
 
-Source: `F:\bits\TI\990\9trkTapes\orig\ti990_games.tap.gz` (+ `titapes.txt`; `DX10_system_tapes\` = `...\orig\DX10\`,
+Source: `bitsavers.org/bits/TI/990/9trkTapes/orig/ti990_games.tap.gz` (+ `titapes.txt`; `DX10_system_tapes\` = `.../orig/DX10/`,
 the OS tapes an emulator would boot).
 
 The tape is a DX10 backup of `GAMES` (`.SYN GAMES=GAMES.GAMES`, `.USE @GAMES.PROC`).
@@ -27,7 +27,7 @@ The tape is a DX10 backup of `GAMES` (`.SYN GAMES=GAMES.GAMES`, `.USE @GAMES.PRO
 - **What Adventure is on the tape:** the linked task ADVEN in `GAMES.PROG`, plus the data file `FILES.CAVE`, whose texts
   are scrambled. There is no FORTRAN source for it; other games on the tape do have source.
 
-The reference machine is Dave Pitts' sim990 3.3.0 for Windows (`D:\SynologyDrive\_\_EMULATORS\Mainframes\sim990win-3.3.0`)
+The reference machine is Dave Pitts' sim990 3.3.0 for Windows (`sim990win-3.3.0`)
 with its DX10 3.7 disk; the working copy and the tools are in `..\_TI990_work` (`run370\`, `tools\`, `docs\`).
 - The console is on telnet port 2099. Log on with Esc `!`, then run `IDT` with a 4-digit year.
 - `RD MT01 .GAMES` restores the tape.

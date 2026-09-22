@@ -4,7 +4,7 @@
 original running on real PRIMOS 23.4 under p50em, in three recorded sessions (`port\tests\runall.sh`).
 Files in `src_original\` are verified copies (md5) of the originals named below.
 
-Source: `F:\bits\Prime\sbd\SBD003.zip` -> `sbd003_games_6-7-85.tap` (SIMH tape, PRIMOS MAGSAV, labelled SBD003 121885).
+Source: `bitsavers.org/bits/Prime/sbd/SBD003.zip` -> `sbd003_games_6-7-85.tap` (SIMH tape, PRIMOS MAGSAV, labelled SBD003 121885).
 Same set of tapes that gave Ankh and Tower (SBD001/002). `src_original\` holds the files cut out with
 `..\_bits_sweep_work\tools\primex.py`: each file raw as on tape (high-bit ASCII, 0x91 nn = run of blanks, lines padded
 to even length) and, where it is text, a decoded `.txt` beside it. `*.ufdhdr` = directory header records.

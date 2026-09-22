@@ -12,8 +12,8 @@ the original MVS/TSO mainframe environment.
 Requires WSL2 with a Linux distro (tested on Debian) and the Iron
 Spring PL/I compiler (download `pli-1.4.1.tgz` from iron-spring.com and
 `tar xzf` it anywhere — no `make install`/root needed). Point `PLIDIR`
-at the unpacked `pli-1.4.1/` directory; `build.sh` carries a default at
-the top of the file.
+at the unpacked `pli-1.4.1/` directory; `build.sh` stops and says so if
+it is not set.
 
 ```bash
 python3 decode_database.py   # (re)builds decoded_database.txt from ../DATABASE.dat

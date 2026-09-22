@@ -85,8 +85,8 @@ thousandths, in 32-bit arithmetic that overflows. Every draw reads the
 clock, so `--time` holds the clock still and makes a game repeat.
 
 **The terminal**, as ANS FORTRAN B08 showed it on CP-V C00 (the program was
-taken from the F00 system volume in `F:\bits\SDS\sigma\cp-v\f00` and run on
-the SIMH kit in `H:\sigma-cpv-kit`): a record is printed as it stands,
+taken from the F00 system volume in `bitsavers.org/bits/SDS/sigma/cp-v/f00`
+and run on Ken Rector's SIMH kit): a record is printed as it stands,
 carriage-control blank included, so every line of the game starts with a
 blank; `STOP` prints ` *STOP* ` and its text (` *STOP* 0` when the game ends).
 The cave's text uses CP-V's control codes: two bells after the welcome, and

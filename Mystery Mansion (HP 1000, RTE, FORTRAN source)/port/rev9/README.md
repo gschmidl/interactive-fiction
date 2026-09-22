@@ -24,9 +24,9 @@ clock (revision 16 prints a fixed "MYSTERY 2. REVISION 16" instead).
 - `build.bat` (or `build.sh`): `src\mkdisc.py` makes `.build\disc0.img`, the
   7906 image (the tape's 411 tracks are the removable platter's first 411
   tracks; SIMH keeps that platter first, words little-endian); copies
-  `src\rte.sim` and SIMH's `hp2100.exe` (V3.12) into `.build` - from `HP2100`
-  if set, else the eXo copy in `E:\EXO\Colossal Cave Adventure (1976)\0385-Point
-  Adventure\HP-2100\`.
+  `src\rte.sim` and SIMH's `hp2100.exe` (V3.12) into `.build` - the one the
+  environment variable `HP2100` names, else the one on `PATH`. (eXo's
+  385-point Adventure has one, in its `HP-2100` folder.)
 - `play.bat` (`src\term.py`) runs SIMH hidden, in a console of its own (SIMH
   will not run on a pipe), tied to the terminal by a job object so that
   closing the window stops it too. `term.py` is the HP 2645 on SIMH's BACI

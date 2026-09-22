@@ -133,7 +133,7 @@ word, typed back as five characters of the game's own character set (`tests\cmpm
 
 ## Doing it again on MVS
 
-`tests\mvs\` drives TK5 (`D:\SynologyDrive\_\_EMULATORS\Mainframes\IBM\MVS-TurnKey5.zip`, extracted
+`tests\mvs\` drives TK5 (MVS 3.8j TurnKey 5, `MVS-TurnKey5.zip`, extracted
 to a scratch copy; `start.ps1` starts it in daemon mode, and jobs go in through the socket card reader
 on port 3505):
 

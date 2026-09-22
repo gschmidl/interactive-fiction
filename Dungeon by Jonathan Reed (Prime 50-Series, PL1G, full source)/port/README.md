@@ -10,7 +10,7 @@ original running on real PRIMOS come out byte-identical** (`tests\runall.sh`).
 ## How the original was measured
 
 The SBD003 tape in `..\archive_original` was restored under PRIMOS 23.4.Y2K.R1 on p50em
-(`D:\SynologyDrive\_\_EMULATORS\Computers\p50em`, disk pack copied to a scratch directory first): `ASSIGN MT0`,
+(disk pack copied to a scratch directory first): `ASSIGN MT0`,
 `MAGRST`, tape unit 0, logical tape 1, and **`YES`** at "Ready to Restore:". That restored `PL1G_GAMES>DUNGEON.PL1G`
 *and* `SEG_GAMES>DUNGEON.SEG`, the compiled original, which `SEG DUNGEON` runs. `tests\primesh.py` drives the system
 over telnet and `tests\syncplay.py` plays the game, waiting for its prompts. (PL1G itself is not installed on this

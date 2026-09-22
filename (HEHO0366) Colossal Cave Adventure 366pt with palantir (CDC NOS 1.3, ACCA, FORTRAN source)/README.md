@@ -10,7 +10,7 @@ which is what governs when the dwarves appear.
 
 Files here are verified copies (md5) of the originals named below.
 
-Source: `C:\Users\gschm\Downloads\nd\Cyb\adventure.src` + `adventure.txt`.
+Source: `adventure.src` + `adventure.txt`, in the folder `Cyb` of a batch of downloaded files.
 "Updated from SCOPE 3.4 to NOS 1.3 by Bill Hein and Shelley Hobson (ACCA)"; chain Blackett IAS -> Supnik RT-11
 (21-Oct-77). Adds an overgrown path south of room 5 -> dell 141 -> gazebo 142 (elvish runes, "PKIHMN"),
 treasure 65 PALANTIR (ORB), which you **PEER** into for hints - the four letter word the hint means is PEER itself,

@@ -8,7 +8,7 @@ catalogue (vulcan_infomaster_errs.tap @~5306692, "Es gibt folgende Spiele ( 0000
 - ABENTEUE: "Suchen Sie Ihr Glueck in der GIGANTISCHEN HOEHLE"
 - ADVENTUR: "... oder lieber auf Englisch in COLOSSAL CAVE ?"
 
-Source: `F:\bits\Harris\vulcan\fast.tap`, a Harris FAST disc save in three huge records (4.8 MB, 4.5 MB,
+Source: `bitsavers.org/bits/Harris/vulcan/fast.tap`, a Harris FAST disc save in three huge records (4.8 MB, 4.5 MB,
 16.7 MB), copied verified (md5) to `archive_original\fast.tap`. All 14 Harris tapes are in
 `..\_Harris_VULCAN_work\tapes\`.
 

@@ -5,7 +5,7 @@ database translator (MUNGESI) are the original ANS FORTRAN, converted for gfortr
 assembler helpers are rewritten from their sources; the cave is compiled by the original translator from the original
 D: files, exactly as COMPILE_CAVE did.
 
-Source: `F:\bits\SDS\sigma\ladc\LADC_*` (Honeywell Los Angeles Development Center SST tapes). Each LADC folder has the SIMH
+Source: `bitsavers.org/bits/SDS/sigma/ladc/LADC_*` (Honeywell Los Angeles Development Center SST tapes). Each LADC folder has the SIMH
 tape (`.tap.gz`, EBCDIC), a zip of the files already converted to ASCII, and the reader's notes. The Adventure files are
 on most of the tapes (first tape of each group is in `archive_original\`):
 

@@ -10,7 +10,7 @@ on the pack SYMBOL30. The game's newspaper, dated 23-APR-80, calls it "a first, 
 
 Sources (verified copies, md5):
 - `archive_original\CSL-1000_Rev-2213.zip` - the INTEREX CSL/1000 library release 2213 (TF tape image; also in
-  `..\_HP1000_work\CSL-1000\`, from `F:\bits\HP\HP_1000_software_collection\specials\`). Contribution A072, "Dungeons
+  `..\_HP1000_work\CSL-1000\`, from `bitsavers.org/bits/HP/HP_1000_software_collection/specials/`). Contribution A072, "Dungeons
   And Dragons Game" by an unknown contributor: "This is the source for Dungeons and Dragons that so many have
   wanted and waited for. This copy has not been edited to work on the HP-1000."
 - `src_original\` - its three files as text: the submission form (a07201), the source `&DUNGN.ftn` (a07202, md5

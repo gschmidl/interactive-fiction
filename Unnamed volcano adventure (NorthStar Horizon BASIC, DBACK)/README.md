@@ -4,7 +4,7 @@
 BASIC it was written for, taken from the same disk, on an emulated Z80. See `port\README.md`. Files here are
 verified copies (md5) of the originals named below.
 
-Source: `F:\bits\NorthStar\NorthStar_Horizon\101DISK.NSI` (179200 bytes, md5 e52c2c204cf77c096ea293ef9aa4b913).
+Source: `bitsavers.org/bits/NorthStar/NorthStar_Horizon/101DISK.NSI` (179200 bytes, md5 e52c2c204cf77c096ea293ef9aa4b913).
 
 **It is not an orphaned fragment**, as the folder's first name said (renamed 2026-09-21 from "..., orphaned
 fragment)").

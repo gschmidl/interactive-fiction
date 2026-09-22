@@ -9,7 +9,7 @@ folder's name says.
 
 Files here are verified copies (md5) of the originals named below.
 
-Source: `C:\Users\gschm\Downloads\nd\jase\` (3 files, complete copy).
+Source: the folder `jase` of a batch of downloaded files (3 files, complete copy).
 - `ADVENT.txt` - CDC FORTRAN, Blackett IAS base with Gary Palter's wizard and prime-time machinery,
   "converted ... for use on the MCAUTO Cyber 74 by systems programmers Tony Jarrett and Paul Zemlin ... 12/17/78".
   Asks "BEG or ADV" (Black Wizard of the High East Tower); PFGETs =DATABS1/=DATABS2 from UN=XSY913.

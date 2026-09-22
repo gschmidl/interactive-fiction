@@ -2,9 +2,9 @@
 
 usage: cmp.py cmdfile primos_transcript
 """
-import difflib, subprocess, sys, re
+import difflib, os, subprocess, sys, re
 
-EXE = r"D:\SynologyDrive\_\RECONSTRUCTIONS\Dungeon by Jonathan Reed (Prime 50-Series, PL1G, full source)\port\dungeon.exe"
+EXE = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'dungeon.exe')
 
 cmds = open(sys.argv[1], "rb").read()
 prim = open(sys.argv[2], encoding="latin-1").read()

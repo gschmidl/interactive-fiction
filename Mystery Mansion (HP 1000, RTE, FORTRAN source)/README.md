@@ -11,12 +11,12 @@ differ in wording here and there.
 
 Sources (verified copies, md5, in `archive_original`):
 
-- `F:\bits\HP\HP_1000_software_collection\specials\CSL-1000_Startup-Tape.zip` - the CSL/1000 startup tape of
+- `bitsavers.org/bits/HP/HP_1000_software_collection/specials/CSL-1000_Startup-Tape.zip` - the CSL/1000 startup tape of
   27 Aug 1986, files @00500-@00508: the whole program - source `&MMM` (9920 lines: main program MMM, BLOCK DATA,
   MMRI, MMRL and the twelve segments MMSA-MMSL), its relocatable `%MMM`, the LOADR command file, the segment
   restore/delete transfer files, the softkey file and the submission form. `src_original` has them as files
   (`MANIFEST.txt`; the RTE names `"MMM /MMM \MMM *MMM` are `_MMM.info/.restore/.delete/.softkeys`).
-- `F:\bits\HP\Crisis_Computer_Tapes\ccc_9trkTapes_20050826\f1_dskup_f2_rte2250sys.tap.gz` - an RTE system backup
+- `bitsavers.org/bits/HP/Crisis_Computer_Tapes/ccc_9trkTapes_20050826/f1_dskup_f2_rte2250sys.tap.gz` - an RTE system backup
   with the game compiled, twice (about 21.05 and 22.0 MB into the uncompressed tape), and a games menu on the
   264x softkeys (Mystery Mansion, Star Trek, Shoot, Othello, Master Mind, Lunar Lander). It is another revision:
   its banner prints the revision number at run time, credits plain "BILL WOLPERT" and the room list spells
