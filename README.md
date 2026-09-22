@@ -9,13 +9,13 @@ are at https://codeberg.org/gschmidl/interactive-fiction.
 Every folder is one game. A folder with a `port/` directory (or, for the type-ins, the rebuilt program itself) is a
 finished recovery or port; its own README says how it was done and how it was checked.
 
-## WORK IN PROGRESS
+## THE 2026-09 PORTING PLAN (DONE)
 
-The folders below were staged on 2026-09-19 and are being ported in this order; progress is kept in
-`_bits_sweep_work/PORT_PLAN.md`, and each folder's README starts with its status. A README that still says "Status:
-STAGED" is a first reading of the files, not a result.
+The folders below were staged on 2026-09-19 and worked through in this order, least effort first, by 2026-09-22;
+nothing on the list is still in progress. Each folder's README starts with its status and says how the game was
+recovered and checked (the working notes, `_bits_sweep_work/PORT_PLAN.md`, are not published).
 
-Planned order, least effort first (status as of 2026-09-21):
+The order, with what came of each:
 
 1. `HOWE0301 Adventure! 301pt (Atari 8-bit BASIC, Robert Howell, 1982)` - emulation only (no port)
 2. `KNUT0350 Colossal Cave Adventure 350pt (Knuth CWEB, 1998)` - ported and refined: Knuth's later errata as fixes, a
@@ -36,7 +36,7 @@ Planned order, least effort first (status as of 2026-09-21):
     fuzzing found nothing to fix
 11. `(ANON0350) Colossal Cave Adventure 350pt (Prime 50-Series, PRIMOS FORTRAN, full source)` - ported;
     refine-pass fuzzing found nothing to fix
-12. `(HEHO0366) Colossal Cave Adventure 350pt with palantir (CDC NOS 1.3, ACCA, FORTRAN source)` - ported
+12. `(HEHO0366) Colossal Cave Adventure 366pt with palantir (CDC NOS 1.3, ACCA, FORTRAN source)` - ported
 13. `JAZE_XXX Colossal Cave Adventure 350pt + 500pt castle (CDC Cyber 74, MCAUTO, FORTRAN source)` - ported
 14. `Qork V3.0A (CDC NOS, 1984, FORTRAN source)` - ported last (first pass), seven sessions identical with the
     original compiled by FTN5 on NOS 2.8.7
@@ -62,6 +62,12 @@ Planned order, least effort first (status as of 2026-09-21):
     `Quest (Philips P7000, Four-Phase MFE, multiplayer)` - ported (2026-09-22): the same pack on an emulated
     IV/90 Model 2, MFE/7000 started as the operator did; up to six players, each window a terminal over TCP
 
+After the plan, the last two (2026-09-22):
+- `Dungeon (Burroughs B7700, MCP, FORTRAN source)` - ported: the B7700 FORTRAN source (DECUS Dungeon V1.2c code,
+  V2.0 text) that the HP 1000 Dungeon (18) came from, on the same library's release 2213 tape
+- `Mystery Mansion (HP 1000, RTE, FORTRAN source)\port\rev9` - runs: revision 9, compiled, on the site's own
+  RTE-IVB system (7906 disc save on the Crisis Computer tape) in SIMH hp2100, with a 2645 terminal front end
+
 Some staged folders name an `archive_original/` file that is not in this repository: tapes that carry a whole operating
 system kit, a whole site's disc save or a licensed source tape are kept on disk only (see section 3 of `.gitignore`).
 All of them came from bitsavers.org/bits, and each README gives the path.
@@ -71,5 +77,5 @@ All of them came from bitsavers.org/bits, and each README gives the path.
 Colossal Cave variants start with their name in the scheme of the
 [Adventure Family Tree](https://mipmip.org/advfamily/advfamily.html) and
 [Quuxplusone/Advent](https://github.com/Quuxplusone/Advent): up to four letters of the author's or porter's last name,
-then the four-digit maximum score (`_XXX` if unknown). A name **in parentheses** - `(BEAS0385)`, `(ANON0350)` - does
+then the four-digit maximum score (`_XXX` if unknown). A name **in parentheses** - `(MOOR0350)`, `(ANON0350)` - does
 not appear in either list: it was constructed here by the same rules and is preliminary.
