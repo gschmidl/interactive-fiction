@@ -58,9 +58,9 @@ def stream_text(raw):
 
 
 class Player:
-    def __init__(self, name, port):
+    def __init__(self, name, port, host='127.0.0.1'):
         self.name = name
-        self.s = socket.create_connection(('127.0.0.1', port), timeout=30)
+        self.s = socket.create_connection((host, port), timeout=30)
         self.s.setblocking(False)
         self.raw = b''
         self.closed = False

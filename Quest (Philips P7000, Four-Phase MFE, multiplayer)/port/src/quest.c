@@ -60,9 +60,11 @@ static void usage(FILE *f)
 "      --easy            play with the 'EASY' library; the site had the\n"
 "                        'HARD' one installed as QLIB\n"
 "      --port=N          the TCP port the players' windows use (default 7000)\n"
-"      --lan             let players on other computers join\n"
-"      --join=HOST[:PORT]  be a player in the game started on computer HOST\n"
-"                        (a window started without --join joins a game that\n"
+"      --lan             let players on other computers join (the game's\n"
+"                        window shows the computer's name to give --join)\n"
+"      --join=HOST[:PORT]  be a player in the game started on computer HOST,\n"
+"                        a name or an address ([ADDRESS]:PORT for IPv6; a\n"
+"                        window started without --join joins a game that\n"
 "                        is waiting for players on this computer)\n"
 "      --transcript      follow terminal 0 as a log and read its lines from\n"
 "                        stdin (the default when stdin or stdout is not a\n"
@@ -679,14 +681,21 @@ static int input_line_empty(void)
 static void the_end(const char *why, int code);
 
 /* a line from stdin for terminal 0, once QUEST has been waiting for one for
- * SETTLE clock ticks */
+ * SETTLE clock ticks.  QUEST holds one line per player: until it has taken
+ * the last one (an action takes time), it refuses every key with a beep and
+ * shows none of them.  A line of which nothing showed is typed again, as a
+ * player would. */
+static char tr_line[512];               /* the line typed last */
+static int tr_watch, tr_shown;          /* ... not yet known to be taken; some of it showed */
+
 static void transcript_step(void)
 {
-    char line[512];
     size_t n, i;
 
     if (term[0].state != T_SIGNON && term[0].state != T_PLAYING)
         return;
+    if (tr_watch && !input_line_empty())
+        tr_shown = 1;
     if (kbd_pending(0) || !input_line_empty()) {
         tr_ready = 0;
         return;
@@ -698,16 +707,23 @@ static void transcript_step(void)
     if (clock_ticks < tr_ready)
         return;
     transcript_flush();
-    switch (stdin_line(line, sizeof line)) {
-    case 0:
-        return;                                 /* not yet: the others play on */
-    case -1:
-        the_end(NULL, 0);
-    }
+    if (tr_watch && !tr_shown) {
+        if (netlog)
+            note("terminal 0: QUEST refused the line \"%s\"; typing it again", tr_line);
+    } else
+        switch (stdin_line(tr_line, sizeof tr_line)) {
+        case 0:
+            tr_watch = 0;
+            return;                             /* not yet: the others play on */
+        case -1:
+            the_end(NULL, 0);
+        }
     tr_ready = 0;
-    n = strlen(line);
+    n = strlen(tr_line);
+    tr_watch = strspn(tr_line, " \t") < n;      /* a blank line shows nothing */
+    tr_shown = 0;
     for (i = 0; i < n; i++)
-        term_key(0, (unsigned char)line[i]);
+        term_key(0, (unsigned char)tr_line[i]);
     term_key(0, K_ENTER);
 }
 
@@ -877,6 +893,11 @@ static void operator_step(void)
     case OP_COUNT:                              /* the console back to terminal 0 */
         type_text(0, "\205");
         op = OP_PLAY;
+        if (smc_fp && !ran_map) {               /* debugging: QUEST_SMC watches from here */
+            ran_map = calloc(PHYSWORDS, 1);
+            if (getenv("QUEST_WATCH"))
+                watch_arm(getenv("QUEST_WATCH"));
+        }
         break;
     }
 }
@@ -892,6 +913,8 @@ static int game_started(void)
             return 0;
     return 1;
 }
+
+static char lan_name[64];               /* --lan: this computer's name, for --join */
 
 static const char *status_of(int t)
 {
@@ -909,6 +932,9 @@ static const char *status_of(int t)
                  "it for all.");
     else if (term[t].state == T_LEFT)
         snprintf(s, sizeof s, " You have left QUEST.  Press a key to close the window.");
+    else if (here < nterm && lan_name[0])
+        snprintf(s, sizeof s, " %d of %d players here: the others run %s --join=%s.  Ctrl+C "
+                 "quits.", here, nterm, prog, lan_name);
     else if (here < nterm)
         snprintf(s, sizeof s, " QUEST for %d players, %d here: the others start %s to join.  "
                  "Ctrl+C quits.", nterm, here, prog);
@@ -1181,6 +1207,7 @@ static int keys_pending(void)
 }
 
 static int quitting;                    /* Ctrl+C: no key to wait for */
+static unsigned long long max_lag;      /* real time: the most clock ticks the machine was behind */
 
 /* the end: the last screens, and the players' windows closed */
 static void the_end(const char *why, int code)
@@ -1189,6 +1216,9 @@ static void the_end(const char *why, int code)
 
     if (why && !end_text[0])
         snprintf(end_text, sizeof end_text, "%s", why);
+    if (!opt_fixed_clock)
+        note("the clock: %llu ticks given, %llu due; in the game the machine was %llu ticks behind "
+             "at most", clock_ticks, clock_due(), max_lag);
     for (t = 0; t < nterm; t++)
         if (term[t].conn >= 0) {
             draw(t);
@@ -1260,11 +1290,15 @@ static void run(void)
         int t, idle, held = 0;
 
         if (!opt_fixed_clock && op == OP_PLAY) {
+            unsigned long long due = clock_due();
+
             if (clock_ticks != budget_tick) {
                 budget_tick = clock_ticks;
                 budget = 0;
             }
-            held = budget >= THROTTLE && clock_due() <= clock_ticks;
+            held = budget >= THROTTLE && due <= clock_ticks;
+            if (due > clock_ticks && due - clock_ticks > max_lag)
+                max_lag = due - clock_ticks;
         }
         idle_hits = 0;
         if (!held) {
@@ -1325,17 +1359,32 @@ int main(int argc, char **argv)
     if (getenv("QUEST_STOP_AT"))                /* ... show the screens at instruction N */
         stop_at = strtoull(getenv("QUEST_STOP_AT"), NULL, 10);
     netlog = getenv("QUEST_NETLOG") != NULL;    /* ... log the players' comings and goings */
-    if (opt_join) {
-        char host[256], *colon;
+    if (getenv("QUEST_SMC")) {                  /* ... report writes over code that has run */
+        smc_fp = fopen(getenv("QUEST_SMC"), "w");
+        if (!smc_fp) {
+            fprintf(stderr, "%s: QUEST_SMC: cannot open %s\n", prog, getenv("QUEST_SMC"));
+            return 2;
+        }
+        setvbuf(smc_fp, NULL, _IOLBF, 4096);
+    }
+    if (opt_join) {                             /* HOST, HOST:PORT, [IPv6] or [IPv6]:PORT */
+        char host[256], *h = host, *colon;
         int port = opt_port;
 
         snprintf(host, sizeof host, "%s", opt_join);
-        colon = strrchr(host, ':');
-        if (colon && !strchr(colon + 1, ']')) {
-            *colon = 0;
+        if (*h == '[') {
+            colon = strchr(h, ']');
+            if (!colon || (colon[1] && colon[1] != ':'))
+                bad_option("--join: not HOST, HOST:PORT or [ADDRESS]:PORT:", opt_join);
+            *colon++ = 0;
+            h++;
+            if (*colon == ':')
+                port = number(colon + 1, 1, 65535, "the port");
+        } else if ((colon = strchr(h, ':')) != NULL && colon == strrchr(h, ':')) {
+            *colon = 0;                         /* more than one colon: an IPv6 address */
             port = number(colon + 1, 1, 65535, "the port");
         }
-        return net_join(host, port);
+        return net_join(h, port);
     }
     stdin_tty = isatty(fileno(stdin));
     transcript = opt_transcript || !stdin_tty || !isatty(fileno(stdout)) || !con_interactive();
@@ -1364,6 +1413,8 @@ int main(int argc, char **argv)
         net_shutdown();                         /* nobody can join a game for one */
         listening = 0;
     }
+    if (listening && opt_lan && net_host_name(lan_name, sizeof lan_name))
+        lan_name[0] = 0;
     nterm = opt_players;
     for (t = 0; t < MAXTERM; t++)
         term[t].conn = -1;

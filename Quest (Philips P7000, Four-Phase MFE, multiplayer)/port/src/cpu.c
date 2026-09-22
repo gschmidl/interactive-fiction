@@ -5,6 +5,7 @@
  * BDEC, DBIN and BYTE, their behaviour inferred from IDOS, MFE and QUEST
  * (ISA_NOTES, "IV/90 behaviour inferred").  BIT is not emulated. */
 #include <stdarg.h>
+#include <stdlib.h>
 #include <string.h>
 #include "fp4.h"
 
@@ -46,6 +47,63 @@ static inline unsigned long paddr(int w, word a)
     return (unsigned long)(mapper[(w & 0377) * 32 + (a >> 10)] & 0377) << 10 | (a & 01777);
 }
 
+/* debugging (QUEST_SMC): writes over words that have run as instructions */
+unsigned char *ran_map;
+FILE *smc_fp;
+const char *write_ctx;                  /* the IO that writes, if not the program */
+static int smc_reports;
+
+static void smc_report(unsigned long p, word v)
+{
+    if (write_ctx && strstr(write_ctx, "channel 2 "))
+        return;                         /* the disc loading programs */
+    if (smc_reports++ < 5000) {
+        fprintf(smc_fp, "%llu: %08o over %08o at physical %06lo by %s at %05o in window %o\n",
+                icount, v & W24, mem[p], p, write_ctx ? write_ctx : "the program", last_pc,
+                cur_win);
+        if (write_ctx && smc_reports < 50)
+            trace_dump_ring(smc_fp, 256);
+        fflush(smc_fp);
+    }
+}
+
+/* debugging (QUEST_WATCH=WIN:ADDR,...): every write to those words */
+static unsigned long watch_p[256];
+static int watch_n, watch_reports;
+
+void watch_arm(const char *spec)
+{
+    while (*spec && watch_n < 256) {
+        char *end;
+        int w = (int)strtol(spec, &end, 8);
+        word a = *end == ':' ? (word)strtol(end + 1, &end, 8) : 0;
+
+        watch_p[watch_n++] = paddr(w, a);
+        fprintf(smc_fp, "watching window %o %05o = physical %06lo\n", w, a,
+                watch_p[watch_n - 1]);
+        spec = *end == ',' ? end + 1 : end;
+        if (*end != ',')
+            break;
+    }
+    fflush(smc_fp);
+}
+
+static void watch_check(unsigned long p, word v)
+{
+    int i;
+
+    for (i = 0; i < watch_n; i++)
+        if (watch_p[i] == p) {
+            fprintf(smc_fp, "%llu: %08o over %08o at physical %06lo (watched) by %s at %05o in "
+                    "window %o\n", icount, v & W24, mem[p], p,
+                    write_ctx ? write_ctx : "the program", last_pc, cur_win);
+            if (watch_reports++ < 400)
+                trace_dump_ring(smc_fp, 24);
+            fflush(smc_fp);
+            return;
+        }
+}
+
 /* memory that is not there reads all ones and ignores writes */
 word wrd(int w, word a)
 {
@@ -58,8 +116,13 @@ void wwr(int w, word a, word v)
 {
     unsigned long p = paddr(w, a);
 
-    if (p < (unsigned long)phys_pages << 10)
+    if (p < (unsigned long)phys_pages << 10) {
+        if (ran_map && ran_map[p] && mem[p] != (v & W24))
+            smc_report(p, v);
+        if (watch_n)
+            watch_check(p, v);
         mem[p] = v & W24;
+    }
 }
 
 word vrd(word a)
@@ -1296,6 +1359,8 @@ void cpu_step(void)
     if (cur_win == idle_win && pc - idle_lo <= idle_hi - idle_lo)
         idle_hits++;
     ir = rd(pc);
+    if (ran_map)
+        ran_map[paddr(-1, pc)] = 1;
     RP = (pc + 1) & A15;
     trace_insn(pc, ir);
     cpu_exec(ir, 0);

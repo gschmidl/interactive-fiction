@@ -30,6 +30,10 @@ word vrd(word a);                       /* logical address A in the current wind
 void vwr(word a, word v);
 word wrd(int w, word a);                /* ... in window W (< 0: the current one) */
 void wwr(int w, word a, word v);
+extern unsigned char *ran_map;          /* debugging: the words that have run (QUEST_SMC) */
+extern FILE *smc_fp;                    /* ... where writes over them are reported */
+extern const char *write_ctx;           /* ... the IO that writes, if not the program */
+void watch_arm(const char *spec);       /* debugging: report writes to WIN:ADDR,... (QUEST_WATCH) */
 extern int io_cross;                    /* IOXW: the buffer word names its window */
 extern word reg[8];                     /* R0 R1 RP RA RB X1 X2 X3 */
 #define RP reg[2]

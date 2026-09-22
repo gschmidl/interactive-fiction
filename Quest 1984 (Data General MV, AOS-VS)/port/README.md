@@ -70,7 +70,8 @@ one world.
 
     quest               start the world and play -- or join it, if it is already running here
     quest --lan         the same, and players on other computers may join too
-    quest --join HOST   play in the world running on computer HOST (a name or an address)
+    quest --join HOST   play in the world running on computer HOST (a name or an address;
+                        HOST:PORT, and [ADDRESS]:PORT for IPv6)
     quest --server      run the world with nobody playing at this window
     quest --god         play at full strength and never die -- see God mode
     quest --help        every option
@@ -86,9 +87,13 @@ one world.
 * **From another computer**: start the world with `quest --lan` (Windows
   Firewall asks once), then either copy this folder to the other computer and
   run `quest --join HOST`, or use a telnet client such as PuTTY (connection
-  type *Telnet*, port 4084).  Only on a network you trust — the game's own
-  passwords are the only lock.  The later Quest uses port 4040, so both can
-  run at once.
+  type *Telnet*, port 4084).  The window's title says what to type: `quest
+  --join` and this computer's name.  With `--lan` the world listens for IPv6
+  as well as IPv4: a name usually resolves to IPv6 addresses first, and with
+  only IPv4 listening the firewall would drop those, so a join by name would
+  wait about 20 seconds for each one (2026-09-22).  Only on a network you
+  trust — the game's own passwords are the only lock.  The later Quest uses
+  port 4040, so both can run at once.
 * `USER_DATA_FILE` holds eight characters.  The authors' own take five of
   the slots and dead BERT's is free, so three new characters fit.
 * Logons take turns: a player who connects while someone else is still
@@ -149,6 +154,13 @@ one coming back through `--join --god`, and a `--server --god` world.  And
 windows: the title, a window that hosts, a window that joins, `--god`, and
 Ctrl-C.
 
+Not in `run.sh`, because it opens a world to the network: `tests/lanplay.py`.
+It runs a `--server --lan` world that says to join with `quest --join` and
+this computer's name, and refuses a second world on its port. One player
+joins by that name over IPv6. Another joins from WSL2's virtual machine over
+IPv4, which is another computer as far as the network goes; without WSL she
+is left out. A player comes back through `--join [::1]:PORT`.
+
 ## Files
 
 - `quest.bat`, `aosvs32.exe` — the emulator.  `--title <file>` types a file
@@ -160,3 +172,10 @@ Ctrl-C.
   needed.  `NOTES.md` has those details; the later port's `NOTES.md` has
   everything else.
 - `notes/QUEST.sym`, `notes/QUEST_SERVER.sym` — the linker symbol tables.
+
+## Still to do (refine pass)
+
+- `--join` has not run on a second physical computer: the user has one, so
+  `tests/lanplay.py` uses WSL2's virtual machine as the other computer
+  (2026-09-22).
+- Decided not to do (user, 2026-09-16): porting QSET.

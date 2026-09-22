@@ -46,25 +46,46 @@ static int wsa_init(void)
 
 /* SO_EXCLUSIVEADDRUSE makes a second world on the same port fail to bind
  * instead of quietly sharing it -- which is how a second quest.bat finds out
- * that it should join the first. */
-int net_listen(int port, int lan)
+ * that it should join the first.  With --lan the world listens on every
+ * interface, for IPv6 as well as IPv4: a computer's name often resolves to
+ * IPv6 addresses first, and a firewall drops a connection to a port nobody
+ * listens on, so --join NAME would wait some 20 seconds for each of them
+ * before it tried IPv4.  0, 1 when the port is taken, or -1. */
+static int bind_listener(int port, int lan, int v6)
 {
-    struct sockaddr_in a;
-    int one = 1;
-    if (wsa_init()) return -1;
-    lsock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+    union { struct sockaddr_in v4; struct sockaddr_in6 v6; } a;
+    int one = 1, zero = 0, len;
+    lsock = socket(v6 ? AF_INET6 : AF_INET, SOCK_STREAM, IPPROTO_TCP);
     if (lsock == INVALID_SOCKET) return -1;
     setsockopt(lsock, SOL_SOCKET, SO_EXCLUSIVEADDRUSE, (const char *)&one, sizeof one);
-    memset(&a, 0, sizeof a);
-    a.sin_family = AF_INET;
-    a.sin_port = htons((unsigned short)port);
-    a.sin_addr.s_addr = htonl(lan ? INADDR_ANY : INADDR_LOOPBACK);
-    if (bind(lsock, (struct sockaddr *)&a, sizeof a) == SOCKET_ERROR) {
+    memset(&a, 0, sizeof a);                    /* IPv6: the address is "any" */
+    if (v6) {
+        setsockopt(lsock, IPPROTO_IPV6, IPV6_V6ONLY, (const char *)&zero, sizeof zero);
+        a.v6.sin6_family = AF_INET6;
+        a.v6.sin6_port = htons((unsigned short)port);
+        len = sizeof a.v6;
+    } else {
+        a.v4.sin_family = AF_INET;
+        a.v4.sin_port = htons((unsigned short)port);
+        a.v4.sin_addr.s_addr = htonl(lan ? INADDR_ANY : INADDR_LOOPBACK);
+        len = sizeof a.v4;
+    }
+    if (bind(lsock, (struct sockaddr *)&a, len) == SOCKET_ERROR) {
         int e = WSAGetLastError();
         closesocket(lsock);
         lsock = INVALID_SOCKET;
         return (e == WSAEADDRINUSE || e == WSAEACCES) ? 1 : -1;
     }
+    return 0;
+}
+
+int net_listen(int port, int lan)
+{
+    int r;
+    if (wsa_init()) return -1;
+    r = lan ? bind_listener(port, lan, 1) : -1;
+    if (r < 0) r = bind_listener(port, lan, 0);     /* not --lan, or no IPv6 here */
+    if (r) return r;
     if (listen(lsock, 8) == SOCKET_ERROR) {
         closesocket(lsock);
         lsock = INVALID_SOCKET;
@@ -82,7 +103,7 @@ void net_unlisten(void)
 
 int net_accept(char *peer, int peerlen)
 {
-    struct sockaddr_in a;
+    struct sockaddr_storage a;
     int al = sizeof a, i, one = 1;
     SOCKET s;
     if (lsock == INVALID_SOCKET) return -1;
@@ -96,8 +117,13 @@ int net_accept(char *peer, int peerlen)
     WSAEventSelect(s, ev, FD_READ | FD_WRITE | FD_CLOSE);    /* non-blocking now */
     setsockopt(s, IPPROTO_TCP, TCP_NODELAY, (const char *)&one, sizeof one);
     if (peer && peerlen > 0) {
-        unsigned char *b = (unsigned char *)&a.sin_addr;
-        snprintf(peer, (size_t)peerlen, "%u.%u.%u.%u", b[0], b[1], b[2], b[3]);
+        char h[NI_MAXHOST];
+        const char *p = h;
+        if (getnameinfo((struct sockaddr *)&a, al, h, sizeof h, NULL, 0, NI_NUMERICHOST))
+            snprintf(h, sizeof h, "?");
+        if (!strncmp(h, "::ffff:", 7) && strchr(h + 7, '.'))
+            p = h + 7;                          /* IPv4, through the IPv6 socket */
+        snprintf(peer, (size_t)peerlen, "%s", p);
     }
     return i;
 }
@@ -208,25 +234,14 @@ void net_wait(int ms, int console)
     if (ev != WSA_INVALID_EVENT) WSAResetEvent(ev);
 }
 
-/* The first IPv4 address that is not the loopback: what a player on
- * another computer types after /join. */
-int net_local_ip(char *buf, int n)
+/* This computer's name: what a player on another computer gives --join.
+ * The first IPv4 address was often the wrong one to show: the virtual
+ * switches of WSL, Hyper-V or VirtualBox come before the real network. */
+int net_host_name(char *buf, int n)
 {
-    char name[256];
-    struct addrinfo hints, *res = NULL, *ai;
-    if (wsa_init() || gethostname(name, sizeof name)) return -1;
-    memset(&hints, 0, sizeof hints);
-    hints.ai_family = AF_INET;
-    if (getaddrinfo(name, NULL, &hints, &res)) return -1;
-    for (ai = res; ai; ai = ai->ai_next) {
-        unsigned char *b = (unsigned char *)&((struct sockaddr_in *)ai->ai_addr)->sin_addr;
-        if (b[0] == 127) continue;
-        snprintf(buf, (size_t)n, "%u.%u.%u.%u", b[0], b[1], b[2], b[3]);
-        freeaddrinfo(res);
-        return 0;
-    }
-    freeaddrinfo(res);
-    return -1;
+    if (wsa_init() || gethostname(buf, n)) return -1;
+    buf[n - 1] = 0;
+    return 0;
 }
 
 void net_shutdown(void)

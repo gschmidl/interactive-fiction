@@ -296,9 +296,12 @@ class Window:
         return code.value
 
     def close(self):
+        # once only: a second ClosePseudoConsole kills this script outright
         if not self.exited():
             k32.TerminateProcess(self.pi.hProcess, 1)
-        k32.ClosePseudoConsole(self.hpc)
+        if self.hpc:
+            k32.ClosePseudoConsole(self.hpc)
+            self.hpc = None
 
 
 def free_port():

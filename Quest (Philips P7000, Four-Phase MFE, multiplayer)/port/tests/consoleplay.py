@@ -156,9 +156,12 @@ class Window:
         return code.value
 
     def close(self):
+        """close the window (again: nothing - a second ClosePseudoConsole kills this script)"""
         if not self.exited():
             k32.TerminateProcess(self.pi.hProcess, 1)
-        k32.ClosePseudoConsole(self.hpc)
+        if self.hpc:
+            k32.ClosePseudoConsole(self.hpc)
+            self.hpc = None
 
 
 def sign_on(w, name, male):

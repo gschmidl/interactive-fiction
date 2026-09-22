@@ -423,17 +423,28 @@ int main(int argc, char **argv)
         else if (argv[i][0] != '-') pr = argv[i];
     }
 
-    /* Joining someone else's world: this program is only a terminal. */
+    /* Joining someone else's world: this program is only a terminal.  HOST,
+     * HOST:PORT, an IPv6 address (more than one colon), [ADDRESS] or
+     * [ADDRESS]:PORT. */
     if (join_host) {
-        char host[256];
-        const char *colon = strrchr(join_host, ':');
+        char host[256], *h = host, *colon;
         int port = host_port ? host_port : 4040;
         snprintf(host, sizeof host, "%s", join_host);
-        if (colon && strchr(join_host, ':') == colon) {
-            host[colon - join_host] = 0;
+        if (*h == '[') {
+            colon = strchr(h, ']');
+            if (!colon || (colon[1] && colon[1] != ':')) {
+                fprintf(stderr, "quest: --join takes HOST, HOST:PORT or [ADDRESS]:PORT,"
+                                " not %s\n", join_host);
+                return 1;
+            }
+            *colon++ = 0;
+            h++;
+            if (*colon == ':') port = atoi(colon + 1);
+        } else if ((colon = strchr(h, ':')) != NULL && colon == strrchr(h, ':')) {
+            *colon = 0;
             port = atoi(colon + 1);
         }
-        return net_join(host, port, god_mode);
+        return net_join(h, port, god_mode);
     }
 
     if (!pr) { fprintf(stderr, "aosvs32: name the .PR to run\n"); return 1; }
@@ -489,9 +500,9 @@ int main(int argc, char **argv)
         if (!host_dedicated && !host_ansi) host_dedicated = 1;   /* nobody here */
         if (host_ansi) con_ansi();
         {
-            char ip[64];
-            if (host_lan && net_local_ip(ip, sizeof ip) == 0)
-                snprintf(host_where, sizeof host_where, "quest --join %s", ip);
+            char name[64];
+            if (host_lan && net_host_name(name, sizeof name) == 0)
+                snprintf(host_where, sizeof host_where, "quest --join %s", name);
             else
                 snprintf(host_where, sizeof host_where, "quest (in another window)");
         }

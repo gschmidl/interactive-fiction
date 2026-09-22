@@ -82,14 +82,15 @@ every window is another player.  QUEST_SERVER has room for ten.
 
     quest               start the world and play -- or join it, if it is already running here
     quest --lan         the same, and players on other computers may join too
-    quest --join HOST   play in the world running on computer HOST (a name or an address)
+    quest --join HOST   play in the world running on computer HOST (a name or an address;
+                        HOST:PORT, and [ADDRESS]:PORT for IPv6)
     quest --server      run the world with nobody playing at this window
     quest --god         play at full strength and never die -- see God mode
     quest --help        every option
 
 Everyone shares the map, the castles, the weather and the beings; the title
 bar of each window counts the players and, with `--lan`, says what the others
-should type to join.
+should type to join: `quest --join` and this computer's name.
 
 * **The window that started the world keeps it running.**  When the player
   there leaves with ESC, the window stays open until everyone else has left,
@@ -102,6 +103,10 @@ should type to join.
   Firewall asks once whether `aosvs32.exe` may accept connections), then on
   the other computer either copy this folder and run `quest --join HOST`, or
   use any telnet client — PuTTY with connection type *Telnet*, port 4040.
+  With `--lan` the world listens for IPv6 as well as IPv4. A computer's name
+  usually resolves to IPv6 addresses first, and with only IPv4 listening the
+  firewall would drop those, so a join by name would wait about 20 seconds
+  for each one (2026-09-22).
   Use `--lan` only on a network you trust: anyone who can reach the port can
   play, with nothing but the game's own passwords.
 * Logons take turns.  Someone who connects while another player is still
@@ -175,6 +180,15 @@ play the multiplayer game for real, in throwaway save directories:
   Ctrl-C at a hosting window saves the player and stops the world.  On the
   way, `quest --god` at the hosting window plays at strength 1024.
 
+Not in `run.sh`, because it opens a world to the network:
+
+* `tests/lanplay.py` — a `--server --lan` world. It says to join with
+  `quest --join` and this computer's name, and a second world on its port is
+  refused. One player joins by that name over IPv6. Another joins from WSL2's
+  virtual machine over IPv4, which is another computer as far as the network
+  goes; without WSL she is left out. The world names both addresses as they
+  join, and a player comes back through `--join [::1]:PORT`.
+
 `god` in `run.sh` walks GERHARD up and down beside Xenobia's tower until the
 tower guards kill him, then again with `--god` (he lives, at strength 1024),
 then with `--god` and his strength set to nothing at the very check that
@@ -196,7 +210,7 @@ calls DIED — he lives, because DIED is skipped.
     tools/      q.py (disassemble with symbols), callers.py, scancalls.py,
                 annot.py, mvdis.py, st.py, symmatch.py, loadg.py (the tape)
     tests/      scripted sessions, recorded screens, run.sh, netplay.py,
-                consoleplay.py
+                consoleplay.py, lanplay.py
     notes/      QUEST.sym, QUEST_SERVER.sym and working listings
     data/       the files as they came off the tape
 
@@ -210,3 +224,11 @@ watch memory; `-D lo hi` dump a range from every process at the end;
 a world that stops once its last player has left.
 
 `NOTES.md` is the thing to read before changing anything.
+
+## Still to do (refine pass)
+
+- `--join` has not run on a second physical computer: the user has one, so
+  `tests/lanplay.py` uses WSL2's virtual machine as the other computer
+  (2026-09-22).
+- Players land in random cities, and two players meeting on the map has not
+  been seen in a test.

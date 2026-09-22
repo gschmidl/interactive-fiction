@@ -18,10 +18,11 @@ EXE = os.path.join(PORT, 'quest.exe')
 REFERENCE = os.path.join(TESTS, 'reference')
 
 
-def run(lines, args=(), env=None, timeout=300):
+def run(lines, args=(), env=None, timeout=300, fixed_clock=True):
     """the transcript of a scripted game: LINES typed at terminal 0; returns (exit, out, err).
     The lines come from a file: from a pipe the port would take a line only once it has
-    arrived, and the game would go on meanwhile (it runs in real time)."""
+    arrived, and the game would go on meanwhile (it runs in real time).  FIXED_CLOCK=False
+    runs on the real clock (and at the real machine's speed), which is not repeatable."""
     e = dict(os.environ)
     e.pop('QUEST_TIME', None)
     if env:
@@ -29,8 +30,8 @@ def run(lines, args=(), env=None, timeout=300):
     with tempfile.TemporaryFile('w+') as f:
         f.write(''.join(l + '\n' for l in lines))
         f.seek(0)
-        p = subprocess.run([EXE, '--fixed-clock'] + list(args), stdin=f, capture_output=True,
-                           text=True, timeout=timeout, env=e)
+        p = subprocess.run([EXE] + (['--fixed-clock'] if fixed_clock else ['-u']) + list(args),
+                           stdin=f, capture_output=True, text=True, timeout=timeout, env=e)
     return p.returncode, p.stdout.replace('\r\n', '\n'), p.stderr.replace('\r\n', '\n')
 
 

@@ -509,9 +509,18 @@ void io_tick(void)
     kbd_tick();
 }
 
+static void io_exec2(int chan, int unit, int type, word bp, int bytes);
+
+/* The select word is at EA and the buffer address word at EA + 1.  The
+ * manual has EA even and the buffer word at "EA ORed with 1", but QUEST
+ * rings a terminal's bell with IO X+014 in the terminal's block, and every
+ * other block starts at an odd address (010501 + 075 t).  Its select word
+ * (control, the terminal's unit) is at X+014 and the buffer word at X+015
+ * for every terminal; any other reading gives terminals 0, 2 and 4 a stray
+ * device and a buffer inside MFE's code, and MFE soon halts. */
 void io_exec(word ea, int bytes)
 {
-    word se = ea & ~1u & A15, bp = se | 1;
+    word se = ea & A15, bp = (se + 1) & A15;
     word sel = vrd(se);
     int chan = (int)(sel >> 8) & 7, unit = (int)(sel >> 2) & 077, type = (int)sel & 3;
 
@@ -519,6 +528,21 @@ void io_exec(word ea, int bytes)
     if (trace_fp && icount >= trace_from)
         fprintf(trace_fp, "** IO%s%s channel %d unit %02o type %d, buffer %08o\n",
                 bytes ? "B" : "", io_cross ? "XW" : "", chan, unit, type, vrd(bp));
+    if (ran_map) {
+        static char ctx[128];
+
+        snprintf(ctx, sizeof ctx, "IO%s channel %d unit %02o type %d (block %05o, buffer %08o)",
+                 io_cross ? "XW" : "", chan, unit, type, se, vrd(bp));
+        write_ctx = ctx;
+        io_exec2(chan, unit, type, bp, bytes);
+        write_ctx = NULL;
+        return;
+    }
+    io_exec2(chan, unit, type, bp, bytes);
+}
+
+static void io_exec2(int chan, int unit, int type, word bp, int bytes)
+{
     if (chan == 2 && unit == DISC_UNIT) {
         disc_io(type, bp);
         return;

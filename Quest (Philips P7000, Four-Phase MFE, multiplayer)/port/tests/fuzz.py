@@ -1,6 +1,9 @@
 """Random play: many one-player games of random commands, each a scripted run.
 
-    python fuzz.py [GAMES [TURNS [SEED]]]      (defaults 60, 80, 1)
+    python fuzz.py [GAMES [TURNS [SEED]]] [--real-clock]      (defaults 60, 80, 1)
+
+--real-clock runs each game on the real clock with -u, as play.bat does: at the real
+machine's speed, two seconds a line, and not repeatable.
 
 Each game signs on, types TURNS random lines (known words and nonsense, several sentences on
 a line, speech, the editing keys' effect is not covered), and QUITs.  Every third game uses
@@ -63,9 +66,11 @@ def game_lines(rnd, turns):
 
 
 def main():
-    games = int(sys.argv[1]) if len(sys.argv) > 1 else 60
-    turns = int(sys.argv[2]) if len(sys.argv) > 2 else 80
-    seed = int(sys.argv[3]) if len(sys.argv) > 3 else 1
+    real = '--real-clock' in sys.argv[1:]
+    argv = [a for a in sys.argv[1:] if a != '--real-clock']
+    games = int(argv[0]) if len(argv) > 0 else 60
+    turns = int(argv[1]) if len(argv) > 1 else 80
+    seed = int(argv[2]) if len(argv) > 2 else 1
     rnd = random.Random(seed)
     failed = 0
     for g in range(games):
@@ -73,7 +78,8 @@ def main():
         args = ['--easy'] if g % 3 == 2 else []
         why = None
         try:
-            code, out, err = run(lines, args, timeout=600)
+            code, out, err = run(lines, args, timeout=600 + (4 * turns if real else 0),
+                                 fixed_clock=not real)
             tail = out[-400:]
             if code != 0 or err.strip():
                 why = 'exit %d: %s' % (code, err.strip()[:300])

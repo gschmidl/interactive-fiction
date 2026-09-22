@@ -9,7 +9,8 @@
 
 unsigned long long net_now(void);               /* milliseconds, monotonic   */
 
-int  net_listen(int port, int lan);   /* 0 listening, 1 port taken, -1 failed */
+int  net_listen(int port, int lan);   /* 0 listening, 1 port taken, -1 failed;
+                                         LAN: every interface, IPv6 and IPv4  */
 void net_unlisten(void);
 int  net_accept(char *peer, int peerlen);       /* a connection, or -1       */
 int  net_recv(int id, unsigned char *buf, int max); /* >0 bytes, 0 none yet,
@@ -27,7 +28,7 @@ int  con_poll(int *keys, int max);      /* keys typed: ASCII or an NK_ code  */
 enum { NK_UP = 0x100, NK_DOWN, NK_LEFT, NK_RIGHT, NK_HOME, NK_DEL };
 
 void net_on_ctrl(volatile long *stop, volatile long *stopped); /* Ctrl-C, closing */
-int  net_local_ip(char *buf, int n);            /* this computer on the LAN  */
+int  net_host_name(char *buf, int n);           /* this computer, for --join */
 int  net_join(const char *host, int port, int god); /* a player's terminal  */
 
 #endif /* NET_H */

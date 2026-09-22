@@ -25,7 +25,8 @@
 
 unsigned long long net_ms(void);        /* a millisecond clock */
 
-int  net_listen(int port, int lan);     /* 0 listening, 1 the port is taken, -1 failed */
+int  net_listen(int port, int lan);     /* 0 listening, 1 the port is taken, -1 failed;
+                                           LAN: every interface, IPv6 and IPv4 */
 int  net_accept(void);                  /* a new connection's id, or -1 */
 int  net_recv(int id, unsigned char *buf, int max);     /* > 0 bytes, 0 none, -1 gone */
 int  net_send(int id, const char *buf, int n);          /* -1: the connection is gone */
@@ -33,7 +34,7 @@ void net_close(int id);                 /* after what was sent has gone out */
 void net_service(void);                 /* push out pending output */
 int  net_pending(void);                 /* connections with output still to go */
 void net_wait(int ms, int console);     /* until a socket (or the console) has input */
-int  net_local_ip(char *buf, int n);
+int  net_host_name(char *buf, int n);   /* this computer's name, for --join */
 void net_shutdown(void);
 
 /* the console */
