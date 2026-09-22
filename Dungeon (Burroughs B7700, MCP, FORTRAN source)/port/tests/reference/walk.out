@@ -1,0 +1,282 @@
+ Welcome to Dungeon.                   This version created 01-DEC-80.
+ You are in an open field west of a big white house with a boarded
+ front door.
+ There is a small mailbox here.
+ >
+open mailbox
+ Opening the mailbox reveals:
+ A leaflet.
+ >
+take leaflet
+ Taken.
+ >
+read leaflet
+                  Welcome to Dungeon!
+
+    Dungeon is a game of adventure, danger, and low cunning.  In it
+ you will explore some of the most amazing territory ever seen by mortal
+ man.  Hardened adventurers have run screaming from the terrors contained
+ within.
+
+    In Dungeon, the intrepid explorer delves into the forgotten secrets
+ of a lost labyrinth deep in the bowels of the earth, searching for
+ vast treasures long hidden from prying eyes, treasures guarded by
+ fearsome monsters and diabolical traps!
+
+    No computer system should be without one!
+
+    Dungeon was created at the Programming Technology Division of the MIT
+ Laboratory for Computer Science by Tim Anderson, Marc Blank, Bruce
+ Daniels, and Dave Lebling.  It was inspired by the Adventure game of
+ Crowther and Woods, and the Dungeons and Dragons game of Gygax
+ and Arneson.  The original version was written in MDL (alias MUDDLE).
+ The current version was translated from MDL into FORTRAN by Bob Supnik
+ of DEC Disk Engineering.
+
+    On-line information may be obtained with the commands HELP and INFO.
+ >
+drop leaflet
+ Dropped.
+ >
+look
+ You are in an open field west of a big white house with a boarded
+ front door.
+ There is a small leaflet here.
+ There is a small mailbox here.
+ >
+north
+ You are facing the north side of a white house.  There is no door here,
+ and all the windows are barred.
+ >
+east
+ You are behind the white house.  In one corner of the house
+ there is a window which is slightly ajar.
+ >
+open window
+ With great effort, you open the window far enough to allow passage.
+ >
+west
+ You are in the kitchen of the white house.  A table seems to have
+ been used recently for the preparation of food.  A passage leads to
+ the west and a dark staircase can be seen leading upward.  To the
+ east is a small window which is open.
+ On the table is an elongated brown sack, smelling of hot peppers.
+ A clear glass bottle is here.
+ The glass bottle contains:
+ A quantity of water.
+ >
+open sack
+ Opening the brown sack reveals:
+ A clove of garlic.
+ A lunch.
+ >
+take garlic
+ Taken.
+ >
+take bottle
+ Taken.
+ >
+west
+ You are in the living room.  There is a door to the east.  To the west is
+ a door with strange gothic lettering, which appears to be nailed shut.
+ In the center of the room is a large oriental rug.
+ There is a trophy case here.
+ On hooks above the mantlepiece hangs an elvish sword of great antiquity.
+ A battery-powered brass lantern is on the trophy case.
+ There is an issue of US NEWS & DUNGEON REPORT dated 23-APR-80 here.
+ >
+examine sword
+ I see nothing special about the sword.
+ >
+take sword
+ Taken.
+ >
+take lamp
+ Taken.
+ >
+read paper
+ Taken.
+               US NEWS & DUNGEON REPORT
+ 23-APR-80                                    Late Dungeon Edition
+ This is a first, trial version of Dungeon on the B7700 based upon
+ the DEC FORTRAN version.  Major differences between this version and
+ the version currently available on the ARPAnet include:
+
+      -Lack of an endgame.
+      -Simple parser (no compound sentences).
+      -Numerous bugs and spelling errors.
+
+ This version of Dungeon includes a patch such that break-on-output
+ will no longer cause the program to be DSed.
+ >
+move rug
+ With a great effort, the rug is moved to one side of the room.
+ With the rug moved, the dusty cover of a closed trap door appears.
+ >
+open trap door
+ The door reluctantly opens to reveal a rickety staircase descending
+ into darkness.
+ >
+turn on lamp
+ The lamp is now on.
+ >
+down
+ You are in a dark and damp cellar with a narrow passageway leading
+ east, and a crawlway to the south.  To the west is the bottom of a
+ steep metal ramp which is unclimbable.
+ The door crashes shut, and you hear someone barring it.
+ Your sword is glowing with a faint blue glow.
+ >
+inventory
+ You are carrying:
+ A clove of garlic.
+ A glass bottle.
+ A sword.
+ A lamp.
+ A newspaper.
+ The glass bottle contains:
+ A quantity of water.
+ >
+east
+ You are in a small room with passages off in all directions.
+ Bloodstains and deep scratches (perhaps made by an axe) mar the walls.
+ A nasty-looking troll, brandishing a bloody axe, blocks all passages
+ out of the room.
+ You sword has begun to glow very brightly.
+ >
+kill troll with sword
+ The troll is staggered and drops to his knees.
+ The troll slowly regains his feet.
+ >
+kill troll with sword
+ Your swing misses the troll by an inch.
+ The troll swings his axe, but it misses.
+ >
+kill troll with sword
+ The troll takes a final blow and slumps to the floor dead.
+ Almost as soon as the troll breathes his last, a cloud of
+ sinister black smoke envelops him, and when the fog lifts, the
+ carcass has disappeared.
+ Your sword is no longer glowing.
+ >
+kill troll with sword
+ I can't see one here.
+ >
+kill troll with sword
+ I can't see one here.
+ >
+kill troll with sword
+ I can't see one here.
+ >
+look
+ You are in a small room with passages off in all directions.
+ Bloodstains and deep scratches (perhaps made by an axe) mar the walls.
+ >
+yes
+ I don't understand that.
+ >
+diagnose
+ You are in perfect health.
+ You can be killed by a serious wound.
+ >
+score
+  Your score is    35  [total of 500  points], in    33  moves.
+ This gives you the rank of amateur adventurer.
+ >
+time
+ Elapsed playing time =  0 hours : 0 minutes.
+ >
+brief
+ Brief descriptions.
+ >
+look
+ You are in a small room with passages off in all directions.
+ Bloodstains and deep scratches (perhaps made by an axe) mar the walls.
+ >
+superbrief
+ No long descriptions.
+ >
+look
+ You are in a small room with passages off in all directions.
+ Bloodstains and deep scratches (perhaps made by an axe) mar the walls.
+ >
+unbrief
+ Long descriptions.
+ >
+look
+ You are in a small room with passages off in all directions.
+ Bloodstains and deep scratches (perhaps made by an axe) mar the walls.
+ >
+xyzzy
+ I don't understand that.
+ >
+open door
+ I can't see one here.
+ >
+climb tree
+ You can't go that way.
+ >
+sing
+ I don't understand that.
+ >
+jump
+ Wheeeeee!
+ >
+hello
+ Nice weather we've been having lately.
+ >
+eat garlic
+ Thank you very much.  It really hit the spot.
+ >
+drink water
+ I'd like to, but I can't get to that.
+ >
+info
+ Welcome to Dungeon!
+
+    You are near a large dungeon, which is reputed to contain vast
+ quantities of treasure.   Naturally, you wish to acquire some of it.
+ In order to do so, you must of course remove it from the dungeon.  To
+ receive full credit for it, you must deposit it safely in the trophy
+ room in the living room of the house.
+
+    In addition to valuables, the dungeon contains various objects
+ which may or may not be useful in your attempt to get rich.  You may
+ need sources of light, since dungeons are often dark, and weapons,
+ since dungeons often have unfriendly things wandering about.  Reading
+ material is scattered around the dungeon as well;  some of it
+ is rumored to be useful.
+
+    To determine how successful you have been, a score is kept.
+ When you find a valuable object and pick it up, you receive a
+ certain number of points, which depends on the difficulty of finding
+ the object.  You receive extra points for transporting the treasure
+ safely to the living room and placing it in the trophy case.  In
+ addition, some particularly interesting rooms have a value associated
+ with visiting them.  The only penalty is for getting yourself killed,
+ which you may do only twice.
+
+    Of special note is a thief (always carrying a large bag) who
+ likes to wander around in the dungeon (he has never been seen by the
+ light of day).  He likes to take things.  Since he steals for pleasure
+ rather than profit and is somewhat sadistic, he only takes things which
+ you have seen.  Although he prefers valuables, sometimes in his haste
+ he may take something which is worthless.  From time to time, he examines
+ his take and discards objects which he doesn't like.  He may occas-
+ ionally stop in a room you are visiting, but more often he just wanders
+ through and rips you off (he is a skilled pickpocket).
+ >
+quit
+ Your score would be    35  [total of 500  points], in    50  moves.
+ This gives you the rank of amateur adventurer.
+ Do you wish to leave the game?
+no
+ >
+wait
+ Time passes...
+ >
+quit
+ Your score would be    35  [total of 500  points], in    52  moves.
+ This gives you the rank of amateur adventurer.
+ Do you wish to leave the game?
+yes

@@ -15,9 +15,10 @@ Sources (verified copies, md5, in `archive_original`; all eleven CSL-1000 zips a
   command file and the messages and initialisation file @DUNGN; plus contribution F017 "SUBS" (the same group's
   library), whose #UMOVE the loader file names. **This is what the port is built from.**
 - `...\CSL-1000_Rev-2213.zip` - TF tape, release 2213: contribution A072, the Burroughs FORTRAN source (V1.2c code, V2.0
-  text) "not edited to work on the HP-1000" - the version Hutchinson started from. In `src_original\CSL_2213_Burroughs`.
+  text) "not edited to work on the HP-1000" - the version Hutchinson started from. In `src_original\CSL_2213_Burroughs`;
+  ported on its own (2026-09-22) as `..\Dungeon (Burroughs B7700, MCP, FORTRAN source)`.
 - `...\CSL-1000_Rev-2830.zip` - FMGR tape, release 2830 (July 1988): M060 "CDS DUNGEON & DRAGONS GAME", a later
-  version for RTE-A; not yet read (no FMGR tape reader).
+  version for RTE-A; not read, and it will not be (user, 2026-09-22).
 
 `src_original` has the 2240 and 2213 files as text (`MANIFEST.txt`); the port reads the tape image itself
 (`port\src\hptape.py`).

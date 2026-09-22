@@ -1,0 +1,54 @@
+open mailbox
+take leaflet
+read leaflet
+drop leaflet
+look
+north
+east
+open window
+west
+open sack
+take garlic
+take bottle
+west
+examine sword
+take sword
+take lamp
+read paper
+move rug
+open trap door
+turn on lamp
+down
+inventory
+east
+kill troll with sword
+kill troll with sword
+kill troll with sword
+kill troll with sword
+kill troll with sword
+kill troll with sword
+look
+yes
+diagnose
+score
+time
+brief
+look
+superbrief
+look
+unbrief
+look
+xyzzy
+open door
+climb tree
+sing
+jump
+hello
+eat garlic
+drink water
+info
+quit
+no
+wait
+quit
+yes

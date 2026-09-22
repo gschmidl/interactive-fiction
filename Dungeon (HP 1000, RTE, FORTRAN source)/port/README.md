@@ -138,18 +138,14 @@ the game. An impostor is killed.
 
 ## Still to do (refine pass)
 
-- A reference run on the HP: the RTE-6/VM system of the HP 1000 Adventure
-  ports (SIMH) has FTN7X, MACRO and LINK; load the program as `>DUNGN`
-  does (main, DLINK, A1A2, A2A1, `%DUNGL` searched into each segment) with
-  `@DUNGN` on a cartridge, and compare sessions.
-- HP's URAN stays a stand-in (user, 2026-09-21). If it is ever wanted:
-  measure it there, or decode the extended relocatable records of `$MATH`
-  (KCVT's record in `$SYLB6` against its code in DL.RUN is a key: the
-  loader turns `JSB .ZPRV` into RSS). And whether CNUMD and KCVT pad with
-  blanks or zeros.
-- Segment reload: locals of routines loaded into a segment starting over
-  when it is reloaded (YESNO above).
-- The other two copies: the Burroughs source this came from
-  (`src_original\CSL_2213_Burroughs`, V1.2c code, V2.0 text) and the later
-  "CDS DUNGEON" of release 2830 (an FMGR tape, not yet read).
-- Play to 500 points without the debugger's help.
+- Nothing. The Burroughs source this came from (V1.2c code, V2.0 text) is
+  ported on its own since 2026-09-22:
+  `..\..\Dungeon (Burroughs B7700, MCP, FORTRAN source)`.
+- Decided not to do (user, 2026-09-22):
+  - a reference run on the HP under SIMH's RTE-6/VM
+  - HP's URAN, which stays a stand-in, and whether CNUMD and KCVT pad with
+    blanks or zeros
+  - segment reload (locals starting over when a segment is reloaded,
+    YESNO above)
+  - the "CDS DUNGEON" of release 2830 (an FMGR tape)
+  - playing to 500 points without the debugger's help
