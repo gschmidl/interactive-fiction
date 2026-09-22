@@ -1,0 +1,144 @@
+SEG DUNGEON
+
+******** DUNGEON ******** 
+   
+Do you want instructions? no
+
+Please input a wierd positive number. 42
+
+Short or long version? short
+
+Currently at:      5      7     10 
+  
+Command? where
+
+Currently at:      5      7     10 
+  
+Command? status
+
+Life energy level :     499 
+Esp : working 
+Current score :           1 
+  
+Command? esp
+
+       1      2      3      4      5      6      7      8      9      10 
+     1 .      .      .      *      .      .      *      .      .      . 
+     2 .      .      .      *      .      .      .      .      .      . 
+     3 *      .      *      .      .      .      *      .      .      . 
+     4 .      .      .      .      .      *      .      .      .      * 
+     5 .      *      .      *      .      .      @      .      .      . 
+     6 .      .      .      .      .      .      .      .      .      . 
+     7 .      .      .      .      .      .      *      .      .      . 
+     8 .      .      .      .      .      .      .      *      .      . 
+     9 .      .      .      .      .      .      .      *      .      . 
+    10 .      .      .      .      .      .      .      .      .      . 
+  
+Command? search
+
+There is nothing here. 
+  
+Command? checktraps
+
+There is no trap here. 
+  
+Command? items
+
+                          
+     0 gold pieces. 
+  
+Command? help
+
+Valid commands are: 
+   attack     - attack dragon by hands or with sword 
+   checktraps - check cavern for a trap 
+   esp        - view current level 
+   forget     - erase an item from memory 
+   help       - list commands and their functions 
+   hide       - hide gold in cavern 
+   items      - take inventory of your possessions 
+   memory     - list contents of your memory 
+   move       - move to adjacent cavern 
+   portal     - enter portal 
+   potion     - drink a potion 
+   quit       - quit the game 
+   retrieve   - retrieve gold that you have hidden 
+   remember   - enter something into your memory 
+   search     - search cavern for items 
+   status     - check energy level, esp, and score  
+   take       - take an item from cavern 
+   untrap     - unset a trap in cavern 
+   wand       - use a wand against dragon 
+   where      - list x,y,z coordin. of position in dungeon 
+  
+Command? remember
+
+What do you wish to remember? sword
+
+At what coordinates? 
+   first  : 3
+   second : 4
+   third  : 5
+
+Ok. 
+  
+Command? memory
+
+     1 :      sword         at          3      4      5 
+  
+Command? hide
+
+How many gold pieces do you wish to hide? 1
+
+You only have      0 gold pieces. 
+  
+Command? forget
+
+Which number memory item do you wish to forget? 1
+
+Ok. 
+  
+Command? memory
+
+  
+Command? untrap
+
+There is no trap here. 
+  
+Command? retrieve
+
+There is nothing hidden here. 
+  
+Command? move
+
+What direction? north
+
+Ok. 
+  
+Command? move
+
+What direction? up
+
+Ok. 
+  
+Command? search
+
+There is nothing here. 
+  
+Command? take
+
+There is nothing here. 
+  
+Command? status
+
+Life energy level :     483 
+Esp : working 
+Current score :           1 
+  
+Command? quit
+
+Your final score is:      1 
+                  
+Play again? no
+
+OK, 

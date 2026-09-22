@@ -1,0 +1,78 @@
+PROBE.
+$USER,INSTALL,INSTALL.
+$NORERUN.
+$SETTL,7777.
+$SETJSL,7777.
+$SETASL,7777.
+$RFL,140000.
+$FTN(I=INPUT,L=0)
+LGO.
+***
+*** PROBE COMPLETE
+***
+EXIT.
+***
+*** PROBE FAILED
+***
+~eor
+      PROGRAM PROBE(OUTPUT)
+      IMPLICIT INTEGER (A-Z)
+      REAL X, Y, TW, RANF, SECOND, TIME
+      PRINT 1
+1     FORMAT(" PROBE: FORTRAN EXTENDED, NOS 1.3")
+      I = 4RTEST
+      J = 4HTEST
+      K = 2R:A
+      L = 3R>$<
+      PRINT 10, I, J, K, L
+10    FORMAT(" RCON ",O20,/," HCON ",O20,/," COLON ",O20,/,
+     +        " EOFM ",O20)
+      PRINT 11, MASK(6), MASK(24), MASK(60)
+11    FORMAT(" MASK6 ",O20,/," MASK24 ",O20,/," MASK60 ",O20)
+      M = 1
+      PRINT 12, SHIFT(M,1), SHIFT(M,59), SHIFT(M,60), SHIFT(M,-1)
+12    FORMAT(" SHIFT1 ",O20,/," SHIFT59 ",O20,/," SHIFT60 ",O20,/,
+     +        " SHIFTM1 ",O20)
+      M = 7777777777777777777B
+      PRINT 13, SHIFT(M,-1), SHIFT(M,-3), SHIFT(M,3)
+13    FORMAT(" ALLR1 ",O20,/," ALLR3 ",O20,/," ALLL3 ",O20)
+      TW = TIME(1.)
+      DECODE (10,2,TW) IW
+2     FORMAT(A10)
+      PRINT 14, IW
+14    FORMAT(" TIME ",O20)
+      PRINT 15, IW
+15    FORMAT(" TIMER10 [",R10,"]")
+      Y = SECOND(1.)
+      PRINT 16, Y
+16    FORMAT(" SECOND ",E20.10)
+      DO 20 NT=1,7
+      N=NT-1
+      IF(N.EQ.1) CALL RANSET(1.)
+      IF(N.EQ.2) CALL RANSET(0.)
+      IF(N.EQ.3) CALL RANSET(3.)
+      IF(N.EQ.4) CALL RANSET(1234567.)
+      IF(N.EQ.5) CALL RANSET(0.5)
+      IF(N.EQ.6) CALL RANSET(1.)
+      DO 19 K2=1,4
+      X = RANF(3.1415)
+      Z = (X*16777216.)*16777216.
+      PRINT 17, N, K2, X, Z
+17    FORMAT(" RANF ",I2,I3," WORD ",O20," SEED48 ",O20)
+19    CONTINUE
+20    CONTINUE
+      CALL RANSET(1.)
+      DO 30 N=1,8
+      PRINT 18, N, RND(100), RND(5)
+18    FORMAT(" RND ",I3," GAVE ",I6,I6)
+30    CONTINUE
+      Y = SECOND(1.)
+      PRINT 16, Y
+      END
+      INTEGER FUNCTION RND(RANGE)
+      IMPLICIT INTEGER (A-Z)
+      REAL RAN, RANF
+    1 RAN=RANF(3.1415)*RANGE
+      RND=RAN
+      RETURN
+      END

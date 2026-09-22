@@ -1,0 +1,20 @@
+2026-09-21 17:21:01.395 | SDL: version 2.30.3 initialised (dummy video and dummy audio)
+2026-09-21 17:21:01.396 | CONFIG: Deprecated option 'cycles'
+
+Anzahl der Instruktionen, die DOSBox pro Millisekunde versucht zu emulieren
+(Standardmäßig 'auto').
+Wenn du diesen Wert zu hoch einstellst, kommt es zu Tonaussetzern und Hängern.
+  auto:            Versucht zu erkennen, was ein ausgeführtes Programm braucht.
+                   Das funktioniert in der Regel, kann aber bei bestimmten
+                   Programmen scheitern.
+  fixed <number>:  Stellt eine feste Anzahl von Instruktionen ein. Das ist die
+                   Einstellung, die du normalerweise benötigst, wenn 'auto'
+                   versagt (Beispiel: 'fixed 4000').
+  max:             Wird so viele Instruktionen verwenden, wie dein System
+                   verarbeiten kann.
+
+2026-09-21 17:21:01.403 | DISPLAY: Using 758x569 window size in windowed mode on display-0
+2026-09-21 17:21:01.403 | SDL: Failed to create temporary window: OpenGL support is either not configured in SDL or not available in current SDL video driver (dummy) or platform
+2026-09-21 17:21:01.403 | OPENGL: Could not create OpenGL window, using 'texture' output mode
+2026-09-21 17:21:01.404 | SDL: Failed to create temporary window: OpenGL support is either not configured in SDL or not available in current SDL video driver (dummy) or platform
+2026-09-21 17:21:01.404 | ABORT: SDL: Could not initialize video: OpenGL support is either not configured in SDL or not available in current SDL video driver (dummy) or platform

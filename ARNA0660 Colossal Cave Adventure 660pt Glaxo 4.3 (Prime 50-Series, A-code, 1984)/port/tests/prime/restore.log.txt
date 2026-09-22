@@ -1,0 +1,38 @@
+
+Welcome to the Prime Computer 50-series emulator, running Primos rev 23.4.Y2K.R1!
+
+When you are done, close this window, type SHUTDN NOW in the emulator window, 
+then reply YES to the prompt.
+
+Starting...
+
+ 
+EM23 login: guest
+Password: 
+
+GUEST (user 2) logged in Monday, 21 Sep 26 10:51:36.
+Welcome to PRIMOS version 23.4.Y2K.R1
+Copyright (c) Computervision, Corp. 1993.
+Last login Monday, 21 Sep 26 10:50:32.
+
+OK, ASSIGN MT0
+Device MT0 assigned.
+OK, MAGRST
+[MAGRST Rev. 23.4.0.R62 Copyright (c) 1996, Computervision Corporation]
+You are not attached to an MFD.
+Tape unit: 0
+Enter logical tape number: 3
+Positioning to logical tape number 3 ...
+3
+Name: pulse  
+Date: 04 21 02 
+Rev no: 1986 
+Reel no: 1 
+Ready to Restore: Syntax error - please reenter. 
+Ready to Restore: YES
+***  Starting Restore  *** 
+***  Restore Complete  *** 
+OK, LO
+
+GUEST (user 2) logged out Monday, 21 Sep 26 10:51:52.
+Time used: 00h 00m connect, 00m 05s CPU, 00m 00s I/O.

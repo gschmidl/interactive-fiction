@@ -1,0 +1,37 @@
+$$$ADV.txt                    36 lines  8c84c72a2bd299330969e4105c45128b  
+ADV$C.txt                     50 lines  71ccbd4b4d843a79014ab694ea36cc57  
+ADVINFO.txt                   90 lines  c5fdbafbb7faa5f9a7381fbedf3eac98  
+ADVJOB.txt                    31 lines  5d86caae4d5d12a299c230166f631c21  
+ADVLYNX.txt                    2 lines  0ed99240537aea6d62ccb35bf26bf38a  
+ADVSI.txt                   1503 lines  c6bff957360ab7c90d2f95078ca41f9b  
+BREAKSI.txt                   18 lines  c8bf52b2ca9a78fbe3cf50cf254b6732  
+CACHESI.txt                  155 lines  ce0a2f87e095eaeadd3bd0e30af8c347  keys not n.000: see KEYS.txt
+COMPILE_AND_LIST_CAVE.txt     24 lines  bc6f76a169efa80727e10bd29afce5bb  
+COMPILE_CAVE.txt              21 lines  497a7527fd8d5058421923968632bebd  
+D$ACTION.txt                1623 lines  92165212d77dcc63a24247968afc9c20  
+D$BITS.txt                    80 lines  bb69dc7242c7d0f5c0d90fc0cc523382  
+D$DEFINE.txt                  74 lines  41dc08e47f656ff105bf33c54c5c713a  
+D$INIT.txt                   734 lines  04e85047035311f4e3895b307ad3ff3a  
+D$LABELS.txt                1510 lines  377d4a1e18eebcd6c68bcd017154b8dd  
+D$MOVES.txt                 2114 lines  4e44422a4a85c8d44387bb38235f9d4d  keys not n.000: see KEYS.txt
+D$NULLS.txt                    1 lines  46681db6c7b94382854d36cce69aa8b1  
+D$OBJECTS.txt                516 lines  373627f5084cd52e88664e6f67770d26  
+D$OBJSYN.txt                  36 lines  52808c4587fd943e3321c3477b8b2875  
+D$PLACE.txt                 1119 lines  0faaf0d8328415abd29da81e83f3d0ac  
+D$REPEAT.txt                 257 lines  91e3ad3b47e454a7f0265efc7b6538cd  
+D$TEXT.txt                  1368 lines  13eb2632641c2781a28103d10e4580f6  
+D$VARS.txt                    10 lines  8972c61c5eda9bceeae5bac3fcef305c  
+D$VERBS.txt                  100 lines  7329e9c9fa479e1ffb086e5d85f6bf03  
+DECSI.txt                     19 lines  2d64ead39bbd9ff0fafd243f090461fc  
+ENCSI.txt                     19 lines  46892f79c4dd39f10cbdb2db5bdfd1fa  
+FASTREADSI.txt                98 lines  db8668778337cf0c5c23594960f55c73  
+GETACCTSI.txt                 26 lines  bd824fcfc7e514fdecbb0c8d0bef019f  
+MASHSI.txt                    28 lines  37ce5ff7221840d3129e3776e8cedcaf  
+MUNGE$C.txt                   41 lines  7c8d40080e4450d3d451114a618a67a6  
+MUNGEJOB.txt                  31 lines  55c65eaa4bc097ae421411e24076fb8d  
+MUNGELYNX.txt                  2 lines  344a59ab27e60b1f4ae9442a68f5b72a  
+MUNGESI.txt                  655 lines  bd291027abbb3799fb32b8231b0a2dcf  
+OUTSWPSI.txt                  48 lines  d7dbb064cf9929acdb42f7bb1b157a05  
+PRIMESI.txt                  118 lines  ffb6296460eb4d555589ef164fa15eb1  
+REGMETA.bin                    4 lines  f5e665935f6a4a2369e2f535ba27cbbc  consecutive (binary) records, concatenated
+SVARSI.txt                    78 lines  92b3093e3ff19030d9ca79c1ae633bbc  

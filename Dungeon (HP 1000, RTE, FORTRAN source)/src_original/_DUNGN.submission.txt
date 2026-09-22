@@ -1,0 +1,52 @@
+     H P 1 0 0 0   I N T E R N A T I O N A L   U S E R S   G R O U P
+         C O N T R I B U T E D   S O F T W A R E   L I B R A R Y
+                            C S L / 1 0 0 0
+
+                        PROGRAM SUBMISSION FORM
+
+
+ Program Name................: DUNGN
+    Title....................: DUNGEONS AND DRAGONS
+    File Names...............: "DUNGN - SUBMISSION DOCUMENTATION
+                               #DUNGA - MAIN PROGRAM SOURCE FILE
+                               #DUNGB - INIT. SEGMENT SOURCE
+                               #DUNGC - PARSER SEGMENT SOURCE
+                               #DUNGD - DEBUGGER SEGMENT SOURCE
+                               #DUNGE - SAVE/RESTORE GAME SEG. SOURCE
+                               #DUNGF - GAME ACTION SEGMENT SOURCE
+                               #DUNGL - GAME SUBROUTINE LIB. SOURCE
+                               #DLINK - SEGMENT LINKER
+                               #A2A1  - A2 TO A1 FORMAT CONVERSION
+                               #A1A2  - A1 TO A2 FORMAT CONVERSION
+                               >DUNGN - LOADR COMMAND FILE
+                               @DUNGN - MESSAGES & INIT. FILE
+                               ALSO USES S/R'S IN CONTRIB. #1
+    Operating System.........: RTE-IVB
+    Language(s)..............: FORTRAN 4X, ASSEMBLER
+    External Support Req'd...:
+    If Re-submission, Reason.:
+ Contributor's Name..........: TOM HUTCHINSON
+               Company.......: DOME PETROLEUM, LTD.
+               Street........: 700 SECOND STREET, S.W.
+               City..........: CALGARY
+               Province......: ALBERTA
+               Country.......: CANADA
+               Postal Code...: T2P 0X5
+               Phone Number..: (403) 231-3950
+
+ Program Abstract............:
+
+      THIS IS THE GAME OF DUNGEONS AND DRAGONS, ADAPTED FOR HP1000.
+      WE'VE BEEN PLAYING IT A WEEK OR SO, AND IT SEEMS TO BOTH WORK
+      AND BE A GOOD GAME.
+      A COUPLE OF NOTES:
+        1. A BUG OR TWO IN THE ORIGINAL VERSION HAS BEEN FIXED, BUT
+           PROBABLY A FEW REMAIN.
+        2. THE PROGRAM EXPECTS A CARTRIDGE 10 TO BE AVAILABLE, AND THE
+           MESSAGES AND INIT. FILE @DUNGN:DD:10 TO BE THERE.
+        3. IF SEGMENTATION IS DIFFERENT OR UNNECESSARY IN RTE-6, I HAVE
+           DONE IT SO THAT IT IS QUITE EASY TO CHANGE.
+        4. THE PROGRAM IS 28 PAGES, WITH 5 SEGMENTS.
+
+ Additional Documentation....:
+

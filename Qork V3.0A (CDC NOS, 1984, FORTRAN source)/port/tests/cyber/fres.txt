@@ -1,0 +1,78 @@
+Q
+3 
+R
+0 
+0 
+0                   OPERATING SYSTEM =  NOS 2.8.7 871/871.   24/03/31. PRINTED = 26/09/21. 14.54.59.
+0                   UJN          =  FRESJ       FAMILY    = CYBER         JOB ORIGIN    = BATCH.              
+                    CREATING JSN =  AACX        USER NAME = INSTALL       SERVICE CLASS = BATCH.                        
+                                                                                                              
+0 
+0 
+       AAAAAAAAAA    AAAAAAAAAA    AAAAAAAAAA   IIIIIIIIIIII   AAAAAAAAAA    AAAAAAAAAA    CCCCCCCCCC   X          X  
+      AAAAAAAAAAAA  AAAAAAAAAAAA  AAAAAAAAAAAA  IIIIIIIIIIII  AAAAAAAAAAAA  AAAAAAAAAAAA  CCCCCCCCCCCC  XX        XX  
+      AA        AA  AA        AA  AA        AA       II       AA        AA  AA        AA  CC        CC  XX        XX  
+      AA        AA  AA        AA  AA        AA       II       AA        AA  AA        AA  CC        CC   XX      XX   
+      AA        AA  AA        AA  AA        AA       II       AA        AA  AA        AA  CC              XX    XX    
+      AA        AA  AA        AA  AA        AA       II       AA        AA  AA        AA  CC               XX  XX     
+      AA        AA  AA        AA  AA        AA       II       AA        AA  AA        AA  CC                XXXX      
+      AAAAAAAAAAAA  AAAAAAAAAAAA  AAAAAAAAAAAA       II       AAAAAAAAAAAA  AAAAAAAAAAAA  CC                 XX       
+      AAAAAAAAAAAA  AAAAAAAAAAAA  AAAAAAAAAAAA       II       AAAAAAAAAAAA  AAAAAAAAAAAA  CC                 XX       
+      AA        AA  AA        AA  AA        AA       II       AA        AA  AA        AA  CC                XXXX      
+      AA        AA  AA        AA  AA        AA       II       AA        AA  AA        AA  CC               XX  XX     
+      AA        AA  AA        AA  AA        AA       II       AA        AA  AA        AA  CC              XX    XX    
+      AA        AA  AA        AA  AA        AA       II       AA        AA  AA        AA  CC             XX      XX   
+      AA        AA  AA        AA  AA        AA       II       AA        AA  AA        AA  CC        CC  XX        XX  
+      AA        AA  AA        AA  AA        AA  IIIIIIIIIIII  AA        AA  AA        AA  CCCCCCCCCCCC  XX        XX  
+      AA        AA  AA        AA  AA        AA  IIIIIIIIIIII  AA        AA  AA        AA  CCCCCCCCCCC   X          X  
+Q
+T
+2  MWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWM
+   WMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMW
+   MWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWM
+   WMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMW
+   MWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWM
+S
+2 
+R
+ F:  F T T T F
+ G:        0       7       7       3
+ IF F TRUE AT  1
+ IF F TRUE AT  2
+ IF F TRUE AT  3
+1 AACX    M01 - CYBER 865.                        NOS 2.8.7 871/871.   26/09/21. 14.54.56.
+  
+  
+ 14.54.54.FRESJ.
+ 14.54.54.UCCR, 01, 030,      0.049KCDS.
+ 14.54.54.USER,INSTALL,.        
+ 14.54.54.ABSC,  B. 
+ 14.54.54.NORERUN.
+ 14.54.54.SETTL,10. 
+ 14.54.54. TL = 10. 
+ 14.54.54.COPYBR,INPUT,SOURCE,1.
+ 14.54.54. COPY COMPLETE. 
+ 14.54.54. END. 0 FILES; 1 RECORD; 91 WORDS.
+ 14.54.54.REWIND,SOURCE.
+ 14.54.54.FTN5(I=SOURCE,L=0)
+ 14.54.55.     57100 CM STORAGE USED. 
+ 14.54.55.     0.020 CP SECONDS COMPILATION TIME. 
+ 14.54.55.LGO.
+ 14.54.55.  CM LWA+1 = 12755B, LOADER USED  30700B
+ 14.54.55.     END  FRES    
+ 14.54.55.     20500 MAXIMUM EXECUTION FL.      
+ 14.54.55.     0.002 CP SECONDS EXECUTION TIME. 
+ 14.54.55.*** 
+ 14.54.55.*** FRESJ COMPLETE
+ 14.54.55.*** 
+ 14.54.55.EXIT. 
+ 14.54.55.UEAD,      0.001KUNS. 
+ 14.54.55.UEMS,      1.611KUNS. 
+ 14.54.55.UECP,      0.078SECS. 
+ 14.54.55.AESR,      1.414UNTS. 
+ 14.54.55.$OUT(*/OP=E)
+ 14.54.55. NO FILES PROCESSED.
+ 14.54.55.$UNLOAD(*/OP=O) 
+ 14.54.56. NO FILES PROCESSED.
+ 14.54.56.$DAYFILE(OUTPUT,JT=D) 
+ 14.55.00.UCLP, 01, 031,      0.128KLNS.

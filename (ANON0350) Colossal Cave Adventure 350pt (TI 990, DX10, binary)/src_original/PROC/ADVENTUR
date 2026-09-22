@@ -1,0 +1,13 @@
+ADVENTUR(Adventure thru a Cave),
+Will/did you save your game?=YESNO(NO)
+.SYN UNIT1="ME",UNIT2="ME",UNIT3="@GAMES.FILES.CAVE"
+.IF &W,GE,Y
+  CAVE$
+.ELSE
+  .SYN UNIT5=DUMY
+.ENDIF
+.OVLY O=>1B, P=(6,,@GAMES.PROG,Y,$$LU,Y,N)   ! Assign Luno TO PROG FILE
+.BID TASK=ADVEN, LUNO=@$$LU                  ! XFTF
+.OVLY O=>1B, P=(30,@$$LU)                    ! RL CALL
+.SYN UNIT1="",UNIT2="",UNIT3="",UNIT5="",ANS=""
+SDT                      ! ! FUDGE TO COVER ERROR MESSAGE AT END OF GAME

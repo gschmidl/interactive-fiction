@@ -1,6 +1,11 @@
 # Colossal Cave Adventure 350pt - PRIMOS FORTRAN, wizard version with source
 
-**Status: STAGED 2026-09-19 - not ported, nothing built.** Files here are verified copies (md5) of the originals named below.
+**Status: PORTED 2026-09-21 (first pass).** `port\advent.exe` - see `port\README.md`. Verified against
+the original run file on the pack this tape was restored onto, running under PRIMOS 23.4 on p50em: two
+recorded sessions replay byte-identically - mixed-case output, left-over debug trace and all. The port
+starts from the Prime's own saved COMMON blocks (`ADVCOM`), converted field by field, because the
+Prime's INTEGER is four bytes but its LOGICAL two.
+Files here are verified copies (md5) of the originals named below.
 
 Source: `F:\bits\Prime\sbd\SBD003.zip` -> `sbd003_games_6-7-85.tap` (SIMH tape, PRIMOS MAGSAV, labelled SBD003 121885).
 Same set of tapes that gave Ankh and Tower (SBD001/002). `src_original\` holds the files cut out with
@@ -13,4 +18,7 @@ to even length) and, where it is text, a decoded `.txt` beside it. `*.ufdhdr` = 
   database; `ADVCOM>ADVCOM` = the initialised common image; binaries `AD4000`, `TW4000`, `ADVENTURE`
 - `SCOTT` - a second user's copy with `ADVENTURE.LIST` (compiler listing) and BUILD.COMO
 - `RUN_GAMES\ADVENTURE`, `BADVENTURE` - the installed R-mode runfiles
-Straight source port candidate (gfortran), same family as the TOPS-10 350.
+
+This build is the one that was installed, and it was caught mid-debugging: `PSPEAK` still prints its
+trace (`000000 000000`) in front of every object and describes objects by their inventory name. The
+port reproduces that, because the machine does.

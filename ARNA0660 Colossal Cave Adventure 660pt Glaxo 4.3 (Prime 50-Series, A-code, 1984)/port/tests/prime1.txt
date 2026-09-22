@@ -1,0 +1,73 @@
+SEG EXECUTIVE
+[A-code executive rev.19.2, GGR version 4.3 - 23 Mar 84]
+
+Welcome to Adventure4 (660 point GGR version 4.3 - 26 Jul 84).
+
+Would you like instructions?
+no
+You are standing at the end of a road before a small brick building.
+Around you is a forest. A small stream flows out of the building and
+down a gully and a wide path leads northwest.
+
+? in
+
+You are inside a building, a well house for a large spring.
+
+There are some keys on the ground here.
+There is a shiny brass lamp nearby.
+
+? take lamp
+
+Ok.
+
+? look
+
+You are inside a building, a well house for a large spring.
+
+There are some keys on the ground here.
+
+? inventory
+
+Your posessions currently consist of:
+Brass lantern
+
+? out
+
+You're at end of road again.
+
+? s
+
+You are in a valley in the forest beside a stream tumbling along a
+rocky bed.
+
+? s
+
+At your feet all the water of the stream splashes into a narrow slit
+in the rock. Downstream the streambed is bare rock.
+
+? s
+
+You are in a 20-foot depression floored with bare dirt. Set into the
+dirt is a strong steel grate mounted in concrete. A dry streambed
+leads into the depression.
+
+The grate is locked.
+
+? score
+
+If you were to quit now, you would score a total of 0 points,
+out of a possible maximum of 660 points, using 9 turns.
+
+? quit
+
+Do you really want to quit now?
+y
+
+
+You have scored 0 out of a possible 660 points, using 10 turns.
+
+You are obviously a rank amateur. Better luck next time.
+
+To reach the next qualification level you need 30 more points.
+
+OK, 

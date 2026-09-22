@@ -1,0 +1,214 @@
+
+
+
+
+       Q U E S T   D O C U M E N T A T I O N  --  QUEST VERSION 1
+
+
+  I.   THE GAME
+
+       Quest is a multi-user game that runs on IV/90 Mod 2 computers
+       under MFE.  It is set in a large cave.  Players move through
+       the cave, fighting its inhabitants, as well as each other,
+       while trying to win the game.  Almost all aspects of the cave,
+       as well as the object of the game, are generated at random by
+       the computer at the start of the game.
+
+       Each room in the cave is connected to some of the 8 rooms
+       adjacent to it.  All connections are symmetrical: if going
+       north from room A puts a player in room B, going south
+       from B puts him back in A.
+
+       At the beginning of the game, all players start out at the
+       same place, above ground.  There is someone (not a player)
+       somewhere else above ground who knows what the quest is.
+
+       Quest does not know about teams, so it is not possible for more than
+       one player to win a game.  However, it is possible for players to
+       decide upon teams before the game begins, and agree that when
+       someone on a team wins, the entire team wins.  For that matter, it
+       is always possible to shift alliances between teams during the
+       game.
+
+       When someone wins the game, everyone is told.  However, the game
+       does not actually end until someone stops it or everyone quits.
+       (See "Starting and Stopping," below.)
+
+       The cave is populated by various characters chosen at random
+       by the computer.  These include such characters as wolves,
+       demons, and trolls.
+
+       There are often many different objects in various rooms of
+       the cave.  Many are somehow relevant to achieving the
+       object of the game: some can help, some can hinder, some are
+       only decoys.  Many of the things are weapons.  Some, including
+       some weapons, are magical.  Many objects are not in plain view,
+       and must be searched for.
+
+       In Quest, time is important; that is, actions take real time.
+       This is different from games such as Adventure, in which time is
+       known only by the number of moves made.
+
+       It is possible to talk to other players in the cave.  (See "Use of
+       the Terminal," below.)  It is also possible to communicate in
+       other ways, such as winking.
+
+  II.  STARTING AND STOPPING QUEST
+
+       A.   Starting Quest
+
+       Quest requires MFE release BN03, configured for 24 x 81
+       screens.  From 1 to 20 players may play; they may use any
+       terminals, not just 0 through 19.  All players must start at
+       the same time.  The file QLIB must be present on drive 0 when
+       Quest is run.  Quest occupies 39 pages of physical RAM.
+
+       Quest is started by the MFE command START QUEST.  After several
+       seconds, Quest will ask for the number of players that will
+       play.
+
+       After Quest has been told the number of players, the players
+       may sign on.  This is done by typing "Q" at the terminals.
+       Quest will ask each player what his or her name is.  The
+       player should type in his or her name followed by cursor return.
+       Next Quest will ask whether the player is male.  The player
+       should answer "YES" or "NO", followed by cursor return.  When
+       this is done, the player must wait until all other players have
+       answered these questions.  At that point the game begins.
+
+       If a harder game is desired, the file QLHARD should be copied to
+       file name QLIB on drive 0, instead of the supplied QLIB, before
+       the game is started.  (See Files Used by Quest, below.)
+
+       B.   Stopping Quest
+
+       Quest may be stopped by using the MFE command ABORT QUEST.
+       This must be entered at the MFE console, not as a player.
+       Alternatively, Quest will stop itself when the last player
+       has logged off.  Players log off by hitting the Control Cursor
+       Return key, or by typing QUIT or STOP.
+
+  III. USE OF THE TERMINAL
+
+       The screen is divided into two parts.  The top 23 lines are
+       used to display what the player sees and hears.  New
+       information appears at the bottom and is scrolled up.  The
+       24th line of the screen is used to type in actions and
+       conversation.
+
+       After each line has been typed, Cursor Return must be hit to
+       give the line to Quest.
+
+       A.   Actions
+
+       To perform an action, type it in as a sentence.  For instance,
+       if there is a sword on the floor, to pick it up you would type
+              GET THE SWORD
+       The computer understands many different actions, as well as
+       synonyms for some.  So if it doesn't like your sentence, try
+       paraphrasing it.
+
+       There are a few useful actions that you may never think of.  For
+       instance, it is possible to look at almost anything, including
+       abstractions such as EVERYONE.  Another thing it's possible to
+       look at is INVENTORY, which shows you what you're carrying.
+
+       You can type several sentences on the same line if you want to.
+       Just separate them by periods.  For example:
+              WALK NORTH. GIVE SWORD TO TONY. WALK SOUTH
+
+       In some situations, the faster you can type, the better you can
+       play Quest.  So Quest has some features to save you typing time.
+       One is the fact that you never have to type more than the first
+       5 letters of any word.  You can type the whole word if you have
+       nothing better to do, but it will be ignored.
+
+       Another time-saving feature is the fact that sometimes if you
+       omit a word Quest will fill it in using what it knows about the
+       other words in the sentence.  For example:
+              NORTH          is the same as      WALK NORTH
+              LOOK           is the same as      LOOK AT THE AREA
+              GET SWORD      is the same as      GET THE SWORD
+              JOHN           is the same as      LOOK AT JOHN
+       The best advice is to try omitting words and see what happens.
+
+       There are some words that refer to the last sentence you typed.
+       For example:
+              NORTH. AGAIN   is the same as      NORTH. NORTH
+              GET SWORD. DROP IT
+                             is the same as      GET SWORD. DROP SWORD
+
+       Finally, you can abbreviate the names of directions.  For
+       example:
+              N              is the same as      NORTH
+              W              is the same as      WEST
+       The computer will misunderstand you if you try to say
+       NORTHEAST, because it will only look at the first five letters
+       and see it as NORTH.  So you have to use NE, SE, SW, and NW.
+
+       B.   Conversation
+
+       Players in the same room can communicate with each other by
+       typing their conversation.  All conversation can be heard
+       by everyone in the room with the speaker.  A conversation
+       sentence must begin with a quote, to tell the computer it is
+       not an action.  For example:
+              "LET'S GANG UP ON LEE
+       The sentence does not have to end with a quote.  The computer
+       merely sends this line to everyone else in the room.  It does
+       not try to interpret it as an action.
+
+       You can mix action sentences and conversation sentences on
+       the same line.  For example:
+              SWING SWORD AT JOHN. "HAD ENOUGH?
+
+       C.   Special Keys
+
+       Some of the keys on the keyboard perform useful functions.
+       Here they are in order of their usefulness to you.
+
+         Key                 Function
+         ---                 -
+       RETURN              Causes Quest to process the line you just
+                                typed.
+       Control RETURN      Logs you off Quest.  Remember that once you
+                                log off you cannot get back on until a
+                                new game starts.
+       <-                  Moves the cursor to the previous character.
+       ->                  Moves the cursor to the next character.
+       MODE (ATTN)         Blanks the line and moves the cursor to
+                                the left margin.
+       Shifted <-          Deletes the character under the cursor.
+       Shifted ->          Inserts a blank under the cursor.
+       HOME                Moves the cursor to the left margin.
+
+       D.   Typing ahead
+
+       It possible to type ahead of Quest.  That is, while the actions
+       on a line are being performed, you can type in the next line.
+       When you have typed the next line, the cursor will disappear.
+       Any further typing will cause the terminal to beep.  When Quest
+       begins processing the last line you typed, the cursor will
+       reappear.
+
+  IV.  FILES USED BY QUEST
+
+           Quest uses four files:
+                QUEST     the game itself
+                QHELP     this file
+                QLIB      library of data used by the game
+                QLHARD    library for harder version of game
+
+  V.   ERROR MESSAGES
+
+       QUEST FATAL ERROR n, CODE = x  (appears on MFE console)
+
+            n=0 :   QLIB not found, or wrong version.
+            n=10 :  Not enough physical memory.
+            others: Internal QUEST error.  Try again.
+
+       SORRY -- THE CAVE IS CLOSED NOW.  (appears on MFE console)
+
+            QUEST will not run on weekdays from 9 AM to noon, and from
+            1 PM to 5 PM.
+

@@ -1,6 +1,6 @@
 # Qork V3.0A - S. O. Lidie, CDC NOS, "created 84/05/30"
 
-**Status: STAGED 2026-09-19 - not ported, nothing built.** Files here are verified copies (md5) of the originals named below.
+**Status: STAGED 2026-09-19; port DEFERRED 2026-09-21 to the end of the port plan** (optional there: Lidie's own later V5.0a already plays from eXo). When it is taken up: FTN 4.7 under DtCyber's NOS 1.3 should compile it, and the CDC layers and harness of the ACCA and MCAUTO Adventure ports apply - the new part is the COMPASS module RIO (OPEN/CLOSE/RDR/WRR/WRI/RNL, PRU-addressed random database I/O). Files here are verified copies (md5) of the originals named below.
 
 Source: `C:\Users\gschm\Downloads\nd\Cyb\qork.src` + `qork.txt`.
 **Older version of a game we already run**: eXo has Lidie's own 2022.04.01 V5.0a gfortran build

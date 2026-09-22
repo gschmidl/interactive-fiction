@@ -84,9 +84,9 @@ static void alu_sub(uint8_t v, int carry, int store)
     if (store) z->a = res;
 }
 
-static void alu_and(uint8_t v) { z->a &= v; set_sz53p(z->a); z->f |= FLAG_H; }
-static void alu_xor(uint8_t v) { z->a ^= v; set_sz53p(z->a); }
-static void alu_or (uint8_t v) { z->a |= v; set_sz53p(z->a); }
+static void alu_and(uint8_t v) { z->a &= v; set_sz53p(z->a); z->f = (uint8_t)((z->f & ~FLAG_C) | FLAG_H); }
+static void alu_xor(uint8_t v) { z->a ^= v; set_sz53p(z->a); z->f &= (uint8_t)~(FLAG_C | FLAG_H); }
+static void alu_or (uint8_t v) { z->a |= v; set_sz53p(z->a); z->f &= (uint8_t)~(FLAG_C | FLAG_H); }
 
 static uint8_t alu_inc(uint8_t v)
 {

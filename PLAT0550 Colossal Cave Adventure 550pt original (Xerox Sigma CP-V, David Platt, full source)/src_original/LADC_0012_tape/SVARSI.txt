@@ -1,0 +1,78 @@
+         SYSTEM   BPM
+         SYSTEM   SIG9
+         SYSTEM   FLIBMODE
+         DEF      SVAR
+         REF      9SET2,J:TCB
+*
+*
+SVAR     CSECT    1
+         BAL,LL   9SET2
+         INTG     TYPE
+         INTG     VAL
+         STW,LC   RETURN
+         LW,R1    *TYPE
+         BL       RETZER
+         CI,R1    LAST-FIRST
+         BGE      RETZER
+         B        FIRST,R1
+FIRST    B        GETETMF
+         B        GETRESP
+         B        GETUSERS
+         B        GETDAY
+         B        GETHOUR
+         B        GETMIN
+         B        GETSEC
+         B        GETTHOUS
+         B        GETSSW
+LAST     NOP
+GETETMF  M:DISPLAY,E DISPFPT
+         STW,R5   *VAL
+         B        *RETURN
+GETRESP  M:DISPLAY,E DISPFPT
+         STW,R6   *VAL
+         B        *RETURN
+GETUSERS M:DISPLAY,E DISPFPT
+         STW,R7   *VAL
+         B        *RETURN
+GETDAY   M:TIME,E TIMEFPT
+         SLS,R8   16
+         SLS,R8   -16
+         STW,R8   *VAL
+         B        *RETURN
+GETHOUR  M:TIME,E TIMEFPT
+         SLS,R9   -24
+         STW,R9   *VAL
+         B        *RETURN
+GETMIN   M:TIME,E TIMEFPT
+         SLS,R9   8
+         SLS,R9   -24
+         STW,R9   *VAL
+         B        *RETURN
+GETSEC   M:TIME,E TIMEFPT
+         SLS,R9   16
+         SLS,R9   -24
+         B        *RETURN
+GETTHOUS M:TIME,E TIMEFPT
+         STW,R10  *VAL
+         B        *RETURN
+GETSSW   LW,R1    *VAL              GET SENSE SWITCH #
+         LI,R2    12
+         LW,R2    *J:TCB,2          GET SWITCH WORD
+         AI,R1    -6
+         SLS,R2   0,R1
+         AND,R2   L(1)
+         STW,R2   *VAL
+         B        *RETURN
+RETZER   LI,R1    0
+         STW,R1   *VAL
+         B        *RETURN
+V#SVAR   CSECT    0
+         RES      1                 PAD SPACE
+TYPE     RES      1
+         RES      1                 PAD SPACE
+VAL      RES      1
+RETURN   RES      1
+DISPFPT  M:DISPLAY,L
+TIMEFPT  M:TIME,L NULLS,TMS
+NULLS    RES      4
+         END

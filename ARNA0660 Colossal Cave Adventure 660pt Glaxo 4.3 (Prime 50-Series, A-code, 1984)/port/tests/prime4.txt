@@ -1,0 +1,48 @@
+SEG EXECUTIVE
+[A-code executive rev.19.2, GGR version 4.3 - 23 Mar 84]
+
+Welcome to Adventure4 (660 point GGR version 4.3 - 26 Jul 84).
+
+Would you like instructions?
+no
+You are standing at the end of a road before a small brick building.
+Around you is a forest. A small stream flows out of the building and
+down a gully and a wide path leads northwest.
+
+? take %d
+
+I don't know the word "2560".
+
+? take a%b
+
+I don't know the word "a??".
+
+? take 100%%
+
+I don't know the word "100%".
+
+? take x%
+
+I don't know the word "x??.
+
+? take %X%Y
+
+I don't know the word " ".
+
+? take %g
+
+I don't know the word "??".
+
+? quit
+
+Do you really want to quit now?
+y
+
+
+You have scored 0 out of a possible 660 points, using 7 turns.
+
+You are obviously a rank amateur. Better luck next time.
+
+To reach the next qualification level you need 30 more points.
+
+OK, 

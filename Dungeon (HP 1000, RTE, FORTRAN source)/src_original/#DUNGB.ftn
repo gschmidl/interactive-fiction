@@ -1,0 +1,1234 @@
+FTN4X,L
+      PROGRAM DUNGB(5)
+      IMPLICIT INTEGER(A-Z)
+C
+        LOGICAL INIT
+C
+C SEGMENTATION PARAMETERS & RESULT
+C
+      LOGICAL IZRESZ
+      COMMON /SEG/ IZP1,IZP2,IZP3,IZRESZ
+C
+      IZRESZ = INIT (IZP1)
+      CALL RETRN
+      END
+C INIT-- DUNGEON INITIALIZATION ROUTINE
+C
+C DECLARATIONS
+C
+        LOGICAL FUNCTION INIT(X)
+        IMPLICIT INTEGER (A-Z)
+        INTEGER LINE(78),SDIR(16),CDIR(16),IDCBI(144),IJK(3),ISIZE(2)
+        INTEGER IBUFZ(79)
+        EQUIVALENCE (IJK(1),I),(IJK(2),J),(IJK(3),K)
+        LOGICAL PROTC
+C
+C DCB FOR ORIGINAL TEXT FILE, AND SCRATCH BUFFER
+C
+         COMMON /DCBN/ IDCBN(144),IBUFF(40)
+C
+C PARSER OUTPUT
+C
+        LOGICAL PRSWON
+        COMMON /PRSVC/ PRSA,PRSI,PRSO,PRSWON,PRSCON,
+     +                 INLINE(78),INLNT
+C
+C PARSER STATE
+C
+        COMMON /ORPHS/ OFLAG,OACT,OSLOT,OPREP,ONAME
+        COMMON /LAST/ LASTIT
+C
+C GAME STATE
+C
+        LOGICAL TELFLG
+        COMMON /PLAY/ WINNER,HERE,TELFLG
+        COMMON /STATE/ MOVES,DEATHS,RWSCOR,MXSCOR,MXLOAD,
+     1       LTSHFT,BLOC,MUNGRM,HS
+C
+C MESSAGE INDEX
+C
+        INTEGER MZZ(801)
+        COMMON /RMSG/ MLNT,RTEXT(800)
+        EQUIVALENCE (MZZ(1),MLNT)
+C
+C MISCELLANEOUS VARIABLES
+C
+        COMMON /STAR/ MBASE,STRBIT
+        INTEGER VEZZ(3)
+        COMMON /VERS/ VMAJ,VMIN,VEDIT
+        EQUIVALENCE (VEZZ(1),VMAJ)
+        COMMON /TIME/ PLTIME,SHOUR,SMIN,SSEC
+        COMMON /CHAN/ INPCH,OUTCH,IDCBT(144)
+        COMMON /DEBUG/ DBGFLG,PRSFLG
+C
+C ROOMS
+C
+        INTEGER RZZ (1051)
+        COMMON /ROOMS/ RLNT,RDESC1(150),RDESC2(150),REXIT(150),
+     1       RACTIO(150),RVAL(150),RFLAG(150),RRAND(150)
+        EQUIVALENCE(RZZ(1),RLNT)
+C
+        COMMON /RVARS/ RVMNT,RVCLR,RVCYC,RVSND,RVGUA
+C
+C EXITS
+C
+        INTEGER XZZ(601)
+        COMMON /EXITS/ XLNT,TRAVEL(600)
+        EQUIVALENCE(XZZ(1),XLNT)
+C
+        COMMON /CURXT/ XTYPE,XROOM1,XSTRNG,XACTIO,XOBJ
+        EQUIVALENCE (XFLAG,XOBJ)
+C
+        COMMON /XPARS/ XRMASK,XDMASK,XFMASK,XFSHFT,XASHFT,
+     1       XELNT(4),XNORM,XNO,XCOND,XDOOR,XLFLAG
+C
+C OBJECTS
+C
+        INTEGER OZZ(2401)
+        COMMON /OBJXS/ OLNT,ODESC1(160),ODESC2(160),ODESCO(160),
+     1       OACTIO(160),OFLAG1(160),OFLAG2(160),OFVAL(160),
+     2       OTVAL(160),OSIZE(160),OCAPAC(160),OROOM(160),
+     3       OADV(160),OCAN(160),OREAD(160),ORAND(160)
+        EQUIVALENCE(OZZ(1),OLNT)
+C
+        INTEGER R2ZZ(13)
+        COMMON /OROM2/ R2LNT,O2(6),R2(6)
+        EQUIVALENCE(R2ZZ(1),R2LNT)
+C
+        COMMON /OINDX/ GARLI,FOOD,GUNK,COAL,MACHI,DIAMO,TCASE,BOTTL
+        COMMON /OINDX/ WATER,ROPE,KNIFE,SWORD,LAMP,BLAMP,RUG
+        COMMON /OINDX/ LEAVE,TROLL,AXE
+        COMMON /OINDX/ RKNIF,KEYS,ICE,BAR
+        COMMON /OINDX/ COFFI,TORCH,TBASK,FBASK,IRBOX
+        COMMON /OINDX/ GHOST,TRUNK,BELL,BOOK,CANDL
+        COMMON /OINDX/ MATCH,TUBE,PUTTY,WRENC,SCREW,CYCLO,CHALI
+        COMMON /OINDX/ THIEF,STILL,WINDO,GRATE,DOOR
+        COMMON /OINDX/ HPOLE,LEAK,RBUTT,RAILI
+        COMMON /OINDX/ POT,STATU,IBOAT,DBOAT,PUMP,RBOAT
+        COMMON /OINDX/ STICK,BUOY,SHOVE,BALLO,RECEP,GUANO
+        COMMON /OINDX/ BROPE,HOOK1,HOOK2,SAFE,SSLOT,BRICK,FUSE
+        COMMON /OINDX/ GNOME,BLABE,DBALL
+        COMMON /OINDX/ LCASE,CAGE,RCAGE,SPHER,SQBUT
+        COMMON /OINDX/ FLASK,POOL,SAFFR,BUCKE,ECAKE,ORICE,RDICE,BLICE
+        COMMON /OINDX/ ROBOT,LUNGS,SAILO,AVIAT,TEETH
+        COMMON /OINDX/ ITOBJ,EVERY,VALUA,OPLAY
+C
+C CLOCK INTERRUPTS
+C
+        LOGICAL CFLAG
+        INTEGER CZZ(61)
+        COMMON /CEVNT/ CLNT,CTICK(20),CACTIO(20),CFLAG(20)
+        EQUIVALENCE (CZZ(1),CLNT)
+C
+C VILLAINS AND DEMONS
+C
+        LOGICAL THFFLG,SWDACT,THFACT
+        COMMON /HACK/ THFPOS,THFFLG,THFACT,SWDACT,SWDSTA
+        INTEGER VZZ(16)
+        COMMON /VILL/ VLNT,VILLNS(5),VPROB(5),VOPPS(5)
+        EQUIVALENCE(VZZ(1),VLNT)
+C
+C ADVENTURERS
+C
+        INTEGER AZZ(29)
+        COMMON /ADVS/ ALNT,AROOM(4),ASCORE(4),AVEHIC(4),
+     1       AOBJ(4),AACTIO(4),ASTREN(4),AFLAG(4)
+        EQUIVALENCE (AZZ(1),ALNT)
+C
+        COMMON /AINDX/ PLAYER,AROBOT
+C
+C FLAGS
+C
+        LOGICAL FLAGS(33)
+        LOGICAL TROLLF,CAGESF,BUCKTF,CAROFF,CAROZF,LWTIDF
+        LOGICAL DOMEF,GLACRF,ECHOF,RIDDLF,LLDF,CYCLOF
+        LOGICAL MAGICF,LITLDF,SAFEF,GNOMEF,GNODRF,MIRRMF
+        LOGICAL EGYPTF,ONPOLF,BLABF,BRIEFF,SUPERF,BUOYF
+        LOGICAL GRUNLF,GATEF,RAINBF,CAGETF,EMPTHF,DEFLAF
+        LOGICAL GLACMF,FROBZF,ENDGMF
+        COMMON /FINDX/ TROLLF,CAGESF,BUCKTF,CAROFF,CAROZF,LWTIDF,
+     1       DOMEF,GLACRF,ECHOF,RIDDLF,LLDF,CYCLOF,
+     2       MAGICF,LITLDF,SAFEF,GNOMEF,GNODRF,MIRRMF,
+     3       EGYPTF,ONPOLF,BLABF,BRIEFF,SUPERF,BUOYF,
+     4       GRUNLF,GATEF,RAINBF,CAGETF,EMPTHF,DEFLAF,
+     5       GLACMF,FROBZF,ENDGMF
+        COMMON /FINDX/ BTIEF,BINFF
+        EQUIVALENCE (FLAGS(1),TROLLF)
+C
+        DATA SDIR/'N ','S ','E ','W ','SE','SW','NE','NW',
+     1'U ','D ','LA','LN','EN','EX','CR','CL'/
+        DATA CDIR/2000B,4000B,6000B,10000B,12000B,14000B,16000B,
+     1 20000B,
+     2 22000B,24000B,26000B,30000B,32000B,34000B,36000B,40000B /
+C
+C
+        INIT=.FALSE.                            !ASSUME INIT FAILS.
+        IF(PROTC(X)) GO TO 101          !PROTECTION VIOLATION?
+        WRITE (OUTCH,11)                !YES, THROW HIM OFF.
+11      FORMAT(" There appears before you a threatening figure clad",
+     1" all over"/" in heavy black armor.  His legs seem like the",
+     2" massive trunk"/" of the oak tree.  His broad shoulders and",
+     3" helmeted head loom"/" high over your own puny frame, and",
+     4" you realize that his powerful"/" arms could easily crush the",
+     5" very life from your body.  There"/" hangs from his belt a",
+     6" veritable arsenal of deadly weapons:"/" sword, mace, ball",
+     7" and chain, dagger, lance, and trident."/" He speaks with a",
+     8" commanding voice:"//20X,"'You shall not pass.'"//" As",
+     9" he grabs you by the neck all grows dim about you.")
+      RETURN
+C
+101     MMAX=800                                !SET UP ARRAY LIMITS.
+        OMAX=160
+        RMAX=150
+        VMAX=5
+        AMAX=4
+        CMAX=20
+        FMAX=33
+        XMAX=600
+        R2MAX=6
+        DIRMAX=16
+C
+        MLNT=0                                  !INIT ARRAY COUNTERS.
+        OLNT=0
+        RLNT=0
+        VLNT=0
+        ALNT=0
+        CLNT=0
+        XLNT=1
+        R2LNT=0
+C
+        LTSHFT=10                               !SET UP STATE VARIABLES.
+        MXSCOR=LTSHFT
+        MXLOAD=100
+        RWSCOR=0
+        DEATHS=0
+        MOVES=0
+        PLTIME=0
+        MUNGRM=0
+        HS=0
+        PRSA=0                                  !CLEAR PARSE VECTOR.
+        PRSI=0
+        PRSO=0
+        PRSCON=0
+        OFLAG=0                                 !CLEAR ORPHANS.
+        OACT=0
+        OSLOT=0
+        OPREP=0
+        ONAME=0
+        THFFLG=.FALSE.                          !THIEF NOT INTRODUCED BU
+        THFACT=.TRUE.                           !IS ACTIVE.
+        SWDACT=.FALSE.                          !SWORD IS INACTIVE.
+        SWDSTA=0                                !SWORD IS OFF.
+C
+        RECNO=1                                 !INIT DB FILE POINTER.
+        MBASE=0                                 !INIT MELEE BASE.
+C       INPCH=5                                 !TTY INPUT
+C       OUTCH=5                                 !TTY OUTPUT.
+C
+C INIT ALL ARRAYS.
+C
+        DO 5 I=1,CMAX                           !CLEAR CLOCK EVENTS
+          CFLAG(I)=.FALSE.
+          CTICK(I)=0
+          CACTIO(I)=0
+5       CONTINUE
+C
+        DO 10 I=1,FMAX                          !CLEAR FLAGS.
+          FLAGS(I)=.FALSE.
+10      CONTINUE
+        BUOYF=.TRUE.                            !SOME START AS TRUE.
+        EGYPTF=.TRUE.
+        CAGETF=.TRUE.
+        BTIEF=0                                 !CLEAR INTEGER FLAGS.
+        BINFF=0
+C
+        DO 15 I=1,R2MAX                         !CLEAR ROOM 2 ARRAY.
+          R2(I)=0
+          O2(I)=0
+15      CONTINUE
+C
+        DO 20 I=1,XMAX                          !CLEAR TRAVEL ARRAY.
+          TRAVEL(I)=0
+20      CONTINUE
+C
+        DO 30 I=1,VMAX                          !CLEAR VILLAINS ARRAYS.
+          VOPPS(I)=0
+          VPROB(I)=0
+          VILLNS(I)=0
+30      CONTINUE
+C
+        DO 40 I=1,OMAX                          !CLEAR OBJECT ARRAYS.
+          ODESC1(I)=0
+          ODESC2(I)=0
+          ODESCO(I)=0
+          OREAD(I)=0
+          OACTIO(I)=0
+          OFLAG1(I)=0
+          OFLAG2(I)=0
+          OFVAL(I)=0
+          OTVAL(I)=0
+          OSIZE(I)=0
+          OCAPAC(I)=0
+          OCAN(I)=0
+          OADV(I)=0
+          OROOM(I)=0
+          ORAND(I)=0
+40      CONTINUE
+C
+        DO 50 I=1,RMAX                          !CLEAR ROOM ARRAYS.
+          RDESC1(I)=0
+          RDESC2(I)=0
+          RACTIO(I)=0
+          RFLAG(I)=0
+          RVAL(I)=0
+          RRAND(I)=0
+          REXIT(I)=0
+50      CONTINUE
+C
+        DO 60 I=1,MMAX                          !CLEAR MESSAGE DIRECTORY
+          RTEXT(I)=0
+60      CONTINUE
+C
+        DO 70 I=1,AMAX                          !CLEAR ADVENTURER'S ARRA
+          AROOM(I)=0
+          ASCORE(I)=0
+          AVEHIC(I)=0
+          AOBJ(I)=0
+          AACTIO(I)=0
+          ASTREN(I)=0
+          AFLAG(I)=0
+70      CONTINUE
+C
+        RVMNT=0                                 !CLEAR RV FLAGS.
+        RVCLR=0
+        RVCYC=0
+        RVSND=0
+        RVGUA=0
+C
+        DBGFLG=0
+        PRSFLG=0
+C
+        CALL SPINT(EXTRA)                       !INIT R50 CONSTS
+C
+C NOW SEE IF WE CAN RESTORE FROM EXISTING INDEX FILE.
+C (WE USE FMGR ROUTINES DIRECTLY, INSTEAD OF FTN4X FILE STATE-
+C MENTS, TO AVOID HAVING TO USE LGBUF WITH 2500 WORD BUFFER!)
+C
+        CALL OPEN (IDCBI,IERR,6H@DUNGI,0,2HDD,-13)
+        IF (IERR .LT. 0) GO TO 75
+        CALL READF(IDCBI,IERR,IJK,3)              !GET VERSION.
+        IF((I.NE.VMAJ).OR.(J.NE.VMIN))
+     1       GO TO 170                          !MATCH TO OURS?
+C
+C       PRINT 150
+C150    FORMAT(" RESTORING FROM '@DUNGI'")
+        CALL READF(IDCBI,IERR,IJK,3)
+        MBASE=I
+        STRBIT=J
+        MXSCOR=K
+        CALL READF(IDCBI,IERR,RZZ,1051)
+        CALL READF(IDCBI,IERR,XZZ,601)
+        CALL READF(IDCBI,IERR,OZZ,2401)
+        CALL READF(IDCBI,IERR,R2ZZ,13)
+        CALL READF(IDCBI,IERR,CZZ,61)
+        CALL READF (IDCBI,IERR,VZZ,16)
+        CALL READF (IDCBI,IERR,AZZ,29)
+        CALL READF (IDCBI,IERR,MZZ,801)
+C
+        CALL CLOSE (IDCBI)
+        CALL OPEN (IDCBT,IERR,6H@DUNGT,1,2HDD,-13)
+        IF(IERR.LT.0) GO TO 170
+        GO TO 1025                              !INIT DONE.
+C
+C INDEX FILE IS OBSOLETE, OR
+C DB FILE IS NOT AVAILABLE.
+C KILL INDEX FILE AND START AGAIN.
+C
+170     CALL CLOSE(IDCBI)                        !KILL INDEX FILE.
+        CALL PURGE(IDCBI,IERR,6H@DUNGI,2HDD,-13)
+C
+C NOW START DATA BASE FILE PROCESSING.
+C
+ 75     CALL OPEN (IDCBN,IERR,6H@DUNGN,0,2HDD,-13)
+        IF (IERR .LT. 0) GO TO 1900
+        ISIZE(1)=1400
+        ISIZE(2)=79
+        CALL CREAT(IDCBT,IERR,6H@DUNGT,ISIZE,2,2HDD,-13)
+C
+C
+        WRITE(OUTCH,185)
+ 185    FORMAT(" CREATING NEW '@DUNGT'")
+C
+C RETURN HERE TO READ NEXT SECTION HEADER.
+C
+80      CALL READJ(I,LINE)                      !READ SECTION HEADER.
+C90     FORMAT(I3,1X,78A1)                      !OBSOLETED BY READJ
+C
+        IF(I.EQ.0) GO TO 80                     !IGNORE 0.
+        IF(I.LT.0) GO TO 1000                   !-1 IS END FILE.
+       WRITE (OUTCH,125) I
+125    FORMAT(" INITIALIZING SECTION #",I4)
+        IF(I.LE.8) GO TO 100                    !TEXT SECTION?
+        IF((I-8).LT.1.OR.(I-8).GT.6) CALL BUG(12,I)  !INVALID SECTION NO
+        GO TO (400,500,600,700,800,900),(I-8)   !NO, NUMERIC, GO PROCESS
+C
+C TEXT SECTION.  WRITE TEXT OUT TO DB FILE, NOTE INITIAL RECORD
+C NUMBER IN APPROPRIATE ARRAY.
+C
+100     PREVJ=0                                 !FORCE START OF RECORD.
+110     CALL READJ(J,LINE)                      !READ LINE.
+        IF(J.EQ.0) GO TO 110                    !IGNORE 0.
+        IF(J.LT.0) GO TO 80                     !-1 IS END SECTION.
+        IF(J.EQ.PREVJ) GO TO 300                !IF CONT, WRITE OUT.
+        IF(I.LT.1 .OR. I.GT.8) CALL BUG(12,I)
+        GO TO (210,220,230,240,250,260,270,280),I
+C
+C SECTION 1-- RANDOM REMARKS.
+C
+210     IF(J.GT.MMAX) CALL BUG(13,J)            !TOO MANY REMARKS?
+        IF(RTEXT(J).NE.0) CALL BUG(14,J)        !DUPLICATE REMARK?
+        RTEXT(J)=-RECNO                         !RECORD START OF RECORD.
+        MBASE=MAX0(MBASE,J)
+        GO TO 300                               !GO OUTPUT LINE.
+C
+C SECTION 2-- MELEE MESSAGES
+C
+220     K=J+MBASE                               !OFFSET BY END OF RANDOM
+        IF(K.GT.MMAX) CALL BUG(13,K)
+        IF(RTEXT(K).NE.0) CALL BUG(14,K)
+        RTEXT(K)=-RECNO
+        MLNT=MAX0(MLNT,K)                       !UPDATE LENGTH COUNTER.
+        GO TO 300
+C
+C SECTION 3-- LONG ROOM DESCRIPTIONS
+C
+230     IF(J.GT.RMAX) CALL BUG(15,J)            !TOO  MANY ROOMS?
+        IF(RDESC1(J).NE.0) CALL BUG(16,J)       !DUPLICATE ROOM?
+        RDESC1(J)=-RECNO
+        GO TO 300
+C
+C SECTION 4-- SHORT ROOM DESCRIPTIONS
+C
+240     IF(J.GT.RMAX) CALL BUG(17,J)
+        IF(RDESC2(J).NE.0) CALL BUG(18,J)
+        RDESC2(J)=-RECNO
+        GO TO 300
+C
+C SECTION 5-- LONG OBJECT DESCRIPTIONS
+C
+250     IF(J.GT.OMAX) CALL BUG(19,J)            !TOO MANY OBJECTS?
+        IF(ODESC1(J).NE.0) CALL BUG(20,J)       !DUPLICATE OBJECTS?
+        ODESC1(J)=-RECNO
+        GO TO 300
+C
+C SECTION 6-- SHORT OBJECT DESCRIPTIONS
+C
+260     IF(J.GT.OMAX) CALL BUG(21,J)
+        IF(ODESC2(J).NE.0) CALL BUG(22,J)
+        ODESC2(J)=-RECNO
+        GO TO 300
+C
+C SECTION 7-- UNTOUCHED OBJECT DESCRIPTIONS
+C
+270     IF(J.GT.OMAX) CALL BUG(23,J)
+        IF(ODESCO(J).NE.0) CALL BUG(24,J)
+        ODESCO(J)=-RECNO
+        GO TO 300
+C
+C SECTION 8-- READING MATERIAL
+C
+280     IF(J.GT.OMAX) CALL BUG(25,J)
+        IF(OREAD(J).NE.0) CALL BUG(26,J)
+        OREAD(J)=-RECNO
+        GO TO 300
+C
+C HERE TO WRITE OUT CURRENT LINE OF TEXT.
+C
+300     IBUFZ(1)=J
+        DO 99871 IL=1,78
+99871   IBUFZ(IL+1)=LINE(IL)
+        CALL WRITF(IDCBT,IERR,IBUFZ,79,RECNO)
+        RECNO=RECNO+1                           !ON TO NEXT RECORD
+        PREVJ=J
+        GO TO 110
+C
+C SECTION 9-- ROOM DATA
+C
+400     CALL READJ(J,LINE)                      !GET ROOM NO.
+        IF(J.LT.0) GO TO 80                     !-1 IS END OF SECTION.
+        IF(J.EQ.0) GO TO 400                    !0 IS IGNORED.
+        IF(J.GT.RMAX) CALL BUG(28,J)            !TOO MANY ROOMS?
+        RLNT=MAX0(RLNT,J)                       !COUNT ROOMS.
+C
+        CALL RDRMN(RACTIO(J),RVAL(J),RFLAG(J))  !READ ROOM NUMERICS.
+C425    FORMAT(2(I3,1X),O5,1X,I3)               !OBSOLETED BY RDRMN
+        MXSCOR=MXSCOR+RVAL(J)                   !UPDATE BEST SCORE.
+        PREVX=0                                 !NO PREV ENTRY.
+C
+C HERE TO LOOP ON EXIT DESCRIPTIONS
+C
+405     CALL RDEXT(DIR,XTYPE,XROOM1)            !READ NEXT EXIT.
+C415    FORMAT(A2,2(I3,1X))                     !OBSOLETED BY RDEXT
+        IF(DIR.EQ.2H  ) GO TO 400               !BLANK LINE ENDS EXITS.
+        DO 410 K=1,DIRMAX                       !LOOK UP DIR IN TABLE.
+          IF(DIR.EQ.SDIR(K)) GO TO 420          !IF FOUND, OK.
+410     CONTINUE
+        CALL BUG(29,DIR)                        !INVALID DIRECTION.
+C
+C HAVE TRANSLATED DIRECTION, VALIDATE OTHER FIELDS.
+C
+420     IF((XTYPE.LE.0).OR.(XTYPE.GT.(XFMASK+1))) CALL BUG(30,XTYPE)
+        IF(XROOM1.GT.RMAX) CALL BUG(31,XROOM1)
+        IF(REXIT(J).EQ.0) REXIT(J)=XLNT         !RECORD FIRST.
+        IF((XLNT+XELNT(XTYPE)).GT.XMAX) CALL BUG(32,XLNT)
+        TRAVEL(XLNT)=CDIR(K)+((XTYPE-1)*XFSHFT)+XROOM1+XLFLAG
+        IF(PREVX.NE.0) TRAVEL(PREVX)=TRAVEL(PREVX)-XLFLAG
+        IF(XTYPE.LT.1 .OR. XTYPE.GT.4) CALL BUG(30,XTYPE)
+        GO TO (480,470,460,450),XTYPE           !DO UNIQUE PROCESSING.
+C
+C DOOR ENTRY-- READ OBJECT,APPLICABLE,STRING
+C
+450     CALL RDOAL(XOBJ,XACTIO,LINE)
+C455    FORMAT(2(I3,1X),78A1)                   !OBSOLETED BY RDOAL
+        IF((XOBJ.LE.0).OR.(XOBJ.GT.OMAX)) CALL BUG(34,XOBJ)
+        GO TO 468
+C
+C CONDITIONAL EXIT ENTRY-- READ FLAG,APPLICABLE,STRING
+C
+460     CALL RDOAL(XOBJ,XACTIO,LINE)
+C465    FORMAT(2(I3,1X),78A1)                   !OBSOLETED BY RDOAL
+        IF((XOBJ.LE.0).OR.(XOBJ.GT.FMAX)) CALL BUG(35,XOBJ)
+468     TRAVEL(XLNT+2)=(XACTIO*XASHFT)+XOBJ
+        GO TO 478
+C
+C NO EXIT ENTRY-- READ STRING
+C
+470     CALL READF (IDCBN,IERR,IBUFF,40)
+        DECODE(80,475,IBUFF) LINE
+475     FORMAT(78A1)
+478     IF(LINE(1).EQ.2H  ) GO TO 480           !BLANK LINE?
+        IBUFZ(1)=RECNO                              !NO, WRITE OUT
+        DO 99872 IL=1,78
+99872   IBUFZ(IL+1)=LINE(IL)
+        CALL WRITF(IDCBT,IERR,IBUFZ,79,RECNO)
+        TRAVEL(XLNT+1)=-RECNO
+        RECNO=RECNO+1
+C
+C COMMON PROCESSING, ADVANCE OVER ENTRY.
+C
+480     PREVX=XLNT                              !RECORD PREV ENTRY.
+        XLNT=XLNT+XELNT(XTYPE)
+        GO TO 405
+C SECTION 11-- GLOBAL OBJECTS
+C SECTION 10-- NORMAL OBJECTS
+C
+600     STRBIT=OLNT                             !RECORD START OF STARS.
+500     CALL READJ(J,LINE)                      !GET OBJ NUMBER.
+        IF(J.LT.0) GO TO 80                     !-1 IS END SECTION.
+        IF(J.EQ.0) GO TO 500                    !0 IS IGNORED.
+        IF(J.GT.OMAX) CALL BUG(27,J)
+        OLNT=MAX0(OLNT,J)
+C
+        CALL RDOBJ(OROOM(J),K,OCAN(J),OACTIO(J),OFLAG1(J),
+     1       OFLAG2(J),OFVAL(J),OTVAL(J),OSIZE(J),OCAPAC(J),
+     2       ORAND(J))
+C560    FORMAT(4(I8,1X),2(O8,1X),5(I8,1X))      !OBSOLETED BY RDOBJ
+C
+        MXSCOR=MXSCOR+OFVAL(J)+OTVAL(J)         !UPDATE BEST SCORE.
+C
+        IF(K.EQ.0) GO TO 500                    !SECOND ROOM?
+        R2LNT=R2LNT+1                           !YES, RECORD.
+        IF(R2LNT.GT.R2MAX) CALL BUG(33,R2LNT)
+        O2(R2LNT)=J
+        R2(R2LNT)=K
+        GO TO 500
+C
+C SECTION 12-- VILLAINS
+C
+700     CALL READJ(J,LINE)                      !READ VILLAIN NO.
+        IF(J.LT.0) GO TO 80
+        IF(J.EQ.0) GO TO 700
+        VLNT=VLNT+1
+        IF(VLNT.GT.VMAX) CALL BUG(36,VLNT)      !TOO MANY VILLAINS?
+        VILLNS(VLNT)=J                          !NO, ADD TO LIST.
+        GO TO 700
+C
+C SECTION 13-- CLOCK EVENTS
+C
+800     CALL READJ(J,LINE)                      !READ EVENT NO.
+        IF(J.LT.0) GO TO 80
+        IF(J.EQ.0) GO TO 800
+        IF(J.GT.CMAX) CALL BUG(37,J)
+        CLNT=MAX0(CLNT,J)
+C
+        CALL RDCLK(CACTIO(J),CTICK(J),CFLAG(J))
+C890    FORMAT(2(I3,1X),L1)                     !OBSOLETED BY RDCLK
+        GO TO 800
+C
+C SECTION 14-- ADVENTURERS
+C
+900     CALL READJ(J,LINE)                      !READ ADV NO.
+        IF(J.LT.0) GO TO 80
+        IF(J.EQ.0) GO TO 900
+        IF(J.GT.AMAX) CALL BUG(38,J)
+        ALNT=MAX0(ALNT,J)
+C
+        CALL RDADV(AROOM(J),AOBJ(J),AACTIO(J),ASTREN(J))
+C990    FORMAT(4(I3,1X))                        !OBSOLETED BY RDADV
+        GO TO 900
+C
+C INITIALIZATION IS COMPLETE.
+C WRITE OUT NEW INDEX FILE FOR NEXT TIME AROUND.
+C
+ 1000   CALL CLOSE(IDCBN)             !CLOSE TXT FILE.
+       CALL CREAT(IDCBI,IERR,6H@DUNGI,50,4,2HDD,-13)
+       WRITE(OUTCH,1005)
+ 1005   FORMAT(" CREATING NEW '@DUNGI'")
+C
+        CALL WRITF(IDCBI,IERR,VEZZ,3)             !STORE VERSION.
+        I=MBASE
+        J=STRBIT
+        K=MXSCOR
+        CALL WRITF(IDCBI,IERR,IJK,3)
+        CALL WRITF(IDCBI,IERR,RZZ,1051)
+        CALL WRITF(IDCBI,IERR,XZZ,601)
+        CALL WRITF(IDCBI,IERR,OZZ,2401)
+        CALL WRITF(IDCBI,IERR,R2ZZ,13)
+        CALL WRITF(IDCBI,IERR,CZZ,61)
+        CALL WRITF (IDCBI,IERR,VZZ,16)
+        CALL WRITF (IDCBI,IERR,AZZ,29)
+        CALL WRITF (IDCBI,IERR,MZZ,801)
+C
+        CALL CLOSE (IDCBI)
+1025    CONTINUE
+C
+C THE INTERNAL DATA BASE IS NOW ESTABLISHED.
+C SET UP TO PLAY THE GAME.
+C
+        CALL ITIME(SHOUR,SMIN,SSEC)             !GET TIME AND DATE.
+        ISEED = AND(SHOUR*SMIN*SSEC,77777B)
+        CALL SSEED (ISEED)                      !SET RANDOM NO. GEN'R.
+C
+        WINNER=PLAYER
+        THFPOS=OROOM(THIEF)
+        BLOC=OROOM(BALLO)
+        HERE=AROOM(WINNER)
+        LASTIT=AOBJ(PLAYER)
+        INIT=.TRUE.
+C
+C       PRINT 1050,RLNT,RMAX,XLNT,XMAX,OLNT,OMAX,MLNT,MMAX,
+C    1          VLNT,VMAX,ALNT,AMAX,CLNT,CMAX,R2LNT,R2MAX
+C1050   FORMAT(" USED:"/1X,I5," OF",I5," ROOMS"/
+C    1   1X,I5," OF",I5," EXITS"/
+C    2   1X,I5," OF",I5," OBJECTS"/
+C    3   1X,I5," OF",I5," MESSAGES"/
+C    4   1X,I5," OF",I5," VILLAINS"/
+C    5   1X,I5," OF",I5," ADVENTURERS"/
+C    6   1X,I5," OF",I5," CLOCK EVENTS"/
+C    7   1X,I5," OF",I5," ROOM2 SLOTS")
+C       PRINT 1150,MXSCOR,RECNO,MBASE,STRBIT
+C1150   FORMAT(" MAX SCORE=",I5/" MAX RECNO=",I5/
+C    1   " MELEE START=",I5/" STAR MASK=",I7)
+C       PAUSE 1
+C
+        RETURN
+C
+C ERRORS-- INIT FAILS.
+C
+1900    WRITE (OUTCH,910)                        !INPUT FILE ERROR
+ 910    FORMAT(" I can't open '@DUNGN::13'.")
+        WRITE (OUTCH,911)
+911     FORMAT(" Suddenly a sinister, wraithlike figure appears before",
+     1" you"/" seeming to float in the air.  In a low, sorrowful voice",
+     2" he says,"/" 'Alas, the very nature of the world has changed,",
+     3" and the dungeon"/" cannot be found.  All must now pass away.'",
+     4"  Raising his oaken staff"/" in farewell, he fades into the",
+     5" spreading darkness.  In his place"/" appears a tastefully",
+     6" lettered sign reading:"//23X,"INITIALIZATION FAILURE"//
+     7" The darkness becomes all encompassing, and your vision fails.")
+        RETURN
+        END
+         BLOCK DATA B
+         IMPLICIT INTEGER (A-Z)
+C
+         COMMON /DCBN/ IDCBN(144),IBUFF(40)
+C
+C
+C INITIAL ASCII VOCABULARIES
+C
+        INTEGER*4 BVOK,PVOK,DVOK
+        COMMON /BUZVK/ BVOK(20)
+        COMMON /PRPVK/ PVOK(47)
+        COMMON /DIRVK/ DVOK(90)
+        INTEGER*4 AVOK(264),AVOK1,AVOK2,AVOKND
+        COMMON /ADJVK/ AVOK1(158),AVOK2(105),AVOKND
+        INTEGER*4 VVOK(818),VVOK1,VVOK1A,VVOK2,VVOK3,VVOK4,VVOK5,
+     +            VVOK6,VVOK7,VVOKND
+        COMMON /VRBVK/ VVOK1(94),VVOK1A(100),VVOK2(80),VVOK3(119),
+     1          VVOK4(118),VVOK5(116),VVOK6(107),VVOK7(83),VVOKND
+        INTEGER*4 OVOK(797),OVOK1,OVOK2,OVOK3,OVOK4,OVOK5,OVOK6,
+     +            OVOK7,OVOKND
+        COMMON /OBJVK/ OVOK1(150),OVOK2(135),OVOK3(140),OVOK4(117),
+     1          OVOK5(106),OVOK6(97),OVOK7(51),OVOKND
+C
+        EQUIVALENCE (VVOK(1),VVOK1(1))
+        EQUIVALENCE (AVOK(1),AVOK1(1))
+        EQUIVALENCE (OVOK(1),OVOK1(1))
+C
+C
+C BUZZ WORDS--  IGNORED IN SYNTACTIC PROCESSING
+C
+        DATA BVOK/'AND',0,'BY',0,'IS',0,'ONE',0,'A',0,
+     1            'AN',0,'THE',0,'RUN',0,'GO',0,'PRO','CEE'/
+C
+C PREPOSITIONS--        MAPS PREPOSITIONS TO INDICES
+C
+        DATA PVOK/'OVE','R',1,'WIT','H',2,'USI','NG',2,'THR','OUG',2,
+     1          'AT',0,3,'TO',0,4,'IN',0,5,'INS','IDE',5,'INT','O',5,
+     2          'DOW','N',6,'UP',0,7,'UND','ER',8,'OF',0,9,'ON',0,10,
+     3          'OFF',0,11,0,0/
+C
+C DIRECTIONS--  MAPS DIRECTIONS TO INDICES
+C
+        DATA DVOK/'N',0,2000B,'NOR','TH',2000B,'S',0,4000B,
+     1    'E',0,6000B,'EAS','T',6000B,'W',0,10000B,'WES','T',10000B,
+     2    'SE',0,12000B,'SOU','THE',12000B,'SW',0,14000B,
+     3    'NE',0,16000B,'NOR','THE',16000B,'NW',0,20000B,
+     4    'U',0,22000B,'UP',0,22000B,'D',0,24000B,'DOW','N',24000B,
+     5    'LAU','NCH',26000B,'LAN','D',30000B,'ENT','ER',32000B,
+     6    'EXI','T',34000B,'OUT',0,34000B,'LEA','VE',34000B,
+     7    'TRA','VEL',36000B,'CLI','MB',40000B,'SOU','TH',4000B,
+     8    'SOU','THW',14000B,'NOR','THW',20000B,'IN',0,32000B,
+     9    'CRO','SS',36000B/
+C
+C
+C ADJECTIVES--  MAPS ADJECTIVES TO OBJECT NUMBERS
+C
+C EACH ENTRY IS VARIABLE LENGTH AND CONSISTS OF A TWO WORD
+C ADJECTIVE IN RADIX-50 FOLLOWED BY ONE OR MORE OBJECT NUMBERS.
+C NOTE THAT ADJECTIVES CAN BE DISTINGUISHED FROM OBJECTS AS
+C FOLLOWS-- ALL ADJECTIVES ARE .GE. "A (1600)", WHILE ALL OBJECTS
+C ARE .LE. OLNT (255 MAX).
+C
+       DATA AVOK1/'BRO','WN',1,81,'ELO','NGA',1,'HOT',0,3,'PEP','PER',3,
+     1    'VIT','REO',4,'JAD','E',6,'HUG','E',8,'ENO','RMO',8,122,
+     2    'TRO','PHY',9,'CLE','AR',10,'LAR','GE',12,26,47,95,96,123,
+     2    133,135,'NAS','TY',13,'ELV','ISH',14,'BRA','SS',15,16,46,
+     3    'BRO','KEN',16,92,113,'ORI','ENT',17,
+     4    'BLO','ODY',20,'RUS','TY',21,'BUR','NED',22,
+     5   'DEA','D',22,'BRO','KEN',22,'OLD',0,25,41,44,45,'LEA','THE',25,
+     5    'PLA','TIN',26,'PEA','RL',27,
+     6    'MOB','Y',31,'CRY','STA',32,126,'GOL','D',33,85,104,
+     7    'IVO','RY',34,'SAP','PHI',37,'WOO','DEN',38,67,136,137,
+     7    'IRO','N',39,125,
+     8    'DEN','TED',39,'FAN','CY',40,'ANC','IEN',41,44,
+     9    'SMA','LL',5,46,52,53,89,102,103,
+     1    'BLA','CK',47,'TOU','R',49,
+     2    'VIS','COU',55,'VIC','IOU',62,
+     3    'GLA','SS',10,126,132,'TRA','P',66/
+C
+        DATA AVOK2/'FRO','NT',68,'STO','NE',69,'MAN','GLE',72,
+     1    'RED',0,79,94,140,'YEL','LOW',80,'BLU','E',82,112,114,141,
+     2    'VAM','PIR',83,'MAG','IC',90,
+     3    'SEA','WOR',90,'TAN',0,91,'SHA','RP',92,
+     4    'WIC','KER',98,'CLO','TH',100,
+     5    'BRA','IDE',101,
+     6    'GAU','DY',108,'SQU','ARE',109,127,'CLA','Y',109,
+     7    'SHI','NY',110,'THI','N',110,
+     8    'GRE','EN',115,143,'PUR','PLE',116,'WHI','TE',117,
+     9    'MAR','BLE',119,'COK','E',121,
+     1    'ROU','ND',128,'TRI','ANG',129,
+     2    'RAR','E',134,'OBL','ONG',135,'EAT','$ME',138,
+     3    'EAT','ME',138,'ORA','NGE',139,'ECC','H',141,-1,-1/
+C
+        DATA AVOKND/-1/
+C
+C VERBS--       MAPS VERBS TO SYNTAX SLOTS
+C
+C EACH ENTRY IS VARIABLE LENGTH AND CONSISTS OF ONE OR MORE
+C TWO WORD VERBS IN RADIX-50 FOLLOWED BY A SYNTAX WORD COUNT
+C FOLLOWED BY ONE OR MORE SYNTAXES.  NOTE THAT VERBS CAN BE
+C DISTINGUISHED FROM WORD COUNTS AS FOLLOWS--
+C ALL VERBS ARE .GE. "A (1600)", WHILE ALL SYNTAX WORD COUNTS
+C ARE .LE. 255.
+C
+C SYNTAX ENTRIES CONSIST OF A FLAG WORD FOLLOWED BY 0, 1, OR 2
+C OBJECT DESCRIPTIONS.  THE FLAG WORD HAS THE FOLLOWING FORMAT--
+C
+C BIT <14>      IF 1, SYNTAX INCLUDES DIRECT OBJECT
+C BIT <13>      IF 1, SYNTAX INCLUDES INDIRECT OBJECT
+C BIT <12>      IF 1, DIRECT OBJECT IS IMPLICIT (STANDARD FORM)
+C BIT <11>      IF 1, DIRECT AND INDIRECT OBJECT MUST BE SWAPPED
+C                       AFTER SYNTAX PROCESSING
+C BIT <10>      IF 1, THIS IS DEFAULT SYNTAX FOR ORPHANERY
+C BITS <8:0>    VERB NUMBER FOR VAPPL
+C
+C OBJECT DESCRIPTIONS CONSIST OF A FLAG WORD AND TWO FWIM WORDS.
+C THE FLAG WORD HAS THE FOLLOWING FORMAT--
+C
+C BIT <14>      IF 1, SEARCH ADVENTURER FOR OBJECT
+C BIT <13>      IF 1, SEARCH ROOM FOR OBJECT
+C BIT <12>      IF 1, PARSER WILL TRY TO TAKE OBJECT
+C BIT <11>      IF 1, ADVENTURER MUST HAVE OBJECT
+C BIT <10>      IF 1, QUALIFYING BITS (NORMALLY -1,-1) ARE SAME
+C                       AS FWIM BITS
+C BITS <3:0>    PREPOSITION NUMBER (TWH)
+C
+C THE FWIM WORDS HAVE THE SAME FORMAT AS THE TWO OBJECT FLAG WORDS.
+C
+C NOTE THAT BITS 12 AND 11 OF OBJECT DESCRIPTIONS ACTUALLY HAVE
+C FOUR DISTINCT STATES--
+C
+C       BIT 12  BIT 11  MDLDESC         INTERPRETATION
+C       ------  ------  -------         ---------------
+C
+C         0       0      --             NO PARSER ACTION
+C         0       1      HAVE           ADVENTURER MUST HAVE OBJECT
+C         1       0      TRY            TRY TO TAKE, DONT CARE IF FAIL
+C         1       1      TAKE           TRY TO TAKE, CARE IF FAIL
+C
+C
+        DATA VVOK1/'BRI','EF',1,70,'UNB','RIE',1,71,
+     1    'SUP','ERB',1,72,'UNS','UPE',1,73,'VER','SIO',1,74,
+     2    'SWI','M','BAT','HE','WAD','E',1,75,'GER','ONI',1,76,
+     3    'ULY','SSE','ODY','SSE','SIN','BAD',1,77,
+     4    'WEL','L',1,78,'PRA','Y',1,79,'TRE','ASU',1,80,
+     5    'TEM','PLE',1,81,'BLA','ST',1,82,'SCO','RE',1,83,
+     6    'FIN','ISH','QUI','T',1,84,'HEL','P',1,50,'INF','O',1,51,
+     7    'HIS','TOR','UPD','ATE',1,52,'BAC','K',1,53,
+     8    'SIG','H','MUM','BLE',1,54/
+C
+        DATA VVOK1A/'CHO','MP','LOS','E','BAR','F',1,55,
+     1    'DUN','GEO',1,56,'FRO','BOZ',1,57,'FOO',0,'BLE','TCH',
+     2    'JAR','GON',1,58,'REP','ENT',1,59,'HOU','RS','SCH','EDU',1,60,
+     3    'WIN',0,1,61,'YEL','L','SCR','EAM','SHO','UT',1,62,
+     4    'HOP',0,'SKI','P',1,63,'FUC','K','SHI','T','DAM','N',
+     5    'CUR','SE',1,64,'ZOR','K',1,65,'GRA','NIT',1,50102B,
+     6    'SAV','E',1,149,'RES','TOR',1,150,'TIM','E',1,90,
+     7    'DIA','GNO',1,94,'EXO','RCI',1,105,'INV','ENT',
+     8    'I',0,1,133,'WAI','T',1,128/
+C
+        DATA VVOK2/'DEF','LAT',1,50147B,
+     1 'DES','CRI','WHA','T','WHA','TS','EXA','MIN',1,50170B,
+     1 'FIL','L',1,50206B,'FIN','D','SEE','K','SEE',0,1,50177B,
+     2 'KIC','K','BIT','E','TAU','NT',1,50153B,'LOW','ER',1,50156B,
+     3 'PUS','H','PRE','SS',1,50160B,'RIN','G','PEA','L',1,50127B,
+     4 'RUB',0,'CAR','ESS','TOU','CH','FON','DLE',1,50157B,
+     4 'SHA','KE',1,50171B,'SPI','N',1,50201B,
+     5 'UNT','IE','FRE','E','REL','EAS',1,50161B,'WAL','K',1,50216B/
+C
+        DATA VVOK3/'ATT','ACK','FIG','HT','INJ','URE','HIT',0,'HUR','T',
+     1       7,60215B,20000B,0,200B,44002B,0,1000B,
+     2 'BOA','RD',4,40202B,20000B,0,2B,
+     3 'BRU','SH','CLE','AN',5,52130B,70130B,64002B,-1,-1,
+     4 'BUR','N','IGN','ITE','INC','INE',7,60211B,60000B,20B,0,
+     5       64002B,10B,0,
+     6 'CLO','SE',4,40176B,60000B,10200B,0,
+     7 'DIG',0,4,40131B,44002B,4B,0,
+     8 'DIS','EMB',4,40203B,20000B,0,2B,
+     9 'DRI','NK','IMB','IBE','SWA','LLO',4,40210B,60000B,400B,0,
+     1 'DRO','P',11,42221B,40000B,-1,-1,
+     2       60221B,40000B,-1,-1,60005B,-1,-1,
+     3 'EAT',0,'CON','SUM','GOB','BLE','MUN','CH','TAS','TE',
+     3       4,40207B,74000B,2000B,0,
+     4 'EXT','ING','DOU','SE',4,40174B,74000B,100B,0/
+C
+        DATA VVOK4/'GIV','E','HAN','D','DON','ATE',11,72222B,20004B,
+     1       40B,0,64222B,20000B,40B,0,60000B,-1,-1,
+     2 'HEL','LO','HI',0,2,2126B,50126B,
+     3 'BLO','W',15,62146B,60007B,-1,-1,60002B,4B,0,
+     4       40160B,60007B,-1,-1,40165B,60005B,-1,-1,
+     5 'INF','LAT',4,70146B,60002B,4B,0,
+     6 'JUM','P','LEA','P','VAU','LT',5,133B,40133B,60001B,-1,-1,
+     7 'KIL','L','MUR','DER','SLA','Y','STA','B','DIS','PAT',
+     7       7,60213B,20000B,0,200B,
+     8       44002B,0,1000B,
+     9 'KNO','CK','RAP',0,12,42166B,60003B,-1,-1,
+     1       40166B,60012B,-1,-1,40215B,22006B,40B,0,
+     2 'LIG','HT',11,42173B,74000B,100B,0,
+     3       60211B,60000B,100B,0,54002B,10B,0,
+     4 'LOC','K',4,40134B,20000B,-1,-1/
+C
+        DATA VVOK5/'LOO','K','L',0,'STA','RE','GAZ','E',
+     1       9,167B,40167B,60003B,-1,-1,
+     1       40125B,60010B,-1,-1,
+     2 'MEL','T','LIQ','UIF',4,70145B,60002B,10B,0,
+     3 'MOV','E',4,40172B,20000B,-1,-1,
+     4 'PUL','L','TUG',0,8,42172B,20000B,-1,-1,
+     5       40172B,20012B,-1,-1,
+     6 'MUN','G','HAC','K','FRO','B','DAM','AGE',
+     6       5,52212B,70212B,44002B,-1,-1,
+     7 'OPE','N',4,40175B,60000B,10200B,0,
+     8 'PIC','K',4,40204B,60007B,-1,-1,
+     9 'PLU','G','GLU','E','PAT','CH',4,70152B,60002B,-1,-1,
+     1 'POK','E','BRE','AK','JAB',0,7,60212B,20000B,0,200B,
+     2       44002B,0,1000B,
+     3 'POU','R','SPI','LL',11,42223B,42000B,400B,0,
+     4       60223B,42000B,400B,0,60005B,-1,-1/
+C
+        DATA VVOK6/'PUT',0,'INS','ERT','STU','FF','PLA','CE',
+     1       8,72220B,60005B,-1,-1,
+     1       40221B,60006B,-1,-1,
+     2 'RAI','SE','LIF','T',5,52155B,40155B,60007B,-1,-1,
+     3 'REA','D','SCA','N','SKI','M',11,42144B,70000B,40000B,0,
+     4       60144B,70000B,40000B,0,60002B,-1,-1,
+     5 'STR','IKE',12,60215B,22000B,40B,0,
+     6       44002B,0,1000B,42215B,22000B,40B,0,50173B,
+     7 'SWI','NG','THR','UST',7,60214B,44000B,0,1000B,
+     8       20003B,0,200B,
+     9 'TAK','E','GET',0,'HOL','D','CAR','RY',1,50204B,
+     1 'TEL','L','COM','MAN','REQ','UES',4,40217B,20000B,0,2000B,
+     2 'THR','OW','HUR','L','CHU','CK',7,60224B,44000B,-1,-1,
+     3       20003B,0,40B/
+C
+      DATA VVOK7/'TIE',0,'KNO','T','FAS','TEN',11,70162B,60004B,-1,-1,
+     1       60163B,20000B,40B,0,64002B,4B,0,
+     2 'TUR','N','SET',0,22,62164B,60000B,2B,0,
+     3       64002B,4B,0,
+     4       40173B,74012B,100B,0,40174B,74013B,100B,0,
+     5       60201B,60000B,2B,0,20004B,-1,-1,
+     6 'UNL','OCK',7,60135B,20000B,-1,-1,
+     7       74002B,4B,0,
+     8 'WAK','E','SUR','PRI','ALA','RM','STA','RTL',
+     8       8,42150B,20000B,40B,0,
+     9       40150B,20007B,40B,0,
+     1 'WAV','E','FLA','UNT','BRA','NDI',4,40154B,40000B,-1,-1/
+C
+        DATA VVOKND/-1/
+C
+C OBJECTS--     MAPS OBJECTS TO OBJECT INDICES
+C
+C NOTE THAT IF AN OBJECT INDEX INCLUDES A 'STAR' OBJECT,
+C THE STAR MUST COME FIRST.
+C SAME FORMAT AS AVOC.
+C
+        DATA OVOK1/'BAG',0,1,25,100,'SAC','K',1,'GAR','LIC',2,
+     1 'CLO','VE',2,'FOO','D',3,'SAN','DWI',3,'LUN','CH',3,
+     2 'GUN','K',4,55,'PIE','CE',4,143,'SLA','G',4,'COA','L',5,
+     3 'PIL','E',5,78,87,88,122,'HEA','P',5,
+     3 'FIG','URI',6,
+     4 'MAC','HIN',7,'PDP','10',7,'PDP','11',7,'DRY','ER',7,
+     5 'LID',0,7,'DIA','MON',8,'CAS','E',9,123,'BOT','TLE',10,123,
+     6 'CON','TAI',10,'WAT','ER',11,'QUA','NTI',11,'LIQ','UID',11,
+     7 'H2O',0,11,'ROP','E',12,101,'HEM','P',12,'COI','L',12,110,
+     8 'KNI','FE',13,21,'BLA','DE',13,14,'SWO','RD',14,'ORC','HRI',14,
+     9 'GLA','MDR',14,'LAM','P',15,16,22,'LAN','TER',15,16,22,
+     1 'RUG',0,17,'CAR','PET',17,
+     2 'LEA','VES',18,'LEA','F',18,'TRO','LL',19,
+     3 'AXE',0,20,'DIN','NER',3/
+C
+        DATA OVOK2/'KEY','S',23,
+     1 'SET',0,23,'BON','ES',24,'SKE','LET',24,'BOD','Y',24,73,
+     2 'COI','NS',25,'BAR',0,26,
+     3 'NEC','KLA',27,'MIR','ROR',28,29,
+     4 'ICE',0,30,'MAS','S',30,'GLA','CIE',30,'RUB','Y',31,
+     5 'TRI','DEN',32,'FOR','K',32,'COF','FIN',33,'CAS','KET',33,
+     6 'TOR','CH',34,'CAG','E',35,36,124,125,'DUM','BWA',35,36,
+     7 'BAS','KET',35,36,98,113,'BRA','CEL',37,
+     8 'JEW','EL',37,'TIM','BER',38,'BOX',0,39,53,105,'STR','ADI',40,
+     9 'VIO','LIN',40,'ENG','RAV',41,'INS','CRI',41,44,'GHO','ST',42,
+     1 'SPI','RIT',42,'FIE','ND',42,'GRA','IL',43,'PRA','YER',44,47,
+     2 'TRU','NK',45,'CHE','ST',45,'BEL','L',46,
+     3 'BOO','K',47,49,114,115,116,117,'BIB','LE',47/
+C
+        DATA OVOK3/'GOO','DBO',47,'CAN','DLE',48,'PAI','R',48,
+     1 'GUI','DEB',49,
+     1 'GUI','DE',49,'PAP','ER',50,122,143,'NEW','SPA',50,
+     2 'ISS','UE',50,'REP','ORT',50,'MAG','AZI',50,'NEW','S',50,
+     3 'MAT','CHB',51,
+     3 'MAT','CH',51,'MAT','CHE',51,'ADV','ERT',52,'PAM','PHL',52,
+     4 'LEA','FLE',52,'BOO','KLE',52,'MAI','LBO',53,
+     5 'TUB','E',54,'TOO','THP',54,'PUT','TY',55,'MAT','ERI',55,
+     6 'GLU','E',55,'WRE','NCH',56,'SCR','EWD',57,
+     7 'CYC','LOP',58,'MON','STE',58,'CHA','LIC',59,'CUP',0,59,
+     8 'GOB','LET',59,'PAI','NTI',60,'ART',0,60,'CAN','VAS',60,
+     9 'MAS','TER',60,'THI','EF',61,'ROB','BER',61,
+     1 'CRI','MIN',61,'BAN','DIT',61,'CRO','OK',61,'GEN','T',61,
+     2 'GEN','TLE',61,'MAN',0,61,'THU','G',61,
+     3 'BAG','MAN',61,'STI','LLE',62/
+C
+        DATA OVOK4/'WIN','DOW',63,'BOL','T',64,'NUT',0,64,
+     1 'GRA','TE',65,'GRA','TIN',65,'DOO','R',66,67,68,69,
+     2 'TRA','PDO',66,'TRA','P$D',66,'SWI','TCH',70,76,79,80,81,82,
+     3 'HEA','D',71,120,'COR','PSE',72,73,'BOD','IES',73,
+     4 'DAM',0,74,'GAT','ES',74,'GAT','E',74,
+     5 'FCD',0,74,'RAI','L',75,'RAI','LIN',75,
+     5 'BUT','TON',76,79,80,81,82,127,128,129,
+     6 'BUB','BLE',77,'LEA','K',78,'DRI','P',78,
+     7 'HOL','E',78,107,
+     9 'BAT',0,83,'RAI','NBO',84,
+     1 'POT',0,85,'STA','TUE',86,'SCU','LPT',86,'ROC','K',86,
+     2 'BOA','T',87,88,90,'PLA','STI',87,88,
+     3 'PUM','P',89/
+C
+        DATA OVOK5/'AIR','PUM',89,'AIR','$PU',89,'LAB','EL',91,112,
+     1 'FIN','EPR',91,'STI','CK',92,'BAR','REL',93,'BUO','Y',94,
+     2 'EME','RAL',95,'SHO','VEL',96,'GUA','NO',97,'CRA','P',97,
+     3 'SHI','T',97,'HUN','K',97,'BAL','LOO',98,113,
+     4 'REC','EPT',99,'WIR','E',101,110,
+     5 'HOO','K',102,103,'ZOR','KMI',104,'COI','N',104,
+     6 'SAF','E',105,'CAR','D',106,'NOT','E',106,
+     7 'SLO','T',107,'CRO','WN',108,'BRI','CK',109,
+     8 'FUS','E',110,'GNO','ME',111,
+     1 'STA','MP',118,
+     2 'TOM','B',119,'CRY','PT',119,'GRA','VE',119,'HEA','DS',120,
+     3 'POL','ES',120,'IMP','LEM',120/
+C
+        DATA OVOK6/'LOS','ERS',120,'COK','ES',121,
+     1 'LIS','TIN',122,'STA','CK',122,
+     2 'PRI','NTO',122,
+     3 'SPH','ERE',126,'BAL','L',126,
+     4 'ETC','HIN',130,131,
+     5 'WAL','LS',150,130,131,'WAL','L',150,130,131,
+     6 'FLA','SK',132,'POO','L',133,'SEW','AGE',133,
+     7 'TIN',0,134,'SAF','FRO',134,'SPI','CES',134,'TAB','LE',135,
+     8 'POS','T',136,'POS','TS',136,'BUC','KET',137,
+     9 'CAK','E',138,139,140,141,'ICI','NG',139,140,141,
+     1 'ROB','OT',142,'ROB','BY',142,
+     2 'C3P','O',142,'R2D','2',142,
+     3 'IT',0,144,'THA','T',144,'THI','S',144/
+C
+        DATA OVOK7/'ME',0,145,'MYS','ELF',145,'CRE','TIN',145,
+     1 'ALL',0,146,'EVE','RYT',146,
+     1 'TRE','ASU',147,'VAL','UAB',147,'SAI','LOR',148,'TEE','TH',149,
+     2 'GRU','E',151,'HAN','D',152,'HAN','DS',152,
+     3 'LUN','GS',153,'AIR',0,153,'BRE','ATH',153,'AVI','ATO',154,
+     4 'FLY','ER',154/
+C
+        DATA OVOKND/-1/
+        END
+C PROTC-- CHECK FOR USER VIOLATION
+C
+C THIS ROUTINE SHOULD BE MODIFIED IF YOU WISH TO ADD SYSTEM
+C DEPENDANT PROTECTION AGAINST ABUSE.
+C
+C AT THE MOMENT, PLAY IS PERMITTED UNDER ALL CIRCUMSTANCES.
+C
+        LOGICAL FUNCTION PROTC(X)
+        IMPLICIT INTEGER(A-Z)
+C
+        PROTC=.TRUE.
+100     RETURN
+        END
+C
+C  SPECIAL ENTRY TO INIT RADIX-50 TEXT (CALLED FROM INIT)
+C
+        SUBROUTINE SPINT(EXTRA)
+        IMPLICIT INTEGER(A-Z)
+        COMMON/BUZVC/BVOC (20)
+        COMMON/PRPVC/PVOC (47)
+        COMMON/DIRVC/DVOC(90)
+        COMMON/ADJVC/AVOC(264)
+        COMMON/VRBVC/VVOC(818)
+        COMMON/OBJVC/OVOC(797)
+C
+C INITIAL ASCII VOCABULARIES
+C
+        INTEGER*4 BVOK,PVOK,DVOK
+        COMMON /BUZVK/ BVOK(20)
+        COMMON /PRPVK/ PVOK(47)
+        COMMON /DIRVK/ DVOK(90)
+        INTEGER*4 AVOK(264),AVOK1,AVOK2,AVOKND
+        COMMON /ADJVK/ AVOK1(158),AVOK2(105),AVOKND
+        INTEGER*4 VVOK(818),VVOK1,VVOK1A,VVOK2,VVOK3,VVOK4,VVOK5,
+     +            VVOK6,VVOK7,VVOKND
+        COMMON /VRBVK/ VVOK1(94),VVOK1A(100),VVOK2(80),VVOK3(119),
+     1          VVOK4(118),VVOK5(116),VVOK6(107),VVOK7(83),VVOKND
+        INTEGER*4 OVOK(797),OVOK1,OVOK2,OVOK3,OVOK4,OVOK5,OVOK6,
+     +            OVOK7,OVOKND
+        COMMON /OBJVK/ OVOK1(150),OVOK2(135),OVOK3(140),OVOK4(117),
+     1          OVOK5(106),OVOK6(97),OVOK7(51),OVOKND
+C
+        EQUIVALENCE (VVOK(1),VVOK1(1))
+        EQUIVALENCE (AVOK(1),AVOK1(1))
+        EQUIVALENCE (OVOK(1),OVOK1(1))
+C
+        CALL R50CV(BVOK,BVOC,20)
+        CALL R50CV(PVOK,PVOC,47)
+        CALL R50CV(DVOK,DVOC,90)
+        CALL R50CV(AVOK,AVOC,264)
+        CALL R50CV(VVOK,VVOC,818)
+        CALL R50CV(OVOK,OVOC,797)
+        RETURN
+C
+        END
+      SUBROUTINE READJ(J,LINE)
+C
+         COMMON /DCBN/ IDCBN(144),IBUFF(40)
+C
+      INTEGER J,LINE(78)
+      INTEGER IN(80)
+      INTEGER BLANK,MINUS
+      DATA BLANK /'  '/
+      DATA MINUS /'- '/
+      CALL READF (IDCBN,IERR,IBUFF,40)
+      DECODE(80,99,IBUFF) IN
+99    FORMAT(80A1)
+      IF (IN(1).NE.MINUS) GO TO 10
+      J=-1
+      RETURN
+10    I=1
+      J=NUMBR(IN,I,10)
+      DO 20 K=1,78
+20    LINE(K)=BLANK
+      IF (I.GT.80) RETURN
+      K=0
+      DO 30 I=I,80
+      K=K+1
+      IF (K.GT.78) RETURN
+30    LINE(K)=IN(I)
+      RETURN
+      END
+      SUBROUTINE RDRMN(RACT,RVAL,RFLG)  ! READ ROOM NUMERICS
+C
+         COMMON /DCBN/ IDCBN(144),IBUFF(40)
+C
+      INTEGER RACT,RVAL,RFLG
+      INTEGER IN(80)
+      INTEGER NUMBR ! FUNCTION
+      CALL READF (IDCBN,IERR,IBUFF,40)
+      DECODE (80,99,IBUFF) IN
+99    FORMAT(80A1)
+      I=1
+      RACT=NUMBR(IN,I,10)
+      RVAL=NUMBR(IN,I,10)
+      RFLG=NUMBR(IN,I,8)
+      RETURN
+      END
+      SUBROUTINE RDEXT(DIR,XTYPE,XROOM1)
+C
+         COMMON /DCBN/ IDCBN(144),IBUFF(40)
+C
+      INTEGER DIR,XTYPE,XROOM1
+      INTEGER IN(80)
+      INTEGER BLANK
+      INTEGER NUMBR
+      DATA BLANK /'  '/
+      CALL READF (IDCBN,IERR,IBUFF,40)
+      DECODE(80,99,IBUFF) DIR,(IN(I),I=1,78)
+99    FORMAT(A2,78A1)
+      IN(79)=BLANK
+      IN(80)=BLANK
+      I=1
+      XTYPE =NUMBR(IN,I,10)
+      XROOM1=NUMBR(IN,I,10)
+      RETURN
+      END
+      SUBROUTINE RDOAL(XOBJ,XACTIO,LINE)
+C
+         COMMON /DCBN/ IDCBN(144),IBUFF(40)
+C
+      INTEGER XOBJ,XACTIO,LINE(78)
+      INTEGER IN(80)
+      INTEGER BLANK
+      DATA BLANK /'  '/
+      CALL READF (IDCBN,IERR,IBUFF,40)
+      DECODE(80,99,IBUFF) IN
+99    FORMAT(80A1)
+      DO 10 I=1,78
+10    LINE(I)=BLANK
+      I=1
+      XOBJ  =NUMBR(IN,I,10)
+      XACTIO=NUMBR(IN,I,10)
+      IF (I.GT.80) RETURN
+      J=0
+      DO 20 I=I,80
+      J=J+1
+20    LINE(J)=IN(I)
+      RETURN
+      END
+      SUBROUTINE RDOBJ(A,B,C,D,O,P,V,W,X,Y,Z)
+C
+         COMMON /DCBN/ IDCBN(144),IBUFF(40)
+C
+      INTEGER A,B,C,D,O,P,V,W,X,Y,Z
+      INTEGER IN(80)
+      CALL READF (IDCBN,IERR,IBUFF,40)
+      DECODE(80,99,IBUFF) IN
+99    FORMAT(80A1)
+      I=1
+      A=NUMBR(IN,I,10)
+      B=NUMBR(IN,I,10)
+      C=NUMBR(IN,I,10)
+      D=NUMBR(IN,I,10)
+      O=NUMBR(IN,I,8)
+      P=NUMBR(IN,I,8)
+      V=NUMBR(IN,I,10)
+      W=NUMBR(IN,I,10)
+      X=NUMBR(IN,I,10)
+      Y=NUMBR(IN,I,10)
+      Z=NUMBR(IN,I,10)
+      RETURN
+      END
+      SUBROUTINE RDCLK(CACTIO,CTICK,CFLAG)
+C
+         COMMON /DCBN/ IDCBN(144),IBUFF(40)
+C
+      INTEGER CACTIO,CTICK
+      LOGICAL CFLAG
+      INTEGER IN(80)
+      INTEGER BLANK,TRUE
+      DATA BLANK /'  '/
+      DATA TRUE  /'T '/
+      CALL READF (IDCBN,IERR,IBUFF,40)
+      DECODE(80,99,IBUFF) IN
+99    FORMAT(80A1)
+      I=1
+      CACTIO=NUMBR(IN,I,10)
+      CTICK =NUMBR(IN,I,10)
+      CFLAG=.FALSE.
+      IF (I.GT.80) RETURN
+      DO 10 I=I,80
+10    IF (IN(I).NE.BLANK) GO TO 20
+      RETURN
+20    IF (IN(I).EQ.TRUE) CFLAG=.TRUE.
+      RETURN
+      END
+      SUBROUTINE RDADV(AROOM,AOBJ,AACTIO,ASTREN)  ! ADVENTURER ATTRIB-S
+C
+         COMMON /DCBN/ IDCBN(144),IBUFF(40)
+C
+      INTEGER AROOM,AOBJ,AACTIO,ASTREN
+      INTEGER IN(80)
+      CALL READF (IDCBN,IERR,IBUFF,40)
+      DECODE(80,99,IBUFF) IN
+99    FORMAT(80A1)
+      I=1
+      AROOM =NUMBR(IN,I,10)
+      AOBJ  =NUMBR(IN,I,10)
+      AACTIO=NUMBR(IN,I,10)
+      ASTREN=NUMBR(IN,I,10)
+      RETURN
+      END
+C R50CV -- CONVERT STRINGS IN VOCABULARY ARRAYS TO RADIX 50
+C
+      SUBROUTINE R50CV(IA,IR,L)
+      INTEGER IR(1),L,I,J,K,NEW,G50,ITEMP,C
+      INTEGER*4 IA(1),OLD
+      COMMON /CHAN/ INPCH,OUTCH,IDCBT(144)
+      DO 30 I=1,L
+      OLD=IA(I)
+      IF (OLD .EQ. -1) GO TO 29
+      ITEMP = 0
+      CALL UMOVE (1, OLD, 0, ITEMP,0)
+      IF (ITEMP .EQ. 0) GO TO 29
+      NEW=0
+      DO 20 J=0,2
+      C=2H
+      CALL UMOVE (1, OLD, J, C, 0)
+      K=G50(C)
+      IF(K.GT.0) GO TO 10
+      IF(C.EQ.2H  .OR.C.EQ.2H$ ) GO TO 10
+      WRITE (OUTCH,1)
+1     FORMAT(" Initialization Error")
+      CALL EXEC(6)
+10    NEW=NEW*40+K
+20    CONTINUE ! J
+      IR(I)=NEW
+      GO TO 30
+C
+29    IR(I) = OLD
+30    CONTINUE ! I
+      RETURN
+      END
+$

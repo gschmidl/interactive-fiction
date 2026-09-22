@@ -1,0 +1,655 @@
+      INCLUDE MUNGE:C
+      CHARACTER*11 $DB, $FILENAME
+      EXTERNAL INRANGE
+      LOGICAL INRANGE
+      LOGICAL FLUSH,FIRST
+      CALL OUTSWP
+      OPEN (UNIT=TEXTFILE,STATUS='UNKNOWN',ACCESS='KEYED',NAME='ADVT',
+     + FORM='FORMATTED',KEYM=3,USAGE='OUTPUT',RECL=2048)
+      OPEN (UNIT=INSTFILE,STATUS='UNKNOWN',ACCESS='KEYED',NAME='ADVI',
+     + FORM='FORMATTED',KEYM=3,USAGE='OUTPUT',RECL=2048)
+      CALL CIPHER(195402697)
+      CALL INITIAL
+      CALL BREAKSET
+C
+C     INITIAL LOOP
+C
+100   FLUSH = .FALSE.
+      ASSIGN 300 TO CONTINUE
+      ASSIGN 400 TO NEW
+C
+C     GET A LINE - GO WHEREVER WE SHOULD
+C
+200   CALL READIN(CONTINUE, NEW)
+C
+C
+300   IF (FLUSH) GOTO 200
+      FLUSH = .TRUE.
+      GOTO 200
+C
+C
+400   IF (LINEX.GT.0) GOTO 405
+      IF (INUNIT.EQ.INMAIN) GOTO 9000
+      INUNIT=INMAIN
+      CLOSE(UNIT=ININCLUDE)
+      $FID = ' '
+      OUTKEY = 0
+      IF (LIST) WRITE (OUTUNIT, '(1X)')
+      GOTO 200
+405   IF (LINEX .LT. 0) GOTO 9000
+      ASSIGN 300 TO CONTINUE
+      ASSIGN 400 TO NEW
+      CALL PARSE(&200)
+      DO 410 CODE=1,MAJOR
+410   IF ($LEX(1:3) .EQ. $COMMAND(CODE)(1:3)) GOTO 420
+      IF (FIND($LEX) .GE. 0) GOTO 2905
+415   CALL SNAPIT; WRITE (OUTUNIT,'($ --Bad command: $,A)') $LEX
+      TROUBLE = .TRUE.
+      GOTO 100
+C
+C
+420   GOTO (2000,2100,2200,2300,2400,2500,
+     + 2600,2800,2900,3500,2700,3600,3700,3800,3900,4000,4200),CODE
+C
+C
+1000  ASSIGN 1300 TO CONTINUE
+      OUTKEY = FLOAT(KEY) / 1000
+      CALL PARSE(&200)
+      CALL DEFINE($LEX, KEY / 1000)
+      SMELCH=FIND($LEX)
+      IF ($SEP .NE. ',') GOTO 200
+1300  IF (LINEX .GE. LINEND) GOTO 1350
+      IF ($LINE(LINEX:LINEX) .EQ. '/') GOTO 1320
+      IF ($LINE(LINEX:LINEX) .NE. '%') GOTO 1350
+      KEY = 10 * (1 + KEY / 10)
+1320  LINEX = LINEX + 1
+      IF (LINEND .LT. LINEX) LINEND = LINEX
+1350  CALL WRITE(KEY, $LINE(LINEX:LINEND))
+      AUXVAL(SMELCH)=MOD(KEY,500)/10
+C
+C     For objects, AUXVAL will be set equal to the number of states
+C     that the object has defined (not including in-hand status) and
+C     may be fetched via the @name construct.
+C
+      IF (LIST) CALL SNAPIT
+      KEY = KEY + 1
+      GOTO 200
+C
+C
+2000  CALL SETUP(KEY, NEXTTEXT, &1000)
+C
+C
+2100  CALL SETUP(KEY, NEXTOBJECT, &1000)
+C
+C
+2200  CALL SETUP(KEY, NEXTPLACE, &1000)
+C
+C
+2300  FIRST=.TRUE.
+      CALL SETUP(KEY, NEXTVERB, &2310)
+2310  CALL PARSE(&100)
+      CALL DEFINE($LEX, KEY / 1000)
+      IF (FIRST) GOTO 2320
+      I = FIND($LEX)
+      $UNREF(I)=' '
+2320  FIRST=.FALSE.
+      GOTO 2310
+C
+C
+2400  BP = 1
+      CALL SETUP(KEY, NEXTINIT, &2950)
+C
+C
+2500  CALL PARSE(&415)
+      CALL DEFINE($LEX, NEXTLABEL)
+      BP = 1
+      CALL SETUP(KEY, NEXTLABEL, &2950)
+C
+2600  BP = 1
+      CALL SETUP(KEY, NEXTREPEAT, &2950)
+C
+C
+2700  CALL PARSE(&100)
+      CALL DEFINE($LEX, NEXTVAR)
+      NEXTVAR = NEXTVAR + 1
+      GOTO 2700
+C
+C
+2800  CALL PARSE(&415)
+      WHERE = FIND($LEX)
+      IF (WHERE .LT. 0) GOTO 2802
+      IF (INRANGE(2000, KEYS(WHERE), 3000)) GOTO 2810
+2802  CALL SNAPIT; WRITE (OUTUNIT, 2805) $LEX
+2805  FORMAT (' --That''s no place: ',A)
+      TROUBLE = .TRUE.
+      GOTO 100
+2810  IF (AUXVAL(WHERE) .LT. 500) AUXVAL(WHERE) = 500
+      GOTO 2920
+C
+C
+2900  CALL PARSE(&415)
+2905  WHERE = FIND($LEX)
+      IF (WHERE .GE. 0) GOTO 2910
+      CALL DEFINE($LEX, NEXTVERB)
+      CALL SNAPIT
+      WRITE (OUTUNIT, '($ >> Verb defined by default <<$)')
+      NEXTVERB = NEXTVERB + 1
+      GOTO 2905
+2910  IF (INRANGE(3000, KEYS(WHERE), 4000)) GOTO 2925
+      IF (INRANGE(1000, KEYS(WHERE), 2000)) GOTO 2920
+      CALL SNAPIT
+      WRITE (OUTUNIT, '($ --That''s not a verb or object: $,A)') $LEX
+      TROUBLE = .TRUE.
+      GOTO 100
+2920  AUXVAL(WHERE) = MAX(AUXVAL(WHERE), 500)
+2925  KEY = 1000 * KEYS(WHERE) + AUXVAL(WHERE)
+      OUTKEY = FLOAT(KEY)/1000
+      AUXVAL(WHERE) = AUXVAL(WHERE) + 1
+      BP = 1
+      REPEAT 2940, WHILE (.TRUE.)
+      CALL PARSE(&2950)
+      WHERE = EVAL($LEX)
+2930  BUFFER(BP) = 1
+      BUFFER(BP + 1) = WHERE
+      BP = BP + 2
+2940  CONTINUE
+2950  ASSIGN 3000 TO CONTINUE
+      ASSIGN 3100 TO NEW
+      OUTKEY = FLOAT(KEY)/1000
+      IF (LIST) CALL SNAPIT
+      GOTO 200
+3000  CALL PARSE(&200)
+3005  LOW = 1
+      HIGH = NOPTS
+3006  ISAM = (LOW + HIGH) / 2
+      IF ($LEX(1:4) .EQ. $OPT(ISAM)) GOTO 3020
+      IF (LOW .GE. HIGH) GOTO 3015
+      IF ($LEX(1:4) .GT. $OPT(ISAM)) GOTO 3007
+      HIGH = ISAM - 1
+      GOTO 3006
+3007  LOW = ISAM + 1
+      GOTO 3006
+3015  CALL SNAPIT
+      WRITE (OUTUNIT,'($ --Bad option: $,A)') $LEX
+      TROUBLE = .TRUE.
+      GOTO 200
+3016  CALL SNAPIT
+      WRITE (OUTUNIT, '($--Missing required parameter$)')
+      TROUBLE = .TRUE.
+      GOTO 200
+3020  OPT = OPTVAL(ISAM)
+      IF (CLASS(OPT) .GE. 0) GOTO 3050
+      REPEAT 3030, WHILE (.TRUE.)
+      CALL PARSE(&200)
+      WHERE = EVAL($LEX)
+      BUFFER(BP) = OPT
+      BUFFER(BP + 1) = WHERE
+      BP = BP + 2
+3030  CONTINUE
+3050  BUFFER(BP) = OPT
+      DO 3060 I=1,CLASS(OPT)
+      CALL PARSE(&3016)
+      BUFFER(BP + I) = EVAL($LEX)
+3060  CONTINUE
+      BP = BP + 1 + CLASS(OPT)
+      GOTO 200
+3100  IF (BP.EQ.0) GOTO 400
+      BP = BP - 1
+      CALL BUFFWRITE(BP)
+      BP = 0
+      GOTO 400
+3500  CALL PARSE(&415)
+      VALUE = EVAL($LEX)
+      REPEAT 3510, WHILE (.TRUE.)
+      CALL PARSE(&100)
+      CALL DEFINE($LEX, VALUE)
+      I = FIND($LEX)
+      $UNREF(I)=' '
+3510  CONTINUE
+C
+C
+3600  CALL PARSE(&100)
+      CALL DEFINE($LEX, NEXTNULL)
+      GOTO 3600
+C
+C
+3700  LIST = .TRUE.
+      GOTO 100
+C
+C
+3800  LIST = .FALSE.
+      GOTO 100
+C
+C
+3900  CALL PARSE(&100)
+      I = FIND($LEX)
+      IF (I .GE. 0) GOTO 3910
+      CALL SNAPIT
+      WRITE (OUTUNIT, '($ --Undefined symbol: $,A)') $LEX
+      GOTO 3900
+3910  REFIT(I) = .TRUE.
+      GOTO 3900
+C
+C
+4000  IF (INUNIT.NE.ININCLUDE) GOTO 4010
+      CALL SNAPIT
+      WRITE (OUTUNIT, '($ INCLUDEs may not be nested.$)')
+      GOTO 100
+4010  CALL PARSE(&415)
+      $FID = $LEX
+      OPEN (UNIT=ININCLUDE,NAME=$FID,ERR=4100,USAGE='INPUT',
+     + ACCESS='SEQUENTIAL')
+      INUNIT=ININCLUDE
+      FNUM=FNUM+1
+      REWIND 104
+      GOTO 100
+4100  CALL SNAPIT
+      WRITE (OUTUNIT, '($ Unable to open INCLUDE file $,A)') $LEX
+      GOTO 100
+4200  XREF=.TRUE.
+      GOTO 100
+C
+C
+9000  CONTINUE
+      REFDEF(0)=.TRUE.
+      CALL DEFINE('NOBJ', MOD(NEXTOBJECT, 1000))
+      CALL DEFINE('NPLACE', MOD(NEXTPLACE, 1000))
+      CALL DEFINE('NREP', MOD(NEXTREPEAT, 1000))
+      CALL DEFINE('NINIT', MOD(NEXTINIT, 1000))
+      CALL DEFINE('NVARS', MOD(NEXTVAR, 1000))
+      ADDON = MOD(NEXTOBJECT, 1000) + MOD(NEXTPLACE, 1000) +
+     +        MOD(NEXTVERB, 1000) + MOD(NEXTLABEL, 1000)
+      CACHEHW = CACHEHW + ADDON
+      CACHEDW = CACHEDW + ADDON
+      SYMCNT = -1
+      DO 9005 I=0, TABLESIZE - 1
+      IF ($NAME(I) .EQ. ' ') GOTO 9005
+      SYMCNT = SYMCNT + 1
+      $NAME(SYMCNT) = $NAME(I)
+      KEYS(SYMCNT) = KEYS(I)
+      $UNREF(SYMCNT) = $UNREF(I)
+      REFIT(SYMCNT) = REFIT(I)
+9005  CONTINUE
+      CALL SORT(.FALSE.)
+      IF(LIST) WRITE (OUTUNIT, 9110) 'name (before selection)',
+     + (KEYS(K), $UNREF(K), $NAME(K), K=0, SYMCNT)
+      I = -1
+      DO 9002 J=0, SYMCNT
+      IF (.NOT. REFIT(J)) GO TO 9002
+      I = I + 1
+      IF (I .EQ. J) GOTO 9002
+      $NAME(I) = $NAME(J)
+      KEYS(I) = KEYS(J)
+      $UNREF(I) = $UNREF(J)
+9002  CONTINUE
+      SYMCNT = I
+      WRITE (UNIT=INSTFILE, FMT=9001, KEY = 9000 * 1000) SYMCNT + 1
+9001  FORMAT (R4)
+      KEY = 9001
+      DO 9010 I1=0,SYMCNT,200
+      J = MIN(I1 + 199, SYMCNT)
+      WRITE (UNIT=INSTFILE, FMT=9100, KEY = KEY * 1000)
+     + ($NAME(K), KEYS(K), K = I1, J)
+      KEY = KEY + 1
+9010  CONTINUE
+9100  FORMAT(200(A6,R2))
+      IF (.NOT. LIST) GOTO 9400
+      IF(LIST) WRITE (OUTUNIT, 9110) 'name',(KEYS(K), $UNREF(K),
+     + $NAME(K), K=0, SYMCNT)
+9110  FORMAT ('1'//'    **** Symbol table sorted by ',A,
+     + ' ****'//(1X,5(I4,A1,A12,3X)))
+      CALL SORT(.TRUE.)
+      IF(LIST) WRITE (OUTUNIT, 9110) 'value',(KEYS(K), $UNREF(K),
+     + $NAME(K), K=0, SYMCNT)
+      CLOSE (UNIT=TEXTFILE)
+      CLOSE (UNIT=INSTFILE)
+      IF (LIST)
+     + PRINT (OUTUNIT, 9200) MAXBUFF + 1,
+     + SYMCNT + 1, CACHEDW, (CACHEDW+255)/256,
+     +             CACHEHW, (CACHEHW+1023)/1024
+9200  FORMAT ('1'/' Maximum buffer length',T30,I//
+     +  ' Vocabulary size',T30,I//
+     +  ' Directory entries',T30,I/' Directory pages',T30,I//
+     +  ' Data entries',T30,I/' Data pages',T30,I)
+      PRINT (OUTUNIT, 9300)
+9300  FORMAT (////)
+9400  IF (TROUBLE) STOP '*Trouble*'
+      STOP 'Fini'
+      END
+      SUBROUTINE SORT(MODE)
+      INCLUDE MUNGE:C
+      LOGICAL MODE
+      DO 10 I=SYMCNT/2, 0, -1
+      CALL HEAPIFY(I, SYMCNT, MODE)
+10    CONTINUE
+      DO 20 I=0, SYMCNT - 1
+      TOP = SYMCNT - I
+      CALL SWAP(0, TOP)
+      CALL HEAPIFY(0, TOP-1, MODE)
+20    CONTINUE
+      RETURN
+      END
+      SUBROUTINE HEAPIFY(HEAD, TOP, MODE)
+      INCLUDE MUNGE:C
+      LOGICAL MODE
+      I = HEAD
+      REPEAT 100, WHILE (I .LE. TOP / 2)
+      K = I
+      DO 10, J = 2*I, MIN(2*I+1, TOP)
+      IF (MODE) GOTO 5
+      IF ($NAME(K) .LT. $NAME(J)) K = J
+      GOTO 10
+5     IF (KEYS(K) .LT. KEYS(J)) K = J
+10    CONTINUE
+      IF (I .EQ. K) RETURN
+      CALL SWAP(I, K)
+      I = K
+100   CONTINUE
+      RETURN
+      END
+      SUBROUTINE SWAP(I, K)
+      INCLUDE MUNGE:C
+      LOGICAL LSWAP
+      IF (I .EQ. K) RETURN
+      $SWAP = $NAME(K)
+      $NAME(K) = $NAME(I)
+      $NAME(I) = $SWAP
+      SWAP = KEYS(K)
+      KEYS(K) = KEYS(I)
+      KEYS(I) = SWAP
+      LSWAP = REFIT(K)
+      REFIT(K) = REFIT(I)
+      REFIT(I) = LSWAP
+      $SWAP = $UNREF(K)
+      $UNREF(K) = $UNREF(I)
+      $UNREF(I) = $SWAP
+      RETURN
+      END
+      SUBROUTINE READIN(*,*)
+      INCLUDE MUNGE:C
+      IF (LIST .OR. BREAK) CALL SNAPIT
+      LINEX = -1
+5     LISTED = .FALSE.
+      CALL FASTREAD (INUNIT, $LINE, NREC, LINEX, LINEND, &110)
+      IF (NREC.LT.0) NREC=0
+      IF ($LINE(1:1) .EQ. '*') GOTO 200
+      IF ($LINE(1:1) .NE. ' ') GOTO 100
+      RETURN 1
+100   OUTKEY = 0
+      RETURN 2
+110   LISTED = .TRUE.
+      RETURN 2
+200   IF (LIST) CALL SNAPIT
+      GOTO 5
+      END
+      SUBROUTINE SNAPIT
+      INCLUDE MUNGE:C
+      CHARACTER*1 $FLAG
+      BREAK = .FALSE.
+      $FLAG = ' '
+      IF (INUNIT.EQ.ININCLUDE) $FLAG='-'
+      IF (LISTED) RETURN
+      LISTED = .TRUE.
+      WRITE (OUTUNIT, '(1X,A9,1X,F9.3,1X,A2,A85,5X,F8.3)')
+     + $FID, FLOAT(NREC)/1000,$FLAG,$LINE,OUTKEY
+      RETURN
+      END
+      SUBROUTINE PARSE(*)
+      INCLUDE MUNGE:C
+      DO 10 I=LINEX,LINEND
+      $CHR = $LINE(I:I)
+      IF ($CHR .EQ. '*') RETURN 1
+      IF ($CHR .EQ. '(' .OR. $CHR .EQ. '{') RETURN 1
+10    IF ($CHR .NE. ' ' .AND. $CHR .NE. $TAB) GOTO 15
+      RETURN 1
+15    DO 20 J=I,LINEND + 1
+      $SEP = $LINE(J:J)
+20    IF ($SEP .EQ. ' ' .OR. $SEP .EQ. ',' .OR.
+     + $SEP .EQ. $TAB) GOTO 25
+      J = LINEND + 1
+25    $LEX = $LINE(I:J - 1)
+      LINEX = J + 1
+      RETURN
+      END
+      INTEGER FUNCTION EVAL($TEXT)
+      CHARACTER*(*) $TEXT
+      CHARACTER*10 $DIGITS
+      DATA $DIGITS/'0123456789'/
+      INCLUDE MUNGE:C
+      LOGICAL BITPHRASE
+      EVAL = 0
+      START = 1
+      BITPHRASE = .FALSE.
+      SIGN = 1
+      IF ($TEXT(1:1) .NE. '&') GOTO 5
+      BITPHRASE = .TRUE.
+      START = 2
+5     REPEAT 999, WHILE (START .LT. LEN($TEXT))
+      NEXTSIGN = 1
+      TERM = 0
+      I = START
+      IF ($TEXT(I:I) .EQ. '-') GOTO 200
+      DO 10 I=START,LEN($TEXT)
+10    IF ($TEXT(I:I) .EQ. '+' .OR. $TEXT(I:I) .EQ. '-') GOTO 20
+      I = LEN($TEXT) + 1
+20    TERM = FIND($TEXT(START:I-1))
+      IF (TERM .LT. 0) GOTO 50
+      $UNREF(TERM) = ' '
+      IF ($TEXT(START:START) .EQ. '@') GOTO 25
+      TERM = KEYS(TERM)
+      GOTO 200
+25    TERM = AUXVAL(TERM)
+      GOTO 200
+50    TERM = 0
+      IF ($DIGITS(1:1) .GT. $TEXT(START:START) .OR.
+     +    $DIGITS(10:10) .LT. $TEXT(START:START)) GOTO 100
+      DO 70 J=START, I - 1
+      IF ($TEXT(J:J) .EQ. ' ') GOTO 200
+      DO 60 K=1, 10
+60    IF ($TEXT(J:J) .EQ. $DIGITS(K:K)) GOTO 65
+      CALL SNAPIT
+      WRITE (OUTUNIT, '($ --Bad number: $,A,$--$)') $TEXT(START:I-1)
+      TROUBLE = .TRUE.
+      TERM = 0
+      GOTO 200
+65    TERM = 10 * TERM + K - 1
+70    CONTINUE
+      GOTO 200
+100   CALL SNAPIT
+      WRITE (OUTUNIT, '($ --Undefined symbol: $,A,$--$)')
+     + $TEXT(START:I-1)
+      TROUBLE = .TRUE.
+200   START = I + 1
+      IF (I .GT. LEN($TEXT)) GOTO 205
+      IF ($TEXT(I:I) .EQ. '-') NEXTSIGN = -1
+205   CONTINUE
+      IF (BITPHRASE) TERM = ISL(1, TERM)
+      EVAL = EVAL + TERM * SIGN
+      SIGN = NEXTSIGN
+999   CONTINUE
+      RETURN
+      END
+      INTEGER FUNCTION FIND($TEXT)
+      CHARACTER*(*) $TEXT
+      INCLUDE MUNGE:C
+      IF ($TEXT(1:1) .EQ. '@') GOTO 6
+      $TEXAN = $TEXT // $BLANKS(1:12-LEN($TEXT))
+      GOTO 7
+6     $TEXAN = $TEXT (2:) // $BLANKS (1:13-LEN($TEXT))
+7     FIND = MASH($TEXAN, LEN($TEXAN))
+      REHASH = REHASHVALUE(MOD(FIND, REHASHSIZE))
+      FIND = MOD(FIND, TABLESIZE)
+      IF (.NOT. XREF) GOTO 10
+      WRITE (99, '(A12,1X,I2,1X,A9,1X,F9.3)') $TEXAN,FNUM,$FID,
+     + FLOAT(NREC)/1000
+10    IF ($NAME(FIND) .EQ. ' ') GOTO 99
+      IF ($NAME(FIND) .EQ. $TEXAN) RETURN
+      FIND = MOD(FIND + REHASH, TABLESIZE)
+      GOTO 10
+99    FIND = -1
+      RETURN
+      END
+      SUBROUTINE DEFINE($TEXT, VAL)
+      CHARACTER*(*) $TEXT
+      INCLUDE MUNGE:C
+      $TEXAN = $TEXT // $BLANKS(1:12-LEN($TEXT))
+      I = MASH($TEXAN, 12)
+      REHASH = REHASHVALUE(MOD(I, REHASHN))
+      I = MOD(I, TABLESIZE)
+      IF (.NOT. XREF) GOTO 10
+      WRITE (99, '(A12,1X,I2,1X,A9,1X,F9.3)') $TEXAN,FNUM,$FID,
+     + FLOAT(NREC)/1000
+10    DO 100, J=1, TABLESIZE
+      IF ($NAME(I) .EQ. $TEXAN) GOTO 900
+      IF ($NAME(I) .EQ. ' ') GOTO 200
+      I = MOD(I + REHASH, TABLESIZE)
+100   CONTINUE
+      STOP 'Symbol table overflow - recompile'
+200   $NAME(I) = $TEXT
+      KEYS(I) = VAL
+      AUXVAL(I) = 0
+      REFIT(I) = REFDEF(VAL / 1000)
+      $UNREF(I) = '*'
+      RETURN
+900   CALL SNAPIT
+      WRITE (OUTUNIT, '($ -- Duplicate symbol$)')
+      TROUBLE = .TRUE.
+      RETURN
+      END
+      LOGICAL FUNCTION INRANGE(I, J, K)
+      INRANGE = (I .LE. J) .AND. (J .LT. K)
+      RETURN
+      END
+      SUBROUTINE BUFFWRITE(LEN)
+      INCLUDE MUNGE:C
+      IF (LEN .GT. BUFFSIZE) GOTO 100
+10    WRITE (UNIT=INSTFILE, FMT=20, KEY=KEY) LEN, (BUFFER(I), I=1, LEN)
+      OUTKEY = FLOAT(KEY) / 1000
+      KEY = KEY + 1
+20    FORMAT(1024R2)
+25    FORMAT (1X,F9.3,(T15,8(2X,I5)))
+      MAXBUFF = MAX(MAXBUFF, LEN)
+      IF (KEY/1000000 .GT. 0) CACHEHW = CACHEHW + LEN + 1;
+     +                        CACHEDW = CACHEDW + 1
+      RETURN
+100   CALL SNAPIT
+      WRITE (OUTUNIT, '($ -- Maximum buffer size exceeded!!$)')
+      TROUBLE = .TRUE.
+      GOTO 10
+      END
+      SUBROUTINE INITIAL
+      INCLUDE MUNGE:C
+      LOGICAL RPRIME
+      NEXTINIT=0
+      NEXTOBJECT=1000
+      NEXTPLACE=2000
+      NEXTVERB=3000
+      NEXTTEXT=4000
+      NEXTLABEL=5000
+      NEXTREPEAT=6000
+      NEXTVAR = 7000
+      NEXTNULL = 8000
+      WRITE ($TAB, '(R1)') 5
+      INUNIT=INMAIN
+      DO 10 I=1, NOPTS
+      $OPT(I)=$OPTIONS(I)
+      OPTVAL(I)=I
+10    CONTINUE
+      DO 20 I=1, NOPTS-1
+      K = I
+      DO 15 J=I+1, NOPTS
+      IF ($OPT(J) .NE. $OPT(K)) GOTO 14
+      WRITE (OUTUNIT, 13) $OPTIONS(OPTVAL(J)), $OPTIONS(OPTVAL(K))
+13    FORMAT (' Undistinguishable options: ',A,' AND ',A)
+      $OPT(K)='ZZZZ'
+14    IF ($OPT(J) .LT. $OPT(K)) K=J
+15    CONTINUE
+      IF (I .EQ. K) GOTO 20
+      $S = $OPT(I)
+      $OPT(I) = $OPT(K)
+      $OPT(K) = $S
+      J = OPTVAL(I)
+      OPTVAL(I) = OPTVAL(K)
+      OPTVAL(K) = J
+20    CONTINUE
+      $FID = ' '
+      REHASHN = 0
+      I = 50
+      REPEAT 100, WHILE (REHASHN.LT.REHASHSIZE)
+      IF (.NOT. RPRIME(I, TABLESIZE)) GOTO 100
+      DO 50 J=0, REHASHN - 1
+50    IF (.NOT. RPRIME(I, REHASHVALUE(J))) GOTO 100
+      REHASHVALUE(REHASHN) = I
+      REHASHN = REHASHN + 1
+100   I = I + 1
+      DO 110 I=0, TABLESIZE
+110   $NAME(I) = ' '
+      LISTED = .TRUE.
+      RETURN
+      END
+      LOGICAL FUNCTION RPRIME(I1, I2)
+      IMPLICIT INTEGER (A-Z)
+      N = I1
+      R = I2
+      REPEAT 10, WHILE (R .GT. 0)
+      M = N
+      N = R
+      R = MOD(M, N)
+10    CONTINUE
+      RPRIME = (N .EQ. 1)
+      RETURN
+      END
+      SUBROUTINE SETUP(I, J, *)
+      I = J * 1000
+      OUTKEY = J
+      J = J + 1
+      RETURN 1
+      END
+      SUBROUTINE WRITE(IOKEY, $TEXT)
+      INTEGER IOKEY
+      CHARACTER*(*) $TEXT
+      INCLUDE MUNGE:C
+      IF ($TEXT(1:1) .EQ. '*' .OR. $TEXT(1:3) .EQ. '>$<') GOTO 20
+      L = LEN($TEXT)
+      IF (L .LE. 72) GOTO 10
+      CALL SNAPIT
+      WRITE (OUTUNIT, '($  --String too long$)')
+10    CONTINUE
+      CALL FASTWRITE(IOKEY, $TEXT)
+20    OUTKEY = FLOAT(IOKEY) / 1000
+      RETURN
+      END
+      BLOCK DATA
+      INCLUDE MUNGE:C,LIST
+      DATA INSTFILE, TEXTFILE, INMAIN, ININCLUDE, OUTUNIT
+     + /116, 117, 105, 104, 108/
+      DATA $BLANKS/'                    '/
+      DATA $COMMAND/'TEXT', 'OBJECT',
+     + 'PLACE', 'VERB', 'INITIAL', 'LABEL', 'REPEAT', 'AT',
+     + 'ACTION', 'SYNONYM', 'VARIABLE', 'NULLWORD', 'LIST',
+     + 'NOLIST', 'DEFINE', 'INCLUDE', 'XREF'/
+      DATA  $OPTIONS/'KEYWORD', 'HAVE', 'NEAR', 'AT', 'ANYOF',
+     + 'IFEQ', 'IFLT', 'IFGT', 'IFAT', 'CHANCE', 'ELSE', 'FIN',
+     + 'EOF', 'GET', 'DROP', 'APPORT', 'SET', 'ADD', 'SUB',
+     + 'GOTO', 'MOVE', 'CALL', 'SAY',
+     + 'NAME', 'VALUE', 'PROCEED', 'QUIT', 'STOP',
+     + 'IFHAVE', 'IFNEAR', 'OR', 'RANDOM', 'BIT', 'BIS',
+     + 'BIC', 'ITOBJECT', 'ITPLACE', 'EOI', 'IFLOC',
+     + 'INPUT', 'LOCATE', 'NOT', 'IFKEY', 'LDA', 'EVAL',
+     + 'MULTIPLY', 'DIVIDE', 'SVARIABLE', 'EXECUTIVE',
+     + 'QUERY', 'AND', 'EOR', 'DEPOSIT', 'ITLIST', 'SMOVE',
+     + 'DEFAULT'/
+      DATA CLASS/ -1, -1, -1, -1, -1, 2, 2, 2, 1, 1, 0, 0, 0,
+     + 1, 1, 2, 2, 2, 2, 1, 2, 1, 1, 2, 2, 0, 0, 0,
+     + 1, 1, 0, 2, 2, 2, 2, 1, 1, 0, 2, 0, 2, 0, 1, 2, 2,
+     + 2, 2, 2, 2, 1, 0, 0, 2, 1, 3, 1/
+      DATA MAXBUFF /0/, TROUBLE /.FALSE./, LIST /.FALSE./
+      DATA BREAK /.FALSE./
+      DATA CLASSCT/0, NCLASS*0/
+      DATA CACHEHW,CACHEDW/0, 0/
+      DATA $CLASS /'NUMERIC', 'OBJECT', 'PLACE', 'VERB', 'TEXT',
+     + 'LABEL', 'REGULAR CMD', 'VARIABLE', 'NULL WORD'/
+      DATA REFDEF /.FALSE., .TRUE., .FALSE., .TRUE., .FALSE.,
+     + .FALSE., .FALSE., .FALSE., .TRUE./
+      DATA XREF/.FALSE./, FNUM/0/
+      END

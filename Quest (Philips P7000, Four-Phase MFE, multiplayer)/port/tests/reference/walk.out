@@ -1,0 +1,102 @@
+Welcome to Quest.  Once the game begins, you can
+ type 'help' if you need some help.
+What is your first name?  (9 characters maximum)
+
+ HEINO
+
+Are you male?
+
+ YES
+
+We're just waiting for everyone else to sign on.
+You are in a forest, extending as far as you can see.
+
+
+ HELP
+
+In Quest, time is important.  That is, actions take real time.  For example,
+  walking takes longer than running.
+Sentences can be several words long.  For example:  GIVE THE GOLD COIN TO TONY.
+Sometimes you can omit words.  For example:  GIVE COIN TO TONY.
+Fighting usually requires sentences such as SWING SWORD AT JOHN.
+LOOK AT ME tells you how you feel and what you're carrying.
+QUIT will get you out of the game permanently.
+IT means the last object you referred to.  AGAIN will repeat the last sentence.
+To say something, precede it with a quote (").  No trailing quote is required.
+  A quoted sentence is heard by everyone else in the room with you.
+You can type several sentences on one line.  Just separate them with periods.
+You never have to type more than the first five letters of any word.
+If your terminal beeps, you're typing too fast.  Wait for your cursor.
+See the file QHELP for more information.
+
+ LOOK
+
+You are in a forest, extending as far as you can see.
+
+ SEARCH
+
+You search the area.
+
+You discover nothing hidden here.
+
+ NORTH
+
+You walk north.
+
+You are in a deep, dark forest of tall sugar maples.
+
+ LOOK
+
+You are in a deep, dark forest of tall sugar maples.
+
+ SOUTH
+
+You walk south.
+
+You are in the deep forest.
+
+ EAST
+
+You walk east.
+
+You are in a meadow that extends for several hundred yards to the forest's edge.
+
+ LOOK AT EVERYONE
+
+You have no possessions.
+
+ LOOK AT ME
+
+You have no possessions.  You are feeling good.
+
+ INVENTORY
+
+You have no possessions.
+
+ WINK
+
+You wink.
+
+ "HELLO THERE
+
+ RUN WEST
+
+You run west.
+
+You're in the deep forest.
+
+ AGAIN
+
+There is no way to go that direction.
+
+ GET ALL
+
+What?
+
+ QUIT
+
+Do you really want to quit the game?
+
+ YES
+
+You quit.

@@ -1,6 +1,9 @@
 # Jaeger / Pohl C Adventure (12 June 1984) and Daimler's Turbo C 2.0 descendant (June 1990)
 
-**Status: STAGED 2026-09-19 - not ported, nothing built.** Complete copy of the named directory of https://github.com/Quuxplusone/Advent at commit d38e82550600144e3547d6472bc80dbf49ca214b (2026-09-15), md5-verified against the clone.
+**Status: PORTED 2026-09-19, refined 2026-09-21 - `port\play-pohl.bat`, `port\play-daimler.bat`, see
+`port\README.md`.** Five original bugs fixed behind `--no-fixes`; Daimler's port matches his own DOS program
+(`archive_original\advtc2.zip`, run under DOSBox) byte for byte. `archive_original\adv.arc` is Pohl's 1984 DOS build,
+an earlier revision than the 1990 source ported here. Staged the same day: complete copy of the named directory of https://github.com/Quuxplusone/Advent at commit d38e82550600144e3547d6472bc80dbf49ca214b (2026-09-15), md5-verified against the clone.
 
 - `src_original\POHL0350\` - PC-SIG disk 259, "Author Version: 03/90": BDS C conversion by J. R. Jaeger, Unix
   standardisation by Jerry D. Pohl, `ADVENT.DOC` dated 12 JUNE 1984. Behavioural differences from Woods: dwarves are

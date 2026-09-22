@@ -55,6 +55,5 @@ them.
 
 `NEW-ADVENTURE.EXE` turned up again in another private archive: a 1982 games directory
 that also kept its configuration, billboard and play logs, though still not
-its text or world. What could be recovered of that edition, 6.1/9, and how
-it differs from 6.1/3, is in
-[`..\LONG0751 Colossal Cave Adventure 751pt 6.1-9 (PDP-10, TOPS-20, databases lost)`](../Colossal%20Cave%20Adventure%20751pt%206.1-9%20%28PDP-10,%20TOPS-20,%20databases%20lost%29/README.md).
+its text or world. That edition, 6.1/9, cannot be played. The folder that
+held what was recovered of it was deleted by the user on 2026-09-21.

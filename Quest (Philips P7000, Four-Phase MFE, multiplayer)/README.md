@@ -1,6 +1,16 @@
 # QUEST version 1 - Philips P7000 (Four-Phase Systems IV/90 family), MFE
 
-**Status: STAGED 2026-09-19 - not ported, nothing built.** Files here are verified copies (md5) of the originals named below.
+**Status: PORTED (2026-09-22; plan step 25, second half).** `port/play.bat` boots the site's own pack on an emulated
+Four-Phase IV/90 Model 2, starts MFE/7000 BN03-C and QUEST as the operator did, and plays; `play.bat --players=N`
+(up to 6) makes a game that further windows join, each a terminal of its own. See `port/README.md`.
+
+- `archive_original/DTUX_QUEST_ADV_HGHSEC.TAP` - the tape (md5 d12617056fd166a34bdce768c9630be9).
+- `src_original/P7000.PACK` - the disc pack cut from it (md5 1c3f08442a9f80d8fb491528488f7882; the same file as the
+  ADVENT port's), and `QHELP.txt`, QUEST's own manual from the pack; its README lists QUEST's files.
+- `port/` - the emulator and front end (C), build scripts, tests.
+
+The emulator, its tools and the manuals it was built from are in `_FourPhase_work` (`docs/ISA_NOTES.md` sums up the
+machine). The notes below are from before the port.
 
 Source: `F:\bits\Philips\P7000\DTUX_QUEST_ADV_HGHSEC.TAP` (the only file in that folder).
 

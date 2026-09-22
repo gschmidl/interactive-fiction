@@ -1,6 +1,10 @@
 # Colossal Cave Adventure 665pt Wellesley - Eric Roberts (Stanford), browser edition
 
-**Status: STAGED 2026-09-19 - not ported, nothing built.** Files here are verified copies (md5) of the originals named below.
+**Status: PORTED 2026-09-19 (first pass) - two revisions: the FORTRAN source (V6.2, 655 points, `port\play.bat`)
+and the browser edition's Big.js (V6.4.2, 665 points, `port\play-wellesley.bat`, run by the SVM implementation in
+the ROBE0240 folder); see `port\README.md`; refined 2026-09-21 (Fix 1: SAVE forgot what was in the
+containers).** Files here are verified copies (md5) of the
+originals named below.
 
 Source: `E:\EXO\Colossal Cave Adventure (1976)\0665-Point Adventure\Browser\` (eXo's `0240-Point Adventure\Browser` is
 the identical folder). This project = **Big.js / const BIG - "Wellesley Adventure (665 points)"**; the sibling folder covers the other game.

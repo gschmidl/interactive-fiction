@@ -1,0 +1,152 @@
+R ADVENTURE
+
+ Welcome to adventure!!  Would you like instructions?
+
+yes
+
+ Somewhere nearby is colossal cave, where others have found fortunes in
+ treasure and gold, though it is rumored that some who enter are never
+ seen again.  Magic is said to work in the cave.  I will be your eyes
+ and hands.  Direct me with commands of 1 or 2 words.  I should warn
+ you that I look at only the first five letters of each word, so you'll
+ have to enter "northeast" as "ne" to distinguish it from "north".
+ (should you get stuck, type "help" for some general hints.  For infor-
+ mation on how to end your adventure, etc., type "info".)
+                               - - -
+ if you have any problems, please contact the person in charge of this
+ program at your machine.  You may also contact the developers:
+ wille crowther (crowther@parc-maxc), don woods (don@su-ai), and
+ gary palter (palter@mit-multics).
+ if you have any problems, contact any of us...
+
+ You are standing at the end of a road before a small brick building.
+ around you is a forest.  A small stream flows out of the building and
+ down a gully.
+
+look
+
+ Sorry, but I am not allowed to give more detail.  I will repeat the
+ long description of your location.
+
+ You are standing at the end of a road before a small brick building.
+ around you is a forest.  A small stream flows out of the building and
+ down a gully.
+
+in
+
+ You are inside a building, a well house for a large spring.
+000000 000000
+ Set of keys
+000000 000000
+ Brass lantern
+000000 000000
+ Tasty food
+000000 000000
+ Small bottle
+
+take bottle
+
+ Ok
+
+drink water
+
+ The bottle of water is now empty.
+
+fill bottle
+
+ Your bottle is now full of water.
+
+eat food
+
+ Thank you, it was delicious!
+
+out
+
+ You're at end of road again.
+
+down
+
+ You are in a valley in the forest beside a stream tumbling along a
+ rocky bed.
+
+down
+
+ At your feet all the water of the stream splashes into a 2-inch slit
+ in the rock.  Downstream the streambed is bare rock.
+
+up
+
+ There is no way to go that direction.
+
+ You're at slit in streambed.
+
+n
+
+ You're in valley.
+
+s
+
+ You're at slit in streambed.
+
+e
+
+ You are in open forest, with a deep valley to one side.
+
+w
+
+ You're in forest.
+
+brief
+
+ Okay, from now on i'll only describe a place in full the first time
+ you come to it.  To get the full description, say "look".
+
+look
+
+ You are in open forest, with a deep valley to one side.
+
+look
+
+ You are in open forest, with a deep valley to one side.
+
+inventory
+
+ You are currently holding the following:
+000000 177777 Small bottle
+000000 177777 Water in the bottle
+
+score
+
+ If you were to quit now, you would score  27 out of a possible 350.
+
+ Do you indeed wish to quit now?
+
+quit
+
+ Please answer the question!
+
+ Do you indeed wish to quit now?
+
+n
+
+ Ok
+
+quit
+
+ Do you really want to quit now?
+
+y
+
+ Ok
+
+
+
+ You scored  27 out of a possible 350, using   20 turns.
+
+ You are obviously a rank amateur.  Better luck next time.
+
+ To acheive the next higher rating, you need  9 more points.
+
+
+**** STOP
+OK, 

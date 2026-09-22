@@ -1,12 +1,23 @@
 # Dungeon (Zork) - HP 1000 RTE FORTRAN, HP Contributed Software Library
 
-**Status: STAGED 2026-09-19 - not ported, nothing built.** Files here are verified copies (md5) of the originals named below.
+**Status: PORTED 2026-09-21 (first pass).** `port\play.bat` runs `port\dungeon.exe`, Dungeon V3.0a compiled from its
+own FTN4X source with its own data base; see `port\README.md`.
 
-Source: `F:\bits\HP\HP_1000_software_collection\specials\CSL-1000_Rev-2213 / 2240 / 2830.zip` (all eleven CSL-1000 zips
-are in `..\_HP1000_work\CSL-1000\`). Each zip holds one tape image (`.tf.tape` = TF transfer format, `.fmgr.tape` = FMGR).
+Dungeon V3.0a, "Initial version for HP 1000 by Tom Hutchinson" (Dome Petroleum, Calgary, 18 Nov 1982): the DECUS
+FORTRAN Dungeon (Supnik's translation of MIT's MDL Zork) by way of the Burroughs version, V2.0 "for I'ntl by Tom
+Fota". The main game only (500 points); the endgame is a sign, "Soon to be constructed on this site".
 
-Rev-2213 tape: FORTRAN routines `RDOAL RDOBJS RDCLOK RDADVS ITIME R50CNV` at ~3833000, text records from ~3850000 in the
-form `( (14,You are in the kitchen of the white house. ...`, `( (66,You are standing on the top of flood control dam #3`.
-Rev-2240 has the same text at ~3464000; Rev-2830 has 42 "zork" hits. Program names / file list not yet extracted -
-no TF/FMGR tape reader written (the 385/425 Adventure ports came from disc images, see reference_rte6vm_disc_layout).
-Same source-port route as the HP 1000 Adventures (FTN4 -> gfortran).
+Sources (verified copies, md5, in `archive_original`; all eleven CSL-1000 zips are in `..\_HP1000_work\CSL-1000\`):
+
+- `F:\bits\HP\HP_1000_software_collection\specials\CSL-1000_Rev-2240.zip` - TF tape, release 2240 (22 Sep 1986 copy):
+  contribution **F042 "DUNGN - DUNGEONS AND DRAGONS"** by Tom Hutchinson - the main program and five segments
+  (#DUNGA-#DUNGF), the subroutine library #DUNGL, the segment linker #DLINK and #A2A1/#A1A2 in assembler, the LOADR
+  command file and the messages and initialisation file @DUNGN; plus contribution F017 "SUBS" (the same group's
+  library), whose #UMOVE the loader file names. **This is what the port is built from.**
+- `...\CSL-1000_Rev-2213.zip` - TF tape, release 2213: contribution A072, the Burroughs FORTRAN source (V1.2c code, V2.0
+  text) "not edited to work on the HP-1000" - the version Hutchinson started from. In `src_original\CSL_2213_Burroughs`.
+- `...\CSL-1000_Rev-2830.zip` - FMGR tape, release 2830 (July 1988): M060 "CDS DUNGEON & DRAGONS GAME", a later
+  version for RTE-A; not yet read (no FMGR tape reader).
+
+`src_original` has the 2240 and 2213 files as text (`MANIFEST.txt`); the port reads the tape image itself
+(`port\src\hptape.py`).

@@ -1,0 +1,118 @@
+         SYSTEM   SIG9
+         SYSTEM   BPM
+         SYSTEM   FORTLIB
+         SYSTEM   FLIBMODE
+         DEF      PRIME,V#PRIME,HOURS
+         DEF      ENABLED
+         DEF      MAXUSERS
+         DEF      MAXETMF
+         DEF      MONDAY,TUESDAY,WEDNESDAY,THURSDAY
+         DEF      FRIDAY,SATURDAY,SUNDAY
+         REF      9SET0,F:108,J:CCBUF
+PRIME    CSECT    1
+         BAL,LL   9SET0
+         LW,R9    ENABLED           * If =0, PRIME mode disabled.
+         BEZ      *LC
+*                                   * qualification mode.
+         LW,R1    J:CCBUF
+         CW,R1    L('ADV.')
+         BE       $+3
+         M:PRINT  (MESS,OOPS)
+         M:LDTRC  'LOGON',':SYS'    * blow away any cheaters!
+         M:TIME   TIME,TMS
+         LH,R5    R8
+         LW,R6    R8
+         AND,R6   L(X'FFFF')
+         LW,R7    R5
+         LI,R4    0
+         DW,R4    L(4)
+         MI,R7    365
+         AW,R7    R5
+         AW,R7    R6
+         LI,R6    0
+         DW,R6    L(7)
+         LB,R3    R9
+         MI,R3    100
+         SLS,R9   8
+         LB,R2    R9
+         AW,R3    R2
+         LI,R1    4
+BASE16   MI,R2    1
+         DW,R2    L(10)
+         SLS,R2   28
+         SLS,R5   -4
+         OR,R5    R2
+         BDR,R1   BASE16
+         SLS,R5   -16
+         SLS,R6   1
+         CLM,R5   SUNDAY,R6
+         BCS,9    PRIME2
+         B        ISPRIME
+PRIME2   CLM,R5   SUNDAY+2,R6
+         BCS,9    NOTPRIME
+         B        ISPRIME
+NOTPRIME M:DISPLAY
+         LI,R9    2                 * Response 2 = ETMF too high
+         CW,R5    MAXETMF
+         BG       *LC
+         LI,R9    3                 * Response 3 = too many users
+         CW,R7    MAXUSERS
+         BG       *LC
+         LI,R9    0                 * Response 0 = all well
+         B        *LC
+ISPRIME  LI,R9    1                 * Response 1 = prime time
+         B        *LC
+         PAGE
+HOURS    EQU      $
+         LI,R1    HRS
+HRSOUT   LW,R2    0,R1
+         LB,R3    *R2
+         BEZ      ENDHRS
+         M:WRITE  F:108,(BUF,*R2),(SIZE,*R3),(BTD,1)
+         AI,R1    1
+         B        HRSOUT
+ENDHRS   M:WRITE  F:108,(BUF,BLANK),(SIZE,1),(BTD,0)
+         B        *LC
+         PAGE
+MAXETMF  DATA     6
+MAXUSERS DATA     999
+MESSAGE  CNAME
+         PROC
+         LOCAL    STRING,HERE
+HERE     EQU      $
+LF       DATA     STRING
+         USECT    STRINGS
+         LIST     0
+STRING   TEXTC    AF
+         USECT    HERE
+         LIST     1
+         PEND
+STRINGS  CSECT    1
+         USECT    PRIME
+         BOUND    8
+SUNDAY   DATA     9999,9999,9999,9999
+MONDAY   DATA     X'0900',X'1130',X'1330',X'1700'
+TUESDAY  DATA     X'0900',X'1130',X'1330',X'1700'
+WEDNESDAY  DATA   X'0900',X'1130',X'1330',X'1700'
+THURSDAY  DATA    X'0900',X'1130',X'1330',X'1700'
+FRIDAY   DATA     X'0900',X'1130',X'1330',X'1700'
+SATURDAY DATA     9999,9999,9999,9999
+ENABLED  DATA     1                 * Set to nonzero for prime-time
+HRS      MESSAGE  '   Monday through Friday:  Midnight to 9 AM'
+         MESSAGE  '                           11:30 AM to 1:30 PM'
+         MESSAGE  '                           5 PM to midnight'
+         MESSAGE  '   Saturday:               All day'
+         MESSAGE  '   Sunday:                 All day'
+         MESSAGE  ' '
+         MESSAGE  '   The cave is closed at all other times, and also',;
+                  ' whenever the ETMF is'
+         MESSAGE  '   greater than 6.'
+         MESSAGE  ''
+BLANK    TEXT     '    '
+OOPS     TEXTC    ' This ride is closed.  Go away.␍␍␍'
+*                                   * testing mode.
+         PAGE
+V#PRIME  CSECT    0
+TIME     RES      4
+         USECT    PRIME
+         END

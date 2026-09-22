@@ -1,0 +1,48 @@
+     H P 1 0 0 0   I N T E R N A T I O N A L   U S E R S   G R O U P
+         C O N T R I B U T E D   S O F T W A R E   L I B R A R Y
+                            C S L / 1 0 0 0
+
+                        PROGRAM SUBMISSION FORM
+
+
+ Program Name................: SUBS
+    Title....................: SUBROUTINES USED BY OUR OTHER CONTRIB'S.
+    File Names...............: @SUBS  - SUBMISSION DOCUMENTATION
+                               #CRDIR - FIND CARTRIDGE DIRECTORY
+                               #OCTPR - OCTAL/ASCII PRINT (FMGR STYLE)
+                               #UMOVE - BYTE MOVE ROUTINE
+                               #UFNUM - NUMBER FORMATTER
+                               #RRND  - REAL NUMBER ROUNDER
+                               #IPGST - PROGRAM STATUS CHECKER
+                               OMLIB1 - OLD $MLIB1 (SEE NOTE BELOW)
+    Operating System.........: RTE-IVB
+    Language(s)..............: FORTRAN 4, ASSEMBLER
+    External Support Req'd...:
+    If Re-submission, Reason.:
+ Contributor's Name..........: TOM HUTCHINSON/PAT PASCAL/SID LEE/KAREN WILSON
+               Company.......: DOME PETROLEUM, LTD.
+               Street........: 700 SECOND STREET, S.W.
+               City..........: CALGARY
+               Province......: ALBERTA
+               Country.......: CANADA
+               Postal Code...: T2P 0X5
+               Phone Number..: (403) 231-3950
+
+ Program Abstract............:
+
+
+      THESE SUBROUTINES ARE USED BY THE PROGRAMS THAT WE HAVE CONTRIBUTED
+      TO THE CSL/1000 IN THIS RELEASE. IF YOU ATTEMPT TO LOAD ONE OF OUR
+      PROGRAMS, ANY UNDEFINED EXTERNALS SHOULD BE HERE. IF NOT, WE MAY
+      HAVE GOOFED, SO FEEL FREE TO GIVE US A CALL.
+
+      SOME OF THE ROUTINES ARE ALSO USEFUL ON THEIR OWN.
+
+      NOTE: SEVERAL OF THE PROGRAMS CONTRIBUTED ARE USED AT VARIOUS
+      ----- NODES IN OUR DS/1000 NETWORK. THEY CALL DNODE TO DO
+      FORMATTED FORTRAN I/O TO REMOTE TERMINALS. IF YOU HAVE NEED
+      TO USE THIS FEATURE, YOU PROBABLY HAVE THE %RMTIO MODULE THAT
+      IS NECESSARY, BUT THE OLD $MLIB1 INCLUDED HERE IS ALSO REQUIRED
+      DUE TO A COMPATIBILITY PROBLEM. IF YOU DON'T WANT TO USE THE
+      DS FEATURES, BUT DO LIKE THE PROGRAMS, JUST REMOVE THE DNODE
+      BUSINESS.

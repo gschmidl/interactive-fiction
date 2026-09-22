@@ -1,0 +1,58 @@
+     FILE MAP OF .GAMES2.GAMES.PROG
+       TODAY IS 19:51:16 MONDAY, SEP 21, 2026.
+
+TASKS: MAXIMUM POSSIBLE = 214
+ ID    NAME   LENGTH LOAD PRI  S P M R D E O C  OVLY  P1/SAME P2/SAME  INSTALLED
+ 01  STARTREK  5F2E  A020   4        R           14   02/Y               9/21/26
+ 02  DISPLAY   0956  0000   1        R                                   9/21/26
+ 03  BLAKJACK  48B6  0000   4        R                                   9/21/26
+ 04  LUNAR     4DDA  0000   4        R                                   9/21/26
+ 05  MIND      1D2A  4060   4        R                03/Y               9/21/26
+ 06  BIO       632A  0000   4        R                                   9/21/26
+ 07  MINE      6976  0000   4        R                                   9/21/26
+ 08  ADVEN     2494  B2A0   4        R                01/Y               9/21/26
+ 09  NIM       4AE0  0000   4        R                                   9/21/26
+ 0A  LANDER    56D0  0000   4        R                                   9/21/26
+ 0B  TICTAC    49D0  0000   4        R                                   9/21/26
+ 0C  BBOX      667E  0000   4        R                                   9/21/26
+ 0D  SUB       4900  0000   4        R                                   9/21/26
+ 0E  FOOTBALL  B0EA  0000   4                    07                      9/21/26
+ 0F  GUESS     7CB0  0000   4        R                                   9/21/26
+ 10  CALENDAR  A60C  0000   3                                            9/21/26
+ 11  HANGMAN   1E58  4060   4        R                03/Y               9/21/26
+ 1C  PACMAN    7C28  0000   1        R                                   9/21/26
+ D0  P$DELETE  09D0  0000   4        R D                                 9/21/26
+ D1  EXECT911  0CB6  38A0   4        R D              D1/Y    D4/Y       9/21/26
+ D6  IDCNTRLR  0036  0620   4        R D              D6/Y               9/21/26
+
+PROCEDURES: MAXIMUM POSSIBLE = 214
+ ID    NAME   LENGTH LOAD     M D E W C                                INSTALLED
+ 01  ADVEN     B294  0000                                                9/21/26
+ 02  STARTREK  A016  0000                                                9/21/26
+ 03  COBOL     4050  0000                                                9/21/26
+ D1  EXECPROC  2B98  0000       D                                        9/21/26
+ D4  EXECP911  0CF2  2BA0       D                                        9/21/26
+ D6  CHECKER   0618  0000       D                                        9/21/26
+
+OVERLAYS: MAXIMUM POSSIBLE =  32
+ ID    NAME   LENGTH LOAD   MAP  D  OVLY                               INSTALLED
+ 01  MOD1      0342  A30C                                                9/21/26
+ 02  MOD2      044C  A30C            01                                  9/21/26
+ 03  MOD3      0DDE  A30C            02                                  9/21/26
+ 04  MOD4      0530  A30C            03                                  9/21/26
+ 05  MOD5      0466  A30C            04                                  9/21/26
+ 06  MOD6      0BCA  A30C            05                                  9/21/26
+ 07  MOD7      04F4  A30C            06                                  9/21/26
+ 08  MSCAN     0336  0000   MAP                                          9/21/26
+ 09  SCANER    13A4  0000   MAP                                          9/21/26
+ 0A  TREK      0038  0000   MAP                                          9/21/26
+ 0B  TREKINI   22B0  D2BA                                                9/21/26
+ 0C  TREK1A    01D6  F56A            0B                                  9/21/26
+ 0D  TREK1B    051E  F56A            0C                                  9/21/26
+ 0E  TREKEND   212C  D2BA            0D                                  9/21/26
+ 0F  TREK3     197C  D2BA            0E                                  9/21/26
+ 10  TREK4     19B4  D2BA            0F                                  9/21/26
+ 11  TREK5     236E  D2BA            10                                  9/21/26
+ 12  TREK6     2B4A  D2BA            11                                  9/21/26
+ 13  TREK7     2C94  D2BA            12                                  9/21/26
+ 14  TREK8     0C3C  D2BA            13                                  9/21/26

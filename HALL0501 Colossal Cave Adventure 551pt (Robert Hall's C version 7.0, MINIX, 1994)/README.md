@@ -1,6 +1,8 @@
 # "Generic Adventure -- Version:7.0, July 1994" - Robert R. Hall, C, shipped with MINIX 1.x (HALL0501)
 
-**Status: STAGED 2026-09-19 - not ported, nothing built.** Complete copy of the named directory of https://github.com/Quuxplusone/Advent at commit d38e82550600144e3547d6472bc80dbf49ca214b (2026-09-15), md5-verified against the clone.
+**Status: PORTED 2026-09-19, refined 2026-09-21 - `port\play.bat`, see `port\README.md`.** A RETREAT crash and
+three game-ending placeholders fixed, RESTORE hardened against short and foreign files.
+Staged the same day: complete copy of the named directory of https://github.com/Quuxplusone/Advent at commit d38e82550600144e3547d6472bc80dbf49ca214b (2026-09-15), md5-verified against the clone.
 
 `src_original\HALL0501\`: `advent.c turn.c verb.c itverb.c english.c travel.c vocab.c score.c initial.c database.c
 utility.c setup.c`, headers, `advent1-4.txt` (database), Makefiles.

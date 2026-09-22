@@ -1,0 +1,38 @@
+SEG DUNGEON
+
+******** DUNGEON ******** 
+   
+Do you want instructions? no
+
+Please input a wierd positive number. 42
+
+Short or long version? short
+
+Currently at:      5      7     10 
+  
+Command? 
+where
+
+Currently at:      5      7     10 
+  
+Command? status status status
+
+Life energy level :     499 
+Esp : working 
+Current score :           1 
+  
+Command? where
+
+Currently at:      5      7     10 
+  
+Command? move north
+
+What direction? where
+
+What direction? quit
+
+What direction? no
+
+Ok. 
+  
+Command? 

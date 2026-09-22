@@ -1,0 +1,38 @@
+ADVENTUR
+Adventure thru a Cave
+ Will/did you save your game?: NO  YES
+Adventure thru a Cave
+ SAVE/RESTORE PATHNAME:   .GAMES.MYSAVE
+Welcome to ADVENTURE!!  Would you like instructions?
+
+[=]  NO
+You are standing at the end of a road before a small brick building.
+Around you is a forest.  A small stream flows out of the building and 
+down a gully. 
+
+[=]  IN
+You are inside a building, a well house for a large spring. 
+There are some keys on the ground here. 
+There is a shiny brass lamp nearby. 
+There is food here. 
+There is a bottle of water here.
+
+[=]  GET LAMP
+OK
+
+[=]  SAVE
+
+I can suspend your adventure for you so that you can resume later, but 
+you will have to wait at least 90 minutes before continuing.
+Is this acceptable? 
+
+[=]  YES
+OK
+STOP 1
+
+
+
+
+NORMAL PROGRAM COMPLETION
+01:06:12 SATURDAY, SEP 19, 2026 (262)
+[] 

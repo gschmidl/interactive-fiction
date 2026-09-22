@@ -1,6 +1,8 @@
 # Colossal Cave Adventure 240pt Starter - Eric Roberts (Stanford), browser edition
 
-**Status: STAGED 2026-09-19 - not ported, nothing built.** Files here are verified copies (md5) of the originals named below.
+**Status: PORTED 2026-09-19 (first pass) - `port\starter.exe` is a C implementation of the SVM running `Small.js`;
+`port\play.bat`, see `port\README.md`; refinement pending.** Files here are verified copies (md5) of the originals
+named below.
 
 Source: `E:\EXO\Colossal Cave Adventure (1976)\0665-Point Adventure\Browser\` (eXo's `0240-Point Adventure\Browser` is
 the identical folder). This project = **Small.js / const SMALL - "Starter Adventure (240 points)"**; the sibling folder covers the other game.

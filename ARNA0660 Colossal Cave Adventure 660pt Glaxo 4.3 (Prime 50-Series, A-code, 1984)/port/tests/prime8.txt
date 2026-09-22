@@ -1,0 +1,70 @@
+SEG EXECUTIVE
+[A-code executive rev.19.2, GGR version 4.3 - 23 Mar 84]
+
+Welcome to Adventure4 (660 point GGR version 4.3 - 26 Jul 84).
+
+Would you like instructions?
+no
+You are standing at the end of a road before a small brick building.
+Around you is a forest. A small stream flows out of the building and
+down a gully and a wide path leads northwest.
+
+? get
+
+get what?
+
+? prod
+
+ Glitch! Bad WHERE - key = 3042 on record  3098.000 after loc ****
+ Glitch! Bad WHERE - key = 3042 on record  3098.000 after loc ****
+ Glitch! Bad BITVAL - key = 3042 on record  3098.000 after loc ****
+I see no # here.
+
+? wake
+
+ Glitch! Bad WHERE - key =   -1 on record  3098.000 after loc ****
+ Glitch! Bad WHERE - key =   -1 on record  3098.000 after loc ****
+I see no # here.
+
+? w
+
+You have walked up a hill, still in the forest. To the north lies a
+snow-capped mountain range with peaks that rise into the sky. To the
+south, partly obscured by a thin haze, lies a white fortress with
+seven towers. Beyond the fortress, shimmering in the sun, there
+sparkles a great expanse of water. To the east the road runs down the
+hill towards a small building visible in the distance. The way west
+is barred by a low wooden gate. A notice on the gate reads
+
+               PRIVATE PROPERTY - NO ADMITTANCE
+                TRESPASSERS WILL BE PERSECUTED
+
+? w
+
+Eh... that notice looks awfully forbidding... Are you sure you want to?
+maybe
+Please answer the question.
+Eh... that notice looks awfully forbidding... Are you sure you want to?
+y
+Ok, but don't blame me if you get arrested, or something...
+
+Anyway, you have climbed over the gate. The road dips down here,
+concealing both the fortress and the mountains. To the south, through
+the dense undergrowth, you can just make out a...
+
+                 Uh, uh!... Here comes trouble...
+
+A tall wizard in grey strides up the road, measures you with a steely
+glance and with a single sharp, though incomprehensible, word turns you
+into a toad!
+
+Well, it serves you right, I say! It's the incompetent, bungling
+amateurs like you, too full of themselves to know their proper place,
+that get a poor guide like me into trouble. You did have to barge in
+like that, didn't you, you nincompoop?! I don't know, why I am
+standing here talking to you... as far as I am concerned, you can stay
+a toad for the rest of your days!!
+
+Goodbye, Mr.Toad! Happy sploshing in a pond!
+ Glitch! Bad EXEC code: -100 on rec   2001.501 after loc 5284
+OK, 

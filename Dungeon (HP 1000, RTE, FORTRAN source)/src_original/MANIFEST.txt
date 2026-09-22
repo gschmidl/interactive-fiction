@@ -1,0 +1,26 @@
+Dungeon (HP 1000 RTE) - files from the INTEREX CSL/1000 tapes (archive_original)
+CSL-1000_Rev-2240.tf.tape: contribution F042 (DUNGN, Tom Hutchinson, V3.0a 18-Nov-82) and F017 (SUBS);
+CSL-1000_Rev-2213.tf.tape: contribution A072 (the Burroughs source it came from) in CSL_2213_Burroughs/.
+Each file is its FMP records, one line each, trailing blanks removed (md5 of that text).
+RTE names with " and > (not allowed in Windows names) are _DUNGN.submission.txt and _DUNGN.loadr.txt.
+
+SUBS.rename.txt                          F01700       9 3af41851e3db55064a384bcb05116fce  F017 transfer file
+@SUBS.txt                                F01701      48 af6600c43fb489d6931942a30e352704  F017 submission: subroutines used by our other contributions
+#UMOVE.asm                               F01704      41 a857affad0ccc564fb155df250e5547d  UMOVE byte move (Larry Schuck, 1979)
+DUNGN.rename.txt                         F04200      14 0fbe211457ea95fce90fad8209705189  transfer file: :RN,F04201::1G,"DUNGN ...
+_DUNGN.submission.txt                    F04201      52 a8ee93c37e4e8fb94542c64bcc925d94  "DUNGN - submission documentation
+#DUNGA.ftn                               F04202     748 62ddff738343544e15983d420be31e96  main program DUNGN, BLOCK DATA A, GAME, RDLIN, RSPEK...
+#DUNGB.ftn                               F04203    1234 3934d92e057e3fb8db39a81cbf3e8372  segment DUNGB: initialisation
+#DUNGC.ftn                               F04204     974 5bf877ac49f44c50c6ea2f6c81b3b198  segment DUNGC: parser
+#DUNGD.ftn                               F04205     560 0f261b85f8bc0040921b48da0b898827  segment DUNGD: GDT debugger
+#DUNGE.ftn                               F04206     252 997a31e30c22973c49034095a4020c26  segment DUNGE: save/restore
+#DUNGF.ftn                               F04207    1657 eb4f9253d64794cfcac51111e24ff13b  segment DUNGF: room/verb/actor actions
+#DUNGL.ftn                               F04208    5030 9fd1be8b0213e1b09f78846fb121d2a8  subroutine library
+#DLINK.asm                               F04209      97 e9d19c74c53ec63f586422ca2fdc7a9b  segment linker (assembler)
+#A2A1.asm                                F04210      49 3b10b6b517fe57c625cc77e2d0c79919  A2 to A1 conversion (assembler)
+#A1A2.asm                                F04211      40 db22c2cdf11026247b7fef4983390159  A1 to A2 conversion (assembler)
+_DUNGN.loadr.txt                         F04212      31 e1e87cbe2a543fb8d5694900a55fb99b  >DUNGN - LOADR command file
+@DUNGN.txt                               F04213    3460 29a69918320ef65acf3c5d1761af8ae7  messages and initialisation file (80-byte records)
+CSL_2213_Burroughs/A07201.submission.txt A07201      20 a3b4ffcd76541e8f146fcb85a868e136  CSL 2213 A072 submission (source "not edited to work on the HP-1000")
+CSL_2213_Burroughs/&DUNGN.ftn            A07202   10360 78a30d010eafbc1cc5dc0e0d221af243  Burroughs FORTRAN Dungeon V1.2c (text V2.0, Tom Fota)
+CSL_2213_Burroughs/DUNTXT.txt            A07203    3449 1fd686e6babdb8dca19d1886293150e5  its text file

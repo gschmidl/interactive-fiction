@@ -1,0 +1,298 @@
+Q
+3  
+R
+0                                           NOS 1.3-485.         80/03/20.       
+                                                     OPERATING SYSTEM            
+                                                   JOB ORIGIN = BATCH.           
+0                                                 USER NUMBER = INSTALL          
+                                                 JOBCARD NAME = ADVJOB           
+0  
+                     AAAAAAAAAA    AAAAAAAAAA    AAAAAAAAAA      OOOOOO  O   AAAAAAAAAA    CCCCCCCCCC   FFFFFFFFFFFF   
+                    AAAAAAAAAAAA  AAAAAAAAAAAA  AAAAAAAAAAAA    OOOOOOOOO   AAAAAAAAAAAA  CCCCCCCCCCCC  FFFFFFFFFFFF   
+                    AA        AA  AA        AA  AA        AA  OO       OO   AA        AA  CC        CC  FF             
+                    AA        AA  AA        AA  AA        AA  OO      O OO  AA        AA  CC            FF             
+                    AA        AA  AA        AA  AA        AA  OO      O OO  AA        AA  CC            FF             
+                    AA        AA  AA        AA  AA        AA  OO     O  OO  AA        AA  CC            FF             
+                    AA        AA  AA        AA  AA        AA  OO    O   OO  AA        AA  CC            FF             
+                    AA        AA  AA        AA  AA        AA  OO   O    OO  AA        AA  CC            FFFFFFFF       
+                    AAAAAAAAAAAA  AAAAAAAAAAAA  AAAAAAAAAAAA  OO   O    OO  AAAAAAAAAAAA  CC            FFFFFFFF       
+                    AAAAAAAAAAAA  AAAAAAAAAAAA  AAAAAAAAAAAA  OO   O    OO  AAAAAAAAAAAA  CC            FF             
+                    AA        AA  AA        AA  AA        AA  OO  O     OO  AA        AA  CC            FF             
+                    AA        AA  AA        AA  AA        AA  OO O      OO  AA        AA  CC            FF             
+                    AA        AA  AA        AA  AA        AA  OO O      OO  AA        AA  CC            FF             
+                    AA        AA  AA        AA  AA        AA  OOO      OO   AA        AA  CC        CC  FF             
+                    AA        AA  AA        AA  AA        AA   OOOOOOOOO    AA        AA  CCCCCCCCCCCC  FF             
+                    AA        AA  AA        AA  AA        AA  O  OOOOOO     AA        AA   CCCCCCCCCC   FF             
+0  
+-                                                  26/09/21. 03.33.03. 
+Q
+T
+2  MWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWM 
+   WMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMW 
+   MWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWM 
+   WMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMW 
+S
+   
+R
+1         LOAD MAP - ADVENT                                     CYBER LOADER 1.4-485       26/09/21. 03.32.57.      PAGE     1   
+          OVERLAY(ADVENT,0,0)
+   
+   
+   
+ -------- OVERLAY(ADVENT,0,0)
+          WRITTEN TO FILE     ADVENT 
+   
+          FWA OF THE LOAD            111 
+          LWA+1 OF THE LOAD        27613 
+   
+          TRANSFER ADDRESS -- ADVENT         15275           
+   
+          PROGRAM ENTRY POINTS --       ADVENT         15275 
+   
+   
+   
+          PROGRAM AND BLOCK ASSIGNMENTS. 
+   
+          BLOCK       ADDRESS   LENGTH    FILE     DATE     PROCSSR VER LEVEL  HARDWARE   COMMENTS 
+   
+          /TXTCOM/        111      347 
+          /WDAMESS/       460     2162 
+          /BLKCOM/       2642        2 
+          /ALPHAS/       2644        2 
+          /VOCCOM/       2646     1131 
+          /PLACOM/       3777     1047 
+          /MTXCOM/       5046       43 
+          /PTXCOM/       5111      144 
+          /ABBCOM/       5255      226 
+          /MISCOM/       5503     1551 
+          /MISC2/        7254     5274 
+          /TIKTOK/      14550        5 
+          ADVENT        14555      716    LGO      26/09/21 FTN     4.7 485    666X I     PROGRAM   OPT=1      
+          TIMER         15473      206    LGO      26/09/21 FTN     4.7 485    666X I     SUBROUTINEOPT=1      
+          VOCAB         15701       65    LGO      26/09/21 FTN     4.7 485    666X I     SUBROUTINEOPT=1      
+          DSTROY        15766       15    LGO      26/09/21 FTN     4.7 485    666X I     SUBROUTINEOPT=1      
+          JUGGLE        16003       31    LGO      26/09/21 FTN     4.7 485    666X I     SUBROUTINEOPT=1      
+          MOVE          16034       35    LGO      26/09/21 FTN     4.7 485    666X I     SUBROUTINEOPT=1      
+          LPUT          16071       21    LGO      26/09/21 FTN     4.7 485    666X I     FUNCTION  OPT=1      
+          CARRY         16112       33    LGO      26/09/21 FTN     4.7 485    666X I     SUBROUTINEOPT=1      
+          DROP          16145       25    LGO      26/09/21 FTN     4.7 485    666X I     SUBROUTINEOPT=1      
+          RND           16172       27    LGO      26/09/21 FTN     4.7 485    666X I     FUNCTION  OPT=1      
+          BUG           16221       24    LGO      26/09/21 FTN     4.7 485    666X I     SUBROUTINEOPT=1      
+          SPEAK         16245      154    LGO      26/09/21 FTN     4.7 485    666X I     SUBROUTINEOPT=1      
+          PSPEAK        16421      103    LGO      26/09/21 FTN     4.7 485    666X I     SUBROUTINEOPT=1      
+          RSPEAK        16524       14    LGO      26/09/21 FTN     4.7 485    666X I     SUBROUTINEOPT=1      
+          MSPEAK        16540       14    LGO      26/09/21 FTN     4.7 485    666X I     SUBROUTINEOPT=1      
+          GETIN         16554      163    LGO      26/09/21 FTN     4.7 485    666X I     SUBROUTINEOPT=1      
+          STUFF         16737       44    LGO      26/09/21 FTN     4.7 485    666X I     FUNCTION  OPT=1      
+          YES           17003       23    LGO      26/09/21 FTN     4.7 485    666X I     FUNCTION  OPT=1      
+          YESM          17026       23    LGO      26/09/21 FTN     4.7 485    666X I     FUNCTION  OPT=1      
+          YESX          17051       75    LGO      26/09/21 FTN     4.7 485    666X I     FUNCTION  OPT=1      
+          EXITADV       17146       14    LGO      26/09/21 FTN     4.7 485    666X I     SUBROUTINEOPT=1      
+          ISHFT         17162       25    LGO      26/09/21 FTN     4.7 485    666X I     FUNCTION  OPT=1      
+          /STP.END/     17207        1 
+          /FCL.C./      17210       26 
+          /Q8.IO./      17236      100 
+          Q2NTRY=       17336        0 SL-FORTRAN  79/04/11 COMPASS 3.6 485               FCL INITIALIZATION ROUTINE.    
+          /FCL=ENT/     17336       40 
+1         LOAD MAP - ADVENT                                     CYBER LOADER 1.4-485       26/09/21. 03.32.57.      PAGE     2   
+          OVERLAY(ADVENT,0,0)
+   
+   
+          BLOCK       ADDRESS   LENGTH    FILE     DATE     PROCSSR VER LEVEL  HARDWARE   COMMENTS 
+   
+          COMIO=        17376       33 SL-FORTRAN  79/04/11 COMPASS 3.6 485               COMMON CODED I/O ROUTINES AND CONSTANTS. 
+          DECODE=       17431       73 SL-FORTRAN  79/04/11 COMPASS 3.6 485               FORMATTED READ FROM CORE.      
+          EOF           17524       16 SL-FORTRAN  79/04/11 COMPASS 3.6 485               TEST FOR END OF FILE STATUS.   
+          FCL=FDL       17542       40 SL-FORTRAN  79/04/11 COMPASS 3.6 485               FCL CAPSULE LOADING  
+          FECMSK=       17602       41 SL-FORTRAN  79/04/11 COMPASS 3.6 485               INITIALIZE CONSTANTS.          
+          FEIFST=       17643        3 SL-FORTRAN  79/04/11 COMPASS 3.6 485                CONVERTED DATA STORAGE        
+          FLTIN=        17646      156 SL-FORTRAN  79/04/11 COMPASS 3.6 485               COMMON FLOATING INPUT CONVERTER.         
+          FLTOUT=       20024      311 SL-FORTRAN  79/04/11 COMPASS 3.6 485               COMMON FLOATING OUTPUT CODE    
+          FMTAP=        20335      357 SL-FORTRAN  79/04/11 COMPASS 3.6 485               CRACK APLIST AND FORMAT FOR KODER/KRAKER.      
+          FORSYS=       20714      300 SL-FORTRAN  79/04/11 COMPASS 3.6 485               FORTRAN OBJECT LIBRARY UTILITIES.        
+          FORUTL=       21214       46 SL-FORTRAN  79/04/11 COMPASS 3.6 485               FCL MISC. UTILITIES. 
+          GETFIT=       21262       57 SL-FORTRAN  79/04/11 COMPASS 3.6 485               LOCATE AN FIT GIVEN A FILE NAME.         
+          INCOM=        21341      145 SL-FORTRAN  79/04/11 COMPASS 3.6 485               COMMON INPUT FORMATTING CODE   
+          INPC=         21506      207 SL-FORTRAN  79/04/11 COMPASS 3.6 485               FORMATTED READ FORTRAN RECORD. 
+          KODER=        21715      451 SL-FORTRAN  79/04/11 COMPASS 3.6 485               OUTPUT FORMAT INTERPRETER.     
+          KRAKER=       22366      375 SL-FORTRAN  79/04/11 COMPASS 3.6 485               PROCESS FORMATTED FORTRAN INPUT.         
+          OUTC=         22763      150 SL-FORTRAN  79/04/11 COMPASS 3.6 485               FORMATTED WRITE FORTRAN RECORD.          
+          OUTCOM=       23133      154 SL-FORTRAN  79/04/11 COMPASS 3.6 485               COMMON OUTPUT CODE   
+          SPA=          23307       11 SL-FORTRAN  79/04/11 COMPASS 3.6 485               SPA= - SUBSTITUTE PARAMETER ADDRESSES.   
+          CLOCK=        23320       31 SL-FORTRAN  79/04/11 COMPASS 3.6 485               ACCESS SYSTEM CLOCKS FOR FORTRAN.        
+          OVERLAY       23351      225 SL-FORTRAN  79/04/11 COMPASS 3.6 485               OVERLAY LOADING ROUTINE.       
+          RANSET        23576        7 SL-FORTRAN  79/04/11 COMPASS 3.6 485               INITIALIZE THE RANDOM NUMBER SEED.       
+          SYSAID=       23605        1 SL-FORTRAN  79/04/11 COMPASS 3.6 485               LINK BETWEEN SYS=AID AND INITIALIZATION CODE.  
+          CPUCPM        23606        5 SL-SYSLIB   79/04/06 COMPASS 3.6 485               73/06/12. 78/10/06. CONTROL POINT MANAGER PROCE
+          CPU.MVE       23613       63 SL-SYSLIB   79/04/05 COMPASS 3.6 485               MOVE BLOCK OF DATA.  
+          CPU.SYS       23676       40 SL-SYSLIB   79/04/05 COMPASS 3.6 485               PROCESS SYSTEM REQUEST.        
+          CMF.ALF       23736      160 SL-SYSLIB   79/04/05 COMPASS 3.6 485               CMM V1.1 - ALLOCATE FIXED.     
+          CMM.CIA       24116      106 SL-SYSLIB   79/04/05 COMPASS 3.6 485               CMM V1.1 - CHANGE INTERNAL AREA.         
+          CMF.CSF       24224        6 SL-SYSLIB   79/04/05 COMPASS 3.6 485               CMM V1.1 - CHANGE SPECS FIXED. 
+          CMM.FFA       24232       14 SL-SYSLIB   79/04/05 COMPASS 3.6 485               CMM V1.1 - FIXED FREE ALGORITHM.         
+          CMF.FRF       24246       36 SL-SYSLIB   79/04/05 COMPASS 3.6 485               CMM V1.1 - FREE FIXED.         
+          CMF.LDV       24304      271 SL-SYSLIB   79/04/05 COMPASS 3.6 485               CMM V1.1 - LOAD OVERLAY.       
+          CMF.LOV       24575       55 SL-SYSLIB   79/04/05 COMPASS 3.6 485               CMM V1.1 - LOAD OVERLAY VIA FOL.         
+          CMM.R         24652      214 SL-SYSLIB   79/04/05 COMPASS 3.6 485               CMM V1.1 - RESIDENT SUBROUTINES.         
+          CMF.SLF       25066       22 SL-SYSLIB   79/04/05 COMPASS 3.6 485               CMM V1.1 - SHRINK AT LWA FIXED.          
+          /FDL.COM/     25110       14 
+          FDL.RES       25124      211 SL-SYSLIB   79/08/09 COMPASS 3.6 485               FAST DYNAMIC LOADER RESIDENT.  
+          FDL.MMI       25335      222 SL-SYSLIB   79/08/09 COMPASS 3.6 485               FDL MEMORY MANAGER INTERFACE.  
+          FOL.RES       25557      124 SL-SYSLIB   79/08/09 COMPASS 3.6 485               FAST OVERLAY LOADER RESIDENT.  
+          CTL$RM        25703      434 SL-SYSLIB   80/05/02 COMPASS 3.6 485               CRM CONTROLLING ROUTINE.       
+          CTL$WR        26337       32 SL-SYSLIB   80/05/02 COMPASS 3.6 485               CRM CONTROLLER - WEOX, REWIND  
+          ERR$RM        26371       25 SL-SYSLIB   80/05/02 COMPASS 3.6 485               CRM ERROR PROCESSOR ENTRY.     
+          LIST$RM       26416       67 SL-SYSLIB   80/05/02 COMPASS 3.6 485               CRM - ALLOCATE SPACE FOR LIST OF FILES   
+          FILEXX        26505        6 SL-SYSLIB   80/05/02 COMPASS 3.6 485               CRM FTN INTERFACE (FILESQ,FILEWA)        
+          FITCOM        26513      520 SL-BAMLIB   80/05/02 COMPASS 3.6 485               CRM FTN INTERFACE (IFETCH,STOREF,SETFIT) 
+          ERRPROC       27233       75 SL-BAMLIB   80/05/02 COMPASS 3.6 485               CRM FTN INTERFACE ERROR PROCESSOR        
+          OPNCLS        27330       63 SL-BAMLIB   80/05/02 COMPASS 3.6 485               CRM FTN INTERFACE (CLOSEM,OPENM)         
+          GET           27413       17 SL-BAMLIB   80/05/02 COMPASS 3.6 485               CRM FTN INTERFACE (GET)        
+          RM$ILD        27432        6 SL-BAMLIB   80/05/02 COMPASS 3.6 485               CRM FTN INTERFACE (SETUP COMMON PARAMETERS)    
+          RM$STUF       27440      126 SL-BAMLIB   80/05/02 COMPASS 3.6 485               CRM FTN INTERFACE (SETUP PARAMETER REGISTERS)  
+          CTL$LBL       27566       25 SL-SYSLIB   80/05/02 COMPASS 3.6 485               CRM CONTROLLER - LABEL PROCESSING.       
+1         LOAD MAP - ADVENT                                     CYBER LOADER 1.4-485       26/09/21. 03.32.57.      PAGE     3   
+          OVERLAY(1,0) 
+   
+   
+   
+   
+   
+   
+   
+ -------- OVERLAY(1,0) 
+          WRITTEN TO FILE     ADVENT 
+   
+          FWA OF THE LOAD          27620 
+          LWA+1 OF THE LOAD        31600 
+   
+          TRANSFER ADDRESS -- INIT           27625           
+   
+   
+   
+          PROGRAM AND BLOCK ASSIGNMENTS. 
+   
+          BLOCK       ADDRESS   LENGTH    FILE     DATE     PROCSSR VER LEVEL  HARDWARE   COMMENTS 
+   
+          INIT          27620     1672    LGO      26/09/21 FTN     4.7 485    666X I     PROGRAM   OPT=1      
+          REWIND=       31512       33 SL-FORTRAN  79/04/11 COMPASS 3.6 485               POSITION FILE AT BEGINNING-OF-INFORMATION.     
+          GOTOER=       31545       14 SL-FORTRAN  79/04/11 COMPASS 3.6 485               COMPUTED GO TO ERROR PROCESSOR.          
+          PUT           31561       17 SL-BAMLIB   80/05/02 COMPASS 3.6 485               CRM FTN INTERFACE (PUT)        
+   
+   
+   
+   
+   
+ -------- OVERLAY(2,0) 
+          WRITTEN TO FILE     ADVENT 
+   
+          FWA OF THE LOAD          27620 
+          LWA+1 OF THE LOAD        36073 
+   
+          TRANSFER ADDRESS -- MAIN           27625           
+   
+   
+   
+          PROGRAM AND BLOCK ASSIGNMENTS. 
+   
+          BLOCK       ADDRESS   LENGTH    FILE     DATE     PROCSSR VER LEVEL  HARDWARE   COMMENTS 
+   
+          MAIN          27620     6237    LGO      26/09/21 FTN     4.7 485    666X I     PROGRAM   OPT=1      
+          GOTOER=       36057       14 SL-FORTRAN  79/04/11 COMPASS 3.6 485               COMPUTED GO TO ERROR PROCESSOR.          
+   
+   
+   
+                .122 CP SECONDS              47500B CM STORAGE USED                      1 TABLE MOVE
+   
+   
+   
+   
+ WELCOME. PERCHANCE, ARE YOU A WIZARD? 
+   
+   
+ WAIT A MINUTE... I CAN'T FIND THE KEYS... 
+   
+   
+ OK, I GOT THEM...OH, YES....ORANGE SMOKE... 
+ WELL, HERE GOES...
+   
+ WELCOME TO MIRKWOOD!  DO YOU REQUIRE INSTRUCTIONS?
+   
+ YOU ARE STANDING AT THE END OF A ROAD BEFORE A SMALL BRICK BUILDING.
+ AROUND YOU IS A FOREST.  A SMALL STREAM FLOWS OUT OF THE BUILDING AND 
+ DOWN A GULLY. 
+   
+ YOU ARE INSIDE A BUILDING, A WELL HOUSE FOR A LARGE SPRING. 
+   
+ THERE ARE SOME KEYS ON THE GROUND HERE. 
+   
+ THERE IS A SHINY BRASS LAMP NEARBY. 
+   
+ THERE IS FOOD HERE. 
+   
+ THERE IS A BOTTLE OF WATER HERE.
+   
+ OK
+   
+ YOU ARE CURRENTLY HOLDING THE FOLLOWING 
+ BRASS LANTERN 
+   
+ YOU'RE AT END OF ROAD AGAIN.
+   
+ YOU ARE IN A VALLEY IN THE FOREST BESIDE A STREAM TUMBLING ALONG A
+ ROCKY BED.
+   
+ AT YOUR FEET ALL THE WATER OF THE STREAM SPLASHES INTO A 2-INCH SLIT
+ IN THE ROCK.  DOWNSTREAM THE STREAMBED IS BARE ROCK.
+   
+ IF YOU WERE TO QUIT NOW, YOU WOULD SCORE  32 OUT OF A POSSIBLE 366. 
+ DO YOU INDEED WISH TO QUIT NOW? 
+   
+ OK
+   
+ MIRKWOOD IS OPEN TO REGULAR ADVENTURERS AT THE FOLLOWING HOURS: 
+ 06.00.00. TO 11.30.00.
+ 13.30.00. TO 15.30.00.
+   
+ DO YOU REALLY WANT TO QUIT NOW? 
+   
+ OK
+   
+ YOU SCORED  32 OUT OF A POSSIBLE 366, USING    9 TURNS. 
+   
+ YOU ARE OBVIOUSLY A RANK AMATEUR. BETTER LUCK NEXT TIME.
+   
+ TO ACHIEVE THE NEXT HIGHER RATING, YOU NEED   4 POINTS. 
+   
+1 AAAOACF. 26/09/21.NOSTALGIC COMPUTING CENTER.
+                   
+ 03.32.53.ADVJOB.  
+ 03.32.53.UCCR, 0320,      4.814KCDS.
+ 03.32.53.$USER,INSTALL,.        
+ 03.32.53.$NORERUN.  
+ 03.32.53.$SETTL,7777. 
+ 03.32.53.$SETJSL,7777.  
+ 03.32.53.$SETASL,7777.  
+ 03.32.53.$RFL,150000. 
+ 03.32.53.$COPYBR,INPUT,SOURCE,1.  
+ 03.32.53. COPY COMPLETE.
+ 03.32.53.$COPYBR,INPUT,TAPE1,1. 
+ 03.32.53. COPY COMPLETE.
+ 03.32.53.$REWIND,SOURCE.  
+ 03.32.53.$FTN(I=SOURCE,L=0) 
+ 03.32.57.      .589 CP SECONDS COMPILATION TIME 
+ 03.32.57.LOAD(LGO)  
+ 03.32.57.NOGO(ADVENT) 
+ 03.32.57.ADVENT.  
+ 03.32.59.    STOP   
+ 03.32.59.      .347 CP SECONDS EXECUTION TIME   
+ 03.32.59.***  
+ 03.32.59.*** ADVJOB COMPLETE  
+ 03.32.59.***  
+ 03.32.59.EXIT.  
+ 03.32.59.UEAD,      0.001KUNS.
+ 03.32.59.UEMS,     34.098KUNS.
+ 03.32.59.UECP,      1.125SECS.
+ 03.32.59.AESR,     10.444UNTS.
+ 03.33.03.UCLP, 0321,      0.384KLNS.
+   

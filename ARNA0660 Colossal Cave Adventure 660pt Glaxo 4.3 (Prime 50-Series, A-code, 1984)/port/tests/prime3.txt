@@ -1,0 +1,136 @@
+SEG EXECUTIVE
+[A-code executive rev.19.2, GGR version 4.3 - 23 Mar 84]
+
+Welcome to Adventure4 (660 point GGR version 4.3 - 26 Jul 84).
+
+Would you like instructions?
+no
+You are standing at the end of a road before a small brick building.
+Around you is a forest. A small stream flows out of the building and
+down a gully and a wide path leads northwest.
+
+? take
+
+take what?
+
+? take xyzzy
+
+Don't be ridiculous!
+
+? eat keys
+
+I see no keys here.
+
+? foo
+
+Nothing happens.
+
+? TAKE LAMP
+
+I see no lamp here.
+
+? in
+
+You are inside a building, a well house for a large spring.
+
+There are some keys on the ground here.
+There is a shiny brass lamp nearby.
+
+? get lamp, get keys
+
+Ok.
+
+
+Don't be ridiculous!
+
+? inventory
+
+Your posessions currently consist of:
+Brass lantern
+
+? 
+
+
+? look
+
+You are inside a building, a well house for a large spring.
+
+There are some keys on the ground here.
+
+? brief
+
+Okay, from now on I shall describe a place in full the first time you
+come to it. To get the full description, say "LOOK".
+
+? help
+
+I know of places, actions, and things. To move, try words like ENTER
+(and EXIT), EAST (or E for short), NORTH (or N), SOUTHWEST (or SW), UP
+(or U) etc. Words like DOWNSTREAM, CLIMB, CROSS may also come handy.
+Some other useful commands are INVENTORY (or INV), LOOK, SCORE, INFO
+etc. Objects can be manipulated using some of the verbs that I know.
+Usually you have to give both the object and the verb (in either
+order), but sometimes I can infer the object from the verb alone (e.g.
+both LIGHT and EXTINGUISH imply LAMP). Some objects have side-effects;
+for instance, rods scare birds. Usually people trying unsuccessfully
+to manipulate an object are attempting something beyond their (or my)
+capabilities and should try a completely different tack. Novice
+players often forget that I only look at the first two meaningful words
+in any command. For example THROW AXE AT DWARF will not do anything
+that THROW AXE would not achieve. To speed up the game you can sometimes
+move long distances with a single word. For example "BUILDING" usually
+gets you to the building from most places above ground except when lost
+in the forest. Also, note that cave passages turn a lot, and that
+leaving a room to the north does not guarantee entering the next from
+the south. Finally, it is worth remembering that I mostly mean just
+what I say.
+                              Good luck!
+
+? west
+
+You're at end of road again.
+
+? fly
+
+Only witches can fly.
+
+? swim
+
+I don't know how.
+
+? wave
+
+Nothing happens.
+
+? score
+
+If you were to quit now, you would score a total of 0 points,
+out of a possible maximum of 660 points, using 18 turns.
+
+? save
+
+If you suspend your Adventure now, you will have to wait at least 30
+minutes before continuing.
+Is this acceptable?
+no
+Ok.
+
+? quit
+
+Do you really want to quit now?
+n
+Ok.
+
+? quit
+
+Do you really want to quit now?
+y
+
+
+You have scored 0 out of a possible 660 points, using 21 turns.
+
+You are obviously a rank amateur. Better luck next time.
+
+To reach the next qualification level you need 30 more points.
+
+OK, 

@@ -1,0 +1,67 @@
+SEG DUNGEON
+
+******** DUNGEON ******** 
+   
+Do you want instructions? no
+
+Please input a wierd positive number. 42
+
+Short or long version? short
+
+Currently at:      5      7     10 
+  
+Command? move
+
+What direction? north
+
+Ok. 
+  
+Command? move
+
+What direction? north
+
+Ok. 
+  
+Command? search
+
+There is gold here! 
+  
+Command? take
+
+5      gold pieces 
+         
+Ok. 
+  
+Command? items
+
+                          
+     5 gold pieces. 
+  
+Command? status
+
+Life energy level :     495 
+Esp : working 
+Current score :          16 
+  
+Command? hide
+
+How many gold pieces do you wish to hide? 2
+
+Ok. 
+  
+Command? retrieve
+
+You've retrieved          2 gold pieces. 
+  
+Command? items
+
+                          
+     5 gold pieces. 
+  
+Command? quit
+
+Your final score is:     16 
+                  
+Play again? no
+
+OK, 

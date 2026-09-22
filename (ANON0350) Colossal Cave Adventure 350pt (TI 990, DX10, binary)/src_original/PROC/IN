@@ -1,0 +1,4 @@
+IN (Initialize Fun and Games)
+.SYN GAMES=GAMES.GAMES  ! Substitute the Volume and directory(s) to where
+.USE @GAMES.PROC        !      the Games have been copied to
+.OPTION PROMPT="Which Game do you want to play? "

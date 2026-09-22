@@ -1,0 +1,16 @@
+CP-V EDIT line numbers (record keys) of the members whose lines are not
+simply numbered 1.000, 2.000, ...  Runs: file lines a-b have keys k..k+(b-a).
+
+CACHESI
+  lines    1-  12  keys 1.000-12.000
+  line    13       key  12.100
+  lines   14- 155  keys 13.000-154.000
+
+D:MOVES
+  lines    1-2093  keys 1.000-2093.000
+  line  2094       key  2093.100
+  line  2095       key  2093.200
+  line  2096       key  2093.300
+  line  2097       key  2093.400
+  lines 2098-2114  keys 2094.000-2110.000
+

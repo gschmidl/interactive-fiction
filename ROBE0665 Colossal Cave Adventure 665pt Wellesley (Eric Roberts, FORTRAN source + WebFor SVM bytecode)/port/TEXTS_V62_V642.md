@@ -1,0 +1,514 @@
+# The texts of V6.2 and V6.4.2
+
+Made by `tests\textdiff.py`: V6.2 is `..\src_original\ROBE0665\text.dat` (the FORTRAN
+source, newadv.F of 3 March 2010, 655 points); V6.4.2 is the browser edition's
+`..\archive_original\Browser\Big.js` (database of 7 June 2021, 665 points), whose
+strings are read out of the SVM image. The image keeps each string once and not in
+text order, so the comparison is by line; entries are named by V6.2's section and
+number.
+
+| | lines |
+|---|---|
+| V6.2 text lines | 2800 |
+| unchanged in V6.4.2 | 2636 |
+| changed | 120 |
+| only in V6.2 | 44 |
+| only in V6.4.2 | 77 |
+
+## Changed
+
+- **long description 2**
+  - V6.2: `of rock which rises nearly fifteen meters into the air here.  You`
+  - V6.4.2: `of rock which rises nearly fifteen meters into the air here.  The`
+- **long description 2**
+  - V6.2: `someone took the trouble to erect a large billboard here.`
+  - V6.4.2: `knoll.  There is also a large billboard here.`
+- **long description 5**
+  - V6.2: `You are in open forest, with a deep valley to the east.`
+  - V6.4.2: `You are in open forest, with a deep valley to the east.  There is a`
+- **long description 66**
+  - V6.2: `go west, east, south, NE, and NW.  Part of the room is occupied by a`
+  - V6.4.2: `go west, east, south, northwest, and southwest.  Part of the room`
+- **long description 71**
+  - V6.2: `north, south, and SE.  The north one is as tall as the other two`
+  - V6.4.2: `north, south, and southeast.  The north one is as tall as the other`
+- **long description 71**
+  - V6.2: `combined.`
+  - V6.4.2: `two combined.`
+- **long description 72**
+  - V6.2: `You are in a large low room.  Crawls lead north, NE, and SW.`
+  - V6.4.2: `You are in a large low room.  Crawls lead north, northeast, and`
+- **long description 75**
+  - V6.2: `The canyon becomes too tight to proceed.  Your only exit is west.`
+  - V6.4.2: `continue downward and too difficult to climb.  Your only exit is west.`
+- **long description 97**
+  - V6.2: `passage leads SE, and a hands and knees crawl leads east.`
+  - V6.4.2: `passage leads southeast, and a hands and knees crawl leads east.`
+- **long description 98**
+  - V6.2: `hugs the cavern's rim to the NE and south, while another branch forks`
+  - V6.4.2: `hugs the cavern's rim to the northeast and south, while another branch`
+- **long description 98**
+  - V6.2: `SE.  A round chute with extremely smooth walls angles sharply up`
+  - V6.4.2: `forks southeast.  A round chute with extremely smooth walls angles`
+- **long description 99**
+  - V6.2: `You are in an alcove.  A small NW path seems to widen after a short`
+  - V6.4.2: `You are in an alcove.  A small northwest path seems to widen after a`
+- **long description 99**
+  - V6.2: `tight squeeze.  An eerie light can be seen at the other end.`
+  - V6.4.2: `a very tight squeeze.  An eerie light can be seen at the other end.`
+- **long description 99**
+  - V6.2: `distance.  An extremely tight tunnel leads east.  It looks like a very`
+  - V6.4.2: `short distance.  An extremely tight tunnel leads east.  It looks like`
+- **long description 102**
+  - V6.2: `You are in an arched hall.  A coral passage once continued up and east`
+  - V6.4.2: `You are in an arched hall.  A coral passage from below once continued`
+- **long description 102**
+  - V6.2: `from here, but is now blocked by debris.  The air smells of sea water.`
+  - V6.4.2: `up and east from here, but is now blocked by debris.  The air smells`
+- **long description 117**
+  - V6.2: `up from below obscures all view of the far side.  A SW path leads away`
+  - V6.4.2: `up from below obscures all view of the far side.  A southwest path`
+- **long description 117**
+  - V6.2: `from the chasm into a winding corridor.`
+  - V6.4.2: `leads away from the chasm into a winding corridor.`
+- **long description 122**
+  - V6.2: `You are on the northeast side of a deep chasm.  A NE path leads away`
+  - V6.4.2: `You are on the northeast side of a deep chasm.  A northeast path`
+- **long description 122**
+  - V6.2: `from the chasm on this side.`
+  - V6.4.2: `leads away from the chasm on this side.`
+- **long description 126**
+  - V6.2: `You are on the edge of a breath-taking view.  Far below you is an`
+  - V6.4.2: `You are on the edge of a breathtaking view.  Far below you is an`
+- **long description 126**
+  - V6.2: `out, cascading back down into the depths.  The glowing rock fills the`
+  - V6.4.2: `out, cascading back down into the depths.  The glowing rock fills`
+- **long description 126**
+  - V6.2: `farthest reaches of the cavern with a blood-red glare, giving every-`
+  - V6.4.2: `the farthest reaches of the cavern with a blood-red glare, giving`
+- **long description 126**
+  - V6.2: `thing an eerie, macabre appearance.  The air is filled with flickering`
+  - V6.4.2: `everything an eerie, macabre appearance.  The air is filled with`
+- **long description 126**
+  - V6.2: `the touch, and the thundering of the volcano drowns out all other`
+  - V6.4.2: `are hot to the touch, and the thundering of the volcano drowns out`
+- **long description 126**
+  - V6.2: `sparks of ash and a heavy smell of brimstone.  The walls are hot to`
+  - V6.4.2: `flickering sparks of ash and a heavy smell of brimstone.  The walls`
+- **long description 126**
+  - V6.2: `sounds.  Embedded in the jagged roof far overhead are myriad twisted`
+  - V6.4.2: `all other sounds.  Embedded in the jagged roof far overhead are`
+- **long description 126**
+  - V6.2: `formations composed of pure white alabaster, which scatter the murky`
+  - V6.4.2: `myriad twisted formations composed of pure white alabaster, which`
+- **long description 126**
+  - V6.2: `light into sinister apparitions upon the walls.  To one side is a deep`
+  - V6.4.2: `scatter the murky light into sinister apparitions upon the walls.`
+- **long description 126**
+  - V6.2: `gorge, filled with a bizarre chaos of tortured rock which seems to`
+  - V6.4.2: `To one side is a deep gorge, filled with a bizarre chaos of tortured`
+- **long description 126**
+  - V6.2: `have been crafted by the devil himself.  An immense river of fire`
+  - V6.4.2: `rock which seems to have been crafted by the devil himself.  An`
+- **long description 126**
+  - V6.2: `crashes out from the depths of the volcano, burns its way through the`
+  - V6.4.2: `immense river of fire crashes out from the depths of the volcano,`
+- **long description 126**
+  - V6.2: `the right, an immense geyser of blistering steam erupts continuously`
+  - V6.4.2: `far off to your left.  To the right, an immense geyser of blistering`
+- **long description 126**
+  - V6.2: `gorge, and plummets into a bottomless pit far off to your left.  To`
+  - V6.4.2: `burns its way through the gorge, and plummets into a bottomless pit`
+- **long description 146**
+  - V6.2: `seem to thin out a bit towards the west and north.`
+  - V6.4.2: `to the south but thin out a bit towards the west and north.`
+- **long description 169**
+  - V6.2: `You are at a high rock on the NE side of a watery chamber at the mouth`
+  - V6.4.2: `You are at a high rock on the northeast side of a watery chamber at`
+- **long description 169**
+  - V6.2: `of a small brook.  An unknown gas bubbles up through the water from`
+  - V6.4.2: `the mouth of a small brook.  An unknown gas bubbles up through the`
+- **long description 174**
+  - V6.2: `Two very narrow passages exit NW and NE.`
+  - V6.4.2: `Two very narrow passages exit northwest and northeast.`
+- **long description 178**
+  - V6.2: `The NE passage is blocked by a recent cave-in.`
+  - V6.4.2: `The northeast passage is blocked by a recent cave-in.`
+- **long description 183**
+  - V6.2: `SE and SW.`
+  - V6.4.2: `southeast and southwest.`
+- **long description 186**
+  - V6.2: `the other NE.`
+  - V6.4.2: `the other northeast.`
+- **long description 186**
+  - V6.2: `You're at the intersection of two long tunnels.  One goes NW,`
+  - V6.4.2: `You're at the junction of two long tunnels.  One goes northwest,`
+- **long description 190**
+  - V6.2: `You're at the Devil's Chair, a large crystallization shaped like a`
+  - V6.4.2: `You're at the Devil's Chair, a large crystallization shaped like what`
+- **long description 190**
+  - V6.2: `An upward path leads away from the abyss.`
+  - V6.4.2: `see the bottom.  An upward path leads away from the abyss.`
+- **long description 196**
+  - V6.2: `exposing a large connecting hole to another room.`
+  - V6.4.2: `has partially crumbled, exposing a large connecting hole to another`
+- **long description 197**
+  - V6.2: `east and north.  There is also a sandy path leading down to the west.`
+  - V6.4.2: `There is also a sandy path leading down to the west.`
+- **long description 197**
+  - V6.2: `You're in the Vestibule, a short passageway between two rooms to the`
+  - V6.4.2: `You're in the Vestibule, with a short passageway to the north.`
+- **long description 198**
+  - V6.2: `fairies.  A small stream runs from the SW corner.  A bright glow`
+  - V6.4.2: `fairies.  A small stream runs from the southwest corner.  A bright`
+- **long description 198**
+  - V6.2: `emanates from the south side of the grotto, and a steep passage`
+  - V6.4.2: `glow emanates from the south side of the grotto, and a steep passage`
+- **long description 202**
+  - V6.2: `different rock strata.  Layers of red and yellow sandstone`
+  - V6.4.2: `different rock strata.  Layers of red and yellow sandstone intertwine`
+- **long description 202**
+  - V6.2: `intertwine with bright bands of calcareous limestone in a rainbow-`
+  - V6.4.2: `with bright bands of calcareous limestone in a rainbow-like profusion`
+- **long description 202**
+  - V6.2: `like profusion of color.  The rainbow effect is so real, you`
+  - V6.4.2: `of color.  The rainbow effect is so real, you are almost tempted to`
+- **long description 202**
+  - V6.2: `are almost tempted to look for a pot of gold!  Poised far over`
+  - V6.4.2: `look for a pot of gold!  Poised far over your head, a gigantic slab,`
+- **long description 206**
+  - V6.2: `pond fills the center of the room.  The lake is apparently spring-`
+  - V6.4.2: `pond fills the center of the room.  The lake is apparently`
+- **long description 206**
+  - V6.2: `fed.  A large passage continues west.`
+  - V6.4.2: `spring-fed.  A large passage continues west.`
+- **long description 270**
+  - V6.2: `south, and there is a wooden doorway to the west.`
+  - V6.4.2: `south, and there is an open doorway to the west admitting light from`
+- **long description 287**
+  - V6.2: `against the wall.  Passages enter from the east, west and south.`
+  - V6.4.2: `against the wall.  Passages enter from the east, west, and south.`
+- **long description 321**
+  - V6.2: `contraption made from brass, ebony, ivory and glass.`
+  - V6.4.2: `contraption made from brass, ebony, ivory, and glass.`
+- **short description 115**
+  - V6.2: `You're at NE end.`
+  - V6.4.2: `You're at northeast end.`
+- **short description 116**
+  - V6.2: `You're at SW end.`
+  - V6.4.2: `You're at southwest end.`
+- **short description 117**
+  - V6.2: `You're on SW side of chasm.`
+  - V6.4.2: `You're on southwest side of chasm.`
+- **short description 122**
+  - V6.2: `You're on NE side of chasm.`
+  - V6.4.2: `You're on northeast side of chasm.`
+- **object 0000**
+  - V6.2: `The telephone booth is empty and the phone is ringing.`
+  - V6.4.2: `The telephone booth is empty, and the phone is ringing.`
+- **object 0000**
+  - V6.2: `There is a persian rug spread out on the floor.`
+  - V6.4.2: `There is a Persian rug spread out on the floor.`
+- **object 1000**
+  - V6.2: `The dragon is sprawled out on a persian rug!!`
+  - V6.4.2: `The dragon is sprawled out on a Persian rug!!`
+- **message 1**
+  - V6.2: `Somewhere nearby is Colossal Cave, where others have found fortunes in`
+  - V6.4.2: `Somewhere nearby is Colossal Cave, where others have found fortunes`
+- **message 1**
+  - V6.2: `stand all of the English language, but I do a pretty good job.`
+  - V6.4.2: `understand all of the English language, but I do a pretty good job.`
+- **message 1**
+  - V6.2: `treasure and gold, though it is rumored that some who enter are never`
+  - V6.4.2: `in treasure and gold, though it is rumored that some who enter are`
+- **message 1**
+  - V6.2: `seen again.  Magic is said to work in the cave.  I will be your eyes`
+  - V6.4.2: `never seen again.  Magic is said to work in the cave.  I will be your`
+- **message 1**
+  - V6.2: `and hands.  Direct me with natural English commands; I don't under-`
+  - V6.4.2: `eyes and hands.  Direct me with natural English commands; I don't`
+- **message 3**
+  - V6.2: `axe at you which missed, cursed, and ran away.`
+  - V6.4.2: `axe at you which missed.  The dwarf then cursed and ran away.`
+- **message 19**
+  - V6.2: `The little bird is frightened now and you can't catch it.`
+  - V6.4.2: `The little bird is frightened now, and you can't catch it.`
+- **message 51**
+  - V6.2: `at 130 pounds and you can carry (being an adventurer in reasonably`
+  - V6.4.2: `at 130 pounds, and you can carry (being an adventurer in reasonably`
+- **message 51**
+  - V6.2: `point value simply by find the treasure; for the rest you must`
+  - V6.4.2: `point value simply by finding the treasure; for the rest you must`
+- **message 51**
+  - V6.2: `word "and" or by separating them with commas.  Thus, you could say`
+  - V6.4.2: `word "and" or by separating them with commas.  Thus, you can say`
+- **message 51**
+  - V6.2: `there are a few (such as a 90-pound gold nugget) which are reasonably`
+  - V6.4.2: `there are a few (such as a 90-pound gold nugget) that are decidedly`
+- **message 64**
+  - V6.2: `all the leaves, but travel is quite easy if you detour around the`
+  - V6.4.2: `by all the leaves, but travel is quite easy if you detour around the`
+- **message 64**
+  - V6.2: `various sorts.  This time of year visibility is quite restricted by`
+  - V6.4.2: `of various sorts.  This time of year visibility is quite restricted`
+- **message 64**
+  - V6.2: `occasional grove of pine or spruce.  There is quite a bit of under-`
+  - V6.4.2: `occasional grove of pine or spruce.  There is quite a bit of`
+- **message 64**
+  - V6.2: `growth, largely birch and ash saplings plus nondescript bushes of`
+  - V6.4.2: `undergrowth, largely birch and ash saplings plus nondescript bushes`
+- **message 142**
+  - V6.2: `made at Wellesley College by Mark Edwards, Mark Sylvester and,`
+  - V6.4.2: `made at Wellesley College by Mark Edwards, Mark Sylvester, and,`
+- **message 190**
+  - V6.2: `there are several shots of two women riding motorcycles around an`
+  - V6.4.2: `there are several shots of two women wearing Wellesley T-shirts`
+- **message 190**
+  - V6.2: `island resort, while other pictures seem to be from completely`
+  - V6.4.2: `riding mopeds around an island resort, while other pictures seem`
+- **message 256**
+  - V6.2: `The telephone is out of order and your hand is sore.`
+  - V6.4.2: `The telephone is out of order, and your hand is sore.`
+- **message 265**
+  - V6.2: `seemingly solid rock wall crumbles away, revealing another room just`
+  - V6.4.2: `seemingly solid rock wall crumbles away, revealing another room to the`
+- **message 265**
+  - V6.2: `beyond.  The wall was most likely worn thin by an ancient watercourse`
+  - V6.4.2: `south.  The wall was most likely worn thin by an ancient watercourse`
+- **message 372**
+  - V6.2: `In the rock is carved the message "7, 22, 34".`
+  - V6.4.2: `In the rock is carved the message "7-22-34".`
+- **message 410**
+  - V6.2: `The walls of the cave seem to fade away and you get a brief glimpse`
+  - V6.4.2: `The walls of the cave seem to fade away, and you get a brief glimpse`
+- **message 410**
+  - V6.2: `image fades and you find yourself back where you started.`
+  - V6.4.2: `image fades, and you find yourself back where you started.`
+- **message 435**
+  - V6.2: `Slowly, the great door swings shut and its outlines vanish`
+  - V6.4.2: `Slowly, the great door swings shut.  Its outlines vanish into`
+- **message 455**
+  - V6.2: `stilled.  The world is dark around you and nothing happens`
+  - V6.4.2: `stilled.  The world is dark around you, and nothing happens`
+- **message 467**
+  - V6.2: `|       7-22-34          _/_\_                            |`
+  - V6.4.2: `|       7-22-34          _/__                            |`
+- **message 467**
+  - V6.2: `|                        \___/                            |`
+  - V6.4.2: `|                        ___/                            |`
+- **message 467**
+  - V6.2: `|                       /`````\                           |`
+  - V6.4.2: `|                       /`````                           |`
+- **message 467**
+  - V6.2: `|                        _/_\_          7-22-34           |`
+  - V6.4.2: `|                        _/__          7-22-34           |`
+- **message 467**
+  - V6.2: `|                       \ \_/ /                           |`
+  - V6.4.2: `|                        _/ /                           |`
+- **message 476**
+  - V6.2: `There is a tingling sensation in your hand and you notice`
+  - V6.4.2: `There is a tingling sensation in your hand, and you notice`
+- **message 483**
+  - V6.2: `The belt emits a high pitched whine and the buckle snaps`
+  - V6.4.2: `The belt emits a high pitched whine, and the buckle snaps`
+- **message 492**
+  - V6.2: `You hear a rumbling noise nearby and the ground shakes`
+  - V6.4.2: `You hear a rumbling noise nearby, and the ground shakes`
+- **message 533**
+  - V6.2: `I don't know.  It may be valuable, but I have a bad feeling about it.`
+  - V6.4.2: `I don't know.  It may be valuable, but I have a bad feeling about this.`
+- **message 560**
+  - V6.2: `balance shifts slightly and the entire slab teeters on some unseen`
+  - V6.4.2: `balance shifts slightly, and the entire slab teeters on some unseen`
+- **message 562**
+  - V6.2: `As you utter the last syllable, the balance of the slab changes`
+  - V6.4.2: `As you utter the last syllable, the balance of the slab changes,`
+- **message 563**
+  - V6.2: `the slab changes and it comes crashing down toward you.`
+  - V6.4.2: `the slab changes, and it comes crashing down toward you.`
+- **message 565**
+  - V6.2: `changes and you see a tall elven queen who smiles before you.`
+  - V6.4.2: `changes, and you see a tall elven queen who smiles before you.`
+- **message 573**
+  - V6.2: `up from the floor of the room.  Suddenly, the rock splits in two`
+  - V6.4.2: `up from the floor of the room.  Suddenly, the rock splits in two,`
+- **message 579**
+  - V6.2: `is slight and wiry, he has amazing strength and you are unable`
+  - V6.4.2: `is slight and wiry, he has amazing strength, and you are unable`
+- **message 583**
+  - V6.2: `Once again, out of nowhere, the blinding light appear and you are`
+  - V6.4.2: `Once again, out of nowhere, the blinding light appears, and you are`
+- **message 595**
+  - V6.2: `in the machine.  The laboratory fades and the dials begin to`
+  - V6.4.2: `in the machine.  The laboratory fades, and the dials begin to`
+- **message 597**
+  - V6.2: `entire room is cluttered with a variety of vials, tubes, powders`
+  - V6.4.2: `entire room is cluttered with a variety of vials, tubes, powders,`
+- **message 597**
+  - V6.2: `stars, moons and comets) is looking tired.  Under his arm, he`
+  - V6.4.2: `stars, moons, and comets) is looking tired.  Under his arm, he`
+- **message 597**
+  - V6.2: `opens and a wizard walks in.  He strides over to the table,`
+  - V6.4.2: `opens, and a wizard walks in.  He strides over to the table,`
+- **message 599**
+  - V6.2: `The green fluid begins to smoke.  Soon the box, rock and wizard`
+  - V6.4.2: `The green fluid begins to smoke.  Soon the box, rock, and wizard`
+- **message 599**
+  - V6.2: `When the mist clears, the wizard, rock and treasure have all`
+  - V6.4.2: `When the mist clears, the wizard, rock, and treasure have all`
+- **message 599**
+  - V6.2: `"Woe to whomsoever dares reverse my spell..."`
+  - V6.4.2: `"Woe to whomsoever dares reverse my spell . . ."`
+- **message 600**
+  - V6.2: `The liquid begins to smoke and you are quickly surrounded`
+  - V6.4.2: `The liquid begins to smoke, and you are quickly surrounded`
+- **message 602**
+  - V6.2: `|                                  |`
+  - V6.4.2: `|                                           |`
+- **message 602**
+  - V6.2: `|      WELCOME TO ADVENTURE        |`
+  - V6.4.2: `|           WELCOME TO ADVENTURE            |`
+- **rank 250**
+  - V6.2: `You have achieved the rating: "Experienced Adventurer".`
+  - V6.4.2: `You have achieved the rating: 'Experienced Adventurer'.`
+- **rank 360**
+  - V6.2: `You may now consider yourself a "Seasoned Adventurer".`
+  - V6.4.2: `You may now consider yourself a 'Seasoned Adventurer'.`
+- **rank 470**
+  - V6.2: `You have reached "Junior Master" status.`
+  - V6.4.2: `You have reached 'Junior Master' status.`
+
+## Only in V6.2
+
+- **long description 2**: `To the west, the roadway is blocked by a dense forest in which`
+- **long description 2**: `the trees are too closely packed for you to make any headway.`
+- **long description 2**: `The road, however, was presumably passable at one time, because`
+- **long description 66**: `large bedrock block.`
+- **long description 98**: `to the southwest.`
+- **long description 126**: `from a barren island in the center of a sulfurous lake, which bubbles`
+- **long description 126**: `ominously.  The far right wall is aflame with an incandescence of its`
+- **long description 126**: `own, which lends an additional infernal splendor to the already`
+- **long description 126**: `hellish scene.  A dark, foreboding passage exits to the south.`
+- **long description 146**: `to a stone spire with a wooden doorway.  An overgrown roadway runs`
+- **long description 146**: `near here.  The trees make progress impossible to the east, but`
+- **long description 169**: `the chamber floor.  A bluish light can be seen to the southwest.`
+- **long description 190**: `seat, at the edge of a black abyss.  You can't see the bottom.`
+- **long description 193**: `You are in the Flower Room.  The walls are covered with colorful,`
+- **long description 193**: `intricate, flower-like patterns of crystallized gypsum.`
+- **long description 196**: `You are in an arched hall.  The remnants of a now-plugged coral`
+- **long description 196**: `passage lie to the east.  The north wall has partially crumbled,`
+- **long description 202**: `your head, a gigantic slab, wedged tightly between the north and`
+- **long description 202**: `south walls, forms a natural bridge across the roof of the chamber.`
+- **long description 202**: `There are exits on the east and west.`
+- **short description 193**: `You're in Flower Room.`
+- **object 1000**: `On the other side of the room a swarm of bees eagerly buzzes over`
+- **object 1000**: `a bunch of fresh flowers.`
+- **object 0000**: `There is an active beehive nearby.  The bees hum protectively`
+- **object 0000**: `around the hive.`
+- **object 1000**: `There is an empty beehive nearby.`
+- **message 51**: `in a later reference.  Thus, you could say "take note and read it."`
+- **message 51**: `more points in the Master's Section.`
+- **message 51**: `I may occasionally offer hints if you seem to be having trouble.`
+- **message 51**: `If I do, I'll warn you in advance how much it will affect your`
+- **message 51**: `score to accept the hints.`
+- **message 51**: `Finally, adventurers should regularly check the billboard for`
+- **message 51**: `announcements of current interest.`
+- **message 51**: `Mark Sylvester, Eric Roberts.`
+- **message 190**: `different times.`
+- **message 267**: `The bees swarm over the fresh flowers, leaving the hive unguarded`
+- **message 267**: `and revealing a sweet honeycomb.`
+- **message 295**: `The hum of the bees rises to an angry buzz as you move towards`
+- **message 295**: `the hive.`
+- **message 435**: `into the rock.`
+- **message 602**: `+----------------------------------+`
+- **message 602**: `|                                  |`
+- **message 602**: `+----------------------------------+`
+- **inventory name 87**: `Bumblebees`
+
+## Only in V6.4.2
+
+- `"restore" and selecting the file you want to restore.`
+- `"save" brings up a dialog that allows you to download your game`
+- `(or "them" for plural nouns) in a later reference.  Thus, you can`
+- `>$< The marsh is now inaccessible.  It's too annoying`
+- `Adventure includes a recognizable good-luck charm near the building.`
+- `Adventure world, they quickly become annoying.  This version of`
+- `Although the dwarves and random passages are part of the original`
+- `An overgrown roadway runs near here.  The trees block any progress`
+- `FATAL ERROR, SEE SOURCE CODE FOR INTERPRETATION.`
+- `I am prepared to give you a hint, but it will`
+- `I don't know how to lock or unlock the`
+- `I don't understand the word`
+- `I don't understand what you want to do with that.`
+- `I don't understand what you want to do with them.`
+- `I'm not sure where you want it to go.`
+- `If you are wearing it, the dwarves leave you alone, and the random`
+- `Illegal prep table entry`
+- `It is unlikely that you can solve Adventure in one sitting.  Typing`
+- `Mark Sylvester, Eric Roberts, and Kristin Powers.`
+- `Okay . . .`
+- `PROBABLE CAUSE: ERRONEOUS INFO IN DATABASE.`
+- `That verb requires an object.`
+- `The bees return to the hive and keep you from taking it.`
+- `The bees swarm around the hive and keep you from reaching it.`
+- `The bees swarm over the fresh flowers.`
+- `The entrance is blocked in this direction by some magical force.`
+- `The file was saved from a different version.`
+- `The floor here is worn smooth by worshippers kneeling in prayer.`
+- `The fog clears momentarily, and you see there is a narrow crack to`
+- `The road also continues westward toward what looks like a grassy`
+- `There is a beehive here.`
+- `Time passes.`
+- `To achieve the next higher rating would be`
+- `VOCAB ERROR: CAN'T FIND WORD '`
+- `With all the stuff you're carrying,`
+- `You are partway down the tight canyon when it becomes too narrow to`
+- `You at the Altar.`
+- `You can easily get lost in the marsh.  It's best to avoid it.`
+- `You have climbed a tree in the forest.`
+- `You have no mail.`
+- `You hear a buzzing noise in the branches above you.`
+- `You're in the machine.`
+- `Your health rating is`
+- `[Hit return to exit]`
+- `a neat trick!
+
+CONGRATULATIONS!!.`
+- `aflame with an incandescence of its own, which lends an additional`
+- `and west.`
+- `bridge across the roof of the chamber.  There are exits on the east`
+- `cost you`
+- `infernal splendor to the already hellish scene.  A dark, foreboding`
+- `is occupied by a large bedrock block.`
+- `looks like a comfortable seat overlooking a black abyss.  You can't`
+- `more points in the endgame.`
+- `of sea water.`
+- `one more point.`
+- `passage exits to the south.`
+- `passages become deterministic.`
+- `say "take note and read it."`
+- `sharply up to the southwest.`
+- `spire looks natural, except for a tiny opening near its summit.  You`
+- `state to a local file.  You can then restore your game by typing`
+- `steam erupts continuously from a barren island in the center of a`
+- `sulfurous lake, which bubbles ominously.  The far right wall is`
+- `the outside.  There is a sign reading "EXIT ONLY" above the door.`
+- `the rock.`
+- `threatening little dwarves in the room with you!`
+- `to a stone spire with a doorway to the east that shimmers slightly.`
+- `to be from completely different times.`
+- `to the east.`
+- `tree here that looks climbable.`
+- `up and east from here, but is now blocked by debris.  The north wall`
+- `water from the chamber floor.  A small passage continues upward`
+- `wedged tightly between the north and south walls, forms a natural`
+- `white mist cover the floor of the pit, becoming thicker to the right.`
+- `|             make navigation easier.       |`
+- `|   7-Jun-21  Changed outdoor geography to  |`
+- `| Recent changes:                           |`
+
+## Vocabulary
+
+Words of V6.2's section 3 missing from V6.4.2: none
+
+Words (up to five capitals) only in V6.4.2, not V6.2 program names: ACCIO, BRINK, CERBE, MELLO, PALAN, REPLA, WZGET

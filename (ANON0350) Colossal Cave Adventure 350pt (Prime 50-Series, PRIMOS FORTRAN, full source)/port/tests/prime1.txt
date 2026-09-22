@@ -1,0 +1,133 @@
+R ADVENTURE
+
+ Welcome to adventure!!  Would you like instructions?
+
+no
+
+ You are standing at the end of a road before a small brick building.
+ around you is a forest.  A small stream flows out of the building and
+ down a gully.
+
+in
+
+ You are inside a building, a well house for a large spring.
+000000 000000
+ Set of keys
+000000 000000
+ Brass lantern
+000000 000000
+ Tasty food
+000000 000000
+ Small bottle
+
+take keys
+
+ Ok
+
+take lamp
+
+ Ok
+
+take food
+
+ Ok
+
+take bottle
+
+ Ok
+
+inventory
+
+ You are currently holding the following:
+000000 177777 Set of keys
+000000 177777 Brass lantern
+000000 177777 Tasty food
+000000 177777 Small bottle
+000000 177777 Water in the bottle
+
+out
+
+ You're at end of road again.
+
+west
+
+ You have walked up a hill, still in the forest.  The road slopes back
+ down the other side of the hill.  There is a building in the distance.
+
+east
+
+ You're at end of road again.
+
+south
+
+ You are in a valley in the forest beside a stream tumbling along a
+ rocky bed.
+
+south
+
+ At your feet all the water of the stream splashes into a 2-inch slit
+ in the rock.  Downstream the streambed is bare rock.
+
+south
+
+ You are in a 20-foot depression floored with bare dirt.  Set into the
+ dirt is a strong steel grate mounted in concrete.  A dry streambed
+ leads into the depression.
+000000 000000
+ *grate
+
+unlock grate
+
+ The grate is now unlocked.
+
+score
+
+ If you were to quit now, you would score  32 out of a possible 350.
+
+ Do you indeed wish to quit now?
+
+hours
+
+ Please answer the question!
+
+ Do you indeed wish to quit now?
+
+in
+
+ Please answer the question!
+
+ Do you indeed wish to quit now?
+
+n
+
+ Ok
+
+xyzzy
+
+ Nothing happens.
+
+ You're outside grate.
+000000 000000
+-    1
+-    1
+ The grate is open.
+
+quit
+
+ Do you really want to quit now?
+
+y
+
+ Ok
+
+
+
+ You scored  32 out of a possible 350, using   16 turns.
+
+ You are obviously a rank amateur.  Better luck next time.
+
+ To acheive the next higher rating, you need  4 more points.
+
+
+**** STOP
+OK, 

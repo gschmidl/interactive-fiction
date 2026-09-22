@@ -1,0 +1,162 @@
+-- ADVENTURE (V6.4.2) --
+Somewhere nearby is Colossal Cave, where others have found fortunes
+in treasure and gold, though it is rumored that some who enter are
+never seen again.  Magic is said to work in the cave.  I will be your
+eyes and hands.  Direct me with natural English commands; I don't
+understand all of the English language, but I do a pretty good job.
+(Should you get stuck, type "HELP" or "?" for some general hints.)
+Good Luck!
+- - - -
+You are standing at the end of a road before a small brick building.
+Around you is a forest.  A small stream flows out of the building and
+down a gully to the south.  The road runs up a small hill to the west.
+> ord
+I don't understand the word "ord".
+> plugh
+Nothing happens when you say that here, but it's a genuine magic word.
+You're at end of road again.
+> drop rod
+I see no ROD here.
+> rub enter
+I'm afraid I don't understand.
+> grftm ab
+I don't understand the word "ab".
+> tube
+I see no TUBE here.
+> dge goth
+I don't understand the word "dge".
+> take rod
+I see no ROD here.
+> oom
+I don't understand the word "oom".
+> take all
+That verb requires an object.
+> take bottle
+I see no BOTTLE here.
+> cliff ng
+I see no CLIFF here.
+> broke
+I don't know how to apply that word here.
+You're at end of road again.
+> alace
+I don't understand the word "alace".
+> strea lower
+I don't understand the word "lower".
+> door etal
+I see no DOOR here.
+> plugh
+Nothing happens when you say that here, but it's a genuine magic word.
+You're at end of road again.
+> in
+You are inside a building, a well house for a large spring.
+Off to the north side is a small pantry.
+There are some keys on the ground here.
+Taped to the wall is a faded poster.
+There is a handwritten note here.
+> fill
+That verb requires an object.
+> troll
+I see no TROLL here.
+> s
+You're at end of road again.
+> r
+I don't understand the word "r".
+> help
+I know of places, actions, and things.  Much of my vocabulary
+describes places and is used to move you there.  To move, try words
+like forest, building, downstream, enter, east, west, north, south,
+up, or down.  I also know about a number of objects hidden within
+the cave which can usually be manipulated with various action words.
+- - -
+It's important to remember that cave passages turn a lot, and
+that leaving a room to the north does not guarantee entering the
+next from the south, although it usually works out that way.
+You'd best make yourself a map as you go along.
+- - -
+A word about my understanding of English -- I will try very hard to
+do whatever you say, but here are a few suggested idioms:
+- - -
+To take everything at a location, say "take all" or "take everything".
+Similarly, to drop everything you're carrying say "drop all".
+- - -
+You can string a list of commands or objects together by using the
+word "and" or by separating them with commas.  Thus, you can say
+"Go in the building and take the keys and the note."
+- - -
+The program remembers the last object you use and lets you use "it"
+(or "them" for plural nouns) in a later reference.  Thus, you can
+say "take note and read it."
+- - -
+To reprint the detailed description of where you are, say "look"
+(or "L").  You can also "look in" or "look at" appropriate objects.
+- - -
+To find out what you're carrying, use "take inventory" (or "I").
+- - -
+If you want to end your adventure, say "quit".
+- - -
+To see how well you're doing, say "score".  You get points by
+finding treasures and adding them to your collection.  Each
+treasure is associated with a point value.  You get 60% of the
+point value simply by finding the treasure; for the rest you must
+bring it back and deposit it safely in the building.  To determine
+how much an individual treasure is worth (assuming you get it back),
+you can use the "appraise" command, as in "appraise poster".
+- - -
+Although most of the objects in the cave are of negligible weight,
+there are a few (such as a 90-pound gold nugget) that are decidedly
+heavy.  In case you need it, your own weight in this game is figured
+at 130 pounds, and you can carry (being an adventurer in reasonably
+good shape) up to 100 pounds of additional material.  To find out
+how much some object weighs, you may say "weigh <object>".
+- - -
+Although the dwarves and random passages are part of the original
+Adventure world, they quickly become annoying.  This version of
+Adventure includes a recognizable good-luck charm near the building.
+If you are wearing it, the dwarves leave you alone, and the random
+passages become deterministic.
+- - -
+It is unlikely that you can solve Adventure in one sitting.  Typing
+"save" brings up a dialog that allows you to download your game
+state to a local file.  You can then restore your game by typing
+"restore" and selecting the file you want to restore.
+- - -
+If you think you've found all the treasures, just keep exploring
+for a while.  If nothing interesting happens, you haven't found
+them all yet.  If something interesting does happen, it means
+you're getting a bonus and have an opportunity to garner many
+more points in the endgame.
+- - -
+ADVENTURE was originally developed by Willie Crowther; more recent
+additions have been made by Don Woods, David Long, Mark Edwards,
+Mark Sylvester, Eric Roberts, and Kristin Powers.
+- - -
+> dge
+I don't understand the word "dge".
+> light lamp
+I see no LAMP here.
+> pices rock
+I don't understand the word "pices".
+> re off
+I don't understand the word "re".
+> build drink
+You're inside building.
+There are some keys on the ground here.
+Taped to the wall is a faded poster.
+There is a handwritten note here.
+You have taken a drink from the clear water.  The water tastes
+strongly of minerals, but is not unpleasant.  It is extremely cold.
+> plugh
+It is now pitch dark.  If you proceed you will likely fall into a pit.
+> bedqu
+I don't know how to apply that word here.
+You fell into a pit and broke every bone in your body!
+Oh dear, you seem to have gotten yourself killed.  I might be able to
+help you out, but I've never really done this before.  Do you want me
+to try to reincarnate you?
+no
+Ok
+You scored 65 out of a possible 665 using 12 turns.
+You are obviously a rank amateur.  Better luck next time.
+To achieve the next higher rating, you need 11 more points.
+[Hit return to exit]
+12

@@ -1,0 +1,18 @@
+         SYSTEM   SIG9
+         SYSTEM   BPM
+         SYSTEM   FORTLIB
+         REF      9SET0
+         DEF      BREAKSET
+BREAKSET CSECT    1
+         BAL,LL   9SET0
+         M:INT    BREAKHIT
+         M:PC     '>'
+         B        *LC
+BREAKHIT LW,X1    L(-1)
+         STW,X1   BREAK
+         M:TS,E   L(X'06100000')
+         M:TRTN
+BREAK    DSECT    0
+         RES      1
+         USECT    BREAKSET
+         END

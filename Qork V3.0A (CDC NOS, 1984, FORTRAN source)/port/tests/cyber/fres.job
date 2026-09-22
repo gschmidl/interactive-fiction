@@ -1,0 +1,50 @@
+FRESJ.
+USER,INSTALL,INSTALL.
+NORERUN.
+SETTL,10.
+COPYBR,INPUT,SOURCE,1.
+REWIND,SOURCE.
+FTN5(I=SOURCE,L=0)
+LGO.
+***
+*** FRESJ COMPLETE
+***
+EXIT.
+***
+*** FRESJ FAILED
+***
+~eor
+      PROGRAM FRES(OUTPUT,TAPE6=OUTPUT)
+      LOGICAL F, L1, L2, L3, L4, L5
+      INTEGER G, N
+      COMMON /C/ K
+      K = 0
+      L1 = F(0)
+      L2 = F(1)
+      L3 = F(0)
+      N = 12345
+      L4 = F(0)
+      L5 = .NOT. F(0)
+      WRITE(6,10) L1, L2, L3, L4, L5
+   10 FORMAT(' F: ',5L2)
+      WRITE(6,11) G(0), G(7), G(0), K
+   11 FORMAT(' G: ',4I8)
+      DO 20 I = 1, 3
+      IF (F(0)) WRITE(6,12) I
+   20 CONTINUE
+   12 FORMAT(' IF F TRUE AT ',I2)
+      END
+      LOGICAL FUNCTION F(I)
+      COMMON /C/ K
+      DO 100 J = 1, 3
+        IF (I .EQ. 0) GO TO 100
+        F = .TRUE.
+  100 CONTINUE
+      RETURN
+      END
+      INTEGER FUNCTION G(I)
+      COMMON /C/ K
+      K = K + 1
+      IF (I .NE. 0) G = I
+      RETURN
+      END

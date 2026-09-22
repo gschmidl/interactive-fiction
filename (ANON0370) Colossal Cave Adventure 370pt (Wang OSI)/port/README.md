@@ -151,3 +151,11 @@ disk; the write-side I/O functions are stubbed and are never reached in play.
 The final `(Press any key to return to Demonstrations Menu.)` is the original
 program's own ending — on the demo disk it went back to a menu, and here the
 keypress ends the process.
+
+**Z80 core fix, 2026-09-21.** AND, OR and XOR left the carry flag as it was
+(and OR and XOR left H too). A Z80 clears the carry on all three, sets H on
+AND and clears it on OR and XOR. The bug came to light when a copy of this core ran
+North Star BASIC for the NorthStar volcano port: its arithmetic went wrong
+(`1+1` gave 2.0000001). Adventure never depended on it. 150 random sessions of
+100-300 commands each, on a fixed clock, printed the same on the old and the
+fixed core, as did `tools\demo.txt`. Both executables were rebuilt.

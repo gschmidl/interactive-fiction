@@ -1,0 +1,130 @@
+Q
+3  
+R
+0                                           NOS 1.3-485.         80/03/20.       
+                                                     OPERATING SYSTEM            
+                                                   JOB ORIGIN = BATCH.           
+0                                                 USER NUMBER = INSTALL          
+                                                 JOBCARD NAME = PROBE3           
+0  
+                     AAAAAAAAAA    AAAAAAAAAA    AAAAAAAAAA      OOOOOO  O   AAAAAAAAAA    CCCCCCCCCC   NN        NN   
+                    AAAAAAAAAAAA  AAAAAAAAAAAA  AAAAAAAAAAAA    OOOOOOOOO   AAAAAAAAAAAA  CCCCCCCCCCCC  NNN       NN   
+                    AA        AA  AA        AA  AA        AA  OO       OO   AA        AA  CC        CC  NNNN      NN   
+                    AA        AA  AA        AA  AA        AA  OO      O OO  AA        AA  CC            NN NN     NN   
+                    AA        AA  AA        AA  AA        AA  OO      O OO  AA        AA  CC            NN  NN    NN   
+                    AA        AA  AA        AA  AA        AA  OO     O  OO  AA        AA  CC            NN   NN   NN   
+                    AA        AA  AA        AA  AA        AA  OO    O   OO  AA        AA  CC            NN    NN  NN   
+                    AA        AA  AA        AA  AA        AA  OO   O    OO  AA        AA  CC            NN     NN NN   
+                    AAAAAAAAAAAA  AAAAAAAAAAAA  AAAAAAAAAAAA  OO   O    OO  AAAAAAAAAAAA  CC            NN      NNNN   
+                    AAAAAAAAAAAA  AAAAAAAAAAAA  AAAAAAAAAAAA  OO   O    OO  AAAAAAAAAAAA  CC            NN       NNN   
+                    AA        AA  AA        AA  AA        AA  OO  O     OO  AA        AA  CC            NN        NN   
+                    AA        AA  AA        AA  AA        AA  OO O      OO  AA        AA  CC            NN        NN   
+                    AA        AA  AA        AA  AA        AA  OO O      OO  AA        AA  CC            NN        NN   
+                    AA        AA  AA        AA  AA        AA  OOO      OO   AA        AA  CC        CC  NN        NN   
+                    AA        AA  AA        AA  AA        AA   OOOOOOOOO    AA        AA  CCCCCCCCCCCC  NN        NN   
+                    AA        AA  AA        AA  AA        AA  O  OOOOOO     AA        AA   CCCCCCCCCC   NN        NN   
+0  
+-                                                  26/09/21. 03.36.32. 
+Q
+T
+2  MWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWM 
+   WMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMW 
+   MWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWM 
+   WMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMW 
+S
+   
+R
+1         LOAD MAP - PROBE3                                     CYBER LOADER 1.4-485       26/09/21. 03.36.30.      PAGE     1   
+   
+   
+   
+          FWA OF THE LOAD            111 
+          LWA+1 OF THE LOAD         7314 
+   
+          TRANSFER ADDRESS -- PROBE3          2174           
+   
+          PROGRAM ENTRY POINTS --       PROBE3          2174 
+   
+   
+   
+          PROGRAM AND BLOCK ASSIGNMENTS. 
+   
+          BLOCK       ADDRESS   LENGTH    FILE     DATE     PROCSSR VER LEVEL  HARDWARE   COMMENTS 
+   
+          /CNT/           111        1 
+          PROBE3          112     2337    LGO      26/09/21 FTN     4.7 485    666X I     PROGRAM   OPT=1      
+          RND            2451       20    LGO      26/09/21 FTN     4.7 485    666X I     FUNCTION  OPT=1      
+          /STP.END/      2471        1 
+          /FCL.C./       2472       26 
+          /Q8.IO./       2520      100 
+          Q2NTRY=        2620        0 SL-FORTRAN  79/04/11 COMPASS 3.6 485               FCL INITIALIZATION ROUTINE.    
+          /FCL=ENT/      2620       40 
+          COMIO=         2660       33 SL-FORTRAN  79/04/11 COMPASS 3.6 485               COMMON CODED I/O ROUTINES AND CONSTANTS. 
+          FCL=FDL        2713       40 SL-FORTRAN  79/04/11 COMPASS 3.6 485               FCL CAPSULE LOADING  
+          FECMSK=        2753       41 SL-FORTRAN  79/04/11 COMPASS 3.6 485               INITIALIZE CONSTANTS.          
+          FEIFST=        3014        3 SL-FORTRAN  79/04/11 COMPASS 3.6 485                CONVERTED DATA STORAGE        
+          FLTOUT=        3017      311 SL-FORTRAN  79/04/11 COMPASS 3.6 485               COMMON FLOATING OUTPUT CODE    
+          FMTAP=         3330      357 SL-FORTRAN  79/04/11 COMPASS 3.6 485               CRACK APLIST AND FORMAT FOR KODER/KRAKER.      
+          FORSYS=        3707      300 SL-FORTRAN  79/04/11 COMPASS 3.6 485               FORTRAN OBJECT LIBRARY UTILITIES.        
+          FORUTL=        4207       46 SL-FORTRAN  79/04/11 COMPASS 3.6 485               FCL MISC. UTILITIES. 
+          GETFIT=        4255       57 SL-FORTRAN  79/04/11 COMPASS 3.6 485               LOCATE AN FIT GIVEN A FILE NAME.         
+          KODER=         4334      451 SL-FORTRAN  79/04/11 COMPASS 3.6 485               OUTPUT FORMAT INTERPRETER.     
+          OUTC=          5005      150 SL-FORTRAN  79/04/11 COMPASS 3.6 485               FORMATTED WRITE FORTRAN RECORD.          
+          OUTCOM=        5155      154 SL-FORTRAN  79/04/11 COMPASS 3.6 485               COMMON OUTPUT CODE   
+          SYSAID=        5331        1 SL-FORTRAN  79/04/11 COMPASS 3.6 485               LINK BETWEEN SYS=AID AND INITIALIZATION CODE.  
+          CPUCPM         5332        5 SL-SYSLIB   79/04/06 COMPASS 3.6 485               73/06/12. 78/10/06. CONTROL POINT MANAGER PROCE
+          CPU.SYS        5337       40 SL-SYSLIB   79/04/05 COMPASS 3.6 485               PROCESS SYSTEM REQUEST.        
+          CMF.ALF        5377      160 SL-SYSLIB   79/04/05 COMPASS 3.6 485               CMM V1.1 - ALLOCATE FIXED.     
+          CMF.CSF        5557        6 SL-SYSLIB   79/04/05 COMPASS 3.6 485               CMM V1.1 - CHANGE SPECS FIXED. 
+          CMM.FFA        5565       14 SL-SYSLIB   79/04/05 COMPASS 3.6 485               CMM V1.1 - FIXED FREE ALGORITHM.         
+          CMF.FRF        5601       36 SL-SYSLIB   79/04/05 COMPASS 3.6 485               CMM V1.1 - FREE FIXED.         
+          CMM.R          5637      214 SL-SYSLIB   79/04/05 COMPASS 3.6 485               CMM V1.1 - RESIDENT SUBROUTINES.         
+          CMF.SLF        6053       22 SL-SYSLIB   79/04/05 COMPASS 3.6 485               CMM V1.1 - SHRINK AT LWA FIXED.          
+          /FDL.COM/      6075       14 
+          FDL.RES        6111      211 SL-SYSLIB   79/08/09 COMPASS 3.6 485               FAST DYNAMIC LOADER RESIDENT.  
+          FDL.MMI        6322      222 SL-SYSLIB   79/08/09 COMPASS 3.6 485               FDL MEMORY MANAGER INTERFACE.  
+          CTL$RM         6544      434 SL-SYSLIB   80/05/02 COMPASS 3.6 485               CRM CONTROLLING ROUTINE.       
+          ERR$RM         7200       25 SL-SYSLIB   80/05/02 COMPASS 3.6 485               CRM ERROR PROCESSOR ENTRY.     
+          LIST$RM        7225       67 SL-SYSLIB   80/05/02 COMPASS 3.6 485               CRM - ALLOCATE SPACE FOR LIST OF FILES   
+   
+   
+   
+                .033 CP SECONDS              23200B CM STORAGE USED                      1 TABLE MOVE
+   
+   
+   
+   
+ AND FALSE FIRST, RND CALLS   1
+ OR TRUE FIRST, RND CALLS   1
+ LOC.LT.15.OR.PCT(80), RND CALLS   1 
+ THREE TERM, FIRST FALSE, RND CALLS   1
+ LOGICAL FALSE .AND. PCT, RND CALLS   1
+ .AND..NOT.PCT, FIRST FALSE, RND CALLS   1 
+ WD1.NE.WEST (FALSE) .AND.PCT(10), RND CALLS   1 
+ WD1.EQ.WEST (TRUE) .AND.PCT(10), RND CALLS   1
+   
+1 AAAOACN. 26/09/21.NOSTALGIC COMPUTING CENTER.
+                   
+ 03.36.30.PROBE3.  
+ 03.36.30.UCCR, 0320,      0.071KCDS.
+ 03.36.30.$USER,INSTALL,.        
+ 03.36.30.$NORERUN.  
+ 03.36.30.$SETTL,7777. 
+ 03.36.30.$SETJSL,7777.  
+ 03.36.30.$SETASL,7777.  
+ 03.36.30.$RFL,140000. 
+ 03.36.30.$FTN(I=INPUT,L=0)  
+ 03.36.30.      .023 CP SECONDS COMPILATION TIME 
+ 03.36.30.LGO. 
+ 03.36.30.     END  PROBE3 
+ 03.36.30.      .002 CP SECONDS EXECUTION TIME   
+ 03.36.30.***  
+ 03.36.30.*** PROBE3 COMPLETE  
+ 03.36.30.***  
+ 03.36.30.EXIT.  
+ 03.36.30.UEAD,      0.001KUNS.
+ 03.36.30.UEMS,      1.764KUNS.
+ 03.36.30.UECP,      0.059SECS.
+ 03.36.30.AESR,      1.565UNTS.
+ 03.36.32.UCLP, 0321,      0.256KLNS.
+   

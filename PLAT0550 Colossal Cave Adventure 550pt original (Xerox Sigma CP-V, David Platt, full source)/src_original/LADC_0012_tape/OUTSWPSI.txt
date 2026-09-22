@@ -1,0 +1,48 @@
+         SYSTEM   BPM
+         SYSTEM   SIG9
+         DEF      OUTSWP
+         REF      M:LO
+         REF      M:UI
+         REF      M:SI
+         REF      8TEMPSTK
+*
+*        FORMAT OF CALL:            CALL OUTSWP
+*
+         CSECT    1
+OUTSWP   EQU      $
+         LI,1     10                GET DCB TAB INDEX
+         LW,2     *8TEMPSTK,1       GET LINK
+         LI,3     MY$INSERT
+         STW,3    *8TEMPSTK,1       MAKE MINE THE FIRST ENTRY
+         STW,2    MY$FLINK          LINK UP MINE
+         M:DEVICE M:LO,(TAB,24,27,30,33,36,39,42,45,48,51,54,57,;
+                  60,63,66,69)
+         B        *15               RETURN
+*
+OOPS     M:SNAP   'BLD ERR',(1,0)
+         B        *15
+         CSECT    0
+MY$INSERT DATA    MY$FLINK
+          TEXTC   'F:106'
+          DATA    M:GO
+         TEXTC    'F:105'
+         DATA     M:SI
+         TEXTC    'F:104'
+         DATA     M:UI
+         TEXTC    'F:101'
+         DATA     F:OPT
+         TEXTC    'F:103'
+         DATA     F:STD
+         TEXTC    'F:108'
+         DATA     M:LO
+MY$FLINK DATA     0
+F:STD    DSECT    1
+F:STD    M:DCB    (FILE,'FMTSTD'),(CONSEC),(SEQUEN),(IN),(SAVE)
+F:OPT    DSECT    1
+F:OPT    M:DCB    (FILE),(ASN,DEVICE),(DEVICE,'SI'),(SEQUEN),(IN),(SAVE)
+M:GO     DSECT    1
+M:GO     M:DCB    (FILE),(READ),(WRITE),(PASS)
+         ORG      M:GO+19
+         DATA     X'00030100'    Rebuild index often.
+         USECT    OUTSWP
+         END

@@ -1,0 +1,17 @@
+CAVE$(Adventure thru a Cave),
+SAVE/RESTORE PATHNAME=ACNM(@$CAVE)
+.SYN UNIT5="@&SAVE/RESTORE PATHNAME"
+.LOOP                                ! THE FILE USED MUST PRE-EXIST
+  .OVLY O=>1B, P=(10,@UNIT5,80,,,,YES,NO,NO) ! CFSEQ CALL
+  .UNTIL @$$CC,EQ,0
+  .SYN ERR=@$$CC
+  .IF @$$CC,EQ,0026                          ! FILE EXSISTS - OK
+   .OVLY O=>23,C=4,
+         P=("The file exists, do you want to use it? (Y/N) ",ANS)
+  .ENDIF
+  .UNTIL @ANS,GE,Y                   ! YES, USE EXSISTING FILE - OK
+  .OVLY O=>23, C=4,                  ! ERROR, REPROMPT
+     P=("(DX10 Error @ERR)   RE-ENTER SAVE/RESTORE PATHNAME",
+        "UNIT5")                     ! MSG T=          , REPLY=UNIT5
+.REPEAT
+.SYN $CAVE=@UNIT5, ANS="",ERR=""
