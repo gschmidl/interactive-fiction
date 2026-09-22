@@ -1,0 +1,37 @@
+; The site's HP 1000 as its RTE-IVB system was generated: an E-series CPU
+; with the Fast FORTRAN Processor (the generation maps .ENTR, ..MAP, .XFER
+; and friends onto its instructions; without it FMGR hangs), 128K words,
+; time base generator at 10, the 7906 disc at 11, the 2645 terminal (BACI)
+; at 12 as the system console, the teleprinter at 20.  %1 is the BACI's
+; telnet port.  The loop at 100 gives the terminal time to connect before
+; the boot, whose first words (SET TIME) would otherwise be lost.
+set cpu 1000-E
+set cpu 128K
+set cpu FFP
+set tty sc=20
+set ptr sc=21
+set ptp sc=22
+set ptr disabled
+set ptp disabled
+set lps disabled
+set lpt disabled
+set msc disabled
+set dpc disabled
+set dqc disabled
+set drc disabled
+set mux disabled
+set mpx disabled
+set da disabled
+set dc disabled
+set pif disabled
+set tbg sc=10
+set ds sc=11
+set ds0 7906
+attach ds0 disc.img
+set baci sc=12
+attach baci %1
+deposit S 001100
+deposit 100 024100
+deposit P 100
+step 300000000
+boot ds

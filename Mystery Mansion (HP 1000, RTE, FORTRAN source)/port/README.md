@@ -176,5 +176,5 @@ Kept:
 - `--site`: a terminal read time-out like the one that fed the "THINK
   FASTER" messages on Wolpert's machine (its length is not in the program).
 - Prove the 999 points reachable, not only the mystery solvable.
-- The compiled copy of the game on `f1_dskup_f2_rte2250sys.tap.gz`, another
-  revision (see the README one folder up): extract it and compare.
+- (Done 2026-09-22: the compiled copy on `f1_dskup_f2_rte2250sys.tap.gz`,
+  revision 9, runs on the site's own system - `rev9\`.)
