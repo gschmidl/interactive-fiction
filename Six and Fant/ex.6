@@ -1,0 +1,277 @@
+cons CANDLETIME = 3;
+
+var _loc,			/* current location of player */
+    _carrying,			/* list of things being carried */
+    _quitflag,			/* true when want to end the game */
+    _dark,			/* false if currrently can see */
+    _noun,			/* the current noun (actual value) */
+    _nounstring,		/* the string used to get the current noun */
+    _candle_timeleft;		/* number of moves until candle goes out */
+
+/* The objects in this world: */
+
+thing candle:
+    _name "a small piece of a candle%n";
+
+thing (matches, match, matchbook, book):
+    _name "a book of matches%n"
+
+thing (chest, treasure, treasurechest, jewels):
+    _name "a chest full of jewels%n";
+
+/* the locations in this world: */
+/* (Pre-declarations to allow inter-referencing) */
+
+thing hall:;
+thing cellar:;
+thing cave:;
+
+/* Predeclare _move so can use it here: */
+
+proc _move(_loc): corp;
+
+/* Special routines for this world: */
+
+proc _halldoor():
+    output "The door is locked shut; you cannot get through.%n"
+corp;
+
+proc _tocave():
+    if not candle in _carrying or _candle_timeleft > CANDLETIME
+	    or _candle_timeleft <= 0 then _dark := true fi;
+    _move(cave)
+corp;
+
+proc _fromcave():
+    _dark := false;
+    _move(cellar)
+corp;
+
+/* Predeclare motion verbs so can use in locations: */
+
+thing north:;
+thing south:;
+thing east:;
+thing west:;
+thing up:;
+thing down:;
+thing climb:;
+
+/* The locations in this world: */
+
+thing hall:
+    west cellar,
+    down cellar,
+    north _halldoor,
+    south _halldoor,
+    _contents (matches, candle),
+    _name "the hall,",
+    _description "a long N/S corridor with doors on both ends. "
+		 "A staircase leads down and to the west.%n";
+
+thing cellar:
+    east hall,
+    up hall,
+    down _tocave,
+    climb _tocave,
+    _contents (),
+    _name "the cellar.",
+    _description "Stairs lead up and to the east. The top of a ladder "
+		 "pokes through a hole in the floor.%n";
+
+thing cave:
+    up _fromcave,
+    climb _fromcave,
+    _contents (chest),
+    _name "the cave,",
+    _description "a small secret chamber beneath the basement. "
+		 "A ladder leads up through a hole in the ceiling.%n";
+
+/* Routines used by the verbs: */
+
+proc _see():			/* describe the current place */
+    var _x;
+
+    if _dark
+    then output "It is pitch dark.%n"
+    else output "You are in ", _loc._name, " ", _loc._description;
+	if _loc._contents	/* i.e. the room contains something */
+	then output "Nearby:%n";
+	    for _x in _loc._contents do output "   ", _x._name od;
+	    _x := 0;		/* a fudge to avoid garbage */
+	fi
+    fi
+corp;
+
+proc _move(_dest):		/* try to move to _dest */
+    if _dest is absent		/* i.e. _loc had no such property */
+    then output "There is no way to go in that direction.%n"
+    elif _dest is proc		/* if the selected direction from _loc is a */
+    then _dest()		/* proc then call it for some special action */
+    else _loc := _dest;		/* otherwise move there */
+	_see();			/* and describe the new place */
+    fi
+corp;
+
+proc _inventory():		/* list out what is being carried */
+    var _x;
+
+    if _carrying		/* i.e. the list is not empty */
+    then output "You are currently carrying:%n";
+	for _x in _carrying do output "   ", _x._name od;
+	_x := 0;		/* same fudge */
+    else output "You are not carrying anything.%n"
+    fi
+corp;
+
+/* The verbs in this world: */
+
+verb (stop, quit, off, goodbye, cease):
+    noun *: _quitflag := true;
+
+verb god:
+    noun *: output "This world (Sample) was created by C. Gray, Department of "
+		   "Computing Science, University of Alberta.%n";
+
+verb (show, describe, look, see):
+    noun *:
+	if _dark
+	then output "You can't see to do anything.%n"
+	else _see();
+	    _inventory()
+	fi;
+
+verb (inventory, invent):
+    noun *:
+	if _dark
+	then output "You can't see to do anything.%n"
+	else _inventory()
+	fi;
+
+verb (north, n):
+    noun *: _move(_loc.north);
+
+verb (south, s):
+    noun *: _move(_loc.south);
+
+verb (east, e):
+    noun *: _move(_loc.east);
+
+verb (west, w):
+    noun *: _move(_loc.west);
+
+verb (up, u):
+    noun *: _move(_loc.up);
+
+verb (down, d):
+    noun *: _move(_loc.down);
+
+verb climb:
+    noun *: _move(_loc.climb);
+
+verb (get, grab, grasp, carry, take, pickup):
+    noun :
+	output "Get what?%n";
+    noun "inventory":
+	if _dark
+	then output "You can't see to do anything.%n"
+	else _inventory()
+	fi;
+    noun (chest, matches, candle):
+	if _dark
+	then output "You can't see to do anything.%n"
+	elif _noun in _loc._contents
+	then output "OK%n";
+	    _loc._contents <- _noun;
+	    _carrying <+ _noun
+	elif _noun in _carrying
+	then output "You are already carrying the ", _nounstring, "!%n"
+	else output "I see no ", _nounstring, " here!%n"
+	fi;
+    noun *:
+	output "You can't be serious!%n";
+
+verb (light, ignite):
+    noun :
+	output "Light what?%n";
+    noun *:
+	if _dark
+	then output "You can't see to do anything.%n"
+	elif matches in _carrying
+	then if _noun in _carrying
+	    then if _noun = candle
+		then if _candle_timeleft <= 0
+		    then output "It is too far gone to light again.%n"
+		    elif _candle_timeleft < CANDLETIME
+		    then output "It is already burning.%n"
+		    else _candle_timeleft := CANDLETIME;
+			output "The candle lights, but there is so little "
+			       "of it that it will not last long.%n"
+		    fi
+		elif _noun = matches
+		then output "The match lights, burns and goes out.%n"
+		else output "It doesn't burn.%n"
+		fi
+	    else output "I see no ", _nounstring, " here!%n"
+	    fi
+	else output "You have nothing to start a fire with.%n"
+	fi;
+
+/* The main program: */
+
+var _input, _word, _count, _verb;
+
+start:
+    _loc := hall;
+    _carrying := emptylist;
+    _quitflag := false;
+    _dark := false;
+    _candle_timeleft := 8000000;
+
+    _see();
+    while not _quitflag
+    do _input := input;
+	output newline;			/* separate output from input */
+	if _input is absent		/* i.e. EOF on input */
+	then _quitflag := true
+	elif _input			/* i.e. it wasn't a blank line */
+	then _nounstring := nil;	/* in case no noun was given */
+	    _count := 1;
+	    for _word in _input
+	    do if _count = 1
+		then _verb := dict._word
+		elif _count = 2
+		then _nounstring := _word
+		fi;
+		_input <- _word;	/* free non-found strings */
+		_count := _count + 1;
+	    od;
+	    _noun := dict._nounstring;
+	    if _verb is absent		/* wasn't found in dict */
+	    then output if ? < 5000
+			then "I don't know that word.%n"
+			else "Eh?%n"
+			fi
+	    elif _verb.true isnt proc	/* assume all verbs have a noun * */
+	    then output "That's not a verb.%n"
+	    else if _verb._nounstring is proc
+		then _verb._nounstring()	/* call that action proc */
+		elif _verb._noun is proc
+		then _verb._noun()
+		else _verb.true()	/* default * noun on the verb */
+		fi;
+		_candle_timeleft := _candle_timeleft - 1;
+		if _candle_timeleft = 0
+		then output "Your candle has burned completely away!%n";
+		    if _loc = cave
+		    then _dark := true;
+			output "It is pitch dark.%n"
+		    fi
+		fi
+	    fi
+	fi
+    od;
+    if _loc = hall and chest in _carrying
+    then output "Congratulations!! You have recovered the treasure!%n"
+    fi;
+    output "See ya real soon!%n";

@@ -1,0 +1,5386 @@
+/*
+ 
+    ADVENTURE Fantasy World
+ 
+    Written by Chris Gray,
+               Department of Computing Science,
+               University of Alberta,
+               Edmonton, Alberta.
+ 
+    Last changed on 6 June 1980.
+ 
+    There have been two previous versions of ADVENTURE.  The first
+    was written in FORTRAN by Gary M. Palter at MIT.  The second
+    was written in PL/1 by Willie Crowther and Don Woods, Artificial
+    Intelligence Group, Stanford University -- which was later
+    modified for MTS by Ron Senda, Computing Services, University
+    of Alberta.
+ 
+*/
+ 
+cons MAXSCORE = 375,
+     MAXCARRY = 7,
+     TREASUREVALUE = 7,
+     LAMPTIME1 = 350,
+     LAMPTIME2 = 500,
+     TOCLOSING = 30,
+     TOCLOSED = 50,
+     CLOSINGSCORE = 296;
+ 
+var _carrying,
+    _carrycount,
+    _lamptime,
+    _score,
+    _turns,
+    _clock1,
+    _clock2,
+    _lampwarned,
+    _seenbat,
+    _dwarves,
+    _loc,
+    _oldloc,
+    _noun,
+    _verb,
+    _nounstring,
+    _verbstring,
+    _temp1,
+    _temp2,
+    _quit,
+    _diecount,
+    _verbose,
+    _trollflag,     /* 0 - normal, 1 - bear scared, 2 - payed to recross */
+    _bearfollowing,
+    _movers,
+    _surface,
+    _safe,
+    _feefieflag,
+    _nestloc,
+    _bearloc,
+    _axeloc,
+    _lampon,
+    _wasdark,
+    _oldverb,
+    _oldnoun,
+    _verbosesave,
+    _listerror,
+    _westcount,
+    _closing,
+    _closed,
+    _robeon,
+    _oysterhint,
+    _readoyster,
+    _dwarfflag,
+    _knifeloc,
+    _gotin,
+    _gotfeather,
+    _cavecnt,
+    _birdcnt,
+    _snakecnt,
+    _mazecnt,
+    _darkcnt,
+    _wittcnt,
+    _whichhint,
+    _goflag;
+ 
+thing _start:;
+thing _building:;
+thing _hill:;
+thing _valley:;
+thing _forest1:;
+thing _forest2:;
+thing _slit:;
+thing _gratetop:;
+thing _gratebelow:;
+thing _cobblecrawl:;
+thing _debrisroom:;
+thing _awkward:;
+thing _birdchamber:;
+thing _pittop:;
+thing _mists:;
+thing _goldroom:;
+thing _fissureeast:;
+thing _fissurewest:;
+thing _mistswest:;
+thing _king:;
+thing _sschamber:;
+thing _kingwest:;
+thing _hnslew:;
+thing _de2:;
+thing _longeast:;
+thing _longwest:;
+thing _lnsoew:;
+thing _y2:;
+thing _jumble:;
+thing _windowright:;
+thing _sew:;
+thing _wns:;
+thing _tight:;
+thing _tew:;
+thing _de1:;
+thing _secretne1:;
+thing _secretne2:;
+thing _secretne3:;
+thing _secretns1:;
+thing _slabroom:;
+thing _mirrorcanyon:;
+thing _reservoir:;
+thing _dirty:;
+thing _cleantop:;
+thing _pit:;
+thing _dusty:;
+thing _complex:;
+thing _shell:;
+thing _arched:;
+thing _ragged:;
+thing _culdesac:;
+thing _anteroom:;
+thing _witt:;
+thing _bedquilt:;
+thing _secret3:;
+thing _windowleft:;
+thing _secretns2:;
+thing _stalactite:;
+thing _swisscheese:;
+thing _softroom:;
+thing _twopiteast:;
+thing _twopitwest:;
+thing _eastpit:;
+thing _westpit:;
+thing _narrow:;
+thing _giant:;
+thing _cavein:;
+thing _immense:;
+thing _cavern:;
+thing _incline:;
+thing _low:;
+thing _de3:;
+thing _oriental:;
+thing _misty:;
+thing _alcove:;
+thing _plover:;
+thing _darkroom:;
+thing _medieval:;
+thing _winding:;
+thing _chasmsw:;
+thing _chasmne:;
+thing _longew:;
+thing _fork:;
+thing _warm:;
+thing _volcano:;
+thing _boulders:;
+thing _limestone:;
+thing _bybarren:;
+thing _barren:;
+thing _ledge:;
+thing _mouth:;
+thing _round:;
+thing _domed:;
+thing _rockslide:;
+thing _square:;
+thing _vending:;
+thing _vm1:;
+thing _vm2:;
+thing _vm3:;
+thing _vm4:;
+thing _vm5:;
+thing _vm6:;
+thing _vm7:;
+thing _vm8:;
+thing _vm9:;
+thing _vm10:;
+thing _vm11:;
+thing _chestroom:;
+thing _column:;
+thing _p1:;
+thing _p2:;
+thing _p2_5:;
+thing _p3:;
+thing _p4:;
+thing _p5:;
+thing _p6:;
+thing _p7:;
+thing _p8:;
+thing _p9:;
+thing _p10:;
+thing _p11:;
+thing _p12:;
+thing _p13:;
+thing _p14:;
+thing _p15:;
+thing _p16:;
+thing _p17:;
+thing _p18:;
+thing _p19:;
+thing _p20:;
+thing _p21:;
+thing _p22:;
+thing _p23:;
+thing _reposne1:;
+thing _repossw1:;
+thing _reposne2:;
+thing _repossw2:;
+thing _office:;
+thing _vault:;
+thing _wooded:;
+ 
+cons SHORT = prop,
+     LONG = prop,
+     TREASURE = prop,
+     CONTENTS = prop,
+     ICONTENTS = prop,
+     LOC = prop,
+     OLDLOC = prop,
+     ILOC = prop,
+     PATHCNT = prop,
+     PATH = prop,
+     MAZE = prop,
+     CONTENT = "_ CONTENT",
+     VISIT = prop,
+     INTRANS = "_ INTRANS",
+     CHECK = "_ CHECK",
+     COMMON = "_ COMMON",
+     CARRY = prop,
+     WATER = prop,
+     LIGHT = prop,
+     MESSAGE = prop,
+     MULTI = "_ MULTI";
+ 
+thing (all, everything):
+   CONTENT;
+ 
+cons keysl1 = "There are some keys on the ground here.",
+     keysl2 = "Lying to one side is a ring with two large identical"
+              " keys on it.";
+ 
+thing (key, ring, keys, set):
+   CARRY,
+   SHORT "set of keys",
+   LONG;
+ 
+cons lampl1 = "There is a shiny brass lamp nearby.",
+     lampl2 = "There is a lamp shining nearby.";
+ 
+thing (lamp, brass, lantern, headlamp):
+   CARRY,
+   SHORT "brass lantern",
+   LONG;
+ 
+cons gratel1 = "The grate is locked.",
+     gratel2 = "The grate is open.";
+ 
+thing grate:
+   LONG;
+ 
+thing grate2:
+   LONG gratel2;
+ 
+thing (food, ration, rations):
+   CARRY,
+   SHORT "tasty food",
+   LONG "There is food here.";
+ 
+cons bottles1 = "small bottle",
+     bottles2 = "small bottle%nwater in the bottle",
+     bottles3 = "small bottle%noil in the bottle",
+     bottlel1 = "There is an empty bottle here.",
+     bottlel2 = "There is a bottle of water here.",
+     bottlel3 = "There is a bottle of oil here.";
+ 
+thing (bottle, jar):
+   CARRY,
+   SHORT,
+   LONG;
+ 
+thing lubricant:
+   CONTENT;
+ 
+thing (h2o, H2O):
+   CONTENT;
+ 
+thing (wicker, cage):
+   CARRY,
+   SHORT "wicker cage",
+   LONG "There is a small wicker cage discarded nearby.";
+ 
+thing (black, rod, wand):
+   CARRY,
+   SHORT "black rod",
+   LONG "A three foot black rod with a rusty star on an end lies nearby.";
+ 
+thing rod2:
+   CARRY,
+   SHORT "black rod",
+   LONG "A three foot black rod with a rusty mark on an end lies nearby.";
+ 
+cons birdl1 = "A cheerful little bird is sitting here singing.",
+     birdl2 = "There is a little bird in the cage.";
+ 
+thing bird:
+   CARRY,
+   SHORT "little bird in cage",
+   LONG;
+ 
+thing stepstop:
+   LONG "Rough stone steps lead down the pit.";
+ 
+thing stepsbottom:
+   LONG "Rough stone steps lead up the dome.";
+ 
+thing (gold, nugget):
+   CARRY,
+   SHORT "large gold nugget",
+   LONG "There is a large sparkling nugget of gold here!",
+   TREASURE;
+ 
+cons axel1 = "There is a little axe here.",
+     axel2 = "There is a little axe lying beside the bear.";
+ 
+thing axe:
+   CARRY,
+   SHORT "dwarf's axe",
+   LONG;
+ 
+thing (dwarf, dwarves):
+   CONTENT;
+ 
+thing (knife, knives):
+   CONTENT;
+ 
+thing pirate:
+   ILOC _p20,
+   LOC _p20,
+   OLDLOC _p20;
+ 
+thing _dwarf1:
+   ILOC _king,
+   LOC _king,
+   OLDLOC _king;
+ 
+thing _dwarf2:
+   ILOC _fissurewest,
+   LOC _fissurewest,
+   OLDLOC _fissurewest;
+ 
+thing _dwarf3:
+   ILOC _y2,
+   LOC _y2,
+   OLDLOC _y2;
+ 
+thing _dwarf4:
+   ILOC _p8,
+   LOC _p8,
+   OLDLOC _p8;
+ 
+thing _dwarf5:
+   ILOC _complex,
+   LOC _complex,
+   OLDLOC _complex;
+ 
+thing snake:
+   LONG "A huge green fierce snake bars the way!";
+ 
+cons dragonl1 = "A huge green fierce dragon bars the way!",
+     dragonl2 = "The body of a huge green dead dragon is lying off to one side.";
+ 
+thing dragon:
+   LONG;
+ 
+cons rugl1 = "The dragon is sprawled out on a Persian rug!!",
+     rugl2 = "There is a Persian rug spread out on the floor!";
+ 
+thing (rug, carpet, Persian, persian):
+   CARRY,
+   SHORT "Persian rug",
+   LONG,
+   TREASURE;
+ 
+thing (precious, jewelry, jewels):
+   CARRY,
+   SHORT "precious jewelry",
+   LONG "There is precious jewelry here!",
+   TREASURE;
+ 
+cons plantl1 = "There is a tiny little plant in the pit, murmuring, %"water,"
+        " water, ...%"",
+     plantl2 = "There is a 12-foot-tall beanstalk stretching up out of the pit,"
+        " bellowing %"WATER!! WATER!!%"",
+     plantl3 = "There is a gigantic beanstalk stretching all the way up to the"
+        " hole.";
+ 
+thing plant:
+   CONTENT,
+   SHORT "plant",
+   LONG;
+ 
+cons stalkl1 = "The top of a 12-foot-tall beanstalk is poking out of the west"
+        " pit.",
+     stalkl2 = "There is a huge beanstalk growing out of the west pit up to"
+        " the hole.";
+ 
+thing beanstalk:
+   CONTENT,
+   SHORT "beanstalk",
+   LONG;
+ 
+thing (golden, eggs, nest, egg):
+   CARRY,
+   SHORT "golden eggs",
+   LONG "There is a large nest here, full of golden eggs!",
+   TREASURE;
+ 
+cons doorl1 = "The way north is barred by a massive, rusty, iron door.",
+     doorl2 = "The way north leads through a massive, rusty, iron door.";
+ 
+thing (door, hinge, hinges):
+   LONG;
+ 
+thing (jewelled, trident):
+   CARRY,
+   SHORT "jewelled trident",
+   LONG "There is a jewel-encrusted trident here!",
+   TREASURE;
+ 
+thing (ming, Ming, vase):
+   CARRY,
+   SHORT "Ming vase",
+   LONG "There is a delicate, precious, Ming vase here!",
+   TREASURE;
+ 
+cons shardsl1 = "The floor is littered with worthless shards of pottery.";
+ 
+thing (shards, pottery):
+   LONG shardsl1;
+ 
+thing emerald:
+   CARRY,
+   SHORT "egg-sized emerald",
+   LONG "There is an emerald here the size of a Plover's egg!",
+   TREASURE;
+ 
+cons notel1 = "A rickety wooden bridge extends across the chasm, vanishing"
+        " into the mist. From a large rusty hook on the bridge's handrail"
+        " hangs a sign reading %"Stop! Pay Troll!%"",
+     notel2 = "A rickety wooden bridge extends across the chasm, vanishing"
+        " into the mist. There is a large rusty hook on the bridge's handrail."
+        " Lying on the bridge is a sign which reads %"Stop! Pay Troll!%"",
+     notel3 = "The wreckage of a bridge (and a dead bear) can be seen at the"
+        " bottom of the chasm.";
+ 
+thing (note, notice, card, inscription, instructions):
+   CONTENT,
+   SHORT "sign",
+   LONG;
+ 
+cons trolll1 = "A burly troll stands by the bridge and insists you throw him"
+        " a treasure before you may cross.",
+     trolll2 = "The troll is nowhere to be seen.";
+ 
+thing troll:
+   LONG;
+ 
+thing spices:
+   CARRY,
+   SHORT "rare spices",
+   LONG "There are rare spices here!",
+   TREASURE;
+ 
+cons bearl1 = "There is a ferocious cave bear eying you from the far end of"
+        " the room!",
+     bearl2 = "There is a gentle cave bear sitting placidly in one corner.",
+     bearl3 = "There is a contented-looking bear wandering about nearby.",
+     bearm1 = "You are being followed by a very large, tame bear.%n%n";
+ 
+thing bear:
+   CONTENT,
+   SHORT "bear",
+   LONG;
+ 
+thing dictionary:
+   CARRY,
+   SHORT "Dwarvish-English dictionary",
+   LONG "There is an ancient dog-eared Dwarvish-English dictionary here.";
+ 
+cons tabletl1 = "A massive stone tablet imbedded in the wall reads:%n"
+        "%"Congratulations on bringing light into the Dark-room!%"",
+     tabletl2 = "The tablet on the north wall has turned to reveal a possible"
+        " passage.";
+ 
+thing tablet:
+   LONG;
+ 
+thing (platinum, pyramid):
+   CARRY,
+   SHORT "platinum pyramid",
+   LONG "There is a platinum pyramid here, 8 inches on a side!",
+   TREASURE;
+ 
+cons swordl1 = "A very rusty sword with a ruby-studded hilt is embedded in the"
+        " boulder!",
+     swordl2 = "A very rusty sword without a hilt is embedded in the boulder.",
+     swords1 = "ruby-studded sword",
+     swords2 = "sword";
+ 
+thing sword:
+   CARRY,
+   SHORT,
+   LONG,
+   TREASURE;
+ 
+thing hilt:
+   CONTENT,
+   SHORT "ruby-studded hilt",
+   LONG "There is a ruby-studded sword hilt here!",
+   TREASURE;
+ 
+thing (shadow, shadowy, figure):
+   LONG "The shadowy figure seems to be trying to attract your attention.";
+ 
+thing (bars, silver):
+   CARRY,
+   SHORT "bars of silver",
+   LONG "There are bars of silver here!",
+   TREASURE;
+ 
+thing clam:
+   CARRY,
+   SHORT "giant clam >grunt!<",
+   LONG "There is an enormous clam here with its shell tightly closed.";
+ 
+thing oyster:
+   CARRY,
+   SHORT "giant oyster >groan!<",
+   LONG "There is an enormous oyster here with its shell tightly closed.";
+ 
+thing (magazine, spelunker, issue, magazines, issues, "%"Spelunker%""):
+   CARRY,
+   SHORT "%"Spelunker Today%"",
+   LONG "There are a few recent issues of %"Spelunker Today%" magazine here.";
+ 
+thing coins:
+   CARRY,
+   SHORT "rare coins",
+   LONG "There are many coins here!",
+   TREASURE;
+ 
+cons quills1 = "quill feather",
+     quills2 = "inky quill feather",
+     quilll1 = "A bird's feather is lying on the ground.",
+     quilll2 = "An inky quill feather is lying nearby.";
+ 
+thing (feather, quill):
+   CONTENT,
+   SHORT,
+   LONG;
+ 
+cons deskl1 = "There is an ancient roll-top desk in the room.",
+     deskl2 = "There is an ancient roll-top desk in the room. The desk is"
+        " open. Sitting on it is a dirty old glass inkwell, half full of dust"
+        " and old dried-up ink.",
+     deskl3 = "There is an ancient roll-top desk in the room. The desk is"
+        " open. The old glass inkwell sitting on it is full of ink.";
+ 
+thing desk:
+   LONG;
+ 
+cons stockl1 = "There is a pile of old stock certificates (with shareholder's"
+        " name left blank) here!",
+     stockl2 = "A pile of old mining shares (in your name!) is here!";
+ 
+thing (stocks, stock, certificates, share, shares, certificate):
+   CARRY,
+   SHORT "old stock shares",
+   LONG,
+   TREASURE;
+ 
+thing (inkwell, ink):
+   CONTENT,
+   SHORT "inkwell";
+ 
+cons chainl1 = "The bear is chained to the wall with a golden chain!",
+     chainl2 = "There is a golden chain locked to the wall!",
+     chainl3 = "There is a golden chain lying in a heap on the floor!",
+     chainl4 = "Hanging down through the mist is a golden chain!";
+ 
+thing chain:
+   CARRY,
+   SHORT "golden chain",
+   LONG,
+   TREASURE;
+ 
+thing (velvet, pillow):
+   CARRY,
+   SHORT "velvet pillow",
+   LONG "A small velvet pillow lies on the floor.";
+ 
+cons bridgel1 = "A crystal bridge now spans the fissure.",
+     bridgel2 = "The crystal bridge has vanished!";
+ 
+thing bridge:
+   LONG;
+ 
+thing diamonds:
+   CARRY,
+   SHORT "several diamonds",
+   LONG "There are diamonds here!",
+   TREASURE;
+ 
+thing (treasure, chest, box):
+   CARRY,
+   SHORT "treasure chest",
+   LONG "The pirate's treasure chest is here!",
+   TREASURE;
+ 
+thing pearl:
+   CARRY,
+   SHORT "glistening pearl",
+   LONG "Off to one side lies a glistening pearl!",
+   TREASURE;
+ 
+thing message:
+   LONG "There is a message scrawled in the dust in a flowery script, reading:"
+      " %"This is not the maze where the pirate leaves his treasure chest.%"";
+ 
+thing (vending, machine):
+   LONG "There is a massive vending machine here. The instructions on it read:"
+      " %"Drop coins here to receive fresh batteries.%"";
+ 
+cons batteriesl1 = "There are fresh batteries here.",
+     batteriesl2 = "Some worn-out batteries have been discarded nearby.";
+ 
+thing batteries:
+   CARRY,
+   SHORT "batteries",
+   LONG;
+ 
+thing hat:
+   CARRY,
+   SHORT "golden wizard's hat",
+   LONG "A tall pointed wizard's hat, made of solid gold, and"
+      " inlaid with moons and stars carved from precious jewels,"
+      " shimmers in midair!",
+   TREASURE;
+ 
+thing (cloak, robe):
+   CONTENT,
+   SHORT "robe",
+   LONG "Suspended a few feet off the ground is a wizard's robe of"
+      " blue velvet.";
+ 
+thing north:;
+thing south:;
+thing east:;
+thing west:;
+thing northeast:;
+thing northwest:;
+thing southeast:;
+thing southwest:;
+thing up:;
+thing down:;
+thing upstream:;
+thing downstream:;
+thing enter:;
+thing exit:;
+thing climb:;
+thing jump:;
+thing cross:;
+ 
+thing _:
+   1 (north, south, east, west, northeast, northwest, southeast, southwest,
+      up, down, upstream, downstream, enter, exit, climb, jump, cross),
+   2 (_start, _building, _hill, _valley, _forest1, _forest2, _slit,
+      _gratetop),
+   3 (_start, _building, _hill, _valley, _forest1, _forest2, _slit,
+      _gratetop, _gratebelow, _cobblecrawl, _debrisroom, _awkward,
+      _birdchamber, _pittop),
+   4 (pirate, _dwarf1, _dwarf2, _dwarf3, _dwarf4, _dwarf5);
+ 
+proc _yes()result:
+   var _list, _word, _answer;
+ 
+   while _list := input;
+      if _list isnt absent then
+         _answer := nil;
+         for _word in _list do
+            if _word = "yes" or _word = "no" or _word = "ok" or
+                  _word = "YES" or _word = "NO" or _word = "OK" or
+                  _word = "y" or _word = "n" or _word = "Y" or _word = "N" then
+               _answer := _word;
+            fi;
+            _list <- _word;
+         od;
+      else
+         _answer := "no";
+      fi;
+      _answer = nil
+   do
+      output "Please answer the question.%n%n";
+   od;
+   _answer ~= "no" and _answer ~= "NO" and _answer ~= "n" and _answer ~= "N"
+corp;
+ 
+proc _see():
+   var x;
+ 
+   if _loc.VISIT is absent then
+      output _loc.SHORT, newline;
+   else
+      output _loc.if _verbose or _loc.VISIT = 1 then LONG else SHORT fi, newline;
+      _loc.VISIT := _loc.VISIT + 1;
+      if _loc.VISIT = 6 then _loc.VISIT := 1 fi;
+   fi;
+   for x in _loc.CONTENTS do output newline, x.LONG, newline od;
+   x := nil;
+   output newline;
+   if _bearfollowing then output bearm1 fi;
+   if _robeon then output "You are wearing a long wizard's robe of blue velvet.%n%n" fi;
+corp;
+ 
+proc _die(): corp;
+ 
+proc _move(dest):
+   _oldloc := _loc;
+   if dest is table then
+      if _dwarfflag > 1 then
+         _temp1 := false;
+         for _temp2 in _dwarves do
+            if _temp2 ~= pirate and
+                  _temp2.LOC = _loc and _temp2.OLDLOC = dest then
+               _temp1 := true;
+            fi;
+         od;
+         if _temp1 then
+            output "A little dwarf with a big knife blocks your way.%n%n";
+            dest := _loc;
+         fi;
+      fi;
+      _loc := dest;
+   elif dest is proc then
+      dest();
+   elif _wasdark then
+      ;
+   elif dest is string then
+      output dest, newline, newline;
+   else
+      output "There is no way to go in that direction.%n%n";
+   fi;
+   if dest isnt proc then
+      if _loc.LIGHT isnt absent or
+            _lampon and (lamp in _carrying or lamp in _loc.CONTENTS) then
+         _see();
+         _wasdark := false;
+      elif _wasdark then
+         output "You fell into a pit and broke every bone in your body!%n%n";
+         _die();
+      else
+         output "It is now pitch dark. If you proceed you will likely fall into"
+            " a pit.%n%n";
+         _wasdark := true;
+      fi;
+   fi;
+corp;
+ 
+proc _invent():
+   var x;
+ 
+   if _carrying then
+      output "You are currently holding the following:%n%n";
+      for x in _carrying do output x.SHORT, newline od;
+      x := nil;
+      output newline;
+   else
+      output "You're not carrying anything.%n%n";
+   fi;
+   if _bearfollowing then output bearm1 fi;
+   if _robeon then output "You are wearing a long wizard's robe of blue velvet.%n%n" fi;
+corp;
+ 
+proc _fswitch():
+   _move(if ? < 5000 then _forest1 else _forest2 fi);
+corp;
+ 
+proc _entercave():
+   if not _gotin then
+      _score := _score + 25;
+      _gotin := true;
+   fi;
+   _move(_gratebelow);
+corp;
+ 
+proc _die():
+   var x;
+ 
+   if _closing then
+      output "It looks as though you're dead. Well, seeing as how"
+         " it is close to closing time anyway, I think we'll call"
+         " it a day.%n%n";
+      _quit := true;
+   else
+      output if _diecount = 0 then
+            "Oh dear, you seem to have gotten yourself killed. I might be able"
+            " to help you out, but I've never really done this before. Do you"
+            " want me to try to reincarnate you?%n%n"
+         elif _diecount = 1 then
+            "You clumsy oaf, you've done it again! I don't know how long I can"
+            " keep this up. Do you want me to try reincarnating you again?%n%n"
+         else
+            "Now you've really done it! I'm out of orange smoke! You don't"
+            " expect me to do a decent reincarnation without any orange smoke,"
+            " do you?%n%n"
+         fi;
+      if _yes() then
+         output if _diecount = 0 then
+               "All right. But don't blame me if something goes wr....%n"
+               "                               --- POOF!! ---%n"
+               "You are engulfed in a cloud of orange smoke. Coughing and"
+               " gasping, you emerge from the smoke and find....%n%n"
+            elif _diecount = 1 then
+               "Okay, now where did I put my orange smoke....  >POOF!<%n"
+               "Everything disappears in a dense cloud of orange smoke.%n%n"
+            else
+               "Okay, if you're so smart, do it yourself! I'm leaving!%n%n"
+            fi;
+         _diecount := _diecount + 1;
+         _quit := _diecount > 2;
+      else
+         _quit := true;
+      fi;
+      if not _quit then
+         if lamp in _carrying then
+            _carrying <- lamp;
+            _start.CONTENTS <+ lamp;
+            _lampon := false;
+            lamp.LONG := lampl1;
+         fi;
+         for x in _carrying do
+            _carrying <- x;
+            _loc.CONTENTS <+ x;
+         od;
+         _carrycount := 0;
+         _move(_building);
+      fi;
+   fi;
+   _score := _score - 10;
+   _listerror := true;
+corp;
+ 
+proc _breakneck():
+   output "You are at the bottom of the pit with a broken neck.%n%n";
+   _die();
+corp;
+ 
+proc _fissure1():
+   output "You didn't make it.%n%n";
+   _die();
+corp;
+ 
+cons _pastsnake = "You can't get by the snake.";
+ 
+proc _tosecret1():
+   if ? < 3500 or _king.north ~= _pastsnake then
+      _move(_sew);
+   else
+      output _pastsnake, newline, newline;
+   fi;
+corp;
+ 
+proc _westpit1():
+   if plant.LONG = plantl1 then
+      output "There is nothing here to climb. Use %"up%" or %"out%" to leave"
+         " the pit.%n%n";
+   elif plant.LONG = plantl2 then
+      output "You have climbed up the plant and out of the pit.%n%n";
+      _move(_twopitwest);
+   else
+      output "You clamber up the plant and scurry through the hole at the"
+         " top.%n%n";
+      _move(_narrow);
+   fi;
+corp;
+ 
+proc _parallel():
+   output "You have crawled through a very low wide passage parallel to and"
+      " north of the Hall of Mists.%n%n";
+   _move(if _loc = _fissurewest then _mistswest else _fissurewest fi);
+corp;
+ 
+cons _bqm = "You have crawled around in some little holes and wound up back"
+            " in the main passage.%n%n";
+ 
+proc _bedquilt2():
+   if ? < 8000 then
+      output _bqm;
+   else
+      _move(_slabroom);
+   fi;
+corp;
+ 
+proc _bedquilt3():
+   if ? < 8000 then
+      output _bqm;
+   elif ? < 5000 then
+      _move(_secretns2);
+   else
+      _move(_dusty);
+   fi;
+corp;
+ 
+proc _bedquilt1():
+   if ? < 6000 then
+      output _bqm;
+   elif ? < 7500 then
+      _move(_low);
+   else
+      _move(_secret3);
+   fi;
+corp;
+ 
+proc _bedquilt4():
+   if ? < 8000 then
+      output _bqm;
+   else
+      _move(_anteroom);
+   fi;
+corp;
+ 
+proc _swisscheese1():
+   if ? < 8000 then
+      output _bqm;
+   else
+      _move(_tew);
+   fi;
+corp;
+ 
+proc _swisscheese2():
+   if ? < 5000 then
+      output _bqm;
+   else
+      _move(_oriental);
+   fi;
+corp;
+ 
+proc _squeeze():
+   if _carrycount > 1 or _carrycount = 1 and not emerald in _carrying then
+      output "Something you're carrying won't fit through the tunnel with you."
+         " You'd best take inventory and drop something.%n%n";
+   else
+      _move(if _loc = _plover then _alcove else _plover fi);
+   fi;
+corp;
+ 
+proc _clamcheck():
+   if clam in _carrying then
+      output "You can't fit this five-foot clam through that little passage!%n%n";
+   elif oyster in _carrying then
+      output "You can't fit this five-foot oyster through that little passage!%n%n";
+   else
+      _move(_complex);
+   fi;
+corp;
+ 
+proc _wit():
+   if ? < 9500 then
+      output _bqm;
+   else
+      _move(_anteroom);
+   fi;
+corp;
+ 
+proc _offstal():
+   _move(if ? < 4000 then _p11
+         elif ? < 5000 then _p16
+         else _p2 fi);
+corp;
+ 
+cons troll1 = "The troll refuses to let you cross.%n%n",
+     troll2 = "The troll steps out from beneath the bridge and"
+              " blocks your way.%n%n";
+ 
+proc _bridgesw():
+   if note.LONG = notel3 then
+      output "There is no longer any way across the chasm.%n%n";
+   elif troll.LONG = trolll1 then
+      output troll1;
+   elif _trollflag = 2 then
+      output troll2;
+      troll.LONG := trolll1;
+      _trollflag := 0;
+   else
+      _move(_chasmne);
+   fi;
+corp;
+ 
+proc _bridgene():
+   if troll.LONG = trolll1 then
+      output troll1;
+   elif _trollflag = 0 then
+      output troll2;
+      troll.LONG := trolll1;
+   elif _bearfollowing then
+      output "Just as you reach the other side, the bridge buckles beneath" 
+         " the weight of the bear, who was still following you around." 
+         " You scrabble desperately for support, but as the bridge collapses" 
+         " you stumble back and fall into the chasm.%n%n"; 
+      note.LONG := notel3; 
+      _bearfollowing := false;
+      _chasmsw.CONTENTS <- troll; 
+      _chasmsw -- MESSAGE; 
+      _breakneck(); 
+   else
+      _move(_chasmsw);
+   fi;
+corp;
+ 
+proc _tovending():
+   _seenbat := true;
+   _move(_vending);
+corp;
+ 
+proc _tomists():
+   if _dwarfflag = 0 and not _closing then _dwarfflag := 1 fi;
+   _move(_mists);
+corp;
+ 
+thing _start:
+   LIGHT,
+   WATER,
+   SHORT "You're in front of building again.",
+   LONG "You are standing at the end of a road before a small brick"
+      " building. Around you is a forest. A small stream flows out of the"
+      " building and down a gully.",
+   CONTENTS (),
+   VISIT 1,
+   north _forest1,
+   south _valley,
+   east _building,
+   west _hill,
+   up _hill,
+   down _valley,
+   downstream _valley,
+   enter _building;
+ 
+cons _stream1 = "The stream flows out through a pair of 1 foot diameter"
+   " sewer pipes. It would be advisable to use the exit.";
+ 
+thing _building:
+   LIGHT,
+   WATER,
+   SHORT "You're inside building.",
+   LONG "You are inside a building, a well house for a large spring.",
+   CONTENTS (keys, lamp, food, bottle),
+   VISIT 1,
+   west _start,
+   downstream _stream1,
+   enter _start,
+   exit _start;
+ 
+thing _hill:
+   LIGHT,
+   SHORT "You're on top of hill.",
+   LONG "You have walked up a hill, still in the forest. The road slopes"
+      " back down the other side of the hill. There is a building in the"
+      " distance.",
+   CONTENTS (),
+   VISIT 1,
+   north _start,
+   south _forest1,
+   east _start,
+   down _start;
+ 
+thing _valley:
+   LIGHT,
+   WATER,
+   SHORT "You're in valley.",
+   LONG "You are in a valley in the forest beside a stream tumbling along"
+      " a rocky bed.",
+   CONTENTS (),
+   VISIT 1,
+   north _start,
+   south _slit,
+   east _forest1,
+   west _forest1,
+   up _forest1,
+   down _slit,
+   upstream _start,
+   downstream _slit;
+ 
+thing _forest1:
+   LIGHT,
+   SHORT "You're in forest.",
+   LONG "You are in open forest, with a deep valley to one side.",
+   CONTENTS (),
+   VISIT 1,
+   north _fswitch,
+   south _forest1,
+   east _valley,
+   west _forest1,
+   down _valley;
+ 
+thing _forest2:
+   LIGHT,
+   SHORT "You're in forest.",
+   LONG "You are in open forest near both a valley and a road.",
+   CONTENTS (),
+   VISIT 1,
+   north _start,
+   south _forest1,
+   east _valley,
+   west _valley,
+   down _valley;
+ 
+cons _slit1 = "You don't fit through a two-inch slit!";
+ 
+thing _slit:
+   LIGHT,
+   WATER,
+   SHORT "You're at slit in streambed.",
+   LONG "At your feet all the water of the stream splashes into a 2-inch"
+      " slit in the rock. Downstream the streambed is bare rock.",
+   CONTENTS (),
+   VISIT 1,
+   north _valley,
+   south _gratetop,
+   east _forest1,
+   west _forest1,
+   down _slit1,
+   enter _slit1,
+   upstream _valley,
+   downstream _gratetop;
+ 
+cons _throughgrate = "You can't go through a locked steel grate!",
+     _noexit = "A mysterious recorded voice groans into life and"
+        " announces: %"This exit is closed. Please leave by main"
+        " office.%"";
+ 
+thing _gratetop:
+   LIGHT,
+   SHORT "You're outside grate.",
+   LONG "You are in a 20-foot depression floored with bare dirt. Set into"
+      " the dirt is a strong steel grate mounted in concrete. A dry"
+      " streambed leads into the depression.",
+   CONTENTS (grate),
+   VISIT 1,
+   north _slit,
+   south _forest1,
+   east _forest1,
+   west _forest1,
+   down,
+   upstream _slit,
+   enter;
+ 
+thing _gratebelow:
+   LIGHT,
+   SHORT "You're below the grate.",
+   LONG "You are in a small chamber beneath a 3x3 steel grate to the surface."
+      " A low crawl over cobbles leads inwards to the west.",
+   CONTENTS (grate),
+   VISIT 1,
+   west _cobblecrawl,
+   up,
+   exit;
+ 
+thing _cobblecrawl:
+   LIGHT,
+   SHORT "You're in cobble crawl.",
+   LONG "You are crawling over cobbles in a low passage. There is a dim"
+      " light at the east end of the passage.",
+   CONTENTS (cage),
+   VISIT 1,
+   east _gratebelow,
+   west _debrisroom;
+ 
+thing _debrisroom:
+   SHORT "You're in Debris Room.",
+   LONG "You are in a debris room filled with stuff washed in from the"
+      " surface. A low wide passage with cobbles becomes plugged with mud"
+      " and debris here, but an awkward canyon leads upward and west. A"
+      " note on the wall says %"Magic word XYZZYX%".",
+   CONTENTS (rod),
+   VISIT 1,
+   MESSAGE "Magic word XYZZYX",
+   east _cobblecrawl,
+   west _awkward,
+   up _awkward;
+ 
+thing _awkward:
+   SHORT "You're in awkward canyon.",
+   LONG "You are in an awkward sloping east/west canyon.",
+   CONTENTS (),
+   VISIT 1,
+   east _debrisroom,
+   west _birdchamber,
+   up _birdchamber,
+   down _debrisroom;
+ 
+thing _birdchamber:
+   SHORT "You're in Bird Chamber.",
+   LONG "You are in a splendid chamber thirty feet high. The walls are"
+      " frozen rivers of orange stone. An awkward canyon and a good passage"
+      " exit from the east and west sides of the chamber.",
+   CONTENTS (bird),
+   VISIT 1,
+   east _awkward,
+   west _pittop;
+ 
+thing _pittop:
+   SHORT "You're at top of small pit.",
+   LONG "At your feet is a small pit breathing traces of white mist. An"
+      " east passage ends here except for a small crack leading on.",
+   CONTENTS (stepstop),
+   VISIT 1,
+   east _birdchamber,
+   west "The crack is far too small for you to follow.",
+   down _tomists;
+ 
+thing _mists:
+   SHORT "You're in Hall of Mists.",
+   LONG "You are at one end of a vast hall stretching forward out of sight"
+      " to the west. There are openings to either side. Nearby, a wide"
+      " stone staircase leads downward. The hall is filled with wisps of"
+      " white mist swaying to and fro almost as if alive. A cold wind blows"
+      " up the staircase. There is a passage at the top of a dome behind"
+      " you.",
+   CONTENTS (stepsbottom),
+   VISIT 1,
+   PATHCNT 3,
+   PATH (_goldroom, _fissureeast, _king),
+   north _king,
+   south _goldroom,
+   east _pittop,
+   west _fissureeast,
+   up _pittop,
+   down _king;
+ 
+thing _goldroom:
+   SHORT "You're in Nugget of Gold Room.",
+   LONG "This is a low room with a crude note on the wall. The note says,"
+      " %"You won't get it up the steps.%"",
+   CONTENTS (gold),
+   VISIT 1,
+   MESSAGE "You won't get it up the steps.",
+   PATH _mists,
+   north _mists,
+   exit _mists;
+ 
+cons _fissure2 = "I respectfully suggest you cross the bridge instead of"
+   " jumping.",
+     _fissure3 = "There is no way across the fissure.";
+ 
+thing _fissureeast:
+   SHORT "You're on east bank of fissure.",
+   LONG "You are on the east bank of a fissure slicing clear across the"
+      " hall. The mist is quite thick here, and the fissure is too wide to"
+      " jump.",
+   CONTENTS (),
+   VISIT 1,
+   PATHCNT 2,
+   PATH (_mists, _fissurewest),
+   east _mists,
+   west,
+   jump,
+   cross;
+ 
+thing _fissurewest:
+   SHORT "You are on the west side of the fissure in the Hall of Mists.",
+   CONTENTS (diamonds),
+   PATHCNT 2,
+   PATH (_fissureeast, _mistswest),
+   north _parallel,
+   east,
+   west _mistswest,
+   jump,
+   cross;
+ 
+thing _mistswest:
+   SHORT "You're at west end of Hall of Mists.",
+   LONG "You are at the west end of the Hall of Mists. A low wide crawl"
+      " continues west and another goes north. To the south is a little"
+      " passage 6 feet off the floor.",
+   CONTENTS (),
+   VISIT 1,
+   PATHCNT 3,
+   PATH (_fissurewest, _p1, _longeast),
+   north _parallel,
+   south _p1,
+   east _fissurewest,
+   west _longeast,
+   up _p1;
+ 
+thing _king:
+   SHORT "You're in Hall of Mt King.",
+   LONG "You are in the Hall of the Mountain King, with passages off in all"
+      " directions.",
+   CONTENTS (snake),
+   VISIT 1,
+   PATHCNT 5,
+   PATH (_mists, _sschamber, _lnsoew, _sew, _kingwest),
+   north,
+   south,
+   east _mists,
+   west,
+   southwest _tosecret1,
+   up _mists;
+ 
+thing _sschamber:
+   SHORT "You are in the south side chamber.",
+   CONTENTS (jewelry),
+   PATH _king,
+   north _king,
+   exit _king;
+ 
+thing _kingwest:
+   SHORT "You are in the west side chamber of the Hall of the Mountain King."
+      " A passage continues west and up here.",
+   CONTENTS (coins),
+   PATHCNT 2,
+   PATH (_king, _hnslew),
+   east _king,
+   west _hnslew,
+   up _hnslew;
+ 
+thing _hnslew:
+   SHORT "You are at a crossover of a high N/S passage and a low E/W one.",
+   CONTENTS (),
+   PATHCNT 4,
+   PATH (_kingwest, _de2, _longeast, _longwest),
+   north _de2,
+   south _longwest,
+   east _kingwest,
+   west _longeast;
+ 
+thing _de2:
+   SHORT "Dead end",
+   CONTENTS (),
+   PATH _hnslew,
+   south _hnslew,
+   exit _hnslew;
+ 
+thing _longeast:
+   SHORT "You're at east end of long hall.",
+   LONG "You are at the east end of a very long hall apparently without side"
+      " chambers. To the east a low wide crawl slants up. To the north a round"
+      " two foot hole slants down.",
+   CONTENTS (),
+   VISIT 1,
+   PATHCNT 3,
+   PATH (_hnslew, _mistswest, _longwest),
+   north _hnslew,
+   east _mistswest,
+   west _longwest,
+   up _mistswest,
+   down _hnslew;
+ 
+thing _longwest:
+   SHORT "You're at west end of long hall.",
+   LONG "You are at the west end of a very long featureless hall. The hall"
+      " joins up with a narrow north/south passage.",
+   CONTENTS (),
+   VISIT 1,
+   PATHCNT 3,
+   PATH (_hnslew, _longeast, _vm1),
+   north _hnslew,
+   south _vm1,
+   east _longeast;
+ 
+thing _lnsoew:
+   SHORT "You're in a low N/S passage over an E/W passage.",
+   LONG "You are in a low N/S passage at a hole in the floor. The hole goes"
+      " down to an E/W passage.",
+   CONTENTS (silver),
+   VISIT 1,
+   PATHCNT 3,
+   PATH (_king, _y2, _dirty),
+   north _y2,
+   south _king,
+   down _dirty,
+   exit _king;
+ 
+thing _y2:
+   SHORT "You're at %"Y2%".",
+   LONG "You are in a large room, with a passage to the south, a passage to"
+      " the west, and a wall of broken rock to the east. There is a large"
+      " %"Y2%" on a rock in the room's center.",
+   CONTENTS (dictionary),
+   VISIT 1,
+   PATHCNT 3,
+   PATH (_lnsoew, _jumble, _windowright),
+   south _lnsoew,
+   east _jumble,
+   west _windowright;
+ 
+thing _windowright:
+   SHORT "You're at window on pit.",
+   LONG "You're at a low window overlooking a huge pit, which extends up out"
+      " of sight. A floor is indistinctly visible over 50 feet below. Traces"
+      " of white mist cover the floor of the pit, becoming thicker to the"
+      " right. Marks in the dust around the window would seem to indicate"
+      " that someone has been here recently. Directly across the pit from"
+      " you and 25 feet away there is a similar window looking into a lighted"
+      " room. A shadowy figure can be seen there peering back at you.",
+   CONTENTS (figure),
+   VISIT 1,
+   PATH _y2,
+   east _y2,
+   jump _breakneck;
+ 
+thing _jumble:
+   SHORT "You are in a jumble of rocks, with cracks everywhere.",
+   CONTENTS (),
+   PATH _y2,
+   up _mists,
+   down _y2;
+ 
+thing _sew:
+   SHORT "You're in secret E/W canyon above tight canyon.",
+   CONTENTS (),
+   PATHCNT 2,
+   PATH (_king, _secretns1),
+   east _king,
+   west _secretne1,
+   down _wns;
+ 
+cons _dragon1 = "The dragon looks rather nasty. You'd best not try to get"
+         " by.",
+     secretnes1 = "You are in a secret canyon which exits to the north and"
+         " east.";
+ 
+thing _secretne1:
+   SHORT secretnes1,
+   CONTENTS (dragon, rug),
+   north _dragon1,
+   east _sew;
+ 
+thing _secretne2:
+   SHORT secretnes1,
+   CONTENTS (dragon, rug),
+   north _secretns1,
+   east _dragon1;
+ 
+thing _secretne3:
+   SHORT secretnes1,
+   CONTENTS (),
+   north _secretns1,
+   east _sew;
+ 
+thing _secretns1:
+   SHORT "You are in a secret N/S canyon above a large room.",
+   CONTENTS (),
+   PATHCNT 3,
+   PATH (_sew, _mirrorcanyon, _slabroom),
+   north _mirrorcanyon,
+   south _secretne2,
+   down _slabroom;
+ 
+thing _slabroom:
+   SHORT "You're in Slab Room.",
+   LONG "You are in a large low circular chamber whose floor is an immense"
+      " slab fallen from the ceiling (Slab Room). East and west there once"
+      " were large passages, but they are now filled with boulders. Low"
+      " small passages go north and south, and the south one quickly bends"
+      " west around the boulders.",
+   CONTENTS (),
+   VISIT 1,
+   PATHCNT 3,
+   PATH (_secretns1, _bedquilt, _twopitwest),
+   north _bedquilt,
+   south _twopitwest,
+   up _secretns1;
+ 
+thing _mirrorcanyon:
+   SHORT "You're in Mirror Canyon.",
+   LONG "You are in a north/south canyon about 25 feet across. The floor"
+      " is covered by white mist seeping in from the north. The walls extend"
+      " upward for well over 100 feet. Suspended from some unseen point far"
+      " above you, an enormous two-sided mirror is hanging parallel to and"
+      " midway between the canyon walls. (The mirror is obviously provided"
+      " for the use of the dwarves, who as you know, are extremely vain.)"
+      " A small window can be seen in either wall, some fifty feet up.",
+   CONTENTS (),
+   VISIT 1,
+   PATHCNT 2,
+   PATH (_secretns1, _reservoir),
+   north _reservoir,
+   south _secretns1;
+ 
+thing _reservoir:
+   WATER,
+   SHORT "You're at Reservoir.",
+   LONG "You are at the edge of a large underground reservoir. An opaque"
+      " cloud of white mist fills the room and rises rapidly upward. The"
+      " lake is fed by a stream, which tumbles out of a hole in the wall"
+      " about 10 feet overhead and splashes noisily into the water somewhere"
+      " within the mist. The only passage goes back toward the south.",
+   CONTENTS (),
+   VISIT 1,
+   PATH _mirrorcanyon,
+   south _mirrorcanyon,
+   exit _mirrorcanyon;
+ 
+thing _wns:
+   SHORT "You are at a wide place in a very tight N/S canyon.",
+   CONTENTS (),
+   PATHCNT 3,
+   PATH (_tight, _sew, _tew),
+   north _tew,
+   south _tight;
+ 
+thing _tight:
+   SHORT "The canyon here becomes too tight to go farther south.",
+   CONTENTS (),
+   PATH _wns,
+   north _wns,
+   exit _wns;
+ 
+thing _tew:
+   SHORT "You are in a tall E/W canyon. A low tight crawl goes 3 feet north"
+      " and seems to open up.",
+   CONTENTS (),
+   PATHCNT 3,
+   PATH (_wns, _de1, _swisscheese),
+   north _swisscheese,
+   east _wns,
+   west _de1;
+ 
+thing _de1:
+   SHORT "The canyon runs into a mass of boulders -- dead end.",
+   CONTENTS (),
+   PATH _tew,
+   south _tew;
+ 
+thing _dirty:
+   SHORT "You're in dirty passage.",
+   LONG "You are in a dirty broken passage. To the east is a crawl. To the"
+      " west is a large passage. Above you is a hole to another passage.",
+   CONTENTS (),
+   VISIT 1,
+   PATHCNT 3,
+   PATH (_king, _cleantop, _dusty),
+   east _cleantop,
+   west _dusty,
+   up _lnsoew;
+ 
+thing _cleantop:
+   SHORT "You are on the brink of a small clean climbable pit. A crawl"
+      " leads west.",
+   CONTENTS (),
+   PATHCNT 2,
+   PATH (_dirty, _pit),
+   west _dirty,
+   down _pit,
+   climb _pit;
+ 
+thing _pit:
+   WATER,
+   SHORT "You are in the bottom of a small pit with a little stream, which"
+      " enters and exits through tiny slits.",
+   CONTENTS (),
+   PATH _cleantop,
+   up _cleantop,
+   upstream _slit1,
+   downstream _slit1,
+   enter _slit1,
+   exit _cleantop;
+ 
+thing _dusty:
+   SHORT "You're in dusty rock room.",
+   LONG "You are in a large room full of dusty rocks. There is a big hole"
+      " in the floor. There are cracks everywhere and a passage leading"
+      " east.",
+   CONTENTS (),
+   VISIT 1,
+   PATHCNT 3,
+   PATH (_dirty, _complex, _bedquilt),
+   east _dirty,
+   down _complex;
+ 
+thing _complex:
+   SHORT "You're at Complex Junction.",
+   LONG "You are at a complex junction. A low hands and knees passage from"
+      " the north joins a higher crawl from the east to make a walking"
+      " passage going west. There is also a large room above. The air is"
+      " damp here.",
+   CONTENTS (),
+   VISIT 1,
+   PATHCNT 4,
+   PATH (_dusty, _shell, _anteroom, _bedquilt),
+   north _shell,
+   east _anteroom,
+   west _bedquilt,
+   up _dusty;
+ 
+thing _shell:
+   SHORT "You're in Shell Room.",
+   LONG "You're in a large room carved out of sedimentary rock. The floor"
+      " and walls are littered with bits of shells imbedded in the stone."
+      " A shallow passage proceeds downward, and a somewhat steeper one"
+      " leads up. A low hands and knees passage enters from the south.",
+   CONTENTS (clam),
+   VISIT 1,
+   PATHCNT 3,
+   PATH (_complex, _arched, _ragged),
+   south _clamcheck,
+   up _arched,
+   down _ragged;
+ 
+thing _arched:
+   SHORT "You're in arched hall.",
+   LONG "You are in an arched hall. A coral passage once continued up and"
+      " east from here, but is now blocked by debris. The air smells of sea"
+      " water.",
+   CONTENTS (),
+   VISIT 1,
+   PATH _shell,
+   down _shell,
+   exit _shell;
+ 
+thing _ragged:
+   SHORT "You are in a long sloping corridor with ragged sharp walls.",
+   CONTENTS (),
+   PATHCNT 2,
+   PATH (_shell, _culdesac),
+   up _shell,
+   down _culdesac;
+ 
+thing _culdesac:
+   SHORT "You are in a cul-de-sac about eight feet across.",
+   CONTENTS (),
+   PATH _ragged,
+   up _ragged,
+   exit _ragged;
+ 
+thing _anteroom:
+   SHORT "You're in Anteroom.",
+   LONG "You are in an anteroom leading to a large passage to the east."
+      " Small passages go west and up. The remnants of recent digging are"
+      " evident. A notice in midair here says %"Cave under construction"
+      " beyond this point. Proceed at own risk. (Witt Construction"
+      " Company)%"",
+   CONTENTS (magazines),
+   VISIT 1,
+   MESSAGE "Cave under construction beyond this point. Proceed at own risk."
+         " (Witt Construction Company)",
+   PATHCNT 2,
+   PATH (_complex, _bedquilt),
+   east _witt,
+   west _bedquilt,
+   up _complex;
+ 
+thing _witt:
+   SHORT "You're at Witt's End.",
+   LONG "You are at Witt's end. Passages lead off in ALL directions.",
+   CONTENTS (),
+   VISIT 1,
+   north _wit,
+   south _wit,
+   east _wit,
+   west "You have crawled around in some little holes and found your way"
+      " blocked by a recent cave-in. You are now back in the main passage.",
+   up _wit,
+   down _wit,
+   northeast _wit,
+   northwest _wit,
+   southeast _wit,
+   southwest _wit;
+ 
+thing _bedquilt:
+   SHORT "You are in Bedquilt, a long east/west passage with holes everywhere."
+      " To explore at random, select north, south, up, or down.",
+   CONTENTS (),
+   PATHCNT 8,
+   PATH (_dusty, _complex, _anteroom, _secretns2, _secret3, _low, _swisscheese, _slabroom),
+   north _bedquilt1,
+   south _bedquilt2,
+   east _complex,
+   west _swisscheese,
+   up _bedquilt3,
+   down _bedquilt4;
+ 
+thing _secret3:
+   SHORT "You're at junction of three secret canyons.",
+   LONG "You are in a secret canyon at a junction of three canyons, bearing"
+      " north, south, and SE. The north one is as tall as the other two"
+      " combined.",
+   CONTENTS (),
+   VISIT 1,
+   PATHCNT 3,
+   PATH (_bedquilt, _windowleft, _secretns2),
+   north _windowleft,
+   south _secretns2,
+   southeast _bedquilt;
+ 
+thing _windowleft:
+   SHORT "You're at Window on Pit.",
+   LONG "You're at a low window overlooking a huge pit, which extends up"
+      " out of sight. A floor is indistinctly visible over 50 feet below."
+      " Traces of white mist cover the floor of the pit, becoming thicker"
+      " to the left. Marks in the dust around the window would seem to"
+      " indicate that someone has been here recently. Directly across the"
+      " pit from you and 25 feet away there is a similar window looking into"
+      " a lighted room. A shadowy figure can be seen there peering back at"
+      " you.",
+   CONTENTS (figure),
+   VISIT 1,
+   PATH _secret3,
+   west _secret3,
+   jump _breakneck;
+ 
+thing _secretns2:
+   SHORT "You are in a secret N/S canyon above a sizeable passage.",
+   CONTENTS (),
+   PATHCNT 3,
+   PATH (_bedquilt, _secret3, _stalactite),
+   north _secret3,
+   south _stalactite,
+   down _bedquilt;
+ 
+thing _stalactite:
+   SHORT "You're at top of stalactite.",
+   LONG "A large stalactite extends from the roof and almost reaches the"
+      " floor below. You could climb down it, and jump from it to the floor,"
+      " but having done so you would be unable to reach it to climb back up.",
+   CONTENTS (),
+   VISIT 1,
+   PATH _secretns2,
+   north _secretns2,
+   down _offstal,
+   climb _offstal,
+   jump _offstal;
+ 
+thing _swisscheese:
+   SHORT "You're in Swiss Cheese Room.",
+   LONG "You are in a room whose walls resemble swiss cheese. Obvious"
+      " passages go west, east, NE, and NW. Part of the room is occupied"
+      " by a large bedrock block.",
+   CONTENTS (),
+   VISIT 1,
+   PATHCNT 5,
+   PATH (_bedquilt, _softroom, _twopiteast, _tew, _oriental),
+   south _swisscheese1,
+   east _softroom,
+   west _twopiteast,
+   northeast _bedquilt,
+   northwest _swisscheese2;
+ 
+thing _softroom:
+   SHORT "You're in Soft Room.",
+   LONG "You are in the Soft Room. The walls are covered with heavy curtains,"
+      " the floor with a thick carpet. Moss covers the ceiling.",
+   CONTENTS (pillow),
+   VISIT 1,
+   PATH _swisscheese,
+   west _swisscheese,
+   exit _swisscheese;
+ 
+thing _twopiteast:
+   SHORT "You're at east end of Twopit Room.",
+   LONG "You are at the east end of the Twopit Room. The floor here is"
+      " littered with thin rock slabs, which make it easy to descend the"
+      " pits. There is a path here bypassing the pits to connect passages"
+      " from east and west. There are holes all over, but the only big one"
+      " is on the wall directly over the west pit where you can't get to it.",
+   CONTENTS (),
+   VISIT 1,
+   PATHCNT 3,
+   PATH (_swisscheese, _eastpit, _twopitwest),
+   east _swisscheese,
+   west _twopitwest,
+   down _eastpit,
+   cross _twopitwest;
+ 
+thing _eastpit:
+   SHORT "You're in east pit.",
+   LONG "You are at the bottom of the eastern pit in the Twopit Room. There"
+      " is a small pool of oil in one corner of the pit.",
+   CONTENTS (),
+   VISIT 1,
+   PATH _twopiteast,
+   up _twopiteast,
+   exit _twopiteast;
+ 
+thing _twopitwest:
+   SHORT "You're at west end of Twopit Room.",
+   LONG "You are at the west end of the Twopit Room. There is a large hole"
+      " in the wall above the pit at this end of the room.",
+   CONTENTS (),
+   VISIT 1,
+   PATHCNT 3,
+   PATH (_twopiteast, _westpit, _slabroom),
+   east _twopiteast,
+   west _slabroom,
+   down _westpit,
+   cross _twopiteast;
+ 
+thing _westpit:
+   SHORT "You're in west pit.",
+   LONG "You are at the bottom of the western pit in the Twopit Room. There"
+      " is a large hole in the wall about 25 feet above you.",
+   CONTENTS (plant),
+   VISIT 1,
+   PATHCNT 2,
+   PATH (_twopitwest, _narrow),
+   up _twopitwest,
+   exit _twopitwest,
+   climb _westpit1;
+ 
+thing _narrow:
+   SHORT "You're in narrow corridor.",
+   LONG "You are in a long, narrow corridor stretching out of sight to the"
+      " west. At the eastern end is a hole through which you can see a"
+      " profusion of leaves.",
+   CONTENTS (),
+   VISIT 1,
+   PATHCNT 2,
+   PATH (_westpit, _giant),
+   east _westpit,
+   west _giant,
+   down _westpit,
+   climb _westpit,
+   jump _breakneck;
+ 
+thing _giant:
+   SHORT "You're in Giant Room.",
+   LONG "You are in the Giant Room. The ceiling here is too high up for your"
+      " lamp to show it. Cavernous passages lead east, north, and south. On"
+      " the west wall is scrawled the inscription, %"Fee fie foe foo%" (sic).",
+   CONTENTS (nest),
+   VISIT 1,
+   MESSAGE "Fee fie foe foo",
+   PATHCNT 3,
+   PATH (_narrow, _cavein, _immense),
+   north _immense,
+   south _narrow,
+   east _cavein;
+ 
+thing _cavein:
+   SHORT "The passage here is blocked by a cave-in.",
+   CONTENTS (),
+   PATH _giant,
+   south _giant,
+   exit _giant;
+ 
+cons _door1 = "The door is extremely rusty and refuses to open.";
+ 
+thing _immense:
+   SHORT "You are at one end of an immense north/south passage.",
+   CONTENTS (door),
+   PATHCNT 2,
+   PATH (_giant, _cavern),
+   north,
+   south _giant,
+   enter;
+ 
+thing _cavern:
+   WATER,
+   SHORT "You're in magnificent cavern.",
+   LONG "You are in a magnificent cavern with a rushing stream, which"
+      " cascades over a sparkling waterfall into a roaring whirlpool which"
+      " disappears through a hole in the floor. Passages exit to the south"
+      " and west.",
+   CONTENTS (trident),
+   VISIT 1,
+   PATHCNT 2,
+   PATH (_immense, _incline),
+   south _immense,
+   west _incline,
+   exit _immense;
+ 
+thing _incline:
+   SHORT "You're at top of incline.",
+   LONG "You are at the top of a steep incline above a large room. You could"
+      " climb down here, but you would not be able to climb up. There is a"
+      " passage leading back to the north.",
+   CONTENTS (),
+   VISIT 1,
+   PATH _cavern,
+   north _cavern,
+   down _low,
+   climb _low;
+ 
+thing _low:
+   SHORT "You are in a large low room. Crawls lead north, SE, and SW.",
+   CONTENTS (),
+   PATHCNT 5,
+   PATH (_de3, _oriental, _bedquilt, _winding, _incline),
+   north _de3,
+   southeast _oriental,
+   southwest _winding;
+ 
+thing _de3:
+   SHORT "Dead end crawl.",
+   CONTENTS (),
+   PATH _low,
+   south _low,
+   exit _low;
+ 
+thing _oriental:
+   SHORT "You're in Oriental Room.",
+   LONG "This is the Oriental Room. Ancient Oriental cave drawings cover the"
+      " walls. A gently sloping passage leads upward to the north, another"
+      " passage leads SE, and a hands and knees crawl leads west.",
+   CONTENTS (vase),
+   VISIT 1,
+   PATHCNT 3,
+   PATH (_low, _misty, _swisscheese),
+   north _misty,
+   west _low,
+   up _misty,
+   southeast _swisscheese;
+ 
+thing _misty:
+   SHORT "You're in Misty Cavern.",
+   LONG "You are following a wide path around the outer edge of a large cavern."
+      " Far below, through a heavy white mist, strange splashing noises can be"
+      " heard. The mist rises up through a fissure in the ceiling. The path"
+      " exits to the south and west.",
+   CONTENTS (),
+   VISIT 1,
+   PATHCNT 2,
+   PATH (_oriental, _alcove),
+   south _oriental,
+   west _alcove;
+ 
+thing _alcove:
+   LIGHT,
+   SHORT "You're in Alcove.",
+   LONG "You are in an alcove. A small NW path seems to widen after a short"
+      " distance. An extremely tight tunnel leads east. It looks like a very"
+      " tight squeeze. An eerie light can be seen at the other end.",
+   CONTENTS (),
+   VISIT 1,
+   PATH _misty,
+   east _squeeze,
+   enter _squeeze,
+   northwest _misty;
+ 
+thing _plover:
+   LIGHT,
+   SHORT "You're in Plover Room.",
+   LONG "You're in a small chamber lit by an eerie green light. An extremely"
+      " narrow tunnel exits to the west. A dark corridor leads NE.",
+   CONTENTS (emerald),
+   VISIT 1,
+   west _squeeze,
+   northeast _darkroom,
+   exit _squeeze;
+ 
+thing _darkroom:
+   SHORT "You're in Dark-room.",
+   LONG "You're in the Dark-room. A corridor leading south is the only"
+      " obvious exit.",
+   CONTENTS (tablet, pyramid),
+   VISIT 1,
+   south _plover,
+   north,
+   exit _plover;
+ 
+cons _stone1 = "The passage is blocked by a smooth, massive stone.";
+ 
+thing _medieval:
+   SHORT "You're in Medieval Room.",
+   LONG "You are in a large room with medieval furnishings. Two bleached"
+      " skeletons are hanging on the wall in iron cuffs. The room is"
+      " dominated by a huge white boulder near the west wall. A tunnel"
+      " in the east wall turns quickly out of sight.",
+   CONTENTS (sword),
+   VISIT 1,
+   east,
+   exit;
+ 
+thing _winding:
+   SHORT "You're in sloping corridor.",
+   LONG "You are in a long winding corridor sloping out of sight in both"
+      " directions.",
+   CONTENTS (),
+   VISIT 1,
+   PATHCNT 2,
+   PATH (_chasmsw, _low),
+   up _chasmsw,
+   down _low;
+ 
+thing _chasmsw:
+   SHORT "You're on SW side of chasm.",
+   LONG "You are on one side of a large, deep chasm. A heavy white mist"
+      " rising up from below obscures all view of the far side. A SW path"
+      " leads away from the chasm into a winding corridor.",
+   CONTENTS (note, troll),
+   VISIT 1,
+   MESSAGE "Stop! Pay Troll!",
+   PATH _winding,
+   northeast _bridgesw,
+   southwest _winding,
+   cross _bridgesw,
+   jump _fissure2,
+   down,
+   climb;
+ 
+thing _chasmne:
+   SHORT "You're on NE side of chasm.",
+   LONG "You are on the far side of the chasm. A NE path leads away from the"
+      " chasm on this side.",
+   CONTENTS (note, troll),
+   VISIT 1,
+   MESSAGE "Stop! Pay Troll!",
+   northeast _longew,
+   southwest _bridgene,
+   cross _bridgene,
+   jump _fissure2;
+ 
+thing _longew:
+   SHORT "You're in corridor.",
+   LONG "You're in a long east/west corridor. A faint rumbling noise can be"
+      " heard in the distance.",
+   CONTENTS (),
+   VISIT 1,
+   east _fork,
+   west _chasmne;
+ 
+thing _fork:
+   SHORT "You're at fork in path.",
+   LONG "The path forks here. The left fork leads northeast. A dull rumbling"
+      " seems to get louder in that direction. The right fork leads southeast"
+      " down a gentle slope. The main corridor enters from the west.",
+   CONTENTS (),
+   VISIT 1,
+   west _longew,
+   northeast _warm,
+   southeast _limestone,
+   down _limestone;
+ 
+thing _limestone:
+   SHORT "You're in limestone passage.",
+   LONG "You are walking along a gently sloping north/south passage lined"
+      " with oddly shaped limestone formations.",
+   CONTENTS (),
+   VISIT 1,
+   north _fork,
+   south _bybarren,
+   up _fork,
+   down _bybarren;
+ 
+thing _bybarren:
+   SHORT "You're in front of Barren Room.",
+   LONG "You are standing at the entrance to a large, barren room. A card"
+      " posted above the entrance reads: %"Caution! Bear in room!%"",
+   CONTENTS (),
+   VISIT 1,
+   MESSAGE "Caution! Bear in room!",
+   east _barren,
+   west _limestone,
+   up _limestone,
+   enter _barren;
+ 
+thing _barren:
+   SHORT "You're in Barren Room.",
+   LONG "You are inside a barren room. The center of the room is completely"
+      " empty except for some dust. Marks in the dusk lead away toward the"
+      " far end of the room. The only exit is the way you came in.",
+   CONTENTS (bear, chain),
+   VISIT 1,
+   west _bybarren,
+   exit _bybarren;
+ 
+thing _warm:
+   SHORT "You're at junction with warm walls.",
+   LONG "The walls are quite warm here. From the north can be heard a steady"
+      " roar, so loud that the entire cave seems to be trembling. Another"
+      " passage leads south, and a low crawl goes east.",
+   CONTENTS (),
+   VISIT 1,
+   north _volcano,
+   south _fork,
+   east _boulders;
+ 
+thing _boulders:
+   SHORT "You're in chamber of boulders.",
+   LONG "You are in a small chamber filled with large boulders. The walls are"
+      " very warm, causing the air in the room to be almost stifling from the"
+      " heat. The only exit is a crawl heading west, through which is coming"
+      " a low rumbling.",
+   CONTENTS (spices),
+   VISIT 1,
+   west _warm,
+   exit _warm;
+ 
+cons _vmess = "Don't be ridiculous!";
+ 
+thing _volcano:
+   LIGHT,
+   SHORT "You're at Breath-Taking View.",
+   LONG "You are on the edge of a breath-taking view. Far below you is an"
+      " active volcano, from which great gouts of molten lava come surging"
+      " out, cascading back down into the depths. The glowing rock fills the"
+      " farthest reaches of the cavern with a blood-red glare, giving"
+      " everything an eerie, macabre appearance. The air is filled with"
+      " flickering sparks of ash and a heavy smell of brimstone. The walls"
+      " are hot to the touch, and the thundering of the volcano drowns out all"
+      " other sounds. Embedded in the jagged roof far overhead are myriad"
+      " twisted formations composed of pure white alabaster, which scatter"
+      " the murky light into sinister apparitions upon the walls. To one side"
+      " is a deep gorge, filled with a bizarre chaos of tortured rock which"
+      " seems to have been crafted by the devil himself. An immense river of"
+      " fire crashes out from the depths of the volcano, burns its way through"
+      " the gorge, and plummets into a bottomless pit for off to your left. To"
+      " the right, an immense geyser of blistering steam erupts continuously"
+      " from a barren island in the center of a sulfurous lake, which bubbles"
+      " ominously. The far right wall is aflame with an incandescence of its"
+      " own, which lends an additional infernal splendor to an already hellish"
+      " scene. A dark, foreboding passage exits to the south.",
+   CONTENTS (),
+   VISIT 1,
+   south _warm,
+   exit _warm,
+   down _vmess,
+   jump _vmess;
+ 
+thing _ledge:
+   SHORT "You're on ledge in chasm.",
+   LONG "You are on a narrow ledge near the bottom of a chasm running SE/NW."
+      " Above you the chasm is filled with mist. A rushing stream completely"
+      " fills the bottom of the chasm. Across the stream is a dark opening"
+      " in the chasm wall.",
+   CONTENTS (),
+   VISIT 1,
+   jump _mouth,
+   up,
+   climb;
+ 
+ 
+thing _mouth:
+   SHORT "You're in tunnel mouth in chasm.",
+   LONG "You are in the mouth of a tunnel above a rushing stream in a chasm."
+      " Across the stream is a narrow ledge in the chasm wall. A passage"
+      " leads off to the NE.",
+   CONTENTS (),
+   VISIT 1,
+   northeast _round,
+   jump _ledge;
+ 
+thing _round:
+   SHORT "You're in round tunnel.",
+   LONG "You are in a round N/S tunnel with a flat floor of dark rock with"
+      " many sharp protrusions.",
+   CONTENTS (),
+   VISIT 1,
+   north _domed,
+   south _mouth;
+ 
+thing _domed:
+   SHORT "You're in Black Domed Room.",
+   LONG "You are in a large domed room of black rock. Tunnels branch off in"
+      " several directions. The air is cold and damp.",
+   CONTENTS (),
+   VISIT 1,
+   west _square,
+   northeast _rockslide,
+   southeast _round;
+ 
+thing _rockslide:
+   SHORT "You're at rockslide.",
+   CONTENTS (),
+   west _domed,
+   exit _domed;
+ 
+thing _square:
+   SHORT "You're in Square Room.",
+   LONG "You are in a squarish, dusty room with a good passage SE as its"
+      " only exit.",
+   CONTENTS (desk),
+   VISIT 1,
+   southeast _domed,
+   exit _domed;
+ 
+thing _vm1:
+   SHORT "You are in a maze of twisty little passages, all different.",
+   CONTENTS (),
+   PATHCNT 3,
+   PATH (_longwest, _vm2, _vm11),
+   south _vm5,
+   southwest _vm6,
+   northeast _vm8,
+   southeast _vm4,
+   up _vm9,
+   northwest _vm2,
+   east _vm3,
+   west _vm10,
+   north _vm11,
+   down _longwest;
+ 
+thing _vm2:
+   SHORT "You are in a twisty maze of little passages, all different.",
+   CONTENTS (),
+   PATHCNT 2,
+   PATH (_vm1, _vm3),
+   east _vm1,
+   west _vm5,
+   up _vm6,
+   southwest _vm8,
+   down _vm4,
+   south _vm9,
+   northwest _vm3,
+   southeast _vm10,
+   northeast _vm11,
+   north _vm7;
+ 
+thing _vm3:
+   SHORT "You are in a little twisty maze of passages, all different.",
+   CONTENTS (),
+   PATHCNT 2,
+   PATH (_vm2, _vm4),
+   southeast _vm1,
+   northeast _vm5,
+   south _vm6,
+   down _vm8,
+   up _vm4,
+   northwest _vm9,
+   north _vm2,
+   southwest _vm10,
+   east _vm11,
+   west _vm7;
+ 
+thing _vm4:
+   SHORT "You are in a twisting little maze of passages, all different.",
+   CONTENTS (),
+   PATHCNT 2,
+   PATH (_vm3, _vm5),
+   northeast _vm1,
+   north _vm5,
+   northwest _vm6,
+   southeast _vm8,
+   east _vm9,
+   down _vm2,
+   south _vm3,
+   up _vm10,
+   west _vm11,
+   southwest _vm7;
+ 
+thing _vm5:
+   SHORT "You are in a maze of twisting little passages, all different.",
+   CONTENTS (),
+   PATHCNT 2,
+   PATH (_vm4, _vm6),
+   west _vm1,
+   southeast _vm6,
+   northwest _vm8,
+   southwest _vm4,
+   northeast _vm9,
+   up _vm2,
+   down _vm3,
+   north _vm10,
+   south _vm11,
+   east _vm7;
+ 
+thing _vm6:
+   SHORT "You are in a little maze of twisty passages, all different.",
+   CONTENTS (),
+   PATHCNT 2,
+   PATH (_vm5, _vm7),
+   northwest _vm1,
+   up _vm5,
+   north _vm8,
+   south _vm4,
+   west _vm9,
+   southwest _vm2,
+   northeast _vm3,
+   east _vm10,
+   down _vm11,
+   southeast _vm7;
+ 
+thing _vm7:
+   SHORT "You are in a little maze of twisting passages, all different.",
+   CONTENTS (),
+   PATHCNT 3,
+   PATH (_vending, _vm6, _vm8),
+   southwest _vm5,
+   north _vm6,
+   east _vm8,
+   northwest _vm4,
+   southeast _vm9,
+   northeast _vm2,
+   west _vm3,
+   down _vm10,
+   up _vm11,
+   south _tovending;
+ 
+cons _dem1 = "Dead end";
+ 
+thing _vending:
+   SHORT _dem1,
+   CONTENTS (vending),
+   MESSAGE "Drop coins here to receive fresh batteres.",
+   PATH _vm7,
+   north _vm7,
+   exit _vm7;
+ 
+thing _vm8:
+   SHORT "You are in a twisting maze of little passages, all different.",
+   CONTENTS (),
+   PATHCNT 2,
+   PATH (_vm7, _vm9),
+   up _vm1,
+   down _vm5,
+   west _vm6,
+   northeast _vm4,
+   southwest _vm9,
+   east _vm2,
+   north _vm3,
+   northwest _vm10,
+   southeast _vm11,
+   south _vm7;
+ 
+thing _vm9:
+   SHORT "You are in a twisty little maze of passages, all different.",
+   CONTENTS (),
+   PATHCNT 2,
+   PATH (_vm8, _vm10),
+   north _vm1,
+   southeast _vm5,
+   down _vm6,
+   south _vm8,
+   east _vm4,
+   west _vm2,
+   southwest _vm3,
+   northeast _vm10,
+   northwest _vm11,
+   up _vm7;
+ 
+thing _vm10:
+   SHORT "You are in a maze of little twisting passages, all different.",
+   CONTENTS (),
+   PATHCNT 2,
+   PATH (_vm9, _vm11),
+   down _vm1,
+   east _vm5,
+   northeast _vm6,
+   up _vm8,
+   west _vm4,
+   north _vm9,
+   south _vm2,
+   southeast _vm3,
+   southwest _vm11,
+   northwest _vm7;
+ 
+thing _vm11:
+   SHORT "You are in a maze of little twisty passages, all different.",
+   CONTENTS (),
+   PATHCNT 2,
+   PATH (_vm10, _vm1),
+   southwest _vm1,
+   northwest _vm5,
+   east _vm6,
+   west _vm8,
+   north _vm4,
+   down _vm9,
+   southeast _vm2,
+   up _vm3,
+   south _vm10,
+   northeast _vm7;
+ 
+cons _m1 = "You are in a maze of twisty little passages, all alike.";
+ 
+thing _p1:
+   SHORT _m1,
+   CONTENTS (),
+   MAZE,
+   PATHCNT 4,
+   PATH (_mistswest, _p2, _p4, _p6),
+   north _p1,
+   south _p2,
+   east _p6,
+   west _p4,
+   up _mistswest;
+ 
+thing _p2:
+   SHORT _m1,
+   CONTENTS (),
+   MAZE,
+   PATHCNT 5,
+   PATH (_p1, _p2_5, _p3, _p6, _p7),
+   north _p6,
+   south _p2_5,
+   east _p3,
+   west _p1,
+   up _p7,
+   down _p7;
+ 
+thing _p2_5:
+   SHORT _dem1,
+   CONTENTS (),
+   MAZE,
+   PATH _p2,
+   east _p2,
+   exit _p2;
+ 
+thing _p3:
+   SHORT _dem1,
+   CONTENTS (),
+   MAZE,
+   PATH _p2,
+   west _p2,
+   exit _p2;
+ 
+thing _p4:
+   SHORT _m1,
+   CONTENTS (),
+   MAZE,
+   PATHCNT 2,
+   PATH (_p1, _p5),
+   north _p1,
+   south _p4,
+   east _p5,
+   west _p4;
+ 
+thing _p5:
+   SHORT _dem1,
+   CONTENTS (),
+   MAZE,
+   PATH _p4,
+   west _p4,
+   exit _p4;
+ 
+thing _p6:
+   SHORT _m1,
+   CONTENTS (),
+   MAZE,
+   PATHCNT 3,
+   PATH (_p1, _p2, _p8),
+   south _p8,
+   east _p2,
+   west _p1;
+ 
+thing _p7:
+   SHORT _dem1,
+   CONTENTS (),
+   MAZE,
+   PATH _p2,
+   up _p2,
+   down _p2;
+ 
+thing _p8:
+   SHORT _m1,
+   CONTENTS (),
+   MAZE,
+   PATHCNT 4,
+   PATH (_p6, _p9, _p10, _p11),
+   north _p10,
+   south _p11,
+   east _p6,
+   down _p9;
+ 
+thing _p9:
+   SHORT _dem1,
+   CONTENTS (),
+   MAZE,
+   PATH _p8,
+   up _p8,
+   exit _p8;
+ 
+thing _p10:
+   SHORT _dem1,
+   CONTENTS (),
+   MAZE,
+   PATH _p8,
+   south _p8,
+   exit _p8;
+ 
+thing _p11:
+   SHORT _m1,
+   CONTENTS (),
+   MAZE,
+   PATHCNT 4,
+   PATH (_p8, _p12, _p13, _p14),
+   south _p14,
+   east _p8,
+   west _p12,
+   down _p13;
+ 
+thing _p12:
+   SHORT _m1,
+   CONTENTS (),
+   MAZE,
+   PATHCNT 2,
+   PATH (_p11, _p13),
+   east _p11,
+   west _p13;
+ 
+thing _p13:
+   SHORT _m1,
+   CONTENTS (),
+   MAZE,
+   PATHCNT 4,
+   PATH (_p11, _p12, _p14, _p16),
+   south _p16,
+   east _p14,
+   west _p12,
+   up _p11;
+ 
+thing _p14:
+   SHORT _m1,
+   CONTENTS (),
+   MAZE,
+   PATHCNT 5,
+   PATH (_p11, _p13, _p15, _p16, _p18),
+   north _p18,
+   south _p14,
+   east _p13,
+   west _p11,
+   up _p16,
+   down _p15;
+ 
+thing _p15:
+   SHORT _dem1,
+   CONTENTS (),
+   PATH _p14,
+   MAZE,
+   up _p14,
+   exit _p14;
+ 
+thing _p16:
+   SHORT _m1,
+   CONTENTS (),
+   MAZE,
+   PATHCNT 3,
+   PATH (_p13, _p14, _p17),
+   north _p14,
+   south _p17,
+   west _p13;
+ 
+thing _p17:
+   SHORT _dem1,
+   CONTENTS (),
+   MAZE,
+   PATH _p16,
+   west _p16,
+   exit _p16;
+ 
+thing _p18:
+   SHORT _m1,
+   CONTENTS (),
+   MAZE,
+   PATHCNT 3,
+   PATH (_column, _p14, _p19),
+   north _p18,
+   east _column,
+   west _p14,
+   down _p19;
+ 
+thing _p19:
+   SHORT _dem1,
+   CONTENTS (),
+   MAZE,
+   PATH _p18,
+   up _p18,
+   exit _p18;
+ 
+thing _column:
+   SHORT "You're at brink of pit.",
+   LONG "You are at the brink of a thiry foot pit with a massive orange"
+      " column down one wall. You could climb down here but you could not"
+      " get back up. The maze continues at this level.",
+   CONTENTS (),
+   VISIT 1,
+   PATHCNT 3,
+   PATH (_p18, _p20, _p22),
+   north _p20,
+   south _p22,
+   west _p18,
+   down _birdchamber,
+   climb _birdchamber;
+ 
+thing _p20:
+   SHORT _m1,
+   CONTENTS (),
+   MAZE,
+   PATHCNT 3,
+   PATH (_column, _p21, _p23),
+   south _column,
+   east _p23,
+   west _p21;
+ 
+thing _p21:
+   SHORT _dem1,
+   CONTENTS (),
+   MAZE,
+   PATH _p20,
+   east _p20,
+   exit _p20;
+ 
+thing _p22:
+   SHORT _dem1,
+   CONTENTS (),
+   MAZE,
+   PATH _column,
+   east _column,
+   exit _column;
+ 
+thing _p23:
+   SHORT _m1,
+   CONTENTS (),
+   MAZE,
+   PATH _p20,
+   north _column,
+   west _p20,
+   northwest _chestroom;
+ 
+thing _chestroom:
+   SHORT _dem1,
+   CONTENTS (),
+   southeast _p23;
+ 
+thing _reposne1:
+   LIGHT,
+   SHORT "You're at NE end.",
+   LONG "You are at the northeast end of an immense room even larger than the"
+      " giant room. It appears to be a repository for the %"Adventure%" program."
+      " Massive torches far overhead bathe the room with smokey yellow light."
+      " Scattered about you can see a pile of bottles (all of them empty), a"
+      " nursery of young beanstalks murmuring quietly, a bed of oysters, a"
+      " bundle of black rods with rusty stars on their ends, and a collection"
+      " of brass lanterns. Off to one side a great many dwarves are sleeping on"
+      " the floor, snoring loudly. A sign nearby reads %"Do not disturb the"
+      " dwarves!%". An immense mirror is hanging against one wall, and stretches"
+      " to the other end of the room, where various other sundry objects can be"
+      " glimpsed dimly in the distance.",
+   CONTENTS (),
+   ICONTENTS (bottle, plant, oyster, rod, lamp),
+   VISIT 1,
+   MESSAGE "Do not disturb the dwarves!",
+   southwest _repossw1;
+ 
+thing _repossw1:
+   LIGHT,
+   SHORT "You're at SW end.",
+   LONG "You are at the southwest end of the repository. To one side is a pit"
+      " full of fierce green snakes. On the other side is a row of small wicker"
+      " cages, each of which contains a little sulking bird. In one corner is a"
+      " bundle of black rods with rusty marks on their ends. A large number of"
+      " velvet pillows are scattered about on the floor. A vast mirror stretches"
+      " off to the northeast. At your feet is a large steel grate, next to which"
+      " is a sign which reads %"Treasure vault. Keys in main office.%"",
+   CONTENTS (grate),
+   ICONTENTS (snake, cage, bird, rod2, pillow),
+   VISIT 1,
+   MESSAGE "Treasure vault. Keys in main office.",
+   northeast _reposne1;
+ 
+thing _office:
+   LIGHT,
+   SHORT "You're in Main Office",
+   LONG "You are in the Main Office of the cave. A large jagged hole in the"
+      " north wall opens into the Repository. Along a side wall is a large"
+      " glass display case containing magic rods belonging to great wizards"
+      " of the past. Another wall is covered with yellowed autographed"
+      " glossy photos of well-known dragons and trolls. On a bulletin"
+      " board are many charts and notices, marked %"Dragon Duty Roster%","
+      " %"NOTICE: Workdwarves' Compensation Rules%", and the like."
+      " Through an archway in the south wall daylight can be seen.",
+   CONTENTS (keys),
+   VISIT 1,
+   MESSAGE "Dragon Duty Roster%nNOTICE: Workdwarves' Compensation Rules",
+   north _reposne2,
+   south _wooded;
+ 
+thing _reposne2:
+   LIGHT,
+   SHORT "You're at NE end.",
+   LONG "You are at the NE end of the repository. The overhead torches give"
+      " fitfull illumination through billowing clouds of dust. Rubble covers"
+      " everything in sight. A hole in the SE wall leads to the Main Office.",
+   CONTENTS (),
+   VISIT 1,
+   southeast _office,
+   southwest _repossw2;
+ 
+thing _repossw2:
+   LIGHT,
+   SHORT "You're at SW end.",
+   LONG "You are at the SW end of the repository. Debris and broken pieces"
+      " of mirror are strewn everywhere, burying everything that was stored"
+      " here. At your feet, partly visible through the rubble, is a large"
+      " steel grate, next to which is a corroded brass plaque, half obscured,"
+      " reading %"Treasure Vau... Keys in Mai...%"",
+   CONTENTS (grate),
+   VISIT 1,
+   MESSAGE "Treasure Vau... Keys in Mai...",
+   northeast _reposne2,
+   enter,
+   down;
+ 
+thing _vault:
+   LIGHT,
+   SHORT "You're in Treasure Vault.",
+   LONG "You are in a narrow vault with heavy walls constructed of large"
+      " stone blocks. Dim yellow illumination glows through a square grate"
+      " overhead.",
+   CONTENTS (grate, hat, robe),
+   VISIT 1,
+   up,
+   exit;
+ 
+thing _wooded:
+   LIGHT,
+   SHORT "You're in Wooded Depression.",
+   LONG "You are in a thickly wooded depression surrounded by underbrush."
+      " To the north is an archway in a grassy hummock. A narrow overgrown"
+      " path winds up the hill to the south.",
+   CONTENTS (),
+   VISIT 1,
+   north _office,
+   south _forest2;
+ 
+thing light:;
+thing sign:;
+thing oil:;
+thing water:;
+ 
+thing _homonym:
+   light lamp,
+   sign note,
+   oil lubricant,
+   water h2o;
+ 
+proc _ask()result:
+   var res;
+ 
+   res := _yes();
+   if res then
+      output "I am prepared to give you a hint, but it will cost you 4 points."
+         " Do you want the hint?%n%n";
+      res := _yes();
+      if res then _score := _score - 4 fi;
+   fi;
+   _listerror := true;
+   res
+corp;
+ 
+proc _hint():
+   if _loc = _gratetop and grate.LONG = gratel1 and
+         not (keys in _carrying or keys in _loc.CONTENTS) then
+      if _whichhint = 1 then
+         _cavecnt := _cavecnt + 1;
+         if _cavecnt = 4 then
+            output "Are you trying to get into the cave?%n%n";
+            if _ask() then
+               output "The grate is very solid and has a hardened steel lock."
+                  " You cannot enter without a key, and there are no keys nearby."
+                  " I would recommend looking elsewhere for the keys.%n%n";
+            fi;
+            _whichhint := 0;
+         fi;
+      else
+         _whichhint := 1;
+         _cavecnt := 0;
+      fi;
+   elif _loc = _birdchamber and rod in _carrying
+         and _noun = bird and bird.LONG = birdl1 then
+      if _whichhint = 2 then
+         _birdcnt := _birdcnt + 1;
+         if _birdcnt = 5 then
+            output "Are you trying to catch the bird?%n%n";
+            if _ask() then
+               output "The bird is frightened right now and you cannot catch"
+                  " it no matter what you try. Perhaps you might try later.%n%n";
+            fi;
+            _whichhint := 0;
+         fi;
+      else
+         _whichhint := 2;
+         _birdcnt := 0;
+      fi;
+   elif _loc = _king and snake in _loc.CONTENTS and
+         not (bird in _carrying or bird in _loc.CONTENTS) then
+      if _whichhint = 3 then
+         _snakecnt := _snakecnt + 1;
+         if _snakecnt = 8 then
+            output "Are you trying to somehow deal with the snake?%n%n";
+            if _ask() then
+               output "You can't kill the snake, or drive it away, or avoid it,"
+                  " or anything like that. There is a way to get by, but you"
+                  " don't have the necessary resources right now.%n%n";
+            fi;
+            _whichhint := 0;
+         fi;
+      else
+         _whichhint := 3;
+         _snakecnt := 0;
+      fi;
+   elif _loc.MAZE isnt absent and _carrying then
+      if _whichhint = 4 then
+         _mazecnt := _mazecnt + 1;
+         if _mazecnt = 75 then
+            output "Do you need help getting out of the maze?%n%n";
+            if _ask() then
+               output "You can make the passages look less alike by dropping things.%n%n";
+            fi;
+            _whichhint := 0;
+         fi;
+      else
+         _whichhint := 4;
+         _mazecnt := 0;
+      fi;
+   elif _loc = _darkroom and pyramid in _loc.CONTENTS and
+         not emerald in _plover.CONTENTS then
+      if _whichhint = 5 then
+         _darkcnt := _darkcnt + 1;
+         if _darkcnt = 25 then
+            output "Are you trying to explore beyond the plover room?%n%n";
+            if _ask() then
+               output "There is a way to explore that region without having to"
+                  " worry about falling into a pit. None of the objects"
+                  " available is immediately useful in discovering the secret.%n%n";
+            fi;
+            _whichhint := 0;
+         fi;
+      else
+         _whichhint := 5;
+         _darkcnt := 0;
+      fi;
+   elif _loc = _witt then
+      if _whichhint = 6 then
+         _wittcnt := _wittcnt + 1;
+         if _wittcnt = 20 then
+            output "Do you need help getting out of here?%n%n";
+            if _ask() then
+               output "Don't go west.%n%n";
+            fi;
+            _whichhint := 0;
+         fi;
+      else
+         _whichhint := 6;
+         _wittcnt := 0;
+      fi;
+   else
+      _whichhint := 0;
+   fi;
+corp;
+ 
+proc _dodwarves():
+   var d, s, a, h, l, c, w, t, o, n;
+ 
+   s := 0;   /* number of dwarves who have seen him */
+   a := 0;   /* number of dwarves who attack */
+   h := 0;   /* number who hit */
+   for d in _dwarves do
+      l := d.LOC;
+      o := d.OLDLOC;
+      d.OLDLOC := l;
+      if l ~= _loc and l ~= _oldloc and ? < 5000 then
+         c := l.PATHCNT;
+         if c is absent then
+            d.LOC := l.PATH;
+         elif c = 2 then
+            for t in l.PATH do
+               if t ~= l then d.LOC := t fi;
+            od;
+         else
+            w := ? / (10000 / c);
+            n := nil;
+            for t in l.PATH do
+               c := c - 1;
+               if t ~= o and (n = nil or c = w) then
+                  n := t;
+               fi;
+            od;
+            d.LOC := n;
+         fi;
+      fi;
+      if (l = _loc or l = _oldloc or d.LOC = _loc) and _loc.PATH isnt absent then
+         d.LOC := _loc;
+         if d = pirate then
+            c := false;
+            for t in _carrying do
+               if t.TREASURE isnt absent then
+                  c := true;
+                  _carrying <- t;
+                  _carrycount := _carrycount - 1;
+                  _chestroom.CONTENTS <+ t;
+                  _score := _score - TREASUREVALUE;
+               fi;
+            od;
+            if c then
+               output "Out from the shadows behind you pounces"
+                  " a bearded pirate! %"Har har,%" he chortles,"
+                  " %"I'll just take all this booty and hide it away"
+                  " with me chest deep in the maze!%" He snatches"
+                  " your treasure and vanishes into the gloom.%n%n";
+               if not chest in _chestroom.CONTENTS then
+                  _chestroom.CONTENTS <+ chest;
+                  _vending.CONTENTS <+ message;
+               fi;
+               pirate.LOC := _p20;
+               pirate.OLDLOC := _p20;
+            else
+               c := false;
+               for t in _loc.CONTENTS do
+                  if t.TREASURE isnt absent then
+                     c := true;
+                  fi;
+               od;
+               if c and not chest in _chestroom.CONTENTS and
+                     lamp.LONG = lampl2 and lamp in _carrying then
+                  output "There are faint rustling noises from the darkness"
+                     " behind you. As you turn toward them, the beam of your"
+                     " lamp falls across a bearded pirate. He is carrying a"
+                     " large chest. %"Shiver me timbers!%" he cries, %"I've"
+                     " been spotted! I'd best hie meself off to the maze"
+                     " to hide me chest!%" With that, he vanishes in the gloom.%n%n";
+                  _chestroom.CONTENTS <+ chest;
+                  _vending.CONTENTS <+ message;
+                  pirate.LOC := _p20;
+                  pirate.OLDLOC := _p20;
+               elif pirate.LOC ~= pirate.OLDLOC and ? < 5000 then
+                  output "There are faint rustling noises from the darkness"
+                     " behind you.%n%n";
+               fi;
+            fi;
+         else
+            s := s + 1;
+            if d.LOC = d.OLDLOC or ? < 2500 then
+               a := a + 1;
+               _knifeloc := _loc;
+               if ? < 2500 * (_dwarfflag - 2) then h := h + 1 fi;
+            fi;
+         fi;
+      fi;
+   od;
+   if s = 0 then
+      ;
+   elif s = 1 then
+      output "There is a threatening little dwarf in the room with you!%n%n";
+      if _dwarfflag = 2 then _dwarfflag := 3 fi;
+   elif s > 1 then
+      output "There are ", s, " threatening little dwarves in the room"
+         " with you!%n%n";
+      if _dwarfflag = 2 then _dwarfflag := 3 fi;
+   fi;
+   if a = 0 then
+      ;
+   elif a = 1 then
+      output "One sharp nasty knife is thrown at you!%n%n";
+   elif a > 1 then
+      output a, " of them throw knives at you!%n%n";
+   fi;
+   if a = 0 then
+      ;
+   elif h = 0 then
+      output "None of them get you!%n%n";
+   elif h = 1 then
+      output "One of them gets you!%n%n";
+      _die();
+   else
+      output h, " of them get you!%n%n";
+      _die();
+   fi;
+corp;
+ 
+proc _command():
+   var test;
+ 
+   if _nounstring isnt nil and _nounstring ~= " " then
+      _noun := dict._nounstring;
+      test := _homonym._noun;
+      if test is table then _noun := test fi;
+   fi;
+   if _noun = rod and (rod2 in _carrying or rod2 in _loc.CONTENTS or
+         _loc.ICONTENTS is list and rod2 in _loc.ICONTENTS) then
+      _noun := rod2;
+   fi;
+   if if _verb.CHECK is proc and (_noun isnt table or _noun.CONTENT is absent) then
+         _goflag := false;
+         _verb.CHECK();
+         if not _goflag then _listerror := true fi;
+         _goflag
+      else
+         not _listerror
+      fi
+   then
+      _goflag := false;
+      if _verb._nounstring is proc then
+         _verb._nounstring();
+      elif _verb._noun is proc then
+         if _noun in _carrying or _noun in _loc.CONTENTS or _noun.CONTENT isnt absent or
+            _loc.ICONTENTS is list and _noun in _loc.ICONTENTS then
+            _verb._noun();
+         else
+            output "I see no ", _nounstring, " here!%n%n";
+            _listerror := true;
+         fi;
+      else
+         _goflag := true;
+         _verb.true();
+      fi;
+      if _goflag and _verb.COMMON is proc then _verb.COMMON() fi;
+   fi;
+   _turns := _turns + 1;
+   if not _closing and _loc ~= _y2 and _score = CLOSINGSCORE and not _loc in _surface then
+      _clock1 := _clock1 - 1;
+      if _clock1 = 0 then
+         _closing := true;
+         grate.LONG := gratel1;
+         _gratebelow.up := _noexit;
+         _gratebelow.exit := _noexit;
+         _gratetop.down := _throughgrate;
+         _gratetop.enter := _throughgrate;
+         _repossw2.down := _throughgrate;
+         _repossw2.enter := _throughgrate;
+         _vault.up := _throughgrate;
+         _vault.exit := _throughgrate;
+         _gratetop.CONTENTS <- grate;
+         _gratetop.CONTENTS <++ grate2;
+         _gratebelow.CONTENTS <- grate;
+         _gratebelow.CONTENTS <++ grate2;
+         bridge.LONG := bridgel1;
+         _dwarfflag := 0;
+         _windowright -- figure;
+         _windowleft -- figure;
+         if _bearfollowing then
+            _bearfollowing := false;
+         elif note.LONG ~= notel3 then
+            _bearloc.CONTENTS <- bear;
+         fi;
+         if axe in _carrying then
+            _carrying <- axe;
+            _carrycount := _carrycount - 1;
+         else
+            _axeloc.CONTENTS <- axe;
+         fi;
+         _score := _score + 35;
+         output "A sepulchral voice reverberating through the cave says"
+            " %"Cave closing soon. All adventurers exit immediately through"
+            " main office.%"%n%n";
+      fi;
+   elif _closing and not _closed then
+      _clock2 := _clock2 - 1;
+      if _clock2 = 0 then
+         _closed := true;
+         for _temp1 in _carrying do _carrying <- _temp1 od;
+         _carrycount := 0;
+         output "The sepulchral voice intones, %"The cave is now closed.%""
+            " As the echoes fade, there is a blinding flash of light (and"
+            " a small puff of orange smoke). . . . As your eyes refocus,"
+            " you look around and find...%n%n";
+         _move(_reposne1);
+      fi;
+   fi;
+   if not _closing and _loc = _y2 and ? < 2500 then
+      output "A hollow voice says %"PLUGH!%".%n%n";
+   fi;
+   if _dwarfflag = 1 and not _loc in _safe and ? < 500 then
+      _dwarfflag := 2;
+      output "A little dwarf just walked around a corner, saw you,"
+         " threw a little axe at you which missed, cursed, and ran"
+         " away.%n%n";
+      if ? < 5000 then _dwarves <- _dwarf3 fi;
+      if ? < 5000 then _dwarves <- _dwarf4 fi;
+      _loc.CONTENTS <+ axe;
+      _axeloc := _loc;
+      for _temp1 in _dwarves do
+         if _temp1.LOC = _loc then _temp1.LOC := _goldroom fi;
+      od;
+      _listerror := true;
+   elif _dwarfflag > 1 then
+      _dodwarves();
+   fi;
+   _hint();
+   if _lampon then
+      _lamptime := _lamptime - 1;
+      if _lamptime = 0 then
+         _lampon := false;
+         lamp.LONG := lampl1;
+         if lamp in _carrying or lamp in _loc.CONTENTS then
+            output "Your lamp has run out of power.%n%n";
+         fi;
+      elif _lamptime <= 30 then
+         if batteries.LONG = batteriesl1 and
+               (batteries in _carrying or batteries in _loc.CONTENTS) and
+               (lamp in _carrying or lamp in _loc.CONTENTS) then
+            output "Your lamp is getting dim. I'm taking the liberty of"
+               " replacing the batteries.%n%n";
+            batteries.LONG := batteriesl2;
+            if batteries in _carrying then
+               _carrying <- batteries;
+               _carrycount := _carrycount - 1;
+               _loc.CONTENTS <+ batteries;
+            fi;
+            _lamptime := LAMPTIME2;
+            _lampwarned := false;
+         elif _lampwarned or not (lamp in _carrying or lamp in _loc.CONTENTS) then
+            ;
+         else
+            _lampwarned := true;
+            output if batteries.LONG = batteriesl2 then
+                  "Your lamp is getting dim, and you're out of spare batteries."
+                  " You'd best start wrapping this up.%n%n"
+               elif _seenbat then
+                  "Your lamp is getting dim. You'd best go back for"
+                  " those batteries.%n%n"
+               else
+                  "Your lamp is getting dim. You'd best start wrapping this"
+                  " up, unless you can find some fresh batteries. I seem"
+                  " to recall there's a vending machine in the maze. Bring"
+                  " some coins with you.%n%n"
+               fi;
+         fi;
+      fi;
+   fi;
+   if _lamptime <= 0 and _loc in _surface then
+      output "There's not much point in wandering around out here, and you"
+         " can't explore the cave without a lamp, so let's just call"
+         " it a day.%n%n";
+      _quit := true;
+      _listerror := true;
+   fi;
+corp;
+ 
+proc _parse(_input):
+   var _word, _cmds, _cmd;
+ 
+   if _input is absent then
+   output "You have hit 'end-of-file'. Do you wish to continue"
+         " the game?%n%n";
+      _quit := not _yes();
+   elif _input then
+      _cmds := emptylist;
+      _cmd := emptylist;
+      for _word in _input do
+         _input <- _word;
+         if _word = "," or _word = "." or _word = ";" then
+            if _cmd then
+               _cmds <+ _cmd;
+               _cmd := emptylist;
+            fi;
+         else
+            _cmd <+ _word;
+         fi;
+      od;
+      if _cmd then _cmds <+ _cmd fi;
+      if _cmds then
+         _listerror := false;
+         for _input in _cmds do
+            _cmds <- _input;
+            _nounstring := nil;
+            _temp1 := 1;
+            for _word in _input do
+               if _temp1 = 1 then
+                  _verbstring := _word;
+                  _input <- _word;
+               elif _temp1 = 2 then
+                  _nounstring := _word;
+                  _input <- _word;
+                  _oldverb := nil;
+                  _oldnoun := nil;
+               fi;
+               _temp1 := _temp1 + 1;
+            od;
+            _verb := dict._verbstring;
+            if _listerror then
+               for _word in _input do
+                  _input <- _word;
+               od;
+            elif _verb is absent then
+               output "I don't know the word ", _verbstring, ".%n%n";
+               for _word in _input do
+                  _input <- _word;
+               od;
+               _listerror := true;
+            else
+               if _nounstring is nil or _verb.true isnt proc then
+                  if _verb.true is proc then
+                     if _oldnoun isnt nil then
+                        _nounstring := _oldnoun;
+                        _oldnoun := nil;
+                        _command();
+                     elif if _verb.INTRANS is absent then
+                           _noun := nil;
+                           true
+                        elif _verb.INTRANS is proc then
+                           _goflag := false;
+                           _nounstring := " ";
+                           _verb.INTRANS();
+                           _goflag
+                        else
+                           false
+                        fi
+                     then
+                        _command();
+                     else
+                        output _verbstring, " what?%n%n";
+                        _oldverb := _verbstring;
+                        _listerror := true;
+                     fi;
+                  else
+                     if _oldverb isnt nil then
+                        _nounstring := _verbstring;
+                        _noun := _verb;
+                        _verbstring := _oldverb;
+                        _verb := dict._verbstring;
+                        _oldverb := nil;
+                        _command();
+                     else
+                        output "What do you want to do with the ", _verbstring,
+                           "?%n%n";
+                        _oldnoun := _verbstring;
+                        _listerror := true;
+                     fi;
+                  fi;
+               else
+                  if not _input or _verb.MULTI is absent then
+                     _command();
+                  else
+                     _verbosesave := _verbose;
+                     _verbose := false;
+                     _command();
+                     for _nounstring in _input do
+                        _input <- _nounstring;
+                        if not _input then _verbose := _verbosesave fi;
+                        if not _listerror then _command() fi;
+                     od;
+                  fi;
+                  for _word in _input do
+                     _input <- _word;
+                  od;
+               fi;
+            fi;
+         od;
+      fi;
+   fi;
+corp;
+ 
+verb (l, look, see, touch, examine, describe):
+   noun *:
+      if _loc.LIGHT isnt absent or _lampon and
+            (lamp in _carrying or lamp in _loc.CONTENTS) then
+         output "Sorry, but I am not allowed to give more detail. I will repeat"
+            " the long description of your location.%n%n";
+         if _loc.VISIT isnt absent then _loc.VISIT := 1 fi;
+         _see();
+      else
+         output "It is pitch dark.%n%n";
+      fi;
+ 
+verb (i, inventory, invent, inv):
+   noun CONTENT:;
+   noun *:
+      _invent();
+ 
+verb (north, n):
+   noun *:
+      _move(_loc.north);
+ 
+verb (south, s):
+   noun *:
+      _move(_loc.south);
+ 
+verb (east, e):
+   noun *:
+      _move(_loc.east);
+ 
+verb (west, w):
+   noun *:
+      if _nounstring = "west" then
+         _westcount := _westcount + 1;
+         if _westcount = 10 then
+            _westcount := 0;
+            output "If you prefer, simply type w rather than west.%n%n";
+         fi;
+      fi;
+      _move(_loc.west);
+ 
+verb (northeast, ne):
+   noun *:
+      _move(_loc.northeast);
+ 
+verb (northwest, nw):
+   noun *:
+      _move(_loc.northwest);
+ 
+verb (southeast, se):
+   noun *:
+      _move(_loc.southeast);
+ 
+verb (southwest, sw):
+   noun *:
+      _move(_loc.southwest);
+ 
+verb (up, upwards, ascend, u):
+   noun *:
+      _move(_loc.up);
+ 
+verb (down, downwards, descend, d):
+   noun *:
+      _move(_loc.down);
+ 
+verb (upstream, us, ups):
+   noun *:
+      _move(_loc.upstream);
+ 
+verb (downstream, ds):
+   noun *:
+      _move(_loc.downstream);
+ 
+verb (enter, "in", inside, indoors):
+   noun *:
+      _move(_loc.enter);
+ 
+verb (exit, out, outside, outdoors, leave):
+   noun *:
+      _move(_loc.exit);
+ 
+verb (cross, across):
+   noun *:
+      _move(_loc.cross);
+ 
+verb (jump, leap):
+   noun *:
+      _move(_loc.jump);
+ 
+verb climb:
+   noun *:
+      _move(_loc.if _loc.climb is absent then up else climb fi);
+ 
+verb (info, information):
+   noun *:
+      output "If you want to end your adventure early, say %"quit%". To see"
+         " how well you're doing, say %"score%". To get full credit for a"
+         " treasure, you must have left it safely in the building, though"
+         " you get partial credit for just getting it. You lose points for"
+         " getting killed, or for quitting, though the former costs you more."
+         " There are also points for how much (if any) of the cave you've"
+         " managed to explore; in particular, there is a large bonus just for"
+         " getting in (to distinguish the beginners from the rest of the pack),"
+         " and there are other ways to determine whether you've been through"
+         " some of the more harrowing sections. If you think you've found all"
+         " the treasures, just keep exploring for a while. If nothing"
+         " interesting happens, you haven't found them all yet. If something"
+         " interesting *does* happen, it means you're getting a bonus and have"
+         " an opportunity to garner many more points in the master's section."
+         " I may occasionally offer hints if you seem to be having trouble."
+         " If I do, I'll warn you in advance how much it will affect your score"
+         " to accept the hints. Finally, to save paper, you may specify"
+         " %"brief%", which tells me never to repeat the full description of"
+         " a place unless you explicitly ask me to. Similarly,"
+         " to save time, multiple commands may be given on a single"
+         " line, separated by %",%", %".%" or %";%".%n%n";
+ 
+verb (help, explain, "?"):
+   noun *:
+      output "I know of places, actions, and things. To move, try words like"
+         " downstream, enter, east, west, north, south, up or down. I know"
+         " about a few special objects, like a black rod hidden in the cave."
+         " These objects can be manipulated using some of the action words"
+         " that I know. Usually you will need to give both the action word"
+         " and the object (in that order), but sometimes I can infer the object"
+         " from the verb alone. Some objects also imply verbs; in particular,"
+         " %"inventory%" implies %"take inventory%", which causes me to give"
+         " you a list of what you're carrying. The objects have side effects;"
+         " for instance, the rod scares the bird. Usually people having trouble"
+         " doing things just need to try a few more words. Usually people"
+         " trying unsuccessfully to manipulate an object are attempting"
+         " something beyond their (or my!) capabilities and should try a"
+         " completely different tack. Note that cave passages turn a lot, and"
+         " that leaving a room to the north does not guarantee entering the"
+         " next from the south. Good luck!%n%n";
+ 
+verb (NORTH, SOUTH, EAST, WEST, UP, DOWN, IN, ENTER, INSIDE, N, S,
+      E, W, U, D, HELP, INFO, BRIEF, ON, NE, NW, SE, SW):
+   noun *:
+      output "The command you entered was in all CAPITAL letters."
+         " This game only accepts commands in lower case. Please"
+         " arrange to enter lower case letters.%n%n";
+ 
+verb (sesame, opensesame, abracadabra, shazam, hocus, pocus, hocuspocus):
+   noun CONTENT:;
+   noun *:
+      output "Good try, but that is an old worn-out magic word.%n%n";
+ 
+verb (tree, trees):
+   noun *:
+      output "The trees of the forest are large hardwood oak and maple, with"
+         " an occasional grove of pine or spruce. There is quite a bit of"
+         " undergrowth, largely birch and ash saplings plus nondescript"
+         " bushes of various sorts. This time of year visibility is quite"
+         " restricted by all the leaves, but travel is quite easy if you"
+         " detour around the spruce and berry bushes.%n%n";
+ 
+verb (dig, excavate):
+   noun *:
+      output "Digging without a shovel is quite impractical. Even with a"
+         " shovel progress is unlikely.";
+      if _closed then
+         output " Perhaps something more forceful is in order.";
+      fi;
+      output "%n%n";
+ 
+verb lost:
+   noun *:
+      output "I'm as confused as you are.%n%n";
+ 
+verb mist:
+   noun *:
+      output "Mist is a white vapor, usually water, seen from time to time in"
+         " caverns. It can be found anywhere but is frequently a sign of a deep"
+         " pit leading down to water.%n%n";
+ 
+verb swim:
+   noun *:
+      output "I don't know how.%n%n";
+ 
+verb (stop, STOP):
+   noun *:
+      output "I don't know the word %"stop%". Use %"quit%" if you want to"
+         " give up.%n%n";
+ 
+verb score:
+   noun *:
+      output "Your current score is ", _score, " out of a possible ",
+         MAXSCORE, " using ", _turns, " turns.%n%n";
+ 
+verb cave:
+   noun CONTENT:;
+   noun*:
+      output if _loc in _surface then
+            "I don't know where the cave is, but hereabouts no stream can run"
+            " on the surface for long. I would try the stream.%n%n"
+         else
+            "I need more detailed instructions to do that.%n%n"
+         fi;
+ 
+cons ARENT = "You aren't carrying it!%n%n";
+ 
+verb (dip, immerse):
+   noun INTRANS:
+      if quill in _carrying then
+         _noun := quill;
+         _goflag := true;
+      fi;
+   noun quill:
+      if not quill in _carrying then
+         output ARENT;
+      elif _loc ~= _square or desk.LONG ~= deskl3 then
+         output "There is nothing to dip it in.%n%n";
+      else
+         output "The tip of the feather is full of ink.%n%n";
+         quill.SHORT := quills2;
+         quill.LONG := quilll2;
+      fi;
+   noun *:
+      output "Don't be ridiculous!%n%n";
+ 
+verb (write, sign, register):
+   noun *:
+      if not quill in _carrying or quill.SHORT ~= quills2 then
+         output "You have nothing to write with.%n%n";
+      elif not (stocks in _carrying or stocks in _loc.CONTENTS) then
+         output "You have nothing to write on.%n%n";
+      elif stock.LONG = stockl2 then
+         output "You have already signed the stocks.%n%n";
+      else
+         output "Your name is now written as the owner of each stock"
+            " certificate.%n%n";
+         stock.LONG := stockl2;
+      fi;
+ 
+cons ALREADY = "You are already carrying it!%n%n";
+ 
+thing xyzzyx:;
+thing plugh:;
+thing plover:;
+thing fee:;
+ 
+verb (carry, take, keep, catch, steal, capture, get, tote):
+   noun MULTI:;
+   noun INTRANS:
+      _temp1 := 0;
+      for _temp2 in _loc.CONTENTS do
+         _noun := _temp2;
+         _temp1 := _temp1 + 1;
+      od;
+      if _temp1 = 1 then _goflag := true fi;
+   noun CHECK:
+      if _noun in _carrying then
+         output ALREADY;
+      elif not (_noun in _loc.CONTENTS or _loc.ICONTENTS is list and _noun in _loc.ICONTENTS) then
+         output "I see no ", _nounstring, " here!%n%n";
+      elif _noun.CARRY is absent then
+         output "You can't be serious!%n%n";
+      elif _carrycount >= MAXCARRY and (_noun ~= bird or bird.LONG = birdl2) then
+         output "You can't carry anything more. You'll have to drop something"
+            " first.%n%n";
+      else
+         _goflag := true;
+      fi;
+   noun COMMON:
+      output "OK%n%n";
+      _carrycount := _carrycount + 1;
+      _loc.CONTENTS <- _noun;
+      if _loc.ICONTENTS is list then _loc.ICONTENTS <- _noun fi;
+      _carrying <+ _noun;
+      if _noun.TREASURE isnt absent then
+         if _loc = _building then
+            _score := _score - TREASUREVALUE;
+         else
+            _score := _score + TREASUREVALUE;
+         fi;
+      fi;
+   noun inventory:
+      _invent();
+   noun all:
+      if _loc.CONTENTS then
+         _temp1 := false;
+         for _noun in _loc.CONTENTS do
+            if not _listerror and _noun.CARRY isnt absent and _noun in _loc.CONTENTS
+                  and (_noun ~= cage or bird.LONG ~= birdl2) then
+               _temp1 := true;
+               if _carrycount >= MAXCARRY and (_noun ~= bird or bird.LONG = birdl2) then
+                  output "You can't carry anything more. You'll have to drop something first.%n%n";
+                  _listerror := true;
+               else
+                  output _noun.SHORT, " - ";
+                  if get._noun is proc then
+                     _goflag := false;
+                     get._noun();
+                  else
+                     _goflag := true;
+                  fi;
+                  if _goflag then get.COMMON() fi;
+               fi;
+            fi;
+         od;
+         if not _temp1 then
+            output "There is nothing obvious to get here.%n%n";
+            _listerror := true;
+         fi;
+         _goflag := false;
+      else
+         output "There is nothing obvious to get here.%n%n";
+         _listerror := true;
+      fi;
+   noun chest:
+      _dwarves <- pirate;
+      _goflag := true;
+   noun gold:
+      _pittop -- down;
+      _pittop.CONTENTS <- stepstop;
+      _mists -- up;
+      _mists -- east;
+      _mists.CONTENTS <- stepsbottom;
+      _goflag := true;
+   noun dwarf:
+      output "You can't be serious!%n%n";
+   noun (plant, beanstalk):
+      output if _loc = _westpit or _loc = _reposne1 then
+            "The plant has exceptionally deep roots and cannot be pulled"
+            " free.%n%n"
+         else
+            "I see no plant here!%n%n"
+         fi;
+   noun knife:
+      output if _loc = _knifeloc then
+            "The dwarves' knives vanish as they strike the walls of the cave.%n%n"
+         else
+            "I see no knife here!%n%n"
+         fi;
+   noun bear:
+      if _bearfollowing then
+         output "The bear is already following you.%n%n";
+      elif not bear in _loc.CONTENTS then
+         output "I see no bear here!%n%n";
+      elif chain.LONG = chainl1 then
+         output "The bear is still chained to the wall.%n%n";
+      else
+         _bearfollowing := true;
+         _loc.CONTENTS <- bear;
+         output "OK%n%n";
+      fi;
+   noun robe:
+      if _robeon then
+         output "You are already wearing the robe.%n%n";
+      elif not robe in _loc.CONTENTS then
+         output "I see no ", _nounstring, " here!%n%n";
+      else
+         output "The robe rises gently, whirls about you, and"
+            " settles around your shoulders. Evidently you have"
+            " earned admission as a Probationary Apprentice in the"
+            " Wizard's Guild.%n%n";
+         _robeon := true;
+         _loc.CONTENTS <- robe;
+      fi;
+   noun (h2o, lubricant):
+      if bottle in _carrying and bottle.LONG =
+            if _noun = h2o then bottlel2 else bottlel3 fi then
+         output ALREADY;
+      elif bottle in _loc.CONTENTS and bottle.LONG =
+            if _noun = h2o then bottlel2 else bottlel3 fi then
+         _noun := bottle;
+         _goflag := true;
+      elif not bottle in _carrying then
+         output "You have nothing in which to carry it.%n%n";
+      elif bottle.LONG ~= bottlel1 then
+         output "Your bottle is already full.%n%n";
+      elif if _noun = lubricant then
+               _loc ~= _eastpit
+            else
+               _loc.WATER is absent
+            fi then
+         output "I see no ", _nounstring, " here!%n%n";
+      else
+         if _noun = lubricant then
+            output "Your bottle is now full of oil.%n%n";
+            bottle.SHORT := bottles3;
+            bottle.LONG := bottlel3;
+         else
+            output "Your bottle is now full of water.%n%n";
+            bottle.SHORT := bottles2;
+            bottle.LONG := bottlel2;
+         fi;
+      fi;
+   noun cage:
+      if bird.LONG = birdl2 then
+         _loc.CONTENTS <- cage;
+         if _loc.ICONTENTS is list then _loc.ICONTENTS <- cage fi;
+         _carrying <+ cage;
+         _noun := bird;
+      fi;
+      _goflag := true;
+   noun bird:
+      if bird.LONG = birdl2 then
+         _loc.CONTENTS <- cage;
+         if _loc.ICONTENTS is list then _loc.ICONTENTS <- cage fi;
+         _carrying <+ cage;
+         _goflag := true;
+      elif rod in _carrying then
+         output "The bird was unafraid when you entered, but as you approach"
+            " it becomes disturbed and you cannot catch it.%n%n";
+      elif not cage in _carrying then
+         output "You can catch the bird, but you cannot carry it.%n%n";
+      else
+         bird.LONG := birdl2;
+         _carrycount := _carrycount - 1;
+         _goflag := true;
+      fi;
+   noun quill:
+      if quill in _carrying then
+         output ALREADY;
+      elif quill in _loc.CONTENTS then
+         _goflag := true;
+      elif not (bird in _loc.CONTENTS or bird.LONG = birdl2 and
+            (cage in _carrying or cage in _loc.CONTENTS)) then
+         output "I see no feather here!%n%n";
+      elif _gotfeather then
+         output "The bird pecks at your hand and squawks angrily in buzzard."
+            " Translation: %"One is plenty, feather filtcher. You won't turn"
+            " me into a bald eagle!%"%n%n";
+      elif bird.LONG = birdl2 then
+         _gotfeather := true;
+         _goflag := true;
+      else
+         output "The bird flutters to a higher perch, letting out an enraged"
+            " squawk in buzzard dialect (I didn't know he spoke buzzard)!"
+            " Translation: %"You'll have to catch me first, pinion plucker!%"%n%n";
+      fi;
+   noun sword:
+      output "You heave on the sword with all your might. Little by little it"
+         " scrapes out, until finally it comes free.%n%n"
+         "There is a muffled crash in the distance.%n%n";
+      _medieval.east := _stone1;
+      _medieval.exit := _stone1;
+      _loc.CONTENTS <- sword;
+      _carrying <+ sword;
+      _carrycount := _carrycount + 1;
+      if sword.TREASURE isnt absent then _score := _score + TREASUREVALUE fi;
+   noun hilt:
+      if hilt in _carrying or sword in _carrying and sword.LONG = swordl1 then
+         output ALREADY;
+      elif not (hilt in _loc.CONTENTS or _loc = _medieval and sword.LONG = swordl1) then
+         output "I see no hilt here!%n%n";
+      elif _carrycount >= MAXCARRY then
+         output "You can't carry anything more. You'll have to drop something"
+            " first.%n%n";
+         _listerror := true;
+      elif _loc = _medieval and sword.LONG = swordl1 then
+         output "Weakened by rust, the blade gives way and the hilt breaks off"
+            " in your hand.%n%n";
+         sword.LONG := swordl2;
+         sword.SHORT := swords2;
+         _carrycount := _carrycount + 1;
+         _carrying <+ hilt;
+         sword -- TREASURE;
+         _score := _score + TREASUREVALUE;
+      else
+         _goflag := true;
+      fi;
+   noun stock:
+      if stock.LONG = stockl1 then
+         output "A deep rumble is heard in the distance and the ground shudders"
+            " slightly. You weren't thinking of making off with securities of"
+            " which you are not the registered owner?%n%n";
+      else
+         _goflag := true;
+      fi;
+   noun inkwell:
+      output if _loc = _square and desk.LONG ~= deskl1 then
+            "It's stuck to the desk and you can't budge it. An old mucilage"
+            " spill, no doubt.%n%n"
+         else
+            "I see no inkwell here!%n%n"
+         fi;
+   noun axe:
+      if axe.LONG = axel2 then
+         output "You can't be serious!%n%n";
+      else
+         _goflag := true;
+      fi;
+   noun note:
+      if not note in _loc.CONTENTS then
+         if _loc.MESSAGE is string then
+            output "Don't be ridiculous!%n%n";
+         else
+            output "I see no ", _nounstring, " here!%n%n";
+         fi;
+      elif note.LONG = notel3 then
+         output "I see no sign here!%n%n";
+      elif _trollflag = 1 then
+         if _loc = _chasmne then
+            output "You can't reach the hook from this side of the bridge.%n%n";
+         elif note.LONG = notel2 then
+            output "The cave dragons are especially fond of fingers seasoned"
+               " with wood splinters. You should reconsider.%n%n";
+         else
+            output "You take hold of the sign, but the wood is old and full"
+               " of splinters. You drop it in the middle of the bridge and"
+               " spend a moment picking wood out of your fingertips.%n%n";
+            note.LONG := notel2;
+         fi;
+      elif troll.LONG = trolll1 then
+         output "A soupcon of halitosis wafts in the breeze as the troll growls"
+            " and bears his yellowed, rotting teeth. You'd best let it be.%n%n";
+      else
+         output "A threatening snarl grumbles from the darkness beneath the"
+            " bridge. You really didn't want the sign much anyway.%n%n";
+      fi;
+   noun chain:
+      if chain.LONG = chainl4 then
+         chain.LONG := chainl3;
+         _chasmsw -- climb;
+         _ledge -- climb;
+         _chasmsw -- down;
+         _ledge -- up;
+         _ledge.CONTENTS <- chain;
+         _chasmsw.CONTENTS <- chain;
+         _goflag := true;
+      elif chain.LONG = chainl1 or chain.LONG = chainl2 then
+         output "The chain is still locked.%n%n";
+      else
+         _goflag := true;
+      fi;
+   noun oyster:
+      _loc.CONTENTS <- oyster;
+      _carrying <+ oyster;
+      _carrycount := _carrycount - 1;
+      output "OK%n%n";
+      if _closed and not _oysterhint then
+         output "Interesting. There seems to be something written"
+            " on the underside of the oyster.%n%n";
+         _oysterhint := true;
+      fi;
+   noun magazine:
+      if _loc = _witt then _score := _score - 3 fi;
+      _goflag := true;
+   noun nest:
+      _nestloc := nil;
+      _goflag := true;
+   noun (xyzzyx, plugh, plover, fee, sesame, cave):
+      output "You can't be serious!%n%n";
+   noun *:;
+ 
+verb (drop, release, free, discard, dump):
+   noun MULTI:;
+   noun INTRANS:
+      _temp1 := 0;
+      for _temp2 in _carrying do
+         _noun := _temp2;
+         _temp1 := _temp1 + 1;
+      od;
+      if _temp1 = 1 then _goflag := true fi;
+   noun CHECK:
+      if _noun in _carrying then
+         _goflag := true;
+      else
+         output ARENT;
+      fi;
+   noun COMMON:
+      output "OK%n%n";
+      _carrycount := _carrycount - 1;
+      _carrying <- _noun;
+      _loc.CONTENTS <+ _noun;
+      if _noun.TREASURE isnt absent then
+         if _loc = _building then
+            _score := _score + TREASUREVALUE;
+            if _score = MAXSCORE then
+               _quit := true;
+               _listerror := true;
+            fi;
+         else
+            _score := _score - TREASUREVALUE;
+         fi;
+      fi;
+   noun all:
+      if _carrying then
+         for _noun in _carrying do
+            if _noun in _carrying and (_noun ~= cage or bird.LONG ~= birdl2) then
+               output _noun.SHORT, " - ";
+               if _noun = bird and bird.LONG = birdl2 then
+                  drop.cage();
+               elif drop._noun is proc then
+                  _goflag := false;
+                  drop._noun();
+               else
+                  _goflag := true;
+               fi;
+               if _goflag then drop.COMMON() fi;
+            fi;
+         od;
+         _goflag := false;
+      else
+         output "You aren't carrying anything.%n%n";
+         _listerror := true;
+      fi;
+   noun robe:
+      if not _robeon then
+         output "You're not wearing it!%n%n";
+      else
+         output "OK%n%n";
+         _robeon := false;
+         _loc.CONTENTS <+ robe;
+      fi;
+   noun gold:
+      _pittop..down := _tomists;
+      _pittop.CONTENTS <++ stepstop;
+      _mists..east := _pittop;
+      _mists..up := _pittop;
+      _mists.CONTENTS <++ stepsbottom;
+      _goflag := true;
+   noun bird:
+      if _loc = _king and snake in _king.CONTENTS then
+         output "The little bird attacks the green snake, and in an astonishing"
+            " flurry drives the snake away.%n%n";
+         _king.CONTENTS <- snake;
+         _king.north := _lnsoew;
+         _king.south := _sschamber;
+         _king.west := _kingwest;
+         _king.southwest := _sew;
+         _carrying <- bird;
+         _loc.CONTENTS <+ bird;
+         _score := _score + 10;
+      elif _loc = _secretne1 or _loc = _secretne2 then
+         output "The little bird attacks the green dragon, and in an astonishing"
+            " flurry gets burnt to a cinder. The ashes blow away.%n%n";
+         _carrying <- bird;
+      else
+         _carrycount := _carrycount + 1;
+         _goflag := true;
+      fi;
+      bird.LONG := birdl1;
+   noun sword:
+      output "With considerable effort you force the sword back"
+         " into the boulder.%n%n";
+      _medieval.east := _darkroom;
+      _medieval.exit := _darkroom;
+      _carrying <- sword;
+      _carrycount := _carrycount - 1;
+      _loc.CONTENTS <++ sword;
+      if sword.LONG = swordl1 then _score := _score - TREASUREVALUE fi;
+   noun cage:
+      if bird.LONG = birdl2 then
+         _carrying <- cage;
+         _loc.CONTENTS <+ cage;
+         _noun := bird;
+      fi;
+      _goflag := true;
+   noun coins:
+      if _loc = _vending then
+         output batteriesl1, newline, newline;
+         _vending.CONTENTS <+ batteries;
+         _carrying <- coins;
+         _carrycount := _carrycount - 1;
+         _score := _score - TREASUREVALUE;
+      else
+         _goflag := true;
+      fi;
+   noun bear:
+      if not _bearfollowing then
+         output "What bear?%n%n";
+      elif _loc = _chasmne and _trollflag ~= 1 and troll.LONG = trolll1 then
+         output "The bear lumbers towards the troll, who lets out a startled"
+            " shriek and scurries away. The bear soon gives up the pursuit and"
+            " wanders back.%n%n";
+         _trollflag := 1;
+         troll.LONG := trolll2;
+         bear.LONG := bearl3;
+         _loc.CONTENTS <+ bear;
+         _bearloc := _loc;
+      else
+         output "OK%n%n";
+         bear.LONG := bearl3;
+         _loc.CONTENTS <+ bear;
+         _bearloc := _loc;
+      fi;
+      _bearfollowing := false;
+   noun vase:
+      if pillow in _loc.CONTENTS then
+         output "The vase is now resting, delicately, on a velvet pillow.%n%n";
+         _loc.CONTENTS <+ vase;
+         if _loc = _building then
+            _score := _score + TREASUREVALUE;
+         else
+            _score := _score - TREASUREVALUE;
+         fi;
+      else
+         output shardsl1, newline, newline;
+         _loc.CONTENTS <+ shards;
+         _score := _score - TREASUREVALUE;
+      fi;
+      _carrying <- vase;
+      _carrycount := _carrycount - 1;
+   noun (lubricant, h2o):
+      if bottle in _carrying and bottle.LONG =
+            if _noun = lubricant then bottlel3 else bottlel2 fi then
+         _noun := bottle;
+         _goflag := true;
+      else
+         output ARENT;
+      fi;
+   noun (plant, beanstalk, inkwell, knife, note, xyzzyx, plugh, plover, fee, sesame, cave):
+      output ARENT;
+   noun (hilt, quill):
+      if not _noun in _carrying then
+         output ARENT;
+      else
+         _goflag := true;
+      fi;
+   noun magazine:
+      if _loc = _witt then _score := _score + 3 fi;
+      _goflag := true;
+   noun nest:
+      _nestloc := _loc;
+      _goflag := true;
+   noun axe:
+      _axeloc := _loc;
+      _goflag := true;
+   noun *:;
+ 
+verb (push, move):
+   noun INTRANS:;
+   noun tablet:
+      if tablet.LONG = tabletl1 then
+         output "The tablet swings silently open to reveal a small opening"
+            " to the north.%n%n";
+         tablet.LONG := tabletl2;
+         _darkroom..north := _medieval;
+      else
+         output "The tablet slams shut with a loud crash.%n%n";
+         tablet.LONG := tabletl1;
+         _darkroom -- north;
+      fi;
+   noun *:
+      output "There is no reason to do that.%n%n";
+ 
+proc _plovertrans():
+   if not _closing and (_loc = _plover or _loc = _y2) then
+      if emerald in _carrying then
+         _carrying <- emerald;
+         _loc.CONTENTS <+ emerald;
+         _carrycount := _carrycount - 1;
+         _score := _score - TREASUREVALUE;
+      fi;
+      _move(if _loc = _plover then _y2 else _plover fi);
+   else
+      output "Nothing happened.%n%n";
+   fi;
+corp;
+ 
+verb plover:
+   noun CONTENT:;
+   noun *:
+      _plovertrans();
+ 
+proc _debristrans():
+   if not _closing and (_loc = _building or _loc = _debrisroom) then
+      _move(if _loc = _building then _debrisroom else _building fi);
+      if not _gotin then
+         _score := _score + 25;
+         _gotin := true;
+      fi;
+   else
+      output "Nothing happened.%n%n";
+   fi;
+corp;
+ 
+verb xyzzyx:
+   noun CONTENT:;
+   noun *:
+      _debristrans();
+ 
+proc _y2trans():
+   if not _closing and (_loc = _building or _loc = _y2) then
+      _move(if _loc = _building then _y2 else _building fi);
+      if not _gotin then
+         _score := _score + 25;
+         _gotin := true;
+      fi;
+      if _dwarfflag = 0 then _dwarfflag := 1 fi;
+   else
+      output "Nothing happened.%n%n";
+   fi;
+corp;
+ 
+verb plugh:
+   noun CONTENT:;
+   noun *:
+      _y2trans();
+ 
+proc _feefie(word):
+   if word ~= _feefieflag then
+      output if word = "fum" and _feefieflag = "foo" then
+            "What's the matter, can't you read? Now you'd best start over.%n%n"
+         else
+            "Nothing happened.%n%n"
+         fi;
+      _feefieflag := "fee";
+   elif _feefieflag = "fee" then
+      _feefieflag := "fie";
+      output "OK%n%n";
+   elif _feefieflag = "fie" then
+      _feefieflag := "foe";
+      output "OK%n%n";
+   elif _feefieflag = "foe" then
+      _feefieflag := "foo";
+      output "OK%n%n";
+   else
+      if nest in _giant.CONTENTS or _closing then
+         output "Nothing happened.%n%n";
+      else
+         output "Done.%n%n";
+         if nest in _carrying then
+            _carrying <- nest;
+            _carrycount := _carrycount - 1;
+            _score := _score - TREASUREVALUE;
+         elif _nestloc = _building then
+            _score := _score - 2 * TREASUREVALUE;
+         fi;
+         if _nestloc is table then _nestloc.CONTENTS <- nest fi;
+         _nestloc := _giant;
+         _giant.CONTENTS <+ nest;
+         if _nestloc = 1 then troll.LONG := trolll1 fi;
+      fi;
+      _feefieflag := "fee";
+   fi;
+corp;
+ 
+verb (fee, fie, foe, foo, fum):
+   noun CONTENT:;
+   noun *:
+      _feefie(_verbstring);
+ 
+verb (say, chant, sing, utter, mumble):
+   noun INTRANS:;
+   noun plover:
+      _plovertrans();
+   noun xyzzyx:
+      _debristrans();
+   noun plugh:
+      _y2trans();
+   noun fee:
+      _feefie(_nounstring);
+   noun sesame:
+      sesame.true();
+   noun *:
+      output "Okay, %"", _nounstring, "%".%n%n";
+ 
+verb (unlock, open):
+   noun INTRANS:
+      _noun := if grate in _loc.CONTENTS or grate2 in _loc.CONTENTS then
+            grate
+         elif _loc = _immense then
+            door
+         elif clam in _carrying or clam in _loc.CONTENTS then
+            clam
+         elif oyster in _carrying or oyster in _loc.CONTENTS then
+            oyster
+         elif _loc = _square then
+            desk
+         else
+            nil
+         fi;
+      if chain in _carrying or chain in _loc.CONTENTS then
+         if _noun is nil then
+            _noun := chain;
+            _goflag := true;
+         fi;
+      elif _noun isnt nil then
+         _goflag := true;
+      fi;
+   noun sesame:
+      sesame.true();
+   noun clam:
+      if clam in _carrying then
+         output "I advise you to put down the clam before opening it. >STRAIN!<%n%n";
+      elif trident in _carrying then
+         output "A glistening pearl falls out of the clam and rolls away."
+            " Goodness, this must really be an oyster. (I never was very good"
+            " at identifying bivalves.) Whatever it is, it has now snapped shut"
+            " again.%n%n";
+         _loc.CONTENTS <- clam;
+         _loc.CONTENTS <+ oyster;
+         _culdesac.CONTENTS <+ pearl;
+      else
+         output "You don't have anything strong enough to open the clam.%n%n";
+      fi;
+   noun oyster:
+      output if oyster in _carrying then
+            "I advise you to put down the oyster before opening it. >WRENCH!<%n%n"
+         elif trident in _carrying then
+            "The oyster creaks open, revealing nothing but oyster inside. It"
+            " promptly snaps shut again.%n%n"
+         else
+            "You don't have anything strong enough to open the oyster.%n%n"
+         fi;
+   noun door:
+      output if door.LONG = doorl1 then
+            "The door is extremely rusty and refuses to open.%n%n"
+         else
+            "OK%n%n"
+         fi;
+   noun cage:
+      output "It has no lock.%n%n";
+   noun keys:
+      output "You can't unlock the keys.%n%n";
+   noun grate:
+      if not (keys in _carrying or keys in _loc.CONTENTS) then
+         output "You have no keys!%n%n";
+      elif _loc = _gratebelow and _closing then
+         output _noexit, "%n%n";
+      elif _loc = _gratetop and _closed then
+         output "The keys don't seem to fit.%n%n"
+      elif grate.LONG = gratel1 then
+         output "The grate is now unlocked.%n%n";
+         grate.LONG := gratel2;
+         _gratetop.down := _entercave;
+         _gratetop.enter := _entercave;
+         _gratebelow.up := _gratetop;
+         _gratebelow.exit := _gratetop;
+         _repossw2.down := _vault;
+         _repossw2.enter := _vault;
+         _vault.up := _repossw2;
+         _vault.exit := _repossw2;
+      else
+         output "It was already unlocked.%n%n";
+      fi;
+   noun chain:
+      if not (keys in _carrying or keys in _loc.CONTENTS) then
+         output "You have no keys!%n%n";
+      elif chain.LONG = chainl1  and bear.LONG = bearl1 then
+         output "There is no way to get past the bear to unlock the chain,"
+            " which is probably just as well.%n%n";
+      elif chain.LONG = chainl4 then
+         output "It was already unlocked.%n%n";
+      else
+         output "The chain is now unlocked.%n%n";
+         chain.LONG := chainl3;
+      fi;
+   noun desk:
+      if not (keys in _carrying or keys in _loc.CONTENTS) then
+         output "You have no keys!%n%n";
+      elif desk.LONG ~= deskl1 then
+         output "It was already unlocked.%n%n";
+      else
+         output "The desk opens, revealing an old, dusty glass inkwell, and"
+            " a bundle of old yellow papers, tied with a faded velvet ribbon."
+            " The inkwell is half full of dust and old dried-up ink. The papers"
+            " teeter and fall out of the desk, raising a fearful cloud of dust."
+            " Sneezing, you read through tears that these are early certificates"
+            " of Colossal Gold Mines, Ltd. now one of the giants in the field!"
+            " The spaces on each share marked %"Shareholder's Name%" are all"
+            " blank.%n%n";
+         desk.LONG := deskl2;
+         _square.CONTENTS <+ stock;
+      fi;
+   noun ("display", "case"):
+      if _loc = _office then
+         output "It is beyond your power to do that.%n%n";
+      else
+         output "I see no ", _nounstring, " here!%n%n";
+      fi;
+   noun *:
+      output "I don't know how to lock or unlock such a thing.%n%n";
+ 
+verb (lock, close, shut):
+   noun INTRANS:
+      _noun := if grate in _loc.CONTENTS or grate2 in _loc.CONTENTS then
+            grate
+         elif _loc = _immense then
+            door
+         elif clam in _carrying or clam in _loc.CONTENTS then
+            clam
+         elif oyster in _carrying or oyster in _loc.CONTENTS then
+            oyster
+         elif _loc = _square then
+            desk
+         else
+            nil
+         fi;
+      if chain in _carrying or chain in _loc.CONTENTS then
+         if _noun is nil then
+            _noun := chain;
+            _goflag := true;
+         fi;
+      elif _noun isnt nil then
+         _goflag := true;
+      fi;
+   noun (clam, oyster):
+      output "What?%n%n";
+   noun door:
+      output "OK%n%n";
+   noun cage:
+      output "It has no lock.%n%n";
+   noun keys:
+      output "You can't lock the keys.%n%n";
+   noun grate:
+      if not (keys in _carrying or keys in _loc.CONTENTS) then
+         output "You have no keys!%n%n";
+      elif grate.LONG = gratel2 and not grate2 in _loc.CONTENTS then
+         output "The grate is now locked.%n%n";
+         grate.LONG := gratel1;
+         _gratetop.down := _throughgrate;
+         _gratetop.enter := _throughgrate;
+         _gratebelow.up := _throughgrate;
+         _gratebelow.exit := _throughgrate;
+         _repossw2.down := _throughgrate;
+         _repossw2.enter := _throughgrate;
+         _vault.up := _throughgrate;
+         _vault.exit := _throughgrate;
+      else
+         output "It was already locked.%n%n";
+      fi;
+   noun chain:
+      if not (keys in _carrying or keys in _loc.CONTENTS) then
+         output "You have no keys!%n%n";
+      elif chain.LONG = chainl1 or chain.LONG = chainl2 then
+         output "It was already locked.%n%n";
+      elif _loc ~= _barren then
+         output "There is nothing here to which the chain can be locked.%n%n";
+      else
+         output "The chain is now locked.%n%n";
+         chain.LONG := chainl2;
+      fi;
+   noun desk:
+      output if desk.LONG = deskl1 then
+            "It was already locked.%n%n"
+         else
+            "The lid seems to be jammed, it won't close.%n%n"
+         fi;
+   noun ("display", "case"):
+      if _loc = _office then
+         output "It is beyond your power to do that.%n%n";
+      else
+         output "I see no ", _nounstring, " here!%n%n";
+      fi;
+   noun *:
+      output "I don't know how to lock or unlock such a thing.%n%n";
+ 
+verb (hook, hang):
+   noun INTRANS:;
+   noun chain:
+      if _loc = _chasmne then
+         output "You can't reach the hook from this side of the bridge.%n%n";
+      elif _loc ~= _chasmsw or note.LONG = notel3 then
+         output "In thin air?%n%n";
+      elif note.LONG = notel1 then
+         output "There is no room on the hook for the chain.%n%n";
+      else
+         output "The chain is now dangling from the hook down into the chasm.%n%n";
+         chain.LONG := chainl4;
+         _chasmsw..climb := _ledge;
+         _ledge..climb := _chasmsw;
+         _chasmsw..down := _ledge;
+         _ledge..up := _chasmsw;
+         _chasmsw.CONTENTS <++ chain;
+         _ledge.CONTENTS <++ chain;
+         if chain in _carrying then
+            _carrying <- chain;
+            _carrycount := _carrycount - 1;
+            _score := _score - TREASUREVALUE;
+         else
+            _loc.CONTENTS <- chain;
+         fi;
+      fi;
+   noun *:
+      output "Hmmm.... I can't find anything to hang it by.%n%n";
+ 
+verb (light, on):
+   noun *:
+      if not (lamp in _carrying or lamp in _loc.CONTENTS) then
+         output "You have no source of light.%n%n";
+      elif _lamptime < 0 then
+         output "Your lamp has run out of power.%n%n";
+      else
+         output "Your lamp is now on.%n%n";
+         _lampon := true;
+         if _wasdark then _see() fi;
+         _wasdark := false;
+         lamp.LONG := lampl2;
+      fi;
+ 
+verb (off, extinguish):
+   noun *:
+      if not (lamp in _carrying or lamp in _loc.CONTENTS) then
+         output "You have no source of light.%n%n";
+      else
+         output "Your lamp is now off.%n%n";
+         _lampon := false;
+         lamp.LONG := lampl1;
+         if _loc.LIGHT is absent then
+            output "It is now pitch dark. If you proceed you will likely fall"
+               " into a pit.%n%n";
+            _wasdark := true;
+         fi;
+      fi;
+ 
+verb (wave, shake, swing):
+   noun INTRANS:;
+   noun rod:
+      if not rod in _carrying then
+         output ARENT;
+      elif _loc ~= _fissureeast and _loc ~= _fissurewest or _closing then
+         output "Nothing happens.%n%n";
+      elif bridge.LONG = bridgel1 then
+         output bridgel2, newline, newline;
+         bridge.LONG := bridgel2;
+         _fissureeast.west := _fissure3;
+         _fissureeast.cross := _fissure3;
+         _fissureeast.jump := _fissure1;
+         _fissurewest.east := _fissure3;
+         _fissurewest.cross := _fissure3;
+         _fissurewest.jump := _fissure1;
+      else
+         output bridgel1, newline, newline;
+         bridge.LONG := bridgel1;
+         _fissureeast.west := _fissurewest;
+         _fissureeast.cross := _fissurewest;
+         _fissureeast.jump := _fissure2;
+         _fissurewest.east := _fissureeast;
+         _fissurewest.cross := _fissureeast;
+         _fissurewest.jump := _fissure2;
+         if not bridge in _fissureeast.CONTENTS then
+            _fissureeast.CONTENTS <+ bridge;
+            _fissurewest.CONTENTS <+ bridge;
+         fi;
+      fi;
+   noun *:
+      output "Nothing happens.%n%n";
+ 
+verb (calm, placate, tame):
+   noun INTRANS:;
+   noun *:
+      output "I'm game. Would you care to explain how?%n%n";
+ 
+verb (walk, run, travel, go, proceed, continue, explore, goto, follow, turn):
+   noun MULTI:;
+   noun INTRANS:
+      _goflag := true;
+      _nounstring := nil;
+   noun :
+      output "Where?%n%n";
+   noun *:
+      if _noun in _movers then
+         _move(_loc._noun);
+      else
+         output "I don't know how.%n%n";
+         _listerror := true;
+      fi;
+ 
+verb (attack, kill, fight, hit, strike):
+   noun INTRANS:
+      _temp1 := 0;
+      if snake in _loc.CONTENTS then
+         _temp1 := 1;
+         _noun := snake;
+      elif dragon in _loc.CONTENTS then
+         _temp1 := 1;
+         _noun := dragon;
+      elif _loc = _barren and bear.LONG = bearl1 then
+         _temp1 := 1;
+         _noun := bear;
+      elif troll in _loc.CONTENTS and troll.LONG = trolll1 then
+         _temp1 := 1;
+         _noun := troll;
+      fi;
+      if _dwarfflag > 1 then
+         for _temp2 in _dwarves do
+            if _temp2 ~= pirate and _temp2.LOC = _loc then
+               _goflag := true;
+            fi;
+         od;
+         if _goflag then
+            _temp1 := _temp1 + 1;
+            _noun := dwarf;
+            _goflag := false;
+         fi;
+      fi;
+      if _temp1 = 1 then
+         _goflag := true;
+      elif _temp1 = 0 then
+         if _bearfollowing or bear in _loc.CONTENTS then
+            _temp1 := 1;
+            _noun := bear;
+         fi;
+         if bird in _carrying then
+            _temp1 := _temp1 + 1;
+            _noun := bird;
+         fi;
+         if clam in _carrying or clam in _loc.CONTENTS or
+               oyster in _carrying or oyster in _loc.CONTENTS then
+            _temp1 := _temp1 + 1;
+            _noun := clam;
+         fi;
+         if _temp1 = 1 then
+            _goflag := true;
+         elif _temp1 = 0 then
+            _goflag := true;
+            _nounstring := nil;
+         fi;
+      fi;
+   noun :
+      output "There is nothing here to attack.%n%n";
+   noun bird:
+      output "The little bird is now dead. Its body disappears.%n%n";
+      _carrying <- bird;
+      _loc.CONTENTS <- bird;
+   noun (clam, oyster):
+      output "The shell is very strong and is impervious to attack.%n%n";
+   noun snake:
+      output "Attacking the snake both doesn't work and is very dangerous.%n%n";
+   noun dwarf:
+      _temp1 := false;
+      if _dwarfflag > 1 then
+         for _temp2 in _dwarves do
+            if _temp2 ~= pirate and _temp2.LOC = _loc then
+               _temp1 := true;
+            fi;
+         od;
+      fi;
+      output if _temp1 then
+            "You attack a little dwarf, but he dodges out of the way.%n%n"
+         else
+            "I see no dwarf here!%n%n"
+         fi;
+   noun troll:
+      output "Trolls are close relatives with the rocks and have skins as tough"
+         " as that of a rhinocerous. The troll fends off your blows effortlessly.%n%n";
+   noun bear:
+      output if not (_bearfollowing or bear in _loc.CONTENTS) then
+            "I see no bear here!%n%n"
+         elif bear.LONG = bearl1 then
+            "With what? Your bare hands? Against *his* bear hands?%n%n"
+         else
+            "The bear is confused; he only wants to be your friend.%n%n"
+         fi;
+   noun dragon:
+      if dragon.LONG = dragonl2 then
+         output "For crying out loud, the poor thing is already dead!%n%n";
+      else
+         output "With what? Your bare hands?%n%n";
+         _temp1 := input;
+         if _temp1 is list and _temp1 then
+            _temp2 := false;
+            for _verb in _temp1 do
+               if _verb = "yes" or _verb = "ok" or _verb = "y" then
+                  _temp2 := true;
+               fi;
+            od;
+            if _temp2 then
+               output "Congratulations! You have just vanquished a dragon with"
+                  " your bare hands! (Unbelievable, isn't it?)%n%n";
+               for _verb in _temp1 do _temp1 <- _verb od;
+               _secretne1.CONTENTS <- dragon;
+               _secretne1.CONTENTS <- rug;
+               for _temp1 in _secretne2.CONTENTS do
+                  _secretne2.CONTENTS <- _temp1;
+                  _secretne3.CONTENTS <+ _temp1;
+               od;
+               for _temp1 in _secretne1.CONTENTS do
+                  _secretne1.CONTENTS <- _temp1;
+                  _secretne3.CONTENTS <+ _temp1;
+               od;
+               _loc := _secretne3;
+               _sew.west := _secretne3;
+               _secretns1.south := _secretne3;
+               dragon.LONG := dragonl2;
+               rug.LONG := rugl2;
+               rug..CARRY := nil;
+               _score := _score + 10;
+            else
+               _parse(_temp1);
+            fi;
+         else
+            _parse(_temp1);
+         fi;
+         _listerror := true;
+      fi;
+   noun *:
+      output "You can't ", _verbstring, " that!%n%n";
+ 
+verb pour:
+   noun INTRANS:
+      if bottle in _carrying and bottle.LONG ~= bottlel1 then
+         _noun := if bottle.LONG = bottlel2 then h2o else lubricant fi;
+         _goflag := true;
+      fi;
+   noun lubricant:
+      if not (bottle in _carrying and bottle.LONG = bottlel3) then
+         output ARENT;
+      else
+         if _loc = _westpit then
+            output "The plant indignantly shakes the oil off its leaves and asks"
+               " %"Water?%"%n%n";
+         elif _loc = _immense then
+            output "The oil has freed up the hinges so the door will now move,"
+               " although it requires some effort.%n%n";
+            door.LONG := doorl2;
+            _immense.north := _cavern;
+            _immense.enter := _cavern;
+         else
+            output "Your bottle is empty and the ground is wet.%n%n";
+         fi;
+         bottle.LONG := bottlel1;
+         bottle.SHORT := bottles1;
+      fi;
+   noun h2o:
+      if not (bottle in _carrying and bottle.LONG = bottlel2) then
+         output ARENT;
+      else
+         if _loc = _immense then
+            output "The hinges are quite thoroughly rusted now and won't budge.%n%n";
+            door.LONG := doorl1;
+            _immense.north := _door1;
+            _immense.enter := _door1;
+         elif _loc = _westpit then
+            if plant.LONG = plantl1 then
+               output "The plant spurts into furious growth for a few seconds.%n%n";
+               plant.LONG := plantl2;
+               _twopiteast.CONTENTS <++ beanstalk;
+               _twopitwest.CONTENTS <++ beanstalk;
+            elif plant.LONG = plantl2 then
+               output "The plant grows explosively, almost filling the bottom of"
+                  " the pit.%n%n";
+               plant.LONG := plantl3;
+               beanstalk.LONG := stalkl2;
+               _score := _score + 10;
+            else
+               output "You've over-watered the plant! It's shriveling up! It's,"
+                  " it's ...%n%n";
+               plant.LONG := plantl1;
+               beanstalk.LONG := stalkl1;
+               _twopiteast.CONTENTS <- beanstalk;
+               _twopitwest.CONTENTS <- beanstalk;
+               _score := _score - 10;
+            fi;
+            _see();
+         elif _loc = _square and desk.LONG = deskl2 then
+            output "The water splashes into the inkwell, turning the dried-up"
+               " residue in the bottom into ink.%n%n";
+            desk.LONG := deskl3;
+         else
+            output "Your bottle is empty and the ground is wet.%n%n";
+         fi;
+         bottle.LONG := bottlel1;
+         bottle.SHORT := bottles1;
+      fi;
+   noun *:
+      output "You can't pour that.%n%n";
+ 
+verb (eat, devour):
+   noun INTRANS:
+      if food in _carrying or food in _loc.CONTENTS then
+         _noun := food;
+         _goflag := true;
+      fi;
+   noun food:
+      output "Thank you, it was delicious!%n%n";
+      if food in _carrying then
+         _carrying <- food;
+         _carrycount := _carrycount - 1;
+      else
+         _loc.CONTENTS <- food;
+      fi;
+   noun (bird, snake, clam, oyster, dwarf, dragon, troll, bear):
+      output "I think I just lost my appetite.%n%n";
+   noun *:
+      output "Don't be ridiculous!%n%n";
+ 
+verb drink:
+   noun INTRANS:
+      if _loc.WATER isnt absent or bottle.LONG = bottlel2 and
+            (bottle in _carrying or bottle in _loc.CONTENTS) then
+         _noun := h2o;
+         _goflag := true;
+      fi;
+   noun h2o:
+      if (bottle in _carrying or bottle in _loc.CONTENTS) and bottle.LONG = bottlel2 then
+         output "The bottle of water is now empty.%n%n";
+         bottle.LONG := bottlel1;
+         bottle.SHORT := bottles1;
+      elif _loc.WATER isnt absent then
+         output "You have taken a drink from the stream. The water tastes"
+            " strongly of minerals, but is not unpleasant. It is extremely"
+            " cold.%n%n";
+      else
+         output "I see no water here!%n%n";
+      fi;
+   noun *:
+      output "Don't be ridiculous!%n%n";
+ 
+verb rub:
+   noun INTRANS:;
+   noun lamp:
+      output "Rubbing the electric lamp is not particularly rewarding. Anyway,"
+         " nothing exciting happens.%n%n";
+   noun *:
+      output "Peculiar. Nothing unexpected happens.%n%n";
+ 
+verb feed:
+   noun INTRANS:;
+   noun bird:
+      output "It's not hungry (it's merely pinin' for the fjords). Besides, you"
+         " have no bird seed.%n%n";
+   noun dragon:
+      output if dragon.LONG = dragonl1 then
+            "There is nothing here it wants to eat (except perhaps you).%n%n"
+         else
+            "Don't be ridiculous!%n%n"
+         fi;
+   noun troll:
+      output "Gluttony is not one of the troll's vices. Avarice, however, is.%n%n";
+   noun snake:
+      if bird in _carrying or bird in _loc.CONTENTS then
+         output "The snake has now devoured your bird.%n%n";
+         _carrying <- bird;
+         _loc.CONTENTS <- bird;
+      else
+         output "There's nothing here it wants to eat (except perhaps you).%n%n";
+      fi;
+   noun dwarf:
+      _temp1 := false;
+      if _dwarfflag > 1 then
+         for _temp2 in _dwarves do
+            if _temp2 ~= pirate and _temp2.LOC = _loc then
+               _temp1 := true;
+            fi;
+         od;
+      fi;
+      if _temp1 then
+         output "You fool, dwarves eat only coal! Now you've made"
+            " him *really* mad!!%n%n";
+         _dwarfflag := _dwarfflag + 1;
+      else
+         output "I see no dwarf here!%n%n";
+      fi;
+   noun bear:
+      if not (bear in _loc.CONTENTS or _bearfollowing) then
+         output "I see no bear here!%n%n";
+      elif bear.LONG ~= bearl1 then
+         output "There is nothing here to eat.%n%n";
+      elif not (food in _carrying or food in _loc.CONTENTS) then
+         output "There's nothing here it wants to eat (except perhaps you).%n%n";
+      else
+         output "The bear eagerly wolfs down your food, after which he seems to"
+            " calm down considerably and even becomes rather friendly.%n%n";
+         bear.LONG := bearl2;
+         axe.LONG := axel1;
+         if food in _carrying then
+            _carrying <- food;
+            _carrycount := _carrycount - 1;
+         else
+            _loc.CONTENTS <- food;
+         fi;
+      fi;
+   noun *:
+      output "I'm game. Would you care to explain how?%n%n";
+ 
+verb (throw, toss):
+   noun INTRANS:
+      drop.INTRANS();
+   noun CHECK:
+      drop.CHECK();
+   noun COMMON:
+      drop.COMMON();
+   noun food:
+      if _loc = _barren then
+         feed.bear();
+      else
+         _goflag := true;
+      fi;
+   noun axe:
+      _temp1 := false;
+      for _temp2 in _dwarves do
+         if _temp2 ~= pirate and _temp2.LOC = _loc then
+            _temp1 := true;
+         fi;
+      od;
+      if _temp1 then
+         if ? < 5000 then
+            for _temp2 in _dwarves do
+               if _temp1 and _temp2 ~= pirate and _temp2.LOC = _loc then
+                  _temp1 := false;
+                  _dwarves <- _temp2;
+               fi;
+               if _temp2 ~= pirate and _temp2.LOC = _loc then
+                  _temp2.OLDLOC := _temp2.ILOC;
+                  _temp2.LOC := _temp2.ILOC;
+               fi;
+            od;
+            output "You killed a little dwarf. The body vanishes in"
+               " a cloud of greasy black smoke.%n%n";
+         else
+            output "You attack a little dwarf, but he dodges out of"
+               " way.%n%n";
+         fi;
+         _carrying <- axe;
+         _carrycount := _carrycount - 1;
+         _loc.CONTENTS <+ axe;
+      elif dragon in _loc.CONTENTS and dragon.LONG = dragonl1 then
+         output "The axe bounces harmlessly off the dragon's thick scales.%n%n";
+         _carrying <- axe;
+         _carrycount := _carrycount - 1;
+         _loc.CONTENTS <+ axe;
+      elif troll in _loc.CONTENTS and troll.LONG = trolll1 then
+         output "The troll deftly catches the axe, examines it carefully, and"
+            " tosses it back, declaring, %"Good workmanship, but it's not"
+            " valuable enough.%"%n%n";
+      elif bear in _loc.CONTENTS and bear.LONG = bearl1 then
+         output "The axe misses and lands near the bear where you"
+            " can't get at it.%n%n";
+         axe.LONG := axel1;
+         _carrying <- axe;
+         _carrycount := _carrycount - 1;
+         _loc.CONTENTS <+ axe;
+      else
+         _goflag := true;
+      fi;
+   noun *:
+      if _noun isnt table then
+         output ARENT;
+         _goflag := false;
+      elif _noun.TREASURE isnt absent and troll in _loc.CONTENTS
+            and troll.LONG = trolll1 and _noun in _carrying then
+         output "The troll catches your treasure and scurries away out of sight.%n%n";
+         _carrying <- _noun;
+         _carrycount := _carrycount - 1;
+         _score := _score - TREASUREVALUE;
+         if _noun = nest then _nestloc := 1 fi;
+         troll.LONG := trolll2;
+         if _loc = _chasmne then _trollflag := 2 fi;
+         _goflag := false;
+      elif drop._noun is proc then
+         _goflag := false;
+         drop._noun();
+      fi;
+ 
+verb (quit, QUIT):
+   noun *:
+      output "Do you really want to quit now?%n%n";
+      if _yes() then
+         _score := _score - 4;
+         _listerror := true;
+         _quit := true;
+      fi;
+ 
+verb (find, where):
+   noun INTRANS:;
+   noun cave:
+      cave.true();
+   noun *:
+      output if _noun in _carrying then
+            ALREADY
+         elif _noun in _loc.CONTENTS or
+               _noun = bear and _bearfollowing or
+               (_noun = water and bottle.LONG = bottlel2 or
+                  _noun = oil and bottle.LONG = bottlel3) and
+                  (bottle in _carrying or bottle in _loc.CONTENTS) or
+               _noun = inkwell and _loc = _square and desk.LONG ~= deskl1 or
+               _noun = hilt and sword.LONG = swordl1 and
+                  (sword in _carrying or sword in _loc.CONTENTS) then
+            "I believe what you want is right here with you.%n%n"
+         else
+            "I can only tell you what you see as you move about and manipulate"
+            " things. I cannot tell you where remote things are.%n%n"
+         fi;
+ 
+verb fill:
+   noun INTRANS:
+      if bottle in _carrying then
+         _noun := bottle;
+         _goflag := true;
+      fi;
+   noun vase:
+      if not vase in _carrying then
+         output ARENT;
+      elif _loc ~= _eastpit and _loc.WATER is absent then
+         output "There is nothing here with which to fill the vase.%n%n";
+      else
+         output "The sudden change in temperature has delicately shattered the"
+            " vase!%n%n";
+         _carrying <- vase;
+         _carrycount := _carrycount - 1;
+         _score := _score - TREASUREVALUE;
+         _loc.CONTENTS <+ shards;
+      fi;
+   noun bottle:
+      if not bottle in _carrying then
+         output ARENT;
+      elif bottle.LONG ~= bottlel1 then
+         output "Your bottle is already full.%n%n";
+      elif _loc = _eastpit then
+         output "Your bottle is now full of oil.%n%n";
+         bottle.LONG := bottlel3;
+         bottle.SHORT := bottles3;
+      elif _loc.WATER isnt absent then
+         output "Your bottle is now full of water.%n%n";
+         bottle.LONG := bottlel2;
+         bottle.SHORT := bottles2;
+      else
+         output "There is nothing here with which to fill the bottle.%n%n";
+      fi;
+   noun inkwell:
+      if _loc ~= _square or desk.LONG = deskl1 then
+         output "I see no inkwell here.%n%n";
+      elif not bottle in _carrying or bottle.LONG ~= bottlel2 then
+         output "You have nothing with which to fill the"
+            " inkwell.%n%n";
+      elif desk.LONG = deskl3 then
+         output "The inkwell is already full.%n%n";
+      else
+         output "The water splashes into the inkwell, turning the"
+            " dried-up residue in the bottom into ink.%n%n";
+         desk.LONG := deskl3;
+         bottle.LONG := bottlel1;
+         bottle.SHORT := bottles1;
+      fi;
+   noun *:
+      output "You can't fill that.%n%n";
+ 
+verb (blast, detonate, ignite, blowup):
+   noun *:
+      if not _closed or rod2 in _repossw1.ICONTENTS then
+         output "Blasting requires dynamite.%n%n";
+      else
+         if rod2 in _carrying or rod2 in _loc.CONTENTS then
+            output "There is a loud explosion, and you are suddenly splashed"
+               " across the walls of the room.%n%n";
+            _quit := true;
+         elif _loc = _reposne1 then
+            output "There is a loud explosion, and a twenty-foot hole appears"
+               " in the far wall, burying the snakes in the rubble. A river of"
+               " molten lava pours in through the hole, destroying everything"
+               " in its path, including you!%n%n";
+            _quit := true;
+         else
+            output "There is a loud explosion, and a twenty-foot hole appears"
+               " in the far wall, burying the dwarves in the rubble. You march"
+               " through the hole.%n%n";
+            keys.LONG := keysl2;
+            _move(_office);
+            _score := _score + 30;
+         fi;
+      fi;
+ 
+verb (brief, terse):
+   noun *:
+      output "Okay, from now on I'll only describe a place in full the first"
+         " time you come to it. To get the full description, say %"look%".%n%n";
+      _verbose := false;
+ 
+verb (verbose, long):
+   noun *:
+      output "Long descriptions now in effect.%n%n";
+      _verbose := true;
+ 
+verb (read, peruse):
+   noun INTRANS:
+      if _closed and oyster in _carrying then
+         _noun := oyster;
+         _goflag := true;
+      elif message in _loc.CONTENTS then
+         _noun := message;
+         _goflag := true;
+      elif tablet in _loc.CONTENTS then
+         _noun := tablet;
+         _goflag := true;
+      elif magazine in _carrying or magazine in _loc.CONTENTS then
+         _noun := magazine;
+         _goflag := true;
+      elif dictionary in _carrying or dictionary in _loc.CONTENTS then
+         _noun := dictionary;
+         _goflag := true;
+      elif _loc.MESSAGE is string then
+         _noun := note;
+         _goflag := true;
+      fi;
+   noun dictionary:
+      output "Baggins' New Dwarvish-English Dictionary%n"
+         "       Publ. TA 3005, Imlardris%n"
+         "               Reformed Spellings%n"
+         "-%n"
+         "      -%%&-/??&  (v.i.): to excavate a new side passage through%n"
+         "                soft rock%n"
+         "      -%%!%"!  (n., fem): small warm granite stone%n"
+         "...%n"
+         "These words are hurting my throat. I quit!%n%n";
+   noun magazine:
+      output if dictionary in _carrying or dictionary in _loc.CONTENTS then
+            "Most of these have been damaged by water, but here's one I can"
+            " read:%n%n"
+            "        Spelunker Today%n"
+            "        Vol. 1 Number 2%n%n"
+            "We regret to announce that out associate editor was lost while"
+            " taking two consultants on a tour of Colossal Cave. One consultant"
+            " returned, his hair and eyebrows turned white from the ordeal, and"
+            " was able to mumble only %"The Dark-room ... the Dark-room ... %"%n"
+            "        ...%n"
+            "One of our contributing correspondents reports the Troll to be in"
+            " exceptional good humor; snickering sounds have been heard issuing"
+            " from beneath the troll bridge.%n%n"
+         else
+            "I'm afraid the magazine is written in dwarvish.%n%n"
+         fi;
+   noun tablet:
+      output "%"Congratulations on bringing light into the Dark-room!%"%n%n";
+   noun message:
+      output "%"This is not the maze where the pirate leaves his treasure"
+         " chest.%"%n%n";
+   noun oyster:
+      if not _closed then
+         output "I'm afraid I don't understand.%n%n";
+      elif _readoyster then
+         output "It says the same thing it did before.%n%n";
+      else
+         output "Hmmm, this looks like a clue, which means it'll cost you 10"
+            " points to read it. Should I go ahead and read it anyway?%n%n";
+         if _yes() then
+            output "It says %"There is something strange about this place, such"
+               " that one of the words I've always known now has a new effect.%"%n%n";
+            _readoyster := true;
+            _score := _score - 10;
+         fi;
+      fi;
+   noun (note, sign):
+      if _loc.MESSAGE is string then
+         output "%"", _loc.MESSAGE, "%"%n%n";
+      else
+         output "I see no ", _nounstring, " here!%n%n";
+      fi;
+   noun *:
+      output "I'm afraid I don't understand.%n%n";
+ 
+cons RUCKUS = "The resulting ruckus has awakened the dwarves. There are now"
+      " several threatening little dwarves in the room with you! Most of them"
+      " throw knives at you! All of them get you!%n%n";
+ 
+verb (break, shatter, smash):
+   noun INTRANS:;
+   noun "mirror":
+      if _loc = _reposne1 or _loc = _repossw1 then
+         output "You strike the mirror with a resounding blow, whereupon it"
+            " shatters into a myriad tiny fragments.%n%n", RUCKUS;
+         _quit := true;
+      elif _loc = _mirrorcanyon then
+         output "It is too far up for you to reach.%n%n";
+      else
+         output "I see no mirror here!%n%n";
+      fi;
+   noun vase:
+      output "You have taken the vase and hurled it delicately to the ground.%n%n";
+      if vase in _carrying then
+         _carrying <- vase;
+         _carrycount := _carrycount - 1;
+         _score := _score - TREASUREVALUE;
+      else
+         _loc.CONTENTS <- vase;
+      fi;
+      _loc.CONTENTS <+ shards;
+   noun (sword, hilt):
+      if sword.LONG = swordl2 then
+         output "It's already broken!%n%n";
+      else
+         sword.LONG := swordl2;
+         sword.SHORT := swords2;
+         sword -- TREASUREVALUE;
+         if _carrycount >= MAXCARRY then
+            output "Weakened by the rust, the blade gives way and the hilt breaks"
+               " off and falls to the ground.%n%n";
+            _loc.CONTENTS <+ hilt;
+            if sword in _carrying then _score := _score - TREASUREVALUE fi;
+         else
+            output "Weakened by the rust, the blade gives way and the hilt breaks"
+               " off in your hand.%n%n";
+            _carrying <+ hilt;
+            _carrycount := _carrycount + 1;
+            if not sword in _carrying then _score := _score + TREASUREVALUE fi;
+         fi;
+      fi;
+   noun *:
+      output "It is beyond your power to do that.%n%n";
+ 
+verb (wake, disturb):
+   noun INTRANS:
+      if _closed then
+         _noun := dwarf;
+         _goflag := true;
+      fi;
+   noun dwarf:
+      if not _closed then
+         output "Don't be ridiculous!%n%n";
+      else
+         output "You prod the nearest dwarf, who wakes up grumpily, takes one"
+            " look at you, curses, and grabs for his axe.%n%n", RUCKUS;
+         _quit := true;
+      fi;
+   noun *:
+      output "Don't be ridiculous!%n%n";
+ 
+verb (water, nourish):
+   noun INTRANS:;
+   noun (plant, beanstalk):
+      if not (bottle in _carrying and bottle.LONG = bottlel2) then
+         output "You have no water.%n%n";
+      elif beanstalk in _loc.CONTENTS then
+         output "The beanstalk would prefer water near its roots, thank you.%n%n";
+      elif not plant in _loc.CONTENTS then
+         output "I see no ", _nounstring, " here!%n%n";
+      else
+         if plant.LONG = plantl1 then
+            output "The plant spurts into furious growth for a few seconds.%n%n";
+            plant.LONG := plantl2;
+            _twopiteast.CONTENTS <++ beanstalk;
+            _twopitwest.CONTENTS <++ beanstalk;
+         elif plant.LONG = plantl2 then
+            output "The plant grows explosively, almost filling the bottom of"
+               " the pit.%n%n";
+            plant.LONG := plantl3;
+            beanstalk.LONG := stalkl2;
+            _score := _score + 10;
+         else
+            output "You've over-watered the plant! It's shriveling up! It's,"
+               " it's ...%n%n";
+            plant.LONG := plantl1;
+            beanstalk.LONG := stalkl1;
+            _twopiteast.CONTENTS <- beanstalk;
+            _twopitwest.CONTENTS <- beanstalk;
+            _score := _score - 10;
+         fi;
+         _see();
+         bottle.LONG := bottlel1;
+         bottle.SHORT := bottles1;
+      fi;
+   noun door:
+      if not (bottle in _carrying and bottle.LONG = bottlel2) then
+         output "You have no water.%n%n";
+      else
+         output "The hinges are quite thoroughly rusted now and won't budge.%n%n";
+         door.LONG := doorl1;
+         _immense.north := _door1;
+         _immense.enter := _door1;
+         bottle.LONG := bottlel1;
+         bottle.SHORT := bottles1;
+      fi;
+   noun inkwell:
+      if _loc ~= _square or desk.LONG = deskl1 then
+         output "I see no inkwell here!%n%n";
+      elif desk.LONG = deskl3 then
+         output "It is already well watered.%n%n";
+      else
+         output "The water splashes into the inkwell, turning the dried-up"
+            " residue in the bottom into ink.%n%n";
+         desk.LONG := deskl3;
+         bottle.LONG := bottlel1;
+         bottle.SHORT := bottles1;
+      fi;
+   noun *:
+      output "You can't water that!%n%n";
+ 
+verb (oil, lubricate):
+   noun INTRANS:;
+   noun door:
+      if not (bottle in _carrying and bottle.LONG = bottlel3) then
+         output "You have no oil.%n%n";
+      else
+         output "The oil has freed up the hinges so the door will now move,"
+            " although it requires some effort.%n%n";
+         door.LONG := doorl2;
+         _immense.north := _cavern;
+         _immense.enter := _cavern;
+         bottle.LONG := bottlel1;
+         bottle.SHORT := bottles1;
+      fi;
+   noun (beanstalk, plant):
+      if not (bottle in _carrying and bottle.LONG = bottlel3) then
+         output "You have no oil.%n%n";
+      else
+         output "The plant indignantly shakes the oil off its leaves and asks"
+            " %"Water?%"%n%n";
+         bottle.LONG := bottlel1;
+         bottle.SHORT := bottles1;
+      fi;
+   noun *:
+      output "You can't oil that!%n%n";
+ 
+verb empty:
+   noun INTRANS:
+      if bottle in _carrying then
+         _noun := bottle;
+         _goflag := true;
+      fi;
+   noun bottle:
+      if bottle.LONG = bottlel1 then
+         output "Your bottle is already empty.%n%n";
+      elif bottle.LONG = bottlel2 then
+         pour.h2o();
+      else
+         pour.lubricant();
+      fi;
+   noun *:
+      output "I don't think it has anything in it.%n%n";
+ 
+thing _dtab1:
+   0, 1, 2, 3, 4;
+ 
+thing _dtab2:
+   0 "zero",      1 "one",
+   2 "two",       3 "three",
+   4 "four",      5 "five",
+   6 "six",       7 "seven",
+   8 "eight",     9 "nine";
+ 
+proc _passwd()result:
+   var i, answer, reply;
+ 
+   output "Restricted command. ";
+   i := 0;
+   while i < 5 do
+      _dtab1.i := ? / 1000;
+      output _dtab1.i;
+      i := i + 1;
+   od;
+   i := ? / 1000;
+   output i, "%n%n";
+   answer := input;
+   if not answer then
+      _quit := true;
+   else
+      for reply in answer do
+         answer <- reply;
+      od;
+      _quit := reply ~= _dtab2.((_dtab1.(i % 5) + 2) % 10);
+   fi;
+   _quit
+corp;
+ 
+verb superget:
+   noun *:
+      if _passwd() then
+         ;
+      elif _noun in _carrying then
+         output ALREADY;
+      elif _noun isnt table or _noun.CARRY is absent then
+         output "Not gettable.%n%n";
+      else
+         _carrying <+ _noun;
+      fi;
+ 
+verb supermove:
+   noun *:
+      if _passwd() then
+         ;
+      elif _noun isnt table or _noun.CONTENTS isnt list then
+         output "Not a location.%n%n";
+      else
+         _move(_noun);
+      fi;
+ 
+verb (wear, don):
+   noun INTRANS:;
+   noun robe:
+      get.robe();
+   noun hat:
+      output "There is a low rumble of thunder. I should warn you that the last"
+         " mortal to don a Journeyman Wizard's hat without having been officially"
+         " admitted to that rank was summarily turned into a toad.%n%n";
+   noun *:
+      output "I don't think it would suit you.%n%n";
+ 
+start:
+   _movers := _.1;
+   _surface := _.2;
+   _safe := _.3;
+   _dwarves := _.4;
+   _loc := _start;
+   _oldloc := _start;
+   _carrying := emptylist;
+   _carrycount := 0;
+   _quit := false;
+   _turns := 0;
+   _wasdark := false;
+   _diecount := 0;
+   _verbose := true;
+   _score := 0;
+   _lamptime := LAMPTIME1;
+   _clock1 := TOCLOSING;
+   _clock2 := TOCLOSED;
+   _lampwarned := false;
+   _seenbat := false;
+   _trollflag := 0;
+   _bearfollowing := false;
+   _lampon := false;
+   _oldverb := nil;
+   _oldnoun := nil;
+   _westcount := 0;
+   _closing := false;
+   _closed := false;
+   _robeon := false;
+   _oysterhint := false;
+   _readoyster := false;
+   _dwarfflag := 0;
+   _knifeloc := nil;
+   _gotin := false;
+   _gotfeather := false;
+   _whichhint := 0;
+   _fissureeast.west := _fissure3;
+   _fissureeast.cross := _fissure3;
+   _fissureeast.jump := _fissure1;
+   _fissurewest.east := _fissure3;
+   _fissurewest.cross := _fissure3;
+   _fissurewest.jump := _fissure1;
+   _king.north := _pastsnake;
+   _king.south := _pastsnake;
+   _king.west := _pastsnake;
+   _bearloc := _barren;
+   _nestloc := _giant;
+   _feefieflag := "fee";
+   _medieval.east := _darkroom;
+   _medieval.exit := _darkroom;
+   _darkroom -- north;
+   _gratetop.down := _throughgrate;
+   _gratetop.enter := _throughgrate;
+   _gratebelow.up := _throughgrate;
+   _gratebelow.exit := _throughgrate;
+   _repossw2.down := _throughgrate;
+   _repossw2.enter := _throughgrate;
+   _vault.up := _throughgrate;
+   _vault.exit := _throughgrate;
+   _chasmsw -- climb;
+   _ledge -- climb;
+   _chasmsw -- down;
+   _ledge -- up;
+   _immense.north := _door1;
+   _immense.enter := _door1;
+   lamp.LONG := lampl1;
+   grate.LONG := gratel1;
+   bottle.SHORT := bottles2;
+   bottle.LONG := bottlel2;
+   bird.LONG := birdl1;
+   axe.LONG := axel1;
+   dragon.LONG := dragonl1;
+   rug.LONG := rugl1;
+   plant.LONG := plantl1;
+   beanstalk.LONG := stalkl1;
+   door.LONG := doorl1;
+   note.LONG := notel1;
+   troll.LONG := trolll1;
+   bear.LONG := bearl1;
+   tablet.LONG := tabletl1;
+   sword.SHORT := swords1;
+   sword.LONG := swordl1;
+   quill.SHORT := quills1;
+   quill.LONG := quilll1;
+   desk.LONG := deskl1;
+   stock.LONG := stockl1;
+   chain.LONG := chainl1;
+   bridge.LONG := bridgel2;
+   batteries.LONG := batteriesl1;
+   keys.LONG := keysl1;
+   rug -- CARRY;
+ 
+   output "%nWelcome to Adventure!! Would you like instructions?%n%n";
+   if _yes() then
+      output "Somewhere nearby is colossal cave, where others have found"
+         " fortunes in treasure and gold, though it is rumored that some who"
+         " enter are never seen again. Magic is said to work in the cave. I"
+         " will be your eyes and hands. Direct me with commands consisting of"
+         " just a verb or of a verb and one or more nouns. All letters in a"
+         " word are significant, but many words have abbreviations, such as"
+         " %"n%" for %"north%" and %"ds%" for %"downstream%". (Should you get"
+         " stuck, type %"help%" for some general hints. For information on"
+         " how to end your adventure, etc., type %"info%".)%n"
+         "                                 - - -%n"
+         " This world was originally developed by Willie Crowther and then Don"
+         " Woods of MIT. This version was produced by Chris Gray (FOOL on MTS) at the"
+         " University of Alberta, using the SIX/FANTASY system produced by him"
+         " and Alan Covington.%n%n";
+   fi;
+   _see();
+   while not _quit do
+      _parse(input);
+   od;
+   if _score = MAXSCORE then
+      output "As you release the hat, a cloud of sandalwood-scented smoke"
+         " appears, out of which steps the Grandmaster of the Colossal Cave"
+         " Lodge 437 of the Wizard's Guild. He is wearing a long blue velvet"
+         " robe, a long, pointed bejewelled hat made of solid platinum, and"
+         " love beads. He carries a three foot long rod with a star on the"
+         " end, all of solid gold. His eyes twinkle behind thick gold-rimmed"
+         " spectacles, and he smiles benevolently as he says,%n%n"
+         "%"Congratulations, young Adventurer. By your ordeals in the Cave you"
+         " have shown yourself worthy of admission to the rank of Journeyman"
+         " Wizard in the Wizard's Guild.%" So saying, he places the gold"
+         " Wizard's Hat on your head. Bending, he whispers in your ear the"
+         " secret Wizard Magic Word: 'cruft'.%n%n"
+         "The Wizard waves his wand, and the cave bear and little bird appear"
+         " in a cloud of orange smoke, grunting and twittering their"
+         " congratulations. You leap onto the bear's back, and, with the bird"
+         " fluttering in a circle overhead, you ride out of the building,"
+         " through a crowd of cheering elves, and into the sunset.%n%n";
+fi;
+   output "You scored ", _score, " out of a possible ", MAXSCORE,
+      " using ", _turns, " turns.%n%n";
+   if _score < 35 then
+      output "You are obviously a rank amateur. Better luck next time.%n%n";
+      _temp1 := 35 - _score;
+   elif _score < 100 then
+      output "Your score qualifies you as a novice class adventurer.%n%n";
+      _temp1 := 100 - _score;
+   elif _score < 135 then
+      output "You have achieved the rating: %"Experienced adventurer%".%n%n";
+      _temp1 := 135 - _score;
+   elif _score < 205 then
+      output "You may now consider yourself a %"Seasoned adventurer%".%n%n";
+      _temp1 := 205 - _score;
+   elif _score < 260 then
+      output "You have reached %"Junior master%" status.%n%n";
+      _temp1 := 260 - _score;
+   elif _score < 315 then
+      output "Your score puts you in Master adventurer class C.%n%n";
+      _temp1 := 315 - _score;
+   elif _score < 350 then
+      output "Your score puts you in Master adventurer class B.%n%n";
+      _temp1 := 350 - _score;
+   elif _score < 375 then
+      output "Your score puts you in Master adventurer class A.%n%n";
+      _temp1 := 375 - _score;
+   else
+       output "All of adventuredom gives tribute to you, adventurer"
+         " grandmaster!%n%nTo achieve the next higher rating would be a neat"
+         " trick! Congratulations!!%n%n";
+      _temp1 := 0;
+   fi;
+   if _temp1 ~= 0 then
+      output "To achieve the next higher rating, you need ", _temp1,
+         if _temp1 = 1 then " more point.%n" else " more points.%n" fi;
+   fi;

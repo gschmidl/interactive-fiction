@@ -1,0 +1,1173 @@
+			The SIX/FANT System
+
+General Comments
+
+By the SIX-days, a god created a world. Then he gave it to
+others as a FANTasy.
+
+     The SIX language was created in order to simplify the
+production of interactive computer games like ADVENTURE. Two of
+the important goals in its design were ease of use and
+generality. The first was achieved by the use of special
+syntactic forms and language features with make it easy to
+define objects and locations within the world being created. The
+main forms used here are the 'thing' specification and the
+'verb' specification. As an example, consider the following
+piece of SIX code, which defines two objects and a verb which
+applies to them:
+
+    thing (hamburger, burger):
+	"name" "a big juicy hamburger",
+	"taste" "scrumptious";
+
+    thing (hotdog, weenie, "hot-dog", weiner):
+	"name" "a nice fat hot-dog",
+	"taste" "fantastic";
+
+    verb (eat, gobble, devour, savour):
+	noun :
+	    output "Eat what?%n";
+	noun (burger, hotdog):
+	    full := true;
+	    output "Mmm! It was good!%n";
+	noun *:
+	    output "I don't think it's edible.%n";
+
+This piece of code produces 3 hash tables and 3 procedures. The
+names given to the objects and the verb (including all of the
+synonyms) are entered into the main dictionary (accessible under
+the name 'dict') with the corresponding hash table as value.
+Thus, in 'dict', the string "burger" would be entered and would
+have as value a pointer to a hash table which contains the two
+strings "a big juicy hamburger" and "scruptious"). A similar
+hash table is created for hot-dog. The indices used can be any
+legitimate value, including other tables, integers and procedure
+names.
+
+     A common index is a simple identifier. If this identifier
+(word) has not previously occurred in the world description,
+then it is created as a property with a new, unique value.
+Properties are simply values which are all different from one
+another. The only operations defined for them are comparison and
+assignment. Thus in the above example, if the quotes around
+"name" and "taste" were omitted, name and taste would become
+properties (different ones) and they would be used in both
+hamburger and hotdog. Locations are defined in exactly the same
+way, except that the table entries are usually descriptions and
+connections to other locations, as in:
+
+    thing jail:
+	north sherrifsoffice,
+	east interrogationroom,
+	climb backalley;
+
+     Verb specifications produce hash tables whose indices are
+the values used as nouns. These can be strings or can be the
+names of other things or verbs, i.e. other hash tables. The
+values for these entries are parameterless proper procedures
+whose bodies are the statements given as part of the noun unit.
+The special case with no noun given is entered under index 'nil'
+and the special case of 'noun *' is entered under index 'true'
+(these are values in SIX, not strings).
+
+     Generality is provided in SIX by placing no limitations on
+the facilities provided and by including as part of the world
+description language a fairly complete programming language. As
+an illustration of this aspect, consider the following SIX code:
+
+    proc hanoi(from, to, using, n):
+	if n > 0 then
+	    hanoi(from, using, to, n - 1);
+	    output "Move disk", n, " from peg ", from,
+		  " to peg ", to, ".%n";
+	    hanoi(using, to, from, n - 1);
+	fi;
+    corp;
+
+    start:
+	hanoi("left", "right", "center", 4);
+
+This code declares a small procedure (hanoi) with 4 parameters
+and no result; and provides a small main program to call it. The
+entire world is simply a program to print out a solution to the
+standard "Towers of Hanoi" problem with 4 disks.
+
+     Special features for working with hash tables and linked
+lists are provided. The net result is a fairly high level
+programming language with some extra features for initializing
+certain special types of hash tables. The SIX language is
+typeless in that the compiler doesn't require types on variable
+declarations, etc. Each value in a world has a specific type
+associated with it. These types are part of the value and cannot
+be changed. They can be checked at run-time with the 'is' and
+'isnt' constructs. They types available are:
+
+	int - 24 bit signed integers
+	string - arbitrary length strings of characters
+	list - linked lists of values
+	tables - dynamic hash tables used to associate an arbitrary
+	      value with an arbitrary index
+	prop - properties, unique values most often used as table
+	      indices
+	proc - procedures
+	nil - empty value, also called 'null'
+	absent - value returned if an index in not in a table
+
+     In use, a world description written in SIX is compiled by
+the SIX compiler (currently in file SHOW:SIX) to produce a world
+file. The world file contains the built up tables, strings, etc.
+along with machine code for a machine (computer) called the
+fantasy machine. Since we are using an Amdahl 580, not a fantasy
+machine, the world file is run via an emulator, the fantasy
+emulator (currently in file SHOW:FANT). Using an emulator sounds
+inefficient, but because of the high cost of I/O under MTS and
+the high level of many fantasy instructions, the cost is not
+great. Producing actual Amdahl code instead of fantasy code
+would yield significantly larger world files, which would run in
+an essentially I/O bound state for most worlds. Uses of the
+SIX/FANT system for other than the intended purpose could change
+the statistics, but this is not considered to be important.
+
+     Some predefined words exit in SIX which are not really
+language constructs. They are:
+
+    newline - the one-character string "%n"
+    true - the integer 1
+    false - the integer 0
+    dict - a hash table which contains all of the thing and
+	  verb names specified for the world
+
+A world typically consists of
+
+    'things' representing the objects in that world
+    'things' representing the locations in that world
+    'verb' specifications (including their 'noun' specifications)
+       representing the "commands" in that world
+    general utility procedures, e.g. for taking inventory,
+       describing the current location, etc.
+    global variables, for keeping track of such things as what is
+       being carried, current score, etc.
+    a main program, to start things up and keep them going
+
+The process of producing a world is as follows:
+
+    1) invent the world, decide what is where, etc.
+    2) write down SIX code for the world (say file world.6)
+    3) compile the world:
+       $run SHOW:SIX scards=world.6 spunch=world.f [sprint=...]
+	  [0=...] [par=notunique]
+    4) run the world:
+       $run SHOW:FANT par=world.f
+    5) correct the SIX code as needed or desired
+    6) repeat steps 3), 4), 5) until you are satisfied
+
+
+
+
+The SIX Language
+
+     The description which follows is in the form of an
+annotated grammar. The productions or rules in the grammar are
+of the form:
+
+    left-hand-side : right-hand-side ;
+
+where the right hand side is a sequence of alternatives
+separated by commas. Thus the production:
+
+    joe: 'Sam', joe 'Smith';
+
+represents the strings:
+
+    Sam
+    SamSmith
+    SamSmithSmith
+    SamSmithSmithSmith
+    etc.
+
+i.e. 'Sam' followed by 0 or more 'Smith' strings. The
+representation used is just a variant of the BNF form commonly
+used to describe programming languages.
+
+world: entity ';', 'entity ';' world;
+
+    A world description consists of one or more entities,
+    separated by semicolons.
+
+entity: cons, var, thing, proc, verb, start;
+
+    An entity is one of:
+	a compile time constants declaration
+	a global variables declaration
+	a thing specification
+	a proc declaration
+	a verb specification
+	a start point (main program)
+
+cons: 'cons' word '=' cval, cons ',' word '=' cval;
+
+word: letter, word letter, word digit;
+
+    No limit is placed on the length of identifiers.
+
+letter: a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,
+	A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z,_;
+
+digit: 0,1,2,3,4,5,6,7,8,9;
+
+cval: int, string, 'prop';
+
+    The form 'cons zunk = prop' is a handy way of pre-declaring a
+    property. All such properties are unique.
+
+int: digits, '+' digits, '-' digits;
+
+digits: digit, digits digit;
+
+    Integers are signed 24 bit (-8388608 to +8388607).
+
+string: '"' chars '"';
+
+chars: char, chars char;
+
+char: '%n', '%"', '%%', any character except " or %;
+
+    The pair %n is an escape for newline, which is known and
+    handled by the emulator (FANT).
+
+var: 'var' word, var ',' word;
+
+    All such variables are global, i.e. available anywhere. Note
+    however, that the SIX compiler is one-pass, therefore all
+    entities must be declared before they are used. All global
+    variables are initialized to 'nil'.
+
+thing: 'thing' wordlist ':' thing-spec;
+
+worldlist: word, string, '(' words ')';
+
+words: word, string, words ',' word, words ',' string;
+
+    A wordlist is used to provide a set of synonyms. The string
+    forms are used when a desired synonym does not conform to the
+    requirements for 'word's (e.g. "treasure-chest").
+
+thing-spec: , '*', entries;
+
+    An empty thing specification is used to pre-declare a thing
+    or verb (they are both just hash tables) so that circular
+    references are possible. A proper specification must appear
+    later. The '*' form is used for a thing which is specifically
+    desired to be initially empty. (Presumably, entries will be
+    added to it at run time.) A standard specification is a list
+    of index-entry pairs for the hash table. There are no
+    restrictions at run time on these, but the compiler flags
+    things which would clearly be useless.
+
+entries: tindex, tindex tentry, entries ',' tindex,
+	entries ',' tindex tentry
+
+    If the 'tentry' part is missing, then 'nil' is used.
+    Duplicate tindex values are considered to be an error.
+
+tindex: word, int, string;
+
+    A previously unused identifier will be created as a new,
+    unique property.
+
+tentry: int, string, 'nil', 'emptylist', 'emptytable', word,
+	'(' tlist ')';
+
+    A bracketed form represents a list of those values. Order is
+    preserved and duplications are ignored. Identifiers must be
+    already defined constants, thing, verbs, procs or props.
+
+tlist: , tents;
+
+tents: tent, tents ',' tent;
+
+tent: int, string, 'nil', 'emptylist', 'emptytable', word;
+
+proc: proper-proc, f-proc;
+
+proper-proc: 'proc' word '(' ids ')' ':' 'corp',
+	     'proc' word '(' ids ')' ':' ppbody 'corp';
+
+    A dummy declaration of a proper procedure has no body. Such
+    dummy declarations are used to allow circular referencing
+    (calling) of procedures (and things). A full declaration of
+    the procedure must follow.
+
+ids: , idlist;
+
+idlist: word, idlist ',' word;
+
+    Parameters to procedures are untyped (as is the entire
+    language). The mechanism used is call by value, i.e. on a
+    call to a procedure, the values given on the call are copied
+    into the corresponding formal parameters. Note however, that
+    tables and lists are represented as pointers to the
+    corresponding structure, so that if a procedure modifies a
+    table or list passed as a parameter, the modification will
+    hold after the procedure has returned. When the procedure
+    returns, any values in the formal parameters are discarded.
+
+ppbody: statements, 'var' ids ';' statements;
+
+    Local variables can be used within a given procedure. Such
+    variables are not available outside of the procedure and
+    their values are not stored between calls to the procedure.
+
+statements: , statementlist;
+
+statementlist: statement, statementlist ';' statement;
+
+f-proc: 'proc' word '(' ids ')' 'result' ':' 'corp',
+	'proc' word '(' ids ')' 'result' ':' fpbody 'corp';
+
+fpbody: expression, statementlist ';' expression,
+	'var' ids ';' expression,
+	'var' ids ';' statementlist ';' expression;
+
+    The result of a function procedure must be placed just before
+    the closing 'corp' with no intervening semicolon (ALGOLW
+    style of return of procedure result.) Procedures can recurse up
+    to the interpreter stack limit (currently 1 megabyte).
+
+verb: 'verb' wordlist ':' noun, 'verb' ';' noun;
+
+    A verb specification includes one or more synonyms for the
+    verb and one or more nouns to go with this verb.
+
+noun: 'noun' wordlist ':' statements, 'noun' ':' statements,
+	'noun' '*' ':' statements;
+
+    A verb specification creates a hash table, which is entered
+    in the main dictionary (dict) under all of the words or
+    strings given as synonyms for that verb. the entries in the
+    table are the strings or tables which represent the various
+    nouns in the verb. The values in these entries are
+    parameterless proper procedures whose bodies are the
+    'statements' part of the noun specifications. The special
+    form '*' is entered under the index 'true' (the integer 1)
+    and the special form with no name is entered under the index
+    'nil'.
+
+start: 'start' ':' statementlist;
+
+    The start point simply provides the main program for the
+    world. All worlds must have one and only one start point.
+
+statement: for, while, ifstatement, assign, listop, tabdel,
+	   callstatement, output, 'stop';
+
+    The form 'stop' causes the world to terminate. An implicit
+    'stop' is added to the end of the 'start' section.
+
+for: 'for' word 'in' expression 'do' statements 'od';
+
+    The expression must be a list. The word (a variable) is given
+    each of the elements of the list as value and the statements
+    are executed once for each value. In effect, the word scans
+    down the list.
+
+while: 'while' bool 'do' statements 'od',
+       'while' statementlist ';' bool 'do' statements 'od';
+
+    The while statement is the basic looping construct in the SIX
+    language. The condition is executed and, if the bool
+    evaluates to a 'non-empty' value, the body is executed. This
+    cycle continues until the bool yields an 'empty' value.
+
+ifstatement: 'if' bool 'then' statements elifss 'fi',
+	     'if' bool 'then' statements elifss
+		'else' statements 'fi';
+
+    The if statement is quite standard. The form
+	if A then B elif C then D elif E then F else G fi
+    is equivalent to the form
+	if A then B else if C then D else if E then F else G fi fi
+	fi
+    etc.
+
+elifss: , elifss 'elif' bool 'then' statements;
+
+assign: dest ':=' expression;
+
+listop: expression '<+' expression, expression '<++' expression,
+        expression '<-' expression;
+
+    The expression on the left must be a list. The meanings are:
+	<+ - append the element onto the list
+	<++ - prepend the element to the list
+	<- delete the first occurence (if any) of the element
+	    from the list
+
+tabdel: expression '--' expression;
+
+    The expression on the right is deleted as an index from the
+    table on the left. If the index is not present, nothing
+    happens.
+
+callstatement: value '(' expressions ')';
+
+    The expression (value) must yield a procedure and the number
+    of parameters should match the number required by the
+    procedure.
+
+expressions: , expressionlist;
+
+expressionlist: expression, expressionlist ',' expression;
+
+output: 'output' expressions, 'mts' expressions;
+
+    The values of the expressions are output in turn. Currently,
+    only strings and integers can be output. The newline
+    character in a string indicates the end of an output line and
+    another line is started. Output operates somewhat like a text
+    formatter in that sequences of nonblanks will not be broken
+    up over a line boundary; instead, the line will be output
+    short and the word will appear on the next line. Sequences of
+    2 or more blanks are treated as a unit, i.e. not all blanks
+    are treated as possible break points. The 'mts' form operates
+    the same as 'output', except that each record assembled is
+    passed to MTS as a command to be executed. The command cannot
+    be RUN, LOAD, START or UNLOAD, as these will cause FANT to be
+    unloaded, and the 'mts' statement will never return. One
+    common use is to use the RESTART command, with MTS
+    input/output units SCARDS and/or SPRINT reassigned. This
+    allows the source for 'input' and the destination for
+    'output' to be changed, allowing things like save/restore and
+    logging. SHOW:ADVENTURE uses this technique to do
+    save/restore, and score logging has been done using a similar
+    technique.
+
+dest: word, value '.' value, value '..' value;
+
+    The operators '.' and '..' are table lookup operators. The
+    expression on the left is a table and the expression on the
+    right is the index. If the index is not in the table, then
+    '.' will return the special value 'absent', but '..' will
+    insert the index into the table and give it value 'nil'. When
+    a value is assigned to such an expression, the value is put
+    into the table as the value associated with the index.
+
+bool: expression;
+
+    Any type of expression can serve as a boolean (true/false)
+    value. The most common values are the pre-defined constants
+    'true' and 'false', representing the integers 1 and 0
+    respectively. A true value is any nonempty value of that
+    type. Thus an empty list, an empty table, a null string, nil
+    and the integer 0 are all treated as false.
+
+expression: andexpr, expression 'or' andexpr;
+
+andexpr: notexpr, andexpr 'and' notexpr;
+
+    The boolean operators 'and' and 'or' are programming
+    constructs. They will not evaluate their second operand if
+    their first operand is sufficient to determine the final
+    result.
+
+notexpr: boolexpr, 'not' boolexpr;
+
+boolexpr: catexpr, catexpr comp catexpr, catexpr typetest type,
+	catexpr 'in' catexpr;
+
+    The 'in' operator allows lists to be treated somewhat as
+    sets. It returns true only if its left-hand argument is an
+    element of the list which is its right-hand argument.
+
+comp: '<=', '<', '=', '>', '>=', '~=';
+
+    Magnitude comparisons are meangingful only for integers and
+    strings. Comparisons of tables and lists are identity
+    comparisons, e.g. two tables expressions are equal only if
+    they refer to the same table.
+
+typetest: 'is', 'isnt';
+
+type: 'int', 'string', 'nil', 'absent', 'prop', 'list', 'proc',
+	'table';
+
+    Type checking is done at run time since a given expression
+    can yield different types at different times. The result of
+    a typetest is true or false.
+
+catexpr: addexpr, addexpr '$' addexpr;
+
+    The '$' operator represents string concatenation. Both
+    operands must be strings, and the result is a string obtained
+    by adding the right operand onto the end of the left operand.
+
+addexpr: multexpr, addexpr addop multexpr;
+
+addop: '+', '-';
+
+multexpr: umexpr, multexpr multop umexpr;
+
+multop: '*', '/', '%';
+
+    Arithmetic operators are valid only for integers. The
+    operator '%' is the modulo or remainder function.
+
+umexpr: dcdexpr, lenexpr, '-' umexpr;
+
+    Unary negation works only for integers.
+
+dcdexpr: source, '#' source;
+
+    The '#' operator takes a string argument and converts it into
+    the equivalent integer. The representation given can include
+    a sign. If the entire string cannot be converted into an
+    integer, then nil is returned.
+
+lenexpr: source, 'length' source;
+
+    The 'length' operator yields the length of it's string
+    argument.
+
+source: callexpression, substrexpr, value;
+
+callexpression: callstatement;
+
+    Procedure calls are syntactically alike, even though one form
+    is an expression and one is a statement. If the procedure to
+    be called is other than just an identifier, i.e. the compiler
+    cannot determine if it is a proper procedure or a function
+    procedure, then it is assumed to be a proper procedure.
+
+substrexpr: value '(' value ':' value ')';
+
+    This form is used to take a substring of a string. The two
+    values in the brackets must be integers, which specify the
+    starting point and the length of the substring, respectively.
+    The first character in a string is assumed to be at the 0'th
+    position.
+
+value: dest, int, string, 'nil', 'emptytable', 'emptylist',
+	'input', '(' expression ')', '?', ifexpression, 'csid',
+	'project', 'time', 'date';
+
+    The form 'emptytable' produces a new, empty table at run
+    time. Similarly, 'emptylist' produces an emtpy list. '?'
+    yields a random integer between 0 and 9999 inclusive. 'input'
+    causes a new input line to be read from SCARDS and returns a
+    value as follows: 'absent' on end-of-file, an empty list if
+    the input line contains no non-blanks, else a list of the
+    sequences of non-blanks (words) on the input line. The forms
+    'csid', 'project', 'time' and 'date' produce strings
+    representing, respectively, the player's signon id, the
+    player's signon project, the current time, and the current
+    date. These items are useful for score logging.
+
+ifexpression: 'if' bool 'then' expr elifse 'else' expr 'fi';
+
+    If expressions must have an else part.
+
+elifse: , elifse 'elif' bool 'then' expr;
+
+expr: expression, statementlist ';' expression;
+
+    The alternatives in an if expression can contain several
+    statements followed by the final expression. This type of
+    construct (block expression) is quite useful but should not
+    be overused as it can lead to confusion.
+
+     Two features of the language as implemented are not
+described in the above grammar. Any sequence of characters not
+including '/*' and '*/' which is delimited by '/*' and '*/' is a
+comment and is ignored by the compiler. Comments can be nested,
+i.e. a comment entirely within another comment is recognized and
+treated as a nested comment. Thus any piece of code can be
+commented out by surrounding it with '/*' and '*/', regardless
+of whether it contains any comments or not. A second feature
+concerns the use of the string break. The compiler will accept
+input lines of any length, but for appearance sake, it is
+desireable that long string constants be broken up into smaller
+pieces which fit on one listing line and can be indented
+appropriately. The SIX compiler handles this as follows: if the
+last item on a given line is an explicit string constant and the
+first item on the *NEXT* non-empty line is also an explicit string
+constant, then the two are concatenated at compile time to yield
+a single string constant. This process is carried out as often
+as necessary, thus long strings can span several input lines and
+still be correctly indented.
+
+Using the SIX/FANT System
+
+     The current version of the SIX compiler (SHOW:SIX)
+references I/O units as follows:
+
+	SCARDS - source world input
+	SPRINT - listing and/or error messages
+	SPUNCH - world file output (if no errors)
+	0 - optional fantasy code listing
+
+If SPRINT is explicitly specified on the run command or the
+compilation is done in batch mode, a full listing is produced on
+SPRINT. Fantasy addresses on the listing are decimal addresses
+of that code in the fantasy machine (useful for debugging on
+crashes). Program and data share the same contiguous memory, and
+no relocation is done. If a full listing is not produced, then
+erroneous lines (if any) and their associated error messages,
+will be listed on SPRINT. If the compilation is successful, the
+resulting world file will be output on SPUNCH. On each run, the
+return code (RC) from the compiler is the number of errors
+detected in the compilation.
+
+     If logical unit 0 is assigned when running the compiler, a
+listing of the fantasy machine code generated for the program
+portions of the world is produced on unit 0. This listing is
+mainly used for debugging the compiler and emulator, but curious
+users may wish to examine it for small worlds (e.g. the sample
+world for "Towers of Hanoi"). The listing of the code may also
+be of some use when debugging a world since it locates the
+particular instructions more closely. Because the compiler
+operates in one pass, forward referencing instructions in the
+listed code will not be correct (the addresses are shown as 0).
+
+     The current version of the emulator (SHOW:FANT) references
+I/O units as follows:
+
+	SCARDS - input for the 'input' construct
+	SPRINT - output from the 'output' statement
+	PAR= field - name of the world file to "run"
+
+It is not possible to reference any other I/O units through the
+emulator. Reassigning units SCARDS and SPRINT can be used in
+many cases. This is done using the 'mts' statement, as explained
+previously.
+
+Architecture of the Fantasy Machine
+
+     The fantasy machine is a pure stack machine. It has no
+registers other than the program counter (PC) and the stack
+pointer (SP). All data values are 32 bits long, including an 8
+bit tag. Stack space is independent from program and data space.
+The stack grows down. Many of the instructions are single byte
+opcode-only instructions which perform some operation on the top
+two stack elements. In all cases, the top stack element is the
+second or right-hand operand for the given operation. Two
+addressing modes are available: SP relative - a 24 bit offset
+from SP gives the address of a value (or slot) on the stack
+(used for local variables), and absolute - a 24 bit address
+indicates a global variable, a procedure entry point, an
+instruction address, a list, a table, or a string. The compiler
+keeps track of the stack contents within each procedure, so that
+no base register is needed to address local variables and
+parameters.
+
+     Procedure calls operate as follows: 1) The procedure entry
+point (properly tagged) is pushed onto the stack. This entry
+point can be the result of an arbitrary expression. 2) The
+parameters to the procedure, if any, are pushed onto the stack.
+3) A call instruction is executed. The call instruction contains
+a 24 bit count of the number of bytes of parameters pushed onto
+the stack, so that the procedure entry point can be found. The
+call then pushes the byte count as an untyped value onto the
+stack, followed by the return address. Finally, the entry point
+address is loaded into the PC. 4) If the called procedure
+requires any temporary variables, it executes a pshg (push
+garbage) instruction to reserve stack space. 5) Two different
+procedure return instructions are provided; one allows for a
+returned result left on the stack, the other does not. Both
+contain a 24 bit count of the temporary space used by the
+procedure, and both pop all of the parameters and the procedure
+address, etc. from the stack. The retf (return from function)
+instruction leaves the returned value (left on top of the stack
+by the function body) at the new top-of-stack position.
+
+     There are 3 instruction formats in the fantasy machine:
+
+    1) 1-byte - a 1 byte op-code only
+    2) 4-byte - a 1 byte op-code and a 24 bit offset, count or
+	absolute address
+    3) 5-byte - a 1 byte op-code, a 1 byte tag and a 3 byte
+	fantasy value (i.e. op-code and tagged value)
+
+     The following list of the fantasy instructions is arranged
+as: mnemonic opcode-dec(opcode-hex)length name - description
+
+hlt	0(00)1 halt - end of emulation
+call	1(01)4 call - call a procedure
+retp	2(02)4 return from proper procedure
+retf	3(03)4 return from function procedure
+in	4(04)1 input - input line from SCARDS is read and
+    converted into a list of strings or absent. Result is
+    pushed onto the stack.
+out	5(05)1 output - top element of stack is popped and
+    added to the output buffer. The element must be a string
+    or an integer. See description of SIX output statement for
+    more details.
+tlav	6(06)1 table lookup and add, value - top two elements
+    are replaced by value from the table. If the index is not
+    found, nil is entered and pushed.
+tlaa	7(07)1 table lookup and add, address - push address of
+    value slot in table (for use in assigning to it)
+tlv	8(08)1 table lookup, value - lookup and push value, if
+    not found, then push absent.
+tla	9(09)1 table lookup, address
+tdl    10(0a)1 table delete - return no result
+lin    11(0b)1 list in - test for list membership
+lap    12(0c)1 list append
+lpre   13(0d)1 list prepend
+ldl    14(0e)1 list delete
+add    15(0f)1 add
+sub    16(10)1 subtract
+mul    17(11)1 multiply
+div    18(12)1 divide
+rem    19(13)1 remainder
+neg    20(14)1 negate
+pop    21(15)4 pop - pop to absolue address
+popi   22(16)1 pop indirect - pop top value to address (second
+    stack value)
+popr   23(17)4 pop relative - pop to given offset from SP
+psh    24(18)4 push - push from absolute address given
+pshaa  25(19)4 push address absolute - the given absolute
+    address is pushed
+pshi   26(1a)1 push indirect - not currently used
+pshr   27(1b)4 push relative - push from given offset from SP
+pshar  28(1c)4 push address relative
+pshc   29(1d)5 push constant
+pshg   30(1e)4 push garbage - decrement SP by count
+tst    31(1f)1 test - set condition code and pop value
+cmp    32(20)1 compare - set condition code and pop top 2
+    values
+beq    33(21)4 branch on equal - uses 24 bit branch address
+bne    34(22)4 branch on not equal
+bge    35(23)4 branch on greater or equal
+blt    36(24)4 branch on less than
+ble    37(25)4 branch on less or equal
+bgt    38(26)4 branch on greater than
+bnil   39(27)4 branch on nil - is in condition code
+bint   40(28)4 branch on integer
+bstr   41(29)4 branch on string
+blst   42(2a)4 branch on list
+bprc   43(2b)4 branch on procedure
+btab   44(2c)4 branch on table
+bprp   45(2d)4 branch on property
+bnnil  46(2e)4 branch on not nil
+bnint  47(2f)4 branch on not integer
+bnstr  48(30)4 branch on not string
+bnlst  49(31)4 branch on not list
+bnprc  50(32)4 branch on not procedure
+bntab  51(33)4 branch on not table
+bnprp  52(34)4 branch on not property
+bab    53(35)4 branch on absent
+bnab   54(36)4 branch on not absent
+bun    55(37)4 branch unconditional
+for    56(38)4 for - start of a for loop. Stack is assumed to
+    contain: address of 'for' variable, list to scan (top
+    element). If list is empty, branch to given address
+    (matching rof).
+rof    57(39)4 rof - end of a for loop. Moves list pointer
+    along the list; if the list becomes empty, pops two values
+    from stack, else branches to given address (just after
+    matching for).
+rand   58(3a)1 random - pushes random integer betwen 0 and
+    9999 inclusive
+dec    59(3b)1 decode - replaces top element (string) by
+    equalent integer or by nil, if there is no equivalent
+mts    60(3c)1 - string on stack is executed
+csid   61(3d)1 - user's signon id is pushed
+proj   62(3e)1 - user's signon project is pushed
+date   63(3f)1 - current date is pushed
+time   64(40)1 - current time is pushed
+subst  65(41)1 - substring operation
+cat    66(42)1 - string concatenation
+len    67(43)1 - length of a string
+
+
+
+Suggested Arrangement of World Source Files
+
+     The various portions of world source files intereference
+each other quite heavily. For example, many verbs will only be
+effective in certain locations. Similarly, the locations
+reference the objects to produce the initial distribution of the
+objects. With a one pass compiler, (the cost of compilation
+would probably double for a multipass or full structure building
+compiler) all names (words) must be declared or specified before
+being used. Because of this, it is important to consider the
+overall arrangement of the world source file. One suggested
+arrangement is as follows:
+
+    1) special constants - These are values which can be used to
+       "tune" the world for better performance. By using a
+       compile-time symbol for these values, only one change need
+       be made in order to change all occurrences. In keeping
+       with a highly readable convention used in the UNIX
+       operating system, it is suggested that these constants be
+       represented by all upper case identifiers.
+    2) global variables - These are referenced by many procedures
+       and verbs, so should occur fairly early. Since variable
+       declarations do not depend on any other symbols, they can
+       be placed before all other symbols with no fear of conflict.
+    3) the objects in the world - These are not often dependent
+       on anything, and so can appear early. Both locations and
+       verbs are dependent on the objects.
+    4) predeclaration of locations - Most worlds will have
+       reverse paths corresponding to most interconnections
+       between locations, so that there will be a large amount of
+       interreferencing among the locations. Careful arrangement
+       and a minimum number of predeclarations can be used, but
+       this leads to inflexibility. The safest method seems to be
+       to predeclare all locations. That way any rearrangement
+       can be done easily. No storage overhead is involved in
+       this since all things have an indirection word and it is
+       this indirection word only which is generated when a
+       location thing is predeclared.
+    5) things and routines used in the locations - Many paths or
+       locations in a world will have special conditions or
+       actions associated with them. This can be done by having
+       the entries for that connection in the locations be
+       procedures instead of other locations. The routine or verb
+       which handles moving from one loation to another can
+       recognize the type of the destination (via an is/isnt
+       check) and call the routine instead of trying to move to
+       it. This method has been used quite successfully in the
+       first four worlds.
+    6) the locations in the world - The locations are not much
+       dependent on the verbs of the world (except perhaps to
+       avoid extra properties to represent directions), but the
+       verbs can be highly dependent on the current location and
+       can affect the description or contents, etc. of locations;
+       hence the locations should probably appear before the
+       verbs.
+    7) things and routines used in the verbs - Routines used here
+       will usually be those which implement a task common to
+       several verbs. Things would be for special purpose, such
+       as translating character form to integer form (as in
+       "one" => 1).
+    8) the verbs in the world - There is not likely to be much
+       intereferencing of verbs, but if there is, and reordering
+       will not suffice, verbs can be predeclared as things.
+    9) things and routines needed by the main program - This
+       would include things such as a homonym table, which
+       translates from a verb form to the appropriate noun form
+       (e.g. translating "cross" to "crucifix" when "cross" is a
+       valid verb and has appeared in the noun position). Other
+       possibilities are a list of words to be ignored, special
+       parsing procedures, and procedures for handling events
+       which occur depending on the occurrence of any input.
+    10) main program - This will probably be a group of
+       initializations followed by a while loop for commands.
+
+Further Comments
+
+     The sample world (SHOW:EX.6) is fairly straightforward, but
+does illustrate many of the techniques that can be used. It
+follows fairly closely the suggested ordering given above. All
+of the variables used have names which begin with an underscore.
+This is not necessary, but is done so that there will be no
+possible conflict between variables and possible synonyms for
+objects and verbs. Several useful conventions are established in
+this world.
+
+    1) Each object has, indexed under the property '_name', a
+       string which names the object.
+    2) Routines used in locations all start with an underscore,
+       so that they are readily distinguishable from locations.
+    3) Locations contain a short name ('_name') and a more
+       complete description ('_description') which are used after
+       a move to describe the current location. The two are
+       separated to allow for a brief mode in which only the name
+       is given, although this is not implemented in the sample
+       world.
+    4) All locations contain a list ('_contents') of the objects
+       at that location. The list is present even if it is empty.
+       (This saves checking for it.)
+    5) Links between locations are indexed by the verb which
+       would pass over that link (or call that procedure for a
+       special action.)
+    6) All verbs have a 'noun *:' form which gives them a proc
+       under index 'true'. This is used to ensure that the first
+       word of an input command is a verb.
+    7) The 'noun :' form, if present, is used to represent that
+       verb with no noun given.
+    8) The "parser" used is more general than is needed by the
+       sample world, but is shown as an example of a workable
+       parser for one and two word commands. The verb with no
+       noun is indexed under 'nil', so _nounstring (contains the
+       string used as the noun) is initialized to nil (line 281).
+       The 'for' loop of lines 283-291 is just a very ugly way of
+       picking out the first and second input words. The first
+       word is immediately looked up in 'dict', the main
+       dictionary produced by the compiler, to yield the verb of
+       the command in _verb. The string of the noun, if present,
+       overrides the nil in _nounstring. The noun is looked up
+       (will often not be found) and the result is left in _noun.
+       If the given verb is not valid (was 'absent' in dict) then
+       one of 2 messages is given. If it was found, but didn't
+       have a proc indexed by 'true', it must have been other
+       than a legal verb (see 6) above). The order of precedence
+       for selecting which of the cases in the verb is: the
+       actual string of the noun given, the noun given (the table
+       after lookup), then the default ('noun *:') form.
+    9) Actions which can be triggered by any input command can be
+       checked for either before or after handling the command
+       itself. It is probably best if an illegal command have no
+       effect whatsoever.
+
+     Many variations from the conventions used hare are
+possible. Some possibilities, many of which have been used, are:
+
+   - descriptions could be lists of strings or could be
+	procedures, thus allowing changes to descriptions (e.g.
+	removing the sign in "mansion") to be more easily done.
+   - flags can be placed in verbs by using a noun which is a
+	string which cannot be entered as a noun in a command
+	(i.e. one with a blank in it) with no statements (i.e. an
+	empty procedure) following it. This technique was used in
+	"mansion" to decide which verbs can be done in the dark.
+   - similar flags, etc. can be used in locations or objects
+	e.g. is this location dark? what is the value of this
+	object?
+   - alternate command forms can be accepted, e.g. "zorp" uses 3
+	word commands and has a list of "ignore words" which can
+	occur anywhere in the input command.
+   - certain often repeated tests in verbs can be done once, in
+	the "parser". A possibility here is a procedure in the
+	verb which returns true or false to indicate whether that
+	verb can be applied at all in the current situation. For
+	example, burning something requires the presence of fire
+	(e.g. a campfire, matches, stove) regardless of what is to
+	be burned. Other tests, such as when opening or closing a
+	door, are similar in several situations, but refer to
+	different conditions to test the validity. If these
+	conditions are stored in, say, the location of the door,
+	then a common test can handle many of the cases.
+
+Bugs
+
+     At the time of this writing, two bugs are known to exist in
+the SIX/FANT system. The first is not a major problem, and the
+second only occurs if PAR=NOTUNIQUE is specified. The bugs are:
+
+    1) Tables are of dynamic size; they are expanded as needed.
+       The left-to-right evaluation of assignment statements
+       leads to a problem with the following:
+
+	    tab.x := tab..y
+
+       (This simple example would never occur, but it illustrates
+       the point, which could happen as a result of some function
+       call, etc. in a right-hand side expression.) The left-hand
+       side ('tab.x') is evaluated first, yielding, on the stack,
+       an address to pop the right-hand side result into. If the
+       right-hand side cause table 'tab' to expand and move, the
+       stacked address becomes invalid and the pop into it will
+       not have the desired effect. By splitting the statement
+
+	    temp := tab..y;
+	    tab.x := temp
+
+       the problem is removed.
+    2) The compiler generates only one copy of a given string
+       constant. (This can save a lot of space.) The emulator
+       will attempt to re-use any string which is being replaced
+       by an assignment to the entry or variable pointing to the
+       string. Thus, in the following sequence:
+
+	    thing t:
+		a "hello";
+	    start:
+		t.a := "good-bye";
+		t.a := "hello";
+
+       the two references to "hello" use the same copy of the
+       string descriptor and buffer. The assignment of "good-bye"
+       to a slot (t.a) previously referring to "hello" will
+       result in the single copy of "hello" being discarded. The
+       second use of "hello" will then be invalid (in practice, a
+       crash can occur at some much later point, or the string
+       being replaced will become identical to its first
+       replacement.) The problem only occurs with things and is
+       avoided by initializing such fields at run time, so that a
+       copy of the string is made. Note that the problem only
+       occurs when a string which is used in a thing is replaced
+       by some other value and is also used elsewhere in the
+       world. To minimize the effect of this problem, the
+       compiler has been changed so that separate copies of
+       string constants are produced for each occurence of the
+       constant. This can produce larger world files, but is not
+       terribly inefficient. If you are sure that your world will
+       not have this problem, you can specify PAR=NOTUNIQUE, and
+       the compiler will only generate one copy of each string
+       constant.
+
+A final note:
+
+     Changes, whether to correct bugs or to add features, will
+NOT be made to either SIX or FANT. The reason for this is that
+the language that the two were written in no longer exists
+anywhere. Therefore, in order to make changes the source code
+would have to be translated into some other programming
+language.
+
+Worlds Written Using SIX/FANT
+
+     Several adventure-type worlds have been written using the
+SIX/FANT system. The major ones are listed below. Note that many
+of these worlds were written by people who are no longer at the
+U. of A., so the authors are not available for questions. Others
+were written a few years ago, so the authors may not be able to
+answer questions without studying the source for a while, so
+please try to answer your questions yourself before asking the
+authors.
+
+EX - this small world, the source to which is in SHOW:EX.6, was
+    the first world written using SIX/FANT.
+
+MANSION - This world, written by Chris Gray, grew out of EX. It
+    is about the same size and complexity as ADVENTURE, but
+    hasn't been updated to include save/restore. It has a few
+    interesting features (e.g. an operating submarine, complete
+    with a fairly large subterranean waterway), but has a few
+    rough spots. MANSION can be run via '$SO SHOW:MANSION'. Hints
+    - oil the hatch twice (extra oil in gazebo on island); doors
+    must be unlocked when locked before you can open them; jump
+    over the poisonous stream at one of the narrow spots; when
+    you know the combination, use 'dial' to open the safe; don't
+    drop the candle; try shouting in the whirlpool cavern; the
+    casket contains a big hint; the troglodyte has a weakness.
+
+ADVENTURE - This is the granddaddy of all adventures, the first
+    one around, and still one of the most popular. The version in
+    SHOW:ADVENTURE is a rewrite of the PL/I version first put
+    onto MTS by Ron Senda. It is a lot cheaper than that version,
+    and has a few extra locations and treasures, which were taken
+    from a UNIX version. It is a fairly accurate copy of the
+    original, so any complaints you may voice will fall on a deaf
+    ear. This is the only adventure on MTS which currently has a
+    save/restore facility. I put this in to show that it could be
+    done, but no-one else has taken the hint and added it to
+    their worlds. ADVENTURE can be run via '$SO SHOW:ADVENTURE'.
+    Hints - the dracon CAN be killed; go for the pirate's chest
+    early, he starts out where you find his chest; leave the
+    magazine in Witt's End for 3 points; crossing the troll
+    bridge (across and back) can be done with no permanent cost;
+    you must not buy extra batteries if you want to get into the
+    end game; read the magazine for some hints about the new
+    stuff added; in the Plover Room, say all of the words that
+    seem relevant to that room (there IS stuff in the Dark Room).
+
+ZORP - No, this isn't the famous ZORK/DUNGEON. Douglas Martin,
+    who wrote ZORP, picked the name before we had even heard of
+    ZORK. This adventure involves getting into a medieval castle,
+    progressing around in it, and further adventuring in a
+    Wizard's tunnels beneath it. Acess ZORP via '$SO SHOW:ZORP'.
+    Hints - many things depend on other things being done first;
+    think devious when dealing with the inhabitants; most objects
+    have a use.
+
+ODYSSEY - This is Doug Martin's second world. It is set in
+    ancient Greece, and deals with their mythology. Knowledge of
+    that mythology is not needed to play the game (a convenient
+    book gives more information than you will need). I personally
+    enjoyed this one; it has several puzzles which can be solved
+    by experimentation and thinking. When you think you have
+    finished, (you've brought the apple back), you have a
+    surprise in store. Access ODYSSEY via '$SO SHOW:ODYSSEY'.
+
+CASTLE - This is Doug Martin's 3rd SIX/FANT world (he loves
+    writing games). This one has lots of subtle hints, including
+    a couple of nice poems. Some strange and mystifying things
+    happen in CASTLE, but they all make sense when you have all
+    of the information. Access CASTLE via '$SO SHOW:CASTLE'.
+
+FORTRESS - This world was written by Mike Jackson.
+    Unfortunately, it was never completed. It is quite large, and
+    has several interesting ideas (e.g. the magic), but it is
+    frustrating to not be able to complete it. Access FORTRESS
+    via '$R DEMO:FORTRESS'. Hints - leave treasures in the tennis
+    court.
+
+THIS - This unimaginative name conceals the wierdest adventure
+    of the lot. In THIS, there is no way to predict what you will
+    find next, or what will happen to you. You will meet
+    creatures from popular Science Fiction stories, solve
+    puzzles, pray to gods, crack safes, survive the unsurvivable,
+    etc. This world was unavailable for some time since it needed
+    cleaning up, censoring, etc. It has, however, finally been
+    reincarnated under SHOW:THIS. To run it, say '$SOU
+    SHOW:THIS'. The latest source is available on tape if someone
+    wants to tackle the job of completing it (warning - you will
+    need considerable MTS funds, along with patience and
+    programming skills to complete it - the source is 7500 lines
+    of not-so-good code).
+
+SPACESHIP - This adventure, written by Steve McKinnon, is quite
+    different from the others in that each location has more than
+    one description (depending on which way you are facing), and
+    the program keeps track of which way your head is turned, and
+    which way you are facing. For example, to start off, you must
+    'turn left' to face the door of the vault, 'go forward' -
+    twice, 'look up' to see the little hole in the ceiling, 'up'
+    to go through the hole ('move up' doesn't work, you can only
+    move left, right, ahead or around (back)), then 'look ahead'
+    to face forward. You will soon be exploring a spaceship (with
+    some urgency), and will eventually be able to control it,
+    land on a couple of other planets and bring treasures back to
+    the vault. SPACESHIP is accessed via '$SO SHOW:SPACESHIP'.
+
+LABYRINTH - This adventure, written by Rob Symonds, never got to
+    be very large, but had some good points, nonetheless. It is
+    not currently available on the system.
+
+DEMO - This adventure is fairly small, but relatively easy to get
+    along with. It was written by Chris Gray and Doug Martin for
+    one of the UACS Open Houses. The source for it is permitted
+    under SHOW:DEMO.S, and the world itself can be run via '$SO
+    SHOW:DEMO'. This is a good world for first-time adventurers.
+    Hint - to win the game, you must save the alien by getting
+    him to a source of radiation - either the Van de Graff
+    generator in the Nuclear Research Center, or the Slowpoke
+    reactor under the Dentistry building.
+
+ADV - This is no relation to the original Adventure. it is
+    another world of the same order of difficulty as DEMO, and
+    was written by Blaine Manyluk. To run it, type '$SO
+    CC12:ADV'.
+
+ATLANTIS - This adventure has also been used for the UACS Open
+    House. It was written, and is currently maintained by James
+    Walsh. ATLANTIS is a fairly short adventure of the more
+    traditional treasure gathering variety. ATLANTIS can be
+    accessed via '$SO SHOW:ATLANTIS'.
+
+SPY - This adventure, created by Trevor Hart and Brian Minchau,
+    is also incomplete. Chris Thierman currently has it on the
+    system, but hasn't done anything with it for a while. Perhaps
+    a few prods (messages) would help. The game puts the player
+    in a 'Mission Impossible' type situation, complete with
+    hidden tape recorder of instructions. Several unusual
+    inhabitants, plus some realism features not often found in
+    adventures, make this one worthwhile.
+
+ALIEN - This is yet another incomplete adventure, programmed by
+    Chris Thierman. It has a science fiction setting, complete
+    with wierd machines, etc. ALIEN is not currently available on
+    the system.
+
+Examples for prospective world creators
+
+     To give you a starting point, some examples of the sources
+to SIX/FANT worlds are available. SHOW:EX.6 is the source to an
+EXTREMELY simple world. It is $COPY-able, so you can take a copy
+and build upon it. SHOW:DEMO.S is the source to a somewhat more
+complicated world (probably the simplest one worth actually
+playing) and is also $COPY-able. SHOW:ZORP.S is the source to
+ZORP, mentioned above. It is NOT $COPY-able, however it has been
+permitted to SHOW:EXAMINE (see SHOW:EXAMINE.W for details on
+this utility) and you are free to look at it.
+
+Tools for Use With SIX/FANT
+
+     Since SIX is actually a fairly general structured
+programming language, tools useful with such languages are
+useful with SIX. In particular SHOW:BEAUTIFY, which structures
+ALGOLW, Pascal, and QC programs, will also work with SIX worlds.
+Simply specify PAR=SIX to tell it which set of keywords to use.

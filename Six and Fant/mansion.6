@@ -1,0 +1,5850 @@
+/*
+
+    MANSION Fantasy World
+
+    Written by Chris Gray,
+               Department of Computing Science,
+               University of Alberta,
+               Edmonton, Alberta.
+
+    Last changed on 27 March 1980.
+
+*/
+
+cons CANDLETIME = 18,
+     MAXSCORE = 200,
+     MAXCARRY = 5;
+
+var _loc,                 /* current location of player */
+    _objloc,              /* current location for get & drop */
+    _subloc,              /* current location of submarine */
+    _sublocs,             /* list of locations in submarine */
+    _carrying,            /* list of things being carried */
+    _carrycount,          /* count of things being carried */
+    _quitflag,            /* true when want to end the game */
+    _dark,                /* false if currently can see */
+    _noun,                /* the current noun (actual value) */
+    _nounstring,          /* the string used to get the current noun */
+    _verbstring,          /* current verb string */
+    _candle_timeleft,     /* number of moves until candle goes out */
+    _terse,               /* terse flag */
+    _score,               /* the current score */
+    _chestopen,           /* is the chest open? */
+    _hatchoiled,          /* 0, 1, 2 = count of hatch oilings */
+    _hatchlocked,         /* true if the hatch is locked */
+    _maindoorlocked,      /* true if the main door is locked */
+    _backdoorlocked,      /* true if the back door is locked */
+    _gatelocked,          /* true if the gate is locked */
+    _casklocked,          /* true if the cask is locked */
+    _caskopen,            /* true if the cask is open */
+    _movers,              /* list of moving verbs */
+    _caskopened,          /* true if cask has been opened */
+    _surface,             /* list of surface locations */
+    _oncraft,             /* true if on some craft */
+    _preachergone,        /* true if preacher vanquished */
+    _preachernear,        /* true if preacher following */
+    _bibleopen,           /* true if bible is open */
+    _bibleopened,         /* true if bible has been open */
+    _knobinwater,         /* true when knob still in water */
+    _winchon,             /* -1, 0, 1 for down, off, up */
+    _winchpos,            /* 0,1,2,3 for home,..., all down */
+    _onhook,              /* list of things on winch hook */
+    _winchdoorlocked,     /* true if winch-room door is locked */
+    _knobinplace,         /* true if doorknob on door */
+    _cancontents,         /* contents of can */
+    _wheelonshaft,        /* true if wheel on shaft */
+    _subhatchlocked,      /* true if sub's hatch is locked */
+    _safeopen,            /* true if safe is open */
+    _safelocked,          /* true if safe is locked */
+    _combination,         /* current combination to safe */
+    _stuffinsafe,         /* true if certificates still in safe */
+    _boathousedoorlocked, /* true if boathouse door is locked */
+    _demerits,            /* count of demerit points */
+    _forwardtorpedosgone, /* list of f torps gone */
+    _afttorpedosgone,     /* ditto for aft torpedos */
+    _depth,               /* current depth of sub */
+    _heading,             /* current heading: 0,1,2,3,4,5,6,7 */
+    _rudder,              /* rudder setting: -1, 0, +1 */
+    _planes,              /* dive planes: -1, 0, +1 */
+    _engines,             /* sub's engines: -1, 0, +1 */
+    _rubblecount,         /* torpedo hits on rubble pile */
+    _whirlpools,          /* list of whirlpool locations */
+    _cratesmashed,        /* true if crate has been smashed */
+    _craters,             /* list of crater locations */
+    _subout,              /* true if sub has emerged */
+    _waron,               /* true if WW3 has started */
+    _spiritgone,          /* true if demon exorcised */
+    _trogloc,             /* location of troglodyte */
+    _trogflag,            /* true if trog busy */
+    _t1,                  /* temporary */
+    _cavecount,           /* torpedos fired at cave-in */
+    _missileflag,         /* enemy missiles active */
+    _missilecount,        /* # enemy missiles fired */
+    _missiletimer,        /* time 'til next enemy missile */
+    _missilesender,       /* 1 - 16, index of sender */
+    _thirstmax,           /* maximum time w/o water */
+    _thirstcount,         /* time 'til die of thirst */
+    _nofish,              /* list of locs with _float, no fish */
+    _potcontents,         /* current contents of coffeepot */
+    _nils,                /* list of no-time verbs */
+    _vaultclosed,         /* true if vault is closed */
+    _listerror;           /* true on bad command */
+
+/* The properties used: */
+
+cons _contents = prop,
+     _name = prop,
+     _description = prop,
+     _darkflag = prop,
+     _float = prop,
+     _shortname = prop,
+     _torpedo = prop,
+     _landing = prop;
+
+/* Predeclarations for _see and _move: */
+
+thing winchroom:;
+thing s1l1:;
+thing candle:;
+thing flash:;
+thing _logrand:;
+thing _subrand:;
+thing sub:;
+thing down:;
+thing log:;
+thing controlroom:;
+thing trident:;
+thing tden:;
+thing b4:;
+
+thing _missiletargets:
+   1 "Berlin",
+   2 "Boston",
+   3 "Buenos Aires",
+   4 "Canberra",
+   5 "Edmonton",
+   6 "Johannesburg",
+   7 "Leningrad",
+   8 "London",
+   9 "Moscow",
+   10 "New York",
+   11 "Paris",
+   12 "Peking",
+   13 "Shanghai",
+   14 "Tokyo",
+   15 "Vladivostok",
+   16 "Washington";
+
+thing _headings:
+   0 "n",   1 "ne",  2 "e",   3 "se",
+   4 "s",   5 "sw",  6 "w",   7 "nw";
+
+proc _hatchclosed():
+   output "The hatch is closed; you cannot get through.%n"
+corp;
+
+proc _yes()result:
+   var _x, _y, _z;
+
+   while _y := input;
+      if _y isnt absent
+      then _z := nil;
+         for _x in _y
+         do if _x = "yes" or _x = "no" or _x = "ok"
+                  or _x = "YES" or _x = "NO" or _x = "OK"
+                  or _x = "y" or _x = "n" or _x = "Y" or _x = "N"
+            then _z := _x
+            fi;
+            _y <- _x
+         od
+      else _z := "no"
+      fi;
+      _z = nil
+   do output "Please answer the question.%n"
+   od;
+   _z ~= "no" and _z ~= "NO" and _z ~= "n" and _z ~= "N"
+corp;
+
+proc _whirlpool():
+   var _x;
+
+   output "%nA-A-A-R-R-GH!! You have just cruised into the whirlpool"
+         " and been spun dizzy.%n%n";
+   if _objloc = log
+   then _loc := _logrand.(? / 1250)
+   else _subloc := _subrand._depth.(? / 2000);
+      _planes := (? / 3334 - 1) * 100;
+      _rudder := ? / 3334 - 1;
+      _engines := ? / 3334 - 1;
+      _heading := ? / 1250
+   fi
+corp;
+
+proc _dis(_dir)result:
+   var _x, _pos, _tloc;
+
+   _x := 0;
+   _pos := _subloc;
+   while _tloc := _pos._dir;
+      _tloc is table
+   do _x := _x + 1;
+      _pos := _tloc
+   od;
+   if _tloc = _whirlpool then _x := _x + ?/2000 fi;
+   _x * 1000
+corp;
+
+proc _subdisplay():
+   output "Depth:", _depth, "   Heading:", _headings._heading,
+      "   Rudder:", if _rudder = -1 then "port"
+                elif _rudder = +1 then "starboard"
+                else "neutral" fi,
+      "   Planes:", if _planes = -100 then "dive"
+                elif _planes = +100 then "climb"
+                else "level" fi,
+      "   Engines:", if _engines = -1 then "astearn"
+                 elif _engines = +1 then "ahead"
+                 else "stop" fi, newline,
+      "Sonar scan: ", _dis((_heading+7)%8+100), " ",
+      _dis(_heading+100), " ", _dis((_heading+1)%8+100), "    ",
+      _dis((_heading+7)%8), " ", _dis(_heading), " ",
+      _dis((_heading+1)%8), "    ", _dis((_heading+7)%8-100), " ",
+      _dis(_heading-100), " ", _dis((_heading+1)%8-100),
+      "%nThe viewscreens show that the sub is ";
+   if _depth ~= 0
+   then output "underwater.%n"
+   else output _subloc._name,
+         if _terse
+         then ".%n"
+         else _subloc._description
+         fi
+   fi
+corp;
+
+proc _movesub():
+   var _dir;
+
+   _heading := (_heading + 8 + if _engines = -1
+                               then -_rudder
+                               else _rudder
+                               fi) % 8;
+   _dir := _subloc.(_planes + (_heading + 8 + 2 * (_engines - 1)) % 8);
+   if sub.down ~= _hatchclosed and _planes = -100
+   then output "A horrible gurgling whooshing sound fills the sub"
+         " as a wall of water inundates the vessel. Naturally, you"
+         " drown.%n";
+      _engines := 0;
+      _quitflag := true
+   elif not _subhatchlocked and _planes = -100 and _depth = 100
+   then output "A loud CLANG!! reverberates through the sub,"
+         " immediately followed by the whoosh of a wall of water"
+         " filling the vessel. Naturally, you drown.%n";
+      _engines := 0;
+      _quitflag := true
+   elif _dir is proc
+   then _dir()
+   elif _depth = 0 and _planes = +100
+   then output "%nThis is a submarine, not an airplane. You cannot"
+            " go any higher.%n%n"
+   elif _dir is absent
+   then output "%nKa-rumph!! You just rammed into the side"
+            " of the cavern.%n%n";
+      _engines := 0;
+      _demerits := _demerits + 1
+   else _depth := _depth - _planes;
+      if _depth > 0 then sub._contents := emptylist fi;
+      _subloc := _dir
+   fi
+corp;
+
+proc _firetorpedo(_dir):
+   var _x, _pos, _tloc;
+
+   _x := 0;
+   _pos := _subloc;
+   while _tloc := _pos._dir;
+      _tloc is table
+   do _x := _x + 1;
+      _pos := _tloc
+   od;
+   if _tloc = _whirlpool then _x := _x + ? / 2000 fi;
+   if _x = 0
+   then output "Ka-wump!! You have just blown a hole in your own"
+         " submarine! Due to the innate kindness of your creator,"
+         " however, this will be ignored.%n";
+      _demerits := _demerits + 5
+   elif _pos._torpedo is proc
+   then _pos._torpedo(_x, _pos)
+   else output "After ", _x, " seconds you feel the shockwave from"
+         " the detonation of the torpedo.%n"
+   fi
+corp;
+
+/* Standard routines: */
+
+proc _see(moving):        /* describe the current place */
+   var _x;
+
+   if _dark
+   then output "It is pitch dark.%n"
+   else output "You are ";
+      if _oncraft then output _objloc._description fi;
+      output _loc._name;
+      output if _terse and moving then ".%n" else _loc._description fi;
+      if _objloc._contents and not _terse    /* i.e. the room contains something */
+      then output "Nearby:%n";
+         for _x in _objloc._contents do output "   ", _x._name od;
+         _x := 0
+      fi;
+      if _oncraft and _loc = s1l1 and _winchpos = 3 and not _terse
+      then output "A hook on a cable is hanging down from the hole"
+               " in the roof.%n";
+         if _onhook
+         then output "On the hook:%n";
+            for _x in _onhook do output "   ", _x._name od;
+            _x := 0
+         fi
+      elif _loc = winchroom and not _terse
+      then output "The winch hook is ",
+            if _winchpos = 0 then "within reach above the hole.%n"
+            else "lost in the darkness below.%n"
+            fi;
+         if _onhook and _winchpos = 0
+         then output "On the hook:%n";
+            for _x in _onhook do output "   ", _x._name od;
+            _x := 0
+         fi
+      elif _loc = controlroom
+      then _subdisplay()
+      elif _loc = _trogloc
+      then output "A very hungry-looking troglodyte is standing nearby.%n";
+         if trident in _carrying or trident in _loc._contents
+         then output "He grabs the trident and scurries away with"
+                     " it.%n";
+            if trident in _carrying
+            then _carrycount := _carrycount - 1;
+               _carrying <- trident
+            else _loc._contents <- trident
+            fi;
+            tden._contents <+ trident;
+            _trogflag := false;
+            _trogloc := b4
+         fi
+      fi;
+      if _preachernear
+      then output "%nA fanatical preacher is following you around,"
+            " mumbling 'blasphemous miscreant', and hitting you"
+            " with his bible.%n"
+      fi;
+   fi
+corp;
+
+proc _move(_dest):        /* try to move to _dest */
+   if _dest is absent     /* i.e. _loc had no such property */
+   then output "There is no way to go in that direction.%n";
+      _listerror := true
+   elif _dest is proc     /* if the selected direction from _loc is a procedure, */
+   then _dest()           /* then call it for some special action */
+   else _loc := _dest;    /* otherwise move there */
+      if not _oncraft then _objloc := _dest fi;
+      if _loc._darkflag is absent
+      then _dark := false
+      elif not flash in _carrying and not flash in _objloc._contents
+            and (not (candle in _carrying or candle in _objloc._contents) or
+            _candle_timeleft > CANDLETIME or _candle_timeleft <=0)
+      then _dark := true
+      else _dark := false
+      fi;
+      _see(true)          /* and describe the new place */
+   fi
+corp;
+
+proc _inventory():        /* list out what is being carried */
+   var _x;
+
+   if _carrying           /* i.e. the list is not empty */
+   then output "You are currently carrying:%n";
+      for _x in _carrying do output "   ", _x._name od;
+      _x := 0
+   else output "You are not carrying anything.%n"
+   fi
+corp;
+
+/* The objects in this world: */
+
+thing candle:
+   _name "a small piece of a candle%n";
+
+thing (matches, match, matchbook):
+   _name "a book of matches%n";
+
+thing (chest, pine):
+   _name 0;
+
+thing (plastic, card, credit, creditcard):
+   _name "a plastic credit card made out to 'Jimmy Rich'%n";
+
+thing (ring, diamond, diamondring):
+   _name "an old diamond ring%n",
+   _value 5;
+
+thing (wallet, billfold, purse):
+   _name "a bulging wallet%n",
+   _value 5;
+
+thing (keys, "key-chain", keychain, chain):
+   _name "a key-chain of keys%n";
+
+thing (oilcan, can, "oil-can"):
+   _name 0;
+
+thing (key, goldenkey, "golden-key", goldkey, "gold-key"):
+   _name "a small golden key%n",
+   _value 1;
+
+thing emerald:
+   _name "an emerald%n",
+   _value 5;
+
+thing (cask, casket):
+   _name 0,
+   _value 1;
+
+thing (ruby, gem):
+   _name "a gleaming ruby%n",
+   _value 5;
+
+thing log:
+   _name "a large log floating in the water%n",
+   _contents (),
+   _float,
+   _shortname "log",
+   _description "astride the log ";
+
+thing (bible, book):
+   _name 0;
+
+thing crucifix:
+   _name "a golden crucifix%n",
+   _value 3;
+
+thing wheel:
+   _name "a 4-foot, 4-spoked, steel wheel%n";
+
+thing (brass, knob, doorknob, "door-knob"):
+   _name "a shiny brass doorknob%n";
+
+thing (rod, fishing, fishingrod, pole, fishpole, bamboo):
+   _name "a bamboo fishing rod%n";
+
+thing (punt, boat):
+   _name "a small wooden punt%n",
+   _contents (wheel),
+   _float,
+   _shortname "punt",
+   _description "on the punt ";
+
+thing (magazine, magazines):
+   _name "a very tattered magazine%n";
+
+thing (pot, coffee, coffeepot, "coffee-pot"):
+   _name 0;
+
+/* Pre-declarations needed by submarine: */
+
+thing climb:;
+thing enter:;
+
+thing (sub, submarine, nautilus, Nautilus, NAUTILUS):
+   _name "a nuclear-powered submarine%n",
+   _contents (),
+   _shortname "submarine",
+   _description 0,
+   down _hatchclosed,
+   climb _hatchclosed,
+   enter _hatchclosed;
+
+thing sign:
+   _name "a metal 'No Trespassing' sign%n";
+
+thing sucker:
+   _name "a fat, juicy sucker%n";
+
+thing (chess, ivory, "chess-set"):
+   _name "an ivory chess set%n",
+   _value 4;
+
+thing (flash, flashlight):
+   _name "a brightly shining flashlight%n";
+
+thing (paper, note):
+   _name "a slip of paper%n";
+
+thing (clipboard, clip):
+   _name "a military standard clipboard%n";
+
+thing candlepiece:
+   _name "a broken candle%n";
+
+thing brokenflash:
+   _name "a broken flashlight%n";
+
+thing (bond, bonds, stock, stocks, certificate, certificates):
+   _name "a bundle of stocks and bonds%n",
+   _value 5;
+
+thing (knife, carving, carver, blade, "carving-knife"):
+   _name "a carving knife%n";
+
+thing (trident, fork):
+   _name "a jewel encrusted trident%n",
+   _value 5;
+
+thing dagger:
+   _name "a jewelled dagger%n",
+   _value 2;
+
+thing woodchips:
+   _name "a litter of small wood-chips%n";
+
+thing (earring, earrings):
+   _name "a pair of silver earrings%n",
+   _value 1;
+
+thing (mink, coat, minkcoat, stole):
+   _name "a luxurious mink coat%n",
+   _value 4;
+
+thing (ming, vase, mingvase, Ming):
+   _name "a priceless Ming vase%n",
+   _value 5;
+
+thing (bar, crowbar, crow):
+   _name "a heavy crowbar%n";
+
+thing bracelet:
+   _name "a silver bracelet%n",
+   _value 2;
+
+thing (crate, box, package):
+   _name "a large wooden crate%n";
+
+thing (shards, pieces, shard, piece, pottery):
+   _name "numerous shards of pottery%n";
+
+thing (chalice, cup, jug):
+   _name "a ruby studded silver chalice%n",
+   _value 8;
+
+thing (manual, guide, instructions, "user's"):
+   _name "a user's guide%n";
+
+thing (statue, goddess, snake):
+   _name "a gold statue of the snake goddess Shsississish%n",
+   _value 5;
+
+thing (crown, Crown):
+   _name "The Crown of the Equinox%n",
+   _value 10;
+
+thing (blueprints, blueprint, prints, print, blue):
+   _name "blueprints for a fusion reactor%n",
+   _value 10;
+
+thing (death, ray, gun, "death-ray"):
+   _name "a weird death-ray gun%n",
+   _value 10;
+
+/* Objects which may not currently exist: */
+
+thing _phantoms:
+   "finger", "fingers";
+
+/* Predeclaration of motion verbs: */
+
+thing north:;
+thing south:;
+thing east:;
+thing west:;
+thing up:;
+thing downstream:;
+thing upstream:;
+thing jump:;
+thing exit:;
+thing cross:;
+thing port:;
+thing starboard:;
+thing forward:;
+thing aft:;
+thing hint:;
+
+/* The locations in this world: */
+/* (Pre-declaration to allow inter-referencing) */
+
+thing hall:;
+thing cellar:;
+thing cave:;
+thing forest:;
+thing FP1:;
+thing FP2:;
+thing FP3:;
+thing FP4:;
+thing FP5:;
+thing hallnorth:;
+thing hallsouth:;
+thing livingroom:;
+thing diningroom:;
+thing kitchen:;
+thing laundryroom:;
+thing upperhall:;
+thing masterbedroom:;
+thing powderroom:;
+thing secondbedroom:;
+thing attic:;
+thing northattic:;
+thing southattic:;
+thing studywest:;
+thing studyeast:;
+thing secretroomeast:;
+thing secretroomwest:;
+thing trophyroom:;
+thing outsidegate:;
+thing insidegate:;
+thing gatehouse:;
+thing driveway1:;
+thing drivejunction:;
+thing drivebygarage:;
+thing garage:;
+thing driveway2:;
+thing drivecorner:;
+thing drivebyentrance:;
+thing entrance:;
+thing damppit:;
+thing passagewest:;
+thing passageeast:;
+thing streamnorth:;
+thing streamsouth:;
+thing DE1:;
+thing DE2:;
+thing DE3:;
+thing DE4:;
+thing uptunnel:;
+thing poolcavern:;
+thing channeltop:;
+thing channelbottom:;
+thing poolcavernwater:;
+thing channelbottomwater:;
+thing whirlpool:;
+thing whirlpoolwater:;
+thing treasureroom:;
+thing cliffedge:;
+thing pump:;
+thing streampath1:;
+thing streampath2:;
+thing streampath3:;
+thing bridgeout:;
+thing pathbyboathouse:;
+thing boathouseland:;
+thing boathousewater:;
+thing streambyboathouse:;
+thing stream1:;
+thing stream2:;
+thing stream3:;
+thing streambridge:;
+thing streambypump:;
+thing pastbridge:;
+thing streamjunction:;
+thing stream4:;
+thing stream5:;
+thing pumpbottom:;
+thing streambycave:;
+thing streamcave:;
+thing b8:;
+thing grotto:;
+thing streamlanding:;
+thing islandpath1:;
+thing islandpath2:;
+thing islandpath3:;
+thing islandpath4:;
+thing islandpath5:;
+thing islandpath6:;
+thing islandpath7:;
+thing islandpath8:;
+thing islandpath9:;
+thing islandpath10:;
+thing gazebo:;
+thing undergazebo:;
+thing bridgein:;
+thing corridor1:;
+thing corridor2:;
+thing forwardtorpedo:;
+thing captainscabin:;
+thing crewlounge:;
+thing corridorjunction:;
+thing mess:;
+thing crewsquarters:;
+thing missilecontrolroom:;
+thing missileroom:;
+thing reactorroom:;
+thing engineroom:;
+thing afttorpedo:;
+thing train1:;
+thing train2:;
+thing s2l1:;
+thing s3l1:;
+thing s3l2:;
+thing s4l1:;
+thing s5l1:;
+thing s5l2:;
+thing s6l1:;
+thing s6l2:;
+thing s7l1:;
+thing s7l2:;
+thing s7l3:;
+thing s8l1:;
+thing s8l2:;
+thing s8l3:;
+thing s9l1:;
+thing s9l2:;
+thing s10l1:;
+thing s10l2:;
+thing s11l1:;
+thing s11l2:;
+thing s12l1:;
+thing s12l2:;
+thing s13l1:;
+thing s14l1:;
+thing s14l2:;
+thing s15l1:;
+thing s15l2:;
+thing s15l3:;
+thing s16l1:;
+thing s17l1:;
+thing s18l1:;
+thing s18l2:;
+thing s19l1:;
+thing s19l2:;
+thing s19l3:;
+thing s20l1:;
+thing s20l2:;
+thing s20l3:;
+thing s21l3:;
+thing s22l3:;
+thing s23l3:;
+thing s24l2:;
+thing s25l1:;
+thing s26l2:;
+thing s27l2:;
+thing wm1:;
+thing wm2:;
+thing wm3:;
+thing wm4:;
+thing wm5:;
+thing wm6:;
+thing wm7:;
+thing wm8:;
+thing wm9:;
+thing wm10:;
+thing wm11:;
+thing wm12:;
+thing b1:;
+thing b2:;
+thing b3:;
+thing b5:;
+thing b6:;
+thing b7:;
+thing b9:;
+thing chasm:;
+thing vale:;
+thing vault:;
+thing cliffdoor:;
+thing gloomyturn:;
+thing gloomyturn2:;
+thing balcony:;
+thing civilpassage:;
+thing civilturn:;
+thing fancybedroom:;
+thing civilgloom:;
+thing gloomyturn3:;
+thing gloomend:;
+thing dustyroom1:;
+thing dustyroom2:;
+thing spiritcave:;
+thing spjunct:;
+thing insc:;
+thing insr:;
+thing spcorn:;
+thing spde:;
+thing statr:;
+thing statj:;
+thing tdj:;
+thing td:;
+thing ftc:;
+thing ft:;
+thing sp1:;
+thing sp2:;
+thing ts1:;
+thing ts2:;
+thing ts4:;
+thing tt1:;
+thing tt2:;
+thing s28l3:;
+thing s29l2:;
+thing s30_5l1:;
+thing s30l1:;
+thing s31l1:;
+thing s32l2:;
+thing s33l3:;
+thing s34l2:;
+thing s35l2:;
+thing s36l1:;
+thing s36l2:;
+thing s37l1:;
+thing s37l2:;
+thing s38l1:;
+thing s38l2:;
+thing s39l1:;
+thing s39l2:;
+thing s40l1:;
+thing s40l2:;
+thing s41l1:;
+thing s41l2:;
+thing s42l1:;
+thing s43l1:;
+thing s43l2:;
+thing s44l1:;
+thing s44l2:;
+thing wharf:;
+thing radioshack:;
+
+thing _logrand:
+   0 s6l1,
+   1 s7l1,
+   2 s10l1,
+   3 s12l1,
+   4 s14l1,
+   5 s15l1,
+   6 s19l1,
+   7 s20l1;
+
+thing _sr1:
+   0 s8l1,
+   1 s6l1,
+   2 s10l1,
+   3 s14l1,
+   4 s19l1;
+
+thing _sr2:
+   0 s8l2,
+   1 s6l2,
+   2 s5l2,
+   3 s12l2,
+   4 s15l2;
+
+thing _sr3:
+   0 s7l3,
+   1 s8l3,
+   2 s15l3,
+   3 s19l3,
+   4 s20l3;
+
+thing _subrand:
+   0 _sr1,
+   100 _sr2,
+   200 _sr3;
+
+/* Special routines for this world: */
+
+proc _doorclosed():
+   output "The door is closed; you cannot get through.%n"
+corp;
+
+proc _gateclosed():
+   output "The gate is closed; you cannot get through.%n"
+corp;
+
+proc _jump():
+   output "You have fallen down and broken your fool neck!%n";
+   _quitflag := true
+corp;
+
+proc _tostudyeast():
+   output "The floorboards are rotten!%n"
+      "You have fallen through to the floor below.%n";
+   studywest.east := studyeast;
+   studywest..down := secretroomeast;
+   studyeast..down := secretroomeast;
+   studywest..jump := secretroomeast;
+   studyeast..jump := secretroomeast;
+   studywest._description := ". One door exits to the north. There is a hole in the floor.%n";
+   studyeast._description := ". There is a hole in the floor.%n";
+   _move(secretroomeast)
+corp;
+
+proc _rapids():
+   output "You have paddled out into the stream. The current gently"
+      " takes hold of your precarious craft and tugs you downstream."
+      " You are quite relaxed as the shore floats by. You note"
+      " with passing interest that it seems to be gliding past"
+      " slightly more rapidly than before. Ahead, the stream channel"
+      " seems to be narrowing somewhat. As your speed increases"
+      " noticeably, and a roaring sound becomes discernable, you begin"
+      " to regret the rashness of your actions. The log is now"
+      " surging ahead at an alarming rate and%n%n"
+      "         SWOOSH!!%n%n"
+      "The log carries you hurtling down a roaring rapid,"
+      " pressed between jagged stone cliffs! Is this the end?%n%n"
+      "No! The current slackens and the channel opens out to reveal"
+      " a path on the bank. The log finally comes to a bobbing"
+      " halt on a sandy beach."
+      " You have come to the whirlpool cavern, an immense"
+      " chamber poorly lit by a bright light in the roof. An"
+      " underground sea is churned by a large whirlpool in its center."
+      " The pulsing roar from the whirlpool fills the cavern and"
+      " echoes from the roof far overhead.%n";
+   _candle_timeleft := 0;
+   _move(whirlpoolwater)
+corp;
+
+proc _poison():
+   output "You have stumbled into the water. ";
+   output "The water is a deadly poison! An unendurable "
+          "burning sensation fills your entire body. With a "
+          "pitiful croak, you sink to the ground as your strength"
+          " fails. The events of your life flash through your "
+          "mind and the final darkness overtakes you.%n";
+   _quitflag := true
+corp;
+
+thing _bangers:
+   streamsouth uptunnel,
+   poolcavern uptunnel;
+
+proc _banghead():
+   if _verbstring ~= "crawl"
+   then output "Wham!! You just banged your head on the top of"
+         " the tunnel.%n";
+      _demerits := _demerits + 1
+   else _move(_bangers._loc)
+   fi
+corp;
+
+proc _throughhatch():
+   if wheel in _carrying
+   then output "The wheel will not fit through the 2-foot square"
+         " hatchway.%n"
+   else _move(if _loc = cellar then cave else cellar fi)
+   fi
+corp;
+
+proc _hitshield():
+   output "Whump!! You have hit an invisible shield. You will not"
+         " be able to cross the bridge.%n"
+corp;
+
+proc _cutshield():
+   output "Cru-u-nch, the bow of your punt has been cut in two by"
+         " the sharp edge of an invisible shield! The current"
+         " continues to push you towards it! You sit frozen with"
+         " fear as the split in the wood of the punt approaches"
+         " your seat. With a sick moan you faint into oblivion. The"
+         " fish will feed well today.%n";
+   _quitflag := true
+corp;
+
+proc _bigsplash():
+   output "Some people never learn. Perhaps the sound of the air"
+         " whistling past your ears as you plummet down into the"
+         " darkness will teach you something. In any case"
+         " you hit the water with a big splash, are knocked"
+         " unconscious by the impact, and drown.%n";
+   _quitflag := true
+corp;
+
+proc _smashhead():
+   output "Jumping in small tunnels is inadvisable. You have"
+         " smashed your head into the roof and jellied your brains.%n";
+   _quitflag := true
+corp;
+
+proc _tied():
+   output "The punt is tied to the boathouse floor with a heavy rope"
+         " and will not move.%n"
+corp;
+
+proc _toconning():
+   _loc := _subloc;
+   _objloc := sub;
+   _oncraft := true;
+   _see(true)
+corp;
+
+proc _fromconning():
+   _oncraft := false;
+   _move(corridor1)
+corp;
+
+proc _downcliff():
+   output "That cliff looks awful steep and awful high. I flat"
+         " refuse to go down it.%n"
+corp;
+
+proc _upcliff():
+   if _carrycount > 1 or _carrycount = 1 and not flash in _carrying
+   then output "You scramble and scramble in your attempt to get"
+         " up the cliff, but the many burdens you are"
+         " carrying are simply too much of a load to carry up.%n"
+   else output "After an arduous scramble, you have managed to"
+         " scale the cliff. Looking back down your route, you begin"
+         " to believe the mountaineers adage: What goes up, may not"
+         " be able to get down.%n";
+      _move(cliffedge)
+   fi
+corp;
+
+proc _toowide():
+   output "The stream at this point is very wide, and you have "
+          "landed in the water. ";
+   output "The water is a deadly poison! An unendurable "
+          "burning sensation fills your entire body. With a "
+          "pitiful croak, you sink to the ground as your strength "
+          "fails. The events of your life flash through your "
+          "mind and the final darkness overtakes you.%n";
+   _quitflag := true
+corp;
+
+proc _torplog(_x, _place):
+   output "After ", _x, " seconds you feel the shockwave from the"
+         " detonation of the torpedo.%n";
+   _place--_torpedo;
+   _place._landing._contents <- log;
+   _place._landing._contents <+ woodchips
+corp;
+
+proc _rubble(_x, _place):
+   output "After ", _x, " seconds you feel the shockwave from the"
+         " detonation of the torpedo.%n";
+   if _rubblecount = 0
+   then s11l1._description := ". To the north a large pile of rubble"
+         " blocks a small passage.%n"
+   elif _rubblecount = 1
+   then s11l1._description := ". To the north a medium-sized pile of"
+         " rubble blocks a small passage.%n"
+   elif _rubblecount = 2
+   then s11l1._description := ". To the north a pile of rubble"
+         " blocks a small passage.%n"
+   elif _rubblecount = 3
+   then s11l1._description := ". To the north a small pile of rubble"
+         " blocks a small passage.%n"
+   elif _rubblecount = 4
+   then s11l1._description := ". To the north a tiny bit of rubble"
+         " blocks a small passage.%n"
+   else s11l1._description := ". To the north is a small passage.%n";
+      s11l1.hint := "I don't think the submarine will fit into the"
+                    " passage.%n";
+      s11l1..north := wm1;
+      s11l1..downstream := wm1;
+      s11l1..enter := wm1;
+      s11l1--_torpedo
+   fi;
+   _rubblecount := _rubblecount + 1
+corp;
+
+proc _barbwire():
+   output "No thank you! That barbed wire on top looks very nasty.%n"
+corp;
+
+proc _demon():
+   output "A demon from hell blocks your path. 'You may not pass!'%n"
+corp;
+
+proc _longtrip():
+   output "You have traversed the stream for some distance and have"
+          " come almost a full circle. Nothing of interest happened"
+          " or was seen on the journey.%n";
+   _move(if _loc = stream4 then pumpbottom else stream4 fi)
+corp;
+
+proc _trog():
+   if _trogloc ~= b4
+   then _move(b4)
+   elif trident in _carrying
+   then output "The troglodyte looks at you with anger in his eyes."
+         " He refuses to let you pass.%n"
+   else output "The troglodyte looks at you warily, but does not"
+         " prevent your passage.%n";
+      _move(b4)
+   fi
+corp;
+
+proc _beach():
+   output "%nG-R-R-IND!! You have just grounded your submarine."
+         " Fortunately, you are able to work loose.%n%n";
+   _engines := 0;
+   _demerits := _demerits + 1
+corp;
+
+proc _cavein(_x, _place):
+   output "After ", _x, " seconds you feel the shockwave from the"
+         " detonation of the torpedo.%n";
+   if _cavecount = 0
+   then s30l1._description := ". Some of the rubble has moved.%n"
+   elif _cavecount = 1
+   then s30l1._description := ". Some more of the rubble has moved.%n"
+   elif _cavecount = 2
+   then s30l1._description := ". A lot of the rubble has moved.%n"
+   elif _cavecount = 3
+   then s30l1._description := ". A small hole can be seen in the pile.%n"
+   elif _cavecount = 4
+   then s30l1._description := ". The hole is larger now.%n"
+   elif _cavecount = 5
+   then s30l1._description := ". Most of the rubble is gone now.%n"
+   else s30l1._description := ". The passage continues to the south.%n";
+      s30l1..4 := s31l1;
+      s30l1--_torpedo
+   fi;
+   _cavecount := _cavecount + 1
+corp;
+
+proc _toshack():
+   if not _missileflag
+   then output "WHOOP-WHOOP-WHOOP! You seem to have set off some"
+            " kind of alarm.%n%n";
+      _missileflag := _missiletargets._missilesender isnt absent;
+      _missilecount := 0;
+      _missiletimer := 6
+   fi;
+   _move(radioshack)
+corp;
+
+proc _findstream():
+   _thirstmax := 40;
+   if _thirstcount > 40 then _thirstcount := 40 fi;
+   _move(streampath1)
+   corp;
+
+proc _inmaindoor():
+   _thirstmax := 40;
+   if _thirstcount > 40 then _thirstcount := 40 fi;
+   _move(hallnorth)
+corp;
+
+/* The locations in this world: */
+
+thing hall:
+   east upperhall,
+   up upperhall,
+   west cellar,
+   down cellar,
+   north hallnorth,
+   south hallsouth,
+   _contents (matches),
+   _name "in the hall",
+   _description ", a long N/S corridor with doors on both ends. "
+                "Staircases lead down and to the west and up and to the east.%n";
+
+thing cellar:
+   east hall,
+   up hall,
+   down _hatchclosed,
+   climb _hatchclosed,
+   enter _hatchclosed,
+   hint "The hatch CAN be opened, try oiling it until it moves."
+         " (If you are out of oil, there is more to be had.)%n",
+   _contents (crowbar),
+   _name "in the cellar",
+   _description 0;
+
+thing cave:
+   down damppit,
+   south damppit,
+   up _hatchclosed,
+   climb _hatchclosed,
+   exit _hatchclosed,
+   _darkflag,
+   _contents (chest),
+   _name "in the cave",
+   _description 0;
+
+thing forest:
+   _name "at the edge of the forest",
+   _description " with a driveway to the north, a main path south, "
+         "and a smaller path leading west into the tangled forest.%n",
+   _contents (),
+   north drivebygarage,
+   west FP1,
+   south _findstream;
+
+cons FH = "Lost? Try dropping something to mark this place.%n";
+
+thing FP1:
+   _name "in a glen in the forest",
+   _description " with paths leading off in most directions.%n",
+   _contents (),
+   hint FH,
+   south streampath1,
+   north forest,
+   east FP4,
+   west FP2;
+
+thing FP2:
+   _name "in a glen in the forest",
+   _description " with paths leading off in most directions.%n",
+   _contents (),
+   hint FH,
+   south FP1,
+   north FP2,
+   east FP4,
+   west FP3;
+
+thing FP3:
+   _name "in a glen in the forest",
+   _description " with paths leading off in most directions.%n",
+   _contents (),
+   hint FH,
+   south FP4,
+   north FP3,
+   west FP2,
+   east FP5;
+
+thing FP4:
+   _name "in a glen in the forest",
+   _description " with paths leading off in most directions.%n",
+   _contents (),
+   hint FH,
+   south FP1,
+   east FP2,
+   west FP5,
+   north FP3;
+
+thing FP5:
+   _name "in a glen in the forest",
+   _description " with paths leading off in most directions.%n",
+   _contents (),
+   hint FH,
+   north FP4,
+   east FP4,
+   west FP5,
+   south FP3;
+
+thing streampath1:
+   _name "in a stream valley",
+   _description " with a cold, crystal clear stream flowing though it. "
+            "Fish are occasionally surfacing to feed. A path from"
+            " the north heads east and west along the bank.%n",
+   _contents (),
+   _float,
+   downstream streampath2,
+   east streampath2,
+   west streampath3,
+   upstream streampath3,
+   north forest;
+
+thing pump:
+   _name "at the pump",
+   _description ", a large, quietly purring machine which transfers"
+         " water from one level of a small stream to another,"
+         " slightly higher, level. A path around the pump is"
+         " blocked to the north by a high fence.%n",
+   _contents (rod),
+   _float,
+   climb _barbwire,
+   south islandpath1;
+
+thing hallnorth:
+   _name "in the north end of the hall",
+   _description ". A door leads east and a long hall leads south.%n",
+   _contents (),
+   south hall,
+   exit _doorclosed,
+   east _doorclosed;
+
+thing hallsouth:
+   _name "in the the south end of the hall",
+   _description ". A door leads south and a long hall leads north.%n",
+   _contents (),
+   north hall,
+   south livingroom;
+
+thing livingroom:
+   _name "in the living room",
+   _description ", a plush room with a large fireplace on the east"
+      " wall. Doorways lead north, south and west. A portrait of"
+      " an elderly gentleman hangs on the west wall.%n",
+   _contents (),
+   north hallsouth,
+   south kitchen,
+   west diningroom;
+
+thing kitchen:
+   _name "in the kitchen",
+   _description ". Doors lead in all directions.%n",
+   _contents (),
+   _float,
+   north livingroom,
+   south laundryroom,
+   east _doorclosed,
+   exit _doorclosed,
+   west diningroom;
+
+thing laundryroom:
+   _name "in the laundry room",
+   _description ", a steamy little hole with dirty clothes everywhere. "
+      "The only exit is to the north.%n",
+   _contents (candle),
+   _float,
+   north kitchen;
+
+thing diningroom:
+   _name "in the dining room",
+   _description ", an opulent parlour of indulgence. "
+      "Doorways lead north and east.%n",
+   _contents (knife),
+   north livingroom,
+   east kitchen;
+
+thing upperhall:
+   _name "in the upper hall",
+   _description ", a small space at the top of a westward stairway. "
+      "Doors lead north, south and east. There is a hole in the "
+      "ceiling within reach of a climb on the bannister.%n",
+   _contents (),
+   west hall,
+   down hall,
+   climb attic,
+   north masterbedroom,
+   south studywest,
+   east secondbedroom;
+
+thing masterbedroom:
+   _name "in the master bedroom",
+   _description ". A huge waterbed is centered beneath a large mirror. "
+      "Doors lead south and east.%n",
+   _contents (earrings),
+   south upperhall,
+   east powderroom;
+
+thing powderroom:
+   _name "in the powder room",
+   _description ". Appliances are standard, smell is not. "
+      "Doors lead to the west and to the south.%n",
+   _contents (),
+   _float,
+   west masterbedroom,
+   south secondbedroom;
+
+thing secondbedroom:
+   _name "in the second bedroom",
+   _description ". I am too embarrassed to describe the furnishings. "
+      "A closed door is to the west and an open one to the north.%n",
+   _contents (keys),
+   hint "It's a one-way door - go around.%n",
+   north powderroom,
+   west _doorclosed;
+
+thing attic:
+   _name "in the attic",
+   _description ", a dim, dusty room stretching the length of the house.%n",
+   _contents (ring),
+   north northattic,
+   south southattic,
+   down upperhall,
+   climb upperhall;
+
+thing northattic:
+   _name "in the north end of the attic",
+   _description ".%n",
+   _contents (mink),
+   south attic;
+
+thing southattic:
+   _name "in the south end of the attic",
+   _description ".%n",
+   _contents (crate),
+   north attic;
+
+thing studywest:
+   _name "in the west end of the study",
+   _description ". One door exits to the north.%n",
+   _contents (),
+   north upperhall,
+   east _tostudyeast;
+
+thing studyeast:
+   _name "in the east end of the study",
+   _description ". %n",
+   _contents (wallet),
+   west studywest;
+
+thing secretroomeast:
+   _name "in the east end of a secret room",
+   _description ". A passage leads to the south.%n",
+   _contents (),
+   south trophyroom,
+   west secretroomwest;
+
+thing secretroomwest:
+   _name "in the west end of a secret room",
+   _description ". A small door on the west wall is bolted shut. "
+      "Around the bolt is a band of magnesium.%n",
+   _contents (),
+   east secretroomeast;
+
+thing trophyroom:
+   _name "in a small chamber off the secret room",
+   _description ". A table covered by a linen tablecloth occupies"
+         " the center of the room. Mounted on the walls are the"
+         " heads of various large animals, and several glass cases"
+         " filled with cheap statuettes.%n",
+   _contents (),
+   hint "What does one normally do with a room like this?%n",
+   north secretroomeast;
+
+thing outsidegate:
+   _name "outside the gate",
+   _description " of a large old mansion. A driveway heads west"
+         " through the gate, where a sign reads:%n"
+         "      TRESPASSERS WILL BE PERSECUTED%n",
+   _contents (),
+   hint "Try opening the gate.%n",
+   climb _barbwire,
+   enter _gateclosed,
+   west _gateclosed;
+
+thing insidegate:
+   _name "inside the gate",
+   _description ". The driveway continues west and a gatehouse is to the south.%n",
+   _contents (),
+   climb _barbwire,
+   east _gateclosed,
+   exit _gateclosed,
+   enter gatehouse,
+   south gatehouse,
+   west driveway1;
+
+thing gatehouse:
+   _name "in the gatehouse",
+   _description " of a large mansion.%n",
+   _contents (card),
+   exit insidegate,
+   north insidegate;
+
+thing driveway1:
+   _name "on an E/W driveway",
+   _description ".%n",
+   _contents (),
+   east insidegate,
+   west drivejunction;
+
+thing drivejunction:
+   _name "at a junction in the driveway",
+   _description " with branches leading north, east and west.%n",
+   _contents (),
+   east driveway1,
+   west drivebygarage,
+   north driveway2;
+
+thing drivebygarage:
+   _name "on the driveway by the garage",
+   _description ". A path leads south from the E/W driveway.%n",
+   _contents (),
+   east drivejunction,
+   west garage,
+   enter garage,
+   south forest;
+
+thing garage:
+   _name "in the garage",
+   _description ". A small door is to the west and a large one is to the east.%n",
+   _contents (oilcan),
+   east drivebygarage,
+   enter _doorclosed,
+   exit drivebygarage,
+   west _doorclosed;
+
+thing driveway2:
+   _name "on a N/S section of the driveway",
+   _description ".%n",
+   _contents (),
+   south drivejunction,
+   north drivecorner;
+
+thing drivecorner:
+   _name "at a corner in the driveway",
+   _description " turning south and west.%n",
+   _contents (),
+   south driveway2,
+   west drivebyentrance;
+
+thing drivebyentrance:
+   _name "by the entrance to the mansion",
+   _description ". The driveway ends here and a red carpet leads west.%n",
+   _contents (),
+   east drivecorner,
+   west entrance;
+
+thing entrance:
+   _name "by the front door",
+   _description " of the mansion. The door is to the west and a red carpet leads east.%n",
+   _contents (),
+   hint "Look at what you are carrying, then think like a burglar.%n",
+   east drivebyentrance,
+   enter _doorclosed,
+   west _doorclosed;
+
+thing damppit:
+   _name "in a cold, damp pit",
+   _description ". A small tunnel heads up and to the north, corridors head east and west.%n",
+   _contents (),
+   _darkflag,
+   hint "Find something that makes light.%n",
+   up cave,
+   north cave,
+   east passagewest,
+   west cliffedge;
+
+thing passagewest:
+   _name "in the west end of a long, vaulted E/W passage",
+   _description " with a passage heading further west.%n",
+   _contents (),
+   _darkflag,
+   west damppit,
+   east passageeast;
+
+thing passageeast:
+   _name "in the east end of a long, vaulted E/W passage",
+   _description ". Running water can be heard through a hole in the floor.%n",
+   _contents (),
+   _darkflag,
+   west passagewest,
+   down streamnorth,
+   climb streamnorth;
+
+cons SH = "Look carefully at the 3 stream descriptions. What would you"
+         " do in real life? (The stream is VERY small.)%n";
+
+thing streamnorth:
+   _name "on the north bank of a small underground stream",
+   _description " which at this point forms a fairly large pool."
+         " Something about the water brings bile to the back of"
+         " your throat."
+         " There is a hole in the roof.%n",
+   _contents (),
+   _darkflag,
+   hint SH,
+   up passageeast,
+   climb passageeast,
+   south _poison,
+   cross _poison,
+   east DE1,
+   west DE2,
+   downstream DE1,
+   upstream DE2,
+   jump _toowide;
+
+thing DE1:
+   _name "at a dead end on the north bank",
+   _description ". The stream flows out through a solid steel grating.%n",
+   _contents (),
+   _darkflag,
+   hint SH,
+   south _poison,
+   cross _poison,
+   west streamnorth,
+   jump DE4,
+   upstream streamnorth;
+
+thing DE2:
+   _name "at a dead end on the north bank",
+   _description ". The stream enters through a solid steel grating.%n",
+   _contents (),
+   _darkflag,
+   hint SH,
+   south _poison,
+   cross _poison,
+   east streamnorth,
+   jump DE3,
+   downstream streamnorth;
+
+thing streamsouth:
+   _name "on the south bank of a small underground stream",
+   _description " which at this point forms a fairly large pool."
+         " A small tunnel slopes steeply up to the south.%n",
+   _contents (casket),
+   _darkflag,
+   hint "Try crawling.%n",
+   north _poison,
+   cross _poison,
+   east DE4,
+   west DE3,
+   south _banghead,
+   up _banghead,
+   jump _toowide,
+   upstream DE3,
+   downstream DE4;
+
+thing DE3:
+   _name "at a dead end on the south bank",
+   _description ". The stream enters through a solid steel grating.%n",
+   _contents (),
+   _darkflag,
+   north _poison,
+   cross _poison,
+   jump DE2,
+   east streamsouth,
+   downstream streamsouth;
+
+thing DE4:
+   _name "at a dead end on the south bank",
+   _description ". The stream flows out through a solid steel grating.%n",
+   _contents (),
+   _darkflag,
+   north _poison,
+   cross _poison,
+   west streamsouth,
+   jump DE1,
+   upstream streamsouth;
+
+thing uptunnel:
+   _name "crawling along a small, steeply sloping tunnel",
+   _description ".%n",
+   _contents (),
+   _darkflag,
+   jump _smashhead,
+   south poolcavern,
+   up poolcavern,
+   north streamsouth,
+   down streamsouth;
+
+thing poolcavern:
+   _name "in the pool cave",
+   _description ", which contains a large, placid lake of crystal "
+       "clear water. Strange underwater creatures can be seen in the depths. "
+       "Far above, many huge stalactites descend from a roof which "
+       "is shrouded in a faintly glowing mist. "
+       "A path on the bank runs from a small tunnel to the north, "
+       "to the south, where a small stream drains from the lake. "
+       "Many huge logs are floating in the water.%n",
+   _contents (),
+   _float,
+   _landing poolcavernwater,
+   down _banghead,
+   north _banghead,
+   south channeltop,
+   downstream channeltop;
+
+thing channeltop:
+   _name "at the top of the rapids",
+   _description ", where the bank of the pool ends and the stream"
+         " enters an extremely narrow channel. To attempt to swim"
+         " the channel would be certain death.%n",
+   _contents (),
+   _float,
+   hint "What have you seen nearby which might be used to help you"
+         " navigate the channel?%n",
+   north poolcavern,
+   upstream poolcavern;
+
+cons NH = "Look in the casket. Consider what you see there to be"
+          " a kind of 'magic word'.%n";
+
+thing channelbottom:
+   _name "at the north end of a long beach",
+   _description ". A stream comes tumbling out of a narrow channel"
+         " and heads south, into the whirlpool sea. A tunnel mouth"
+         " can be seen far up the wall.%n",
+   _contents (),
+   _float,
+   _landing channelbottomwater,
+   hint,
+   climb _upcliff,
+   south whirlpool;
+
+thing whirlpool:
+   _name "on a long N/S beach",
+   _description " in the whirlpool cavern.%n",
+   _contents (),
+   _float,
+   _landing whirlpoolwater,
+   hint,
+   south b5,
+   north channelbottom;
+
+thing poolcavernwater:
+   _name "in the pool cave",
+   _description ", which contains a large, placid lake of crystal "
+       "clear water. Strange underwater creatures can be seen in the depths. "
+       "Far above, many huge stalactites descend from a mist-shrouded roof. "
+       "A path on the bank runs from a small tunnel to the north, "
+       "to the south, where a small stream drains from the lake.%n",
+   _landing poolcavern,
+   south _rapids,
+   downstream _rapids;
+
+thing channelbottomwater:
+   _name "at the bottom of the rapids",
+   _description ". A stream comes tumbling out of a narrow channel"
+         " and heads south, into the whirlpool sea.%n",
+   _landing channelbottom,
+   hint,
+   south whirlpoolwater,
+   4 whirlpoolwater,
+   5 _beach,
+   6 _beach;
+
+cons WPN = "in the whirlpool cavern",
+     WPBD = " with a sandy beach nearby.%n";
+
+thing whirlpoolwater:
+   _name WPN,
+   _description WPBD,
+   _landing whirlpool,
+   hint,
+   north channelbottomwater,
+   south s1l1,
+   east s4l1,
+   0 channelbottomwater,
+   2 s4l1,
+   3 s5l1,
+   4 s1l1,
+   5 _beach,
+   6 _beach,
+   7 _beach,
+   -97 s5l2;
+
+thing treasureroom:
+   _name "in the treasure room",
+   _description ". A strange inscription covers the walls and an"
+      " eerie mosaic scrawls suggestively across the floor. The"
+      " only light comes through a passageway to the east.%n",
+   _contents (emerald),
+   east b5;
+
+thing cliffedge:
+   _name "at the edge of a cliff",
+   _description " overlooking a large, dimly lit chamber"
+         " filled with an awful roaring sound.%n",
+   _contents (),
+   east damppit,
+   climb _downcliff,
+   down _downcliff,
+   jump _jump;
+
+thing streampath2:
+   _name "on a path by the stream",
+   _description ". Downstream, a bridge crosses the stream.%n",
+   _contents (),
+   _float,
+   west streampath1,
+   upstream streampath1,
+   east bridgeout,
+   downstream bridgeout;
+
+thing bridgeout:
+   _name "by the bridge",
+   _description ", a graceful arc of marble which crosses over to the south"
+      " bank. A faint shimmering can be seen around the middle of the bridge.%n",
+   _contents (),
+   _float,
+   hint "So go around for now.%n",
+   cross _hitshield,
+   south _hitshield,
+   west streampath2,
+   upstream streampath2;
+
+thing streampath3:
+   _name "on a path by the stream",
+   _description ". Upstream, the path ends at a small boathouse.%n",
+   _contents (),
+   _float,
+   east streampath1,
+   downstream streampath1,
+   west pathbyboathouse,
+   upstream pathbyboathouse;
+
+thing pathbyboathouse:
+   _name "in front of the boathouse",
+   _description ", a small wooden structure which hangs out over the stream"
+      " on one side and abbuts the bank on the other side. The wall"
+      " of the boathouse is unbroken save for a small door.%n",
+   _contents (),
+   _float,
+   east streampath3,
+   downstream streampath3,
+   upstream _doorclosed,
+   west _doorclosed,
+   enter _doorclosed;
+
+thing boathouseland:
+   _name "in the boathouse",
+   _description ", a cool, restful place which has a pleasant, well-used"
+      " look. Scattered around are several paintbrushes, cans of paint and"
+      " varnish, pieces of sailcloth and old rags. The floor is"
+      " stained in many bright, nautical colors.%n",
+   _contents (punt),
+   _float,
+   _landing boathousewater,
+   hint "What do you normally do with boats?%n",
+   downstream _doorclosed,
+   east _doorclosed,
+   exit _doorclosed;
+
+thing boathousewater:
+   _name "in the boathouse",
+   _description ".%n",
+   _landing boathouseland,
+   south _tied,
+   exit _tied;
+
+thing streambyboathouse:
+   _name "in front of the boathouse",
+   _description ".%n",
+   north boathousewater,
+   enter boathousewater,
+   east stream1,
+   downstream stream1,
+   west stream3,
+   upstream stream3;
+
+thing stream1:
+   _name "floating on the stream",
+   _description ".%n",
+   east stream2,
+   downstream stream2,
+   west streambyboathouse,
+   upstream streambyboathouse;
+
+thing stream2:
+   _name "on the stream by a junction of pathways",
+   _description ".%n",
+   east streambridge,
+   downstream streambridge,
+   west stream1,
+   upstream stream1;
+
+thing streambridge:
+   _name "by the little bridge",
+   _description ". A faint shimmering around the middle of the"
+         " bridge extends right down to the water's level.%n",
+   hint "So go somewhere else for now.%n",
+   east _cutshield,
+   downstream _cutshield,
+   west stream2,
+   upstream stream2;
+
+thing stream3:
+   _name "floating on the stream",
+   _description ". Upstream, the water seems to issue from a large"
+         " pipe at the base of a machine.%n",
+   east streambyboathouse,
+   downstream streambyboathouse,
+   west streambypump,
+   upstream streambypump;
+
+thing streambypump:
+   _name "underneath a large, quietly purring pump",
+   _description " which seems to be the source"
+      " for the stream. There is a landing on the south bank.%n",
+   _landing streamlanding,
+   east stream3,
+   downstream stream3;
+
+thing pastbridge:
+   _name "on the stream below the bridge",
+   _description ".%n",
+   upstream streambridge,
+   west streambridge,
+   downstream streamjunction,
+   east streamjunction;
+
+thing streamjunction:
+   _name "at a junction in the stream",
+   _description ". The main body of the stream continues east, but a small"
+         " flow comes from the north.%n",
+   downstream stream4,
+   west pastbridge,
+   east stream4,
+   north stream5;
+
+thing stream4:
+   _name "on the stream",
+   _description ", which here flows east-west.%n",
+   upstream streamjunction,
+   west streamjunction,
+   downstream _longtrip,
+   east _longtrip;
+
+thing pumpbottom:
+   _name "at a pool which is the end of the stream",
+   _description ". A quiet pump draws water from the pool.%n",
+   upstream _longtrip,
+   west _longtrip;
+
+thing stream5:
+   _name "on a north-south stretch of the tributary",
+   _description ".%n",
+   south streamjunction,
+   downstream streamjunction,
+   north streambycave,
+   upstream streambycave;
+
+thing streambycave:
+   _name "on the tributary",
+   _description ". The tributary issues from a cave to the north.%n",
+   downstream stream5,
+   south stream5,
+   enter streamcave,
+   upstream streamcave,
+   north streamcave;
+
+thing streamcave:
+   _name "in the beautiful cave",
+   _description ". The water is emerald green; the walls are red marble"
+         " stippled with veins of blue. Minerals in the water have turned"
+         " the bottom of the pool to a warm azure wonderland. A small beach"
+         " of pure white sand stretches along the east wall.%n",
+   _landing b8,
+   exit streambycave,
+   downstream streambycave,
+   south streambycave;
+
+thing b8:
+   _name "on the beach of pure white sand",
+   _description ". To the east is a small grotto.%n",
+   _contents (),
+   _landing streamcave,
+   _float,
+   enter grotto,
+   east grotto;
+
+thing grotto:
+   _name "in the grotto",
+   _description " which seems to have been used for some pagan purposes.%n",
+   _contents (crown),
+   exit b8,
+   west b8;
+
+thing streamlanding:
+   _name "at the south-side landing",
+   _description "; a path leads up a hill to the south.%n",
+   _contents (),
+   _float,
+   _landing streambypump,
+   south islandpath1,
+   up islandpath1,
+   climb islandpath1;
+
+thing islandpath1:
+   _name "at a junction of a N/S path with an E/W path",
+   _description ".%n",
+   _contents (),
+   north streamlanding,
+   down streamlanding,
+   up islandpath2,
+   climb islandpath2,
+   south islandpath2,
+   west pump,
+   east islandpath3;
+
+thing islandpath2:
+   _name "on a N/S path",
+   _description ". Uphill to the south is a large gazebo.%n",
+   _contents (),
+   north islandpath1,
+   up gazebo,
+   down islandpath1,
+   climb gazebo,
+   enter gazebo,
+   south gazebo;
+
+thing gazebo:
+   _name "in the gazebo",
+   _description ", a large, airy structure constucted mostly of trellis-work."
+      " Pathways lead north and south and a stairway leads down underneath.%n",
+   _contents (),
+   north islandpath2,
+   south islandpath5,
+   down undergazebo,
+   enter undergazebo,
+   climb undergazebo;
+
+thing undergazebo:
+   _name "under the gazebo",
+   _description ". A very faint pulsing sound can be heard coming from a"
+      " small doorway to the east.%n",
+   _contents (),
+   east _doorclosed,
+   enter _doorclosed,
+   up gazebo,
+   exit gazebo,
+   climb gazebo;
+
+thing winchroom:
+   _name "in the winchroom",
+   _description ", a chamber beneath the gazebo. A doorway leads out to the"
+      " west. The chamber is mostly filled by a winch sitting in the middle"
+      " of the floor. A control panel on the side of the winch has three"
+      " buttons, labelled 'up', 'down' and 'halt'. The winch sits over"
+      " a large hole in the floor, from which the pulsing sound is issuing."
+      " Through the hole is only darkness. There is a large tank"
+      " of oil against one wall.%n",
+   _contents (),
+   hint "The winch works fine, but you have to be able to get down"
+         " below to really benefit from it.%n",
+   jump _bigsplash,
+   down _bigsplash,
+   west _doorclosed,
+   exit _doorclosed;
+
+thing islandpath3:
+   _name "on an E/W pathway",
+   _description ".%n",
+   _contents (),
+   west islandpath1,
+   east islandpath4;
+
+thing islandpath4:
+   _name "on an E/W pathway",
+   _description " beside the stream.%n",
+   _contents (doorknob),
+   _float,
+   east bridgein,
+   downstream bridgein,
+   west islandpath3;
+
+thing bridgein:
+   _name "on an E/W path by the bridge",
+   _description ", a graceful arc of marble which crosses over to the north"
+      " bank. A faint shimmering can be seen around the middle of the bridge.%n",
+   _contents (),
+   _float,
+   north _hitshield,
+   cross _hitshield,
+   west islandpath4,
+   east islandpath10,
+   downstream islandpath10,
+   upstream islandpath4;
+
+thing islandpath5:
+   _name "at a corner in the pathway",
+   _description ", which goes north to the gazebo and east out of sight.%n",
+   _contents (),
+   north gazebo,
+   east islandpath6;
+
+thing islandpath6:
+   _name "on an E/W pathway",
+   _description ".%n",
+   _contents (),
+   west islandpath5,
+   east islandpath7;
+
+thing islandpath7:
+   _name "on a path from the west at the crest of a hill",
+   _description " sloping down to the north.%n",
+   _contents (),
+   west islandpath6,
+   north islandpath8,
+   down islandpath8;
+
+thing islandpath8:
+   _name "on a steep N/S path",
+   _description ".%n",
+   _contents (bracelet),
+   north islandpath9,
+   down islandpath9,
+   south islandpath7,
+   up islandpath7,
+   climb islandpath7;
+
+thing islandpath9:
+   _name "on a sloping N/S path",
+   _description ".%n",
+   _contents (),
+   north islandpath10,
+   down islandpath10,
+   south islandpath8,
+   up islandpath8,
+   climb islandpath8;
+
+thing islandpath10:
+   _name "at the foot of a steep hill",
+   _description ". A path from the west heads up the hill to the south.%n",
+   _contents (),
+   _float,
+   west bridgein,
+   upstream bridgein,
+   south islandpath9,
+   up islandpath9,
+   climb islandpath9;
+
+thing corridor1:
+   _name "in the main corridor of the Nautilus",
+   _description " which extends forward and aft out of site. A metal"
+         " ladder heads upward.%n",
+   _contents (),
+   up _toconning,
+   climb _toconning,
+   exit _toconning,
+   aft corridorjunction,
+   forward corridor2;
+
+thing corridor2:
+   _name "in the main corridor of the Nautilus",
+   _description " which extends forward and aft out of site. Doorways"
+         " open to the port and starboard.%n",
+   _contents (),
+   aft corridor1,
+   forward controlroom,
+   port crewlounge,
+   starboard captainscabin;
+
+thing crewlounge:
+   _name "in the crew's lounge",
+   _description ". Scattered around the room are assorted entertainment"
+         " items. An ancient TV sits in one corner, a hollowed out"
+         " dartboard hangs on one wall, shabby couches line two"
+         " others, and a wobbly, much-used ping-pong table sits in"
+         " the middle of the room.%n",
+   _contents (magazine),
+   starboard corridor2;
+
+thing captainscabin:
+   _name "in the captain's cabin",
+   _description ", a richly decorated room filled with elegant"
+         " Edwardian furniture. Fine silken robes are draped around"
+         " everywhere and Yak's-hair brushes are scattered"
+         " on the dresser. By the door is an unlabelled blue button.%n",
+   _contents (ivory),
+   port corridor2;
+
+thing controlroom:
+   _name "in the control room of the Nautilus",
+   _description ". Dials, gauges, indicator lights, meters, etc."
+      " etc. line the walls. Three banks of buttons are labelled%n"
+      "     dive       port      ahead%n"
+      "     climb    starboard  astearn%n"
+      "     level     neutral    stop%n"
+      "A fourth bank of black buttons is labelled 1 to 10."
+      " A narrow stairwell heads down.%n",
+   _contents (guide),
+   hint "Use your available resources wisely. Note that this hint"
+      " will override a hint for the current location of the sub"
+      " so you might occasionally move elsewhere and try 'hint'.%n",
+   down forwardtorpedo,
+   climb forwardtorpedo,
+   enter forwardtorpedo,
+   aft corridor2;
+
+thing forwardtorpedo:
+   _name "in the forward torpedo room",
+   _description ". Large black buttons on a control panel are"
+         " numbered from 1 to 10.%n",
+   _contents (),
+   up controlroom,
+   climb controlroom,
+   exit controlroom;
+
+thing corridorjunction:
+   _name "in the main corridor of the Nautilus",
+   _description " which extends forward and aft out of site. Doorways"
+         " open to the port and starboard.%n",
+   _contents (),
+   forward corridor1,
+   aft missilecontrolroom,
+   port crewsquarters,
+   starboard mess;
+
+thing crewsquarters:
+   _name "in the crew's quarters",
+   _description ". Shirts, socks, underwear, pants, combs, toothbrushes,"
+         " etc., etc. are lying around everywhere.%n",
+   _contents (paper),
+   starboard corridorjunction;
+
+thing mess:
+   _name "in the sub's mess",
+   _description ". The name of the place describes its state. The"
+         " aroma pervading the air is, well, indescribable.%n",
+   _contents (coffeepot),
+   _float,
+   port corridorjunction;
+
+thing missilecontrolroom:
+   _name "in the missile control room",
+   _description ". Sinister red buttons numbered from 1 to 16 are"
+         " prominently visible on a small control console. Two keys"
+         " are inserted into keyswitches and are turned to position"
+         " 'Activate'. A small red light labelled 'Fail Safe' is"
+         " on. Small doors open forward and aft.%n",
+   _contents (clipboard),
+   forward corridorjunction,
+   aft missileroom;
+
+thing missileroom:
+   _name "in the missile room",
+   _description ". Sixteen huge cylinders occupy the bulk of this"
+         " part of the submarine. The universal symbol for radiation"
+         " is clearly marked on each cylinder. A small door is"
+         " visible at the far end of the room.%n",
+   _contents (),
+   forward missilecontrolroom,
+   aft reactorroom;
+
+thing reactorroom:
+   _name "in the reactor room",
+   _description ", a small passage above the reactor itself. A"
+         " radiation counter on the wall is ticking earnestly to"
+         " itself and a curious sensation of aliveness can be felt"
+         " in the atmosphere.%n",
+   _contents (),
+   hint "No, it's not dangerous in here.%n",
+   forward missileroom,
+   aft engineroom;
+
+thing engineroom:
+   _name "in the engine room",
+   _description ". Turbines, motors, generators, pumps, meters, dials,"
+         " tools, etc. etc. fill the room. A steady throb from the main"
+         " turbine creates a not unpleasant lulling sensation.%n",
+   _contents (flashlight),
+   forward reactorroom,
+   aft afttorpedo;
+
+thing afttorpedo:
+   _name "in the aft torpedo room",
+   _description ". Large black buttons on a contol panel are"
+         " numbered from 1 to 6.%n",
+   _contents (),
+   forward engineroom;
+
+thing train1:
+   _name "in a small subway car",
+   _description ". Control buttons are labelled 'sub' and 'cellar'."
+         " The only exit is to the south.%n",
+   _contents (),
+   exit cellar,
+   south cellar;
+
+thing train2:
+   _name "in a small subway car",
+   _description ". Control buttons are labelled 'sub' and 'cellar'."
+         " The only exit is to the east.%n",
+   _contents (),
+   exit b6,
+   east b6;
+
+thing s1l1:
+   _name WPN,
+   _description WPBD,
+   _landing b5,
+   hint,
+   north whirlpoolwater,
+   east s5l1,
+   south s2l1,
+   0 whirlpoolwater,
+   1 s4l1,
+   2 s5l1,
+   3 s6l1,
+   4 s2l1,
+   5 _beach,
+   6 _beach,
+   7 _beach,
+   -98 s5l2,
+   -97 s6l2;
+
+thing s2l1:
+   _name WPN,
+   _description WPBD,
+   _landing b6,
+   hint,
+   north s1l1,
+   east s6l1,
+   0 s1l1,
+   1 s5l1,
+   2 s6l1,
+   3 s7l1,
+   4 s3l1,
+   6 _beach,
+   7 _beach,
+   -99 s5l2,
+   -98 s6l2,
+   -97 s7l2,
+   -96 s3l2;
+
+thing s3l1:
+   _name WPN,
+   _description ".%n",
+   hint,
+   north s2l1,
+   east s7l1,
+   0 s2l1,
+   1 s6l1,
+   2 s7l1,
+   3 s8l1,
+   -99 s6l2,
+   -98 s7l2,
+   -97 s8l2;
+
+thing s3l2:
+   1 s6l2,
+   2 s7l2,
+   3 s8l2,
+   -98 s7l3,
+   -97 s8l3,
+   +100 s2l1,
+   +101 s6l1,
+   +102 s7l1,
+   +103 s8l1;
+
+thing s4l1:
+   _name WPN,
+   _description ".%n",
+   east s9l1,
+   south s5l1,
+   west whirlpoolwater,
+   2 s9l1,
+   3 s10l1,
+   4 s5l1,
+   5 s1l1,
+   6 whirlpoolwater,
+   -98 s9l2,
+   -97 s10l2,
+   -96 s5l2;
+
+thing s5l1:
+   _name WPN,
+   _description ".%n",
+   north s4l1,
+   east s10l1,
+   south s6l1,
+   west s1l1,
+   0 s4l1,
+   1 s9l1,
+   2 s10l1,
+   3 _whirlpool,
+   4 s6l1,
+   5 s2l1,
+   6 s1l1,
+   7 whirlpoolwater,
+   -99 s9l2,
+   -98 s10l2,
+   -97 _whirlpool,
+   -96 s6l2;
+
+thing s5l2:
+   1 s9l2,
+   2 s10l2,
+   3 _whirlpool,
+   4 s6l2,
+   +100 s4l1,
+   +101 s9l1,
+   +102 s10l1,
+   +103 _whirlpool,
+   +104 s6l1,
+   +105 s2l1,
+   +106 s1l1,
+   +107 whirlpoolwater;
+
+thing s6l1:
+   _name WPN,
+   _description ".%n",
+   north s5l1,
+   east _whirlpool,
+   south s7l1,
+   west s2l1,
+   0 s5l1,
+   1 s10l1,
+   2 _whirlpool,
+   3 _whirlpool,
+   4 s7l1,
+   5 s3l1,
+   6 s2l1,
+   7 s1l1,
+   -100 s5l2,
+   -99 s10l2,
+   -98 _whirlpool,
+   -97 _whirlpool,
+   -96 s7l2,
+   -95 s3l2;
+
+thing s6l2:
+   0 s5l2,
+   1 s10l2,
+   2 _whirlpool,
+   3 _whirlpool,
+   4 s7l2,
+   5 s3l2,
+   -96 s7l3,
+   +100 s5l1,
+   +101 s10l1,
+   +102 _whirlpool,
+   +103 _whirlpool,
+   +104 s7l1,
+   +105 s3l1,
+   +106 s2l1,
+   +107 s1l1;
+
+thing s7l1:
+   _name WPN,
+   _description ".%n",
+   north s6l1,
+   east _whirlpool,
+   south s8l1,
+   west s3l1,
+   0 s6l1,
+   1 _whirlpool,
+   2 _whirlpool,
+   3 s20l1,
+   4 s8l1,
+   6 s3l1,
+   7 s2l1,
+   -100 s6l2,
+   -99 _whirlpool,
+   -98 _whirlpool,
+   -97 s20l2,
+   -96 s8l2,
+   -94 s3l2;
+
+thing s7l2:
+   0 s6l2,
+   1 _whirlpool,
+   2 _whirlpool,
+   3 s20l2,
+   4 s8l2,
+   6 s3l2,
+   -98 _whirlpool,
+   -97 s20l3,
+   -96 s8l3,
+   +100 s6l1,
+   +101 _whirlpool,
+   +102 _whirlpool,
+   +103 s20l1,
+   +104 s8l1,
+   +106 s3l1,
+   +107 s2l1;
+
+thing s7l3:
+   2 _whirlpool,
+   3 s20l3,
+   4 s8l3,
+   +100 s6l2,
+   +101 _whirlpool,
+   +102 _whirlpool,
+   +103 s20l2,
+   +104 s8l2,
+   +106 s3l2;
+
+thing s8l1:
+   _name WPN,
+   _description ".%n",
+   north s7l1,
+   east s20l1,
+   0 s7l1,
+   1 _whirlpool,
+   2 s20l1,
+   3 _beach,
+   7 s3l1,
+   -100 s7l2,
+   -99 _whirlpool,
+   -98 s20l2,
+   -93 s3l2;
+
+thing s8l2:
+   0 s7l2,
+   1 _whirlpool,
+   2 s20l2,
+   7 s3l2,
+   -100 s7l3,
+   -99 _whirlpool,
+   -98 s20l3,
+   -97 s21l3,
+   +100 s7l1,
+   +101 _whirlpool,
+   +102 s20l1,
+   +107 s3l1;
+
+thing s8l3:
+   0 s7l3,
+   1 _whirlpool,
+   2 s20l3,
+   3 s21l3,
+   +100 s7l2,
+   +101 _whirlpool,
+   +102 s20l2,
+   +107 s3l2;
+
+thing s9l1:
+   _name WPN,
+   _description ".%n",
+   east s11l1,
+   south s10l1,
+   west s4l1,
+   2 s11l1,
+   3 s12l1,
+   4 s10l1,
+   5 s5l1,
+   6 s4l1,
+   -98 s11l2,
+   -97 s12l2,
+   -96 s10l2,
+   -95 s5l2;
+
+thing s9l2:
+   2 s11l2,
+   3 s12l2,
+   4 s10l2,
+   5 s5l2,
+   +102 s11l1,
+   +103 s12l1,
+   +104 s10l1,
+   +105 s5l1,
+   +106 s4l1;
+
+thing s10l1:
+   _name WPN,
+   _description ".%n",
+   north s9l1,
+   east s12l1,
+   south _whirlpool,
+   west s5l1,
+   0 s9l1,
+   1 s11l1,
+   2 s12l1,
+   3 _whirlpool,
+   4 _whirlpool,
+   5 s6l1,
+   6 s5l1,
+   7 s4l1,
+   -100 s9l2,
+   -99 s11l2,
+   -98 s12l2,
+   -97 _whirlpool,
+   -96 _whirlpool,
+   -95 s6l2,
+   -94 s5l2;
+
+thing s10l2:
+   0 s9l2,
+   1 s11l2,
+   2 s12l2,
+   3 _whirlpool,
+   4 _whirlpool,
+   5 s6l2,
+   6 s5l2,
+   +100 s9l1,
+   +101 s11l1,
+   +102 s12l1,
+   +103 _whirlpool,
+   +104 _whirlpool,
+   +105 s6l1,
+   +106 s5l1,
+   +107 s4l1;
+
+thing s11l1:
+   _name WPN,
+   _description ". To the north a very large pile of rubble blocks"
+         " a small passage.%n",
+   hint "What is one method often used to get rid of piles of"
+         " rocks?%n",
+   _torpedo _rubble,
+   south s12l1,
+   west s9l1,
+   3 s13l1,
+   4 s12l1,
+   5 s10l1,
+   6 s9l1,
+   -96 s12l2,
+   -95 s10l2,
+   -94 s9l2;
+
+thing s11l2:
+   4 s12l2,
+   5 s10l2,
+   6 s9l2,
+   +103 s13l1,
+   +104 s12l1,
+   +105 s10l1,
+   +106 s9l1;
+
+thing s12l1:
+   _name WPN,
+   _description ".%n",
+   north s11l1,
+   east s13l1,
+   south _whirlpool,
+   west s10l1,
+   0 s11l1,
+   2 s13l1,
+   3 s14l1,
+   4 _whirlpool,
+   5 _whirlpool,
+   6 s10l1,
+   7 s9l1,
+   -100 s11l2,
+   -97 s14l2,
+   -96 _whirlpool,
+   -95 _whirlpool,
+   -94 s10l2,
+   -93 s9l2;
+
+thing s12l2:
+   0 s11l2,
+   3 s14l2,
+   4 _whirlpool,
+   5 _whirlpool,
+   6 s10l2,
+   7 s9l2,
+   +100 s11l1,
+   +102 s13l1,
+   +103 s14l1,
+   +104 _whirlpool,
+   +105 _whirlpool,
+   +106 s10l1,
+   +107 s9l1;
+
+thing s13l1:
+   _name WPN,
+   _description ".%n",
+   south s14l1,
+   west s12l1,
+   3 s16l1,
+   4 s14l1,
+   5 _whirlpool,
+   6 s12l1,
+   7 s11l1,
+   -96 s14l2,
+   -95 _whirlpool,
+   -94 s12l2;
+
+thing s14l1:
+   _name WPN,
+   _description ".%n",
+   north s13l1,
+   east s16l1,
+   south s15l1,
+   west _whirlpool,
+   0 s13l1,
+   2 s16l1,
+   3 s17l1,
+   4 s15l1,
+   5 _whirlpool,
+   6 _whirlpool,
+   7 s12l1,
+   -96 s15l2,
+   -95 _whirlpool,
+   -94 _whirlpool,
+   -93 s12l2;
+
+thing s14l2:
+   4 s15l2,
+   5 _whirlpool,
+   6 _whirlpool,
+   7 s12l2,
+   -96 s15l3,
+   +100 s13l1,
+   +102 s16l1,
+   +103 s17l1,
+   +104 s15l1,
+   +105 _whirlpool,
+   +106 _whirlpool,
+   +107 s12l1;
+
+thing s16l1:
+   _name WPN,
+   _description WPBD,
+   _landing b2,
+   south s17l1,
+   west s14l1,
+   2 _beach,
+   3 _beach,
+   4 s17l1,
+   5 s15l1,
+   6 s14l1,
+   7 s13l1,
+   -95 s15l2,
+   -94 s14l2;
+
+thing s15l1:
+   _name WPN,
+   _description ".%n",
+   north s14l1,
+   east s17l1,
+   south s18l1,
+   west _whirlpool,
+   0 s14l1,
+   1 s16l1,
+   2 s17l1,
+   4 s18l1,
+   5 s19l1,
+   6 _whirlpool,
+   7 _whirlpool,
+   -100 s14l2,
+   -96 s18l2,
+   -95 s19l2,
+   -94 _whirlpool,
+   -93 _whirlpool;
+
+thing s15l2:
+   0 s14l2,
+   4 s18l2,
+   5 s19l2,
+   6 _whirlpool,
+   7 _whirlpool,
+   -95 s19l3,
+   -94 _whirlpool,
+   +100 s14l1,
+   +101 s16l1,
+   +102 s17l1,
+   +104 s18l1,
+   +105 s19l1,
+   +106 _whirlpool,
+   +107 _whirlpool;
+
+thing s15l3:
+   5 s19l3,
+   6 _whirlpool,
+   +100 s14l2,
+   +104 s18l2,
+   +105 s19l2,
+   +106 _whirlpool,
+   +107 _whirlpool;
+
+thing s17l1:
+   _name WPN,
+   _description WPBD,
+   _landing b3,
+   north s16l1,
+   west s15l1,
+   0 s16l1,
+   1 _beach,
+   2 _beach,
+   5 s18l1,
+   6 s15l1,
+   7 s14l1,
+   -95 s18l2,
+   -94 s15l2,
+   -93 s14l2;
+
+thing s18l1:
+   _name WPN,
+   _description ".%n",
+   north s15l1,
+   west s19l1,
+   0 s15l1,
+   1 s17l1,
+   6 s19l1,
+   7 _whirlpool,
+   -100 s15l2,
+   -94 s19l2;
+
+thing s18l2:
+   0 s15l2,
+   6 s19l2,
+   7 _whirlpool,
+   -100 s15l3,
+   -94 s19l3,
+   +100 s15l1,
+   +101 s17l1,
+   +106 s19l1,
+   +107 _whirlpool;
+
+thing s19l1:
+   _name WPN,
+   _description ".%n",
+   north _whirlpool,
+   east s18l1,
+   west s20l1,
+   0 _whirlpool,
+   1 s15l1,
+   2 s18l1,
+   5 _beach,
+   6 s20l1,
+   7 _whirlpool,
+   -100 _whirlpool,
+   -99 s15l2,
+   -98 s18l2,
+   -94 s20l2,
+   -93 _whirlpool;
+
+thing s19l2:
+   0 _whirlpool,
+   1 s15l2,
+   2 s18l2,
+   6 s20l2,
+   7 _whirlpool,
+   -100 _whirlpool,
+   -99 s15l3,
+   -95 s21l3,
+   -94 s20l3,
+   -93 _whirlpool,
+   +100 _whirlpool,
+   +101 s15l1,
+   +102 s18l1,
+   +106 s20l1,
+   +107 _whirlpool;
+
+thing s19l3:
+   0 _whirlpool,
+   1 s15l3,
+   5 s21l3,
+   6 s20l3,
+   7 _whirlpool,
+   +100 _whirlpool,
+   +101 s15l2,
+   +102 s18l2,
+   +106 s20l2,
+   +107 _whirlpool;
+
+thing s20l1:
+   _name WPN,
+   _description WPBD,
+   _landing b7,
+   north _whirlpool,
+   east s19l1,
+   west s8l1,
+   0 _whirlpool,
+   1 _whirlpool,
+   2 s19l1,
+   4 _beach,
+   6 s8l1,
+   7 s7l1,
+   -100 _whirlpool,
+   -99 _whirlpool,
+   -98 s19l2,
+   -94 s8l2,
+   -93 s7l2;
+
+thing s20l2:
+   0 _whirlpool,
+   1 _whirlpool,
+   2 s19l2,
+   6 s8l2,
+   7 s7l2,
+   -100 _whirlpool,
+   -99 _whirlpool,
+   -98 s19l3,
+   -96 s21l3,
+   -94 s8l3,
+   -93 s7l3,
+   +100 _whirlpool,
+   +101 _whirlpool,
+   +102 s19l1,
+   +106 s8l1,
+   +107 s7l1;
+
+thing s20l3:
+   0 _whirlpool,
+   1 _whirlpool,
+   2 s19l3,
+   4 s21l3,
+   6 s8l3,
+   7 s7l3,
+   +100 _whirlpool,
+   +101 _whirlpool,
+   +102 s19l2,
+   +106 s8l2,
+   +107 s7l2;
+
+thing s21l3:
+   0 s20l3,
+   1 s19l3,
+   4 s22l3,
+   7 s8l3,
+   +100 s20l2,
+   +101 s19l2,
+   +107 s8l2;
+
+thing s22l3:
+   0 s21l3,
+   5 s23l3;
+
+thing s23l3:
+   1 s22l3,
+   +106 s24l2;
+
+thing s24l2:
+   -98 s23l3,
+   +105 s25l1;
+
+thing s25l1:
+   _name "on an underground stream",
+   _description WPBD,
+   _landing b4,
+   6 _beach,
+   -99 s24l2,
+   -96 s26l2;
+
+thing s26l2:
+   3 s27l2,
+   +100 s25l1;
+
+thing s27l2:
+   7 s26l2,
+   -97 s28l3;
+
+thing b2:
+   _name "on the north end of a beach",
+   _description " in the whirlpool cavern.%n",
+   _contents (),
+   _landing s16l1,
+   _float,
+   south b3;
+
+thing b3:
+   _name "on the south end of a beach",
+   _description " in the whirlpool cavern. On the cliff face to"
+         " the east, a narrow staircase heads upward.%n",
+   _contents (),
+   _landing s17l1,
+   _float,
+   north b2,
+   east cliffdoor,
+   climb cliffdoor,
+   up cliffdoor;
+
+cons TH = "Try using the trog's greed to trick him.%n";
+
+thing b4:
+   _name "on a tiny beach",
+   _description ". A path goes up a small stream and a rough"
+         " tunnel descends under the beach.%n",
+   _contents (),
+   _landing s25l1,
+   _float,
+   hint TH,
+   down tt1,
+   upstream ts1;
+
+thing ts1:
+   _name "on a path by a small stream",
+   _description ".%n",
+   _contents (),
+   _darkflag,
+   _float,
+   hint TH,
+   downstream b4,
+   upstream ts2;
+
+thing ts2:
+   _name "on a path by a small stream",
+   _description ".%n",
+   _contents (),
+   _darkflag,
+   _float,
+   hint TH,
+   downstream ts1,
+   upstream ts4;
+
+thing ts4:
+   _name "on a path by a fresh spring",
+   _description " which is the source for the stream. There are"
+         " numerous fish bones scattered around.%n",
+   _contents (),
+   _darkflag,
+   _float,
+   hint TH,
+   downstream ts2;
+
+thing tt1:
+   _name "in a rough, steeply sloping tunnel",
+   _description ".%n",
+   _contents (),
+   _darkflag,
+   hint TH,
+   up _trog,
+   down tt2;
+
+thing tt2:
+   _name "in a rough, steeply sloping tunnel",
+   _description ".%n",
+   _contents (),
+   _darkflag,
+   hint TH,
+   up tt1,
+   down tden;
+
+thing tden:
+   _name "in a foul-smelling cave",
+   _description " littered with troglodyte hair, fish bones, etc.%n",
+   _contents (trident),
+   _darkflag,
+   hint TH,
+   up tt2;
+
+thing b5:
+   _name "on a long N/S beach",
+   _description " in the whirlpool cavern. A dim passage leads"
+         " west.%n",
+   _contents (),
+   _landing s1l1,
+   _float,
+   hint,
+   south b6,
+   north whirlpool,
+   west treasureroom;
+
+thing b6:
+   _name "at the south end of a long beach",
+   _description " in the whirlpool cavern.%n",
+   _contents (),
+   _landing s2l1,
+   _float,
+   hint,
+   north b5;
+
+thing b7:
+   _name "on a small sandy beach",
+   _description " in the whirlpool cavern.%n",
+   _contents (),
+   _landing s20l1,
+   _float;
+
+thing cliffdoor:
+   _name "at a door into the cliff",
+   _description ". Narrow stairs lead down and to the west, a gloomy"
+         " passage continues eastward.%n",
+   _contents (),
+   down b3,
+   climb b3,
+   west b3,
+   east gloomyturn;
+
+thing gloomyturn:
+   _name "in a gloomy stone-cut N/S passage",
+   _description ". Light enters from a doorway to the west.%n",
+   _contents (),
+   west cliffdoor,
+   north gloomyturn2,
+   south gloomyturn3;
+
+thing gloomyturn2:
+   _name "in a gloomy stone-cut passage",
+   _description ". The passage continues west and south.%n",
+   _contents (),
+   south gloomyturn,
+   west balcony;
+
+thing balcony:
+   _name "on a small balcony",
+   _description " overlooking the whirlpool sea. A gloomy passage heads"
+         " east into solid rock and a doorway at the north end of the"
+         " balcony leads to a civilized looking corridor.%n",
+   _contents (),
+   east gloomyturn2,
+   north civilpassage;
+
+thing civilpassage:
+   _name "in a richly frescoed N/S corridor",
+   _description ".%n",
+   _contents (),
+   south balcony,
+   north civilturn;
+
+thing civilturn:
+   _name "at a turn in a frescoed corridor",
+   _description ". The only light comes from a doorway at the south end"
+         " of the corridor. To the west is only gloom.%n",
+   _contents (),
+   south civilpassage,
+   west civilgloom;
+
+thing civilgloom:
+   _name "in a gloomy, but civilized passage",
+   _description ". Dim light comes from the east. A door leads to"
+         " the north.%n",
+   _contents (),
+   east civilturn,
+   north fancybedroom;
+
+thing fancybedroom:
+   _name "in a prettily decorated bedroom",
+   _description " with no other exits. It appears to have been deserted"
+         " for some time.%n",
+   _contents (dagger),
+   _darkflag,
+   hint "Bring some light.%n",
+   south civilgloom;
+
+thing gloomyturn3:
+   _name "at a corner in the gloomy passage",
+   _description ". The passage heads east from south here.%n",
+   _contents (),
+   north gloomyturn,
+   east gloomend;
+
+thing gloomend:
+   _name "at the end of the gloomy passage",
+   _description " from the west. Doorways open to the north"
+         " and south.%n",
+   _contents (),
+   _darkflag,
+   north dustyroom1,
+   south dustyroom2,
+   west gloomyturn3;
+
+thing dustyroom1:
+   _name "in a dusty, long vacant chamber",
+   _description ". The only exit is to the south.%n",
+   _contents (chalice),
+   _darkflag,
+   south gloomend;
+
+thing dustyroom2:
+   _name "in a dusty, long vacant chamber",
+   _description ". The only exit is to the north.%n",
+   _contents (),
+   _darkflag,
+   north gloomend;
+
+cons WMN = "on a sluggish stream",
+     WMD = " in a nondescript tunnel.%n",
+     WMH = "Read the description and think like a spelunker.%n";
+
+thing wm1:
+   _name WMN,
+   _description WMD,
+   hint WMH,
+   south s11l1,
+   north wm3,
+   upstream s11l1,
+   downstream wm3;
+
+thing wm2:
+   _name WMN,
+   _description WMD,
+   _darkflag,
+   hint WMH,
+   upstream wm3,
+   downstream wm5,
+   north wm6,
+   east wm3,
+   south wm2,
+   west wm3;
+
+thing wm3:
+   _name WMN,
+   _description WMD,
+   _darkflag,
+   hint WMH,
+   upstream wm1,
+   downstream wm2,
+   north wm6,
+   east wm4,
+   south wm1,
+   west wm2;
+
+thing wm4:
+   _name WMN,
+   _description WMD,
+   _darkflag,
+   hint WMH,
+   upstream wm3,
+   downstream wm7,
+   north wm7,
+   south wm4,
+   east wm6,
+   west wm3;
+
+thing wm5:
+   _name WMN,
+   _description WMD,
+   _darkflag,
+   hint WMH,
+   upstream wm2,
+   downstream wm8,
+   north wm3,
+   south wm2,
+   east wm6,
+   west wm5;
+
+thing wm6:
+   _name WMN,
+   _description WMD,
+   _darkflag,
+   hint WMH,
+   upstream wm7,
+   downstream wm5,
+   north wm6,
+   south wm3,
+   east wm7,
+   west wm4;
+
+thing wm7:
+   _name WMN,
+   _description WMD,
+   _darkflag,
+   hint WMH,
+   upstream wm4,
+   downstream wm6,
+   north wm7,
+   south wm4,
+   east wm7,
+   west wm6;
+
+thing wm8:
+   _name WMN,
+   _description WMD,
+   _darkflag,
+   hint WMH,
+   upstream wm5,
+   downstream wm9,
+   north wm6,
+   south wm5,
+   east wm8,
+   west wm7;
+
+thing wm9:
+   _name WMN,
+   _description WMD,
+   _darkflag,
+   hint WMH,
+   upstream wm8,
+   downstream wm10,
+   north wm9,
+   south wm6,
+   east wm7,
+   west wm8;
+
+thing wm10:
+   _name WMN,
+   _description WMD,
+   _darkflag,
+   hint WMH,
+   upstream wm9,
+   downstream wm11,
+   north wm9,
+   south wm7,
+   east wm10,
+   west wm9;
+
+thing wm11:
+   _name WMN,
+   _description ". A small pool can be seen to the north.%n",
+   _darkflag,
+   upstream wm10,
+   downstream wm12,
+   north wm12,
+   south wm10;
+
+thing wm12:
+   _name "in a small pool",
+   _description ". A tiny rocky beach provides a tight landing spot.%n",
+   _darkflag,
+   _landing b1,
+   upstream wm11,
+   south wm11;
+
+thing b1:
+   _name "on a tiny rocky beach",
+   _description " beside an underground pool. A tunnel heads east.%n",
+   _contents (),
+   _darkflag,
+   _landing wm12,
+   _float,
+   east spiritcave;
+
+thing spiritcave:
+   _name "in a small, rough hewn cave",
+   _description ". Something in the air here makes the hair on the back"
+         " of your neck stand on end. A tunnel leads east.%n",
+   _contents (),
+   _darkflag,
+   hint "What could be expected to scare off a demon?%n",
+   west b1,
+   east _demon;
+
+thing spjunct:
+   _name "at a junction",
+   _description " with a N/S tunnel. A small hole is visible in the roof.%n",
+   _contents (),
+   _darkflag,
+   west spiritcave,
+   north insc,
+   south spcorn,
+   up sp2,
+   climb sp2;
+
+thing insc:
+   _name "at a corner in the tunnel",
+   _description ", branches lead south and east.%n",
+   _contents (),
+   _darkflag,
+   south spjunct,
+   east insr;
+
+thing insr:
+   _name "at a dead end",
+   _description ". A strange inscription is carved on one wall.%n",
+   _contents (),
+   _darkflag,
+   west insc;
+
+thing spcorn:
+   _name "at a sharp up-slope in the tunnel",
+   _description ".%n",
+   _contents (),
+   _darkflag,
+   north spjunct,
+   up statj,
+   climb statj;
+
+thing statj:
+   _name "at a four-way junction",
+   _description " with a hole in the floor.%n",
+   _contents (),
+   _darkflag,
+   down spcorn,
+   climb spcorn,
+   north spde,
+   east statr,
+   south tdj,
+   west sp1;
+
+thing spde:
+   _name "at a dead end",
+   _description ".%n",
+   _contents (),
+   _darkflag,
+   south statj;
+
+thing statr:
+   _name "in a small chamber with a stained floor",
+   _description ".%n",
+   _contents (statue),
+   _darkflag,
+   west statj;
+
+thing tdj:
+   _name "in a N/S tunnel",
+   _description " with a branch leading east.%n",
+   _contents (),
+   _darkflag,
+   north statj,
+   south ftc,
+   east td;
+
+thing td:
+   _name "in an apparently pointless chamber",
+   _description ", but you and I know it has a use!%n",
+   _contents (),
+   _darkflag,
+   hint "If you really want to know, this is where your treasures"
+        " get put when you are re-incarnated!%n",
+   west tdj;
+
+thing ftc:
+   _name "at another corner in the tunnel",
+   _description ". Here it turns west and north.%n",
+   _contents (),
+   _darkflag,
+   north tdj,
+   west ft;
+
+thing ft:
+   _name "in the fortune teller's cave",
+   _description ". Sitting on a pedestal is a mechanical fortune teller."
+         " Written on the front of the pedestal is the message 'Ask your"
+         " fortune and you shall be told.'%n",
+   _contents (),
+   _darkflag,
+   hint "What does a fortune teller do?%n",
+   east ftc;
+
+thing sp1:
+   _name "in a narrow, twisty corridor",
+   _description " heading north.%n",
+   _contents (),
+   _darkflag,
+   north sp2,
+   east statj;
+
+thing sp2:
+   _name "in a secret passage over a junction of tunnels",
+   _description ". The passage leads south.%n",
+   _contents (),
+   _darkflag,
+   down spjunct,
+   climb spjunct,
+   south sp1;
+
+thing s28l3:
+   +103 s29l2,
+   +107 s27l2;
+
+thing s29l2:
+   -93 s28l3,
+   +103 s30_5l1;
+
+thing s30_5l1:
+   _name "on an underground river",
+   _description ".%n",
+   4 s30l1,
+   -93 s29l2;
+
+thing s30l1:
+   _name "on an underground river",
+   _description ". The way south is blocked by a pile of rubble"
+         " from a recent cave-in.%n",
+   _torpedo _cavein,
+   0 s30_5l1;
+
+thing s31l1:
+   _name "on an underground river",
+   _description ". The way north has recently been cleared.%n",
+   0 s30l1,
+   -96 s32l2;
+
+thing s32l2:
+   -95 s33l3,
+   +100 s31l1;
+
+thing s33l3:
+   +101 s32l2,
+   +104 s34l2;
+
+thing s34l2:
+   4 s35l2,
+   -100 s33l3;
+
+thing s35l2:
+   0 s34l2,
+   3 s43l2,
+   4 s36l2,
+   +103 s43l1,
+   +104 s36l1;
+
+cons CRN = "in Crater Lake",
+     CRD = ", a lake formed in the mouth of an extinct volcano."
+           " In the center of the lake is a small, conical island.%n";
+
+thing s36l1:
+   _name CRN,
+   _description CRD,
+   2 s43l1,
+   5 s37l1,
+   -100 s35l2,
+   -98 s43l2,
+   -95 s37l2;
+
+thing s36l2:
+   0 s35l2,
+   2 s43l2,
+   5 s37l2,
+   +102 s43l1,
+   +105 s37l1;
+
+thing s43l1:
+   _name CRN,
+   _description CRD,
+   3 s38l1,
+   6 s36l1,
+   -97 s38l2,
+   -94 s36l2,
+   -93 s35l2;
+
+thing s43l2:
+   3 s38l2,
+   6 s36l2,
+   7 s35l2,
+   +103 s38l1,
+   +106 s36l1;
+
+thing s37l1:
+   _name CRN,
+   _description CRD,
+   1 s36l1,
+   4 s39l1,
+   -99 s36l2,
+   -96 s39l2;
+
+thing s37l2:
+   1 s36l2,
+   4 s39l2,
+   +101 s36l1,
+   +104 s39l1;
+
+thing s38l1:
+   _name CRN,
+   _description CRD,
+   4 s40l1,
+   7 s43l1,
+   -96 s40l2,
+   -93 s43l2;
+
+thing s38l2:
+   4 s40l2,
+   7 s43l2,
+   +104 s40l1,
+   +107 s43l1;
+
+thing s39l1:
+   _name CRN,
+   _description ". Nearby is a small rocky beach.%n",
+   _landing b9,
+   0 s37l1,
+   3 s44l1,
+   -100 s37l2,
+   -97 s44l2;
+
+thing s39l2:
+   0 s37l2,
+   3 s44l2,
+   +100 s37l1,
+   +103 s44l1;
+
+thing s40l1:
+   _name CRN,
+   _description CRD,
+   0 s38l1,
+   5 s41l1,
+   -100 s38l2,
+   -95 s41l2;
+
+thing s40l2:
+   0 s38l2,
+   5 s41l2,
+   +100 s38l1,
+   +105 s41l1;
+
+thing s41l1:
+   _name CRN,
+   _description CRD,
+   1 s40l1,
+   4 s42l1,
+   6 s44l1,
+   -99 s40l2,
+   -94 s44l2;
+
+thing s41l2:
+   1 s40l2,
+   6 s44l2,
+   +101 s40l1,
+   +106 s44l1;
+
+thing s44l1:
+   _name CRN,
+   _description CRD,
+   2 s41l1,
+   3 s42l1,
+   7 s39l1,
+   -98 s41l2,
+   -93 s39l2;
+
+thing s44l2:
+   2 s41l2,
+   7 s39l2,
+   +102 s41l1,
+   +107 s39l1;
+
+thing s42l1:
+   _name CRN,
+   _description " by a small dock.%n",
+   _landing wharf,
+   0 s41l1,
+   7 s44l1;
+
+thing wharf:
+   _name "on a small dock",
+   _description ". At the end of the dock to the south is a small shack"
+         " with a large antenna on its roof.%n",
+   _contents (),
+   _landing s42l1,
+   _float,
+   south _toshack,
+   enter _toshack;
+
+thing radioshack:
+   _name "in the radio shack",
+   _description ", which is littered with old messages, etc. On one"
+         " wall is a large old transceiver.%n",
+   _contents (blueprints),
+   north wharf,
+   exit wharf;
+
+thing b9:
+   _name "on a small rocky beach",
+   _description " on the conical island. A deep chasm splits the rock to the east.%n",
+   _contents (),
+   _float,
+   _landing s39l1,
+   east chasm;
+
+thing chasm:
+   _name "in a deep E/W chasm",
+   _description " on the conical island.%n",
+   _contents (),
+   west b9,
+   east vale;
+
+thing vale:
+   _name "in a pleasant vale",
+   _description 0,
+   _contents (),
+   hint "You obviously need some machinery to open the vault door."
+        " What control have you found that doesn't seem to work?%n",
+   west chasm,
+   north _doorclosed,
+   enter _doorclosed;
+
+thing vault:
+   _name "inside the vault",
+   _description ", which seems to have been used as a repository for"
+         " valuable artifacts.%n",
+   _contents (gun),
+   south vale,
+   exit vale;
+
+/* The verbs in this world: */
+
+verb (HELP, N, S, E, W, NORTH, SOUTH, EAST, WEST, IN, OPEN, ENTER,
+      UNLOCK, LOOK, SEE, TAKE, GET, INVENT, INVENTORY, HELLO):
+   noun "_dark":;
+   noun *:
+      output "The command you typed was in all CAPITAL letters."
+         " This game only knows about words in lower case. To make"
+         " things work better, type%n%K=LC%nbefore continuing.%n";
+
+verb (quit, goodbye, stop, QUIT, STOP):
+   noun "_dark":;
+   noun *:
+      output "Do you wish to stop the game now?%n";
+      _quitflag := _yes();
+
+verb god:
+   noun "_dark":;
+   noun *: output "This world (Mansion) was created by C. Gray, Department of "
+                  "Computing Science, University of Alberta. To send messages to him, "
+                  "use SHOW:MAIL to send to FOOL:MSGS.%n";
+
+verb (show, describe, look, see):
+   noun "_dark":;
+   noun *:
+      _see(false);
+      _inventory();
+
+verb (inventory, invent):
+   noun "_dark":;
+   noun *:
+      _inventory();
+
+verb (score, points):
+   noun "_dark":;
+   noun *: output "Your current score is ", _score, " out of ", MAXSCORE,
+         " with ", _demerits, " demerits.%n";
+
+verb (help, hint):
+   noun "_dark":;
+   noun *:
+      if _loc in _sublocs and _subloc.hint isnt absent
+      then output "The hint will cost you 20 demerits. Do you"
+                  " want it?%n";
+         if _yes()
+         then output _subloc.hint;
+            _demerits := _demerits + 20
+         fi
+      elif _loc.hint isnt absent
+      then output "The hint will cost you 20 demerits. Do you want"
+                " it?%n";
+         if _yes()
+         then output _loc.hint;
+            _demerits := _demerits + 20
+         fi
+      else output "Sorry, I have no hint for you.%n"
+      fi;
+
+verb (wait, pause, nothing, wa):
+   noun "_dark":;
+   noun *:
+      if _loc = controlroom
+      then _subdisplay()
+      else output "OK%n"
+      fi;
+
+verb (go, move, walk, proceed, run, amble, shamble, peramble,
+      scramble, crawl, paddle, row, navigate, g):
+   noun "_dark":;
+   noun "_mult":;
+   noun :
+      output "Where to?%n";
+   noun (log, punt, submarine):
+      if not _oncraft
+      then output "It helps to be aboard something in order to ",
+            _verbstring, " it.%n"
+      else output "It is obvious that you are on the ",
+            _objloc._shortname, "; you must now say in what"
+            " direction you wish to ", _verbstring, ".%n"
+      fi;
+   noun *:
+      if _noun in _movers
+      then _move(if _objloc = sub then _objloc else _loc fi._noun)
+      else output "I don't know how.%n";
+         _listerror := true
+      fi;
+
+verb (north, n):
+   noun "_dark":;
+   noun *: _move(if _objloc = sub then _objloc else _loc fi.north);
+
+verb (south, s):
+   noun "_dark":;
+   noun *: _move(if _objloc = sub then _objloc else _loc fi.south);
+
+verb (east, e):
+   noun "_dark":;
+   noun *: _move(if _objloc = sub then _objloc else _loc fi.east);
+
+verb (west, w):
+   noun "_dark":;
+   noun *: _move(if _objloc = sub then _objloc else _loc fi.west);
+
+verb (up, u):
+   noun "_dark":;
+   noun *: _move(_loc.up);
+
+verb (down, d):
+   noun "_dark":;
+   noun *: _move(if _objloc = sub then _objloc else _loc fi.down);
+
+verb (climb, scale):
+   noun "_dark":;
+   noun *: _move(if _objloc = sub then _objloc else _loc fi.climb);
+
+verb (upstream, us):
+   noun "_dark":;
+   noun *: _move(if _objloc = sub then _objloc else _loc fi.upstream);
+
+verb (downstream, ds):
+   noun "_dark":;
+   noun *: _move(if _objloc = sub then _objloc else _loc fi.downstream);
+
+verb (enter, "in", inside):
+   noun "_dark":;
+   noun *: _move(if _objloc = sub then _objloc else _loc fi.enter);
+
+verb (exit, out, outside):
+   noun "_dark":;
+   noun *: _move(_loc.exit);
+
+verb (cross, across, over):
+   noun "_dark":;
+   noun *: _move(_loc.cross);
+
+verb (port, po):
+   noun "_dark":;
+   noun *: _move(_loc.port);
+
+verb (starboard, star, st):
+   noun "_dark":;
+   noun *: _move(_loc.starboard);
+
+verb (forward, f):
+   noun "_dark":;
+   noun *: _move(_loc.forward);
+
+verb (aft, a):
+   noun "_dark":;
+   noun *: _move(_loc.aft);
+
+verb (jump, leap):
+   noun "_dark":;
+   noun :
+      if _loc.jump isnt absent
+      then _move(_loc.jump)
+      elif _oncraft
+      then output "What? It was hard enough getting on!%n"
+      else output "Boiing! Boiing! You look like a kangaroo!%n"
+      fi;
+   noun ("stream", "creek", "overboard", "across"):
+      if _loc.cross = _poison
+      then _move(_loc.jump)
+      elif _oncraft
+      then output "What? It was hard enough getting on!%n"
+      else output "What ", _nounstring, "?%n"
+      fi;
+   noun *:
+      output "Don't be ridiculous.%n";
+
+verb (board, embark, mount, geton, ride, launch, undock):
+   noun :
+     output "You must specify what to ", _verbstring, ".%n";
+   noun *:
+      if _oncraft
+      then output "You are already on the ", _objloc._shortname, ".%n"
+      elif _noun is absent or _noun._shortname is absent
+      then output "You can't ", _verbstring, " a ", _nounstring, ".%n"
+      elif _loc._landing isnt table
+      then output "You can't ", _verbstring, " here.%n"
+      elif _noun in _objloc._contents or _loc = poolcavern and _noun = log
+      then if _noun = log and not log in _objloc._contents
+         then output "It was a struggle, but you managed to work"
+               " loose one of the logs.%n"
+         fi;
+         _oncraft := true;
+         _loc._contents <- _noun;
+         _loc := _loc._landing;
+         _objloc := _noun;
+         if _noun = sub
+         then _subloc := _loc;
+            _engines := 0;
+            _planes := 0;
+            _rudder := 0
+         elif _noun = log
+         then _loc--_torpedo
+         fi;
+         _see(true)
+      else output "I see no ", _nounstring, " here!%n"
+      fi;
+
+verb (disembark, dismount, getoff, leave, depart, land, off, dock):
+   noun *:
+      if _oncraft
+      then if _loc._landing isnt table
+         then output "You can't ", _verbstring, " here.%n"
+         else _oncraft := false;
+            if _objloc = log
+            then _loc.._torpedo := _torplog
+            fi;
+            _loc := _loc._landing;
+            _loc._contents <+ _objloc;
+            _objloc := _loc;
+            _see(true)
+         fi
+      else output "You are not on anything.%n"
+      fi;
+
+verb (kill, squash, stomp, murder,
+      assassinate, attack, fight, batter, hit, punch, kick):
+   noun "_dark":;
+   noun :
+      output "Who is it you wish to ", _verbstring, "?%n";
+   noun god:
+      output "God is dead! Long live Chris Gray!%n";
+   noun ("chris", "gray", "creator", "Creator", "Chris", "Gray"):
+      output "What?! You would attack the Creator? You puny fool! ";
+      if _loc in _surface
+      then output "A giant hand reaches down from the sky, grasps you"
+            " by the collar, shakes you soundly, and deposits you in the"
+            " middle of the forest.%n%n";
+         if _oncraft
+         then _oncraft := false;
+            boathouseland._contents <+ punt
+         fi;
+         _move(FP5)
+      elif _objloc = log
+      then output "A giant tentacle reaches out of the water, plucks you"
+            " from the log, shakes you soundly, and dumps you down on"
+            " a sandy beach.%n%n";
+         _oncraft := false;
+         _move(b7);
+         b7._contents <+ log
+      elif _loc in _sublocs
+      then output "A powerful subsurface current grabs the submarine"
+            " as if it were a toy, tosses it around and grounds it on"
+            " a sandy beach.%n%n";
+         _subloc := s20l1;
+         _dark := false;
+         _see(true)
+      else output "A tremendous shaking of the earth commences."
+            " You are thrown about like a pebble in a landslide."
+            " When the shaking ceases, you find yourself on the"
+            " brink of a cliff.%n%n";
+         _move(channeltop)
+      fi;
+      _preachernear := false;
+      _demerits := _demerits + 3;
+   noun ("priest", "preacher", "man"):
+      if _preachernear
+      then output "The preacher is guarded by a whim of the Creator."
+            " What? You have never encountered a whim before? Rest"
+            " assured that this particular whim is ample protection"
+            " for the preacher.%n"
+      else output "What ", _nounstring, "?%n"
+      fi;
+   noun ("troglodyte", "trog"):
+      output if _loc = _trogloc or _loc = tt1 and _trogloc = b4
+             then "Nothing you have is able to hurt that hungry troglodyte.%n"
+             else "What troglodyte?%n"
+             fi;
+   noun ("door", "hatch", "gate"):
+      output "The doors, gates, etc. around here are very solidly"
+             " constructed. Attacking them will do you no good.%n";
+   noun *:
+      output "For Pete's sake, its already dead!%n";
+
+verb (shoot, fire):
+   noun "_dark":;
+   noun *:
+      if not gun in _carrying
+      then output "You are not carrying anything to shoot with.%n"
+      else output "Gosh, that sure is a weird gun! You couldn't"
+            " tell which end to point and have disintegrated your head!%n";
+         _quitflag := true
+      fi;
+
+cons LRD = ", a plush room with a large fireplace on the east wall."
+      " Doorways lead north, south and west. Behind a portrait on"
+      " the west wall is a small safe.%n";
+
+verb (get, grab, grasp, carry, take, pickup, pull, ge):
+   noun "_mult":;
+   noun :
+      output "Get what?%n";
+   noun inventory:
+      _inventory();
+   noun log:
+      if log in _objloc._contents
+      then output "You have already got a log here.%n"
+      elif _loc ~= poolcavern
+      then output "What log?%n"
+      else output "It was a struggle, but you beached one.%n";
+         poolcavern._contents <+ log
+      fi;
+   noun (chest, matches, candle, card, ring, wallet, keys, oilcan,
+         key, emerald, cask, ruby, bible, crucifix, wheel, rod,
+         knob, sign, sucker, ivory, flash, paper, clipboard, bonds,
+         candlepiece, brokenflash, "portrait", "picture", "safe",
+         knife, magazine, coffeepot, trident, dagger, earrings,
+         mink, vase, crowbar, bracelet, shards, chalice, guide,
+         statue, crown, blueprints, gun):
+      if _carrycount = MAXCARRY
+      then output "You can't carry anything else.%n";
+         _listerror := true
+      elif (_nounstring = "portrait" or _nounstring = "picture")
+            and _loc = livingroom
+      then if livingroom._description = LRD
+         then output "The portrait is firmly attached to the wall."
+               "%n"
+         else livingroom._description := LRD;
+            output "The portrait swings aside to reveal a small"
+                  " safe!%n"
+         fi
+      elif _nounstring = "safe" and _loc = livingroom
+      then output "The safe is firmly embedded in the wall.%n"
+      elif _noun = bonds and _loc = livingroom and _safeopen
+            and _stuffinsafe
+      then output "OK%n";
+         _carrying <+ bonds;
+         _carrycount := _carrycount + 1;
+         _score := _score + bonds._value;
+         _stuffinsafe := false
+      elif _noun = bible and _preachernear
+      then output "The preacher halts in surprise, drools copiously,"
+            " and flees shrieking into the distance.%n";
+         _carrying <+ bible;
+         _carrycount := _carrycount + 1;
+         _preachernear := false;
+         _preachergone := true
+      elif _noun = crucifix and _bibleopen and bible._name ~= "a large, heavy bible%n"
+            and (bible in _carrying or bible in _objloc._contents)
+      then output "OK%n";
+         _carrying <+ crucifix;
+         _carrycount := _carrycount + 1;
+         _score := _score + crucifix._value;
+         bible._name := "a large, heavy bible%n"
+      elif _noun = key and _chestopen and chest._name ~= "a small pine chest%n"
+           and (chest in _carrying or chest in _objloc._contents)
+      then output "OK%n";
+         _carrying <+ key;
+         _carrycount := _carrycount + 1;
+         _score := _score + key._value;
+         chest._name := "a small pine chest%n"
+      elif _noun = ruby and _caskopen and cask._name ~= "a small ornate casket%n"
+            and (cask in _carrying or cask in _objloc._contents)
+      then output "On picking up the ruby you notice that there is"
+            " a note scribbled on the bottom of the casket. The"
+            " note says 'NAUTILUS!!!'%n";
+         _carrying <+ ruby;
+         _carrycount := _carrycount + 1;
+         _score := _score + ruby._value;
+         cask._name := "a small ornate casket%n"
+      elif _noun = doorknob and _knobinwater and _loc = islandpath4
+      then output "You can't reach the doorknob, it is at the"
+               " bottom of the stream.%n"
+      elif _noun = sign and _loc = outsidegate and outsidegate._description ~=
+            " of a large old mansion. A driveway heads west through"
+            " the gate.%n"
+      then output "OK%n";
+         _carrying <+ sign;
+         _carrycount := _carrycount + 1;
+         outsidegate._description := " of a large old mansion. A driveway"
+               " heads west through the gate.%n"
+      elif _noun in _objloc._contents
+      then output "OK%n";
+         _objloc._contents <- _noun;
+         _carrying <+ _noun;
+         _carrycount := _carrycount + 1;
+         if _noun._value isnt absent
+         then if _objloc = trophyroom
+            then _score := _score - _noun._value
+            else _score := _score + _noun._value
+            fi
+      fi
+      elif _noun in _carrying
+      then output "You are already carrying the ", _nounstring, ".%n"
+      else output "I see no ", _nounstring, " here!%n"
+      fi;
+   noun "water":
+      if _objloc._float is absent
+      then output "What water?%n"
+      else output "Fine, your hands are now wet!%n"
+      fi;
+   noun *:
+      output "You can't be serious!%n";
+
+verb (drop, letgo, "let-go", release, free, rid, set, put, setdown,
+      "set-down", putdown, "put-down", place, dr):
+   noun "_dark":;
+   noun "_mult":;
+   noun :
+      output "Drop what?%n";
+   noun *:
+      if _noun in _carrying
+      then if _objloc = log
+         then output "That was dumb, now it is at the bottom of"
+               " the bottomless lake!%n";
+            if _noun = candle then _candle_timeleft := 0 fi
+         else if (_noun = candle or _noun = flash) and
+                 (_verbstring = "drop" or _verbstring = "release" or
+                  _verbstring = "let-go" or _verbstring = "letgo")
+            then if _noun = candle
+               then _objloc._contents <+ candlepiece;
+                  _candle_timeleft := 0;
+                  dict."candle" := candlepiece
+               else _objloc._contents <+ brokenflash;
+                  dict."flash" := brokenflash;
+                  dict."flashlight" := brokenflash
+               fi;
+               output "Now you've broken it!%n";
+               _carrying <- _noun;
+               if _loc._darkflag isnt absent and
+                     not flash in _carrying and not flash in _objloc._contents
+                     and (not (candle in _carrying or candle in _objloc._contents) or
+                     _candle_timeleft > CANDLETIME or _candle_timeleft <= 0)
+               then _dark := true;
+                  output "It is pitch dark.%n"
+               fi
+            elif _noun = vase and
+               (_verbstring = "drop" or _verbstring = "release" or
+                _verbstring = "let-go" or _verbstring = "letgo")
+            then output "Smash!!%n";
+               _score := _score - vase._value;
+               vase--_value;
+               _objloc._contents <+ shards
+            else output "OK%n";
+               _objloc._contents <+ _noun
+            fi
+         fi;
+         _carrying <- _noun;
+         _carrycount := _carrycount - 1;
+         if _noun._value isnt absent
+         then if _objloc = trophyroom
+            then _score := _score + _noun._value
+            else _score := _score - _noun._value
+            fi
+         fi
+      else output "You aren't carrying the ", _nounstring, ".%n"
+      fi;
+
+verb (terse, brief, short):
+   noun "_dark":;
+   noun *:
+      if _terse
+      then output "I will now give long descriptions again.%n";
+         _terse := false
+      else output "OK%n";
+         _terse := true
+      fi
+
+verb (light, ignite, burn):
+   noun "_dark":;
+   noun :
+      output "You must say what to ", _verbstring, ".%n";
+   noun *:
+      if matches in _carrying
+      then if _loc = secretroomwest and secretroomwest.west is absent and
+               (_nounstring = "magnesium" or _nounstring = "band")
+         then output "The magnesium burns with a blinding flash. You hear a thump "
+               "as the bolt falls away. When you can see again, you see an opening "
+               "leading into the back of a fireplace.%n";
+            secretroomwest..west := livingroom;
+            secretroomwest._description := ". A small door opens to the west.%n";
+            livingroom..east := secretroomwest
+         elif _loc = boathouseland or _loc = winchroom
+         then output "%n%n                K - A - B - O - O - M!!!"
+               "%n%n%nYou have just blown yourself to bits!%n";
+            _quitflag := true
+         elif _noun in _carrying or _phantoms._nounstring isnt absent
+         then if _noun = candle
+            then if _candle_timeleft <= 0
+               then output "It is too far gone to light again.%n"
+               elif _candle_timeleft < CANDLETIME
+               then output "It is already burning.%n"
+               else _candle_timeleft := CANDLETIME;
+                  output "The candle lights, but there is so little of it that it will%n"
+                         "not last long.%n";
+                  _dark := false
+               fi
+            elif _noun = matches
+            then output "The match lights, burns, and goes out.%n"
+            elif _noun = oilcan and _cancontents = "oil"
+            then output "%n%n                K - A - B - O - O - M!!!"
+                    "%n%n%nYou have just blown yourself to bits!%n";
+               _quitflag := true
+            elif _nounstring = "fingers" or _nounstring = "finger"
+            then output "Yeeeoouuch!!%n"
+            elif _noun = bible
+            then output "The bible burns with a pearly white light."
+                  " It and all it contains are totally consumed.%n";
+               _carrying <- bible;
+               _carrycount := _carrycount - 1
+            else output "It doesn't burn.%n"
+            fi
+         else output "You are not carrying the ", _nounstring, ".%n"
+         fi
+      else output "You have nothing to start a fire with.%n"
+      fi;
+
+verb (jimmy, diddle, slip):
+   noun :
+      output "Jimmy what?%n";
+   noun ("door", "lock", "safe", "hatch"):
+      if card in _carrying
+      then if _loc = entrance or _loc = hallnorth
+         then if _maindoorlocked and entrance.west ~= hallnorth
+            then output "You successfully jimmied the door open."
+                  " You would make a good burglar!%n";
+               entrance.west := hallnorth;
+               hallnorth.east := entrance;
+               entrance.enter := hallnorth;
+               hallnorth.exit := entrance
+            elif entrance.west = hallnorth
+            then output "The door is already open!%n"
+            else output "Why bother, it's not locked.%n"
+            fi
+         else output "I can't.%n"
+         fi
+      else output "You have nothing to jimmy it with.%n"
+      fi;
+   noun *:
+      output "I can't seem to jimmy a ", _nounstring, ".%n";
+
+verb (swim, splash, drink, wade):
+   noun "_dark":;
+   noun *:
+      if _loc = channeltop and (_verbstring = "swim" or
+                                _verbstring = "wade")
+      then output "You're not too bright are you?%n";
+         _quitflag := true
+      elif _objloc._float isnt absent
+      then output "Thanks, that was very refreshing. I was getting hot doing all this "
+            "walking about.%n";
+         _thirstcount := _thirstmax
+      elif _loc.cross = _poison
+      then output "The water is a deadly poison! An unendurable "
+            "burning sensation fills your entire body. With a "
+            "pitiful croak, you sink to the ground as your strength"
+            " fails. The events of your life flash through your "
+            "mind and the final darkness overtakes you.%n";
+         _quitflag := true;
+      elif can in _carrying and _cancontents = "water" and _verbstring = "drink"
+      then output "The water was refreshing, but it had a slightly oily taste.%n";
+         _cancontents := nil;
+         can._name := "an empty can%n";
+         _thirstcount := _thirstmax
+      elif coffeepot in _carrying and _potcontents = "water"
+            and _verbstring = "drink"
+      then output "Most refreshing!%n";
+         _potcontents := nil;
+         coffeepot._name := "a battered old coffeepot%n";
+         _thirstcount := _thirstmax
+      else output "It is rather hard to ", _verbstring, " without water.%n"
+      fi;
+
+verb oil:
+   noun :
+      output "Oil what?%n";
+   noun ("door", "lock", "hatch", "hinge", "hinges"):
+      if oilcan in _carrying and _cancontents = "oil"
+      then if _loc = hallnorth or _loc = entrance or _loc = secondbedroom
+            or _loc = kitchen or _loc = garage or _loc = upperhall
+         then output "It is already well-oiled.%n"
+         elif _loc = cellar or _loc = cave
+         then if _hatchoiled >= 2
+            then output "Yech! Now you've over-oiled it!%n"
+            else output "OK%n";
+               _hatchoiled := _hatchoiled + 1
+            fi;
+            _cancontents := nil;
+            oilcan._name := "an empty can%n"
+         else output "I see no ", _nounstring, " here!%n"
+         fi
+      else output "You have no oil.%n"
+      fi;
+   noun *:
+      if oilcan in _carrying
+      then output "I don't think it needs oiling.%n"
+      else output "You have no oil.%n"
+      fi;
+
+verb open:
+   noun :
+      output "Open what?%n";
+   noun vault:
+      if _loc ~= vale and _loc ~= vault
+      then output "What vault?%n"
+      elif not _vaultclosed
+      then output "It is not closed.%n"
+      else output "Oof! That door must weigh a ton! It won't budge.%n"
+      fi;
+   noun "sesame":
+      if (_loc = cellar or _loc = b6) and cellar.north ~= train1
+      then output if _loc = cellar
+                  then "A small door has opened on the north wall.%n"
+                  else "A small door has opened to the west.%n"
+                  fi;
+         cellar..north := train1;
+         b6..west := train2;
+         cellar..enter := train1;
+         b6..enter := train2;
+         if _loc = cellar then train1 else train2 fi._contents <+ wheel
+      else output "I can't.%n"
+      fi;
+   noun crate:
+      if not crate in _objloc._contents
+      then output "I see no ", _nounstring, " here!%n"
+      else output "The crate is nailed shut.%n"
+      fi;
+   noun ("portrait", "picture"):
+      if _loc ~= livingroom
+      then output "What ", _nounstring, "?%n"
+      elif livingroom._description = LRD
+      then output "The portrait is already swinging free.%n"
+      else output "The portrait swings aside to reveal a small safe!%n";
+         livingroom._description := LRD
+      fi;
+   noun "hatch":
+      if _loc = cellar or _loc = cave
+      then if cellar.down = cave
+         then output "It is already open.%n"
+         elif _hatchlocked
+         then output "The hatch is locked.%n"
+         elif not _hatchoiled
+         then output "The hatch is rusted shut and refuses"
+               " to move.%n"
+         elif _hatchoiled < 2
+         then output "That hatch was awful rusty!%n"
+         else output if _loc = cellar
+                 then "With an awful screech, the hatch opens,"
+                      " revealing a dark hole beneath.%n"
+                 else "Scre-e-ech!%n"
+                 fi;
+            cellar._description := ". Stairs lead up and to the east."
+                  " A ladder shows through a hatch set in the floor.%n";
+            cave._description := ", a small, poorly lit secret chamber beneath the cellar."
+                  " A ladder leads up through a hatch in the ceiling "
+                  "and a small dark tunnel slopes down and to the south.%n";
+            cave--_darkflag;
+            cave.exit := _throughhatch;
+            cellar.enter := _throughhatch;
+            cave.up := _throughhatch;
+            cave.climb := _throughhatch;
+            cellar.down := _throughhatch;
+            cellar.climb := _throughhatch
+         fi
+      elif _objloc = sub or _loc = corridor1
+      then if sub.down = _fromconning
+         then output "It is already open.%n"
+         elif _subhatchlocked
+         then output "The hatch is locked.%n"
+         elif _depth ~= 0
+         then output "WHOOSH! A column of water hits you like a"
+               " granite pillar. One way or another, you are"
+               " dead.%n";
+            _quitflag := true
+         else output "The hatch swings down into the sub.%n";
+            sub.down := _fromconning;
+            sub.climb := _fromconning;
+            sub.enter := _fromconning;
+            corridor1.up := _toconning;
+            corridor1.climb := _toconning;
+            corridor1.exit := _toconning;
+            sub._description := "in the conning tower of the"
+                  " Nautilus. At your feet is an open hatch. The"
+                  " submarine is "
+         fi
+      else output "I see no hatch here!%n"
+      fi;
+   noun "gate":
+      if _loc = outsidegate or _loc = insidegate
+      then if outsidegate.west = insidegate
+         then output "It is already open.%n"
+         elif _gatelocked
+         then output "The gate is locked.%n"
+         else output "OK%n";
+            outsidegate.enter := insidegate;
+            insidegate.exit := outsidegate;
+            outsidegate.west := insidegate;
+            insidegate.east := outsidegate
+         fi
+      else output "I see no gate here!%n"
+      fi;
+   noun chest:
+      if chest in _carrying or chest in _objloc._contents
+      then if _chestopen
+         then output "The chest is already open.%n"
+         else output "The chest opens to reveal a small golden key inside.%n";
+            _chestopen := true;
+            chest._name := "a small pine chest%n   a small golden key in the chest%n";
+         fi
+      else output "I see no chest here!%n"
+      fi;
+   noun cask:
+      if cask in _carrying or cask in _objloc._contents
+      then if _caskopen
+         then output "It is already open.%n"
+         elif _casklocked
+         then output "The casket is locked.%n"
+         else if not _caskopened
+            then output "The casket opens to reveal a priceless ruby!%n";
+               _caskopened := true;
+               cask._name := "a small ornate casket%n   a huge ruby in the casket%n"
+            else output "OK%n"
+            fi;
+            _caskopen := true
+         fi
+      else output "I see no ", _nounstring, " here!%n"
+      fi;
+   noun bible:
+      if bible in _carrying or bible in _objloc._contents
+      then if _bibleopen
+         then output "It is already open.%n"
+         else if not _bibleopened
+            then output "Opening the bible was a brave but rewarding"
+                  " act, for lo! there is a golden crucifix"
+                  " contained inside.%n";
+               _bibleopened := true;
+               bible._name := "a large, heavy bible%n   a golden crucifix inside the bible%n"
+            else output "OK%n"
+            fi;
+            _bibleopen := true
+         fi
+      else output "I see no ", _nounstring, " here!%n"
+      fi;
+   noun "safe":
+      if _loc = livingroom
+      then if _safeopen
+         then output "It is already open.%n"
+         elif _safelocked
+         then output "The safe is locked.%n"
+         else if _stuffinsafe
+            then output "Inside the safe is a large bundle of"
+                  " stocks, bonds and other certificates.%n"
+            else output "OK%n"
+            fi;
+            _safeopen := true
+         fi
+      else output "I see no safe here.%n"
+      fi;
+   noun "door":
+      if _loc = entrance or _loc = hallnorth
+      then if entrance.west = hallnorth
+         then output "It is already open.%n"
+         elif _maindoorlocked
+         then output "The door is locked.%n"
+         else output "OK%n";
+            entrance.enter := _inmaindoor;
+            hallnorth.exit := entrance;
+            entrance.west := _inmaindoor;
+            hallnorth.east := entrance
+         fi
+      elif _loc = kitchen or _loc = garage
+      then if kitchen.east = garage
+         then output "It is already open.%n"
+         elif _backdoorlocked
+         then output "The door is locked.%n"
+         else output "OK%n";
+            kitchen.exit := garage;
+            garage.enter := kitchen;
+            kitchen.east := garage;
+            garage.west := kitchen
+         fi
+      elif _loc = undergazebo or _loc = winchroom
+      then if undergazebo.east = winchroom
+         then output "It is already open.%n"
+         elif not _knobinplace
+         then output "The door does not have a doorknob!%n"
+         elif _winchdoorlocked
+         then output "The door is locked.%n"
+         else output "OK%n";
+            undergazebo.east := winchroom;
+            undergazebo.enter := winchroom;
+            winchroom.west := undergazebo;
+            winchroom.exit := undergazebo
+         fi
+      elif _loc = pathbyboathouse or _loc = boathouseland
+      then if boathouseland.exit = pathbyboathouse
+         then output "It is already open.%n"
+         elif _boathousedoorlocked
+         then output "The door is locked.%n"
+         else output "OK%n";
+            boathouseland.exit := pathbyboathouse;
+            boathouseland.downstream := pathbyboathouse;
+            boathouseland.east := pathbyboathouse;
+            pathbyboathouse.enter := boathouseland;
+            pathbyboathouse.upstream := boathouseland;
+            pathbyboathouse.west := boathouseland
+         fi
+      elif _loc = secondbedroom
+      then output "The door is locked.%n"
+      elif _loc = upperhall
+      then output "It doesn't need closing.%n"
+      elif _loc = vale or _loc = vault
+      then output if _vaultclosed
+                  then "Oof! That door must weigh a ton! It won't budge.%n"
+                  else "It is already open.%n"
+                  fi
+      else output "I see no door here!%n"
+      fi;
+   noun *:
+      output "I can't.%n";
+
+verb (close, shut):
+   noun :
+      output "Close what?%n";
+   noun vault:
+      if _loc ~= vale and _loc ~= vault
+      then output "What vault?%n"
+      elif _vaultclosed
+      then output "It is already closed.%n"
+      else output "Oof! That door must weigh a ton. It won't budge.%n"
+      fi;
+   noun ("portrait", "picture"):
+      if _loc ~= livingroom
+      then output "What ", _nounstring, "?%n"
+      elif livingroom._description ~= LRD
+      then output "How on earth does one ", _verbstring, " a ",
+            _nounstring, "?%n"
+      else output "You close it, but something must be crooked,"
+            " because it just swings open again.%n"
+      fi;
+   noun "hatch":
+      if _loc = cellar or _loc = cave
+      then if cellar.down = _hatchclosed
+         then output "It is already closed.%n"
+         else output "      THUMP!!%n%nAlmost got your fingers!%n";
+            cellar._description := ". Stairs lead up and to the east."
+                  " There is a rusty hatch set in the floor.%n";
+            cave._description := ", a small, poorly lit secret chamber beneath the cellar."
+                  " A ladder leads up to a closed hatch and a small dark "
+                  "tunnel slopes down and to the south.%n";
+            cave.._darkflag := nil;
+            if _loc = cave and
+                  not flash in _carrying and not flash in _objloc._contents and
+                  (not (candle in _carrying or candle in _objloc._contents) or
+                  _candle_timeleft > CANDLETIME or _candle_timeleft <= 0)
+            then _dark := true;
+               output "It is pitch dark.%n"
+            fi;
+            cellar.enter := _hatchclosed;
+            cave.exit := _hatchclosed;
+            cellar.down := _hatchclosed;
+            cellar.climb := _hatchclosed;
+            cave.up := _hatchclosed;
+            cave.climb := _hatchclosed
+         fi
+      elif _objloc = sub or _loc = corridor1
+      then if sub.down = _hatchclosed
+         then output "It is already closed.%n"
+         else _subhatchlocked := false;
+            output "OK%n";
+            sub.down := _hatchclosed;
+            sub.climb := _hatchclosed;
+            sub.enter := _hatchclosed;
+            corridor1.up := _hatchclosed;
+            corridor1.climb := _hatchclosed;
+            corridor1.exit := _hatchclosed;
+            sub._description := "in the conning tower of the"
+                  " Nautilus. At your feet is a closed hatch with"
+                  " a 4-foot wheel in its center. The submarine is "
+         fi
+      else output "I see no hatch here!%n"
+      fi;
+   noun "gate":
+      if _loc = outsidegate or _loc = insidegate
+      then if outsidegate.west = _gateclosed
+         then output "It is already closed.%n"
+         else output "OK%n";
+            outsidegate.enter := _gateclosed;
+            insidegate.exit := _gateclosed;
+            outsidegate.west := _gateclosed;
+            insidegate.east := _gateclosed
+         fi
+      else output "I see no gate here!%n"
+      fi;
+   noun chest:
+      if chest in _carrying or chest in _objloc._contents
+      then if not _chestopen
+         then output "The chest is already closed.%n"
+         else output "The lid is stuck and refuses to close.%n"
+         fi
+      else output "I see no chest here!%n"
+      fi;
+   noun cask:
+      if cask in _carrying or cask in _objloc._contents
+      then if not _caskopen
+         then output "The casket is already closed.%n"
+         else output "OK%n";
+            _caskopen := false
+         fi
+      else output "I see no ", _nounstring, " here!%n"
+      fi;
+   noun bible:
+      if bible in _carrying or bible in _objloc._contents
+      then if not _bibleopen
+         then output "The bible is already closed.%n"
+         else output "OK%n";
+            _bibleopen := false
+         fi
+      else output "I see no bible here!%n"
+      fi;
+   noun "safe":
+      if _loc = livingroom
+      then if not _safeopen
+         then output "The safe is already closed.%n"
+         else output "OK%n";
+            _safeopen := false
+         fi
+      else output "I see no safe here!%n"
+      fi;
+   noun "door":
+      if _loc = entrance or _loc = hallnorth
+      then if entrance.west = _doorclosed
+         then output "It is already closed.%n"
+         else output "OK%n";
+            entrance.enter := _doorclosed;
+            hallnorth.exit := _doorclosed;
+            entrance.west := _doorclosed;
+            hallnorth.east := _doorclosed
+         fi
+      elif _loc = kitchen or _loc = garage
+      then if kitchen.east = _doorclosed
+         then output "It is already closed.%n"
+         else output "OK%n";
+            kitchen.exit := _doorclosed;
+            garage.enter := _doorclosed;
+            kitchen.east := _doorclosed;
+            garage.west := _doorclosed
+         fi
+      elif _loc = undergazebo or _loc = winchroom
+      then if undergazebo.east = _doorclosed
+         then output "It is already closed.%n"
+         else output "OK%n";
+            undergazebo.east := _doorclosed;
+            undergazebo.enter := _doorclosed;
+            winchroom.west := _doorclosed;
+            winchroom.exit := _doorclosed
+         fi
+      elif _loc = pathbyboathouse or _loc = boathouseland
+      then if boathouseland.exit = _doorclosed
+         then output "It is already closed.%n"
+         else output "OK%n";
+            boathouseland.exit := _doorclosed;
+            boathouseland.downstream := _doorclosed;
+            boathouseland.east := _doorclosed;
+            pathbyboathouse.enter := _doorclosed;
+            pathbyboathouse.upstream := _doorclosed;
+            pathbyboathouse.west := _doorclosed
+         fi
+      elif _loc = secondbedroom
+      then output "It is already closed.%n"
+      elif _loc = upperhall
+      then output "It doesn't need closing.%n"
+      elif _loc = vale or _loc = vault
+      then if _vaultclosed
+         then output "It is already closed.%n"
+         else output "Oof! That door must weigh a ton! It won't budge.%n"
+         fi
+      else output "I see no door here!%n"
+      fi;
+   noun *:
+      output "I can't.%n";
+
+verb lock:
+   noun :
+      output "Lock what?%n";
+   noun "hatch":
+      if _loc = cellar or _loc = cave
+      then if not keys in _carrying
+         then output "You have no key for it.%n"
+         elif _hatchlocked
+         then output "It is already locked.%n"
+         else output "OK.%n";
+            _hatchlocked := true
+         fi
+      elif _objloc = sub or _loc = corridor1
+      then output "It doesn't even have a keyhole to put a key"
+            " in.%n"
+      else output "I see no hatch here!%n"
+      fi;
+   noun "gate":
+      if _loc = outsidegate or _loc = insidegate
+      then if not keys in _carrying
+         then output "You have no key for it.%n"
+         elif _gatelocked
+         then output "It is already locked.%n"
+         else output "OK%n";
+            _gatelocked := true
+         fi
+      else output "I see no gate here!%n"
+      fi;
+   noun chest:
+      if chest in _carrying or chest in _objloc._contents
+      then output "You have no key for it.%n"
+      else output "I see no chest here!%n"
+      fi;
+   noun cask:
+      if cask in _carrying or cask in _objloc._contents
+      then if not key in _carrying
+         then output "You have no key for it.%n"
+         elif _casklocked
+         then output "It is aready locked.%n"
+         else output "OK%n";
+            _casklocked := true
+         fi
+      else output "I see no ", _nounstring, " here!%n"
+      fi;
+   noun "safe":
+      if _loc = livingroom
+      then output "The safe has a combination lock.%n"
+      else output "I see no safe here.%n"
+      fi;
+   noun "door":
+      if _loc = entrance or _loc = hallnorth
+      then if not keys in _carrying
+         then output "You have no key for it.%n"
+         elif _maindoorlocked
+         then output "It is already locked.%n"
+         else output "OK%n";
+            _maindoorlocked := true
+         fi
+      elif _loc = kitchen or _loc = garage
+      then if not keys in _carrying
+         then output "You have no key for it.%n"
+         elif _backdoorlocked
+         then output "It is already locked.%n"
+         else output "OK%n";
+            _backdoorlocked := true
+         fi
+      elif _loc = undergazebo or _loc = winchroom
+      then if not keys in _carrying
+         then output "You have no key for it.%n"
+         elif _winchdoorlocked
+         then output "It is already locked.%n"
+         else output "OK%n";
+            _winchdoorlocked := true
+         fi
+      elif _loc = pathbyboathouse or _loc = boathouseland
+      then if not keys in _carrying
+         then output "You have no key for it.%n"
+         elif _boathousedoorlocked
+         then output "It is already locked.%n"
+         else output "OK%n";
+            _boathousedoorlocked := true
+         fi
+      elif _loc = secondbedroom
+      then output "It is already locked.%n"
+      elif _loc = upperhall
+      then output "It doesn't need locking.%n"
+      else output "I see no door here!%n"
+      fi;
+   noun *:
+      output "It doesn't have a lock.%n";
+
+verb unlock:
+   noun :
+      output "Unlock what?%n";
+   noun "hatch":
+      if _loc = cellar or _loc = cave
+      then if not keys in _carrying
+         then output "You have no key for it.%n"
+         elif not _hatchlocked
+         then output "It is not locked.%n"
+         else output "OK%n";
+            _hatchlocked := false
+         fi
+      elif _objloc = sub or _loc = corridor1
+      then output "It doesn't even have a keyhole to put a key"
+            " in.%n"
+      else output "I see no hatch here!%n"
+      fi;
+   noun "gate":
+      if _loc = outsidegate or _loc = insidegate
+      then if not keys in _carrying
+         then output "You have no key for it.%n"
+         elif not _gatelocked
+         then output "It is not locked.%n"
+         else output "OK%n";
+            _gatelocked := false
+         fi
+      else output "I see no gate here!%n"
+      fi;
+   noun chest:
+      if chest in _carrying or chest in _objloc._contents
+      then output "You have no key for it.%n"
+      else output "I see no chest here.%n"
+      fi;
+   noun cask:
+      if cask in _carrying or cask in _objloc._contents
+      then if not key in _carrying
+         then output "You have no key for it.%n"
+         elif not _casklocked
+         then output "It is not locked.%n"
+         else output "OK%n";
+            _casklocked := false
+         fi
+      else output "I see no ", _nounstring, " here!%n"
+      fi;
+   noun "safe":
+      if _loc = livingroom
+      then output "The safe has a combination lock.%n"
+      else output "I see no safe here.%n"
+      fi;
+   noun "door":
+      if _loc = entrance or _loc = hallnorth
+      then if not keys in _carrying
+         then output "You have no key for it.%n"
+         elif not _maindoorlocked
+         then output "It is not locked.%n"
+         else output "OK%n";
+            _maindoorlocked := false
+         fi
+      elif _loc = kitchen or _loc = garage
+      then if not keys in _carrying
+         then output "You have no key for it.%n"
+         elif not _backdoorlocked
+         then output "It is not locked.%n"
+         else output "OK%n";
+            _backdoorlocked := false
+         fi
+      elif _loc = undergazebo or _loc = winchroom
+      then if not keys in _carrying
+         then output "You have no key for it.%n"
+         elif not _winchdoorlocked
+         then output "It is not locked.%n"
+         else output "OK%n";
+            _winchdoorlocked := false
+         fi
+      elif _loc = pathbyboathouse or _loc = boathouseland
+      then if not keys in _carrying
+         then output "You have no key for it.%n"
+         elif not _boathousedoorlocked
+         then output "It is not locked.%n"
+         else output "OK%n";
+            _boathousedoorlocked := false
+         fi
+      elif _loc = secondbedroom
+      then output "You have no key for it.%n"
+      elif _loc = upperhall
+      then output "It doesn't need unlocking.%n"
+      else output "I see no door here!%n"
+      fi;
+   noun *:
+      output "It doesn't have a lock.%n";
+
+verb (turn, rotate, angle, pivot, spin):
+   noun :
+      output "Turn what?%n";
+   noun wheel:
+      if wheel in _carrying
+      then if _loc = cellar or _loc = cave
+         then output "Turning a circular object does not alter its"
+               " perspective. The wheel will still not fit through"
+               " the hatchway.%n"
+         else output "You think maybe it will look better from another angle?%n"
+         fi
+      elif _wheelonshaft and _objloc = sub
+      then output "The shaft turns easily with the leverage of"
+            " the wheel. As you continue turning it, you hear"
+            " a clunk, as if a heavy latching mechanism had"
+            " shifted position.%n";
+         _subhatchlocked := not _subhatchlocked
+      elif _loc = corridor1
+      then if _depth > 100
+         then output "CLANG! The hatch is forced back by the"
+               " pressure of the water and a solid pillar of water"
+               " smashes you against the deck.%n";
+            _quitflag := true
+         else output "Clunk%n";
+            _subhatchlocked := not _subhatchlocked
+         fi
+      else output "You are not carrying the wheel.%n"
+      fi;
+   noun "shaft":
+      if _objloc ~= sub
+      then output "What shaft?%n"
+      elif not _wheelonshaft
+      then output "The shaft is a fairly large one and looks as"
+            " if it is meant to withstand considerable force."
+            " Your bare hands are not strong enough to turn it.%n"
+      else output "The shaft turns easily with the leverage of"
+            " the wheel. As you continue turning it, you hear"
+            " a clunk, as if a heavy latching mechanism had"
+            " shifted position.%n";
+         _subhatchlocked := not _subhatchlocked
+      fi;
+   noun *:
+      if _noun in _carrying
+      then output "You think maybe it will look better from another angle?%n"
+      else output "You are not carrying the ", _nounstring, ".%n"
+      fi;
+
+verb (insert, attach):
+   noun :
+      output "Attach what?%n";
+   noun doorknob:
+      if not doorknob in _carrying
+      then output "You are not carrying the doorknob.%n"
+      elif _loc = undergazebo
+      then output "OK%n";
+         _carrying <- knob;
+         _carrycount := _carrycount - 1;
+         _knobinplace := true
+      else output "There is nothing here which I can attach the doorknob to.%n"
+      fi;
+   noun wheel:
+      if not wheel in _carrying
+      then output "You are not carrying the wheel.%n"
+      elif _objloc = sub and not _wheelonshaft
+      then output "The wheel has flash welded itself to the"
+            " shaft!%n";
+         _carrying <- wheel;
+         _carrycount := _carrycount - 1;
+         _wheelonshaft := true;
+         sub._description := "in the conning tower of the Nautilus."
+               " At your feet is a closed hatch with a 4-foot wheel"
+               " in its center. The submarine is "
+      else output "There is nothing here which I can attach the"
+            " wheel to.%n"
+      fi;
+   noun *:
+      if not _noun in _carrying
+      then output "You are not carrying the ", _nounstring, ".%n"
+      else output "There is nothing here which I can attach the ",
+            _nounstring, " to.%n"
+      fi;
+
+verb (fish, cast):
+   noun *:
+      if not rod in _carrying
+      then output "Fishing requires a fishing rod.%n"
+      elif _loc = islandpath4 and _knobinwater and ? > 6777
+      then output "Congratulations!! You have landed a shiny brass doorknob!%n";
+         _knobinwater := false
+      elif _objloc._float is absent or _loc in _nofish
+      then output "Fishing requires some good water to fish in.%n"
+      elif ? > 5000
+      then output "Hurray! You have landed a sucker.%n";
+         _objloc._contents <+ sucker
+      else output "Your luck is poor, you have caught nothing.%n"
+      fi;
+
+verb (push, depress, activate, p):
+   noun "_mult":;
+   noun :
+      output "You must specify what to ", _verbstring, ".%n";
+   noun "button":
+      output "You must specify which button to push.%n";
+   noun ("unlabelled", "blue"):
+      if _loc ~= captainscabin
+      then output "I see no '", _nounstring, "' button here.%n"
+      else output "OK%n";
+         if _subloc in _craters
+         then if _vaultclosed
+            then _vaultclosed := false;
+               vale._description := " hidden on the conical island. To the north"
+                     " is the entrance to a large vault.%n";
+               vale.north := vault;
+               vale.enter := vault
+            else _vaultclosed := true;
+               vale._description := " hidden on the conical island. Set in the rock"
+                     " to the north is a huge vault door.%n";
+               vale.north := _doorclosed;
+               vale.enter := _doorclosed
+            fi
+         fi
+      fi;
+   noun ("sub", "cellar"):
+      if _loc ~= train1 and _loc ~= train2
+      then output "I see no '", _nounstring, "' button here.%n"
+      else output "Rumble rumble.%n";
+         if _nounstring = "sub"
+         then train2._contents := train1._contents;
+            train1._contents := emptylist;
+            _move(train2)
+         else train1._contents := train2._contents;
+            train2._contents := emptylist;
+            _move(train1)
+         fi
+      fi;
+   noun up:
+      if _loc ~= winchroom
+      then output "I see no 'up' button here.%n"
+      elif _winchon = 1
+      then output "The winch is already pulling the hook up.%n"
+      else output "With a grinding rattle, the winch starts"
+            " pulling up the hook.%n";
+         _winchon := 1
+      fi;
+   noun down:
+      if _loc ~= winchroom
+      then output "I see no 'down' button here.%n"
+      elif _winchon = -1
+      then output "The winch is already lowering the hook.%n"
+      else output "With a noisy rattle, the winch starts"
+            " lowering the hook.%n";
+         _winchon := -1
+      fi;
+   noun ("halt", "h"):
+      if _loc ~= winchroom
+      then output "I see no 'halt' button here.%n"
+      elif _winchon = 0
+      then output "The winch is not running.%n"
+      else output "The winch motor comes to a grinding halt.%n";
+         _winchon := 0
+      fi;
+   noun ("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11",
+         "12", "13", "14", "15", "16"):
+      if _loc = missilecontrolroom
+      then if _missiletargets.(# _nounstring) is absent
+         then output "Nothing happened.%n"
+         elif not _subloc in _craters
+         then output "You will recall that the submarine is in an"
+               " UNDERGROUND waterway. The missile has launched, hit the roof"
+               " of the chamber and detonated. Nuclear bombs at that range"
+               " are quite deadly.%n";
+            _quitflag := true
+         elif _waron
+         then output "Bye-bye ", _missiletargets.(# _nounstring), ".%n";
+            if _missilesender = # _nounstring then _missileflag := false fi;
+            _missiletargets--(# _nounstring)
+         else output "With a rumble which threatens to shake you off"
+               " your feet, the missile is off. You wait expectantly"
+               " for a few minutes and then grin with satisfaction."
+               " You have just obliterated ", _missiletargets.(# _nounstring),
+               ". World War III has commenced.%n";
+            _score := _score + 8;
+            _waron := true;
+            if _missilesender = # _nounstring then _missileflag := false fi;
+            _missiletargets--(# _nounstring)
+         fi
+      elif _loc = forwardtorpedo or _loc = controlroom
+      then if # _nounstring > 10
+         then output "I see no '", _nounstring, "' button here.%n"
+         elif _nounstring in _forwardtorpedosgone
+            then output "Nothing happened.%n"
+         else _firetorpedo(_heading);
+            _forwardtorpedosgone <+ _nounstring
+         fi
+      elif _loc = afttorpedo
+      then if # _nounstring > 6
+         then output "I see no '", _nounstring, "' button here.%n"
+         elif _nounstring in _afttorpedosgone
+         then output "Nothing happened.%n"
+         else _firetorpedo((_heading + 4) % 8);
+            _afttorpedosgone <+ _nounstring
+         fi
+      else output "I see no '", _nounstring, "' button here.%n"
+      fi;
+   noun ("dive", "climb", "level", "d", "c", "l", "di", "cl", "le"):
+      if _loc = controlroom
+      then output "Aye-aye skipper!%n";
+         _planes := if _nounstring = "dive" or _nounstring = "d" or _nounstring = "di" then -100
+                    elif _nounstring = "climb" or _nounstring = "c" or _nounstring = "cl" then +100
+                    else 0 fi
+      else output "I see no '", _nounstring, "' button here.%n"
+      fi;
+   noun (port, starboard, "neutral", "n", "ne"):
+      if _loc = controlroom
+      then output "Aye-aye skipper!%n";
+         _rudder := if _noun = port then -1
+                    elif _noun = starboard then +1
+                    else 0 fi
+      else output "I see no '", _nounstring, "' button here.%n"
+      fi;
+   noun ("ahead", "astearn", "stop", "ah", "as", "sto"):
+      if _loc = controlroom
+      then output "Aye-aye skipper!%n";
+         _engines := if _nounstring = "astearn" or _nounstring = "as" then -1
+                     elif _nounstring = "ahead" or _nounstring = "ah" then +1
+                     else 0 fi
+      else output "I see no '", _nounstring, "' button here.%n"
+      fi;
+   noun *:
+      output "I see no '", _nounstring, "' button here.%n";
+
+verb (hook, hang):
+   noun "_mult":;
+   noun :
+      output "Hook what?%n";
+   noun *:
+      if _objloc._float isnt absent and _loc ~= s1l1 and not _loc in _nofish
+      then if not rod in _carrying
+         then output "Fishing requires a fishing rod.%n"
+         elif _loc = islandpath4 and _knobinwater and ? > 6777
+         then output "Congratulations!! You have landed a shiny"
+                  " brass doorknob!%n";
+            _knobinwater := false
+         elif ? > 5000
+         then output "Hurray! You have landed a sucker.%n";
+            _loc._contents <+ sucker
+         else output "Your luck is poor, you have caught nothing.%n"
+         fi
+      elif not _noun in _carrying
+      then output "You are not carrying the ", _nounstring, ".%n"
+      elif _loc ~= winchroom and _loc ~= s1l1
+      then output "I see no hook to hook anything on.%n";
+         _listerror := true
+      elif _winchpos ~= if _loc = winchroom then 0 else 3 fi
+      then output "The hook is not immediately accessible.%n";
+         _listerror := true
+      else output "OK%n";
+         _carrying <- _noun;
+         _carrycount := _carrycount - 1;
+         if _noun._value isnt absent then _score := _score - _noun._value fi;
+         _onhook <+ _noun
+      fi;
+
+verb unhook:
+   noun "_mult":;
+   noun :
+      output "Unhook what?%n";
+   noun *:
+      if _loc ~= winchroom and _loc ~= s1l1
+      then output "I see no hook here!%n";
+         _listerror := true
+      elif _winchpos ~= if _loc = winchroom then 0 else 3 fi
+      then output "The hook is not immediately accessible.%n";
+         _listerror := true
+      elif not _noun in _onhook
+      then output "The ", _nounstring, " is not on the hook.%n"
+      elif _carrycount = MAXCARRY
+      then output "You can't carry anything else.%n";
+         _listerror := true
+      else output "OK%n";
+         _onhook <- _noun;
+         _carrying <+ _noun;
+         _carrycount := _carrycount + 1;
+         if _noun._value isnt absent then _score := _score + _noun._value fi
+      fi;
+
+verb fill:
+   noun "_mult":;
+   noun :
+      output "Fill what?%n";
+   noun coffeepot:
+      if not coffeepot in _carrying
+      then output "You are not carrying the coffee pot.%n"
+      elif _potcontents ~= nil
+      then output "The coffeepot is already full.%n"
+      elif _objloc._float is absent
+      then output "There is nothing here to fill it with.%n"
+      else output "OK%n";
+         _potcontents := "water";
+         coffeepot._name := "a coffeepot full of water%n"
+      fi;
+   noun (chest, casket, bible, "safe", chalice, vase):
+      if _noun in _carrying or _nounstring = "safe"
+      then output "I refuse to mess up that nice clean ", _nounstring, ".%n"
+      else output "You are not carrying the ", _nounstring, ".%n"
+      fi;
+   noun (punt, submarine):
+      if _loc = _noun or _noun in _loc._contents
+      then output "Fill the ", _nounstring, "? Are you off your rocker?%n"
+      else output "I see no ", _nounstring, " here!%n"
+      fi;
+   noun wallet:
+      if _noun in _carrying
+      then output "I'm afraid life isn't that easy.%n"
+      else output "You are not carrying the ", _nounstring, ".%n"
+      fi;
+   noun oilcan:
+      if oilcan in _carrying
+      then if _cancontents ~= nil
+         then output "The can is already full.%n"
+         elif _loc = winchroom
+         then output "OK%n";
+            _cancontents := "oil";
+            can._name := "a can of oil%n"
+         elif _objloc._float isnt absent
+         then output "OK%n";
+            _cancontents := "water";
+            can._name := "a can of water%n"
+         else output "There is nothing here to fill it with.%n"
+         fi
+      else output "You are not carrying the ", _nounstring, ".%n"
+      fi;
+   noun *:
+      if _noun in _carrying
+      then output "Don't be ridiculous.%n"
+      else output "You are not carrying the ", _nounstring, ".%n"
+      fi;
+
+verb read:
+   noun "_mult":;
+   noun :
+      output "Read what?%n";
+   noun ("inscription", "mosaic", "carving"):
+      if _loc = treasureroom
+      then output "I'd rather not, it makes me queasy.%n"
+      elif _loc = insr
+      then output "Ak'kldfh'tagn%n"
+      else output "What ", _nounstring, "?%n"
+      fi;
+   noun bible:
+      if not bible in _carrying
+      then output "You are not carrying the ", _nounstring, ".%n"
+      elif not _bibleopen
+      then output "Holy Bible (Gideon's Version)%n"
+      else output "In the beginning God created the heaven and the earth.%n"
+         "And the earth was without form, and void; and darkness "
+         "WAS upon the face of the deep. And the Spirit of God "
+         "moved upon the face of the waters.%n"
+         "And God said, Let there be light: and there was light.%n"
+         "And God saw the light, that IT WAS good: and God "
+         "divided the light from the darkness.%n"
+         "And God called the light Day, and the darkness he "
+         "called Night. And the evening and the morning were "
+         "the first day.%n"
+      fi;
+   noun sign:
+      if sign in _carrying or _loc = outsidegate and outsidegate._description ~=
+            " of a large old mansion. A driveway heads west through the gate.%n"
+      then output "TRESPASSERS WILL BE PERSECUTED%n"
+      else output "What sign?%n"
+      fi;
+   noun "pedestal":
+      output if _loc = ft
+             then "Ask your fortune and you shall be told.%n"
+             else "What pedestal?%n"
+             fi;
+   noun blueprints:
+      output if blueprints in _carrying
+             then "If I knew what to put here, I wouldn't be sitting around"
+                  " writing dumb computer games.%n"
+             else "You are not carrying the blueprints.%n"
+             fi;
+   noun card:
+      if card in _carrying
+      then output "Acme Burglar Alarms%n1234-56 St., Ste. 789%n"
+            "Town, Province, CANADA A1B 2C3%n%n"
+            "                                             Jimmy Rich%n"
+      else output "You are not carrying the ", _nounstring, ".%n"
+      fi;
+   noun paper:
+      if paper in _carrying
+      then output _combination, newline
+      else output "You are not carrying the ", _nounstring, ".%n"
+      fi;
+   noun clipboard:
+      if clipboard in _carrying
+      then output "1-Berlin        5-Edmonton      9-Moscow   13-Shanghai%n"
+                  "2-Boston        6-Johannesburg 10-New York 14-Tokyo%n"
+                  "3-Buenos Aires  7-Leningrad    11-Paris    15-Vladivostok%n"
+                  "4-Canberra      8-London       12-Peking   16-Washington%n"
+      else output "You are not carrying the clipboard.%n"
+      fi;
+   noun ("picture", "portrait"):
+      if _loc = livingroom
+      then output "The picture is quite uninteresting, so I"
+            " will not bother showing it to you.%n"
+      else output "I see no ", _nounstring, " here!%n"
+      fi;
+   noun cask:
+      if not cask in _carrying
+      then output "You are not carrying the casket.%n"
+      elif not _caskopen
+      then output "There is nothing written on the casket.%n"
+      elif cask._name ~= "a small ornate casket%n"
+      then output "There is nothing to read in it.%n"
+      else output "NAUTILUS!!!%n"
+      fi;
+   noun magazine:
+      if not magazine in _carrying
+      then output "You are not carrying the magazine.%n"
+      else output "%n"
+"   CCCC   EEEEEE  N     N   SSSS    OOOO   RRRR    EEEEEE  DDDDD%n"
+"  C    C  E       NN    N  S    S  O    O  R   R   E       D    D%n"
+"  C       E       N N   N  S       O    O  R   R   E       D    D%n"
+"  C       EEEEEE  N  N  N   SSSS   O    O  RRRR    EEEEEE  D    D%n"
+"  C       E       N   N N       S  O    O  R  R    E       D    D%n"
+"  C    C  E       N    NN  S    S  O    O  R   R   E       D    D%n"
+"   CCCC   EEEEEE  N     N   SSSS    OOOO   R    R  EEEEEE  DDDDD%n"
+      fi;
+   noun matches:
+      if not matches in _carrying
+      then output "You are not carrying the ", _nounstring, ".%n"
+      else output "Eddy Safety Matches%nLight Every Time%n"
+      fi;
+   noun submarine:
+      if not submarine in _objloc._contents
+      then output "I see no ", _nounstring, " here!%n"
+      else output "Nautilus%n"
+      fi;
+   noun guide:
+      if not guide in _carrying
+      then output "You are not carrying the ", _nounstring, ".%n"
+      else output "This is a pushbutton submarine; it is operated"
+            " only by pushing buttons. Dive, climb and level"
+            " control vertical movement; port, starboard and"
+            " neutral control left-right movement; and ahead,"
+            " astearn and stop control forward-backward movement."
+            " The engines must not be at stop if you want to go"
+            " somewhere. If you just push buttons, nothing will"
+            " happen, you must do something else to let things"
+            " move. Thus, to launch from the original docking site,"
+            " you can try: push dive, push port, push astearn,"
+            " wait. The sonar scan consists of 9 forward readings,"
+            " from upper left to lower right, reading from left to"
+            " right on one plane for each group of 3. Watch out for"
+            " the whirlpool!.%n"
+      fi;
+   noun *:
+      output "I can't.%n";
+
+verb (say, speak, mutter, mumble, incant, verbalize, chant, utter,
+      sing, grumble):
+   noun "_dark":;
+   noun "_mult":;
+   noun :
+      output "This is the sound of silence.";
+   noun *:
+      if _loc in _whirlpools
+      then output "Sorry, but the roar of the whirlpool drowned out"
+            " your voice.";
+         _listerror := true
+      else if (_loc = bridgeout or _loc = bridgein or
+               _loc = streambridge) and
+              (_nounstring = "Ak'kldfh'tagn" or
+               _nounstring = "ak'kldfh'tagn") and
+               bridgein.cross = _hitshield
+         then output "The shimmer has vanished! ";
+            bridgein._description := ", a graceful arc of marble"
+                  " which crosses over to the north bank.%n";
+            bridgein.north := bridgeout;
+            bridgein.cross := bridgeout;
+            bridgeout._description := ", a graceful arc of marble"
+                  " which crosses over to the south bank.%n";
+            bridgeout.south := bridgein;
+            bridgeout.cross := bridgein;
+            streambridge._description := ".%n";
+            streambridge.east := pastbridge;
+            streambridge.downstream := pastbridge
+         else output _nounstring, " "
+         fi
+      fi;
+
+verb (shout, holler, scream, bellow, yell):
+   noun "_dark":;
+   noun "_mult":;
+   noun :
+      output "It's hard to ", _verbstring, " when you don't say what to",
+            _verbstring, ".";
+   noun ("NAUTILUS", "nautilus", "Nautilus"):
+      if _loc in _whirlpools and not _subout
+      then if _loc = b6
+         then output "A vast section of the cavern wall begins to turn"
+               " ponderously aside to reveal a long tubular object"
+               " hidden in the shadows. Moments later, a modern"
+               " submarine is revealed in all its glory. On the"
+               " bow of the submarine is the name 'Nautilus'. ";
+         elif _loc = b5 or _loc = s1l1 or _loc = s2l1 or _loc = s3l1
+         then output "In the distance, a section of the cavern wall"
+               " swings out to reveal a modern nuclear submarine. "
+         else output "Done. "
+         fi;
+         b6._contents <+ submarine;
+         channelbottom--hint;
+         whirlpool--hint;
+         channelbottomwater--hint;
+         whirlpoolwater--hint;
+         s1l1--hint;
+         s2l1--hint;
+         s3l1--hint;
+         b5--hint;
+         b6--hint;
+         _subout := true
+      else output _nounstring, " "
+      fi;
+   noun *:
+      output _nounstring, " ";
+
+verb dial:
+   noun :
+      output "Dial what?%n";
+   noun *:
+      if _loc ~= livingroom
+      then output "There is nothing here to dial.%n"
+      elif not _safelocked
+      then output "It is not locked.%n"
+      elif _nounstring = _combination
+      then output "With a satisfying CLICK the safe is unlocked.%n";
+         _safelocked := false
+      else output "That is not the correct combination.%n"
+      fi;
+
+verb (empty, pour, dump):
+   noun "_dark":;
+   noun "_mult":;
+   noun :
+      output "Empty what?%n";
+   noun oilcan:
+      if not oilcan in _carrying
+      then output "You are not carrying the ", _nounstring, ".%n"
+      elif _cancontents = nil
+      then output "The can is already empty.%n"
+      else output "Splish%n";
+         _cancontents := nil;
+         oilcan._name := "an empty can%n"
+      fi;
+   noun coffeepot:
+      if not coffeepot in _carrying
+      then output "You are not carrying the ", _nounstring, ".%n"
+      elif _potcontents = nil
+      then output "The coffeepot is already empty.%n"
+      else output "Splosh%n";
+         _potcontents := nil;
+         coffeepot._name := "a battered old coffeepot%n"
+      fi;
+   noun *:
+      output "I can't.%n";
+
+verb untie:
+   noun :
+      output "Untie what?%n";
+   noun ("rope", "hawser", "knot", "cable"):
+      if _loc = boathouseland or _loc = boathousewater
+      then output "The knot in the rope is extremely tight and you are not"
+            " able to untie it.%n"
+      else output "What ", _nounstring, "?%n"
+      fi;
+   noun *:
+      output "I can't.%n";
+
+verb tell:
+   noun "_dark":;
+   noun "_mult":;
+   noun :
+      output "Tell what?%n";
+   noun "time":
+      output "It's time you did better at this game.%n";
+   noun "date":
+      output "You can have a date with me ANYTIME!%n";
+   noun "fortune":
+      output if _loc = ft
+             then "Today is indeed fortunate for you as I give you"
+                  " this clue: Go to where you found the sub and"
+                  " command 'open sesame'.%n"
+             else "The stars tell me that you will not win this"
+                  " game if you don't get some other fortune.%n"
+             fi;
+   noun *:
+      output "I can't.%n";
+
+verb (cut, chop, slice, carve, sever, part, slash):
+   noun :
+      output "Cut what?%n";
+   noun ("rope", "hawser", "knot", "cable"):
+      if not knife in _carrying
+      then output "You have nothing to cut with.%n"
+      elif _loc = boathouseland or _loc = boathousewater
+      then output "OK%n";
+         boathousewater.exit := streambyboathouse;
+         boathousewater.south := streambyboathouse
+      else output "What ", _nounstring, "?%n"
+      fi;
+   noun (sucker, "finger", "fingers", "throat", paper, candle,
+         "picture", "portrait", "preacher", "man", "priest"):
+      if knife in _carrying
+      then output "No%n"
+      else output "You have nothing to cut with.%n"
+      fi;
+   noun *:
+      if knife in _carrying
+      then output "It doesn't cut.%n"
+      else output "You have nothing to cut with.%n"
+      fi;
+
+verb (smash, break, demolish, shatter):
+   noun :
+      output "Smash what?%n";
+   noun vase:
+      if vase in _carrying or vase in _objloc._contents
+      then output "Smash!!%n";
+         if vase in _carrying
+         then _score := _score - vase._value;
+            _carrying <- vase
+         else _objloc._contents <- vase;
+            if _objloc = trophyroom then _score := _score - 2 * vase._value fi
+         fi;
+         _objloc._contents <+ shards
+      else output "I see no ", _nounstring, " here!%n"
+      fi;
+   noun crate:
+      if not crate in _objloc._contents
+      then output "What crate?%n"
+      elif _cratesmashed
+      then output "It's already smashed.%n"
+      elif not crowbar in _carrying
+      then output "You have nothing to ", _verbstring, " it with.%n"
+      else output "You're pretty violent aren't you? It seems to have"
+            " paid off this time, however, since an exquisite Ming vase"
+            " has rolled out of the ruined crate.%n";
+         _cratesmashed := true;
+         crate._name := "a smashed up wooden crate%n";
+         _objloc._contents <+ vase
+      fi;
+   noun ("mirror", chest, casket, crown, statue, chess, chalice):
+      output "No.%n";
+   noun *:
+      output "I can't.%n";
+
+verb (exorcise, purge):
+   noun :
+      output "Exorcise what?%n";
+   noun ("demon", "spirit", "devil"):
+      if _loc ~= spiritcave and _loc ~= spjunct or _spiritgone
+      then output "What ", _nounstring, "?%n"
+      elif not crucifix in _carrying
+      then output if bible in _carrying
+                  then "A distinct straining feeling can be felt,"
+                       " but the demon remains.%n"
+                  else "The demon simply leers at you.%n"
+                  fi
+      else output "With a gibbering howl, the demon is consumed"
+                  " by a pearly white fire.%n";
+         _spiritgone := true;
+         spiritcave.east := spjunct
+      fi;
+   noun *:
+      output "I can't.%n";
+
+verb feed:
+   noun :
+      output "Feed what?%n";
+   noun ("troglodyte", "trog"):
+      if _loc ~= _trogloc and (_loc ~= tt1 or _trogloc ~= b4)
+      then output "What troglodyte?%n"
+      elif not sucker in _carrying
+      then output "You have nothing he likes to eat.%n"
+      else output "The troglodyte wolfs down all of your suckers and"
+            " looks around hungrily for more.%n";
+         for _t1 in _carrying
+         do if _t1 = sucker
+            then _carrying <- _t1;
+               _carrycount := _carrycount - 1
+            fi
+         od;
+         for _t1 in _trogloc._contents
+         do if _t1 = sucker then _objloc._contents <- _t1 fi
+         od;
+         if sucker in ts1._contents
+         then output "He then spots those you left upstream and"
+                     " heads for them.%n";
+            _trogflag := true
+         fi
+      fi;
+   noun ("preacher", "priest", "man"):
+      output "Only manna would suffice for such as he.%n";
+   noun *:
+      output "I really don't think it is hungry.%n";
+
+/* dummy thing to build lists */
+
+thing _:
+   1 (north, south, east, west, up, down, cross, enter, exit,
+      upstream, downstream, port, starboard, forward, aft),
+   2 (hall, forest, FP1, FP2, FP3, FP4, FP5, hallnorth,
+     hallsouth, livingroom, diningroom, kitchen, laundryroom,
+     upperhall, masterbedroom, powderroom, secondbedroom, attic,
+     studywest, studyeast, secretroomeast, secretroomwest, cellar,
+     gatehouse, outsidegate, insidegate, driveway1, driveway2,
+     drivejunction, drivebygarage, garage, drivecorner, entrance,
+     drivebyentrance, pump, streampath1, streampath2, streampath3,
+     bridgeout, boathouseland, boathousewater, streambyboathouse,
+     streampath1, streampath2, streambridge, streambypump,
+     streamlanding, islandpath1, islandpath2, islandpath3,
+     islandpath4, bridgein, gazebo, streampath3, trophyroom,
+     pathbyboathouse, northattic, southattic, islandpath5,
+     islandpath6, islandpath7, islandpath8, islandpath9,
+     islandpath10, train1, pastbridge, streamjunction, stream4,
+     stream5, pumpbottom, streambycave, streamcave, b8, grotto,
+     dock, radioshack, b9, chasm, vale, vault),
+   3 (sub, corridor1, corridor2, controlroom, forwardtorpedo,
+      captainscabin, crewlounge, corridorjunction, mess,
+      crewsquarters, missilecontrolroom, missileroom, reactorroom,
+      engineroom, afttorpedo),
+   4 (whirlpool, channelbottom, whirlpoolwater, channelbottomwater,
+      b5, b6, s1l1, s2l1, s3l1, s4l1, s5l1, s6l1, s7l1, s8l1, s9l1,
+      s10l1, s11l1, s12l1, s13l1, s14l1, s15l1, s16l1, s17l1, s18l1,
+      s19l1, s20l1, b2, b3, b7),
+   5 (s36l1, s36l2, s37l1, s37l2, s38l1, s38l2, s39l1, s39l2,
+      s40l1, s40l2, s41l1, s41l2, s42l1, s43l1, s43l2, s44l1,
+      s44l2),
+   6 (kitchen, laundryroom, powderroom, mess),
+   7 (score, invent, quit, look, god, help);
+
+/* Table of homonyms (have verb, want noun): */
+
+thing _homonym:
+   oil oilcan,
+   cross crucifix,
+   fish sucker,
+   light flashlight,
+   slip paper,
+   set chess,
+   board clipboard;
+
+thing _combinations:
+   1  "l6r4l12",
+   2  "l4r3l1",
+   3  "l2r7l6",
+   4  "l10r12l15",
+   5  "l2r7l5",
+   6  "l14r4l6",
+   7  "l1r2l3",
+   8  "l7r9l11",
+   9  "l4r3l8",
+   10 "l12r14l16";
+
+var _input, _word, _count, _verb, _tersesave;
+
+proc _dotrog():
+   var _next, _t;
+
+   _next := if _trogloc = b4  then ts1
+          elif _trogloc = ts1 then ts2
+          else ts4 fi;
+   if sucker in _next._contents
+   then output "Munch Munch Munch!%n";
+      for _t in _next._contents
+      do if _t = sucker then _next._contents <- _t fi
+      od;
+      _trogloc := _next
+   else _trogloc := if _trogloc = ts4 then ts2
+                  elif _trogloc = ts2 then ts1
+                  else b4 fi;
+      if _trogloc = _loc
+      then output "The troglodyte has returned.%n";
+         if trident in _carrying or trident in _loc._contents
+         then output "He grabs the trident and scurries away with"
+                     " it.%n";
+            if trident in _carrying
+            then _carrycount := _carrycount - 1;
+               _carrying <- trident
+            else _loc._contents <- trident
+            fi;
+            tden._contents <+ trident;
+            _trogloc := b4
+         fi
+      fi;
+      if _trogloc = b4 then _trogflag := false fi
+   fi
+corp;
+
+proc _command():
+   _noun := dict._nounstring;
+   _word := _homonym._noun;
+   if _word is table then _noun := _word fi;
+   if _verb._nounstring is proc
+   then _verb._nounstring()
+   elif _verb._noun is proc
+   then _verb._noun()
+   else _verb.true()
+   fi;
+   if _winchon ~= 0
+   then if _winchon = -1
+      then if _winchpos = 3
+         then if _loc = winchroom
+            then output "%nThe automatic cutoff on the winch"
+                  " has cut in and stopped the motor.%n"
+            fi;
+            _winchon := 0
+         else _winchpos := _winchpos + 1
+         fi
+      else if _winchpos = 0
+         then if _loc = winchroom
+            then output "%nThe automatic cutoff on the winch"
+                  " has cut in and stopped the motor.%n"
+            fi;
+            _winchon := 0
+         else _winchpos := _winchpos - 1
+         fi
+      fi
+   fi;
+   if _missileflag
+   then _missiletimer := _missiletimer - 1;
+      if _missiletimer = 0
+      then _missiletimer := 4;
+         if _loc in _sublocs
+         then output "%nWarning! Warning! Missile approaching."
+               " Trajectory calculations indicate origin was ",
+               _missiletargets._missilesender
+         else output "A roaring sound can be heard far"
+               " overhead! A missile is approaching"
+         fi;
+         output "! KA-BOOMPH-RUMBLE-RUMBLE!! Detonation at"
+               " range ", 3 - _missilecount,
+               if _missilecount = 2 then " kilometer.%n"
+                                    else " kilometers.%n"
+                                    fi;
+         if _missilecount = 3
+         then output "Need I say more?%n";
+            _demerits := _demerits + 50;
+            _missilecount := 0;
+            _quitflag := true
+         else _missilecount := _missilecount + 1
+         fi
+      fi
+   fi;
+   _thirstcount := _thirstcount - 1;
+   if _thirstcount = 10
+   then output "%nYou are starting to feel thirsty. It"
+         " would perhaps be adviseable to have some water"
+         " ready.%n"
+   elif _thirstcount = 5
+   then output "%nThe pangs of thirst are becoming desperate."
+         " Water is now vital for survival.%n"
+   elif _thirstcount = 1
+   then output "%nCroak - Croak - Rasp! (Drink some"
+         " water or die!)%n"
+   elif _thirstcount = 0
+   then output "%nYou have just died of thirst!%n";
+      _quitflag := true;
+      _thirstcount := _thirstmax
+   fi;
+   if not _preachergone and not _preachernear and ? > 9800
+   then output "%nA darksuited man carrying a big black book leaps"
+         " out at you, mumbles 'corrupt thief!' and hits you with"
+         " his book. He then stands back and glares at you.%n%n";
+      _preachernear := true
+   fi;
+   if _trogflag then _dotrog() fi;
+   _candle_timeleft := _candle_timeleft - 1;
+   if _candle_timeleft = 0
+   then if candle in _carrying or candle in _objloc._contents
+      then output "Your candle has burned completely away!%n%n";
+      fi;
+      if _loc._darkflag isnt absent and not flash in _carrying
+      then _dark := true;
+         output "It is pitch dark.%n"
+      fi
+   fi
+corp;
+
+/* The main program: */
+
+start:
+   channelbottom.hint := NH;
+   whirlpool.hint := NH;
+   channelbottomwater.hint := NH;
+   whirlpoolwater.hint := NH;
+   s1l1.hint := NH;
+   s2l1.hint := NH;
+   s3l1.hint := NH;
+   b5.hint := NH;
+   b6.hint := NH;
+   _loc := outsidegate;
+   _objloc := outsidegate;
+   _carrying := emptylist;
+   _carrycount := 0;
+   _quitflag := false;
+   _dark := false;
+   _candle_timeleft := 8000000;
+   _chestopen := false;
+   _hatchoiled := 0;
+   _hatchlocked := true;
+   cellar._description := ". Stairs lead up and to the east. "
+         "There is a rusty hatch set in the floor.%n";
+   cave._description := ", a small, poorly lit secret chamber "
+         "beneath the cellar. A ladder leads up to a closed hatch "
+         "and a small dark tunnel slopes down and to the south.%n";
+   _maindoorlocked := true;
+   _backdoorlocked := true;
+   _gatelocked := false;
+   _casklocked := true;
+   _caskopen := false;
+   _terse := false;
+   _score := 0;
+   _movers := _.1;
+   _caskopened := false;
+   _surface := _.2;
+   _preachernear := false;
+   _preachergone := false;
+   _bibleopen := false;
+   _oncraft := false;
+   _bibleopened := false;
+   _knobinwater := true;
+   _winchon := false;
+   _winchpos := 0;
+   _onhook := emptylist;
+   _winchdoorlocked := true;
+   _knobinplace := false;
+   _cancontents := "oil";
+   _potcontents := nil;
+   sub._description := "in the conning tower of the Nautilus. At"
+         " your feet is a closed hatch with a square ended shaft"
+         " protruding from its center. The submarine is ";
+   _wheelonshaft := false;
+   _subhatchlocked := true;
+   _sublocs := _.3;
+   _safeopen := false;
+   _safelocked := true;
+   _combination := _combinations.(? / 1000 + 1);
+   _stuffinsafe := true;
+   _boathousedoorlocked := true;
+   chest._name := "a small pine chest%n";
+   oilcan._name := "a can of oil%n";
+   coffeepot._name := "a battered old coffeepot%n";
+   cask._name := "a small ornate casket%n";
+   bible._name := "a large, heavy bible%n";
+   _demerits := 0;
+   _forwardtorpedosgone := emptylist;
+   _afttorpedosgone := emptylist;
+   _depth := 0;
+   _engines := 0;
+   _heading := 6;
+   _rubblecount := 0;
+   _whirlpools := _.4;
+   _cratesmashed := false;
+   _craters := _.5;
+   _subout := false;
+   _waron := false;
+   _spiritgone := false;
+   _trogloc := b4;
+   _trogflag := false;
+   _cavecount := 0;
+   _missileflag := false;
+   _thirstmax := 8000000;
+   _thirstcount := 8000000;
+   _missilesender := ? / 625 + 1;
+   _nofish := _.6;
+   _nils := _.7;
+   _vaultclosed := true;
+   vale._description := " hidden on the conical island. Set in the rock"
+         " to the north is a huge vault door.%n";
+
+   output "%nWelcome to Mansion. Would you like instructions?%n";
+   if _yes()
+   then output "%n%nMansion is a world written using the SIX/FANTASY"
+         " system produced by Chris Gray and Alan Covington. It"
+         " works something like ADVENTURE, but there are"
+         " differences. The object of the game is to score ",
+         MAXSCORE, " points without getting any demerits. This"
+         " is done by retrieving all of the treasures, many of"
+         " which are hidden in an underground cavern system. The"
+         " user types in commands indicating what"
+         " he/she wants to do. All characters in the command words"
+         " (verb and noun(s) or just verb) are checked, but many"
+         " abbreviations are available. Some of the more commonly"
+         " used commands (there are hundreds possible) are:   "
+         " take inventory (invent), go north (n), look, score,"
+         " quit, god, get card (ge card), push down (p down),"
+         " unlock door, wait (wa), navigate upstream (us), terse, read"
+         " sign, etc.    Many verbs will accept multiple nouns."
+         " Hints are available (hint) in some"
+         " locations, but they cost you lots of demerits. If you"
+         " can't get something to work, it could be because you are"
+         " using words I never thought of, you can't do it or I"
+         " won't let you do it yet. One little problem: You are the"
+         " world's only sufferer of dehydratosis and must drink"
+         " water regularly in order to stay alive. Good luck!%n"
+   fi;
+   while output newline;
+      _see(false);
+      while not _quitflag
+      do _input := input;
+         output newline;
+         if _input is absent        /* i.e. EOF on input */
+         then output "You have hit 'end-of-file'. Do you wish"
+               " to continue the game?%n";
+            if not _yes()
+            then _quitflag := true;
+               _verb := quit
+            fi
+         elif _input                /* i.e. it wasn't a blank line */
+         then _nounstring := nil;   /* in case no noun was given */
+            _count := 1;
+            for _word in _input
+            do if _count = 1
+               then _verb := dict._word;
+                  _verbstring := _word;
+                  _input <- _word
+               elif _count = 2
+               then _nounstring := _word;
+                  _input <- _word
+               fi;
+               _count := _count + 1
+            od;
+            if _verb is absent      /* wasn't found in dict */
+            then output if ? < 5000
+                        then "I don't know that word.%n"
+                        else "Eh?%n"
+                        fi
+            elif _verb.true isnt proc       /* assume all verbs have a noun * */
+            then output "That's not a verb.%n"
+            else if _verb ~= push and not _verb in _nils and _engines ~= 0 then _movesub() fi;
+               if _dark and _verb."_dark" is absent
+               then output "You can't see to ", _verbstring, " anything.%n"
+               elif not _input or _verb."_mult" is absent
+               then _command()
+               else _tersesave := _terse;
+                  _terse := true;
+                  _listerror := false;
+                  _command();
+                  for _nounstring in _input
+                  do _input <- _nounstring;
+                     if not _input then _terse := _tersesave fi;
+                     if not _listerror then _command() fi
+                  od
+               fi;
+               if _verb = say or _verb = shout then output newline fi;
+            fi;
+            for _word in _input
+            do _input <- _word
+            od
+         fi
+      od;
+      if _verb = quit
+      then false
+      else output "%nYou seem to have gotten yourself killed. This would"
+               " seem to prevent the continuation of our little adventure. It is"
+               " possible, however, that I, being the almighty Creator, can do"
+               " something to remedy the situation. It will cost you all of the"
+               " treasures that you are carrying as payment, however. Do you"
+               " wish me to re-incarnate you under these conditions?%n%n";
+         _yes()
+      fi
+   do for _word in _carrying
+      do if _word._value isnt absent
+         then _carrying <- _word;
+            td._contents <+ _word;
+            _carrycount := _carrycount - 1;
+            _score := _score - _word._value
+         fi
+      od;
+      for _word in _objloc._contents
+      do if _word._value isnt absent
+         then _objloc._contents <- _word;
+            td._contents <+ _word;
+            _score := _score - _word._value;
+            if _loc = trophyroom then _score := _score - _word._value fi
+         fi
+      od;
+      _demerits := _demerits + 10;
+      _quitflag := false
+   od;
+   output "You scored ", _score, " out of ", MAXSCORE,
+          " points with ", _demerits, " demerit points.%n";
+   output "See ya real soon!%n";
+
