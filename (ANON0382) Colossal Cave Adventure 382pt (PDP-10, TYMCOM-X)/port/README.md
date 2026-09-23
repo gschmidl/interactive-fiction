@@ -306,13 +306,83 @@ independently, as a KI-10 does, so all five images take the same path.
 `BUILD=1981` exists because the patch is real history, not because it
 plays differently.
 
+## The database
+
+The tape has no data file, but the game's database is all in the saved
+image, parsed. `data\advent382.dat` puts it back into the data-file layout
+the FORTRAN reader expects: sections 1 to 12, each closed by `-1`, and a
+final `0`.
+
+```bash
+make db        # = python tools/dumpdb.py
+```
+
+| section | contents | |
+|---|---|---|
+| 1, 2 | long and short room descriptions | 150 rooms, 75 short forms |
+| 3 | travel table | 150 rooms, 798 entries |
+| 4 | vocabulary | 307 words |
+| 5 | objects and their state messages | 60 objects |
+| 6 | messages | 205, numbered 1-208 (87-89 unused) |
+| 7, 8, 9 | object locations, verb defaults, room condition bits | |
+| 10 | player ranks and their scores | 9 |
+| 11 | hints | 8 |
+| 12 | wizard, cave-hours and suspend messages | 32 |
+
+Only the image is read; the data-file layout is the one thing taken from
+outside it. The message text is a chain in `LINES` (`021313` in the 1979
+build): each line's first word is the index of the next line, negative
+when the line begins a message, and `-1` ends the chain. The index arrays
+were found from the program's own indexed references to them, since a
+FORTRAN array whose element 1 is at A is addressed as `A-1(index)`. The
+vocabulary is stored XOR'ed with the word `PHROG`, and that is the literal
+the image carries.
+
+**It is checked by reloading it.** `dumpdb.py` reads its own output back
+by the reader's rules and rebuilds all seventeen arrays: the text chain,
+the six message indexes, the travel table and its keys, the vocabulary,
+object locations, verb defaults, condition bits, rank scores and hints.
+All 12,924 words agree with the image. Every one of the 634 messages is
+claimed exactly once, and in the chain they fall into contiguous runs in
+section order 1, 2, 5, 6, 10, 12. 206 of the 209 long lines in the `docs\`
+transcripts appear verbatim as data lines. The other three are the score
+line, which the program builds with a FORMAT statement.
+
+**All three builds carry the same database.** The 1978 compilation holds
+every array 5 words higher, and the tool finds that offset from the
+message table. Its output is byte-identical to the 1979 one, across 13,210
+words compared, and 1981 is the 1979 build with a runtime patch.
+
+One quirk is reproduced, not tidied: `PTEXT(100)` is set, but there is no
+object 100. The reader's test at `001004` is `0 < N <= 100`, so every
+state line numbered `100` also lands in `PTEXT(100)` and the last one
+wins. That is object 43's second `>$<`. The file doesn't list an object
+100, and reloading it gives the same stray pointer back.
+
+What the image cannot give back, and how the file handles it:
+
+- **Order, where the image only keeps a lookup.** Text sections and the
+  travel and vocabulary tables keep their original order, because the
+  reader stored them sequentially. That is how we know rooms 149 and 150
+  came before 144, and that some objects were listed out of numeric
+  order. Sections 7, 8, 9 and 11 are indexed arrays, so they are written
+  in index order.
+- **Line breaks inside numeric sections.** Travel lines with the same room
+  and destination are merged. Section 9 is one line per bit. Verb
+  defaults are written through the last non-zero one, zeros included.
+- **Anything the reader dropped.** Vocabulary words are cut to the five
+  letters that were stored. Comments and trailing blanks never reached
+  the image. Fields are separated by tabs.
+
 ## Layout
 
 ```
 bin\        one executable per build: advent-1979, -1981, -1978
+data\       advent382.dat -- the database, recovered from the image
 raw\        the five tape files, renamed by the directory they came from
 src\        the emulator, the monitor, the driver, and the generated image
 tools\      mkimage.py -- repairs the tape files and writes src\image.c
+            dumpdb.py  -- writes data\advent382.dat and checks it
 tests\      scripted sessions; runall.sh checks all three builds agree
 docs\       the transcripts those tests produce, and the write-ups
 ```

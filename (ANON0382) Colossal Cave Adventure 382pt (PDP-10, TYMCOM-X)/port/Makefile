@@ -36,10 +36,14 @@ test: builds
 verify:
 	python tools/mkimage.py --verify
 
+# The database, recovered from the image and checked against it.
+db: src/image.c
+	python tools/dumpdb.py
+
 clean:
 	rm -f src/*.o
 
 distclean: clean
 	rm -f src/image.c bin/advent-*.exe
 
-.PHONY: all clean distclean verify builds test
+.PHONY: all clean distclean verify builds test db
