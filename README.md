@@ -37,7 +37,7 @@ The order, with what came of each:
 11. `(ANON0350) Colossal Cave Adventure 350pt (Prime 50-Series, PRIMOS FORTRAN, full source)` - ported;
     refine-pass fuzzing found nothing to fix
 12. `(HEHO0366) Colossal Cave Adventure 366pt with palantir (CDC NOS 1.3, ACCA, FORTRAN source)` - ported
-13. `JAZE_XXX Colossal Cave Adventure 350pt + 500pt castle (CDC Cyber 74, MCAUTO, FORTRAN source)` - ported
+13. `JAZE0350 and JAZE0500 Colossal Cave Adventure 350pt + 500pt castle (CDC Cyber 74, MCAUTO, FORTRAN source)` - ported
 14. `Qork V3.0A (CDC NOS, 1984, FORTRAN source)` - ported last (first pass), seven sessions identical with the
     original compiled by FTN5 on NOS 2.8.7
 15. `Dave's Dungeon - DAVESCAVE (PDP-11 TRAX, MITRE, FORTRAN source)` - ported

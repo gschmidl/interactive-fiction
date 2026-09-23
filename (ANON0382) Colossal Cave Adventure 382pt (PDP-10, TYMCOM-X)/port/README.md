@@ -18,8 +18,8 @@ instruction for instruction — not a rewrite.
 
 ## Which 382 is this?
 
-Not the one already in this collection. `..\Colossal Cave Adventure
-382pt (PL1, mainframe, full source)\` holds Gary Palter's PL/I *Version
+Not the one already in this collection. `..\..\PALT0382 Colossal Cave
+Adventure 382pt (PL1, mainframe, full source)\` holds Gary Palter's PL/I *Version
 4.0*, which also totals 382 — and gets there with **a great red ruby and
 Orac the super computer**, a teleport bracelet and a force field. Its
 database contains no rope, no ring and no mail coat; the word for

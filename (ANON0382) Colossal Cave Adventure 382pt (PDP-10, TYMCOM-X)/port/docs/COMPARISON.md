@@ -3,7 +3,7 @@
 This collection now holds two different games that both announce
 `OUT OF A POSSIBLE 382`:
 
-* `..\..\(ANON0382) Colossal Cave Adventure 382pt (PL1, mainframe, full source)\` —
+* `..\..\PALT0382 Colossal Cave Adventure 382pt (PL1, mainframe, full source)\` —
   Gary Palter's PL/I **Version 4.0**, off the SHARE/CBT tapes.
 * this one — **Tymshare's** DECsystem-10 FORTRAN build, off the TYMCOM-X
   tapes, 1978–79.

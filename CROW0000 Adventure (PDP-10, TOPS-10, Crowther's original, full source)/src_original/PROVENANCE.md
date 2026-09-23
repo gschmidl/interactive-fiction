@@ -10,7 +10,7 @@ copy.
 
 They were extracted and reconciled in September 2026 for the Don Woods 350-point port,
 which came off the same pack, and were copied here unchanged.  The full account is
-`../../WOOD0350 Colossal Cave Adventure 350pt (PDP-10, TOPS-10, full source)/src_original/PROVENANCE.md`.
+`../../ROBI0350 Colossal Cave Adventure 350pt (PDP-10, TOPS-10, full source)/src_original/PROVENANCE.md`.
 In summary, three independent routes were run and **all three produced byte-identical
 output for all five text files**:
 
