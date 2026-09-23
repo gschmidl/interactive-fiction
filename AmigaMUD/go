@@ -1,0 +1,11 @@
+SysAdmin
+SysAdminPassword
+private G MainGrammar()$
+SetContinue(true)$
+source uncle:code.m
+source uncle:rooms.m
+source uncle:books.m
+source uncle:spells.m
+source uncle:words.m
+SetSingleUser(true)$
+SetContinue(false)$
