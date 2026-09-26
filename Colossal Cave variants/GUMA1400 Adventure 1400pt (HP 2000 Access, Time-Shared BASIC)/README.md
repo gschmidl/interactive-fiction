@@ -9,6 +9,12 @@ It is Colossal Cave by way of Zork jokes: the Frobozz Magic Sno-Disc Company,
 a zarka that will only eat pizza, a ski resort, a subway, and a nuclear
 reactor that melts down 216 turns in unless you do something about it.
 
+Whether Guma actually wrote it is not certain. Read closely, the archived
+material allows that he, like Rick Hammerstone, only kept a partial
+printout of a game he played at school, some time between 1979 and 1982.
+The title's `]I[` is a stylised III. Stuart Trusty's Apple II *Adventure
+III* (1980-81, 593 points) has the same title but is a different game.
+
 * `src_original/` — the archived material, untouched, from
   <https://github.com/Quuxplusone/Advent/tree/anon1400/ANON1400>
 * `port/` — a native Windows build. See [port/README.md](port/README.md).

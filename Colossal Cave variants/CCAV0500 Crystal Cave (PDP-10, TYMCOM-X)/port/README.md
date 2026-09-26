@@ -40,6 +40,16 @@ conversion. A second Tymshare game corroborates the attribution
 independently: *EXPLORATION*, by Michael Stimac, credits itself to
 "the 'CRYSTAL CAVE' by JOHN KOPF".
 
+Kopf built it directly on Tymshare's 382-point Adventure, most likely
+his own work too
+(`..\..\..\PDP-10 games\KOPF0382 Colossal Cave Adventure 382pt (PDP-10, TYMCOM-X)\`),
+and the game itself dates from 1977-78; the copies here are later
+builds. For years it was known only through a much later C conversion
+of the Univac version, with rumours about its author, date and machine.
+With its Tymshare descendants *EXPLORATION* and *ARCHON* and the Univac
+version it makes up the most elaborate and divergent branch of the
+Crowther/Woods family.
+
 See [docs/COMPARISON.md](docs/COMPARISON.md) for what changed on the way
 to the Univac version, transcript against transcript.
 

@@ -1,13 +1,22 @@
 # Cave — Windows port
 
-A working Windows port of **Cave**, a 1980 text adventure written by Duff
-Kurland (Information Systems Design, Santa Clara CA) for Univac 1100-series
-mainframes running EXEC 8. It's a sibling/successor to the classic
+A working Windows port of **Cave**, Duff Kurland's 1980 version
+(Information Systems Design, Santa Clara CA), for Univac 1100-series
+mainframes running EXEC 8, of John Kopf's *CRYSTAL CAVE*. It's a
+sibling/successor to the classic
 Crowther/Woods *Colossal Cave Adventure* — same game engine, but with an
 entirely different setting: a Boy Scout spelunking trip through a cave
 system near a barn, pasture and sinkhole, instead of Kentucky's Mammoth
 Cave. Source was recovered from `UNAD/page215-216/` (scanned Univac EXEC 8
 job-stream listings).
+
+The game is Kopf's, written at Tymshare in 1977-78 (the original is in
+`../../CCAV0500 Crystal Cave (PDP-10, TYMCOM-X)/`). Kurland's version was
+based on an earlier port by Bob Elman for Four Phase Systems, which he
+then extended and refined; the compass, as a Boy Scout would use it, and
+what goes with it are his main additions. The same route took Tymshare's
+382-point Adventure to the Univac as
+`../../KURL0400 Colossal Cave Adventure 400pt (Univac 1100, full source)/`.
 
 Run `build\cave.exe` from the `build\` folder (it needs `CAVE.DAT`, the
 game database, sitting right next to it — `build.bat` copies it there

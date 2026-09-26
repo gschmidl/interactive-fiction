@@ -18,7 +18,9 @@ every room description, message, travel table and vocabulary entry is the
 Wang program's own.
 
 The banner reads `W A N G   9 2 8   A D V E N T U R E   (Version 2.1)`. It is a
-370-point Adventure.
+370-point Adventure, though why is a mystery: the only thing it seems to add
+to Woods' 350-point game is some ASCII art when the wizard brings you back to
+life. Its author and date are unknown.
 
 ## Playing
 

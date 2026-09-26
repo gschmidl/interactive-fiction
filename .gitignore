@@ -152,11 +152,11 @@
 # Adventure 3000: the BASIC data files are built from the text records beside
 # them the first time the game runs, and the test script writes its own copies
 # and transcripts while replaying the recorded walkthroughs.
-**/CREC0350 Adventure 3000 (HP 3000 BASIC, Creative Computing type-in)/port/data/*/*.dat
-**/CREC0350 Adventure 3000 (HP 3000 BASIC, Creative Computing type-in)/port/tests/data/*.dat
-**/CREC0350 Adventure 3000 (HP 3000 BASIC, Creative Computing type-in)/port/tests/out_*.txt
-**/CREC0350 Adventure 3000 (HP 3000 BASIC, Creative Computing type-in)/port/tests/diff_*.txt
-**/CREC0350 Adventure 3000 (HP 3000 BASIC, Creative Computing type-in)/transcription/tools/draft_data.txt
+**/MOSE0350 Adventure 3000 (HP 3000 BASIC, Creative Computing type-in)/port/data/*/*.dat
+**/MOSE0350 Adventure 3000 (HP 3000 BASIC, Creative Computing type-in)/port/tests/data/*.dat
+**/MOSE0350 Adventure 3000 (HP 3000 BASIC, Creative Computing type-in)/port/tests/out_*.txt
+**/MOSE0350 Adventure 3000 (HP 3000 BASIC, Creative Computing type-in)/port/tests/diff_*.txt
+**/MOSE0350 Adventure 3000 (HP 3000 BASIC, Creative Computing type-in)/transcription/tools/draft_data.txt
 
 
 # ---- 4. ordinary build and editor litter ----------------------------

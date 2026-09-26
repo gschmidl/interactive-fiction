@@ -18,8 +18,8 @@ instruction for instruction — not a rewrite.
 
 ## Which 382 is this?
 
-Not the one already in this collection. `..\..\PALT0382 Colossal Cave
-Adventure 382pt (PL1, mainframe, full source)\` holds Gary Palter's PL/I *Version
+Not the one already in this collection. `..\..\..\Colossal Cave variants\PRIC0382 Colossal Cave
+Adventure 382pt (PL1, mainframe, full source)\` holds Greg Price's PL/I *Version
 4.0*, which also totals 382 — and gets there with **a great red ruby and
 Orac the super computer**, a teleport bracelet and a force field. Its
 database contains no rope, no ring and no mail coat; the word for
@@ -50,6 +50,18 @@ collection:
 `GET COAT`, `GET RING`. That walkthrough is what
 [docs/NEW-AREAS.md](docs/NEW-AREAS.md) was checked against, and the
 scripted sessions in `tests/` replay it.
+
+## Who made it, and what came of it
+
+The program is neither dated nor signed, but it is almost certainly John
+Kopf's own work of 1977: one of the earliest extensions of Woods' game,
+which he then built on directly to make *CRYSTAL CAVE*
+(`..\..\..\Colossal Cave variants\CCAV0500 Crystal Cave (PDP-10, TYMCOM-X)\`).
+It also travelled, probably over Tymnet, to other companies: the Univac
+400-point Adventure
+(`..\..\..\Colossal Cave variants\KURL0400 Colossal Cave Adventure 400pt (Univac 1100, full source)\`)
+was ported and extended from it by Duff Kurland, by way of an earlier
+port by Bob Elman for Four Phase Systems.
 
 ## Build
 

@@ -19,6 +19,22 @@ edit the `GCC=` line at the top of the script if yours lives elsewhere.
 by that port's `decode_database.py` + `build_object.py`) next to the
 executable. A blank `STORAGE` file is created on first save.
 
+## Whose game this is
+
+"Version 4.0" is Greg Price's. Its credits keep Crowther and Woods, add
+Gary Palter (`PALTER@MIT-MULTICS`), whose portable version it descends
+from, and sign off with "SOURCERER FOR THIS VERSION IS GP@SECV". It dates
+from 1981-84 and is the only known Australian variant of the game, and
+an unusual one: its 32 extra points are science fiction — a spaceship
+with anti-intruder defences, a great red ruby, a teleport bracelet and
+Orac, the super computer from *Blake's 7*.
+
+It is not related to the other 382-point game in this collection,
+Tymshare's
+(`..\..\..\PDP-10 games\KOPF0382 Colossal Cave Adventure 382pt (PDP-10, TYMCOM-X)\`;
+its `docs/COMPARISON.md` sets the two side by side). This folder was
+called PALT0382 until September 2026.
+
 ## Which build should I use?
 
 Both. They answer different questions.

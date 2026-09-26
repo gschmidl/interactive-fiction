@@ -83,6 +83,9 @@ CHEAT.TXT      the author's hint sheet
 MESSAGE.TXT    the LABtec banner
 ```
 
+Elsewhere the 425-point game is attributed to Tim London, 1981-83; the
+program itself names nobody by more than initials.
+
 Its own revision history: original version 3/07/81 by "AW", made FTN77/LINK/
 MACRO/CI compatible 12/12/86 by "JLA", cave expanded 2/10/87, scoring and
 database bugs fixed 7/13/87. Above that it carries the whole lineage —

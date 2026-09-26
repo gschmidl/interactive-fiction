@@ -3,8 +3,8 @@
 This collection now holds two different games that both announce
 `OUT OF A POSSIBLE 382`:
 
-* `..\..\..\..\Colossal Cave variants\PALT0382 Colossal Cave Adventure 382pt (PL1, mainframe, full source)\` —
-  Gary Palter's PL/I **Version 4.0**, off the SHARE/CBT tapes.
+* `..\..\..\..\Colossal Cave variants\PRIC0382 Colossal Cave Adventure 382pt (PL1, mainframe, full source)\` —
+  Greg Price's PL/I **Version 4.0**, off the SHARE/CBT tapes.
 * this one — **Tymshare's** DECsystem-10 FORTRAN build, off the TYMCOM-X
   tapes, 1978–79.
 
@@ -37,9 +37,10 @@ work anywhere:
 > FEATURES OF THE CURRENT PROGRAM WERE ADDED BY DON WOODS (DON @ SU-AI).
 > CONTACT DON IF YOU HAVE ANY QUESTIONS, COMMENTS, ETC.
 
-The PL/I version rewrote the block and added its own author to it —
-Crowther, Woods "AND GARY PALTER (PALTER@MIT-MULTICS)", plus
-"SOURCERER FOR THIS VERSION IS GP@SECV". So no name attaches to
+The PL/I version rewrote the block, adding Palter, whose Multics port it
+descends from, and its own author (GP is Greg Price) — Crowther, Woods
+"AND GARY PALTER (PALTER@MIT-MULTICS)", plus "SOURCERER FOR THIS VERSION
+IS GP@SECV". So no name attaches to
 Tymshare's 32 extra points at all — not in the program, and not in the
 unsigned walkthrough elsewhere on the tapes that describes them.
 

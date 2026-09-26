@@ -9,6 +9,12 @@ a sample run.
 This folder rebuilds the program **and** its data files from the magazine
 scans, with every character machine-checked against the printed page.
 
+It is mipmip.org's MOSE0350, and the parent of Donald Brown's Apple II
+version, whose credits say it was "adapted" from it. The HP 3000's other
+Adventure, the FORTRAN one from the users' library, is a different program
+(`../HP3K0350 Colossal Cave Adventure 350pt (HP 3000, MPE)/`). For a few
+hours in September 2026 this folder was called CREC0350.
+
 ## What is here
 
 | path | what it is |

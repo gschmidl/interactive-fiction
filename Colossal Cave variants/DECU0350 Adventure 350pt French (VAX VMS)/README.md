@@ -7,7 +7,8 @@ lived as `SYS$SYSROOT:[SYSMGR]ADVENT.EXE`.
 
 DEC's **Adventure, Release 3** — the Crowther/Woods 350-point cave, ported to
 FORTRAN IV by Kent Blackett and Bob Supnik (see `src_original/ADVENT.DOC`) —
-**translated into French**. The executable was linked on 26-AUG-1985.
+**translated into French**. The executable was linked on 26-AUG-1985. It is
+probably the best French translation of the game there is.
 
 The French text lives in `ATEXT.DAT`; `AINDX.DAT` is the fast-start index built
 from it. The scoring thresholds (35/100/130/200/250/300/330/349) are the

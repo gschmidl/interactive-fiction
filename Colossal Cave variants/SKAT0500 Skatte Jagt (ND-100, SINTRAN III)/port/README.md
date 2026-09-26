@@ -25,6 +25,9 @@ and a hook, an anchor, a sword, a harp, a candlestick, a sceptre, a silver
 cup, runes and a suit of armour.  The whole vocabulary is in
 `notes\vocabulary.txt`, decoded from the program's own word table.
 
+Its author and date are unknown.  A Danish treasure-hunt game for the
+Nascom with a similar name is a different game altogether.
+
 Useful words: `HJELP` and `INFO` explain the rest; `N S Ø V OPP NED INN UT`,
 `TA`, `SLIPP`, `TENN` (light the lamp), `INNHOLD` (inventory), `POENG`
 (score — Woods' `SCORE`, and like his it then asks whether you want to quit),

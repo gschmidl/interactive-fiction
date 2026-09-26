@@ -10,6 +10,13 @@ engine, same author, Cave came a year later with a new setting). Source
 was recovered from `UNAD/page212-213/` (scanned Univac EXEC 8 job-stream
 listings).
 
+Its lineage runs back to Tymshare: Kurland ported and extended it,
+1978-79, from Tymshare's 382-point Adventure
+(`../../../PDP-10 games/KOPF0382 Colossal Cave Adventure 382pt (PDP-10, TYMCOM-X)/`),
+by way of Elman's port for Four Phase Systems. That early TYMCOM-X
+version, probably John Kopf's, had most likely spread to these companies
+over Tymnet.
+
 Run `build\adventure.exe` from the `build\` folder (it needs `ADV.DAT`,
 the game database, sitting right next to it — `build.bat` copies it there
 automatically).
