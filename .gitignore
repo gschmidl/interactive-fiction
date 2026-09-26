@@ -10,8 +10,12 @@
 #      the original sources, and the scans they were recovered from.
 #
 #  Deliberately excluded: every emulator disk image, every work/ dir,
-#  and the shared _HP3000_work / _VAX_VMS_work trees.  Those stay on
-#  disk; they are simply not published.
+#  and the shared working trees in _work/ (except _work/tools/).  Those
+#  stay on disk; they are simply not published.
+#
+#  The games sit in category folders (Colossal Cave variants/, PDP-10
+#  games/, Type-Ins/, ...).  Rules that name a game's folder start with
+#  **/ so they match whichever category it is filed under.
 #
 #  Rule order matters — the LAST matching pattern wins.  Keep the four
 #  sections in the order they appear.
@@ -64,30 +68,33 @@
 !**/scans/fetch.sh
 
 # games whose deliverable does not live in a port/ dir
-!/ASCII-Ladden (C64)/**
-!/Google Adventure (Browser)/**
-!/Iroha Uta no Nazo (MZ-80B)/**
-!/Kjempens Skatt (ZX Spectrum)/**
-!/*Sescuballi*/**
-!/Sacrifice to the Spider Queen (Coleco Adam)/**
-!/Weird Wood 2 (C64)/**
-!/Underground (Scans)/**
-!/Mystery House T.S2 (Sharp MZ-80K, type-in)/**
-!/The Sppy (NEC PC-6001, type-in)/**
-!/House Adventure (Fujitsu FM-7, type-in)/**
-!/M no Higeki (Sharp MZ-2200, type-in)/**
-!/Burglar House (NEC PC-8001, type-in)/**
-!/Memo Satsujin (Sharp MZ-80K, type-in)/**
-!/Six and Fant/**
-!/AmigaMUD/**
+!**/ASCII-Ladden (C64)/**
+!**/Google Adventure (Browser)/**
+!**/Iroha Uta no Nazo (MZ-80B)/**
+!**/Kjempens Skatt (ZX Spectrum)/**
+!**/*Sescuballi*/**
+!**/Sacrifice to the Spider Queen (Coleco Adam)/**
+!**/Weird Wood 2 (C64)/**
+!**/Underground (Scans)/**
+!**/Mystery House T.S2 (Sharp MZ-80K, type-in)/**
+!**/The Sppy (NEC PC-6001, type-in)/**
+!**/House Adventure (Fujitsu FM-7, type-in)/**
+!**/M no Higeki (Sharp MZ-2200, type-in)/**
+!**/Burglar House (NEC PC-8001, type-in)/**
+!**/Memo Satsujin (Sharp MZ-80K, type-in)/**
+!**/Six and Fant/**
+!**/AmigaMUD/**
 
 # ---- 3. ...except these, which are too big or purely derived --------
 
 # Bulk working trees: scratch emulator runs, dirty packs, analysis dumps.
-# The /_*_work/ form is deliberate — it covers _HP3000_work, _VAX_VMS_work,
-# _HP1000_work and any future one without needing an edit.  Each port keeps
-# its own tests/ and tools/, so nothing here is needed to build or verify.
-/_*_work/
+# Everything in _work/ is excluded (_HP3000_work, _VAX_VMS_work, _slax_work,
+# and any future one) except the shared tools that belong to no one game
+# (a2r2woz.py, ...).  Each port keeps its own tests/ and tools/, so nothing
+# else in _work/ is needed to build or verify.
+/_work/*
+!/_work/tools/
+!/_work/tools/**
 **/work/
 # the OCR pipeline's intermediates: ink maps, cut glyph cells, proof sheets.
 # 2.9 GB for the Adventure 3000 transcription alone, all of it regenerable
@@ -107,17 +114,16 @@
 # far more than the game - an operating system kit, a site's disc save, a
 # licensed source tape.  They stay on disk; the game files cut out of them and
 # the READMEs are published.  All of them came from bitsavers.org/bits.
-/(ANON0350) Abenteuer (Harris VULCAN, German Colossal Cave, full source)/archive_original/fast.tap
-/(ANON0550) Colossal Cave Adventure 550pt (VAX VMS 1.5, 1979, exe only)/archive_original/
-/(ANON0350) Colossal Cave Adventure 350pt (TI 990, DX10, binary)/archive_original/DX10_system_tapes/
-/Dave's Dungeon - DAVESCAVE (PDP-11 TRAX, MITRE, FORTRAN source)/archive_original/
-/Wander worlds + Dune + Beasts (Peter Langston, Usenix 80.1 and 85.1 tapes)/archive_original/
-/ARNA0660 Colossal Cave Adventure 660pt Glaxo 4.3 (Prime 50-Series, A-code, 1984)/archive_original/
-/Mystery Mansion (HP 1000, RTE, FORTRAN source)/archive_original/f1_dskup_f2_rte2250sys.tap.gz
+**/VULC0350 Abenteuer (Harris VULCAN, German Colossal Cave, full source)/archive_original/fast.tap
+**/TIDX0350 Colossal Cave Adventure 350pt (TI 990, DX10, binary)/archive_original/DX10_system_tapes/
+**/Dave's Dungeon - DAVESCAVE (PDP-11 TRAX, MITRE, FORTRAN source)/archive_original/
+**/Wander worlds + Dune + Beasts (Peter Langston, Usenix 80.1 and 85.1 tapes)/archive_original/
+**/ARNA0660 Colossal Cave Adventure 660pt Glaxo 4.3 (Prime 50-Series, A-code, 1984)/archive_original/
+**/Mystery Mansion (HP 1000, RTE, FORTRAN source)/archive_original/f1_dskup_f2_rte2250sys.tap.gz
 
 # Fisk is not published: it was removed from the repository and its
 # history.  The folder stays on disk.
-/Fisk */
+**/Fisk */
 
 # Emulator disk images and save states (hundreds of MB each).  This list is
 # by EXTENSION, so a new project using a format not named here would be
@@ -133,7 +139,7 @@
 *.core
 
 # ...but the Coleco Adam game IS a pair of 164 KB .dsk files
-!/Sacrifice to the Spider Queen (Coleco Adam)/*.dsk
+!**/Sacrifice to the Spider Queen (Coleco Adam)/*.dsk
 
 # the PL/I port's QEMU bundle: 167 MB of redistributed QEMU plus a
 # 60 MB rootfs.  build/README.md documents the Buildroot rebuild, and
@@ -146,11 +152,11 @@
 # Adventure 3000: the BASIC data files are built from the text records beside
 # them the first time the game runs, and the test script writes its own copies
 # and transcripts while replaying the recorded walkthroughs.
-/MOSE0350 Adventure 3000 (HP 3000 BASIC, Creative Computing type-in)/port/data/*/*.dat
-/MOSE0350 Adventure 3000 (HP 3000 BASIC, Creative Computing type-in)/port/tests/data/*.dat
-/MOSE0350 Adventure 3000 (HP 3000 BASIC, Creative Computing type-in)/port/tests/out_*.txt
-/MOSE0350 Adventure 3000 (HP 3000 BASIC, Creative Computing type-in)/port/tests/diff_*.txt
-/MOSE0350 Adventure 3000 (HP 3000 BASIC, Creative Computing type-in)/transcription/tools/draft_data.txt
+**/CREC0350 Adventure 3000 (HP 3000 BASIC, Creative Computing type-in)/port/data/*/*.dat
+**/CREC0350 Adventure 3000 (HP 3000 BASIC, Creative Computing type-in)/port/tests/data/*.dat
+**/CREC0350 Adventure 3000 (HP 3000 BASIC, Creative Computing type-in)/port/tests/out_*.txt
+**/CREC0350 Adventure 3000 (HP 3000 BASIC, Creative Computing type-in)/port/tests/diff_*.txt
+**/CREC0350 Adventure 3000 (HP 3000 BASIC, Creative Computing type-in)/transcription/tools/draft_data.txt
 
 
 # ---- 4. ordinary build and editor litter ----------------------------
@@ -162,7 +168,7 @@ __pycache__/
 # ...except Peter Langston's 1980/1985 objects: Wander's interpreter core, Dune and
 # Beasts were only ever distributed as PDP-11, VAX and Sun .o files, so here the
 # object IS the original.
-!/Wander worlds + Dune + Beasts (Peter Langston, Usenix 80.1 and 85.1 tapes)/src_original/**/*.o
+!**/Wander worlds + Dune + Beasts (Peter Langston, Usenix 80.1 and 85.1 tapes)/src_original/**/*.o
 fisk.log
 zeno.log
 **/saves/
@@ -170,15 +176,15 @@ zeno.log
 # world files the Data General Quest emulator writes into the folder it was
 # started from when it is not given a save folder with -s, and the folder an
 # old played world was kept in
-/Quest*(Data General MV, AOS-VS)/port/*_DATA_FILE
-/Quest*(Data General MV, AOS-VS)/port/QUEST
-/Quest*(Data General MV, AOS-VS)/port/run/
+**/Quest*(Data General MV, AOS-VS)/port/*_DATA_FILE
+**/Quest*(Data General MV, AOS-VS)/port/QUEST
+**/Quest*(Data General MV, AOS-VS)/port/run/
 # the P7000 ADVENT's working pack (with a suspended game in it) when advent.exe
-# is run in its own folder without play.bat's --pack=saves\advent.pack
-/(ANON0350) Colossal Cave Adventure 350pt (Philips P7000, Four-Phase IDOS)/port/advent.pack
+# is run in its own folder without run.bat's --pack=saves\advent.pack
+**/PP7K0350 Colossal Cave Adventure 350pt (Philips P7000, Four-Phase IDOS)/port/advent.pack
 # games saved in Cave Fun (SAVE writes NAME.SYMB beside the game file); the
 # game, the programs and the editor's adventures are .ADV and .PROG
-/Cave Fun (ND-100, SINTRAN III)/port/data/*.SYMB
+**/Cave Fun (ND-100, SINTRAN III)/port/data/*.SYMB
 Thumbs.db
 desktop.ini
 .DS_Store
@@ -187,4 +193,4 @@ desktop.ini
 *~
 .vscode/
 .idea/
-/BREE0350 Adventures in Pascal (PDP-11, RSX-11M, OMSI Pascal, full source)/port/build/*
+**/BREE0350 Adventures in Pascal (PDP-11, RSX-11M, OMSI Pascal, full source)/port/build/*
