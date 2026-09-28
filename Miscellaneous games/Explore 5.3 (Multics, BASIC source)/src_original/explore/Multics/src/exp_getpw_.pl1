@@ -1,0 +1,33 @@
+/* ------------------------------------------------------------------ */
+/*  exp_getpw_  -  read the sorcerer's magic word without echoing it   */
+/*                                                                    */
+/*  call ">udd>...>exp_getpw_": prompt$, pw$                          */
+/*                                                                    */
+/*     prompt$ : IN   - the text to print before reading (e.g.        */
+/*                       "Magic word, please")                        */
+/*     pw$     : OUT  - receives the typed word.  The BASIC caller     */
+/*                      MUST pass a pre-sized target (e.g. 12 blanks)  */
+/*                      so PL/I has room to write into it -- the same  */
+/*                      pre-populate trick we use for the other        */
+/*                      string-output helpers.                         */
+/*                                                                    */
+/*  This wraps the standard read_password_ subroutine, which suppresses */
+/*  terminal echo itself (and works under the Multics window system,   */
+/*  where toggling echoplex tty modes via print_off/print_on does not).*/
+/*                                                                    */
+/*  read_password_ is declared:  entry (char(*), char(*))              */
+/*     arg 1 = prompt string, arg 2 = returned password.               */
+/* ------------------------------------------------------------------ */
+
+exp_getpw_: proc (prompt, pw);
+
+  dcl prompt char (*) parameter;                 /* IN  : prompt text          */
+  dcl pw     char (*) parameter;                 /* OUT : the typed word       */
+
+  dcl read_password_ entry (char (*), char (*));
+
+  call read_password_ (prompt, pw);
+
+  return;
+
+end exp_getpw_;

@@ -1,0 +1,6 @@
+100 rem  exp_search_ : p = 1-based index of first d$ in s$, 0 if absent
+110 rem  call ">udd>...>exp_search_": s$, d$, p        (p is output)
+120 rem  game usage 630/800  ...: y$, ",", y   and  16510 ...: y$, " ", y0
+130 sub "exp_search_": s$, d$, p
+140 let p = pos(s$, d$, 1)
+150 subend

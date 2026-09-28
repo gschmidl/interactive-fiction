@@ -1,0 +1,128 @@
+Revision history for MBasic
+
+1.2  2026-09-26
+     Correctness fix at request of Jim Lippard by Claude Opus 5.0:
+     - arg$(n) with n below 1 now reads as the empty string.  The 1-based
+       index had been applied directly to the Perl argument array, where a
+       zero or negative subscript wrapped around and returned a real argument
+       from the END of the list (arg$(0) gave the last one) instead of
+       nothing.  A program that indexes arg$ by a computed value could
+       silently read the wrong argument; 1..cnt is unaffected.
+
+1.1  2026-09-19
+     Correctness and fidelity fixes from an external code review (Claude
+     Opus 5.0).
+
+     Correctness:
+     - A zero-trip inner FOR (limit below start at run time) no longer leaks
+       its loop frame, which had corrupted the enclosing loop's NEXT.
+     - NEXT now closes inner FOR loops abandoned by a jump out of them: when a
+       goto/if-then-line leaves an inner loop's frame on the stack and control
+       later reaches an enclosing loop's NEXT, the interpreter discards the
+       abandoned inner frame(s) and continues, as Multics does at run time
+       (the "For-next mismatch" of errata 044 is a compile-time nesting check,
+       not a run-time fault).  The previous strict top-of-stack match faulted
+       legal programs -- e.g. Explore's abbreviation expander, which jumps out
+       of an inner FOR to expand a match.
+     - STOP and END now terminate the whole program even when reached inside a
+       called BASIC subroutine (previously they ended only the subroutine).
+     - An indented REM (line number followed by more than one space) is now
+       tokenized as a comment instead of failing to lex.
+     - Trailing tokens after a complete statement are now rejected ("extra
+       tokens after statement") instead of being silently ignored, so a
+       construct outside the subset (e.g. IF ... THEN ... ELSE) is refused
+       rather than mis-run.
+     - The RNG is now a self-contained, per-program stream: repeatable across
+       runs by default, reseeded only by RANDOMIZE, and no longer using or
+       disturbing Perl's global rand()/srand().  Shared across a program and
+       its subroutines (the MBasic.pm doc was corrected to match).
+     - Terminal INPUT with fewer values than variables now reports "Not enough
+       input, add more" and re-prompts, instead of silently defaulting.
+     - Math domain errors surface as authentic Multics messages with the BASIC
+       line number ("Square root of negative number", "Negative power of
+       zero", "Zero power of zero", "Power of negative number") instead of raw
+       Perl errors or silent Inf/NaN.
+     - Numeric/string type mismatches now raise "Mixed string and numeric
+       expression" at the BASIC line instead of leaking a Perl warning (naming
+       an interpreter file/line) and proceeding with a wrong value.
+
+     Robustness / security (matters when MBasic is embedded on untrusted input):
+     - A CALL name is validated as a bare identifier, closing a path-traversal
+       vector (a name like "../secret/x" could open and echo arbitrary
+       .basic-suffixed files and hijack later builtin calls).
+     - File writes are atomic (temp file + rename) and no longer follow a
+       planted symlink at the target; write failures raise "Cannot write into
+       file" instead of silently losing data.
+     - Array size, print TAB() width, and CALL recursion depth are capped so a
+       program raises a loud BASIC error ("Out of room", "Invalid margin",
+       "Stack space exhausted, ...") rather than aborting the host process with
+       an out-of-memory or stack fault.
+     - File reads localize $/ so an embedder's record separator cannot break
+       them; Program::load_lines no longer mutates the caller's array.
+     - A new SECURITY section in MBasic documents the pathxlate containment
+       boundary and the trust model.
+
+     Fidelity:
+     - close #n reliably flushes the final buffered write; a called sub's file
+       channels are now closed on return.
+     - A $-suffixed FOR loop variable is rejected ("Numeric variable
+       required"); asc("") errors ('Invalid "ASC" function arg'); str$ uses
+       Multics uppercase-E scientific format (e.g. "2E+08", not "2e+08").
+     - File channel numbers are restricted to 1..4 ("Invalid file number").
+     - A subroutine defined more than once in one unit is rejected
+       ("Subroutine ... defined more than once") instead of silently letting
+       the last definition win.
+     - resolve_call negatively caches unresolved names (no re-stat per call).
+
+     Hardening from a second review pass (of the fixes above):
+     - File writes: the temp file is now created O_CREAT|O_EXCL|O_NOFOLLOW (a
+       predictable temp name can no longer be pre-planted as a symlink to
+       redirect the write), retrying past a colliding name; the target's
+       permission bits and (best-effort) owner/group are preserved across the
+       rename so a shared group-writable file stays writable; and when the
+       directory is not writable but the target file is (Explore's shared-game
+       layout -- writable segments in a read-only directory), MBasic falls back
+       to an in-place O_NOFOLLOW rewrite instead of failing.
+     - The numeric-coercion __WARN__ handler now delegates to any warn handler
+       the embedder had installed (instead of bypassing it) and only converts a
+       warning that arose in the interpreter's own expression/environment code;
+       a warning from inside a native builtin is left to the embedder and no
+       longer aborts the BASIC program on a misattributed line.
+     - The RNG is now the Park-Miller minimal-standard generator via Schrage's
+       method, so every intermediate stays under 2^31 and the sequence is exact
+       (and identical) even on a Perl built with 32-bit integers.  A fresh
+       stream is warmed (opening draws discarded) and the default seed is
+       mid-range, so the first draw of an un-RANDOMIZEd run is no longer the
+       degenerate tiny value that forced the lowest outcome.
+     - The same sub defined in two different units on the search path is now
+       rejected (previously it resolved silently by load order).
+     - Array storage is capped in aggregate across all arrays, not only
+       per-array.
+     - The call/sub name check accepts a Multics "segment$entrypoint" form while
+       still excluding path characters.
+     - A NEWLY created file honors the process umask (0666 & ~umask) instead of
+       the temp file's private 0600, so a file created in a shared directory is
+       not owner-only (which had locked other players out of a multiplayer game).
+     - New MBasic::Interp::load_all_helpers(@dirs): eagerly load, link, and index
+       every helper up front, so a load-time error (a parse rejection, a dangling
+       jump, a sub defined in two units) surfaces at startup instead of the first
+       time a helper is lazily called -- which for an interactive program can be
+       far into a session, where a die would lose the user's work.
+
+     Tests: added t/08_review_fixes.t and t/09_review2.t (regressions for every
+     issue in both review passes).
+
+1.0  2026-09-15
+     - Initial release.
+     - A dependency-free interpreter for the subset of Multics BASIC used by
+       the Explore game and its helpers.  Runs the authentic BASIC source
+       unmodified; fails loudly on any construct outside the implemented
+       subset.
+     - Run-time errors that Multics BASIC also reports use the authentic
+       Multics message text (per the AM82 error-message appendix).
+     - Components: Lexer, Parser, Expr, Env, Program, Linker, Executor, File,
+       Registry, Arg, Interp, plus the MBasic overview module.
+     - Run-time error messages follow the Multics BASIC manual error list
+       (AM82 Appendix E / MR 12.2 errata), including the verified behavior that
+       an out-of-range "on ... goto/gosub" is an error ("On evaluated out of
+       range") rather than a fall-through.

@@ -1,0 +1,29 @@
+100 rem  exp_val_ : e = 0 if v$ is a legal number, nonzero otherwise
+110 rem  call ">udd>...>exp_val_": v$, e            (e is output)
+120 rem  optional leading +/-, digits, at most one ".", >=1 digit, else bad
+130 rem  d1 = saw a digit, d2 = saw a dot  (names must be letter+digit)
+140 sub "exp_val_": v$, e
+150 let e = 1
+160 let d1 = 0
+170 let d2 = 0
+180 let n = len(v$)
+190 if n = 0 then 410
+200 for k = 1 to n
+210 let c$ = sst$(v$, k, 1)
+220 if c$ < "0" then 250
+230 if c$ > "9" then 250
+240 goto 380
+250 if c$ = "." then 310
+260 if c$ = "+" then 350
+270 if c$ = "-" then 350
+280 goto 410
+310 if d2 = 1 then 410
+320 let d2 = 1
+330 goto 390
+350 if k <> 1 then 410
+360 goto 390
+380 let d1 = 1
+390 next k
+400 if d1 = 0 then 410
+405 let e = 0
+410 subend

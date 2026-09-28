@@ -1,0 +1,4 @@
+100 rem  exp_log_ : no-op (BASIC).  Called with no arguments (line 320).
+110 rem  If "sub" requires the colon form, use:  sub "exp_log_":
+120 sub "exp_log_"
+130 subend

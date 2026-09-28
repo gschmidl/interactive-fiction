@@ -1,0 +1,39 @@
+/* ------------------------------------------------------------------ */
+/*  exp_after_  -  everything after the first occurrence of a delim   */
+/*                                                                    */
+/*  call ">udd>...>exp_after_": result$, source$, delim$              */
+/*                                                                    */
+/*  result$ (OUTPUT, arg 1) receives the portion of source$ that      */
+/*  follows the first occurrence of delim$.  If delim$ does not       */
+/*  occur, result$ receives the empty string (matching the Multics    */
+/*  "after" active function and the caller's use).                    */
+/*                                                                    */
+/*  Used e.g.:                                                        */
+/*      18520 call "...exp_after_": c$, y$, ","                       */
+/*      19530 call "...exp_after_": c$, c$, ","   (in-place is ok)     */
+/* ------------------------------------------------------------------ */
+
+exp_after_: proc (result, source, delim);
+
+  dcl result  char (*) varying parameter;        /* output : text after delim   */
+  dcl source  char (*) parameter;                /* input  : whole string       */
+  dcl delim   char (*) parameter;                /* input  : delimiter           */
+
+  dcl p       fixed bin (21);
+  dcl ld      fixed bin (21);
+  dcl tmp     char (512) varying;
+
+  p = index (source, delim);
+  if p = 0 then
+     result = "";                                /* delim absent: nothing after  */
+  else do;
+     ld  = length (delim);
+     /* copy to a temp first, in case result and source are the same
+        BASIC variable (as at line 19530: c$,c$,",") */
+     tmp    = substr (source, p + ld);
+     result = tmp;
+  end;
+
+  return;
+
+end exp_after_;

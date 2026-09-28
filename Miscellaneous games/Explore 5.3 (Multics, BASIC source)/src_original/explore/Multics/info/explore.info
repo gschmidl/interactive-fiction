@@ -1,0 +1,107 @@
+:Info: explore: 2026-09-07  explore
+
+Syntax:  explore
+
+Function: Explore is a cave-exploration adventure game.  You wander a
+cave of 58 rooms, collect treasures, defeat or evade its creatures,
+learn its magic words, and carry your finds back to the surface.  A
+perfect score is 500 points and earns the rank of Grand Master
+Explorer.
+
+Explore was written in 1980 by Jim Lippard and reconstructed for the
+Multics simulator in 2026.
+
+Playing: Move with one-word compass directions (n, s, e, w, u, d) and
+in/out; you may also type the name of a nearby room to walk there.
+Common commands: get, drop, throw, look, read, what (inventory), score,
+save, restore, brief, full, help <topic>.  Type "commands" in the game
+for the full list and "help" for information.
+
+Score by carrying treasures to the shack and dropping them there;
+defeating creatures and solving certain puzzles also scores.
+
+See also the topics below (help explore.<topic>):
+   setup        installing and setting up the game
+   playing      commands and how to play
+   scoring      how points and ranks work
+   multiplayer  playing with others; the multip attribute
+
+:Info: explore.setup: 2026-09-07  explore setup
+
+The bound object bound_explore_ is installed in >aml by the library
+maintainer.  Everything else is set up with explore_setup.ec, which
+creates >site>explore_dir and populates it:
+
+   asp ec >aml
+   ec explore_setup
+
+This creates >site>explore_dir (read-only base data), a writable
+directory (default >site>explore_dir>private), and
+>site>explore_dir>explore.rwdir.
+
+explore.rwdir controls the installation mode, read at startup:
+   line 1  the read-write directory pathname, or "none" for read-only
+   line 2  (optional) "multip" to permit multiplayer; "^multip" or an
+           absent second line means writable single-player only
+
+So: no rwdir or line 1 = "none" runs read-only (no saves to shared
+files, no winners recorded, no multiplayer); a path with no multip line
+runs writable single-player; a path with a "multip" second line permits
+multiplayer.  Even then, a player may only enable per-user multip if
+the administrator has granted them write access to the shared files; a
+player without it stays single-player.
+
+Before real play, edit hours.data so line 1 is the rot13 of your chosen
+sorcerer word.  See the README for ACL grants and details.
+
+:Info: explore.playing: 2026-09-07  explore playing
+
+Movement: n s e w u d (north south east west up down), and in / out.
+You may also type the name of a nearby room to move there.
+
+Objects:  get <thing>, drop <thing>, get all, drop all, throw <thing>,
+eat <thing>, read <thing>, wave / swing, plug, what (lists what you
+carry).
+
+Information: look (reprint the room), commands, help <topic>, info,
+news, score, turns, modes.
+
+Game: save [name], restore [name], quit (also stop / end).  The
+brief / full / fast modes control how much room description you see
+(full = always long, the default; brief = long on first visit then
+short; fast = always short).  The quit / ^quit modes control the break
+key: "quit" (the default) leaves it working normally; "^quit" disables
+it so you cannot accidentally break out of the game.
+
+Certain words carved on walls or spoken by cave dwellers are magic;
+learn and use them.  Keep an eye out for anything unusual -- some rooms
+and objects reward a little curiosity.
+
+:Info: explore.scoring: 2026-09-07  explore scoring
+
+The maximum score is 500 points.  You earn points chiefly by carrying
+treasures back to the shack and dropping them there, and by defeating
+the cave's creatures.  A few other accomplishments also count --
+discovering them is part of the game.
+
+Your rank rises with your score, up to Grand Master Explorer at a
+perfect 500.  Type "score" in the game to see how you are doing.
+
+:Info: explore.multiplayer: 2026-09-07  explore multiplayer
+
+Some installations allow several people to share one cave.  Where it is
+permitted, and where the administrator has given you access, you can
+join the shared game.
+
+Joining is opt-in via the "multip" mode, which is OFF by default.  Turn
+it on with the "multip" command, or by default by putting the line
+
+   multip
+
+in your start_up.explore (read from your home directory at launch).
+With multip on, you become visible to the other players and to the
+sorcerer, and you can message a player in your room with "talk".  Turn
+it back off with "^multip".  If multiplayer is not permitted here, or
+you lack access, "multip" simply reports that it is unavailable.  The
+objects and creatures remain private to your own game -- multip only
+adds mutual visibility and messaging.

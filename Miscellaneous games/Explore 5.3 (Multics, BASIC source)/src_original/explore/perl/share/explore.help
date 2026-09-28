@@ -1,0 +1,131 @@
+topics,list_help,lh,help
+Help is available on the following topics.  Type "help <topic>".
+   commands   overview   moving     objects    fighting   magic
+   sorcerer   multip     modes      abbrev     save       multics
+   news       info
+For a one-line list of every command, type "commands".
+end;
+commands,command
+Movement : north(n) south(s) east(e) west(w) up(u) down(d) in out jump
+Objects  : get drop throw eat plug wave(swing) read look what
+Info     : commands help info news score turns modes list_help(lh)
+Game     : save restore send quit(stop,end) brief fast full on off
+Comms    : talk (multiplayer)
+Special  : multics(m,..) cross sorcerer abbrev(ab) set_modes(stm)
+Type "help <topic>" for more detail on a group.
+end;
+overview
+Explore is a cave-exploration adventure.  You move from room to room
+with one-word commands, collecting treasures and avoiding (or killing)
+the creatures that live in the cave.  Score points by carrying
+treasures back out to the surface and by defeating creatures.  A
+perfect game earns the rank of Grand Master Explorer.  Type "commands"
+for the full list, "help moving" to get started, and "news" for recent
+changes.
+end;
+moving,move,n,north,s,south,e,east,w,west,u,up,d,down,in,out,jump,go
+Move with a single direction word: north, south, east, west, up, down
+(or just n, s, e, w, u, d).  "in" and "out" work at the shack.  In some
+rooms you may also type the name of an adjacent room to go there.
+"jump" jumps.  "look" reprints the full room description.  The "brief",
+"full", and "fast" modes control how much room description you see on
+each visit (say "help modes").  You need a light to see in dark rooms.
+end;
+objects,object,get,drop,throw,eat,plug,wave,swing,read,look,what
+"get <thing>" picks an object up; "drop <thing>" sets it down; "get
+all" and "drop all" work too.  "throw <thing>" hurls it, "eat <thing>"
+tries to eat it, "read <thing>" reads it, and "wave" (or "swing")
+waves what you are holding.  "what" lists what you are carrying.
+"plug" plugs a device into a receptacle.  Carry treasures back to the
+shack and "drop" them there to score.
+end;
+fighting,fight,kill,attack
+Creatures block your way and can kill you.  Each creature has a
+particular weapon that defeats it -- the wrong one just annoys it, so
+experiment and pay attention to what you find near each creature.
+"throw" the correct object at a creature to defeat it.  A knife works
+on the wandering dwarves that throw knives at you.  If you are killed,
+the sorcerer may reincarnate you.
+end;
+magic,word,words
+Certain words spoken in the right rooms have surprising effects, such
+as transporting you elsewhere.  Watch for hints carved on walls and
+written on notes -- and remember the magic words you learn.  Some words
+are just a familiar idea read backwards.
+end;
+sorcerer
+The cave has a sorcerer who moves through it and can speak to
+explorers, send them messages, and reincarnate the dead.  Knowing the
+sorcerer's secret word lets a player enter sorcerer mode with the
+"sorcerer" command.  In multiplayer mode the sorcerer can see and
+reach the other players.
+end;
+multip,multiplayer,talk
+Explore can be played by several people at once, sharing one cave.
+This is off by default; type "multip" to turn it on (or put "multip"
+in your start_up.explore to enable it every game).  With multip on,
+other players and the sorcerer can see you, and you can message another
+player in your room with "talk".  Type "^multip" to turn it back off.
+Multiplayer must also be permitted by the installation and you must
+have access to the shared files; if not, "multip" reports that it is
+unavailable.  The objects and creatures are still private to your own
+game -- multiplayer only adds mutual visibility and messaging.
+end;
+modes,mode,set_modes,stm,st,brief,full,fast,quit,on,off
+"modes" shows your current settings.  Three control how much room
+description you see:
+   full   always print the long description (the default)
+   brief  long description the first time you enter a room, short
+          description on later visits
+   fast   always print the short description
+"quit"/"^quit" control the break (interrupt) key:
+   quit   the break key works normally (the default)
+   ^quit  the break key is disabled, so you cannot accidentally
+          break out of the game -- you leave only with "quit"
+"multip"/"^multip" turn multiplayer on and off.  "set_modes" (or
+"stm") sets several at once, e.g.  stm brief,^quit,multip
+end;
+abbrev,ab,.a,.ab,.d,.l,.la,.ls,.lx,.e,.p,.s,.u,.q
+"abbrev" (or "ab") begins using abbrevs -- your own shorthand for
+commands.  Sub-commands:
+   .a   add an abbrev
+   .ab  add an abbrev expanded only at the start of a line
+   .d   delete an abbrev
+   .l   list abbrevs          .la  list those beginning with a character
+   .ls  list those containing a string
+   .lx  list those whose expansion contains a string
+   .e   edit abbrevs (.e all, or .e last for the last expansion)
+   .p   print the abbrev segment pathname
+   .s   print the expansion of a line
+   .u   use another abbrev segment
+   .q   stop using abbrevs
+end;
+save,restore
+"save [name]" writes your game to a file (default SAVED_GAME_) so you
+can continue later; "restore [name]" reads it back.  Saved games are
+kept in your home directory.  The cave must be open to restore.
+end;
+multics,m,..
+"multics <command>" (or "m <command>", or "..<command>") runs a Multics
+command without leaving the game -- handy for checking your working
+directory, listing a segment, and the like.  For example, "..pwd"
+prints your working directory and returns you to the game.
+end;
+score,turns,send,cross
+"score" shows your current points; "turns" shows how many moves you
+have made.  "send" leaves a message on the rock for the next explorer.
+"cross" attempts to cross an obstacle when you are suitably equipped.
+end;
+quit,stop,end
+"quit" (also "stop" or "end") leaves the game.  You are asked to
+confirm.  Save your game first with "save" if you want to continue
+later -- quitting does not save automatically.
+end;
+news
+"news" prints recent changes and notes about this version of the game.
+end;
+info
+"info" prints background information about Explore and the facilities
+available to explorers, including saving, restoring, and getting help.
+Outside the game, "help explore" gives a reference overview.
+end;

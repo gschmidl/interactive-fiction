@@ -1,0 +1,80 @@
+/* Bindfile for bound_explore_ */
+/* Explore cave adventure game (BASIC main + PL/I and BASIC helpers). */
+/* 2026-09-07 Jim Lippard */
+
+Objectname:         bound_explore_;
+   Global:          delete;
+
+   Addname:         explore,
+                    exp_search_,
+                    exp_val_,
+                    exp_before_,
+                    exp_after_,
+                    exp_encode_,
+                    exp_decode_,
+                    exp_cmd_query_,
+                    exp_day_,
+                    exp_getpw_,
+                    exp_help_,
+                    exp_home_,
+                    exp_canwrite_,
+                    exp_lock_,
+                    exp_unlock_;
+
+   Order:           explore,
+                    exp_search_,
+                    exp_val_,
+                    exp_before_,
+                    exp_after_,
+                    exp_encode_,
+                    exp_decode_,
+                    exp_cmd_query_,
+                    exp_day_,
+                    exp_getpw_,
+                    exp_help_,
+                    exp_home_,
+                    exp_canwrite_,
+                    exp_lock_;
+
+objectname:         explore;
+   retain:          explore;
+
+objectname:         exp_search_;
+   retain:          exp_search_;
+
+objectname:         exp_val_;
+   retain:          exp_val_;
+
+objectname:         exp_before_;
+   retain:          exp_before_;
+
+objectname:         exp_after_;
+   retain:          exp_after_;
+
+objectname:         exp_encode_;
+   retain:          exp_encode_;
+
+objectname:         exp_decode_;
+   retain:          exp_decode_;
+
+objectname:         exp_cmd_query_;
+   retain:          exp_cmd_query_;
+
+objectname:         exp_day_;
+   retain:          exp_day_;
+
+objectname:         exp_getpw_;
+   retain:          exp_getpw_;
+
+objectname:         exp_help_;
+   retain:          exp_help_;
+
+objectname:         exp_home_;
+   retain:          exp_home_;
+
+objectname:         exp_canwrite_;
+   retain:          exp_canwrite_;
+
+objectname:         exp_lock_;
+   retain:          exp_lock_, exp_unlock_;
+/* end; */

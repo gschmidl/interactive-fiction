@@ -1,0 +1,19 @@
+100 rem  exp_trfcc_ : acquire the .trfcc lock.  s9=1 got it, 0 busy.
+110 rem  call ">udd>...>exp_trfcc_": p$, r0, s9   (p$ path in, r0 room in,
+120 rem  s9 status out).  Release is the game's "truncate" of p$.
+130 rem
+140 rem  ==== SINGLE-USER form (recommended to boot) ====
+150 rem  With no other players there is never contention, so just succeed.
+160 rem  If file #n channels turn out to be LOCAL to a sub on your build,
+170 rem  swap in the emptiness-lock body shown in the trailing rems.
+180 sub "exp_trfcc_": p$, r0, s9
+190 let s9 = 1
+210 rem ---- emptiness-lock body (use only if sub file channels are LOCAL):
+220 rem  let s9 = 0
+230 rem  file #4: p$
+240 rem  if end #4 then <claim>
+250 rem  goto <done>          ' non-empty => busy, s9 stays 0
+260 rem  <claim> print #4: r0 ' write room marker => non-empty (held)
+270 rem  let s9 = 1
+280 rem  <done> subend
+290 subend

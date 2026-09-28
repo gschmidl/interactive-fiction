@@ -1,0 +1,53 @@
+/* ------------------------------------------------------------------ */
+/*  exp_encode_ / exp_decode_  -  rot13 obscuring of a string          */
+/*                                                                    */
+/*  call ">udd>...>exp_encode_": clear$, coded$                       */
+/*  call ">udd>...>exp_decode_": coded$, clear$                       */
+/*                                                                    */
+/*  Used only to keep the Sorcerer's magic word from sitting in       */
+/*  plain text inside hours.data:                                     */
+/*      10180 call "...exp_encode_": x$, y$   (encode before writing)  */
+/*      1250  call "...exp_decode_": y$, s$   (decode after reading)   */
+/*  The game requires only decode(encode(w)) = w.  rot13 rotates each  */
+/*  letter 13 places within its own case; non-letters pass through    */
+/*  unchanged.  rot13 is its own inverse, so exp_decode_ is simply a   */
+/*  second entry into the same code.                                  */
+/* ------------------------------------------------------------------ */
+
+exp_encode_: proc (in, out);
+
+  dcl in   char (*) parameter;                    /* input                       */
+  dcl out  char (*) varying parameter;            /* output                      */
+
+  dcl i    fixed bin (21);
+  dcl c    char (1);
+  dcl tmp  char (256) varying;
+  dcl UC   char (26) static options (constant) init ("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+  dcl LC   char (26) static options (constant) init ("abcdefghijklmnopqrstuvwxyz");
+  dcl p    fixed bin;
+
+  tmp = "";
+  do i = 1 to length (in);
+     c = substr (in, i, 1);
+     p = index (UC, c);
+     if p > 0 then
+        tmp = tmp || substr (UC, mod (p - 1 + 13, 26) + 1, 1);
+     else do;
+        p = index (LC, c);
+        if p > 0 then
+           tmp = tmp || substr (LC, mod (p - 1 + 13, 26) + 1, 1);
+        else
+           tmp = tmp || c;                          /* non-letter: unchanged     */
+     end;
+  end;
+  out = tmp;
+  return;
+
+/* exp_decode_ : rot13 is self-inverse, so re-encoding decodes.
+   Compile this as segment exp_encode_ and add exp_decode_ as an added
+   name of the object (or compile a one-line exp_decode_ that calls in). */
+exp_decode_: entry (in, out);
+  call exp_encode_ (in, out);
+  return;
+
+end exp_encode_;

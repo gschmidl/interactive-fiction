@@ -1,0 +1,85 @@
+/* ------------------------------------------------------------------ */
+/*  exp_help_  -  print the help block for a topic; report found/not   */
+/*                                                                    */
+/*  call ">udd>...>exp_help_": topic$, ">...>explore.help", found      */
+/*                                                                    */
+/*  Explore hands us a topic and the (single) help-file pathname, and  */
+/*  reads back ONLY a found/not-found flag (explore.basic 20590-20620):*/
+/*     if found = 0  -> Explore prints "No information available"      */
+/*     if found ^= 0 -> Explore prints nothing (WE already printed it) */
+/*  So this routine does the whole display itself and returns 1/0.     */
+/*  list_help / lh call it with topic = "topics" (20710), so the       */
+/*  "topics" block is simply the index.                               */
+/*                                                                    */
+/*  Help-file format (author it yourself):                            */
+/*        topic-label                                                 */
+/*        one or more lines of help text ...                          */
+/*        end;                                                        */
+/*        next-label                                                  */
+/*        ...                                                         */
+/*  i.e. exactly the block shape used by the /* Text */ section of     */
+/*  explore.data.  Matching is on a full-line equality with the topic. */
+/* ------------------------------------------------------------------ */
+
+exp_help_: proc (topic, helpfile, found);
+
+  dcl topic    char (*) parameter;                /* input : requested topic      */
+  dcl helpfile char (*) parameter;                /* input : >...>explore.help    */
+  dcl found    float bin (27) parameter;          /* output: 1 = printed, 0 = no  */
+
+  dcl iocb     ptr;
+  dcl code     fixed bin (35);
+  dcl line     char (256) varying;
+  dcl in_topic bit (1) aligned;
+  dcl want     char (256) varying;
+
+  dcl iox_$attach_name entry (char(*), ptr, char(*), ptr, fixed bin(35));
+  dcl iox_$open        entry (ptr, fixed bin, bit(1) aligned, fixed bin(35));
+  dcl iox_$get_line    entry (ptr, ptr, fixed bin(21), fixed bin(21), fixed bin(35));
+  dcl iox_$close       entry (ptr, fixed bin(35));
+  dcl iox_$detach_iocb entry (ptr, fixed bin(35));
+  dcl ioa_             entry options (variable);
+  dcl error_table_$end_of_info fixed bin(35) ext static;
+  dcl Stream_input     fixed bin static options (constant) init (1);
+
+  dcl buf   char (256);
+  dcl nread fixed bin (21);
+
+  found    = 0;
+  in_topic = "0"b;
+  want     = rtrim (topic);
+  if want = "" then return;
+
+  call iox_$attach_name ("exp_help_seg", iocb, "vfile_ " || rtrim (helpfile),
+                         null (), code);
+  if code ^= 0 then return;
+  call iox_$open (iocb, Stream_input, "0"b, code);
+  if code ^= 0 then do;
+     call iox_$detach_iocb (iocb, code);
+     return;
+  end;
+
+  do while ("1"b);
+     call iox_$get_line (iocb, addr (buf), length (buf), nread, code);
+     if code = error_table_$end_of_info then leave;
+     if code ^= 0 then leave;
+     line = substr (buf, 1, nread);
+     if length (line) > 0 then                     /* strip trailing newline       */
+        if substr (line, length (line), 1) = "
+" then line = substr (line, 1, length (line) - 1);
+
+     if ^in_topic then do;
+        if rtrim (line) = want then in_topic = "1"b;   /* found our label          */
+     end;
+     else do;
+        if rtrim (line) = "end;" then leave;            /* end of our block         */
+        call ioa_ ("^a", line);                         /* print one help line      */
+        found = 1;
+     end;
+  end;
+
+  call iox_$close (iocb, code);
+  call iox_$detach_iocb (iocb, code);
+  return;
+
+end exp_help_;

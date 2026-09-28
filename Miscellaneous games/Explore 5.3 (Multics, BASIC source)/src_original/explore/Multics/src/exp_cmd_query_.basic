@@ -1,0 +1,18 @@
+100 rem  exp_cmd_query_ : ask a yes/no question, return 1 (yes) or 2 (no)
+110 rem  call ">udd>...>exp_cmd_query_": q$, r        (r is output)
+120 rem  callers feed r into on..goto: 14070 on y goto 10870,2100
+130 rem  (1=yes, 2=no).  Pure BASIC: prompt + linput, loop until valid.
+140 sub "exp_cmd_query_": q$, r
+150 print q$;
+160 print " (yes or no)? ";
+170 linput z$
+180 if z$ = "yes" then 260
+190 if z$ = "y" then 260
+200 if z$ = "no" then 280
+210 if z$ = "n" then 280
+220 print "Please answer yes or no."
+230 goto 150
+260 let r = 1
+270 goto 290
+280 let r = 2
+290 subend

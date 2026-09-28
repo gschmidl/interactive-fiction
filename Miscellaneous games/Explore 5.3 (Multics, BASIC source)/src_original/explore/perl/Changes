@@ -1,0 +1,97 @@
+Revision history for Explore (Perl distribution)
+
+1.2  2026-09-26
+     Fix at the direction of Jim Lippard by Claude Opus 5.0:
+     - The runner now separates its own options from the game's control
+       arguments properly.  It had stopped scanning at the first argument that
+       was not double-dash, so any runner option written AFTER a game argument
+       was silently not parsed and was handed to the game instead ("explore
+       -brief --share DIR" left the share directory at its default and passed
+       "--share" and "DIR" to the BASIC, inflating cnt to 3).  Runner options
+       are now recognized anywhere on the line and removed, so cnt counts only
+       real game arguments and arg$(n) indexes only them; the relative order
+       and adjacency of what passes through is preserved, which -abbrev,
+       -modes and -pathname depend on.  "--" is honored as end-of-options for
+       the one ambiguous case, a game argument or pathname beginning with
+       "--".
+     Docs:
+     - The game's control arguments are now documented.  They had always been
+       passed through and honored, but nothing said so beyond "[game-args...]"
+       in the usage line: "explore --help", the POD, and the README now list
+       all eight (-abbrev, -brief, -modes, -no_startup, -no_version,
+       -pathname, -table_space, -version), note which three take the argument
+       that follows, and explain the "--" separator.  New t/11_args.t covers
+       the split.
+
+1.1  2026-09-19
+     Fixes and hardening from an external review (Claude Opus 5.0).  Requires
+     MBasic 1.1.
+
+     Multi-user / security:
+     - mult_path (the interpreter's pathxlate containment boundary) now refuses
+       parent-directory traversal ("..", and the Multics "<" parent operator),
+       so a path built from player-controlled text cannot escape the mapped
+       subtree.
+     - exp_lock_, create, and sort_seg open their files O_NOFOLLOW, so a planted
+       symlink in a world-writable (chmod 1777) game directory is refused rather
+       than followed; sort_seg now rewrites atomically (temp + rename) so a
+       crash mid-sort cannot lose the file.
+     - Lock and run-time files are created mode 0666 (honoring the umask) and the
+       runner sets umask 0002, so shared files are group-writable and the next
+       player is not locked out (previously lock files came out 0644 and the
+       write pre-check failed with "error" instead of "busy").
+     - exp_lock_ is now re-entrant within a process: re-locking a path it already
+       holds succeeds without reopening (which had leaked the first handle and
+       dropped the lock on the next unlock).
+     - The "explore" program refuses to start setuid/setgid (it has a shell
+       escape via the ".."/"m" commands and honors environment variables), and
+       the README says so next to the group-permission setup.
+
+     Correctness:
+     - exp_home_ now returns the player's real home directory, so per-user files
+       (saved games, abbreviations, start_up.explore) are created there as
+       documented.  Previously it returned an empty string, which -- with the
+       runner's ROOT of "/" -- pointed every per-user path at the filesystem
+       root, where a normal user cannot write, so the whole abbreviation feature
+       silently did nothing.
+     - _read_noecho always restores terminal echo, even if the prompt read dies
+       (MBasic 1.1 can die on more run-time errors), so a failed sorcerer-word
+       prompt no longer strands the terminal with echo off; if echo cannot be
+       disabled it warns instead of silently echoing the word.
+     - Auto-seeded hours.data / winners.data are made group-writable (0664),
+       matching the manual PERMISSIONS instructions (File::Copy does not preserve
+       mode).
+     - The runner restores default SIGINT handling at exit.
+     - The runner now eagerly loads and validates all helper .basic files at
+       startup (via MBasic::Interp::load_all_helpers), so a load-time error in a
+       helper is reported before play begins instead of dying deep in a session
+       (where it would lose the player's progress) the first time that helper is
+       called.  t/09_game.t asserts all ten shipped helpers load cleanly.
+
+     Tests / docs:
+     - With exp_home_ now returning a writable home, the abbreviation feature
+       actually runs; its expander (which jumps out of an inner FOR to expand a
+       match) exposed a strict-NEXT incompatibility that MBasic 1.1 fixes
+       (NEXT now closes abandoned inner loops).  New t/10_abbrev.t exercises the
+       whole path (define an abbrev, invoke it) as a regression guard.
+     - t/09_game.t pins the clock to a fixed weekday (so it is date-independent
+       and never hits the cave-closed path) and its input callback dies when
+       exhausted, so a desync fails in seconds instead of hanging the build.
+     - README: corrected the append-only-flag advice (this implementation
+       rewrites files through MBasic, so uappnd/+a would stop wins being
+       recorded), noted that the rot13 sorcerer word is not a secret, and added
+       the setuid/setgid warning.
+
+     NOTE: a separate weekend/holiday bug in explore.basic (the cave being
+     reported closed on Saturday/Sunday/holidays even with always-open hours)
+     is fixed in the BASIC source, not here.
+
+1.0  2026-09-15
+     - Initial release of the Perl distribution.
+     - Runs the reconstructed 1980 Multics game "Explore" (game version 5.3)
+       on the MBasic interpreter, executing the authentic BASIC source
+       unmodified.
+     - Provides Explore::Builtins (the native helpers and Multics command
+       stubs, and Multics-to-Unix path translation) and the "explore" program.
+     - Includes the game data (share/) and historical artifacts (the original
+       transcribed BASIC and the 6.0 database).

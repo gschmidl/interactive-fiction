@@ -1,0 +1,52 @@
+/* ------------------------------------------------------------------ */
+/*  exp_day_  -  return today's day-of-week name                       */
+/*                                                                    */
+/*  call ">udd>...>exp_day_": day$                                     */
+/*                                                                    */
+/*  Single argument, OUTPUT: full English weekday name for today.      */
+/*  Explore uses it only to spot weekends (explore.basic 1490-1500):   */
+/*      if y$ = "Saturday" then 2020                                   */
+/*      if y$ = "Sunday"   then 2020                                   */
+/*                                                                    */
+/*  decode_clock_value_ signature (per local reference):              */
+/*      clock(71) in;                                                 */
+/*      month, day_of_month, year, usec_since_midnight(71),           */
+/*      day_of_week, zone(char3), status(35)  -- all out.             */
+/*  IMPORTANT: day_of_week is 1 = MONDAY .. 7 = SUNDAY on this         */
+/*  system, so the name table below is Monday-first.                  */
+/*  Early Multics PL/I (v33f): no "leave", no inline newline literals. */
+/* ------------------------------------------------------------------ */
+
+exp_day_: proc (day);
+
+  dcl day  char (*) varying parameter;             /* OUTPUT: weekday name        */
+
+  dcl clock_ entry returns (fixed bin (71));
+  dcl decode_clock_value_ entry
+        (fixed bin (71),        /* in : clock value                    */
+         fixed bin,             /* out: month  1-12                    */
+         fixed bin,             /* out: day of month 1-31              */
+         fixed bin,             /* out: year, e.g. 1980                */
+         fixed bin (71),        /* out: microseconds since midnight    */
+         fixed bin,             /* out: day of week 1=Mon .. 7=Sun     */
+         char (3),              /* out: time zone                      */
+         fixed bin (35));       /* out: status code                    */
+
+  dcl (mo, da, yr, dow) fixed bin;
+  dcl tod    fixed bin (71);
+  dcl zone   char (3);
+  dcl code   fixed bin (35);
+  dcl names (7) char (9) varying static options (constant)
+        init ("Monday","Tuesday","Wednesday","Thursday","Friday",
+              "Saturday","Sunday");                /* index = 1=Mon .. 7=Sun      */
+
+  call decode_clock_value_ (clock_ (), mo, da, yr, tod, dow, zone, code);
+
+  if dow < 1 | dow > 7 then
+     day = "";
+  else
+     day = names (dow);
+
+  return;
+
+end exp_day_;

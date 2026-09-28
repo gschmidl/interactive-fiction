@@ -1,0 +1,12 @@
+100 rem  exp_after_ : result$ = part of source$ after first delim$
+110 rem  call ">udd>...>exp_after_": r$, s$, d$       (r$ is output)
+120 rem  handles the in-place case call ...: c$, c$, "," by using a temp.
+130 sub "exp_after_": r$, s$, d$
+140 let p = pos(s$, d$, 1)
+150 if p = 0 then 200
+160 let t$ = sst$(s$, p + len(d$), len(s$) - (p + len(d$)) + 1)
+170 let r$ = t$
+180 goto 210
+190 rem
+200 let r$ = ""
+210 subend

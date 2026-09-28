@@ -1,0 +1,64 @@
+/* ------------------------------------------------------------------ */
+/*  exp_val_  -  validate that a string is a legal number             */
+/*                                                                    */
+/*  call ">udd>...>exp_val_": s$, err                                 */
+/*                                                                    */
+/*  Sets err = 0 if s$ is a well-formed number, nonzero otherwise.    */
+/*  explore.basic uses it only to guard the val() conversions while   */
+/*  loading explore.data:                                             */
+/*      650 call "...exp_val_": sst$(y$,1,y-1), y1                     */
+/*      660 if y1 <> 0 then 20150   'Invalid numeric input'           */
+/*  It does NOT return the number itself -- the BASIC does its own    */
+/*  val() right afterwards (670).  So this is purely a checker.       */
+/*                                                                    */
+/*  Numeric arg is float bin(27) (see exp_search_ interface note).    */
+/* ------------------------------------------------------------------ */
+
+exp_val_: proc (str, errcode);
+
+  dcl str      char (*) parameter;               /* input : candidate number   */
+  dcl errcode  float bin (27) parameter;         /* output: 0 = ok, 1 = bad     */
+
+  dcl t        char (256) varying;               /* trimmed working copy        */
+  dcl i        fixed bin (21);
+  dcl n        fixed bin (21);
+  dcl c        char (1);
+  dcl (seen_digit, seen_dot, seen_exp) bit (1) aligned;
+
+  errcode = 1;                                   /* assume bad until proven ok  */
+
+  t = rtrim (ltrim (str));                       /* ignore surrounding blanks   */
+  n = length (t);
+  if n = 0 then return;                          /* empty is not a number       */
+
+  seen_digit = "0"b;
+  seen_dot   = "0"b;
+  seen_exp   = "0"b;
+
+  do i = 1 to n;
+     c = substr (t, i, 1);
+     if c >= "0" & c <= "9" then
+        seen_digit = "1"b;
+     else if c = "+" | c = "-" then do;
+        /* sign allowed only at the very front, or right after an E */
+        if i ^= 1 then
+           if substr (t, i-1, 1) ^= "e" & substr (t, i-1, 1) ^= "E" then return;
+     end;
+     else if c = "." then do;
+        if seen_dot | seen_exp then return;      /* at most one dot, none in exp */
+        seen_dot = "1"b;
+     end;
+     else if c = "e" | c = "E" then do;
+        if seen_exp | ^seen_digit then return;   /* one E, and digits before it  */
+        seen_exp = "1"b;
+     end;
+     else
+        return;                                  /* any other char => not numeric */
+  end;
+
+  if ^seen_digit then return;                    /* must contain at least one digit */
+
+  errcode = 0;                                   /* all checks passed            */
+  return;
+
+end exp_val_;

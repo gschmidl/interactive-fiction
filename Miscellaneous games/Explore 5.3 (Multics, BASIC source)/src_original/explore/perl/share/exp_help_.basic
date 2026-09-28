@@ -1,0 +1,35 @@
+100 rem  exp_help_ : print the help block for topic t$ from file h$.
+110 rem  A section's label line may be a single name OR a comma-separated
+120 rem  list of names (e.g. "multics,m,..").  The section matches if t$
+130 rem  equals any one of the names on that label line.
+140 rem  Return code convention (Multics-style, 0 = success):
+150 rem     f = 0  the topic was found and its block printed
+160 rem     f = 1  the topic was not found (no output)
+170 rem  call ">udd>...>exp_help_": t$, h$, f
+180 rem  Caller (20600): if f = 0 then <done>; else print "no information".
+190 rem  Uses file #4 (not #1/#2/#3) and work vars m$, n$, y;
+195 rem  and helpers exp_search_, exp_before_, exp_after_.
+200 sub "exp_help_": t$, h$, f
+210 let f = 1
+220 let g = 0
+230 file #4: h$
+240 if end #4 then 430
+250 linput #4: l$
+260 if g = 1 then 380
+270 rem  --- g=0: scan the label line l$ for the topic t$ ---
+280 let m$ = l$
+290 if m$ = t$ then 360
+300 call "exp_search_": m$, ",", y
+310 if y = 0 then 240
+320 call "exp_before_": n$, m$, ","
+330 if n$ = t$ then 360
+340 call "exp_after_": m$, m$, ","
+350 goto 290
+360 let g = 1
+370 goto 240
+380 rem  --- g=1: print the matched section until end; ---
+390 if l$ = "end;" then 430
+400 print l$
+410 let f = 0
+420 goto 240
+430 subend

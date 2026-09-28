@@ -1,0 +1,23 @@
+100 rem Multics basic program to print day of week from dat$
+110 sub "exp_day_": r$
+120 let m = val(left$(dat$, 2))
+130 let d = val(mid$(dat$, 4, 2))
+140 let y = val(right$(dat$, 2))
+150 if y < 50 then 170
+160 let y = y + 1900
+165 goto 180
+170 let y = y + 2000
+180 if m > 2 then 210
+190 let m = m + 12
+200 let y = y - 1
+210 let c = int(y / 100)
+220 let k = y - 100 * c
+230 let w = d + int(13 * (m + 1) / 5) + k + int(k / 4) + int(c / 4) + 5 * c
+240 let w = w - 7 * int(w / 7)
+250 dim d$(7)
+260 for i = 1 to 7
+270 read d$(i)
+280 next i
+290 data "Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"
+300 let r$ = d$(w + 1)
+310 subend

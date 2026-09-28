@@ -1,0 +1,2134 @@
+100 randomize
+110 let s2 = 20
+120 let a1$ = usr$ & ".explore_abbrev"
+130 let f6$ = "full"
+140 let j0$ = "no_abbrev"
+150 let a = cnt
+160 if a >= 1 then 19280
+170 on q2 + 1 goto 180,200,210
+180 print "Version 5.3"
+190 goto 210
+200 print "Explore Version 5.3 of 06 June 1980"
+210 file #1: "start_up.explore"
+220 if t1 <> 1 then 240
+230 print "Table space used:"
+240 if q9 = 1 then 290
+250 if end #1 then 290
+260 let q8 = 1
+270 goto 290
+280 let q8 = 0
+290 let g0$="not_done"
+300 let g6$="not_done"
+310 let c9$="no_alert"
+320 call ">user_dir_dir>Scouting>Lippard>games_dir>exp_log_"
+330 call "delete_force": ">user_dir_dir>Scouting>Lippard>games_dir>private>" & usr$,"-brief"
+340 call "create": ">user_dir_dir>Scouting>Lippard>games_dir>private>" & usr$
+350 let c1$="NULL"
+360 let p$ = "off"
+370 let c2$="NULL"
+380 let c4$="NULL"
+390 if q1 = 1 then 410
+400 call ">udd>Scouting>Lippard>lib>e>quit_off"
+410 let w=10
+420 rem dim variables
+430 dim a(75),a$(75),b(100,6),c(100,6),d$(75),s(75)
+440 dim c$(100),d(100),e(100),f(100)
+450 rem player userid,player loc,player pts,if sorcerer
+460 dim x$(600),y$(600),k$(50),x(600)
+470 dim l(100)
+480 dim g$(50),g(50),h$(50),h(50),m$(100),l$(100)
+490 dim i$(50),v(100),v$(100),w$(2,200),w(2,200)
+500 rem creature name, room, description, points for killing, room descriptions
+510 let a=51
+520 rem Set Room Number to Fifty-One
+530 rem d$=descriptions for treasures
+540 rem Get data for treasure names, rooms, descriptions
+550 if q0 <> 1 then 580
+560 file #2: b0$
+570 goto 590
+580 file #2: ">udd>Scouting>Lippard>games>explore.data"
+590 let x = 0
+600 if end #2 then 19930
+610 let x = x + 1
+620 linput #2: y$
+630 call ">udd>Scouting>Lippard>games>exp_search_": y$,",",y
+640 if y = 0 then 20130
+650 call ">udd>Scouting>Lippard>games>exp_val_": sst$(y$,1,y-1),y1
+660 if y1 <> 0 then 20150
+670 let w(1,x) = val(sst$(y$,1,y-1))
+680 let w$(1,x) = sst$(y$,y+1,len(y$)-y)
+690 if w(1,x) = -1 then 730
+700 let x2 = w(1,x)
+710 let x3 = x
+720 goto 600
+730 let x = 0
+740 if t1 <> 1 then 770
+750 print x3;"  out of  200 lines of descriptions"
+760 print x2;"  out of  100 locations"
+770 if end #2 then 19950
+780 let x = x + 1
+790 linput #2: y$
+800 call ">udd>Scouting>Lippard>games>exp_search_": y$,",",y
+810 if y = 0 then 20130
+820 call ">udd>Scouting>Lippard>games>exp_val_": sst$(y$,1,y-1),y1
+830 if y1 <> 0 then 20150
+840 let w(2,x) = val(sst$(y$,1,y-1))
+850 let w$(2,x) = sst$(y$,y+1,len(y$)-y)
+860 if w(2,x) = -1 then 880
+870 goto 770
+880 for x = 1 to x2
+890 input #2: b(x,1),b(x,2),b(x,3),b(x,4),b(x,5),b(x,6),c(x,1),c(x,2),c(x,3),c(x,4),c(x,5),c(x,6)
+900 next x
+910 let x = 0
+920 if end #2 then 19970
+930 let x = x + 1
+940 input #2: a$(x),a(x),d$(x),s(x)
+950 if a$(x) = "end" then 990
+960 let x5 = x
+970 let s2 = s2 + s(x)
+980 goto 920
+990 let x = 0
+1000 if t1 <> 1 then 1020
+1010 print x5;"  out of  75 objects"
+1020 if end #2 then 19990
+1030 let x = x + 1
+1040 input #2: g$(x),g(x),h$(x),h(x),i$(x)
+1050 if g$(x) = "end" then 1090
+1060 let x6 = x
+1070 let s2 = s2 + h(x)
+1080 goto 1020
+1090 rem Getting Data On Monsters
+1100 let x = 0
+1110 if t1 <> 1 then 1130
+1120 print x6;"  out of  50 creatures"
+1130 if end #2 then 20010
+1140 let x = x + 1
+1150 input #2: v(x),v$(x)
+1160 if v(x) = -1 then 1190
+1170 let x7 = x
+1180 goto 1130
+1190 rem Data for room names as commands
+1200 if t1 <> 1 then 1220
+1210 print x7;"  out of 100 location names as commands"
+1220 rem *** Check to see if cave is closed, get help if wanted ***
+1230 file #2: ">udd>Scouting>Lippard>games>private>hours.data"
+1240 input #2: y$
+1250 call ">udd>Scouting>Lippard>games>exp_decode_": y$,s$
+1260 for x = 1 to 2
+1270 input #2: f$(x),j$(x)
+1280 next x
+1290 for x = 1 to 2
+1300 input #2: t$(x),u$(x)
+1310 next x
+1320 for x = 1 to 2
+1330 input #2: n$(x),o$(x)
+1340 next x
+1350 rem b,e = weekdays
+1360 rem t,u = weekends
+1370 rem n,o = holidays
+1380 input #2: l,m$,z$,z1$
+1390 if y7 = 1 then 1440
+1400 let k = k + 1
+1410 linput #2: k$(k)
+1420 print k$(k)
+1430 if more #2 then 1400
+1440 let x1 = 1
+1450 if y7 = 1 then 1480
+1460 print"Welcome to ""Explore"". Type ""help"" for information."
+1470 print
+1480 call ">udd>Scouting>Lippard>games>exp_day_": y$
+1490 if y$ = "Saturday" then 2020
+1500 if y$ = "Sunday" then 2020
+1510 if dat$=z$ then 1950
+1520 for i = 1 to 2
+1530 let b$(i) = f$(i)
+1540 let e$(i) = j$(i)
+1550 next i
+1560 if clk$<b$(1) then 1620 'Cave closed
+1570 if clk$<e$(1) then 2070 'Cave open
+1580 if clk$<b$(2) then 1620 'Cave closed
+1590 if clk$<e$(2) then 2070 'Cave open
+1600 goto 1620
+1610 print
+1620 print
+1630 print"I'm terribly sorry, but the cave is closed at this time."
+1640 gosub 1660
+1650 goto 1810
+1660 print
+1670 print"Our hours are:"
+1680 print
+1690 print"Monday - Friday:"
+1700 print tab(20);sst$(f$(1),1,5);" - ";sst$(j$(1),1,5)
+1710 print tab(20);sst$(f$(2),1,5);" - ";sst$(j$(2),1,5)
+1720 print "Saturday & Sunday:"
+1730 print tab(20);sst$(t$(1),1,5);" - ";sst$(u$(1),1,5)
+1740 print tab(20);sst$(t$(2),1,5);" - ";sst$(u$(2),1,5)
+1750 print"Holidays:"
+1760 print tab(20);sst$(n$(1),1,5);" - ";sst$(o$(1),1,5)
+1770 print tab(20);sst$(n$(2),1,5);" - ";sst$(o$(2),1,5)
+1780 print
+1790 print"Our next holiday is ";z$;", namely """;z1$;"""."
+1800 return
+1810 print"We do allow visitors to make short explorations on our off hours."
+1820 print
+1830 print"Would you like to do that?"
+1840 linput y$
+1850 if y$="yes" then 1930
+1860 if y$="no" then 1900
+1870 print
+1880 print"Please answer the question."
+1890 goto 1820
+1900 print
+1910 print"Okay, then - I suggest that you try later."
+1920 stop
+1930 print
+1940 goto 2100
+1950 print "Today is a holiday (";z1$;")!"
+1960 print
+1970 for i = 1 to 2
+1980 let b$(i) = n$(i)
+1990 let e$(i) = o$(i)
+2000 next i
+2010 goto 1560
+2020 for i = 1 to 2
+2030 let b$(i) = t$(i)
+2040 let e$(i) = u$(i)
+2050 next i
+2060 goto 1560
+2070 let l=-1
+2080 let x1 = 1
+2090 goto 2170
+2100 reset #2
+2110 if f6$="fast" then 2180
+2120 if f6$="full" then 2140
+2130 goto 2160
+2140 let x1 = 1
+2150 goto 2170
+2160 let x1 = 2
+2170 let x=int(100*rnd)
+2180 if x<>57 then 2300
+2190 if c2$="SEEN" then 2300
+2200 if a=1 then 2300
+2210 if a=51 then 2300
+2220 if a=52 then 2300
+2230 print
+2240 let c2$="SEEN"
+2250 print
+2260 print">Foof<"
+2270 print
+2280 print
+2290 print"A single word appears out of smoke - ""NLOCNIL""."
+2300 let x=int(1000*rnd)
+2310 if x<>105 then 2380
+2320 if a=1 then 2380
+2330 if a=51 then 2380
+2340 if a=52 then 2380
+2350 print"A little gremlin (very rare around here) appears and"
+2360 print"throws magic dust at you. The whole room spins and you find..."
+2370 let a=int(x2*rnd)
+2380 let x=int(50*rnd)
+2390 if a=1 then 2740
+2400 if a=51 then 2740
+2410 if a=52 then 2740
+2420 if x=22 then 2450
+2430 if p$="on" then 2590
+2440 goto 2590
+2450 if c1$="SEEN" then 2570
+2460 if a=1 then 2590
+2470 if a=51 then 2590
+2480 if a=52 then 2590
+2490 print"A small elf walks around a corner, glances around nervously,"
+2500 print"then cautiously walks over to you. ""I shouldn't be telling"
+2510 print"you this"", he quietly whispers, ""but there is a word that"
+2520 print"you should know if you happen to run into any dwarves. The"
+2530 print"word is another name for the Thunderbird only reversed. It is-"""
+2540 print"Suddenly and without warning a flaming arrow flies from nowhere"
+2550 print"and strikes the elf in the back. A giant hand reaches from the"
+2560 print"cave floor and pulls the elf into nowhere."
+2570 print
+2580 let c1$="SEEN"
+2590 if a=51 then 2740
+2600 for x=1 to x5
+2610 if a(x)<>0 then 2630
+2620 if a$(x)="flashlight" then 2650
+2630 next x
+2640 goto 2660
+2650 if p$="on" then 2740
+2660 if a=52 then 2740
+2670 if a=45 then 2740
+2680 if a=4 then 2740
+2690 if a=1 then 2740
+2700 let x=int(5*rnd)
+2710 if x<>3 then 3390
+2720 print"You fell into a pit and broke every bone in your body!"
+2730 goto 11580
+2740 rem Print Room Description
+2750 if f6$="full" then 2770
+2760 if l(a)=1 then 2860
+2770 let l(a)=1
+2780 if a=1 then 2840
+2790 if a=51 then 2840
+2800 if a=52 then 2840
+2810 if a=45 then 2840
+2820 if a=4 then 2840
+2830 if p$<>"on" then 3390
+2840 if f6$="fast" then 2860
+2850 goto 2890
+2860 let x1 = 2
+2870 goto 2890
+2880 let x1 = 1
+2890 for x = 1 to x3
+2900 if w(x1,x) = a then 2930
+2910 next x
+2920 goto 2960
+2930 print w$(x1,x)
+2940 goto 2910
+2950 rem Print Treasure Description(s)
+2960 let x = int(5 * rnd)
+2970 if x=1 then 3030
+2980 if x=2 then 3050
+2990 if x=3 then 3070
+3000 if x=4 then 3090
+3010 let d$(40)="There is a finely carved sculpture of a dwarf on the floor!"
+3020 goto 3100
+3030 let d$(40)="There is a finely carved sculpture of an elf on the floor!"
+3040 goto 3100
+3050 let d$(40)="There is a finely carved sculpture of a wizard on the floor!"
+3060 goto 3100
+3070 let d$(40)="There is a finely carved sculpture of a sorcerer on the floor!"
+3080 goto 3100
+3090 let d$(40)="There is a finely carved sculpture of a troll on the floor!"
+3100 for x=1 to x5
+3110 if a(x)<>a then 3130
+3120 print d$(x)
+3130 next x
+3140 rem
+3150 if a<>26 then 3180
+3160 print"Scratched on a rock is the message """;m$;" was here""."
+3170 rem
+3180 rem Print monster description(s)
+3190 for x=1 to x6
+3200 if g(x)=0 then 3240
+3210 if g(x)<>a then 3240
+3220 print h$(x)
+3230 let q7 = 1 'monster in room
+3240 next x
+3250 if a=54 then 3280
+3260 if a=55 then 3280
+3270 goto 3300
+3280 if j4$<>"BRIDGE" then 3300
+3290 print"A bridge now spans the fissure."
+3300 if a=1 then 4050
+3310 if a=51 then 4050
+3320 if a=52 then 4050
+3330 if x$="DWARF" then 3470
+3340 if a=4 then 4050
+3350 if c9$ = "ALERT" then 3550
+3360 let x=int(20*rnd)
+3370 if x<>2 then 3550
+3380 goto 3420
+3390 print"It is now pitch dark. If you proceed you may fall into a pit."
+3400 let p$="off"
+3410 goto 4300
+3420 let x=int(2*rnd)
+3430 if x=1 then 3460
+3440 let q4$="little"
+3450 goto 3470
+3460 let q4$="burly"
+3470 print"There is a threatening ";q4$;" dwarf in the room with you!"
+3480 let x$="DWARF"
+3490 print"A steely metal knife is thrown at you!"
+3500 let x=int(w*rnd)
+3510 if x<>1 then 3540
+3520 print"It gets you!"
+3530 goto 11580
+3540 print"It misses!"
+3550 print
+3560 if a<>50 then 4050
+3570 print"A tablet on the wall has written upon it the previous"
+3580 if g6$="DONE" then 3610
+3590 let s=s+10
+3600 let g6$="DONE"
+3610 print"winners of this game."
+3620 file #2: ">udd>Scouting>Lippard>games>private>winners.data"
+3630 input #2: d$,e$
+3640 print d$,e$
+3650 if more #2 then 3630
+3660 print
+3670 if s<s2 then 4050
+3680 print"The figure vanishes, leaving you as the new Hero!"
+3690 print"You have won!"
+3700 print".........A note appears on the wall, ""To carry all, say ""winner""""."
+3710 print"Please enter your name";
+3720 linput f$
+3730 if len(f$)=0 then 3710
+3740 print #2: dat$;",";f$
+3750 call "exec_com": ">user_dir_dir>Scouting>Lippard>exec_com_dir>win_ex",f$
+3760 file #2: ">udd>Scouting>Lippard>games>private>hours.data"
+3770 linput #2: q$
+3780 for x = 1 to 2
+3790 input #2: f$(x),j$(x)
+3800 next x
+3810 for x = 1 to 2
+3820 input #2: t$(x),u$(x)
+3830 next x
+3840 for x = 1 to 2
+3850 input #2: n$(x),o$(x)
+3860 next x
+3870 input #2: m$,z$,z1$
+3880 scratch #2
+3890 print #2: q$
+3900 for x = 1 to 2
+3910 print #2: f$(x) & "," & j$(x)
+3920 next x
+3930 for x = 1 to 2
+3940 print #2: t$(x) & "," & u$(x)
+3950 next x
+3960 for x = 1 to 2
+3970 print #2: n$(x) & "," & o$(x)
+3980 next x
+3990 print #2: f$ & "," & z$ & "," & z1$
+4000 for x=1 to k
+4010 print #2: k$(x)
+4020 next x
+4030 goto 10870 'endit
+4040 if x$="DWARF" then 3470
+4050 let t=t+1
+4060 if c9$<>"ALERT" then 4170
+4070 let c9=c9+1
+4080 if c9=10 then 4110
+4090 print"A steady hiss is rapidly coming closer."
+4100 goto 4170
+4110 print"A large dense gaseous cloud floats into view. It is"
+4120 print"a bright red in color, and gives off an extremely"
+4130 print"powerful odor. You fall to the ground choking and gasping."
+4140 print
+4150 print"Well, you're dead now."
+4160 goto 15990
+4170 if p$="off" then 4200
+4180 let p=p+1
+4190 if t=l then 6630
+4200 if p$="off" then 4230
+4210 if p=250 then 13590
+4220 if p=200 then 13590
+4230 if a=1 then 4300
+4240 if a=4 then 4300
+4250 if a=51 then 4300
+4260 if a=52 then 4300
+4270 if a=45 then 4300
+4280 if p=150 then 13570
+4290 if p>200 then 3390
+4300 if sst$(y$,1,2) = ".." then 16280
+4310 if sst$(y$,1,2) = ". " then 4330
+4320 if sst$(y$,1,1) = "." then 4340
+4330 let y3$ = y$
+4340 if q8 = 0 then 4410
+4350 if end #1 then 280
+4360 linput #1: y$
+4370 if sst$(y$,1,1) = "&" then 20220
+4380 if q9 = 1 then 4400
+4390 print "? ";y$
+4400 goto 4970
+4410 if len(y2$) <> 0 then 20670
+4420 if e2 = 1 then 4960
+4430 file #2: ">udd>Scouting>Lippard>games>private_dir>explore_usr"
+4440 call ">udd>Scouting>Lippard>games>exp_trfcc_": ">udd>Scouting>Lippard>games>private_dir>explore_usr.trfcc",a
+4450 if x = 0 then 4440
+4460 let x = 0
+4470 if end #2 then 4510
+4480 let x = x + 1
+4490 input #2: c$(x),d(x),e(x),f(x)
+4500 goto 4470
+4510 for i = 1 to x
+4520 if c$(i) = usr$ then 4560
+4530 next i
+4540 print #2: usr$;",";a;",";s;",";s1
+4550 goto 4640
+4560 let d(i) = a
+4570 let e(i) = s
+4580 let f(i) = s1
+4590 scratch #2
+4600 for i = 1 to x
+4610 print #2: c$(i);",";d(i);",";e(i);",";f(i)
+4620 next i
+4630 call "truncate": ">udd>Scouting>Lippard>games>private_dir>explore_usr.trfcc"
+4640 if y8 <> 1 then 4950
+4650 for i = 1 to x
+4660 if d(i) <> a then 4720
+4670 if c$(i) = usr$ then 4720
+4680 if f(i) <> 1 then 4710
+4690 print "A tall sorcerer is standing here, with the name """;c$(i);""" on his dark robe."
+4700 goto 4720
+4710 print "A person is standing nearby, with the name """;c$(i);""" on his shirt."
+4720 next i
+4730 file #2: ">udd>Scouting>Lippard>games>private_dir>explore_usr_com"
+4740 call ">udd>Scouting>Lippard>games>exp_trfcc_": ">udd>Scouting>Lippard>games>private_dir>explore_usr_com.trfcc",a
+4750 if x = 0 then 4740
+4760 let x = 0
+4770 if end #2 then 4810
+4780 let x = x + 1
+4790 input #2: c$(x),l$(x),m$(x)
+4800 goto 4770
+4810 for i = 1 to x
+4820 if c$(i) = usr$ then 4850
+4830 next i
+4840 goto 4900
+4850 print
+4860 print "From ";l$(i);": ";m$(i)
+4870 print
+4880 let c$(i) = ""
+4890 goto 4830
+4900 scratch #2
+4910 for i = 1 to x
+4920 if len(c$(i)) = 0 then 4940
+4930 print #2: c$(i);",";l$(i);","&""""&m$(i)&""""
+4940 next i
+4950 linput y$
+4960 let e2 = 0
+4970 file #2: ">user_dir_dir>Scouting>Lippard>games_dir>private>explore_com"
+4980 call ">udd>Scouting>Lippard>games>exp_trfcc_": ">udd>Scouting>Lippard>games>private_dir>explore_com.trfcc",a
+4990 if x = 0 then 4980
+5000 let x = 0
+5010 if end #2 then 5050
+5020 let x = x + 1
+5030 input #2: l$(x),m$(x)
+5040 goto 5010
+5050 for y = 1 to x
+5060 if l$(y) = usr$ then 5090
+5070 next y
+5080 goto 5220
+5090 let l$(y) = "---*---"
+5100 print
+5110 print "*******"
+5120 print "From Sorcerer: ";m$(y)
+5130 print "*******"
+5140 print
+5150 scratch #2
+5160 for y = 1 to x
+5170 if l$(y) = "---*---" then 5190
+5180 print #2: l$(y);","&""""&m$(y)&""""
+5190 next y
+5200 call "truncate": ">udd>Scouting>Lippard>games>private_dir>explore_com.trfcc"
+5210 print
+5220 if sst$(y$,1,2) = ". " then 5240
+5230 if sst$(y$,1,1) = "." then 5490
+5240 for i = 1 to len(y$)
+5250 if sst$(y$,i,1) = ";" then 20630
+5260 next i
+5270 if j0$ <> "abbrev" then 5490
+5280 for i = 1 to len(y$)
+5290 for j = 1 to 500
+5300 if len(x$(j)) = 0 then 5330
+5310 if x(j) = 1 then 5360
+5320 if sst$(y$,i,len(x$(j))) = x$(j) then 5460
+5330 next j
+5340 next i
+5350 goto 5490
+5360 for y4 = y5 to len(y$)
+5370 if sst$(y$,y4,1) = ";" then 5410
+5380 next y4
+5390 let y5 = 1
+5400 goto 5420
+5410 let y5 = y4
+5420 if sst$(y$,y5,len(x$(j))) <> x$(j) then 5330
+5430 let y$ = y$(j) & sst$(y$,len(x$(j))+1,len(y$)-len(x$(j)))
+5440 let i = i + len(y$(j))
+5450 goto 5340
+5460 let y$ = sst$(y$,1,i-1) & y$(j) & sst$(y$,len(x$(j))+i,len(y$)-len(x$(j))+i)
+5470 let i = i + len(y$(j))
+5480 goto 5340
+5490 if len(y$) = 0 then 4300
+5500 if q3 <> 1 then 5540
+5510 print y$
+5520 let q3 = 0
+5530 goto 4300
+5540 if sst$(y$,1,3)="get" then 6690
+5550 if y$ = "." then 20930
+5560 if sst$(y$,1,2) = ". " then 20550
+5570 if y$ = "m" then 16320
+5580 if y$ = "set_modes" then 18860
+5590 if y$ = "stm" then 18860
+5600 if y$ = "talk" then 21040
+5610 if sst$(y$,1,10) = "set_modes " then 18480
+5620 if sst$(y$,1,4) = "stm " then 18480
+5630 if y$="modes" then 18340
+5640 if y$="abbrev" then 16340
+5650 if y$="ab" then 16340
+5660 if y$=".a" then 16380
+5670 if sst$(y$,1,3) = ".a " then 16410
+5680 if y$ = ".ab" then 16820
+5690 if sst$(y$,1,4) = ".ab " then 16850
+5700 if y$=".L" then 16890
+5710 if y$ = ".la" then 17260
+5720 if sst$(y$,1,4) = ".la " then 17680
+5730 if y$ = ".ls" then 17880
+5740 if sst$(y$,1,4) = ".ls " then 17290
+5750 if y$ = ".lx" then 17910
+5760 if sst$(y$,1,4) = ".lx " then 17470
+5770 if sst$(y$,1,3) = ".l " then 17140
+5780 if y$ = ".p" then 17030
+5790 if y$ = ".s" then 17060
+5800 if sst$(y$,1,3) = ".s " then 17090
+5810 if y$=".u" then 17930
+5820 if sst$(y$,1,3) = ".u " then 17970
+5830 if y$=".d" then 18090
+5840 if sst$(y$,1,3) = ".d " then 18120
+5850 if y$=".q" then 18270
+5860 if y$ = ".e" then 20730
+5870 if sst$(y$,1,3) = ".e " then 20760
+5880 if y$ = "multics" then 16320
+5890 if sst$(y$,1,8) = "multics " then 16300
+5900 if sst$(y$,1,2) = "m " then 16280
+5910 if y$="cross" then 16180
+5920 if y$="send" then 15800
+5930 if y$="commands" then 15590
+5940 if y$="jump" then 15440
+5950 if y$="read" then 14080
+5960 if y$ = "wave" then 14560
+5970 if sst$(y$,1,4) = "wave" then 14430
+5980 if y$ = "swing" then 14560
+5990 if sst$(y$,1,5) = "swing" then 14300
+6000 if y$="turns" then 14260
+6010 if y$="brief" then 13930
+6020 if y$="fast" then 14830
+6030 if y$="full" then 14010
+6040 if y$="look" then 18290
+6050 if y$="hours" then 13900
+6060 for q=1 to x7
+6070 if sst$(y$,1,4)=sst$(v$(q),1,4) then 13840
+6080 next q
+6090 if y$="in" then 13740
+6100 if y$="out" then 13790
+6110 if y$="eat" then 13530
+6120 if y$="on" then 13250
+6130 if y$="plug" then 13610
+6140 if y$="off" then 13380
+6150 if y$="sorcerer" then 9750
+6160 if y$="quit" then 14050
+6170 if y$="stop" then 14050
+6180 if y$="end" then 14050
+6190 if sst$(y$,1,4)="drop" then 7470
+6200 if y$="throw" then 11970
+6210 if sst$(y$,1,5)="throw" then 18310
+6220 if y$="what" then 7940
+6230 if sst$(y$,1,5)="save " then 8920
+6240 if sst$(y$,1,8)="restore " then 9350
+6250 if y$="news" then 8700
+6260 if y$="score" then 11930
+6270 if y$="nilrem"then 12490
+6280 if y$="xineohp" then 15360
+6290 if y$="winner" then 15560
+6300 if y$="indiana" then 12590
+6310 if y$="nlocnil" then 12730
+6320 if y$="erolpxe" then 12850
+6330 if y$=m$ then 12960
+6340 if y$="n" then 8080
+6350 if y$="north" then 8080
+6360 if y$="s" then 8110
+6370 if y$="south" then 8110
+6380 if y$="e" then 8140
+6390 if y$="east" then 8140
+6400 if y$="w" then 8170
+6410 if y$="west" then 8170
+6420 if y$="u" then 8200
+6430 if y$="up" then 8200
+6440 if y$="d" then 8240
+6450 if y$="down" then 8240
+6460 if y$="help" then 8380
+6470 if sst$(y$,1,5) = "help " then 20570
+6480 if y$ = "list_help" then 20700
+6490 if y$ = "lh" then 20700
+6500 if y$="info" then 8570
+6510 if sst$(y$,1,1) = "." then 19010
+6520 for x=1 to x5
+6530 if y$=a$(x) then 6590
+6540 next x
+6550 for x=1 to x6
+6560 if y$=g$(x) then 6590
+6570 next x
+6580 goto 6610
+6590 print"What about a stupid ";y$;"??"
+6600 goto 4300
+6610 print "I don't know the word """;y$;"""."
+6620 goto 4300
+6630 print
+6640 print"There is a blinding flash of light! Everything swims before"
+6650 print"your eyes and fades away into nothingness. A deep loud"
+6660 print"voice declares ""This exploration has lasted too long!"""
+6670 print
+6680 goto 10870
+6690 rem *** GET ***
+6700 if y$="get" then 6840
+6710 if sst$(y$,4,1)=" " then 6740
+6720 print"I don't know the word """;y$;"""."
+6730 goto 4300
+6740 let y$=sst$(y$,5,len(y$)-4)
+6750 let z4=0
+6760 for x=1 to x5
+6770 if a(x)<>0 then 6790
+6780 let z4=z4+1
+6790 next x
+6800 if c4$="+++" then 6830
+6810 if z4<8 then 6830
+6820 goto 6970
+6830 goto 7120
+6840 let q4=0
+6850 for x=1 to x5
+6860 if a(x)=a then 6900
+6870 next x
+6880 print"There is nothing here to get!"
+6890 goto 4050
+6900 let z=0
+6910 for x=1 to x5
+6920 if a(x)<>0 then 6940
+6930 let q4=q4+1
+6940 next x
+6950 if q4<8 then 6990
+6960 if c4$="+++" then 6990
+6970 print"You can't carry anything more. You'll have to drop something first."
+6980 goto 4050
+6990 for x=1 to x5
+7000 if a(x)<>a then 7020
+7010 let z=z+1
+7020 next x
+7030 if z=1 then 7430
+7040 print"Get what";
+7050 if q8 = 0 then 7110
+7060 if q6 = 0 then 7110
+7070 if end #1 then 7100
+7080 linput #1: y$
+7090 goto 7120
+7100 let q8 = 0
+7110 linput y$
+7120 if y$ = "all" then 7240
+7130 for x=1 to x5
+7140 if a(x)<>a then 7160
+7150 if sst$(y$,1,4)=sst$(a$(x),1,4) then 7390
+7160 next x
+7170 for x = 1 to x5
+7180 if sst$(y$,1,4)=sst$(a$(x),1,4) then 7370
+7190 next x
+7200 for x=1 to x6
+7210 if y$=g$(x) then 12130
+7220 next x
+7230 goto 6610
+7240 for x = 1 to x5
+7250 if a(x) = a then 7280
+7260 next x
+7270 goto 6880
+7280 for x = 1 to x5
+7290 if a(x) <> a then 7350
+7300 let a(x) = 0
+7310 print a$(x);":  taken."
+7320 let q4 = q4 + 1
+7330 if c4$ = "+++" then 7350
+7340 if q4 > 8 then 6970
+7350 next x
+7360 goto 4300
+7370 print"I don't think what you want is here."
+7380 goto 4300
+7390 let a(x) = 0
+7400 print"Okay."
+7410 rem
+7420 goto 4050
+7430 for x=1 to x5
+7440 if a(x)=a then 7390
+7450 next x
+7460 stop
+7470 if y$="drop" then 7520
+7480 if sst$(y$,5,1)=" " then 7500
+7490 goto 6610
+7500 let y$=sst$(y$,6,len(y$)-5)
+7510 goto 7650
+7520 for x=1 to x5
+7530 if a(x)=0 then 7570
+7540 next x
+7550 print"You aren't carrying anything!"
+7560 goto 4050
+7570 print"Drop what";
+7580 if q8 = 0 then 7640
+7590 if q6 = 0 then 7640
+7600 if end #1 then 7630
+7610 linput #1: y$
+7620 goto 7650
+7630 let q8 = 0
+7640 linput y$
+7650 if y$ = "all" then 7740
+7660 for x=1 to x5
+7670 if a(x)<>0 then 7690
+7680 if sst$(y$,1,4)=sst$(a$(x),1,4) then 7860
+7690 next x
+7700 for x=1 to x5
+7710 if sst$(y$,1,4)=sst$(a$(x),1,4) then 7840
+7720 next x
+7730 goto 6610
+7740 for x = 1 to x5
+7750 if a(x) <> 0 then 7820
+7760 let a(x) = a
+7770 print a$(x);":  dropped."
+7780 let q4 = q4 - 1
+7790 if a <> 1 then 7820
+7800 let s = s + s(x)
+7810 let s(x) = 0
+7820 next x
+7830 goto 4300
+7840 print"You aren't carrying it!"
+7850 goto 4300
+7860 let a(x)=a
+7870 if a=1 then 7890
+7880 goto 7910
+7890 let s=s+s(x)
+7900 let s(x)=0
+7910 print"Okay."
+7920 let q4 = q4 - 1
+7930 goto 4050
+7940 print
+7950 for x=1 to x5
+7960 if a(x)=0 then 8000
+7970 next x
+7980 print"You aren't carrying anything!"
+7990 goto 4050
+8000 print"You are currently carrying:"
+8010 print
+8020 for x=1 to x5
+8030 if a(x)<>0 then 8050
+8040 print a$(x)
+8050 next x
+8060 print
+8070 goto 4050
+8080 rem ***North = 1***
+8090 let q = 1
+8100 goto 8260
+8110 rem ***South = 2***
+8120 let q = 2
+8130 goto 8260
+8140 rem ***East = 3***
+8150 let q = 3
+8160 goto 8260
+8170 rem ***West = 4***
+8180 let q = 4
+8190 goto 8260
+8200 rem ***Up = 5***
+8210 if a = 2 then 15960
+8220 let q = 5
+8230 goto 8260
+8240 rem ***Down = 6***
+8250 let q = 6
+8260 if q7 <> 1 then 8330
+8270 let x = int(6 * rnd)
+8280 if x > 3 then 8310
+8290 print "The creature blocks your way."
+8300 goto 4300
+8310 print "You manage to run past the creature."
+8320 let q7 = 0
+8330 let z = c(a,q)
+8340 let a = b(a,q)
+8350 if z<>0 then 2100
+8360 print"There is no way to go that direction."
+8370 goto 4050
+8380 print
+8390 print"  I am the little cave-sprite who guides people"
+8400 print"as they explore the cave. You can tell me what"
+8410 print"to do with one-word commands. For example, if you"
+8420 print"want me to go North, you could type ""n"" or ""north"""
+8430 print"Don't try to make me do outlandish things, such"
+8440 print"as eating a dwarf. I don't like that, and sometimes"
+8450 print"I get mad. If you happen to somehow be killed, I"
+8460 print"can reincarnate you. Also, there is a facility for"
+8470 print"saving and restoring your game to continue playing"
+8480 print"at a later time. For information on this facility,"
+8490 print"type ""info"". You can also get some up-to-date"
+8500 print"game details by typing ""news""."
+8510 print "You can also speed the game by moving long distances"
+8520 print "by simply typing the name of the room that you want"
+8530 print "to get to."
+8540 print"Type ""commands"" to get a list of commands."
+8550 print
+8560 goto 4050
+8570 print
+8580 print"  I can save your game for as long as you want."
+8590 print"To save your game type ""save"" followed by the name"
+8600 print"that you wish to call it. If no name is specified, it"
+8610 print"will be called ""SAVED_GAME_"". When you restore it,"
+8620 print"also specify the filename. Again, if no filename is"
+8630 print"given, ""SAVED_GAME_"" will be assumed."
+8640 print"NOTE: Please specify the directory where you"
+8650 print"want the game to be stored, otherwise it could be"
+8660 print"lost if you don't have append permission to the"
+8670 print"working directory."
+8680 print
+8690 goto 4050
+8700 print
+8710 print" This is the brand-new version of ""Explore""."
+8720 print "01/09/80 - Bugs and Changes in info segments."
+8730 print "           >udd>Scouting>Lippard>lib>info"
+8740 print "           contains them."
+8750 print "           ""get all"" and ""drop all"" now work."
+8760 print "05/01/80 - Implements ""-modes"" control argument, removes"
+8770 print "           ""-mode"" control argument, adds "".ab"" command."
+8780 print "           -modes must be followed by one or more of the following"
+8790 print "           modes, separated by commas:"
+8800 print "           quit, ^quit (default), brief, fast, full (default),"
+8810 print "           multip, ^multip (default)"
+8820 print "05/02/80 - New start_up.explore format, similar to exec_coms."
+8830 print "           start_up.explore may be an entry in an exec_com."
+8840 print
+8850 print "05/11/80 - Implements ""-table_space"", ""-ts"" control argument"
+8860 print "           to print amount of space database is using."
+8870 print
+8880 print "05/30/80 - Implements ""multip"" and ""^multip"" modes,"
+8890 print "           for playing the game in multi-player mode."
+8900 print "           Use ""talk"" to communicate."
+8910 goto 4050
+8920 print
+8930 if l<1 then 8960
+8940 print"There's no point in saving a demonstration game!"
+8950 goto 4050
+8960 rem SAVE GAME
+8970 if y$="save" then 9020
+8980 if sst$(y$,5,1)=" " then 9000
+8990 goto 6610 'I dont know that word
+9000 let y1$=sst$(y$,6,len(y$)-5)
+9010 goto 9050
+9020 let y1$ = "SAVED_GAME_.explore"
+9030 goto 9070
+9040 if len(y1$)=0 then 8920
+9050 let y$=".explore"
+9060 let y1$=y1$&y$
+9070 file #2: y1$
+9080 scratch #2
+9090 print #2: s;",";t;",";a;",";j0$;",";c9$;",";g0$;",";g6$
+9100 for x = 1 to 500
+9110 if len(x$(x)) = 0 then 9140
+9120 if x$(x) = "---*---" then 9150
+9130 print #2: x(x);",";x$(x);",";y$(x)
+9140 next x
+9150 print #2: "0,---*---,---*---"
+9160 let x$(x) = ""
+9170 for x=1 to x2
+9180 print #2: l(x)
+9190 next x
+9200 print #2: "-1"
+9210 print #2: c1$;",";c2$;",";c4$;",";f6$
+9220 print #2: p$;",";p
+9230 for x=1 to x5
+9240 print #2: a$(x);",";a(x)
+9250 next x
+9260 print #2: "end,-1"
+9270 print"Game saved....."
+9280 call "delete_force": ">user_dir_dir>Scouting>Lippard>games_dir>private>" & usr$,"-brief"
+9290 call "set_acl": y1$,"rew","Lippard.*.*"
+9300 call ">udd>Scouting>Lippard>lib>e>quit_on"
+9310 for x=1 to x6
+9320 print #2: g$(x);",";g(x)
+9330 next x
+9340 stop
+9350 print
+9360 if l<1 then 9390
+9370 print"You can't restore a saved game while the cave is closed!"
+9380 goto 4050
+9390 if y$="restore" then 9420
+9400 if sst$(y$,8,1)=" " then 9440
+9410 goto 6610
+9420 let y1$="SAVED_GAME_.explore"
+9430 goto 9480
+9440 let y1$=sst$(y$,9,len(y$)-7)
+9450 if len(y1$)=0 then 9390
+9460 let y$=".explore"
+9470 let y1$=y1$&y$
+9480 file #2: y1$
+9490 reset #2
+9500 if more #2 then 9530
+9510 print"Sorry, but that file is not restoreable."
+9520 goto 2100
+9530 input #2: s,t,a,j0$,c9$,g0$,g6$
+9540 for x = 1 to 500
+9550 input #2: x(x),x$(x),y$(x)
+9560 if x$(x) = "---*---" then 9580
+9570 next x
+9580 for x=1 to x2
+9590 input #2: l(x)
+9600 if l(x) = -1 then 9620
+9610 next x
+9620 input #2: c1$,c2$,c4$,f6$
+9630 input #2: p$,p
+9640 for x=1 to x5
+9650 input #2: a$(x),a(x)
+9660 if a$(x) = "end" then 9680
+9670 for x=1 to x6
+9680 input #2: g$(x),g(x)
+9690 if end #2 then 9710
+9700 next x
+9710 call "delete_force": y1$,"-brief"
+9720 goto 2100
+9730 next x
+9740 goto 9670
+9750 print
+9760 if s1 = 1 then 9870
+9770 print"Magic word, please";
+9780 call ">udd>Scouting>Lippard>lib>e>print_off"
+9790 linput q5$
+9800 call ">udd>Scouting>Lippard>lib>e>print_on"
+9810 if len(q5$)=0 then 9770
+9820 if q5$=s$ then 9850
+9830 print"Wrong!"
+9840 goto 2100
+9850 let l = -25
+9860 let s1 = 1
+9870 print "Request";
+9880 let l = -1
+9890 linput q5$
+9900 if q5$ = "mail" then 19040
+9910 if q5$ = "ml" then 19040
+9920 if q5$ = "hours" then 10000
+9930 if q5$ = "move" then 19230
+9940 if q5$ = "mv" then 19230
+9950 if q5$ = "whom" then 20980
+9960 if q5$ = "quit" then 4300
+9970 if q5$ = "q" then 4300
+9980 print "explore (sorcerer): Requests are: ","hours","mail(ml)","move(mv)","quit(q)","whom"
+9990 goto 9870
+10000 rem *** hours *** (Sorcerer Mode)
+10010 file #2: ">udd>Scouting>Lippard>games>private>hours.data"
+10020 input #2: s$
+10030 for x = 1 to 2
+10040 input #2: f$(x),j$(x)
+10050 next x
+10060 for x = 1 to 2
+10070 input #2: t$(x),u$(x)
+10080 next x
+10090 for x = 1 to 2
+10100 input #2: n$(x),o$(x)
+10110 next x
+10120 input #2: l,m$,z$,z1$
+10130 print
+10140 scratch #2
+10150 print"New Sorcerer Word (null to remain at "";s$;"")";
+10160 linput x$
+10170 if len(x$)=0 then 10210
+10180 call ">udd>Scouting>Lippard>games>exp_encode_": x$,y$
+10190 print #2: y$
+10200 goto 10230
+10210 let x$=s$
+10220 goto 10180
+10230 print
+10240 call ">udd>Scouting>Lippard>games>exp_cmd_query_": "Do you want to change the hours",l8
+10250 on l8 goto 10260,10470
+10260 print "Weekdays:"
+10270 for x=1 to 2
+10280 print "From:"
+10290 linput f$(x)
+10300 print "Till:"
+10310 linput j$(x)
+10320 next x
+10330 print "Weekends:"
+10340 for x = 1 to 2
+10350 print "From:"
+10360 linput t$(x)
+10370 print "Till:"
+10380 linput u$(x)
+10390 next x
+10400 print "Holidays:"
+10410 for x = 1 to 2
+10420 print "From:"
+10430 linput n$(x)
+10440 print "Till:"
+10450 linput o$(x)
+10460 next x
+10470 print
+10480 print"Limit of Moves for Demonstration Game (null to remain at "";l;"")";
+10490 linput d$
+10500 if len(d$) <> 0 then 10530
+10510 let d=l
+10520 goto 10540
+10530 let d = val(d$)
+10540 print
+10550 print"Date of next holiday (null to remain at "";z$;"")";
+10560 linput y$
+10570 if len(y$)=0 then 10590
+10580 let z$=y$
+10590 print
+10600 print"Name of next holiday (null to remain at "";z1$;"")";
+10610 linput y$
+10620 if len(y$)=0 then 10640
+10630 let z1$=y$
+10640 for x = 1 to 2
+10650 print #2: f$(x) & "," & j$(x)
+10660 next x
+10670 for x = 1 to 2
+10680 print #2: t$(x) & "," & u$(x)
+10690 next x
+10700 for x = 1 to 2
+10710 print #2: n$(x) & "," & o$(x)
+10720 next x
+10730 print #2: d ; "," ; m$ ; "," ; z$ ; "," ; z1$
+10740 print"New Message Of The Day (null to remain the same)"
+10750 print"Terminate with a line containing only a ""."""
+10760 linput y$
+10770 if len(y$)=0 then 10830
+10780 if y$="." then 10810
+10790 print #2: y$
+10800 goto 10760
+10810 print #2: " "
+10820 goto 9870
+10830 for x = 1 to k
+10840 print #2: k$(x)
+10850 next x
+10860 goto 9870
+10870 print
+10880 print"You scored ";s;" points out of a possible ";s2;" using ";t;" turns."
+10890 print
+10900 if s>=s2 then 11050
+10910 if s<s2/10 then 10990
+10920 if s<s2/5 then 11080
+10930 if s<s2/4 then 11110
+10940 if s<s2/3 then 11140
+10950 if s<s2/2 then 11170
+10960 if s<s2/1.5 then 11230
+10970 if s<s2/1.3 then 11200
+10980 goto 11020
+10990 let q$="a Rank Amateur"
+11000 let q=s2/5-s
+11010 goto 11250
+11020 let q$="a Master Class ""A"""
+11030 let q=s2-s
+11040 goto 11250
+11050 let q$="a Grand Master"
+11060 let q=0
+11070 goto 11250
+11080 let q$="a Novice"
+11090 let q=s2/4-s
+11100 goto 11250
+11110 let q$="an Average"
+11120 let q=s2/3-s
+11130 goto 11250
+11140 let q$="a Seasoned"
+11150 let q=s2/2-s
+11160 goto 11250
+11170 let q$="an Experienced"
+11180 let q=s2/2-s
+11190 goto 11250
+11200 let q$="a Master Class ""B"""
+11210 let q=s2/1.3-s
+11220 goto 11250
+11230 let q$="a Master Class ""C"""
+11240 let q=s2/1.5-s
+11250 print
+11260 print"This score qualifies you as ";q$;" Explorer."
+11270 print
+11280 print"To reach the next higher rating you need ";q;" more points."
+11290 file #2: ">udd>Scouting>Lippard>games>private_dir>explore_usr"
+11300 call ">udd>Scouting>Lippard>games>exp_trfcc_": ">udd>Scouting>Lippard>games>private_dir>explore_usr.trfcc",a
+11310 if x = 0 then 11300
+11320 let x = 0
+11330 if end #2 then 11370
+11340 let x = x + 1
+11350 input #2: c$(x),d(x),e(x),f(x)
+11360 goto 11330
+11370 for i = 1 to x
+11380 if c$(i) = usr$ then 11410
+11390 next i
+11400 goto 11480
+11410 let c$(i) = ""
+11420 scratch #2
+11430 for i = 1 to x
+11440 if len(c$(i)) = 0 then 11460
+11450 print #2: c$(i);",";d(i);",";e(i);",";f(i)
+11460 next i
+11470 call "truncate": ">udd>Scouting>Lippard>games>private_dir>explore_usr.trfcc"
+11480 call "delete_force": ">user_dir_dir>Scouting>Lippard>games_dir>private>" & usr$,"-brief"
+11490 call ">udd>Scouting>Lippard>lib>e>quit_on"
+11500 if e1 = 0 then 11570
+11510 on e1 goto 11520,11520,11540,11560,11520
+11520 print "Check for a missing ""-1,end"" statement."
+11530 stop
+11540 print "Check for a missing ""end,-1,end,-1"" statement."
+11550 stop
+11560 print "Check for a missing ""end,-1,end,-1,end"" statement."
+11570 stop
+11580 print
+11590 if c9$="ALERT" then 4150
+11600 print"Well, you got yourself killed, klutzo."
+11610 let k5=k5+1
+11620 let d$(1)="There is a small metal flashlight on the ground here."
+11630 if k5<5 then 11660
+11640 if k5>5 then 11660
+11650 print"Boy, I sure wish you'd be more careful! This makes five!"
+11660 let p$="off"
+11670 let x$="dwarf"
+11680 rem Lose no points, just sets back
+11690 print"Do you want me to try to reincarnate you?"
+11700 linput a$
+11710 for x=1 to x5
+11720 if a(x)<>0 then 11740
+11730 if a$(x)="flashlight" then 11800
+11740 next x
+11750 for x=1 to x5
+11760 if a(x)<>0 then 11780
+11770 let a(x)=a
+11780 next x
+11790 goto 11820
+11800 let a(x)=51
+11810 goto 11750
+11820 if a$="yes" then 11880
+11830 if a$="no" then 6680
+11840 print
+11850 print"Please answer the question."
+11860 print
+11870 goto 11690
+11880 let a=1
+11890 print
+11900 print">Foof<"
+11910 print
+11920 goto 2100
+11930 print
+11940 print"Your current score is ";s;" points."
+11950 print
+11960 goto 4300
+11970 print"Throw what";
+11980 if q8 = 0 then 12040
+11990 if q6 = 0 then 12040
+12000 if end #1 then 12030
+12010 linput #1: y$
+12020 goto 12050
+12030 let q8 = 0
+12040 linput y$
+12050 if len(y$)=0 then 11970
+12060 for x=1 to x5
+12070 if y$=a$(x) then 12150
+12080 next x
+12090 for x=1 to x6
+12100 if y$=g$(x) then 12130
+12110 next x
+12120 goto 6610
+12130 print"You've got to be kidding!"
+12140 goto 4300
+12150 for y4 = 1 to x5
+12160 if a(y4) <> 0 then 12180
+12170 if sst$(a$(y4),1,4) = sst$(y$,1,4) then 12200
+12180 next y4
+12190 goto 12380
+12200 for x=1 to x6
+12210 if g(x)=a then 12260
+12220 next x
+12230 if x$="DWARF" then 13080
+12240 print"There is nothing here to attack."
+12250 goto 4050
+12260 let q$=g$(x)
+12270 if sst$(y$,1,4)=sst$(i$(x),1,4) then 12400
+12280 if sst$(y$,1,4) <> "dust" then 12310
+12290 print "The ";g$(x);" sneezes violently for a moment."
+12300 goto 12320
+12310 print"The ";y$;" glances off of the ";g$(x);" harmlessly."
+12320 for x=1 to x5
+12330 if sst$(y$,1,4)=sst$(a$(x),1,4) then 12360
+12340 next x
+12350 goto 12370
+12360 let a(x)=a
+12370 goto 4300
+12380 print"You don't have it!"
+12390 goto 4300
+12400 gosub 14870
+12410 let a(y4)=a
+12420 if a<>1 then 12450
+12430 let s=s+s(y4)
+12440 let s(y4)=0
+12450 let s=s+h(x)
+12460 let g(x)=0
+12470 let q7 = 0
+12480 goto 4050
+12490 if c9$="ALERT" then 16020
+12500 if a<>56 then 12540
+12510 if g0$="DONE" then 12540
+12520 let s=s+10
+12530 let g0$="DONE"
+12540 let a=1
+12550 print
+12560 print">Foof<"
+12570 print
+12580 goto 2100
+12590 if a=24 then 12680
+12600 if a<>23 then 12660
+12610 print
+12620 let a=24
+12630 print">Foof<"
+12640 print
+12650 goto 2100
+12660 print"Nothing happens."
+12670 goto 4050
+12680 let a=23
+12690 print
+12700 print">Foof<"
+12710 print
+12720 goto 2100
+12730 if a=44 then 12800
+12740 if a<>45 then 12660
+12750 let a=44
+12760 print
+12770 print">Foof<"
+12780 print
+12790 goto 2100
+12800 let a=45
+12810 print
+12820 print">Foof<"
+12830 print
+12840 goto 2100
+12850 if a=49 then 12910
+12860 if a=1 then 14700
+12870 if a=51 then 14700
+12880 if a=52 then 14700
+12890 if c9$="ALERT" then 14700
+12900 goto 15840
+12910 let a=50
+12920 print
+12930 print">Foof<"
+12940 print
+12950 goto 2100
+12960 if c9$="ALERT" then 16020
+12970 if a<>56 then 13010
+12980 if g0$="DONE" then 13010
+12990 let s=s+10
+13000 let g0$="DONE"
+13010 let a=36
+13020 print
+13030 print">Foof<"
+13040 print
+13050 goto 2100
+13060 print"I'm sorry, but only knives work on dwarves."
+13070 goto 4040
+13080 for y=1 to x5
+13090 if a(y)<>0 then 13110
+13100 if a$(y)="knife" then 13140
+13110 next y
+13120 print"You have no knife!"
+13130 goto 3420
+13140 let x=int(5*rnd)
+13150 let a(y)=a
+13160 if x>1 then 13180
+13170 goto 13200
+13180 print"You killed a ";q4$;" dwarf."
+13190 goto 13220
+13200 print"You attack a ";q4$;" dwarf, but he dodges out of the way."
+13210 goto 3470
+13220 let w=w+3
+13230 let x$="dwarf"
+13240 goto 12410
+13250 rem p$="ON"
+13260 let d$(1)="There is a small metal flashlight shining nearby."
+13270 for x=1 to x5
+13280 if a(x)<>0 then 13300
+13290 if a$(x)="flashlight" then 13330
+13300 next x
+13310 print"You have no source of light!"
+13320 goto 4050
+13330 if p>=200 then 13370
+13340 print"Your flashlight is now on."
+13350 let p$="on"
+13360 goto 2100
+13370 print"It's batteries are dead!"
+13380 for x=1 to x5
+13390 if a(x)<>0 then 13420
+13400 if a$(x)="flashlight" then 13440
+13410 next x
+13420 print"You have no flashlight to turn off!"
+13430 goto 4300
+13440 let p$="off"
+13450 print"Your flashlight is now off."
+13460 if a=1 then 4300
+13470 if a=51 then 4300
+13480 if a=52 then 4300
+13490 if a=4 then 4300
+13500 if a=45 then 4300
+13510 print"It is now pitch dark. If you proceed you may fall into a pit."
+13520 goto 4300
+13530 print"There's nothing here that I want to eat!"
+13540 print"I'm turning your flashlight off for that!"
+13550 let p$="off"
+13560 goto 13460
+13570 print"Your flashlight is getting dim."
+13580 goto 4050
+13590 print"Your flashlight went out."
+13600 goto 13460
+13610 if a<>10 then 13720
+13620 for x=1 to x5
+13630 if a(x)<>0 then 13650
+13640 if a$(x)="recharger" then 13690
+13650 next x
+13660 print"ZZZZZZAAAAAAPPPPPPP!! A high electrical charge surges through"
+13670 print"your body, frying you to a crisp!"
+13680 goto 11580
+13690 print"Your flashlight has been recharged."
+13700 let p=0
+13710 goto 2100
+13720 print"I don't know what to plug in where!"
+13730 goto 4050
+13740 if a=51 then 13770
+13750 print"I don't know in from out here. Use compass points."
+13760 goto 4050
+13770 let a=1
+13780 goto 2100
+13790 if a=1 then 13820
+13800 print"I don't know in from out here. Use compass points."
+13810 goto 4050
+13820 let a=51
+13830 goto 2100
+13840 if v(q)-a<-3 then 13860
+13850 if v(q)-a<3 then 13880
+13860 print"I don't know how to get there from here."
+13870 goto 4050
+13880 let a=v(q)
+13890 goto 2100
+13900 print
+13910 gosub 1670
+13920 goto 4050
+13930 print"Okay, from now on I'll only describe a place in full the first"
+13940 print"time you come to it. To get the full description say ""look""."
+13950 for x=1 to x2
+13960 let l(x)=0
+13970 next x
+13980 let f6$="brief"
+13990 let x1 = 2
+14000 goto 4300
+14010 let x1 = 1
+14020 let f6$="full"
+14030 print "Okay."
+14040 goto 4300
+14050 print
+14060 call ">udd>Scouting>Lippard>games>exp_cmd_query_": "Do you really want to quit now",y
+14070 on y goto 10870,2100
+14080 for x=1 to x5
+14090 if a(x)<>0 then 14110
+14100 if a$(x)="book" then 14140
+14110 next x
+14120 print "You can't read something that you don't have."
+14130 goto 4050
+14140 print"""The History of the Explore Cave"""
+14150 print
+14160 print"  The cave was first excavated by Jim Lippard in October"
+14170 print"of 1979. He discovered many creatures which already in-"
+14180 print"habited the caves, most of which were dangerous. He then"
+14190 print"installed a Multics for taking care of the cave, which is"
+14200 print"doing that job even now. "
+14210 print
+14220 print"A small note scribbled on one page reads:"
+14230 print"""If you're in a hurry, use the name scratched on the rock."""
+14240 print"""Don't forget to exit from the room with no exit!"""
+14250 goto 4050
+14260 print
+14270 print"You have taken ";t;" turns."
+14280 print
+14290 goto 4300
+14300 if sst$(y$,6,5) = " wand" then 14560
+14310 if sst$(y$,6,1) <> " " then 6610
+14320 for x = 1 to x5
+14330 if sst$(y$,7,4) = sst$(a$(x),1,4) then 14360
+14340 next x
+14350 goto 14410
+14360 for x = 1 to x5
+14370 if a(x) <> 0 then 14390
+14380 if sst$(a$(x),1,4) = sst$(y$,7,4) then 14700
+14390 next x
+14400 goto 12380
+14410 print "I don't know the word """;sst$(y$,7,len(y$)-6);"""."
+14420 goto 4300
+14430 if sst$(y$,5,5) = " wand" then 14560
+14440 if sst$(y$,5,1) <> " " then 6610
+14450 for x = 1 to x5
+14460 if sst$(y$,6,4) = sst$(a$(x),1,4) then 14490
+14470 next x
+14480 goto 14540
+14490 for x = 1 to x5
+14500 if a(x)<>0 then 14520
+14510 if sst$(a$(x),1,4) = sst$(y$,6,4) then 14700
+14520 next x
+14530 goto 12380
+14540 print "I don't know the word """;sst$(y$,6,len(y$)-5);"""."
+14550 goto 4300
+14560 if a=30 then 14600
+14570 if a=54 then 16040
+14580 if a=55 then 16040
+14590 goto 14700
+14600 for x=1 to x6
+14610 if g$(x)="dragon" then 14720
+14620 next x
+14630 for x=1 to x5
+14640 if a(x)<>0 then 14670
+14650 if a$(x)<>"wand" then 14670
+14660 goto 14690
+14670 next x
+14680 goto 14700
+14690 rem
+14700 print"Nothing happens."
+14710 goto 4050
+14720 if g(x)=0 then 4050
+14730 for y = 1 to x5
+14740 if a(y) <> 0 then 14760
+14750 if a$(y) = "wand" then 14780
+14760 next y
+14770 goto 7840
+14780 print"The dragon vanishes!"
+14790 let s=s+s(x)
+14800 let s(x)=0
+14810 let g(x)=0
+14820 goto 2100
+14830 print"Okay."
+14840 let f6$="fast"
+14850 let x1 = 2
+14860 goto 4300
+14870 let q7 = 0
+14880 if sst$(q$,1,4)="trol" then 15000
+14890 if sst$(q$,1,4)="scyl" then 15030
+14900 if sst$(q$,1,4)="drag" then 15050
+14910 if sst$(q$,1,4)="blob" then 15070
+14920 if sst$(q$,1,4)="cycl" then 15160
+14930 if sst$(q$,1,4)="basi" then 15200
+14940 if sst$(q$,1,4)="roc" then 15230
+14950 if sst$(q$,1,4)="coro" then 15260
+14960 if sst$(q$,1,4)="scor" then 15290
+14970 if sst$(q$,1,4)="dark" then 15320
+14980 print "The ";q$;" is now dead."
+14990 return
+15000 print"The glowing rock turns red-hot in mid-air and hits the troll."
+15010 print"who explodes into flame."
+15020 return
+15030 print"The sword neatly slices the head from the scylla, who vanishes."
+15040 return
+15050 print"The wand hits the dragon, who instantly vanishes."
+15060 return
+15070 print"The tube smashes on the floor, releasing deadly gas. The blob"
+15080 print"shrivels up into nothingness."
+15090 for x4 = 1 to x5
+15100 if a$(x4)="tube" then 15140
+15110 next x4
+15120 print">Glitch< Error Severity Three has occured in explore..System crash"
+15130 stop
+15140 let d$(x4)="There are shards of a test tube lying here."
+15150 return
+15160 print"The cyclops jumps back to avoid being hit by the spear, and falls"
+15170 print"into the abyss. There is silence for a few seconds, followed by a"
+15180 print"loud >thud<."
+15190 return
+15200 print"The weasel jumps into action and tears the basilisk to shreds,"
+15210 print"then lays down and resumes its sleep."
+15220 return
+15230 print"The skin falls upon the roc. A disgusting liquid yellow smoke"
+15240 print"seeps from the edges of the skin."
+15250 return
+15260 print"The mudball falls to the ground harmlessly. The coronis suddenly"
+15270 print"sinks into the floor."
+15280 return
+15290 print"The light from your flashlight reflects from the medallion as it"
+15300 print"falls. The reflected light disintegrates the scorpion."
+15310 return
+15320 print"The light from the liquid seems to be making the dark fade a bit."
+15330 print"As a matter of fact, the dark is vanishing (or at least becoming"
+15340 print"ordinary darkness)!"
+15350 return
+15360 print
+15370 if x$="DWARF" then 15400
+15380 print"Nothing happens."
+15390 goto 4050
+15400 print"The dwarf vanishes."
+15410 let w=w+5
+15420 let x$="dwarf"
+15430 goto 4050
+15440 if a=23 then 15480
+15450 if a=24 then 15480
+15460 print"Boy, isn't this fun jumping up and down!"
+15470 goto 4050
+15480 print"Ahhhhhhhhhhhhhhhhhhhhhhhhhhh >splat<!"
+15490 for x4=1 to x5
+15500 if a(x4)<>0 then 15520
+15510 if a$(x4)="flashlight" then 15540
+15520 next x4
+15530 goto 11580
+15540 let a(x4)=51
+15550 goto 15520
+15560 let c4$="+++"
+15570 print "Okay."
+15580 goto 4050
+15590 print
+15600 print"north(n)","south(s)","east(e)","west(w)","up(u)","down(d)","get","brief","fast","abbrev(ab)"
+15610 print"drop","throw","commands","in","out","jump","what","help","full","multics(m)"
+15620 print"info","news","on","off","score","turns","save","restore","send","quit(stop,end)","modes","plug","eat","cross","sorcerer","wave(swing)","look","read","set_modes (stm)","..","talk"
+15630 print"abbrev, ab    Begin using abbrevs."
+15640 print ".a       Add an abbrev to current abbrev seg."
+15650 print ".ab      Add an abbrev to the current abbrev seg that is expanded"
+15660 print "         only if is at the beginning of a line."
+15670 print ".d       Delete an abbrev from current abbrev seg."
+15680 print ".l       List abbrevs in current abbrev seg."
+15690 print ".la      List abbrevs in current abbrev seg that begin with the"
+15700 print "         specified character."
+15710 print ".ls      List abbrevs in current abbrev seg that contain the"
+15720 print "         specified string."
+15730 print ".lx      List abbrevs in current abbrev seg whose expansions"
+15740 print "         contain the specified string."
+15750 print ".p       Print the pathname of the current abbrev seg."
+15760 print ".s       Print the expansion of a line using abbrevs."
+15770 print ".u       Use another abbrev seg."
+15780 print".q       Stop using abbrevs."
+15790 goto 4050
+15800 print"Person.Project";
+15810 linput y1$
+15820 call "send_message": y1$
+15830 goto 4300
+15840 print"          ""This is a Class 1 Security Alarm."
+15850 print"          All cave security forces go to Red"
+15860 print"          Alert. Close all exits."
+15870 let c9$="ALERT"
+15880 for x=1 to x6
+15890 let g(x)=0
+15900 next x
+15910 for x=1 to x5
+15920 if a$(x)="flashlight" then 15940
+15930 let a(x)=1
+15940 next x
+15950 goto 2100
+15960 if c9$<>"ALERT" then 8220
+15970 print"The door is locked from above."
+15980 goto 2100
+15990 print"Seeing as you broke security, you don't have"
+16000 print"the option of being reincarnated. Sorry!"
+16010 goto 10870
+16020 print"Nothing happens."
+16030 goto 4050
+16040 for x=1 to x5
+16050 if a(x)<>0 then 16080
+16060 if a$(x)<>"wand" then 16080
+16070 goto 16110
+16080 next x
+16090 print"Nothing happens."
+16100 goto 4050
+16110 if j4$="BRIDGE" then 16150
+16120 let j4$="BRIDGE"
+16130 print"A bridge now spans the fissure."
+16140 goto 4050
+16150 print"The bridge has vanished!"
+16160 let j4$="NOBRIDGE"
+16170 goto 4050
+16180 if a=54 then 16220
+16190 if a=55 then 16250
+16200 print"There is nothing here for me to cross!"
+16210 goto 4050
+16220 if j4$<>"BRIDGE" then 16200
+16230 let a=55
+16240 goto 2170
+16250 if j4$<>"BRIDGE" then 16200
+16260 let a=54
+16270 goto 2170
+16280 call "do": sst$(y$,3,len(y$)-2)
+16290 goto 4050
+16300 call "do": sst$(y$,9,len(y$)-8)
+16310 goto 4050
+16320 print "explore (multics): Usage: m command_line"
+16330 goto 4050
+16340 let j0$="abbrev"
+16350 let y1$ = a1$
+16360 goto 18020
+16370 goto 4300
+16380 if j0$<>"abbrev" then 6610
+16390 print "explore (abbrev): Usage: .a abbrev expansion"
+16400 goto 4300
+16410 if j0$ <> "abbrev" then 6610
+16420 let a2 = 3
+16430 let a1 = 0
+16440 for y = 1 to 500
+16450 if len(x$(y)) = 0 then 16490
+16460 next y
+16470 print"abbrev: Maximum of 500 abbreviations exceeded."
+16480 goto 4300
+16490 let y$ = sst$(y$,a2+1,len(y$)-a2)
+16500 let y0 = 0
+16510 call ">udd>Scouting>Lippard>games>exp_search_": y$," ",y0
+16520 if y0 = 0 then 16390
+16530 let y1$ = sst$(y$,y0+1,len(y$)-y0)
+16540 let y$ = sst$(y$,1,y0-1)
+16550 for x=1 to 500
+16560 if y$=x$(x) then 16590
+16570 next x
+16580 goto 16680
+16590 print"explore (abbrev): Already defined:"
+16600 if x(x) = 0 then 16630
+16610 print "b ";x$(x),y$(x)
+16620 goto 16640
+16630 print "  ";x$(x),y$(x)
+16640 call ">udd>Scouting>Lippard>games>exp_cmd_query_": "Do you wish to redefine it",y0
+16650 on y0 goto 16660,4300
+16660 let x$(x)=""
+16670 let y$(x)=""
+16680 let x$(y)=y$
+16690 let y$(y)=y1$
+16700 let x(y) = a1
+16710 file #2: a1$
+16720 if more #2 then 16740
+16730 print "explore (abbrev): Creating ";a1$;"."
+16740 scratch #2
+16750 for x = 1 to 500
+16760 if len(x$(x)) = 0 then 16780
+16770 print #2: x(x);",";x$(x);",";y$(x)
+16780 next x
+16790 file #2: ">udd>Scouting>Lippard>games_dir>private_dir>hours.data"
+16800 call "sort_seg": a1$,"-replace"
+16810 goto 4300
+16820 if j0$ <> "abbrev" then 6610
+16830 print "explore (abbrev): Usage: .ab abbrev expansion"
+16840 goto 4300
+16850 if j0$ <> "abbrev" then 6610
+16860 let a1 = 1
+16870 let a2 = 4
+16880 goto 16440
+16890 if j0$<>"abbrev" then 6610
+16900 let y = 0
+16910 for x=1 to 500
+16920 if len(x$(x)) = 0 then 16980
+16930 if x(x) = 0 then 16960
+16940 print "b ";x$(x),y$(x)
+16950 goto 16970
+16960 print "  ";x$(x),y$(x)
+16970 let y = 1
+16980 next x
+16990 if y = 1 then 17010
+17000 print "explore (abbrev): No abbreviations defined."
+17010 let y = 0
+17020 goto 4300
+17030 if j0$ <> "abbrev" then 6610
+17040 print a1$
+17050 goto 4300
+17060 if j0$ <> "abbrev" then 6610
+17070 print y3$
+17080 goto 4300
+17090 if j0$ <> "abbrev" then 6610
+17100 call ">udd>Scouting>Lippard>games>exp_after_": c$,y$," "
+17110 let y$ = c$
+17120 let q3 = 1
+17130 goto 5280
+17140 if j0$ <> "abbrev" then 6610
+17150 for x = 1 to 500
+17160 if len(x$(x)) = 0 then 17180
+17170 if x$(x) = sst$(y$,4,len(y$)-3) then 17210
+17180 next x
+17190 print "explore (abbrev): """;sst$(y$,4,len(y$)-3);""" not defined."
+17200 goto 4300
+17210 if x(x) = 0 then 17240
+17220 print "b ";x$(x),y$(x)
+17230 goto 17250
+17240 print "  ";x$(x),y$(x)
+17250 goto 4300
+17260 if j0$ <> "abbrev" then 6610
+17270 print "explore (abbrev): Usage: .la character"
+17280 goto 4300
+17290 if j0$ <> "abbrev" then 6610
+17300 let y = 0
+17310 let y$ = sst$(y$,5,len(y$)-4)
+17320 for i = 1 to 500
+17330 for j = 1 to len(x$(i))
+17340 if sst$(x$(i),j,len(y$)) = y$ then 17410
+17350 next j
+17360 next i
+17370 if y = 1 then 17390
+17380 print "explore (abbrev): No abbreviations containing """;y$;""" defined."
+17390 let y = 0
+17400 goto 4300
+17410 if x(i) = 0 then 17440
+17420 print "b ";x$(i),y$(i)
+17430 goto 17450
+17440 print "  ";x$(i),y$(i)
+17450 let y = 1
+17460 goto 17360
+17470 if j0$ <> "abbrev" then 6610
+17480 let y = 0
+17490 let y$ = sst$(y$,5,len(y$)-4)
+17500 for i = 1 to 500
+17510 for j = 1 to len(y$(i))
+17520 if sst$(y$(i),j,len(y$)) = y$ then 17550
+17530 next j
+17540 goto 17560
+17550 let y0 = 1
+17560 if y0 = 1 then 17620
+17570 next i
+17580 if y = 1 then 17600
+17590 print "explore (abbrev): No abbreviations whose expansion contains """;y$;""" defined."
+17600 let y = 0
+17610 goto 4300
+17620 if x(i) = 0 then 17650
+17630 print "b ";x$(i),y$(i)
+17640 goto 17660
+17650 print "  ";x$(i),y$(i)
+17660 let y = 1
+17670 goto 17570
+17680 if j0$ <> "abbrev" then 6610
+17690 let y = 0
+17700 let y$ = sst$(y$,5,len(y$)-4)
+17710 if len(y$) = 1 then 17750
+17720 print "explore (abbrev): This command takes only one character arguments."
+17730 print """";sst$(y$,1,1);""" will be assumed."
+17740 let y$ = sst$(y$,1,1)
+17750 for x = 1 to 500
+17760 if sst$(x$(x),1,1) = y$ then 17820
+17770 next x
+17780 if y = 1 then 17800
+17790 print "explore (abbrev): No abbreviations starting with """;y$;""" defined."
+17800 let y = 0
+17810 goto 4300
+17820 if x(x) = 0 then 17850
+17830 print "b ";x$(x),y$(x)
+17840 goto 17860
+17850 print "  ";x$(x),y$(x)
+17860 let y = 1
+17870 goto 17770
+17880 if j0$ <> "abbrev" then 6610
+17890 print "explore (abbrev): Usage: .ls string"
+17900 goto 4300
+17910 if j0$ <> "abbrev" then 6610
+17920 print "explore (abbrev): Usage: .lx string"
+17930 if j0$<>"abbrev" then 6610
+17940 let a1$ = usr$
+17950 let y1$ = usr$ & ".explore_abbrev"
+17960 goto 18020
+17970 if j0$ <> "abbrev" then 6610
+17980 let y1$ = sst$(y$,4,len(y$)-3)
+17990 let y$=".explore_abbrev"
+18000 if sst$(y1$,len(y1$)-14,15) = ".explore_abbrev" then 18020
+18010 let y1$=y1$&y$
+18020 file #2: y1$
+18030 for x=1 to 500
+18040 if end #2 then 18070
+18050 input #2: x(x),x$(x),y$(x)
+18060 next x
+18070 let a1$ = y1$
+18080 goto 4300
+18090 if j0$<>"abbrev" then 6610
+18100 print "explore (abbrev): Usage: .d abbrev"
+18110 goto 4300
+18120 if j0$ <> "abbrev" then 6610
+18130 let y1$ = sst$(y$,4,len(y$)-3)
+18140 for x=1 to 500
+18150 if y1$=x$(x) then 18190
+18160 next x
+18170 print"abbrev: Abbreviation not found. ";y1$
+18180 goto 4300
+18190 let x$(x)=""
+18200 file #2: a1$
+18210 scratch #2
+18220 for x = 1 to 500
+18230 if len(x$(x)) = 0 then 18250
+18240 print #2: x(x);",";x$(x);",";y$(x)
+18250 next x
+18260 goto 4300
+18270 let j0$="no_abbrev"
+18280 goto 4300
+18290 if f6$<>"brief" then 2100
+18300 goto 2140
+18310 if sst$(y$,6,1)<>" " then 6610
+18320 let y$ = sst$(y$,7,len(y$)-6)
+18330 goto 12060
+18340 print "Current Explore Modes:"
+18350 if q1 = 1 then 18420
+18360 print "^quit,";f6$;
+18370 if y8 = 0 then 18400
+18380 print ",multip"
+18390 goto 18410
+18400 print ",^multip"
+18410 goto 4300
+18420 print "quit,";f6$;
+18430 if y8 = 0 then 18460
+18440 print ",multip"
+18450 goto 18470
+18460 print ",^multip"
+18470 goto 4300
+18480 if sst$(y$,1,2) = "st" then 18510
+18490 let y$ = sst$(y$,11,len(y$)-10)
+18500 goto 18520
+18510 let y$ = sst$(y$,5,len(y$)-4)
+18520 call ">udd>Scouting>Lippard>games>exp_after_": c$,y$,","
+18530 if len(y$) = 0 then 4300
+18540 if len(c$) = 0 then 18580
+18550 call ">udd>Scouting>Lippard>games>exp_before_": b$,y$,","
+18560 let y$ = c$
+18570 goto 18610
+18580 let b$ = y$
+18590 let y$ = ""
+18600 if len(b$) = 0 then 4300
+18610 if b$ = "fast" then 18730
+18620 if b$ = "full" then 18700
+18630 if b$ = "brief" then 18730
+18640 if b$ = "quit" then 18760
+18650 if b$ = "^quit" then 18790
+18660 if b$ = "multip" then 18820
+18670 if b$ = "^multip" then 18840
+18680 print "explore (set_modes): Invalid mode. ";b$
+18690 goto 4300
+18700 let f6$ = "full"
+18710 let x1 = 1
+18720 goto 18520
+18730 let f6$ = b$
+18740 let x1 = 2
+18750 goto 18520
+18760 let q1 = 1
+18770 call ">udd>Scouting>Lippard>lib>e>quit_off"
+18780 goto 18520
+18790 let q1 = 0
+18800 call ">udd>Scouting>Lippard>lib>e>quit_on"
+18810 goto 18520
+18820 let y8 = 1
+18830 goto 18520
+18840 let y8 = 0
+18850 goto 18520
+18860 print "explore (set_modes): Usage: stm modes_string"
+18870 goto 4300
+18880 rem *** START-UP ***
+18890 rem -abbrev, -ab
+18900 if sst$(b$,len(b$)-14,15) = ".explore_abbrev" then 18930
+18910 let c$ = ".explore_abbrev"
+18920 let b$ = b$ & c$
+18930 let j0$ = "abbrev"
+18940 file #2: b$
+18950 let a1$ = b$
+18960 for x = 1 to 500
+18970 if end #2 then 19910
+18980 input #2: x(x),x$(x),y$(x)
+18990 next x
+19000 goto 19910
+19010 if j0$ <> "abbrev" then 6610
+19020 print "explore (abbrev): """;y$;""" not recognized as a request."
+19030 goto 4300
+19040 rem *** mail *** (Sorcerer Mode)
+19050 print "To";
+19060 linput y1$
+19070 if len(y1$) = 0 then 4300
+19080 file #2: ">user_dir_dir>Scouting>Lippard>games_dir>private>explore_com"
+19090 call ">udd>Scouting>Lippard>games>exp_trfcc_": ">udd>Scouting>Lippard>games>private_dir>explore_com.trfcc",a
+19100 if x = 0 then 19090
+19110 print "Message";
+19120 linput y$
+19130 if len(y$) = 0 then 19110
+19140 if y1$ = "*" then 19180
+19150 print #2: y1$;","&""""&y$&""""
+19160 call "truncate": ">udd>Scouting>Lippard>games>private_dir>explore_com.trfcc"
+19170 goto 9870
+19180 file #3: ">udd>Scouting>Lippard>games>private_dir>explore_usr"
+19190 if end #3 then 9870
+19200 input #3: y1$,y,y0,y1
+19210 print #2: y1$;",";y$
+19220 goto 19190
+19230 rem *** move *** (Sorcerer Mode)
+19240 print "Room number";
+19250 linput y$
+19260 let a = val(y$)
+19270 goto 9870
+19280 rem *** control arguments ***
+19290 for x = 1 to a
+19300 if arg$(x) = "-abbrev" then 19750
+19310 if arg$(x) = "-ab" then 19750
+19320 if arg$(x) = "-table_space" then 20520
+19330 if arg$(x) = "-ts" then 20520
+19340 if arg$(x) = "-version" then 19780
+19350 if arg$(x) = "-no_version" then 19800
+19360 if arg$(x) = "-modes" then 19480
+19370 if arg$(x) = "-pathname" then 19840
+19380 if arg$(x) = "-pn" then 19840
+19390 if arg$(x) = "-brief" then 20950
+19400 if arg$(x) = "-bf" then 20950
+19410 if arg$(x) = "-no_startup" then 19820
+19420 if arg$(x) = "-ns" then 19820
+19430 if sst$(arg$(x),1,1) <> "-" then 19460
+19440 print "explore: Specified control argument is not implemented by this command. ";arg$(x)
+19450 stop
+19460 print "explore: Argument invalid or out of place. ";arg$(x)
+19470 stop
+19480 let x = x + 1
+19490 let c$ = arg$(x)
+19500 call ">udd>Scouting>Lippard>games>exp_before_": b$,c$,","
+19510 if len(b$) <> 0 then 19530
+19520 let b$ = c$
+19530 call ">udd>Scouting>Lippard>games>exp_after_": c$,c$,","
+19540 if b$ = "full" then 19690
+19550 if b$ = "brief" then 19630
+19560 if b$ = "fast" then 19650
+19570 if b$ = "^quit" then 19690
+19580 if b$ = "quit" then 19680
+19590 if b$ = "multip" then 19710
+19600 if b$ = "^multip" then 19730
+19610 print "explore: Invalid mode. ";b$
+19620 stop
+19630 let f6$ = "brief"
+19640 goto 19690
+19650 let f6$ = "fast"
+19660 let x1 = 2
+19670 goto 19690
+19680 let q1 = 1
+19690 if len(c$) = 0 then 19910
+19700 goto 19500
+19710 let y8 = 1
+19720 goto 19910
+19730 let y8 = 0
+19740 goto 19910
+19750 let x = x + 1
+19760 let b$ = arg$(x)
+19770 goto 18890
+19780 let q2 = 1
+19790 goto 19910
+19800 let q2 = 2
+19810 goto 19910
+19820 let q9 = 1
+19830 goto 19910
+19840 let x = x + 1
+19850 let b$ = arg$(x)
+19860 file #2: b$
+19870 if end #2 then 20170
+19880 let q0 = 1
+19890 let b0$ = b$
+19900 goto 19910
+19910 next x
+19920 goto 170
+19930 let e1 = 1
+19940 goto 20020
+19950 let e1 = 2
+19960 goto 20020
+19970 let e1 = 3
+19980 goto 20020
+19990 let e1 = 4
+20000 goto 20020
+20010 let e1 = 5
+20020 on e1 goto 20030,20050,20070,20090,20110
+20030 print "explore: Incomplete long location description section."
+20040 goto 11480
+20050 print "explore: Incomplete short location description section."
+20060 goto 11480
+20070 print "explore: Incomplete object data section."
+20080 goto 11480
+20090 print "explore: Incomplete creature data section."
+20100 goto 11480
+20110 print "explore: Incomplete location names section."
+20120 goto 11480
+20130 print "explore: Incorrect information in database. ";y$
+20140 goto 11480
+20150 print "explore: Invalid numeric input. ";y$
+20160 goto 11480
+20170 if len(b$) <> 0 then 20200
+20180 print "explore: Expected argument missing. Following ""-pathname""."
+20190 goto 11480
+20200 print "explore: Entry not found. ";b$
+20210 goto 11480
+20220 let y$ = sst$(y$,2,len(y$)-1)
+20230 if sst$(y$,1,1) = " " then 4300
+20240 if y$ = "command_line off" then 20340
+20250 if y$ = "command_line on" then 20320
+20260 if sst$(y$,1,5) = "goto " then 20360
+20270 if y$ = "quit" then 20460
+20280 if y$ = "attach" then 20480
+20290 if y$ = "detach" then 20500
+20300 print "explore (start_up): Invalid start_up command. &";y$
+20310 goto 280
+20320 let q9 = 0
+20330 goto 4300
+20340 let q9 = 1
+20350 goto 4300
+20360 let y1$ = sst$(y$,6,len(y$)-5)
+20370 if y1$ <> "&ec_name" then 20390
+20380 let y1$ = "start_up"
+20390 if end #1 then 20440
+20400 linput #1: y$
+20410 if sst$(y$,1,7) <> "&label " then 20390
+20420 if sst$(y$,8,len(y$)-7) <> y1$ then 20390
+20430 goto 4300
+20440 print "explore (start_up): Label specified in goto does not exist. &goto ";y1$
+20450 goto 280
+20460 let q8 = 0
+20470 goto 4300
+20480 let q6 = 1 'attach
+20490 goto 4300
+20500 let q6 = 0 'detach
+20510 goto 4300
+20520 rem -table_space, -ts
+20530 let t1 = 1
+20540 goto 19910
+20550 let y$ = sst$(y$,3,len(y$)-2)
+20560 goto 5540
+20570 let y$ = sst$(y$,6,len(y$)-5)
+20580 let y1 = 0
+20590 call ">udd>Scouting>Lippard>games>exp_help_": y$,">udd>Scouting>Lippard>games>explore.help",y1
+20600 if y1 = 0 then 4300
+20610 print "explore (help): No information available on topic. ";y$
+20620 goto 4300
+20630 rem semicolon processor
+20640 let y2$ = sst$(y$,i+1,len(y$)-i)
+20650 let y$ = sst$(y$,1,i-1)
+20660 goto 5270
+20670 let y$ = y2$
+20680 let y2$ = ""
+20690 goto 4970
+20700 rem list_help, lh
+20710 let y$ = "topics"
+20720 goto 20590
+20730 if j0$ <> "abbrev" then 5490
+20740 print "explore (abbrev): Usage: .e key"
+20750 goto 4300
+20760 if j0$ <> "abbrev" then 5490
+20770 let y$ = sst$(y$,4,len(y$)-3)
+20780 if y$ = "all" then 20820
+20790 if y$ = "last" then 20840
+20800 print "explore (abbrev): Invalid key. ";y$
+20810 goto 4300
+20820 call "ted": "-pathname",a1$
+20830 goto 4300
+20840 file #2: ">udd>Scouting>Lippard>games>private_dir>" & usr$
+20850 scratch #2
+20860 print #2: y3$
+20870 call "abc": ">udd>Scouting>Lippard>games>private_dir>" & usr$,"-ch"
+20880 call "ted": "-pathname",">udd>Scouting>Lippard>games>private_dir>" & usr$
+20890 let e2 = 1
+20900 reset #2
+20910 linput #2: y$
+20920 goto 4300
+20930 print "Explore Version 5.3 of 06 June 1980"
+20940 goto 4300
+20950 rem -brief, -bf
+20960 let y7 = 1
+20970 goto 19910
+20980 file #2: ">udd>Scouting>Lippard>games>private_dir>explore_usr"
+20990 print "USR","LOC","PTS","SRC"
+21000 if end #2 then 9870
+21010 input #2: y1$,y,y0,y1
+21020 print y1$,y,y0,y1
+21030 goto 21000
+21040 rem talk mode
+21050 if y8 <> 1 then 21200
+21060 file #2: ">udd>Scouting>Lippard>games>private_dir>explore_usr"
+21070 let x = 0
+21080 let y0 = 0
+21090 if end #2 then 21130
+21100 let x = x + 1
+21110 input #2: c$(x),d(x),e(x),f(x)
+21120 goto 21090
+21130 for i = 1 to x
+21140 if d(i) <> a then 21160
+21150 let y0 = y0 + 1
+21160 next i
+21170 if y0 <> 0 then 21220
+21180 print "There nobody here to talk to..."
+21190 goto 4950
+21200 print "explore (talk): Not in multip mode, ""talk"" command invalid."
+21210 goto 4950
+21220 if y0 = 1 then 21340
+21230 print "Talk to";
+21240 linput y$
+21250 if len(y$) = 0 then 4950
+21260 for i = 1 to x
+21270 if y$ = c$(i) then 21310
+21280 next i
+21290 print "explore (talk): User not in game. ";y$
+21300 goto 4950
+21310 if d(i) = a then 21340
+21320 print "explore (talk): User not in room. ";y$
+21330 goto 4950
+21340 file #2: ">udd>Scouting>Lippard>games>private_dir>explore_usr_com"
+21350 call ">udd>Scouting>Lippard>games>exp_trfcc_": ">udd>Scouting>Lippard>games>private_dir>explore_usr_com.trfcc",a
+21360 if x = 0 then 21350
+21370 print "Message";
+21380 linput q5$
+21390 if len(q5$) = 0 then 4950
+21400 print #2: y$;",";usr$;","&""""&q5$&""""
+21410 call "truncate": ">udd>Scouting>Lippard>games>private_dir>explore_usr_com.trfcc"
+21420 goto 4950
+21430 end

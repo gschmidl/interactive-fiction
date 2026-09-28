@@ -1,0 +1,23 @@
+100 rem  exp_decode_ : rot13 of in$ -> out$   (self-inverse)
+110 rem  call ">udd>...>exp_decode_": i$, o$      (ARG1 in, ARG2 out)
+120 rem  matches game usage 10180  call ...: x$, y$
+130 rem  Doubled alphabets: for a letter at position j (1-26), its rot13
+140 rem  is position j+13 in the 52-char doubled string -- no wraparound
+150 rem  arithmetic, and "then" only needs a line number (this dialect).
+160 sub "exp_decode_": i$, o$
+170 let u2$ = "ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ"
+180 let l2$ = "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz"
+190 let o$ = ""
+200 for k = 1 to len(i$)
+210 let c$ = sst$(i$, k, 1)
+220 let j = pos(u2$, c$, 1)
+230 if j <> 0 then 280
+240 let j = pos(l2$, c$, 1)
+250 if j <> 0 then 300
+260 let o$ = o$ & c$
+270 goto 310
+280 let o$ = o$ & sst$(u2$, j + 13, 1)
+290 goto 310
+300 let o$ = o$ & sst$(l2$, j + 13, 1)
+310 next k
+320 subend

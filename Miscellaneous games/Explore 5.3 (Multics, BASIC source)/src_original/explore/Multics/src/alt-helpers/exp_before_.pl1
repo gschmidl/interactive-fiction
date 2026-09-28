@@ -1,0 +1,32 @@
+/* ------------------------------------------------------------------ */
+/*  exp_before_  -  everything before the first occurrence of a delim */
+/*                                                                    */
+/*  call ">udd>...>exp_before_": result$, source$, delim$             */
+/*                                                                    */
+/*  result$ (OUTPUT, arg 1) receives the portion of source$ that      */
+/*  precedes the first occurrence of delim$.  If delim$ does not      */
+/*  occur, result$ receives all of source$ (this is how the Multics   */
+/*  "before" active function behaves, and matches the caller's use).  */
+/*                                                                    */
+/*  Used e.g.:                                                        */
+/*      19500 call "...exp_before_": b$, c$, ","                      */
+/*      18550 call "...exp_before_": b$, y$, ","                      */
+/* ------------------------------------------------------------------ */
+
+exp_before_: proc (result, source, delim);
+
+  dcl result  char (*) varying parameter;        /* output : text before delim  */
+  dcl source  char (*) parameter;                /* input  : whole string       */
+  dcl delim   char (*) parameter;                /* input  : delimiter           */
+
+  dcl p       fixed bin (21);
+
+  p = index (source, delim);
+  if p = 0 then
+     result = source;                            /* delim absent: return it all  */
+  else
+     result = substr (source, 1, p - 1);
+
+  return;
+
+end exp_before_;

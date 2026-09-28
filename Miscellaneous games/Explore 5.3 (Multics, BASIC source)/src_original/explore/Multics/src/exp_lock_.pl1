@@ -1,0 +1,104 @@
+/* ------------------------------------------------------------------ */
+/*  exp_lock_ / exp_unlock_  -  advisory lock for Explore's shared      */
+/*  files, using set_lock_ held across the caller's critical section.   */
+/*                                                                    */
+/*  One object, two external entries (bind BOTH names -- the bindfile   */
+/*  must retain exp_lock_ AND exp_unlock_):                             */
+/*     call ">udd>...>exp_lock_":   lockpath$, room, status            */
+/*     call ">udd>...>exp_unlock_": lockpath$                          */
+/*                                                                    */
+/*  exp_lock_  : set_lock_$lock and HOLD it (does not unlock).          */
+/*               status = 1 acquired (incl. reclaim of a dead holder's  */
+/*               stale lock); 0 = busy, another LIVE process holds it   */
+/*               (caller retries).  Runs in the caller's process, so    */
+/*               the lock is held by that process across its read-      */
+/*               modify-write and released by exp_unlock_.              */
+/*  exp_unlock_: set_lock_$unlock -- the explicit release.              */
+/*                                                                    */
+/*  Crash safety: if a holder process dies, set_lock_ marks the lock    */
+/*  stale and the next exp_lock_ reclaims it (invalid_lock_reset), so   */
+/*  a disconnect cannot deadlock the shared file.                       */
+/*                                                                    */
+/*  Replaces the old exp_trfcc_/truncate scheme, which released the     */
+/*  lock before the critical section and so did not actually exclude    */
+/*  concurrent writers.  Lock companion files are named "xxx.lock".     */
+/* ------------------------------------------------------------------ */
+
+exp_lock_: proc (path, room, status);
+
+  dcl path   char (*) parameter;
+  dcl room   float bin (27) parameter;
+  dcl status float bin (27) parameter;
+
+  dcl segp   ptr;
+  dcl code   fixed bin (35);
+  dcl dname  char (168);
+  dcl ename  char (32);
+
+  dcl 1 lk aligned based (segp),
+      2 lockword bit (36) aligned,                 /* word 1: set_lock_ word */
+      2 holder   fixed bin (35);                    /* word 2: holder (diag)  */
+
+  dcl WAIT fixed bin static options (constant) init (2);    /* seconds: brief wait for genuine contention */
+
+  dcl expand_pathname_ entry (char(*),char(*),char(*),fixed bin(35));
+  dcl hcs_$make_seg    entry (char(*),char(*),char(*),fixed bin(5),ptr,fixed bin(35));
+  dcl hcs_$get_user_effmode
+        entry (char(*),char(*),char(*),fixed bin(3),fixed bin(5),fixed bin(35));
+  dcl set_lock_$lock   entry (bit(36) aligned, fixed bin, fixed bin(35));
+  dcl set_lock_$unlock entry (bit(36) aligned, fixed bin(35));
+  dcl error_table_$invalid_lock_reset      fixed bin(35) ext static;
+  dcl error_table_$locked_by_this_process  fixed bin(35) ext static;
+  dcl error_table_$lock_wait_time_exceeded fixed bin(35) ext static;
+  dcl mode fixed bin (5);
+
+%include access_mode_values;
+
+  /* status: 1 = acquired (held);  0 = BUSY, another live process holds it,
+     the caller should retry;  -1 = ERROR, the lock cannot be taken at all
+     (e.g. the .lock file is missing or not writable) -- the caller should
+     NOT spin; it should give up and skip the shared operation.            */
+  status = -1e0;                                    /* default: give up      */
+
+  call expand_pathname_ (path, dname, ename, code);
+  if code ^= 0 then return;                         /* bad path -> -1        */
+
+  call hcs_$make_seg (dname, ename, "", 01011b, segp, code);
+  if segp = null () then return;                    /* cannot map -> -1      */
+
+  /* CRITICAL: verify WRITE access to the lock segment BEFORE calling        */
+  /* set_lock_.  set_lock_ writes the lock word; if the caller has only r     */
+  /* access, that write takes an access-violation FAULT (not a return code)   */
+  /* -- which, under the caller's retry loop, would spin and flood syserr.    */
+  /* So if we lack write, return -1 (give up) WITHOUT touching set_lock_.      */
+  call hcs_$get_user_effmode (dname, ename, "", 0, mode, code);
+  if code ^= 0 then return;                         /* cannot get mode -> -1  */
+  if (bit (mode, 5) & bit (W_ACCESS_BIN, 5)) = "00000"b then
+     return;                                        /* no write access -> -1  */
+
+  call set_lock_$lock (lk.lockword, WAIT, code);
+
+  if code = 0
+   | code = error_table_$invalid_lock_reset
+   | code = error_table_$locked_by_this_process then do;
+     lk.holder = room;
+     status = 1e0;                                  /* acquired (held)       */
+  end;
+  else if code = error_table_$lock_wait_time_exceeded then
+     status = 0e0;                                  /* BUSY -> caller retries */
+  /* any other code leaves status = -1 (error; do not retry -- e.g. the      */
+  /* .lock file is read-only so the lock word cannot be written).            */
+
+  return;
+
+
+exp_unlock_: entry (path);
+
+  call expand_pathname_ (path, dname, ename, code);
+  if code ^= 0 then return;
+  call hcs_$make_seg (dname, ename, "", 01011b, segp, code);
+  if segp = null () then return;
+  call set_lock_$unlock (lk.lockword, code);
+  return;
+
+end exp_lock_;

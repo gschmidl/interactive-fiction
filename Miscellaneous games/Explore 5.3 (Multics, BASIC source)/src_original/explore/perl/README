@@ -1,0 +1,250 @@
+Explore - the reconstructed 1980 Multics adventure game
+=======================================================
+
+"Explore" is a text adventure written for Multics in 1979-1980 by Jim
+Lippard.  Its source was lost and later reconstructed from line-printer
+output; this distribution runs that authentic reconstructed BASIC source,
+unmodified, on the MBasic interpreter (a separate distribution), so it plays
+on any modern Unix with Perl.
+
+The game version is 5.3; this Perl distribution is version 1.2.
+
+REQUIREMENTS
+
+Perl 5.8+ and the MBasic distribution (the Multics BASIC interpreter).
+Install MBasic first.
+
+INSTALLATION (the Perl code)
+
+    perl Makefile.PL
+    make
+    make test
+    make install
+
+This installs the Explore::Builtins module and the "explore" program to the
+standard system locations.
+
+INSTALLATION (the game data)
+
+The Makefile.PL does NOT install the game data files (it installs only the
+Perl code).  Place the game data as follows -- by default under
+/usr/local/share/explore:
+
+    mkdir -p /usr/local/share/explore
+    cp share/*.basic share/*.data share/*.help \
+       share/hours.data share/winners.data /usr/local/share/explore/
+
+The read-only content (the BASIC program and helpers, explore.data,
+explore.help, and the hours.data/winners.data masters) lives there.
+
+The admin-editable configuration file, explore.rwdir, ships as a sample in the
+examples/ directory.  Copy it into the game's share directory and edit it for
+your site:
+
+    cp examples/explore.rwdir /usr/local/share/explore/
+
+Its first line is the read-write data directory (default /var/games/explore) and
+its second line is "^multip" (single-player) or "multip" (multiplayer); a
+single line "none" forces read-only play.
+
+(On the packaged OpenBSD version the port installs the read-only content, seeds
+explore.rwdir from the sample with @sample so your edits survive upgrades, and
+seeds hours.data/winners.data into /var/games/explore.)
+
+PLAYING
+
+    explore
+
+With no arguments the game uses these defaults:
+
+    read-only content : /usr/local/share/explore   (--share)
+    read-write data   : /var/games/explore            (--var)
+
+On first run it auto-seeds /var/games/explore from the sample hours.data and
+winners.data in the share directory, so wins and sorcerer edits persist.  If
+/var/games/explore cannot be written, it falls back to read-only single-player.
+
+Override the locations with --share, --var, --basic, --helpers, --root, or the
+matching EXPLORE_* environment variables; run "explore --help" for the list.
+The unmodified BASIC uses Multics pathnames like ">site>explore_dir>..."; the
+runner maps ">site>explore_dir" to the share directory automatically, and you
+can add further mappings with --prefix 'MULTICS=/unix'.
+
+GAME ARGUMENTS
+
+The command line carries two separate vocabularies.  The runner's own options
+are double-dash (--share, --var, ...).  Anything else is a game argument and is
+passed through to the BASIC program untouched; the game reads it with the cnt
+and arg$(n) built-ins.  These are the authentic single-dash Multics control
+arguments the game accepted in 1980, so they work against the unmodified
+reconstructed source:
+
+    -abbrev PATH, -ab PATH  use PATH as the abbreviation file (".explore_abbrev"
+                            is appended if PATH does not already end in it)
+    -brief, -bf             suppress the welcome message and the news lines
+    -modes STR              set modes from a comma-separated list
+    -no_startup, -ns        do not read start_up.explore
+    -no_version             print no version line
+    -pathname PATH, -pn PATH
+                            read the game database from PATH instead of
+                            <share>/explore.data
+    -table_space, -ts       report table space used while loading
+    -version                print the long version line
+
+For example:
+
+    explore -brief -ts               # two game arguments
+    explore --var /tmp/x -pn ./alt.data   # runner options and game arguments mixed
+
+Because the two vocabularies differ in their dash count they can be
+interleaved freely: runner options are recognized anywhere on the line and are
+removed before the rest reaches the game, so cnt counts only real game
+arguments.  Note that -abbrev, -modes and -pathname each consume the argument
+that FOLLOWS them, so keep those pairs together and in order.
+
+One case is ambiguous: a game argument or pathname that itself begins with
+"--", which the runner would otherwise try to parse as its own option.  Put
+"--" first and everything after it goes to the game verbatim:
+
+    explore -- -pn --odd-name
+
+DATA FILE FORMATS
+
+hours.data (in the share dir, seeded to the var dir):
+
+    line 1        the sorcerer word, rot13-encoded (the sample is the rot13
+                  of "hello"; change it for your site)
+    lines 2-7     six "HHMM,HHMM" open/close windows: weekday x2, weekend x2,
+                  holiday x2 (the sample is always-open, 0000-2359)
+    next line     "9999,<name>,<MM/DD>,<occasion>"  (limit and next holiday)
+    last line(s)  one or more message-of-the-day / news lines
+
+winners.data: lines of "MM/DD/YY,<name>,(<score> points)".
+
+MULTIPLAYER
+
+Multiplayer is configured through the explore.rwdir file (installed to
+/usr/local/share/explore/explore.rwdir).  It has up to two lines:
+
+    line 1   the read-write data directory (default /var/games/explore)
+    line 2   "multip" to enable multiplayer, or "^multip" for single-player
+
+The default second line is "^multip" (single-player).  To enable multiplayer
+site-wide, change the file to:
+
+    /var/games/explore
+    multip
+
+A single line containing "none" forces read-only play (no wins recorded, no
+multiplayer), which needs no writable directory.
+
+With multiplayer enabled, players see who else is exploring (the "whom"
+command), can message one another, and a designated sorcerer can broadcast and
+manage the game.  All players share the registry, communication, and lock
+files that the game creates at run time in the writable directory, so that
+directory must be writable by every player (see PERMISSIONS below).  The
+sorcerer word is set, rot13-encoded, on the first line of hours.data.
+
+Note that rot13 is obfuscation, not encryption: any player who can read
+hours.data can trivially recover the sorcerer word.  This matches the original
+game, but do not treat the sorcerer word as a real secret -- anyone with read
+access to the shared data directory can learn it.
+
+PERMISSIONS
+
+The writable data directory (default /var/games/explore) holds hours.data,
+winners.data, and -- when multiplayer is enabled -- the registry, message, and
+lock files the game creates at run time.  Because the game runs as the player,
+every player needs to read, write, and create files there.
+
+The package does NOT create the writable directory; the read-only master
+copies of hours.data and winners.data are installed under the share directory,
+and the writable directory is created on demand:
+
+  * For single-player play, the game creates /var/games/explore on first run
+    (owned by you) and seeds it from the share-directory masters -- no setup is
+    needed.
+
+  * For multi-user play, an administrator should create the directory in
+    advance with a group your players share, so that everyone can write to it.
+    /var/games is the standard OpenBSD location for game state and already
+    exists; create the explore subdirectory group-writable and setgid:
+
+        mkdir -p /var/games/explore
+        chgrp games /var/games/explore        # or a group of your choice
+        chmod 2775 /var/games/explore
+        cp /usr/local/share/explore/hours.data \
+           /usr/local/share/explore/winners.data /var/games/explore/
+        chgrp games /var/games/explore/*.data
+        chmod 0664 /var/games/explore/*.data
+
+    Then add each player to that group (see below).  Because the game runs as
+    the player, everyone who plays must be able to write in this directory.
+
+    The setgid bit on the DIRECTORY (the "2" in 2775) is correct and intended --
+    it makes new files inherit the "games" group.  Do NOT, however, install the
+    "explore" PROGRAM itself setuid or setgid: the game provides a shell escape
+    (the ".." and "m" commands run a shell command as the player) and honors
+    environment variables, so running it with any privileges but the player's
+    own would be a security hole.  The program refuses to start setuid/setgid.
+
+The group differs across platforms:
+
+    OpenBSD  ships a "games" group (gid 13) -- use it as shown above.
+    Linux    MAY have a "games" group (often gid 60); it varies by
+             distribution, so create or choose a group your players share.
+    macOS    has no "games" group, and does NOT consult /etc/group for
+             membership -- groups live in Directory Services, so create the
+             group and add members with dscl (see below).
+
+  Add each player to the chosen group (platform-specific):
+
+      OpenBSD:  usermod -G games alice
+      Linux:    usermod -aG games alice
+      macOS:    create the group once, then append each player, and verify:
+
+          sudo dscl . -create /Groups/games
+          sudo dscl . -create /Groups/games PrimaryGroupID 14
+          sudo dscl . -create /Groups/games RealName "Games Group"
+          sudo dscl . -append /Groups/games GroupMembership alice
+          sudo dscl . -append /Groups/games GroupMembership bob
+          dscl . -read /Groups/games        # verify membership
+
+      Pick a PrimaryGroupID not already in use ("dscl . -list /Groups
+      PrimaryGroupID" shows the taken ones; 14 is free on a stock macOS).
+      Use that same gid in the chgrp/chmod 2775 steps above.  Editing
+      /etc/group instead has no effect on macOS.
+
+If you would instead prefer that ANY user on the system be able to play, you
+can make the directory world-writable (sticky) yourself:
+
+      chmod 1777 /var/games/explore
+      chmod 0666 /var/games/explore/*.data
+
+This is closer to the game's original Multics behavior, where per-file access
+control let any player update the shared files, but note the tradeoff: any user
+can then also truncate or overwrite the shared data.
+
+Note on append-only flags: do NOT set an append-only flag (chflags uappnd /
+chattr +a) on winners.data (or hours.data) with this implementation.  Unlike
+the original Multics game, the Perl version writes every file through the MBasic
+interpreter, which replaces the whole file (write-new-copy-then-rename, or an
+in-place truncate-and-rewrite when the directory is not writable).  Both
+strategies are refused by an append-only flag, so setting one would silently
+stop wins from being recorded.  Protect these files with ordinary directory and
+file permissions instead.
+
+ARTIFACTS
+
+Historical materials -- the 6.0 game database and the original transcribed
+BASIC source -- are preserved for reference in the project's source
+repository.  They are not part of this distribution or the installed package.
+
+LICENSE
+
+BSD 3-Clause; see the LICENSE file.  The game and its reconstruction are the
+work of Jim Lippard.
+
+AUTHOR
+
+Jim Lippard

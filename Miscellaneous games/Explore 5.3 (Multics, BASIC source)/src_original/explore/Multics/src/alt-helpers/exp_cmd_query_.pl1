@@ -1,0 +1,49 @@
+/* ------------------------------------------------------------------ */
+/*  exp_cmd_query_  -  ask a yes/no question, return 1 (yes) or 2 (no) */
+/*                                                                    */
+/*  call ">udd>...>exp_cmd_query_": prompt$, ans                      */
+/*                                                                    */
+/*  Prints prompt$, reads a yes/no answer via the standard Multics    */
+/*  command_query_ subroutine, and returns ans = 1 for yes, 2 for no. */
+/*  The 1/2 convention is what every caller expects, because they     */
+/*  feed the result straight into ON ... GOTO:                        */
+/*      14060 call "...exp_cmd_query_": "Do you really want to quit now", y  */
+/*      14070 on y goto 10870, 2100          (1=yes->quit, 2=no->play)      */
+/*      16650 on y0 goto 16660, 4300                                        */
+/*      10250 on l8 goto 10260, 10470                                       */
+/*                                                                    */
+/*  Numeric output is float bin(27).                                  */
+/* ------------------------------------------------------------------ */
+
+exp_cmd_query_: proc (prompt, answer);
+
+  dcl prompt  char (*) parameter;                /* input  : question text      */
+  dcl answer  float bin (27) parameter;          /* output : 1 = yes, 2 = no     */
+
+  dcl yes     bit (1) aligned;
+
+  dcl 1 query_info aligned,                       /* command_query_ info struct  */
+      2 version    fixed bin,
+      2 yes_or_no  bit (1) unaligned,
+      2 suppress   bit (1) unaligned,
+      2 pad        bit (34) unaligned,
+      2 status     fixed bin (35),
+      2 query_code fixed bin (35);
+
+  dcl command_query_ entry options (variable);
+  dcl query_info_version_1 fixed bin static options (constant) init (1);
+
+  query_info.version   = query_info_version_1;
+  query_info.yes_or_no = "1"b;                    /* restrict to yes/no          */
+  query_info.suppress  = "0"b;
+  query_info.status    = 0;
+  query_info.query_code = 0;
+
+  call command_query_ (addr (query_info), yes, "explore", "^a", prompt);
+
+  if yes then answer = 1;                         /* yes */
+  else       answer = 2;                          /* no  */
+
+  return;
+
+end exp_cmd_query_;

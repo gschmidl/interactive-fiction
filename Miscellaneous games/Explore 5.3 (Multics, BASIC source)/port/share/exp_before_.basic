@@ -1,0 +1,9 @@
+100 rem  exp_before_ : result$ = part of source$ before first delim$
+110 rem  call ">udd>...>exp_before_": r$, s$, d$      (r$ is output)
+120 sub "exp_before_": r$, s$, d$
+130 let p = pos(s$, d$, 1)
+140 if p = 0 then 170
+150 let r$ = sst$(s$, 1, p - 1)
+160 goto 180
+170 let r$ = s$
+180 subend

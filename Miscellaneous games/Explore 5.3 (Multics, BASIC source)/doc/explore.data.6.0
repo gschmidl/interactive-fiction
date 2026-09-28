@@ -1,0 +1,677 @@
+/* Explore Database, Versions 6.0 & up */
+/* Initial Coding 07/12/80 by Jim Lippard */
+
+/* Long Descriptions */
+outside
+You are at the edge of a small clearing, surrounded by forest.
+To the south is a small wooden shack on the hillside.
+end;
+shack
+You are standing in the center of a small wooden building. Apparently
+it was once used as a storage shack for mining tools, for there are
+hooks on the walls, but all are empty now. The floor is covered with
+dust, and it appears that no one has been here for some time. There
+are several windows which let in a small amount of light, and some
+empty shelves on the walls. There is a door in the north wall, and
+a small trapdoor in the floor.
+end;
+forest
+You are in the forest.
+end;
+cellar
+You are in the cellar of the shack. The walls are composed of a sparkling
+rough stone. There is a trapdoor in the ceiling and an opening to the east.
+end;
+granite
+You are in a cave chamber with walls of granite. Passages lead
+north, south, and west.
+end;
+phosphorescent
+You are in a glowing cave chamber filled with phosphorescent rocks.
+Passages lead north and south.
+end;
+library
+You are in a library. The walls are lined with shelves containing many
+books, with titles such as "Creatures of the Past", "The Mystery of the
+Moaning Cave", "Demons, Monsters, and Abodes of the Dead", "The Secret
+of the Caves", and many more. Passages lead north and east.
+end;
+mosquito
+You are in a room filled with buzzing mosquitoes. There is a small
+pool of stagnant water in the northwest corner of the room. Passages
+lead south and east.
+end;
+gold
+You are in a cubical chamber with walls of pure gold. Carved
+into one wall is the message "All that glitters in this cave is not
+gold". Passages lead east and west.
+end;
+silver
+You are in a cubical chamber with walls of pure silver. Carved
+into one wall is the message "All that glitters in this cave is not
+silver". Passages lead south and west.
+end;
+platinum
+You are in a cubical chamber with walls of pure platinum. Carved
+into one wall is the message "All that glitters in this cave is not
+platinum". Passages lead north and south.
+end;
+power
+You are in a room with walls of soft earth. Running across the walls
+are bare electrical wires. Floating in the center of the room in
+midair, unattached to walls or ceiling, is an electrical receptacle.
+Passages lead north and west.
+end;
+weapon
+You are in a room whose walls are lined with glass cases filled
+with assorted weapons. There is a sign on the wall, lettered in
+red block letters, which reads "No Smoking - By Order of the
+Explorer Grandmaster". Passages lead south and east.
+end;
+weapon2
+You are in a room whose walls are lined with metal stands
+supporting battle axes, spears, lances, and javelins. All are
+locked in place. A single spear compartment is empty. Passages
+lead north and east.
+end;
+heated
+You are in a heated room with glowing red walls. Passages lead
+east and west.
+end;
+grafitti
+You are in a room with walls of slate. They are covered with
+grafitti, presumably put there by visitors to the cave. Passages
+lead east and west.
+end;
+elbow
+You are in Elbow Pipe, a steel tunnel. There is a single strip of
+red carpet down the center of the tunnel to walk upon. Passages
+lead south and west.
+end;
+torches
+You are in a fairly long corridor lit by torches lining the walls.
+Passages lead north and south.
+end;
+sand
+You are in a room with a small sandy beach to one side. The beach
+lines a pond of water, filled by a subterranean spring which
+bubbles water up on the far side of the pond. Passages exit to
+the north and south.
+end;
+elbow2
+You are in Elbow Pipe II, a steel tunnel. Down the center of the
+tunnel is a green carpet for walking upon. Passages lead north
+and west.
+end;
+sorcerer
+You are in the Hall of the Sorcerer. The walls are paneled wood,
+and the walls are lined with red velvet curtains. Passages exit
+to the north and south.
+end;
+lower-cross
+You are in the lower cross room. The walls are made of rough,
+unsanded wood. Passages lead north and south.
+end;
+auxiliary
+You are in the Explore Auxiliary Control Center. Along
+one wall are disk drives (and several tape drives), along
+the other are 4 CPUs, an IOM, DATANET, and 6 SCUs (not to
+mention 2M words of main memory. There is also an operator's console
+nearby. A passage exits to the west.
+end;
+crossroads
+You are at the Crossroads. Passages lead north, south, east, west, and
+down.
+end;
+brink
+You are at the brink of a 1000-foot deep abyss. A dim passage
+is visible across the hole on the other side. A passage exits to the
+east.
+end;
+abyss
+You are on the west side of the abyss. A single passage leads east
+10 feet, and then promptly turns straight down into the abyss.
+end;
+tunnel1
+You are in a complex circuitry of tunnels.
+end;
+tunnel2
+You are in a complex circuitry of tunnels.
+end;
+tunnel3
+You are in a complex circuitry of tunnels.
+end;
+tunnel4
+You are in a complex circuitry of tunnels.
+end;
+tunnel5
+You are in a complex circuitry of tunnels.
+end;
+tunnel6
+You are in a complex circuitry of tunnels.
+end;
+west-hall
+You are at the west end of a long hall stretching out of sight to the
+east.
+end;
+mid-hall
+You are at the middle of a long hall stretching out of sight to the
+east and west.
+end;
+east-hall
+You are at the east end of a long hall stretching out of sight to the
+west.
+end;
+thin
+You are in a very thin room, and
+it is difficult to breathe. Passages lead east and west.
+end;
+dark
+You are in an extremely dark room. Your flashlight beam stops
+one inch from the end of the flashlight casing, and there seems to be
+an evil presence in the room.
+end;
+waterfall
+You are in a chamber with waterfalls on either side. They are
+lit from behind by powerful multi-colored spotlights. Passages lead
+south and east.
+end;
+short-hall
+You are in a short hall with holes in the ceiling through which sand
+is pouring. Passages lead east and west.
+end;
+elbow3
+You are in Elbow Pipe III, a steel tunnel. Passages lead
+north and south.
+end;
+metal
+You are in a metal tunnel that leads north and south.
+end;
+weasel
+You are in a cylindrical room with walls and floor covered
+with thick, soft fur. Passages lead north, south, east, and
+west.
+end;
+terminal
+You are in a room whose walls are lined with VIP7801s, all hardwired
+to the Explore Multics. The floor is covered by a soft green carpet.
+Passages lead east and west.
+end;
+Lippard
+You are in the Lippard room. Pictures of spotted leopards and black
+panthers line the walls. Passages lead east and west.
+end;
+twisted
+You are in a twisted passage. A sign on the wall says "MERLIN".
+Passages lead south and east.
+end;
+chamber
+You are in the Chamber of Ages. Ancient sculptures are set on
+pedestals around the room. Many glare at you menacingly, appearing
+to be almost alive. The base of each statue is labeled with
+a gold plaque. One reads:
+              Merlin
+              Magician
+          1159 - ???? A.D.
+      "Time/Space Ducts are always nearby"
+A passage leads north.
+end;
+light
+You are in a room filled with glaring light from nowhere. It
+is very difficult to see. Passages (barely visible) lead south and
+west.
+end;
+experiment
+You are in the Explore Experimentation Chamber. Glass cases fill the
+room, each containing a small dwarf. As you look closer at one, you
+see a card at the end of it which reads "Olney Littlehand".
+Passages lead east and west.
+end;
+basilisk
+You are in the basilisk's den. Stone statues of men, looking remarkably
+life-like, fill the room. Passages lead north, south, and east.
+end;
+scroll
+You are in a room bare except for a shelf
+on one wall, which is covered with papyrus scrolls. Passages lead
+south and west.
+end;
+vault
+You are at the entrance to the Vault of Tomorrow. A steel door closes
+it off. A passage leads back to the east.
+end;
+finish
+You are in the Vault of Tomorrow. The walls consist of blued steel,
+as do the floor and ceiling. Along the top of each wall are several
+television screens, each focusing on a different room of the cave. In
+in the center of this relatively empty room is a large pedestal, upon
+which a figure is seated. A steel plate at the foot of the pedestal
+reads "Explorer Grandmaster". The figure rises to his feet, and signals
+you to take his place. As he does so, he vanishes into nothingness.
+end;
+printout-room
+You are in a large room, filled with ceiling-high rows of shelves,
+each shelf lined with dprints. Passages lead north and south.
+end;
+edge
+You are at the edge of a deep fissure. There is some vegetation here,
+along the edge. A dim passage is visible across the fissure.
+end;
+fissure
+You are on the south side of a deep fissure.
+end;
+no-exits
+You are in a small room with no exits. A note on one wall reads
+"Remember the magic words".
+end;
+deadend
+You are in a passage which once continued east here, but is now
+completely blocked by debris.
+end;
+limbo
+You are in Limbo, where everything goes when it dies. If you
+just walked in here, I think it's a bug, so please contact
+Lippard.Scouting and report it.
+end;
+end;
+
+/* Short Descriptions */
+outside
+You're in clearing outside shack.
+end;
+shack
+You're inside shack.
+end;
+forest
+You're in forest.
+end;
+cellar
+You're in cellar.
+end;
+granite
+You're in room with walls of granite.
+end;
+phosphorescent
+You're in room with glowing walls of phosphorescent rock.
+end;
+library
+You're in library.
+end;
+mosquito
+You're in room filled with buzzing insects.
+end;
+gold
+You're in cubical room of gold.
+end;
+silver
+You're in cubical room of silver.
+end;
+platinum
+You're in cubical room of platinum.
+end;
+power
+You're in room with bare electrical wires.
+end;
+weapon
+You're in room lined with glass cases of weapons.
+end;
+weapon2
+You're in room lined with racks of weapons.
+end;
+heated
+You're in heated room.
+end;
+grafitti
+You're in slate room.
+end;
+elbow
+You're in Elbow Pipe.
+end;
+torches
+You're in room lined with torches.
+end;
+sand
+You're in room with pond and sandy beach.
+end;
+elbow2
+You're in Elbow Pipe II.
+end;
+sorcerer
+You're in the Hall of the Sorcerer.
+end;
+lower-cross
+You're in the lower cross room.
+end;
+auxiliary
+You're in the Explore Auxiliary Control Center.
+end;
+crossroads
+You're at the Crossroads.
+end;
+brink
+You're at brink of abyss.
+end;
+abyss
+You're on west side of abyss.
+end;
+tunnel1
+You're in tunnels.
+end;
+tunnel2
+You're in tunnels.
+end;
+tunnel3
+You're in tunnels.
+end;
+tunnel4
+You're in tunnels.
+end;
+tunnel5
+You're in tunnels.
+end;
+tunnel6
+You're in tunnels.
+end;
+west-hall
+You're at west end of long hall.
+end;
+mid-hall
+You're at middle of long hall.
+end;
+east-hall
+You're at east end of long hall.
+end;
+thin
+You're in thin room.
+end;
+dark
+You're in dark room.
+end;
+waterfall
+You're in room with waterfalls.
+end;
+short-hall
+You're in short hall.
+end;
+elbow3
+You're in Elbow Pipe III.
+end;
+metal
+You're in metal tunnel.
+end;
+weasel
+You're in room with fur carpet.
+end;
+terminal
+You're in terminal room.
+end;
+Lippard
+You're in Lippard room.
+end;
+twisted
+You're in twisted passage.
+end;
+chamber
+You're in Chamber of Ages.
+end;
+light
+You're in room with glaring light.
+end;
+experiment
+You're in Explore Experimentation Chamber.
+end;
+basilisk
+You're in the basilisk's den.
+end;
+scroll
+You're in room with scrolls.
+end;
+vault
+You're outside the Vault of Tomorrow.
+end;
+finish
+You are in the Vault of Tomorrow. The walls consist of blued steel,
+as do the floor and ceiling. Along the top of each wall are several
+television screens, each focusing on a different room of the cave. In
+in the center of this relatively empty room is a large pedestal, upon
+which a figure is seated. A steel plate at the foot of the pedestal
+reads "Explorer Grandmaster". The figure rises to his feet, and signals
+you to take his place. As he does so, he vanishes into nothingness.
+end;
+printout-room
+You're in room filled with dprints.
+end;
+edge
+You're at edge of fissure.
+end;
+fissure
+You're on south side of fissure.
+end;
+no-exits
+You're in room with no exits.
+end;
+deadend
+You're in passage blocked by debris.
+end;
+limbo
+You're in Limbo. If you just walked in here, contact Lippard.Scouting.
+end;
+end;
+
+/* Location Data */
+forest,shack,forest,forest,outside,outside,111100
+outside,shack,shack,shack,shack,cellar,100001
+forest,forest,outside,forest,forest,forest,111100
+cellar,cellar,granite,cellar,shack,cellar,001010
+phosphorescent,library,granite,cellar,granite,granite,110100
+mosquito,granite,phosphorescent,phosphorescent,phosphorescent,phosphorescent,110000
+granite,library,silver,library,library,library,101000
+mosquito,phosphorescent,gold,mosquito,mosquito,mosquito,011000
+gold,gold,power,mosquito,gold,gold,001100
+silver,platinum,silver,library,silver,silver,010100
+silver,weapon2,platinum,platinum,platinum,platinum,110000
+weapon,power,power,gold,power,power,100100
+weapon,power,grafitti,weapon,weapon,weapon,011000
+platinum,weapon2,heated,weapon2,weapon2,weapon2,101000
+heated,heated,elbow2,weapon2,heated,heated,001100
+grafitti,grafitti,elbow,weapon,grafitti,grafitti,001100
+elbow,torches,elbow,grafitti,elbow,elbow,010100
+elbow,sand,torches,torches,torches,torches,110000
+torches,crossroads,sand,sand,sand,sand,110000
+sorcerer,elbow2,elbow2,heated,elbow2,elbow2,100100
+lower-cross,elbow2,sorcerer,sorcerer,sorcerer,sorcerer,110000
+crossroads,sorcerer,lower-cross,lower-cross,lower-cross,lower-cross,110000
+auxiliary,auxiliary,auxiliary,crossroads,auxiliary,auxiliary,000100
+sand,lower-cross,auxiliary,brink,crossroads,tunnel1,111101
+brink,brink,crossroads,brink,brink,brink,001000
+abyss,abyss,abyss,abyss,abyss,abyss,000000
+tunnel2,tunnel5,tunnel1,crossroads,tunnel1,tunnel1,111111
+tunnel1,tunnel1,tunnel3,tunnel1,tunnel1,tunnel1,111111
+tunnel4,tunnel2,tunnel2,tunnel2,tunnel2,tunnel2,111111
+tunnel3,tunnel3,tunnel3,tunnel3,tunnel3,tunnel3,111111
+tunnel1,tunnel1,tunnel6,tunnel1,tunnel1,tunnel1,111111
+tunnel5,tunnel5,tunnel5,tunnel5,tunnel5,west-hall,111111
+west-hall,west-hall,mid-hall,west-hall,tunnel6,west-hall,001010
+mid-hall,mid-hall,east-hall,west-hall,mid-hall,mid-hall,001100
+east-hall,east-hall,thin,mid-hall,east-hall,east-hall,001100
+thin,thin,dark,east-hall,thin,thin,001100
+waterfall,dark,dark,thin,dark,dark,100100
+waterfall,dark,short-hall,waterfall,waterfall,waterfall,011000
+short-hall,short-hall,elbow3,waterfall,short-hall,short-hall,001100
+short-hall,metal,elbow3,elbow3,elbow3,elbow3,110000
+elbow3,weasel,metal,metal,metal,metal,110000
+metal,weasel,deadend,terminal,weasel,weasel,101100
+terminal,terminal,weasel,Lippard,terminal,terminal,001100
+Lippard,Lippard,terminal,twisted,Lippard,Lippard,011000
+twisted,chamber,Lippard,twisted,twisted,twisted,011000
+twisted,chamber,chamber,chamber,chamber,chamber,100000
+light,edge,light,experiment,light,light,010100
+experiment,experiment,light,basilisk,experiment,experiment,001100
+scroll,printout-room,experiment,basilisk,basilisk,basilisk,111000
+scroll,basilisk,scroll,vault,scroll,scroll,010100
+vault,vault,scroll,vault,vault,vault,001000
+finish,finish,finish,finish,finish,finish,000000
+basilisk,no-exits,printout-room,printout-room,printout-room,printout-room,110000
+light,edge,edge,edge,edge,edge,100000
+fissure,fissure,fissure,fissure,fissure,fissure,000000
+no-exits,no-exits,no-exits,no-exits,no-exits,no-exits,000000
+deadend,deadend,deadend,weasel,deadend,deadend,000100
+limbo,limbo,limbo,limbo,limbo,limbo,000000
+end;
+
+/* Objects */
+flashlight,There is a small flashlight here.,0,shack
+wand,There is a shiny metal wand with a crystal tip lying nearby.,0,granite
+recharger,A battery recharger lies here.,0,power
+nodules,A pile of egg-shaped silicon nodules is here!,1,chamber
+knife,A little metal knife is lying here.,0,cellar
+spear,A four-foot long wooden spear is lying here.,0,weapon2
+diamonds,A handful of sparkling diamonds is here!,1,tunnel4
+gold bars,There is a pile of gold bars here!,1,gold
+silver bars,There is a pile of silver bars here!,1,silver
+platinum bars,There is a pile of platinum bars here!,1,platinum
+book,A large book with a dusty cover lies nearby.,0,library
+magazine,There is an old magazine lying here.,0,scroll
+weasel,A small furry weasel lies upon the floor sleeping.,0,weasel
+disk,A solid gold disk with a hole in the center lies here!,1,auxiliary
+dust,A small handful of magical dust is here.,0,sorcerer
+cross,A wooden cross with rubies on it is here!,1,crossroads
+statue,An ivory statue is here!,1,abyss
+printout,A computer printout of Explore is here!,1,printout-room
+ring,A silver ring is here!,1,vault
+dog,A silver statue of a small dog is here!,1,experiment
+sword,A long and sharp sword lies here.,0,mid-hall
+nest,A bird's nest filled with silver eggs is on the ground here!,1,brink
+plaque,A mahogany plaque with inlaid gold is here!,1,waterfall
+skin,A leopard skin lies here.,0,Lippard
+tape,A magnetic tape reel lies here!,1,terminal
+mudball,A mudball lies here.,0,short-hall
+medallion,A crystal medallion on a gold chain lies here!,1,metal
+rock,A glowing rock lies here.,0,phosphorescent
+liquid,Some liquid that glows is in a container here.,0,light
+obelisk,A stone obelisk is here!,1,torches
+plate,A metal plate with the inscription "Terre Haute" is here!,1,grafitti
+staff,A wooden staff lies on the floor.,0,twisted
+sapphire,A perfectly round glowing sapphire lies on the floor!,1,fissure
+emeralds,Several sparkling green emeralds are lying nearby!,1,experiment
+pearl,A large black pearl lies here!,1,east-hall
+ruby,The beautiful Bird's Egg Ruby lies here!,1,no-exits
+sculpture,A finely carved sculpture of a dwarf is here!,1,lower-cross
+coin,An Explore coin year 1979 is here!,1,west-hall
+
+/* Monsters (grouped separately for easy reference) */
+scylla,A scylla (nymph from the waist up-- 6 ravenous dogs below) is here!,3,sand
+basilisk,A lizard-like basilisk is here!,3,basilisk
+dragon,A huge green dragon is in the passage!,3,tunnel6
+cyclops,A giant one-eyed cyclops is here!,3,brink
+dark,A dark (evil floating cloud of darkness) is here!,3,dark
+scorpion,A huge poisonous scorpion waits in the passage!,3,elbow2
+roc,A roc (2 headed giant bird) is here!,3,light
+troll,A ferocious troll stands in front of you!,3,power
+coronis,A coronis (evil wolf-like creature) waits in the passage!,3,terminal
+
+/* Fixed Objects (grouped separately for easy reference) */
+abyss,"",2,abyss
+abyss,"",2,brink
+rock-1,"",2,tunnel4
+fissure,"",2,fissure
+fissure,"",2,edge
+bridge,A crystal bridge spans the fissure.,2,limbo
+end;
+
+/* Living Objects */
+scylla,sword
+basilisk,weasel
+dragon,wand
+cyclops,spear
+dark,liquid
+scorpion,medallion
+roc,skin
+troll,rock
+coronis,mudball
+end;
+
+/* Lighted */
+outside
+shack
+light
+waterfall
+phosphorescent
+torches
+limbo
+forest
+finish
+end;
+
+/* Text */
+hi
+Hello!
+end;
+hello
+Hello!
+end;
+sneeze
+Ah- Ah- Ah- ACHOOOOOOOOOOO!
+end;
+shout
+Aaaaaaaaaaaaaaaaaaaaaarrrrrrrrrrrrrrrrrrrrggggggggggggggghhhhhhhhh!
+end;
+yell
+Aaaaaaaaaaaaaaaaaaaaaarrrrrrrrrrrrrrrrrrrrggggggggggggggghhhhhhhhh!
+end;
+scream
+Aaaaaaaaaaaaaaaaaaaaaarrrrrrrrrrrrrrrrrrrrggggggggggggggghhhhhhhhh!
+end;
+troll-1
+The glowing rock turns red-hot in midair and hits the troll, who
+explodes into flame.
+end;
+scylla-1
+The sword neatly slices the head from the scylla, who vanishes.
+end;
+dragon-1
+The wand hits the dragon, who instantly vanishes.
+end;
+cyclops-1
+The cyclops leaps back to avoid being hit by the spear, stumbles, and
+falls into the abyss. There is silence for a moment, followed by a loud
+>>> thud! <<<.
+end;
+basilisk-1
+The weasel leaps into action and tears the basilisk to shreds, then
+lays down and resumes its sleep.
+end;
+roc-1
+The skin falls upon the roc, and with a loud, blood-curdling shriek
+a disgusting liquid yellow smoke floats up from beneath the skin.
+end;
+coronis-1
+The mudball falls to the ground harmlessly. The coronis, with a
+yelp of panic, sinks into the ground and is gone.
+end;
+scorpion-1
+The light from your flashlight reflects from the medallion as it
+falls. The reflected light increases in intensity, and disintegrates
+the scorpion.
+end;
+dark-1
+The light from the liquid seems to be making the dark fade a bit.
+In fact, the dark is vanishing (or at least becoming ordinary darkness)!
+end;
+end;
+
+/* Vocabulary */
+nilrem,shack,chamber
+nilrem,chamber,shack
+nilrem,no-exits,shack
+transport!,no-exits,thin
+transport!,shack,thin
+transport!,thin,shack
+nlocnil,chamber,light
+nlocnil,light,chamber
+bridge,edge,fissure
+bridge,fissure,edge
+indiana,brink,abyss
+indiana,abyss,brink
+end;
+end explore.data;

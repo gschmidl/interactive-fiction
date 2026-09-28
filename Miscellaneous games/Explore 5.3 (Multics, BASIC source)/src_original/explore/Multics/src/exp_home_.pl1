@@ -1,0 +1,36 @@
+/* ------------------------------------------------------------------ */
+/*  exp_home_  -  return the caller's home directory pathname          */
+/*                                                                    */
+/*  call "exp_home_": dir$                                            */
+/*                                                                    */
+/*     dir$ : OUT - the absolute home directory (>udd>Project>Person)  */
+/*                  The BASIC caller MUST pass a pre-sized target       */
+/*                  (e.g. 64+ blanks) so PL/I has room to write into    */
+/*                  it -- the same pre-populate convention used by the  */
+/*                  other string-output helpers.                       */
+/*                                                                    */
+/*  Wraps user_info_$homedir, which hands back the absolute home        */
+/*  directory path directly -- so the game needs no Project name and    */
+/*  assembles no paths itself.  This is the anchor for every per-user   */
+/*  file (start_up.explore, the abbrev segment, saved games, the mail   */
+/*  scratch file, and by default the writable game subdirectory        */
+/*  <home>>explore).                                                   */
+/* ------------------------------------------------------------------ */
+
+exp_home_:
+           proc (dir);
+          
+
+  dcl dir char (*) parameter;
+                               /* OUT: home directory path    */
+
+  dcl user_info_$homedir entry (char (*));
+          
+
+  call user_info_$homedir (dir);
+
+
+  return;
+
+
+end exp_home_;

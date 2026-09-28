@@ -1,0 +1,54 @@
+/* ------------------------------------------------------------------ */
+/*  exp_canwrite_  -  does the caller have WRITE access to a segment?   */
+/*                                                                    */
+/*  call "exp_canwrite_": path$, flag                                 */
+/*                                                                    */
+/*     path$ : IN  - absolute pathname of the segment to test          */
+/*     flag  : OUT - 1.0 if the caller has write (w) access, else 0.0  */
+/*                                                                    */
+/*  Uses hcs_$get_user_effmode to read the caller's EFFECTIVE access   */
+/*  mode to the named segment WITHOUT opening or writing it, so it is   */
+/*  safe as a pre-check.  BASIC cannot test write access on its own     */
+/*  (file opens are lazy and a failed write faults fatally with no way  */
+/*  to trap it), so the game calls this before letting a player enable  */
+/*  multiplayer (multip): a player without write access to the shared   */
+/*  files is kept single-player instead of faulting on the first        */
+/*  registry update.                                                   */
+/*                                                                    */
+/*  The write bit is taken from access_mode_values.incl.pl1 as          */
+/*  W_ACCESS_BIN (segment write = 00010b).                             */
+/* ------------------------------------------------------------------ */
+
+exp_canwrite_: proc (path, flag);
+
+  dcl path char (*) parameter;                        /* IN : segment pathname   */
+  dcl flag float bin (27) parameter;                  /* OUT: 1 = writable       */
+
+  dcl expand_pathname_ entry (char(*), char(*), char(*), fixed bin(35));
+  dcl hcs_$get_user_effmode
+        entry (char(*), char(*), char(*), fixed bin(3),
+               fixed bin(5), fixed bin(35));
+
+  dcl dname char (168);
+  dcl ename char (32);
+  dcl mode  fixed bin (5);
+  dcl code  fixed bin (35);
+
+%include access_mode_values;
+
+  flag = 0e0;
+
+  call expand_pathname_ (path, dname, ename, code);
+  if code ^= 0 then return;
+
+  /* ring arg 0 = caller's validation level; user_id "" = current user */
+  call hcs_$get_user_effmode (dname, ename, "", 0, mode, code);
+  if code ^= 0 then return;
+
+  /* write access present if the mode includes the W bit */
+  if (bit (mode, 5) & bit (W_ACCESS_BIN, 5)) ^= "00000"b then
+     flag = 1e0;
+
+  return;
+
+end exp_canwrite_;

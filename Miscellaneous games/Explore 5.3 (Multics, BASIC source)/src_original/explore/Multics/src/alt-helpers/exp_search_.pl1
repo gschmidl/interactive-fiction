@@ -1,0 +1,37 @@
+/* ------------------------------------------------------------------ */
+/*                                                                    */
+/*  exp_search_  -  locate a substring within a string                */
+/*                                                                    */
+/*  Reconstructed Explore helper.  Called from explore.basic as:      */
+/*                                                                    */
+/*     call ">udd>...>exp_search_": src$, tgt$, p                     */
+/*                                                                    */
+/*  Returns, in the third (output) argument, the 1-based position of  */
+/*  the first character of the first occurrence of tgt$ within src$,  */
+/*  or 0 if tgt$ does not occur -- i.e. the PL/I index() builtin,     */
+/*  which is exactly how the BASIC caller uses the result.            */
+/*                                                                    */
+/*  NUMERIC INTERFACE NOTE:                                           */
+/*  Multics BASIC on this system passes numeric arguments as          */
+/*  single-precision float bin(27) (one word).  The output argument   */
+/*  MUST therefore be declared float bin(27); declaring it            */
+/*  float bin(63) overruns the caller's one-word cell and corrupts    */
+/*  adjacent storage.  Verified empirically 2026 via exp_dbgnum_ /    */
+/*  exp_dbgnum27_.  The work is done in fixed bin and converted on     */
+/*  assignment to the float parameter.                                */
+/* ------------------------------------------------------------------ */
+
+exp_search_: proc (source, target, position);
+
+  dcl source    char (*) parameter;              /* input  : string searched   */
+  dcl target    char (*) parameter;              /* input  : string sought     */
+  dcl position  float bin (27) parameter;        /* output : index, 0 if absent */
+
+  dcl i         fixed bin (21);                   /* honest integer for the work */
+
+  i = index (source, target);
+  position = i;                                   /* fixed bin -> float bin(27)  */
+
+  return;
+
+end exp_search_;

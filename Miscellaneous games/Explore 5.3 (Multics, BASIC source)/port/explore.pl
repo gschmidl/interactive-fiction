@@ -1,0 +1,423 @@
+#!/usr/bin/perl
+# explore -- play the reconstructed Explore game on the MBasic interpreter.
+# Runs with no arguments using sensible defaults; options override them.
+use strict; use warnings;
+
+# SECURITY: the game exposes a full shell escape (the ".."/"m" commands -> the
+# `do` builtin) and honors environment variables (MBASIC_LIB adds to @INC), so
+# it must run with the invoking user's own privileges.  Refuse to start
+# setuid/setgid -- this must happen in a BEGIN, before the MBASIC_LIB `use lib`
+# below (a compile-time statement) can act on an attacker's environment.
+BEGIN {
+    my ($rgid) = split ' ', $(;      # real primary gid
+    my ($egid) = split ' ', $);      # effective primary gid
+    die "explore must not be installed or run setuid/setgid.\n"
+        if $< != $> || $rgid != $egid;
+}
+
+# New files the game creates (lock/registry/message files, seeded data) should
+# be group-writable so other players in a shared game can use them; a 0002
+# umask gives 0664/0775.  (MBasic and the lock code create with mode 0666, so
+# the umask decides the group/other bits.)
+umask 0002;
+
+# Restore default SIGINT handling at exit (quit_off sets it to IGNORE and an
+# abnormal path might not reach quit_on).
+END { $SIG{INT} = 'DEFAULT'; }
+
+# When installed, MBasic and Explore are on the system @INC via the p5-MBasic
+# and p5-Explore packages -- no path munging is needed.  For running from an
+# unpacked source tree without installing, set MBASIC_LIB to the lib directory.
+use if defined $ENV{MBASIC_LIB}, lib => ($ENV{MBASIC_LIB} // '');
+
+# Windows port: MBasic and Explore::Builtins are in lib\ beside this script.
+use FindBin;
+use lib "$FindBin::RealBin/lib";
+use File::Spec;
+
+use MBasic::Interp;
+use MBasic::Registry;
+use Explore::Builtins;
+
+# Windows port: prompts without a newline ("? ") must show before input is read.
+$| = 1;
+
+# --- defaults (overridable by options / environment) -----------------------
+#   The game's read-only content lives at SHAREDIR, its read-write data at
+#   VARDIR.  By default the game's Multics path ">site>explore_dir" is mapped
+#   to SHAREDIR, and the writable files (named in explore.rwdir) live under
+#   VARDIR.  On a packaged install these default to the FHS locations.
+#
+#   Windows port: everything lives beside this script -- the game in share\,
+#   the writable data in saves\, and the player's own files (saved games,
+#   abbrevs, start_up.explore) in HOMEDIR, which is saves\ too unless --home
+#   says otherwise.
+my $sharedir = $ENV{EXPLORE_SHAREDIR} // "$FindBin::RealBin/share";
+my $vardir   = $ENV{EXPLORE_VARDIR}   // "$FindBin::RealBin/saves";
+my $homedir  = $ENV{EXPLORE_HOME};                   # derived from var if unset
+my $basic    = $ENV{EXPLORE_BASIC};                  # derived from share if unset
+my $helpers  = $ENV{EXPLORE_HELPERS};                # derived from share if unset
+my $root     = $ENV{EXPLORE_ROOT};                   # derived from var if unset
+my @prefix;                                          # extra --prefix M=U pairs
+
+# --- argument split: runner options vs. game control arguments -------------
+# Two argument vocabularies share one command line.  This runner's own options
+# are double-dash (--share, --var, ...); the game's control arguments are the
+# authentic single-dash Multics ones (-brief, -pn PATH, ...), which the BASIC
+# reads through cnt and arg$(n).  Keeping the dash counts distinct lets the two
+# be interleaved freely.
+#
+# Every argument not consumed here is collected, IN ORDER, and handed to the
+# interpreter as the program's argument vector, so cnt counts only real game
+# arguments and arg$(n) indexes only them.  Order and adjacency matter to the
+# game: -pathname and -modes each consume the argument that follows them.
+#
+# "--" ends option processing: everything after it goes to the game verbatim.
+# That is the escape hatch for the one ambiguous case, a game argument or
+# pathname that itself begins with "--".
+my @gameargs;
+while (@ARGV) {
+    my $f = shift @ARGV;
+    if    ($f eq '--')        { push @gameargs, splice(@ARGV); last; }
+    elsif ($f eq '--share')   { $sharedir = shift @ARGV; }
+    elsif ($f eq '--var')     { $vardir   = shift @ARGV; }
+    elsif ($f eq '--home')    { $homedir  = shift @ARGV; }
+    elsif ($f eq '--basic')   { $basic    = shift @ARGV; }
+    elsif ($f eq '--helpers') { $helpers  = shift @ARGV; }
+    elsif ($f eq '--root')    { $root     = shift @ARGV; }
+    elsif ($f eq '--prefix')  { push @prefix, shift @ARGV; }  # "MULTICS=/unix"
+    elsif ($f eq '--help' || $f eq '-h') {
+        print <<"USAGE";
+usage: explore [options] [game-arguments...]
+
+Options to this runner (may appear anywhere on the command line):
+  --share DIR    read-only game content (default: share beside the program)
+  --var DIR      read-write data directory (default: saves beside the program)
+  --home DIR     the player's home directory: saved games, abbrevs and
+                 start_up.explore (default: the --var directory)
+  --basic FILE   the main BASIC program (default <share>/explore.basic)
+  --helpers DIR  BASIC helper .basic files (default <share>)
+  --root DIR     anchor for unmapped Multics '>' paths (default: the --var
+                 directory)
+  --prefix M=U   map a Multics path prefix M to a Windows path U (repeatable);
+                 e.g. --prefix ">site>explore_dir=C:\\games\\explore\\share"
+  -h, --help     show this help
+  --             end of options; everything after goes to the game
+Environment: EXPLORE_SHAREDIR, EXPLORE_VARDIR, EXPLORE_HOME, EXPLORE_BASIC,
+             EXPLORE_HELPERS, EXPLORE_ROOT, MBASIC_LIB.
+
+The game starts in the home directory, as a Multics user did, so a game
+saved under a plain name ("save cave1") lands there, and so do relative
+pathnames given to the game (-pn, -ab).  The first run writes
+<var>\\explore.rwdir: its line 1 names the writable directory (the --var
+directory is >site>explore_dir>private) or is "none" for read-only play;
+line 2 is "^multip", or "multip" to let players on this computer share a
+cave.
+
+Arguments to the game (the original 1980 Multics control arguments, passed
+through to the BASIC untouched).  Three of them take the argument that
+follows, so keep each pair together and in order:
+  -abbrev PATH, -ab PATH  use PATH as the abbreviation file (".explore_abbrev"
+                          is appended if PATH does not already end in it)
+  -brief, -bf             suppress the welcome message and the news lines
+  -modes STR              set modes from a comma-separated list
+  -no_startup, -ns        do not read start_up.explore
+  -no_version             print no version line
+  -pathname PATH, -pn PATH
+                          read the game database from PATH instead of
+                          <share>/explore.data
+  -table_space, -ts       report table space used while loading
+  -version                print the long version line
+Use "--" first if a game argument or pathname begins with "--".
+USAGE
+        exit 0;
+    }
+    elsif ($f =~ /^--/)       { die "unknown option $f (try --help)\n"; }
+    else                      { push @gameargs, $f; }   # -> the game
+}
+
+# derive defaults that depend on --share, after parsing
+# (Windows port: made absolute, because the game runs in the home directory)
+$sharedir = File::Spec->rel2abs($sharedir);
+$vardir   = File::Spec->rel2abs($vardir);
+$homedir  = File::Spec->rel2abs($homedir // $vardir);
+$root     = File::Spec->rel2abs($root // $vardir);
+$basic   = File::Spec->rel2abs($basic // "$sharedir/explore.basic");
+$helpers = File::Spec->rel2abs($helpers // $sharedir);
+
+$Explore::Builtins::ROOT = $root;
+
+# default prefix map: the game's Multics base -> the read-only share dir.
+Explore::Builtins::add_prefix('>site>explore_dir', $sharedir);
+
+# Windows port: the home directory the game is given is the Multics pathname
+# >udd>Explore>Player, mapped to the real one.  The game cuts its home path at
+# the first blank (line 45), and Windows folder names are often full of them.
+Explore::Builtins::add_prefix('>udd>Explore>Player', $homedir);
+$Explore::Builtins::HOME = '>udd>Explore>Player';
+
+# any user-supplied --prefix M=U pairs (later ones are still longest-first)
+for my $spec (@prefix) {
+    my ($m, $u) = split /=/, $spec, 2;
+    die "bad --prefix (want MULTICS=/unix): $spec\n" unless defined $u;
+    Explore::Builtins::add_prefix($m, $u);
+}
+
+my $registry = MBasic::Registry->new;
+Explore::Builtins::register_all($registry);
+$registry->register('set_acl',  sub { });   # commented out on Multics: no-op
+$registry->register('exec_com', sub { });
+
+# --- prepare the writable data directory (or fall back to read-only) --------
+# On first run we create the writable directory and seed it from the share
+# masters so that wins and hours edits persist.  If the directory cannot be
+# created or written -- e.g. a normal user on a system where an administrator
+# has not set up a shared, group-writable /var/games/explore -- we must run the
+# game READ-ONLY, because the packaged explore.rwdir points at that directory
+# and the game would otherwise try (and fail) to read its data from there.
+#
+# To force read-only cleanly we override the rwdir the game reads: we point the
+# game's ">site>explore_dir>explore.rwdir" at a temporary file containing the
+# single line "none", which the game treats as "read-only, no writable dir".
+# In read-only mode the game reads hours.data/winners.data from the share
+# directory (where the masters live), so it plays; it simply does not record
+# wins or enable multiplayer.
+my $writable = _seed_var_dir($sharedir, $vardir);
+if ($writable) {
+    # Windows port: the game reads explore.rwdir from >site>explore_dir, which
+    # is share here.  Read it from the var directory instead, where the player
+    # can edit it (_seed_var_dir writes it), and call that directory
+    # >site>explore_dir>private, as explore_setup.ec does on Multics.
+    Explore::Builtins::add_prefix('>site>explore_dir>explore.rwdir',
+                                  "$vardir/explore.rwdir");
+    Explore::Builtins::add_prefix('>site>explore_dir>private', $vardir);
+}
+unless ($writable) {
+    require File::Temp;
+    my ($fh, $tmp) = File::Temp::tempfile(UNLINK => 1);
+    print $fh "none\n"; close $fh;
+    # map the exact rwdir path the game opens to this temporary "none" file
+    Explore::Builtins::add_prefix('>site>explore_dir>explore.rwdir', $tmp);
+    warn "explore: $vardir is not writable; playing read-only "
+       . "(wins will not be recorded).  See the README (PERMISSIONS) to enable "
+       . "writable or multiplayer play.\n";
+}
+
+my $interp = MBasic::Interp->new(
+    registry    => $registry,
+    search_path => [ $helpers ],
+    argv        => [ @gameargs ],   # cnt / arg$(n) in the BASIC
+);
+$interp->load_main($basic);
+# Validate every helper up front (load, link, index) so a load-time error in a
+# helper -- a parse rejection, a dangling jump, a duplicate sub -- is reported
+# now, before play begins, rather than dying deep in a session the first time
+# that helper is called (which would lose the player's progress).
+eval { $interp->load_all_helpers($helpers); 1 }
+    or die "explore: a BASIC helper failed to load:\n$@";
+
+# Windows port: the game runs in the home directory, as a Multics user's
+# process did, so a game saved under a plain name lands there.
+eval { require File::Path; File::Path::make_path($homedir) unless -d $homedir; 1 };
+chdir $homedir
+    or warn "explore: cannot change to $homedir ($!); saved games go to the "
+          . "current directory\n";
+
+# Port: the end of a piped script or a file ends the game.  MBasic's own
+# reader returns an empty line there, and the game would prompt for ever.  A
+# console has no end: a read cut short there by Ctrl+Z, or by Ctrl+C when the
+# game ignores it (mode ^quit), still gives an empty line, and the game asks
+# again.
+my $input = sub {
+    my $l = <STDIN>;
+    unless (defined $l) {
+        return '' if -t STDIN;
+        print "\n";
+        exit 0;
+    }
+    chomp $l;
+    return $l;
+};
+$interp->run(pathxlate => \&Explore::Builtins::mult_path, input => $input);
+
+# Copy the sample writable files to the var dir if absent; return 1 if the var
+# dir is usable (writable), 0 to fall back to read-only.  The read-only masters
+# of hours.data/winners.data live in the share dir (they are also read directly
+# in read-only mode); here we copy them to the var dir for writable play.
+sub _seed_var_dir {
+    my ($share, $var) = @_;
+    require File::Copy;
+    unless (-d $var) {
+        eval { require File::Path; File::Path::make_path($var); 1 } or return 0;
+    }
+    return 0 unless -w $var;
+    for my $name (qw(hours.data winners.data)) {
+        my $dst = "$var/$name";
+        my $src = "$share/$name";
+        # copy the master in only if it is missing.  File::Copy::copy does not
+        # preserve mode, so set the working copy group-writable (0664 & ~umask)
+        # for shared play -- matching the manual PERMISSIONS instructions.
+        if (!-e $dst && -e $src) {
+            File::Copy::copy($src, $dst) and chmod(0664 & ~umask, $dst);
+        }
+    }
+    # Windows port: an explore.rwdir for writable single-player play, if the
+    # player has none (see the rwdir mapping above)
+    my $rw = "$var/explore.rwdir";
+    if (!-e $rw && open my $fh, '>', $rw) {
+        print $fh ">site>explore_dir>private\n^multip\n";
+        close $fh;
+    }
+    return 1;
+}
+
+__END__
+
+=head1 NAME
+
+explore - play the reconstructed 1980 Multics game "Explore"
+
+=head1 SYNOPSIS
+
+    explore                          # play with default locations
+    explore --share DIR --var DIR    # override the data locations
+    explore --prefix '>a>b=/unix/x'  # add a Multics->Unix path mapping
+    explore -brief -ts               # pass control arguments to the game
+    explore --var DIR -pn ./my.data  # runner options and game arguments mixed
+    explore -- -pn --odd-name        # "--" ends options; the rest is the game's
+
+=head1 DESCRIPTION
+
+C<explore> runs the reconstructed 1980 Multics adventure game I<Explore> on the
+L<MBasic> interpreter, executing the authentic BASIC source unmodified.  With no
+arguments it uses sensible default locations and auto-seeds a writable data
+directory so that wins and sorcerer edits persist; if that directory cannot be
+written it falls back to read-only single-player.
+
+=head1 OPTIONS
+
+=over 4
+
+=item B<--share> I<DIR>
+
+The read-only game content directory (the BASIC program, the helper C<.basic>
+subroutines, and the read-only data).  Default F</usr/local/share/explore>.
+
+=item B<--var> I<DIR>
+
+The read-write data directory (working C<hours.data>, C<winners.data>, and the
+multiplayer files).  Default F</var/games/explore>.
+
+=item B<--basic> I<FILE>
+
+The main BASIC program.  Default F<< <share>/explore.basic >>.
+
+=item B<--helpers> I<DIR>
+
+Where the BASIC helper C<.basic> files live.  Default F<< <share> >>.
+
+=item B<--root> I<DIR>
+
+The anchor for any Multics C<< > >> path not covered by a prefix mapping.
+Default F</>.
+
+=item B<--prefix> I<MULTICS>=I<UNIX>
+
+Map a Multics path prefix to a Unix path, repeatable.  By default
+C<< >site>explore_dir >> maps to the share directory, so the game's unmodified
+paths resolve without editing the BASIC.
+
+=item B<-->
+
+End of options.  Every remaining argument is passed to the game untouched,
+even if it begins with C<-->.
+
+=back
+
+=head1 GAME ARGUMENTS
+
+The command line carries two separate vocabularies.  The options above belong
+to this runner and are double-dash; anything else on the line is a B<game>
+argument and is passed through to the BASIC program, which reads the arguments
+with the C<cnt> and C<arg$(n)> built-ins.  These are the authentic single-dash
+Multics control arguments the game accepted in 1980, so the reconstructed
+source needs no modification to honor them.
+
+Because the two vocabularies differ in their dash count, they may be
+interleaved freely: runner options are recognized anywhere on the line and are
+removed before the rest is handed to the game.  C<cnt> therefore counts only
+real game arguments, and C<arg$(n)> indexes only them.
+
+=over 4
+
+=item B<-abbrev> I<PATH> / B<-ab> I<PATH>
+
+Use I<PATH> as the abbreviation file, appending C<.explore_abbrev> if it does
+not already end in that.
+
+=item B<-brief> / B<-bf>
+
+Suppress the welcome message and the news lines.
+
+=item B<-modes> I<STR>
+
+Set modes from a comma-separated list.
+
+=item B<-no_startup> / B<-ns>
+
+Do not read C<start_up.explore>.
+
+=item B<-no_version>
+
+Print no version line.
+
+=item B<-pathname> I<PATH> / B<-pn> I<PATH>
+
+Read the game database from I<PATH> instead of F<< <share>/explore.data >>.
+
+=item B<-table_space> / B<-ts>
+
+Report table space used while loading.
+
+=item B<-version>
+
+Print the long version line.
+
+=back
+
+C<-abbrev>, C<-modes> and C<-pathname> each consume the argument that follows
+them, so keep those pairs adjacent and in order; the runner preserves the
+relative order of everything it passes through.
+
+One case is genuinely ambiguous: a game argument or pathname that itself
+begins with C<-->, which the runner would otherwise try to parse as its own
+option.  Put C<--> first to resolve it --- everything after C<--> goes to the
+game verbatim.
+
+=head1 ENVIRONMENT
+
+C<EXPLORE_SHAREDIR>, C<EXPLORE_VARDIR>, C<EXPLORE_BASIC>, C<EXPLORE_HELPERS>,
+C<EXPLORE_ROOT> mirror the options.  C<MBASIC_LIB>, if set, adds a directory to
+C<@INC> (for running from an unpacked source tree without installing).
+
+=head1 FILES
+
+The read-only content in the share directory: F<explore.basic>, the helper
+F<exp_*.basic> files, F<explore.data>, F<explore.help>, and the sample
+F<hours.data> / F<winners.data> masters.  The writable copies live in the var
+directory.  See the distribution README for the F<hours.data> format and for
+multiplayer setup.
+
+=head1 SEE ALSO
+
+L<Explore::Builtins>, L<MBasic>.
+
+=head1 AUTHOR
+
+Jim Lippard <lippard@discord.org>
+
+=head1 LICENSE
+
+Copyright (c) 2026 Jim Lippard.  Free software under the BSD 3-Clause License.
+
+=cut

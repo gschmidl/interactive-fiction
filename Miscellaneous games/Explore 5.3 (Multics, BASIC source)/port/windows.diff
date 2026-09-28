@@ -1,0 +1,356 @@
+--- src_original/explore/perl/explore
++++ port/explore.pl
+@@ -30,20 +30,34 @@
+ # unpacked source tree without installing, set MBASIC_LIB to the lib directory.
+ use if defined $ENV{MBASIC_LIB}, lib => ($ENV{MBASIC_LIB} // '');
+ 
++# Windows port: MBasic and Explore::Builtins are in lib\ beside this script.
++use FindBin;
++use lib "$FindBin::RealBin/lib";
++use File::Spec;
++
+ use MBasic::Interp;
+ use MBasic::Registry;
+ use Explore::Builtins;
+ 
++# Windows port: prompts without a newline ("? ") must show before input is read.
++$| = 1;
++
+ # --- defaults (overridable by options / environment) -----------------------
+ #   The game's read-only content lives at SHAREDIR, its read-write data at
+ #   VARDIR.  By default the game's Multics path ">site>explore_dir" is mapped
+ #   to SHAREDIR, and the writable files (named in explore.rwdir) live under
+ #   VARDIR.  On a packaged install these default to the FHS locations.
+-my $sharedir = $ENV{EXPLORE_SHAREDIR} // '/usr/local/share/explore';
+-my $vardir   = $ENV{EXPLORE_VARDIR}   // '/var/games/explore';
++#
++#   Windows port: everything lives beside this script -- the game in share\,
++#   the writable data in saves\, and the player's own files (saved games,
++#   abbrevs, start_up.explore) in HOMEDIR, which is saves\ too unless --home
++#   says otherwise.
++my $sharedir = $ENV{EXPLORE_SHAREDIR} // "$FindBin::RealBin/share";
++my $vardir   = $ENV{EXPLORE_VARDIR}   // "$FindBin::RealBin/saves";
++my $homedir  = $ENV{EXPLORE_HOME};                   # derived from var if unset
+ my $basic    = $ENV{EXPLORE_BASIC};                  # derived from share if unset
+ my $helpers  = $ENV{EXPLORE_HELPERS};                # derived from share if unset
+-my $root     = $ENV{EXPLORE_ROOT}     // '/';       # fallback anchor for '>'
++my $root     = $ENV{EXPLORE_ROOT};                   # derived from var if unset
+ my @prefix;                                          # extra --prefix M=U pairs
+ 
+ # --- argument split: runner options vs. game control arguments -------------
+@@ -67,25 +81,38 @@
+     if    ($f eq '--')        { push @gameargs, splice(@ARGV); last; }
+     elsif ($f eq '--share')   { $sharedir = shift @ARGV; }
+     elsif ($f eq '--var')     { $vardir   = shift @ARGV; }
++    elsif ($f eq '--home')    { $homedir  = shift @ARGV; }
+     elsif ($f eq '--basic')   { $basic    = shift @ARGV; }
+     elsif ($f eq '--helpers') { $helpers  = shift @ARGV; }
+     elsif ($f eq '--root')    { $root     = shift @ARGV; }
+     elsif ($f eq '--prefix')  { push @prefix, shift @ARGV; }  # "MULTICS=/unix"
+-    elsif ($f eq '--help') {
++    elsif ($f eq '--help' || $f eq '-h') {
+         print <<"USAGE";
+ usage: explore [options] [game-arguments...]
+ 
+ Options to this runner (may appear anywhere on the command line):
+-  --share DIR    read-only game content (default $sharedir)
+-  --var DIR      read-write data directory (default $vardir)
++  --share DIR    read-only game content (default: share beside the program)
++  --var DIR      read-write data directory (default: saves beside the program)
++  --home DIR     the player's home directory: saved games, abbrevs and
++                 start_up.explore (default: the --var directory)
+   --basic FILE   the main BASIC program (default <share>/explore.basic)
+   --helpers DIR  BASIC helper .basic files (default <share>)
+-  --root DIR     anchor for unmapped Multics '>' paths (default /)
+-  --prefix M=U   map a Multics path prefix M to a Unix path U (repeatable);
+-                 e.g. --prefix '>site>explore_dir=/usr/local/share/explore'
++  --root DIR     anchor for unmapped Multics '>' paths (default: the --var
++                 directory)
++  --prefix M=U   map a Multics path prefix M to a Windows path U (repeatable);
++                 e.g. --prefix ">site>explore_dir=C:\\games\\explore\\share"
++  -h, --help     show this help
+   --             end of options; everything after goes to the game
+-Environment: EXPLORE_SHAREDIR, EXPLORE_VARDIR, EXPLORE_BASIC, EXPLORE_HELPERS,
+-             EXPLORE_ROOT, MBASIC_LIB.
++Environment: EXPLORE_SHAREDIR, EXPLORE_VARDIR, EXPLORE_HOME, EXPLORE_BASIC,
++             EXPLORE_HELPERS, EXPLORE_ROOT, MBASIC_LIB.
++
++The game starts in the home directory, as a Multics user did, so a game
++saved under a plain name ("save cave1") lands there, and so do relative
++pathnames given to the game (-pn, -ab).  The first run writes
++<var>\\explore.rwdir: its line 1 names the writable directory (the --var
++directory is >site>explore_dir>private) or is "none" for read-only play;
++line 2 is "^multip", or "multip" to let players on this computer share a
++cave.
+ 
+ Arguments to the game (the original 1980 Multics control arguments, passed
+ through to the BASIC untouched).  Three of them take the argument that
+@@ -110,13 +137,25 @@
+ }
+ 
+ # derive defaults that depend on --share, after parsing
+-$basic   //= "$sharedir/explore.basic";
+-$helpers //= $sharedir;
++# (Windows port: made absolute, because the game runs in the home directory)
++$sharedir = File::Spec->rel2abs($sharedir);
++$vardir   = File::Spec->rel2abs($vardir);
++$homedir  = File::Spec->rel2abs($homedir // $vardir);
++$root     = File::Spec->rel2abs($root // $vardir);
++$basic   = File::Spec->rel2abs($basic // "$sharedir/explore.basic");
++$helpers = File::Spec->rel2abs($helpers // $sharedir);
+ 
+ $Explore::Builtins::ROOT = $root;
+ 
+ # default prefix map: the game's Multics base -> the read-only share dir.
+ Explore::Builtins::add_prefix('>site>explore_dir', $sharedir);
++
++# Windows port: the home directory the game is given is the Multics pathname
++# >udd>Explore>Player, mapped to the real one.  The game cuts its home path at
++# the first blank (line 45), and Windows folder names are often full of them.
++Explore::Builtins::add_prefix('>udd>Explore>Player', $homedir);
++$Explore::Builtins::HOME = '>udd>Explore>Player';
++
+ # any user-supplied --prefix M=U pairs (later ones are still longest-first)
+ for my $spec (@prefix) {
+     my ($m, $u) = split /=/, $spec, 2;
+@@ -144,6 +183,15 @@
+ # directory (where the masters live), so it plays; it simply does not record
+ # wins or enable multiplayer.
+ my $writable = _seed_var_dir($sharedir, $vardir);
++if ($writable) {
++    # Windows port: the game reads explore.rwdir from >site>explore_dir, which
++    # is share here.  Read it from the var directory instead, where the player
++    # can edit it (_seed_var_dir writes it), and call that directory
++    # >site>explore_dir>private, as explore_setup.ec does on Multics.
++    Explore::Builtins::add_prefix('>site>explore_dir>explore.rwdir',
++                                  "$vardir/explore.rwdir");
++    Explore::Builtins::add_prefix('>site>explore_dir>private', $vardir);
++}
+ unless ($writable) {
+     require File::Temp;
+     my ($fh, $tmp) = File::Temp::tempfile(UNLINK => 1);
+@@ -167,7 +215,30 @@
+ # that helper is called (which would lose the player's progress).
+ eval { $interp->load_all_helpers($helpers); 1 }
+     or die "explore: a BASIC helper failed to load:\n$@";
+-$interp->run(pathxlate => \&Explore::Builtins::mult_path);
++
++# Windows port: the game runs in the home directory, as a Multics user's
++# process did, so a game saved under a plain name lands there.
++eval { require File::Path; File::Path::make_path($homedir) unless -d $homedir; 1 };
++chdir $homedir
++    or warn "explore: cannot change to $homedir ($!); saved games go to the "
++          . "current directory\n";
++
++# Port: the end of a piped script or a file ends the game.  MBasic's own
++# reader returns an empty line there, and the game would prompt for ever.  A
++# console has no end: a read cut short there by Ctrl+Z, or by Ctrl+C when the
++# game ignores it (mode ^quit), still gives an empty line, and the game asks
++# again.
++my $input = sub {
++    my $l = <STDIN>;
++    unless (defined $l) {
++        return '' if -t STDIN;
++        print "\n";
++        exit 0;
++    }
++    chomp $l;
++    return $l;
++};
++$interp->run(pathxlate => \&Explore::Builtins::mult_path, input => $input);
+ 
+ # Copy the sample writable files to the var dir if absent; return 1 if the var
+ # dir is usable (writable), 0 to fall back to read-only.  The read-only masters
+@@ -190,6 +261,13 @@
+             File::Copy::copy($src, $dst) and chmod(0664 & ~umask, $dst);
+         }
+     }
++    # Windows port: an explore.rwdir for writable single-player play, if the
++    # player has none (see the rwdir mapping above)
++    my $rw = "$var/explore.rwdir";
++    if (!-e $rw && open my $fh, '>', $rw) {
++        print $fh ">site>explore_dir>private\n^multip\n";
++        close $fh;
++    }
+     return 1;
+ }
+ 
+--- src_original/explore/perl/lib/Explore/Builtins.pm
++++ port/lib/Explore/Builtins.pm
+@@ -35,6 +35,7 @@
+ 
+ our $ROOT = '.';      # Unix root the Multics '>' hierarchy maps under
+ our %LOCKS;           # path -> open filehandle currently held (for unlock)
++our $HOME;            # Windows port: the home directory exp_home_ returns, if set
+ 
+ # Prefix substitutions: an ordered list of [ multics_prefix => unix_path ]
+ # pairs applied (longest-prefix first) BEFORE the general '>'-to-'/' mapping.
+@@ -138,10 +139,16 @@
+ # home.  (The earlier '' made every such path resolve to the filesystem root,
+ # where a normal user cannot write, so the whole abbreviation feature silently
+ # no-opped.)  If no home is discoverable we fall back to $ROOT.
++#
++# Windows port: the runner sets $HOME to a Multics pathname (">udd>Explore>
++# Player") and maps it to the real folder with add_prefix.  The game cuts h9$
++# at its first blank (line 45), which a Windows folder name often contains;
++# getpwuid does not exist there.
+ sub exp_home_ {
+     my ($ctx, $args) = @_;
+-    my $home = $ENV{HOME};
+-    $home = (getpwuid($<))[7] if !defined $home || $home eq '';
++    my $home = defined $HOME ? $HOME : $ENV{HOME};
++    $home = (getpwuid($<))[7]
++        if (!defined $home || $home eq '') && $^O ne 'MSWin32';
+     $home = $ROOT             if !defined $home || $home eq '';
+     $home =~ s{/+$}{} unless $home eq '/';   # no trailing slash
+     $args->[0]->set($home);
+@@ -214,12 +221,12 @@
+ sub _read_noecho {
+     my $line;
+     if (-t STDIN) {
+-        if (system('stty', '-echo') == 0) {
++        if (_echo(0)) {
+             # Guarantee echo is turned back ON even if the read dies (MBasic 1.1
+             # can die mid-prompt on a run-time error), so we never strand the
+             # player's terminal with echo off.
+             my $ok = eval { $line = <STDIN>; 1 };
+-            system('stty', 'echo');
++            _echo(1);
+             print "\n";
+             die $@ if !$ok;                 # re-raise AFTER restoring the terminal
+         } else {
+@@ -232,8 +239,27 @@
+     } else {
+         $line = <STDIN>;                    # non-tty (tests / pipes): no echo issue
+     }
+-    chomp $line if defined $line;
+-    return defined $line ? $line : '';
++    # Port: the end of a piped script or a file ends the game, as it does in
++    # the runner; the game would otherwise ask for the magic word for ever.
++    # (A console has no end: an empty word there, and the game asks again.)
++    unless (defined $line) {
++        return '' if -t STDIN;
++        print "\n";
++        exit 0;
++    }
++    chomp $line;
++    return $line;
++}
++# Windows port: there is no stty; Term::ReadKey turns the console's echo off
++# and back on.  Returns true if it could.
++sub _echo {
++    my ($on) = @_;
++    if ($^O eq 'MSWin32') {
++        eval { require Term::ReadKey; 1 } or return 0;
++        Term::ReadKey::ReadMode($on ? 'restore' : 'noecho');
++        return 1;
++    }
++    return system('stty', $on ? 'echo' : '-echo') == 0;
+ }
+ 
+ # ---- quit_off / quit_on : control the interrupt (break) key ----
+@@ -310,6 +336,12 @@
+     my ($ctx, $args) = @_;
+     my $user = $args->[0]->get;
+     my $text = defined $args->[1] ? $args->[1]->get : '';
++    # Windows port: there is no `write` to another user's terminal, and a
++    # list-form piped open dies there; say so, as a failed `write` would.
++    if ($^O eq 'MSWin32') {
++        warn "send_message: cannot send to $user on this system\n";
++        return;
++    }
+     # best-effort: pipe the text to `write user`; ignore failure (user not on)
+     if (open my $w, '|-', 'write', $user) { print $w "$text\n"; close $w; }
+     return;
+@@ -330,6 +362,12 @@
+     my ($path) = grep { $_ !~ /^-/ } @a;
+     return unless defined $path;
+     $path = mult_path($path);
++    # Windows port: there is no ed or vi; use Notepad, with backslashes
++    if ($^O eq 'MSWin32') {
++        $path =~ tr{/}{\\};
++        system($ENV{EDITOR} || 'notepad', $path);
++        return;
++    }
+     my $editor = $ENV{EDITOR} || _first_in_path('ed','vi') || 'ed';
+     system($editor, $path);
+     return;
+--- src_original/MBasic/lib/MBasic/Env.pm
++++ port/lib/MBasic/Env.pm
+@@ -138,8 +138,11 @@
+ sub _special {
+     my ($self, $name) = @_;
+     if ($name eq 'usr$') {
++        # Windows port: Perl on Windows has no getpwuid (calling it dies);
++        # the account name is in USERNAME there.
+         return defined $self->{user} ? $self->{user}
+-             : (getpwuid($<))[0] // $ENV{USER} // $ENV{LOGNAME} // 'user';
++             : ($^O eq 'MSWin32' ? undef : (getpwuid($<))[0])
++               // $ENV{USER} // $ENV{LOGNAME} // $ENV{USERNAME} // 'user';
+     }
+     if ($name eq 'dat$' || $name eq 'clk$') {
+         my @lt = localtime(defined $self->{_now} ? $self->{_now} : time);
+--- src_original/MBasic/lib/MBasic/Executor.pm
++++ port/lib/MBasic/Executor.pm
+@@ -81,6 +81,7 @@
+ sub run_program {
+     my ($class, $prog, %opt) = @_;
+     my $rs = $class->new_runstate(program => $prog, %opt);
++    $class->_predeclare($prog->{ir}, 0, $rs->{env});
+     # Convert Perl's numeric-coercion warning (which names interpreter internals
+     # and would otherwise leak to stderr while the statement silently proceeds
+     # with a wrong value) into an authentic BASIC error at the current line --
+@@ -108,6 +109,28 @@
+     return $rs;
+ }
+ 
++# Port: in Multics BASIC the arrays a program declares with dim exist, with
++# those bounds and all elements 0 or "", from the moment control enters the
++# program; the bounds "do not change during execution", and a dim statement
++# "has no effect when executed" and may come after the array's first use
++# (AM82-01, 1-4, 2-4 and 5-9).  So they are declared here, on entry: the dims
++# from FROM to the end of that program (the next sub or subend).  (Explore's
++# -abbrev control argument loads x$() before line 460 dims it.)
++sub _predeclare {
++    my ($class, $ir, $from, $env) = @_;
++    for my $i ($from .. $#$ir) {
++        my $s = $ir->[$i];
++        last if $s->{op} eq 'sub' || $s->{op} eq 'subend';
++        next unless $s->{op} eq 'dim';
++        local $MBasic::Expr::LINE = $s->{line};
++        for my $d (@{$s->{decls}}) {
++            my @b = map { int(MBasic::Expr->eval($_, $env)) } @{$d->{bounds}};
++            $env->declare_array($d->{name}, \@b);
++        }
++    }
++    return;
++}
++
+ sub run_loop {
+     my ($class, $rs) = @_;
+     my $ir = $rs->{program}{ir};
+@@ -146,13 +169,9 @@
+         return 0;
+     }
+ 
+-    if ($op eq 'dim') {
+-        for my $d (@{$s->{decls}}) {
+-            my @b = map { int(MBasic::Expr->eval($_, $env)) } @{$d->{bounds}};
+-            $env->declare_array($d->{name}, \@b);
+-        }
+-        return 0;
+-    }
++    # Port: "a dim statement has no effect when executed" (AM82-01, 5-9); its
++    # arrays were declared when control entered the program (_predeclare).
++    if ($op eq 'dim') { return 0; }
+ 
+     if ($op eq 'goto')  { $rs->{pc} = $s->{tidx}; return 1; }
+ 
+@@ -430,6 +449,7 @@
+         now  => $caller_rs->{env}{_now},
+         rng  => $caller_rs->{env}{rng},
+     );
++    $class->_predeclare($subprog->{ir}, $entryinfo->{entry} + 1, $sub_env);
+ 
+     # bind parameters: copy the argument's current value INTO the sub's param
+     # variable (copy-in).  For string params this is the "copied in at entry"

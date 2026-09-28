@@ -1,0 +1,57 @@
+/* ------------------------------------------------------------------ */
+/*  exp_log_  -  append a timestamped "explore invoked" record        */
+/*                                                                    */
+/*  call ">udd>...>exp_log_"          (no arguments)                  */
+/*                                                                    */
+/*  Line 320 of explore.basic calls this once at start-up.  Nothing   */
+/*  in the game depends on its result, so the reconstruction is free: */
+/*  it appends one line -- date/time and user -- to a log segment.    */
+/*  Adjust LOG_PATH to taste.                                         */
+/* ------------------------------------------------------------------ */
+
+exp_log_: proc ();
+
+  dcl LOG_PATH char (64) static options (constant)
+       init (">udd>SysAdmin>Lippard>explore.log");
+
+  dcl line     char (256) varying;
+  dcl datebuf  char (24);
+  dcl code     fixed bin (35);
+
+  dcl iox_$user_output ptr external;
+  dcl get_wdir_ entry returns (char (168));       /* not used, just illustrative */
+
+  dcl date_time_ entry (fixed bin (71), char (*));
+  dcl clock_ entry returns (fixed bin (71));
+  dcl user_info_$whoami entry (char (*), char (*), char (*));
+  dcl (person, project, acct) char (32);
+
+  dcl iox_$attach_name entry (char (*), ptr, char (*), ptr, fixed bin (35));
+  dcl iox_$open entry (ptr, fixed bin, bit (1) aligned, fixed bin (35));
+  dcl iox_$put_chars entry (ptr, ptr, fixed bin (21), fixed bin (35));
+  dcl iox_$close entry (ptr, fixed bin (35));
+  dcl iox_$detach_iocb entry (ptr, fixed bin (35));
+  dcl logp ptr;
+  dcl Stream_output_append fixed bin static options (constant) init (5);
+  dcl NL char (1) static options (constant) init ("
+");
+
+  call date_time_ (clock_ (), datebuf);
+  call user_info_$whoami (person, project, acct);
+  line = datebuf || "  explore  " || rtrim (person) || "." || rtrim (project) || NL;
+
+  /* open the log for append, write one line, close.  Errors are ignored
+     on purpose -- logging must never break the game. */
+  call iox_$attach_name ("explore_log_", logp, "vfile_ " || rtrim (LOG_PATH),
+                         null (), code);
+  if code ^= 0 then return;
+  call iox_$open (logp, Stream_output_append, "0"b, code);
+  if code = 0 then do;
+     call iox_$put_chars (logp, addrel (addr (line), 1), length (line), code);
+     call iox_$close (logp, code);
+  end;
+  call iox_$detach_iocb (logp, code);
+
+  return;
+
+end exp_log_;

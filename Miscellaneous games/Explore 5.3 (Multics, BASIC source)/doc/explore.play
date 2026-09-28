@@ -1,0 +1,634 @@
+explore
+Version 4.3
+Welcome to "Explore". Type "help" for information.
+
+*******************************************************
+
+You're at the entrance to a small wooden shack. There is forest
+on all sides except for the building to the South.
+? in
+You are in a small shack for storing tools.
+There is a door in the floor.
+There is a small metal flashlight on the floor here.
+? get
+Okay.
+? d
+It is now pitch dark. If you proceed you may fall into a pit.
+? on
+Your flashlight is now on.
+You are in the cellar of the shack. The walls are
+composed of rough stone. A door exits to the East.
+A perfectly round glowing sapphire lies on the floor!
+
+? get
+Okay.
+? e
+You are in a cave chamber with walls of granite.
+Passages enter from the West, North, and South.
+There is a shiny metal wand with a crystal tip laying nearby.
+
+? get
+Okay.
+? n
+You're in the Phosphorescent Room. The walls are composed
+of phosphorescent glowing rock. Passages go North and South.
+A glowing rock lies here.
+? get
+Okay.
+? s
+You are in a cave chamber with walls of granite.
+Passages enter from the West, North, and South.
+
+? s
+You're in the Library. Shelves lined with dusty old books
+fill the room. Some of the titles are "Archaeology in Caves',
+"Dwarves I Have Known', "Exploring the Explore Cave', et cetera.
+Passages go North and East.
+A large book with a dusty cover lies nearby.
+
+? get
+Okay.
+? read
+"The History of the Explore Cave"
+
+    The cave was first excavated by Jim Lippard in October
+of 1979. He discovered many creatures which already in-
+habited the caves, most of which were dangerous. He then
+installed a Multics for taking care of the cave, which is
+doing that job even now.
+A small note scribbled on one page reads:
+"If you're in a hurry, use the name scratched on the rock."
+"Don't forget to exit from the room with no exit!"
+? e
+You're in the Silver Room. Passages go South and West.
+There is a pile of silver bars here!
+? get
+Okay.
+? s
+You're in the Platinum Room. Passages go North and South.
+There is a pile of platinum bars here!
+? get
+Okay.
+? s
+This appears to be a continuation of the Weapon Room.
+(Don't ask me how that is possible, they don't connect!)
+Passages go North and East.
+A four-foot long wooden spear is laying here.
+? get
+Okay.
+? e
+You're in a heated room with glowing red walls.
+Passages go East and West.
+A bag of radioactive bottle-caps lays on the floor.
+There is a threatening little dwarf in the room with you!
+A steely metal knife is thrown at you!
+It misses!
+? xineohp
+The dwarf vanishes.
+? get
+You can't carry anything more. You'll have to drop something first.
+? winner
+Okay.
+? get
+Okay.
+? e
+You're in Elbow Pipe II, a steel tunnel. Passages go
+North and West.
+A huge poisonous scorpion waits in the passage!
+? n
+You're in the Hall of the Sorcerer. The walls are paneled
+wood, there are deep velvet curtains hanging on each side
+of the hall. Passages exit to the North and South.
+A small handful of magical dust is here.
+? get
+Okay.
+? n
+You're in the Lower Cross Room. The walls are rough unsanded
+wood. Passages go North and South.
+An Explore coin year 1979 is here!
+There is a threatening burly dwarf in the room with you!
+A steely metal knife is thrown at you!
+It misses!
+? get
+Okay.
+? xineohp
+The dwarf vanishes.
+? n
+A small elf walks around a corner, glances around nervously,
+then cautiously walks over to you. "I shouldn't be telling
+you this", he quietly whispers, "but there is a word that
+you should know if you happen to run into any dwarves. The
+word is another name for the Thunderbird only reversed. It is-"
+Suddenly and without warning a flaming arrow flies from nowhere
+and strikes the elf in the back. A giant hand reaches from the
+cave floor and pulls the elf into nowhere.
+
+You're at the Crossroads. Passages go in all directions.
+A wooden cross with rubies on it is on the floor!
+? get
+Okay.
+? e
+You're in the Explore Auxiliary Control Center. Computer
+consoles line the room. To one side are some disk drives
+and tape reels. Engraved in one wall in solid gold is the word
+"MULTICS". A dim passage exits to the West.
+A solid gold disk with a hole in the center lies here!
+? get
+Okay.
+? w
+You're at the Crossroads. Passages go in all directions.
+? e
+You're in the Explore Auxiliary Control Center. Computer
+consoles line the room. To one side are some disk drives
+and tape reels. Engraved in one wall in solid gold is the word
+"MULTICS". A dim passage exits to the West.
+? w
+You're at the Crossroads. Passages go in all directions.
+? w
+You're at the brink of a 1000 foot deep abyss. A dim passage
+is visible across the hole on the other side. A passage exits
+to the East.
+A bird's nest filled with silver eggs lies on the floor!
+? indiana
+>Foof<
+You're on the West side of the abyss. A single passage exits
+to the East where it promptly goes straight down into the pit.
+An ivory statue is here!
+A giant one-eyed cyclops is here!
+? throw spear
+The cyclops jumps back to avoid being hit by the spear, and falls
+into the abyss. There is silence for a few seconds, followed by a
+loud >thud<.
+? get all
+Okay.
+? indiana
+>Foof<
+You're at the brink of a 1000 foot deep abyss. A dim passage
+is visible across the hole on the other side. A passage exits
+to the East.
+A bird's nest filled with silver eggs lies on the floor!
+? get
+Okay.
+? e
+You're at the Crossroads. Passages go in all directions.
+? d
+You're in a complex circuitry of tunnels.
+? n
+You're in a complex circuitry of tunnels.
+Scratched on a rock is the message "Dale Buhanan was here".
+There is a threatening little dwarf in the room with you!
+A steely metal knife is thrown at you!
+It misses!
+? xineohp
+The dwarf vanishes.
+? e
+You're in a complex circuitry of tunnels.
+? n
+You're in a complex circuitry of tunnels.
+A handful of sparkling diamonds is here!
+? get
+Okay.
+? e
+You're in a complex circuitry of tunnels.
+? w
+You're in a complex circuitry of tunnels.
+Scratched on a rock is the message "Dale Buhanan was here".
+? s
+You're in a complex circuitry of tunnels.
+? s
+You're in a complex circuitry of tunnels.
+? e
+You're in a complex circuitry of tunnels.
+A huge green dragon is in the passage!
+? throw wand
+The wand hits the dragon, who instantly vanishes.
+? get
+Okay.
+? w
+You're in a complex circuitry of tunnels.
+? n
+You're in a complex circuitry of tunnels.
+? w
+You're at the Crossroads. Passages go in all directions.
+? n
+You're in a room with sand on the floor. To one side is a
+small pond. Passages exit to the North and South.
+A scylla (A nymph from the waist up, but 6 ravenous dogs below) is here!
+? throw sword
+You don't have it!
+The sword glances off of the scylla harmlessly.
+? n
+You're in a fairly long passage lit by torches lining the
+walls. Passages go North and South.
+A stone obelisk is here!
+? get
+Okay.
+? n
+You're in Elbow Pipe, a steel tunnel. Passages go
+South and West.
+A metal plate with the inscription "Terre Haute" is here!
+? get
+Okay.
+? w
+You're in the Grafitti Room. Notes are scribbled all
+over the walls. Passages go East and West.
+A sign with the message "Up With Multics' is here.
+? get
+Okay.
+? e
+You're in Elbow Pipe, a steel tunnel. Passages go
+South and West.
+? w
+You're in the Grafitti Room. Notes are scribbled all
+over the walls. Passages go East and West.
+? w
+You're in the Weapon Room. Cases filled with swords, daggers,
+knives, and other assorted ancient weapons line the walls.
+Passages go South and East.
+A little metal knife is laying here.
+? get
+Okay.
+? s
+You're in the Power Room. Hanging in the middle of the room,
+floating unattached to the walls or ceiling, is an electric
+receptacle (a plug). Passages go North and West.
+A battery recharger lies on the floor.
+A ferocious troll stands in front of you!
+? throw glow
+The glowing rock turns red-hot in mid-air and hits the troll,
+who explodes into flame.
+? get all
+Okay.
+? plug
+Your flashlight has been recharged.
+You're in the Power Room. Hanging in the middle of the room,
+floating unattached to the walls or ceiling, is an electric
+receptacle (a plug). Passages go North and West.
+? w
+You're in the Gold Room. Scratched on a wall is the note "Fort
+Knox, Eat Your Heart Out!". Passages go East and West.
+There is a pile of gold bars here!
+? get
+Okay.
+? w
+You're in a room filled with buzzing insects (They appear to be
+mosquitoes!). Scratched on the wall is the message "It Kills Fast".
+Passages go South and East.
+A small test tube with a stopper in one end lies nearby.
+? get
+Okay.
+? Dale Buhanan
+>Foof<
+You're at the West end of a long hall stretching out of
+sight to the East.
+A large roc's egg is here!
+? get
+Okay.
+? e
+You're in the middle of the long hall.
+? get
+There is nothing here to get!
+? e
+You're at the East end of a long hall stretching out of
+sight to the West.
+A large black pearl lies upon the floor!
+? get
+Okay.
+? w
+You're in the middle of the long hall.
+There is a threatening burly dwarf in the room with you!
+A steely metal knife is thrown at you!
+It misses!
+? xineohp
+The dwarf vanishes.
+
+? what
+You are currently carrying:
+flashlight / wand / recharger / knife / spear / diamonds /
+bottlecaps / sign / gold bars / silver bars / platinum bars /
+book / tube / disk / dust / cross / statue / nest / glowrock /
+obelisk / plate / sapphire / roc's egg / pearl / coin
+? e
+You're at the East end of a long hall stretching out of
+sight to the West.
+? e
+You're at the entrance to a very thin room.
+A bronze key lies on the floor!
+? get
+Okay.
+? e
+You're in the thin room. No exits are visible because it is pitch
+dark and your flashlight beam stops one inch from the end of the
+flashlight casing.
+A crystal drinking glass is here!
+A dark is here!
+? get
+Okay.
+? n
+You're in a chamber with waterfalls on either side. They are
+lit from behind by powerful spotlights.
+A mahogany plaque with inlaid gold is here!
+? get
+Okay.
+? e
+You're in a short hall with holes in the ceiling through which
+sand is pouring.
+A mudball lays here.
+? get
+Okay.
+? e
+You're in Elbow Pipe III, a steel tunnel. Passages go North
+and South.
+A small throw rug is on the floor!
+? get
+Okay.
+? s
+You're in a metal tunnel that is straight, but turns the corner
+to the South.
+A crystal medallion on a gold chain lies here.
+? get
+Okay.
+? s
+You're in the Weasel Room.
+A small furry weasel lies upon the floor sleeping.
+? get
+Okay.
+? w
+You're in the Screening Room. Video terminals obviously
+connected to Explore Multics line the walls.
+A magnetic tape reel lies here!
+A terrible coronis is in the passage!
+? throw mudball
+The mudball falls to the ground harmlessly. The coronis suddenly
+sinks into the floor.
+? get all
+Okay.
+? w
+You're in the Lippard Room. Pictures of spotted leopards hang
+on the walls.
+A leopard skin lies on the floor.
+? get
+Okay.
+? w
+You're in a twisted passage. A sign on the wall says "MERLIN".
+A passage goes South, and another goes East.
+A wooden staff lies on the floor!
+? get
+Okay.
+? s
+You're in the Chamber of Ages. Ancient sculptures are set on pedestals
+around the room. Many glare at you menacingly, looking almost alive.
+There is an inter-dimensional time/space duct that can be accessed by a
+magic word somewhere nearby.
+A pile of egg-shaped silicon nodules is here!
+? get
+Okay.
+? nlocnil
+>Foof<
+You're in the Light Room. It is impossible to see anything because
+of the glare.
+Some liquid that glows is in a container here.
+A roc (2 headed giant bird) is here!
+? get
+Okay.
+? throw skin
+The skin falls upon the roc. A disgusting liquid yellow smoke
+seeps from the edges of the skin.
+? get
+Okay.
+? w
+You're in the Explore Experimentation Chamber. Glass cases fill the
+room. As you look closer at one, you see that it contains a small
+dwarf. A card at the end of this case reads "Olney Littlehand".
+Passages go East and West.
+A silver statue of a small dog lies here!
+Several sparkling green emeralds are lying nearby!
+? get all
+Okay.
+? w
+You're in the Basilisk's Den.
+A gold goblet lies upon the floor!
+A lizardlike basilisk is here!
+? throw weasel
+The weasel jumps into action and tears the basilisk to shreds,
+then lays down and resumes its sleep.
+? get all
+Okay.
+? n
+You're in the Scroll Room. Papyrus scrolls hang from the walls.
+Passages go South and West.
+A silver ring is here!
+? get
+Okay.
+? w
+You're at the entrance to the Vault of Tomorrow. A steel door
+blocks the way. A note on the wall reads "Name of the Game".
+A purplish blob guards the door!
+? throw tube
+The tube smashes on the floor, releasing deadly gas. The blob
+shrivels up into nothingness.
+? get
+Okay.
+? e
+You're in the Scroll Room. Papyrus scrolls hang from the walls.
+Passages go South and West.
+? s
+You're in the Basilisk's Den.
+? s
+You are in a massive room filled with hundreds of ceiling-high
+shelves. Each shelf is lined with computer print-outs.
+A computer printout for "Explore" is here!
+? get
+Okay.
+? s
+You're in a small room with no exits. A note on the wall reads
+"Remember the magic words".
+The beautiful Bird's Egg Ruby is here!
+? get
+Okay.
+? nilrem
+>Foof<
+You are in a small shack for storing tools.
+There is a door in the floor.
+? Dale Buhanan
+>Foof<
+You're at the West end of a long hall stretching out of
+sight to the East.
+? u
+You're in a complex circuitry of tunnels.
+? w
+You're in a complex circuitry of tunnels.
+? n
+You're in a complex circuitry of tunnels.
+? w
+You're at the Crossroads. Passages go in all directions.
+? n
+You're in a room with sand on the floor. To one side is a
+small pond. Passages exit to the North and South.
+A long and sharp sword lies on the floor.
+A scylla (A nymph from the waist up, but 6 ravenous dogs below) is here!
+? get sword
+Okay.
+? throw sword
+The sword neatly slices the head from the scylla, who vanishes.
+? get
+Okay.
+? n
+You're in a fairly long passage lit by torches lining the
+walls. Passages go North and South.
+? s
+You're in a room with sand on the floor. To one side is a
+small pond. Passages exit to the North and South.
+? s
+You're at the Crossroads. Passages go in all directions.
+? s
+You're in the Lower Cross Room. The walls are rough unsanded
+wood. Passages go North and South.
+? s
+You're in the Hall of the Sorcerer. The walls are paneled
+wood, there are deep velvet curtains hanging on each side
+of the hall. Passages exit to the North and South.
+? s
+You're in Elbow Pipe II, a steel tunnel. Passages go
+North and West.
+A huge poisonous scorpion waits in the passage!
+? throw medallion
+The light from your flashlight reflects from the medallion as it
+falls. The reflected light disintegrates the scorpion.
+? get
+Okay.
+? Dale Buhanan
+>Foof<
+You're at the West end of a long hall stretching out of
+sight to the East.
+? e
+You're in the middle of the long hall.
+? e
+You're at the East end of a long hall stretching out of
+sight to the West.
+? e
+You're at the entrance to a very thin room.
+? e
+You're in the thin room. No exits are visible because it is pitch
+dark and your flashlight beam stops one inch from the end of the
+flashlight casing.
+A dark is here!
+There is a threatening burly dwarf in the room with you!
+A steely metal knife is thrown at you!
+It misses!
+? throw liquid
+The light from the liquid seems to be making the dark fade a bit.
+As a matter of fact, the dark is vanishing (or at least becoming
+ordinary darkness)!
+? get
+Okay.
+? get
+There is nothing here to get!
+? xineohp
+The dwarf vanishes.
+? nilrem
+>Foof<
+You are in a small shack for storing tools.
+There is a door in the floor.
+? drop all
+Okay.
+? get flashlight
+Okay.
+? score
+Your current score is  480  points.
+? Dale Buhanan
+>Foof<
+You're at the West end of a long hall stretching out of
+sight to the East.
+? e
+You're in the middle of the long hall.
+? e
+You're at the East end of a long hall stretching out of
+sight to the West.
+? e
+You're at the entrance to a very thin room.
+? e
+You're in the thin room. No exits are visible because it is pitch
+dark and your flashlight beam stops one inch from the end of the
+flashlight casing.
+? n
+You're in a chamber with waterfalls on either side. They are
+lit from behind by powerful spotlights.
+There is a threatening little dwarf in the room with you!
+A steely metal knife is thrown at you!
+It misses!
+? xineohp
+The dwarf vanishes.
+? e
+You're in a short hall with holes in the ceiling through which
+sand is pouring.
+? e
+You're in Elbow Pipe III, a steel tunnel. Passages go North
+and South.
+? s
+You're in a metal tunnel that is straight, but turns the corner
+to the South.
+? s
+You're in the Weasel Room.
+? w
+You're in the Screening Room. Video terminals obviously
+connected to Explore Multics line the walls.
+? w
+You're in the Lippard Room. Pictures of spotted leopards hang
+on the walls.
+? w
+You're in a twisted passage. A sign on the wall says "MERLIN".
+A passage goes South, and another goes East.
+? s
+You're in the Chamber of Ages. Ancient sculptures are set on pedestals
+around the room. Many glare at you menacingly, looking almost alive.
+There is an inter-dimensional time/space duct that can be accessed by a
+magic word somewhere nearby.
+There is a threatening burly dwarf in the room with you!
+A steely metal knife is thrown at you!
+It misses!
+? xineohp
+The dwarf vanishes.
+? nlocnil
+>Foof<
+You're in the Light Room. It is impossible to see anything because
+of the glare.
+? w
+You're in the Explore Experimentation Chamber. Glass cases fill the
+room. As you look closer at one, you see that it contains a small
+dwarf. A card at the end of this case reads "Olney Littlehand".
+Passages go East and West.
+? w
+You're in the Basilisk's Den.
+? n
+You're in the Scroll Room. Papyrus scrolls hang from the walls.
+Passages go South and West.
+There is a threatening little dwarf in the room with you!
+A steely metal knife is thrown at you!
+It misses!
+? w
+You're at the entrance to the Vault of Tomorrow. A steel door
+blocks the way. A note on the wall reads "Name of the Game".
+There is a threatening little dwarf in the room with you!
+A steely metal knife is thrown at you!
+It misses!
+? xineohp
+The dwarf vanishes.
+? erolpxe
+>Foof<
+You are in the Vault of Tomorrow. The walls consist of blued [steel...]
+[The Vault of Tomorrow:] steel, as does the floor and ceiling. In the center of this
+otherwise empty room is a circular pedestal upon which is a
+seated figure. A steel plate on the foot of the pedestal reads
+"Hero of the Explore Cave".
+
+The figure vanishes, leaving you as the new Hero!
+You have won!
+.........A note appears on the wall, "To carry all, say "winner"".
+
+You scored  500  points out of a possible 500 using  178  turns.
+
+This score qualifies you as a Grand Master Explorer.
+
+To reach the next higher rating you need  0  more points.
+dta
