@@ -1,0 +1,83 @@
+
+
+"          * * * THE HISTORY OF ADVENTURE * * *    "
+"       Author Unknown, footnotes added by C. Ruby "
+
+"Adventure was originally developed by William Crowther, and later"
+substantially rewritten and expanded by Don Woods at Stanford Univ.
+"According to legend, Crowther's original version was modelled on a"
+"real cavern, called Colossal Cave, which is part of Kentucky's"
+"Mammoth Caverns.  That version of the game included the main maze"
+and a portion of the third-level (Complex Junction - Bedquilt -
+"Swiss Cheese rooms, etc.), but not much more."
+
+Don Woods and some others at Stanford later rewrote portions of
+"the original program, and greatly expanded the cave.  That version"
+of the game is recognizable by the maximum score of 350 points.
+
+The latest additions were done throughout 1978-80  by David Long
+"at the University of Chicago, Graduate School of Business."
+Long's additions include the seaside entrance and all of
+the cave on the "far side" of Lost River (Rainbow Rm - Crystal
+"Palace - Blue Grotto - Rotunda - beyond Joshua's Wall, etc., etc.)."
+
+û
+"                       === 2 === "
+The surface has also been greatly increased to include a much
+"more varied landscape containing swamp, marsh, seashore and"
+meadowland areas.  Most recent additions include the great Castle of
+"Aldor, the elephants' Burial Ground, Leprechaun Rock and more."
+"The current cave is more than double the size of the Woods model,"
+"and moreover the puzzles and treasures are somewhat more 'dense',"
+(and more difficult!) in the current version.  During the expansion
+"process, the code was almost entirely rewritten to permit more"
+generalized handling of objects and to interpret a more complex
+natural English syntax.
+
+Except for a couple of trivial subroutines (to get user-ID's for
+"logging purposes), ADVENTURE [on Compuserve] is written entirely"
+"in FORTRAN.  This not because Crowther/Woods/Long love FORTRAN, but"
+because it is almost infinitely portable.  There were indeed moments
+when it took great strength to withstand the temptation to whip out some
+"character handling routine in MACRO, instead of the furshlugginer"
+"compiler.  For example, there is an excellent rival game to ADVENTURE,"
+"called DUNGEON, developed at M.I.T., which is totally non-portable since"
+"it is coded in an obscure variant of two initially obscure compilers,"
+and can only be transported in executable form between DEC-10's
+and 20's.
+û
+"                       === 3 ==="
+"Thanks are owed to Roger Matus and David Feldman, both of U. of C.,"
+"for several suggestions, including the Rainbow Room, the telephone"
+"booth and the fearsome Wumpus.  Further thanks go to J.R. Carlson,"
+Bob Silverman and John Rager for many debugging suggestions.
+"Most thanks (and apologies) go to Thomas Malory, Charles Dodgson,"
+"the Grimm Brothers, Dante, Homer, Frank Baum and especially Anon.,"
+the real authors of ADVENTURE.
+
+"       Copyright (C) 1978, 1979, 1980, David E. Long"
+
+"ADDENDUM: In April, 1982, Carl Ruby, a junior  at California Lutheran" 
+"college, discovered this game and attempted to write a version in"
+"BASIC for the school's Apple II computers.  However, it wasn't until"
+"1986 when his father bought an Apple IIc that he was able to get any"
+"real work done.  Learning machine language, and the data compression"
+"trick, he almost squeezed the entire program into memory, but in 1994"
+"he discovered Microsoft QBASIC and the Apple Adventure project was"
+"abandoned. He completed a Microsoft version in 11 days, and it was"
+completely debugged in October 1996.
+
+û
+"                       === 4 ==="
+Work is now progressing on this game; the Enhanced Adventure. As of
+"November, 1996, 223 rooms and six dead ends have been discovered."
+
+"Adventure-751 is written in QBASIC, and makes extensive use of"
+"satellite text files, in which most of the statements are stored."
+"For example, all of the long-form room descriptions are stored"
+"in a subdirectory called RMS, and are numbered.  Those rooms with"
+"single descriptions (Bedquilt, caretaker's storeroom, foot of Altar,"
+"etc.) are stored as strings in memory."
+
+more to come later.....
+//
