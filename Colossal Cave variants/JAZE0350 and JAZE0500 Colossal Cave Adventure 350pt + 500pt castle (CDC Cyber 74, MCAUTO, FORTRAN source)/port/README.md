@@ -36,7 +36,7 @@ differs from the tape, which is this:
 - the game is loaded with `LDSET(PRESET=ZERO)`, because it needs its memory to
   start at zero (below).
 
-The generator is the program's own (Palter's `RAN`) and is seeded from the
+The generator is the program's own (Woods' `RAN`) and is seeded from the
 day and the minute, so `cmpcyber.py` runs the port at the minute the dayfile
 says the job started, and the next one. The day is 233: DtCyber's NOS 1.3 has
 `JDATE` give 26/09/21 as day 233, a month out, which `tests\cyber\probe4.txt`

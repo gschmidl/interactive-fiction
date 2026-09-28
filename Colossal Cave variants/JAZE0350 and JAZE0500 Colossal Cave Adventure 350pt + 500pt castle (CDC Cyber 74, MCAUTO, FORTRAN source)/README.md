@@ -10,7 +10,8 @@ folder's name says.
 Files here are verified copies (md5) of the originals named below.
 
 Source: the folder `jase` of a batch of downloaded files (3 files, complete copy).
-- `ADVENT.txt` - CDC FORTRAN, Blackett IAS base with Gary Palter's wizard and prime-time machinery,
+- `ADVENT.txt` - CDC FORTRAN, Kent Blackett's IAS program (his header, his compiler note and his commented-out
+  INTEGER*2 declarations) with the wizard and prime-time machinery that Woods wrote and Blackett kept,
   "converted ... for use on the MCAUTO Cyber 74 by systems programmers Tony Jarrett and Paul Zemlin ... 12/17/78".
   Asks "BEG or ADV" (Black Wizard of the High East Tower); PFGETs =DATABS1/=DATABS2 from UN=XSY913.
 - `001.2.txt` = BEG database (=DATABS1), the standard 140-room 350 cave.

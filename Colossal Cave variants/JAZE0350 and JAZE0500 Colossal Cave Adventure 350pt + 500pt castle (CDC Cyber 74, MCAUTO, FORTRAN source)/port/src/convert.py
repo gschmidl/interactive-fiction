@@ -2,10 +2,11 @@
 """Turn the MCAUTO Cyber 74 source into source gfortran will take, and the
 two databases into the files the port reads.
 
-`ADVENT.txt` is Blackett's Adventure with Gary Palter's wizard and prime-time
-machinery, converted for the MCAUTO Cyber 74 by Tony Jarrett and Paul Zemlin in
-December 1978.  Every edit below is a whole line and asserts how often it
-matches, so a source that is not the one this was written for fails loudly.
+`ADVENT.txt` is Blackett's Adventure, with the wizard and prime-time machinery
+that Woods wrote and Blackett kept, converted for the MCAUTO Cyber 74 by Tony
+Jarrett and Paul Zemlin in December 1978.  Every edit below is a whole line
+and asserts how often it matches, so a source that is not the one this was
+written for fails loudly.
 
 Three things need doing:
 
