@@ -161,3 +161,15 @@ North Star BASIC for the NorthStar volcano port: its arithmetic went wrong
 (`1+1` gave 2.0000001). Adventure never depended on it. 150 random sessions of
 100-300 commands each, on a fixed clock, printed the same on the old and the
 fixed core, as did `tools\demo.txt`. Both executables were rebuilt.
+
+**Z80 core fix, 2026-09-28.** Two decoding mistakes, found when a copy of this
+core ran a Sharp MZ-80K's monitor and BASIC: opcodes 10 (DJNZ) and 18 (JR) were
+swapped, and the ED block instructions (LDI, LDIR, CPIR, INI, OTIR and the rest,
+ED A0-BB) could never run, because the table for ED 40-7F took them first (LDIR
+ran as IN F,(C)). Now only ED 40-7F go through that table, the block
+instructions have their own routine, and the other ED codes do nothing. INI,
+IND, OUTI and OUTD also keep the carry, as documented. Adventure executes no
+DJNZ, JR or ED instruction at all, so it was never affected: 150 random
+sessions of 100-300 commands each, on a fixed clock, and `tools\demo.txt` print
+the same on the old and the fixed core. The newly reachable instructions were
+checked with small test programs. Both executables were rebuilt.

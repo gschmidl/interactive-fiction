@@ -251,11 +251,61 @@ static void do_cb(int disp_used, uint16_t ea)
     else           mem_wr(HL, v);
 }
 
+/* ED A0-A3, A8-AB, B0-B3, B8-BB: LDI CPI INI OUTI, LDD CPD IND OUTD and their repeating forms */
+static void do_block(uint8_t op)
+{
+    int inc = (op & 8) ? -1 : 1;
+    int rep = (op & 0x10) != 0;
+    switch (op & 3) {
+    case 0: {
+        uint8_t v = mem_rd(HL);
+        mem_wr(DE, v);
+        set_hl((uint16_t)(HL + inc));
+        set_de((uint16_t)(DE + inc));
+        set_bc((uint16_t)(BC - 1));
+        z->f = (uint8_t)((z->f & (FLAG_S | FLAG_Z | FLAG_C)) | (BC ? FLAG_P : 0));
+        if (rep && BC) z->pc -= 2;
+        return; }
+    case 1: {
+        uint8_t v = mem_rd(HL);
+        uint8_t r = (uint8_t)(z->a - v);
+        int hc = ((z->a & 0x0F) - (v & 0x0F)) & 0x10;
+        set_hl((uint16_t)(HL + inc));
+        set_bc((uint16_t)(BC - 1));
+        z->f = (uint8_t)((z->f & FLAG_C) | (r & 0x80) | (r ? 0 : FLAG_Z)
+             | (hc ? FLAG_H : 0) | (BC ? FLAG_P : 0) | FLAG_N);
+        if (rep && BC && r) z->pc -= 2;
+        return; }
+    case 2: {
+        uint8_t v = io_in(BC);
+        mem_wr(HL, v);
+        z->b--;
+        set_hl((uint16_t)(HL + inc));
+        z->f = (uint8_t)((z->f & FLAG_C) | (z->b ? 0 : FLAG_Z) | FLAG_N);
+        if (rep && z->b) z->pc -= 2;
+        return; }
+    default: {
+        uint8_t v = mem_rd(HL);
+        z->b--;
+        io_out(BC, v);
+        set_hl((uint16_t)(HL + inc));
+        z->f = (uint8_t)((z->f & FLAG_C) | (z->b ? 0 : FLAG_Z) | FLAG_N);
+        if (rep && z->b) z->pc -= 2;
+        return; }
+    }
+}
+
 static void do_ed(void)
 {
     uint8_t op = fetch();
     int y = (op >> 3) & 7, zz = op & 7, p = y >> 1, q = y & 1;
     uint16_t nn;
+
+    /* Outside ED 40-7F only the block instructions exist; the other codes do nothing. */
+    if ((op & 0xC0) != 0x40) {
+        if (op >= 0xA0 && op <= 0xBB && (op & 4) == 0) do_block(op);
+        return;
+    }
 
     switch (op) {
     case 0x44: case 0x4C: case 0x54: case 0x5C:
@@ -319,48 +369,6 @@ static void do_ed(void)
             else z->sp = v;
         }
         return;
-    }
-
-    if (op >= 0xA0 && op <= 0xBB && (op & 4) == 0) {
-        int inc = (op & 8) ? -1 : 1;
-        int rep = (op & 0x10) != 0;
-        switch (op & 3) {
-        case 0: {
-            uint8_t v = mem_rd(HL);
-            mem_wr(DE, v);
-            set_hl((uint16_t)(HL + inc));
-            set_de((uint16_t)(DE + inc));
-            set_bc((uint16_t)(BC - 1));
-            z->f = (uint8_t)((z->f & (FLAG_S | FLAG_Z | FLAG_C)) | (BC ? FLAG_P : 0));
-            if (rep && BC) z->pc -= 2;
-            return; }
-        case 1: {
-            uint8_t v = mem_rd(HL);
-            uint8_t r = (uint8_t)(z->a - v);
-            int hc = ((z->a & 0x0F) - (v & 0x0F)) & 0x10;
-            set_hl((uint16_t)(HL + inc));
-            set_bc((uint16_t)(BC - 1));
-            z->f = (uint8_t)((z->f & FLAG_C) | (r & 0x80) | (r ? 0 : FLAG_Z)
-                 | (hc ? FLAG_H : 0) | (BC ? FLAG_P : 0) | FLAG_N);
-            if (rep && BC && r) z->pc -= 2;
-            return; }
-        case 2: {
-            uint8_t v = io_in(BC);
-            mem_wr(HL, v);
-            z->b--;
-            set_hl((uint16_t)(HL + inc));
-            z->f = (uint8_t)((z->b ? 0 : FLAG_Z) | FLAG_N);
-            if (rep && z->b) z->pc -= 2;
-            return; }
-        default: {
-            uint8_t v = mem_rd(HL);
-            z->b--;
-            io_out(BC, v);
-            set_hl((uint16_t)(HL + inc));
-            z->f = (uint8_t)((z->b ? 0 : FLAG_Z) | FLAG_N);
-            if (rep && z->b) z->pc -= 2;
-            return; }
-        }
     }
 }
 
@@ -488,10 +496,10 @@ void z80_step(Z80 *cpu)
                 t = z->f; z->f = z->f_; z->f_ = t;
                 return;
             }
-            {
+            {   /* 10 DJNZ, 18 JR, 20-38 JR cc */
                 int8_t d = (int8_t)fetch();
-                if (y == 2) { z->pc = (uint16_t)(z->pc + d); return; }
-                if (y == 3) { z->b--; if (z->b) z->pc = (uint16_t)(z->pc + d); return; }
+                if (y == 2) { z->b--; if (z->b) z->pc = (uint16_t)(z->pc + d); return; }
+                if (y == 3) { z->pc = (uint16_t)(z->pc + d); return; }
                 if (cond(y - 4)) z->pc = (uint16_t)(z->pc + d);
                 return;
             }

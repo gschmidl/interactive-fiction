@@ -110,10 +110,15 @@ CR, LF and CR LF each end a line.
 line number (`100 IF` is stored with it), so the listing is typed exactly
 as LIST prints it. The program sits at 6000H.
 
-**The Z80 core** is the Wang OIS port's, with one bug fixed: AND, OR and
-XOR must clear the carry. With the carry left set, HYBASIC's BCD
-arithmetic gave `1+1 = 2.0000001`, and RND, LEN and FREE were syntax
-errors.
+**The Z80 core** is the Wang OIS port's. One bug had to be fixed for
+HYBASIC: AND, OR and XOR must clear the carry. With the carry left set,
+HYBASIC's BCD arithmetic gave `1+1 = 2.0000001`, and RND, LEN and FREE
+were syntax errors. Two more, fixed in both copies on 2026-09-28, never
+mattered here: DJNZ and JR were swapped, and the ED block instructions
+(LDIR, CPIR and the rest) could not be reached. HYBASIC executes neither
+DJNZ, JR nor any ED instruction. `--check`, a session of BASIC typed
+directly and 300 fuzz games print the same on the old and the fixed core,
+and `tests\regress.py` and `tests\fuzz.py` still pass.
 
 ## Options
 
