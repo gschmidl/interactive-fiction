@@ -10,6 +10,9 @@ an earlier revision than the 1990 source ported here. Staged the same day: compl
   re-placed at random every turn instead of walking, and a precedence bug in `turn.c` line 36 means "A little dwarf with a
   big knife blocks your way!" can never appear.
 - `src_original\DAIM0350\` - if-archive `advtc2.zip`: the same code after Martin Heller's OS/2 conversion (30-Aug-1988) and
-  Daimler's Turbo C 2.0 conversion; adds typos to the data files and disables READ, EAT, FILL "no room".
+  Daimler's Turbo C 2.0 conversion; disables READ, EAT, FILL "no room". Its text files are Pohl's 1984 ones (those of
+  `archive_original\adv.arc`), changed only in the welcome (message 65), which credits Heller and Daimler: their small
+  slips are the 1984 originals, which Pohl's own 1990 revision above corrects, not typos added by Heller or Daimler. An
+  Archimedes port of November 1988 (AARC0350 in the collection) has the same 1984 text.
 This is the C family that Hall's 7.0 (sibling folder) grew from. eXo's DOS 350 is a different program (the RT-11 FORTRAN
-port with AINDX/ATEXT), so neither of these is in the collection. Port = compile for Windows.
+port with AINDX/ATEXT); these two ports are in the collection as POHL0350 and DAIM0350. Port = compile for Windows.
