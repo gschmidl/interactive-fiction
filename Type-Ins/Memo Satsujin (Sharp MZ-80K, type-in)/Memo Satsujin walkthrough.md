@@ -1404,6 +1404,6 @@ Turning left (`ﾑｸ` `ﾋﾀﾞﾘ`) goes from wall 1 to 2 to 3 to 4. Walking 
 
 ### Game end
 
-The game ends when you find the memo, or when the clock passes 60:00. The clock is checked after every command and after every wrong search. The END screen prints the clue and its answer. At `TRY AGAIN ? [ Y / N ]`, lines 13010-13020 test for the kana `ﾝ` (again) and `ﾐ` (quit). In kana mode those are the US Y and N keys: press the **Z** keycap to play again, **N** to quit.
+The game ends when you find the memo, or when the clock passes 60:00. The clock is checked after every command and after every wrong search. The END screen prints the clue and its answer. At `TRY AGAIN ? [ Y / N ]`, lines 13010-13020 test for the kana `ﾝ` (again) and `ﾐ` (quit). In kana mode those are the US Y and N keys: press the **Z** keycap to play again, **N** to quit. The new game switches kana mode off again before its opening questions (the added line 9022), so `[Y/N]` and `[S]`/`[H]` take the normal keys.
 
 Every script was run through a model of the command logic (lines 1000-6560) with the memo placed at each possible hiding place in turn. In every case the script finds the memo, and no command hits a refusal branch. The key names come from the IPL ROM's kana table and the emulator's key map, and haven't been tried in EmuZ-80K yet.
