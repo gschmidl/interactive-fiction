@@ -1,0 +1,97 @@
+.Dd September 27, 2026
+.Dt ADV462 6
+.Os
+.Sh NAME
+.Nm adv462
+.Nd Adventure 1.2 (462 points), from Honeywell's Phoenix Multics, 1980
+.Sh SYNOPSIS
+.Nm
+.Sh DESCRIPTION
+.Nm
+is the version of Colossal Cave Adventure that ran on Honeywell's
+Phoenix Multics system in 1980: Don Woods' 350-point game, in Gary
+Palter's Multics Fortran port, with early material by Dave Platt
+(rooms, treasures and creatures later found in his 550-point game).
+There are seven treasures beyond Woods' fifteen, and a maximum score of
+462.
+.Pp
+Type commands of one or two words, such as
+.Dq get lamp
+or
+.Dq go north .
+.Dq help
+and
+.Dq info
+explain more.
+Besides Woods' commands, this version understands:
+.Bl -tag -width "suspend name"
+.It Ic take all , drop all
+pick up or put down everything at once
+.It Ic fast , full
+brief and full room descriptions
+.It Ic listen
+listen for creatures or water
+.It Ic turns
+how many turns you have taken
+.It Ic hours
+when the cave is open
+.It Ic suspend Ar name
+save the game under
+.Ar name
+(up to ten letters) and quit
+.It Ic restore Ar name
+continue a suspended game (in place of the current one)
+.It Ic \&.
+the version
+.El
+.Pp
+A suspended game cannot be restored until the latency period (90 minutes
+unless a wizard changes it) has passed, as on Multics.
+.Sh ENVIRONMENT
+.Bl -tag -width ADV462_SAVEDIR
+.It Ev ADV462_SAVEDIR
+directory for suspended games (default
+.Pa ~/.adv462 )
+.It Ev ADV462_DIR
+directory holding
+.Pa adventure.newgame
+.It Ev ADV462_DATA
+path of the database
+.El
+.Sh FILES
+.Bl -tag -width Ds -compact
+.It Pa /usr/local/share/adv462/adventure.data
+the game database, as printed in 1980 with its errors corrected
+.It Pa /usr/local/share/adv462/adventure.newgame
+the database already read in (saved in the wizard's
+.Dq magic mode )
+.It Pa /usr/games/adv462/
+the writable game directory: an
+.Pa adventure.data
+or
+.Pa adventure.newgame
+here is used instead of the one in
+.Pa /usr/local/share/adv462 ,
+and magic mode saves its new
+.Pa adventure.newgame
+here
+.It Pa ~/.adv462/ Ns Ar name Ns Pa .adv462
+suspended games
+.El
+.Sh HISTORY
+The listings of this version were found among Jim Lippard's papers from
+Phoenix Multics, transcribed, and made to run again in 2026.
+See
+.Lk https://github.com/lippard661/adv462
+for the transcriptions and a list of the changes made.
+.Sh AUTHORS
+.An Will Crowther
+and
+.An Don Woods
+(the original game),
+.An Gary Palter
+(the Multics port),
+.An Dave Platt
+(the additional material),
+.An Jim Lippard
+(Phoenix Multics, 1980, and this revival).

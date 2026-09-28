@@ -1,0 +1,282 @@
+/* adv462_io_ -- the file routines that Gary Palter's Adventure expects from
+   its "site", for Multics.  Written 2026-09-27 by Claude Opus 5.5 at the direction of Jim Lippard,
+   for adv462 (see README.md); the 1980 originals did not survive.
+
+   Entries (synonyms of this component in bound_adv462_, so that the Fortran
+   program's calls to them are resolved inside the bound segment):
+
+   ldcomn (system, fname, cmadrs, cmszes)
+	load the eleven common blocks from a saved image.  system = .true.
+	loads the new-game image adventure.newgame (written in magic mode);
+	system = .false. loads the game named by fname (RESTORE).  If the
+	file is missing or the wrong size, nothing is changed: the player just
+	carries on in a fresh game.
+
+   svcomn (system, fname, cmadrs, cmszes)
+	save the common blocks.  system = .true. writes adventure.newgame
+	(magic mode); system = .false. writes the named game (SUSPEND).
+
+   advatt (unit, code)
+	attach Fortran unit 1 (I/O switch file01) to adventure.data.  This
+	replaces attach_fortran_ssfile_, a 1980 routine that no longer exists.
+
+   advdet ()
+	close and detach file01 (called by the adv462 command when the
+	game ends).
+
+   Files:
+	adventure.data and adventure.newgame are looked for first in the site
+	directory >site>adv462_dir, then in the directory that holds this
+	segment (the game directory).  Magic mode writes adventure.newgame to
+	>site>adv462_dir if that directory exists, else to the game directory.
+	So an installation in a library such as >aml keeps the program and
+	database there, and the writable image in >site>adv462_dir; a private
+	copy needs no site directory at all.
+	Saved games are <name>.adv462 in the player's home directory, where
+	<name> is the word given to SUSPEND/RESTORE ("game" if none).
+
+   Arguments come from Fortran without descriptors:
+	logical     = bit (1) aligned
+	integer     = fixed bin (35)
+	fname (10)  = ten words, each holding one character in A1 format
+	cmadrs(4,11)= for each block, four words; the first holds the
+		      block's address (a packed pointer), stored by addr.
+*/
+
+adv462_io_:
+     procedure;
+	return;					/* not an entry */
+
+dcl	system		bit (1) aligned parameter;
+dcl	fname		(10) char (4) aligned parameter;
+dcl	1 cmadrs		(11) aligned parameter,
+	  2 where		ptr unaligned,	/* set by addr */
+	  2 pad		(3) bit (36);
+dcl	cmszes		(11) fixed bin (35) parameter;
+dcl	unit		fixed bin (35) parameter;
+dcl	a_code		fixed bin (35) parameter;
+
+dcl	(dir, home_dir)	char (168);
+dcl	ename		char (32);
+dcl	seg_ptr		ptr;
+dcl	block_ptr		ptr;
+dcl	bit_count		fixed bin (24);
+dcl	created		bit (1) aligned;
+dcl	code		fixed bin (35);
+dcl	(i, j, n, total)	fixed bin (35);
+dcl	iocb_ptr		ptr;
+
+dcl	word		(0:261119) fixed bin (35) based;
+
+dcl	NBLOCKS		fixed bin internal static options (constant) init (11);
+dcl	SWITCH		char (6) internal static options (constant) init ("file01");
+dcl	SITE_PARENT	char (5) internal static options (constant) init (">site");
+dcl	SITE_ENTRY	char (10) internal static options (constant) init ("adv462_dir");
+dcl	SITE_DIR		char (16) internal static options (constant) init (">site>adv462_dir");
+
+dcl	com_err_		entry options (variable);
+dcl	hcs_$fs_get_path_name entry (ptr, char (*), fixed bin, char (*), fixed bin (35));
+dcl	hcs_$status_minf	entry (char (*), char (*), fixed bin (1), fixed bin (2), fixed bin (24),
+			fixed bin (35));
+dcl	initiate_file_	entry (char (*), char (*), bit (*), ptr, fixed bin (24), fixed bin (35));
+dcl	initiate_file_$create entry (char (*), char (*), bit (*), ptr, bit (1) aligned, fixed bin (24),
+			fixed bin (35));
+dcl	ioa_		entry options (variable);
+dcl	iox_$attach_name	entry (char (*), ptr, char (*), ptr, fixed bin (35));
+dcl	iox_$close	entry (ptr, fixed bin (35));
+dcl	iox_$detach_iocb	entry (ptr, fixed bin (35));
+dcl	iox_$look_iocb	entry (char (*), ptr, fixed bin (35));
+dcl	terminate_file_	entry (ptr, fixed bin (24), bit (*), fixed bin (35));
+dcl	user_info_$homedir	entry (char (*));
+
+dcl	(codeptr, null, rtrim, substr) builtin;
+
+%include access_mode_values;
+%include terminate_file;
+%include iocb;
+
+/* ------------------------------------------------------------------------ */
+
+ldcomn:
+     entry (system, fname, cmadrs, cmszes);
+
+	call file_name ("0"b);
+	call initiate_file_ (dir, ename, R_ACCESS, seg_ptr, bit_count, code);
+	if seg_ptr = null then do;
+	     if ^system then
+		call ioa_ ("^/ I can't find a suspended game called ^a.", ename);
+	     return;
+	end;
+
+	total = 0;
+	do i = 1 to NBLOCKS;
+	     total = total + cmszes (i);
+	end;
+	if bit_count ^= 36 * total then do;
+	     call ioa_ ("^/ ^a>^a is not a saved game for this version of adventure.",
+		rtrim (dir), ename);
+	     call terminate_file_ (seg_ptr, 0, TERM_FILE_TERM, code);
+	     return;
+	end;
+
+	n = 0;
+	do i = 1 to NBLOCKS;
+	     block_ptr = cmadrs (i).where;
+	     do j = 0 to cmszes (i) - 1;
+		block_ptr -> word (j) = seg_ptr -> word (n + j);
+	     end;
+	     n = n + cmszes (i);
+	end;
+
+	call terminate_file_ (seg_ptr, 0, TERM_FILE_TERM, code);
+	return;
+
+/* ------------------------------------------------------------------------ */
+
+svcomn:
+     entry (system, fname, cmadrs, cmszes);
+
+	call file_name ("1"b);
+	call initiate_file_$create (dir, ename, RW_ACCESS, seg_ptr, created, bit_count, code);
+	if seg_ptr = null then do;
+	     call ioa_ ("^/ I am sorry, but I can't create or find your file.");
+	     return;
+	end;
+
+	n = 0;
+	do i = 1 to NBLOCKS;
+	     block_ptr = cmadrs (i).where;
+	     do j = 0 to cmszes (i) - 1;
+		seg_ptr -> word (n + j) = block_ptr -> word (j);
+	     end;
+	     n = n + cmszes (i);
+	end;
+
+	bit_count = 36 * n;
+	call terminate_file_ (seg_ptr, bit_count, TERM_FILE_TRUNC_BC_TERM, code);
+	if code ^= 0 then
+	     call ioa_ ("^/ I am sorry, but I couldn't save your game.");
+	return;
+
+/* ------------------------------------------------------------------------ */
+
+advatt:
+     entry (unit, a_code);
+
+	call find_file ("adventure.data");
+	call close_switch;
+	call iox_$attach_name (SWITCH, iocb_ptr, "vfile_ " || rtrim (dir) || ">adventure.data", null, a_code);
+	if a_code ^= 0 then
+	     call com_err_ (a_code, "adv462", "Attaching ^a to ^a>adventure.data.", SWITCH, dir);
+	return;
+
+/* ------------------------------------------------------------------------ */
+
+advdet:
+     entry;
+
+	call close_switch;
+	return;
+
+/* ------------------------------------------------------------------------ */
+
+/* Set dir and ename for ldcomn (saving = "0"b) or svcomn (saving = "1"b). */
+
+file_name:
+     procedure (saving);
+
+dcl	saving		bit (1) aligned parameter;
+dcl	c		char (1);
+dcl	k		fixed bin;
+
+	if system then do;
+	     if ^saving then
+		call find_file ("adventure.newgame");
+	     else if exists (SITE_PARENT, SITE_ENTRY, 2) then
+		dir = SITE_DIR;
+	     else call game_dir;
+	     ename = "adventure.newgame";
+	     return;
+	end;
+
+	call user_info_$homedir (home_dir);
+	dir = home_dir;
+	ename = "";
+	do k = 1 to 10;
+	     c = substr (fname (k), 1, 1);
+	     if c = " " then
+		go to done;
+	     if c = ">" | c = "<" | c = "*" | c = "?" | c = "$" | c = "." then
+		c = "_";
+	     substr (ename, k, 1) = c;
+	end;
+done:
+	if ename = "" then
+	     ename = "game";
+	ename = rtrim (ename) || ".adv462";
+
+     end file_name;
+
+/* Set dir to the directory holding name: the site directory if it is
+   there, else the game directory. */
+
+find_file:
+     procedure (name);
+
+dcl	name		char (*) parameter;
+
+	if exists (SITE_DIR, name, 1) then
+	     dir = SITE_DIR;
+	else call game_dir;
+
+     end find_file;
+
+/* Does dname>ename exist as a segment (want_type 1) or directory (2)?
+   Links are chased. */
+
+exists:
+     procedure (dname, ename, want_type) returns (bit (1) aligned);
+
+dcl	(dname, ename)	char (*) parameter;
+dcl	want_type		fixed bin parameter;
+dcl	type		fixed bin (2);
+dcl	bc		fixed bin (24);
+dcl	c		fixed bin (35);
+
+	call hcs_$status_minf (dname, ename, 1, type, bc, c);
+	return (c = 0 & type = want_type);
+
+     end exists;
+
+/* The game directory: where this segment lives. */
+
+game_dir:
+     procedure;
+
+dcl	ldn		fixed bin;
+
+	call hcs_$fs_get_path_name (codeptr (ldcomn), dir, ldn, ename, code);
+	if code ^= 0 then
+	     dir = ">udd>Games>adv462";		/* should not happen */
+
+     end game_dir;
+
+/* Close and detach file01 if it is attached. */
+
+close_switch:
+     procedure;
+
+dcl	sw_ptr		ptr;
+dcl	c		fixed bin (35);
+
+	call iox_$look_iocb (SWITCH, sw_ptr, c);
+	if c ^= 0 then
+	     return;
+	if sw_ptr -> iocb.open_descrip_ptr ^= null then
+	     call iox_$close (sw_ptr, c);
+	if sw_ptr -> iocb.attach_descrip_ptr ^= null then
+	     call iox_$detach_iocb (sw_ptr, c);
+
+     end close_switch;
+
+     end adv462_io_;

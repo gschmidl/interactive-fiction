@@ -1,0 +1,7 @@
+The version of Colossal Cave Adventure that ran on Honeywell's Phoenix
+Multics system in 1980: Don Woods' 350-point game in Gary Palter's
+Multics Fortran port, with early material by Dave Platt (rooms,
+treasures and creatures later found in his 550-point game), for a
+maximum of 462 points. Rebuilt from transcriptions of the surviving
+line-printer listings, with the bugs in the code and database fixed and
+the unfinished TAKE ALL / DROP ALL completed.

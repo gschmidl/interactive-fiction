@@ -1,0 +1,24 @@
+/* adv462 -- the command that runs Adventure 1.2 (462 points).
+   Written 2026-09-27 by Claude Opus 5.5 at the direction of Jim Lippard,
+   for adv462.  The Multics Fortran compiler gives a main
+   program the entry point main_, so adventure_ cannot be typed as a command;
+   this calls adventure_$main_.  (The 1980 wrapper, presumably named
+   adventure, did not survive; this one is named adv462 so as not to clash
+   with other adventure commands.)
+
+   The game's own stop statements end the command; the cleanup handler then
+   detaches the database switch (file01) so the next game can attach it. */
+
+adv462:
+     procedure;
+
+dcl	adventure_$main_	entry;
+dcl	advdet		entry;
+dcl	cleanup		condition;
+
+	on cleanup call advdet;
+	call adventure_$main_;
+	call advdet;
+	return;
+
+     end adv462;

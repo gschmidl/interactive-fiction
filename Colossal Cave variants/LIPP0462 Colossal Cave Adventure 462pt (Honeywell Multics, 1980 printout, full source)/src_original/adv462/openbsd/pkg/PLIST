@@ -1,0 +1,12 @@
+@bin bin/adv462
+@man man/man6/adv462.6
+share/adv462/
+share/adv462/adventure.data
+share/adv462/adventure.newgame
+@owner root
+@group games
+@mode 775
+@sample /usr/games/adv462/
+@mode
+@group
+@owner

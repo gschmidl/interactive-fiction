@@ -1,0 +1,23 @@
+/* addr -- one of the "site-supplied" routines Gary Palter's Adventure needs.
+   Written 2026-09-27 by Claude Opus 5.5 at the direction of Jim Lippard,
+   for adv462; the 1980 original did not survive.
+
+	call addr (x, cmadrs (1, n))
+
+   stores the address of x (the first word of common block n) as a packed
+   pointer in the first word of cmadrs (1, n).  ldcomn and svcomn
+   (adv462_io_) read it back.  x arrives from Fortran without a descriptor.
+   The builtin is declared here as substr.pl1 in the Multics sources does for
+   its own name. */
+
+addr:
+     procedure (x, where);
+
+dcl	x		fixed bin (35) parameter;
+dcl	where		ptr unaligned parameter;
+dcl	addr		builtin;
+
+	where = addr (x);
+	return;
+
+     end addr;

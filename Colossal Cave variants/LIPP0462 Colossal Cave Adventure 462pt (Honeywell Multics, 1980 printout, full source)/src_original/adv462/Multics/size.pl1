@@ -1,0 +1,19 @@
+/* size -- one of the "site-supplied" routines Gary Palter's Adventure needs.
+   Written 2026-09-27 by Claude Opus 5.5 at the direction of Jim Lippard,
+   for adv462; the 1980 original did not survive.
+
+	n = size (first, last)
+
+   returns the number of words from first through last inclusive (the length
+   of a common block).  Both arrive from Fortran without descriptors and are
+   in the same common block, so in the same segment. */
+
+size:
+     procedure (first, last) returns (fixed bin (35));
+
+dcl	(first, last)	fixed bin (35) parameter;
+dcl	(addr, bin, rel)	builtin;
+
+	return (bin (rel (addr (last)), 18) - bin (rel (addr (first)), 18) + 1);
+
+     end size;

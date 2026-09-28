@@ -1,0 +1,20 @@
+/* getime -- one of the "site-supplied" routines Gary Palter's Adventure needs.
+   Written 2026-09-27 by Claude Opus 5.5 at the direction of Jim Lippard,
+   for adv462; the 1980 original did not survive.
+
+	t = getime (ftime)
+
+   datime (in adventure_.fortran) gets the time of day from
+   decode_clock_value_ as a fixed bin (71) count of microseconds since
+   midnight, in a double precision variable.  getime returns it as minutes
+   past midnight. */
+
+getime:
+     procedure (tod) returns (fixed bin (35));
+
+dcl	tod		fixed bin (71) parameter;
+dcl	divide		builtin;
+
+	return (divide (tod, 60000000, 35));
+
+     end getime;

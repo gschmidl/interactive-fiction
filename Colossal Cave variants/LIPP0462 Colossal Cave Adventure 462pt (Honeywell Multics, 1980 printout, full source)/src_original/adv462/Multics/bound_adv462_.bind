@@ -1,0 +1,40 @@
+/* Bindfile for bound_adv462_ */
+/* Written 2026-09-27 by Claude Opus 5.5 at the direction of Jim Lippard */
+
+/* adventure_ is the Fortran game (entry main_); adv462 is the command.
+   The Fortran program calls addr, size, getime, ldcomn, svcomn and advatt,
+   and adv462 calls advdet; the synonyms on adv462_io_ let the binder resolve
+   those calls inside the bound segment.  Only adv462 is added as a name, so
+   that generic names like addr and size never appear in a search path. */
+
+Objectname:         bound_adv462_;
+   Global:          retain;
+
+   Addname:         adv462;
+
+   Order:           adv462,
+                    adventure_,
+                    adv462_io_,
+                    addr,
+                    size,
+                    getime;
+
+objectname:         adv462;
+   retain:          adv462;
+
+objectname:         adventure_;
+   retain:          main_;
+
+objectname:         adv462_io_;
+   synonym:         ldcomn, svcomn, advatt, advdet;
+   retain:          ldcomn, svcomn, advatt, advdet;
+
+objectname:         addr;
+   retain:          addr;
+
+objectname:         size;
+   retain:          size;
+
+objectname:         getime;
+   retain:          getime;
+/* end; */
