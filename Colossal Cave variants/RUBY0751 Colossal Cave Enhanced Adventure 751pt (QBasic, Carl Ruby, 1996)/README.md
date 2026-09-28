@@ -82,7 +82,7 @@ from any other version of Adventure:
 | file | stand-in |
 |---|---|
 | `CHANGE\GENTLE` | There is a cave bear here. |
-| `CHANGE\CONTENTE` (the program says `CONTENTED`; DOS keeps 8 letters) | There is a contented cave bear here. |
+| `CHANGE\CONTENTE` (Ruby's program says `CONTENTED`: MS-DOS keeps 8 letters, but DOSBox finds no such file, so the fixed program says `CONTENTE`) | There is a contented cave bear here. |
 | `CHANGE\CHAIN` | There is a golden chain here. |
 | `CHANGE\OLDBTTRY` | There are some old batteries here. |
 | `CHANGE\POSTER` | There is a faded poster here. |
@@ -98,7 +98,7 @@ from any other version of Adventure:
 
 ## Changes to the program
 
-`make_tree.py` makes two kinds of change. Each old text must occur exactly once.
+`make_tree.py` makes three kinds of change. Each old text must occur exactly once.
 
 ### To run it here (always)
 
@@ -115,9 +115,10 @@ from any other version of Adventure:
 Ruby renumbered his objects more than once. They are now treasures 1-44, other things 45-100
 and fixed features 101-132, with `X` placeholders for treasures he had not found. Some lines
 kept an old number, and each era had its own: 21 is the keys in UNLOCK but the bottle in DRINK,
-and 24 is the bird in GET CAGE but the pillow in DROP VASE. So each of the 115 fixes follows its
+and 24 is the bird in GET CAGE but the pillow in DROP VASE. So each of the 119 fixes follows its
 routine's own message or logic and Ruby's current tables (`K$`, `J`, `I$`, `P$`, `CO`); none is
-a blanket renumbering. `FIXES` in `make_tree.py` lists every one.
+a blanket renumbering. `FIXES` in `make_tree.py` lists the 116 in the program, `REFILL_FIXES`
+the 3 in REFILL.BAS.
 
 | thing | what went wrong | fixed lines |
 |---|---|---|
@@ -126,9 +127,9 @@ a blanket renumbering. `FIXES` in `make_tree.py` lists every one.
 | bird, cage | the bird was 19, 24 and 48 in different lines (19 made the flowers vanish), the cage 23. GET KNIFE removed the bird (49) instead of the knife. DROP BIRD tested a flag `CAGE` that nothing sets; the cage is container 2 and open when `CI(2)` is 1 (it starts at 2, closed but see-through like the bottle), so now OPEN CAGE lets the bird out | 2055, 2057, 2059, 2120, 2125, 2128, 2390, 2820 |
 | pillow | the vase checked for the pillow as 24 | 2111, 2112 |
 | dwarf | marked as 54 (the pillow, which then followed the dwarves around) and 42 (which printed "42" in the room) | 1409, 1420, 2260, 2290, 2330 |
-| bear | 29, 42, 44 and 97 (the Wumpus: carrying it printed "You are being followed by a very large, tame bear."). KILL BEAR now prints `BB$(5)`, the "*HIS* bear hands" line REFILL.BAS defines and nothing printed | 129, 300, 2052, 2350, 2920, 2930, 2945, 3075 |
+| bear | 29, 42, 44 and 97 (the Wumpus: carrying it printed "You are being followed by a very large, tame bear."). KILL BEAR now prints `BB$(5)`, the "*HIS* bear hands" line REFILL.BAS defines and nothing printed. GET BEAR, once the bear is tame, read `CHANGE\CONTENTED`, a name of 9 letters that MS-DOS cuts to 8 but DOSBox answers with "File not found", which ended the game; it reads `CONTENTE` now | 129, 300, 2052, 2350, 2920, 2930, 2945, 3075 |
 | dragon | KILL's test was the wrong way round ("I see no dragon here." when it was there). Its question `WW$` was never set; it is `BB$(4)`, "With what? Your bare hands?". The dead dragon's description went to 30, a placeholder | 2300, 2360, 2385, 8967 |
-| troll | KILL TROLL printed `BB$(8)`, "oil.", instead of texts.txt's troll message, which no line read (now `FENDOFF.TXT`, this project's name for it: alphabetically it lies between ENGSTART and FIND). He took only treasures below 20 | 2310, 2230 |
+| troll | KILL TROLL printed `BB$(8)`, "oil.", instead of texts.txt's troll message, which no line read (now `FENDOFF.TXT`, this project's name for it: alphabetically it lies between ENGSTART and FIND). He took only treasures below 20. Walking onto the bridge, SW from its far side or NE from the near one, crossed it whatever the troll did, and after the bridge had fallen too; only CROSS BRIDGE checked. Line 129 sent the walk to CROSS's lines only for the bear with the troll gone; now every crossing on foot goes there, so the troll stops it until he is paid or chased off, and the bear still brings the bridge down | 2310, 2230, 129 |
 | clam | the clam was 47 (the lamp) and 27/28, so OPEN CLAM made the sword (27) vanish; it is 52, the oyster 53 | 2716, 2717, 2755 |
 | safe | GET POSTER showed the safe but, unlike GET ALL (1921), left it out of the room | 2007 |
 | LOOK | tested object 0 when none was named ("I see no  here."), and `K3` was never cleared. It repeated the long description only from a room's third view (`NU(P) > 1`), so the first LOOK after arriving gave the short one and the next room shown got the long one | 100, 4801, 318 |
@@ -153,6 +154,29 @@ a blanket renumbering. `FIXES` in `make_tree.py` lists every one.
 | spacing | `TH$` and `NH$` end in a space in REFILL.BAS, which `INPUT #` drops ("There is nothing hereto eat."); they get it back, and the two lines that had made up for it lose theirs | 29, 30, 2875, 3860 |
 | LOCK GRATE | printed `GA$(0)`, which nothing sets, as a blank line; now the game's own "The grate" + " is locked." | 3260 |
 | SAVE | kept the score, the places of things and the flags of the 350-point game (7860-7870), not the rest. After RESUME the grate was locked again, the concrete gone, the bag, cage and safe shut; the cave could not close (`JT`), and every treasure room paid its 2 points again (`NU`). The rest (27 variables, `CI()` and `NU()`) now follows `J()` in the file. RESUME reads it and rebuilds what the flags imply, the travel-table changes and changed descriptions, in a new routine at 27000. A name that could not be opened (none, or a mistyped one) stopped the program; now the question that led to it is asked again, SUSPEND's or RESUME's | 7840, 7850, 7871-7873, 7896/7897, 7975, 7984-7990, 7998/7999, 27000-27150 |
+| names | three object names in REFILL.BAS kept the working number Ruby gave each before naming it, as the treasures he never placed are still just "28" to "43": the inventory showed "23ingot", "24rose" and "58coil of rope". Now "ingot", "rose" and "coil of rope", in `VAR` too (made again by `make_var.py`) | REFILL.BAS 25023, 25024, 25068 |
+
+### This project's addition: the debug command `#BEAR` (with the fixes)
+
+Nothing in Ruby's game tames the bear. FEED BEAR with the food gets `SANDWICH.TXT` ("All you have
+are watercress sandwiches. The bear is less than interested."), and no line sets `BE` to 2, the
+tame bear. The chain, GET BEAR (`BE` 3, following you), the troll and the bridge are all written
+for it. In NEW ADVENTURE, a relative of the 751-point game, the bear is fed a honeycomb from an
+apiary (a PC-SIG walkthrough of 1990, in O'Dwyer's collection). Ruby's cave has no apiary.
+
+So `#BEAR`, typed in capitals like every command, turns the fierce bear tame. The line sits next
+to Ruby's own debug commands `L` (the lamp's counters) and `DDD` (the containers). It prints
+Ruby's message for the bear calming down, which no line read: "The bear eagerly wolfs down your
+food, after which he calms down considerably and even becomes rather friendly." That text is now
+`1TIMERS\FEDBEAR.TXT`, this project's name for it, since alphabetically it lies between DIMWRAP
+and FIRSTAXE. Any other time `#BEAR` gives Ruby's "Nothing happens.".
+
+After that the rest plays as Ruby wrote it, and `walk11.txt` tests it:
+- UNLOCK CHAIN, GET CHAIN, and GET BEAR make the bear follow you.
+- At the troll bridge, crossing is refused, and DROP BEAR sends the troll off with a shriek.
+- Crossing with the bear brings the bridge down, and after that there is no way across.
+
+Lines 142 and 27200-27220 (`ADDITIONS` in `make_tree.py`); `--no-fixes` leaves them out.
 
 Everything else is Ruby's, including the typos ("hurtlqe", "blaank", "Crystaal").
 
@@ -162,8 +186,8 @@ These parts of Ruby's program were unfinished, not mis-numbered, so they are lef
 them:
 
 - There is no endgame. When the cave closes, the score is shown.
-- The bear cannot be tamed, because nothing sets `BE` to 2. Feeding it the food gets the
-  sandwich message.
+- The bear cannot be tamed in play, because nothing sets `BE` to 2. Feeding it the food gets
+  the sandwich message. The debug command `#BEAR` tames it (see above).
 - Carrying the soiled paper drains health, down to 0, with nothing more happening: no death,
   and no antidote. The drain may have belonged to the glowing stone, but that is a guess, so the
   number was left alone.
@@ -175,7 +199,6 @@ them:
   (GET refuses only numbers above 100). The helicopter flies when you get out, whether or not
   the button was pushed.
 - Being eaten by the Wumpus still leaves two return addresses behind (rare).
-- Some object names in REFILL.BAS carry stray numbers: "23ingot", "24rose", "58coil of rope".
 
 The program only understands capital letters, as its instructions say.
 
@@ -192,9 +215,11 @@ python port\make_collection.py GAME_FOLDER
 - `make_tree.py` rebuilds `port/ADV751/` and keeps its `VAR`; the EXEs go, since they have to be
   compiled again. `make_tree.py OUT --no-fixes` builds the program as Ruby sent it, plus only
   the changes that make it run here.
-- `make_var.py` makes `VAR` the way Ruby did, by running `REFILL.BAS` under QBasic. It uses
-  DOSBox 0.74 (eXoDOS's copy), whose SDL 1.2 runs with no window; DOSBox Staging 0.82 always
-  opens an OpenGL window. `QBASIC.EXE` is MS-DOS QBasic 1.1 (194,309 bytes, 1993).
+- `make_var.py` makes `VAR` the way Ruby did, by running `REFILL.BAS` under QBasic, again
+  whenever `REFILL.BAS` changes. It uses DOSBox 0.74 (eXoDOS's copy), whose SDL 1.2 runs with no
+  window; DOSBox Staging 0.82 always opens an OpenGL window. `QBASIC.EXE` is MS-DOS QBasic 1.1
+  (194,309 bytes, 1993). `make_var.py DOSBOX.EXE QBASIC.EXE OUT` makes the `VAR` of another
+  tree, such as a `--no-fixes` one, whose `REFILL.BAS` keeps Ruby's object names.
 - `make_exe.py` compiles HELLO, ADV751 and QUITS with QuickBASIC 4.5 in the same windowless
   DOSBox, making HELLO.EXE (44 KB), ADV751.EXE (147 KB) and QUITS.EXE (39 KB).
   - It runs `BC /O /E` and then `LINK` with `BCOM45.LIB`. `/O` makes stand-alone programs that
@@ -209,7 +234,8 @@ python port\make_collection.py GAME_FOLDER
     `REFILL.BAS` and the seven room files the program never opens.
 
   The .BAS files go into the collection's `Sources\RUBY0751 Sources.zip`. The eight originals
-  are at its root, and `port\` holds the three the EXEs are compiled from.
+  are at its root, and `port\` holds the three the EXEs are compiled from and the `REFILL.BAS`
+  that made `VAR`.
 
   eXo's `launch_if.bat` starts it with DOSBox Staging 0.82. `dosbox.conf` runs `HELLO` in
   `C:\ADV751` and then `pause`, so the final score stays on screen. Saves go to
@@ -222,9 +248,9 @@ python port\make_collection.py GAME_FOLDER
   commands with no window, starting from HELLO.
   - It runs under QBasic, or compiled as the collection runs it with `--qb45`.
   - It prints the screen before each command, and any error with its line number.
-  - A command line starting with `#` sets up a test instead: `#P 60` moves the player,
-    `#J 9 300` puts object 9 somewhere (300 = carried), and `#H 2` sets how many things are
-    carried.
+  - A command line starting with `#P`, `#J` or `#H` sets up a test instead: `#P 60` moves the
+    player, `#J 9 300` puts object 9 somewhere (300 = carried), and `#H 2` sets how many things
+    are carried. Every other line is typed, `#BEAR` too.
   - `walk1.txt` goes through the grate and into the cave, then saves.
   - `walk2.txt` resumes that save and quits.
   - `walk3.txt` exercises the poster, the safe, the dwarf and the dragon, and waters the plant.
@@ -251,8 +277,12 @@ python port\make_collection.py GAME_FOLDER
     checks the grate, the concrete and its way north, the drawbridge, the horn's opening, the
     dead dragon, the oyster, the open cage, BRIEF, the worn slippers and the score, and that the
     nugget room pays no second 2 points.
+  - `walk11.txt` is the bear, tamed with `#BEAR` (see above): the chain, the bear following, the
+    troll chased off, the bridge crossed on foot and brought down by the bear, then no way across.
+  - `walk12.txt` shows the ingot, the rose and the rope by name, and walks onto the troll's
+    bridge from both sides: he stops it until he is paid, then it goes on foot and with CROSS.
 
-  All ten run without an error under QBasic. Compiled with `--qb45`, they give the same
+  All twelve run without an error under QBasic. Compiled with `--qb45`, they give the same
   transcripts character for character. Walks 1-3 were first run, also clean, on the program as
   sent, which `--no-fixes` rebuilds byte for byte (walk 1 has since gained the U that climbs
   back out of the now open grate).

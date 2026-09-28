@@ -369,8 +369,8 @@
 25020 DATA priceless tapestry
 25021 DATA opal sphere
 25022 DATA elven crown
-25023 DATA 23ingot
-25024 DATA 24rose
+25023 DATA ingot
+25024 DATA rose
 25025 DATA Holy Grail
 25026 DATA marble statue
 25027 DATA gleaming sword
@@ -414,7 +414,7 @@
 25065 DATA metal cannister
 25066 DATA shovel
 25067 DATA black bird   
-25068 DATA 58coil of rope
+25068 DATA coil of rope
 25069 DATA wooden box
 25070 DATA leaflet
 25071 DATA faded poster

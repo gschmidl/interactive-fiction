@@ -19,9 +19,10 @@ QBASIC /RUN HELLO.BAS.  The copy of the game played there differs from ../ADV751
 GAMES\ keeps what a SAVE wrote, so a second run can RESUME it: files already in
 ../.build/smoke/c/ADV751/GAMES are kept.
 
-A line of COMMANDS.TXT that starts with # sets up a test instead of being typed: "#P 60" puts
-the player in room 60, "#J 9 300" sets object 9's place (300 = carried, 400 = worn, 30n = in
+A line of COMMANDS.TXT that starts with #P, #J or #H sets up a test instead of being typed: "#P 60"
+puts the player in room 60, "#J 9 300" sets object 9's place (300 = carried, 400 = worn, 30n = in
 container n), "#H 3" the number of things carried.  Follow a move with LOOK to see the room.
+Every other line is typed, the game's own debug command #BEAR too.
 """
 import os
 import re
@@ -39,7 +40,8 @@ DUMP = ('OPEN "C:\\LOG.TXT" FOR APPEND AS #3: DEF SEG = &HB800: '
 HARNESS = [
     '60000 ' + DUMP,
     '60010 IF EOF(4) THEN PRINT #3, "=== out of commands": CLOSE #3: SYSTEM',
-    '60020 LINE INPUT #4, HX$: PRINT #3, "=== > "; HX$: IF LEFT$(HX$, 1) = "#" THEN GOSUB 60100: GOTO 60010',
+    '60020 LINE INPUT #4, HX$: PRINT #3, "=== > "; HX$: IF LEFT$(HX$, 1) = "#" AND '
+    'INSTR("PJH", MID$(HX$, 2, 1)) > 0 AND MID$(HX$, 3, 1) = " " THEN GOSUB 60100: GOTO 60010',
     '60030 CLOSE #3: CLS : PRINT HX$: RETURN',
     '60100 HS = INSTR(4, HX$ + " ", " "): HV = VAL(MID$(HX$, 4, HS - 4)): HW = VAL(MID$(HX$, HS + 1))',
     '60110 IF MID$(HX$, 2, 1) = "P" THEN P = HV',

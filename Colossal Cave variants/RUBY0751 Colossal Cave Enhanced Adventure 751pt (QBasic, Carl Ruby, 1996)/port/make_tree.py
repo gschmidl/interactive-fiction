@@ -15,9 +15,10 @@ stand-in made only from this game's own words (STAND_INS).
     python make_tree.py [OUT] [--no-fixes]
 
 writes OUT (default: ADV751 beside this script), keeping a VAR that is already there.  VAR, the
-program's data file, is made by Ruby's REFILL.BAS under QBasic, not here (see README.md).
---no-fixes leaves out FIXES, Ruby's own slips, for the program as he sent it (PATCHES, which
-make it run in this setup, always go in).
+program's data file, is made by Ruby's REFILL.BAS under QBasic, not here: make_var.py, again
+whenever REFILL.BAS changes (see README.md).  --no-fixes leaves out FIXES and REFILL_FIXES,
+Ruby's own slips, and ADDITIONS, this project's debug command #BEAR, for the program as he sent
+it (PATCHES, which make it run in this setup, always go in).
 """
 import os
 import shutil
@@ -63,6 +64,11 @@ ONCE = ["AXEMISS", "CABINET", "CLOSED!", "COLLAPSE", "DEATH0", "DEATH1", "DEATH2
         "HIDDEN", "HORN", "INLAID", "LUMBERS", "MUSHROOM", "../NOPOINT", "PEARL", "POOF1",
         "POOF2", "../POWDER", None, "SAVE", "SLOT", "SUSPEND", "VANQUISH", "VASEDROP", "VOICE1",
         "WUMPWAKE"]
+
+# With the additions, #BEAR prints 1timers.txt's message for the bear calming down ("The bear
+# eagerly wolfs down your food ..."), which no line reads: the bear is never tamed.  FEDBEAR is
+# this project's name for it, between DIMWRAP and FIRSTAXE like the entry.
+FIX_ONCE = {11: "FEDBEAR"}
 
 # Stand-ins for the files that were never sent.  A CHANGE\ file is one INPUT # item (DRAGON:
 # two, the dragon and then the rug), so no commas; the texts are plain "There is ... here."
@@ -146,7 +152,8 @@ FIXES = [
     # "*HIS* bear hands" line REFILL.BAS defines and nothing printed
     (b"AND P = 51 AND J(29) = 300 THEN", b"AND P = 51 AND J(99) = 300 THEN"),
     (b"300 IF J(97) = 300 THEN", b"300 IF J(99) = 300 THEN"),
-    (b'"CONTENTED": NI = 42:', b'"CONTENTED": NI = 99:'),
+    # (and the file's name cut to 8 letters: MS-DOS does that itself, DOSBox gives File not found)
+    (b'"CONTENTED": NI = 42:', b'"CONTENTE": NI = 99:'),
     (b"2920 IF J(42) = 300", b"2920 IF J(99) = 300"),
     (b"2930 IF J(42) = 300", b"2930 IF J(99) = 300"),
     (b"TR = 0: J(29) = 0: GOTO 9800", b"TR = 0: J(99) = 0: GOTO 9800"),
@@ -159,9 +166,15 @@ FIXES = [
     (b"2360 PRINT WW$:", b"2360 PRINT BB$(4):"),
     (b'2385 M$ = "DRAGON": NI = 30:', b'2385 M$ = "DRAGON": NI = 102:'),
     (b"8967 IF NI = 30 THEN", b"8967 IF NI = 102 THEN"),
-    # the troll: KILL TROLL printed BB$(8), "oil."; he took only treasures below 20
+    # the troll: KILL TROLL printed BB$(8), "oil."; he took only treasures below 20.  Walking
+    # onto the bridge (SW from its far side, 51; NE from the near one, 50: the travel table's own
+    # crossings) passed him, and a fallen bridge, as if they were not there: only CROSS looked
+    # (2920-2940: the troll, paid or not, the bridge, the bear).  Line 129 sent the walk there
+    # only for the bear with the troll gone; now every crossing on foot goes through CROSS's lines
     (b"THEN PRINT BB$(8): GOTO 100", b'THEN M$ = "FENDOFF": GOSUB 8900: GOTO 100'),
     (b"2230 IF K < 20 AND", b"2230 IF K < 45 AND"),
+    (b'129 IF D$ = "SW" AND TR = 0 AND P = 51 AND J(99) = 300 THEN 2945',
+     b'129 IF (D$ = "SW" AND P = 51) OR (D$ = "NE" AND P = 50) THEN 2920'),
     # the clam is 52 and the oyster 53 (were 47, the lamp, 27, the sword - opening the clam
     # made the sword vanish - and 28)
     (b"2716 IF J(47) = P OR J(47) = 300", b"2716 IF J(52) = P OR J(52) = 300"),
@@ -331,8 +344,36 @@ FIXES = [
      b'27110 IF LT = 1 THEN M$ = "MASSIVE": NI = 103: GOSUB 8950\r\n'
      b'27120 IF PL > 1 THEN M$ = "PLANT" + RIGHT$(STR$(PL), 1): NI = 107: GOSUB 8950\r\n'
      b'27130 IF CLO = 1 THEN M$ = "CLOAK": NI = 79: GOSUB 8950\r\n'
-     b'27140 IF BE = 3 THEN M$ = "CONTENTED": NI = 99: GOSUB 8950\r\n'
+     b'27140 IF BE = 3 THEN M$ = "CONTENTE": NI = 99: GOSUB 8950\r\n'
      b"27150 RETURN\r\n"),
+]
+
+# REFILL.BAS's slips, fixed unless --no-fixes (VAR has to be made again, make_var.py): three
+# object names that inventories and FEED print kept the working number Ruby gave the object
+# before he named it, as the treasures he never placed are still just "28" to "43"
+REFILL_FIXES = [
+    (b"25023 DATA 23ingot", b"25023 DATA ingot"),
+    (b"25024 DATA 24rose", b"25024 DATA rose"),
+    (b"25068 DATA 58coil of rope", b"25068 DATA coil of rope"),
+]
+
+# This project's additions, in with the fixes (after them; --no-fixes leaves them out too).
+# Nothing in Ruby's game tames the bear: FEED BEAR FOOD only gets SANDWICH.TXT's refusal ("All
+# you have are watercress sandwiches"), and no line sets BE = 2, the tame bear that the chain,
+# GET BEAR (BE = 3, following), the troll and the bridge are written for.  In NEW ADVENTURE, a
+# relative of the 751-point game (a PC-SIG walkthrough of 1990), the bear is fed a honeycomb from
+# an apiary, which Ruby's cave does not have.  So a debug command,
+# next to Ruby's own L (the lamp's counters) and DDD (the containers): #BEAR turns the fierce bear
+# tame, with Ruby's message for that (FEDBEAR, FIX_ONCE); any other time nothing happens.
+ADDITIONS = [
+    (b'141 IF D$ = "DDD" THEN FOR X = 1 TO 12: PRINT CI(X); " "; : NEXT X: PRINT : GOTO 100\r\n',
+     b'141 IF D$ = "DDD" THEN FOR X = 1 TO 12: PRINT CI(X); " "; : NEXT X: PRINT : GOTO 100\r\n'
+     b'142 IF D$ = "#BEAR" THEN 27200\r\n'),
+    (b"27150 RETURN\r\n",
+     b"27150 RETURN\r\n"
+     b"27200 REM DEBUG COMMAND #BEAR: THE BEAR TAMED, AS IF IT HAD EATEN\r\n"
+     b"27210 IF BE <> 1 THEN 9030\r\n"
+     b'27220 BE = 2: M$ = C1$ + "FEDBEAR": GOSUB 8900: GOTO 100\r\n'),
 ]
 
 CRLF = b"\r\n"
@@ -386,8 +427,8 @@ def main():
         got = entries(dump)
         assert len(got) == len(names), (dump, len(got), len(names))
         for i, ((lines, after), name) in enumerate(zip(got, names)):
-            if name is None and fixes and dump == "texts.txt":
-                name = FIX_TEXTS.get(i)
+            if name is None and fixes:
+                name = {"texts.txt": FIX_TEXTS, "1timers.txt": FIX_ONCE}.get(dump, {}).get(i)
             if name is None:
                 continue
             if isinstance(name, tuple):                            # CASABLNC + CAVE
@@ -411,15 +452,15 @@ def main():
             if file == name:
                 assert data.count(old) == 1, (name, old)
                 data = data.replace(old, new)
-        if name == "ADV751.BAS" and fixes:
-            for old, new in FIXES:
-                assert data.count(old) == 1, old
-                data = data.replace(old, new)
+        for old, new in {"ADV751.BAS": FIXES + ADDITIONS, "REFILL.BAS": REFILL_FIXES}.get(name, []) if fixes else []:
+            assert data.count(old) == 1, (name, old)
+            data = data.replace(old, new)
         open(os.path.join(out, name), "wb").write(data)
 
     count = sum(len(files) for _, _, files in os.walk(out))
-    print("%s: %d files, %s%s" % (out, count, "%d fixes" % len(FIXES) if fixes else "no fixes",
-                                  "" if var is not None else " (no VAR yet: run REFILL.BAS)"))
+    print("%s: %d files, %s%s" % (out, count, "%d fixes, #BEAR" % (len(FIXES) + len(REFILL_FIXES))
+                                  if fixes else "no fixes",
+                                  "" if var is not None else " (no VAR yet: run make_var.py)"))
 
 
 if __name__ == "__main__":

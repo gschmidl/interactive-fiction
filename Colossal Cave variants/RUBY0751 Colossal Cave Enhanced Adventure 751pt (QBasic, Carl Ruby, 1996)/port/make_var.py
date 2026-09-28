@@ -1,13 +1,14 @@
 r"""Make ADV751\VAR, the program's data file (travel table, short descriptions, object names and
 the rest), the way Ruby did: by running his REFILL.BAS under QBasic.
 
-    python make_var.py DOSBOX.EXE QBASIC.EXE
+    python make_var.py DOSBOX.EXE QBASIC.EXE [TREE]
 
 DOSBOX.EXE is DOSBox 0.74, whose SDL 1.2 can run with no window (DOSBox Staging always opens
 an OpenGL window); run it from a copy of its folder, as it writes stdout.txt beside itself.
 QBASIC.EXE is MS-DOS QBasic 1.1.  Neither is part of this repository.  The run happens in
 .build\ (not published), with no window and no sound, and the VAR it writes is copied into
-ADV751\.
+ADV751\, or into TREE, another folder from make_tree.py (a --no-fixes one has REFILL.BAS as
+sent, so its VAR keeps Ruby's object names).
 """
 import os
 import shutil
@@ -35,10 +36,11 @@ exit
 
 def main():
     dosbox, qbasic = (os.path.abspath(a) for a in sys.argv[1:3])
+    tree = os.path.abspath(sys.argv[3]) if len(sys.argv) > 3 else os.path.join(HERE, "ADV751")
     c = os.path.join(BUILD, "c")
     if os.path.exists(BUILD):
         shutil.rmtree(BUILD)
-    shutil.copytree(os.path.join(HERE, "ADV751"), os.path.join(c, "ADV751"))
+    shutil.copytree(tree, os.path.join(c, "ADV751"))
     shutil.copyfile(qbasic, os.path.join(c, "QBASIC.EXE"))
     var = os.path.join(c, "ADV751", "VAR")
     if os.path.exists(var):
@@ -51,7 +53,7 @@ def main():
                    stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     if not os.path.exists(var):
         sys.exit("REFILL.BAS wrote no VAR")
-    shutil.copyfile(var, os.path.join(HERE, "ADV751", "VAR"))
+    shutil.copyfile(var, os.path.join(tree, "VAR"))
     print("VAR: %d bytes" % os.path.getsize(var))
 
 
