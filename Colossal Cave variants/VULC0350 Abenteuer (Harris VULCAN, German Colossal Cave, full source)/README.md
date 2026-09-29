@@ -1,33 +1,25 @@
-# ABENTEUER - German Colossal Cave, Harris VULCAN (24-bit), 1977-80
+# Abenteuer (German Colossal Cave, 350 points)
 
-**Status: PORTED 2026-09-21 (first pass).** `port\run.bat` plays the site's own game; see `port\README.md`.
+"Suchen Sie Ihr Glück in der GIGANTISCHEN HÖHLE": Gary Palter's portable *Adventure* as Harris
+Computer Systems Division adapted it in 1977, with its messages translated into German, from a
+German Harris VULCAN site (1977-80). The original FORTRAN, compiled from the site's own job stream,
+starts from the site's own new-game image. German commands of one or two words (`NORD`, `NIMM`,
+`LEG`, `BESTAND`, `SCHAU`); only the first five letters count.
 
-This is Gary M. Palter's portable Adventure (MIT) as Harris Computer Systems Division adapted it ("HCSD VERSION
-01.112777 DICK REYNOLDS"), with its messages translated into German, from a German Harris VULCAN site. The site
-catalogue (vulcan_infomaster_errs.tap @~5306692, "Es gibt folgende Spiele ( 0000PLAY*name )") lists two games:
-- ABENTEUE: "Suchen Sie Ihr Glueck in der GIGANTISCHEN HOEHLE"
-- ADVENTUR: "... oder lieber auf Englisch in COLOSSAL CAVE ?"
+## Command line
 
-Source: `bitsavers.org/bits/Harris/vulcan/fast.tap`, a Harris FAST disc save in three huge records (4.8 MB, 4.5 MB,
-16.7 MB), copied verified (md5) to `archive_original\fast.tap`. All 14 Harris tapes are in
-`..\..\_work\_Harris_VULCAN_work\tapes\`.
+`abenteuer.exe [options]` (`run.bat` adds `-u` and passes its parameters on)
 
-## Files
+| Option | Effect |
+| --- | --- |
+| `-u`, `--unlimited` | no prime time (on weekdays from 8:00 to 18:00 only wizards may play) and no 90-minute wait before a saved game goes on |
+| `--seed N` | other dice |
+| `--fresh` | set up from the text database instead of the site's new-game image, as when there was none: the texts as the tape has them (a later edition); the wizard question and the instructions come first |
+| `--fresh=1980` | the same from the 1980 edition of the texts, from which the site's image was set up |
+| `--no-fixes` | the site's game as it was: `BRING` (restore) and `MAGIE MODUS` are never taken, because the site's image already stands at turn 1 |
+| `--date YYYY-MM-DD`, `--time HH:MM` | hold the clock still |
+| `-h`, `--help` | list the options |
 
-The files were cut out of the save with `..\..\_work\_Harris_VULCAN_work\tools\harris_text.py`. It reads the FAST
-format's 672-byte blocks of numbered lines. A line is n, the text, NUL padding, then 8n; a byte of 128 or
-more stands for a run of 256-b blanks.
+## Recommended start
 
-- **`src_original\J.ADV.txt`:** the job stream that built PLAY*ABENTEUE. Lines 5-3538 are the FORTRAN.
-  The rest is Harris assembler for the site routines (ADDR, SIZE, SHIFT, LOWSIX, ABORT, GENRAT, ATTACH,
-  ASSIGN, IO), and it ends `$VU.RS PLAY*ABENTEUE`.
-- **`src_original\database\TAPE1 ... TAPE1012`:** the section files the program reads when it sets itself
-  up. TAPE7-9 holds sections 7-9; TAPE8 is a separate copy of section 8. They are a later edition than the
-  game the site set up in June 1980, with five text edits (see `port\README.md`).
-- **NEUSPIEL**, the game as the site had it, is not copied out as a file: `port\src\neuspiel.py` reads it
-  from the tape. It is a game saved at its first command (`SICHR MEIN`) on Friday 13 June 1980 at 14:34.
-- **`src_original\english_ADVENTUR_session_1980.txt`:** the file MASTER, a printed session of the English
-  PLAY*ADVENTUR from 3 March 1980, run as a batch job. It is the only trace of the English game in the save
-  (the "YOU ARE IN" hits of the first survey); its program and database are not there.
-- **`recovered\fast_tap_strings_15.8M-17.0M.txt`:** every printable run of the save's text region with its
-  byte offset, from the first survey.
+`run.bat`

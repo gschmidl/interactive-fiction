@@ -1,34 +1,28 @@
-# Adventure "thru a Cave" - TI 990 / DX10 GAMES library
+# Adventure thru a Cave (350 points, TI 990)
 
-**Status: PORTED (2026-09-21, plan step 24).**
-- **What the port is:** the original program run on an emulated TI 990/10 with the DX10 supervisor calls it makes. See
-  `port\README.md`; play with `port\run.bat`.
-- **Verified against the real system:**
-  - The program images equal DX10's own SPI listings.
-  - Three sessions recorded on sim990 3.3.0 + DX10 3.7 replay identically, dwarves and knives included.
+"ADVENTURE - Wandering adventure thru a Cave" from a Texas Instruments TI 990 DX10 games tape: Don
+Woods' 350-point game in TI 990 FORTRAN, in mixed case, with his wizard machinery - opening hours, a
+short game in the off hours, magic mode and a 90-minute wait before a suspended game may be resumed.
+Only the linked program survives; `adventure.exe` runs it on an emulated TI 990/10 and answers the
+DX10 supervisor calls it makes.
 
-Folders:
-- `archive_original\`: verified copies (md5) of the originals named below.
-- `src_original\`: what was cut out of the tape by DX10 itself, with notes on how:
-  - the program's two segments;
-  - its data file CAVE;
-  - the SCI procedures;
-  - the program-file map.
-- `port\`: the port.
+At the start, "Will/did you save your game?": Enter or `NO` plays without a save file; `YES` asks
+for a file, which `SAVE` suspends the game into and `RESTORE` (after the instructions question)
+brings back.
 
-Source: `bitsavers.org/bits/TI/990/9trkTapes/orig/ti990_games.tap.gz` (+ `titapes.txt`; `DX10_system_tapes\` = `.../orig/DX10/`,
-the OS tapes an emulator would boot).
+## Command line
 
-The tape is a DX10 backup of `GAMES` (`.SYN GAMES=GAMES.GAMES`, `.USE @GAMES.PROC`).
-- **Games on it:** NIM, PACMAN, FOOTBALL, HANGMAN, MIND (COBOL), STARTREK, CALENDAR, TTT, ADVENTUR, LANDER, BIO, GUESS,
-  LUNAR, MINE (Tim O'Connor, 990 FORTRAN, 4/79), BBOX, SUB, BLACKJAC, TREK.
-- **Adventure's menu text:** "ADVENTURE Wandering adventure thru a Cave". The proc `ADVENTUR(Adventure thru a Cave)` asks
-  "Will/did you save your game?" and takes `SAVE/RESTORE PATHNAME=ACNM(@$CAVE)`.
-- **What Adventure is on the tape:** the linked task ADVEN in `GAMES.PROG`, plus the data file `FILES.CAVE`, whose texts
-  are scrambled. There is no FORTRAN source for it; other games on the tape do have source.
+`adventure.exe [options]` (`run.bat` adds `-u`, runs the game in a `saves` folder beside it and
+passes its parameters on)
 
-The reference machine is Dave Pitts' sim990 3.3.0 for Windows (`sim990win-3.3.0`)
-with its DX10 3.7 disk; the working copy and the tools are in `..\..\_work\_TI990_work` (`run370\`, `tools\`, `docs\`).
-- The console is on telnet port 2099. Log on with Esc `!`, then run `IDT` with a 4-digit year.
-- `RD MT01 .GAMES` restores the tape.
-- `AS GAMES=.GAMES.GAMES` and `.USE .S$PROC,.GAMES.GAMES.PROC` set up the procedures; then `ADVENTUR` runs.
+| Option | Effect |
+| --- | --- |
+| `-u`, `--unlimited` | the cave never closes and a suspended game resumes at once |
+| `--no-fixes` | the original exactly: the first random event in the first minute of an hour then freezes the game for up to a minute |
+| `--clock=TIME` | a clock that starts at `YYYY-MM-DD HH:MM:SS` (or `HH:MM:SS` today) and advances a second per reading; the dice are seeded from it, so a session repeats |
+| `--trace` | each DX10 supervisor call on standard error |
+| `-h`, `--help` | list the options |
+
+## Recommended start
+
+`run.bat`

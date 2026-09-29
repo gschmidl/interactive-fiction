@@ -1,61 +1,33 @@
-# Aventure — Adventure 350pt in French (VAX/VMS)
+# Aventure (Colossal Cave Adventure, 350 points, French)
 
-Recovered from an OpenVMS VAX V7.1 disk image (`rq0-ra80.dsk`), where it
-lived as `SYS$SYSROOT:[SYSMGR]ADVENT.EXE`.
+DEC's *Adventure* Release 3 - the 350-point Crowther and Woods game in Kent Blackett and Bob Supnik's
+FORTRAN IV version - translated into French, as found on an OpenVMS VAX disk (linked 26 August
+1985). The source is lost, so the original VAX program and its data files run on a built-in VAX
+user-mode emulator (`vaxvms.exe`) together with the real VMS FORTRAN and library run-times.
 
-## What this is
+## Command line
 
-DEC's **Adventure, Release 3** — the Crowther/Woods 350-point cave, ported to
-FORTRAN IV by Kent Blackett and Bob Supnik (see `src_original/ADVENT.DOC`) —
-**translated into French**. The executable was linked on 26-AUG-1985. It is
-probably the best French translation of the game there is.
+`play.cmd` takes no parameters. It runs `vaxvms.exe -L lib -D . ADVENT.EXE`; the game itself takes
+none either. The emulator's options:
 
-The French text lives in `ATEXT.DAT`; `AINDX.DAT` is the fast-start index built
-from it. The scoring thresholds (35/100/130/200/250/300/330/349) are the
-standard 350-point set.
+`vaxvms.exe [options] IMAGE.EXE`
 
-```
-Bienvenue dans Aventure!! Aimeriez-vous lire les instructions?
->non
-Vous vous tenez a l'issue d'une route, devant un petit edifice en
-briques. Autour de vous, il y a une foret. Un petit cours d'eau
-s'ecoule depuis l'edifice et tombe dans un egout.
-```
+| Option | Effect |
+| --- | --- |
+| `-L DIR` | where to look for the VMS shareable images (repeatable) |
+| `-D DIR` | where the game's data files are (default: the current directory) |
+| `-V` | report how the images are loaded |
+| `-s` | log system services and file access (repeat for more) |
+| `-T N` | instruction trace level |
+| `-B ADDR` | report the arguments each time the program reaches that hex address |
+| `-b ADDR` | the same, then stop |
+| `-M ADDR` | show memory at that hex address in the trace |
+| `-W LO HI` | report every write to that hex address range |
+| `-d LO HI` | disassemble that hex address range and exit |
+| `-k N` | stop N instructions after the first terminal read, tracing them |
 
-## How to play
+All but `-L` and `-D` are for debugging the emulator.
 
-    port\play.cmd
+## Recommended start
 
-## How it works
-
-This is **not** a rewrite. `port\vaxvms.exe` is a VAX user-mode emulator with an
-OpenVMS shim: it loads the original `ADVENT.EXE` together with the real VMS
-`FORRTL.EXE` and `LIBRTL.EXE` shareable images, applies the image activator's
-fixups, and interprets VAX machine code. Only the system-service boundary is
-native — RMS file and terminal I/O, `$QIO`, `$GETTIM`, `$FAO` and friends are
-implemented against Windows.
-
-The data files are byte-for-byte as they were on the VMS disk, still in RMS
-record format (variable-length for `AINDX.DAT`, 74-byte fixed for `ATEXT.DAT`),
-because the FORTRAN run-time reads them through RMS.
-
-Verified against a transcript captured from the game running under simh on the
-original disk image: identical output for the same inputs.
-
-## Contents
-
-| path | what |
-|---|---|
-| `src_original/` | files as extracted from the VMS disk |
-| `port/play.cmd` | run the game |
-| `port/build.cmd` | rebuild the emulator (needs gcc) |
-| `port/engine/` | emulator source |
-| `port/lib/` | the VMS shareable images the game links against |
-
-## About the source
-
-Only `ADVENT.FOR` (the main program, 3 KB) survived on this disk. Release 3 also
-needs `AINIT`, `AMAIN`, `ASUB`, `AIOSUB`, `ASUSP` and `AMAC`, and none of them
-are present — I scanned every file header in `INDEXF.SYS` and every unallocated
-block on the volume and found no trace. That is why this runs the original
-binary rather than being recompiled.
+`play.cmd`

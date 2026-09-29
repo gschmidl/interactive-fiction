@@ -1,24 +1,29 @@
-# Colossal Cave Adventure 350pt - PRIMOS FORTRAN, wizard version with source
+# Adventure, 350 points (Prime 50-Series, PRIMOS)
 
-**Status: PORTED 2026-09-21 (first pass).** `port\advent.exe` - see `port\README.md`. Verified against
-the original run file on the pack this tape was restored onto, running under PRIMOS 23.4 on p50em: two
-recorded sessions replay byte-identically - mixed-case output, left-over debug trace and all. The port
-starts from the Prime's own saved COMMON blocks (`ADVCOM`), converted field by field, because the
-Prime's INTEGER is four bytes but its LOGICAL two.
-Files here are verified copies (md5) of the originals named below.
+Gary Palter's portable FORTRAN version of the 350-point Crowther and Woods game, as it was installed
+on a Prime 50-Series under PRIMOS, from a 1985 games tape - wizard machinery, mixed-case text,
+left-over debugging output and all. Native Windows console port; it starts from the Prime's own saved
+game state, with its text, vocabulary, hours and magic word.
 
-Source: `bitsavers.org/bits/Prime/sbd/SBD003.zip` -> `sbd003_games_6-7-85.tap` (SIMH tape, PRIMOS MAGSAV, labelled SBD003 121885).
-Same set of tapes that gave Ankh and Tower (SBD001/002). `src_original\` holds the files cut out with
-`..\..\_work\_bits_sweep_work\tools\primex.py`: each file raw as on tape (high-bit ASCII, 0x91 nn = run of blanks, lines padded
-to even length) and, where it is text, a decoded `.txt` beside it. `*.ufdhdr` = directory header records.
+The installed game keeps hours: on weekdays from 09:00 to 17:00 the cave is closed to all but wizards,
+and a suspended game may be restored only a minute later. `run.bat` lifts both. The wizard's password
+is the magic word `DWARF` with its second and fourth letters replaced by the two-letter code of the day
+(`SA`, `SU`, `MO`, ...): on a Saturday, `DSAAF`.
 
-- `ADVENTURE.UFD` - `ADVENTURE.FTN` (100 KB, "C ADVENTURES / CURRENT LIMITS: 9800 WORDS OF MESSAGE TEXT...", SUBROUTINE MAIN,
-  `$INSERT SYSCOM>KEYS.F`, WIZCOM hours/magic), `ADVSUB.FTN`, variants `BADVENTURE.FTN`, `IT.FTN`, `ADVENTURE.FTN.001`,
-  `ADVSUB2.FTN`; build CPL/COMI files (`C_BUILD`, `C_COMPILE`, `C_LOAD`, `C_SEG`, `C_SHARED`); `COMMON` = the 60 KB text
-  database; `ADVCOM>ADVCOM` = the initialised common image; binaries `AD4000`, `TW4000`, `ADVENTURE`
-- `SCOTT` - a second user's copy with `ADVENTURE.LIST` (compiler listing) and BUILD.COMO
-- `RUN_GAMES\ADVENTURE`, `BADVENTURE` - the installed R-mode runfiles
+## Command line
 
-This build is the one that was installed, and it was caught mid-debugging: `PSPEAK` still prints its
-trace (`000000 000000`) in front of every object and describes objects by their inventory name. The
-port reproduces that, because the machine does.
+`advent.exe [options]` (`run.bat` adds `-u` and passes its parameters on)
+
+| Option | Effect |
+| --- | --- |
+| `-u`, `--unlimited` | no prime time (so no demonstration game either) and no wait before a suspended game is restored |
+| `--time HHMM` | hold the game's clock at HH:MM |
+| `--day N` | hold the game's date at N days after Saturday 1 January 1977 |
+| `--seed N` | start the dice at N instead of from the clock, so a game repeats |
+| `--auto` | accepted; does nothing in this build |
+| `--no-fixes` | accepted; the port has no fixes to leave out |
+| `-h`, `--help` | list the options |
+
+## Recommended start
+
+`run.bat`

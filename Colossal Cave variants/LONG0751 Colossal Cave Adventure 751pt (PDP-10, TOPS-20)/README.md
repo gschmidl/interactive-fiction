@@ -1,59 +1,28 @@
-# Colossal Cave Adventure, 751 points (PDP-10, TOPS-20)
+# Adventure 6.1/3 (Colossal Cave Adventure, 751 points)
 
-**ADVENTURE < 6.1/ 3>, 14-Jan-82** — the 751 point Adventure, a
-FORTRAN-10 program for which no source survives. What survives is the
-binary, on a TOPS-20 pack.
+*ADVENTURE < 6.1/ 3>* of 14 January 1982: the 751-point *Colossal Cave* that grew out of Don Woods'
+350 points by way of David Long's 501-point version, with a safe behind the poster, matches, a cloth
+bag and a castle. This copy was set up for Stanford's LOTS, where the opening hours were disabled.
+No source survives: the original FORTRAN-10 program of 1984, its run-time and its encrypted databases
+run on a built-in DECsystem-10 emulator with the TOPS-20 calls answered natively.
 
-The program's own messages name the machine it was set up for: Stanford's
-LOTS (*NOTE: Open/Closed hours are disabled at LOTS*, *If you want to
-explore, come to campus*). It calls its home directory `SRC:<GAMES>`, and
-that is the directory a private dump of the SRI-NIC archive holds, with the
-program, its text and its world bit for bit the same as on the pack.
+## Command line
 
-`port\bin\adv751.exe` plays it on Windows. It is the original binary on
-an emulated DECsystem-10, not a rewrite; see `port\README.md`.
+`adv751.exe [options]`
 
-```
-port\           the port: emulator, build, tests, and how it was done
-dump_original\  the files taken off the pack, as 36-bit words
-src_original\   the eXo collection's TOPS-20 setup, untouched
-work\           the reference machine and the tools that drove it
-```
+| Option | Effect |
+| --- | --- |
+| `-p NAME`, `--player NAME` | play as NAME, for the greeting and the scoreboard (default: your Windows user name) |
+| `--no-delays` | do not pause where the game pauses |
+| `-e`, `--echo`, `--no-echo` | echo typed lines, or do not. By default they are echoed when input is a file and not at a console |
+| `--time HH:MM` | pretend it is this time of day (it also seeds the dice) |
+| `-v`, `--verbose` | trace operating-system calls to standard error (repeat for more) |
+| `-t`, `--trace` | trace every instruction (diagnostics) |
+| `-h`, `--help` | list the options |
 
-## What came off the pack
+`SUSPEND` writes a saved game to the current directory (`MYGAME.DAT` for the name MYGAME) and `RESUME`
+reads it back.
 
-`dump_original\` holds rather more than the port needs:
+## Recommended start
 
-| | |
-|---|---|
-| `ADVENTURE.EXE` | the game, 17-Jun-84 |
-| `ADVTXT.BIN` | its text, 14-Jan-82, encrypted |
-| `ADVVAR.BIN` | its world, 18-Apr-84 |
-| `ADVWIZ.DAT` | the configuration and the wizard list |
-| `ADVGRP.LOG`, `ADVWIN.LOG` | the gripe log and the scoreboard, still holding the players of 1984 |
-| `FOROTS.EXE` | the FORTRAN-10 runtime the game runs on |
-| `PA1050.EXE` | the TOPS-10 compatibility package, which the port replaces |
-| `MONSYM.UNV`, `MACSYM.UNV` | the monitor's own symbol tables, where the JSYS numbers came from |
-| `ADV501.EXE` | David Long's 501 point version, 20-Nov-78 — complete |
-| `OLD-ADVENTURE.EXE` | *Version II*, 430 points, 21-Jun-79 — complete |
-| `NEW-ADVENTURE.EXE` | edition 6.1/9, 13-Feb-81 — its databases lost, see below |
-| `WIZDEF.DAT` | the configuration the game shipped with, before the eXo packagers pointed it at these files |
-
-The three older games are Adventures too, and two of them are complete.
-`ADV501.EXE` (*Adventure--Experimental Version:5.0/6, NOV-78*)
-and `OLD-ADVENTURE.EXE` (*This is "Version II" of Adventure. Top score is
-now 430 points.*) are core images with their databases already loaded.
-Both start, play and score with no files beside them. `ADV501.EXE` also
-runs on the pack as it is, with `R GAME:ADV501`, though quitting prints
-*LOG FILE BLOCKED*: it writes its log to a directory the pack lacks.
-ADV501 is David Long's 501 point game, which eXo also carries as a
-JavaScript port.
-
-Only `NEW-ADVENTURE.EXE` is incomplete. `<GAMES>` has only the 1982 text
-and the 1984 world, both belonging to 6.1/3, and edition 6.1/9 refuses
-them.
-
-`NEW-ADVENTURE.EXE` turned up again in another private archive: a 1982 games directory
-that also kept its configuration, billboard and play logs, though still not
-its text or world. That edition, 6.1/9, cannot be played. The folder that
-held what was recovered of it was deleted by the user on 2026-09-21.
+`adv751.exe`

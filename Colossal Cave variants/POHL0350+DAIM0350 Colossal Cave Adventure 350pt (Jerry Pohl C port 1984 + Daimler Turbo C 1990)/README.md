@@ -1,18 +1,26 @@
-# Jaeger / Pohl C Adventure (12 June 1984) and Daimler's Turbo C 2.0 descendant (June 1990)
+# Adventure in C: Jaeger/Pohl (1984) and Daimler (1990), 350 points
 
-**Status: PORTED 2026-09-19, refined 2026-09-21 - `port\play-pohl.bat`, `port\play-daimler.bat`, see
-`port\README.md`.** Five original bugs fixed behind `--no-fixes`; Daimler's port matches his own DOS program
-(`archive_original\advtc2.zip`, run under DOSBox) byte for byte. `archive_original\adv.arc` is Pohl's 1984 DOS build,
-an earlier revision than the 1990 source ported here. Staged the same day: complete copy of the named directory of https://github.com/Quuxplusone/Advent at commit d38e82550600144e3547d6472bc80dbf49ca214b (2026-09-15), md5-verified against the clone.
+Two early C versions of the 350-point *Adventure*, each built for the Windows console from its own
+source:
 
-- `src_original\POHL0350\` - PC-SIG disk 259, "Author Version: 03/90": BDS C conversion by J. R. Jaeger, Unix
-  standardisation by Jerry D. Pohl, `ADVENT.DOC` dated 12 JUNE 1984. Behavioural differences from Woods: dwarves are
-  re-placed at random every turn instead of walking, and a precedence bug in `turn.c` line 36 means "A little dwarf with a
-  big knife blocks your way!" can never appear.
-- `src_original\DAIM0350\` - if-archive `advtc2.zip`: the same code after Martin Heller's OS/2 conversion (30-Aug-1988) and
-  Daimler's Turbo C 2.0 conversion; disables READ, EAT, FILL "no room". Its text files are Pohl's 1984 ones (those of
-  `archive_original\adv.arc`), changed only in the welcome (message 65), which credits Heller and Daimler: their small
-  slips are the 1984 originals, which Pohl's own 1990 revision above corrects, not typos added by Heller or Daimler. An
-  Archimedes port of November 1988 (AARC0350 in the collection) has the same 1984 text.
-This is the C family that Hall's 7.0 (sibling folder) grew from. eXo's DOS 350 is a different program (the RT-11 FORTRAN
-port with AINDX/ATEXT); these two ports are in the collection as POHL0350 and DAIM0350. Port = compile for Windows.
+| Launcher | Program |
+| --- | --- |
+| `play-pohl.bat` | J. R. Jaeger's BDS C conversion of the FORTRAN, standardised for Unix by Jerry D. Pohl in 1984 (Pohl's revision of March 1990). The dwarves are re-placed at random every turn instead of walking. Starts at the end of the road |
+| `play-daimler.bat` | the same program after Martin Heller's OS/2 conversion (1988) and Daimler's Turbo C 2.0 conversion (1990), with Pohl's 1984 texts. Starts in the building |
+
+The launchers keep each game's saved games apart, in `saves\pohl` and `saves\daimler`.
+
+## Command line
+
+`advent.exe [options]` (both programs; the launchers pass their parameters on)
+
+| Option | Effect |
+| --- | --- |
+| `-r`, `--restore` | start from a saved game (the game asks for its name). `SUSPEND`, `SAVE` or `PAUSE` writes one |
+| `-d` | the authors' debug output: give it up to three times for Pohl's program, twice for Daimler's |
+| `--no-fixes` | the programs as they were. Otherwise their bugs are fixed: a dwarf can block your way (a precedence slip made that impossible), and in Daimler's program the pirate keeps out of the rooms it should, messages numbered above 127 print the right text, `LOG` with an object no longer ends the game, and `BACK` after a forced move no longer reads past the tables |
+| `-h`, `--help` | list the options |
+
+## Recommended start
+
+`play-pohl.bat` or `play-daimler.bat`

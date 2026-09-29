@@ -1,43 +1,37 @@
-# Adventure ]I[ — HP 2000 Access Time-Shared BASIC
+# Adventure ]I[ (1400 points)
 
-A 1400-point Colossal Cave descendant written around 1978/79 by Alex Guma,
-then an 11th-grader at Falls Church HS in Fairfax County, VA, on the school
-district's HP 2000 Access timesharing network. Known in the archives as
-ANON1400.
+A 1400-point descendant of *Colossal Cave* written around 1978-79 in HP 2000 Access Time-Shared
+BASIC, attributed to Alex Guma, then a high-school student in Fairfax County, Virginia. It is the
+cave with a sense of humour: the Frobozz Magic Sno-Disc Company, a zarka that only eats pizza, a ski
+resort, a subway and a nuclear reactor that melts down unless you stop it. `advent.exe` is an HP 2000
+BASIC interpreter that runs the archived listings directly and builds the data files on first run.
 
-It is Colossal Cave by way of Zork jokes: the Frobozz Magic Sno-Disc Company,
-a zarka that will only eat pizza, a ski resort, a subway, and a nuclear
-reactor that melts down 216 turns in unless you do something about it.
+Two versions of the program survive:
 
-Whether Guma actually wrote it is not certain. Read closely, the archived
-material allows that he, like Rick Hammerstone, only kept a partial
-printout of a game he played at school, some time between 1979 and 1982.
-The title's `]I[` is a stylised III. Stuart Trusty's Apple II *Adventure
-III* (1980-81, 593 points) has the same title but is a different game.
+| Variant | Source |
+| --- | --- |
+| `recon` (default) | Guma's own 2023 reconstruction |
+| `orig` | Rick Hammerstone's 1981-82 line-printer listing |
 
-* `src_original/` — the archived material, untouched, from
-  <https://github.com/Quuxplusone/Advent/tree/anon1400/ANON1400>
-* `port/` — a native Windows build. See [port/README.md](port/README.md).
+Each has one line repaired from the other's reading.
 
-## The port
+## Command line
 
-`port/advent.exe` is an interpreter for HP 2000 Access Time-Shared BASIC. It
-runs the archived listings directly, and builds the data files by executing
-the game's own data-builder programs. Nothing was rewritten.
+`advent.exe [options]`
 
-Both surviving sources are playable:
+| Option | Effect |
+| --- | --- |
+| `-v VARIANT` | play `recon` (default) or `orig` |
+| `-r` | seed the dice from the clock. Without it every game rolls the same numbers, as on the HP, and the dark room's xeener bugs always kill you on the first try |
+| `--rebuild` | rebuild the data files before playing |
+| `-u ID` | the account the game sees (default `B500`, the game's own account, which is on the wizard list). `-u S999` plays as an ordinary user; `-u S3xx` brings back the school's "Advent is down from 8:01 to 1:20" lockout |
+| `-p DIR` | where the BASIC programs are |
+| `-d DIR` | where the data files are |
+| `-e` | echo input lines when input is not a terminal |
+| `-q` | do not print `DONE` when a program stops |
+| `PROG...` | run these BASIC programs instead of the game (a general HP 2000 BASIC interpreter) |
+| `-h`, `--help` | list the options |
 
-```
-advent.exe            Alex Guma's 2023 reconstruction
-advent.exe -v orig    Rick Hammerstone's 1981/82 line printer listing
-```
+## Recommended start
 
-Each source arrived with one defect the other does not have: the
-reconstruction had dropped two lines, breaking `STAB` and `CHOP`, and the
-printout reads `ALLEZ`'s room number into the wrong variable. Both are
-repaired using the reading the other source supplies — two lines added, one
-character changed, both shown in `port/basic/*/fixes.diff` and both undoable.
-
-With that done the two sources are behaviourally indistinguishable: all ten
-regression scripts produce byte-identical transcripts from either.
-[port/README.md](port/README.md) lists every difference between them.
+`advent.exe -r`

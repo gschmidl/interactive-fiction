@@ -1,13 +1,21 @@
-# "Generic Adventure -- Version:7.0, July 1994" - Robert R. Hall, C, shipped with MINIX 1.x (HALL0501)
+# Generic Adventure 7.0 (Robert R. Hall, 1994)
 
-**Status: PORTED 2026-09-19, refined 2026-09-21 - `port\run.bat`, see `port\README.md`.** A RETREAT crash and
-three game-ending placeholders fixed, RESTORE hardened against short and foreign files.
-Staged the same day: complete copy of the named directory of https://github.com/Quuxplusone/Advent at commit d38e82550600144e3547d6472bc80dbf49ca214b (2026-09-15), md5-verified against the clone.
+Robert R. Hall's C *Adventure*, version 7.0 of July 1994, shipped with MINIX: David Long's and Doug
+McDonald's 551-point game (McDonald's version 6.6, with an Infocom-style parser) put on top of Jerry
+Pohl's C port of the 350-point original. Hall's scoring tops out at 501. Native Windows console
+port.
 
-`src_original\HALL0501\`: `advent.c turn.c verb.c itverb.c english.c travel.c vocab.c score.c initial.c database.c
-utility.c setup.c`, headers, `advent1-4.txt` (database), Makefiles.
-Hall put Long's / McDonald's game (content = McDonald 6.6, 551 points, Infocom-style parser) on top of Jerry Pohl's C
-port. Differences from McDonald: the ledge west of Lost River leads only to the low room (no second troll solution);
-acting "with your bare hands" drops everything; inherits Pohl's teleporting dwarves that never block the way.
-eXo plays 551 only as O'Dwyer's Z-machine port of McDonald's FORTRAN, so this C lineage is not represented.
-Port = compile (K&R-ish C; see feedback_knr_implicit_int_pointers).
+## Command line
+
+`advent.exe [options] [SAVEDGAME]` (`run.bat` passes its parameters on and runs the game in a
+`saves` folder beside it, where `SAVE` writes `advent.sav`)
+
+| Option | Effect |
+| --- | --- |
+| `SAVEDGAME` | start from a game saved with `SAVE` |
+| `--no-fixes` | the 1994 program as it was. Otherwise four bugs are fixed: dwarves never block the way, `RESTORE` without a saved game ends the program, and `LEAVE` with nothing to leave or an object followed by `SAY` end the game with an internal error |
+| `-h`, `--help` | list the options |
+
+## Recommended start
+
+`run.bat`
