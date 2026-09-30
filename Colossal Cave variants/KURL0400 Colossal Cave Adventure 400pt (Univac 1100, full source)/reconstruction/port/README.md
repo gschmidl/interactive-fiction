@@ -12,7 +12,7 @@ listings).
 
 Its lineage runs back to Tymshare: Kurland ported and extended it,
 1978-79, from Tymshare's 382-point Adventure
-(`../../../../PDP-10 games/KOPF0382 Colossal Cave Adventure 382pt (PDP-10, TYMCOM-X)/`),
+(`../../../../Colossal Cave variants/KOPF0382 Colossal Cave Adventure 382pt (PDP-10, TYMCOM-X)/`),
 by way of Elman's port for Four Phase Systems. That early TYMCOM-X
 version, probably John Kopf's, had most likely spread to these companies
 over Tymnet.

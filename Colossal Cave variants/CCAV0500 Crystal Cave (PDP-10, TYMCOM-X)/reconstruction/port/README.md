@@ -42,7 +42,7 @@ independently: *EXPLORATION*, by Michael Stimac, credits itself to
 
 Kopf built it directly on Tymshare's 382-point Adventure, most likely
 his own work too
-(`..\..\..\..\PDP-10 games\KOPF0382 Colossal Cave Adventure 382pt (PDP-10, TYMCOM-X)\`),
+(`..\..\..\..\Colossal Cave variants\KOPF0382 Colossal Cave Adventure 382pt (PDP-10, TYMCOM-X)\`),
 and the game itself dates from 1977-78; the copies here are later
 builds. For years it was known only through a much later C conversion
 of the Univac version, with rumours about its author, date and machine.

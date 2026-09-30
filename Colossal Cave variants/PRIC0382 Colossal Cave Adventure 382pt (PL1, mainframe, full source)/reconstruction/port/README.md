@@ -38,7 +38,7 @@ Orac, the super computer from *Blake's 7*.
 
 It is not related to the other 382-point game in this collection,
 Tymshare's
-(`..\..\..\..\PDP-10 games\KOPF0382 Colossal Cave Adventure 382pt (PDP-10, TYMCOM-X)\`;
+(`..\..\..\..\Colossal Cave variants\KOPF0382 Colossal Cave Adventure 382pt (PDP-10, TYMCOM-X)\`;
 its `docs/COMPARISON.md` sets the two side by side). This folder was
 called PALT0382 until September 2026.
 
