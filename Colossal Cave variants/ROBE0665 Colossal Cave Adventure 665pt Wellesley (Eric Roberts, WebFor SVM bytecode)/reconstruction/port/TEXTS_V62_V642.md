@@ -1,7 +1,8 @@
 # The texts of V6.2 and V6.4.2
 
-Made by `tests\textdiff.py`: V6.2 is `..\src_original\ROBE0665\text.dat` (the FORTRAN
-source, newadv.F of 3 March 2010, 655 points); V6.4.2 is the browser edition's
+Made by `tests\textdiff.py`: V6.2 is the sibling ROBE0655 folder's
+`reconstruction\src_original\ROBE0665\text.dat` (the FORTRAN source, newadv.F of
+3 March 2010, 655 points); V6.4.2 is the browser edition's
 `..\archive_original\Browser\Big.js` (database of 7 June 2021, 665 points), whose
 strings are read out of the SVM image. The image keeps each string once and not in
 text order, so the comparison is by line; entries are named by V6.2's section and

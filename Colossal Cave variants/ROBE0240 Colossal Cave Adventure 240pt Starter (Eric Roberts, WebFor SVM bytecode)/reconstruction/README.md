@@ -30,7 +30,8 @@ Either (a) re-implement the SVM in C and run the word arrays unchanged - the fai
 WebFor's file layer (browser storage) - find those ops first.
 
 ## Related source
-The FORTRAN source of the 665-point game is in the sibling folder (`src_original/ROBE0665`, from
-github.com/Quuxplusone/Advent). No separate source for the 240-point Starter is known; `Small.js` carries the same symbol
+Roberts' FORTRAN source of the Wellesley game (V6.2, 655 points) is in the sibling ROBE0655 folder
+(`src_original/ROBE0665`, from github.com/Quuxplusone/Advent); the 665-point browser edition beside the Starter is
+ROBE0665. No separate source for the 240-point Starter is known; `Small.js` carries the same symbol
 names and almost the same text, so it is most likely the same program built with a reduced configuration - compare the
 two SVM images against `newadv.F` / `text.dat` to find the switch before choosing between an SVM port and a rebuilt source.

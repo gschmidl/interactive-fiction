@@ -1,7 +1,7 @@
 import os
 import re
 TEXT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..", "..",
-                    "ROBE0665 Colossal Cave Adventure 665pt Wellesley (Eric Roberts, FORTRAN source + WebFor SVM bytecode)",
+                    "ROBE0655 Colossal Cave Adventure 655pt Wellesley (Eric Roberts, FORTRAN source)",
                     "reconstruction", "src_original", "ROBE0665", "text.dat")
 # vocabulary: 5-letter chunks of the travel/vocabulary words in text.dat, plus common words
 words = set("""take drop open close light off on wave pour eat drink rub throw quit find inventory feed fill kill

@@ -17,13 +17,17 @@ V6.2 program text (FORMATs and literals in the .F files) are not counted
 as added.
 """
 import difflib
+import glob
 import os
 import re
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 FOLDER = os.path.dirname(os.path.dirname(HERE))
-TEXT = os.path.join(FOLDER, 'src_original', 'ROBE0665', 'text.dat')
+# V6.2's FORTRAN source is in the sibling ROBE0655 folder
+V62SRC = os.path.join(glob.glob(os.path.join(FOLDER, '..', '..', 'ROBE0655 *'))[0],
+                      'reconstruction', 'src_original', 'ROBE0665')
+TEXT = os.path.join(V62SRC, 'text.dat')
 BIG = os.path.join(FOLDER, 'archive_original', 'Browser', 'Big.js')
 SOURCES = ['newadv.F', 'advlib.F', 'aparse.F', 'setup.F', 'wizard.F']
 OUT = os.path.join(os.path.dirname(HERE), 'TEXTS_V62_V642.md')
@@ -86,7 +90,7 @@ def program_strings():
     """string literals and FORMAT texts of V6.2's own FORTRAN"""
     out = set()
     for f in SOURCES:
-        path = os.path.join(FOLDER, 'src_original', 'ROBE0665', f)
+        path = os.path.join(V62SRC, f)
         if os.path.exists(path):
             for s in re.findall(r"'([^'\n]*)'", open(path, encoding='latin-1').read()):
                 out.add(s.rstrip())
@@ -96,7 +100,7 @@ def program_strings():
 def program_names():
     """every name in V6.2's FORTRAN and its COMMON includes (the image
     carries the program's names as strings too)"""
-    src = os.path.join(FOLDER, 'src_original', 'ROBE0665')
+    src = V62SRC
     out = set()
     for f in os.listdir(src):
         if f.endswith(('.F', '.h')):
@@ -154,8 +158,9 @@ def main():
         return '%s %s' % (TEXT_SECTIONS[sec], num)
 
     out = ['# The texts of V6.2 and V6.4.2', '',
-           'Made by `tests\\textdiff.py`: V6.2 is `..\\src_original\\ROBE0665\\text.dat` (the FORTRAN',
-           'source, newadv.F of 3 March 2010, 655 points); V6.4.2 is the browser edition\'s',
+           'Made by `tests\\textdiff.py`: V6.2 is the sibling ROBE0655 folder\'s',
+           '`reconstruction\\src_original\\ROBE0665\\text.dat` (the FORTRAN source, newadv.F of',
+           '3 March 2010, 655 points); V6.4.2 is the browser edition\'s',
            '`..\\archive_original\\Browser\\Big.js` (database of 7 June 2021, 665 points), whose',
            'strings are read out of the SVM image. The image keeps each string once and not in',
            'text order, so the comparison is by line; entries are named by V6.2\'s section and',
