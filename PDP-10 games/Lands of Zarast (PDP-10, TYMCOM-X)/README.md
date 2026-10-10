@@ -31,7 +31,7 @@ build) and `newchar`.
 
 | Option | Effect |
 | --- | --- |
-| `--fix` | repair the bugs players ran into in the Land of Fred (1984 only): SAVE and RESTORE, lamps and torches, the store, negative damage, the game stopping at the 85th kill |
+| `--fix` | repair the bugs players ran into in the Land of Fred (1984 only): SAVE and RESTORE, lamps and torches, the store, negative damage, a titan that will not stay dead, the game stopping at the 85th kill; winning ends the game |
 | `--debug` | commands at any prompt: `#GOD` (invulnerability), `#STATS` (best abilities, full hit points and mana), `#GOLD` (9,999,999 gold), `#HELP` |
 | `-d DIR` | keep characters and the world in DIR (default: the current directory) |
 | `-q` | do not pause where the game pauses |

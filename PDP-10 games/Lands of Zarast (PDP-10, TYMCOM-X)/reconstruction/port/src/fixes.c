@@ -320,6 +320,10 @@ static struct {
     int extra_kills, skip_name, showing_total;
 } vx;
 
+/* Set by the win, acted on when the WAVE routine returns; the two are the
+ * same command, so it never needs to go into the save file. */
+static int  v_won = 0;
+
 static int  god = 0;              /* invulnerable                           */
 static double god_str;            /* VENTUR strength to hold                */
 static double god_level[7], god_s[7];
@@ -384,6 +388,28 @@ static void ventur_fix(int line)
         setv(V_LAMPCNT, 0); setv(V_TURNS, 0); setv(V_GROWTH, 0);
         setv(V_OILCNT, 0); setv(V_OILST, 0);
         memset(&vx, 0, sizeof vx);
+        v_won = 0;
+        break;
+
+    /* Winning did not end the game.  Waving the wand over the star crystal
+     * (19760-19860) sets Q=-1 at 19880 -- the flag QUIT sets at 6520, and
+     * the oil death at 25060, before each calls the end-of-game routine at
+     * 17660, where it skips "YOU'RE DEAD JIM." -- adds 100 to the score,
+     * moves you to the town (19920) and describes it (19940).  Then the
+     * WAVE routine returned (19960) and you went on walking about the town,
+     * whose one road out is closed by "a force".  The end-of-game routine
+     * now runs after the town is described: the score, strength, kills and
+     * turns, and "DO YOU WISH TO PLAY AGAIN(Y/N)".  It is called the way
+     * line 25070 calls it, JSP 1 to its entry, returning to line 19960. */
+    case 19880:
+        v_won = 1;
+        break;
+    case 19960:
+        if (v_won) {
+            v_won = 0;
+            AC(1) = XWD(0, line_addr(19960));
+            PC = line_addr(17660) - 2;
+        }
         break;
 
     /* The hit-point DATA has one value too many in the monsters and one
@@ -720,6 +746,22 @@ static void ventur_fix(int line)
         }
         break;
 
+    /* A critical hit that splits the monster in two (22220) or chops its
+     * head off (22280) sets KILLED and goes from line 20840 straight to
+     * 21120, past the line that takes the blow off its hit points (21060)
+     * and the one that kills it when they fall below 1 (21100).  So it
+     * died with its hit points whole.  That mattered only for the titan:
+     * line 1940 is IF STR>=50 AND HP(89)>1 AND NLOC(89)<1 THEN NLOC(89)=P,
+     * so a titan killed by a critical stood beside you again on the next
+     * move, and on every move after.  Every kill passes through here, so
+     * the victim is left as an ordinary kill leaves it. */
+    case 21120:
+        if (same(getv(V_KILLED), -1)) {
+            int n = (int)getv(V_NNUM);
+            if (ga(VT_HP, n) > 0) sa(VT_HP, n, 0);
+        }
+        break;
+
     /* A monster's blow is INT(RND*DAM)+1 less its rating, never clamped,
      * so the weakest monsters "hit" for negative damage and gave strength.
      * The player's own blows are kept above 0 at line 21060. */
@@ -967,6 +1009,13 @@ void fixes_image_loaded(const char *img)
               && line_has(12520, 0260740016065ULL)         /* PRICE(N-5)         */
               && line_has(11760, 0201100450151ULL)         /* PRINT "OK."        */
               && line_has(11680, 0200440016300ULL)         /* NLOC(N)=P          */
+              && line_has(21120, 0200440016350ULL)         /* IF KILLED=-1       */
+              && line_has(1940, 0311400442731ULL)          /* STR>=50: the titan */
+              && M[line_addr(20840) + 5] == XWD(0254000, line_addr(21120))
+              && line_has(19880, 0202440016324ULL)         /* Q=-1 at the win    */
+              && M[line_addr(17660) - 2] == 0202040016176ULL   /* end routine entry */
+              && line_has(25070, XWD(0265040, line_addr(17660) - 2))  /* GOSUB 17660 */
+              && line_has(19960, 0254020016210ULL)         /* WAVE's RETURN      */
               && line_addr(11780) > 0
               && line_addr(25500) > 0 && line_addr(13680) > 0
               && M[line_addr(4700) - 1] == XWD(0265040, 0426151);   /* GOSUB list objects */
@@ -984,6 +1033,7 @@ void fixes_image_loaded(const char *img)
     debug_on = opt_debug;
     if (!fixes_on && !debug_on) { fix_hook_pc = -1; return; }
     memset(&vx, 0, sizeof vx);
+    v_won = 0;
     srand((unsigned)time(NULL));
 }
 
