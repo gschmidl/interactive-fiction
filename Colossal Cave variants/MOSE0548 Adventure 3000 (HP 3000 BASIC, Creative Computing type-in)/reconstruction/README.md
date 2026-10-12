@@ -9,11 +9,20 @@ a sample run.
 This folder rebuilds the program **and** its data files from the magazine
 scans, with every character machine-checked against the printed page.
 
-It is mipmip.org's MOSE0350, and the parent of Donald Brown's Apple II
+It is mipmip.org's MOSE0350 (MOSE0548 here, after its highest score), and the parent of Donald Brown's Apple II
 version, whose credits say it was "adapted" from it. The HP 3000's other
 Adventure, the FORTRAN one from the users' library, is a different program
 (`../../HP3K0350 Colossal Cave Adventure 350pt (HP 3000, MPE)/`). For a few
 hours in September 2026 this folder was called CREC0350.
+
+Despite the old ID it is not a 350-point game. SCORE (lines 6510-6640) gives each of
+the 15 treasures 4 times its value for seeing the room it starts in and as much again
+for leaving it in the building (one treasure has no room and never scores): 288. The
+bonuses for the grate, snake, dragon, bear, bridge, plant, dwarf and the like add 160;
+the troll's 30 can never be had, because nothing sets T to 0. Each of the 100 rooms
+seen adds a point. That makes 548 at most, past the rank table's last rank (expert,
+401-500). Donald Brown's Apple II version (BROW0610) counts every treasure and pays
+the troll's 30, for 610.
 
 ## What is here
 

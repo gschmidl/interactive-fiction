@@ -34,8 +34,8 @@ it was taken from does not have it.
 
 It is not Benjamin Moser's *ADVENTURE/3000*, the other HP 3000 Adventure,
 which is in BASIC
-(`../../../MOSE0350 Adventure 3000 (HP 3000 BASIC, Creative Computing type-in)/`).
-For a few hours in September 2026 this folder carried Moser's ID, MOSE0350.
+(`../../../MOSE0548 Adventure 3000 (HP 3000 BASIC, Creative Computing type-in)/`).
+For a few hours in September 2026 this folder carried Moser's ID, MOSE0350 (now MOSE0548).
 
 ## Fidelity
 

@@ -1,7 +1,7 @@
 # ADVENTURE/3000 (Benjamin Moser, 1979)
 
 ADVENTURE/3000 version 3.2 (27 February 1979) by Benjamin Moser, a student at James Madison High
-School in Vienna, Virginia: a 350-point *Colossal Cave* in HP 3000 BASIC, printed as a type-in in
+School in Vienna, Virginia: a *Colossal Cave* in HP 3000 BASIC scoring up to 548 points, printed as a type-in in
 *Creative Computing*, November 1979, with dumps of its four data files. The listing and data were
 rebuilt from the magazine scans; `adventure3000.exe` is an HP 3000 BASIC interpreter that runs the
 listing itself and builds the data files on first run. Several commands can go on one line,
