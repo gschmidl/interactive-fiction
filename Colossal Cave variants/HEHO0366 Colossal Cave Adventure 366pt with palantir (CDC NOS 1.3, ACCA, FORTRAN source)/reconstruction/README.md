@@ -26,15 +26,11 @@ it printed on the real machine is
 so the folder is now 366. Sixteen treasures instead of Woods' fifteen: object 65,
 the palantir, sits above the chest (55) and is therefore worth 16, which takes
 350 to 366. That also agrees with `_bits_sweep_work\reference\adventure-family-tree`,
-which has SCOP0366 (now HEHO0366) and then LIDI0366, and no 0362 at all.
+which has this game and then LIDI0366, and no 0362 at all.
 
-**This is HEHO0366 (renamed back on 2026-10-19; it was SCOP0366 from 2026-09-24).**
-The folder was first named HEHO0366 on the idea that SCOP0366 was the lost SCOPE 3.4
-version this source was updated *from*, then SCOP0366 once it was clear that version
-isn't lost: mipmip's entry for it (listed there as EWHH0366) credits "R. Emerson,
-W. Wirth, S. Hobson, W. Hein, S. Connard", the same Hein and Hobson as this source's
-update note, and links this very program. Since 2026-10-19 the family tree calls it
-HEHO0366, after Hein and Hobson.
+**HEHO0366** is named after Hein and Hobson. mipmip lists it as EWHH0366 and credits
+"R. Emerson, W. Wirth, S. Hobson, W. Hein, S. Connard", the same Hein and Hobson as
+this source's update note, and links this very program.
 
 `src_cheswick\` holds the two files mipmip links, from cheswick.com/ches/archives,
 and its `_mipmip.txt` entry:
