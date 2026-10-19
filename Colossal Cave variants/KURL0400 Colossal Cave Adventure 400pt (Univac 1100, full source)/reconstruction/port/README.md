@@ -5,7 +5,7 @@ the original Crowther/Woods *Colossal Cave Adventure*, adapted for Univac
 ASCII FORTRAN by Duff Kurland (Information Systems Design, Santa Clara CA),
 building on a University of Maryland port with database enhancements from
 Bob Elman (Four Phase Systems). This is the sibling/predecessor to the
-Cave port at `../../../CCAV0515 Crystal Caves (Univac 1100, full source)/reconstruction/port/` (same
+Cave port at `../../../KURL0515 Crystal Caves (Univac 1100, full source)/reconstruction/port/` (same
 engine, same author, Cave came a year later with a new setting). Source
 was recovered from `UNAD/page212-213/` (scanned Univac EXEC 8 job-stream
 listings).
@@ -43,7 +43,7 @@ account/billing system), same category of dialect quirks (`include` for
 common blocks, `@` end-of-line comments, `define` statement functions,
 `AND`/`OR`/`XOR` as bitwise functions, `&` string concatenation, octal
 literals, `SUBSTR`, packed 4-character text stored in `INTEGER` words).
-Read `../../../CCAV0515 Crystal Caves (Univac 1100, full source)/reconstruction/port/README.md` for the
+Read `../../../KURL0515 Crystal Caves (Univac 1100, full source)/reconstruction/port/README.md` for the
 full explanation of each of those and why the port handles them the way it
 does — this file only calls out
 what's specific to *this* database/engine variant.
@@ -126,7 +126,7 @@ correctly, `gamecom.fi` is the file to extend.
 Reviewed module by module against the Univac originals, including a
 literal-by-literal diff of every quoted string in `main.f` to make sure
 no game text drifted. The same three defects as the Cave port were
-present here (see `../../../CCAV0515 Crystal Caves (Univac 1100, full source)/reconstruction/port/README.md`
+present here (see `../../../KURL0515 Crystal Caves (Univac 1100, full source)/reconstruction/port/README.md`
 for the full write-up) and are fixed the same way:
 
 1. **The random number generator was never called.** `RAN` collides

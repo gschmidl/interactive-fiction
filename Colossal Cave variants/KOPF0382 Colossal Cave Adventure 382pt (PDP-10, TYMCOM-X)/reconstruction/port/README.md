@@ -56,7 +56,7 @@ scripted sessions in `tests/` replay it.
 The program is neither dated nor signed, but it is almost certainly John
 Kopf's own work of 1977: one of the earliest extensions of Woods' game,
 which he then built on directly to make *CRYSTAL CAVE*
-(`..\..\..\..\Colossal Cave variants\CCAV0500 Crystal Cave (PDP-10, TYMCOM-X)\`).
+(`..\..\..\..\Colossal Cave variants\KOPF0500 Crystal Cave (PDP-10, TYMCOM-X)\`).
 It also travelled, probably over Tymnet, to other companies: the Univac
 400-point Adventure
 (`..\..\..\..\Colossal Cave variants\KURL0400 Colossal Cave Adventure 400pt (Univac 1100, full source)\`)

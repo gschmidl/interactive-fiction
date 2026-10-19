@@ -9,7 +9,7 @@ build made in September 2025.
 "Beasley" is Bruce G. Leslie; the version keeps the name he went by.
 It was later ported and further extended in the UK, and LABtec's
 425-point version
-(`../../../LAB_0425 Colossal Cave Adventure 425pt (HP 1000, RTE-6VM)/`) is
+(`../../../LOND0425 Colossal Cave Adventure 425pt (HP 1000, RTE-6VM)/`) is
 built on it.
 
 Run `build\adven.exe` from the `build\` folder. It needs `#ADVZZ` (the game

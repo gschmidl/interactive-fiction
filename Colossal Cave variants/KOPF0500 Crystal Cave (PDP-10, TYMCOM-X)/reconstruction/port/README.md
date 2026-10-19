@@ -3,7 +3,7 @@
 *CRYSTAL CAVE*, a text adventure written in DEC FORTRAN for the
 DECsystem-10 and run on Tymshare's TYMCOM-X, by **John Kopf of
 Tymshare**. It is the direct ancestor of the Univac 1100 game kept in
-`CCAV0515 Crystal Caves (Univac 1100, full source)/`, and it is about three months
+`KURL0515 Crystal Caves (Univac 1100, full source)/`, and it is about three months
 older than it.
 
 There is no source. This port runs the original binary on a PDP-10

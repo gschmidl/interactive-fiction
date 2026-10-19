@@ -11,7 +11,7 @@ Cave. Source was recovered from `UNAD/page215-216/` (scanned Univac EXEC 8
 job-stream listings).
 
 The game is Kopf's, written at Tymshare in 1977-78 (the original is in
-`../../../CCAV0500 Crystal Cave (PDP-10, TYMCOM-X)/`). Kurland's version was
+`../../../KOPF0500 Crystal Cave (PDP-10, TYMCOM-X)/`). Kurland's version was
 based on an earlier port by Bob Elman for Four Phase Systems, which he
 then extended and refined; the compass, as a Boy Scout would use it, and
 what goes with it are his main additions. The same route took Tymshare's
