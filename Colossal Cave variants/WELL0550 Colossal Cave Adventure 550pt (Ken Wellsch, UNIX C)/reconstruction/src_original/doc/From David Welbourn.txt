@@ -1,0 +1,47 @@
+Downloaded from https://plover.net/~davidw/uwadventure.html
+
+Adventure-related 1980s Printouts from the University of Waterloo
+
+I believe I printed these files way back in 1986. I did nothing with them until transcribing them in March 2015. Hopefully I didn't make too many errors.
+
+Printouts 1 and 2 are an incomplete set of data files for a version of Adventure. But does it use the F language or is this something else? Printouts 3 thru 6 are the C code for a program, copyright 1985 by Ken Wellsch, that seems to use the data files to run the adventure. It seems clear that the program, using a different set of data files, could run a competely different adventure game.
+
+Besides Ken Wellsch (K.C.W), the only other name mentioned is a "Jim" who added a bug fix in action.d.
+
+Table of Contents
+
+    Printout 1 (seven files, 04-Jan-1980):
+        comcave
+        objsyn.d
+        vars.d
+        moves.d (42 pgs)
+        verbs.d
+        init.d
+        nulls.d
+    Printout 2 (four files, 23-Sep-1986):
+        verbs.d (omitted; duplicate of file in printout 1)
+        bits.d
+        define.d
+        action.d
+    Printout 3 (6 files, 1986?):
+        adv.c (2 pgs)
+        advglob.c (2 pgs)
+        adefs.h (3 pgs)
+        command.c (2 pgs)
+        process.c (8 pgs)
+        webster.c (2 pgs)
+    Printout 4 (4 files, 1986?):
+        cache.c (4 pgs)
+        conditio.c (4 pgs)
+        error.c (1 pg)
+        exec.c (2 pgs; incomplete; omitted in favour of printout 5 copy)
+    Printout 5 (1 file, 14-Oct-1986):
+        exec.c (3 pgs)
+    Printout 6 (7 files, 1986?; filenames guessed):
+        savgm.c (3 pgs)
+        say.c (3 pgs)
+        showop.c (1 pg)
+        symtab.c (2 pgs)
+        util.c (3 pgs)
+        values.c (2 pgs)
+        makefile (1 pg)

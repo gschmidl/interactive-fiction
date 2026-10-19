@@ -56,6 +56,7 @@
 - [TIDX0350 Colossal Cave Adventure 350pt (TI 990, DX10, binary)](Colossal%20Cave%20variants/TIDX0350%20Colossal%20Cave%20Adventure%20350pt%20%28TI%20990%2C%20DX10%2C%20binary%29/) - "Adventure thru a Cave", Woods' 350-point game from a TI 990 games tape.
 - [VULC0350 Abenteuer (Harris VULCAN, German Colossal Cave, full source)](Colossal%20Cave%20variants/VULC0350%20Abenteuer%20%28Harris%20VULCAN%2C%20German%20Colossal%20Cave%2C%20full%20source%29/) - *Abenteuer*, Palter's portable *Adventure* in German, from a Harris VULCAN site (1977-80).
 - [WANG0370 Colossal Cave Adventure 370pt (Wang OIS)](Colossal%20Cave%20variants/WANG0370%20Colossal%20Cave%20Adventure%20370pt%20%28Wang%20OIS%29/) - Wang 928 Adventure 2.1, a 370-point *Colossal Cave* from a Wang office-system demonstration disk.
+- [WELL0550 Colossal Cave Adventure 550pt (Ken Wellsch, UNIX C)](Colossal%20Cave%20variants/WELL0550%20Colossal%20Cave%20Adventure%20550pt%20%28Ken%20Wellsch%2C%20UNIX%20C%29/) - Ken Wellsch's 1985 C rewrite of Platt's 550-point A-code *Adventure* for BSD UNIX.
 - [WOOD0350 Colossal Cave Adventure 350pt (PDP-10, TOPS-10, full source)](Colossal%20Cave%20variants/WOOD0350%20Colossal%20Cave%20Adventure%20350pt%20%28PDP-10%2C%20TOPS-10%2C%20full%20source%29/) - Don Woods' complete 350-point *Colossal Cave Adventure* in FORTRAN-10 (DECUS conversion, 1980).
 
 ## [Data General games](Data%20General%20games/)

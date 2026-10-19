@@ -1,0 +1,34 @@
+
+From kcwellsch@watdragon.UUCP (Ken C. Wellsch) Mon Jul  7 18:05:28 1986
+Newsgroups: net.sources.games
+Subject: Adventure unpacking instructions
+Organization: U of Waterloo, Ontario
+
+I almost forgot, unpacking instructions for Adventure parts 1-7:
+
+I packed the source using Mauldin's "packmail" program (much like
+"shar"), compressed them on a VAX 8600 using compress 4.0 (max bits)
+and then "uuencoded" the shar files. To unpack, remove the header, run
+through "uudecode" producing the files "pack.out.0[1234567].Z",
+uncompress them, put the "shar" files in whatever directory you want,
+create the subdirectories "adv_db", "src/adv", "src/kio", and
+"src/munge", feed the pack.out files to "unshar" or "sh" which will
+recreate the source files, then "make" should do the rest. The result
+"should be" an executeable file called "adv", and two large data files
+(the key table and the database).  The program "munge" is used to
+compile the database and isn't necessary except for this purpose.
+
+The language compiled into the database is rather interesting but very
+low level (i.e. basically like assembler).
+
+My rationale for compressing the source was that it cut the size in half.
+
+                                                Ken Wellsch
+
+------------------------------------------------------------------------------
+-- Ken C. Wellsch, CS Dept., U. Waterloo, Waterloo, Ontario, Canada N2L 3G1 --
+CSNET:kcwellsch%watdragon@waterloo.csnet                   HOME:1-519-746-4984
+ARPA :kcwellsch%watdragon%waterloo.csnet@csnet-relay.arpa  OFFI:1-519-888-4518
+UUCP :...!{allegra|clyde|linus|utzoo|inhp4|decvax}!watmath!watdragon!kcwellsch
+------------------------------------------------------------------------------
+
