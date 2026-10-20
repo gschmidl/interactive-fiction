@@ -175,6 +175,64 @@ static int fixmap_on(void)
 }
 
 
+/* ------------------------------------------------------------------ *
+ * The barrow wight's tomb, LOC 373, lets nobody out.
+ *
+ * The player's decoder at 404570 splits a travel entry into a kind
+ * (entry / 10^8, plus one), a condition ((entry / 10^4) mod 1000) and a
+ * destination (entry mod 10^4; above 2000 it is message dest-2000).
+ * Kind 1 is a percentage: take the entry if PCT(condition).  Kind 6
+ * (404647) takes it if PROP(condition) equals the ten-millions digit.
+ * Every monster that guards a doorway is written as kind 6, digit = its
+ * live state, destination = "The way is blocked!  You'll have to fight
+ * it to get by!":
+ *
+ *   LOC 319  510762081   SKELETON  in state 1
+ *   LOC 320  510732084   HARPIES   in state 1
+ *   LOC 321  510722084   VIPERS    in state 1
+ *   LOC 322  530712081   MANTICOR  in state 3
+ *   LOC 323  510742081   CHIMERA   in state 1
+ *   LOC 372  530362081   GIANT CLAM in state 3
+ *
+ * Kill the monster and its state changes, the entry stops applying, and
+ * the decoder falls through to the next exit.  The four ways out of 373
+ * are written 51292081 -- the BARROW WIGHT (129) in state 1 with its
+ * state digit dropped.  That shifts the 5 down into the critter slot and
+ * leaves kind 1, PCT(129), which a percentage can never fail: the way is
+ * blocked whether the wight is alive or dead.  It caught a player in
+ * 1980 -- BLOCKE.LOW on the tape is a game suspended in this very room,
+ * the wight's state 0, the decoder's scratch word at 110473 still
+ * holding 51292081.
+ *
+ * -b puts the digit back: 511292081, the wight in its live state, so the
+ * way out opens once it is dead, the same as everywhere else.  The scan
+ * states the rule rather than the four addresses: a kind-1 entry whose
+ * percentage is over 100 and whose ten-millions digit is 5 is a kind-6
+ * entry that lost its state digit, and a guard's live state is 1.
+ */
+#define GUARD_KIND6    500000000LL
+#define GUARD_ALIVE    10000000LL     /* state digit 1 */
+
+static int opt_fixwight;
+
+static int fixwight_on(void)
+{
+    int k, fixed = 0;
+
+    for (k = 1; k <= 3456; k++) {
+        w36 w = M[A_TRAVEL2 + k];
+        long long raw = sx36(w), mag = raw < 0 ? -raw : raw;
+        if (mag < 100000000LL && mag / 10000000 == 5
+            && (mag / 10000) % 1000 > 100) {
+            long long m = GUARD_KIND6 + GUARD_ALIVE + mag % 10000000;
+            poke(A_TRAVEL2 + k, (w36)(raw < 0 ? -m : m) & WMASK);
+            fixed++;
+        }
+    }
+    return fixed;
+}
+
+
 
 static int save_core(const char *path)
 {
@@ -253,6 +311,8 @@ static void usage(void)
     "                      wait before a suspended game may resume\n"
     "  -m, --fix-map       stop critters straying between the Vale's five\n"
     "                      planes, which is what LEAKAGE complains about\n"
+    "  -b, --fix-wight     let you out of the barrow wight's tomb once the\n"
+    "                      wight is dead\n"
     "      --tables        enter at the world-reset instead, so the program\n"
     "                      prints its own table-space report first\n"
     "  -h, --help          this text\n"
@@ -285,6 +345,7 @@ int main(int argc, char **argv)
         else if (!strcmp(a, "-q") || !strcmp(a, "--no-delay")) opt_delays = 0;
         else if (!strcmp(a, "-u") || !strcmp(a, "--unlimited")) opt_unlimited = 1;
         else if (!strcmp(a, "-m") || !strcmp(a, "--fix-map")) opt_fixmap = 1;
+        else if (!strcmp(a, "-b") || !strcmp(a, "--fix-wight")) opt_fixwight = 1;
         else if (!strcmp(a, "--tables")) tables = 1;
         else if (!strcmp(a, "-w") && i + 1 < argc)
             watch_addr = (int)strtoul(argv[++i], NULL, 8);
@@ -336,6 +397,10 @@ int main(int argc, char **argv)
         int n = fixmap_on();
         if (opt_verbose) fprintf(stderr, "[map] %d exits given the critter flag\n", n);
     }
+    if (opt_fixwight) {
+        int n = fixwight_on();
+        if (opt_verbose) fprintf(stderr, "[wight] %d exits given back their state digit\n", n);
+    }
 
     cpu_run();
 
@@ -343,8 +408,9 @@ int main(int argc, char **argv)
     if (suspend_requested) {
         patches_undo();    /* what lands on disk is an ordinary saved game */
         char flags[16];
-        snprintf(flags, sizeof flags, "%s%s",
-                 opt_unlimited ? " -u" : "", opt_fixmap ? " -m" : "");
+        snprintf(flags, sizeof flags, "%s%s%s",
+                 opt_unlimited ? " -u" : "", opt_fixmap ? " -m" : "",
+                 opt_fixwight ? " -b" : "");
         if (save_core(corefile))
             printf("\n[core image saved in %s -- \"archon -c%s\" to continue]\n",
                    corefile, flags);

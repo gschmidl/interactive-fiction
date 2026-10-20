@@ -9,12 +9,13 @@ enough of the TOPS-10 monitor underneath it.
 
 ## Command line
 
-`archon.exe [options]` (`run.bat` adds `-u -m` and passes its parameters on)
+`archon.exe [options]` (`run.bat` adds `-u -m -b` and passes its parameters on)
 
 | Option | Effect |
 | --- | --- |
 | `-u`, `--unlimited` | lift ARCHON's hours, the turn limit ("THIS EXPLORATION HAS LASTED TOO LONG") and the 90-minute wait before a suspended game may be resumed |
 | `-m`, `--fix-map` | stop wandering creatures straying between the Vale's five planes through two slips in the map, which rings the author's own "LEAKAGE" alarm. Your own travel is not affected |
+| `-b`, `--fix-wight` | let you out of the barrow wight's tomb once the wight is dead. Its four exits lost a digit and stay blocked for ever, which also stranded a player in 1980 |
 | `-c`, `--continue` | resume the game saved by `SUSPEND` |
 | `-f FILE` | save to and resume from FILE instead of `archon.core` |
 | `-t HH:MM` | tell the game it is HH:MM |

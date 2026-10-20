@@ -104,8 +104,8 @@ shut it, and after that visitors get a short exploration or nothing.
 `archon -c -u` picks a suspension back up the moment you make it.
 Nothing else changes: without `-u` the program behaves exactly as it
 always did, and `-t` still works if you would rather lie about the
-time than lift the rules. `bin\run.bat` starts `archon.exe` with `-u`
-and `-m`.
+time than lift the rules. `bin\run.bat` starts `archon.exe` with `-u`,
+`-m` and `-b`.
 
 What `-u` writes to is the game's own core: the hour masks at
 `110451`-`110453` and the restart latency at `110464` go to zero, and
@@ -161,6 +161,50 @@ with and without `-m` came out byte-for-byte identical apart from the
 missing LEAKAGE lines. As with `-u`, the saved image stays honest: the
 original entries go back before `SUSPEND` writes `archon.core`.
 
+### The barrow wight's tomb
+
+The four flasks lie in a tomb, location 373, guarded by a barrow wight.
+Go in, kill the wight, and the game still answers every way out with
+*"The way is blocked! You'll have to fight it to get by!"* — for good.
+
+Your travel decoder reads an entry as a kind (`entry / 10^8`, plus one),
+a condition (`(entry / 10^4) mod 1000`) and a destination
+(`entry mod 10^4`; above 2000 it is a message). Kind 1 is a percentage;
+kind 6 applies while object *condition* is in the state given by the
+ten-millions digit. Every other monster that guards a doorway is written
+the same way — kind 6, its live state, the "way is blocked" message:
+
+| | |
+|---|---|
+| `LOC 319` | `510762081` — the skeleton in state 1 |
+| `LOC 320` | `510732084` — the harpies in state 1 |
+| `LOC 321` | `510722084` — the vipers in state 1 |
+| `LOC 322` | `530712081` — the manticore in state 3 |
+| `LOC 323` | `510742081` — the chimera in state 1 |
+| `LOC 372` | `530362081` — the giant clam in state 3 |
+
+Kill one and its state changes, the entry stops applying, and the decoder
+falls through to the room's real exit. The four ways out of 373 are written
+`51292081`: the wight (object 129) in state 1, with the state digit
+dropped. The 5 slides down into the ten-millions place, the kind becomes
+1, and the condition reads as a 129 percent chance, which never fails.
+The room's real exit, `-10 -> 57`, sits right behind them and is never
+reached.
+
+It caught a player at the time. `blocke.low` on the tape is a game
+suspended in this very room: the player at 373, the wight's state 0 — dead
+— and the decoder's scratch word at `110473` still holding `51292081`.
+
+`-b` puts the digit back, making the entries `511292081`, so the wight
+blocks the way while it lives and not after, like every other guard. It
+states the rule rather than the four addresses — a kind-1 entry asking for
+more than 100 percent with a 5 in the ten-millions place is a kind-6 guard
+that lost its state digit — and `-v` reports how many it changed, which
+should be four. It works on a game resumed from a core image, so a player
+already shut in the tomb can walk out. As with `-m`, the saved image stays
+honest: the original entries go back before `SUSPEND` writes
+`archon.core`.
+
 ### Why the distribution copy matters
 
 The two low segments on the tape are not interchangeable, and the
@@ -213,6 +257,8 @@ one"* is the author's own joke.
                       before a suspended game may resume
   -m, --fix-map       stop critters straying between the Vale's five planes,
                       which is what LEAKAGE complains about
+  -b, --fix-wight     let you out of the barrow wight's tomb once the
+                      wight is dead
       --tables        enter at the world-reset instead, so the program prints
                       its own table-space report first
   -v, -vv, -vvv       report monitor calls in increasing detail
