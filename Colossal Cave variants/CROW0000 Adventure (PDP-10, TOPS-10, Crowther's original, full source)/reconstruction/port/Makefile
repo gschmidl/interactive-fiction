@@ -6,14 +6,12 @@ FC      = gfortran
 # -ffixed-line-length-none  packed literals become long decimal constants
 FFLAGS  = -std=legacy -fdec -fdefault-integer-8 -ffixed-line-length-none \
           -finit-local-zero -O2 -w
-# -static                   no libgfortran/libgcc DLLs beside the exe
-LDFLAGS = -static
 OBJ     = src/adv.o src/iofil.o src/runtime.o
 DAT     = ../src_original/ADV.DAT
 
 bin/adv.exe: $(OBJ) bin/ADV.DAT
 	@mkdir -p bin
-	$(FC) $(LDFLAGS) -o $@ $(OBJ)
+	$(FC) -o $@ $(OBJ)
 
 src/%.o: src/%.f
 	$(FC) $(FFLAGS) -c -o $@ $<

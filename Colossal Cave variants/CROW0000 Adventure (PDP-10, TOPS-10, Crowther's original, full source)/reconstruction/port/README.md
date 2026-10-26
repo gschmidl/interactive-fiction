@@ -20,12 +20,7 @@ conditional.
 
 ## Build
 
-Needs gfortran and Python 3. To get an executable that also runs on
-Windows 7, build with a gfortran that links against `msvcrt.dll` rather
-than the Universal CRT — MSYS2's `mingw64` environment
-(`pacman -S mingw-w64-x86_64-gcc-fortran`) — since a stock Windows 7 has
-no `api-ms-win-crt-*.dll`. The link is `-static`, so the result needs
-nothing beyond `KERNEL32.dll` and `msvcrt.dll`.
+Needs gfortran and Python 3.
 
 ```
 make
