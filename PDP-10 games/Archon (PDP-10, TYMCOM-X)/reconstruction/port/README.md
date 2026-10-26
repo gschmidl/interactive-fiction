@@ -273,6 +273,66 @@ location 187, out in the world — the one line on the sign with no stock
 behind it, and *"I'm sorry, the last delver through here bought the last
 one"* is the author's own joke.
 
+### Things the game does not tell you (spoilers)
+
+Testers playing the port through to DUNGEON MASTER found several of the
+game's mechanics hard to discover; all of them are the program working
+as written. Skip this section if you would rather find them yourself.
+
+<details>
+<summary>Show the spoilers</summary>
+
+* **Long descriptions.** The verb is `DESCRIBE` (or `DEPICT`, `PORTRAY`,
+  `EXPLAIN`, `RELATE`, `NARRATE`). `LOOK` and `EXAMINE` are motion words:
+  they describe the room again, not the object. Some objects only show
+  their long text under `-b`; see above.
+* **Naming a creature summons it.** Many monsters, and the sword and the
+  shield, answer to their names: say `TROLL`, `GOBLIN` or `WEREWOLF`
+  anywhere and it appears beside you (*"Oh-oh!!"*), to be fought or
+  followed. Several creatures are never placed in the world and can only
+  be met this way. A buried object will not come until it has been dug
+  up.
+* **Class words.** Some nouns — `SWORD`, `SHIELD`, `COIN`, `FLASK`,
+  `POTION`, `WITCH`, `BEAR`, `ORC` — name whichever member of a group is
+  about, and an adjective picks one out: `RED FLASK`, `BIG WITCH`. `ORC`
+  covers the orc and the half-orc, so the orc on its own is the
+  `WHOLE ORC`.
+* **Time travel.** `WAVE` the sword XYZZIX to go to the future, the
+  shield SCYLD to go to the past. What you wave need only be beside
+  you, not in your hands. Only
+  the lamp, the sword and the shield go with you; everything else you
+  hold is left behind where you waved — the shovel and the pick
+  included, so you cannot dig in another era without finding a tool
+  there.
+* **The morgue and the closet.** The police station will not let you
+  wave anything while you carry the sword (*"I think you had better put
+  the sword down!"*). Leave it there, wave the shield to reach the
+  morgue behind the station, say `XYZZIX` to call the sword to you, and
+  wave it to reach the dungeon master's closet. Being killed and
+  reincarnated also puts you in the morgue, but without your things.
+* **The Roman villa.** Each wing corridor is entered from a pavilion and
+  has no compass exit back; its doors are numbered, and you go through
+  one by saying its number: `I` to `XIII` (there is no `VIII`). `XI` in
+  the east wing and, once the skeleton is dead, `III` in the west wing
+  lead back to the pavilions. The ruined chamber, the ruined closet, the
+  kitchen and the Cucidarium behind the west wing's doors hold the
+  harpies, the vipers, the manticore and the chimera.
+* **Searching.** `SEARCH` a creature that carries something — the dwarf,
+  the archeologist, the cask, the chest, the delver's corpse, and under
+  `-b` the Saracen — and what it carries appears.
+* **Digging.** With a tool, each `DIG` deepens the hole in a room that can
+  be dug; a room dug to the bottom gives up anything buried there, and
+  in the tombs it opens the way down.
+* **The crystal sphere.** Carry it and `FIND` something — an object or a
+  creature — and you are taken to where it is: *"You peer into the
+  crystal sphere, and see:"*. It is not era travel, so nothing you hold
+  is left behind, and it ignores the map entirely: the most powerful
+  thing in the game.
+* **The sergeant** is all muscle — strength 20,000 — and is not meant to
+  be beaten.
+
+</details>
+
 ### Options
 
 ```
