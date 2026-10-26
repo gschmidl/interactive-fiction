@@ -79,7 +79,7 @@ static int opt_unlimited;
  * put there: if the game has written it since, the game's value stands.
  * A flag patch sets one bit and takes back only that bit, so whatever
  * the game has done to the object's other flags is kept. */
-static struct { int addr; w36 was, now, bit; } patch[64];
+static struct { int addr; w36 was, now, bit; } patch[256];
 static int npatch;
 
 static void poke(int addr, w36 val)
@@ -257,7 +257,8 @@ static int fixwight_on(void)
 
 
 /* ------------------------------------------------------------------ *
- * -b also mends six more slips in the shipped data and code.  Each one
+ * -b also mends seven more slips in the shipped data and code -- six that
+ * testers ran into, and the way DESCRIBE hides long texts.  Each one
  * checks that the word it changes still holds the slip before touching
  * it, so a later copy of the game that has them fixed is left alone.
  *
@@ -294,7 +295,34 @@ static int fixwight_on(void)
  *
  * The fish (106) that the goblin drops has no word in the vocabulary,
  * and unlike every other object without one it is not found by name
- * either.  The vocabulary has room (509 of 549), so -b adds FISH.
+ * either.  (Nouns like SWORD, COIN or FLASK are class words: they name
+ * whichever member of the class is about, so FISH could never have been
+ * one of those either.)  The vocabulary has room (509 of 549): -b adds
+ * FISH.
+ *
+ * DESCRIBE (407773) shows message 1 of an object's text -- 2 if it
+ * rots -- but never more than the object's state: a dead creature
+ * (state 0) gets its corpse, not its living description.  The cap is
+ * applied to everything, though, and for most things state 0 is simply
+ * the thing as you find it, so the diamonds, the coins, the candlestick,
+ * the safe, the statue, the crystal sphere and the shield once it has
+ * been waved never show the long texts written for them.  -b routes the
+ * comparison at 410004 through a few more words past the high segment,
+ * so that the cap applies only to creatures (OENEMY) and dead things
+ * (ODEAD) -- the dead cat has a single line, and keeps it.
+ *
+ * The orc's and the troll's lines are out of order.  A monster that
+ * drops something keeps, after its corpse and its description, the
+ * line it attacks with, the line that says it is here, and the line it
+ * falls with -- the minotaur and the goblin have them so.  The troll's
+ * first and last of these are swapped, so it opens a fight with "he
+ * drops his mace as he falls"; the orc's are swapped the same way, and
+ * its description begins with a stray copy of "as he falls, he drops
+ * his scimitar."  A line runs up to wherever the next line sits, so the
+ * order cannot be changed by relinking; -b rewrites each stretch with
+ * the same lines in the right order (see reflow()).  The orc's stray
+ * line drops out, and the words it leaves become blanks at the end of
+ * its last line.
  *
  * FILL (410252) asks only that you carry the thing and that its state
  * is 0, then makes it 1.  For the canteen and the flasks 1 is "full of
@@ -314,6 +342,8 @@ static int fixwight_on(void)
 #define A_ACODE        0122661   /*   ... with this key                */
 #define A_FILLCALL     0410256   /* FILL: PUSHJ 17,TOTING              */
 #define A_FILLCHK      0441400   /* free words past the high segment   */
+#define A_DESCCAP      0410004   /* DESCRIBE: CAMG 3,PROP(2)           */
+#define A_DESCCHK      0441420   /* ... and more free words after it   */
 #define OBJ_SHEEP      99
 #define OBJ_SARACEN    121
 #define OBJ_SIMITAR    122
@@ -369,15 +399,42 @@ static w36 a5(const char *s)
     return w << 1;
 }
 
-static int fish_on(void)
+static int words_on(void)
 {
-    int i, n = (int)M[A_KTAB];
+    static const struct { const char *w; int obj; } add[] = {
+        { "FISH", OBJ_FISH },
+    };
+    int i, k, n = (int)M[A_KTAB], m = sizeof add / sizeof add[0];
     for (i = 1; i < n; i++)
         if (M[A_KTAB + i] == WMASK) break;          /* the -1 that ends it */
-    if (i >= n || M[A_KTAB + i + 1]) return 0;
-    poke(A_ATAB + i, a5("FISH") ^ M[A_ACODE]);
-    poke(A_KTAB + i, 1000 + OBJ_FISH);
-    poke(A_KTAB + i + 1, WMASK);
+    if (i + m >= n) return 0;
+    for (k = 1; k <= m; k++) if (M[A_KTAB + i + k]) return 0;
+    for (k = 0; k < m; k++) {
+        poke(A_ATAB + i + k, a5(add[k].w) ^ M[A_ACODE]);
+        poke(A_KTAB + i + k, (w36)(1000 + add[k].obj));
+    }
+    poke(A_KTAB + i + m, WMASK);
+    return m;
+}
+
+static int describe_on(void)
+{
+    const w36 camg = 0317142113307ULL;  /* CAMG 3,PROP(2): cap if n > state */
+    const w36 chk[] = {
+        camg,               /* CAMG  3,PROP(2)                     */
+        0263740000000ULL,   /* POPJ  17,       n <= state: no cap  */
+        0200002065574ULL,   /* MOVE  0,FLAGS(2)                    */
+        0321000441426ULL,   /* JUMPL 0,441426  ODEAD: cap          */
+        0606000000010ULL,   /* TRNN  0,10      OENEMY: cap         */
+        0263740000000ULL,   /* POPJ  17,       anything else: none */
+        0350017000000ULL,   /* AOS   0(17)     skip return: cap    */
+        0263740000000ULL,   /* POPJ  17,                           */
+    };
+    int i, n = sizeof chk / sizeof chk[0];
+    if (M[A_DESCCAP] != camg) return 0;
+    for (i = 0; i < n; i++) if (M[A_DESCCHK + i]) return 0;
+    for (i = 0; i < n; i++) poke(A_DESCCHK + i, chk[i]);
+    poke(A_DESCCAP, 0260740000000ULL | A_DESCCHK);
     return 1;
 }
 
@@ -405,6 +462,69 @@ static int fill_on(void)
     return 1;
 }
 
+/* A line of text is a node: a link word at node+0167 holding the next
+ * node's address -- negative where a message begins -- and then the
+ * text, which runs right up to the next node.  A line's length is where
+ * the next node sits, so lines cannot be reordered by relinking alone:
+ * reflow() writes the lines back into the same stretch of core in the
+ * order given, each with a fresh link word, and pads the last line with
+ * blanks if the new lines are shorter than the old.  It acts only if
+ * every node of the stretch still links where it did in the shipped
+ * image.  The text itself is copied, never changed. */
+#define LINK(p)  ((p) + 0167)
+
+struct line_t { int node, start; };
+
+static int reflow(const int *chain, int nchain, const struct line_t *seq, int n)
+{
+    static w36 text[16][24];
+    int len[16], i, k, pos, pad, first = chain[0], end = chain[nchain - 1];
+    w36 blank = a5("");
+
+    for (i = 0; i + 1 < nchain; i++) {      /* the stretch as shipped */
+        long long v = sx36(M[LINK(chain[i])]);
+        if ((v < 0 ? -v : v) != chain[i + 1]) return 0;
+    }
+    for (i = 0; i < n; i++) {
+        long long v = sx36(M[LINK(seq[i].node)]);
+        len[i] = (int)(v < 0 ? -v : v) - seq[i].node - 1;
+        if (len[i] < 0 || len[i] > 24) return 0;
+        for (k = 0; k < len[i]; k++) text[i][k] = M[LINK(seq[i].node) + 1 + k];
+    }
+    for (pos = first, i = 0; i < n; i++) pos += 1 + len[i];
+    if (pos > end) return 0;
+    pad = end - pos;                        /* blanks after the last line */
+    for (pos = first, i = 0; i < n; i++) {
+        int words = len[i] + (i == n - 1 ? pad : 0), next = pos + 1 + words;
+        long long l = seq[i].start ? -next : next;
+        poke(LINK(pos), (w36)l & WMASK);
+        for (k = 0; k < words; k++)
+            poke(LINK(pos) + 1 + k, k < len[i] ? text[i][k] : blank);
+        pos = next;
+    }
+    return 1;
+}
+
+static int lines_on(void)
+{
+    /* the nodes of each stretch as shipped, ending at the next object */
+    static const int orc_chain[] =
+        { 043210, 043220, 043237, 043256, 043274, 043277, 043307, 043320, 043332 };
+    static const struct line_t orc[] = {
+        { 043220, 1 }, { 043237, 0 }, { 043256, 0 }, { 043274, 0 },  /* description */
+        { 043320, 1 },                                  /* attacks            */
+        { 043307, 1 },                                  /* is here            */
+        { 043277, 1 },                                  /* falls              */
+    };
+    static const int troll_chain[] = { 043543, 043552, 043564, 043576 };
+    static const struct line_t troll[] = {
+        { 043564, 1 },                                  /* attacks            */
+        { 043552, 1 },                                  /* is here            */
+        { 043543, 1 },                                  /* falls              */
+    };
+    return reflow(orc_chain, 9, orc, 7) + reflow(troll_chain, 4, troll, 3);
+}
+
 static int fixbugs_on(int *detail)
 {
     detail[0] = fixwight_on();
@@ -417,9 +537,12 @@ static int fixbugs_on(int *detail)
         poke_bit(A_FLAGS + OBJ_SARACEN, M[A_FMASK + F_LOOT]);
         detail[4] = 1;
     }
-    detail[5] = fish_on();
+    detail[5] = words_on();
     detail[6] = fill_on();
-    return detail[0] + detail[1] + detail[2] + detail[3] + detail[4] + detail[5] + detail[6];
+    detail[7] = describe_on();
+    detail[8] = lines_on();
+    return detail[0] + detail[1] + detail[2] + detail[3] + detail[4]
+         + detail[5] + detail[6] + detail[7] + detail[8];
 }
 
 
@@ -504,8 +627,9 @@ static void usage(void)
     "  -b, --fix-bugs      mend slips in the shipped data: the barrow wight's\n"
     "                      tomb, the maze cove and two maze rooms you cannot\n"
     "                      leave, the sheep herd's stray lines, the Saracen's\n"
-    "                      simitar, the fish's name, and FILL on things that\n"
-    "                      cannot hold water\n"
+    "                      simitar, the fish's name, FILL on things that\n"
+    "                      cannot hold water, DESCRIBE's hidden long texts,\n"
+    "                      and the orc's and troll's battle lines\n"
     "      --tables        enter at the world-reset instead, so the program\n"
     "                      prints its own table-space report first\n"
     "  -h, --help          this text\n"
@@ -592,12 +716,13 @@ int main(int argc, char **argv)
         if (opt_verbose) fprintf(stderr, "[map] %d exits given the critter flag\n", n);
     }
     if (opt_fixwight) {
-        int d[7];
+        int d[9];
         fixbugs_on(d);
         if (opt_verbose)
             fprintf(stderr, "[bugs] wight exits %d, cove exits %d, maze loops %d, "
-                    "sheep %d, saracen %d, fish %d, fill %d\n",
-                    d[0], d[1], d[2], d[3], d[4], d[5], d[6]);
+                    "sheep %d, saracen %d, words %d, fill %d, describe %d, "
+                    "monster lines %d\n",
+                    d[0], d[1], d[2], d[3], d[4], d[5], d[6], d[7], d[8]);
     }
 
     cpu_run();

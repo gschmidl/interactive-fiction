@@ -15,7 +15,7 @@ enough of the TOPS-10 monitor underneath it.
 | --- | --- |
 | `-u`, `--unlimited` | lift ARCHON's hours, the turn limit ("THIS EXPLORATION HAS LASTED TOO LONG") and the 90-minute wait before a suspended game may be resumed |
 | `-m`, `--fix-map` | stop wandering creatures straying between the Vale's five planes through two slips in the map, which rings the author's own "LEAKAGE" alarm. Your own travel is not affected |
-| `-b`, `--fix-bugs` | mend slips in the shipped data: the barrow wight's tomb that stays blocked after the wight is dead (it stranded a player in 1980), the maze cove with no way back and two maze rooms that lead into themselves, the sheep herd that recites other creatures' lines, the Saracen who never yields his simitar, the goblin's fish that has no name, and `FILL` working on things that cannot hold water |
+| `-b`, `--fix-bugs` | mend slips in the shipped data: the barrow wight's tomb that stays blocked after the wight is dead (it stranded a player in 1980), the maze cove with no way back and two maze rooms that lead into themselves, the sheep herd that recites other creatures' lines, the Saracen who never yields his simitar, the goblin's fish that has no name, `FILL` working on things that cannot hold water, `DESCRIBE` hiding the long descriptions of the shield, the sphere, the coins and others, and the orc's and troll's battle lines out of order |
 | `-c`, `--continue` | resume the game saved by `SUSPEND` |
 | `-f FILE` | save to and resume from FILE instead of `archon.core` |
 | `-t HH:MM` | tell the game it is HH:MM |

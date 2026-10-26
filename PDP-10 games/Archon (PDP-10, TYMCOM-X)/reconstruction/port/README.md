@@ -204,14 +204,14 @@ a player already shut in the tomb can walk out.
 
 ### Other slips `-b` mends
 
-Testers turned up six more, and each is the same kind of thing: one word
-in the shipped data or code that disagrees with everything around it.
-`-b` (`--fix-bugs`; `--fix-wight` still works) mends them all. Each fix
-first checks that the word still holds the slip, so a copy that has it
-right is left alone, and `-v` reports what it changed:
+Testers turned up eight more, and each is the same kind of thing: a word
+or a few in the shipped data or code that disagree with everything around
+them. `-b` (`--fix-bugs`; `--fix-wight` still works) mends them all. Each
+fix first checks that the words still hold the slip, so a copy that has
+them right is left alone, and `-v` reports what it changed:
 
 ```
-[bugs] wight exits 4, cove exits 4, maze loops 2, sheep 1, saracen 1, fish 1, fill 1
+[bugs] wight exits 4, cove exits 4, maze loops 2, sheep 1, saracen 1, words 1, fill 1, describe 1, monster lines 2
 ```
 
 | | |
@@ -220,7 +220,9 @@ right is left alone, and `-v` reports what it changed:
 | Maze `458` and `476` | Two maze rooms lead south into themselves. The only way into 458 is north from 456, and the dead end beyond it (459) — the dwarf and the mithril broadsword — leads only back to 458, so whoever goes after the dwarf never comes out, and nor does the treasure. 476 does the same to the branch it lies on. `-b` sends them back the way you came, to 456 and 475. |
 | The sheep herd | Critter class 4, which only the archeologist shares: an agitated class-4 critter mutters one of messages 2–9 of its text, his eight remarks. The herd has four lines, so it reads on into the mithril dagger's text and the rat's (`*RAT*`). Every other herd is class 2 with the same flags as the sheep; `-b` makes it class 2. |
 | The Saracen | Searching a creature (`OLOOT`) or killing one (`OBOOTY`) brings out the object numbered after it — the dwarf's axe, the troll's mace. Object 122, the steel simitar, follows the Saracen and nothing else can produce it, but he has neither flag. `-b` gives him `OLOOT`, like the dwarf and the archeologist, so `SEARCH SARACEN` finds the simitar — unless it is already somewhere. |
-| The fish | The goblin drops it, and nothing can name it: there is no `FISH` in the vocabulary, and unlike every other object without a word it is not found by name either. The vocabulary has room (509 of 549); `-b` adds `FISH`. |
+| The fish | The goblin drops it, and nothing can name it: there is no `FISH` in the vocabulary, and unlike every other object without a word it is not found by name either. The vocabulary has room (509 of 549); `-b` adds `FISH`. (The orc, which also seems to lack a name, does not: `ORC` is a class word shared with the half-orc, and the author's way to call the orc alone is `WHOLE ORC`.) |
+| `DESCRIBE` | `DESCRIBE` shows the first line of an object's text after its state lines — the long description — but never a line past the object's state, so that a dead creature (state 0) gets its corpse and not its living description. The cap applies to everything, though, and for most objects state 0 is simply the thing as you find it: the diamonds, both kinds of coin, the candlestick, the safe, the statue, the crystal sphere, and the shield once it has been waved, never show the long texts written for them. `-b` routes the comparison at `410004` through eight more words past the high segment, so the cap applies only to creatures (`OENEMY`) and dead things (`ODEAD`). The dead cat has a single line and keeps it. |
+| The orc and the troll | A monster that drops something keeps, after its corpse and its description, the line it attacks with, the line that says it is here, and the line it falls with — the minotaur and the goblin have them so. The troll's attack and fall lines are swapped, so it opens a fight with *"he drops his mace as he falls."*; the orc's are swapped the same way, and its description begins with a stray copy of *"as he falls, he drops his scimitar."* A line runs up to wherever the next line sits in core, so the order cannot be changed by relinking alone: `-b` writes each stretch back with the same lines in the right order and fresh link words. The orc's stray line drops out, and the words it leaves become blanks at the end of its last line. No text is changed. |
 | `FILL` | `FILL` asks only that you carry the thing and that its state is 0, then makes it 1 — "full of water" for the canteen and the flasks, the next line of text for anything else: a filled chalice turns into "hoard of gold", a filled shovel into "pick". `-b` routes the `TOTING` call at `410256` through twelve words placed past the end of the high segment that also ask `ODRINK`, and answer anything else with *"That doesn't apply to this thing."* |
 
 Each was checked in the emulator with and without `-b`, from the 1980 save
@@ -285,8 +287,9 @@ one"* is the author's own joke.
   -b, --fix-bugs      mend slips in the shipped data: the barrow wight's
                       tomb, the maze cove and two maze rooms you cannot
                       leave, the sheep herd's stray lines, the Saracen's
-                      simitar, the fish's name, and FILL on things that
-                      cannot hold water
+                      simitar, the fish's name, FILL on things that
+                      cannot hold water, DESCRIBE's hidden long texts,
+                      and the orc's and troll's battle lines
       --tables        enter at the world-reset instead, so the program prints
                       its own table-space report first
   -v, -vv, -vvv       report monitor calls in increasing detail
