@@ -74,20 +74,37 @@ static const char COREMAGIC[] = "ARCHON-CORE-1\n";
 
 static int opt_unlimited;
 
-static struct { int addr; w36 was; } patch[32];
+/* Every patch is recorded so it can come out again before SUSPEND writes
+ * the core image.  A word goes back only if it still holds what the patch
+ * put there: if the game has written it since, the game's value stands.
+ * A flag patch sets one bit and takes back only that bit, so whatever
+ * the game has done to the object's other flags is kept. */
+static struct { int addr; w36 was, now, bit; } patch[64];
 static int npatch;
 
 static void poke(int addr, w36 val)
 {
     patch[npatch].addr = addr;
     patch[npatch].was  = M[addr];
+    patch[npatch].now  = val;
+    patch[npatch].bit  = 0;
     npatch++;
     M[addr] = val;
 }
 
+static void poke_bit(int addr, w36 bit)
+{
+    if (M[addr] & bit) return;
+    patch[npatch].addr = addr;
+    patch[npatch].was  = M[addr];
+    patch[npatch].now  = M[addr] | bit;
+    patch[npatch].bit  = bit;
+    npatch++;
+    M[addr] |= bit;
+}
+
 static void unlimited_on(void)
 {
-    npatch = 0;
     poke(A_PRIME_WEEK,   0);
     poke(A_PRIME_END,    0);
     poke(A_PRIME_HOL,    0);
@@ -99,7 +116,13 @@ static void unlimited_on(void)
 
 static void patches_undo(void)
 {
-    while (npatch--) M[patch[npatch].addr] = patch[npatch].was;
+    while (npatch--) {
+        int a = patch[npatch].addr;
+        if (patch[npatch].bit)
+            M[a] &= ~patch[npatch].bit & WMASK;
+        else if (M[a] == patch[npatch].now)
+            M[a] = patch[npatch].was;
+    }
     npatch = 0;
 }
 
@@ -233,6 +256,173 @@ static int fixwight_on(void)
 }
 
 
+/* ------------------------------------------------------------------ *
+ * -b also mends six more slips in the shipped data and code.  Each one
+ * checks that the word it changes still holds the slip before touching
+ * it, so a later copy of the game that has them fixed is left alone.
+ *
+ * The maze cove, LOC 429.  The stream issues from the cliffs; east and
+ * IN lead into the maze, and that is all -- no way back north to the
+ * narrow canyon (428) that brought you, and no era travel either, so
+ * once you have stepped down to the cove the rest of the Vale is gone
+ * for good.  The travel table is full where the cove's two entries sit,
+ * but it has room at the end (3457 of 3599), so -b copies them there
+ * and adds N, UP, OUT and LEAVE back to 428.  Like the cove's own exits
+ * they carry the critter flag, so the bull herd in the cove stays put.
+ *
+ * Two maze rooms that lead into themselves.  458's south exit is 458:
+ * the only way into 458 is north from 456, and the only way out of the
+ * dead end beyond it (459, where the dwarf keeps the mithril broadsword)
+ * is back into 458, so whoever goes to fight the dwarf stays there.
+ * 476's south exit is 476, cutting off the branch it lies on.  Each was
+ * surely meant to lead back the way you came, to 456 and to 475.
+ *
+ * The sheep herd (99) is critter class 4, which it shares only with the
+ * archeologist.  Class 4 picks one of messages 2-9 of the creature's
+ * text to mutter as it passes -- the archeologist's eight remarks.  The
+ * herd has four lines, so it reads on into the mithril dagger's text
+ * and the rat's.  Every other herd -- goats, donkeys, horses, bulls --
+ * is class 2, with the same flags as the sheep; -b makes it class 2.
+ *
+ * The Saracen (121).  When a creature is searched (OLOOT) or killed
+ * (OBOOTY) the game brings out the object numbered after it: the dwarf
+ * yields the mithril axe, the troll its mace.  Object 122, the steel
+ * simitar, follows the Saracen and nothing else can ever produce it,
+ * but he carries neither flag.  -b gives him OLOOT, like the dwarf and
+ * the archeologist, so SEARCH SARACEN finds the simitar -- unless the
+ * simitar is somewhere already.
+ *
+ * The fish (106) that the goblin drops has no word in the vocabulary,
+ * and unlike every other object without one it is not found by name
+ * either.  The vocabulary has room (509 of 549), so -b adds FISH.
+ *
+ * FILL (410252) asks only that you carry the thing and that its state
+ * is 0, then makes it 1.  For the canteen and the flasks 1 is "full of
+ * water"; for anything else it is whatever the next line of text holds
+ * -- FILL CHALICE leaves the chalice described as "hoard of gold".  -b
+ * routes the TOTING call at 410256 through a few words placed past the
+ * end of the high segment, which also ask ODRINK, and answer anything
+ * that cannot hold water with "That doesn't apply to this thing."
+ */
+#define A_TRVCOUNT     0114732   /* next free travel slot              */
+#define A_CLASS        0116734   /* critter class, per object          */
+#define A_FLAGS        0065574   /* object flags                       */
+#define A_FMASK        0114310   /* the mask for each flag bit         */
+#define A_PLACE        0065323   /* PLACE(obj)                         */
+#define A_KTAB         0063210   /* vocabulary: type*1000 + number     */
+#define A_ATAB         0064255   /* vocabulary: the word, enciphered   */
+#define A_ACODE        0122661   /*   ... with this key                */
+#define A_FILLCALL     0410256   /* FILL: PUSHJ 17,TOTING              */
+#define A_FILLCHK      0441400   /* free words past the high segment   */
+#define OBJ_SHEEP      99
+#define OBJ_SARACEN    121
+#define OBJ_SIMITAR    122
+#define OBJ_FISH       106
+#define F_LOOT         16
+
+static int cove_on(void)
+{
+    static const struct { int word; long long x; } cove[] = {
+        {  4, 10000431 },   /* E     -> maze, as before */
+        { 17, 10000431 },   /* IN    -> maze, as before */
+        {  2, 10000428 },   /* N     -> the narrow canyon */
+        { 10, 10000428 },   /* UP */
+        { 15, 10000428 },   /* OUT */
+        { 16, 10000428 },   /* LEAVE, last in the list */
+    };
+    int k, n = sizeof cove / sizeof cove[0];
+    int top = (int)M[A_TRVCOUNT];
+
+    if ((M[A_TRVSTA + 429] & HMASK) != 3155 || top != 3457) return 0;
+    for (k = 0; k < n; k++)
+        if (M[A_TRAVEL1 + 1 + top + k] || M[A_TRAVEL2 + top + k]) return 0;
+    for (k = 0; k < n; k++) {
+        long long w = k == n - 1 ? -cove[k].word : cove[k].word;
+        poke(A_TRAVEL1 + 1 + top + k, (w36)w & WMASK);
+        poke(A_TRAVEL2 + top + k, (w36)cove[k].x);
+    }
+    poke(A_TRVSTA + 429, (w36)top);
+    poke(A_TRVCOUNT, (w36)(top + n));
+    return n - 2;
+}
+
+static int maze_on(void)
+{
+    static const struct { int k, from, to; } loop[] = {
+        { 3274, 458, 456 },   /* 458 S */
+        { 3346, 476, 475 },   /* 476 S */
+    };
+    int i, fixed = 0;
+    for (i = 0; i < 2; i++)
+        if (M[A_TRAVEL2 + loop[i].k] == (w36)loop[i].from) {
+            poke(A_TRAVEL2 + loop[i].k, (w36)loop[i].to);
+            fixed++;
+        }
+    return fixed;
+}
+
+static w36 a5(const char *s)
+{
+    w36 w = 0;
+    int i;
+    for (i = 0; i < 5; i++) w = (w << 7) | (w36)(*s ? *s++ : ' ');
+    return w << 1;
+}
+
+static int fish_on(void)
+{
+    int i, n = (int)M[A_KTAB];
+    for (i = 1; i < n; i++)
+        if (M[A_KTAB + i] == WMASK) break;          /* the -1 that ends it */
+    if (i >= n || M[A_KTAB + i + 1]) return 0;
+    poke(A_ATAB + i, a5("FISH") ^ M[A_ACODE]);
+    poke(A_KTAB + i, 1000 + OBJ_FISH);
+    poke(A_KTAB + i + 1, WMASK);
+    return 1;
+}
+
+static int fill_on(void)
+{
+    static const w36 chk[] = {
+        0261740000016ULL,   /* PUSH  17,16                         */
+        0260740400015ULL,   /* PUSHJ 17,TOTING                     */
+        0262740000016ULL,   /* POP   17,16                         */
+        0325000441413ULL,   /* JUMPGE 0,441413  not carried: as before */
+        0261740000016ULL,   /* PUSH  17,16                         */
+        0260740400536ULL,   /* PUSHJ 17,ODRINK                     */
+        0262740000016ULL,   /* POP   17,16                         */
+        0321000441413ULL,   /* JUMPL  0,441413  holds water: carry on */
+        0201000000114ULL,   /* MOVEI 0,76  "That doesn't apply..." */
+        0202000120632ULL,   /* MOVEM 0,120632  (the reply pending) */
+        0400000000000ULL,   /* SETZ  0,0                           */
+        0263740000000ULL,   /* POPJ  17,                           */
+    };
+    int i, n = sizeof chk / sizeof chk[0];
+    if (M[A_FILLCALL] != 0260740400015ULL) return 0;
+    for (i = 0; i < n; i++) if (M[A_FILLCHK + i]) return 0;
+    for (i = 0; i < n; i++) poke(A_FILLCHK + i, chk[i]);
+    poke(A_FILLCALL, 0260740000000ULL | A_FILLCHK);
+    return 1;
+}
+
+static int fixbugs_on(int *detail)
+{
+    detail[0] = fixwight_on();
+    detail[1] = cove_on();
+    detail[2] = maze_on();
+    detail[3] = 0;
+    if (M[A_CLASS + OBJ_SHEEP] == 4) { poke(A_CLASS + OBJ_SHEEP, 2); detail[3] = 1; }
+    detail[4] = 0;
+    if (M[A_PLACE + OBJ_SIMITAR] == 0 && !(M[A_FLAGS + OBJ_SARACEN] & M[A_FMASK + F_LOOT])) {
+        poke_bit(A_FLAGS + OBJ_SARACEN, M[A_FMASK + F_LOOT]);
+        detail[4] = 1;
+    }
+    detail[5] = fish_on();
+    detail[6] = fill_on();
+    return detail[0] + detail[1] + detail[2] + detail[3] + detail[4] + detail[5] + detail[6];
+}
+
+
 
 static int save_core(const char *path)
 {
@@ -311,8 +501,11 @@ static void usage(void)
     "                      wait before a suspended game may resume\n"
     "  -m, --fix-map       stop critters straying between the Vale's five\n"
     "                      planes, which is what LEAKAGE complains about\n"
-    "  -b, --fix-wight     let you out of the barrow wight's tomb once the\n"
-    "                      wight is dead\n"
+    "  -b, --fix-bugs      mend slips in the shipped data: the barrow wight's\n"
+    "                      tomb, the maze cove and two maze rooms you cannot\n"
+    "                      leave, the sheep herd's stray lines, the Saracen's\n"
+    "                      simitar, the fish's name, and FILL on things that\n"
+    "                      cannot hold water\n"
     "      --tables        enter at the world-reset instead, so the program\n"
     "                      prints its own table-space report first\n"
     "  -h, --help          this text\n"
@@ -345,7 +538,8 @@ int main(int argc, char **argv)
         else if (!strcmp(a, "-q") || !strcmp(a, "--no-delay")) opt_delays = 0;
         else if (!strcmp(a, "-u") || !strcmp(a, "--unlimited")) opt_unlimited = 1;
         else if (!strcmp(a, "-m") || !strcmp(a, "--fix-map")) opt_fixmap = 1;
-        else if (!strcmp(a, "-b") || !strcmp(a, "--fix-wight")) opt_fixwight = 1;
+        else if (!strcmp(a, "-b") || !strcmp(a, "--fix-bugs")
+                 || !strcmp(a, "--fix-wight")) opt_fixwight = 1;
         else if (!strcmp(a, "--tables")) tables = 1;
         else if (!strcmp(a, "-w") && i + 1 < argc)
             watch_addr = (int)strtoul(argv[++i], NULL, 8);
@@ -398,8 +592,12 @@ int main(int argc, char **argv)
         if (opt_verbose) fprintf(stderr, "[map] %d exits given the critter flag\n", n);
     }
     if (opt_fixwight) {
-        int n = fixwight_on();
-        if (opt_verbose) fprintf(stderr, "[wight] %d exits given back their state digit\n", n);
+        int d[7];
+        fixbugs_on(d);
+        if (opt_verbose)
+            fprintf(stderr, "[bugs] wight exits %d, cove exits %d, maze loops %d, "
+                    "sheep %d, saracen %d, fish %d, fill %d\n",
+                    d[0], d[1], d[2], d[3], d[4], d[5], d[6]);
     }
 
     cpu_run();

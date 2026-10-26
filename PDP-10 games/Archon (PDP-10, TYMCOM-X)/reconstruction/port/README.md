@@ -199,11 +199,36 @@ suspended in this very room: the player at 373, the wight's state 0 — dead
 blocks the way while it lives and not after, like every other guard. It
 states the rule rather than the four addresses — a kind-1 entry asking for
 more than 100 percent with a 5 in the ten-millions place is a kind-6 guard
-that lost its state digit — and `-v` reports how many it changed, which
-should be four. It works on a game resumed from a core image, so a player
-already shut in the tomb can walk out. As with `-m`, the saved image stays
-honest: the original entries go back before `SUSPEND` writes
-`archon.core`.
+that lost its state digit. It works on a game resumed from a core image, so
+a player already shut in the tomb can walk out.
+
+### Other slips `-b` mends
+
+Testers turned up six more, and each is the same kind of thing: one word
+in the shipped data or code that disagrees with everything around it.
+`-b` (`--fix-bugs`; `--fix-wight` still works) mends them all. Each fix
+first checks that the word still holds the slip, so a copy that has it
+right is left alone, and `-v` reports what it changed:
+
+```
+[bugs] wight exits 4, cove exits 4, maze loops 2, sheep 1, saracen 1, fish 1, fill 1
+```
+
+| | |
+|---|---|
+| The maze cove, `LOC 429` | The cove at the mouth of the fifth era's maze has two exits, east and in, both into the maze: no way back north to the narrow canyon (428) and no era travel, so stepping down to the cove ends the game outside the maze. The cove's entries sit in a full stretch of the travel table, but the table has room at its end (3,457 of 3,599), so `-b` copies them there and adds `N`, `UP`, `OUT` and `LEAVE` back to 428, carrying the critter flag like the cove's own exits so the bull herd stays in the cove. |
+| Maze `458` and `476` | Two maze rooms lead south into themselves. The only way into 458 is north from 456, and the dead end beyond it (459) — the dwarf and the mithril broadsword — leads only back to 458, so whoever goes after the dwarf never comes out, and nor does the treasure. 476 does the same to the branch it lies on. `-b` sends them back the way you came, to 456 and 475. |
+| The sheep herd | Critter class 4, which only the archeologist shares: an agitated class-4 critter mutters one of messages 2–9 of its text, his eight remarks. The herd has four lines, so it reads on into the mithril dagger's text and the rat's (`*RAT*`). Every other herd is class 2 with the same flags as the sheep; `-b` makes it class 2. |
+| The Saracen | Searching a creature (`OLOOT`) or killing one (`OBOOTY`) brings out the object numbered after it — the dwarf's axe, the troll's mace. Object 122, the steel simitar, follows the Saracen and nothing else can produce it, but he has neither flag. `-b` gives him `OLOOT`, like the dwarf and the archeologist, so `SEARCH SARACEN` finds the simitar — unless it is already somewhere. |
+| The fish | The goblin drops it, and nothing can name it: there is no `FISH` in the vocabulary, and unlike every other object without a word it is not found by name either. The vocabulary has room (509 of 549); `-b` adds `FISH`. |
+| `FILL` | `FILL` asks only that you carry the thing and that its state is 0, then makes it 1 — "full of water" for the canteen and the flasks, the next line of text for anything else: a filled chalice turns into "hoard of gold", a filled shovel into "pick". `-b` routes the `TOTING` call at `410256` through twelve words placed past the end of the high segment that also ask `ODRINK`, and answer anything else with *"That doesn't apply to this thing."* |
+
+Each was checked in the emulator with and without `-b`, from the 1980 save
+or a fresh one. As with `-m`, the saved image stays honest: before
+`SUSPEND` writes `archon.core` every word goes back — if the game has not
+written it since — and a flag patch takes back only its own bit, so the
+Saracen keeps whatever else has happened to him. A fresh game suspended at
+once under `-u -m -b` and under `-u` alone gives byte-identical images.
 
 ### Why the distribution copy matters
 
@@ -257,8 +282,11 @@ one"* is the author's own joke.
                       before a suspended game may resume
   -m, --fix-map       stop critters straying between the Vale's five planes,
                       which is what LEAKAGE complains about
-  -b, --fix-wight     let you out of the barrow wight's tomb once the
-                      wight is dead
+  -b, --fix-bugs      mend slips in the shipped data: the barrow wight's
+                      tomb, the maze cove and two maze rooms you cannot
+                      leave, the sheep herd's stray lines, the Saracen's
+                      simitar, the fish's name, and FILL on things that
+                      cannot hold water
       --tables        enter at the world-reset instead, so the program prints
                       its own table-space report first
   -v, -vv, -vvv       report monitor calls in increasing detail
