@@ -129,6 +129,8 @@ src/image.c      generated — the core image as C data
 tools/mkimage.py builds src/image.c from raw/, applying the repair
 tools/peek.py    disassemble the loaded image at an octal address
 tools/dumptext.py dump the game's text, optionally filtered
+tools/dumpdb.py  rebuilds the game's data file from the image
+data/explor.dat  the data file, as recovered by dumpdb.py
 docs/            the write-up
 ```
 
@@ -138,7 +140,10 @@ docs/            the write-up
   (core location `102633`) reads 2 — "world tables built, no exploration
   in progress" — so a fresh run deals a fresh game with no fiddling.
   The from-scratch table build path, which prints ` INITIALISING`, is
-  still in there but unreachable without the data file it wants.
+  still in there but unreachable without the data file it wants;
+  `tools/dumpdb.py` rebuilds that file from the image as
+  `data/explor.dat`, and fed back to the program it reproduces every
+  table in the image.
 
 * **The program echoes your typing, not the terminal.** On the
   DECsystem-10 the host did not echo; F40's runtime carried the record it

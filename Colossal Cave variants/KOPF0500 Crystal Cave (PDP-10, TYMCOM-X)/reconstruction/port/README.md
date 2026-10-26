@@ -68,7 +68,9 @@ is no data file: on TYMCOM-X the game read its database once, and the
 result was SSAVEd. What is on the tape is that saved image, database
 already parsed. (The from-scratch build path is still in there — it is
 what prints ` INITIALISING...` — but it is unreachable without the data
-file it wants, which is not on any of these tapes.)
+file it wants, which is not on any of these tapes.  `tools/dumpdb.py`
+rebuilds that file from the image as `data/cave.dat`; fed back to the
+program, it reproduces the image's tables exactly.)
 
 ### The three builds
 
@@ -221,6 +223,8 @@ src/monitor.c    the TOPS-10 side: UUOs, terminal, buffered device I/O
 src/main.c       driver, core-image save and restore
 src/image.c      generated — the core image as C data
 tools/mkimage.py builds src/image.c from raw/, applying the repair
+tools/dumpdb.py  rebuilds the game's data file from the image
+data/cave.dat    the data file, as recovered by dumpdb.py
 docs/            the comparison with the Univac version, and transcripts
 ```
 
