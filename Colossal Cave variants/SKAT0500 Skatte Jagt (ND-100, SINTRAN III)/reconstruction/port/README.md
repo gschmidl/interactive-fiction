@@ -26,7 +26,9 @@ and a hook, an anchor, a sword, a harp, a candlestick, a sceptre, a silver
 cup, runes and a suit of armour.  The whole vocabulary is in
 `notes\vocabulary.txt`, decoded from the program's own word table.
 
-Its author and date are unknown.  A Danish treasure-hunt game for the
+Its date is unknown.  Its fatal-error message says to contact Nils-Morten
+Nilssen, 2.Elektro, or Svein Hansen, 3.Fysikk, so they at least looked after
+it.  A Danish treasure-hunt game for the
 Nascom with a similar name is a different game altogether.
 
 Useful words: `HJELP` and `INFO` explain the rest; `N S Ø V OPP NED INN UT`,
@@ -68,6 +70,13 @@ ordinary suspended game.
 (The wizard's magic word in this copy is `LURVEN`; after it the game wants
 the answer to a challenge built from the magic number 11111 and the time of
 day, as in Woods' original.)
+
+## In English
+
+    run-english.bat          (skattejakt.exe -u --prog data\SKATTEJAKT-EN.PROG)
+
+The same program with its text, word table and banner translated; see
+`..\english\README.md`.  `skattejakt.exe` itself is unchanged.
 
 ## Keys
 
