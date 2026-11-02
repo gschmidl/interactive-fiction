@@ -58,6 +58,9 @@
 !**/docs/**
 !**/notes/**
 
+# a translation of a game: its text, and how it is built into the game and checked
+!**/reconstruction/english/**
+
 # how a scanned type-in was checked against the machine it was written for:
 # the session drivers and the transcripts they recorded (the logs they wrote
 # are not published)
