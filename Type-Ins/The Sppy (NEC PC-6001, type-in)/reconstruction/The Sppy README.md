@@ -92,6 +92,25 @@ and `ッ` (item 10) carry the most residual doubt** — both are shapes the prin
 close to a neighbour. Running the game shows the drawn picture immediately, so those two
 are worth an eyeball.
 
+## Corrections (2026-11-03)
+
+Two transcription errors fixed in `The Sppy.bas` and, byte for byte, in the tape recording:
+
+* **Function keys, lines 80–100.** `KEY1`..`KEY8` were transcribed in katakana (`"ウエ"` =
+  PC-6001 `B3 B4`), but the command parser at `DA03` matches **hiragana** (`うえ` = `93 94`) —
+  its table stores each command as `RRCA(first byte), CPL(second byte)`, and every entry
+  decodes to hiragana. The magazine's printer showed hiragana as katakana; the article says
+  the function keys work, so they must have been hiragana. Now `うえ した あけ とあ みる てる
+  ひた みき`.
+* **Line 300.** The second prompt `ト゛レ ラ` is `ト゛レ ヲ` (どれを, "which one"), as the article
+  says — `ﾗ`/`ｦ` look alike in the print. Display only.
+
+The tape was patched in place rather than rebuilt: the 17 changed bytes (offsets 179–286 and
+929 of the decoded stream) had their 8 data-bit cells rewritten using 0/1 cell templates taken
+from the recording itself, which reproduce all 14715 original bytes exactly. The patched WAV
+re-decodes to the intended stream with no other difference. Originals are in
+`work/pre-fix-2026-11-03/`.
+
 ## How it loads
 
 `The Sppy SAVER.bas` is the separate loader. In the main program, line 3640 does
