@@ -19,8 +19,13 @@ Movement words (`うえ` up, `した` down, `でる` leave, `みき` right, `ひ
 Anything other than exactly two characters gets `2ﾓｼﾞ ﾃﾞ ﾆｭｳﾘｮｸ` (enter two characters).
 
 Function keys: F1 `うえ`, F2 `した`, F3 `あけ`, F4 `とあ`, F5 `みる`, F6 `でる`, F7 `ひた`,
-F8 `みき`. The instructions screen says to use the screen-switch key (`ｶﾞﾒﾝ ｷﾘｶｴ･ｷｰ`) to flip
-between the picture and the text.
+F8 `みき`.
+
+**The screen-switch key** (`ｶﾞﾒﾝ ｷﾘｶｴ･ｷｰ`, as the instructions call it) is the PC-6001's **PAGE**
+key. The picture and the text are on different screen pages, which is why the game needs 3
+pages. Each room's picture appears first and waits for a key; any key brings up the command
+prompt on the text page. While you're at the prompt, PAGE flips back to the picture. In
+PC6001V's key map (`pc6001v.ini`), PAGE is on the PC's **Page Up** key.
 
 **Each room understands exactly four commands**, so there is nothing else to find. The
 vocabulary is a table in the machine code at `DA3B`: 16 bytes per room, four entries each.
