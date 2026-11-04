@@ -12,13 +12,13 @@ Longer words are cut to their first two kana: ドア → `とあ`, みぎ → `�
 パン → `はん`. The keyboard must be in **hiragana** mode: the parser only matches hiragana
 codes, so katakana never works.
 
-1. At the first prompt (`ﾄﾞｳｼﾞｮｳ`, what do you do?) type the verb and press RETURN.
+1. At the first prompt (`どうしよう ?`, what shall I do?) type the verb and press RETURN.
 2. If the verb takes an object, a second prompt (`ﾄﾞﾚ ｦ`, which one?) asks for it.
 
-Movement words (`うえ` up, `した` down, `でる` leave, `みき` right, `ひた` left) need no object.
+Movement words (`うえ` up, `した` down, `てる` leave, `みき` right, `ひた` left) need no object.
 Anything other than exactly two characters gets `2ﾓｼﾞ ﾃﾞ ﾆｭｳﾘｮｸ` (enter two characters).
 
-Function keys: F1 `うえ`, F2 `した`, F3 `あけ`, F4 `とあ`, F5 `みる`, F6 `でる`, F7 `ひた`,
+Function keys: F1 `うえ`, F2 `した`, F3 `あけ`, F4 `とあ`, F5 `みる`, F6 `てる`, F7 `ひた`,
 F8 `みき`.
 
 **The screen-switch key** (`ｶﾞﾒﾝ ｷﾘｶｴ･ｷｰ`, as the instructions call it) is the PC-6001's **PAGE**
@@ -45,19 +45,19 @@ Death is an explosion and a flash, then a restart on the street.
 | Where | The four commands |
 |-------|-------------------|
 | Street (start) | `のる くる` (get in the car) **or** `あけ しと` (open the seat): **key 1**, only while the car is there, so do it first. `みき` → right 1F. `ひた` → left 1F |
-| Right 1F | `うえ` → 2F. `でる` → street. `みる こみ` (look at the rubbish): nothing. **`あけ とあ` = death** |
+| Right 1F | `うえ` → 2F. `てる` → street. `みる こみ` (look at the rubbish): nothing. **`あけ とあ` = death** |
 | Right 2F | **Shootout on entering, every time until the dog is dealt with** (see below). `ける いぬ` (kick the dog) or `やる はん` (give it bread): the dog goes. `うえ` → 3F. `した` → 1F |
 | Right 3F | `うえ` → 4F. `した` → 2F. `みる かべ` (look at the wall): nothing. **`あけ とあ` = death** |
-| Right 4F | `あけ とあ` → the cage room, but only with key 1; otherwise `ｶｷﾞ ｶﾞ ﾅｲﾄ､ ﾊﾞｸﾊﾂｽﾙ｡` (without a key it will explode). `うえ`: `ｺﾜﾚﾃ､ ｱｶﾞﾚﾅｲ` (broken, can't go up). `みる しき` (look at the rug): nothing. `した` → 3F |
-| Cage room (right 4F) | First time: `ｵﾘ ｦ ﾇｹﾛ !` (get out of the cage). Type `きる` (cut); anything else asks again. Then `うこ かく` (move the furniture): **key 2**. `けす あか` (turn off the light). `でる` → 4F, **only once the light is off**. `きく` (listen): a tune |
-| Left 1F | `うえ` → 2F. `でる` → street. `おり ちか` (go down to the basement): **the ending**, once you have done `もつ はち` (else nothing). `あけ とあ` starts a shootout that gains nothing and restarts the game if you lose: skip it |
+| Right 4F | `あけ とあ` → the cage room, but only with key 1; otherwise `ｶｷﾞｶﾞﾅｲﾄ､ﾊﾞｸﾊﾂｽﾙ｡` (without a key it will explode). `うえ`: `ｺﾜﾚﾃ､ ｱｶﾞﾚﾅｲ` (broken, can't go up). `みる しき` (look at the rug): nothing. `した` → 3F |
+| Cage room (right 4F) | First time: `ｵﾘ ｦ ﾇｹﾛ !` (get out of the cage). Type `きる` (cut); anything else asks again. Then `うこ かく` (move the furniture): **key 2**. `けす あか` (turn off the light). `てる` → 4F, **only once the light is off**. `きく` (listen): a tune |
+| Left 1F | `うえ` → 2F. `てる` → street. `おり ちか` (go down to the basement): **the ending**, once you have done `もつ はち` (else nothing). `あけ とあ` starts a shootout that gains nothing and restarts the game if you lose: skip it |
 | Left 2F | `うえ` → 3F. `した` → 1F. `みる かべ`: nothing. **`あけ とあ` = death** |
 | Left 3F | `あけ とあ` → the box room, only with key 2 (else the explosion warning). `うえ` → 4F. `した` → 2F. `みる しき`: nothing |
-| Box room (left 3F) | `ｱｶﾘ ｶﾞ ﾂｷﾏｽ (ｻｰﾋﾞｽ)` (the light comes on, free of charge). `あけ はこ` (open the box): **key 3**. `けす あか`, then `でる` → 3F |
+| Box room (left 3F) | `ｱｶﾘ ｶﾞ ﾂｷﾏｽ (ｻｰﾋﾞｽ)` (the light comes on, free of charge). `あけ はこ` (open the box): **key 3**. `けす あか`, then `てる` → 3F |
 | Left 4F | `みる こみ`: a stick shows up in the rubbish. `もつ ほう` (take the stick): you have it. `うえ` → 5F. `した` → 3F |
 | Left 5F | `あけ とあ` → the trapdoor room, only with key 3. `うえ`: fireworks (`ﾊ ﾅ ﾋﾞ`) on the roof, then back to 5F. `した` → 4F. `みる しき`: nothing |
-| Trapdoor room | Entering from 5F drops you through a trapdoor (see below). `とふ まと` (jump out of the window) → the window room. `けす あか`, then `でる` → 5F. `きく`: a tune |
-| Window room | `もつ はち` (pick up the pot): `OK!! ｺﾉﾅｶﾆ ｱﾙｶﾞ､ﾑﾘﾆ ﾋﾗｸﾄ､ﾊﾞｸﾊﾂ ｽﾙ` (it's in here, but forcing it open will make it explode). `けす あか`, then `とふ` or `まと` → back to the trapdoor room |
+| Trapdoor room | Entering from 5F drops you through a trapdoor (see below). `とふ まと` (jump out of the window) → the window room. `けす あか`, then `てる` → 5F. `きく`: a tune |
+| Window room | `もつ はち` (pick up the pot): `OK!! ｺﾉﾅｶﾆ ｱﾙｶﾞ､ﾑﾘﾆ ﾋﾗｸﾄ､ﾊﾞｸﾊﾂ  ｽﾙ` (it's in here, but forcing it open will make it explode). `けす あか`, then `とふ` or `まと` → back to the trapdoor room |
 
 ## The route
 
@@ -73,15 +73,15 @@ Death is an explosion and a flash, then a restart on the street.
 | 8 | Cage room | `きる` | out of the cage |
 | 9 | Cage room | `うこ` `かく` | `ｶｷﾞ ｱｯﾀ !!`: key 2 |
 | 10 | Cage room | `けす` `あか` | dark |
-| 11 | Cage room | `でる` | 4F |
+| 11 | Cage room | `てる` | 4F |
 | 12–14 | R 4F → 1F | `した` ×3 | 1F (no shootout now) |
-| 15 | R 1F | `でる` | street |
+| 15 | R 1F | `てる` | street |
 | 16 | Street | `ひた` | left building, 1F |
 | 17–18 | L 1F → 3F | `うえ` ×2 | 3F |
 | 19 | L 3F | `あけ` `とあ` | the box room |
 | 20 | Box room | `あけ` `はこ` | `ｶｷﾞ ｱｯﾀ !!`: key 3 |
 | 21 | Box room | `けす` `あか` | dark |
-| 22 | Box room | `でる` | 3F |
+| 22 | Box room | `てる` | 3F |
 | 23 | L 3F | `うえ` | 4F |
 | 24 | L 4F | `みる` `こみ` | a stick appears |
 | 25 | L 4F | `もつ` `ほう` | you take it |
@@ -93,7 +93,7 @@ Death is an explosion and a flash, then a restart on the street.
 | 31 | Window room | `けす` `あか` | dark |
 | 32 | Window room | `とふ` | the trapdoor room (no fall this time) |
 | 33 | Trapdoor room | `けす` `あか` | dark |
-| 34 | Trapdoor room | `でる` | 5F |
+| 34 | Trapdoor room | `てる` | 5F |
 | 35–38 | L 5F → 1F | `した` ×4 | 1F |
 | 39 | L 1F | `おり` `ちか` | the ending |
 | 40 | Ending | `うめ` | the password |
@@ -111,7 +111,7 @@ is on an even column, wait for it to move.
 
 ## The trapdoor (left 5F)
 
-Opening the 5F door drops you into a pit. `ﾄﾞｳｼﾞｮｳ!` slides down the screen one line at a time.
+Opening the 5F door drops you into a pit. `ﾄﾞｳｼﾖｳ!` (what now!) slides down the screen one line at a time.
 **Press lowercase `i` repeatedly** before it reaches the bottom: the program checks for
 `CHR$(105)`, so the keyboard must be out of kana mode, and capital `I` does not count. This
 only works if you are carrying the stick. Without it, or if you are too slow, you die. Switch
@@ -121,11 +121,11 @@ the keyboard to letters before step 27 and back to hiragana afterwards.
 
 `4 ｼﾞｹﾞﾝ ｸｳｶﾝ` (four-dimensional space), a beach scene captioned `ﾏﾂﾜ...!?`, then
 `ﾏｲｸﾛﾌｨﾙﾑ ｶﾞ ﾃﾞﾃｷﾀ !!` (the microfilm has appeared) above a strip of coloured blocks, which is the
-film. Then the password: `ｱｲｺﾄﾊﾞ ﾊ 「ｱｲ`. Type **`うめ`**. You get two tries; a second wrong
+film. Then the password: `ｱｲｺﾄﾊﾞ ﾊ 「ｱｲ」` (the password is "Ai"). Type **`うめ`**; `あい` does not work. You get two tries; a second wrong
 answer restarts the game.
 
-Success: `You are BEST SPY !`, `O K`, and `ﾂｷﾞ ﾉ ｼﾚｲ / ｱﾒﾘｶ ﾉ N.Y. ﾍ ﾄﾌﾞ !!` (next mission:
-fly to New York).
+Success: `You are BEST SPY !`, `O K`, and `ﾂｷﾞ ﾉ ｼﾚｲ / ｱﾒﾘｶ ﾉ  N.Y. ﾍ  ﾄ ﾍﾞ !!` (next mission:
+fly to New York!).
 
 **Nothing in the game or the magazine article gives the password.** It is hidden in line 2150
 as `CHR$(&H90+3)+CHR$(&HF0+2)`, which is PC-6001 code `93 F2` = `うめ`. The microfilm picture
