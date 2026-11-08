@@ -21,8 +21,8 @@ PORT = os.path.abspath(os.path.join(HERE, '..'))
 # The sessions are played with the clock and the generator held still so that
 # a run here is reproducible.  The original is seeded from its own clock, so
 # the commands keep out of the cave, where nothing the game prints depends on
-# the generator.
-ARGS = ['--seed', '1', '--day', '17800', '--time', '1']
+# the generator.  --no-fixes: the Prime printed PSPEAK's left-over trace.
+ARGS = ['--seed', '1', '--day', '17800', '--time', '1', '--no-fixes']
 
 
 def norm(lines, cmds):

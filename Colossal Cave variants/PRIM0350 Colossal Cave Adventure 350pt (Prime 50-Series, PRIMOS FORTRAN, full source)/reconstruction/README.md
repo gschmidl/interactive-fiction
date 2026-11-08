@@ -21,4 +21,5 @@ to even length) and, where it is text, a decoded `.txt` beside it. `*.ufdhdr` = 
 
 This build is the one that was installed, and it was caught mid-debugging: `PSPEAK` still prints its
 trace (`000000 000000`) in front of every object and describes objects by their inventory name. The
-port reproduces that, because the machine does.
+port reproduces that under `--no-fixes`; by default (since 2026-11-08) it plays `PSPEAK` as
+`ADVENTURE.FTN.001` on the same tape has it - no trace, and proper descriptions.

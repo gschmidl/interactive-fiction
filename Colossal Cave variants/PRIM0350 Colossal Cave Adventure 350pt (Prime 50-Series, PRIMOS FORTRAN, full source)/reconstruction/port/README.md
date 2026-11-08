@@ -1,6 +1,7 @@
 # Adventure 350 on a Prime 50-Series (PRIMOS FORTRAN) - Windows console port
 
-`advent.exe` plays the game exactly as it was installed on the Prime the SBD003 tape came from. Run
+`advent.exe --no-fixes` plays the game exactly as it was installed on the Prime the SBD003 tape came
+from; without it the one fix below is in (see *The port's one fix*). Run
 `run.bat`, which adds `-u`: the installed hours (weekdays 09:00-17:00 only wizards may play) and the
 wait before a suspended game may be restored do not apply.
 
@@ -37,7 +38,7 @@ nothing the game prints on the surface depends on it. Inside the cave the dwarve
   `000000 000000` in front of every object, and `TODEC` prints `-    1` while it walks the message
   chain. `TOOCT` and `TODEC` take an `INTEGER*2` while the program is compiled `-INTL`, so on a
   big-endian machine they print the *high* halfword of a 32-bit value - which for a small number is
-  zero. The port reproduces all of it, because that is what the installed game does.
+  zero. The port reproduces all of it under `--no-fixes`, because that is what the installed game does.
 - **`PSPEAK`'s loop was mid-rewrite too**, so an object at a location is described by its *inventory*
   name: "Set of keys" where every other port says "There are some keys on the ground here."
 - **The wizard's password is the day of the week.** `WIZARD` prints `WAZU` and expects the magic word
@@ -86,8 +87,17 @@ terminal, 5 for the database); the port puts its own back after loading and leav
 is turned away or offered the demonstration game - and lets a suspended game be restored at once.
 `--seed` starts the generator at a known value instead of from the clock, which is what makes a run
 reproducible; `--day`/`--time` hold the clock still (day 0 is 1 January 1977, a Saturday, as `DATIME`
-counts). `--auto` is accepted but does nothing. There are no behavioural fixes in this port, so
-`--no-fixes` currently changes nothing.
+counts). `--auto` is accepted but does nothing. `--no-fixes` leaves out the port's one fix
+(below) and plays exactly as installed.
+
+## The port's one fix (2026-11-08)
+
+By default `PSPEAK` runs as it is in `ADVENTURE.FTN.001`, the older copy on the same tape: no
+`TOOCT`/`T1OU`/`TONL`/`TODEC` trace, and `IF(SKIP.LT.0)` where the installed source has
+`IF(SKIP.LE.0)`, so an object's property-0 text is printed ("There are some keys on the ground here.")
+instead of its inventory name. `--no-fixes` restores both. The edit is section 9 of `src\convert.py`;
+`tests\cmpprime.py` now passes `--no-fixes`, and both PRIMOS sessions still replay byte-identically.
+120 random sessions of 300 commands in the default mode end cleanly with no trace in the output.
 
 Until 2026-09-29 none of these took effect in play. `POPTS` was called in the program's set-up block,
 which is skipped once the saved COMMON blocks in `advcom.dat` are loaded, so the options were never

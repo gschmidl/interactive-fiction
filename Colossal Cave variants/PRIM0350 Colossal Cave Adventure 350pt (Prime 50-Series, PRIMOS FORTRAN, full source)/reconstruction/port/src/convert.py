@@ -352,6 +352,48 @@ fix('WIZARD', 1, """      INTEGER *2 WEEK(7), K2, K1
       DIMENSION PWEEK(7,2)
       DATA PWEEK/83,83,77,84,87,84,70,65,85,79,85,69,72,82/""")
 
+# 9. The port's one fix (--no-fixes leaves it out): PSPEAK as it was
+#    installed still had its debugging in it - TOOCT/T1OU/TOOCT printing
+#    "000000 000000" in front of every object, TONL/TODEC printing "-    1"
+#    while it walked the message chain - and its loop was mid-rewrite, with
+#    SKIP.LE.0 where it should be SKIP.LT.0, so a property-0 description
+#    came out as the inventory name ("Set of keys" for "There are some keys
+#    on the ground here.").  ADVENTURE.FTN.001 on the same tape has the
+#    routine as it should be, and that is what runs by default.
+fix('PSPEAK', 1, """      DIMENSION RTEXT(205),LINES(9800),PTEXT(100)
+C
+      CALL TOOCT (MSG)
+      CALL T1OU  ('  ')
+      CALL TOOCT (SKIP)
+C     TRACE 99999
+C
+      M=PTEXT(MSG)
+      IF(SKIP.LE.0)GOTO 9
+      DO 3 I=0,SKIP
+    1 M=IABS(LINES(M))
+      CALL TONL
+      CALL TODEC (LINES(M))
+      IF(LINES(M).GE.0)GOTO 1""",
+    """      DIMENSION RTEXT(205),LINES(9800),PTEXT(100)
+      COMMON /POPTCM/ NOFIX,FDAY,FTIME,AUTOWZ,FSEED
+""" + PORT + """THE INSTALLED GAME'S LEFT-OVER TRACE AND ITS SKIP.LE.0 ARE
+C  KEPT ONLY UNDER --no-fixes; OTHERWISE THIS IS THE ROUTINE AS IT IS IN
+C  ADVENTURE.FTN.001, WITH NO TRACE AND SKIP.LT.0.
+      IF(NOFIX.EQ.0)GOTO 5
+      CALL TOOCT (MSG)
+      CALL T1OU  ('  ')
+      CALL TOOCT (SKIP)
+C     TRACE 99999
+C
+    5 M=PTEXT(MSG)
+      IF(SKIP.LT.0)GOTO 9
+      IF(SKIP.EQ.0.AND.NOFIX.NE.0)GOTO 9
+      DO 3 I=0,SKIP
+    1 M=IABS(LINES(M))
+      IF(NOFIX.NE.0)CALL TONL
+      IF(NOFIX.NE.0)CALL TODEC (LINES(M))
+      IF(LINES(M).GE.0)GOTO 1""")
+
 
 def main():
     if not os.path.isdir(OUT):
