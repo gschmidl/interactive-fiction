@@ -24,7 +24,7 @@ window is therefore always about 960×500 in scaled units, which fits smaller sc
 done by a small routine in the padding at the end of `.text` (VA 0x626B88), which became the
 new entry point and calls `SetProcessDPIAware` before jumping to the original entry. The
 constant font size before `_LOADFONT` (VA 0x454BBF) is replaced by a call that computes
-`(LOGPIXELSY × 20 + 48) / 96`. The unpatched files are kept as `WW.exe.orig` and `game.zip.orig`.
+`(LOGPIXELSY × 20 + 48) / 96`. The unpatched files are in the git history before this change.
 
 ## C64 disk images (2026-11-08)
 
