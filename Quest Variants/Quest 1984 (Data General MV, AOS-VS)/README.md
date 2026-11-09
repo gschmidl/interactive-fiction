@@ -10,19 +10,24 @@ the game in a second window and that window joins the same world as another play
 
 ## Command line
 
-`quest.bat [options]` runs `aosvs32.exe --port 4084 --title data\CASTLE -d data -s save [options]
+`quest.bat [options]` runs `aosvs32.exe --port PORT --title data\CASTLE -d data -s save [options]
 data\QUEST.PR` and passes its parameters on. Deleting the `save` folder resets the world.
+
+PORT is the first free port from 8000 to 9000. Ports that other programs hold and ports Windows
+has reserved are skipped (the port finder from eXo's `launch_if.bat`, extended to skip reserved
+ports). If this game's world is already running on a port in that range, the new window joins it.
+With `--port` or `--join` no search is made.
 
 | Option | Effect |
 | --- | --- |
 | `--no-title` | straight into the game, without the CASTLE animation |
-| `--lan` | let players on other computers join too (they run `quest.bat --join HOST`, or connect any telnet client to port 4084) |
-| `--join HOST[:PORT]` | play in the world running on computer HOST |
+| `--lan` | let players on other computers join too (they run `quest.bat --join HOST:PORT`, or connect any telnet client to PORT; the window's title shows both) |
+| `--join HOST[:PORT]` | play in the world running on computer HOST (PORT defaults to 8000) |
 | `--server` | run the world with nobody playing at this window |
 | `--exit-when-empty` | with `--server`: stop once the last player has left |
 | `--god` | highest strength, intelligence, experience, vision, perception and wealth, and never die; with `--server`, for everyone who joins |
 | `--title FILE`, `-c FILE` | type this file on each player's screen first |
-| `--port N` | the port the world uses (the launcher sets 4084) |
+| `--port N` | the port the world uses (the launcher finds one from 8000 on) |
 | `-d DIR` | where the programs and their data are |
 | `-s DIR` | where the world and the characters are saved |
 | `-T MODE` | the player's terminal: `ansi` (default at a console), `snap`, `raw` or `off` |

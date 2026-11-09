@@ -13,7 +13,8 @@ then plays at a 7200 terminal of their own: terminal 0 in the first window, term
     run.bat --players=3       a game for three: start run.bat in two more windows and they join it
 
 `build.sh` compiles `quest.exe` and copies the pack to `p7000.pack` and QUEST's manual to `QHELP.txt`. `run.bat`
-runs `quest -u`. The pack is only read: QUEST keeps nothing between games (each game builds a new world).
+runs `quest -u --port=PORT`, PORT being the first free port from 8000 to 9000: eXo launch_if.bat's `:FindFreePort`,
+which also skips the ports Windows has reserved, or the port of a game already waiting for players in that range. The pack is only read: QUEST keeps nothing between games (each game builds a new world).
 
 The first window shows the machine starting: IDOS, then MFE's console as the operator answers it. Then QUEST's
 sign-on comes up at terminal 0 (the port types the Q that signs a player on). Give your name and answer "Are you
@@ -27,10 +28,10 @@ own manual, explains the game; HELP in the game gives the short version.
 - **Ctrl+Enter** logs you off (Control CURSOR RETURN; QUEST asks, as for QUIT).
 - **Ctrl+C** closes the window. In the first window it ends the game for everyone.
 
-**Several players.** The first window runs the machine; a game for more than one listens on TCP port 7000 (on
-127.0.0.1; with `--lan` on every interface, for IPv6 as well as IPv4). A window started while a game waits for
-players finds the port taken and joins that game. On another computer use `quest --join=HOST`: with `--lan` the first
-window shows this computer's name to give it (an address works too; `[ADDRESS]:PORT` for IPv6). Windows asks the
+**Several players.** The first window runs the machine; a game for more than one listens on its TCP port (8000
+unless `run.bat` found another; on 127.0.0.1, with `--lan` on every interface, for IPv6 as well as IPv4). A window
+started while a game waits for players finds the port taken and joins that game. On another computer use
+`quest --join=HOST:PORT`: with `--lan` the first window shows this computer's name and the port to give it (an address works too; `[ADDRESS]:PORT` for IPv6). Windows asks the
 first time whether quest.exe may take connections from the network. A window that closes logs its player off. QUEST
 stops when its last player has logged off, and the port ends then.
 
@@ -38,7 +39,8 @@ stops when its last player has logged off, and the port ends then.
       -p, --players=N       the number of players, 1 to 6 (default 1)
       -u, --unlimited       open the cave at any time: give the site's password when QUEST asks
           --easy            play with the 'EASY' library (the site had the 'HARD' one installed)
-          --port=N          the TCP port for the players' windows (default 7000)
+          --port=N          the TCP port for the players' windows (default 8000; run.bat finds a free one
+                            from 8000 to 9000)
           --lan             let players on other computers join (the window shows the name to give --join)
           --join=HOST[:PORT]  be a player in the game started on computer HOST, a name or an address
                             ([ADDRESS]:PORT for IPv6)

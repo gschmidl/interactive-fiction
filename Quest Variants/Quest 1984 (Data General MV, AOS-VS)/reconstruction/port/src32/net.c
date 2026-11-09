@@ -31,6 +31,7 @@ static Conn     cn[MAXCONN];
 static SOCKET   lsock = INVALID_SOCKET;
 static WSAEVENT ev = WSA_INVALID_EVENT;
 static int      wsa_up;
+static int      bind_denied;    /* bind() said WSAEACCES: in use, or reserved */
 
 unsigned long long net_now(void) { return GetTickCount64(); }
 
@@ -74,6 +75,7 @@ static int bind_listener(int port, int lan, int v6)
         int e = WSAGetLastError();
         closesocket(lsock);
         lsock = INVALID_SOCKET;
+        if (e == WSAEACCES) bind_denied = 1;
         return (e == WSAEADDRINUSE || e == WSAEACCES) ? 1 : -1;
     }
     return 0;
@@ -376,6 +378,12 @@ int net_join(const char *host, int port, int god)
     freeaddrinfo(res);
     if (s == INVALID_SOCKET) {
         fprintf(stderr, "quest: no Quest world is running at %s, port %d\n", host, port);
+        if (bind_denied)
+            fprintf(stderr, "quest: and Windows would not let this window start one there:"
+                            " the port is probably\n"
+                            "       reserved (netsh int ipv4 show excludedportrange tcp)."
+                            "  Try another, e.g.\n"
+                            "       quest --port 30000\n");
         return 1;
     }
     if (GetConsoleMode(hout, &outmode))

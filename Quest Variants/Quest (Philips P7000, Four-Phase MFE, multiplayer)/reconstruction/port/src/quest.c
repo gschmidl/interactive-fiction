@@ -40,7 +40,7 @@ static const char *prog = "quest";
 /* ---- options ---------------------------------------------------------------- */
 
 static int opt_players = 1, opt_unlimited, opt_easy, opt_lan, opt_transcript, opt_fixed_clock;
-static int opt_port = 7000;
+static int opt_port = 8000;                     /* run.bat's port finder starts here */
 static const char *opt_join;
 
 static void usage(FILE *f)
@@ -59,7 +59,8 @@ static void usage(FILE *f)
 "                        operator gives the site's password, and -u gives it\n"
 "      --easy            play with the 'EASY' library; the site had the\n"
 "                        'HARD' one installed as QLIB\n"
-"      --port=N          the TCP port the players' windows use (default 7000)\n"
+"      --port=N          the TCP port the players' windows use (default 8000;\n"
+"                        run.bat finds a free one from 8000 to 9000)\n"
 "      --lan             let players on other computers join (the game's\n"
 "                        window shows the computer's name to give --join)\n"
 "      --join=HOST[:PORT]  be a player in the game started on computer HOST,\n"
@@ -933,8 +934,8 @@ static const char *status_of(int t)
     else if (term[t].state == T_LEFT)
         snprintf(s, sizeof s, " You have left QUEST.  Press a key to close the window.");
     else if (here < nterm && lan_name[0])
-        snprintf(s, sizeof s, " %d of %d players here: the others run %s --join=%s.  Ctrl+C "
-                 "quits.", here, nterm, prog, lan_name);
+        snprintf(s, sizeof s, " %d of %d players here: the others run %s --join=%s:%d.  "
+                 "Ctrl+C quits.", here, nterm, prog, lan_name, opt_port);
     else if (here < nterm)
         snprintf(s, sizeof s, " QUEST for %d players, %d here: the others start %s to join.  "
                  "Ctrl+C quits.", nterm, here, prog);

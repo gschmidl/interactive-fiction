@@ -428,7 +428,7 @@ int main(int argc, char **argv)
      * [ADDRESS]:PORT. */
     if (join_host) {
         char host[256], *h = host, *colon;
-        int port = host_port ? host_port : 4040;
+        int port = host_port ? host_port : 8000;
         snprintf(host, sizeof host, "%s", join_host);
         if (*h == '[') {
             colon = strchr(h, ']');
@@ -502,7 +502,7 @@ int main(int argc, char **argv)
         {
             char name[64];
             if (host_lan && net_host_name(name, sizeof name) == 0)
-                snprintf(host_where, sizeof host_where, "quest --join %s", name);
+                snprintf(host_where, sizeof host_where, "quest --join %s:%d", name, host_port);
             else
                 snprintf(host_where, sizeof host_where, "quest (in another window)");
         }

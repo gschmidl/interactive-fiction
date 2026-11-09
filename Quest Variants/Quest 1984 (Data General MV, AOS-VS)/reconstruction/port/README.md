@@ -86,14 +86,15 @@ one world.
   fast line, unless the world was started with `--no-title`; any key skips it.
 * **From another computer**: start the world with `quest --lan` (Windows
   Firewall asks once), then either copy this folder to the other computer and
-  run `quest --join HOST`, or use a telnet client such as PuTTY (connection
-  type *Telnet*, port 4084).  The window's title says what to type: `quest
-  --join` and this computer's name.  With `--lan` the world listens for IPv6
+  run `quest --join HOST:PORT`, or use a telnet client such as PuTTY
+  (connection type *Telnet*, that port).  The window's title says what to
+  type: `quest --join`, this computer's name and the port.  `quest.bat` takes
+  the first free port from 8000 to 9000, skipping ports Windows has
+  reserved, and a window started while the world runs finds it there.  With `--lan` the world listens for IPv6
   as well as IPv4: a name usually resolves to IPv6 addresses first, and with
   only IPv4 listening the firewall would drop those, so a join by name would
   wait about 20 seconds for each one (2026-09-22).  Only on a network you
-  trust — the game's own passwords are the only lock.  The later Quest uses
-  port 4040, so both can run at once.
+  trust — the game's own passwords are the only lock.
 * `USER_DATA_FILE` holds eight characters.  The authors' own take five of
   the slots and dead BERT's is free, so three new characters fit.
 * Logons take turns: a player who connects while someone else is still

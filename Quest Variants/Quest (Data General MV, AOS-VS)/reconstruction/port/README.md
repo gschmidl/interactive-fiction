@@ -25,7 +25,8 @@ they came off the tape, starting the server itself.  From a Windows console:
     quest.bat
 
 and it is the multiplayer game it was — see *Playing together* below.  (By
-hand: `aosvs32.exe --port 4040 -d data -s save data\QUEST.PR`; without
+hand: `aosvs32.exe --port 8000 -d data -s save data\QUEST.PR`, though
+`quest.bat` takes the first free port from 8000 to 9000; without
 `--port` it is one player and no network, the way the port began.)
 
     Welcome to quest!
@@ -101,8 +102,12 @@ should type to join: `quest --join` and this computer's name.
   AOS/VS told the server about a terminal that hung up.
 * **From another computer**, start the world with `quest --lan` (Windows
   Firewall asks once whether `aosvs32.exe` may accept connections), then on
-  the other computer either copy this folder and run `quest --join HOST`, or
-  use any telnet client — PuTTY with connection type *Telnet*, port 4040.
+  the other computer either copy this folder and run `quest --join HOST:PORT`,
+  or use any telnet client — PuTTY with connection type *Telnet*, that port.
+  The window's title shows the command with this computer's name and the
+  port: `quest.bat` takes the first free port from 8000 to 9000, skipping
+  ports Windows has reserved, and a window started while the world runs
+  finds it there.
   With `--lan` the world listens for IPv6 as well as IPv4. A computer's name
   usually resolves to IPv6 addresses first, and with only IPv4 listening the
   firewall would drop those, so a join by name would wait about 20 seconds

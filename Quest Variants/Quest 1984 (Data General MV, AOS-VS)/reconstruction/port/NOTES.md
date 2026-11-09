@@ -116,8 +116,13 @@ What is particular to this build:
   Scripted players found them in slot 2 (BERT's) and then 7.
 * **No class prompt**, so a new player goes from "Hit any character to
   continue" straight to the map; the shared test scripts allow for both
-  games.  The port is 4084, the later game's 4040, so both worlds can run on
-  one computer at once.
+  games.  The port is the first free one from 8000 to 9000, the range eXo's
+  launch_if.bat searches, for both games.  The fixed ports
+  4084 and 4040 failed on 2026-11-08: Windows had reserved 4004-4103 for
+  Hyper-V, bind() said WSAEACCES, and the launcher took that for a running
+  world and tried to join it.  quest.bat now uses eXo launch_if.bat's
+  :FindFreePort and also skips the reserved ranges, which netstat does not
+  show.
 
 ## God mode (2026-09-17)
 
