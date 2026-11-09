@@ -88,6 +88,9 @@
 !**/Memo Satsujin (Sharp MZ-80K, type-in)/**
 !**/Six and Fant/**
 !**/AmigaMUD/**
+# NERO0366: the HPL listings, the decoded database and the disk tools sit
+# beside port/, which builds from ../listings, ../tools and ../adventure.dsk
+!**/NERO0366*/reconstruction/**
 
 # every game folder's playable package: the files the game needs to run,
 # zipped (its reconstruction/ subfolder holds everything else)
@@ -149,6 +152,8 @@
 
 # ...but the Coleco Adam game IS a pair of 164 KB .dsk files
 !**/Sacrifice to the Spider Queen (Coleco Adam)/reconstruction/*.dsk
+# ...and NERO0366's 503 KB HP 9895 floppy, which its port's build reads
+!**/NERO0366*/reconstruction/adventure.dsk
 
 # the PL/I port's QEMU bundle: 167 MB of redistributed QEMU plus a
 # 60 MB rootfs.  build/README.md documents the Buildroot rebuild, and
@@ -182,6 +187,9 @@ fisk.log
 zeno.log
 **/saves/
 **/save/
+# ...but NERO0366's data/saves is the game-state files decoded off its disk
+!**/NERO0366*/reconstruction/data/saves/
+!**/NERO0366*/reconstruction/data/saves/**
 # world files the Data General Quest emulator writes into the folder it was
 # started from when it is not given a save folder with -s, and the folder an
 # old played world was kept in

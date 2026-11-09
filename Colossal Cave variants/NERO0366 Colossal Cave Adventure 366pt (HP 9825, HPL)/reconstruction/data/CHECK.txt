@@ -1,0 +1,7 @@
+section 2 (SEC2H vs Sec2): identical (66 built, 66 source lines)
+section 10 (SEC10H vs SEC10): identical (10 built, 10 source lines)
+section 12 (SEC12H vs SEC12): identical (40 built, 40 source lines)
+section 5 (SEC5H vs SEC5, per object): identical (59 built, 59 source lines)
+section 4 (SEC4H vs SEC4, first 5 letters, sorted): identical (302 built, 302 source lines)
+section 3 (SEC3H vs SEC3, location/destination/verb triples): identical (757 built, 757 source lines)
+TRVL vs SEC3H travel array: identical (760 built, 760 source lines)

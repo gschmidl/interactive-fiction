@@ -1,0 +1,510 @@
+0: gto "1"
+1: gto "2000"
+2: gto "AD"
+3: gto "2012"
+4: gto "8"
+5: gto "a"
+6: gto "f"
+7: gto "5190"
+8: gto "2"
+9: gto "2608"
+10: gto "2602"
+11: gto "2010"
+12: gto "2630"
+13: gto "19999"
+14: "A":ret itf(A$[2p1-1])
+15: "C":ret itf(C$[2p1-1])
+16: "F":ret itf(F$[2p1-1])
+17: "G":ret itf(G$[2p1-1])
+18: "H":ret itf(H$[2p1-1])
+19: "E":ret itf(E$[p2,2p1-1])
+20: "J":ret itf(J$[2p1-1])
+21: "K":ret itf(K$[2p1-1])
+22: "L":ret itf(L$[2p1-1])
+23: "P":ret itf(P$[2p1-1])
+24: "Q":ret itf(Q$[2p1-1])
+25: "N":ret itf(N$[2p1-1])
+26: "S":ret itf(S$[2p1-1])
+27: "Z":ret itf(Z$[2p1-1])
+28: "Toting":ret 'N'(p1)=-1
+29: "Here":ret 'N'(p1)=L or 'Toting'(p1)
+30: "At":ret 'N'(p1)=L or 'F'(p1)=L
+31: "Liq2":ret (1-p1)21+int(p1/2)(21+22)
+32: "Liq":ret 'Liq2'(max('P'(20),-1-'P'(20)))
+33: "Liqloc":ret (int('C'(p1)/2)mod4=2)*21+(int('C'(p1)/2)mod4=3)*22
+34: "Forced":ret 'C'(p1)=2
+35: "Dark":ret 'C'(L)mod2=0 and ('P'(2)=0 or not 'Here'(2))
+36: "Pct":ret 100rnd(0)<p1
+37: "Spk":1→F
+38: "Spkr":p1→p2;""→R$;if p2>1000;p2-1000→p2;2→F
+39: rread F,p2,p3,M$,p2;if pos(M$,">$<");ret
+40: if F=2 and M$="";1→F;p1-1000→p2;gto -1
+41: "Echo":gsb "Print"
+42: if p2#0;gto -3
+43: "Nml":ret
+44: "Print":if (len(R$)→p4)>0;if R$[p4]#" ";R$&" "→R$
+45: R$&M$→M$;""→R$
+46: if p2#0 and len(M$)<Y;M$→R$;ret
+47: if len(M$)<(Y+1→p4);wrt S,M$;ret
+48: if M$[p4,p4]#" ";p4-1→p4;jmp 0
+49: wrt S,M$[1,p4-1];M$[min(len(M$),p4+1)]→M$
+50: if len(M$)>1 and M$[1,1]=" ";M$[2]→M$;jmp 0
+51: gto -5
+52: "Pspk":5→F;if p2<0;cll 'Spkr'(p1);ret
+53: rread F,p1,p3,M$,M[*];cll 'Spkr'(M[p2+2]);ret
+54: "Rspk":if p1>0;6→F;cll 'Spkr'(p1)
+55: ret
+56: "Yes":cll 'Rspk'(p1)
+57: if 'Y';cll 'Rspk'(p2);ret 1
+58: cll 'Rspk'(p3);ret 0
+59: "Y":gsb "Getin"
+60: if pos(W$[1],"Y");ret 1
+61: if pos(W$[1],"N");ret 0
+62: fmt 1,"Please answer the Question.";cll 'Of1';gto -3
+63: "Mod6":gto "M6"
+64: "Dstroy":cll 'Move'(p1,0);ret
+65: "Juggle":cll 'Move'(p1,'N'(p1));cll 'Move'(p1+100,'F'(p1))
+66: "Move":if p1<=100;'N'(p1)→p3;gto +2
+67: 'F'(p1-100)→p3
+68: if p3>0 and p3<=300;cll 'Carry'(p1,p3)
+69: cll 'Drop'(p1,p2);ret
+70: "Put":cll 'Move'(p1,p2);ret -1-p3
+71: "Carry":if p1>100;gto "C1"
+72: if 'N'(p1)=-1;ret
+73: fti (-1)→N$[2p1-1,2p1];H+1→H
+74: "C1":if 'A'(p2)=p1;fti ('L'(p1))→A$[2p2-1,2p2];ret
+75: 'A'(p2)→p3
+76: if 'L'(p3)#p1;'L'(p3)→p3;gto +0
+77: fti ('L'(p1))→L$[2p3-1,2p3];ret
+78: "Drop":if p1>100;gto "D1"
+79: if 'N'(p1)=-1;H-1→H
+80: fti (p2)→N$[2p1-1,2p1];gto +2
+81: "D1":fti (p2)→F$[2(p1-100)-1,2(p1-100)]
+82: if p2<=0;ret
+83: fti ('A'(p2))→L$[2p1-1,2p1];fti (p1)→A$[2p2-1,2p2];ret
+84: "Ran":ret int(p1rnd(0))
+85: "Getin":""→R$→M$;ent "?",M$;cll 'Echo'(0,0)
+86: cll 'Trim';cap(M$)&" "→M$
+87: M$[1,min((pos(M$," ")→W)-1,5)]→W$[1,1,5];M$[W]→M$
+88: cll 'Trim';M$&" "→M$;M$[1,min(pos(M$," ")-1,5)]→W$[2,1,5];ret
+89: "Trim":if len(M$)>1;if M$[1,1]=" ";M$[2]→M$;jmp 0
+90: if (len(M$)→p1)>1;if M$[p1]=" ";M$[1,p1-1]→M$;jmp 0
+91: ret
+92: "Of1":if p0=0;wrt "M.1";gto "O"
+93: if p0=1;wrt "M.1",p1;gto "O"
+94: if p0=2;wrt "M.1",p1,p2;gto "O"
+95: wrt "M.1",p1,p2,p3;gto "O"
+96: "Of1$":wrt "M.1",W$[1];gto "O"
+97: "O":red "M",M$;""→R$;cll 'Print'(0,0);if rds("M")#0;gto +0
+98: ret
+99: "Vocab":r19/2→p4;p4+1→p3;W$[1]→M$;if p1=2;W$[2]→M$
+100: 5prnd(p3,0)→p5;if M$=V$[p5-4,p5];gto "Found"
+101: if abs(p4)<.4;gto "Notfound"
+102: abs(p4/2)(2(M$>V$[p5-4,p5])-1)→p4;p4+p3→p3;gto -2
+103: "Notfound":if p2>=0;ent "BUG 5",p6
+104: ret -1
+105: "Found":prnd(p3,0)→p3
+106: if p3=1;gto "Fndfrst"
+107: if M$#V$[p5-9,p5-5];gto "Fndfrst"
+108: p3-1→p3;5p3→p5;gto -3
+109: "Fndfrst":if p2<0;ret itf(I$[2p3-1])
+110: if p2=int(itf(I$[2p3-1])/1000);ret itf(I$[2p3-1])mod1000
+111: p3+1→p3;5p3→p5;if M$=V$[p5-4,p5];gto -1
+112: ent "BUG 21",p6;ret -1
+113: "Travel":if (int((p1-1)/32)+1→p2)=Q;gto +2
+114: p2→Q;rread 3,Q,T[*]
+115: ret T[(p1-1)mod32+1]
+116: "1":rnd(-{)→r17;-1→r17;'Ran'(1)→I;fti ('Yes'(65,1,0))→H$[5,6]
+117: 1→X;350→J
+118: if 'H'(3);1000→J
+119: "2":if X>=9 or X=0 or not B;gto "71"
+120: cll 'Rspk'(130);L→X;if not E;15→M
+121: 1→E
+122: "71":if X=L or 'Forced'(L) or bit(3,'C'(L));gto "74"
+123: for I=1 to 5;if O[I]=X and D[I];L→X;cll 'Rspk'(2);gto "74"
+124: next I
+125: "74":X→L;if 'Mod6' or r0=0;gto "2000"
+126: if r0=1;cll 'Rspk'(4);gto "77"
+127: fmt 1,"There are ",f.0," threatening little dwarves in the room."
+128: cll 'Of1'(r0)
+129: "77":if r1=0;gto "2000"
+130: if r2=2;3→r2
+131: if r17#-1;20→r2
+132: if r1=1;gto "79"
+133: fmt 1,f.0," of them throw knives at you!";cll 'Of1'(r1)
+134: 6→K
+135: "82":if r3>1;fmt 1,f.0," of them get you!";cll 'Of1'(r3);gto "84"
+136: cll 'Rspk'(K+r3);if r3=0;gto "2000"
+137: "84":L→r4;gto "99"
+138: "79":cll 'Rspk'(5);52→K;gto "82"
+139: "2000":if L=0;gto "99"
+140: L→A;if 'Z'(L)modr5#0;1000+A→A
+141: if 'Forced'(L) or not 'Dark';gto "2001"
+142: if r6 and 'Pct'(35);gto "90"
+143: cll 'Rspk'(16);gto +3
+144: "2001":if 'Toting'(35);cll 'Rspk'(141)
+145: cll 'Spk'(A)
+146: 1→K;if 'Forced'(L);gto "8"
+147: if L=33 and 'Pct'(25) and not B;cll 'Rspk'(8)
+148: if 'Dark';gto "2012"
+149: fti ('Z'(L)+1)→Z$[2L-1,2L];'A'(L)→I
+150: "2004":if I=0;gto "2012"
+151: if (I→O)>100;O-100→O
+152: if O=7 and 'Toting'(50);gto "2008"
+153: if 'P'(O)>=0;gto "2006"
+154: if P;gto "2008"
+155: fti (0)→P$[2O-1,2O];if O=62 or O=64 or O=65;fti (1)→P$[2O-1,2O]
+156: U-1→U;if U=r8 and U#0;min(35,J)→J
+157: "2006":'P'(O)→A
+158: if O=7 and L='F'(7);1→A
+159: cll 'Pspk'(O,A)
+160: "2008":'L'(I)→I;gto "2004"
+161: "f":54→K
+162: "2010":K→Z
+163: "AD":cll 'Rspk'(Z)
+164: "2012":0→V→O;"     "→O$
+165: "2600":4→A
+166: if 'H'(A);gto "2602"
+167: if not bit(A,'C'(L));fti (-1)→J$[2A-1,2A]
+168: fti (1+'J'(A))→J$[2A-1,2A];if 'J'(A)>='E'(A,1);gto "40000"
+169: "2602":if (A+1→A)<=r9;gto -3
+170: if not P;gto "2605"
+171: if 'P'(15)<0 and 'Toting'(15);cll 'Pspk'(15,1)
+172: for I=1 to 100;if 'Toting'(I) and 'P'(I)<0;fti (-1-'P'(I))→P$[2I-1,2I]
+173: next I
+174: "2605":'Dark'→r6;if r10>0 and r10#L;0→r10
+175: 'Ran'(1)→I;gsb "Getin"
+176: "2608":min(0,-r11)→r11;r12+1→r12
+177: gto +2
+178: "26081":0→r15;gto "20000"
+179: "2609":if V=3 and W$[2]#W$[5];0→V
+180: if V=3;gto "4090"
+181: if U=0 and L>=15 and L#33;N-1→N
+182: if N=0;gto "10000"
+183: if N<0;M-1→M
+184: if M=0;gto "11000"
+185: if 'P'(2)=1;J-1→J
+186: if J<=30 and 'Here'(39) and 'P'(39)=0 and 'Here'(2);gto "12000"
+187: if J=0;gto "12400"
+188: if J<0 and L<=8;gto "12600"
+189: if J<=30;gto "12200"
+190: "19999":43→K
+191: if 'Liqloc'(L)=21;70→K
+192: if W$[1]="ENTER" and (W$[2]="STREA" or W$[2]="WATER");gto "2010"
+193: if W$[1]="ENTER" and W$[2]#"     ";gto "2800"
+194: if W$[1]#"WATER" and W$[1]#"OIL  ";gto "2610"
+195: if W$[2]#"PLANT" and W$[2]#"DOOR ";gto "2610"
+196: if 'At'('Vocab'(2,1));"POUR "→W$[2]
+197: "2610":if W$[1]#"WEST ";gto "2630"
+198: if (1+r18→r18)=10;cll 'Rspk'(17)
+199: "2630":'Vocab'(1,-1)→I
+200: if I=-1;gto "3000"
+201: Imod1000→K;jmp I/1000+1
+202: gto "8"
+203: gto "5000"
+204: gto "4000"
+205: gto "2010"
+206: "2800":W$[2]→W$[1];W$[4]→W$[3];"     "→W$[2];gto "2610"
+207: "3000":60→Z
+208: if 'Pct'(20);61→Z
+209: if 'Pct'(20);13→Z
+210: cll 'Rspk'(Z);gto "2600"
+211: "4000":K→V;'S'(V)→Z
+212: if W$[2]#W$[5] and V#3 and V#30;gto "2800"
+213: if V=3 or V=30;W$[2]→O$
+214: if O$#W$[5];gto "4090"
+215: "4080":jmp V
+216: gto "b"
+217: gto "a"
+218: gto "a"
+219: gto "e"
+220: gto "f"
+221: gto "e"
+222: gto "h"
+223: gto "I"
+224: gto "a"
+225: gto "a"
+226: gto "AD"
+227: gto "M"
+228: gto "n"
+229: gto "o"
+230: gto "p"
+231: gto "a"
+232: gto "a"
+233: gto "s"
+234: gto "a"
+235: gto "u"
+236: gto "a"
+237: gto "W"
+238: gto "X"
+239: gto "y"
+240: gto "z"
+241: gto "g"
+242: gto "k"
+243: gto "a"
+244: gto "a"
+245: gto "AB"
+246: gto "ac"
+247: stp
+248: "4090":jmp V
+249: gto "B"
+250: gto "c"
+251: gto "D"
+252: gto "E"
+253: gto "f"
+254: gto "E"
+255: gto "h"
+256: gto "I"
+257: gto "j"
+258: gto "AD"
+259: gto "AD"
+260: gto "M"
+261: gto "n"
+262: gto "O"
+263: gto "p"
+264: gto "q"
+265: gto "R"
+266: gto "AD"
+267: gto "T"
+268: gto "T"
+269: gto "V"
+270: gto "W"
+271: gto "X"
+272: gto "AD"
+273: gto "AD"
+274: gto "AD"
+275: gto "Kk"
+276: gto "l"
+277: gto "AA"
+278: gto "AB"
+279: gto "ac"
+280: stp
+281: "5000":K→O;W$[1]→O$;if 'F'(K)#L and not 'Here'(K);gto "5100"
+282: "5010":if W$[2]#W$[5];gto "2800"
+283: if V#0;gto "4090"
+284: fmt 1,"What do you want to do with the ",c,"?"
+285: gsb "Of1$"
+286: gto "2600"
+287: "5100":if K#3;gto "5110"
+288: if L=1 or L=4 or L=7;63→K
+289: if L>9 and L<15;64→K
+290: if K#3;gto "8"
+291: "5110":if K#17;gto "5120"
+292: for I=1 to 5;if E[I]=L and r2>=2;gto "5010"
+293: next I
+294: "5120":if 'Liq'=K and 'Here'(20) or K='Liqloc'(L);gto "5010"
+295: if O#24 or not 'At'(25) or 'P'(25)=0;gto "5130"
+296: 25→O;gto "5010"
+297: "5130":if O#18 or L#r10;gto "5140"
+298: -1→r10;116→Z;gto "AD"
+299: "5140":if O#5 or not 'Here'(6);gto "5190"
+300: 6→O;gto "5010"
+301: "5190":if V=19 or V=20 and W$[2]=W$[5];gto "5010"
+302: fmt 1,"I see no ",c," here."
+303: gsb "Of1$"
+304: gto "2012"
+305: "8":'K'(L)→A;L→X;if K=21;gto "2"
+306: if K=8;gto "20"
+307: if K=57;gto "30"
+308: if K=67;gto "40"
+309: r20→r4;L→r20
+310: "9":abs('Travel'(A))→R;if Rmod1000=1 or Rmod1000=K;gto "10"
+311: if 'Travel'(A)<0;gto "50"
+312: A+1→A;gto "9"
+313: "10":int(R/1000)→R
+314: "11":int(R/1000)→X;Xmod100→K;if X<=300;gto "13"
+315: if 'P'(K)#int(X/100)-3;gto "16"
+316: "12":int(abs('Travel'(A+1→A))/1000)→I
+317: if I=R;gto "12"
+318: I→R;gto "11"
+319: "13":if X<=100;gto "14"
+320: if 'Toting'(K) or X>200 and 'At'(K);gto "16"
+321: gto "12"
+322: "14":if X#0 and not 'Pct'(X);gto "12"
+323: "16":Rmod1000→X;if X<=300;gto "2"
+324: if X<=500;gto "30000"
+325: cll 'Rspk'(X-500);L→X;gto "2"
+326: "30000":jmp X-300→X
+327: gto "30100"
+328: gto "30200"
+329: gto "30300"
+330: gto "30400"
+331: stp
+332: "30100":199-L→X;if H=0 or H=1 and 'Toting'(59);gto "2"
+333: L→X;cll 'Rspk'(117);gto "2"
+334: "30200":cll 'Drop'(59,L);gto "12"
+335: "30300":if 'P'(33)#1;gto "30310"
+336: cll 'Pspk'(33,1)
+337: fti (0)→P$[65,66]
+338: cll 'Move'(34,0);cll 'Move'(134,0);cll 'Move'(33,'Q'(33))
+339: cll 'Move'(133,'G'(33));cll 'Juggle'(32);L→X;gto "2"
+340: "30310":'Q'(33)+'G'(33)-L→X;if 'P'(33)=0;fti (1)→P$[65,66]
+341: if not 'Toting'(35);gto "2"
+342: cll 'Rspk'(162)
+343: fti (1)→P$[63,64];fti (2)→P$[65,66]
+344: cll 'Drop'(35,X);fti (-1)→F$[69,70];fti (3)→P$[69,70]
+345: if 'P'(63)<0;r8+1→r8
+346: X→r4;gto "99"
+347: "30400":cll 'Rspk'(205);gsb "Getin"
+348: 'Vocab'(1,-1)→I;203→Z;if I=78;gto +3
+349: 204→Z;if Imod1000=5;206→Z
+350: cll 'Dstroy'(43)
+351: cll 'Dstroy'(44);gto "AD"
+352: "20":r20→K;if 'Forced'(K);r4→K
+353: r20→r4;L→r20;0→r22;if K#L;gto "21"
+354: cll 'Rspk'(91);gto "2"
+355: "21":int(abs('Travel'(A))/1000)mod1000→W
+356: if W=K;gto "25"
+357: if W>300;gto "22"
+358: 'K'(W)→G
+359: if 'Forced'(W) and int(abs('Travel'(G))/1000)mod1000=K;A→r22
+360: "22":if 'Travel'(A)>=0;A+1→A;gto "21"
+361: "23":r22→A;if A=0;cll 'Rspk'(140);gto "2"
+362: "25":abs('Travel'(A))mod1000→K;'K'(L)→A;gto "9"
+363: "30":if D<3;cll 'Rspk'(15)
+364: D+1→D;0→r6;fti (0)→Z$[2L-1,2L];gto "2"
+365: "40":if L<8;cll 'Rspk'(57);gto "2"
+366: cll 'Rspk'(58);gto "2"
+367: "50":12→Z;if K>=43 and K<=50;9→Z
+368: if K=29 or K=30;9→Z
+369: if K=7 or K=36 or K=37;10→Z
+370: if K=11 or K=19;11→Z
+371: if V=19 or V=20;59→Z
+372: if K=62 or K=65;42→Z
+373: if K=17;80→Z
+374: cll 'Rspk'(Z);gto "2"
+375: "90":cll 'Rspk'(23);L→r4
+376: "99":if B;gto "95"
+377: 'Yes'(81+2r24,82+2r24,54)→I
+378: if (r24+1→r24)=r25 or not I;gto "20000"
+379: fti (0)→N$[41,42];fti (0)→N$[43,44];if 'Toting'(2);fti (0)→P$[3,4]
+380: for I=100 to 1 by -1;if not 'Toting'(I);gto "98"
+381: r4→K;if I=2;1→K
+382: cll 'Drop'(I,K)
+383: "98":next I
+384: 3→L→r20;gto "2000"
+385: "95":cll 'Rspk'(131);r24+1→r24;gto "20000"
+386: "a":fmt 1,/,c," what?";cll 'Of1$';W$[5]→O$;gto "2600"
+387: "b":if 'A'(L)=0;gto "a"
+388: if 'L'('A'(L))#0;gto "a"
+389: for I=1 to 5;if E[I]=L and r2>=2;gto "a"
+390: next I
+391: 'A'(L)mod100→O
+392: "B":if 'Toting'(O);gto "AD"
+393: 25→Z;if O#65 or 'P'(65)#1;gto +2
+394: 208→Z;gto "AD"
+395: if O=24 and 'P'(24)<=0;115→Z
+396: if O=35 and 'P'(35)=1;169→Z
+397: if O=64 and 'P'(35)#0;170→Z
+398: if 'F'(O)#0;gto "AD"
+399: if O#21 and O#22;gto "9017"
+400: if 'Here'(20) and 'Liq'=O;gto "9018"
+401: 20→O;if 'Toting'(O) and 'P'(O)=1;gto "W"
+402: if 'P'(O)#1;105→Z
+403: if not 'Toting'(O);104→Z
+404: gto "AD"
+405: "9018":20→O
+406: "9017":if H<7;gto "9016"
+407: cll 'Rspk'(92);gto "2012"
+408: "9016":if O#8;gto "9014"
+409: if 'P'(8);gto "9014"
+410: if not 'Toting'(5);gto "9013"
+411: cll 'Rspk'(26);gto "2012"
+412: "9013":if not 'Toting'(4);cll 'Rspk'(27);gto "2012"
+413: "9015":fti (1)→P$[15,16]
+414: "9014":if O=8 or O=4 and 'P'(8)#0;cll 'Carry'(8+4-O,L)
+415: cll 'Carry'(O,L);'Liq'→K;if O=20 and K#0;fti (-1)→N$[2K-1,2K]
+416: gto "f"
+417: "c":chain "A2",0,0
+418: "D":chain "A2",0,1
+419: "e":chain "A2",0,2
+420: "E":chain "A2",0,3
+421: "h":chain "A2",0,4
+422: "I":chain "A2",0,5
+423: "j":chain "A2",0,6
+424: "M":chain "A2",0,7
+425: "n":chain "A2",0,8
+426: "o":chain "A2",0,9
+427: "O":chain "A2",0,10
+428: "p":chain "A2",0,11
+429: "q":chain "A2",0,12
+430: "R":chain "A2",0,13
+431: "s":chain "A2",0,14
+432: "T":chain "A2",0,15
+433: "u":chain "A2",0,16
+434: "V":chain "A2",0,17
+435: "W":chain "A2",0,18
+436: "X":chain "A2",0,19
+437: "y":chain "A3",0,0
+438: "z":chain "A2",0,21
+439: "g":chain "A2",0,22
+440: "k":chain "A2",0,23
+441: "Kk":chain "A2",0,24
+442: "l":chain "A2",0,25
+443: "AA":chain "A2",0,26
+444: "AB":chain "A2",0,27
+445: "ac":chain "A2",0,28
+446: "10000":chain "A3",0,1
+447: "11000":chain "A3",0,2
+448: "12000":chain "A3",0,3
+449: "12200":chain "A3",0,4
+450: "12400":chain "A3",0,5
+451: "12600":chain "A3",0,6
+452: "13000":chain "A3",0,7
+453: "19000":chain "A3",0,8
+454: "20000":chain "A3",0,9
+455: "40000":chain "A3",0,10
+456: "M6":if L=0;gto "R2k"
+457: if 'Forced'(L) or bit(3,'C'(X));gto "R2k"
+458: if r2#0;gto "6000"
+459: if L>=15;1→r2
+460: gto "R2k"
+461: "6000":if r2#1;gto "6010"
+462: if L<15 or 'Pct'(95);gto "R2k"
+463: 2→r2;for I=1 to 2;'Ran'(5)+1→G
+464: if 'Pct'(50) and r17=-1;0→E[G]
+465: next I
+466: for I=1 to 5;if E[I]=L;r29→E[I]
+467: E[I]→O[I];next I
+468: cll 'Rspk'(3)
+469: cll 'Drop'(28,L);gto "R2k"
+470: "6010":0→r0→r1→r3;for I=1 to 6
+471: if E[I]=0;gto "6030"
+472: 1→G;E[I]→A;'K'(A)→A;if A=0;gto "6016"
+473: "6012":int(abs('Travel'(A))/1000)mod1000→X
+474: if X>300 or X<15 or X=O[I];gto "6014"
+475: if G>1;if X=K[G-1];gto "6014"
+476: if G>=20 or X=E[I] or 'Forced'(X);gto "6014"
+477: if I=6 and bit(3,'C'(X)) or int(abs('Travel'(A))/1e6)=100;gto "6014"
+478: X→K[G];G+1→G
+479: "6014":A+1→A;if 'Travel'(A-1)>=0;gto "6012"
+480: "6016":O[I]→K[G];if G>=2;G-1→G
+481: 1+'Ran'(G)→G;E[I]→O[I]
+482: K[G]→E[I]
+483: if E[I]=0;dsp "Halt in M6!";beep;stp
+484: D[I] and L>=15 or E[I]=L or O[I]=L→D[I]
+485: if not D[I];gto "6030"
+486: L→E[I];if I#6;gto "6027"
+487: if L=r27 or 'P'(55)>=0;gto "6030"
+488: 0→K;for G=50 to T;if G=60 and L='Q'(60) or L='Q'(59);gto "6020"
+489: if 'Toting'(G);gto "6022"
+490: "6020":if 'Here'(G);1→K
+491: next G
+492: if U=r8+1 and K=0 and 'N'(55)=0 and 'Here'(2) and 'P'(2)=1;gto "6025"
+493: if O[6]#E[6] and 'Pct'(20);cll 'Rspk'(127)
+494: gto "6030"
+495: "6022":cll 'Rspk'(128);if 'N'(36)=0;cll 'Move'(55,r27)
+496: cll 'Move'(36,r28)
+497: for G=50 to T;if G=60 and L='Q'(60) or L='Q'(59);gto "6023"
+498: if 'At'(G) and 'F'(G)=0;cll 'Carry'(G,L)
+499: if 'Toting'(G);cll 'Drop'(G,r27)
+500: "6023":next G
+501: "6024":r27→E[6]→O[6];0→D[6];gto "6030"
+502: "6025":cll 'Rspk'(186);cll 'Move'(55,r27);cll 'Move'(36,r28);gto "6024"
+503: "6027":r0+1→r0;if O[I]#E[I];gto "6030"
+504: r1+1→r1;if r10>=0;L→r10
+505: if 'Ran'(1000)<95(r2-2);r3+1→r3
+506: "6030":next I
+507: ret 0
+508: "R2k":ret 1
+*28039

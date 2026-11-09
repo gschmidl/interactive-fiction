@@ -1,0 +1,165 @@
+   1Set of keys
+   0There are some keys on the ground here.
+   2Brass lantern
+   0There is a shiny brass lamp nearby.
+ 100There is a lamp shining nearby.
+   3*grate
+   0The grate is locked.
+ 100The grate is open.
+   4Wicker cage
+   0There is a small wicker cage discarded nearby.
+   5Black rod
+   0A three foot black rod with a rusty star on an end lies nearby.
+   6Black rod
+   0A three foot black rod with a rusty mark on an end lies nearby.
+   7*steps
+   0Rough stone steps lead down the pit.
+ 100Rough stone steps lead up the dome.
+   8Little bird in cage
+   0A cheerful little bird is sitting here singing.
+ 100There is a little bird in the cage.
+   9*rusty door
+   0The way north is barred by a massive, rusty, iron door.
+ 100The way north leads through a massive, rusty, iron door.
+  10Velvet pillow
+   0A small velvet pillow lies on the floor.
+  11*snake
+   0A huge green fierce snake bars the way.
+ 100>$<  (chased away)
+  12*fissure
+   0>$<
+ 100A crystal bridge now spans the fissure.
+ 200The crystal bridge has vanished.
+  13*stone tablet
+   0A massive stone tablet embedded in the wall reads:
+   0"GHAZH Congratulations on bringing light into the dark-room."
+  14Giant clam  >grunt<
+   0There is an enormous clam here with its shell tightly closed.
+  15Giant oyster  >groan<
+   0There is an enormous oyster here with its shell tightly closed.
+ 100Interesting.  There seems to be something written on the underside of
+ 100The oyster.
+  16"Spelunker Today"
+   0There are a few recent issues of "Spelunker Today" magazine here.
+  19Tasty food
+   0There is food here.
+  20Small bottle
+   0There is a bottle of water here.
+ 100There is an empty bottle here.
+ 200There is a bottle of oil here.
+  21Water in the bottle
+  22Oil in the bottle
+  23*mirror
+   0>$<
+  24*plant
+   0There is a tiny little plant in the pit, murmuring "Water, water, ..."
+ 100The plant spurts into furious growth for a few seconds.
+ 200There is a 12-foot-tall beanstalk stretching up out of the pit,
+ 200Bellowing "Water, water, ..."
+ 300The plant grows explosively, almost filling the bottom of the pit.
+ 400There is a gigantic beanstalk stretching all the way up to the hole.
+ 500You've over-watered the plant.  It's shriveling up.  It's, it's ...
+  25*phony plant (seen in twopit room only when tall enough)
+   0>$<
+ 100The top of a 12-foot-tall beanstalk is poking out of the west pit.
+ 200There is a huge beanstalk growing out of the west pit up to the hole.
+  26*stalactite
+   0>$<
+  27*shadowy figure
+   0The shadowy figure seems to be trying to attract your attention.
+  28Dwarf's axe
+   0There is a little axe here.
+ 100There is a little axe lying beside the bear.
+  29*cave drawings
+   0>$<
+  30*pirate
+   0>$<
+  31*dragon
+   0A huge green fierce dragon bars the way.
+ 100Congratulations.  You have just vanquished a dragon with your bare
+ 100Hands.  (Unbelievable, isn't it?)
+ 200The body of a huge green dead dragon is lying off to one side.
+  32*chasm
+   0A rickety wooden bridge extends across the chasm, vanishing into the
+   0mist.  A sign posted on the bridge reads, "Stop. Pay Troll."
+ 100The wreckage of a bridge (and a dead bear) can be seen at the bottom
+ 100Of the chasm.
+  33*troll
+   0A burly troll stands by the bridge and insists you throw him a
+   0treasure before you may cross.
+ 100The troll steps out from beneath the bridge and blocks your way.
+ 200>$<  (chased away)
+  34*phony troll
+   0The troll is nowhere to be seen.
+  35>$<  (bear uses rtext 141)
+   0There is a ferocious cave bear eyeing you from the far end of the room.
+ 100There is a gentle cave bear sitting placidly in one corner.
+ 200There is a contented-looking bear wandering about nearby.
+ 300>$<  (dead)
+  36*message in second maze
+   0There is a message scrawled in the dust in a flowery script, reading
+   0"This is not the maze where the pirate leaves his treasure chest."
+  37*volcano and/or geyser
+   0>$<
+  38*vending machine
+   0There is a massive vending machine here.  The instructions on it read
+   0"Drop coins here to receive fresh batteries."
+  39Batteries
+   0There are fresh batteries here.
+ 100Some worn-out batteries have been discarded nearby.
+  40*carpet and/or moss
+   0>$<
+  50Large gold nugget
+   0There is a large sparkling nugget of gold here!
+  51Several diamonds
+   0There are diamonds here!
+  52Bars of silver
+   0There are bars of silver here!
+  53Precious jewelry
+   0There is precious jewelry here!
+  54Rare coins
+   0There are many coins here!
+  55Treasure chest
+   0The pirate's treasure chest is here!
+  56Golden eggs
+   0There is a large nest here, full of golden eggs!
+ 100The nest of golden eggs has vanished.
+ 200Done.
+  57Jeweled trident
+   0There is a jewel-encrusted trident here!
+  58Ming vase
+   0There is a delicate, precious, Ming vase here!
+ 100The vase is now resting, delicately, on a velvet pillow.
+ 200The floor is littered with worthless shards of pottery.
+ 300The Ming vase drops with a delicate crash.
+  59Egg-sized emerald
+   0There is an emerald here the size of a plover's egg!
+  60Platinum pyramid
+   0There is a platinum pyramid here, 8 inches on a side!
+  61Glistening pearl
+   0Off to one side lies a glistening pearl!
+  62Persian rug
+   0There is a Persian rug spread out on the floor!
+ 100The dragon is sprawled out on a Persian rug..
+  63Rare spices
+   0There are rare spices here!
+  64Golden chain
+   0There is a golden chain lying in a heap on the floor.
+ 100The bear is locked to the wall with a golden chain.
+ 200There is a golden chain locked to the wall.
+  42*Passage to NW
+   0A passage once continued on here.
+ 100There is a low crawl leading NE.
+  41*Passage to NE
+   0>$<
+ 100There is a tight crawl here leading NW.
+  43*The boat
+   0There is a small, crude boat on the shore.
+  44*The boatman
+   0A boatman is standing nearby.
+  45Old shovel
+   0A decrepit old shovel is lying nearby.
+ 100There are pieces of a broken shovel scattered here.
+  65Gold ring
+   0There is a shiny gold ring on the floor!
+ 100There is something shiny embedded in the wall of the room.

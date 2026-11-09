@@ -1,0 +1,304 @@
+   1: 1 | 'You are standing at the end of a road before a small brick building.' | 151
+   2: 2 | 'You have walked up a hill, still in the forest.  The road slopes back' | 153
+   3: 3 | 'You are inside a building, a well house for a large spring.' | 0
+   4: 4 | 'You are in a valley in the forest beside a stream tumbling along a' | 154
+   5: 5 | 'You are in open forest, with a deep valley to one side.' | 0
+   6: 6 | 'You are in open forest near both a valley and a road.' | 0
+   7: 7 | 'At your feet all the water of the stream splashes into a 2-inch slit' | 155
+   8: 8 | 'You are in a 20-foot depression floored with bare dirt.  Set into the' | 156
+   9: 9 | 'You are in a small chamber beneath a 3x3 steel grate to the surface.' | 158
+  10: 10 | 'You are crawling over cobbles in a low passage.  There is a dim light' | 159
+  11: 11 | 'You are in a debris room filled with stuff washed in from the surface.' | 160
+  12: 12 | 'You are in an awkward sloping east/west canyon.' | 0
+  13: 13 | 'You are in a splendid chamber thirty feet high.  The walls are frozen' | 163
+  14: 14 | 'At your feet is a small pit breathing traces of white mist.  An east' | 165
+  15: 15 | 'You are at one end of a vast hall stretching forward out of sight to' | 166
+  16: 16 | 'The crack is far too small for you to follow.' | 0
+  17: 17 | 'You are on the east bank of a fissure slicing clear across the hall.' | 170
+  18: 18 | 'This is a low room with a crude note on the wall.  The note says,' | 171
+  19: 19 | 'You are in the hall of the mountain king, with passages off in all' | 172
+  20: 20 | 'You are at the bottom of the pit with a broken neck.' | 0
+  21: 21 | "You didn't make it." | 0
+  22: 22 | 'The dome is unclimbable.' | 0
+  23: 23 | 'You are at the west end of the twopit room.  There is a large hole in' | 173
+  24: 24 | 'You are at the bottom of the eastern pit in the twopit room.  There is' | 174
+  25: 25 | 'You are at the bottom of the western pit in the twopit room.  There is' | 175
+  26: 26 | 'You clamber up the plant and scurry through the hole at the top.' | 0
+  27: 27 | 'You are on the west side of the fissure in the hall of mists.' | 0
+  28: 28 | 'You are in a low n/s passage at a hole in the floor.  The hole goes' | 176
+  29: 29 | 'You are in the south side chamber.' | 0
+  30: 30 | 'You are in the west side chamber of the hall of the mountain king.' | 177
+  31: 31 | '>$<' | 0
+  32: 32 | "You can't get by the snake." | 0
+  33: 33 | 'You are in a large room, with a passage to the south, a passage to the' | 178
+  34: 34 | 'You are in a jumble of rock, with cracks everywhere.' | 0
+  35: 35 | "You're at a low window overlooking a huge pit, which extends up out of" | 180
+  36: 36 | 'You are in a dirty broken passage.  To the east is a crawl.  To the' | 186
+  37: 37 | 'You are on the brink of a small clean climbable pit.  A crawl leads' | 187
+  38: 38 | 'You are in the bottom of a small pit with a little stream, which' | 188
+  39: 39 | 'You are in a large room full of dusty rocks.  There is a big hole in' | 189
+  40: 40 | 'You have crawled through a very low wide passage parallel to and north' | 190
+  41: 41 | 'You are at the west end of hall of mists.  A low wide crawl continues' | 191
+  42: 42 | 'You are in a maze of twisty little passages, all alike.' | 0
+  43: 43 | 'You are in a maze of twisty little passages, all alike.' | 0
+  44: 44 | 'You are in a maze of twisty little passages, all alike.' | 0
+  45: 45 | 'You are in a maze of twisty little passages, all alike.' | 0
+  46: 46 | 'Dead end' | 0
+  47: 47 | 'Dead end' | 0
+  48: 48 | 'Dead end' | 0
+  49: 49 | 'You are in a maze of twisty little passages, all alike.' | 0
+  50: 50 | 'You are in a maze of twisty little passages, all alike.' | 0
+  51: 51 | 'You are in a maze of twisty little passages, all alike.' | 0
+  52: 52 | 'You are in a maze of twisty little passages, all alike.' | 0
+  53: 53 | 'You are in a maze of twisty little passages, all alike.' | 0
+  54: 54 | 'Dead end' | 0
+  55: 55 | 'You are in a maze of twisty little passages, all alike.' | 0
+  56: 56 | 'Dead end' | 0
+  57: 57 | 'You are on the brink of a thirty foot pit with a massive orange column' | 193
+  58: 58 | 'Dead end' | 0
+  59: 59 | 'You have crawled through a very low wide passage parallel to and north' | 195
+  60: 60 | 'You are at the east end of a very long hall apparently without side' | 196
+  61: 61 | 'You are at the west end of a very long featureless hall.  The hall' | 198
+  62: 62 | 'You are at a crossover of a high n/s passage and a low e/w one.' | 0
+  63: 63 | 'Dead end' | 0
+  64: 64 | 'You are at a complex junction.  A low hands and knees passage from the' | 199
+  65: 65 | 'You are in Bedquilt, a long east/west passage with holes everywhere.' | 201
+  66: 66 | 'You are in a room whose walls resemble swiss cheese.  Obvious passages' | 202
+  67: 67 | 'You are at the east end of the twopit room.  The floor here is' | 204
+  68: 68 | 'You are in a large low circular chamber whose floor is an immense slab' | 208
+  69: 69 | 'You are in a secret n/s canyon above a large room.' | 0
+  70: 70 | 'You are in a secret n/s canyon above a sizable passage.' | 0
+  71: 71 | 'You are in a secret canyon at a junction of three canyons, bearing' | 212
+  72: 72 | 'You are in a large low room.  Crawls lead north, se, and sw.' | 0
+  73: 73 | 'Dead end crawl.' | 0
+  74: 74 | 'You are in a secret canyon which here runs e/w.  It crosses over a' | 214
+  75: 75 | 'You are at a wide place in a very tight n/s canyon.' | 0
+  76: 76 | 'The canyon here becomes too tight to go further south.' | 0
+  77: 77 | 'You are in a tall e/w canyon.  A low tight crawl goes 3 feet north and' | 216
+  78: 78 | 'The canyon runs into a mass of boulders -- dead end.' | 0
+  79: 79 | 'The stream flows out through a pair of 1 foot diameter sewer pipes.' | 217
+  80: 80 | 'You are in a maze of twisty little passages, all alike.' | 0
+  81: 81 | 'Dead end' | 0
+  82: 82 | 'Dead end' | 0
+  83: 83 | 'You are in a maze of twisty little passages, all alike.' | 0
+  84: 84 | 'You are in a maze of twisty little passages, all alike.' | 0
+  85: 85 | 'Dead end' | 0
+  86: 86 | 'Dead end' | 0
+  87: 87 | 'You are in a maze of twisty little passages, all alike.' | 0
+  88: 88 | 'You are in a long, narrow corridor stretching out of sight to the' | 218
+  89: 89 | 'There is nothing here to climb.  Use "up" or "out" to leave the pit.' | 0
+  90: 90 | 'You have climbed up the plant and out of the pit.' | 0
+  91: 91 | 'You are at the top of a steep incline above a large room.  You could' | 220
+  92: 92 | 'You are in the giant room.  The ceiling here is too high up for your' | 222
+  93: 93 | 'You are in a chamber off the giant room.' | 0
+  94: 94 | 'You are at one end of an immense north/south passage.' | 0
+  95: 95 | 'You are in a magnificent cavern with a rushing stream, which cascades' | 224
+  96: 96 | 'You are in the soft room.  The walls are covered with heavy curtains,' | 226
+  97: 97 | 'This is the oriental room.  Ancient oriental cave drawings cover the' | 227
+  98: 98 | 'You are following a wide path around the outer edge of a large cavern.' | 229
+  99: 99 | 'You are in an alcove.  A small nw path seems to widen after a short' | 232
+ 100: 100 | "You're in a small chamber lit by an eerie green light.  An extremely" | 234
+ 101: 101 | "You're in the dark-room.  A corridor leading south is the only exit." | 0
+ 102: 102 | 'You are in an arched hall.  A coral passage once continued up and east' | 235
+ 103: 103 | "You're in a large room carved out of sedimentary rock.  The floor and" | 236
+ 104: 104 | 'You are in a long sloping corridor with ragged sharp walls.' | 0
+ 105: 105 | 'You are in a cul-de-sac about eight feet across.' | 0
+ 106: 106 | 'You are in an anteroom leading to a large passage to the east.  Small' | 239
+ 107: 107 | 'You are in a maze of twisty little passages, all different.' | 0
+ 108: 108 | "You are at Witt's End.  Passages lead off in \x1b&dDall\x1b&d@ directions." | 0
+ 109: 109 | 'You are in a north/south canyon about 25 feet across.  The floor is' | 242
+ 110: 110 | "You're at a low window overlooking a huge pit, which extends up out of" | 248
+ 111: 111 | 'A large stalactite extends from the roof and almost reaches the floor' | 254
+ 112: 112 | 'You are in a little maze of twisting passages, all different.' | 0
+ 113: 113 | 'You are at the edge of a large underground reservoir.  An opaque cloud' | 256
+ 114: 114 | 'Dead end' | 0
+ 115: 115 | 'You are at the northeast end of an immense room, even larger than the' | 260
+ 116: 116 | 'You are at the southwest end of the repository.  To one side is a pit' | 270
+ 117: 117 | 'You are on one side of a large, deep chasm.  A heavy white mist rising' | 277
+ 118: 118 | 'You are in a long winding corridor sloping out of sight in both' | 279
+ 119: 119 | 'You are in a secret canyon which exits to the north and east.' | 0
+ 120: 120 | 'You are in a secret canyon which exits to the north and east.' | 0
+ 121: 121 | 'You are in a secret canyon which exits to the north and east.' | 0
+ 122: 122 | 'You are on the far side of the chasm.  A NE path leads away from the' | 280
+ 123: 123 | "You're in a long east/west corridor.  A faint rumbling noise can be" | 281
+ 124: 124 | 'The path forks here.  The left fork leads northeast.  A dull rumbling' | 282
+ 125: 125 | 'The walls are quite warm here.  From the north can be heard a steady' | 284
+ 126: 126 | 'You are on the edge of a breath-taking view.  Far below you is an' | 286
+ 127: 127 | 'You are in a small chamber filled with large boulders.  The walls are' | 304
+ 128: 128 | 'You are walking along a gently sloping north/south passage lined with' | 307
+ 129: 129 | 'You are standing at the entrance to a large, barren room.  A sign' | 308
+ 130: 130 | 'You are inside a barren room.  The center of the room is completely' | 309
+ 131: 131 | 'You are in a maze of twisting little passages, all different.' | 0
+ 132: 132 | 'You are in a little maze of twisty passages, all different.' | 0
+ 133: 133 | 'You are in a twisting maze of little passages, all different.' | 0
+ 134: 134 | 'You are in a twisting little maze of passages, all different.' | 0
+ 135: 135 | 'You are in a twisty little maze of passages, all different.' | 0
+ 136: 136 | 'You are in a twisty maze of little passages, all different.' | 0
+ 137: 137 | 'You are in a little twisty maze of passages, all different.' | 0
+ 138: 138 | 'You are in a maze of little twisting passages, all different.' | 0
+ 139: 139 | 'You are in a maze of little twisty passages, all different.' | 0
+ 140: 140 | 'Dead end' | 0
+ 141: 141 | 'You are in a wide room with a low ceiling which slants to one side.' | 0
+ 142: 142 | 'You are on a small island in the middle of the reservoir.' | 0
+ 143: 143 | 'You are in the boat, beached upon the shore of the reservoir.' | 0
+ 144: 144 | 'You are in the boat, beached upon the shore of a small island.' | 0
+ 151: 1 | 'Around you is a forest.  A small stream flows out of the building and' | 152
+ 152: 1 | 'down a gully.' | 0
+ 153: 2 | 'down the other side of the hill.  There is a building in the distance.' | 0
+ 154: 4 | 'rocky bed.' | 0
+ 155: 7 | 'in the rock.  Downstream the streambed is bare rock.' | 0
+ 156: 8 | 'dirt is a strong steel grate mounted in concrete.  A dry streambed' | 157
+ 157: 8 | 'leads into the depression.' | 0
+ 158: 9 | 'A low crawl over cobbles leads inward to the west.' | 0
+ 159: 10 | 'at the east end of the passage.' | 0
+ 160: 11 | 'A low wide passage with cobbles becomes plugged with mud and debris' | 161
+ 161: 11 | 'here, but an awkward canyon leads upward and west.  A note on the wall' | 162
+ 162: 11 | 'says "Magic word XYZZY".' | 0
+ 163: 13 | 'rivers of orange stone.  An awkward canyon and a good passage exit' | 164
+ 164: 13 | 'from east and west sides of the chamber.' | 0
+ 165: 14 | 'passage ends here except for a small crack leading on.' | 0
+ 166: 15 | 'the west.  There are openings to either side.  Nearby, a wide stone' | 167
+ 167: 15 | 'staircase leads downward.  The hall is filled with wisps of white mist' | 168
+ 168: 15 | 'swaying to and fro almost as if alive.  A cold wind blows up the' | 169
+ 169: 15 | 'staircase.  There is a passage at the top of a dome behind you.' | 0
+ 170: 17 | 'The mist is quite thick here, and the fissure is too wide to jump.' | 0
+ 171: 18 | '"You won\'t get it up the steps".' | 0
+ 172: 19 | 'directions.' | 0
+ 173: 23 | 'the wall above the pit at this end of the room.' | 0
+ 174: 24 | 'a small pool of oil in one corner of the pit.' | 0
+ 175: 25 | 'a large hole in the wall about 25 feet above you.' | 0
+ 176: 28 | 'down to an e/w passage.' | 0
+ 177: 30 | 'A passage continues west and up here.' | 0
+ 178: 33 | 'west, and a wall of broken rock to the east.  There is a large "Y2" on' | 179
+ 179: 33 | "a rock in the room's center." | 0
+ 180: 35 | 'sight.  A floor is indistinctly visible over 50 feet below.  Traces of' | 181
+ 181: 35 | 'white mist cover the floor of the pit, becoming thicker to the right.' | 182
+ 182: 35 | 'Marks in the dust around the window would seem to indicate that' | 183
+ 183: 35 | 'someone has been here recently.  Directly across the pit from you and' | 184
+ 184: 35 | '25 feet away there is a similar window looking into a lighted room.  A' | 185
+ 185: 35 | 'shadowy figure can be seen there peering back at you.' | 0
+ 186: 36 | 'west is a large passage.  Above you is a hole to another passage.' | 0
+ 187: 37 | 'west.' | 0
+ 188: 38 | 'enters and exits through tiny slits.' | 0
+ 189: 39 | 'the floor.  There are cracks everywhere, and a passage leading east.' | 0
+ 190: 40 | 'of the hall of mists.' | 0
+ 191: 41 | 'west and another goes north.  To the south is a little passage 6 feet' | 192
+ 192: 41 | 'off the floor.' | 0
+ 193: 57 | 'down one wall.  You could climb down here but you could not get back' | 194
+ 194: 57 | 'up.  The maze continues at this level.' | 0
+ 195: 59 | 'of the hall of mists.' | 0
+ 196: 60 | 'chambers.  To the east a low wide crawl slants up.  To the north a' | 197
+ 197: 60 | 'round two foot hole slants down.' | 0
+ 198: 61 | 'joins up with a narrow north/south passage.' | 0
+ 199: 64 | 'north joins a higher crawl from the east to make a walking passage' | 200
+ 200: 64 | 'going west.  There is also a large room above.  The air is damp here.' | 0
+ 201: 65 | 'To explore at random select north, south, up, or down.' | 0
+ 202: 66 | 'go west, east, ne, and nw.  Part of the room is occupied by a large' | 203
+ 203: 66 | 'bedrock block.' | 0
+ 204: 67 | 'littered with thin rock slabs, which make it easy to descend the pits.' | 205
+ 205: 67 | 'There is a path here bypassing the pits to connect passages from east' | 206
+ 206: 67 | 'and west.  There are holes all over, but the only big one is on the' | 207
+ 207: 67 | "wall directly over the west pit where you can't get to it." | 0
+ 208: 68 | 'fallen from the ceiling (slab room).  East and west there once were' | 209
+ 209: 68 | 'large passages, but they are now filled with boulders.  Low small' | 210
+ 210: 68 | 'passages go north and south, and the south one quickly bends west' | 211
+ 211: 68 | 'around the boulders.' | 0
+ 212: 71 | 'north, south, and se.  The north one is as tall as the other two' | 213
+ 213: 71 | 'combined.' | 0
+ 214: 74 | 'very tight canyon 15 feet below.  If you go down you may not be able' | 215
+ 215: 74 | 'to get back up.' | 0
+ 216: 77 | 'seems to open up.' | 0
+ 217: 79 | 'It would be advisable to use the exit.' | 0
+ 218: 88 | 'west.  At the eastern end is a hole through which you can see a' | 219
+ 219: 88 | 'profusion of leaves.' | 0
+ 220: 91 | 'climb down here, but you would not be able to climb up.  There is a' | 221
+ 221: 91 | 'passage leading back to the north.' | 0
+ 222: 92 | 'lamp to show it.  Cavernous passages lead east, north, and south.  On' | 223
+ 223: 92 | 'the west wall is scrawled the inscription, "FEE FIE FOE FOO" (sic).' | 0
+ 224: 95 | 'over a sparkling waterfall into a roaring whirlpool which disappears' | 225
+ 225: 95 | 'through a hole in the floor.  Passages exit to the south and west.' | 0
+ 226: 96 | 'the floor with a thick pile carpet.  Moss covers the ceiling.' | 0
+ 227: 97 | 'walls.  A gently sloping passage leads upward to the north, another' | 228
+ 228: 97 | 'passage leads se, and a hands and knees crawl leads west.' | 0
+ 229: 98 | 'Far below, through a heavy white mist, strange splashing noises can be' | 230
+ 230: 98 | 'heard.  The mist rises up through a fissure in the ceiling.  The path' | 231
+ 231: 98 | 'exits to the south and west.' | 0
+ 232: 99 | 'distance.  An extremely tight tunnel leads east.  It looks like a very' | 233
+ 233: 99 | 'tight squeeze.  An eerie light can be seen at the other end.' | 0
+ 234: 100 | 'narrow tunnel exits to the west.  A dark corridor leads NE.' | 0
+ 235: 102 | 'from here, but is now blocked by debris.  The air smells of sea water.' | 0
+ 236: 103 | 'walls are littered with bits of shells embedded in the stone.  A' | 237
+ 237: 103 | 'shallow passage proceeds downward, and a somewhat steeper one leads' | 238
+ 238: 103 | 'up.  A low hands and knees passage enters from the south.' | 0
+ 239: 106 | 'passages go west and up.  The remnants of recent digging are evident.' | 240
+ 240: 106 | 'A sign in midair here says "Cave under construction beyond this point.' | 241
+ 241: 106 | 'Proceed at own risk.  (Witt Construction Company)"' | 0
+ 242: 109 | 'covered by white mist seeping in from the north.  The walls extend' | 243
+ 243: 109 | 'upward for well over 100 feet.  Suspended from some unseen point far' | 244
+ 244: 109 | 'above you, an enormous two-sided mirror is hanging parallel to and' | 245
+ 245: 109 | 'midway between the canyon walls.  (The mirror is obviously provided' | 246
+ 246: 109 | 'for the use of the dwarves, who as you know, are extremely vain.)  a' | 247
+ 247: 109 | 'small window can be seen in either wall, some fifty feet up.' | 0
+ 248: 110 | 'sight.  A floor is indistinctly visible over 50 feet below.  Traces of' | 249
+ 249: 110 | 'white mist cover the floor of the pit, becoming thicker to the left.' | 250
+ 250: 110 | 'Marks in the dust around the window would seem to indicate that' | 251
+ 251: 110 | 'someone has been here recently.  Directly across the pit from you and' | 252
+ 252: 110 | '25 feet away there is a similar window looking into a lighted room.  A' | 253
+ 253: 110 | 'shadowy figure can be seen there peering back at you.' | 0
+ 254: 111 | 'below.  You could climb down it, and jump from it to the floor, but' | 255
+ 255: 111 | 'having done so you would be unable to reach it to climb back up.' | 0
+ 256: 113 | 'of white mist fills the room and rises rapidly upward.  The lake is' | 257
+ 257: 113 | 'fed by a stream, which tumbles out of a hole in the wall about 10 feet' | 258
+ 258: 113 | 'overhead and splashes noisily into the water somewhere within the' | 259
+ 259: 113 | 'mist.  There appears to be a small island far off in the mist.' | 0
+ 260: 115 | 'Giant Room.  It appears to be a Repository for the Adventure' | 261
+ 261: 115 | 'Program.  Massive torches far overhead bathe the room with smoky' | 262
+ 262: 115 | 'yellow light.  Scattered about you can be seen a pile of bottles (all' | 263
+ 263: 115 | 'of them empty), a nursery of young beanstalks murmuring quietly, a bed' | 264
+ 264: 115 | 'of oysters, a bundle of black rods with rusty stars on their ends, and' | 265
+ 265: 115 | 'a collection of brass lanterns.  Off to one side a great many dwarves' | 266
+ 266: 115 | 'are sleeping on the floor, snoring loudly.  A sign nearby reads  "Do' | 267
+ 267: 115 | 'not disturb the dwarves."  An immense mirror is hanging against one' | 268
+ 268: 115 | 'wall, and stretches to the other end of the room, where various other' | 269
+ 269: 115 | 'sundry objects can be glimpsed dimly in the distance.' | 0
+ 270: 116 | 'full of fierce green snakes.  On the other side is a row of small' | 271
+ 271: 116 | 'wicker cages, each of which contains a little sulking bird.  In one' | 272
+ 272: 116 | 'corner is a bundle of black rods with rusty marks on their ends.  A' | 273
+ 273: 116 | 'large number of velvet pillows are scattered about on the floor.  A' | 274
+ 274: 116 | 'vast mirror stretches off to the northeast.  At your feet is a large' | 275
+ 275: 116 | 'steel grate, next to which is a sign which reads, "Treasure Vault.' | 276
+ 276: 116 | 'Keys in Main Office."' | 0
+ 277: 117 | 'up from below obscures all view of the far side.  A SW path leads away' | 278
+ 278: 117 | 'from the chasm into a winding corridor.' | 0
+ 279: 118 | 'directions.' | 0
+ 280: 122 | 'chasm on this side.' | 0
+ 281: 123 | 'heard in the distance.' | 0
+ 282: 124 | 'seems to get louder in that direction.  The right fork leads southeast' | 283
+ 283: 124 | 'down a gentle slope.  The main corridor enters from the west.' | 0
+ 284: 125 | 'roar, so loud that the entire cave seems to be trembling.  Another' | 285
+ 285: 125 | 'passage leads south, and a low crawl goes east.' | 0
+ 286: 126 | 'active volcano, from which great gouts of molten lava come surging' | 287
+ 287: 126 | 'out, cascading back down into the depths.  The glowing rock fills the' | 288
+ 288: 126 | 'farthest reaches of the cavern with a blood-red glare, giving every-' | 289
+ 289: 126 | 'thing an eerie, macabre appearance.  The air is filled with flickering' | 290
+ 290: 126 | 'sparks of ash and a heavy smell of brimstone.  The walls are hot to' | 291
+ 291: 126 | 'the touch, and the thundering of the volcano drowns out all other' | 292
+ 292: 126 | 'sounds.  Embedded in the jagged roof far overhead are myriad twisted' | 293
+ 293: 126 | 'formations composed of pure white alabaster, which scatter the murky' | 294
+ 294: 126 | 'light into sinister apparitions upon the walls.  To one side is a deep' | 295
+ 295: 126 | 'gorge, filled with a bizarre chaos of tortured rock which seems to' | 296
+ 296: 126 | 'have been crafted by the devil himself.  An immense river of fire' | 297
+ 297: 126 | 'crashes out from the depths of the volcano, burns its way through the' | 298
+ 298: 126 | 'gorge, and plummets into a bottomless pit far off to your left.  To' | 299
+ 299: 126 | 'the right, an immense geyser of blistering steam erupts continuously' | 300
+ 300: 126 | 'from a barren island in the center of a sulfurous lake, which bubbles' | 301
+ 301: 126 | 'ominously.  The far right wall is aflame with an incandescence of its' | 302
+ 302: 126 | 'own, which lends an additional infernal splendor to the already' | 303
+ 303: 126 | 'hellish scene.  A dark, foreboding passage exits to the south.' | 0
+ 304: 127 | 'very warm, causing the air in the room to be almost stifling from the' | 305
+ 305: 127 | 'heat.  The only exit is a crawl heading west, through which is coming' | 306
+ 306: 127 | 'a low rumbling.' | 0
+ 307: 128 | 'oddly shaped limestone formations.' | 0
+ 308: 129 | 'posted above the entrance reads   "Caution.  Bear in room."' | 0
+ 309: 130 | 'empty except for some dust.  Marks in the dust lead away toward the' | 310
+ 310: 130 | 'far end of the room.  The only exit is the way you came in.' | 0

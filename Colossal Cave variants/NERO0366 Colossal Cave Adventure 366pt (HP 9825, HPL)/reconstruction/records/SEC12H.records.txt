@@ -1,0 +1,40 @@
+   1: 1 | 'A large cloud of green smoke appears in front of you.  It clears away' | 35
+   2: 2 | 'Even wizards have to wait longer than that.' | 0
+   3: 3 | "I'm terribly sorry, but colossal cave is closed.  Our hours are" | 0
+   4: 4 | 'Only wizards are permitted within the cave right now.' | 0
+   5: 5 | 'We do allow visitors to make short explorations during our off hours.' | 39
+   6: 6 | 'Colossal cave is open to regular adventurers at the following hours' | 0
+   7: 7 | 'Very well.' | 0
+   8: 8 | 'Only a wizard may continue an adventure this soon.' | 0
+   9: 9 | 'I suggest you resume your adventure at a later time.' | 0
+  10: 10 | 'Do you wish to see the hours?' | 0
+  11: 11 | 'Do you wish to change the hours?' | 0
+  12: 12 | 'New magic word (null to leave unchanged)' | 0
+  13: 13 | 'New magic number (null to leave unchanged)' | 0
+  14: 14 | 'Do you wish to change the message of the day?' | 0
+  15: 15 | 'The new version has been saved, thank you...' | 0
+  16: 16 | 'Are you a wizard?' | 0
+  17: 17 | 'Prove it.  Say the magic word.' | 0
+  18: 18 | 'That is not what I thought it was.  Do you know what I thought it was?' | 0
+  19: 19 | 'Oh dear, you really *are* a wizard.  Sorry to have bothered you . . .' | 0
+  20: 20 | 'Foo, you are nothing but a charlatan.' | 0
+  21: 21 | 'New hours specified by defining "prime time".  Give only the hour' | 40
+  22: 22 | 'New hours for colossal cave' | 0
+  23: 23 | 'Enter message limiting lines to 70 characters.  Terminate' | 41
+  24: 24 | 'Line too long, retype' | 0
+  25: 25 | 'Not enough room for another line.  Ending message here.' | 0
+  26: 26 | 'Do you wish to (re)schedule the next holiday?' | 0
+  27: 27 | 'To begin how many days from today?' | 0
+  28: 28 | 'To last how many days (zero if no holiday)?' | 0
+  29: 29 | 'To be called what (up to 20 characters)?' | 0
+  30: 30 | 'Too small.  Assuming minimum value (45 minutes).' | 0
+  31: 31 | 'Break out of this and save your core-image.' | 0
+  32: 32 | 'Be sure to save your core-image...' | 0
+  35: 1 | 'to reveal a tall wizard, clothed in grey.  He fixes you with a steely' | 36
+  36: 1 | 'glare and declares, "this adventure has lasted too long."  with that' | 37
+  37: 1 | 'he makes a single pass over you with his hands, and everything around' | 38
+  38: 1 | 'you fades away into a grey nothingness.' | 0
+  39: 5 | 'Would you like to do that?' | 0
+  40: 21 | '(e.g. 14, not 14 00 or 2pm).  Enter a negative number after last pair.' | 0
+  41: 23 | 'the message with a line containing a single period (.) as its' | 42
+  42: 23 | 'first and only character.' | 0

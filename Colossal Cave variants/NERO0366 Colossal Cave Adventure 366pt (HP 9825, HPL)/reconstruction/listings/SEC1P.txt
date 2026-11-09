@@ -1,0 +1,10 @@
+0: dim A$[500],B$[80];fxd 0;151→L
+1: asgn "SEC1",1;on end 1,"END"
+2: asgn "SEC1H",2
+3: "Loop":
+4: sread 1,A$;pos(A$,"!")→P
+5: val(A$[P+1,P+4])→B;A$[P+5]→B$;if B=O;sprt 2,L
+6: if O#B;sprt 2,0;rprt 2,B,B,B$;B→O;gto "Loop"
+7: rprt 2,L,B,B$;dsp B,L;L+1→L;gto "Loop"
+8: "END":sprt 2,0;dsp "DONE!"
+*32082

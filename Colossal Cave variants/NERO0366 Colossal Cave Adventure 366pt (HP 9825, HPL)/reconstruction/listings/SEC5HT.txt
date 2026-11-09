@@ -1,0 +1,11 @@
+0: "PROGRAM TO TEST SEC5H ADVENTURE Object/Property MESSAGE FILE":
+1: dim B$[80],P[10],P$[80]
+2: asgn "SEC5H",1
+3: "loop":ent "OBJECT to Speak",O,"Property number",M
+4: on end 1,"empty"
+5: rread 1,O,B,B$,P[*];if M<0 or P[M+1]=0;""→P$;0→P→L;gto +2
+6: rread 1,P[M+1]→I,P,P$,L
+7: dsp B,B$,P,P$[1,25];wait 3000;if L#0;sread 1,P,P$,L;gto +0
+8: gto "loop"
+9: "empty":beep;dsp "NO OBJECT at",M;wait 2000;gto "loop"
+*21411

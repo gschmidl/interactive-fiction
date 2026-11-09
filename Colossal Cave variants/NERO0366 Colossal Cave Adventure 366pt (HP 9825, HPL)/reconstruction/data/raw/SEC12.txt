@@ -1,0 +1,40 @@
+   1A large cloud of green smoke appears in front of you.  It clears away
+   1to reveal a tall wizard, clothed in grey.  He fixes you with a steely
+   1glare and declares, "this adventure has lasted too long."  with that
+   1he makes a single pass over you with his hands, and everything around
+   1you fades away into a grey nothingness.
+   2Even wizards have to wait longer than that.
+   3I'm terribly sorry, but colossal cave is closed.  Our hours are
+   4Only wizards are permitted within the cave right now.
+   5We do allow visitors to make short explorations during our off hours.
+   5Would you like to do that?
+   6Colossal cave is open to regular adventurers at the following hours
+   7Very well.
+   8Only a wizard may continue an adventure this soon.
+   9I suggest you resume your adventure at a later time.
+  10Do you wish to see the hours?
+  11Do you wish to change the hours?
+  12New magic word (null to leave unchanged)
+  13New magic number (null to leave unchanged)
+  14Do you wish to change the message of the day?
+  15The new version has been saved, thank you...
+  16Are you a wizard?
+  17Prove it.  Say the magic word.
+  18That is not what I thought it was.  Do you know what I thought it was?
+  19Oh dear, you really *are* a wizard.  Sorry to have bothered you . . .
+  20Foo, you are nothing but a charlatan.
+  21New hours specified by defining "prime time".  Give only the hour
+  21(e.g. 14, not 14 00 or 2pm).  Enter a negative number after last pair.
+  22New hours for colossal cave
+  23Enter message limiting lines to 70 characters.  Terminate
+  23the message with a line containing a single period (.) as its
+  23first and only character.
+  24Line too long, retype
+  25Not enough room for another line.  Ending message here.
+  26Do you wish to (re)schedule the next holiday?
+  27To begin how many days from today?
+  28To last how many days (zero if no holiday)?
+  29To be called what (up to 20 characters)?
+  30Too small.  Assuming minimum value (45 minutes).
+  31Break out of this and save your core-image.
+  32Be sure to save your core-image...

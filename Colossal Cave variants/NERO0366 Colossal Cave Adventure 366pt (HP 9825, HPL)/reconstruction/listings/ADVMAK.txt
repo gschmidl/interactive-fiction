@@ -1,0 +1,133 @@
+0: "The Adventure Game -- ADVNEW BUILDER":
+1: dim Y$[100]
+2: fxd 0;dim O$[30],V$[5(320→r19)],I$[2r19]
+3: dim R$[100],W$[5,5],M$[80],M[5]
+4: dim A$[300],L$[400],N$[200],F$[200],C$[300],P$[200]
+5: dim L,F,H,Z$[300],K$[300],T[760]
+6: dim S$[70],B[12],J$[40],H$[40],E$[4,40],D[6],E[6],C[10],O[6]
+7: dim Q$[200],G$[200]
+8: " "→A$[1,300]
+9: " "→C$[1,300]
+10: " "→F$[1,200]
+11: " "→G$[1,200]
+12: " "→H$[1,40]
+13: " "→E$[1,1,40]→E$[2,1,40]→E$[3,1,40]→E$[4,1,40]
+14: " "→J$[1,40]
+15: " "→L$[1,400]
+16: " "→Q$[1,200]
+17: " "→N$[1,200]
+18: " "→S$[1,70]
+19: " "→Z$[1,300]
+20: " "→P$[1,200]
+21: asgn "SEC10",1;on end 1,"Sec10done"
+22: "Read10":sread 1,Y$
+23: C+1→C;Y$[pos(Y$,"!")+1]→Y$;val(Y$[1,4])→C[C];gto "Read10"
+24: "Sec10done":dsp "Sec10 done!"
+25: asgn "SEC7",1;on end 1,"Sec7done"
+26: for I=1 to 100;fti (0)→G$[2I-1]→Q$[2I-1];next I
+27: on err "Sec7err"
+28: for I=1 to 35;fti (0)→S$[2I-1];next I
+29: "Read7":sread 1,Y$
+30: "   "&Y$[pos(Y$,"!")+1]→Y$;val(Y$[1,8])→O
+31: fti (val(Y$[9,16]))→Q$[2O-1,2O]
+32: fti (0)→G$[2O-1,2O]
+33: fti (val(Y$[17,24]))→G$[2O-1,2O]
+34: gto "Read7"
+35: "Sec7err":if ern=4 and char(rom)="S";on err "Sec7err";gto "Read7"
+36: dsp "Error ",char(rom),ern," in line ",erl;stp
+37: "Sec7done":on err "Sec8";1/0→Q
+38: "Sec8":
+39: asgn "SEC8",1
+40: for I=1 to 35;fti (0)→S$[2I-1];next I
+41: on end 1,"Sec8done"
+42: "Read8":sread 1,Y$
+43: "   "&Y$[pos(Y$,"!")+1]→Y$;val(Y$[1,8])→V
+44: fti (val(Y$[9,16]))→S$[2V-1,2V]
+45: gto "Read8"
+46: "Sec8done":
+47: asgn "SEC9",1;on end 1,"Sec9done"
+48: for I=1 to 150;fti (0)→C$[2I-1,2I];next I
+49: on err "Sec9err"
+50: "Read9":sread 1,Y$[1,90]
+51: "   "&Y$[pos(Y$,"!")+1]→Y$;val(Y$[1,8])→K
+52: 9→P
+53: for I=1 to 9
+54: 0→L
+55: val(Y$[P,P+7])→L
+56: "Errentry9":P+8→P;if L=0;gto "Read9"
+57: if bit(K,itf(C$[2L-1,2L]));dsp "Bug in Conditions";stp
+58: fti (itf(C$[2L-1,2L])+2^K)→C$[2L-1,2L]
+59: next I
+60: gto "Read9"
+61: "Sec9err":if ern=4;on err "Sec9err";gto "Errentry9"
+62: "Sec9done":on err "Sec11";1/0→Q
+63: "Sec11":asgn "SEC11",1
+64: for I=1 to 20;for J=1 to 4;fti (0)→E$[J,2I-1];next J;next I
+65: on end 1,"Sec11done"
+66: "Read11":sread 1,Y$
+67: "   "&Y$[pos(Y$,"!")+1]→Y$;val(Y$[1,8])→K
+68: if K=0;gto "Read11"
+69: 9→P
+70: for I=1 to 4
+71: fti (val(Y$[P,P+7]))→E$[I,2K-1,2K]
+72: P+8→P
+73: next I
+74: max(K,r9)→r9;gto "Read11"
+75: "Sec11done":dsp "Sec11 done!"
+76: for I=1 to 200
+77: if I<=100;fti (0)→P$[2I-1]→N$[2I-1]
+78: fti (0)→L$[2I-1];next I
+79: asgn "SEC3H",1;sread 1,K$,T[*]
+80: for I=1 to 150-1
+81: fti (0)→Z$[2I-1]
+82: if I>140 or (itf(K$[2I-1])→K)=0;gto "1102"
+83: if abs(T[K])mod1000=1;fti (2)→C$[2I-1,2I]
+84: "1102":fti (0)→A$[2I-1];next I
+85: for I=100 to 1 by -1
+86: if itf(G$[2I-1,2I])<=0;gto "1106"
+87: cll 'Drop'(I+100,itf(G$[2I-1,2I]))
+88: cll 'Drop'(I,itf(Q$[2I-1,2I]))
+89: "1106":next I
+90: for I=100 to 1 by -1
+91: fti (itf(G$[2I-1]))→F$[2I-1,2I]
+92: if itf(Q$[2I-1])#0 and itf(G$[2I-1])<=0;cll 'Drop'(I,itf(Q$[2I-1]))
+93: next I
+94: 79→T;0→U→r8
+95: for I=50 to T;if I<=65;fti (-1)→P$[2I-1,2I]
+96: U-itf(P$[2I-1])→U;next I
+97: for I=1 to r9
+98: fti (0)→H$[2I-1,2I]
+99: fti (0)→J$[2I-1,2I]
+100: next I
+101: 114→r27;140→r28
+102: for I=1 to 6
+103: 0→D[I];next I
+104: 0→r2
+105: 19→E[1];27→E[2];33→E[3];44→E[4];64→E[5]
+106: r27→E[6];18→r29
+107: 0→r12→r7→r18→r10→D;5→r5
+108: 3→r25
+109: 0→r24→H→r26
+110: 0→r11→r23
+111: 30→N
+112: 50→M
+113: 0→r17→B→E→P→r21→r15
+114: gto "OUTPUT"
+115: "Drop":if p1>100;gto "D1"
+116: if itf(N$[2p1-1])=-1;H-1→H
+117: fti (p2)→N$[2p1-1,2p1];gto +2
+118: "D1":fti (p2)→F$[2(p1-100)-1,2(p1-100)]
+119: if p2<=0;ret
+120: fti (itf(A$[2p2-1]))→L$[2p1-1,2p1];fti (p1)→A$[2p2-1,2p2];ret
+121: "OUTPUT":asgn "ADVNEW",1
+122: sprt 1,A$,C$,E$,F$,G$,H$,J$,L$
+123: sprt 1,N$,P$,Q$,S$,V$,Z$,B[*],D[*],E[*],C[*]
+124: sprt 1,O[*],A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z
+125: sprt 1,r0,r1,r2,r3,r4,r5,r6,r7,r8,r9,r10,r11,r12,r13,r14,r15,r16,r17
+126: sprt 1,r18,r19,r20,r21,r22,r23,r24,r25,r26,r27,r28,r29
+127:
+128:
+129:
+130:
+131: dsp "ADVNEW CREATED!"
+*16287

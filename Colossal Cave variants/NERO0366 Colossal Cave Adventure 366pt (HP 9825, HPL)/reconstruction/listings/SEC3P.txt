@@ -1,0 +1,21 @@
+0: "File builder for adventure file SEC3H":
+1: dim A$[200],T[760],K[150→S],K$[2*S];fxd 0
+2: asgn "SEC3",1;on end 1,"End"
+3: asgn "SEC3H",2;1→T
+4: "Loop":
+5: "object":R+1→R;sread 1,A$;pos(A$,"!")→P
+6: "locations":val(A$[P+1,P+5])→L;val(A$[P+6,P+12])→N
+7: A$[P+13]→A$[1,80];if L>99;A$[2]→A$
+8: dsp R,L,N;if L>R;beep;stp
+9: 1→P;if K[L]#0;-T[T-1]→T[T-1];gto +2
+10: T→K[L]
+11: for I=1 to 20
+12: if A$[P,P+7]="        ";gto "Marklast"
+13: val(A$[P,P+7])+1000N→T[T];P+8→P;T+1→T
+14: next I
+15: "Marklast":-T[T-1]→T[T-1];gto "Loop"
+16: "End":dsp "Travel and Key Arrays Built!"
+17: for I=1 to S;fti (K[I])→K$[2I-1];next I
+18: sprt 2,K$,T[*]
+19: dsp "File SEC3H built."
+*32077

@@ -1,0 +1,37 @@
+# Above ground, the well house, the grate and the rooms down to the small
+# pit (locations below 15: no dwarves, nothing random)
+no
+in
+get lamp
+get keys
+get food
+get bottle
+inventory
+look
+get
+out
+s
+s
+s
+unlock grate
+d
+on
+w
+get cage
+w
+w
+w
+get bird
+take rod
+w
+score
+n
+xyzzy
+inventory
+drop bird
+drop cage
+off
+eat food
+drink water
+quit
+y

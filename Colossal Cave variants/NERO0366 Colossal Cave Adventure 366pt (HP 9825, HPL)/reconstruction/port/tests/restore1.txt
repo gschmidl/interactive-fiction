@@ -1,0 +1,13 @@
+# Part 1 of the restore test: down through the grate, then suspend
+no
+in
+get lamp
+get keys
+out
+s
+s
+s
+unlock grate
+d
+suspend
+y

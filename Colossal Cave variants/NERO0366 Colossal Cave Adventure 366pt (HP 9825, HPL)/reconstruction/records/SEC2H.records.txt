@@ -1,0 +1,150 @@
+   1: 1 | "You're at End of Road again." | 0
+   2: 2 | "You're at Hill in Road." | 0
+   3: 3 | "You're inside Building." | 0
+   4: 4 | "You're in Valley." | 0
+   5: 5 | "You're in Forest." | 0
+   6: 6 | "You're in Forest." | 0
+   7: 7 | "You're at Slit in Streambed." | 0
+   8: 8 | "You're outside Grate." | 0
+   9: 9 | "You're below the Grate." | 0
+  10: 10 | "You're in Cobble Crawl." | 0
+  11: 11 | "You're in Debris Room." | 0
+  12: 0 | '' | 0
+  13: 13 | "You're in Bird Chamber." | 0
+  14: 14 | "You're at Top of Small Pit." | 0
+  15: 15 | "You're in Hall of Mists." | 0
+  16: 0 | '' | 0
+  17: 17 | "You're on East Bank of Fissure." | 0
+  18: 18 | "You're in Nugget of Gold Room." | 0
+  19: 19 | "You're in Hall of Mt King." | 0
+  20: 0 | '' | 0
+  21: 0 | '' | 0
+  22: 0 | '' | 0
+  23: 23 | "You're at West End of Twopit Room." | 0
+  24: 24 | "You're in East Pit." | 0
+  25: 25 | "You're in West Pit." | 0
+  26: 0 | '' | 0
+  27: 0 | '' | 0
+  28: 0 | '' | 0
+  29: 0 | '' | 0
+  30: 0 | '' | 0
+  31: 0 | '' | 0
+  32: 0 | '' | 0
+  33: 33 | 'You\'re at "Y2".' | 0
+  34: 0 | '' | 0
+  35: 35 | "You're at Window on Pit." | 0
+  36: 36 | "You're in Dirty Passage." | 0
+  37: 0 | '' | 0
+  38: 0 | '' | 0
+  39: 39 | "You're in Dusty Rock Room." | 0
+  40: 0 | '' | 0
+  41: 41 | "You're at West End of Hall of Mists." | 0
+  42: 0 | '' | 0
+  43: 0 | '' | 0
+  44: 0 | '' | 0
+  45: 0 | '' | 0
+  46: 0 | '' | 0
+  47: 0 | '' | 0
+  48: 0 | '' | 0
+  49: 0 | '' | 0
+  50: 0 | '' | 0
+  51: 0 | '' | 0
+  52: 0 | '' | 0
+  53: 0 | '' | 0
+  54: 0 | '' | 0
+  55: 0 | '' | 0
+  56: 0 | '' | 0
+  57: 57 | "You're at Brink of Pit." | 0
+  58: 0 | '' | 0
+  59: 0 | '' | 0
+  60: 60 | "You're at East End of Long Hall." | 0
+  61: 61 | "You're at West End of Long Hall." | 0
+  62: 0 | '' | 0
+  63: 0 | '' | 0
+  64: 64 | "You're at Complex Junction." | 0
+  65: 0 | '' | 0
+  66: 66 | "You're in Swiss Cheese Room." | 0
+  67: 67 | "You're at East End of Twopit Room." | 0
+  68: 68 | "You're in Slab Room." | 0
+  69: 0 | '' | 0
+  70: 0 | '' | 0
+  71: 71 | "You're at Junction of Three Secret Canyons." | 0
+  72: 0 | '' | 0
+  73: 0 | '' | 0
+  74: 74 | "You're in Secret E/W Canyon above Tight Canyon." | 0
+  75: 0 | '' | 0
+  76: 0 | '' | 0
+  77: 0 | '' | 0
+  78: 0 | '' | 0
+  79: 0 | '' | 0
+  80: 0 | '' | 0
+  81: 0 | '' | 0
+  82: 0 | '' | 0
+  83: 0 | '' | 0
+  84: 0 | '' | 0
+  85: 0 | '' | 0
+  86: 0 | '' | 0
+  87: 0 | '' | 0
+  88: 88 | "You're in Narrow Corridor." | 0
+  89: 0 | '' | 0
+  90: 0 | '' | 0
+  91: 91 | "You're at Steep Incline above Large Room." | 0
+  92: 92 | "You're in Giant Room." | 0
+  93: 0 | '' | 0
+  94: 0 | '' | 0
+  95: 95 | "You're in Cavern with Waterfall." | 0
+  96: 96 | "You're in Soft Room." | 0
+  97: 97 | "You're in Oriental Room." | 0
+  98: 98 | "You're in Misty Cavern." | 0
+  99: 99 | "You're in Alcove." | 0
+ 100: 100 | "You're in Plover Room." | 0
+ 101: 101 | "You're in Dark-Room." | 0
+ 102: 102 | "You're in Arched Hall." | 0
+ 103: 103 | "You're in Shell Room." | 0
+ 104: 0 | '' | 0
+ 105: 0 | '' | 0
+ 106: 106 | "You're in Anteroom." | 0
+ 107: 0 | '' | 0
+ 108: 108 | "You're at Witt's End." | 0
+ 109: 109 | "You're in Mirror Canyon." | 0
+ 110: 110 | "You're at Window on Pit." | 0
+ 111: 111 | "You're at Top of Stalactite." | 0
+ 112: 0 | '' | 0
+ 113: 113 | "You're at Reservoir." | 0
+ 114: 0 | '' | 0
+ 115: 115 | "You're at NE End." | 0
+ 116: 116 | "You're at SW End." | 0
+ 117: 117 | "You're on SW Side of Chasm." | 0
+ 118: 118 | "You're in Sloping Corridor." | 0
+ 119: 0 | '' | 0
+ 120: 0 | '' | 0
+ 121: 0 | '' | 0
+ 122: 122 | "You're on NE Side of Chasm." | 0
+ 123: 123 | "You're in Corridor." | 0
+ 124: 124 | "You're at Fork in Path." | 0
+ 125: 125 | "You're at Junction with Warm Walls." | 0
+ 126: 126 | "You're at Breath-Taking View." | 0
+ 127: 127 | "You're in Chamber of Boulders." | 0
+ 128: 128 | "You're in Limestone Passage." | 0
+ 129: 129 | "You're in Front of Barren Room." | 0
+ 130: 130 | "You're in Barren Room." | 0
+ 131: 0 | '' | 0
+ 132: 0 | '' | 0
+ 133: 0 | '' | 0
+ 134: 0 | '' | 0
+ 135: 0 | '' | 0
+ 136: 0 | '' | 0
+ 137: 0 | '' | 0
+ 138: 0 | '' | 0
+ 139: 0 | '' | 0
+ 140: 0 | '' | 0
+ 141: 141 | "You're in Room with Slanted Ceiling." | 0
+ 142: 0 | '' | 0
+ 143: 0 | '' | 0
+ 144: 0 | '' | 0
+ 145: 0 | '' | 0
+ 146: 0 | '' | 0
+ 147: 0 | '' | 0
+ 148: 0 | '' | 0
+ 149: 0 | '' | 0
+ 150: 0 | '' | 0

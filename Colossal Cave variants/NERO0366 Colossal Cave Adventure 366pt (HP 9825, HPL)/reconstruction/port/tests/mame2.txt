@@ -1,0 +1,159 @@
+
+
+Welcome to Adventure.  Would you like instructions?
+yes
+Somewhere nearby is colossal cave, where others have found fortunes in treasure
+and gold, though it is rumored that some who enter are never seen again.  Magic
+is said to work in the cave.  I will be your eyes and hands.  Direct me with
+commands of 1 or 2 words.  I should warn you that I look at only the first five
+letters of each word, so you'll have to enter "northeast" as "ne" to distinguish
+it from "north". (Should you get stuck, type "help" for some general hints.  For
+infor- mation on how to end your adventure, etc., type "info".)                 
+- - - Developed by Wille Crowther, Don Woods and Gary Palter.  If you have any
+problems, you may write the developers of this version of Adventure:            
+Eric Nelson and Craig Robinson                       Hewlett - Packard          
+Desktop Computer Division                      Ft. Collins, Colorado. 
+You are standing at the end of a road before a small brick building. Around you
+is a forest.  A small stream flows out of the building and down a gully.
+info
+If you want to end your adventure early, say "quit". To suspend your adventure
+such that you can continue later, say "suspend".  To re-start your game at a
+later time, just RUN the program as usual, and it will remember that you had
+suspended. To see how well you're doing, say "score".  To get full credit for a
+treasure, you must have left it safely in the building, though you get partial
+credit just for locating it.  You lose points for getting killed, or for
+quitting, though the former costs you more.  There are also points based on how
+much (if any) of the cave you've managed to explore; in particular, there is a
+large bonus just for getting in (to distinguish the beginners from the rest of
+the pack), and there are other ways to determine whether you've been through
+some of the more harrowing sections.  If you think you've found all the
+treasures, just keep exploring for a while.  If nothing interesting happens, you
+haven't found them all yet.  If something interesting DOES happen, it means
+you're getting a bonus and have an opportunity to garner many more points in the
+master's section.  I may occasionally offer hints if you seem to be having
+trouble.  If I do, I'll warn you in advance how much it will affect your score
+to accept the hints.  Finally, to save paper, you may specify "brief", which
+tells me never to repeat the full description of a place unless you explicitly
+ask me to.
+help
+I know of places, actions, and things.  Most of my vocabulary describes places
+and is used to move you there.  To move, try words like forest, building,
+downstream, enter, east, west, north, south, up, or down.  I know about a few
+special objects, like a black rod hidden in the cave.  These objects can be
+manipulated using some of the action words that I know.  Usually you will need
+to give both the object and action words (in either order), but sometimes I can
+infer the object from the verb alone.  Some objects also imply verbs; in
+particular, 'inventory' implies 'take inventory', which causes me to give you a
+list of what you're carrying.  The objects have side effects; for instance, the
+rod scares the bird.  Usually people having trouble moving just need to try a
+few more words.  Usually people trying unsuccessfully to manipulate an object
+are attempting something beyond their (or my) capabilities and should try a
+completely different tack.  To speed the game you can sometimes move long
+distances with a single word.  For example, 'building' usually gets you to the
+building from anywhere above ground except when lost in the forest.  Also, note
+that cave passages turn a lot, and that leaving a room to the north does not
+guarantee entering the next from the south. Good luck.
+west
+You have walked up a hill, still in the forest.  The road slopes back down the
+other side of the hill.  There is a building in the distance.
+west
+There is no way to go that direction.
+You're at Hill in Road.
+west
+There is no way to go that direction.
+You're at Hill in Road.
+west
+There is no way to go that direction.
+You're at Hill in Road.
+west
+There is no way to go that direction.
+You're at Hill in Road.
+west
+There is no way to go that direction.
+You have walked up a hill, still in the forest.  The road slopes back down the
+other side of the hill.  There is a building in the distance.
+west
+There is no way to go that direction.
+You're at Hill in Road.
+west
+There is no way to go that direction.
+You're at Hill in Road.
+west
+There is no way to go that direction.
+You're at Hill in Road.
+west
+If you prefer, simply type 'w' rather than 'west'.
+There is no way to go that direction.
+You're at Hill in Road.
+road
+You're at End of Road again.
+building
+You are inside a building, a well house for a large spring.
+There are some keys on the ground here.
+There is a shiny brass lamp nearby.
+There is food here.
+There is a bottle of water here.
+get lamp
+Ok
+find keys
+I believe what you want is right here with you.
+water plant
+I see no "PLANT" here.
+brief
+Okay, from now on I'll only describe a place in full the first time you come to
+it.  To get the full description, say "look".
+pour water
+You aren't carrying it.
+get bottle
+Ok
+pour water
+Your bottle is empty and the ground is wet.
+fill bottle
+Your bottle is now full of water.
+drink
+The bottle of water is now empty.
+light lamp
+Your lamp is now on.
+extinguish lamp
+Your lamp is now off.
+wave rod
+I see no "ROD" here.
+throw food
+You aren't carrying it.
+take food
+Ok
+throw food
+Ok
+read
+
+"READ" what?
+inventory
+You are currently holding the following
+Brass lantern
+Small bottle
+score
+If you quit now, you would score 27 out of a possible 366
+Do you indeed wish to quit now?
+n
+Ok
+out
+You're at End of Road again.
+look
+You are standing at the end of a road before a small brick building. Around you
+is a forest.  A small stream flows out of the building and down a gully.
+in
+You're inside Building.
+There is food here.
+There are some keys on the ground here.
+xyzzy
+It is now pitch dark.  If you proceed you will likely fall into a pit.
+quit
+Do you really want to quit now?
+y
+Ok
+
+
+You scored 27 out of a possible 366, 
+using 37 turns.
+You are obviously a Rank Amateur.  Better luck next time.
+To achieve the next higher rating, you need 9 more points.

@@ -1,0 +1,12 @@
+0: dim K$[300],T[760],A[32]
+1: fxd 0
+2: "Readrest":asgn "SEC3H",1;sread 1,K$,T[*]
+3: asgn "TRVL",2
+4: for I=0 to 800-32 by 32;for J=1 to 32
+5: if I+J<=760;T[J+I]→A[J];gto +2
+6: 0→A[J]
+7: next J
+8: sprt 2,A[*]
+9: dsp I;next I
+10: dsp "DONE"
+*988

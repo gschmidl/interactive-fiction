@@ -1,0 +1,33 @@
+0: "Search & Destroy Program  781031 mjr":
+1: "Allows replacement of program strings":
+2: "Systems Prog., Extended I/O, Strings, Advanced Prog. ROMs Required":
+3: buf "t",120,1;32→N;fxd 0;fmt 1,f3.0,c;fmt 2,"  ",c," says:"
+4: dim P$[90],S$[90],R$[90],T$[90],F$[10]
+5: "PFN":""→R$;enp "Prog. File Name:",F$;F$[1,6]→F$
+6: asgn F$,1,0,R;if R=2;chain F$,N,8
+7: beep;dsp "That's not a program file, honey";wait 1500;beep;gto -2
+8: "P":""→S$→R$;enp "Program string  to be replaced:",S$;if flg13;gto "fin"
+9: S$→R$;enp "New string:",R$
+10: 0→F;nal-1→T
+11: dsp "Enter line # < 0 to cancel scan"
+12: enp "From line number",F,"to line number",T
+13: for I=N+F to T;if F<0 or T<0;gto "P"
+14: list #'T',I,I
+15: dsp "Processing Line #",I-N;on err "insert"
+16: red "t",P$;pos(P$,":")+1→K;P$→T$
+17: "List":pos(P$[K],S$)+K-1→J
+18: if J=K-1;next I;gto "P";spc 2
+19: P$[1,J-1]&R$&P$[J+len(S$)]→P$;J+len(R$)→K
+20: if len(P$)>80;beep;dsp "Result string (P$) > 80 char.";stp
+21: prt str(val(P$[1,(pos(P$,":")→L)-1])-N),P$[L]
+22: "put":store P$
+23: gto "List"
+24: "insert":beep;dsp "Error in line number",val(P$[1,(pos(P$,":")→M)-1])-N→L
+25: wait 999;prt "***";wrt 6.1,L,P$[M];dsp "The line has NOT been changed!"
+26: wrt 6.1,L,T$[M];wrt 6;wait 1500;next I;gto "P";wrt 6;wrt 6
+27: "T":ret "t.1"
+28: "fin":ent "Resave the file? ( y or n )",R$;if not pos(cap(R$),"Y");gto +2
+29: resave F$,N;wrt 16.2,F$;prt "I'VE BEEN SAVED!";spc ;gto "PFN"
+30: beep;dsp "Well! do it yourself then!";wait 2500
+31: beep;dsp " I'm going back to my program";wait 2000;gto "PFN"
+*6581

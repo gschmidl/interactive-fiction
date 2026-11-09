@@ -1,0 +1,18 @@
+0: dim V$[5(320→r19)],I$[2r19],W$[5,5],A$[50],M$[80]
+1: asgn "SEC4H",1;sread 1,V$,I$
+2: ent "Enter Word to match",A$;cap(A$[1,min(5,len(A$))])→W$[1,1,5]
+3: ent "Enter 2nd Vocab parameter",J
+4: 'Vocab'(1,J)→L;prt W$[1],I,J,L;gto -2
+5: "Vocab":r19/2→p3→p4;W$[1]→M$;if p1=2;W$[2]→M$
+6: if M$=V$[5p3-4,5p3];gto "Found"
+7: if abs(p4)<.4;gto "Notfound"
+8: abs(p4/2)(2(M$>V$[5p3-4,5p3])-1)→p4;prnd(p4+p3,0)→p3;gto -2
+9: "Notfound":if p2>=0;ent "BUG 5",p5
+10: ret -1
+11: "Found":if M$#V$[5(p3-1)-4,5(p3-1)];gto "Foundfirst"
+12: p3-1→p3;gto -1
+13: "Foundfirst":if p2<0;ret itf(I$[2p3-1])
+14: if p2=int(itf(I$[2p3-1])/1000);ret itf(I$[2p3-1])mod1000
+15: p3+1→p3;if M$=V$[5p3-4,5p3];gto -1
+16: ent "BUG 21",X;ret -1
+*12721

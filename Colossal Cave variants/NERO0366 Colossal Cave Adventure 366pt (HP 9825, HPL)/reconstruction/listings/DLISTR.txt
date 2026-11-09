@@ -1,0 +1,53 @@
+0: "Disk LISTer [requires extended I/O]":
+1: dim B$[6],I$[90],O$[90],T$[2,80],Y$[80],R$[80],D$[20]
+2: "set up buffer":buf "lisb",90,1
+3: "1st LINE FOR PGM LOAD":52→S
+4: "LINES PER PAGE":51→M
+5: ent "Enter printer select code",O
+6: "KILL 'Lf' IF SELECTRIC":if O=4;sfg 10
+7: "lisd":ent "Date",D$,"Indent for-nexts?",O$
+8: if pos(O$,"y");sfg 1
+9: "list":ent "FILE NAME",B$;chain B$,S,10
+10: "lisn":for P=1 to 80
+11: " "→T$[1,P,P]→T$[2,P,P]
+12: "-"→R$[P,P]
+13: next P
+14: on err "lisf"
+15: S→Z;gsb "lisl"
+16: if len(I$)>7 and I$[len(I$)]=":";I$[6,len(I$)-2]→T$[1,6,len(I$)-2]
+17: D$→T$[1,80-len(D$)]
+18: for P=1 to 80
+19: if T$[1,P,P]#" ";"-"→T$[2,P,P]
+20: next P
+21: "lisq":fmt 1,2/,c,/,c,/,5x,c,f2.0,c,f3.0,c,2/
+22: fmt 2,f4.0,":",c
+23: fmt 3,4/,35x,c,f3.0,c,3/,c
+24: fmt 4,c,f4.0,c
+25: 0→P→L;S-1→Z;8→I
+26: "liss":wrt O;wait 2000
+27: wrt O+.1,T$[1],T$[2],"(FILE NAME :",B$,")";P+1→P;0→N
+28: "lisx":L+1→L;N+1→N;Z+1→Z
+29: gsb "lisl"
+30: " "→O$[1,1]
+31: I$[pos(I$,":")+1]→Y$
+32: if pos(Y$[1,3],"""") and pos(Y$,""":");sfg 2;wrt O;N+1→N
+33: if pos(Y$,"for ") and flg1;I+1→I
+34: if pos(Y$,"next ") and flg1;sfg 3
+35: if pos(Y$,"gto ");"→"→O$[1,1]
+36: if pos(Y$,"ldf ");"#"→O$[1,1]
+37: if flg2;cfg 2;2→J;gto "liso"
+38: for J=2 to I;" "→O$[J,J];next J
+39: "liso":Y$[2]→O$[J];if flg3;cfg 3;I-1→I
+40: wrt O+.2,L,O$
+41: if N<M;gto "lisx"
+42: wrt O+.3,"-",P," -",R$
+43: gto "liss"
+44: "lisf":if I-8;wrt O;wrt O+.4,"***",I-8," for-nexts unsatisfied ***";N+2→N
+45: for Y=N to M;wrt O;next Y
+46: wrt O+.3,"-",P," -",R$;wrt O
+47: gto "list"
+48: "lisl":eol ;list #'lsb',Z,Z
+49: red "lisb",I$;if flg10;eol 13
+50: ret
+51: "lsb":ret "lisb.1"
+*3494

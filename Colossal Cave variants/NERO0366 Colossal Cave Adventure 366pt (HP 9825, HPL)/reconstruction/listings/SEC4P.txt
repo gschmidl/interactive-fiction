@@ -1,0 +1,24 @@
+0: "Program to form SEC4H vocabulary tables":
+1: "Forms V$ with the 5 letter words":
+2: "and I$ with the key word value":
+3: dim A$[80],V$[(320→L)*5],I$[L*2];fxd 0
+4: asgn "SEC4",1;on end 1,"DONE"
+5: "Loop":for I=1 to L
+6: sread 1,A$;pos(A$,"!")→P
+7: val(A$[P+1,P+5])→B;A$[P+6]→V$[5I-4,5I]
+8: fti (B)→I$[2I-1];dsp I,B,V$[5I-4]
+9: if I=1;gto +3
+10: if V$[5I-4,5I]>=V$[5(I-1)-4,5(I-1)];gto +2
+11: prt "Sort",V$[5I-4,5I];gsb "Sort"
+12: next I;dsp "Table Too short( L)";stp
+13: "DONE":"     "→V$[5I-4];fti (0)→I$[2I-1];next I
+14: asgn "SEC4H",2;sprt 2,V$,I$
+15: dsp "Done!";stp
+16: "Sort":for J=1 to I
+17: if V$[5I-4,5I]>V$[5J-4,5J];gto "nextJ"
+18: V$[1,5(J-1)]&V$[5I-4,5I]&V$[5J-4,5(I-1)]→V$[1,5I]
+19: prt V$[5J-4,5J+5]
+20: I$[1,2(J-1)]&I$[2I-1]&I$[2J-1,2(I-1)]→I$[1,2I];ret
+21: "nextJ":next J
+22: dsp "Sort failed!!";stp
+*4439

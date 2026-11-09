@@ -1,0 +1,165 @@
+   1: 1 | 'Set of keys' | 0 | 75 | 0 | 0 | 0 | 0 | 0
+   2: 2 | 'Brass lantern' | 0 | 76 | 77 | 0 | 0 | 0 | 0
+   3: 3 | '*grate' | 0 | 78 | 79 | 0 | 0 | 0 | 0
+   4: 4 | 'Wicker cage' | 0 | 80 | 0 | 0 | 0 | 0 | 0
+   5: 5 | 'Black rod' | 0 | 81 | 0 | 0 | 0 | 0 | 0
+   6: 6 | 'Black rod' | 0 | 82 | 0 | 0 | 0 | 0 | 0
+   7: 7 | '*steps' | 0 | 83 | 84 | 0 | 0 | 0 | 0
+   8: 8 | 'Little bird in cage' | 0 | 85 | 86 | 0 | 0 | 0 | 0
+   9: 9 | '*rusty door' | 0 | 87 | 88 | 0 | 0 | 0 | 0
+  10: 10 | 'Velvet pillow' | 0 | 89 | 0 | 0 | 0 | 0 | 0
+  11: 11 | '*snake' | 0 | 90 | 91 | 0 | 0 | 0 | 0
+  12: 12 | '*fissure' | 0 | 92 | 93 | 94 | 0 | 0 | 0
+  13: 13 | '*stone tablet' | 0 | 95 | 0 | 0 | 0 | 0 | 0
+  14: 14 | 'Giant clam  >grunt<' | 0 | 97 | 0 | 0 | 0 | 0 | 0
+  15: 15 | 'Giant oyster  >groan<' | 0 | 98 | 99 | 0 | 0 | 0 | 0
+  16: 16 | '"Spelunker Today"' | 0 | 101 | 0 | 0 | 0 | 0 | 0
+  19: 19 | 'Tasty food' | 0 | 102 | 0 | 0 | 0 | 0 | 0
+  20: 20 | 'Small bottle' | 0 | 103 | 104 | 105 | 0 | 0 | 0 | 0
+  21: 21 | 'Water in the bottle' | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0
+  22: 22 | 'Oil in the bottle' | 0 | 0 | 0 | 0 | 0 | 0 | 0
+  23: 23 | '*mirror' | 0 | 106 | 0 | 0 | 0 | 0 | 0
+  24: 24 | '*plant' | 0 | 107 | 108 | 109 | 111 | 112 | 113
+  25: 25 | '*phony plant (seen in twopit room only when tall enough)' | 0 | 114 | 115 | 116 | 0 | 0 | 0
+  26: 26 | '*stalactite' | 0 | 117 | 0 | 0 | 0 | 0 | 0
+  27: 27 | '*shadowy figure' | 0 | 118 | 0 | 0 | 0 | 0 | 0
+  28: 28 | "Dwarf's axe" | 0 | 119 | 120 | 0 | 0 | 0 | 0
+  29: 29 | '*cave drawings' | 0 | 121 | 0 | 0 | 0 | 0 | 0
+  30: 30 | '*pirate' | 0 | 122 | 0 | 0 | 0 | 0 | 0
+  31: 31 | '*dragon' | 0 | 123 | 124 | 126 | 0 | 0 | 0
+  32: 32 | '*chasm' | 0 | 127 | 129 | 0 | 0 | 0 | 0
+  33: 33 | '*troll' | 0 | 131 | 133 | 134 | 0 | 0 | 0
+  34: 34 | '*phony troll' | 0 | 135 | 0 | 0 | 0 | 0 | 0
+  35: 35 | '>$<  (bear uses rtext 141)' | 0 | 136 | 137 | 138 | 139 | 0 | 0
+  36: 36 | '*message in second maze' | 0 | 140 | 0 | 0 | 0 | 0 | 0
+  37: 37 | '*volcano and/or geyser' | 0 | 142 | 0 | 0 | 0 | 0 | 0
+  38: 38 | '*vending machine' | 0 | 143 | 0 | 0 | 0 | 0 | 0
+  39: 39 | 'Batteries' | 0 | 145 | 146 | 0 | 0 | 0 | 0
+  40: 40 | '*carpet and/or moss' | 0 | 147 | 0 | 0 | 0 | 0 | 0
+  41: 41 | '*Passage to NE' | 0 | 173 | 174 | 0 | 0 | 0 | 0
+  42: 42 | '*Passage to NW' | 0 | 171 | 172 | 0 | 0 | 0 | 0
+  43: 43 | '*The boat' | 0 | 175 | 0 | 0 | 0 | 0 | 0
+  44: 44 | '*The boatman' | 0 | 176 | 0 | 0 | 0 | 0 | 0
+  45: 45 | 'Old shovel' | 0 | 177 | 178 | 0 | 0 | 0 | 0
+  50: 50 | 'Large gold nugget' | 0 | 148 | 0 | 0 | 0 | 0 | 0
+  51: 51 | 'Several diamonds' | 0 | 149 | 0 | 0 | 0 | 0 | 0
+  52: 52 | 'Bars of silver' | 0 | 150 | 0 | 0 | 0 | 0 | 0
+  53: 53 | 'Precious jewelry' | 0 | 151 | 0 | 0 | 0 | 0 | 0
+  54: 54 | 'Rare coins' | 0 | 152 | 0 | 0 | 0 | 0 | 0
+  55: 55 | 'Treasure chest' | 0 | 153 | 0 | 0 | 0 | 0 | 0
+  56: 56 | 'Golden eggs' | 0 | 154 | 155 | 156 | 0 | 0 | 0
+  57: 57 | 'Jeweled trident' | 0 | 157 | 0 | 0 | 0 | 0 | 0
+  58: 58 | 'Ming vase' | 0 | 158 | 159 | 160 | 161 | 0 | 0
+  59: 59 | 'Egg-sized emerald' | 0 | 162 | 0 | 0 | 0 | 0 | 0
+  60: 60 | 'Platinum pyramid' | 0 | 163 | 0 | 0 | 0 | 0 | 0
+  61: 61 | 'Glistening pearl' | 0 | 164 | 0 | 0 | 0 | 0 | 0
+  62: 62 | 'Persian rug' | 0 | 165 | 166 | 0 | 0 | 0 | 0
+  63: 63 | 'Rare spices' | 0 | 167 | 0 | 0 | 0 | 0 | 0
+  64: 64 | 'Golden chain' | 0 | 168 | 169 | 170 | 0 | 0 | 0
+  65: 65 | 'Gold ring' | 0 | 179 | 180 | 0 | 0 | 0 | 0
+  75: 0 | 'There are some keys on the ground here.' | 0
+  76: 0 | 'There is a shiny brass lamp nearby.' | 0
+  77: 100 | 'There is a lamp shining nearby.' | 0
+  78: 0 | 'The grate is locked.' | 0
+  79: 100 | 'The grate is open.' | 0
+  80: 0 | 'There is a small wicker cage discarded nearby.' | 0
+  81: 0 | 'A three foot black rod with a rusty star on an end lies nearby.' | 0
+  82: 0 | 'A three foot black rod with a rusty mark on an end lies nearby.' | 0
+  83: 0 | 'Rough stone steps lead down the pit.' | 0
+  84: 100 | 'Rough stone steps lead up the dome.' | 0
+  85: 0 | 'A cheerful little bird is sitting here singing.' | 0
+  86: 100 | 'There is a little bird in the cage.' | 0
+  87: 0 | 'The way north is barred by a massive, rusty, iron door.' | 0
+  88: 100 | 'The way north leads through a massive, rusty, iron door.' | 0
+  89: 0 | 'A small velvet pillow lies on the floor.' | 0
+  90: 0 | 'A huge green fierce snake bars the way.' | 0
+  91: 100 | '>$<  (chased away)' | 0
+  92: 0 | '>$<' | 0
+  93: 100 | 'A crystal bridge now spans the fissure.' | 0
+  94: 200 | 'The crystal bridge has vanished.' | 0
+  95: 0 | 'A massive stone tablet embedded in the wall reads:' | 96
+  96: 0 | '"GHAZH Congratulations on bringing light into the dark-room."' | 0
+  97: 0 | 'There is an enormous clam here with its shell tightly closed.' | 0
+  98: 0 | 'There is an enormous oyster here with its shell tightly closed.' | 0
+  99: 100 | 'Interesting.  There seems to be something written on the underside of' | 100
+ 100: 100 | 'The oyster.' | 0
+ 101: 0 | 'There are a few recent issues of "Spelunker Today" magazine here.' | 0
+ 102: 0 | 'There is food here.' | 0
+ 103: 0 | 'There is a bottle of water here.' | 0
+ 104: 100 | 'There is an empty bottle here.' | 0
+ 105: 200 | 'There is a bottle of oil here.' | 0
+ 106: 0 | '>$<' | 0
+ 107: 0 | 'There is a tiny little plant in the pit, murmuring "Water, water, ..."' | 0
+ 108: 100 | 'The plant spurts into furious growth for a few seconds.' | 0
+ 109: 200 | 'There is a 12-foot-tall beanstalk stretching up out of the pit,' | 110
+ 110: 200 | 'Bellowing "Water, water, ..."' | 0
+ 111: 300 | 'The plant grows explosively, almost filling the bottom of the pit.' | 0
+ 112: 400 | 'There is a gigantic beanstalk stretching all the way up to the hole.' | 0
+ 113: 500 | "You've over-watered the plant.  It's shriveling up.  It's, it's ..." | 0
+ 114: 0 | '>$<' | 0
+ 115: 100 | 'The top of a 12-foot-tall beanstalk is poking out of the west pit.' | 0
+ 116: 200 | 'There is a huge beanstalk growing out of the west pit up to the hole.' | 0
+ 117: 0 | '>$<' | 0
+ 118: 0 | 'The shadowy figure seems to be trying to attract your attention.' | 0
+ 119: 0 | 'There is a little axe here.' | 0
+ 120: 100 | 'There is a little axe lying beside the bear.' | 0
+ 121: 0 | '>$<' | 0
+ 122: 0 | '>$<' | 0
+ 123: 0 | 'A huge green fierce dragon bars the way.' | 0
+ 124: 100 | 'Congratulations.  You have just vanquished a dragon with your bare' | 125
+ 125: 100 | "Hands.  (Unbelievable, isn't it?)" | 0
+ 126: 200 | 'The body of a huge green dead dragon is lying off to one side.' | 0
+ 127: 0 | 'A rickety wooden bridge extends across the chasm, vanishing into the' | 128
+ 128: 0 | 'mist.  A sign posted on the bridge reads, "Stop. Pay Troll."' | 0
+ 129: 100 | 'The wreckage of a bridge (and a dead bear) can be seen at the bottom' | 130
+ 130: 100 | 'Of the chasm.' | 0
+ 131: 0 | 'A burly troll stands by the bridge and insists you throw him a' | 132
+ 132: 0 | 'treasure before you may cross.' | 0
+ 133: 100 | 'The troll steps out from beneath the bridge and blocks your way.' | 0
+ 134: 200 | '>$<  (chased away)' | 0
+ 135: 0 | 'The troll is nowhere to be seen.' | 0
+ 136: 0 | 'There is a ferocious cave bear eyeing you from the far end of the room.' | 0
+ 137: 100 | 'There is a gentle cave bear sitting placidly in one corner.' | 0
+ 138: 200 | 'There is a contented-looking bear wandering about nearby.' | 0
+ 139: 300 | '>$<  (dead)' | 0
+ 140: 0 | 'There is a message scrawled in the dust in a flowery script, reading' | 141
+ 141: 0 | '"This is not the maze where the pirate leaves his treasure chest."' | 0
+ 142: 0 | '>$<' | 0
+ 143: 0 | 'There is a massive vending machine here.  The instructions on it read' | 144
+ 144: 0 | '"Drop coins here to receive fresh batteries."' | 0
+ 145: 0 | 'There are fresh batteries here.' | 0
+ 146: 100 | 'Some worn-out batteries have been discarded nearby.' | 0
+ 147: 0 | '>$<' | 0
+ 148: 0 | 'There is a large sparkling nugget of gold here!' | 0
+ 149: 0 | 'There are diamonds here!' | 0
+ 150: 0 | 'There are bars of silver here!' | 0
+ 151: 0 | 'There is precious jewelry here!' | 0
+ 152: 0 | 'There are many coins here!' | 0
+ 153: 0 | "The pirate's treasure chest is here!" | 0
+ 154: 0 | 'There is a large nest here, full of golden eggs!' | 0
+ 155: 100 | 'The nest of golden eggs has vanished.' | 0
+ 156: 200 | 'Done.' | 0
+ 157: 0 | 'There is a jewel-encrusted trident here!' | 0
+ 158: 0 | 'There is a delicate, precious, Ming vase here!' | 0
+ 159: 100 | 'The vase is now resting, delicately, on a velvet pillow.' | 0
+ 160: 200 | 'The floor is littered with worthless shards of pottery.' | 0
+ 161: 300 | 'The Ming vase drops with a delicate crash.' | 0
+ 162: 0 | "There is an emerald here the size of a plover's egg!" | 0
+ 163: 0 | 'There is a platinum pyramid here, 8 inches on a side!' | 0
+ 164: 0 | 'Off to one side lies a glistening pearl!' | 0
+ 165: 0 | 'There is a Persian rug spread out on the floor!' | 0
+ 166: 100 | 'The dragon is sprawled out on a Persian rug..' | 0
+ 167: 0 | 'There are rare spices here!' | 0
+ 168: 0 | 'There is a golden chain lying in a heap on the floor.' | 0
+ 169: 100 | 'The bear is locked to the wall with a golden chain.' | 0
+ 170: 200 | 'There is a golden chain locked to the wall.' | 0
+ 171: 0 | 'A passage once continued on here.' | 0
+ 172: 100 | 'There is a low crawl leading NE.' | 0
+ 173: 0 | '>$<' | 0
+ 174: 100 | 'There is a tight crawl here leading NW.' | 0
+ 175: 0 | 'There is a small, crude boat on the shore.' | 0
+ 176: 0 | 'A boatman is standing nearby.' | 0
+ 177: 0 | 'A decrepit old shovel is lying nearby.' | 0
+ 178: 100 | 'There are pieces of a broken shovel scattered here.' | 0
+ 179: 0 | 'There is a shiny gold ring on the floor!' | 0
+ 180: 100 | 'There is something shiny embedded in the wall of the room.' | 0

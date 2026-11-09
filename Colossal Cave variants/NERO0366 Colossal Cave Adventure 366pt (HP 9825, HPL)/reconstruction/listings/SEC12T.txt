@@ -1,0 +1,10 @@
+0: "PROGRAM TO TEST SEC12H ADVENTURE Terminate MESSAGE FILE":
+1: dim B$[80]
+2: asgn "SEC12H",1
+3: "loop":ent "Message to Speak",M
+4: on end 1,"empty"
+5: rread 1,M,B,B$,M
+6: dsp B,B$;wait 3000;if M#0;gto -1
+7: gto "loop"
+8: "empty":beep;dsp "NO MESSAGE at",M;wait 2000;gto "loop"
+*11202

@@ -1,0 +1,11 @@
+0: "File builder for adventure SEC10H file":
+1: dim A$[500],B$[80];fxd 0;12→L
+2: asgn "SEC10",1;on end 1,"END"
+3: asgn "SEC10H",2
+4: "Loop":
+5: sread 1,A$;pos(A$,"!")→P
+6: val(A$[P+1,P+4])→B;A$[P+5]→B$;if B=O;sprt 2,L
+7: if O#B;sprt 2,0;rprt 2,J+1→J,B,B$;B→O;gto "Loop"
+8: rprt 2,L,B,B$;dsp L,B,B$;L+1→L;gto "Loop"
+9: "END":sprt 2,0;dsp "DONE!"
+*18485

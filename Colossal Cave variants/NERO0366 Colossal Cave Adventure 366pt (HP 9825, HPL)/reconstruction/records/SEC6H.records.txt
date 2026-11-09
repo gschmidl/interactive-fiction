@@ -1,0 +1,350 @@
+   1: 1 | 'Somewhere nearby is colossal cave, where others have found fortunes in' | 225
+   2: 2 | 'A little dwarf with a big knife blocks your way.' | 0
+   3: 3 | 'A little dwarf just walked around a corner, saw you, threw a little' | 241
+   4: 4 | 'There is a threatening little dwarf in the room with you.' | 0
+   5: 5 | 'One sharp nasty knife is thrown at you.' | 0
+   6: 6 | 'None of them hit you.' | 0
+   7: 7 | 'One of them gets you.' | 0
+   8: 8 | 'A hollow voice says "Plugh".' | 0
+   9: 9 | 'There is no way to go that direction.' | 0
+  10: 10 | 'I am unsure how you are facing.  Use compass points or nearby objects.' | 0
+  11: 11 | "I don't know in from out here.  Use compass points or name something" | 242
+  12: 12 | "I don't know how to apply that word here." | 0
+  13: 13 | "I don't understand that." | 0
+  14: 14 | "I'm game.  Would you care to explain how?" | 0
+  15: 15 | 'Sorry, but I am not allowed to give more detail.  I will repeat the' | 243
+  16: 16 | 'It is now pitch dark.  If you proceed you will likely fall into a pit.' | 0
+  17: 17 | "If you prefer, simply type 'w' rather than 'west'." | 0
+  18: 18 | 'Are you trying to catch the bird?' | 0
+  19: 19 | 'The bird is frightened right now and you cannot catch it no matter' | 244
+  20: 20 | 'Are you trying to somehow deal with the snake?' | 0
+  21: 21 | "You can't kill the snake, or drive it away, or avoid it, or anything" | 245
+  22: 22 | 'Do you really want to quit now?' | 0
+  23: 23 | 'You fell into a pit and broke every bone in your body.' | 0
+  24: 24 | 'You are already carrying it.' | 0
+  25: 25 | "You can't be serious." | 0
+  26: 26 | 'The bird was unafraid when you entered, but as you approach it becomes' | 247
+  27: 27 | 'You can catch the bird, but you cannot carry it.' | 0
+  28: 28 | 'There is nothing here with a lock.' | 0
+  29: 29 | "You aren't carrying it." | 0
+  30: 30 | 'The little bird attacks the green snake, and in an astounding flurry' | 248
+  31: 31 | 'You have no keys.' | 0
+  32: 32 | 'It has no lock.' | 0
+  33: 33 | "I don't know how to lock or unlock such a thing." | 0
+  34: 34 | 'It was already locked.' | 0
+  35: 35 | 'The grate is now locked.' | 0
+  36: 36 | 'The grate is now unlocked.' | 0
+  37: 37 | 'It was already unlocked.' | 0
+  38: 38 | 'You have no source of light.' | 0
+  39: 39 | 'Your lamp is now on.' | 0
+  40: 40 | 'Your lamp is now off.' | 0
+  41: 41 | 'There is no way to get past the bear to unlock the chain, which is' | 249
+  42: 42 | 'Nothing happens.' | 0
+  43: 43 | 'Where?' | 0
+  44: 44 | 'There is nothing here to attack.' | 0
+  45: 45 | 'The little bird is now dead.  Its body disappears.' | 0
+  46: 46 | "Attacking the snake both doesn't work and is very dangerous." | 0
+  47: 47 | 'You killed a little dwarf.' | 0
+  48: 48 | 'You attack a little dwarf, but he dodges out of the way.' | 0
+  49: 49 | 'With what?  Your bare hands?' | 0
+  50: 50 | 'Good try, but that is an old worn-out magic word.' | 0
+  51: 51 | 'I know of places, actions, and things.  Most of my vocabulary' | 250
+  52: 52 | 'It misses.' | 0
+  53: 53 | 'It gets you.' | 0
+  54: 54 | 'Ok' | 0
+  55: 55 | "You can't unlock the keys." | 0
+  56: 56 | 'You have crawled around in some little holes and wound up back in the' | 269
+  57: 57 | "I don't know where the cave is, but hereabouts no stream can run on" | 270
+  58: 58 | 'I need more detailed instructions to do that.' | 0
+  59: 59 | 'I can only tell you what you see as you move about and manipulate' | 271
+  60: 60 | "I don't know that word." | 0
+  61: 61 | 'What?' | 0
+  62: 62 | 'Are you trying to get into the cave?' | 0
+  63: 63 | 'The grate is very solid and has a hardened steel lock.  You cannot' | 272
+  64: 64 | 'The trees of the forest are large hardwood oak and maple, with an' | 274
+  65: 65 | 'Welcome to Adventure.  Would you like instructions?' | 0
+  66: 66 | 'Digging without a shovel is quite impractical.  Even with a shovel' | 279
+  67: 67 | 'Blasting requires dynamite.' | 0
+  68: 68 | "I'm as confused as you are." | 0
+  69: 69 | 'Mist is a white vapor, usually water, seen from time to time in' | 280
+  70: 70 | 'Your feet are now wet.' | 0
+  71: 71 | 'I think I just lost my appetite.' | 0
+  72: 72 | 'Thank you, it was delicious.' | 0
+  73: 73 | 'You have taken a drink from the stream.  The water tastes strongly of' | 282
+  74: 74 | 'The bottle of water is now empty.' | 0
+  75: 75 | 'Rubbing the electric lamp is not particularly rewarding.  Anyway,' | 283
+  76: 76 | 'Peculiar.  Nothing unexpected happens.' | 0
+  77: 77 | 'Your bottle is empty and the ground is wet.' | 0
+  78: 78 | "You can't pour that." | 0
+  79: 79 | 'Watch it.' | 0
+  80: 80 | 'Which way?' | 0
+  81: 81 | 'Oh dear, you seem to have gotten yourself killed.  I might be able to' | 284
+  82: 82 | "All right.  But don't blame me if something goes wr......" | 286
+  83: 83 | "You clumsy oaf, you've done it again.  I don't know how long I can" | 289
+  84: 84 | 'Okay, now where did I put my orange smoke?....  >poof.<' | 290
+  85: 85 | "Now you've really done it.  I'm out of orange smoke.  You don't expect" | 291
+  86: 86 | "Okay, if you're so smart, do it yourself.  I'm leaving." | 0
+  90: 90 | '>>> messages 81 thru 90 are reserved for obituaries". <<<' | 0
+  91: 91 | 'Sorry, but I no longer seem to remember how it was you got here.' | 0
+  92: 92 | "You can't carry anything more.  You'll have to drop something first." | 0
+  93: 93 | "You can't go through a locked steel grate." | 0
+  94: 94 | 'I believe what you want is right here with you.' | 0
+  95: 95 | "You don't fit through a two-inch slit." | 0
+  96: 96 | 'I respectfully suggest you go across the bridge instead of jumping.' | 0
+  97: 97 | 'There is no way across the fissure.' | 0
+  98: 98 | "You're not carrying anything." | 0
+  99: 99 | 'You are currently holding the following' | 0
+ 100: 100 | "It's not hungry (it's merely pinin' for the fjords).  Besides, you" | 292
+ 101: 101 | 'The snake has now devoured your bird.' | 0
+ 102: 102 | "There's nothing here it wants to eat (except perhaps you)." | 0
+ 103: 103 | "You fool, dwarves eat only coal.  Now you've made him REALLY mad.." | 0
+ 104: 104 | 'You have nothing in which to carry it.' | 0
+ 105: 105 | 'Your bottle is already full.' | 0
+ 106: 106 | 'There is nothing here with which to fill the bottle.' | 0
+ 107: 107 | 'Your bottle is now full of water.' | 0
+ 108: 108 | 'Your bottle is now full of oil.' | 0
+ 109: 109 | "You can't fill that." | 0
+ 110: 110 | "Don't be ridiculous." | 0
+ 111: 111 | 'The door is extremely rusty and refuses to open.' | 0
+ 112: 112 | 'The plant indignantly shakes the oil off its leaves and asks, "Water?"' | 0
+ 113: 113 | "The hinges are quite thoroughly rusted now and won't budge." | 0
+ 114: 114 | 'The oil has freed up the hinges so that the door will now move,' | 293
+ 115: 115 | 'The plant has exceptionally deep roots and cannot be pulled free.' | 0
+ 116: 116 | "The dwarves' knives vanish as they strike the walls of the cave." | 0
+ 117: 117 | "Something you're carrying won't fit through the tunnel with you." | 294
+ 118: 118 | "You can't fit this five-foot clam through that little passage." | 0
+ 119: 119 | "You can't fit this five-foot oyster through that little passage." | 0
+ 120: 120 | 'I advise you to put down the clam before opening it.  >strain.<' | 0
+ 121: 121 | 'I advise you to put down the oyster before opening it.  >wrench.<' | 0
+ 122: 122 | "You don't have anything strong enough to open the clam." | 0
+ 123: 123 | "You don't have anything strong enough to open the oyster." | 0
+ 124: 124 | 'A glistening pearl falls out of the clam and rolls away.  Goodness,' | 295
+ 125: 125 | 'The oyster creaks open, revealing nothing but oyster inside.  It' | 297
+ 126: 126 | 'You have crawled around in some little holes and found your way' | 298
+ 127: 127 | 'There are faint rustling noises from the darkness behind you.' | 0
+ 128: 128 | 'Out from the shadows behind you pounces a bearded pirate.  "Har, har,"' | 299
+ 129: 129 | 'A sepulchral voice reverberating through the cave, says, "Cave closing' | 302
+ 130: 130 | 'A mysterious recorded voice groans into life and announces' | 303
+ 131: 131 | "It looks as though you're dead.  Well, seeing as how it's so close to" | 304
+ 132: 132 | 'The sepulchral voice entones, "The cave is now closed."  as the echoes' | 305
+ 133: 133 | 'There is a loud explosion, and a twenty-foot hole appears in the far' | 307
+ 134: 134 | 'There is a loud explosion, and a twenty-foot hole appears in the far' | 310
+ 135: 135 | 'There is a loud explosion, and you are suddenly splashed across the' | 312
+ 136: 136 | 'The resulting ruckus has awakened the dwarves.  There are now several' | 313
+ 137: 137 | 'Oh, leave the poor unhappy bird alone.' | 0
+ 138: 138 | 'I daresay whatever you want is around here somewhere.' | 0
+ 139: 139 | 'I don\'t know the word "stop".  Use "quit" if you want to give up.' | 0
+ 140: 140 | "You can't get there from here." | 0
+ 141: 141 | 'You are being followed by a very large, tame bear.' | 0
+ 142: 142 | 'If you want to end your adventure early, say "quit".' | 315
+ 143: 143 | 'Do you indeed wish to quit now?' | 0
+ 144: 144 | 'There is nothing here with which to fill the vase.' | 0
+ 145: 145 | 'The sudden change in temperature has delicately shattered the vase.' | 0
+ 146: 146 | 'It is beyond your power to do that.' | 0
+ 147: 147 | "I don't know how." | 0
+ 148: 148 | 'It is too far up for you to reach.' | 0
+ 149: 149 | 'You killed a little dwarf.  The body vanishes in a cloud of greasy' | 335
+ 150: 150 | 'The shell is very strong and is impervious to attack.' | 0
+ 151: 151 | "What's the matter, can't you read?  Now you'd best start over." | 0
+ 152: 152 | "The axe bounces harmlessly off the dragon's thick scales." | 0
+ 153: 153 | "The dragon looks rather nasty.  You'd best not try to get by." | 0
+ 154: 154 | 'The little bird attacks the green dragon, and in an astounding flurry' | 336
+ 155: 155 | 'On what?' | 0
+ 156: 156 | "Okay, from now on I'll only describe a place in full the first time" | 337
+ 157: 157 | 'Trolls are close relatives with the rocks and have skin as tough as' | 338
+ 158: 158 | 'The troll deftly catches the axe, examines it carefully, and tosses it' | 339
+ 159: 159 | 'The troll catches your treasure and scurries away out of sight.' | 0
+ 160: 160 | 'The troll refuses to let you cross.' | 0
+ 161: 161 | 'There is no longer any way across the chasm.' | 0
+ 162: 162 | 'Just as you reach the other side, the bridge buckles beneath the' | 340
+ 163: 163 | 'The bear lumbers toward the troll, who lets out a startled shriek and' | 343
+ 164: 164 | "The axe misses and lands near the bear where you can't get at it." | 0
+ 165: 165 | 'With what?  Your bare hands?  Against HIS bear hands??' | 0
+ 166: 166 | 'The bear is confused; he only wants to be your friend.' | 0
+ 167: 167 | 'For crying out loud, the poor thing is already dead.' | 0
+ 168: 168 | 'The bear eagerly wolfs down your food, after which he seems to calm' | 344
+ 169: 169 | 'The bear is still chained to the wall.' | 0
+ 170: 170 | 'The chain is still locked.' | 0
+ 171: 171 | 'The chain is now unlocked.' | 0
+ 172: 172 | 'The chain is now locked.' | 0
+ 173: 173 | 'There is nothing here to which the chain can be locked.' | 0
+ 174: 174 | 'There is nothing here to eat.' | 0
+ 175: 175 | 'Do you want the hint?' | 0
+ 176: 176 | 'Do you need help getting out of the maze?' | 0
+ 177: 177 | 'You can make the passages look less alike by dropping things.' | 0
+ 178: 178 | 'Are you trying to explore beyond the Plover Room?' | 0
+ 179: 179 | 'There is a way to explore that region without having to worry about' | 345
+ 180: 180 | 'Do you need help getting out of here?' | 0
+ 181: 181 | "Don't go west." | 0
+ 182: 182 | "Gluttony is not one of the troll's vices.  Avarice, however, is." | 0
+ 183: 183 | "Your lamp is getting dim.  You'd best start wrapping this up, unless" | 347
+ 184: 184 | 'Your lamp has run out of power.' | 0
+ 185: 185 | "There's not much point in wandering around out here, and you can't" | 349
+ 186: 186 | 'There are faint rustling noises from the darkness behind you.  As you' | 350
+ 187: 187 | "Your lamp is getting dim.  You'd best go back for those batteries." | 0
+ 188: 188 | "Your lamp is getting dim.  I'm taking the liberty of replacing the" | 354
+ 189: 189 | "Your lamp is getting dim, and you're out of spare batteries.  You'd" | 355
+ 190: 190 | "I'm afraid the magazine is written in dwarvish." | 0
+ 191: 191 | '"This is not the maze where the pirate leaves his treasure chest."' | 0
+ 192: 192 | "Hmmm, this looks like a clue, which means it'll cost you 10 points to" | 356
+ 193: 193 | 'It says, "There is something strange about this place, such that one' | 357
+ 194: 194 | 'It says the same thing it did before.' | 0
+ 195: 195 | "I'm afraid I don't understand." | 0
+ 196: 196 | '"Congratulations on bringing light into the Dark Room."' | 0
+ 197: 197 | 'You strike the mirror a resounding blow, whereupon it shatters into a' | 358
+ 198: 198 | 'You have taken the vase and hurled it delicately to the ground.' | 0
+ 199: 199 | 'You prod the nearest dwarf, who wakes up grumpily, takes one look at' | 359
+ 200: 200 | 'Is this acceptable?' | 0
+ 201: 201 | 'The passage is blocked by rubble.' | 0
+ 202: 202 | 'It disappears down into the mist.' | 0
+ 203: 203 | 'He shrieks, covers his ears with his hands and stumbles off into the' | 360
+ 204: 204 | '"WRONG!" laughs the boatman as he steps into the boat, waves your rod' | 361
+ 205: 205 | '"Before you may use my boat," says the boatman, "you must tell me what' | 363
+ 206: 206 | '"RIGHT!" laughs the boatman as he steps into the boat, waves your rod' | 362
+ 207: 207 | 'You have no shovel.' | 0
+ 208: 208 | 'It is firmly embedded in the wall.' | 0
+ 209: 209 | 'You have opened up a passage to the northwest.' | 0
+ 210: 210 | 'Your digging reveals a northeast crawl but breaks your shovel as well.' | 0
+ 211: 211 | 'With a good deal of effort the object finally falls to the ground.' | 364
+ 212: 212 | 'The shovel breaks into tiny pieces.' | 0
+ 225: 1 | 'treasure and gold, though it is rumored that some who enter are never' | 226
+ 226: 1 | 'seen again.  Magic is said to work in the cave.  I will be your eyes' | 227
+ 227: 1 | 'and hands.  Direct me with commands of 1 or 2 words.  I should warn' | 228
+ 228: 1 | "you that I look at only the first five letters of each word, so you'll" | 229
+ 229: 1 | 'have to enter "northeast" as "ne" to distinguish it from "north".' | 230
+ 230: 1 | '(Should you get stuck, type "help" for some general hints.  For infor-' | 231
+ 231: 1 | 'mation on how to end your adventure, etc., type "info".)' | 232
+ 232: 1 | '                              - - -' | 233
+ 233: 1 | 'Developed by Wille Crowther, Don Woods and Gary Palter.  If you have' | 234
+ 234: 1 | 'any problems, you may write the developers of this version of' | 235
+ 235: 1 | 'Adventure:' | 236
+ 236: 1 | '                 Eric Nelson and Craig Robinson' | 237
+ 237: 1 | '                      Hewlett - Packard' | 238
+ 238: 1 | '                    Desktop Computer Division' | 239
+ 239: 1 | '                     Ft. Collins, Colorado.' | 240
+ 240: 1 | '' | 0
+ 241: 3 | 'axe at you which missed, cursed, and ran away.' | 0
+ 242: 11 | 'in the general direction you want to go.' | 0
+ 243: 15 | 'long description of your location.' | 0
+ 244: 19 | 'what you try.  Perhaps you might try later.' | 0
+ 245: 21 | "like that.  There is a way to get by, but you don't have the necessary" | 246
+ 246: 21 | 'resources right now.' | 0
+ 247: 26 | 'disturbed and you cannot catch it.' | 0
+ 248: 30 | 'drives the snake away.' | 0
+ 249: 41 | 'probably just as well.' | 0
+ 250: 51 | 'describes places and is used to move you there.  To move, try words' | 251
+ 251: 51 | 'like forest, building, downstream, enter, east, west, north, south,' | 252
+ 252: 51 | 'up, or down.  I know about a few special objects, like a black rod' | 253
+ 253: 51 | 'hidden in the cave.  These objects can be manipulated using some of' | 254
+ 254: 51 | 'the action words that I know.  Usually you will need to give both the' | 255
+ 255: 51 | 'object and action words (in either order), but sometimes I can infer' | 256
+ 256: 51 | 'the object from the verb alone.  Some objects also imply verbs; in' | 257
+ 257: 51 | "particular, 'inventory' implies 'take inventory', which causes me to" | 258
+ 258: 51 | "give you a list of what you're carrying.  The objects have side" | 259
+ 259: 51 | 'effects; for instance, the rod scares the bird.  Usually people having' | 260
+ 260: 51 | 'trouble moving just need to try a few more words.  Usually people' | 261
+ 261: 51 | 'trying unsuccessfully to manipulate an object are attempting something' | 262
+ 262: 51 | 'beyond their (or my) capabilities and should try a completely' | 263
+ 263: 51 | 'different tack.  To speed the game you can sometimes move long' | 264
+ 264: 51 | "distances with a single word.  For example, 'building' usually gets" | 265
+ 265: 51 | 'you to the building from anywhere above ground except when lost in the' | 266
+ 266: 51 | 'forest.  Also, note that cave passages turn a lot, and that leaving a' | 267
+ 267: 51 | 'room to the north does not guarantee entering the next from the south.' | 268
+ 268: 51 | 'Good luck.' | 0
+ 269: 56 | 'main passage.' | 0
+ 270: 57 | 'the surface for long.  I would try the stream.' | 0
+ 271: 59 | 'things.  I cannot tell you where remote things are.' | 0
+ 272: 63 | 'enter without a key, and there are no keys nearby.  I would recommend' | 273
+ 273: 63 | 'looking elsewhere for the keys.' | 0
+ 274: 64 | 'occasional grove of pine or spruce.  There is quite a bit of under-' | 275
+ 275: 64 | 'growth, largely birch and ash saplings plus nondescript bushes of' | 276
+ 276: 64 | 'various sorts.  This time of year visibility is quite restricted by' | 277
+ 277: 64 | 'all the leaves, but travel is quite easy if you detour around the' | 278
+ 278: 64 | 'spruce and berry bushes.' | 0
+ 279: 66 | 'progress is unlikely.' | 0
+ 280: 69 | 'caverns.  It can be found anywhere but is frequently a sign of a deep' | 281
+ 281: 69 | 'pit leading down to water.' | 0
+ 282: 73 | 'minerals, but is not unpleasant.  It is extremely cold.' | 0
+ 283: 75 | 'nothing exciting happens.' | 0
+ 284: 81 | "help you out, but I've never really done this before.  Do you want me" | 285
+ 285: 81 | 'to try to reincarnate you?' | 0
+ 286: 82 | '                    --- poof.. ---' | 287
+ 287: 82 | 'You are engulfed in a cloud of orange smoke.  Coughing and gasping,' | 288
+ 288: 82 | 'you emerge from the smoke and find....' | 0
+ 289: 83 | 'keep this up.  Do you want me to try reincarnating you again?' | 0
+ 290: 84 | 'Everything disappears in a dense cloud of orange smoke.' | 0
+ 291: 85 | 'me to do a decent reincarnation without any orange smoke, do you?' | 0
+ 292: 100 | 'have no bird seed.' | 0
+ 293: 114 | 'although it requires some effort.' | 0
+ 294: 117 | "You'd best take inventory and drop something." | 0
+ 295: 124 | 'this must really be an oyster.  (I never was very good at identifying' | 296
+ 296: 124 | 'bivalves).  Whatever it is, it has now snapped shut again.' | 0
+ 297: 125 | 'promptly snaps shut again.' | 0
+ 298: 126 | 'blocked by a recent cave-in.  You are now back in the main passage.' | 0
+ 299: 128 | 'he chortles, "I\'ll just take all this booty and hide it away with me' | 300
+ 300: 128 | 'chest deep in the maze."  He snatches your treasure and vanishes into' | 301
+ 301: 128 | 'the gloom.' | 0
+ 302: 129 | 'soon.  All adventurers exit immediately through main office."' | 0
+ 303: 130 | '   "This exit is closed.  Please leave via main office."' | 0
+ 304: 131 | "closing time anyway, I think we'll just call it a day." | 0
+ 305: 132 | 'fade, there is a blinding flash of light (and a small puff of orange' | 306
+ 306: 132 | 'smoke). . . .    as your eyes refocus, you look around and find...' | 0
+ 307: 133 | 'wall, burying the dwarves in the rubble.  You march through the hole' | 308
+ 308: 133 | 'and find yourself in the main office, where a cheering band of' | 309
+ 309: 133 | 'friendly elves carry the conquering adventurer off into the sunset.' | 0
+ 310: 134 | 'wall, burying the snakes in the rubble.  A river of molten lava pours' | 311
+ 311: 134 | 'in through the hole, destroying everything in its path, including you.' | 0
+ 312: 135 | 'walls of the room.' | 0
+ 313: 136 | 'threatening little dwarves in the room with you.  Most of them throw' | 314
+ 314: 136 | 'knives at you.  All of them get you.' | 0
+ 315: 142 | 'To suspend your adventure such that you can continue later, say' | 316
+ 316: 142 | '"suspend".  To re-start your game at a later time, just RUN the' | 317
+ 317: 142 | 'program as usual, and it will remember that you had suspended.' | 318
+ 318: 142 | 'To see how well you\'re doing, say "score".  To get full credit for a' | 319
+ 319: 142 | 'treasure, you must have left it safely in the building, though you get' | 320
+ 320: 142 | 'partial credit just for locating it.  You lose points for getting' | 321
+ 321: 142 | 'killed, or for quitting, though the former costs you more.  There are' | 322
+ 322: 142 | "also points based on how much (if any) of the cave you've managed to" | 323
+ 323: 142 | 'explore; in particular, there is a large bonus just for getting in (to' | 324
+ 324: 142 | 'distinguish the beginners from the rest of the pack), and there are' | 325
+ 325: 142 | "other ways to determine whether you've been through some of the more" | 326
+ 326: 142 | "harrowing sections.  If you think you've found all the treasures, just" | 327
+ 327: 142 | 'keep exploring for a while.  If nothing interesting happens, you' | 328
+ 328: 142 | "haven't found them all yet.  If something interesting DOES happen, it" | 329
+ 329: 142 | "means you're getting a bonus and have an opportunity to garner many" | 330
+ 330: 142 | "more points in the master's section.  I may occasionally offer hints" | 331
+ 331: 142 | "if you seem to be having trouble.  If I do, I'll warn you in advance" | 332
+ 332: 142 | 'how much it will affect your score to accept the hints.  Finally, to' | 333
+ 333: 142 | 'save paper, you may specify "brief", which tells me never to repeat' | 334
+ 334: 142 | 'the full description of a place unless you explicitly ask me to.' | 0
+ 335: 149 | 'black smoke.' | 0
+ 336: 154 | 'gets burnt to a cinder.  The ashes blow away.' | 0
+ 337: 156 | 'you come to it.  To get the full description, say "look".' | 0
+ 338: 157 | 'that of a rhinoceros.  The troll fends off your blows effortlessly.' | 0
+ 339: 158 | 'back, declaring, "Good workmanship, but it\'s not valuable enough."' | 0
+ 340: 162 | 'weight of the bear, which was still following you around.  You' | 341
+ 341: 162 | 'scramble desperately for support, but as the bridge collapses you' | 342
+ 342: 162 | 'stumble back and fall into the chasm.' | 0
+ 343: 163 | 'scurries away.  The bear soon gives up the pursuit and wanders back.' | 0
+ 344: 168 | 'down considerably and even becomes rather friendly.' | 0
+ 345: 179 | 'falling into a pit.  None of the objects available is immediately' | 346
+ 346: 179 | 'useful in discovering the secret.' | 0
+ 347: 183 | "you can find some fresh batteries.  I seem to recall there's a vending" | 348
+ 348: 183 | 'machine in the maze.  Bring some coins with you.' | 0
+ 349: 185 | "explore the cave without a lamp.  So let's just call it a day." | 0
+ 350: 186 | 'turn toward them, the beam of your lamp falls across a bearded pirate.' | 351
+ 351: 186 | 'He is carrying a large chest. Shiver me timbers." he cries, "I\'ve' | 352
+ 352: 186 | 'been spotted.  I\'d best hie meself off to the maze to hide me chest."' | 353
+ 353: 186 | 'With that, he vanishes into the gloom.' | 0
+ 354: 188 | 'batteries.' | 0
+ 355: 189 | 'best start wrapping this up.' | 0
+ 356: 192 | 'read it.  Should I go ahead and read it anyway?' | 0
+ 357: 193 | 'of the words I\'ve always known now has a new effect."' | 0
+ 358: 197 | 'myriad tiny fragments.' | 0
+ 359: 199 | 'you, curses, and grabs for his axe.' | 0
+ 360: 203 | 'darkness.' | 0
+ 361: 204 | 'and both he and the boat disappear.' | 0
+ 362: 206 | 'and both he and the boat disappear.' | 0
+ 363: 205 | 'of yours I\'ve got behind my back."' | 0
+ 364: 211 | 'Well, what do you know!  It looks like a gold ring.  Unfortunately the' | 365
+ 365: 211 | "strain was too much for the shovel and now it's broken." | 0

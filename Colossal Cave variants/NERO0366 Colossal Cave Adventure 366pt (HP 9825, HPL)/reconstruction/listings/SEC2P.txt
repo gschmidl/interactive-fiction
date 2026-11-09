@@ -1,0 +1,9 @@
+0: dim A$[500],B$[80];fxd 0
+1: asgn "SEC2",1
+2: asgn "SEC2H",2
+3: "Loop":
+4: sread 1,A$;pos(A$,"!")→P
+5: val(A$[P+1])→B;A$[P+5]→B$
+6: if not flg1;prt B,B$
+7: rprt 2,B,B,B$;gto "Loop"
+*16916

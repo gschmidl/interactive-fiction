@@ -1,0 +1,16 @@
+0: "File builder for adventure file SEC5H":
+1: dim A$[200],B$[80],O$[80],P[7];fxd 0;75→L
+2: asgn "SEC5",1;on end 1,"END"
+3: asgn "SEC5H",2
+4: "Loop":
+5: "object":sread 1,A$;pos(A$,"!")→P
+6: "newobject":val(A$[P+1,P+4])→O;A$[P+5]→O$
+7: for I=1 to 7;0→P[I];next I;1→I;99→C;dsp O,O$
+8: "property":sread 1,A$;pos(A$,"!")→P
+9: val(A$[P+1,P+4])→B;A$[P+5]→B$
+10: if B#0 and B<100;sprt 2,0;rprt 2,O,O,O$,P[*];gto "newobject"
+11: if C#99 and C#B;sprt 2,0
+12: if C#B;L→P[I+1→I];rprt 2,L,B,B$;B→C;L+1→L;gto "property"
+13: sprt 2,L;rprt 2,L,B,B$;dsp O,B,L,B$;L+1→L;gto "property"
+14: "END":sprt 2,0;rprt 2,O,O,O$,P[*];dsp "DONE!"
+*11600

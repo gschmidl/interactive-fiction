@@ -1,0 +1,97 @@
+0: "A":ret itf(A$[2p1-1])
+1: "C":ret itf(C$[2p1-1])
+2: "F":ret itf(F$[2p1-1])
+3: "G":ret itf(G$[2p1-1])
+4: "H":ret itf(H$[2p1-1])
+5: "E":ret itf(E$[p2,2p1-1])
+6: "J":ret itf(J$[2p1-1])
+7: "L":ret itf(L$[2p1-1])
+8: "P":ret itf(P$[2p1-1])
+9: "Q":ret itf(Q$[2p1-1])
+10: "N":ret itf(N$[2p1-1])
+11: "S":ret itf(S$[2p1-1])
+12: "Z":ret itf(Z$[2p1-1])
+13: "Toting":ret 'N'(p1)=-1
+14: "Here":ret 'N'(p1)=L or 'Toting'(p1)
+15: "At":ret 'N'(p1)=L or 'F'(p1)=L
+16: "Liq2":ret (1-p1)21+int(p1/2)(21+22)
+17: "Liq":ret 'Liq2'(max('P'(20),-1-'P'(20)))
+18: "Liqloc":ret (int('C'(p1)/2)mod4=2)*21+(int('C'(p1)/2)mod4=3)*22
+19: "Forced":ret 'C'(p1)=2
+20: "Dark":ret 'C'(L)mod2=0 and ('P'(2)=0 or not 'Here'(2))
+21: "Pct":ret 100rnd(0)<p1
+22: "Spk":1→F
+23: "Spkr":p1→p2;if p2>1000;p2-1000→p2;2→F
+24: rread F,p2,p3,M$,p2;if pos(M$,">$<");ret
+25: if S#0;wrt S,M$;gto +2
+26: gsb "Print"
+27: if p2#0;gto -3
+28: "Nml":ret
+29: "Print":if len(M$)<(17→p4);prt M$;ret
+30: if M$[p4,p4]#" ";p4-1→p4;jmp 0
+31: prt M$[1,p4-1];M$[min(len(M$),p4+1)]→M$;gto -2
+32: "Pspk":5→F;if p2<0;cll 'Spkr'(p1);ret
+33: rread F,p1,M,M$,M[*];cll 'Spkr'(M[p2+2]);ret
+34: "Mspk":if p1>0;4→F;cll 'Spkr'(p1)
+35: ret
+36: "Rspk":if p1>0;6→F;cll 'Spkr'(p1)
+37: ret
+38: "Yes":if p1>0;cll 'Rspk'(p1)
+39: if 'Y';cll 'Rspk'(p2);ret 1
+40: cll 'Rspk'(p3);ret 0
+41: "Y":gsb "Getin"
+42: if pos(cap(R$),"Y") or pos(R$,"1");ret 1
+43: if pos(cap(R$),"N") or pos(R$,"0");ret 0
+44: "Please answer the Question."→M$;if S#0;wrt S,M$;gto -3
+45: prt M$;gto -4
+46: "Yesm":if 'Y';1→Y;cll 'Mspk'(p2);ret 1
+47: 0→Y;cll 'Mspk'(p3);ret 0
+48: "Dstroy":cll 'Move'(p1,0);ret
+49: "Juggle":cll 'Move'(p1,'N'(p1));cll 'Move'(p1+100,'F'(p1))
+50: "Move":if p1<=100;'P'(p1)→p3;gto +2
+51: 'F'(p1-100)→p3
+52: if p3>0 and p3<=300;cll 'Carry'(p1,p3)
+53: cll 'Drop'(p1,p2);ret
+54: "Put":cll 'Move'(p1,p2);ret -1-p3
+55: "Carry":if p1>100;gto "C1"
+56: if 'N'(p1)=-1;ret
+57: fti (-1)→N$[2p1-1,2p1];H+1→H
+58: "C1":if 'A'(p2)=p1;fti ('L'(p1))→A$[2p2-1,2p2];ret
+59: 'A'(p2)→p3
+60: if 'L'(p3)#p1;'L'(p3)→p3;gto +0
+61: fti ('L'(p1))→L$[2p3-1,2p3];ret
+62: "Drop":if p1>100;gto "D1"
+63: if 'N'(p1)=-1;H-1→H
+64: fti (p2)→N$[2p1-1,2p1];gto +2
+65: "D1":fti (p2)→F$[2(p1-100)-1,2(p1-100)]
+66: if p2<=0;ret
+67: fti ('A'(p2))→L$[2p1-1,2p1];fti (p1)→A$[2p2-1,2p2];ret
+68: "Ran":ret p1rnd(0)
+69: "Getin":""→R$;enp "",R$;cap(R$)→R$→M$
+70: if len(M$)>1;if M$[1,1]=" ";M$[2]→M$;jmp 0
+71: M$[1,min((pos(M$&" "," ")→W)-1,5)]→W$[1,1,5];M$[W]→M$
+72: if len(M$)>1;if M$[1,1]=" ";M$[2]→M$;jmp 0
+73: M$[1,min(pos(M$&" "," ")-1,5)]→W$[2,1,5];ret
+74: "Out":if S#0;wrt S,M$;ret
+75: prt M$;ret
+76: "Of1":if p0=0;wrt S+.1;ret
+77: if p0=1;wrt S+.1,p1;ret
+78: if p0=2;wrt S+.1,p1,p2;ret
+79: wrt S+.1,p1,p2,p3;ret
+80: "Of1$":wrt S+.1,W$[1];ret
+81: "Vocab":r19/2→p3→p4;W$[1]→M$;if p1=2;W$[2]→M$
+82: 5prnd(p3,0)→p5;if M$=V$[p5-4,p5];gto "Found"
+83: if abs(p4)<.4;gto "Notfound"
+84: abs(p4/2)(2(M$>V$[p5-4,p5])-1)→p4;p4+p3→p3;gto -2
+85: "Notfound":if p2>=0;ent "BUG 5",p6
+86: ret -1
+87: "Found":prnd(p3,0)→p3;if M$#V$[p5-9,p5-5];gto "Fndfrst"
+88: p3-1→p3;5p3→p5;gto -1
+89: "Fndfrst":if p2<0;ret itf(I$[2p3-1])
+90: if p2=int(itf(I$[2p3-1])/1000);ret itf(I$[2p3-1])mod1000
+91: p3+1→p3;5p3→p5;if M$=V$[p5-4,p5];gto -1
+92: ent "BUG 21",p6;ret -1
+93: "Travel":if (int(p1/32)+1→p2)=Q;gto +2
+94: p2→Q;rread 3,Q,T[*]
+95: ret T[(p1-1)mod32+1]
+*10221
