@@ -150,6 +150,36 @@ header and the trailing tone are copied unchanged. The new WAV re-decodes to exa
 intended stream, and every string literal on it matches the `.bas`. Originals are in
 `work/pre-fix-2026-11-04/`.
 
+## Corrections from the magazine's erratum (2026-11-13)
+
+I/O printed a correction in its "de BUG" column (the clipping was supplied by the user):
+
+> ☆I/O'83年4月号の "THE SPPY" にバグがありました。4010行を "7日……" 4010行を "の中に……"
+> に直してください。また、カタカナの部分はすべてひらがなに直してください。ただし、外来語はカタカナのままです (編)
+
+"THE SPPY in the April 1983 issue had bugs. Change line 4010 [sic, 4000] to '7日……' and line
+4010 to 'の中に……'. Also change every katakana part to hiragana; loanwords stay katakana."
+This confirms both the graphic-kanji guess in the 2026-11-04 notes and the printer problem
+found on 2026-11-03 (the listing's printer showed hiragana as katakana). Applied:
+
+* **Line 4000** `   7日いないに やれ。 …` and **line 4010** `  の中に ある。` The kanji are PC-6001
+  graphic characters 日 = `07` and 中 = `1E`, stored in a BASIC string as `14h` + code + `30h`
+  (`14 37`, `14 4E`); the `.bas` writes them as the kanji themselves. The listing's blanks were
+  where they belong: 4000 had one (`7 イナイニ`, the bug the erratum fixes), 4010 two (`ノ  ニ`,
+  the two bytes of `14 4E`, which the printer could not show).
+* **All game text is now hiragana** (40 lines), with the dakuten still the separate `゛` (`DE`;
+  the PC-6001 has no hiragana dakuten of its own). Kept in katakana as loanwords: アメリカ,
+  マイクロフィルム, スパイ, フィルム, ビル, ドア, メモ, コマンド, キー, サービス and the
+  アドヴェンチャー・ゲーム banner. In line 4090 the command example `「とあ」` is hiragana
+  because that is what the player types; the word it explains, `ドア`, stays katakana. This
+  replaces the 2026-11-04 choice to keep lines 210 and 3420 in katakana.
+* **Not changed: the 13 `DATA` items in line 2100.** They are not text but codes printed as
+  block graphics, and the erratum is about text. If they too were hiragana in the original,
+  the microfilm strip would draw with different blocks; running the game would show it.
+
+The tape was re-encoded as on 2026-11-04 (stream now 14711 bytes) and re-decodes to exactly the
+intended program. Originals are in `work/pre-erratum-2026-11-13/`.
+
 ## How it loads
 
 `The Sppy SAVER.bas` is the separate loader. In the main program, line 3640 does
@@ -159,4 +189,4 @@ machine code. The title bitmap belongs at `&HC200`.
 ## Status
 
 Ships as WAV cassette recordings in `game.zip`: the saver, the game (`CLOAD"BASIC"`, 3 pages,
-`RUN`) and the title screen. Not yet loaded in an emulator since the 2026-11-04 re-encode.
+`RUN`) and the title screen. Not yet loaded in an emulator since the 2026-11-13 re-encode.

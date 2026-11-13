@@ -2,7 +2,7 @@
 
 *THE SPPY* (the title screen says "THE SPY 006", by YELLOW SOFT), version 2.2 by Momoki Todoroki: a
 Japanese spy adventure in N60-BASIC for the 32K NEC PC-6001, with a machine-code routine and a
-drawn title screen, recovered from a magazine type-in listing. Commands are short katakana words,
+drawn title screen, recovered from a magazine type-in listing. Commands are two-letter hiragana words,
 the commonest of them on the function keys. It runs in a PC-6001 emulator; no emulator is included.
 
 The package holds three cassette recordings:
